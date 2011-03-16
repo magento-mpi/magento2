@@ -116,7 +116,7 @@ interface Varien_Db_Adapter_Interface
     public function truncateTable($tableName, $schemaName = null);
 
     /**
-     * Check is a table exists
+     * Checks if table exists
      *
      * @param string $tableName
      * @param string $schemaName
@@ -165,7 +165,7 @@ interface Varien_Db_Adapter_Interface
 
     /**
      * Create Varien_Db_Ddl_Table object by data from describe table
-     * 
+     *
      * @param $tableName
      * @param $newTableName
      * @return Varien_Db_Ddl_Table
@@ -669,9 +669,9 @@ interface Varien_Db_Adapter_Interface
     /**
      * Build SQL statement for condition
      *
-     * If $condition integer or string - exact value will be filtered
+     * If $condition integer or string - exact value will be filtered ('eq' condition)
      *
-     * If $condition is array is - one of the following structures is expected:
+     * If $condition is array - one of the following structures is expected:
      * - array("from" => $fromValue, "to" => $toValue)
      * - array("eq" => $equalValue)
      * - array("neq" => $notEqualValue)
@@ -687,6 +687,8 @@ interface Varien_Db_Adapter_Interface
      * - array("lteq" => $lessOrEqualValue)
      * - array("finset" => $valueInSet)
      * - array("regexp" => $regularExpression)
+     * - array("seq" => $stringValue)
+     * - array("sneq" => $stringValue)
      *
      * If non matched - sequential array is expected and OR conditions
      * will be built using above mentioned structure
@@ -939,7 +941,7 @@ interface Varien_Db_Adapter_Interface
      * @return string
      */
     public function forUpdate($sql);
-	
+
 	/**
 	 * Try to find installed primary key name, if not - formate new one.
 	 *

@@ -93,7 +93,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     }
 
     /**
-     * Retrieve connection to the resource
+     * Retrieves connection to the resource
      *
      * @param string $name
      * @return Varien_Db_Adapter_Interface
@@ -108,13 +108,84 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     }
 
     /**
-     * Escape value which participate in LIKE
+     * Escapes value, that participates in LIKE, with '\' symbol.
+     * Note: this func cannot be used on its own, because different RDMBS may use different default escape symbols,
+     * so you should either use addLikeEscape() to produce LIKE construction, or add escape symbol on your own.
      *
-     * @value string
+     * By default escapes '_', '%' and '\' symbols. If some masking symbols must not be escaped, then you can set
+     * appropriate options in $options.
+     *
+     * $options can contain following flags:
+     * - 'allow_symbol_mask' - the '_' symbol will not be escaped
+     * - 'allow_string_mask' - the '%' symbol will not be escaped
+     * - 'position' ('any', 'start', 'end') - expression will be formed so that $value will be found at position within string,
+     *     by default when nothing set - string must be fully matched with $value
+     *
+     * @param string $value
+     * @param array $options
      * @return string
      */
-    protected function _escapeValue($value)
+    public function escapeLikeValue($value, $options = array())
     {
-        return str_replace('_', '\_', str_replace('\\', '\\\\', $value));
+        $value = str_replace('\\', '\\\\', $value);
+
+        $from = array();
+        $to = array();
+        if (empty($options['allow_symbol_mask'])) {
+            $from[] = '_';
+            $to[] = '\_';
+        }
+        if (empty($options['allow_string_mask'])) {
+            $from[] = '%';
+            $to[] = '\%';
+        }
+        if ($from) {
+            $value = str_replace($from, $to, $value);
+        }
+
+        if (isset($options['position'])) {
+            switch ($options['position']) {
+                case 'any':
+                    $value = '%' . $value . '%';
+                    break;
+                case 'start':
+                    $value = $value . '%';
+                    break;
+                case 'end':
+                    $value = '%' . $value;
+                    break;
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Escapes, quotes and adds escape symbol to LIKE expression.
+     * For options and escaping see escapeLikeValue().
+     *
+     * @param string $value
+     * @param array $options
+     * @return Zend_Db_Expr
+     *
+     * @see escapeLikeValue()
+     */
+    abstract public function addLikeEscape($value, $options = array());
+
+    /**
+     * Returns case insensitive LIKE construction.
+     * For options and escaping see escapeLikeValue().
+     *
+     * @param string $field
+     * @param string $value
+     * @param array $options
+     * @return Zend_Db_Expr
+     *
+     * @see escapeLikeValue()
+     */
+    public function getCILike($field, $value, $options = array())
+    {
+        $quotedField = $this->_getReadAdapter()->quoteIdentifier($field);
+        return new Zend_Db_Expr($quotedField . ' LIKE ' . $this->addLikeEscape($value, $options));
     }
 }

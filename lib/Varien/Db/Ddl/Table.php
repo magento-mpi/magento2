@@ -34,6 +34,9 @@
  */
 class Varien_Db_Ddl_Table
 {
+    /**
+     * Types of columns
+     */
     const TYPE_BOOLEAN          = 'boolean';
     const TYPE_SMALLINT         = 'smallint';
     const TYPE_INTEGER          = 'integer';
@@ -45,13 +48,23 @@ class Varien_Db_Ddl_Table
     const TYPE_TIMESTAMP        = 'timestamp';
     const TYPE_TEXT             = 'text';
     const TYPE_BLOB             = 'blob';
+
+    /**
+     * Default and maximal TEXT and BLOB columns sizes we can support for different DB systems.
+     */
     const DEFAULT_TEXT_SIZE     = 1024;
     const MAX_TEXT_SIZE         = 2147483648;
 
+    /**
+     * Default values for timestampses - fill with current timestamp on inserting record, on changing and both cases
+     */
     const TIMESTAMP_INIT_UPDATE = 'TIMESTAMP_INIT_UPDATE';
     const TIMESTAMP_INIT        = 'TIMESTAMP_INIT';
     const TIMESTAMP_UPDATE      = 'TIMESTAMP_UPDATE';
 
+    /**
+     * Actions used for foreign keys
+     */
     const ACTION_CASCADE        = 'CASCADE';
     const ACTION_SET_NULL       = 'SET NULL';
     const ACTION_NO_ACTION      = 'NO ACTION';
@@ -230,11 +243,21 @@ class Varien_Db_Ddl_Table
     }
 
     /**
-     * Add column to table
+     * Adds column to table.
+     *
+     * $options contains additional options for columns. Supported values are:
+     * - 'unsigned', for number types only. Default: FALSE.
+     * - 'precision', for numeric and decimal only. Default: taken from $size, if not set there then 0.
+     * - 'scale', for numeric and decimal only. Default: taken from $size, if not set there then 10.
+     * - 'default'. Default: not set.
+     * - 'nullable'. Default: TRUE.
+     * - 'primary', add column to primary index. Default: do not add.
+     * - 'primary_position', only for column in primary index. Default: count of primary columns + 1.
+     * - 'identity' or 'auto_increment'. Default: FALSE.
      *
      * @param string $name the column name
      * @param string $type the column data type
-     * @param string|int $length the column length
+     * @param string|int|array $size the column length
      * @param array $options array of additional options
      * @param string $comment column description
      * @throws Zend_Db_Exception

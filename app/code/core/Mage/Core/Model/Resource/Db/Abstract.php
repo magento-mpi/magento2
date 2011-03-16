@@ -234,7 +234,8 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     }
 
     /**
-     * Get main table name
+     * Returns main table name - extracted from "module/table" style and
+     * validated by db adapter
      *
      * @return string
      */
@@ -247,7 +248,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     }
 
     /**
-     * Get table name for the entity
+     * Get table name for the entity, validated by db adapter
      *
      * @param string $entityName
      * @return string

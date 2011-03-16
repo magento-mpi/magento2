@@ -328,7 +328,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
                 $helper = Mage::getResourceHelper('core');
                 foreach ($preparedTerms[1] as $term) {
-                    $like[] = Mage::getResourceHelper('core')->getCILike('s.data_index', $term);  
+                    $like[] = $helper->getCILike('s.data_index', $term, array('position' => 'any'));
                 }
                 if ($like) {
                     $likeCond = '(' . join(' OR ', $like) . ')';

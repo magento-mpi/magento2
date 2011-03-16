@@ -503,27 +503,75 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
     }
 
     /**
-     * Add escape symbol for like expression
+     * Escapes, quotes and adds escape symbol to LIKE expression.
+     * For options and escaping see escapeLikeValue().
      *
      * @param string $value
+     * @param array $options
      * @return Zend_Db_Expr
+     * @see escapeLikeValue()
      */
-    public function addLikeEscape($value)
+    public function addLikeEscape($value, $options = array())
     {
         $adapter = $this->_getReadAdapter();
-        $value = $this->_escapeValue($value);
+        $value = $this->escapeLikeValue($value, $options);
         $quotedValue = str_replace('\\\\', '\\', $adapter->quote($value));
         return new Zend_Db_Expr($quotedValue . " escape '\\'");
     }
 
     /**
-     *  Return case insensitive LIKE
-     * @param  string $field
-     * @param  string $value
-     * @return string
+     * Returns case insensitive LIKE.
+     * For options and escaping see escapeLikeValue().
+     *
+     * In Oracle variant we change LIKE construction to REGEXP_LIKE, so all special regexp symbols must be escaped
+     * and changed appropriate to options.
+     *
+     * @param string $field
+     * @param string $value
+     * @param array $options
+     * @return Zend_Db_Expr
+     *
+     * @see escapeLikeValue()
      */
-    public function getCILike($field, $value)
+    public function getCILike($field, $value, $options = array())
     {
-        return new Zend_Db_Expr(sprintf("REGEXP_LIKE(%s,'%s')", $field, $value));
+        // Escape all special regexp symbols
+        $value = preg_quote($value);
+
+        // Convert '_' and '%' to their regexp analogs
+        $from = array();
+        $to = array();
+        if (!empty($options['allow_symbol_mask'])) {
+            $from[] = '_';
+            $to[] = '?';
+        }
+        if (!empty($options['allow_string_mask'])) {
+            $from[] = '%';
+            $to[] = '.*';
+        }
+        if ($from) {
+            $value = str_replace($from, $to, $value);
+        }
+
+        // Add position check
+        $position = isset($options['position']) ? $options['position'] : null;
+        switch ($position) {
+            case 'any':
+                break;
+            case 'start':
+                $value = '^' . $value;
+                break;
+            case 'end':
+                $value = $value . '$';
+                break;
+            default:
+                $value = '^' . $value . '$';
+        }
+
+        // Compose REGEXP_LIKE expression
+        $adapter = $this->_getReadAdapter();
+        $quotedField = $adapter->quoteIdentifier($field);
+        $quotedValue = $adapter->quote($value);
+        return new Zend_Db_Expr(sprintf("REGEXP_LIKE(%s, %s, 'i')", $quotedField, $quotedValue));
     }
 }

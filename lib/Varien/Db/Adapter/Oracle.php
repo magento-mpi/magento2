@@ -356,7 +356,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $this->query("ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS'");
         $this->query("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'");
         $this->query("ALTER SESSION SET NLS_COMP = LINGUISTIC");
-        $this->query("ALTER SESSION SET NLS_SORT = BINARY_CI");       
+        $this->query("ALTER SESSION SET NLS_SORT = BINARY_CI");
         //$this->query("ALTER SESSION SET PLSQL_CODE_TYPE = NATIVE");
 
         $this->_debugStat(self::DEBUG_CONNECT, '');
@@ -2308,7 +2308,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     /**
      * Build SQL statement for condition
      *
-     * If $condition integer or string - exact value will be filtered
+     * If $condition integer or string - exact value will be filtered ('eq' condition)
      *
      * If $condition is array is - one of the following structures is expected:
      * - array("from" => $fromValue, "to" => $toValue)
@@ -2325,6 +2325,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * - array("lteq" => $lessOrEqualValue)
      * - array("finset" => $valueInSet)
      * - array("regexp" => $regularExpression)
+     * - array("seq" => $stringValue)
+     * - array("sneq" => $stringValue)
      *
      * If non matched - sequential array is expected and OR conditions
      * will be built using above mentioned structure
@@ -2352,7 +2354,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             'finset'        => "FIND_IN_SET(?, {{fieldName}}) = 1",
             'regexp'        => "REGEXP_LIKE({{fieldName}}, ?)",
             'from'          => "{{fieldName}} >= ?",
-            'to'            => "{{fieldName}} <= ?"
+            'to'            => "{{fieldName}} <= ?",
+            'seq'           => null,
+            'sneq'          => null
         );
 
         $query = '';
@@ -2375,7 +2379,11 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     $query = $this->_prepareQuotedSqlCondition($query . $conditionKeyMap['to'], $to, $fieldName);
                 }
             } elseif (array_key_exists($key, $conditionKeyMap)) {
-                $query = $this->_prepareQuotedSqlCondition($conditionKeyMap[$key], $condition[$key], $fieldName);
+                $value = $condition[$key];
+                if (($key == 'seq') || ($key == 'sneq')) {
+                    $key = $this->_transformStringSqlCondition($key, $value);
+                }
+                $query = $this->_prepareQuotedSqlCondition($conditionKeyMap[$key], $value, $fieldName);
             } else {
                 $queries = array();
                 foreach ($condition as $orCondition) {
@@ -2407,25 +2415,22 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
-     * Prepare sql date condition
+     * Transforms sql condition key 'seq' / 'sneq' that is used for comparing string values to its analog:
+     * - 'null' / 'notnull' for empty strings
+     * - 'eq' / 'neq' for non-empty strings
      *
-     * @param array $condition
-     * @param string $key
+     * @param string $conditionKey
+     * @param mixed $value
      * @return string
      */
-    protected function _prepareSqlDateCondition($condition, $key)
+    protected function _transformStringSqlCondition($conditionKey, $value)
     {
-        if (empty($condition['date'])) {
-            if (empty($condition['datetime'])) {
-                $result = $condition[$key];
-            } else {
-                $result = $this->formatDate($condition[$key]);
-            }
+        $value = (string) $value;
+        if ($value == '') {
+            return ($conditionKey == 'seq') ? 'null' : 'notnull';
         } else {
-            $result = $this->formatDate($condition[$key], false);
+            return ($conditionKey == 'seq') ? 'eq' : 'neq';
         }
-
-        return $result;
     }
 
     /**
@@ -2493,9 +2498,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             case 'VARCHAR':
             case 'VARCHAR2':
             case 'CLOB':
-                if (is_null($value) && $column['NULLABLE']) {
-                    return null;
-                }
                 $value  = (string)$value;
                 if ($column['NULLABLE'] && $value == '') {
                     $value = null;
@@ -3584,7 +3586,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function getIndexName($tableName, $fields, $indexType = '')
     {
         if (is_array($fields)) {
-            $fields = join('-', $fields);
+            $fields = implode('_', $fields);
         }
 
         switch (strtolower($indexType)) {
@@ -3599,7 +3601,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 $prefix = 'idx_';
         }
 
-        $hash = sprintf('%s%s', $tableName, $fields);
+        $hash = $tableName . $fields;
 
         if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
             $short = Varien_Db_Helper::shortName($hash);

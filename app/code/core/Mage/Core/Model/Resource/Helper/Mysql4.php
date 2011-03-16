@@ -68,7 +68,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     }
 
     /**
-     * 
+     *
      * Returns Insert From Select On Duplicate query with analytic functions
      *
      * @param Varien_Db_Select $select
@@ -84,7 +84,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     /**
      * Correct limitation of queries with UNION
      * No need to do additional actions on MySQL
-     * 
+     *
      * @param Varien_Db_Select $select
      * @return Varien_Db_Select
      */
@@ -324,7 +324,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         if (is_array($fields)) {
             $fieldExpr = $this->_getReadAdapter()->getConcatSql($fields, $fieldsDelimiter);
         } else {
-            $fieldExpr = $fields; 
+            $fieldExpr = $fields;
         }
         if ($additionalWhere) {
             $fieldExpr = $this->_getReadAdapter()->getCheckSql($additionalWhere, $fieldExpr, "''");
@@ -353,26 +353,19 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     }
 
     /**
-     * Add escape symbol for like expression
+     * Escapes and quotes LIKE value.
+     * Stating escape symbol in expression is not required, because we use standard MySQL escape symbol.
+     * For options and escaping see escapeLikeValue().
      *
      * @param string $value
+     * @param array $options
      * @return Zend_Db_Expr
+     *
+     * @see escapeLikeValue()
      */
-    public function addLikeEscape($value)
+    public function addLikeEscape($value, $options = array())
     {
-        $adapter = $this->_getReadAdapter();
-        $value = $this->_escapeValue($value);
-        return new Zend_Db_Expr($adapter->quote($value));
-    }
-
-    /**
-     *  Return case insensitive LIKE
-     * @param  string $field
-     * @param  string $value
-     * @return string
-     */
-    public function getCILike($field, $value)
-    {
-        return new Zend_Db_Expr($field . ' LIKE ' . $this->addLikeEscape('%' . $value . '%'));
+        $value = $this->escapeLikeValue($value, $options);
+        return new Zend_Db_Expr($this->_getReadAdapter()->quote($value));
     }
 }

@@ -165,7 +165,7 @@ class Mage_Core_Model_Resource_Setup
     }
 
     /**
-     * Get table name by table placeholder
+     * Get table name (validated by db adapter) by table placeholder
      *
      * @param string $tableName
      * @return string

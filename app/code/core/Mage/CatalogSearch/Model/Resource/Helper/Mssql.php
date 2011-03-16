@@ -66,7 +66,7 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Reso
             'AND' => 'AND',
             '|'   => '|',
             'OR'  => 'OR',
-            '!'  => '&!',
+            '!'   => '&!',
             'NOT' => 'AND NOT',
         );
         $brackets = array(
@@ -89,9 +89,9 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Reso
                         $words[] = 'OR';
                     }
                     $terms[$word] = $word;
-                    $word = '"'.$word.'"';
+                    $word = '"' . $word . '"';
                     $words[] = $word;
-                    $isPrevWord = 'term';                    
+                    $isPrevWord = 'term';
                 } else if ($isBracket) {
                     if ($isPrevWord == '(') {
                         $words[] = '""';
@@ -126,9 +126,9 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Reso
             array_pop($words);
         }
         if ($isOpenBracket > 0) {
-            $words[] = sprintf("%')".$isOpenBracket."s", '');
+            $words[] = sprintf("%')" . $isOpenBracket . "s", '');
         } else if ($isOpenBracket < 0) {
-            $words[0] = sprintf("%'(".$isOpenBracket."s", '');
+            $words[0] = sprintf("%'(" . $isOpenBracket . "s", '');
         }
         if ($maxWordLength && count($terms) > $maxWordLength) {
             $terms = array_slice($terms, 0, $maxWordLength);

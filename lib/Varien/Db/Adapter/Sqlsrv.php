@@ -2160,7 +2160,7 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
     /**
      * Build SQL statement for condition
      *
-     * If $condition integer or string - exact value will be filtered
+     * If $condition integer or string - exact value will be filtered ('eq' condition)
      *
      * If $condition is array is - one of the following structures is expected:
      * - array("from" => $fromValue, "to" => $toValue)
@@ -2177,6 +2177,8 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
      * - array("lteq" => $lessOrEqualValue)
      * - array("finset" => $valueInSet)
      * - array("regexp" => $regularExpression)
+     * - array("seq" => $stringValue)
+     * - array("sneq" => $stringValue)
      *
      * If non matched - sequential array is expected and OR conditions
      * will be built using above mentioned structure
@@ -2252,6 +2254,11 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
                 $query = $this->quoteInto("dbo.find_in_set(?, {$fieldName})", $condition['finset']);
             } else if (isset($condition['regexp'])) {
                 $query = $this->quoteInto("dbo.regexp({$fieldName}, ?)", $condition['regexp']);
+            } else if (isset($condition['seq']) || isset($condition['sneq'])) {
+                $key = isset($condition['seq']) ? 'seq' : 'sneq';
+                $value = $condition[$key];
+                $key = $this->_transformStringSqlCondition($key, $value);
+                $query = $this->prepareSqlCondition($fieldName, array($key => $value));
             } else {
                 $queries = array();
                 foreach ($condition as $orCondition) {
@@ -2265,6 +2272,25 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
         }
 
         return $query;
+    }
+
+    /**
+     * Transforms sql condition key 'seq' / 'sneq' that is used for comparing string values to its analog:
+     * - 'null' / 'notnull' for empty strings
+     * - 'eq' / 'neq' for non-empty strings
+     *
+     * @param string $conditionKey
+     * @param mixed $value
+     * @return string
+     */
+    protected function _transformStringSqlCondition($conditionKey, $value)
+    {
+        $value = (string) $value;
+        if ($value == '') {
+            return ($conditionKey == 'seq') ? 'null' : 'notnull';
+        } else {
+            return ($conditionKey == 'seq') ? 'eq' : 'neq';
+        }
     }
 
     /**
@@ -2868,7 +2894,7 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
     public function getIndexName($tableName, $fields, $indexType = '')
     {
         if (is_array($fields)) {
-            $fields = join('__', $fields);
+            $fields = implode('_', $fields);
         }
 
         switch (strtolower($indexType)) {
@@ -2886,10 +2912,10 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
                 $shortPrefix = 'i_';
         }
 
-        $hash = sprintf('%s%s', $tableName, $fields);
+        $hash = $tableName . '_' . $fields;
 
         if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
-            $short = Varien_Db_Helper::shortName($prefix.$hash);
+            $short = Varien_Db_Helper::shortName($prefix . $hash);
             if (strlen($short) > self::LENGTH_INDEX_NAME) {
                 $hash = md5($hash);
                 if (strlen($hash) + strlen($shortPrefix) > self::LENGTH_INDEX_NAME) {
@@ -2899,7 +2925,7 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
                 $hash = $short;
             }
         } else {
-            $hash = $prefix.$hash;
+            $hash = $prefix . $hash;
         }
 
         return strtoupper($hash);

@@ -1995,7 +1995,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 } else if ($options['LENGTH'] > 65536 && $options['LENGTH'] <= 16777216) {
                     $cType = $ddlType == Varien_Db_Ddl_Table::TYPE_TEXT ? 'mediumtext' : 'mediumblob';
                 } else {
-                    $cType = $ddlType == Varien_Db_Ddl_Table::TYPE_TEXT ? 'longtext' : 'longtext';
+                    $cType = $ddlType == Varien_Db_Ddl_Table::TYPE_TEXT ? 'longtext' : 'longblob';
                 }
                 break;
         }
@@ -2349,7 +2349,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     /**
      * Build SQL statement for condition
      *
-     * If $condition integer or string - exact value will be filtered
+     * If $condition integer or string - exact value will be filtered ('eq' condition)
      *
      * If $condition is array is - one of the following structures is expected:
      * - array("from" => $fromValue, "to" => $toValue)
@@ -2366,6 +2366,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * - array("lteq" => $lessOrEqualValue)
      * - array("finset" => $valueInSet)
      * - array("regexp" => $regularExpression)
+     * - array("seq" => $stringValue)
+     * - array("sneq" => $stringValue)
      *
      * If non matched - sequential array is expected and OR conditions
      * will be built using above mentioned structure
@@ -2393,7 +2395,9 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             'finset'        => "FIND_IN_SET(?, {{fieldName}})",
             'regexp'        => "{{fieldName}} REGEXP ?",
             'from'          => "{{fieldName}} >= ?",
-            'to'            => "{{fieldName}} <= ?"
+            'to'            => "{{fieldName}} <= ?",
+            'seq'           => null,
+            'sneq'          => null
         );
 
         $query = '';
@@ -2416,7 +2420,11 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                     $query = $this->_prepareQuotedSqlCondition($query . $conditionKeyMap['to'], $to, $fieldName);
                 }
             } elseif (array_key_exists($key, $conditionKeyMap)) {
-                $query = $this->_prepareQuotedSqlCondition($conditionKeyMap[$key], $condition[$key], $fieldName);
+                $value = $condition[$key];
+                if (($key == 'seq') || ($key == 'sneq')) {
+                    $key = $this->_transformStringSqlCondition($key, $value);
+                }
+                $query = $this->_prepareQuotedSqlCondition($conditionKeyMap[$key], $value, $fieldName);
             } else {
                 $queries = array();
                 foreach ($condition as $orCondition) {
@@ -2445,6 +2453,25 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $sql = $this->quoteInto($text, $value);
         $sql = str_replace('{{fieldName}}', $fieldName, $sql);
         return $sql;
+    }
+
+    /**
+     * Transforms sql condition key 'seq' / 'sneq' that is used for comparing string values to its analog:
+     * - 'null' / 'notnull' for empty strings
+     * - 'eq' / 'neq' for non-empty strings
+     *
+     * @param string $conditionKey
+     * @param mixed $value
+     * @return string
+     */
+    protected function _transformStringSqlCondition($conditionKey, $value)
+    {
+        $value = (string) $value;
+        if ($value == '') {
+            return ($conditionKey == 'seq') ? 'null' : 'notnull';
+        } else {
+            return ($conditionKey == 'seq') ? 'eq' : 'neq';
+        }
     }
 
     /**
@@ -2778,28 +2805,28 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     public function getIndexName($tableName, $fields, $indexType = '')
     {
         if (is_array($fields)) {
-            $fields = implode('-', $fields);
+            $fields = implode('_', $fields);
         }
 
         switch (strtolower($indexType)) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
-                $prefix      = 'unq_';
+                $prefix = 'unq_';
                 $shortPrefix = 'u_';
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
-                $prefix      = 'fti_';
+                $prefix = 'fti_';
                 $shortPrefix = 'f_';
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX:
             default:
-                $prefix      = 'idx_';
+                $prefix = 'idx_';
                 $shortPrefix = 'i_';
         }
 
-        $hash = $tableName . $fields;
+        $hash = $tableName . '_' . $fields;
 
         if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
-            $short = Varien_Db_Helper::shortName($prefix.$hash);
+            $short = Varien_Db_Helper::shortName($prefix . $hash);
             if (strlen($short) > self::LENGTH_INDEX_NAME) {
                 $hash = md5($hash);
                 if (strlen($hash) + strlen($shortPrefix) > self::LENGTH_INDEX_NAME) {

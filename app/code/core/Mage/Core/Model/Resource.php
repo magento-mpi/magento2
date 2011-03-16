@@ -214,7 +214,7 @@ class Mage_Core_Model_Resource
     }
 
     /**
-     * Get resource table name
+     * Get resource table name, validated by db adapter
      *
      * @param   string|array $modelEntity
      * @return  string
