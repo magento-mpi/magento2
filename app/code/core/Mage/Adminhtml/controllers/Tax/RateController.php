@@ -320,6 +320,9 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             }
         }
         if ($csvData[0] == $csvFields) {
+            /** @var $helper Mage_Adminhtml_Helper_Data */
+            $helper = Mage::helper('adminhtml');
+
             foreach ($csvData as $k => $v) {
                 if ($k == 0) {
                     continue;
@@ -374,6 +377,12 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                     foreach ($stores as $field=>$id) {
                         $titles[$id]=$v[$field];
                     }
+
+                    //filter tags in titles
+                    foreach ($titles as &$title) {
+                        $title = $helper->stripTags($title);
+                    }
+
                     $rateModel->setTitle($titles);
                     $rateModel->save();
                 }
