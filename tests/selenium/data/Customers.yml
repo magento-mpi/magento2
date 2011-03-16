@@ -88,3 +88,15 @@ all_fields_address:
   zip_postal_code: 90232
   telephone: 530-918-3581
   fax: 530-918-3581
+
+search_customer:
+  id_from:
+  id_to:
+  name: First Name Last Name
+  email: test@magento.com
+  group: General
+  telephone:
+  zip:
+  country:
+  state:
+  website: Main Website
