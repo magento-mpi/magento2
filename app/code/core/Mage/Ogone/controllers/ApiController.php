@@ -80,11 +80,21 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
         $api = $this->_getApi();
         $api->debugData(array('result' => $params));
 
-        $referenceHash = $api->getHash($params, $api->getConfig()->getShaInCode(), Mage_Ogone_Model_Api::HASH_DIR_IN,
-            (int)$api->getConfig()->getConfigData('shamode'), $api->getConfig()->getConfigData('hashing_algorithm')
-        );
+        $hashValidationResult = false;
+        if ($api->getConfig()->getShaInCode()) {
+            $referenceHash = $api->getHash(
+                $params,
+                $api->getConfig()->getShaInCode(),
+                Mage_Ogone_Model_Api::HASH_DIR_IN,
+                (int)$api->getConfig()->getConfigData('shamode'),
+                $api->getConfig()->getConfigData('hashing_algorithm')
+            );
+            if ($params['SHASIGN'] == $referenceHash) {
+                $hashValidationResult = true;
+            }
+        }
 
-        if ($params['SHASIGN'] != $referenceHash) {
+        if (!$hashValidationResult) {
             $this->_getCheckout()->addError($this->__('The hash is not valid'));
             return false;
         }
@@ -108,7 +118,11 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
             $order = Mage::getModel('sales/order');
             $order->loadByIncrementId($lastIncrementId);
             if ($order->getId()) {
-                $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, Mage_Ogone_Model_Api::PENDING_OGONE_STATUS, Mage::helper('ogone')->__('Start Ogone Processing'));
+                $order->setState(
+                    Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
+                    Mage_Ogone_Model_Api::PENDING_OGONE_STATUS,
+                    Mage::helper('ogone')->__('Start Ogone Processing')
+                );
                 $order->save();
 
                 $this->_getApi()->debugOrder($order);
@@ -249,15 +263,27 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
         $status = $this->getRequest()->getParam('STATUS');
         try{
             if ($status ==  Mage_Ogone_Model_Api::OGONE_AUTH_PROCESSING) {
-                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, Mage_Ogone_Model_Api::WAITING_AUTHORIZATION, Mage::helper('ogone')->__('Authorization Waiting from Ogone'));
+                $order->setState(
+                    Mage_Sales_Model_Order::STATE_PROCESSING,
+                    Mage_Ogone_Model_Api::WAITING_AUTHORIZATION,
+                    Mage::helper('ogone')->__('Authorization Waiting from Ogone')
+                );
                 $order->save();
             }elseif ($order->getState()==Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                 if ($status ==  Mage_Ogone_Model_Api::OGONE_AUTHORIZED) {
                     if ($order->getStatus() != Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
-                        $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, Mage_Ogone_Model_Api::PROCESSING_OGONE_STATUS, Mage::helper('ogone')->__('Processed by Ogone'));
+                        $order->setState(
+                            Mage_Sales_Model_Order::STATE_PROCESSING,
+                            Mage_Ogone_Model_Api::PROCESSING_OGONE_STATUS,
+                            Mage::helper('ogone')->__('Processed by Ogone')
+                        );
                     }
                 } else {
-                    $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, Mage_Ogone_Model_Api::PROCESSED_OGONE_STATUS, Mage::helper('ogone')->__('Processed by Ogone'));
+                    $order->setState(
+                        Mage_Sales_Model_Order::STATE_PROCESSING,
+                        Mage_Ogone_Model_Api::PROCESSED_OGONE_STATUS,
+                        Mage::helper('ogone')->__('Processed by Ogone')
+                    );
                 }
 
                 if (!$order->getInvoiceCollection()->getSize()) {
@@ -294,13 +320,21 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
         $status = $this->getRequest()->getParam('STATUS');
         try {
             if ($status ==  Mage_Ogone_Model_Api::OGONE_AUTH_PROCESSING) {
-                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, Mage_Ogone_Model_Api::WAITING_AUTHORIZATION, Mage::helper('ogone')->__('Authorization Waiting from Ogone'));
+                $order->setState(
+                    Mage_Sales_Model_Order::STATE_PROCESSING,
+                    Mage_Ogone_Model_Api::WAITING_AUTHORIZATION,
+                    Mage::helper('ogone')->__('Authorization Waiting from Ogone')
+                );
             } else {
                 //to send new order email only when state is pending payment
                 if ($order->getState()==Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                     $order->sendNewOrderEmail();
                 }
-                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, Mage_Ogone_Model_Api::PROCESSED_OGONE_STATUS, Mage::helper('ogone')->__('Processed by Ogone'));
+                $order->setState(
+                    Mage_Sales_Model_Order::STATE_PROCESSING,
+                    Mage_Ogone_Model_Api::PROCESSED_OGONE_STATUS,
+                    Mage::helper('ogone')->__('Processed by Ogone')
+                );
             }
             $order->save();
             $this->_redirect('checkout/onepage/success');
