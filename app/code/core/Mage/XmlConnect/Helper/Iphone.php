@@ -24,6 +24,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * XmlConnect device helper for iPhone
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
 {
     /**
@@ -39,6 +46,20 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
      * @var int
      */
     const SUBMISSION_DESCRIPTION_LENGTH = 500;
+
+    /**
+     * Country renderer for submission
+     *
+     * @var string
+     */
+    const SUBMISSION_COUNTRY_RENDERER = 'Istore';
+
+    /**
+     * Country columns for submission
+     *
+     * @var int
+     */
+    const SUBMISSION_COUNTRY_COLUMNS = 4;
 
     /**
      * Submit images that are stored in "params" field of history table
@@ -64,7 +85,7 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
      *
      * @var array
      */
-    protected $_allowedCounrties = array(
+    protected $_allowedCountries = array(
                 'Argentina' => 'AR',
                 'Armenia' => 'AM',
                 'Australia' => 'AU',
@@ -156,6 +177,13 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
                 'Venezuela' => 'VE',
                 'Vietnam' => 'VN',
     );
+
+    /**
+     * Country field renderer
+     *
+     * @var Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_Istore
+     */
+    protected $_countryRenderer = null;
 
     /**
      * Get submit images that are required for application submit
@@ -531,13 +559,13 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Get list of coutries that allowed in Ituens by Apple Store for Iphone
+     * Get list of countries that allowed in Itunes by Apple Store for Iphone
      *
      * @return array
      */
     public function getItunesCountriesArray()
     {
-        return $this->_allowedCounrties;
+        return $this->_allowedCountries;
     }
 
     /**
@@ -637,5 +665,60 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
             $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background" field from Design Tab.');
         }
         return $errors;
+    }
+
+    /**
+     * Get renderer for submission country
+     *
+     * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_Istore
+     */
+    public function getCountryRenderer()
+    {
+        if (empty($this->_countryRenderer)) {
+            $renderer = 'Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_'
+                . self::SUBMISSION_COUNTRY_RENDERER;
+            $this->_countryRenderer = new $renderer();
+        }
+        return $this->_countryRenderer;
+    }
+
+    /**
+     * Get label for submission country
+     *
+     * @return string
+     */
+    public function getCountryLabel()
+    {
+        return Mage::helper('xmlconnect')->__('App Stores');
+    }
+
+    /**
+     * Get columns for submission country
+     *
+     * @return int
+     */
+    public function getCountryColumns()
+    {
+        return self::SUBMISSION_COUNTRY_COLUMNS;
+    }
+
+    /**
+     * Get placement of Country Names for submission country
+     *
+     * @return bool
+     */
+    public function isCountryNamePlaceLeft()
+    {
+        return true;
+    }
+
+    /**
+     * Get class name for submission country
+     *
+     * @return string
+     */
+    public function getCountryClass()
+    {
+        return strtolower(self::SUBMISSION_COUNTRY_RENDERER) . ' stripy';
     }
 }

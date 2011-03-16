@@ -226,7 +226,10 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             if (!is_array($result['message'])) {
                 $result['message'] = array($result['message']);
             }
-            Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array('request'=>$this->getRequest(), 'quote'=>$this->getOnepage()->getQuote()));
+            Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array(
+                'request' => $this->getRequest(),
+                'quote' => $this->getOnepage()->getQuote()
+            ));
             $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
         }
     }

@@ -31,10 +31,8 @@
  * @package    Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalog
 {
-
     /**
      * Retrieve product attributes as xml object
      *
@@ -53,6 +51,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             $item->addChild('short_description', $item->xmlentities(strip_tags($product->getShortDescription())));
             $description = Mage::helper('xmlconnect')->htmlize($item->xmlentities($product->getDescription()));
             $item->addChild('description', $description);
+            $item->addChild('link', $product->getProductUrl());
 
             if ($itemNodeName == 'item') {
                 $imageToResize = Mage::helper('xmlconnect/image')->getImageSizeForContent('product_small');
@@ -129,6 +128,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
         }
         return null;
     }
+
     /**
      * Render product info xml
      *

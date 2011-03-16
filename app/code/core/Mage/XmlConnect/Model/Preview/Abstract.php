@@ -207,17 +207,6 @@ abstract class Mage_XmlConnect_Model_Preview_Abstract extends Varien_Object
         }
     }
 
-   /**
-    * Get xmlconnect css url
-    *
-    * @param string $name - file name
-    * @return string
-    */
-    public function getPreviewCssUrl($name = '')
-    {
-        return  Mage::getDesign()->getSkinUrl('xmlconnect/' . $name);
-    }
-
     /**
      * Get category item tint color styles
      *

@@ -108,7 +108,7 @@ Magento.Dropdowns.prototype = {
 <?php
         $themes = $this->getThemes();
         $themeLabel = '';
-        $themeId = $this->getApplication()->getData('conf/extra/theme');
+        $themeId = Mage::helper('xmlconnect')->getApplication()->getData('conf/extra/theme');
         if (empty($themeId)) {
             $themeId = $_themesHelper->getDefaultThemeName();
         }

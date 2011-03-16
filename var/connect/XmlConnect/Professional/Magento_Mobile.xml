@@ -1,5 +1,6 @@
 <_>
-   <form_key>qne5Bmi2qWRi6QjL</form_key>
+   <form_key>xm6THw2rqWDEAX5G</form_key>
+   <_create/>
    <name>Magento_Mobile</name>
    <channel>professional</channel>
    <version_ids>
@@ -9,9 +10,9 @@
    <description>An integration Magento with mobile applications (e.g. iPhone, Android, iPad)</description>
    <license>mixed</license>
    <license_uri/>
-   <version>1.10.0.0.16</version>
+   <version>1.10.0.0.18</version>
    <stability>stable</stability>
-   <notes>1.10.0.0.16</notes>
+   <notes>1.10.0.0.18</notes>
    <authors>
       <name>
          <name>Magento Professional Team</name>
@@ -44,8 +45,8 @@
             <max>1.10.1</max>
          </max>
          <files>
-            <files>     </files>
-            <files>     </files>
+            <files>       </files>
+            <files>       </files>
          </files>
       </package>
       <extension>
@@ -74,6 +75,7 @@
          <target>mageskin</target>
          <target>mageskin</target>
          <target>mageweb</target>
+         <target>magedesign</target>
       </target>
       <path>
          <path/>
@@ -88,6 +90,7 @@
          <path>adminhtml/default/default/images/xmlconnect/</path>
          <path>frontend/base/default/images/xmlconnect/</path>
          <path>js/jscolor/</path>
+         <path>frontend/base/default/template/xmlconnect/</path>
       </path>
       <type>
          <type>file</type>
@@ -102,8 +105,10 @@
          <type>dir</type>
          <type>dir</type>
          <type>dir</type>
+         <type>dir</type>
       </type>
       <include>
+         <include/>
          <include/>
          <include/>
          <include/>
@@ -125,6 +130,7 @@
          <ignore>#\.svn#</ignore>
          <ignore/>
          <ignore/>
+         <ignore>#\.svn#</ignore>
          <ignore>#\.svn#</ignore>
          <ignore>#\.svn#</ignore>
          <ignore>#\.svn#</ignore>

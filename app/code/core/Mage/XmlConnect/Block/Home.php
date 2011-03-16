@@ -31,7 +31,6 @@
  * @package    Mage_XmlConnect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
 {
 
@@ -79,5 +78,4 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
 
         return $homeXmlObj->asNiceXml();
     }
-
 }

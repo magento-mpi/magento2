@@ -186,11 +186,25 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     const XML_PATH_GENERAL_RESTRICTION_MODE = 'general/restriction/mode';
 
     /**
-     * XML path to config for business account
+     * XML path to config secure base link URL
+     *
+     * @var string
+     */
+    const XML_PATH_SECURE_BASE_LINK_URL = 'web/secure/base_link_url';
+
+    /**
+     * XML path to config for paypal business account
      *
      * @var string
      */
     const XML_PATH_PAYPAL_BUSINESS_ACCOUNT = 'paypal/general/business_account';
+
+    /**
+     * XML path to config for default cache time
+     *
+     * @var string
+     */
+    const XML_PATH_DEFAULT_CACHE_LIFETIME = 'xmlconnect/mobile_application/cache_lifetime';
 
     /**
      * Initialize application
@@ -382,7 +396,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['general']['browsingMode'] = $this->getBrowsingMode();
         $result['general']['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getDefaultCurrencyCode();
         $result['general']['secureBaseUrl'] = Mage::getStoreConfig(
-            Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL,
+            self::XML_PATH_SECURE_BASE_LINK_URL,
             $this->getStoreId()
         );
         $maxRecipients = 0;
@@ -855,5 +869,16 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function getAppMasterSecret()
     {
         return $this->getData('conf/native/notifications/applicationMasterSecret');
+    }
+
+    /**
+     * Getter for Application Cache Lifetime
+     *
+     * @return int|string
+     */
+    public function getCacheLifetime()
+    {
+        $lifetime = (int)$this->loadConfiguration()->getData('conf/native/cacheLifetime');
+        return $lifetime <= 0 ? '' : $lifetime;
     }
 }

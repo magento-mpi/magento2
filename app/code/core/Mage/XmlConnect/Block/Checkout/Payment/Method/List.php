@@ -28,7 +28,6 @@
  * One page checkout payment methods xml renderer
  *
  * @category   Mage
- * @category   Mage
  * @package    Mage_XmlConnect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
@@ -64,12 +63,15 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     protected function _toHtml()
     {
         $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<payment_methods></payment_methods>');
-
         $methodBlocks           = $this->getChild();
-        $methodArray            = array (
-            'payment_ccsave'        => 'Mage_Payment_Model_Method_Cc',
-            'payment_checkmo'       => 'Mage_Payment_Model_Method_Checkmo',
-            'payment_purchaseorder' => 'Mage_Payment_Model_Method_Purchaseorder'
+        $methodArray            = array(
+            'payment_ccsave'            => 'Mage_Payment_Model_Method_Cc',
+            'payment_checkmo'           => 'Mage_Payment_Model_Method_Checkmo',
+            'payment_purchaseorder'     => 'Mage_Payment_Model_Method_Purchaseorder',
+            'pbridge_authorizenet'      => 'Enterprise_Pbridge_Model_Payment_Method_Authorizenet',
+            'pbridge_paypal_direct'     => 'Enterprise_Pbridge_Model_Payment_Method_Paypal',
+            'pbridge_verisign'          => 'Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro',
+            'pbridge_paypaluk_direct'   => 'Enterprise_Pbridge_Model_Payment_Method_Paypaluk',
         );
         $usedMethods            = $sortedAvailableMethodCodes = $usedCodes = array();
         $allAvailableMethods    = Mage::helper('payment')->getStoreMethods(Mage::app()->getStore(), $this->getQuote());
@@ -195,7 +197,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
 
     /**
      * Deprecated function check method status
-     * 
+     *
      * @deprecated after 1.4.2.0
      * @param Mage_Payment_Model_Method_Abstract $method
      * @return bool

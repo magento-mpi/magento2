@@ -223,46 +223,56 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve country options array
+     * Retrieve device specific country options array
      *
+     * @throws Mage_Core_Exception
      * @param bool $isItunes
      * @return array
      */
     public function getCountryOptionsArray($isItunes = false)
     {
         Varien_Profiler::start('TEST: '.__METHOD__);
-        switch ($this->getDeviceType()) {
+        $deviceType = $this->getDeviceType();
+        switch ($deviceType) {
             case self::DEVICE_TYPE_IPHONE:
             case self::DEVICE_TYPE_IPAD:
                 $cacheKey = 'XMLCONNECT_COUNTRY_ITUNES_SELECT_STORE_'.Mage::app()->getStore()->getCode();
-                $itunesCountries = $this->getDeviceHelper()->getItunesCountriesArray();
+                $deviceCountries = $this->getDeviceHelper()->getItunesCountriesArray();
                 break;
             case self::DEVICE_TYPE_ANDROID:
+                $cacheKey = 'XMLCONNECT_COUNTRY_ANDROID_SELECT_STORE_'.Mage::app()->getStore()->getCode();
+                $deviceCountries = $this->getDeviceHelper()->getAndroidMarketCountriesArray();
+                break;
             default:
-                $cacheKey = 'XMLCONNECT_COUNTRY_SELECT_STORE_'.Mage::app()->getStore()->getCode();
+                Mage::throwException(
+                    Mage::helper('xmlconnect')->__('Country options don\'t recognized for "%s".', $deviceType)
+                );
                 break;
         }
 
         if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
             $options = unserialize($cache);
         } else {
-            if (isset($itunesCountries)) {
+            if (isset($deviceCountries)) {
                 $options = Mage::getModel('directory/country')
                     ->getResourceCollection()
-                    ->addFieldToFilter('country_id', array('in' => $itunesCountries))
+                    ->addFieldToFilter('country_id', array('in' => $deviceCountries))
                     ->loadByStore()
-                    ->toOptionArray();
-            } else {
-                $options = Mage::getModel('directory/country')
-                    ->getResourceCollection()
-                    ->loadByStore()
-                    ->toOptionArray();
+                    ->toOptionArray(false);
             }
             if (Mage::app()->useCache('config')) {
                 Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
             }
         }
         Varien_Profiler::stop('TEST: '.__METHOD__);
+
+        if (count($options)) {
+            $options[] = array(
+                'value' => 'NEW_COUNTRIES',
+                'label' => 'New Territories As Added'
+            );
+        }
+
         return $options;
     }
 
@@ -321,6 +331,18 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     public function getDefaultApplicationDesignTabs()
     {
         return $this->getDeviceHelper()->getDefaultDesignTabs();
+    }
+
+    /**
+     * Get default Cache Lifetime
+     *
+     * @return int
+     */
+    public function getDefaultCacheLifetime()
+    {
+        return (int)Mage::getStoreConfig(
+            Mage_XmlConnect_Model_Application::XML_PATH_DEFAULT_CACHE_LIFETIME
+        );
     }
 
     /**

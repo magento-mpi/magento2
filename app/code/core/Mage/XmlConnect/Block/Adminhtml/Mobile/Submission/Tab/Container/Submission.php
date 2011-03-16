@@ -24,6 +24,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Device submission container block
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
     extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
@@ -48,7 +55,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
     {
         $block = $this->getLayout()->createBlock('adminhtml/template')
             ->setTemplate('xmlconnect/submission/app_icons_preview.phtml')
-            ->setImages($this->getApplication()->getImages());
+            ->setImages(Mage::helper('xmlconnect')->getApplication()->getImages());
         $this->setChild('images', $block);
         parent::_prepareLayout();
     }
@@ -83,10 +90,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
         $deviceType = Mage::helper('xmlconnect')->getDeviceType();
         $form = new Varien_Data_Form();
         $this->setForm($form);
-
+        /** @var $app Mage_XmlConnect_Model_Application */
+        $app = Mage::helper('xmlconnect')->getApplication();
         $form->setAction($this->getUrl('*/mobile/submission'));
-        $isResubmit = $this->getApplication()->getIsResubmitAction();
-        $formData = $this->getApplication()->getFormData();
+        $isResubmit = $app->getIsResubmitAction();
+        $formData = $app->getFormData();
 
         $url = Mage::getStoreConfig('xmlconnect/mobile_application/activation_key_url');
         $afterElementHtml = $this->__('In order to submit your app, you need to first purchase a <a href="%s" target="_blank">%s</a> from MagentoCommerce', $url, $this->__('Activation Key'));
@@ -209,14 +217,21 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             $selected = null;
         }
 
-        $fieldset->addField('conf/submit_text/country', 'multiselect', array(
-            'name'      => 'conf[submit_text][country][]',
-            'label'     => $this->__('Country'),
-            'values'    => Mage::helper('xmlconnect')->getCountryOptionsArray(),
-            'value'     => $selected,
-            'note'      => $this->__('Make this app available in the following territories'),
-            'required'  => true,
-        ));
+        $deviceHelper = Mage::helper('xmlconnect')->getDeviceHelper();
+        $fieldset->addType('country', 'Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Country');
+        $fieldset->addField('conf/submit_text/country', 'country', array(
+            'id'                => 'submission-countries',
+            'name'              => 'conf[submit_text][country][]',
+            'label'             => $deviceHelper->getCountryLabel(),
+            'values'            => Mage::helper('xmlconnect')->getCountryOptionsArray(),
+            'value'             => $selected,
+            'note'              => $this->__('Make this app available in the following territories'),
+            'columns'           => $deviceHelper->getCountryColumns(),
+            'place_name_left'   => $deviceHelper->isCountryNamePlaceLeft(),
+            'class'             => $deviceHelper->getCountryClass(),
+            'required'          => true,
+        ))
+        ->setRenderer($deviceHelper->getCountryRenderer());
 
         if (isset($formData['conf[submit_text][copyright]'])) {
             $copyVal = $formData['conf[submit_text][copyright]'];
@@ -229,12 +244,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'label'     => $this->__('Copyright'),
             'maxlength' => '200',
             'value'     => $copyVal,
-            'note'      => $this->__('Appears in the info section of your app (example:  Copyright 2010 – Your Company, Inc.)'),
+            'note'      => $this->__('Appears in the info section of your app (example: Copyright 2010 – Your Company, Inc.)'),
             'required'  => true,
         ));
 
         if ($deviceType !== Mage_XmlConnect_Helper_Data::DEVICE_TYPE_ANDROID) {
-
             if (isset($formData['conf[submit_text][keywords]'])) {
                 $keyWordsVal = $formData['conf[submit_text][keywords]'];
             } else {
@@ -279,8 +293,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
                 $this->addImage($fieldset, 'conf/submit/icon', $this->__('Large iTunes Icon'),
                     $this->__('Large icon that appears in the iTunes App Store. You do not need to apply a gradient or soft edges (this is done automatically by Apple). Required size: 512px x 512px.'), '', true);
 
-                $this->addImage($fieldset, 'conf/submit/ipad_loader_image', $this->__('Loader Splash Screen'),
-                    $this->__('Image that appears on first screen while your app is loading. Required size: 768px x 1004px.'), '', true);
+                $this->addImage($fieldset, 'conf/submit/ipad_loader_portrait_image', $this->__('Loader Splash Screen <br />(portrait mode)'),
+                    $this->__('Image that appears on first screen while your app is loading. Required size: 768px x 1024px.'), '', true);
+
+                $this->addImage($fieldset, 'conf/submit/ipad_loader_landscape_image', $this->__('Loader Splash Screen <br />(landscape mode)'),
+                    $this->__('Image that appears on first screen while your app is loading. Required size: 1024px x 768px.'), '', true);
 
                 $this->addImage($fieldset, 'conf/submit/ipad_logo', $this->__('Custom App Icon'),
                     $this->__('Icon that will appear on the user\'s device after they download your app. You do not need to apply a gradient or soft edges (this is done automatically by Apple). Recommended size: 72px x 72px.'), '', true);

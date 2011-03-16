@@ -24,6 +24,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * XmlConnect Adminhtml mobile controller
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controller_Action
 {
     /**
@@ -238,8 +245,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     'title' => isset($params['title']) ? $params['title'] : '',
                     'name' => $app->getName(),
                     'code' => $app->getCode(),
-                    'activation_key' => isset($params['resubmission_activation_key']) ?
-                        $params['resubmission_activation_key'] : $params['key'],
+                    'activation_key' => isset($params['resubmission_activation_key'])
+                        ? $params['resubmission_activation_key']
+                        : $params['key'],
                 ));
                 $history->save();
                 $app->getResource()->updateApplicationStatus($app->getId(),
@@ -365,20 +373,20 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $redirectSubmit = $this->getRequest()->getParam('submitapp', false);
         $app = false;
         $isError = false;
-        $devType = false;
         if ($data) {
             Mage::getSingleton('adminhtml/session')->setFormData($data);
             try {
                 $id = $this->getRequest()->getParam('application_id');
+
                 if (!$id && isset($data['devtype'])) {
                     $devArray = Mage::helper('xmlconnect')->getSupportedDevices();
-                    $devType = array_search($data['devtype'], $devArray);
-                    if ($devType === false) {
+                    if (!array_key_exists($data['devtype'], $devArray)) {
                         $this->_getSession()->addError($this->__('Wrong device type.'));
                         $isError = true;
                     }
                 }
-                $app = $this->_initApp('application_id', $devType);
+
+                $app = $this->_initApp('application_id', $data['devtype']);
                 if (!$app->getId() && $id) {
                     $this->_getSession()->addError($this->__('App does not exist.'));
                     $this->_redirect('*/*/');
@@ -387,6 +395,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $app->addData($this->_preparePostData($data));
                 $app->addData($this->_processUploadedFiles($app->getData()));
                 $errors = $app->validate();
+
                 if ($errors !== true) {
                     foreach ($errors as $err) {
                         $this->_getSession()->addError($err);
@@ -617,15 +626,13 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $redirectBack = false;
 
         try {
-            $deviceTitle = $this->getRequest()->getParam('devtype');
-            $deviceType = array_search($deviceTitle, Mage::helper('xmlconnect')->getSupportedDevices());
+            $deviceType = $this->getRequest()->getParam('devtype');
             $app = $this->_initApp('application_id', $deviceType);
             if (!$this->getRequest()->getParam('submission_action')) {
                 $app->addData($this->_preparePostData($this->getRequest()->getPost()));
             }
             /** render base configuration of application */
             $appConf = $app->getRenderConf();
-
             try {
                 /** try to upload files */
                 $dataUploaded = $this->_processUploadedFiles($app->getData());
@@ -799,7 +806,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     {
         unset($arr['code']);
         if (!empty($arr['conf']['native']['pages'])) {
-            // remove emptied pages
+            /**
+             * Remove emptied pages
+             */
             $pages = array();
             foreach ($arr['conf']['native']['pages'] as $_page) {
                 if (!empty($_page['id']) && !empty($_page['label'])) {
@@ -826,6 +835,13 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             }
             unset($arr['conf']['new_pages']);
         }
+
+        /**
+         * Check cache settings
+         */
+        $lifetime = &$arr['conf']['native']['cacheLifetime'];
+        $lifetime = $lifetime <= 0 ? '' : (int)$lifetime;
+
         /**
          * Restoring current_theme over selected but not applied theme
          */

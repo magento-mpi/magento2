@@ -170,7 +170,8 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
                  */
                 $qty = isset($params['qty']) ? $params['qty'] : 0;
                 $requestedQty = ($qty > 1) ? $qty : 1;
-                $subProduct = $product->getTypeInstance(true)->getProductByAttributes($request->getSuperAttribute(), $product);
+                $subProduct = $product->getTypeInstance(true)
+                    ->getProductByAttributes($request->getSuperAttribute(), $product);
 
                 if ($requestedQty < ($requiredQty = $subProduct->getStockItem()->getMinSaleQty())) {
                     $requestedQty = $requiredQty;
@@ -206,7 +207,8 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             if ($this->_getSession()->getUseNotice(true)) {
                 $this->_message($e->getMessage(), parent::MESSAGE_STATUS_ERROR);
             } else {
-                $this->_message(implode("\n", array_unique(explode("\n", $e->getMessage()))), parent::MESSAGE_STATUS_ERROR);
+                $messageText = implode("\n", array_unique(explode("\n", $e->getMessage())));
+                $this->_message($messageText, parent::MESSAGE_STATUS_ERROR);
             }
         } catch (Exception $e) {
             $this->_message($this->__('Can\'t add item to shopping cart.'), self::MESSAGE_STATUS_ERROR);

@@ -87,17 +87,23 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
         $countryOptionsXml = '<values>';
         if (is_array($countries)) {
             foreach ($countries as $key => $data) {
+
                 if ($data['value']) {
                     $regions = $this->_getRegionOptions($data['value']);
                 }
+
+                $isSelected = ($countryId == $data['value'] ? ' selected="1"' : '');
+                $regionStr = (is_array($regions) && !empty($regions) ? 'region_id' : 'region');
+
                 $countryOptionsXml .= '
-                <item relation="' . (is_array($regions) && !empty($regions) ? 'region_id' : 'region') . '"' . ($countryId == $data['value'] ? ' selected="1"' : '') . '>
+                <item relation="' . $regionStr . '"' . $isSelected . '>
                     <label>' . $xmlModel->xmlentities((string)$data['label']) . '</label>
                     <value>' . $xmlModel->xmlentities($data['value']) . '</value>';
                 if (is_array($regions) && !empty($regions)) {
                     $countryOptionsXml .= '<regions>';
                     foreach ($regions as $_key => $_data) {
-                        $countryOptionsXml .= '<region_item' . ($regionId == $_data['value'] ? ' selected="1"' : '') . '>';
+                        $regionId == $_data['value'] ? ' selected="1"' : '';
+                        $countryOptionsXml .= '<region_item' . $regionId . '>';
                         $countryOptionsXml .=
                             '<label>' . $xmlModel->xmlentities((string)$_data['label']) . '</label>
                              <value>' . $xmlModel->xmlentities($_data['value']) . '</value>';
@@ -116,7 +122,10 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
         <field name="{$addressType}[lastname]" type="text" label="{$xmlModel->xmlentities($this->__('Last Name'))}" required="true" value="$lastname" />
         <field name="{$addressType}[company]" type="text" label="{$xmlModel->xmlentities($this->__('Company'))}" value="$company" />
 EOT;
-        if ($isAllowedGuestCheckout && !Mage::getSingleton('customer/session')->isLoggedIn() && $addressType == 'billing') {
+        if ($isAllowedGuestCheckout
+            && !Mage::getSingleton('customer/session')->isLoggedIn()
+            && $addressType == 'billing'
+        ) {
             $xml .= <<<EOT
         <field name="{$addressType}[email]" type="text" label="{$xmlModel->xmlentities($this->__('Email Address'))}" value="$email" required="true" >
             <validators>

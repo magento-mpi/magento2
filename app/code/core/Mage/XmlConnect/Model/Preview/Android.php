@@ -79,46 +79,12 @@ class Mage_XmlConnect_Model_Preview_Android extends Mage_XmlConnect_Model_Previe
     }
 
     /**
-     * Get background image url according orientation
+     * We doesn't support background images for android
      *
-     * @throws Mage_Core_Exception
-     * @return string
+     * @return false
      */
     public function getBackgroundImage()
     {
-        $orientation = $this->getOrientation();
-        /** @var $helperImage Mage_XmlConnect_Helper_Image */
-        $helperImage = Mage::helper('xmlconnect/image');
-
-        switch ($orientation) {
-            case Mage_XmlConnect_Helper_Android::ORIENTATION_LANDSCAPE:
-                $configPath = 'conf/body/backgroundAndroidLandscapeImage';
-                $imageUrlOrig = $this->getData($configPath);
-                if ($imageUrlOrig) {
-                    $width = Mage_XmlConnect_Helper_Android::PREVIEW_LANDSCAPE_BACKGROUND_WIDTH;
-                    $height = Mage_XmlConnect_Helper_Android::PREVIEW_LANDSCAPE_BACKGROUND_HEIGHT;
-                    $backgroundImage = $helperImage->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
-                } else {
-                    $backgroundImage = $this->getPreviewImagesUrl('android/background_home_landscape.jpg');
-                }
-                break;
-            case Mage_XmlConnect_Helper_Android::ORIENTATION_PORTRAIT:
-                $configPath = 'conf/body/backgroundAndroidPortraitImage';
-                $imageUrlOrig = $this->getData($configPath);
-                if ($imageUrlOrig) {
-                    $width = Mage_XmlConnect_Helper_Android::PREVIEW_PORTRAIT_BACKGROUND_WIDTH;
-                    $height = Mage_XmlConnect_Helper_Android::PREVIEW_PORTRAIT_BACKGROUND_HEIGHT;
-                    $backgroundImage = $helperImage->getCustomSizeImageUrl($imageUrlOrig, $width, $height);
-                } else {
-                    $backgroundImage = $this->getPreviewImagesUrl('android/background_portrait.jpg');
-                }
-                break;
-            default:
-                Mage::throwException(
-                    Mage::helper('xmlconnect')->__('Wrong Android background image orientation has been specified: "%s".', $orientation)
-                );
-                break;
-        }
-        return $backgroundImage;
+        return false;
     }
 }

@@ -42,9 +42,10 @@ class Mage_XmlConnect_Model_Observer
         'sendfriend/email/allow_guest',
         'general/locale/code',
         'currency/options/default',
-        Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL,
+        Mage_XmlConnect_Model_Application::XML_PATH_SECURE_BASE_LINK_URL,
         Mage_XmlConnect_Model_Application::XML_PATH_GENERAL_RESTRICTION_IS_ACTIVE,
-        Mage_XmlConnect_Model_Application::XML_PATH_GENERAL_RESTRICTION_MODE
+        Mage_XmlConnect_Model_Application::XML_PATH_GENERAL_RESTRICTION_MODE,
+        Mage_XmlConnect_Model_Application::XML_PATH_DEFAULT_CACHE_LIFETIME
     );
 
     /**

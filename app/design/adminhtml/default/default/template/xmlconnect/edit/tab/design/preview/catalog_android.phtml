@@ -38,16 +38,14 @@ $secondaryColor = $previewModel->getData('conf/body/secondaryColor');
 $starImage = $previewModel->getPreviewImagesUrl('android/bg_star.png');
 $emptyStarImage = $previewModel->getPreviewImagesUrl('android/bg_star_empty.png');
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo $previewModel->getPreviewCssUrl('mobile-android.css'); ?>" media="all" />
-
 <div class="main-frame main-frame-catalog" style="background-color:<?php echo $previewModel->getData('conf/body/backgroundColor'); ?>;">
     <div class="phone catalog-page">
         <div class="status-bar"></div>
         <div class="header-wrap" style="background-color:<?php echo $previewModel->getData('conf/navigationBar/tintColor'); ?>;">
-            <div class="header">
+            <div class="app-header">
                 <div class="icon icon-home"></div>
                 <?php echo $this->getChildHtml('tab_items'); ?>
-                <div class="logo">
+                <div class="app-logo">
                     <img src="<?php echo $previewModel->getLogoUrl(); ?>" alt="logo" /><span style="color:<?php echo $title1color; ?>;"><?php echo $this->__("Chairs"); ?></span>
                 </div>
             </div>

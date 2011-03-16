@@ -56,7 +56,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Preview extends Mag
             if ($model->getId() !== null) {
                 $params = array('application_id' => $model->getId());
             } else {
-                $params = array('devtype' => $model->getDevtype());
+                $params = array('devtype' => $model->getType());
             }
 
         }

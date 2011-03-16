@@ -24,6 +24,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * XmlConnect device helper for Android
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
 {
     /**
@@ -41,20 +48,6 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
     const SUBMISSION_DESCRIPTION_LENGTH = 4000;
 
     /**
-     * Android landscape orientation identificator
-     *
-     * @var string
-     */
-    const ORIENTATION_LANDSCAPE = 'landscape';
-
-    /**
-     * Android portrait orientation identificator
-     *
-     * @var string
-     */
-    const ORIENTATION_PORTRAIT = 'portrait';
-
-    /**
      * Android preview banner widht
      *
      * @var int
@@ -67,34 +60,6 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
      * @var int
      */
     const PREVIEW_BANNER_HEIGHT = 258;
-
-    /**
-     * Android landscape orientation preview image widht
-     *
-     * @var int
-     */
-    const PREVIEW_LANDSCAPE_BACKGROUND_WIDTH = 480;
-
-    /**
-     * Android landscape orientation preview image height
-     *
-     * @var int
-     */
-    const PREVIEW_LANDSCAPE_BACKGROUND_HEIGHT = 250;
-
-    /**
-     * Android portrait orientation preview image widht
-     *
-     * @var int
-     */
-    const PREVIEW_PORTRAIT_BACKGROUND_WIDTH = 320;
-
-    /**
-     * Android portrait orientation preview image height
-     *
-     * @var int
-     */
-    const PREVIEW_PORTRAIT_BACKGROUND_HEIGHT = 410;
 
     /**
      * Tags identifier for title bar
@@ -111,11 +76,32 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
     const TAGS_ID_FOR_OPTION_MENU = 2;
 
     /**
+     * Country renderer for submission
+     *
+     * @var string
+     */
+    const SUBMISSION_COUNTRY_RENDERER = 'Androidmarket';
+
+    /**
+     * Country columns for submission
+     *
+     * @var int
+     */
+    const SUBMISSION_COUNTRY_COLUMNS = 2;
+
+    /**
      * Submit images that are stored in "params" field of history table
      *
      * @var array
      */
     protected $_imageIds = array('icon', 'android_loader_image', 'android_logo', 'big_logo');
+
+    /**
+     * Country field renderer
+     *
+     * @var Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_Androidmarket
+     */
+    protected $_countryRenderer = null;
 
     /**
      * Get submit images that are required for application submit
@@ -126,6 +112,47 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
     {
         return $this->_imageIds;
     }
+
+    /**
+     * List of coutries that allowed in Ituens by Apple Store
+     *
+     * array(
+     *      'country name' => 'country id at directory model'
+     * )
+     *
+     * @var array
+     */
+    protected $_allowedCountries = array(
+                'Argentina' => 'AR',
+                'Australia' => 'AU',
+                'Austria' => 'AT',
+                'Belgium' => 'BE',
+                'Brazil' =>'BR',
+                'Canada' => 'CA',
+                'Denmark' => 'DK',
+                'Finland' => 'FI',
+                'France' => 'FR',
+                'Germany' => 'DE',
+                'Hong Kong SAR China' => 'HK',
+                'Ireland' => 'IE',
+                'Israel' => 'IL',
+                'Italy' => 'IT',
+                'Japan' => 'JP',
+                'Mexico' => 'MX',
+                'Netherlands' => 'NL',
+                'New Zealand' => 'NZ',
+                'Norway' => 'NO',
+                'Portugal' => 'PT',
+                'Russia' => 'RU',
+                'Singapore' => 'SG',
+                'Spain' => 'ES',
+                'South Korea' => 'KR',
+                'Sweden' => 'SE',
+                'Switzerland' => 'CH',
+                'Taiwan' => 'TW',
+                'United Kingdom' => 'GB',
+                'United States' => 'US',
+    );
 
     /**
      * Get default application tabs
@@ -582,14 +609,71 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
         if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerAndroidImage', $native)) {
             $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
         }
-
-        if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundAndroidLandscapeImage', $native)) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (landscape mode)" field from Design Tab.');
-        }
-
-        if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundAndroidPortraitImage', $native)) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (portrait mode)" field from Design Tab.');
-        }
         return $errors;
+    }
+
+    /**
+     * Get renderer for submission country
+     *
+     * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_Androidmarket
+     */
+    public function getCountryRenderer()
+    {
+        if (empty($this->_countryRenderer)) {
+            $renderer = 'Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_'
+                . self::SUBMISSION_COUNTRY_RENDERER;
+            $this->_countryRenderer = new $renderer();
+        }
+        return $this->_countryRenderer;
+    }
+
+    /**
+     * Get label for submission country
+     *
+     * @return string
+     */
+    public function getCountryLabel()
+    {
+        return Mage::helper('xmlconnect')->__('Locations');
+    }
+
+    /**
+     * Get columns for submission country
+     *
+     * @return int
+     */
+    public function getCountryColumns()
+    {
+        return self::SUBMISSION_COUNTRY_COLUMNS;
+    }
+
+    /**
+     * Get placement of Country Names for submission country
+     *
+     * @return bool
+     */
+    public function isCountryNamePlaceLeft()
+    {
+        return false;
+    }
+
+    /**
+     * Get class name for submission country
+     *
+     * @return string
+     */
+    public function getCountryClass()
+    {
+        return strtolower(self::SUBMISSION_COUNTRY_RENDERER);
+    }
+
+    /**
+     * Get list of countries that allowed by Magento Inc. for Android
+     *
+     * @return array
+     */
+    public function getAndroidMarketCountriesArray()
+    {
+        return $this->_allowedCountries;
     }
 }

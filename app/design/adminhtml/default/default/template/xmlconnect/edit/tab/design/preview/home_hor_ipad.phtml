@@ -36,18 +36,16 @@ $productImage = $previewModel->getPreviewImagesUrl('ipad/product_image.jpg');
 $backgroundIpadLandscapeImage = $previewModel->setOrientation(Mage_XmlConnect_Helper_Ipad::ORIENTATION_LANDSCAPE)->getBackgroundImage();
 $bannerImageIpad = $previewModel->getBannerImage();
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo $previewModel->getPreviewCssUrl('mobile-ipad-home.css'); ?>" media="all" />
-
-<div class="ipad ipad-horizontal" style="background: <?php echo $previewModel->getData('conf/body/backgroundColor'); ?>;">
+<div class="ipad ipad-landscape" style="background: <?php echo $previewModel->getData('conf/body/backgroundColor'); ?>;">
     <div class="status-bar"></div>
     <div class="header-wrap" style="background-color:<?php echo $previewModel->getData('conf/navigationBar/tintColor'); ?>;">
-        <div class="header">
+        <div class="app-header">
             <?php echo $this->getChildHtml('tab_items'); ?>
         </div>
     </div>
     <div class="shadow"></div>
     <div class="content" style="background-image:url(<?php echo $backgroundIpadLandscapeImage; ?>)">
-        <div class="logo" style="background-image:url(<?php echo $bannerImageIpad; ?>)"></div>
+        <div class="app-logo" style="background-image:url(<?php echo $bannerImageIpad; ?>)"></div>
         <div class="products-list-wrap">
             <ul class="products-list">
                 <li style="background-color:<?php echo $categoryItemBackgroundColor; ?>">

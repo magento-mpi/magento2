@@ -42,7 +42,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
 
         if ($model->getId()) {
             $fieldset->addField('application_id', 'hidden', array(
-                'name' => 'application_id',
+                'name'  => 'application_id',
+                'value' => $model->getId()
             ));
         }
 
@@ -51,13 +52,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
             'label'     => $this->__('App Name'),
             'title'     => $this->__('App Name'),
             'maxlength' => '250',
+            'value'     => $model->getName(),
             'required'  => true,
         ));
 
         if ($model->getId()) {
             $field = $fieldset->addField('code', 'label', array(
-                'label'     => $this->__('App Code'),
-                'title'     => $this->__('App Code'),
+                'label' => $this->__('App Code'),
+                'title' => $this->__('App Code'),
+                'value' => $model->getCode(),
             ));
         }
 
@@ -93,8 +96,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
         ));
 
         $fieldset->addField('devtype', 'hidden', array(
-                'name'      => 'devtype',
-                'value'     => $model->getDevtype(),
+                'name'  => 'devtype',
+                'value' => $model->getType(),
         ));
 
         $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
@@ -106,7 +109,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
             'values'    => $yesNoValues
         ));
 
-        $form->setValues($model->getFormData());
         $this->setForm($form);
         return parent::_prepareForm();
     }

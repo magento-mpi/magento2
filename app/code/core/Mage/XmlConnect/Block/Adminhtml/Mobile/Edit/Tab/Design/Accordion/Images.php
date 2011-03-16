@@ -115,20 +115,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images
                     $this->_getDesignPreviewImageUrl('conf/native/body/bannerAndroidImage'),
                     true
                 );
-                $this->addImage($fieldset,
-                    'conf[native][body][backgroundAndroidLandscapeImage]',
-                    $this->__('App Background <br />(landscape mode)'),
-                    $this->__('Recommended size 480px x 250px. Note: Image size affects the performance of your app. Keep your image size below 75 KB for optimal performance.'),
-                    $this->_getDesignPreviewImageUrl('conf/native/body/backgroundAndroidLandscapeImage'),
-                    true
-                );
-                $this->addImage($fieldset,
-                    'conf[native][body][backgroundAndroidPortraitImage]',
-                    $this->__('App Background <br />(portrait mode)'),
-                    $this->__('Recommended size 320px x 410px. Note: Image size affects the performance of your app. Keep your image size below 75 KB for optimal performance.'),
-                    $this->_getDesignPreviewImageUrl('conf/native/body/backgroundAndroidPortraitImage'),
-                    true
-                );
                 break;
             default:
                 Mage::throwException(
@@ -137,7 +123,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images
                 break;
         }
 
-        $form->setValues($this->getApplication()->getFormData());
+        $form->setValues(Mage::helper('xmlconnect')->getApplication()->getFormData());
         $this->setForm($form);
         return parent::_prepareForm();
     }

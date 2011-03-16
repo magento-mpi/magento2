@@ -24,6 +24,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * XmlConnect device helper for iPad
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
 {
     /**
@@ -101,7 +108,18 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
      *
      * @var array
      */
-    protected $_imageIds = array('icon', 'ipad_loader_image', 'ipad_logo', 'big_logo');
+    protected $_imageIds = array('icon',
+        'ipad_loader_portrait_image',
+        'ipad_loader_landscape_image',
+        'ipad_logo',
+        'big_logo');
+
+    /**
+     * Country field renderer
+     *
+     * @var Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_Istore
+     */
+    protected $_countryRenderer = null;
 
     /**
      * Get submit images that are required for application submit
@@ -462,8 +480,8 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Get list of coutries that allowed in Ituens by Apple Store for Ipad
-     * (get info from Iphone helper)
+     * Get list of countries that allowed in Itunes by Apple Store for Ipad
+     * (we get info from Iphone helper)
      *
      * @return array
      */
@@ -571,5 +589,60 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
             $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (portrait mode)" field from Design Tab.');
         }
         return $errors;
+    }
+
+    /**
+     * Get renderer for submission country
+     *
+     * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_Istore
+     */
+    public function getCountryRenderer()
+    {
+        if (empty($this->_countryRenderer)) {
+            $renderer = 'Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_'
+                . Mage_XmlConnect_Helper_Iphone::SUBMISSION_COUNTRY_RENDERER;
+            $this->_countryRenderer = new $renderer();
+        }
+        return $this->_countryRenderer;
+    }
+
+    /**
+     * Get label for submission country
+     *
+     * @return string
+     */
+    public function getCountryLabel()
+    {
+        return Mage::helper('xmlconnect')->__('App Stores');
+    }
+
+    /**
+     * Get columns for submission country
+     *
+     * @return int
+     */
+    public function getCountryColumns()
+    {
+        return Mage_XmlConnect_Helper_Iphone::SUBMISSION_COUNTRY_COLUMNS;
+    }
+
+    /**
+     * Get placement of Country Names for submission country
+     *
+     * @return bool
+     */
+    public function isCountryNamePlaceLeft()
+    {
+        return true;
+    }
+
+    /**
+     * Get class name for submission country
+     *
+     * @return string
+     */
+    public function getCountryClass()
+    {
+        return strtolower(Mage_XmlConnect_Helper_Iphone::SUBMISSION_COUNTRY_RENDERER) . ' stripy';
     }
 }
