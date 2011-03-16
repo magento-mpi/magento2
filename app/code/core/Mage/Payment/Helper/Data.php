@@ -264,4 +264,37 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $result;
     }
+
+    /**
+     * Returns value of Zero Subtotal Checkout / Enabled
+     *
+     * @param mixed $store
+     * @return boolean
+     */
+    public function isZeroSubTotal($store = null)
+    {
+        return Mage::getStoreConfig('payment/free/active', $store);
+    }
+
+    /**
+     * Returns value of Zero Subtotal Checkout / New Order Status
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function zeroSubTotalOrderStatus($store = null)
+    {
+        return Mage::getStoreConfig('payment/free/order_status', $store);
+    }
+
+    /**
+     * Returns value of Zero Subtotal Checkout / Automatically Invoice All Items
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function zeroSubTotalPaymentAutomaticInvoice($store = null)
+    {
+        return Mage::getStoreConfig('payment/free/payment_action', $store);
+    }
 }
