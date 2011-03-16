@@ -67,8 +67,8 @@ generic_address:
   street_address_line_2: Suite 200
   city: Culver City
   country: United States
-  state_province: California
-  zip_postal_code: 90232
+  state: California
+  zip_code: 90232
   telephone: '530-918-3581'
 
 all_fields_address:
@@ -84,8 +84,8 @@ all_fields_address:
   street_address_line_2: Suite 200
   city: Culver City
   country: United States
-  state_province: California
-  zip_postal_code: 90232
+  state: California
+  zip_code: 90232
   telephone: 530-918-3581
   fax: 530-918-3581
 
@@ -96,7 +96,7 @@ search_customer:
   email: test@magento.com
   group: General
   telephone:
-  zip:
+  zip_code:
   country:
   state:
   website: Main Website

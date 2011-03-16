@@ -35,19 +35,32 @@ manage_customers:
       fieldsets:
         -
           customers_grid:
+            xpath: div[@id='customerGrid']
+            buttons:
+              reset_filter: button[span='Reset Filter']
+              search: button[span='Search']
+              submit: button[span='Submit']
+            dropdowns:
+              group: select[@id='filter_group']
+              country: select[@id='filter_billing_country_id']
+              website: select[@id='filter_website_id']
             fields:
               id_from: input[@id='filter_entity_id_from']
               id_to: input[@id='filter_entity_id_to']
               name: input[@id='filter_name']
               email: input[@id='filter_email']
-            buttons:
-              reset_filter: button[span='Reset Filter']
-              search: button[span='Search']
+              telephone: input[@id='filter_Telephone']
+              zip_code: input[@id='filter_billing_postcode']
+              state: input[@id='filter_billing_region']
+            links:
+              open_customer_by_value:
     buttons:
       add_new_customer: button[span='Add New Customer']
     messages:
-      success_saved_customer: div[@id='messages']//li[span='The customer has been saved.']
-      success_deleted_customer: div[@id='messages']//li[span='The customer has been deleted.']
+      success_saved_customer: li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been saved.')]
+      success_deleted_customer: li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been deleted.')]
+      no_records_found: td[normalize-space(@class)='empty-text a-center' and text()='No records found.']
+
 
 # 'New Customer' Page
 create_customer:
@@ -58,18 +71,18 @@ create_customer:
       tabs:
         -
           account_information:
-            xpath: a[@id='customer_info_tabs_account']
+            xpath: a[@id='customer_info_tabs_account']/span
             fieldsets:
               -
                 account_info:
                   xpath: div[@id='_accountbase_fieldset']
                   checkboxes:
-                    send_welcome_email: input[@id='_accountsendemail']
+                    send_welcome_email: input[@id='_accountsendemail' and not(@disabled)]
                   dropdowns:
                     associate_to_website: select[@id='_accountwebsite_id']
                     group: select[@id='_accountgroup_id']
                     gender: select[@id='_accountgender']
-                    send_from: select[@id='_accountsendemail_store_id']
+                    send_from: select[@id='_accountsendemail_store_id' and not(@disabled)]
                   fields:
                     prefix: input[@id='_accountprefix']
                     first_name: input[@id='_accountfirstname']
@@ -86,19 +99,19 @@ create_customer:
                   checkbox:
                     auto_generated_password: input[@id='account-send-pass']
                   fields:
-                    password: input[@id='_accountpassword']
+                    password: input[@id='_accountpassword' and not(@disabled)]
                   required: [password]
         -
           addresses:
             xpath: a[@id='customer_info_tabs_addresses']
             fieldsets:
               -
-                customer_addresses:
-                  xpath: "*[@id='new_item%address_number%']"
+                list_customer_addresses:
+                  xpath: td[normalize-space(@class)='address-list']
                   buttons:
                     add_new_address: button[span='Add New Address']
-                    delete_address: img[@id='delete_button%address_number%1']
-                    edit_address: img[@id='select_button_%address_number%']
+                    delete_address: li[@id='new_item%address_number%']//a[normalize-space(@class)='btn-remove-address']/img
+                    edit_address: li[@id='new_item%address_number%']//a[normalize-space(@class)='select_button btn-edit-address']/img
                   radiobuttons:
                     default_billing_address: input[@id='address_item_billing_item%address_number%']
                     default_shipping_address: input[@id='address_item_shipping_item%address_number%']
@@ -107,7 +120,7 @@ create_customer:
                   xpath: div[@id='_item%address_number%address_fieldset']
                   dropdowns:
                     country: select[@id='_item%address_number%country_id']
-                    state_province: select[@id='_item%address_number%region_id']
+                    state: select[@id='_item%address_number%region_id']
                   fields:
                     prefix: input[@id='_item%address_number%prefix']
                     first_name: input[@id='_item%address_number%firstname']
@@ -118,21 +131,21 @@ create_customer:
                     street_address_line_1: input[@id='_item%address_number%street0']
                     street_address_line_2: input[@id='_item%address_number%street1']
                     city: input[@id='_item%address_number%city']
-                    state_province: input[@id='_item%address_number%region']
-                    zip_postal_code: input[@id='_item%address_number%postcode']
+                    state: input[@id='_item%address_number%region']
+                    zip_code: input[@id='_item%address_number%postcode']
                     telephone: input[@id='_item%address_number%telephone']
                     fax: input[@id='_item%address_number%fax']
-                  required: [first_name, last_name, street_address_line_1, city, country, zip_postal_code, telephone]
+                  required: [first_name, last_name, street_address_line_1, city, country, state, zip_code, telephone]
     buttons:
       back: button[span='Back']
       reset: button[span='Reset']
       save_customer: button[span='Save Customer']
       save_and_continue_edit: button[span='Save and Continue Edit']
     messages:
-      success_saved_customer: div[@id='messages']//li[span='The customer has been saved.']
-      customer_email_exist: div[@id='messages']//li[span='Customer with the same email already exists.']
-      customer_invalid_email: div[@id='messages']//li[span='"Email" is not a valid email address.' or contains(span,'"Email" is not a valid hostname.')]
-      wrong_data_of_birth: div[@id='messages']//li[span='"Date Of Birth" does not fit the entered date format.']
+      success_saved_customer: li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been saved.')]
+      customer_email_exist: li[normalize-space(@class)='error-msg' and contains(.//span,'Customer with the same email already exists.')]
+      customer_invalid_email: li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" is not a valid')]
+      wrong_data_of_birth: li[normalize-space(@class)='error-msg' and contains(.//span,'"Date Of Birth" does not fit the entered date format.')]
       password_too_short: div[@id='advice-validate-password-_accountpassword']
       empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
@@ -145,19 +158,21 @@ edit_customer:
       tabs:
         -
           customer_view:
-            xpath: a[@id='customer_info_tabs_customer_edit_tab_view']
+            xpath: a[@id='customer_info_tabs_customer_edit_tab_view']/span
+            # need to edit
         -
           account_information:
-            xpath: a[@id='customer_info_tabs_account']
+            xpath: a[@id='customer_info_tabs_account']/span
             fieldsets:
               -
                 account_info:
                   xpath: div[@id='_accountbase_fieldset']
                   dropdowns:
+                    associate_to_website: select[@id='_accountwebsite_id']
                     group: select[@id='_accountgroup_id']
                     gender: select[@id='_accountgender']
-                    send_from: select[@id='_accountsendemail_store_id']
                   fields:
+                    created_from: input[@id='_accountcreated_in']
                     prefix: input[@id='_accountprefix']
                     first_name: input[@id='_accountfirstname']
                     middle_name_initial: input[@id='_accountmiddlename']
@@ -177,24 +192,24 @@ edit_customer:
                   required: [password]
         -
           addresses:
-            xpath: a[@id='customer_info_tabs_addresses']
+            xpath: a[@id='customer_info_tabs_addresses']/span
             fieldsets:
               -
-                customer_addresses:
-                 xpath: div[@id='_item%address_number%address_fieldset']
-                 buttons:
-                  add_new_address: button[span='Add New Address']
-                  delete_address: img[@id='delete_button%address_number%1']
-                  edit_address: img[@id='select_button_%address_number%']
-                radiobuttons:
-                  default_billing_address: input[@id='address_item_billing_item%address_number%']
-                  default_shipping_address: input[@id='address_item_shipping_item%address_number%']
+                list_customer_addresses:
+                  xpath: td[normalize-space(@class)='address-list']
+                  buttons:
+                    add_new_address: button[span='Add New Address']
+                    delete_address: li[@id='new_item%address_number%' or @id='address_item_%address_number%']//a[normalize-space(@class)='btn-remove-address']/img
+                    edit_address: li[@id='new_item%address_number%' or @id='address_item_%address_number%']//a[normalize-space(@class)='select_button btn-edit-address']/img
+                  radiobuttons:
+                    default_billing_address: input[@id='address_item_billing_item%address_number%']
+                    default_shipping_address: input[@id='address_item_shipping_item%address_number%']
               -
                 edit_address:
                   xpath:  div[@id='_item%address_number%address_fieldset']
                   dropdowns:
                     country: select[@id='_item%address_number%country_id']
-                    state_province: select[@id='_item%address_number%region_id']
+                    state: select[@id='_item%address_number%region_id']
                   fields:
                     prefix: input[@id='_item%address_number%prefix']
                     first_name: input[@id='_item%address_number%firstname']
@@ -205,97 +220,49 @@ edit_customer:
                     street_address_line_1: input[@id='_item%address_number%street0']
                     street_address_line_2: input[@id='_item%address_number%street1']
                     city: input[@id='_item%address_number%city']
-                    state_province: input[@id='_item%address_number%region']
-                    zip_postal_code: input[@id='_item%address_number%postcode']
+                    state: input[@id='_item%address_number%region']
+                    zip_code: input[@id='_item%address_number%postcode']
                     telephone: input[@id='_item%address_number%telephone']
                     fax: input[@id='_item%address_number%fax']
-                  required: [first_name, last_name, street_address_line_1, city, country, zip_postal_code, telephone]
+                  required: [first_name, last_name, street_address_line_1, city, country, zip_code, telephone]
         -
           orders:
-            xpath: a[@id='customer_info_tabs_orders']
+            xpath: a[@id='customer_info_tabs_orders']/span
             # need to edit
         -
           billing_agremnts:
-            xpath: a[@id='customer_info_tabs_customer_edit_tab_agreements']
+            xpath: a[@id='customer_info_tabs_customer_edit_tab_agreements']/span
             # need to edit
         -
           recuring_profiles:
-            xpath: a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']
+            xpath: a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']/span
             # need to edit
         -
           shopping_cart:
-            xpath: a[@id='customer_info_tabs_cart']
+            xpath: a[@id='customer_info_tabs_cart']/span
             # need to edit
         -
           wishlist:
-            xpath: a[@id='customer_info_tabs_wishlist']
+            xpath: a[@id='customer_info_tabs_wishlist']/span
             # need to edit
         -
           newsletters:
-            xpath: a[@id='customer_info_tabs_newsletter']
-            fieldsets:
-              -
-                newsletter_info:
-                  xpath: div[@id='_newsletterbase_fieldset']
-                  checkboxes:
-                    subscribe_to_newsletters: input[@id='_newslettersubscription']
-                  # need to edit
+            xpath: a[@id='customer_info_tabs_newsletter']/span
+            # need to edit
         -
           product_review:
-            xpath: a[@id='customer_info_tabs_reviews']
+            xpath: a[@id='customer_info_tabs_reviews']/span
             # need to edit
         -
           product_tags:
-            xpath: a[@id='customer_info_tabs_tags']
+            xpath: a[@id='customer_info_tabs_tags']/span
             # need to edit
-        -
-          store_credit:
-            xpath: a[@id='customer_info_tabs_customerbalance']
-            fieldsets:
-              -
-                store_credit_balance:
-                  xpath: div[@id='_customerbalancestorecreidt_fieldset']
-              -
-                update_balance:
-                  xpath: div[@id='_customerbalancestorecreidt_fieldset']
-                  checkboxes:
-                   notify_by_email: input[@id='_customerbalancenotify_by_email']
-                  dropdowns:
-                    website: select[@id='_customerbalancewebsite_id']
-                    email_form_website: select[@id='_customerbalancestore_id']
-                  fields:
-                    update_balance: input[@id='_customerbalanceamount_delta']
-                    comment: input[@id='_customerbalancecomment']
-                 # need to edit
-        -
-          gift_registry:
-            xpath: a[@id='customer_info_tabs_giftregistry']
-            # need to edit
-        -
-          reward_points:
-            xpath: a[@id='customer_info_tabs_customer_edit_tab_reward']
-            fieldsets:
-              -
-                update_reward_points:
-                  xpath: div[@id='reward_update_fieldset']
-                  dropdowns:
-                    store: select[@id='reward_store']
-                  fields:
-                    update_points: input[@id='reward_points_delta']
-                    comment: input[@id='reward_comment']
-              -
-                reward_points_notifictions:
-                  xpath: div[@id='reward_notification_fieldset']
-                  checkboxes:
-                    subscribe_for_updates: input[@id='reward_update_notification']
-                    subscribe_for_notifications: input[@id='reward_warning_notification']
     buttons:
       back: button[span='Back']
       reset: button[span='Reset']
       create_order: button[span='Create Order']
       delete_customer: button[span='Delete Customer']
-      manage_shopping_cart: button[span='Manage Shopping Cart']
       save_customer: button[span='Save Customer']
       save_and_continue_edit: button[span='Save and Continue Edit']
     messages:
-      success_saved_customer: div[@id='messages']//li[span='The customer has been saved.']
+      success_saved_customer: li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been saved.')]
