@@ -25,28 +25,61 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-# Customer related pages
-customer_account:
-  mca : customer/account
-  title :
+#
+
+# 'Create an Account' page
+create_account:
+  mca: customer/account/create/
+  title: Create New Customer Account
   uimap:
-  messages:
-  links:
-customer_account_create:
-  mca : customer/account/create
-  title : Create New Customer Account
+    form: &newCustomerForm
+      fieldsets:
+        -
+          create_account:
+            xpath: form[@id='form-validate']
+            buttons:
+              submit: button[span='Submit']
+            checkboxes:
+              sign_up_newsletter: input[@id='is_subscribed']
+            links:
+              back: p[@class='back-link']/a
+            fields:
+              first_name: input[@id='firstname']
+              last_name: input[@id='lastname']
+              email: input[@id='email_address']
+              password: input[@id='password']
+              password_confirmation: input[@id='confirmation']
+            required: [first_name, last_name, email, password, password_confirmation]
+    messages:
+      empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
+      invalid_mail: div[@id='advice-validate-email-email_address']
+      passwords_not_match: div[@id='advice-validate-cpassword-confirmation']
+      short_passwords: div[@id='advice-validate-password-password']
+      email_exists: li[span='There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.']
+
+# 'Login or Create an Account' page
+customer_login:
+  mca: customer/account/login/
+  title: Customer Login
   uimap:
-    form:
-      xpath : form[@id='form-validate']
-      fields:
-        firstname     : input[@id='firstname']
-        lastname      : input[@id='lastname']
-        email         : input[@id='email_address']
-        password      : input[@id='password']
-        confirmation  : input[@id='confirmation']
-      required : [firstname, lastname, email, password, confirmation]
-      buttons:
-        submit : button[@type='submit']
-  messages:
-  links:
-    back : customer/account/login
+    form: &customerLogin
+      fieldsets:
+        -
+          create_account:
+            xpath: div[normalize-space(@class)='col-1 new-users']
+            buttons:
+              create_account: button[span='Create an Account']
+        -
+          register_customer:
+            xpath: div[normalize-space(@class)='col-2 registered-users']
+            buttons:
+              create_account: button[span='Login']
+            links:
+              forgot_password: a[text()='Forgot Your Password?']
+            fields:
+              email: input[@id='email']
+              password: input[@id='pass']
+    messages:
+      empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
+      invalid_mail: div[@id='advice-validate-email-email']
+      invalid_login_or_password: li[normalize-space(@class)='error-msg' and contains(.//span,'Invalid login or password.')]

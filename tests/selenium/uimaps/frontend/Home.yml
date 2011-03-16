@@ -25,9 +25,15 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
+#
 home:
-  mca : home
-  title : "Home page"
+  mca: home
+  title: Home page
   uimap:
-  messages:
   links:
+    my_account: a[@title='My Account']
+    my_wishlist: a[@title='My Wishlist']
+    my_cart: a[@title='My Cart']
+    checkout: a[@title='Checkout']
+    log_in: a[@title='Log In']
+  messages:
