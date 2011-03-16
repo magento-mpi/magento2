@@ -93,6 +93,12 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     {
         $ratePost = $this->getRequest()->getPost();
         if ($ratePost) {
+            //filter tags in titles
+            /** @var $helper Mage_Adminhtml_Helper_Data */
+            $helper = Mage::helper('adminhtml');
+            foreach ($ratePost['title'] as &$title) {
+                $title = $helper->stripTags($title);
+            }
 
             $rateId = $this->getRequest()->getParam('tax_calculation_rate_id');
             if ($rateId) {
@@ -110,13 +116,11 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('The tax rate has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 return true;
-            }
-            catch (Mage_Core_Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 //save entered by the user values in session, for re-rendering of form.
                 Mage::getSingleton('adminhtml/session')->setFormData($ratePost);
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 //Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('An error occurred while saving this rate.'));
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
@@ -261,11 +265,9 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 $this->_importRates();
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('The tax rate has been imported.'));
-            }
-            catch (Mage_Core_Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Invalid file upload attempt'));
             }
         }
@@ -294,7 +296,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $stores = array();
         $unset = array();
         $storeCollection = Mage::getModel('core/store')->getCollection()->setLoadDefault(false);
-        for ($i=5; $i<count($csvData[0]); $i++) {
+        for ($i = 5; $i < count($csvData[0]); $i++) {
             $header = $csvData[0][$i];
             $found = false;
             foreach ($storeCollection as $store) {
@@ -376,8 +378,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                     $rateModel->save();
                 }
             }
-        }
-        else {
+        } else {
             Mage::throwException(Mage::helper('tax')->__('Invalid file format upload attempt'));
         }
     }
