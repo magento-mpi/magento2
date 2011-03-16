@@ -108,7 +108,7 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
         $isNew= $this->getRequest()->getParam('is_new');
         if ($data) {
             $status = Mage::getModel('sales/order_status')
-                ->load($this->getRequest()->getParam('status'));
+                    ->load($this->getRequest()->getParam('status'));
             // check if status exist
             if ($isNew && $status->getStatus()) {
                 $this->_getSession()->addError(
@@ -118,8 +118,17 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
                 $this->_redirect('*/*/new');
                 return;
             }
+
+            //filter tags in labels
+            /** @var $helper Mage_Adminhtml_Helper_Data */
+            $helper = Mage::helper('adminhtml');
+            $data['label'] = $helper->stripTags($data['label']);
+            foreach ($data['store_labels'] as &$label) {
+                $label = $helper->stripTags($label);
+            }
+
             $status->setData($data)
-                ->setStatus($this->getRequest()->getParam('status'));
+                    ->setStatus($this->getRequest()->getParam('status'));
             try {
                 $status->save();
                 $this->_getSession()->addSuccess(Mage::helper('sales')->__('The order status has been saved.'));
