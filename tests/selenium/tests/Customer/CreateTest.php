@@ -143,12 +143,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         $userData = $this->loadData('generic_customer_account', $field, 'email');
         $this->createCustomer($userData);
         foreach ($field as $key => $value) {
-            $xpath = '//' . $this->getCurrentLocationUimapPage()->findFieldset('account_info')->findField($key);
-//            echo "$xpath";
+            $xpath = $this->getCurrentLocationUimapPage()->findFieldset('account_info')->findField($key);
         }
-//        $v = $this->getCurrentLocationUimapPage()->findMessage('empty_reqired_field');
-//        echo "$v";
-//        sleep(10);
         $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
         $this->assertTrue($this->errorMessage('empty_reqired_field'),
                 'No error message is displayed');
@@ -186,6 +182,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     {
         $userData = $this->loadData('generic_customer_account', array('email' => NULL), NULL);
         $this->createCustomer($userData);
+        $xpath = $this->getCurrentLocationUimapPage()->findFieldset('account_info')->findField('email');
+        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
         $this->assertTrue($this->errorMessage('empty_reqired_field'),
                 'No error message is displayed');
         $this->assertFalse($this->successMessage(), $this->messages);
@@ -245,25 +243,34 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithLongValues()
     {
+        $longValues = array(
+            'first_name' => $this->generate('string', 255, ':alnum:'),
+            'last_name' => $this->generate('string', 255, ':alnum:'),
+            'password' => $this->generate('string', 255, ':alnum:'),
+            'email' => $this->generate('email', 255, ':lower:')
+        );
         $userData = $this->loadData(
-                        'generic_customer_account',
+                        'generic_customer_account', $longValues, NULL);
+        $searchData = $this->loadData(
+                        'search_customer',
                         array(
-                            'firs_name' => $this->generate('string', 255, ':alnum:'),
-                            'last_name' => $this->generate('string', 255, ':alnum:'),
-                            'password' => $this->generate('string', 255, ':alnum:'),
-                            'email' => $this->generate('email', 255, ':alnum:')
+                            'name' => $userData['first_name'] . ' ' . $userData['last_name'],
+                            'email' => $userData['email']
                         ),
-                        NULL);
+                        NULL
+        );
         $this->createCustomer($userData);
         $this->assertFalse($this->errorMessage(), $this->messages);
 //        $this->assertTrue($this->navigated('manage_customers'),
 //                'After successful customer creation should be redirected to Manage Customers page');
         $this->assertTrue($this->successMessage('success_saved_customer'),
                 'No success message is displayed');
-        // @TODO
-        //$this->searchAndOpen();
-        //$xpathName = $this->_getUimapData('');
-        //$this->assertEquals(strlen($this->getValue($xpathName)), 255);
+        $this->searchAndOpen($searchData);
+        $this->clickControl('tab', 'account_information', FALSE);
+        foreach ($longValues as $key => $value) {
+            $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->getTab('account_information')->findField($key);
+            $this->assertEquals(strlen($this->getValue($xpath)), 255);
+        }
     }
 
     /**
@@ -339,11 +346,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithAddress()
     {
-
-
         $userData = $this->loadData('all_fields_customer_account', NULL, NULL);
         $adressData = $this->loadData('all_fields_address', NULL, NULL);
-
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
         $this->clickControl('tab', 'addresses', FALSE);
