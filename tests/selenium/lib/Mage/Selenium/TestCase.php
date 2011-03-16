@@ -182,7 +182,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function appendParamsDecorator($paramsHelperObject)
     {
         $this->_paramsHelper = $paramsHelperObject;
-        var_dump($this->_paramsHelper);
     }
 
     /**
@@ -701,6 +700,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->_parseMessages();
 
+        if ($xpath && $this->_paramsHelper) {
+            $xpath = $this->_paramsHelper->replaceParameters($xpath);
+        }
+
         if ($xpath && $this->getXpathCount('//' . $xpath) > 0) {
             return true;
         }
@@ -714,12 +717,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return boolean
      */
-    public function errorMessage($xpath = null)
+    public function errorMessage($message = null)
     {
-        if (empty($xpath)) {
-            $xpath = self::xpathErrorMessage;
-        }
-        return $this->checkMessageByXpath($xpath);
+        return (!empty($message)) 
+            ? $this->checkMessage($message)
+            : $this->checkMessageByXpath(self::xpathErrorMessage);
     }
 
     /**
@@ -739,12 +741,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return boolean
      */
-    public function successMessage()
+    public function successMessage($message = null)
     {
-        if (empty($xpath)) {
-            $xpath = self::xpathSuccessMessage;
-        }
-        return $this->checkMessageByXpath($xpath);
+        return (!empty($message))
+            ? $this->checkMessage($message)
+            : $this->checkMessageByXpath(self::xpathSuccessMessage);
     }
 
     /**
@@ -764,12 +765,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return boolean
      */
-    public function validationMessage()
+    public function validationMessage($message = null)
     {
-        if (empty($xpath)) {
-            $xpath = self::xpathValidationMessage;
-        }
-       return $this->checkMessageByXpath($xpath);
+        return (!empty($message))
+            ? $this->checkMessage($message)
+            : $this->checkMessageByXpath(self::xpathValidationMessage);
     }
 
     /**
