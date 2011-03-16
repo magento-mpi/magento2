@@ -83,6 +83,10 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $this->_redirect('*');
     }
 
+    /**
+     * Global Search Action
+     *
+     */
     public function globalSearchAction()
     {
         $searchModules = Mage::getConfig()->getNode("adminhtml/global_search");
@@ -91,7 +95,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         if ( !Mage::getSingleton('admin/session')->isAllowed('admin/global_search') ) {
             $items[] = array(
                 'id'            => 'error',
-                'type'          => 'Error',
+                'type'          => Mage::helper('adminhtml')->__('Error'),
                 'name'          => Mage::helper('adminhtml')->__('Access Denied'),
                 'description'   => Mage::helper('adminhtml')->__('You have not enough permissions to use this functionality.')
             );
@@ -100,7 +104,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
             if (empty($searchModules)) {
                 $items[] = array(
                     'id'            => 'error',
-                    'type'          => 'Error',
+                    'type'          => Mage::helper('adminhtml')->__('Error'),
                     'name'          => Mage::helper('adminhtml')->__('No search modules were registered'),
                     'description'   => Mage::helper('adminhtml')->__('Please make sure that all global admin search modules are installed and activated.')
                 );
