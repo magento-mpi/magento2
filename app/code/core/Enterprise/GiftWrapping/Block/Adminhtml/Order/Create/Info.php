@@ -78,7 +78,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function getWrappingPrintedCardValue()
     {
-        return (int)$this->getQuote()->getGwAddPrintedCard();
+        return (int)$this->getQuote()->getGwAddCard();
     }
     /**
      * Check ability to display both prices for printed card in shopping cart

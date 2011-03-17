@@ -361,16 +361,16 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
             $this->_addTotalToTotals(
                 $totals,
                 'gw_printed_card_incl',
-                $dataObject->getGwPrintedCardPrice() + $dataObject->getGwPrintedCardTaxAmount(),
-                $dataObject->getGwPrintedCardBasePrice() + $dataObject->getGwPrintedCardBaseTaxAmount(),
+                $dataObject->getGwCardPrice() + $dataObject->getGwCardTaxAmount(),
+                $dataObject->getGwCardBasePrice() + $dataObject->getGwCardBaseTaxAmount(),
                 $this->__('Printed Card (Incl. Tax)')
             );
             if ($displayCardBothPrices) {
                 $this->_addTotalToTotals(
                     $totals,
                     'gw_printed_card_excl',
-                    $dataObject->getGwPrintedCardPrice(),
-                    $dataObject->getGwPrintedCardBasePrice(),
+                    $dataObject->getGwCardPrice(),
+                    $dataObject->getGwCardBasePrice(),
                     $this->__('Printed Card (Excl. Tax)')
                 );
             }
@@ -378,8 +378,8 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
             $this->_addTotalToTotals(
                 $totals,
                 'gw_printed_card',
-                $dataObject->getGwPrintedCardPrice(),
-                $dataObject->getGwPrintedCardBasePrice(),
+                $dataObject->getGwCardPrice(),
+                $dataObject->getGwCardBasePrice(),
                 $this->__('Printed Card')
             );
         }

@@ -95,11 +95,11 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Mage_Sa
         $baseTaxAmount =
             $address->getGwItemsBaseTaxAmount()
             + $address->getGwBaseTaxAmount()
-            + $address->getGwPrintedCardBaseTaxAmount();
+            + $address->getGwCardBaseTaxAmount();
         $taxAmount =
             $address->getGwItemsTaxAmount()
             + $address->getGwTaxAmount()
-            + $address->getGwPrintedCardTaxAmount();
+            + $address->getGwCardTaxAmount();
         $address->setBaseTaxAmount($address->getBaseTaxAmount() + $baseTaxAmount);
         $address->setTaxAmount($address->getTaxAmount() + $taxAmount);
         $address->setBaseGrandTotal($address->getBaseGrandTotal() + $baseTaxAmount);
@@ -110,16 +110,16 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Mage_Sa
             $quote->setGwItemsTaxAmount(0);
             $quote->setGwBaseTaxAmount(0);
             $quote->setGwTaxAmount(0);
-            $quote->setGwPrintedCardBaseTaxAmount(0);
-            $quote->setGwPrintedCardTaxAmount(0);
+            $quote->setGwCardBaseTaxAmount(0);
+            $quote->setGwCardTaxAmount(0);
             $quote->setIsNewGiftWrappingTaxCollecting(false);
         }
         $quote->setGwItemsBaseTaxAmount($address->getGwItemsBaseTaxAmount() + $quote->getGwItemsBaseTaxAmount());
         $quote->setGwItemsTaxAmount($address->getGwItemsTaxAmount() + $quote->getGwItemsTaxAmount());
         $quote->setGwBaseTaxAmount($address->getGwBaseTaxAmount() + $quote->getGwBaseTaxAmount());
         $quote->setGwTaxAmount($address->getGwTaxAmount() + $quote->getGwTaxAmount());
-        $quote->setGwPrintedCardBaseTaxAmount($address->getGwPrintedCardBaseTaxAmount() + $quote->getGwPrintedCardBaseTaxAmount());
-        $quote->setGwPrintedCardTaxAmount($address->getGwPrintedCardTaxAmount() + $quote->getGwPrintedCardTaxAmount());
+        $quote->setGwCardBaseTaxAmount($address->getGwCardBaseTaxAmount() + $quote->getGwCardBaseTaxAmount());
+        $quote->setGwCardTaxAmount($address->getGwCardTaxAmount() + $quote->getGwCardTaxAmount());
 
         return $this;
     }
@@ -182,12 +182,12 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Mage_Sa
     {
         $printedCardBaseTaxAmount = false;
         $printedCardTaxAmount = false;
-        if ($this->_quoteEntity->getGwAddPrintedCard()) {
-            $printedCardBaseTaxAmount = $this->_calcTaxAmount($this->_quoteEntity->getGwPrintedCardBasePrice());
-            $printedCardTaxAmount = $this->_calcTaxAmount($this->_quoteEntity->getGwPrintedCardPrice());
+        if ($this->_quoteEntity->getGwAddCard()) {
+            $printedCardBaseTaxAmount = $this->_calcTaxAmount($this->_quoteEntity->getGwCardBasePrice());
+            $printedCardTaxAmount = $this->_calcTaxAmount($this->_quoteEntity->getGwCardPrice());
         }
-        $address->setGwPrintedCardBaseTaxAmount($printedCardBaseTaxAmount);
-        $address->setGwPrintedCardTaxAmount($printedCardTaxAmount);
+        $address->setGwCardBaseTaxAmount($printedCardBaseTaxAmount);
+        $address->setGwCardTaxAmount($printedCardTaxAmount);
         return $this;
     }
 
@@ -229,19 +229,19 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Mage_Sa
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
         $address->addTotal(array(
-            'code'  => 'giftwrapping',
+            'code' => 'giftwrapping',
             'gw_price' => $address->getGwPrice(),
             'gw_base_price' => $address->getGwBasePrice(),
             'gw_items_price' => $address->getGwItemsPrice(),
             'gw_items_base_price' => $address->getGwItemsBasePrice(),
-            'gw_printed_card_price' => $address->getGwPrintedCardPrice(),
-            'gw_printed_card_base_price' => $address->getGwPrintedCardBasePrice(),
-            'gw_tax_amount'  => $address->getGwTaxAmount(),
-            'gw_base_tax_amount'  => $address->getGwBaseTaxAmount(),
-            'gw_items_tax_amount'  => $address->getGwItemsTaxAmount(),
-            'gw_items_base_tax_amount'  => $address->getGwItemsBaseTaxAmount(),
-            'gw_printed_card_tax_amount'  => $address->getGwPrintedCardTaxAmount(),
-            'gw_printed_card_base_tax_amount'  => $address->getGwPrintedCardBaseTaxAmount()
+            'gw_card_price' => $address->getGwCardPrice(),
+            'gw_card_base_price' => $address->getGwCardBasePrice(),
+            'gw_tax_amount' => $address->getGwTaxAmount(),
+            'gw_base_tax_amount' => $address->getGwBaseTaxAmount(),
+            'gw_items_tax_amount' => $address->getGwItemsTaxAmount(),
+            'gw_items_base_tax_amount' => $address->getGwItemsBaseTaxAmount(),
+            'gw_card_tax_amount' => $address->getGwCardTaxAmount(),
+            'gw_card_base_tax_amount' => $address->getGwCardBaseTaxAmount()
         ));
         return $this;
     }

@@ -1168,6 +1168,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $schemaName = $this->_getSchemaName();
         }
 
+        $indexExists = false;
         foreach($indexList as $index) {
             if ($index['KEY_NAME'] == $keyName) {
                 $keyType = $index['INDEX_TYPE'];

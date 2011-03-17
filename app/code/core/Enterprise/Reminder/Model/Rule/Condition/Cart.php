@@ -133,34 +133,25 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
-        $currentTime = Mage::getModel('core/date')->gmtDate();
+        $currentTime = Mage::getModel('core/date')->gmtDate('Y-m-d');
         $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')
             ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
-        $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
 
-        /* TODO: implement correct mutli database logic, see revision of MAGE-2156 issue
-        $currentDateStart = now(true);
         if ($operator == '=') {
-            $select
-                ->where("UNIX_TIMESTAMP('". $currentDateStart ."' - INTERVAL ? DAY) < UNIX_TIMESTAMP(quote.updated_at)",
-                    $conditionValue)
-                ->where("UNIX_TIMESTAMP('". $currentDateStart ."' - INTERVAL ? DAY) > UNIX_TIMESTAMP(quote.updated_at)",
-                    $conditionValue - 1);
+            $select->where($daysDiffSql . ' < ?', $conditionValue);
+            $select->where($daysDiffSql . ' > ?', $conditionValue - 1);
         } else {
             if ($operator == '>=') {
                 if ($conditionValue > 0) {
                     $conditionValue--;
                 } else {
-                    $currentDateStart = now();
+                    $currentTime = Mage::getModel('core/date')->gmtDate();
+                    $daysDiffSql = Mage::getResourceHelper('enterprise_reminder')
+                        ->getDateDiff('quote.updated_at', $select->getAdapter()->formatDate($currentTime));
                 }
             }
-
-            $select
-                ->where("UNIX_TIMESTAMP('". $currentDateStart ."' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(quote.updated_at)",
-                    $conditionValue);
+            $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         }
-        */
-
 
         $select->where('quote.is_active = 1');
         $select->where('quote.items_count > 0');

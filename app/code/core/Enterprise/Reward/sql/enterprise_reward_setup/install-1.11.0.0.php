@@ -262,10 +262,6 @@ $installer->addAttribute('invoice', 'base_reward_currency_amount', array('type' 
 $installer->addAttribute('creditmemo', 'base_reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
 $installer->addAttribute('creditmemo', 'reward_currency_amount', array('type' => Varien_Db_Ddl_Table::TYPE_DECIMAL));
 
-$installer->addAttribute('order', 'reward_points_balance_refunded',
-    array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
-);
-
 $installer->addAttribute('invoice', 'reward_points_balance',
     array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER)
 );

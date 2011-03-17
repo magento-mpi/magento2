@@ -77,7 +77,7 @@
             <block type="adminhtml/catalog_product_edit_tab_categories" name="catalog.product.edit.tab.categories"/>
         </block>
     </adminhtml_catalog_product_categories>
-
+    
     <adminhtml_catalog_product_reviews>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="adminhtml/catalog_product_edit_tab_reviews" name="admin.product.reviews"/>
@@ -132,10 +132,6 @@
             <block type="adminhtml/catalog_product_edit_tab_related" name="catalog.product.edit.tab.related"/>
         </block>
     </adminhtml_catalog_product_relatedgrid>
-
-    <adminhtml_catalog_product_categories>
-        <block type="adminhtml/catalog_product_edit_tab_categories" name="catalog.product.edit.tab.categories" output="toHtml" />
-    </adminhtml_catalog_product_categories>
 
     <adminhtml_catalog_product_options>
         <block type="adminhtml/catalog_product_edit_tab_options" name="admin.product.options" output="toHtml" />
