@@ -238,14 +238,16 @@ class Phoenix_Moneybookers_Model_Event
                         $this->_order->getStoreId()
                     );
                 } elseif ($key == 'secret') {
-                    $md5String .= strtoupper(
-                        md5(
-                            Mage::getStoreConfig(
-                                Phoenix_Moneybookers_Helper_Data::XML_PATH_SECRET_KEY,
-                                $this->_order->getStoreId()
-                            )
-                        )
+                    $secretKey = Mage::getStoreConfig(
+                        Phoenix_Moneybookers_Helper_Data::XML_PATH_SECRET_KEY,
+                        $this->_order->getStoreId()
                     );
+
+                    if (empty($secretKey)) {
+                        Mage::throwException('Secret key is empty.');
+                    }
+
+                    $md5String .= strtoupper(md5($secretKey));
                 } elseif (isset($params[$key])) {
                     $md5String .= $params[$key];
                 }
