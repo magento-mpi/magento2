@@ -391,6 +391,14 @@
                     </enterprise_reward>
                 </observers>
             </order_cancel_after>
+            <payment_method_is_active>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>preparePaymentMethod</method>
+                    </enterprise_reward>
+                </observers>
+            </payment_method_is_active>
         </events>
     </adminhtml>
     <frontend>
