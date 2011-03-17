@@ -84,7 +84,6 @@ class Mage_Selenium_Helper_SutTest extends Mage_PHPUnit_TestCase
 
         $this->_sutHelper->setArea('admin');
         $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/', $this->_sutHelper->getBaseUrl());
-        $this->assertStringEndsWith('/control/', $this->_sutHelper->getBaseUrl());
 
         $this->_sutHelper->setArea('frontend');
         $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/', $this->_sutHelper->getBaseUrl());
