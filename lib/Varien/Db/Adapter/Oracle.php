@@ -2416,6 +2416,28 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
+     * Prepare sql date condition
+     *
+     * @param array $condition
+     * @param string $key
+     * @return string
+     */
+    protected function _prepareSqlDateCondition($condition, $key)
+    {
+        if (empty($condition['date'])) {
+            if (empty($condition['datetime'])) {
+                $result = $condition[$key];
+            } else {
+                $result = $this->formatDate($condition[$key]);
+            }
+        } else {
+            $result = $this->formatDate($condition[$key], false);
+        }
+
+        return $result;
+    }
+
+    /**
      * Transforms sql condition key 'seq' / 'sneq' that is used for comparing string values to its analog:
      * - 'null' / 'notnull' for empty strings
      * - 'eq' / 'neq' for non-empty strings
@@ -4341,13 +4363,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         return sprintf('%s %s', $sql, Varien_Db_Adapter_Oracle::SQL_FOR_UPDATE);
     }
 
-	/**
-	 * Try to find installed primary key name, if not - formate new one.
-	 *
-	 * @param string $tableName Table name
-	 * @param string $schemaName OPTIONAL
-	 * @return string Primary Key name
-	 */
+    /**
+     * Try to find installed primary key name, if not - formate new one.
+     *
+     * @param string $tableName Table name
+     * @param string $schemaName OPTIONAL
+     * @return string Primary Key name
+     */
     public function getPrimaryKeyName($tableName, $schemaName = null)
     {
         $indexes = $this->getIndexList($tableName, $schemaName);
