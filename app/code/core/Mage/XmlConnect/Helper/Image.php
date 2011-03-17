@@ -79,7 +79,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
         try {
             $this->_forcedConvertPng($field);
 
-            $uploader = new Varien_File_Uploader($field);
+            $uploader = new Mage_Core_Model_File_Uploader($field);
             $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->save($uploadDir);

@@ -42,9 +42,7 @@ class Mage_Core_Model_File_Uploader extends Varien_File_Uploader
      */
     protected function _afterSave($result)
     {
-        if (!isset($result['path']) || empty($result['path'])
-            || !isset($result['file']) || empty($result['file'])
-        ) {
+        if (empty($result['path']) || empty($result['file'])) {
             return $this;
         }
 
@@ -55,8 +53,9 @@ class Mage_Core_Model_File_Uploader extends Varien_File_Uploader
             return $this;
         }
 
+        /** @var $dbHelper Mage_Core_Helper_File_Storage_Database */
         $dbHelper = Mage::helper('core/file_storage_database');
-        $dbHelper->saveFile($result['path'] . $result['file']);
+        $this->_result['file'] = $dbHelper->saveUploadedFile($result);
 
         return $this;
     }

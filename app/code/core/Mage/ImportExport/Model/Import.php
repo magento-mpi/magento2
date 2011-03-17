@@ -343,7 +343,7 @@ class Mage_ImportExport_Model_Import extends Varien_Object
     public function uploadSource()
     {
         $entity    = $this->getEntity();
-        $uploader  = new Varien_File_Uploader(self::FIELD_NAME_SOURCE_FILE);
+        $uploader  = new Mage_Core_Model_File_Uploader(self::FIELD_NAME_SOURCE_FILE);
         $result    = $uploader->save(self::getWorkingDir());
         $extension = pathinfo($result['file'], PATHINFO_EXTENSION);
 

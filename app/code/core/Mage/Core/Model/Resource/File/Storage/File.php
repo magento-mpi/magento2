@@ -71,7 +71,7 @@ class Mage_Core_Model_Resource_File_Storage_File
             $dh = opendir($currentDir);
             if ($dh) {
                 while (($file = readdir($dh)) !== false) {
-                    if ($file == '.' || $file == '..') {
+                    if ($file == '.' || $file == '..' || $file == '.svn' || $file == '.htaccess') {
                         continue;
                     }
 
