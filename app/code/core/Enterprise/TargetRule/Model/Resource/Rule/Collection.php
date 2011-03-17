@@ -34,11 +34,8 @@
  */
 class Enterprise_TargetRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
-    const SORT_ORDER_DESC = 'DESC';
-
     /**
      * Initialize resource collection
-     *
      */
     protected function _construct()
     {
@@ -75,7 +72,7 @@ class Enterprise_TargetRule_Model_Resource_Rule_Collection extends Mage_Core_Mod
      * @param string $direction
      * @return Enterprise_TargetRule_Model_Resource_Rule_Collection
      */
-    public function setPriorityOrder($direction = 'DESC')
+    public function setPriorityOrder($direction = self::SORT_ORDER_ASC)
     {
         $this->setOrder('sort_order', $direction);
         return $this;
