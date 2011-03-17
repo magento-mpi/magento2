@@ -31,7 +31,7 @@ customer_account_register:
   last_name: Last name
   email: test@magento.com
   password: 123123q
-  confirm_password: 123123q
+  password_confirmation: 123123q
 
 #Test data for customer creation(Backend)
 generic_customer_account:

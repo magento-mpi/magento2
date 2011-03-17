@@ -25,17 +25,17 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-#
+#It was created for version CE 1.5.0.0. Operability fot other versions is not guaranteed.  Theme change can also influence accuracy of UImap forms
 
 # 'Create an Account' page
-create_account:
+register_account:
   mca: customer/account/create/
   title: Create New Customer Account
   uimap:
     form: &newCustomerForm
       fieldsets:
         -
-          create_account:
+          account_info:
             xpath: form[@id='form-validate']
             buttons:
               submit: button[span='Submit']
@@ -51,6 +51,9 @@ create_account:
               password_confirmation: input[@id='confirmation']
             required: [first_name, last_name, email, password, password_confirmation]
     messages:
+      not_valid_length_first_name: li[normalize-space(@class)='error-msg' and contains(.//span,'"First Name" length must be less than or equal to 255 characters.')]
+      not_valid_length_first_name: li[normalize-space(@class)='error-msg' and contains(.//span,'"Last Name" length must be less than or equal to 255 characters.')]
+      not_valid_length_email: li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" exceeds the allowed length.')]
       empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
       invalid_mail: div[@id='advice-validate-email-email_address']
       passwords_not_match: div[@id='advice-validate-cpassword-confirmation']
@@ -65,15 +68,15 @@ customer_login:
     form: &customerLogin
       fieldsets:
         -
-          create_account:
+          new_account:
             xpath: div[normalize-space(@class)='col-1 new-users']
             buttons:
               create_account: button[span='Create an Account']
         -
-          register_customer:
+          log_in_customer:
             xpath: div[normalize-space(@class)='col-2 registered-users']
             buttons:
-              create_account: button[span='Login']
+              login: button[span='Login']
             links:
               forgot_password: a[text()='Forgot Your Password?']
             fields:
@@ -83,3 +86,11 @@ customer_login:
       empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
       invalid_mail: div[@id='advice-validate-email-email']
       invalid_login_or_password: li[normalize-space(@class)='error-msg' and contains(.//span,'Invalid login or password.')]
+
+customer_account:
+  mca: customer/account/
+  title: My Account
+  uimap:
+    form:
+  messages:
+    success_registration: li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering')]
