@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -33,22 +34,138 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Customer_RegisterTest extends Mage_Selenium_TestCase
-{
+class Customer_RegisterTest extends Mage_Selenium_TestCase {
 
     /**
      * Make sure that customer is not logged in, and navigate to homepage
      */
     protected function assertPreConditions()
     {
-        $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
+        $this->assertTrue($this->logoutCustomer());
+    }
+
+    public function test_WithRequiredFieldsOnly()
+    {
+        $userData = $this->loadData('customer_account_register', NULL, NULL);
+        $this->navigate('customer_login');
+        $this->clickButton('create_account');
+        $this->fillForm($userData);
+        $this->clickButton('submit');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+//      @TODO
+//        $this->assertTrue($this->navigated('customer_account'),
+//                'After succesfull registration customer should be redirected to account dashboard');
+        $this->assertTrue($this->successMessage('success_registration'), 'No success message is displayed');
+    }
+
+    public function test_WithEmailThatAlreadyExists()
+    {
+        $userData = $this->loadData('customer_account_register', NULL, NULL);
+        $this->navigate('customer_login');
+        $this->clickButton('create_account');
+        $this->fillForm($userData);
+        $this->clickButton('submit');
+        $this->assertTrue($this->errorMessage('email_exists'),
+                'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
+    }
+
+    public function test_WithLongValues()
+    {
+        $userData = $this->loadData(
+                        'customer_account_register',
+                        array(
+                            'first_name' => $this->generate('string', 255, ':alnum:'),
+                            'last_name' => $this->generate('string', 255, ':alnum:'),
+                            'email' => $this->generate('email', 255, 'valid')
+                        ),
+                        NULL
+        );
+        $this->navigate('customer_login');
+        $this->clickButton('create_account');
+        $this->fillForm($userData);
+        $this->clickButton('submit');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+//      @TODO
+//        $this->assertTrue($this->navigated('customer_account'),
+//                'After succesfull registration customer should be redirected to account dashboard');
+        $this->assertTrue($this->successMessage('success_registration'),
+                'No success message is displayed');
+//        @TODO
+//        $this->clickControl('tab', 'account_information', FALSE);
+//        foreach ($longValues as $key => $value) {
+//            $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->getTab('account_information')->findField($key);
+//            $this->assertEquals(strlen($this->getValue($xpath)), 255);
+//        }
+    }
+
+    /**
+     * @dataProvider data_EmptyField
+     */
+    public function test_WithRequiredFieldsEmpty($field)
+    {
+        $userData = $this->loadData('customer_account_register', $field, 'email');
+        $this->navigate('customer_login');
+        $this->clickButton('create_account');
+        $this->fillForm($userData);
+        $this->clickButton('submit');
+        foreach ($field as $key => $value) {
+            $xpath = $this->getCurrentLocationUimapPage()->findFieldset('account_info')->findField($key);
+        }
+        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
+        $this->assertTrue($this->errorMessage('empty_reqired_field'),
+                'No error message is displayed');
+        $this->assertFalse($this->successMessage(), $this->messages);
+    }
+
+    public function data_EmptyField()
+    {
+        return array(
+            array(array('first_name' => null)),
+            array(array('last_name' => null)),
+            array(array('email' => null)),
+            array(array('password' => null)),
+            array(array('password_confirmation' => null)),
+        );
     }
 
     /**
      * @TODO
      */
-    public function test_FromCreateAccountPage()
+    public function test_WithSpecialCharacters_InEmail()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_WithLongValues_NotValid()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_WithInvalidEmail()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_WithInvalidPassword()
+    {
+        // @TODO
+    }
+
+    /**
+     * @TODO
+     */
+    public function test_WithInvalidDateOfBirth()
     {
         // @TODO
     }
@@ -69,49 +186,4 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         // @TODO
     }
 
-    public function testNavigation()
-    {
-        $this->assertTrue($this->navigate('customer_account'));
-        $this->assertTrue($this->clickButton('register'), 'There is no "Register" button on the page');
-        $this->assertTrue($this->navigated('customer_account_create'), 'Wrong page is displayed');
-        $this->assertTrue(
-            $this->navigate('customer_account_create'),
-            'Wrong page is displayed when accessing direct URL'
-        );
-        $this->assertTrue($this->controlIsPresent('link','back'), 'There is no "Back" link on the page');
-    }
-
-    public function testRegistration_Smoke()
-    {
-        $this->assertTrue(
-            $this->navigate('customer_account')->clickButton('register')->navigated('customer_account_create'),
-            'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('customer_account_create', null, 'email'));
-        $this->clickButton('submit');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
-        $this->assertTrue(
-            $this->navigated('customer_account'),
-            'After succesfull registration customer should be redirected to account dashboard'
-        );
-    }
-
-    public function testLongValues()
-    {
-        $this->assertTrue($this->navigate('customer_account_create'));
-        $this->fillForm($this->loadData('customer_account_create', array(
-            'firstname' => $this->generate('string', 260, ':alnum:'),
-            'lastname'  => $this->generate('string', 260, ':alnum:'),
-            'email'     => $this->generate('email', 260, 'valid', $this->_uid),
-        )));
-        $this->clickButton('submit');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
-        $this->assertTrue(
-            $this->navigated('customer_account'),
-            'After succesfull registration customer should be redirected to account dashboard'
-        );
-    }
-    
 }

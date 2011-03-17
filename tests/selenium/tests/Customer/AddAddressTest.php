@@ -37,13 +37,27 @@
 class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
 
     /**
-     * Log in to Admin, Navigate to Manage Customers and open customer
+     * Preconditions:
+     *
+     * 1. Log in to Backend.
+     *
+     * 2. Navigate to System -> Manage Customers
+     *
+     * 3. Create and open customer without address
      */
     protected function assertPreConditions()
     {
+        $$userData = $userData = $this->loadData('generic_customer_account', null, 'email');
         $this->assertTrue($this->loginAdminUser());
+        $this->assertTrue($this->admin());
         $this->assertTrue($this->navigate('manage_customers'));
-        $this->searchAndOpen('generic_customer_account');
+        $this->clickButton('add_new_customer');
+        $this->fillForm($userData, 'account_information');
+        $this->clickButton('save_customer');
+        $this->assertTrue($this->successMessage('success_save_customer'),
+                'No success message is displayed');
+//        $this->assertTrue($this->navigated('manage_customers'),
+//                'After successful customer creation should be redirected to Manage Customers page');
     }
 
     /**
@@ -85,8 +99,8 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
             array('street_address_line_1' => NULL),
             array('city' => Null),
             array('country' => ''),
-            array('state_province' => ''),
-            array('zip_postal_code' => Null),
+            array('state' => ''),
+            array('zip_code' => Null),
             array('telephone' => Null)
         );
     }
