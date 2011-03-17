@@ -272,6 +272,10 @@
                 <media_storage>0</media_storage>
                 <media_database>default_setup</media_database>
                 <configuration_update_time>3600</configuration_update_time>
+                <allowed_resources>
+                    <compiled_css_folder>css</compiled_css_folder>
+                    <compiled_js_folder>js</compiled_js_folder>
+                </allowed_resources>
             </media_storage_configuration>
         </system>
         <trans_email>

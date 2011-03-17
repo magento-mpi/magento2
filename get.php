@@ -79,7 +79,8 @@ if (file_exists($configCacheFile) && is_readable($configCacheFile)) {
 
 $request = new Zend_Controller_Request_Http();
 
-$pathInfo = ltrim($request->getPathInfo(), '/');
+$pathInfo = str_replace('..', '', ltrim($request->getPathInfo(), '/'));
+
 $filePath = str_replace('/', $ds, rtrim($bp, $ds) . $ds . $pathInfo);
 
 if ($mediaDirectory) {
