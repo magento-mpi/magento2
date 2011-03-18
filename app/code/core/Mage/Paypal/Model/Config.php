@@ -946,7 +946,7 @@ class Mage_Paypal_Model_Config
      */
     public function getWppPeCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'SM', 'SO', 'OT'));
+        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'SM', 'SO', 'OT', 'AE'));
         return $model->toOptionArray();
     }
 
@@ -1057,7 +1057,7 @@ class Mage_Paypal_Model_Config
 
     /**
      * Map any supported payment method into a config path by specified field name
-     * 
+     *
      * @param string $fieldName
      * @return string|null
      */
