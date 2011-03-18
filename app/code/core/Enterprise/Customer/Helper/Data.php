@@ -304,8 +304,8 @@ class Enterprise_Customer_Helper_Data extends Mage_Core_Helper_Abstract
             'default_value_yesno'    => 'website',
             'default_value_date'     => 'website',
             'default_value_textarea' => 'website',
-            'date_range_min'        => 'website',
-            'date_range_max'        => 'website'
+            'date_range_min'         => 'website',
+            'date_range_max'         => 'website'
         );
     }
 
