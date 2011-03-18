@@ -133,17 +133,52 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
     /**
      * @TODO
      */
-    public function test_WithSpecialCharacters_InEmail()
+    public function test_WithSpecialCharacters()
     {
-        // @TODO
+        $userData = $this->loadData(
+                        'customer_account_register',
+                        array(
+                            'first_name' => $this->generate('string', 25, ':punct:'),
+                            'last_name' => $this->generate('string', 25, ':punct:'),
+                        ),
+                        'email'
+        );
+        $this->navigate('customer_login');
+        $this->clickButton('create_account');
+        $this->fillForm($userData);
+        $this->clickButton('submit');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+//      @TODO
+//        $this->assertTrue($this->navigated('customer_account'),
+//                'After succesfull registration customer should be redirected to account dashboard');
+        $this->assertTrue($this->successMessage('success_registration'), 'No success message is displayed');
     }
 
     /**
      * @TODO
+     * @dataProvider data_LongValues_NotValid
      */
-    public function test_WithLongValues_NotValid()
+    public function test_WithLongValues_NotValid($longValue)
     {
-        // @TODO
+        $userData = $this->loadData('customer_account_register', $longValue, 'email');
+        $this->navigate('customer_login');
+        $this->clickButton('create_account');
+        $this->fillForm($userData);
+        $this->clickButton('submit');
+        foreach ($longValue as $key => $value) {
+            $fieldName = $key;
+        }
+        $this->assertFalse($this->successMessage(), $this->messages);
+        $this->assertTrue($this->errorMessage("not_valid_length_$fieldName"), 'No success message is displayed');
+    }
+
+    public function data_LongValues_NotValid()
+    {
+        return array(
+            array(array('first_name' => $this->generate('string', 256, ':punct:'))),
+            array(array('last_name' => $this->generate('string', 256, ':punct:'))),
+            array(array('email' => $this->generate('email', 256, 'valid'))),
+        );
     }
 
     /**

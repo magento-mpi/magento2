@@ -52,7 +52,7 @@ register_account:
             required: [first_name, last_name, email, password, password_confirmation]
     messages:
       not_valid_length_first_name: li[normalize-space(@class)='error-msg' and contains(.//span,'"First Name" length must be less than or equal to 255 characters.')]
-      not_valid_length_first_name: li[normalize-space(@class)='error-msg' and contains(.//span,'"Last Name" length must be less than or equal to 255 characters.')]
+      not_valid_length_last_name: li[normalize-space(@class)='error-msg' and contains(.//span,'"Last Name" length must be less than or equal to 255 characters.')]
       not_valid_length_email: li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" exceeds the allowed length.')]
       empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
       invalid_mail: div[@id='advice-validate-email-email_address']
