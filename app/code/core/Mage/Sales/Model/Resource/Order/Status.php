@@ -69,7 +69,7 @@ class Mage_Sales_Model_Resource_Order_Status extends Mage_Core_Model_Resource_Db
     {
         if ($field == 'default_state') {
             $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable())
+                ->from($this->getMainTable(), array('label'))
                 ->join(
                     array('state_table' => $this->_stateTable),
                     $this->getMainTable() . '.status = state_table.status',
