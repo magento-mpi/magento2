@@ -107,8 +107,22 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
         $data = $this->getRequest()->getPost();
         $isNew = $this->getRequest()->getParam('is_new');
         if ($data) {
+
+            $statusCode = $this->getRequest()->getParam('status');
+
+            //filter tags in labels/status
+            /** @var $helper Mage_Adminhtml_Helper_Data */
+            $helper = Mage::helper('adminhtml');
+            if ($isNew) {
+                $statusCode = $data['status'] = $helper->stripTags($data['status']);
+            }
+            $data['label'] = $helper->stripTags($data['label']);
+            foreach ($data['store_labels'] as &$label) {
+                $label = $helper->stripTags($label);
+            }
+
             $status = Mage::getModel('sales/order_status')
-                    ->load($this->getRequest()->getParam('status'));
+                    ->load($statusCode);
             // check if status exist
             if ($isNew && $status->getStatus()) {
                 $this->_getSession()->addError(
@@ -119,17 +133,8 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
                 return;
             }
 
-            //filter tags in labels/status
-            /** @var $helper Mage_Adminhtml_Helper_Data */
-            $helper = Mage::helper('adminhtml');
-            $data['status'] = $helper->stripTags($data['status']);
-            $data['label'] = $helper->stripTags($data['label']);
-            foreach ($data['store_labels'] as &$label) {
-                $label = $helper->stripTags($label);
-            }
-
             $status->setData($data)
-                    ->setStatus($data['status']);
+                    ->setStatus($statusCode);
             try {
                 $status->save();
                 $this->_getSession()->addSuccess(Mage::helper('sales')->__('The order status has been saved.'));
