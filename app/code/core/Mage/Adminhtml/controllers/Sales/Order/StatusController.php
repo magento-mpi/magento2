@@ -223,4 +223,14 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
         }
         $this->_redirect('*/*/');
     }
+
+    /**
+     * Check is allowed access to action
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('system/sales/order/status');
+    }
 }

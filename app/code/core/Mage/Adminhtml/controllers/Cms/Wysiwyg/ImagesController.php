@@ -221,4 +221,14 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
             ->setCurrentPath(Mage::helper('cms/wysiwyg_images')->getCurrentPath());
         return $this;
     }
+
+    /**
+     * Check is allowed access to action
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('system/cms_wysiwyg/images');
+    }
 }

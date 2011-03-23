@@ -170,6 +170,11 @@
                                     <system translate="title">
                                         <title>System Section</title>
                                         <sort_order>80</sort_order>
+                                        <children>
+                                            <storage translate="title">
+                                                <title>System Storage</title>
+                                            </storage>
+                                        </children>
                                     </system>
                                     <advanced translate="title">
                                         <title>Advanced Section</title>
@@ -228,6 +233,47 @@
                                     </profiles>
                                 </children>
                             </convert>
+                            <translate_inline translate="title">
+                                <title>Translate Inline</title>
+                            </translate_inline>
+                            <json translate="title">
+                                <title>Json</title>
+                            </json>
+                            <customer translate="title">
+                                <title>Customer</title>
+                                <children>
+                                    <product_wishlist translate="title">
+                                        <title>Product Wishlist</title>
+                                        <children>
+                                            <composite translate="title">
+                                                <title>Composite</title>
+                                            </composite>
+                                        </children>
+                                    </product_wishlist>
+                                    <cart_product translate="title">
+                                        <title>Cart Product</title>
+                                        <children>
+                                            <composite translate="title">
+                                                <title>Composite</title>
+                                            </composite>
+                                        </children>
+                                    </cart_product>
+                                </children>
+                            </customer>
+                            <sales_order_status translate="title">
+                                <title>Sales Order Status</title>
+                            </sales_order_status>
+                            <cms_wysiwyg translate="title">
+                                <title>WYSIWYG Editor</title>
+                                <children>
+                                    <images translate="title">
+                                        <title>WYSIWYG Editor Images</title>
+                                    </images>
+                                </children>
+                            </cms_wysiwyg>
+                            <tax_class translate="title">
+                                <title>Tax Class</title>
+                            </tax_class>
                             <cache translate="title">
                                 <title>Cache Management</title>
                             </cache>

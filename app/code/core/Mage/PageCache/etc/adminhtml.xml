@@ -20,7 +20,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Widget
+ * @package     Mage_PageCache
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
@@ -30,31 +30,12 @@
         <resources>
             <admin>
                 <children>
-                    <cms>
-                        <children>
-                            <widget_instance translate="title" module="widget">
-                                <title>Widgets</title>
-                                <sort_order>15</sort_order>
-                            </widget_instance>
-                            <widget translate="title" module="widget">
-                                <title>Widgets</title>
-                                <sort_order>25</sort_order>
-                            </widget>
-                        </children>
-                    </cms>
+                    <page_cache translate="title" module="pageCache">
+                        <title>Page Cache</title>
+                        <sort_order>0</sort_order>
+                    </page_cache>
                 </children>
             </admin>
         </resources>
     </acl>
-    <menu>
-        <cms>
-            <children>
-                <widget_instance translate="title" module="widget">
-                    <title>Widgets</title>
-                    <sort_order>15</sort_order>
-                    <action>adminhtml/widget_instance</action>
-                </widget_instance>
-            </children>
-        </cms>
-    </menu>
 </config>

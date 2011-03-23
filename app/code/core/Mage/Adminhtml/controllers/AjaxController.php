@@ -37,7 +37,7 @@ class Mage_Adminhtml_AjaxController extends Mage_Adminhtml_Controller_Action
      * Ajax action for inline translation
      *
      */
-    public function translateAction ()
+    public function translateAction()
     {
         $translation = $this->getRequest()->getPost('translate');
         $area = $this->getRequest()->getPost('area');
@@ -48,5 +48,15 @@ class Mage_Adminhtml_AjaxController extends Mage_Adminhtml_Controller_Action
 
         echo Mage::helper('core/translate')->apply($translation, $area);
         exit();
+    }
+
+    /**
+     * Check is allowed access to action
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('system/translate_inline');
     }
 }
