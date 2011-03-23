@@ -479,7 +479,7 @@ class Mage_Connect_Packager
             /**
              * Iterate packages of channel $chan
              */
-            $state = $configObj->preferred_state ? $configObj->preferred_state : "devel";
+            $state = $configObj->preferred_state ? $configObj->preferred_state : "stable";
 
             foreach($localPackages as $localName=>$localData) {
                 if(!isset($remotePackages[$localName])) {
@@ -675,7 +675,7 @@ class Mage_Connect_Packager
             if (!$releases || !count($releases)) {
                 throw new Exception("No releases for '{$package}', skipping");
             }
-            $state = $config->preferred_state ? $config->preferred_state : 'devel';
+            $state = $config->preferred_state ? $config->preferred_state : 'stable';
             $version = $cache->detectVersionFromRestArray($releases, $versionMin, $versionMax, $state);
             if (!$version) {
                 $versionState = $cache->detectVersionFromRestArray($releases, $versionMin, $versionMax);
