@@ -105,7 +105,8 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
     public function saveAction()
     {
         $data = $this->getRequest()->getPost();
-        $isNew= $this->getRequest()->getParam('is_new');
+        $isNew = $this->getRequest()->getParam('is_new');
+        www1($data);
         if ($data) {
             $status = Mage::getModel('sales/order_status')
                     ->load($this->getRequest()->getParam('status'));
@@ -122,6 +123,7 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
             //filter tags in labels
             /** @var $helper Mage_Adminhtml_Helper_Data */
             $helper = Mage::helper('adminhtml');
+            $data['status'] = $helper->stripTags($data['status']);
             $data['label'] = $helper->stripTags($data['label']);
             foreach ($data['store_labels'] as &$label) {
                 $label = $helper->stripTags($label);
