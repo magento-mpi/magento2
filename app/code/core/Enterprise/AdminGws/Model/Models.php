@@ -319,6 +319,38 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Catalog Product Review before save
+     *
+     * @param  Mage_Review_Model_Review
+     */
+    public function catalogProductReviewSaveBefore($model){
+        $reviewStores = $model->getStores();
+        $storeIds = $this->_role->getStoreIds();
+
+        $allowedIds = array_intersect($reviewStores, $storeIds);
+
+        if (empty($allowedIds)) {
+            $this->_throwSave();
+        }
+    }
+
+    /**
+     * Catalog Product Review before delete
+     *
+     * @param  Mage_Review_Model_Review
+     */
+    public function catalogProductReviewDeleteBefore($model){
+        $reviewStores = $model->getStores();
+        $storeIds = $this->_role->getStoreIds();
+
+        $allowedIds = array_intersect($reviewStores, $storeIds);
+
+        if (empty($allowedIds)) {
+            $this->_throwDelete();
+        }
+    }
+
+    /**
      * Catalog category validate before delete
      *
      * @param Mage_Catalog_Model_Product $model

@@ -55,6 +55,14 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
      */
     protected $_addStoreDataFlag     = false;
 
+
+    /**
+     * Filter by stores for the collection
+     *
+     * @var array
+     */
+    protected $_storesIds           = array();
+
     /**
      * Define module
      *
@@ -80,46 +88,81 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
     }
 
     /**
-     * Add store filter
+     * Adds store filter into array
      *
      * @param mixed $storeId
      * @return Mage_Review_Model_Resource_Review_Product_Collection
      */
     public function addStoreFilter($storeId = null)
     {
+        if (is_null($storeId)) {
+            $storeId = $this->getStoreId();
+        }
+
         parent::addStoreFilter($storeId);
-        $this->getSelect()
-            ->join(array('store'=>$this->_reviewStoreTable),
-                $this->getConnection()->quoteInto('rt.review_id=store.review_id AND store.store_id = ?', $storeId),
-                array());
+
+        if (!is_array($storeId)) {
+            $storeId = array($storeId);
+        }
+
+        if (!empty($this->_storesIds)) {
+            $this->_storesIds = array_intersect($this->_storesIds, $storeId);
+        } else {
+            $this->_storesIds = $storeId;
+        }
+
         return $this;
     }
 
     /**
-     * Set store filter
+     * Adds specific store id into array
      *
-     * @param mixed $storeId
+     * @param array $storeId
      * @return Mage_Review_Model_Resource_Review_Product_Collection
      */
     public function setStoreFilter($storeId)
     {
-        $adapter = $this->Connection();
         if (is_array($storeId) && isset($storeId['eq'])) {
             $storeId = array_shift($storeId);
         }
 
-        if (is_array($storeId)) {
-            $inCond = $adapter->prepareSqlCondition('store.store_id', array('in' => $storeId));
-            $this->getSelect()
-                ->join(array('store'=>$this->_reviewStoreTable),
-                    'rt.review_id=store.review_id AND ' .$inCond,
-                    array())
-                ->distinct(true);
+        if (!is_array($storeId)){
+            $storeId = array($storeId);
+        }
+
+        if (!empty($this->_storesIds)){
+            $this->_storesIds = array_intersect($this->_storesIds, $storeId);
         } else {
-            $this->getSelect()
-                ->join(array('store'=>$this->_reviewStoreTable),
-                    $adapter->quoteInto('rt.review_id=store.review_id AND store.store_id = ?', $storeId),
-                    array());
+            $this->_storesIds = $storeId;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Applies all store filters in one place to prevent multiple joins in select
+     *
+     * @param null|Zend_Db_Select $select
+     * @return Mage_Review_Model_Resource_Review_Product_Collection
+     */
+    protected function _applyStoresFilterToSelect(Zend_Db_Select $select = null)
+    {
+        $adapter = $this->getConnection();
+        $storesIds = $this->_storesIds;
+        if (is_null($select)){
+            $select = $this->getSelect();
+        }
+
+        if (is_array($storesIds) && !empty($storesIds)) {
+            $inCond = $adapter->prepareSqlCondition('store.store_id', array('in' => $storesIds));
+            $select->join(array('store'=>$this->_reviewStoreTable),
+                'rt.review_id=store.review_id AND ' . $inCond,
+                array())
+            ->distinct(true);
+        } else {
+            $select->join(array('store'=>$this->_reviewStoreTable),
+                $adapter->quoteInto('rt.review_id=store.review_id AND store.store_id = ?', (int)$storesIds),
+                array());
         }
 
         return $this;
@@ -417,5 +460,18 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
             }
 
         }
+    }
+
+    /**
+     * Redeclare parent method for store filters applying
+     *
+     * @return Mage_Review_Model_Resource_Review_Product_Collection
+     */
+    protected function _beforeLoad()
+    {
+        parent::_beforeLoad();
+        $this->_applyStoresFilterToSelect();
+
+        return $this;
     }
 }

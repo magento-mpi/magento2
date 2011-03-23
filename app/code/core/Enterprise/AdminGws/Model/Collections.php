@@ -101,7 +101,8 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitCustomers($collection)
     {
-        $collection->addAttributeToFilter('website_id', array('website_id' => array('in' => $this->_role->getRelevantWebsiteIds())));
+        $collection->addAttributeToFilter('website_id',
+                          array('website_id' => array('in' => $this->_role->getRelevantWebsiteIds())));
     }
 
     /**
@@ -112,6 +113,16 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     public function limitReviews($collection)
     {
         $collection->addStoreFilter($this->_role->getStoreIds());
+    }
+
+    /**
+     * Limit product reviews collection
+     *
+     * @param Mage_Review_Model_Mysql4_Review_Product_Collection
+     */
+    public function limitProductReviews($collection)
+    {
+        $collection->setStoreFilter($this->_role->getStoreIds());
     }
 
     /**

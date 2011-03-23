@@ -117,6 +117,25 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     }
 
     /**
+     * Validate catalog product review save, edit action
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateCatalogProductReview($controller)
+    {
+        $reviewStores = Mage::getModel('review/review')
+            ->load($controller->getRequest()->getParam('id'))
+            ->getStores();
+
+        $storeIds = $this->_role->getStoreIds();
+
+        $allowedIds = array_intersect($reviewStores, $storeIds);
+        if (empty($allowedIds)) {
+            $this->_redirect($controller);
+        }
+    }
+
+    /**
      * Avoid viewing disallowed customer
      *
      * @param Mage_Adminhtml_Controller_Action $controller
