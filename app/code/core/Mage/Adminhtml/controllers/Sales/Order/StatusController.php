@@ -129,7 +129,7 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
             }
 
             $status->setData($data)
-                    ->setStatus($this->getRequest()->getParam('status'));
+                    ->setStatus($data['status']);
             try {
                 $status->save();
                 $this->_getSession()->addSuccess(Mage::helper('sales')->__('The order status has been saved.'));
