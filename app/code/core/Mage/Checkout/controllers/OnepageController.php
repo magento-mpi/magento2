@@ -500,11 +500,11 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
 
             $storeId = Mage::app()->getStore()->getId();
             $paymentHelper = Mage::helper("payment");
-            $zeroSubTotalPaymentAction = $paymentHelper->zeroSubTotalPaymentAutomaticInvoice($storeId);
+            $zeroSubTotalPaymentAction = $paymentHelper->getZeroSubTotalPaymentAutomaticInvoice($storeId);
             if ($paymentHelper->isZeroSubTotal($storeId)
                     && $this->_getOrder()->getGrandTotal() == 0
                     && $zeroSubTotalPaymentAction == Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE
-                    && $paymentHelper->zeroSubTotalOrderStatus($storeId) == 'pending') {
+                    && $paymentHelper->getZeroSubTotalOrderStatus($storeId) == 'pending') {
                 $invoice = $this->_initInvoice();
                 $invoice->getOrder()->setIsInProcess(true);
                 $invoice->save();

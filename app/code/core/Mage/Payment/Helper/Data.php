@@ -33,6 +33,9 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_PAYMENT_METHODS = 'payment';
     const XML_PATH_PAYMENT_GROUPS = 'global/payment/groups';
+    const XML_PATH_PAYMENT_FREE_ACTIVE = 'payment/free/active';
+    const XML_PATH_PAYMENT_FREE_ORDER_STATUS = 'payment/free/order_status';
+    const XML_PATH_PAYMENT_FREE_ACTION = 'payment/free/payment_action';
 
     /**
      * Retrieve method model object
@@ -273,7 +276,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isZeroSubTotal($store = null)
     {
-        return Mage::getStoreConfig('payment/free/active', $store);
+        return Mage::getStoreConfig(self::XML_PATH_PAYMENT_FREE_ACTIVE, $store);
     }
 
     /**
@@ -282,9 +285,9 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      * @param mixed $store
      * @return string
      */
-    public function zeroSubTotalOrderStatus($store = null)
+    public function getZeroSubTotalOrderStatus($store = null)
     {
-        return Mage::getStoreConfig('payment/free/order_status', $store);
+        return Mage::getStoreConfig(self::XML_PATH_PAYMENT_FREE_ORDER_STATUS, $store);
     }
 
     /**
@@ -293,8 +296,8 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      * @param mixed $store
      * @return string
      */
-    public function zeroSubTotalPaymentAutomaticInvoice($store = null)
+    public function getZeroSubTotalPaymentAutomaticInvoice($store = null)
     {
-        return Mage::getStoreConfig('payment/free/payment_action', $store);
+        return Mage::getStoreConfig(self::XML_PATH_PAYMENT_FREE_ACTION, $store);
     }
 }
