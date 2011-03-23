@@ -49,7 +49,7 @@ class Mage_Protx_Model_Config extends Varien_Object
      *
      *  @param    string Var key
      *  @param    string Default value for non-existing key
-     *  @return	  mixed
+     *  @return   mixed
      */
     public function getConfigData($key, $default=false)
     {
@@ -66,7 +66,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return Protocol version
      *
-     *  @return	  string Protocol version
+     *  @return   string Protocol version
      */
     public function getVersion ()
     {
@@ -76,7 +76,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return Store description sent to Protx
      *
-     *  @return	  string Description
+     *  @return   string Description
      */
     public function getDescription ()
     {
@@ -86,7 +86,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return Protx registered merchant account name
      *
-     *  @return	  string Merchant account name
+     *  @return   string Merchant account name
      */
     public function getVendorName ()
     {
@@ -96,7 +96,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return Protx merchant password
      *
-     *  @return	  string Merchant password
+     *  @return   string Merchant password
      */
     public function getVendorPassword ()
     {
@@ -106,7 +106,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return preferred payment type (see SELF::PAYMENT_TYPE_* constants)
      *
-     *  @return	  string payment type
+     *  @return   string payment type
      */
     public function getPaymentType ()
     {
@@ -116,7 +116,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return working mode (see SELF::MODE_* constants)
      *
-     *  @return	  string Working mode
+     *  @return   string Working mode
      */
     public function getMode ()
     {
@@ -126,7 +126,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return new order status
      *
-     *  @return	  string New order status
+     *  @return   string New order status
      */
     public function getNewOrderStatus ()
     {
@@ -136,7 +136,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return debug flag
      *
-     *  @return	  boolean Debug flag (0/1)
+     *  @return   boolean Debug flag (0/1)
      */
     public function getDebug ()
     {
@@ -146,7 +146,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     /**
      *  Return key for simple XOR crypt, using Vendor encrypted password by Protx
      *
-     *  @return	  string Key for simple XOR crypt
+     *  @return   string Key for simple XOR crypt
      */
     public function getCryptKey ()
     {

@@ -75,8 +75,11 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         $session = Mage::getSingleton('checkout/session');
         $session->setProtxStandardQuoteId($session->getQuoteId());
 
-        $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($session->getLastRealOrderId());
+        $order = $this->_getOrderByIncrementId($session->getLastRealOrderId());
+        if (!$order) {
+            $this->_redirect('checkout/cart');
+            return false;
+        }
         $order->addStatusToHistory(
             $order->getStatus(),
             Mage::helper('protx')->__('Customer was redirected to Protx')
@@ -108,10 +111,8 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         $this->getStandard()->debugData(array('result' => $this->responseArr));
 
-        $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($transactionId);
-
-        if (!$order->getId()) {
+        $order = $this->_getOrderByIncrementId($transactionId);
+        if (!$order) {
             /*
             * need to have logic when there is no order with the order id from protx
             */
@@ -164,7 +165,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
      *  Save invoice for order
      *
      *  @param    Mage_Sales_Model_Order $order
-     *  @return	  boolean Can save invoice or not
+     *  @return   boolean Can save invoice or not
      */
     protected function saveInvoice (Mage_Sales_Model_Order $order)
     {
@@ -198,10 +199,9 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         $this->getStandard()->debugData(array('result' => $this->responseArr));
 
-        $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($transactionId);
+        $order = $this->_getOrderByIncrementId($transactionId);
 
-        if (!$order->getId()) {
+        if (!$order) {
             /**
              * need to have logic when there is no order with the order id from protx
              */
@@ -267,5 +267,24 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         $this->loadLayout();
         $this->_initLayoutMessages('protx/session');
         $this->renderLayout();
+    }
+
+    /**
+     * Return order model for incrementId
+     *
+     * @param  string $incrementId
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _getOrderByIncrementId($incrementId)
+    {
+        $order = Mage::getModel('sales/order');
+        $order->loadByIncrementId($incrementId);
+        if (!$order->getId()) {
+            return false;
+        }
+        if (Mage_Protx_Model_Standard::PAYMENT_CODE != $order->getPayment()->getMethodInstance()->getCode()) {
+            return false;
+        }
+        return $order;
     }
 }

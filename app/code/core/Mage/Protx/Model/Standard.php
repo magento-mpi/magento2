@@ -34,7 +34,14 @@
  */
 class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
-    protected $_code  = 'protx_standard';
+    /**
+     * Protx Standard payment method code
+     *
+     * @var string
+     */
+    const PAYMENT_CODE = 'protx_standard';
+
+    protected $_code  = self::PAYMENT_CODE;
     protected $_formBlockType = 'protx/standard_form';
 
     protected $_isGateway               = false;
@@ -73,7 +80,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Returns Target URL
      *
-     *  @return	  string Target URL
+     *  @return   string Target URL
      */
     public function getProtxUrl ()
     {
@@ -94,7 +101,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return URL for Protx success response
      *
-     *  @return	  string URL
+     *  @return   string URL
      */
     protected function getSuccessURL ()
     {
@@ -104,7 +111,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return URL for Protx failure response
      *
-     *  @return	  string URL
+     *  @return   string URL
      */
     protected function getFailureURL ()
     {
@@ -115,7 +122,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      * Transaction unique ID sent to Protx and sent back by Protx for order restore
      * Using created order ID
      *
-     *  @return	  string Transaction unique number
+     *  @return   string Transaction unique number
      */
     protected function getVendorTxCode ()
     {
@@ -127,7 +134,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *  String format:
      *  Number of lines:Name1:Quantity1:CostNoTax1:Tax1:CostTax1:Total1:Name2:Quantity2:CostNoTax2...
      *
-     *  @return	  string Formatted cart items
+     *  @return   string Formatted cart items
      */
     protected function getFormattedCart ()
     {
@@ -171,7 +178,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Format Crypted string with all order data for request to Protx
      *
-     *  @return	  string Crypted string
+     *  @return   string Crypted string
      */
     protected function getCrypted ()
     {
@@ -258,7 +265,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Form block description
      *
-     *  @return	 object
+     *  @return  object
      */
     public function createFormBlock($name)
     {
@@ -271,7 +278,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return Order Place Redirect URL
      *
-     *  @return	  string Order Redirect URL
+     *  @return   string Order Redirect URL
      */
     public function getOrderPlaceRedirectUrl()
     {
@@ -282,7 +289,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *  Return encrypted string with simple XOR algorithm
      *
      *  @param    string String to be encrypted
-     *  @return	  string Encrypted string
+     *  @return   string Encrypted string
      */
     protected function simpleXOR ($string)
     {
@@ -317,7 +324,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *  Extract possible response values into array from query string
      *
      *  @param    string Query string i.e. var1=value1&var2=value3...
-     *  @return	  array
+     *  @return   array
      */
     protected function getToken($queryString) {
 
@@ -367,7 +374,10 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
             if ($i == $c-1) {
                 $output[$resultArray[$i]['token']] = substr($queryString, $valueStart);
             } else {
-                $valueLength = $resultArray[$i+1]['start'] - $resultArray[$i]['start'] - strlen($resultArray[$i]['token']) - 2;
+                $valueLength = $resultArray[$i+1]['start']
+                    - $resultArray[$i]['start']
+                    - strlen($resultArray[$i]['token'])
+                    - 2;
                 $output[$resultArray[$i]['token']] = substr($queryString, $valueStart, $valueLength);
             }
 
@@ -380,7 +390,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *  Convert array (key => value, key => value, ...) to crypt string
      *
      *  @param    array Array to be converted
-     *  @return	  string Crypt string
+     *  @return   string Crypt string
      */
     public function arrayToCrypt ($array)
     {
@@ -400,11 +410,14 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *  Reverse arrayToCrypt
      *
      *  @param    string Crypt string
-     *  @return	  array
+     *  @return   array
      */
     public function cryptToArray ($crypted)
     {
         $decoded = $this->base64Decode($crypted);
+        if (!$this->getConfig()->getCryptKey()) {
+            return false;
+        }
         $uncrypted = $this->simpleXOR($decoded);
         $tokens = $this->getToken($uncrypted);
         return $tokens;
@@ -414,7 +427,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *  Custom base64_encode()
      *
      *  @param    String
-     *  @return	  String
+     *  @return   String
      */
     protected function base64Encode($plain)
     {
@@ -425,7 +438,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *  Custom base64_decode()
      *
      *  @param    String
-     *  @return	  String
+     *  @return   String
      */
     protected function base64Decode($scrambled)
     {
@@ -437,7 +450,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      *  Return Standard Checkout Form Fields for request to Protx
      *
-     *  @return	  array Array of hidden form fields
+     *  @return   array Array of hidden form fields
      */
     public function getStandardCheckoutFormFields ()
     {
