@@ -96,6 +96,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             //filter tags in titles
             /** @var $helper Mage_Adminhtml_Helper_Data */
             $helper = Mage::helper('adminhtml');
+            $ratePost['code'] = $helper->stripTags($ratePost['code']);
             foreach ($ratePost['title'] as &$title) {
                 $title = $helper->stripTags($title);
             }
@@ -361,11 +362,11 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
                 if (!empty($regions[$v[1]][$v[2]])) {
                     $rateData  = array(
-                        'code'=>$v[0],
+                        'code'           => $helper->stripTags($v[0]),
                         'tax_country_id' => $v[1],
-                        'tax_region_id' => ($regions[$v[1]][$v[2]] == '*') ? 0 : $regions[$v[1]][$v[2]],
-                        'tax_postcode'  => (empty($v[3]) || $v[3]=='*') ? null : $v[3],
-                        'rate'=>$v[4],
+                        'tax_region_id'  => ($regions[$v[1]][$v[2]] == '*') ? 0 : $regions[$v[1]][$v[2]],
+                        'tax_postcode'   => (empty($v[3]) || $v[3]=='*') ? null : $v[3],
+                        'rate'           => $v[4],
                     );
 
                     $rateModel = Mage::getModel('tax/calculation_rate')->loadByCode($rateData['code']);
@@ -375,7 +376,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
                     $titles = array();
                     foreach ($stores as $field=>$id) {
-                        $titles[$id]=$v[$field];
+                        $titles[$id] = $v[$field];
                     }
 
                     //filter tags in titles
