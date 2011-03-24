@@ -553,7 +553,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $page = $this->getCurrentLocationUimapPage();
         if(!$page) {
-            throw new OutOfRangeException("Can't find specified form in UIMap array with mca['{$mca}'], area['".$this->getArea()."']");
+            throw new OutOfRangeException("Can't find specified form in UIMap array '".$this->getLocation()."', area['".$this->getArea()."']");
         }
 
         $formData = $page->getMainForm();
