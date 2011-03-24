@@ -250,11 +250,10 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
                 if (!empty($p['file']['passive'])) {
                     $fileXml .= '    <var name="passive">true</var>' . $nl;
                 }
-                if (
-                        (!empty($p['file']['file_mode']))
+                if ((!empty($p['file']['file_mode']))
                         && ($p['file']['file_mode'] == FTP_ASCII || $p['file']['file_mode'] == FTP_BINARY)
-                   ) {
-                    $fileXml .= '    <var name="file_mode">' . $p['file']['file_mode'] . '</var>'.$nl;
+                ) {
+                    $fileXml .= '    <var name="file_mode">' . $p['file']['file_mode'] . '</var>' . $nl;
                 }
                 if (!empty($p['file']['user'])) {
                     $fileXml .= '    <var name="user"><![CDATA[' . $p['file']['user'] . ']]></var>' . $nl;
