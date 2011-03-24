@@ -96,7 +96,7 @@
             </cart>
             <cart_product translate="title" module="checkout">
                 <model>checkout/cart_product_api</model>
-                <title>Cart Product Api</title>
+                <title>Cart Product API</title>
                 <acl>cart/product</acl>
                 <methods>
                     <add translate="title" module="checkout">

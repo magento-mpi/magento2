@@ -28,7 +28,7 @@
 <config>
    <sections>
         <api translate="label" module="api">
-            <label>Magento Core Api</label>
+            <label>Magento Core API</label>
             <tab>service</tab>
             <frontend_type>text</frontend_type>
             <sort_order>101</sort_order>

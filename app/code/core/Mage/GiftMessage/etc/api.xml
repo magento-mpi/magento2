@@ -30,7 +30,7 @@
         <resources>
             <giftmessage translate="title" module="giftmessage">
                 <model>giftmessage/api</model>
-                <title>Gift Message Api</title>
+                <title>Gift Message API</title>
                 <acl>giftmessage/set</acl>
                 <methods>
                     <setForQuote translate="title" module="giftmessage">
