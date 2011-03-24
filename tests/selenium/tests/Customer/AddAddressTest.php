@@ -47,7 +47,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
      */
     protected function assertPreConditions()
     {
-        $$userData = $userData = $this->loadData('generic_customer_account', null, 'email');
+        $userData = $this->loadData('generic_customer_account', null, 'email');
         $this->assertTrue($this->loginAdminUser());
         $this->assertTrue($this->admin());
         $this->assertTrue($this->navigate('manage_customers'));
