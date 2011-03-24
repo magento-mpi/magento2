@@ -35,6 +35,8 @@ class Enterprise_PageCache_Model_Processor
     const REQUEST_ID_PREFIX             = 'REQEST_';
     const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
     const DESIGN_EXCEPTION_KEY          = 'FPC_DESIGN_EXCEPTION_CACHE';
+    const CACHE_SIZE_KEY                = 'FPC_CACHE_SIZE_CAHCE_KEY';
+    const XML_PATH_CACHE_MAX_SIZE       = 'system/page_cache/max_cache_size';
 
     /**
      * @deprecated after 1.8.0.0 - moved to Enterprise_PageCache_Model_Container_Viewedproducts
@@ -426,7 +428,24 @@ class Enterprise_PageCache_Model_Processor
                 if (function_exists('gzcompress')) {
                     $content = gzcompress($content);
                 }
+
+                $contentSize = mb_strlen($content, 'latin1');
+                $currentStorageSize = (int) Mage::app()->loadCache(self::CACHE_SIZE_KEY);
+
+                $maxSizeInBytes = Mage::getStoreConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
+
+                if ($currentStorageSize >= $maxSizeInBytes) {
+                    Mage::app()->getCacheInstance()->invalidateType('full_page');
+                    return $this;
+                }
+
                 Mage::app()->saveCache($content, $cacheId, $this->getRequestTags());
+
+                Mage::app()->saveCache(
+                    $currentStorageSize + $contentSize,
+                    self::CACHE_SIZE_KEY,
+                    $this->getRequestTags()
+                );
 
                 // save response headers
                 $this->setMetadata('response_headers', $response->getHeaders());
