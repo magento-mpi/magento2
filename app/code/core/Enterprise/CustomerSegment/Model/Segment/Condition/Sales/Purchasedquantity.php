@@ -75,7 +75,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
         $aggrFunc = ($this->getAttribute() == 'total') ? 'SUM' : 'AVG';
         $adapter = $this->getResource()->getReadConnection();
-        $result = $adapter->getCheckSql("{$aggrFunc}(sales_order.total_qty_ordered) {$operator} {$this->getValue()}", 1, 0);
+        $value = (int) $this->getValue();
+        $result = $adapter->getCheckSql("{$aggrFunc}(sales_order.total_qty_ordered) {$operator} {$value}", 1, 0);
 
         $select->from(
             array('sales_order' => $this->getResource()->getTable('sales/order')),

@@ -75,8 +75,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
         $aggrFunc = ($this->getAttribute() == 'total') ? 'SUM' : 'AVG';
         $adapter = $this->getResource()->getReadConnection();
-        $firstIf = $adapter->getCheckSql($aggrFunc.'(sales_order.base_grand_total) IS NOT NULL', $aggrFunc.'(sales_order.base_grand_total)', 0);
-        $result = $adapter->getCheckSql($firstIf.' '.$operator.' '.$this->getValue(), 1, 0);
+        $firstIf = $adapter->getCheckSql($aggrFunc . '(sales_order.base_grand_total) IS NOT NULL',
+            $aggrFunc . '(sales_order.base_grand_total)', 0);
+        $value = (float) $this->getValue();
+        $result = $adapter->getCheckSql($firstIf . ' ' . $operator . ' ' . $value, 1, 0);
 
         $select->from(
             array('sales_order' => $this->getResource()->getTable('sales/order')),

@@ -156,7 +156,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
 
         if ($attribute->getAttributeCode() == 'category_ids') {
             $condition = $resource->createConditionSql(
-                'cat.category_id', $this->getOperator(), explode(',', $this->getValue())
+                'cat.category_id', $this->getOperator(), $this->getValue()
             );
             $categorySelect = $resource->createSelect();
             $categorySelect->from(array('cat'=>$resource->getTable('catalog/category_product')), 'product_id')

@@ -85,8 +85,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
         $select = $this->getResource()->createSelect();
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
-        $result = $this->getResource()->getReadConnection()
-                ->getCheckSql("COUNT(*) {$operator} {$this->getValue()}", 1, 0);
+        $adapter = $this->getResource()->getReadConnection();
+        $value = $adapter->quote($this->getValue());
+        $result = $adapter->getCheckSql("COUNT(*) {$operator} {$value}", 1, 0);
 
         $select->from(
             array('sales_order' => $this->getResource()->getTable('sales/order')),
