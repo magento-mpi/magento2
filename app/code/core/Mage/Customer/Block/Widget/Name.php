@@ -45,9 +45,12 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
     {
         $this->setObject($address);
 
-        if (!$address->getFirstname()) {
-            $address->setFirstname($customer->getFirstname())
-                ->setLastname($customer->getLastname());
+        if (!$address->getId()) {
+            $address->setPrefix($customer->getPrefix())
+                ->setFirstname($customer->getFirstname())
+                ->setMiddlename($customer->getMiddlename())
+                ->setLastname($customer->getLastname())
+                ->setSuffix($customer->getSuffix());
         }
 
         return $this;
