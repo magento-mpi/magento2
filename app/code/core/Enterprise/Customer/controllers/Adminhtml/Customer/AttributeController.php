@@ -126,7 +126,8 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
                 return;
             }
             if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
-                $this->_getSession()->addError(Mage::helper('enterprise_customer')->__('You cannot edit this attribute.'));
+                $this->_getSession()->addError(
+                    Mage::helper('enterprise_customer')->__('You cannot edit this attribute.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -190,6 +191,11 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
             /* @var $helper Enterprise_Customer_Helper_Data */
             $helper = Mage::helper('enterprise_customer');
 
+            //filter html tags in labels
+            foreach ($data['frontend_label'] as &$label) {
+                $label = $helper->stripTags($label);
+            }
+
             $attributeId = $this->getRequest()->getParam('attribute_id');
             if ($attributeId) {
                 $attributeObject->load($attributeId);
@@ -227,7 +233,8 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
             $defaultValueField = $helper->getAttributeDefaultValueByInput($data['frontend_input']);
             if ($defaultValueField) {
                 $scopeKeyPrefix = ($this->getRequest()->getParam('website') ? 'scope_' : '');
-                $data[$scopeKeyPrefix . 'default_value'] = $this->getRequest()->getParam($scopeKeyPrefix . $defaultValueField);
+                $data[$scopeKeyPrefix . 'default_value'] = $this->getRequest()
+                        ->getParam($scopeKeyPrefix . $defaultValueField);
             }
 
             $data['entity_type_id']     = $this->_getEntityType()->getId();
