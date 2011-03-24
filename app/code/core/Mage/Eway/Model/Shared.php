@@ -33,7 +33,14 @@
  */
 class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
 {
-    protected $_code  = 'eway_shared';
+    /**
+     * Eway Shared payment method code
+     *
+     * @var string
+     */
+    const PAYMENT_CODE = 'eway_shared';
+
+    protected $_code = self::PAYMENT_CODE;
 
     protected $_isGateway               = false;
     protected $_canAuthorize            = false;
@@ -49,6 +56,14 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     protected $_paymentMethod = 'shared';
 
     protected $_order;
+
+
+    /**
+     * Key for storing secure hash in additional information of payment model
+     *
+     * @var string
+     */
+    protected $_secureHashKey = 'secure_hash';
 
     /**
      * Get order model
@@ -151,8 +166,8 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         $fieldsArr['ewayURL'] = Mage::getUrl('eway/' . $this->_paymentMethod . '/success', array('_secure' => true));
         $fieldsArr['eWAYTrxnNumber'] = $paymentInfo->getOrder()->getRealOrderId();
         $fieldsArr['ewayOption1'] = '';
-        $fieldsArr['ewayOption2'] = Mage::helper('core')->encrypt($fieldsArr['eWAYTrxnNumber']);
-        $fieldsArr['ewayOption3'] = '';
+        $fieldsArr['ewayOption2'] = '';
+        $fieldsArr['ewayOption3'] = $this->getSecureHash();
 
         $request = '';
         foreach ($fieldsArr as $k=>$v) {
@@ -250,5 +265,27 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     public function getDebugFlag()
     {
         return $this->getConfigData('debug_flag');
+    }
+
+    /**
+     * Return secure hash value
+     *
+     * @return string
+     */
+    public function getSecureHash()
+    {
+        return $this->getInfoInstance()->getAdditionalInformation($this->_secureHashKey);
+    }
+
+    /**
+     * Generate end return new secure hash value
+     *
+     * @return string
+     */
+    public function generateSecureHash()
+    {
+        $secureHash = md5(Mage::helper('core')->getRandomString(10));
+        $this->getInfoInstance()->setAdditionalInformation($this->_secureHashKey, $secureHash);
+        return $secureHash;
     }
 }

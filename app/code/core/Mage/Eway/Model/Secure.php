@@ -33,7 +33,14 @@
  */
 class Mage_Eway_Model_Secure extends Mage_Eway_Model_Shared
 {
-    protected $_code  = 'eway_secure';
+    /**
+     * Eway Secure payment method code
+     *
+     * @var string
+     */
+    const PAYMENT_CODE = 'eway_secure';
+
+    protected $_code = self::PAYMENT_CODE;
 
     protected $_formBlockType = 'eway/secure_form';
     protected $_paymentMethod = 'secure';

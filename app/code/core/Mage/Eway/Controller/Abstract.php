@@ -66,8 +66,12 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
         $session->setEwayQuoteId($session->getQuoteId());
         $session->setEwayRealOrderId($session->getLastRealOrderId());
 
-        $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($session->getLastRealOrderId());
+        $order = $this->_getOrderByIncrementId($session->getLastRealOrderId());
+        if (!$order) {
+            $this->_redirect('checkout/cart');
+            return false;
+        }
+        $order->getPayment()->getMethodInstance()->generateSecureHash();
         $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer was redirected to eWAY.'));
         $order->save();
 
@@ -87,20 +91,17 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
     public function  successAction()
     {
         $status = $this->_checkReturnedPost();
-
-        $session = $this->getCheckout();
-
-        $session->unsEwayRealOrderId();
-        $session->setQuoteId($session->getEwayQuoteId(true));
-        $session->getQuote()->setIsActive(false)->save();
-
-        $order = Mage::getModel('sales/order');
-        $order->load($this->getCheckout()->getLastOrderId());
-        if($order->getId()) {
-            $order->sendNewOrderEmail();
-        }
-
         if ($status) {
+            $session = $this->getCheckout();
+            $session->unsEwayRealOrderId();
+            $session->setQuoteId($session->getEwayQuoteId(true));
+            $session->getQuote()->setIsActive(false)->save();
+
+            $order = Mage::getModel('sales/order');
+            $order->load($this->getCheckout()->getLastOrderId());
+            if($order->getId()) {
+                $order->sendNewOrderEmail();
+            }
             $this->_redirect('checkout/onepage/success');
         } else {
             $this->_redirect('*/*/failure');
@@ -137,31 +138,43 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
         $status = true;
         $response = $this->getRequest()->getPost();
 
-        if ($this->getCheckout()->getEwayRealOrderId() != $response['ewayTrxnNumber'] ||
-                $this->getCheckout()->getEwayRealOrderId() != Mage::helper('core')->decrypt($response['eWAYoption2'])) {
+        if ($this->getCheckout()->getEwayRealOrderId() != $response['ewayTrxnNumber']) {
             $this->norouteAction();
             return;
         }
 
-        $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($response['ewayTrxnNumber']);
+        $order = $this->_getOrderByIncrementId($response['ewayTrxnNumber']);
+        if (!$order) {
+            return;
+        }
+        if ($order->getPayment()->getMethodInstance()->getSecureHash() != $response['eWAYoption3']) {
+            return;
+        }
 
         $paymentInst = $order->getPayment()->getMethodInstance();
         $paymentInst->setResponse($response);
 
         if ($paymentInst->parseResponse()) {
-
-            if ($order->canInvoice()) {
-                $invoice = $order->prepareInvoice();
-                $invoice->register()->capture();
-                Mage::getModel('core/resource_transaction')
-                    ->addObject($invoice)
-                    ->addObject($invoice->getOrder())
-                    ->save();
-
-                $paymentInst->setTransactionId($response['ewayTrxnReference']);
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('The customer has successfully returned from eWAY.'));
-            }
+            /**
+             * We can not create an invoice automatically because we have to check the request.
+             * Read chapter "Technical Transaction Process" of the documentation.
+             *
+             * @link http://www.eway.com.au/_files/documentation/HostedPaymentPageDoc.pdf
+             */
+            //if ($order->canInvoice()) {
+            //    $invoice = $order->prepareInvoice();
+            //    $invoice->register()->capture();
+            //    Mage::getModel('core/resource_transaction')
+            //        ->addObject($invoice)
+            //        ->addObject($invoice->getOrder())
+            //        ->save();
+            //    $paymentInst->setTransactionId($response['ewayTrxnReference']);
+            //    $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('The customer has successfully returned from eWAY.'));
+            //}
+            /**
+             * We just create the comment about customer redirection back.
+             */
+            $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('The customer has successfully returned from eWAY.'));
         } else {
             $paymentInst->setTransactionId($response['ewayTrxnReference']);
             $order->cancel();
@@ -175,4 +188,19 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
         return $status;
     }
 
+    /**
+     * Return order model for incrementId
+     *
+     * @param  string $incrementId
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _getOrderByIncrementId($incrementId)
+    {
+        $order = Mage::getModel('sales/order');
+        $order->loadByIncrementId($incrementId);
+        if (!$order->getId()) {
+            return false;
+        }
+        return $order;
+    }
 }

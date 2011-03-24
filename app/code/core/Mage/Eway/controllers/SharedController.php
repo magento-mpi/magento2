@@ -39,4 +39,23 @@ class Mage_Eway_SharedController extends Mage_Eway_Controller_Abstract
      * @var string
      */
     protected $_redirectBlockType = 'eway/shared_redirect';
+
+    /**
+     * Return order model for incrementId
+     *
+     * @param  string $incrementId
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _getOrderByIncrementId($incrementId)
+    {
+        $order = parent::_getOrderByIncrementId($incrementId);
+        if (!$order) {
+            return false;
+        }
+        $methodCode = $order->getPayment()->getMethodInstance()->getCode();
+        if ($methodCode != Mage_Eway_Model_Shared::PAYMENT_CODE) {
+            return false;
+        }
+        return $order;
+    }
 }

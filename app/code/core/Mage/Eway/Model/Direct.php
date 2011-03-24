@@ -33,7 +33,14 @@
  */
 class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
 {
-    protected $_code  = 'eway_direct';
+    /**
+     * Eway Direct payment method code
+     *
+     * @var string
+     */
+    const PAYMENT_CODE = 'eway_direct';
+
+    protected $_code = self::PAYMENT_CODE;
 
     protected $_isGateway               = true;
     protected $_canAuthorize            = false;
@@ -184,17 +191,31 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         $xml = "<ewaygateway>";
         $xml .= "<ewayCustomerID>" . $this->getCustomerId() . "</ewayCustomerID>";
         $xml .= "<ewayTotalAmount>" . ($this->getAmount()*100) . "</ewayTotalAmount>";
-        $xml .= "<ewayCardHoldersName>" . htmlentities(trim($payment->getCcOwner()), ENT_QUOTES, 'UTF-8') . "</ewayCardHoldersName>";
+        $xml .= "<ewayCardHoldersName>"
+            . htmlentities(trim($payment->getCcOwner()), ENT_QUOTES, 'UTF-8')
+            . "</ewayCardHoldersName>";
         $xml .= "<ewayCardNumber>" . $payment->getCcNumber() . "</ewayCardNumber>";
         $xml .= "<ewayCardExpiryMonth>" . $payment->getCcExpMonth() . "</ewayCardExpiryMonth>";
         $xml .= "<ewayCardExpiryYear>" . $payment->getCcExpYear() . "</ewayCardExpiryYear>";
         $xml .= "<ewayTrxnNumber>" . '' . "</ewayTrxnNumber>";
-        $xml .= "<ewayCustomerInvoiceDescription>" . htmlentities(trim($invoiceDesc), ENT_QUOTES, 'UTF-8') . "</ewayCustomerInvoiceDescription>";
-        $xml .= "<ewayCustomerFirstName>" . htmlentities(trim($billing->getFirstname()), ENT_QUOTES, 'UTF-8') . "</ewayCustomerFirstName>";
-        $xml .= "<ewayCustomerLastName>" . htmlentities(trim($billing->getLastname()), ENT_QUOTES, 'UTF-8') . "</ewayCustomerLastName>";
-        $xml .= "<ewayCustomerEmail>" . htmlentities(trim($payment->getOrder()->getCustomerEmail()), ENT_QUOTES, 'UTF-8') . "</ewayCustomerEmail>";
-        $xml .= "<ewayCustomerAddress>" . htmlentities(trim($formatedAddress), ENT_QUOTES, 'UTF-8') . "</ewayCustomerAddress>";
-        $xml .= "<ewayCustomerPostcode>" . htmlentities(trim($billing->getPostcode()), ENT_QUOTES, 'UTF-8') . "</ewayCustomerPostcode>";
+        $xml .= "<ewayCustomerInvoiceDescription>"
+            . htmlentities(trim($invoiceDesc), ENT_QUOTES, 'UTF-8')
+            . "</ewayCustomerInvoiceDescription>";
+        $xml .= "<ewayCustomerFirstName>"
+            . htmlentities(trim($billing->getFirstname()), ENT_QUOTES, 'UTF-8')
+            . "</ewayCustomerFirstName>";
+        $xml .= "<ewayCustomerLastName>"
+            . htmlentities(trim($billing->getLastname()), ENT_QUOTES, 'UTF-8')
+            . "</ewayCustomerLastName>";
+        $xml .= "<ewayCustomerEmail>"
+            . htmlentities(trim($payment->getOrder()->getCustomerEmail()), ENT_QUOTES, 'UTF-8')
+            . "</ewayCustomerEmail>";
+        $xml .= "<ewayCustomerAddress>"
+            . htmlentities(trim($formatedAddress), ENT_QUOTES, 'UTF-8')
+            . "</ewayCustomerAddress>";
+        $xml .= "<ewayCustomerPostcode>"
+            . htmlentities(trim($billing->getPostcode()), ENT_QUOTES, 'UTF-8')
+            . "</ewayCustomerPostcode>";
 //        $xml .= "<ewayCustomerInvoiceRef>" . $this->getQuote()->getReservedOrderId() . "</ewayCustomerInvoiceRef>";
         $xml .= "<ewayCustomerInvoiceRef>" . '' . "</ewayCustomerInvoiceRef>";
 
