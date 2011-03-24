@@ -400,4 +400,34 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             $this->getConnection()->quote($to)
         );
     }
+
+    /**
+     * Add store restrictions to product collection
+     *
+     * @param  array $storeIds
+     * @param  array $websiteIds
+     * @return Mage_Reports_Model_Resource_Product_Collection
+     */
+    public function addStoreRestrictions($storeIds, $websiteIds)
+    {
+        if (!is_array($storeIds)) {
+            $storeIds = array($storeIds);
+        }
+        if (!is_array($websiteIds)) {
+            $websiteIds = array($websiteIds);
+        }
+
+        $filters = $this->_productLimitationFilters;
+        if ($filters['store_id']) {
+            if (!in_array($filters['store_id'], $storeIds)) {
+                $this->addStoreFilter($filters['store_id']);
+            } else {
+                $this->addStoreFilter($this->getStoreId());
+            }
+        } else {
+            $this->addWebsiteFilter($websiteIds);
+        }
+
+        return $this;
+    }
 }

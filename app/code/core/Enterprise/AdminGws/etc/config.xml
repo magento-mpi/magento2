@@ -325,7 +325,11 @@
                         <customer_attributes>admin/customer/attributes</customer_attributes>
                     </store_level>
                 </acl_deny>
+                <!-- all callbacks support absolute naming with factory_classname::method -->
+                <!-- for example enterprise_admingws/collections::limitStores -->
                 <collection_load_before>
+                    <sales__report_bestsellers_collection>limitBestsellersCollection</sales__report_bestsellers_collection>
+                    <reports__product_collection>limitProductReports</reports__product_collection>
                     <core__store_collection>limitStores</core__store_collection>
                     <core__website_collection>limitWebsites</core__website_collection>
                     <core__store_group_collection>limitStoreGroups</core__store_group_collection>

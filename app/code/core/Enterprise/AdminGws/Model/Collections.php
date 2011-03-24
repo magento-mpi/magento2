@@ -342,6 +342,16 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     }
 
     /**
+     * Limit product reports
+     *
+     * @param  Mage_Reports_Model_Mysql4_Product_Collection $collection
+     */
+    public function limitProductReports($collection)
+    {
+        $collection->addStoreRestrictions($this->_role->getStoreIds(), $this->_role->getRelevantWebsiteIds());
+    }
+
+    /**
      * Limit customer segment collection
      *
      * @param Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection $collection
@@ -359,5 +369,15 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     public function limitGiftRegistryEntityWebsites($collection)
     {
         $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
+    }
+
+    /**
+     * Limit bestsellers collection
+     *
+     * @param Mage_Sales_Model_Mysql4_Report_Bestsellers_Collection $collection
+     */
+    public function limitBestsellersCollection($collection)
+    {
+        $collection->addStoreRestrictions($this->_role->getStoreIds());
     }
 }
