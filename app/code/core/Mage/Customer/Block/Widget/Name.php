@@ -35,28 +35,6 @@ class Mage_Customer_Block_Widget_Name extends Mage_Customer_Block_Widget_Abstrac
     }
 
     /**
-     * Set address to object with customer name information
-     *
-     * @param   Mage_Customer_Model_Address $address
-     * @param   Mage_Customer_Model_Customer $customer
-     * @return  Mage_Customer_Block_Widget_Name
-     */
-    public function initObject(Mage_Customer_Model_Address $address, Mage_Customer_Model_Customer $customer)
-    {
-        $this->setObject($address);
-
-        if (!$address->getId()) {
-            $address->setPrefix($customer->getPrefix())
-                ->setFirstname($customer->getFirstname())
-                ->setMiddlename($customer->getMiddlename())
-                ->setLastname($customer->getLastname())
-                ->setSuffix($customer->getSuffix());
-        }
-
-        return $this;
-    }
-
-    /**
      * Can show config value
      *
      * @param string $key
