@@ -856,23 +856,21 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function raw_query($sql)
     {
+        $lostConnectionMessage = 'ORA-12170: TNS:Connect timeout occurred';
+        $tries = 0;
         do {
             $retry = false;
-            $tries = 0;
             try {
                 $result = $this->query($sql);
             } catch (PDOException $e) {
-                /**
-                 * @todo fixed for MSSQL Error
-                 */
-                if ($e->getMessage()=='ORA-12170: TNS:Connect timeout occurred') {
+                if ($tries < 10 && $e->getMessage() == $lostConnectionMessage) {
                     $retry = true;
+                    $tries++;
                 } else {
                     throw $e;
                 }
-                $tries++;
             }
-        } while ($retry && $tries < 10);
+        } while ($retry);
 
         return $result;
     }

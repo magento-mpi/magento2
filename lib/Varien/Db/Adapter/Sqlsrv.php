@@ -1990,23 +1990,24 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
      */
     public function raw_query($sql)
     {
+        /**
+         * @todo fix message for MSSQL Error
+         */
+        $lostConnectionMessage = 'SQLSTATE[HY000]: General error: 2013 Lost connection to MySQL server during query';
+        $tries = 0;
         do {
             $retry = false;
-            $tries = 0;
             try {
                 $result = $this->query($sql);
             } catch (PDOException $e) {
-                /**
-                 * @todo fixed for MSSQL Error
-                 */
-                if ($e->getMessage()==' SQLSTATE[HY000]: General error: 2013 Lost connection to MySQL server during query') {
+                if ($tries < 10 && $e->getMessage() == $lostConnectionMessage) {
                     $retry = true;
+                    $tries++;
                 } else {
                     throw $e;
                 }
-                $tries++;
             }
-        } while ($retry && $tries < 10);
+        } while ($retry);
 
         return $result;
     }

@@ -65,7 +65,7 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
             list($this->_config['host'], $port) = explode(':', $this->_config['host']);
         }
 
-#echo "<pre>".print_r($this->_config,1)."</pre>"; die;
+        #echo "<pre>".print_r($this->_config,1)."</pre>"; die;
         @$conn->real_connect(
             $this->_config['host'],
             $this->_config['username'],
@@ -101,14 +101,14 @@ class Varien_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli
                 $result = $this->getConnection()->query($sql);
                 $this->clear_result();
             } catch (Exception $e) {
-                if ($e->getMessage() == $timeoutMessage) {
+                if ($tries < 10 && $e->getMessage() == $timeoutMessage) {
                     $retry = true;
+                    $tries++;
                 } else {
                     throw $e;
                 }
-                $tries++;
             }
-        } while ($retry && $tries < 10);
+        } while ($retry);
 
         return $result;
     }
