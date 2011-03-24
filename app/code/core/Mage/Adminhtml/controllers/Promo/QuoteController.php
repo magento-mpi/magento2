@@ -119,6 +119,8 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 //filter HTML tags
                 /** @var $helper Mage_Adminhtml_Helper_Data */
                 $helper = Mage::helper('adminhtml');
+                $data['name'] = $helper->stripTags($data['name']);
+                $data['description'] = $helper->stripTags($data['description']);
                 foreach ($data['store_labels'] as &$label) {
                     $label = $helper->stripTags($label);
                 }
