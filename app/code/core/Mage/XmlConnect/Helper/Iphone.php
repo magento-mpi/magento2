@@ -48,14 +48,14 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
     const SUBMISSION_DESCRIPTION_LENGTH = 500;
 
     /**
-     * Country renderer for submission
+     * Country renderer for submission page
      *
      * @var string
      */
-    const SUBMISSION_COUNTRY_RENDERER = 'Istore';
+    const SUBMISSION_COUNTRY_RENDERER = 'istore';
 
     /**
-     * Country columns for submission
+     * Country columns for submission page
      *
      * @var int
      */
@@ -664,6 +664,7 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
         if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundImage', $native)) {
             $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background" field from Design Tab.');
         }
+
         return $errors;
     }
 
@@ -675,9 +676,9 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
     public function getCountryRenderer()
     {
         if (empty($this->_countryRenderer)) {
-            $renderer = 'Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_'
+            $renderer = 'xmlconnect/adminhtml_mobile_submission_renderer_country_'
                 . self::SUBMISSION_COUNTRY_RENDERER;
-            $this->_countryRenderer = new $renderer();
+            $this->_countryRenderer = Mage::app()->getLayout()->createBlock($renderer);
         }
         return $this->_countryRenderer;
     }
@@ -719,6 +720,72 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
      */
     public function getCountryClass()
     {
-        return strtolower(self::SUBMISSION_COUNTRY_RENDERER) . ' stripy';
+        return self::SUBMISSION_COUNTRY_RENDERER . ' stripy';
+    }
+
+    /**
+     * Check image fields
+     *
+     * We set empty value for image field if file was missed in some reason
+     *
+     * @param array $data
+     * @return array
+     */
+    public function checkImages(array $data)
+    {
+        if (isset($data['conf']['native']['navigationBar']['icon']) &&
+            !file_exists($data['conf']['native']['navigationBar']['icon'])
+        ) {
+            $data['conf']['native']['navigationBar']['icon'] = '';
+        }
+
+        if (isset($data['conf']['native']['body']['bannerImage']) &&
+            !file_exists($data['conf']['native']['body']['bannerImage'])
+        ) {
+            $data['conf']['native']['body']['bannerImage'] = '';
+        }
+
+        if (isset($data['conf']['native']['body']['backgroundImage']) &&
+            !file_exists($data['conf']['native']['body']['backgroundImage'])
+        ) {
+            $data['conf']['native']['body']['backgroundImage'] = '';
+        }
+        return $data;
+    }
+
+    /**
+     * Check required fields of a config for a front-end
+     *
+     * @throws Mage_Core_Exception
+     * @param array $data
+     * @return void
+     */
+    public function checkRequiredConfigFields($data)
+    {
+        if (!is_array($data)) {
+            return;
+        }
+
+        if (isset($data['navigationBar']['icon'])
+            && empty($data['navigationBar']['icon'])
+        ) {
+            Mage::throwException(
+                Mage::helper('xmlconnect')->__('Logo in Header image missing.')
+            );
+        }
+        if (isset($data['body']['bannerImage']) &&
+            empty($data['body']['bannerImage'])
+        ) {
+            Mage::throwException(
+                Mage::helper('xmlconnect')->__('Banner on Home Screen image missing.')
+            );
+        }
+        if (isset($data['body']['backgroundImage'])
+            && empty($data['body']['backgroundImage'])
+        ) {
+            Mage::throwException(
+                Mage::helper('xmlconnect')->__('App Background image missing.')
+            );
+        }
     }
 }

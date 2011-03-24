@@ -211,10 +211,6 @@
             <block type="xmlconnect/checkout_payment_method_paypal_payflow" name="xmlconnect.checkout.method.paypal.payflow" as="payment_paypal_payflow" output=""/>
             <block type="xmlconnect/checkout_payment_method_paypal_direct" name="xmlconnect.checkout.method.paypal.direct" as="payment_paypal_direct" output=""/>
             <block type="xmlconnect/checkout_payment_method_authorizenet" name="xmlconnect.checkout.method.authorizenet" as="payment_authorizenet" output=""/>
-            <block type="xmlconnect/checkout_payment_method_pbridge_authorizenet" name="xmlconnect.checkout.method.pbridge.authorizenet" as="pbridge_authorizenet" output=""/>
-            <block type="xmlconnect/checkout_payment_method_pbridge_paypal" name="xmlconnect.checkout.method.pbridge.paypal" as="pbridge_paypal_direct" output=""/>
-            <block type="xmlconnect/checkout_payment_method_pbridge_verisign" name="xmlconnect.checkout.method.pbridge.verisign" as="pbridge_verisign" output=""/>
-            <block type="xmlconnect/checkout_payment_method_pbridge_paypaluk" name="xmlconnect.checkout.method.pbridge.paypaluk" as="pbridge_paypaluk_direct" output=""/>
         </block>
     </xmlconnect_checkout_paymentmethods>
 

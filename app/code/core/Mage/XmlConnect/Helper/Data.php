@@ -99,6 +99,27 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     const DEVICE_TYPE_ANDROID = 'android';
 
     /**
+     * Social network Twitter id
+     *
+     * @var string
+     */
+    const SOCIAL_NETWORK_TWITTER = 'twitter';
+
+    /**
+     * Social network Facebook id
+     *
+     * @var string
+     */
+    const SOCIAL_NETWORK_FACEBOOK = 'facebook';
+
+    /**
+     * Social network LinkedIn id
+     *
+     * @var string
+     */
+    const SOCIAL_NETWORK_LINKEDIN = 'linkedin';
+
+    /**
      * Get device preview model
      *
      * @throws Mage_Core_Exception

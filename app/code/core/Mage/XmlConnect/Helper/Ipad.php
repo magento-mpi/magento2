@@ -112,7 +112,8 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
         'ipad_loader_portrait_image',
         'ipad_loader_landscape_image',
         'ipad_logo',
-        'big_logo');
+        'big_logo'
+    );
 
     /**
      * Country field renderer
@@ -588,6 +589,7 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
         if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('backgroundIpadPortraitImage', $native)) {
             $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "App Background (portrait mode)" field from Design Tab.');
         }
+
         return $errors;
     }
 
@@ -599,9 +601,9 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
     public function getCountryRenderer()
     {
         if (empty($this->_countryRenderer)) {
-            $renderer = 'Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_'
+            $renderer = 'xmlconnect/adminhtml_mobile_submission_renderer_country_'
                 . Mage_XmlConnect_Helper_Iphone::SUBMISSION_COUNTRY_RENDERER;
-            $this->_countryRenderer = new $renderer();
+            $this->_countryRenderer = Mage::app()->getLayout()->createBlock($renderer);
         }
         return $this->_countryRenderer;
     }
@@ -643,6 +645,84 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
      */
     public function getCountryClass()
     {
-        return strtolower(Mage_XmlConnect_Helper_Iphone::SUBMISSION_COUNTRY_RENDERER) . ' stripy';
+        return Mage_XmlConnect_Helper_Iphone::SUBMISSION_COUNTRY_RENDERER . ' stripy';
+    }
+
+    /**
+     * Check image fields
+     *
+     * We set empty value for image field if file was missed in some reason
+     *
+     * @param array $data
+     * @return array
+     */
+    public function checkImages(array $data)
+    {
+        if (isset($data['conf']['native']['navigationBar']['icon']) &&
+            !file_exists($data['conf']['native']['navigationBar']['icon'])
+        ) {
+            $data['conf']['native']['navigationBar']['icon'] = '';
+        }
+
+        if (isset($data['conf']['native']['body']['bannerIpadImage']) &&
+            !file_exists($data['conf']['native']['body']['bannerIpadImage'])
+        ) {
+            $data['conf']['native']['body']['bannerIpadImage'] = '';
+        }
+
+        if (isset($data['conf']['native']['body']['backgroundIpadLandscapeImage']) &&
+            !file_exists($data['conf']['native']['body']['backgroundIpadLandscapeImage'])
+        ) {
+            $data['conf']['native']['body']['backgroundIpadLandscapeImage'] = '';
+        }
+        if (isset($data['conf']['native']['body']['backgroundIpadPortraitImage']) &&
+            !file_exists($data['conf']['native']['body']['backgroundIpadPortraitImage'])
+        ) {
+            $data['conf']['native']['body']['backgroundIpadPortraitImage'] = '';
+        }
+        return $data;
+    }
+
+    /**
+     * Check required fields of a config for a front-end
+     *
+     * @throws Mage_Core_Exception
+     * @param array $data
+     * @return void
+     */
+    public function checkRequiredConfigFields($data)
+    {
+        if (!is_array($data)) {
+            return;
+        }
+
+        if (isset($data['navigationBar']['icon'])
+            && empty($data['navigationBar']['icon'])
+        ) {
+            Mage::throwException(
+                Mage::helper('xmlconnect')->__('Logo in Header image missing.')
+            );
+        }
+        if (isset($data['body']['bannerIpadImage'])
+            && empty($data['body']['bannerIpadImage'])
+        ) {
+            Mage::throwException(
+                Mage::helper('xmlconnect')->__('Banner on Home Screen image missing.')
+            );
+        }
+        if (isset($data['body']['backgroundIpadLandscapeImage'])
+            && empty($data['body']['backgroundIpadLandscapeImage'])
+        ) {
+            Mage::throwException(
+                Mage::helper('xmlconnect')->__('App Background (landscape mode).')
+            );
+        }
+        if (isset($data['body']['backgroundIpadPortraitImage'])
+            && empty($data['body']['backgroundIpadPortraitImage'])
+        ) {
+            Mage::throwException(
+                Mage::helper('xmlconnect')->__('App Background (portrait mode).')
+            );
+        }
     }
 }

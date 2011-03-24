@@ -114,6 +114,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
     /**
      * Return correct system filename for current screenSize
      *
+     * @throws Mage_Core_Exception
      * @param string $fieldPath
      * @param string $fileName
      * @param string $default

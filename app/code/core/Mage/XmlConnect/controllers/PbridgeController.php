@@ -40,12 +40,32 @@ class Mage_XmlConnect_PbridgeController extends Mage_Core_Controller_Front_Actio
      */
     protected function _initActionLayout()
     {
+        if (!$this->_checkPbridge()) {
+            return;
+        }
+        $this->_checkPbridge();
         $this->addActionLayoutHandles();
         $this->loadLayoutUpdates();
         $this->generateLayoutXml();
         $this->generateLayoutBlocks();
         $this->_isLayoutLoaded = true;
         return $this;
+    }
+
+    /**
+     * Check is available Payment Bridge module
+     *
+     * @return bool
+     */
+    protected function _checkPbridge()
+    {
+        if (!is_object(Mage::getConfig()->getNode('modules/Enterprise_Pbridge'))) {
+            $this->getResponse()->setBody(
+                $this->__('Payment Bridge module unavailable.')
+            );
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -77,6 +97,9 @@ class Mage_XmlConnect_PbridgeController extends Mage_Core_Controller_Front_Actio
      */
     public function outputAction()
     {
+        if (!$this->_checkPbridge()) {
+            return;
+        }
         $this->loadLayout(false);
 
         $method = $this->getRequest()->getParam('method', false);

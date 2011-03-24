@@ -175,6 +175,30 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
 
         $data = $this->getRequest()->getPost('shipping', array());
         $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
+        /**
+         * For future use, please do not remove for now
+         */
+        $useForShipping = $this->getRequest()->getPost('use_for_shipping');
+
+        $billingAddress = $this->getOnepage()->getQuote()->getBillingAddress();
+        /**
+         * Checking whether shipping address is the same with billing address?
+         * This should be removed when mobile app will send just the 'use_for_shipping' flag
+         */
+        if (is_null($useForShipping)) {
+            $useForShipping = $this->_checkUseForShipping($data, $billingAddress, $customerAddressId);
+        }
+
+        if ($useForShipping) {
+            /**
+             * Set address Id with the billing address Id
+             */
+            $customerAddressId = $billingAddress->getId();
+            /**
+             * Set flag of shipping address is same as billing address
+             */
+            $data['same_as_billing'] = true;
+        }
         $result = $this->getOnepage()->saveShipping($data, $customerAddressId);
         if (!isset($result['error'])) {
             $this->_message($this->__('Shipping address has been set.'), self::MESSAGE_STATUS_SUCCESS);
@@ -184,6 +208,47 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             }
             $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
         }
+    }
+
+    /**
+     * Checks the shipping address is equal with billing address
+     *
+     * ATTENTION!!!
+     * It should be removed when mobile app will send just the 'use_for_shipping' flag
+     * instead of send shipping address same as a billing address
+     *
+     * @todo Remove when mobile app will send just the 'use_for_shipping' flag
+     * @param array $data
+     * @param Mage_Sales_Model_Quote_Address $billingAddress
+     * @param integer $shippingAddressId
+     * @return bool
+     */
+    protected function _checkUseForShipping(array $data, $billingAddress, $shippingAddressId)
+    {
+        $useForShipping = !$shippingAddressId || $billingAddress->getId() == $shippingAddressId;
+
+        if ($useForShipping) {
+            foreach ($data as $key => $value) {
+                if ($key == 'save_in_address_book') {
+                    continue;
+                }
+                $billingData = $billingAddress->getDataUsingMethod($key);
+                if (is_array($value) && is_array($billingData)) {
+                    foreach ($value as $k => $v) {
+                        if (!isset($billingData[$k]) || $billingData[$k] != $v) {
+                            $useForShipping = false;
+                            break;
+                        }
+                    }
+                } else {
+                    if ($billingData != $value) {
+                        $useForShipping = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return $useForShipping;
     }
 
     /**

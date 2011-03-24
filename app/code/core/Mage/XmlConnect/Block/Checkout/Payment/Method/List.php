@@ -63,27 +63,62 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
     protected function _toHtml()
     {
         $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<payment_methods></payment_methods>');
-        $methodBlocks           = $this->getChild();
-        $methodArray            = array(
+
+        /**
+         * Pre-defined array of methods that we are going to render
+         */
+        $methodArray = array(
             'payment_ccsave'            => 'Mage_Payment_Model_Method_Cc',
             'payment_checkmo'           => 'Mage_Payment_Model_Method_Checkmo',
             'payment_purchaseorder'     => 'Mage_Payment_Model_Method_Purchaseorder',
-            'pbridge_authorizenet'      => 'Enterprise_Pbridge_Model_Payment_Method_Authorizenet',
-            'pbridge_paypal_direct'     => 'Enterprise_Pbridge_Model_Payment_Method_Paypal',
-            'pbridge_verisign'          => 'Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro',
-            'pbridge_paypaluk_direct'   => 'Enterprise_Pbridge_Model_Payment_Method_Paypaluk',
         );
-        $usedMethods            = $sortedAvailableMethodCodes = $usedCodes = array();
-        $allAvailableMethods    = Mage::helper('payment')->getStoreMethods(Mage::app()->getStore(), $this->getQuote());
 
+        /**
+         * Check is available Payment Bridge and add methods for rendering
+         */
+        if (is_object(Mage::getConfig()->getNode('modules/Enterprise_Pbridge'))) {
+            $pbridgeMethodArray = array(
+                'pbridge_authorizenet'  => 'Enterprise_Pbridge_Model_Payment_Method_Authorizenet',
+                'pbridge_paypal'        => 'Enterprise_Pbridge_Model_Payment_Method_Paypal',
+                'pbridge_verisign'      => 'Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro',
+                'pbridge_paypaluk'      => 'Enterprise_Pbridge_Model_Payment_Method_Paypaluk',
+            );
+
+            $pbBlockRenderer = 'xmlconnect/checkout_payment_method_';
+            $pbBlockName = 'xmlconnect.checkout.payment.method.';
+
+            foreach ($pbridgeMethodArray as $block => $class) {
+                $currentBlockRenderer = $pbBlockRenderer . $block;
+                $currentBlockName = $pbBlockName . $block;
+                $this->getLayout()->addBlock($currentBlockRenderer, $currentBlockName);
+                $this->setChild($block, $currentBlockName);
+            }
+            $methodArray = $methodArray + $pbridgeMethodArray;
+        }
+
+        $usedMethods = $sortedAvailableMethodCodes = $usedCodes = array();
+
+        /**
+         * Receive available methods for checkout
+         */
+        $allAvailableMethods  = Mage::helper('payment')->getStoreMethods(Mage::app()->getStore(), $this->getQuote());
+
+        /**
+         * Get sorted codes of available methods
+         */
         foreach ($allAvailableMethods as $method) {
             $sortedAvailableMethodCodes[] = $method->getCode();
         }
 
         /**
+         * Get blocks for layout to check available renderers
+         */
+        $methodBlocks = $this->getChild();
+
+        /**
          * Collect directly supported by xmlconnect methods
          */
-        if (is_array($methodBlocks) && !empty($methodBlocks)) {
+        if (!empty($methodBlocks) && is_array($methodBlocks)) {
             foreach ($methodBlocks as $block) {
                 if (!$block) {
                     continue;
@@ -138,7 +173,6 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
             if (!in_array($code, $usedCodes)) {
                 continue;
             }
-
             $method   = $usedMethods[$code]['method'];
             $renderer = $usedMethods[$code]['renderer'];
             /**
@@ -160,7 +194,6 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
         if (!count($usedMethods)) {
             Mage::throwException($this->__('Sorry, no payment options are available for this order at this time.'));
         }
-
         return $methodsXmlObj->asNiceXml();
     }
 

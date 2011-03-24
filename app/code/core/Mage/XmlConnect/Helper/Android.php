@@ -80,7 +80,7 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
      *
      * @var string
      */
-    const SUBMISSION_COUNTRY_RENDERER = 'Androidmarket';
+    const SUBMISSION_COUNTRY_RENDERER = 'androidmarket';
 
     /**
      * Country columns for submission
@@ -609,6 +609,7 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
         if (!Mage::helper('xmlconnect')->validateConfFieldNotEmpty('bannerAndroidImage', $native)) {
             $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
         }
+
         return $errors;
     }
 
@@ -620,9 +621,9 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
     public function getCountryRenderer()
     {
         if (empty($this->_countryRenderer)) {
-            $renderer = 'Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Renderer_Country_'
+            $renderer = 'xmlconnect/adminhtml_mobile_submission_renderer_country_'
                 . self::SUBMISSION_COUNTRY_RENDERER;
-            $this->_countryRenderer = new $renderer();
+            $this->_countryRenderer = Mage::app()->getLayout()->createBlock($renderer);
         }
         return $this->_countryRenderer;
     }
@@ -664,7 +665,7 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
      */
     public function getCountryClass()
     {
-        return strtolower(self::SUBMISSION_COUNTRY_RENDERER);
+        return self::SUBMISSION_COUNTRY_RENDERER;
     }
 
     /**
@@ -675,5 +676,58 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
     public function getAndroidMarketCountriesArray()
     {
         return $this->_allowedCountries;
+    }
+
+    /**
+     * Check image fields
+     *
+     * We set empty value for image field if file was missed in some reason
+     *
+     * @param array $data
+     * @return array
+     */
+    public function checkImages(array $data)
+    {
+        if (isset($data['conf']['native']['navigationBar']['icon']) &&
+            !file_exists($data['conf']['native']['navigationBar']['icon'])
+        ) {
+            $data['conf']['native']['navigationBar']['icon'] = '';
+        }
+
+        if (isset($data['conf']['native']['body']['bannerAndroidImage']) &&
+            !file_exists($data['conf']['native']['body']['bannerAndroidImage'])
+        ) {
+            $data['conf']['native']['body']['bannerAndroidImage'] = '';
+        }
+        return $data;
+    }
+
+    /**
+     * Check required fields of a config for a front-end
+     *
+     * @throws Mage_Core_Exception
+     * @param array $data
+     * @return void
+     */
+    public function checkRequiredConfigFields($data)
+    {
+        if (!is_array($data)) {
+            return;
+        }
+
+        if (isset($data['navigationBar']['icon'])
+            && empty($data['navigationBar']['icon'])
+        ) {
+            Mage::throwException(
+                Mage::helper('xmlconnect')->__('Logo in Header image missing.')
+            );
+        }
+        if (isset($data['body']['bannerAndroidImage'])
+            && empty($data['body']['bannerAndroidImage'])
+        ) {
+            Mage::throwException(
+                Mage::helper('xmlconnect')->__('Banner on Home Screen image missing.')
+            );
+        }
     }
 }

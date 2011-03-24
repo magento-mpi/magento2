@@ -51,47 +51,227 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Social
 
         $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
 
-        $fieldset = $form->addFieldset('social_networking', array(
-            'legend'    => $this->__('Social Networking'),
-        ));
-
         /**
          * Default values for social networks is DISABLED
          */
         $twitterStatus = $facebookStatus = $linkedinStatus = 0;
 
-        if (isset($data['conf[native][socialNetworking][twitterEnabled]'])) {
-            $twitterStatus = $data['conf[native][socialNetworking][twitterEnabled]'];
-        }
-
-        $fieldset->addField('conf/native/socialNetworking/twitterEnabled', 'select', array(
-            'label'     => $this->__('Enable Twitter'),
-            'name'      => 'conf[native][socialNetworking][twitterEnabled]',
-            'values'    => $yesNoValues,
-            'value'     => $twitterStatus,
+        /**
+         * Twitter fieldset options
+         */
+        $fieldsetTwitter = $form->addFieldset('twitter', array(
+            'legend' => $this->__('Twitter API')
         ));
 
-        if (isset($data['conf[native][socialNetworking][facebookEnabled]'])) {
-            $facebookStatus = $data['conf[native][socialNetworking][facebookEnabled]'];
+        if (isset($data['conf[native][socialNetworking][twitter][isActive]'])) {
+            $twitterStatus = (int)$data['conf[native][socialNetworking][twitter][isActive]'];
         }
 
-        $fieldset->addField('conf/native/socialNetworking/facebookEnabled', 'select', array(
-            'label'     => $this->__('Enable Facebook'),
-            'name'      => 'conf[native][socialNetworking][facebookEnabled]',
-            'values'    => $yesNoValues,
-            'value'     => $facebookStatus,
-        ));
+        $twitterActiveField = $fieldsetTwitter->addField(
+            'conf/native/socialNetworking/twitter/isActive',
+            'select',
+            array(
+                'label'     => $this->__('Enable Twitter'),
+                'name'      => 'conf[native][socialNetworking][twitter][isActive]',
+                'values'    => $yesNoValues,
+                'value'     => $twitterStatus,
+            )
+        );
 
-        if (isset($data['conf[native][socialNetworking][linkedinEnabled]'])) {
-            $linkedinStatus = $data['conf[native][socialNetworking][linkedinEnabled]'];
+        if (isset($data['conf[native][socialNetworking][twitter][apiKey]'])) {
+            $twitterApiKey = $data['conf[native][socialNetworking][twitter][apiKey]'];
+        } else {
+            $twitterApiKey = '';
         }
 
-        $fieldset->addField('conf/native/socialNetworking/linkedinEnabled', 'select', array(
-            'label'     => $this->__('Enable LinkedIn'),
-            'name'      => 'conf[native][socialNetworking][linkedinEnabled]',
-            'values'    => $yesNoValues,
-            'value'     => $linkedinStatus,
+        $twitterApiKeyField = $fieldsetTwitter->addField(
+            'conf/native/socialNetworking/twitter/apiKey',
+            'text',
+            array(
+                'label'     => $this->__('Twitter API Key'),
+                'name'      => 'conf[native][socialNetworking][twitter][apiKey]',
+                'required'  => true,
+                'value'     => $twitterApiKey
+            )
+        );
+
+        if (isset($data['conf[native][socialNetworking][twitter][secretKey]'])) {
+            $twitterSecretKey = $data['conf[native][socialNetworking][twitter][secretKey]'];
+        } else {
+            $twitterSecretKey = '';
+        }
+
+        $twitterSecretKeyField = $fieldsetTwitter->addField(
+            'conf/native/socialNetworking/twitter/secretKey',
+            'text',
+            array(
+                'label'     => $this->__('Twitter Secret Key'),
+                'name'      => 'conf[native][socialNetworking][twitter][secretKey]',
+                'required'  => true,
+                'value'     => $twitterSecretKey
+            )
+        );
+
+        /**
+         * Facebook fieldset options
+         */
+        $fieldsetFacebook = $form->addFieldset('facebook', array(
+            'legend' => $this->__('Facebook API'),
         ));
+
+        if (isset($data['conf[native][socialNetworking][facebook][isActive]'])) {
+            $facebookStatus = (int)$data['conf[native][socialNetworking][facebook][isActive]'];
+        }
+
+        $facebookActiveField = $fieldsetFacebook->addField(
+            'conf/native/socialNetworking/facebook/isActive',
+            'select',
+            array(
+                'label'     => $this->__('Enable Facebook'),
+                'name'      => 'conf[native][socialNetworking][facebook][isActive]',
+                'values'    => $yesNoValues,
+                'value'     => $facebookStatus,
+            )
+        );
+
+        if (isset($data['conf[native][socialNetworking][facebook][apiKey]'])) {
+            $facebookApiKey = $data['conf[native][socialNetworking][facebook][apiKey]'];
+        } else {
+            $facebookApiKey = '';
+        }
+
+        $facebookApiKeyField = $fieldsetFacebook->addField(
+            'conf/native/socialNetworking/facebook/apiKey',
+            'text',
+            array(
+                'label'     => $this->__('Facebook API Key'),
+                'name'      => 'conf[native][socialNetworking][facebook][apiKey]',
+                'required'  => true,
+                'value'     => $facebookApiKey
+            )
+        );
+
+        if (isset($data['conf[native][socialNetworking][facebook][secretKey]'])) {
+            $facebookSecretKey = $data['conf[native][socialNetworking][facebook][secretKey]'];
+        } else {
+            $facebookSecretKey = '';
+        }
+
+        $facebookSecretKeyField = $fieldsetFacebook->addField(
+            'conf/native/socialNetworking/facebook/secretKey',
+            'text',
+            array(
+                'label'     => $this->__('Facebook Secret Key'),
+                'name'      => 'conf[native][socialNetworking][facebook][secretKey]',
+                'required'  => true,
+                'value'     => $facebookSecretKey
+            )
+        );
+
+        /**
+         * Facebook fieldset options
+         */
+        $fieldsetLinkedin = $form->addFieldset('linkedin', array(
+            'legend' => $this->__('LinkedIn API'),
+        ));
+
+        if (isset($data['conf[native][socialNetworking][linkedin][isActive]'])) {
+            $linkedinStatus = (int)$data['conf[native][socialNetworking][linkedin][isActive]'];
+        }
+
+        $linkedinActiveField = $fieldsetLinkedin->addField(
+            'conf/native/socialNetworking/linkedin/isActive',
+            'select',
+            array(
+                'label'     => $this->__('Enable LinkedIn'),
+                'name'      => 'conf[native][socialNetworking][linkedin][isActive]',
+                'values'    => $yesNoValues,
+                'value'     => $linkedinStatus,
+            )
+        );
+
+        if (isset($data['conf[native][socialNetworking][linkedin][apiKey]'])) {
+            $linkedinApiKey = $data['conf[native][socialNetworking][linkedin][apiKey]'];
+        } else {
+            $linkedinApiKey = '';
+        }
+
+        $linkedinApiKeyField = $fieldsetLinkedin->addField(
+            'conf/native/socialNetworking/linkedin/apiKey',
+            'text',
+            array(
+                'label'     => $this->__('LinkedIn API Key'),
+                'name'      => 'conf[native][socialNetworking][linkedin][apiKey]',
+                'required'  => true,
+                'value'     => $linkedinApiKey
+            )
+        );
+
+        if (isset($data['conf[native][socialNetworking][linkedin][secretKey]'])) {
+            $linkedinSecretKey = $data['conf[native][socialNetworking][linkedin][secretKey]'];
+        } else {
+            $linkedinSecretKey = '';
+        }
+
+        $linkedinSecretKeyField = $fieldsetLinkedin->addField(
+            'conf/native/socialNetworking/linkedin/secretKey',
+            'text',
+            array(
+                'label'     => $this->__('LinkedIn Secret Key'),
+                'name'      => 'conf[native][socialNetworking][linkedin][secretKey]',
+                'required'  => true,
+                'value'     => $linkedinSecretKey
+            )
+        );
+
+        /**
+         * Set field dependencies
+         */
+        $this->setChild('form_after', $this->getLayout()
+            ->createBlock('adminhtml/widget_form_element_dependence')
+            /**
+             * Facebook field dependencies
+             */
+            ->addFieldMap($facebookApiKeyField->getHtmlId(), $facebookApiKeyField->getName())
+            ->addFieldMap($facebookActiveField->getHtmlId(), $facebookActiveField->getName())
+            ->addFieldMap($facebookSecretKeyField->getHtmlId(), $facebookSecretKeyField->getName())
+            ->addFieldDependence(
+                $facebookApiKeyField->getName(),
+                $facebookActiveField->getName(),
+            1)
+            ->addFieldDependence(
+                $facebookSecretKeyField->getName(),
+                $facebookActiveField->getName(),
+            1)
+            /**
+             * Twitter field dependencies
+             */
+            ->addFieldMap($twitterApiKeyField->getHtmlId(), $twitterApiKeyField->getName())
+            ->addFieldMap($twitterActiveField->getHtmlId(), $twitterActiveField->getName())
+            ->addFieldMap($twitterSecretKeyField->getHtmlId(), $twitterSecretKeyField->getName())
+            ->addFieldDependence(
+                $twitterApiKeyField->getName(),
+                $twitterActiveField->getName(),
+            1)
+            ->addFieldDependence(
+                $twitterSecretKeyField->getName(),
+                $twitterActiveField->getName(),
+            1)
+            /**
+             * LinkedIn field dependencies
+             */
+            ->addFieldMap($linkedinApiKeyField->getHtmlId(), $linkedinApiKeyField->getName())
+            ->addFieldMap($linkedinActiveField->getHtmlId(), $linkedinActiveField->getName())
+            ->addFieldMap($linkedinSecretKeyField->getHtmlId(), $linkedinSecretKeyField->getName())
+            ->addFieldDependence(
+                $linkedinApiKeyField->getName(),
+                $linkedinActiveField->getName(),
+            1)
+            ->addFieldDependence(
+                $linkedinSecretKeyField->getName(),
+                $linkedinActiveField->getName(),
+            1)
+        );
 
         return parent::_prepareForm();
     }

@@ -140,6 +140,22 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     protected $conf;
 
     /**
+     * Social networking validation array
+     *
+     * Social networking validation array specified as
+     *      array (
+     *          network id => API key string length
+     *      )
+     *
+     * @var array
+     */
+    protected $_socialNetValidationArray = array(
+        Mage_XmlConnect_Helper_Data::SOCIAL_NETWORK_TWITTER,
+        Mage_XmlConnect_Helper_Data::SOCIAL_NETWORK_FACEBOOK,
+        Mage_XmlConnect_Helper_Data::SOCIAL_NETWORK_LINKEDIN,
+    );
+
+    /**
      * Submission/Resubmission key max length
      *
      * @var int
@@ -235,6 +251,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function getFormData()
     {
         $data = $this->getData();
+        $data = Mage::helper('xmlconnect')->getDeviceHelper()->checkImages($data);
         return $this->_flatArray($data);
     }
 
@@ -381,10 +398,17 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         foreach ($paths as $confPath => $dataPath) {
             $imageNodeValue =& $helperImage->findPath($result, $dataPath);
             if ($imageNodeValue) {
-                /**
-                 * Creating file ending (some_inner/some_dir/filename.png) For url
-                 */
-                $imageNodeValue = $helperImage->getFileCustomDirSuffixAsUrl($confPath, $imageNodeValue);
+                if (!file_exists($imageNodeValue)) {
+                    /**
+                     * We set empty string to get default image if original was missing in some reason
+                     */
+                    $imageNodeValue = '';
+                } else {
+                    /**
+                     * Creating file ending (some_inner/some_dir/filename.png) For url
+                     */
+                    $imageNodeValue = $helperImage->getFileCustomDirSuffixAsUrl($confPath, $imageNodeValue);
+                }
             }
         }
         $result = $this->_absPath($result);
@@ -418,6 +442,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['general']['isAllowedGuestCheckout'] = Mage::getSingleton('checkout/session')
             ->getQuote()->isAllowedGuestCheckout();
 
+        /**
+         * Check is wishlist enabled in a config
+         */
         if (!Mage::getStoreConfigFlag('wishlist/general/active')) {
             $result['general']['wishlistEnable'] = '0';
         } else {
@@ -673,6 +700,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         if ($validateConf !== true) {
             $errors = $validateConf;
         }
+
         if (!Zend_Validate::is($this->getName(), 'NotEmpty')) {
             $errors[] = Mage::helper('xmlconnect')->__('Please enter "App Title".');
         }
@@ -718,6 +746,24 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $conf = $this->getConf();
         $native = isset($conf['native']) && is_array($conf['native']) ? $conf['native'] : false;
         $errors = Mage::helper('xmlconnect')->getDeviceHelper($this)->validateConfig($native);
+
+        foreach ($this->_socialNetValidationArray as $networkKey) {
+            if (isset($native['socialNetworking'][$networkKey]['isActive'])
+                && $native['socialNetworking'][$networkKey]['isActive']
+            ) {
+                $networkName = ucfirst($networkKey);
+                if (!isset($native['socialNetworking'][$networkKey]['apiKey'])
+                    || !Zend_Validate::is($native['socialNetworking'][$networkKey]['apiKey'], 'NotEmpty')
+                ) {
+                    $errors[] = Mage::helper('xmlconnect')->__('%s API Key required.', $networkName);
+                }
+                if (!isset($native['socialNetworking'][$networkKey]['secretKey'])
+                    || !Zend_Validate::is($native['socialNetworking'][$networkKey]['secretKey'], 'NotEmpty')
+                ) {
+                    $errors[] = Mage::helper('xmlconnect')->__('%s Secret Key required.', $networkName);
+                }
+            }
+        }
 
         if (empty($errors)) {
             return true;

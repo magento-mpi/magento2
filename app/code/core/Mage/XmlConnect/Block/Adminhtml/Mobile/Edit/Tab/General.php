@@ -84,6 +84,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
         }
 
         if ($model->getId()) {
+            $storeElement->setValue($model->getStoreId());
             $storeElement->setDisabled(true);
         }
 

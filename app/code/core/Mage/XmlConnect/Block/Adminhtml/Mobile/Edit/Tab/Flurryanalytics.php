@@ -90,7 +90,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Flurryanalytics
         }
 
         $flurryApiCode = $fieldset->addField('conf/native/merchantFlurryTracking/accountId', 'text', array(
-            'label'     => $this->__('Flurry Api Code'),
+            'label'     => $this->__('Flurry API Code'),
             'name'      => 'conf[native][merchantFlurryTracking][accountId]',
             'enabled'   => true,
             'required'  => true,
