@@ -873,7 +873,10 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
     }
 
     /**
-     * Add new column to the table
+     * Add new column to the table.
+     *
+     * Generally $defintion must be array with column data to keep this call cross-DB compatible.
+     * Using string as $definition is allowed only for concrete DB adapter.
      *
      * @param string $tableName
      * @param string $columnName
@@ -888,6 +891,11 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
         }
 
         if (is_array($definition)) {
+            $definition = array_change_key_case($definition, CASE_UPPER);
+            if (empty($definition['COMMENT'])) {
+                throw new Zend_Db_Exception("Impossible to create a column without comment.");
+            }
+
             $definition = $this->_getColumnDefinition($definition);
         }
 

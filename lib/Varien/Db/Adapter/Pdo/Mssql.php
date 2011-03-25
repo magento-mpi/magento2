@@ -1161,11 +1161,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
-     * Add new column to the table
+     * Adds new column to the table.
+     *
+     * Generally $defintion must be array with column data to keep this call cross-DB compatible.
+     * Using string as $definition is allowed only for concrete DB adapter.
      *
      * @param string $tableName
      * @param string $columnName
-     * @param array $definition universal array DB Server definition
+     * @param array|string $definition  string specific or universal array DB Server definition
      * @param string $schemaName
      * @return Varien_Db_Adapter_Pdo_Mssql
      * @throws Zend_Db_Exception
@@ -1176,22 +1179,30 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             return true;
         }
 
+        $comment = null;
         if (is_array($definition)) {
+            // Retrieve comment to set it later
+            $definition = array_change_key_case($definition, CASE_UPPER);
+            if (empty($definition['COMMENT'])) {
+                throw new Zend_Db_Exception("Impossible to create a column without comment.");
+            }
+            $comment = $definition['COMMENT'];
+
             $definition = $this->_getColumnDefinition($definition);
         }
 
-        if (empty($definition['COMMENT'])) {
-            throw new Zend_Db_Exception("Impossible to create a column without comment");
-        }
-
+        $realTableName = $this->_getTableName($tableName, $schemaName);
         $sql = sprintf('ALTER TABLE %s ADD %s %s',
-            $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
+            $this->quoteIdentifier($realTableName),
             $this->quoteIdentifier($columnName),
             $definition
         );
 
         $result = $this->raw_query($sql);
-        $this->_addColumnComment($tableName, $columnName, $definition['COMMENT']);
+
+        if (!empty($comment)) {
+            $this->_addColumnComment($realTableName, $columnName, $comment);
+        }
         $this->resetDdlCache($tableName, $schemaName);
 
         return $result;

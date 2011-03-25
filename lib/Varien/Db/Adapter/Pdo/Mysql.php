@@ -705,11 +705,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
-     * Add new column to table
+     * Adds new column to table.
+     *
+     * Generally $defintion must be array with column data to keep this call cross-DB compatible.
+     * Using string as $definition is allowed only for concrete DB adapter.
      *
      * @param   string $tableName
      * @param   string $columnName
-     * @param   array $definition
+     * @param   array|string $definition  string specific or universal array DB Server definition
      * @param   string $schemaName
      * @return  int|boolean
      * @throws  Zend_Db_Exception
@@ -719,13 +722,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         if ($this->tableColumnExists($tableName, $columnName, $schemaName)) {
             return true;
         }
-        $definition = array_change_key_case($definition, CASE_UPPER);
-
-        if (empty($definition['COMMENT'])) {
-            throw new Zend_Db_Exception("Impossible to create a column without comment");
-        }
 
         if (is_array($definition)) {
+            $definition = array_change_key_case($definition, CASE_UPPER);
+            if (empty($definition['COMMENT'])) {
+                throw new Zend_Db_Exception("Impossible to create a column without comment.");
+            }
             $definition = $this->_getColumnDefinition($definition);
         }
 
@@ -736,6 +738,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         );
 
         $result = $this->raw_query($sql);
+
         $this->resetDdlCache($tableName, $schemaName);
 
         return $result;

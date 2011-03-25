@@ -195,7 +195,10 @@ interface Varien_Db_Adapter_Interface
     public function renameTable($oldTableName, $newTableName, $schemaName = null);
 
     /**
-     * Add new column to the table
+     * Adds new column to the table.
+     *
+     * Generally $defintion must be array with column data to keep this call cross-DB compatible.
+     * Using string as $definition is allowed only for concrete DB adapter.
      *
      * @param string $tableName
      * @param string $columnName

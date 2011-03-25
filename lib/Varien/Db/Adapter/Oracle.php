@@ -903,7 +903,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
-     * Add new column to the table
+     * Adds new column to the table.
+     *
+     * Generally $defintion must be array with column data to keep this call cross-DB compatible.
+     * Using string as $definition is allowed only for concrete DB adapter.
      *
      * @param string $tableName
      * @param string $columnName
@@ -918,21 +921,30 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             return true;
         }
 
+        $comment = null;
         if (is_array($definition)) {
+            // Retrieve comment to set it later
+            $definition = array_change_key_case($definition, CASE_UPPER);
+            if (empty($definition['COMMENT'])) {
+                throw new Zend_Db_Exception("Impossible to create a column without comment.");
+            }
+            $comment = $definition['COMMENT'];
+
             $definition = $this->_getColumnDefinition($definition);
         }
 
-        if (empty($definition['COMMENT'])) {
-            throw new Zend_Db_Exception("Impossible to create a column without comment");
-        }
-
+        $realTableName = $this->_getTableName($tableName, $schemaName);
         $query = sprintf('ALTER TABLE %s ADD %s %s',
-            $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
+            $this->quoteIdentifier($realTableName),
             $this->quoteIdentifier($columnName),
             $definition
         );
 
         $result = $this->query($query);
+
+        if (!empty($comment)) {
+            $this->_addColumnComment($realTableName, $columnName, $comment);
+        }
         $this->resetDdlCache($tableName, $schemaName);
 
         return $result;
