@@ -436,7 +436,7 @@ interface Varien_Db_Adapter_Interface
      *
      * @param  mixed  $sql  The SQL statement with placeholders.
      *                      May be a string or Zend_Db_Select.
-     * @param  mixed  $bind An array of data to bind to the placeholders.
+     * @param  mixed  $bind An array of data or data itself to bind to the placeholders.
      * @return Zend_Db_Statement_Interface
      */
     public function query($sql, $bind = array());

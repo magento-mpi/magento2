@@ -85,14 +85,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     protected $_ddlCache            = array();
 
     /**
-     * SQL bind params
+     * SQL bind params. Used temporarily by regexp callback.
      *
      * @var array
      */
     protected $_bindParams          = array();
 
     /**
-     * Autoincrement for bind value
+     * Autoincrement for bind value. Used by regexp callback.
      *
      * @var int
      */
@@ -2424,7 +2424,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param  mixed  $sql  The SQL statement with placeholders.
      *                      May be a string or Zend_Db_Select.
-     * @param  mixed  $bind An array of data to bind to the placeholders.
+     * @param  mixed  $bind An array of data or data itself to bind to the placeholders.
      * @return Zend_Db_Statement_Interface
      */
     public function query($sql, $bind = array())
@@ -2432,9 +2432,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $this->_debugTimer();
         try {
             if ($this->_pdoType == 'sqlsrv') {
-                $sql  = $this->_prepareQuery($sql, $bind);
-                $bind = $this->_bindParams;
+                // This pdo has some problems with different binds - so convert them to non-buggy ones
+                $this->_prepareQuery($sql, $bind);
             }
+
             $result = parent::query($sql, $bind);
         } catch (Exception $e) {
             $this->_debugStat(self::DEBUG_QUERY, $sql, $bind);
@@ -2445,69 +2446,80 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
-     * Prepare SQL query
-     * This method converts SQL to string and writes bind to the _bindParams property
+     * Prepares SQL query by moving to bind all special parameters that can be confused with bind placeholders
+     * (e.g. "foo:bar"). And also changes named bind to positional one, because underlying library has problems
+     * with named binds.
      *
-     * @param Varien_Db_Select|string $sql
-     * @param array $bind
-     * @return string
+     * @param Zend_Db_Select|string $sql
+     * @param mixed $bind
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
-    protected function _prepareQuery($sql, $bind = array())
+    protected function _prepareQuery(&$sql, &$bind = array())
     {
         if ($sql instanceof Zend_Db_Select) {
             $sql = $sql->assemble();
         }
-        $this->_bindParams = array();
-        if (is_array($bind)) {
-            $this->_bindParams = $bind;
+        if (!is_array($bind)) {
+            $bind = array($bind);
         }
 
-        // don't supported mixed bind
-        // normalize bind
+        // Mixed bind is not supported - so remember whether it is named bind, and normalize later if required
         $isNamedBind = false;
-        if ($this->_bindParams) {
-            foreach ($this->_bindParams as $k => $v) {
+        if ($bind) {
+            foreach ($bind as $k => $v) {
                 if (!is_int($k)) {
                     $isNamedBind = true;
-                    if (strpos($k, ':') !== 0) {
-                        $this->_bindParams[":{$k}"] = $v;
-                        unset($this->_bindParams[$k]);
+                    if ($k[0] != ':') {
+                        $bind[":{$k}"] = $v;
+                        unset($bind[$k]);
                     }
                 }
             }
         }
 
         if (strpos($sql, ':') !== false || strpos($sql, '?') !== false) {
-            $before = count($this->_bindParams);
-            $sql = preg_replace_callback('#((N?)([\'"])((\\3)|((.*?[^\\\\])\\3)))#', array($this, '_processBindCallback'),
+            $before = count($bind);
+            $this->_bindParams = $bind; // Used by callback
+            $sql = preg_replace_callback('#((N?)([\'"])((\\3)|((.*?[^\\\\])\\3)))#',
+                array($this, '_processBindCallback'),
                 $sql);
             Varien_Exception::processPcreError();
-            if (!$isNamedBind && count($this->_bindParams) != $before) {
-                // normalize mixed bind
-                $sql = $this->_convertMixedBind($sql);
-                $isNamedBind = false;
+            $bind = $this->_bindParams;
+            // If _processBindCallbacks() has added named entries - convert bind to positional
+            if (count($bind) != $before) {
+                if ($before) {
+                    if (!$isNamedBind) {
+                        // We have mixed bind with positional and named params
+                        $this->_convertMixedBind($sql, $bind);
+                        $isNamedBind = false;
+                    }
+                } else {
+                    // Callback has added params and we have normal named bind
+                    $isNamedBind = true;
+                }
             }
         }
 
-        if (!empty($this->_bindParams) && $isNamedBind) {
-            $sql = $this->_convertSqlBind($sql);
+        // Always convert named bind to positional, because underlying library has problems with named binds
+        if (!empty($bind) && $isNamedBind) {
+            $this->_convertNamedBind($sql, $bind);
         }
 
-        return $sql;
+        return $this;
     }
 
     /**
-     * Convert SQL string named to positional bind and returns SQL with positional bind
-     * This method works with the _bindParams property
+     * Convert SQL string and named bind to positional one.
      *
      * @param string $sql
-     * @return string
+     * @param array $bind
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
-    protected function _convertSqlBind($sql)
+    protected function _convertNamedBind(&$sql, &$bind)
     {
-        $bind   = array();
-        $map    = array();
-        foreach ($this->_bindParams as $k => $v) {
+        $bindResult = array();
+        $map = array();
+        foreach ($bind as $k => $v) {
             $offset = 0;
             while (true) {
                 $pos = strpos($sql, $k, $offset);
@@ -2515,27 +2527,29 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                     break;
                 } else {
                     $offset = $pos + strlen($k);
-                    $bind[$pos] = $v;
+                    $bindResult[$pos] = $v;
                 }
             }
 
             $map[$k] = '?';
         }
 
-        ksort($bind);
-        $this->_bindParams = array_values($bind);
+        ksort($bindResult);
+        $bind = array_values($bindResult);
+        $sql = strtr($sql, $map);
 
-        return strtr($sql, $map);
+        return $this;
     }
 
     /**
-     * Convert mixed positional and named bind to named bind and returns valid select
-     * This method works with the _bindParams property
+     * Normalizes mixed positional-named bind to positional bind, and replaces named placeholders in query to
+     * '?' placeholders.
      *
      * @param string $sql
-     * @return string
+     * @param array $bind
+     * @return Varien_Db_Adapter_Pdo_Mssql
      */
-    protected function _convertMixedBind($sql)
+    protected function _convertMixedBind(&$sql, &$bind)
     {
         $positions  = array();
         $offset     = 0;
@@ -2550,15 +2564,15 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             }
         }
 
-        $bind   = array();
-        $map    = array();
-        foreach ($this->_bindParams as $k => $v) {
+        $bindResult = array();
+        $map = array();
+        foreach ($bind as $k => $v) {
             // positional
             if (is_int($k)) {
                 if (!isset($positions[$k])) {
                     continue;
                 }
-                $bind[$positions[$k]] = $v;
+                $bindResult[$positions[$k]] = $v;
             } else {
                 $offset = 0;
                 while (true) {
@@ -2567,21 +2581,25 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                         break;
                     } else {
                         $offset = $pos + strlen($k);
-                        $bind[$pos] = $v;
+                        $bindResult[$pos] = $v;
                     }
                 }
                 $map[$k] = '?';
             }
         }
 
-        ksort($bind);
-        $this->_bindParams = array_values($bind);
+        ksort($bindResult);
+        $bind = array_values($bindResult);
+        $sql = strtr($sql, $map);
 
-        return strtr($sql, $map);
+        return $this;
     }
 
     /**
-     * Callback function for prepare Query Bind RegExp
+     * Callback function for preparation of query and bind by regexp.
+     * Checks query parameters for special symbols and moves such parameters to bind array as named ones.
+     * This method writes to $_bindParams, where query bind parameters are kept.
+     * This method requires further normalizing, if bind array is positional.
      *
      * @param array $matches
      * @return string
@@ -2590,9 +2608,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         if ($matches[1] != 'N' && isset($matches[7]) && (
             strpos($matches[7], "'") !== false ||
-            strpos($matches[7], ":") !== false ||
-            strpos($matches[7], "?") !== false)) {
-            $bindName = ':_mage_bind_var_' . ( ++ $this->_bindIncrement );
+            strpos($matches[7], ':') !== false ||
+            strpos($matches[7], '?') !== false)) {
+            $bindName = ':_mage_bind_var_' . (++$this->_bindIncrement);
             $this->_bindParams[$bindName] = $this->_unQuote($matches[7]);
             return ' ' . $bindName;
         }

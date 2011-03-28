@@ -88,14 +88,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     protected $_ddlCache            = array();
 
     /**
-     * SQL bind params
+     * SQL bind params. Used temporarily by regexp callback.
      *
      * @var array
      */
     protected $_bindParams          = array();
 
     /**
-     * Autoincrement for bind value
+     * Autoincrement for bind value. Used by query preparation routine and regexp callback.
      *
      * @var int
      */
@@ -276,13 +276,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param  mixed  $sql  The SQL statement with placeholders.
      *                      May be a string or Zend_Db_Select.
-     * @param  mixed  $bind An array of data to bind to the placeholders.
+     * @param  mixed  $bind An array of data or data itself to bind to the placeholders.
      * @return Zend_Db_Statement_Interface
      */
     public function query($sql, $bind = array())
     {
         $this->_debugTimer();
         try {
+            $this->_prepareQuery($sql, $bind);
             $result = parent::query($sql, $bind);
         } catch (Exception $e) {
             $this->_debugStat(self::DEBUG_QUERY, $sql, $bind);
@@ -291,6 +292,143 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $this->_debugStat(self::DEBUG_QUERY, $sql, $bind, $result);
 
         return $result;
+    }
+
+    /**
+     * Prepare SQL query by converting positional bind to named one,
+     * because Oracle doesn't support positional binds
+     *
+     * @param Zend_Db_Select|string $sql
+     * @param mixed $bind
+     * @return Varien_Db_Adapter_Oracle
+     */
+    protected function _prepareQuery(&$sql, &$bind = array())
+    {
+        // Maybe nothing to bind
+        if (!is_array($bind)) {
+            $bind = array($bind);
+        }
+        if (!$bind) {
+            return $this;
+        }
+
+        // Maybe we have no positional placeholders
+        if ($sql instanceof Zend_Db_Select) {
+            $sql = $sql->assemble();
+        }
+        if (strpos($sql, '?') === false) {
+            return $this;
+        }
+
+        // Maybe we have named bind
+        $isNamedBind = false;
+        foreach ($bind as $k => $v) {
+            if (!is_int($k)) {
+                $isNamedBind = true;
+                if ($k[0] != ':') {
+                    $bind[":{$k}"] = $v;
+                    unset($bind[$k]);
+                }
+            }
+        }
+
+        if ($isNamedBind) {
+            return $this;
+        }
+
+        /**
+         * Ok, we have positional bind and placeholders for parameters. Move '?', that are not placeholders, to named
+         * bind parameters. And then convert resulting mixed bind to named one.
+         */
+        $this->_bindParams = $bind; // Used by callback
+        $sql = preg_replace_callback('#(([\'"])((\\2)|((.*?[^\\\\])\\2)))#',
+            array($this, 'proccessBindCallback'),
+            $sql);
+        Varien_Exception::processPcreError();
+        $bind = $this->_bindParams;
+
+        return $this->_convertMixedBind($sql, $bind);
+    }
+
+    /**
+     * Callback function for preparation of query and bind by regexp.
+     * Checks query parameters for '?' placeholders and moves them to named bind parameters.
+     * This method writes to $_bindParams, where query bind parameters are kept.
+     * This method requires further normalizing.
+     *
+     * @param array $matches
+     * @return string
+     */
+    public function proccessBindCallback($matches)
+    {
+        if (isset($matches[6]) && strpos($matches[6], '?') !== false) {
+            $bindName = ':mage_bind_var_' . (++$this->_bindIncrement);
+            $this->_bindParams[$bindName] = $this->_unQuote($matches[6]);
+            return ' ' . $bindName;
+        }
+        return $matches[0];
+    }
+
+    /**
+     * Unquote raw string (use for auto-bind)
+     *
+     * @param string $string
+     * @return string
+     */
+    protected function _unQuote($string)
+    {
+        $translate = array(
+            "\\000" => "\000",
+            "\\n"   => "\n",
+            "\\r"   => "\r",
+            "\\\\"  => "\\",
+            "\'"    => "'",
+            "\\\""  => "\"",
+            "\\032" => "\032"
+        );
+        return strtr($string, $translate);
+    }
+
+    /**
+     * Changes query and converts mixed bind to named one
+     *
+     * @param string $sql
+     * @param array $bind
+     * @return Varien_Db_Adapter_Oracle
+     */
+    protected function _convertMixedBind(&$sql, &$bind)
+    {
+        $parts = explode('?', $sql);
+        $sqlResult = $parts[0];
+        $partIndex = 1;
+        $totalParts = count($parts);
+        $bindResult = array();
+        foreach ($bind as $k => $v) {
+            if (is_int($k)) {
+                if ($partIndex >= $totalParts) {
+                    $message = "Number of '?' placeholders in '{$sql}' is less than number"
+                    . " of positional bind parameters";
+                    throw new Zend_Db_Adapter_Oracle_Exception($message);
+                }
+                $bindName = ':mage_bind_var_' . (++$this->_bindIncrement);
+                $part = $parts[$partIndex++];
+                $sqlResult .= $bindName . $part;
+            } else {
+                $bindName = $k;
+            }
+            $bindResult[$bindName] = $v;
+        }
+
+        if ($partIndex < $totalParts) {
+            $message = "Number of '?' placeholders in '{$sql}' is bigger than the number"
+            . " of positional bind parameters";
+            throw new Zend_Db_Adapter_Oracle_Exception($message);
+        }
+
+        $bind = $bindResult;
+        $sql = $sqlResult;
+
+        return $this;
     }
 
     /**
