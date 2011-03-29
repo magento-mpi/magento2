@@ -58,25 +58,39 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
     }
 
     /**
-     * Fill static versions arrays
+     * Fill static versions arrays.
+     * This routine fetches Db and Data versions of at once to optimize sql requests. However, when upgrading, it's
+     * possible that 'data' column will be created only after all Db installs are passed. So $neededType contains
+     * information on main purpose of calling this routine, and even when 'data' column is absent - it won't require
+     * reissuing new sql just to get 'db' version of module.
      *
+     * @param string $needType Can be 'db' or 'data'
+     * @return Mage_Core_Model_Resource_Resource
      */
-    protected function _loadVersionData()
+    protected function _loadVersionData($needType)
     {
-        if (is_null(self::$_versions) || is_null(self::$_dataVersions)) {
-            self::$_versions     = array();
-            self::$_dataVersions = array();
+        if ((($needType == 'db') && is_null(self::$_versions))
+            || (($needType == 'data') && is_null(self::$_dataVersions))) {
+            self::$_versions     = array(); // Db version column always exists
+            self::$_dataVersions = null; // Data version array will be filled only if Data column exist
 
             if ($this->_getReadAdapter()->isTableExists($this->getMainTable())) {
                 $select = $this->_getReadAdapter()->select()
-                    ->from($this->getMainTable(), array('code', 'version', 'data_version'));
+                    ->from($this->getMainTable(), '*');
                 $rowset = $this->_getReadAdapter()->fetchAll($select);
                 foreach ($rowset as $row) {
                     self::$_versions[$row['code']] = $row['version'];
-                    self::$_dataVersions[$row['code']] = $row['data_version'];
+                    if (isset($row['data_version'])) {
+                        if (is_null(self::$_dataVersions)) {
+                            self::$_dataVersions = array();
+                        }
+                        self::$_dataVersions[$row['code']] = $row['data_version'];
+                    }
                 }
             }
         }
+
+        return $this;
     }
 
 
@@ -91,7 +105,7 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
         if (!$this->_getReadAdapter()) {
             return false;
         }
-        $this->_loadVersionData();
+        $this->_loadVersionData('db');
         return isset(self::$_versions[$resName]) ? self::$_versions[$resName] : false;
     }
 
@@ -132,7 +146,7 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
             return false;
         }
 
-        $this->_loadVersionData();
+        $this->_loadVersionData('data');
 
         return isset(self::$_dataVersions[$resName]) ? self::$_dataVersions[$resName] : false;
     }
