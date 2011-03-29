@@ -80,7 +80,7 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
                 $rowset = $this->_getReadAdapter()->fetchAll($select);
                 foreach ($rowset as $row) {
                     self::$_versions[$row['code']] = $row['version'];
-                    if (isset($row['data_version'])) {
+                    if (array_key_exists($row['data_version'])) {
                         if (is_null(self::$_dataVersions)) {
                             self::$_dataVersions = array();
                         }
