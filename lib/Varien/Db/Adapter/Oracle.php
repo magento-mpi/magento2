@@ -3138,7 +3138,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         if (empty($ddlType) || !isset($this->_ddlColumnTypes[$ddlType])) {
-            throw new Varien_Exception('Invalid column defination data');
+            throw new Varien_Exception('Invalid column definition data');
         }
 
         if (array_key_exists('DEFAULT', $options)) {
@@ -3247,7 +3247,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         foreach ($columns as $columnData)
         {
-            $columnDefination = $this->_getColumnDefinition($columnData);
+            $columnDefinition = $this->_getColumnDefinition($columnData);
 
             if ($columnData['PRIMARY']) {
                 $primary[$columnData['COLUMN_NAME']] = $columnData['PRIMARY_POSITION'];
@@ -3255,7 +3255,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
             $definition[] = sprintf('  %s %s',
                 $this->quoteIdentifier($columnData['COLUMN_NAME']),
-                $columnDefination
+                $columnDefinition
             );
         }
 

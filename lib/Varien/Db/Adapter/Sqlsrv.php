@@ -395,7 +395,7 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
         }
 
         if (empty($ddlType) || !isset($this->_ddlColumnTypes[$ddlType])) {
-            throw new Varien_Exception('Invalid column defination data');
+            throw new Varien_Exception('Invalid column definition data');
         }
 
 
@@ -489,7 +489,7 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
         }
 
         foreach ($columns as $columnData) {
-            $columnDefination = $this->_getColumnDefinition($columnData);
+            $columnDefinition = $this->_getColumnDefinition($columnData);
 
             if ($columnData['PRIMARY']) {
                 $primary[$columnData['COLUMN_NAME']] = $columnData['PRIMARY_POSITION'];
@@ -497,7 +497,7 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
 
             $definition[] = sprintf('  %s %s',
                 $this->quoteIdentifier($columnData['COLUMN_NAME']),
-                $columnDefination
+                $columnDefinition
             );
         }
 
@@ -541,7 +541,7 @@ class Varien_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Sqlsrv implements Varien_
      * @param Varien_Db_Ddl_Table $table
      * @return array
      */
-    protected function _getOptionsDefination(Varien_Db_Ddl_Table $table)
+    protected function _getOptionsDefinition(Varien_Db_Ddl_Table $table)
     {
         $definition = array();
         $tableProps = array(

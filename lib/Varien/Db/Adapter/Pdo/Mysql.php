@@ -1978,7 +1978,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         }
 
         if (empty($ddlType) || !isset($this->_ddlColumnTypes[$ddlType])) {
-            throw new Zend_Db_Exception('Invalid column defination data');
+            throw new Zend_Db_Exception('Invalid column definition data');
         }
 
         // column size

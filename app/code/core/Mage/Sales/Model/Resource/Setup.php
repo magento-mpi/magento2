@@ -154,9 +154,37 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
      */
     protected function _getAttributeColumnDefinition($code, $data)
     {
-        $data['type']     = isset($data['type']) ? $data['type'] : Varien_Db_Ddl_Table::TYPE_TEXT;
+        // Convert attribute type to column info
+        $data['type'] = isset($data['type']) ? $data['type'] : Varien_Db_Ddl_Table::TYPE_TEXT;
+        $type = null;
+        $length = null;
+        switch ($data['type']) {
+            case 'datetime':
+                $type = Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
+                break;
+            case 'decimal':
+                $type = Varien_Db_Ddl_Table::TYPE_DECIMAL;
+                $length = '12,4';
+                break;
+            case 'int':
+                $type = Varien_Db_Ddl_Table::TYPE_INTEGER;
+                break;
+            case 'text':
+                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $length = 65536;
+                break;
+            case 'varchar':
+                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $length = 255;
+                break;
+        }
+        if ($type !== null) {
+            $data['type'] = $type;
+            $data['length'] = $length;
+        }
+
         $data['nullable'] = isset($data['required']) ? !$data['required'] : true;
-        $data['comment']  = isset($data['comment']) ? $data['comment'] : ucwords(str_replace('_', ' ', $code)); 
+        $data['comment']  = isset($data['comment']) ? $data['comment'] : ucwords(str_replace('_', ' ', $code));
         return $data;
     }
 

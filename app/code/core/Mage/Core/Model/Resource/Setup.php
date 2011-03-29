@@ -167,7 +167,7 @@ class Mage_Core_Model_Resource_Setup
     /**
      * Get table name (validated by db adapter) by table placeholder
      *
-     * @param string $tableName
+     * @param string|array $tableName
      * @return string
      */
     public function getTable($tableName)
