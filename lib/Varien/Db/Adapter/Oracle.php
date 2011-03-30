@@ -278,6 +278,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *                      May be a string or Zend_Db_Select.
      * @param  mixed  $bind An array of data or data itself to bind to the placeholders.
      * @return Zend_Db_Statement_Interface
+     * @throws Zend_Db_Statement_Oracle_Exception
      */
     public function query($sql, $bind = array())
     {
@@ -990,7 +991,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param string $sql
      * @return Zend_Db_Statement_Interface
-     * @throws PDOException
+     * @throws Zend_Db_Statement_Oracle_Exception
      */
     public function raw_query($sql)
     {
@@ -1000,7 +1001,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $retry = false;
             try {
                 $result = $this->query($sql);
-            } catch (PDOException $e) {
+            } catch (Exception $e) {
                 if ($tries < 10 && $e->getMessage() == $lostConnectionMessage) {
                     $retry = true;
                     $tries++;

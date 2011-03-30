@@ -2426,6 +2426,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *                      May be a string or Zend_Db_Select.
      * @param  mixed  $bind An array of data or data itself to bind to the placeholders.
      * @return Zend_Db_Statement_Interface
+     * @throws Zend_Db_Statement_Exception
      */
     public function query($sql, $bind = array())
     {
@@ -2781,7 +2782,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @param string $sql
      * @return Zend_Db_Statement_Interface
-     * @throws PDOException
+     * @throws Zend_Db_Statement_Exception
      */
     public function raw_query($sql)
     {
@@ -2794,7 +2795,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $retry = false;
             try {
                 $result = $this->query($sql);
-            } catch (PDOException $e) {
+            } catch (Exception $e) {
                 if ($tries < 10 && $e->getMessage() == $lostConnectionMessage) {
                     $retry = true;
                     $tries++;

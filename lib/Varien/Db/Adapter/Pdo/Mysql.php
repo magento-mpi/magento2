@@ -308,7 +308,15 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             $retry = false;
             try {
                 $result = $this->query($sql);
-            } catch (PDOException $e) {
+            } catch (Exception $e) {
+                // Convert to PDOException to maintain backwards compatibility with usage of MySQL adapter
+                if ($e instanceof Zend_Db_Statement_Exception) {
+                    $e = $e->getPrevious();
+                    if (!($e instanceof PDOException)) {
+                        $e = new PDOException($e->getMessage(), $e->getCode());
+                    }
+                }
+                // Check to reconnect
                 if ($tries < 10 && $e->getMessage() == $lostConnectionMessage) {
                     $retry = true;
                     $tries++;
@@ -2217,7 +2225,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             try {
                 $this->raw_query($query);
                 $cycle  = false;
-            } catch (PDOException $e) {
+            } catch (Exception $e) {
                 if (in_array(strtolower($indexType), array('primary', 'unique'))) {
                     $match = array();
                     if (preg_match('#SQLSTATE\[23000\]: [^:]+: 1062[^\']+\'([\d-\.]+)\'#', $e->getMessage(), $match)) {
@@ -2226,8 +2234,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                         continue;
                     }
                 }
-                throw $e;
-            } catch (Exception $e) {
                 throw $e;
             }
         }
