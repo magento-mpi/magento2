@@ -74,7 +74,10 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
     }
 
     /**
-     * Add filter by country code to collection
+     * Add filter by country code to collection.
+     * $countryCode can be either array of country codes or string representing one country code.
+     * $iso can be either array containing 'iso2', 'iso3' values or string with containing one of that values directly.
+     * The collection will contain countries where at least one of contry $iso fields matches $countryCode.
      *
      * @param string|array $countryCode
      * @param string|array $iso
@@ -85,17 +88,21 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
         if (!empty($countryCode)) {
             if (is_array($countryCode)) {
                 if (is_array($iso)) {
+                    $whereOr = array();
                     foreach ($iso as $iso_curr) {
-                        $this->addFieldToFilter("{$iso_curr}_code", array('in'=>$countryCode));
+                        $whereOr[] .= $this->_getConditionSql("{$iso_curr}_code", array('in' => $countryCode));
                     }
+                    $this->_select->where('(' . implode(') OR (', $whereOr) . ')');
                 } else {
                     $this->addFieldToFilter("{$iso}_code", array('in'=>$countryCode));
                 }
             } else {
                 if (is_array($iso)) {
+                    $whereOr = array();
                     foreach ($iso as $iso_curr) {
-                        $this->addFieldToFilter("{$iso_curr}_code", $countryCode);
+                        $whereOr[] .= $this->_getConditionSql("{$iso_curr}_code", $countryCode);
                     }
+                    $this->_select->where('(' . implode(') OR (', $whereOr) . ')');
                 } else {
                     $this->addFieldToFilter("{$iso}_code", $countryCode);
                 }

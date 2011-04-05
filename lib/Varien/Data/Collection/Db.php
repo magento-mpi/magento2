@@ -409,14 +409,26 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     /**
      * Build SQL statement for condition
      *
-     * If $condition integer or string - exact value will be filtered
+     * If $condition integer or string - exact value will be filtered ('eq' condition)
      *
-     * If $condition is array is - one of the following structures is expected:
-     * - array("from"=>$fromValue, "to"=>$toValue)
-     * - array("like"=>$likeValue)
-     * - array("neq"=>$notEqualValue)
-     * - array("in"=>array($inValues))
-     * - array("nin"=>array($notInValues))
+     * If $condition is array - one of the following structures is expected:
+     * - array("from" => $fromValue, "to" => $toValue)
+     * - array("eq" => $equalValue)
+     * - array("neq" => $notEqualValue)
+     * - array("like" => $likeValue)
+     * - array("in" => array($inValues))
+     * - array("nin" => array($notInValues))
+     * - array("notnull" => $valueIsNotNull)
+     * - array("null" => $valueIsNull)
+     * - array("moreq" => $moreOrEqualValue)
+     * - array("gt" => $greaterValue)
+     * - array("lt" => $lessValue)
+     * - array("gteq" => $greaterOrEqualValue)
+     * - array("lteq" => $lessOrEqualValue)
+     * - array("finset" => $valueInSet)
+     * - array("regexp" => $regularExpression)
+     * - array("seq" => $stringValue)
+     * - array("sneq" => $stringValue)
      *
      * If non matched - sequential array is expected and OR conditions
      * will be built using above mentioned structure
