@@ -228,14 +228,4 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
         }
         $this->_redirect('*/customer/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
     }
-
-    /**
-     * Check is allowed access to action
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/enterprise_giftregistry');
-    }
 }

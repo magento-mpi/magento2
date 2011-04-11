@@ -108,14 +108,4 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
             Mage::app()->saveCache($this->getResponse()->getBody(), $this->_cacheKey, $this->_cacheTags);
         }
     }
-
-    /**
-     * Check is allowed access to action
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return Mage::getSingleton('admin/session')->isAllowed('system/enterprise_website_restriction');
-    }
 }
