@@ -75,8 +75,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity
         $wishlistTable = $this->getResource()->getTable('wishlist/wishlist');
         $wishlistItemTable = $this->getResource()->getTable('wishlist/item');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
+        $value = (int) $this->getValue();
         $result = $this->getResource()->getReadConnection()->getCheckSql(
-            "COUNT(*) {$operator} {$this->getValue()}",
+            "COUNT(*) {$operator} {$value}",
             1,
             0
         );
