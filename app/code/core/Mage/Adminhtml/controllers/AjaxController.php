@@ -49,14 +49,4 @@ class Mage_Adminhtml_AjaxController extends Mage_Adminhtml_Controller_Action
         echo Mage::helper('core/translate')->apply($translation, $area);
         exit();
     }
-
-    /**
-     * Check is allowed access to action
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return Mage::getSingleton('admin/session')->isAllowed('system/translate_inline');
-    }
 }

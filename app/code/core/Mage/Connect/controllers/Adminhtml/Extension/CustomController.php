@@ -191,14 +191,4 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
         $this->loadLayout();
         $this->renderLayout();
     }
-
-    /**
-     * Check is allowed access to action
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return Mage::getSingleton('admin/session')->isAllowed('system/extensions/custom');
-    }
 }

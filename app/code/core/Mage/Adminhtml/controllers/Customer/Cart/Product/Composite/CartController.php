@@ -147,15 +147,4 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
 
         return $this;
     }
-
-    /**
-     * Check is allowed access to action
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return Mage::getSingleton('admin/session')
-            ->isAllowed('system/customer/cart_product/composite');
-    }
 }

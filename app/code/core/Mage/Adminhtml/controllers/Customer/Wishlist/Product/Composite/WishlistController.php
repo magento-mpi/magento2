@@ -135,15 +135,4 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController exte
 
         return false;
     }
-
-    /**
-     * Check is allowed access to action
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return Mage::getSingleton('admin/session')
-            ->isAllowed('system/customer/product_wishlist/composite');
-    }
 }

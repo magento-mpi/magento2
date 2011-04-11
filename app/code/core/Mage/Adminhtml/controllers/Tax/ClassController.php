@@ -91,14 +91,4 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
 
         return $this;
     }
-
-    /**
-     * Check is allowed access to action
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return Mage::getSingleton('admin/session')->isAllowed('system/tax_class');
-    }
 }
