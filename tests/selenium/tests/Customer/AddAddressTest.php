@@ -39,54 +39,76 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     /**
      * Preconditions:
      *
-     * 1. Log in to Backend.
+     * Log in to Backend.
      *
-     * 2. Navigate to System -> Manage Customers
-     *
-     * 3. Create and open customer without address
+     * Navigate to System -> Manage Customers
      */
     protected function assertPreConditions()
     {
-        $userData = $this->loadData('generic_customer_account', null, 'email');
         $this->assertTrue($this->loginAdminUser());
         $this->assertTrue($this->admin());
         $this->assertTrue($this->navigate('manage_customers'));
+    }
+
+    public function test_CreateCustomer()
+    {
+        //Data
+        $userData = $this->loadData('generic_customer_account', null, 'email');
+        //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
         $this->clickButton('save_customer');
-        $this->assertTrue($this->successMessage('success_save_customer'),
-                'No success message is displayed');
+        $this->assertFalse($this->errorMessage(), $this->messages);
 //        $this->assertTrue($this->navigated('manage_customers'),
 //                'After successful customer creation should be redirected to Manage Customers page');
-    }
-
-    /**
-     * Add Address for customer. Fill in only required fields.
-     *
-     */
-    public function test_WithRequiredFieldsOnly()
-    {
-        $this->clickButton('add_new_address');
-        $this->fillForm($this->loadData('generic_address', null, null));
-        $this->clickButton('save_customer');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->navigated('manage_customers'),
-                'After creating customer admin should be redirected to manage customers page');
-        $this->assertTrue($this->successMessage('success_save_customer'),
+        $this->assertTrue($this->successMessage(/* 'success_saved_customer' */),
                 'No success message is displayed');
+        return $userData;
     }
 
     /**
-     * Add Address for customer. With empty reqired fields
+     * @depends test_CreateCustomer
+     */
+    public function test_WithRequiredFieldsOnly(array $userData)
+    {
+        //Data
+        $searchData = $this->loadData('search_customer',
+                        array('email' => $userData['email']), NULL);
+        $addressData = $this->loadData('generic_address', null, null);
+        //Steps
+        $this->searchAndOpen($searchData);
+        $this->clickControl('tab', 'addresses', FALSE);
+        $this->clickButton('add_new_address');
+        $this->fillForm($addressData, 'addresses');
+        $this->clickButton('save_customer');
+        $this->assertTrue($this->successMessage('success_saved_customer'),
+                'No success message is displayed');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        return $searchData;
+    }
+
+
+    /**
+     * Add Address for customer with one empty reqired field.
      *
+     * @depends test_WithRequiredFieldsOnly
      * @dataProvider data_emptyFields
      */
-    public function test_WithRequiredFieldsEmpty($emptyField)
+    public function test_WithRequiredFieldsEmpty(array $searchData, $emptyField)
     {
+        //Data
+        $addressData = $this->loadData('generic_address', $emptyField, null);
+        //Steps
+        $this->searchAndOpen($searchData);
+        $this->clickControl('tab', 'addresses', FALSE);
         $this->clickButton('add_new_address');
-        $this->fillForm($this->loadData('generic_address', $emptyField, null));
+        $this->fillForm($addressData, 'addresses');
         $this->clickButton('save_customer');
-        $this->assertTrue($this->errorMessage('error_empty_value'),
+        foreach ($emptyField as $key => $value) {
+            $xpath = $this->getCurrentLocationUimapPage()->findFieldset('edit_address')->findField($key);
+        }
+        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
+        $this->assertTrue($this->errorMessage('empty_reqired_field'),
                 'No error message is displayed');
         $this->assertFalse($this->successMessage(), $this->messages);
     }
@@ -106,27 +128,54 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     }
 
     /**
-     * @TODO
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithLongValues()
+    public function test_WithLongValues(array $searchData)
+    {
+        //Data
+        $longValues = array(
+            'default_billing_address' => 'No',
+            'default_shipping_address' => 'No',
+            'prefix' => $this->generate('string', 255, ':alnum:'),
+            'first_name' => $this->generate('string', 255, ':alnum:'),
+            'middle_name_initial' => $this->generate('string', 255, ':alnum:'),
+            'last_name' => $this->generate('string', 255, ':alnum:'),
+            'suffix' => $this->generate('string', 255, ':alnum:'),
+            'company' => $this->generate('string', 255, ':alnum:'),
+            'street_address_line_1' => $this->generate('string', 255, ':alnum:'),
+            'street_address_line_2' => $this->generate('string', 255, ':alnum:'),
+            'city' => $this->generate('string', 255, ':alnum:'),
+            'zip_code' => $this->generate('string', 255, ':alnum:'),
+            'telephone' => $this->generate('string', 255, ':alnum:'),
+            'fax' => $this->generate('string', 255, ':alnum:')
+        );
+        $addressData = $this->loadData('all_fields_address', $longValues, null);
+        //Steps
+        $this->searchAndOpen($searchData);
+        $this->clickControl('tab', 'addresses', FALSE);
+        $this->clickButton('add_new_address');
+        $this->fillForm($addressData, 'addresses');
+        $this->clickButton('save_and_continue_edit');
+        $this->assertTrue($this->successMessage('success_saved_customer'),
+                'No success message is displayed');
+        $this->assertFalse($this->errorMessage(), $this->messages);
+        // @TODO
+        // check saved values
+    }
+
+    /**
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithDefaultBillingAddress(array $searchData)
     {
         // @TODO
     }
 
     /**
-     * @TODO
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithDefaultBillingAddress()
+    public function test_WithDefaultShippingAddress(array $searchData)
     {
         // @TODO
     }
-
-    /**
-     * @TODO
-     */
-    public function test_WithDefaultShippingAddress()
-    {
-        // @TODO
-    }
-
 }
