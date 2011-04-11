@@ -661,15 +661,67 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function searchAndOpen($data = array())
     {
-        $this->fillForm($data);
-        $this->clickButton('search');
+//        $this->fillForm($data);
+//        $this->clickButton('search');
+//
+//        try {
+//            $this->clickAndWait('//' . self::xpathEditLink, self::timeoutPeriod);
+//        } catch (PHPUnit_Framework_Exception $e) {
+//            $this->_error = true;
+//        }
+//
+//        return $this;
+//      @TODO Need REVIEW
+        $result = False;
+        if (is_array($data) and count($data) > 0) {
+            //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
+            $xpath = "//td[normalize-space(@class)='pager']";
+            $text = $this->getText("$xpath");
+            preg_match("/Total [0-9]+ records found/", $text, $matches);
+            $xpath = substr("$xpath", 0, -1) . " and not(contains(.,'" . $matches[0] . "'))]";
+            // Forming xpath for string that contains the lookup data
+            $xpathTR = '//tr[';
+            $i = 1;
+            $count = count($data) - 1;
+            foreach ($data as $key => $value) {
+                if ($value != Null and !preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
+                    $xpathTR .= "contains(.,'$value')";
+                    if ($i <= $count) {
+                        $xpathTR .= ' and ';
+                    }
+                    $i += 1;
+                } else {
+                    $count -=1;
+                }
+            }
+            $xpathTR .=']';
+            // Fill in search form and click 'Search' button
+            $this->fillForm($data);
+            $this->clickButton('search', FALSE);
+            //WaitForElementPresent -> 	should be implemented as a separate function
+            for ($second = 0;; $second++) {
+                if ($second >= 60) {
+                    break; //fail("timeout");
+                }
+                try {
+                    if ($this->isElementPresent($xpath)) {
+                        break;
+                    }
+                } catch (Exception $e) {
 
-        try {
-            $this->clickAndWait('//' . self::xpathEditLink, self::timeoutPeriod);
-        } catch (PHPUnit_Framework_Exception $e) {
-            $this->_error = true;
+                }
+                sleep(1);
+            }
+            // Open element
+            if ($this->isElementPresent($xpathTR)) {
+                $this->click($xpathTR . "//td[normalize-space(@class)='last']/a");
+                $this->waitForPageToLoad(self::timeoutPeriod);
+                $result = True;
+            }
+        } else {
+            echo 'Implementation of a function "searchAndOpen" is skipped because data for the search is not specified \r\n';
         }
-
+        $this->assertTrue($result, 'Element not found.');
         return $this;
     }
 
