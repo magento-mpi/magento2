@@ -492,6 +492,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             } catch (PHPUnit_Framework_Exception $e) {
                 $this->_error = true;
             }
+        } else {
+            $this->_error = true;
         }
         return $this;
     }
