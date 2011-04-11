@@ -16,14 +16,16 @@ $_classMap = array(
 
 exec(sprintf('svn st %s | grep ^C', $workingDir), $output, $exitCode);
 
+$exitCode = 0;
+
 foreach ($output as $line) {
     list($status, $file) = explode("       ", $line);
     $file = str_replace($workingDir . '/' , '', $file);
     $newFile = strtr($file, $_classMap);
-    exec(sprintf('svn diff -c %s --username %s --password %s --no-auth-cache http://svn.magentocommerce.com/svn/magento/base/magento/trunk/%s | patch -l %s/%s', $rev, $user, $pass, $file, $workingDir, $newFile), $output2, $exitCode2);
-    analyzeExitCode($exitCode2, $output2);
-    exec(sprintf('svn revert --username %s --password %s --no-auth-cache %s/%s', $user, $pass, $workingDir, $file), $output2, $exitCode2);
-    analyzeExitCode($exitCode2, $output2);
+    exec(sprintf('svn diff -c %s --username %s --password %s --no-auth-cache http://svn.magentocommerce.com/svn/magento/base/magento/trunk/%s | patch -l %s/%s', $rev, $user, $pass, $file, $workingDir, $newFile), $commandOutput, $commandExitCode);
+    $exitCode = (analyzeExitCode($commandExitCode, $commandOutput) || $exitCode);
+    exec(sprintf('svn revert --username %s --password %s --no-auth-cache %s/%s', $user, $pass, $workingDir, $file), $commandOutput, $commandExitCode);
+    $exitCode = (analyzeExitCode($commandExitCode, $commandOutput) || $exitCode);
     exec(sprintf('rm %s/%s.*', $workingDir, $newFile));
 }
 
@@ -31,8 +33,8 @@ function analyzeExitCode($exitCode, $output)
 {
     if ($exitCode) {
         echo "Error: " . implode("\n", $output);
-	exit($exitCode);
+        return $exitCode;
     }
 }
 
-exit(0);
+exit($exitCode);
