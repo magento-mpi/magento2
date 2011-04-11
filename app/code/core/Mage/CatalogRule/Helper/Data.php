@@ -54,6 +54,6 @@ class Mage_CatalogRule_Helper_Data extends Mage_Core_Helper_Abstract
                 $priceRule = $price * (1 - $ruleAmount / 100);
                 break;
         }
-        return max($priceRule, 0);
+        return $priceRule;
     }
 }
