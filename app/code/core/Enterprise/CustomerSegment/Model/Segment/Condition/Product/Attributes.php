@@ -169,9 +169,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
         } else {
             $select->where('main.attribute_id = ?', $attribute->getId());
             $select->join(
-                    array('store'=> $this->getResource()->getTable('core/store')),
-                    'main.store_id=store.store_id',
-                    array())
+                array('store'=> $this->getResource()->getTable('core/store')),
+                'main.store_id=store.store_id',
+                array())
                 ->where('store.website_id IN(?)', array(0, $website));
             $condition = $this->getResource()->createConditionSql(
                 'main.value', $this->getOperator(), $this->getValue()
@@ -179,6 +179,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
         }
         $select->where($condition);
         $inOperator = ($requireValid ? 'IN' : 'NOT IN');
+        if (Mage::registry('combine:History')) {
+            // when used as a child of History condition - "IN operator" always set to "IN"
+            $inOperator = 'IN';
+        }
         return sprintf("%s %s (%s)", $fieldName, $inOperator, $select);
     }
 }

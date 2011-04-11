@@ -175,6 +175,24 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     }
 
     /**
+     * Get SQL select for matching customer to segment condition
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
+    public function getConditionsSql($customer, $website)
+    {
+        // set flag of using History condition (for conditions of Product_Attribute)
+        Mage::register('combine:History', true);
+        $select = parent::getConditionsSql($customer, $website);
+        // set flag of using History condition
+        Mage::unregister('combine:History');
+        // reverse the result when use WAS NOT condition
+        return $this->_getRequiredValidation() ? $select : "IF(({$select}),NULL,1)";
+    }
+
+    /**
      * Get field names map for subfilter conditions
      *
      * @return array
