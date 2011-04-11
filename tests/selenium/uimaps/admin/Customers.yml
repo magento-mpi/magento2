@@ -147,7 +147,7 @@ create_customer:
       customer_invalid_email: li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" is not a valid')]
       wrong_data_of_birth: li[normalize-space(@class)='error-msg' and contains(.//span,'"Date Of Birth" does not fit the entered date format.')]
       password_too_short: div[@id='advice-validate-password-_accountpassword']
-      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+      empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'Edit Customer' Page
 edit_customer:

@@ -82,7 +82,7 @@ new_store_view:
     messages:
       wrong_store_view_code: li[normalize-space(@class)='error-msg']//span[text()='The store view code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
       store_view_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Store view with the same code already exists.']
-      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+      empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'Edit Store View' Page
 edit_store_view:
@@ -110,7 +110,7 @@ edit_store_view:
     messages:
       wrong_store_view_code: li[normalize-space(@class)='error-msg']//span[text()='The store view code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
       store_view_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Store view with the same code already exists.']
-      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+      empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'New Website' Page
 new_website:
@@ -134,7 +134,7 @@ new_website:
     messages:
       wrong_website_code: li[normalize-space(@class)='error-msg']//span[text()='Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
       website_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Website with the same code already exists.']
-      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+      empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'Edit Website' Page
 edit_website:
@@ -163,7 +163,7 @@ edit_website:
     messages:
       wrong_website_code: li[normalize-space(@class)='error-msg']//span[text()='Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter']
       website_code_exist: li[normalize-space(@class)='error-msg']//span[text()='Website with the same code already exists.']
-      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+      empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'New Store' Page
 new_store:
@@ -186,7 +186,7 @@ new_store:
       reset: button[span='Reset']
       save_store: button[span='Save Store']
     messages:
-      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+      empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'Edit Store' Page
 edit_store:
@@ -211,7 +211,7 @@ edit_store:
       delete_store: button[span='Delete Store']
       save_store: button[span='Save Store']
     messages:
-      empty_reqired_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+      empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 
 # 'Delete Store' Page
 detele_store:
