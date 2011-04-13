@@ -35,11 +35,11 @@
         <models>
             <enterprise_catalogpermissions>
                 <class>Enterprise_CatalogPermissions_Model</class>
-                <!-- <resourceModel>enterprise_catalogpermissions_mysql4</resourceModel> -->
                 <resourceModel>enterprise_catalogpermissions_resource</resourceModel>
             </enterprise_catalogpermissions>
             <enterprise_catalogpermissions_resource>
                 <class>Enterprise_CatalogPermissions_Model_Resource</class>
+                <deprecatedNode>enterprise_catalogpermissions_mysql4</deprecatedNode>
                 <entities>
                     <permission>
                         <table>enterprise_catalogpermissions</table>

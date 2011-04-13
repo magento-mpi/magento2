@@ -39,6 +39,7 @@
             </importexport>
              <importexport_resource>
                 <class>Mage_ImportExport_Model_Resource</class>
+                <deprecatedNode>importexport_mysql4</deprecatedNode>
                 <entities>
                     <importdata>
                         <table>importexport_importdata</table>

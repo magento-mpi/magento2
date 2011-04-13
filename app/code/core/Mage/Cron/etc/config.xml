@@ -42,11 +42,11 @@
         <models>
             <cron>
                 <class>Mage_Cron_Model</class>
-                <!-- <resourceModel>cron_mysql4</resourceModel> -->
                 <resourceModel>cron_resource</resourceModel>
             </cron>
             <cron_resource>
                 <class>Mage_Cron_Model_Resource</class>
+                <deprecatedNode>cron_mysql4</deprecatedNode>
                 <entities>
                     <schedule>
                         <table>cron_schedule</table>

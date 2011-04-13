@@ -35,11 +35,11 @@
         <models>
             <googlebase>
                 <class>Mage_GoogleBase_Model</class>
-                <!-- <resourceModel>googlebase_mysql4</resourceModel> -->
                 <resourceModel>googlebase_resource</resourceModel>
             </googlebase>
             <googlebase_resource>
                 <class>Mage_GoogleBase_Model_Resource</class>
+                <deprecatedNode>googlebase_mysql4</deprecatedNode>
                 <entities>
                     <types>
                         <table>googlebase_types</table>

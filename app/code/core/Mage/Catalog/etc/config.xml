@@ -216,11 +216,11 @@
         <models>
             <catalog>
                 <class>Mage_Catalog_Model</class>
-                <!-- <resourceModel>catalog_mysql4</resourceModel> -->
                 <resourceModel>catalog_resource</resourceModel>
             </catalog>
             <catalog_resource>
                 <class>Mage_Catalog_Model_Resource</class>
+                <deprecatedNode>catalog_mysql4</deprecatedNode>
                 <entities>
                     <product>
                         <table>catalog_product_entity</table>

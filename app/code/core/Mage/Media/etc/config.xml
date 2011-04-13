@@ -35,11 +35,11 @@
         <models>
             <media>
                 <class>Mage_Media_Model</class>
-                <!-- <resourceModel>media_mysql4</resourceModel> -->
                 <resourceModel>media_resource</resourceModel>
             </media>
             <media_resource>
                 <class>Mage_Media_Model_Resource</class>
+                <deprecatedNode>media_mysql4</deprecatedNode>
             </media_resource>
         </models>
     </global>

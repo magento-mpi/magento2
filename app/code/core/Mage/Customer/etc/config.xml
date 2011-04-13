@@ -262,11 +262,11 @@
         <models>
             <customer>
                 <class>Mage_Customer_Model</class>
-                <!-- <resourceModel>customer_mysql4</resourceModel> -->
                 <resourceModel>customer_resource</resourceModel>
             </customer>
             <customer_resource>
                 <class>Mage_Customer_Model_Resource</class>
+                <deprecatedNode>customer_mysql4</deprecatedNode>
                 <entities>
                     <entity>
                         <table>customer_entity</table>

@@ -35,11 +35,11 @@
         <models>
             <dataflow>
                 <class>Mage_Dataflow_Model</class>
-                <!-- <resourceModel>dataflow_mysql4</resourceModel> -->
                 <resourceModel>dataflow_resource</resourceModel>
             </dataflow>
             <dataflow_resource>
                 <class>Mage_Dataflow_Model_Resource</class>
+                <deprecatedNode>dataflow_mysql4</deprecatedNode>
                 <entities>
                     <session>
                         <table>dataflow_session</table>

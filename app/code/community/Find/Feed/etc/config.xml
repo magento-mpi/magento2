@@ -39,6 +39,7 @@
             </find_feed>
             <find_feed_resource>
                 <class>Find_Feed_Model_Resource</class>
+                <deprecatedNode>find_feed_mysql4</deprecatedNode>
                 <entities>
                     <feed_import_codes>
                         <table>find_feed_import_codes</table>

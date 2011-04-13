@@ -140,11 +140,11 @@
         <models>
             <cms>
                 <class>Mage_Cms_Model</class>
-                <!-- <resourceModel>cms_mysql4</resourceModel> -->
                 <resourceModel>cms_resource</resourceModel>
             </cms>
             <cms_resource>
                 <class>Mage_Cms_Model_Resource</class>
+                <deprecatedNode>cms_mysql4</deprecatedNode>
                 <entities>
                     <page>
                         <table>cms_page</table>

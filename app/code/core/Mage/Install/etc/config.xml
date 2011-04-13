@@ -35,11 +35,11 @@
         <models>
             <install>
                 <class>Mage_Install_Model</class>
-                <!-- <resourceModel>install_mysql4</resourceModel> -->
                 <resourceModel>install_resource</resourceModel>
             </install>
             <install_resource>
                 <class>Mage_Install_Model_Resource</class>
+                <deprecatedNode>install_mysql4</deprecatedNode>
             </install_resource>
         </models>
         <blocks>

@@ -35,11 +35,11 @@
         <models>
             <sendfriend>
                 <class>Mage_Sendfriend_Model</class>
-                <!-- <resourceModel>sendfriend_mysql4</resourceModel> -->
                 <resourceModel>sendfriend_resource</resourceModel>
             </sendfriend>
             <sendfriend_resource>
                 <class>Mage_Sendfriend_Model_Resource</class>
+                <deprecatedNode>sendfriend_mysql4</deprecatedNode>
                 <resourceModel>sendfriend_mysql4</resourceModel>
                 <entities>
                     <sendfriend>

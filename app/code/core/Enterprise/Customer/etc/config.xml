@@ -35,11 +35,11 @@
         <models>
             <enterprise_customer>
                 <class>Enterprise_Customer_Model</class>
-                <!-- <resourceModel>enterprise_customer_mysql4</resourceModel> -->
                 <resourceModel>enterprise_customer_resource</resourceModel>
             </enterprise_customer>
             <enterprise_customer_resource>
                 <class>Enterprise_Customer_Model_Resource</class>
+                <deprecatedNode>enterprise_customer_mysql4</deprecatedNode>
                 <entities>
                     <sales_order>
                         <table>enterprise_customer_sales_flat_order</table>

@@ -51,11 +51,11 @@
         <models>
             <catalogindex>
                 <class>Mage_CatalogIndex_Model</class>
-                <!-- <resourceModel>catalogindex_mysql4</resourceModel> -->
                 <resourceModel>catalogindex_resource</resourceModel>
             </catalogindex>
             <catalogindex_resource>
                 <class>Mage_CatalogIndex_Model_Resource</class>
+                <deprecatedNode>catalogindex_mysql4</deprecatedNode>
                 <entities>
                     <eav>
                         <table>catalog_product_index_eav</table>

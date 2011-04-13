@@ -35,11 +35,11 @@
         <models>
             <shipping>
                 <class>Mage_Shipping_Model</class>
-                <!-- <resourceModel>shipping_mysql4</resourceModel> -->
                 <resourceModel>shipping_resource</resourceModel>
             </shipping>
             <shipping_resource>
                 <class>Mage_Shipping_Model_Resource</class>
+                <deprecatedNode>shipping_mysql4</deprecatedNode>
                 <entities>
                     <tablerate>
                         <table>shipping_tablerate</table>

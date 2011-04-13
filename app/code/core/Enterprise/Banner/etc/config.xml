@@ -35,11 +35,11 @@
         <models>
             <enterprise_banner>
                 <class>Enterprise_Banner_Model</class>
-                <!-- <resourceModel>enterprise_banner_mysql4</resourceModel> -->
                 <resourceModel>enterprise_banner_resource</resourceModel>
             </enterprise_banner>
             <enterprise_banner_resource>
                 <class>Enterprise_Banner_Model_Resource</class>
+                <deprecatedNode>enterprise_banner_mysql4</deprecatedNode>
                 <entities>
                     <banner>
                         <table>enterprise_banner</table>

@@ -35,11 +35,11 @@
         <models>
             <bundle>
                 <class>Mage_Bundle_Model</class>
-                <!-- <resourceModel>bundle_mysql4</resourceModel> -->
                 <resourceModel>bundle_resource</resourceModel>
             </bundle>
             <bundle_resource>
                 <class>Mage_Bundle_Model_Resource</class>
+                <deprecatedNode>bundle_mysql4</deprecatedNode>
                 <entities>
                     <option>
                         <table>catalog_product_bundle_option</table>

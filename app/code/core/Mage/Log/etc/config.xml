@@ -47,11 +47,11 @@
         <models>
             <log>
                 <class>Mage_Log_Model</class>
-                <!-- <resourceModel>log_mysql4</resourceModel> -->
                 <resourceModel>log_resource</resourceModel>
             </log>
             <log_resource>
                 <class>Mage_Log_Model_Resource</class>
+                <deprecatedNode>log_mysql4</deprecatedNode>
                 <entities>
                     <customer>
                         <table>log_customer</table>

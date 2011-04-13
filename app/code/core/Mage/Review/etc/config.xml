@@ -35,11 +35,11 @@
         <models>
             <review>
                 <class>Mage_Review_Model</class>
-                <!-- <resourceModel>review_mysql4</resourceModel> -->
                 <resourceModel>review_resource</resourceModel>
             </review>
             <review_resource>
                 <class>Mage_Review_Model_Resource</class>
+                <deprecatedNode>review_mysql4</deprecatedNode>
                 <entities>
                     <review>
                         <table>review</table>

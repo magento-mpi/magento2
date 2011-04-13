@@ -40,11 +40,11 @@
         <models>
             <enterprise_salesarchive>
                 <class>Enterprise_SalesArchive_Model</class>
-                <!-- <resourceModel>enterprise_salesarchive_mysql4</resourceModel> -->
                 <resourceModel>enterprise_salesarchive_resource</resourceModel>
             </enterprise_salesarchive>
             <enterprise_salesarchive_resource>
                 <class>Enterprise_SalesArchive_Model_Resource</class>
+                <deprecatedNode>enterprise_salesarchive_mysql4</deprecatedNode>
                 <entities>
                     <order_grid>
                         <table>enterprise_sales_order_grid_archive</table>

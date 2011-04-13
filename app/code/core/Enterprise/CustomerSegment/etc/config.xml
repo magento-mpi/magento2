@@ -35,11 +35,11 @@
         <models>
             <enterprise_customersegment>
                 <class>Enterprise_CustomerSegment_Model</class>
-                <!-- <resourceModel>enterprise_customersegment_mysql4</resourceModel> -->
                 <resourceModel>enterprise_customersegment_resource</resourceModel>
             </enterprise_customersegment>
             <enterprise_customersegment_resource>
                 <class>Enterprise_CustomerSegment_Model_Resource</class>
+                <deprecatedNode>enterprise_customersegment_mysql4</deprecatedNode>
                 <entities>
                     <segment>
                         <table>enterprise_customersegment_segment</table>

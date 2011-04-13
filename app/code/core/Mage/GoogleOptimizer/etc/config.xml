@@ -35,11 +35,11 @@
         <models>
             <googleoptimizer>
                 <class>Mage_GoogleOptimizer_Model</class>
-                <!-- <resourceModel>googleoptimizer_mysql4</resourceModel> -->
                 <resourceModel>googleoptimizer_resource</resourceModel>
             </googleoptimizer>
             <googleoptimizer_resource>
                 <class>Mage_GoogleOptimizer_Model_Resource</class>
+                <deprecatedNode>googleoptimizer_mysql4</deprecatedNode>
                 <entities>
                     <code>
                         <table>googleoptimizer_code</table>

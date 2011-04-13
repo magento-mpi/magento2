@@ -35,11 +35,11 @@
         <models>
             <enterprise_invitation>
                 <class>Enterprise_Invitation_Model</class>
-                <!-- <resourceModel>enterprise_invitation_mysql4</resourceModel> -->
                 <resourceModel>enterprise_invitation_resource</resourceModel>
             </enterprise_invitation>
             <enterprise_invitation_resource>
                 <class>Enterprise_Invitation_Model_Resource</class>
+                <deprecatedNode>enterprise_invitation_mysql4</deprecatedNode>
                 <entities>
                     <invitation>
                         <table>enterprise_invitation</table>

@@ -35,11 +35,11 @@
         <models>
             <tax>
                 <class>Mage_Tax_Model</class>
-                <!-- <resourceModel>tax_mysql4</resourceModel> -->
                 <resourceModel>tax_resource</resourceModel>
             </tax>
             <tax_resource>
                 <class>Mage_Tax_Model_Resource</class>
+                <deprecatedNode>tax_mysql4</deprecatedNode>
                 <entities>
                     <tax_class>
                         <table>tax_class</table>

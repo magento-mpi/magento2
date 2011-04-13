@@ -35,11 +35,11 @@
         <models>
             <weee>
                 <class>Mage_Weee_Model</class>
-                <!-- <resourceModel>weee_mysql4</resourceModel> -->
                 <resourceModel>weee_resource</resourceModel>
             </weee>
             <weee_resource>
                 <class>Mage_Weee_Model_Resource</class>
+                <deprecatedNode>weee_mysql4</deprecatedNode>
                 <entities>
                     <tax>
                         <table>weee_tax</table>

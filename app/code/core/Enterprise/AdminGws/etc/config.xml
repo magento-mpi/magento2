@@ -35,11 +35,11 @@
         <models>
             <enterprise_admingws>
                 <class>Enterprise_AdminGws_Model</class>
-                <!-- <resourceModel>enterprise_admingws_mysql4</resourceModel> -->
                 <resourceModel>enterprise_admingws_resource</resourceModel>
             </enterprise_admingws>
             <enterprise_admingws_resource>
                 <class>Enterprise_AdminGws_Model_Resource</class>
+                <deprecatedNode>enterprise_admingws_mysql4</deprecatedNode>
             </enterprise_admingws_resource>
         </models>
         <blocks>

@@ -88,11 +88,11 @@
             </varien>
             <core>
                 <class>Mage_Core_Model</class>
-                <!-- <resourceModel>core_mysql4</resourceModel> -->
                 <resourceModel>core_resource</resourceModel>
             </core>
             <core_resource>
                 <class>Mage_Core_Model_Resource</class>
+                <deprecatedNode>core_mysql4</deprecatedNode>
                 <entities>
                     <config_data>
                         <table>core_config_data</table>

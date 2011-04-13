@@ -35,11 +35,11 @@
         <models>
             <adminnotification>
                 <class>Mage_AdminNotification_Model</class>
-                <!-- <resourceModel>adminnotification_mysql4</resourceModel> -->
                 <resourceModel>adminnotification_resource</resourceModel>
             </adminnotification>
             <adminnotification_resource>
                 <class>Mage_AdminNotification_Model_Resource</class>
+                <deprecatedNode>adminnotification_mysql4</deprecatedNode>
                 <entities>
                     <inbox>
                         <table>adminnotification_inbox</table>

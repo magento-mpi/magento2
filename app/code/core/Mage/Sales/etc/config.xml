@@ -906,7 +906,6 @@
         <models>
             <sales>
                 <class>Mage_Sales_Model</class>
-                <!-- <resourceModel>sales_mysql4</resourceModel> -->
                 <resourceModel>sales_resource</resourceModel>
             </sales>
             <sales_entity>
@@ -937,6 +936,7 @@
             </sales_entity>
             <sales_resource>
                 <class>Mage_Sales_Model_Resource</class>
+                <deprecatedNode>sales_mysql4</deprecatedNode>
                 <entities>
                     <quote>
                         <table>sales_flat_quote</table>

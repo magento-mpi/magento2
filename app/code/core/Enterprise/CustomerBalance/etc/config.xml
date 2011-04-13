@@ -43,11 +43,11 @@
         <models>
             <enterprise_customerbalance>
                 <class>Enterprise_CustomerBalance_Model</class>
-                <!-- <resourceModel>enterprise_customerbalance_mysql4</resourceModel> -->
                 <resourceModel>enterprise_customerbalance_resource</resourceModel>
             </enterprise_customerbalance>
             <enterprise_customerbalance_resource>
                 <class>Enterprise_CustomerBalance_Model_Resource</class>
+                <deprecatedNode>enterprise_customerbalance_mysql4</deprecatedNode>
                 <entities>
                     <balance>
                         <table>enterprise_customerbalance</table>

@@ -35,11 +35,11 @@
         <models>
             <eav>
                 <class>Mage_Eav_Model</class>
-                <!-- <resourceModel>eav_mysql4</resourceModel> -->
                 <resourceModel>eav_resource</resourceModel>
             </eav>
             <eav_resource>
                 <class>Mage_Eav_Model_Resource</class>
+                <deprecatedNode>eav_mysql4</deprecatedNode>
                 <entities>
                     <entity>
                         <table>eav_entity</table>

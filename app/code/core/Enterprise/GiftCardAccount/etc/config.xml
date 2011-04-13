@@ -35,11 +35,11 @@
         <models>
             <enterprise_giftcardaccount>
                 <class>Enterprise_GiftCardAccount_Model</class>
-                <!-- <resourceModel>enterprise_giftcardaccount_mysql4</resourceModel> -->
                 <resourceModel>enterprise_giftcardaccount_resource</resourceModel>
             </enterprise_giftcardaccount>
             <enterprise_giftcardaccount_resource>
                 <class>Enterprise_GiftCardAccount_Model_Resource</class>
+                <deprecatedNode>enterprise_giftcardaccount_mysql4</deprecatedNode>
                 <entities>
                     <giftcardaccount>
                         <table>enterprise_giftcardaccount</table>

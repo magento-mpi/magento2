@@ -40,11 +40,11 @@
         <models>
             <salesrule>
                 <class>Mage_SalesRule_Model</class>
-                <!-- <resourceModel>salesrule_mysql4</resourceModel> -->
                 <resourceModel>salesrule_resource</resourceModel>
             </salesrule>
             <salesrule_resource>
                 <class>Mage_SalesRule_Model_Resource</class>
+                <deprecatedNode>salesrule_mysql4</deprecatedNode>
                 <entities>
                     <rule>
                         <table>salesrule</table>

@@ -73,11 +73,11 @@
         <models>
             <poll>
                 <class>Mage_Poll_Model</class>
-                <!-- <resourceModel>poll_mysql4</resourceModel> -->
                 <resourceModel>poll_resource</resourceModel>
             </poll>
             <poll_resource>
                 <class>Mage_Poll_Model_Resource</class>
+                <deprecatedNode>poll_mysql4</deprecatedNode>
                 <entities>
                     <poll>
                         <table>poll</table>

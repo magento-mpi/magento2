@@ -44,11 +44,11 @@
         <models>
             <googlecheckout>
                 <class>Mage_GoogleCheckout_Model</class>
-                <!-- <resourceModel>googlecheckout_mysql4</resourceModel> -->
                 <resourceModel>googlecheckout_resource</resourceModel>
             </googlecheckout>
             <googlecheckout_resource>
                 <class>Mage_GoogleCheckout_Model_Resource</class>
+                <deprecatedNode>googlecheckout_mysql4</deprecatedNode>
                 <entities>
                     <api_debug>
                         <table>googlecheckout_api_debug</table>

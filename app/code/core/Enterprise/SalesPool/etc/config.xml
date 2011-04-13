@@ -40,11 +40,11 @@
         <models>
             <enterprise_salespool>
                 <class>Enterprise_SalesPool_Model</class>
-                <!-- <resourceModel>enterprise_salespool_mysql4</resourceModel> -->
                 <resourceModel>enterprise_salespool_resource</resourceModel>
             </enterprise_salespool>
             <enterprise_salespool_resource>
                 <class>Enterprise_SalesPool_Model_Resource</class>
+                <deprecatedNode>enterprise_salespool_mysql4</deprecatedNode>
                 <entities>
                     <order>
                         <table>enterprise_sales_order_pool</table>

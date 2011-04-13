@@ -35,11 +35,11 @@
         <models>
             <admin>
                 <class>Mage_Admin_Model</class>
-                <!-- <resourceModel>admin_mysql4</resourceModel> -->
                 <resourceModel>admin_resource</resourceModel>
             </admin>
             <admin_resource>
                 <class>Mage_Admin_Model_Resource</class>
+                <deprecatedNode>admin_mysql4</deprecatedNode>
                 <entities>
                     <user>
                         <table>admin_user</table>

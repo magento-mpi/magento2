@@ -35,11 +35,11 @@
         <models>
             <paygate>
                 <class>Mage_Paygate_Model</class>
-                <!-- <resourceModel>paygate_mysql4</resourceModel> -->
                 <resourceModel>paygate_resource</resourceModel>
             </paygate>
             <paygate_resource>
                 <class>Mage_Paygate_Model_Resource</class>
+                <deprecatedNode>paygate_mysql4</deprecatedNode>
                 <entities>
                     <authorizenet_debug>
                         <table>paygate_authorizenet_debug</table>

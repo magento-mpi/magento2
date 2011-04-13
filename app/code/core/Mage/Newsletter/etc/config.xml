@@ -40,11 +40,11 @@
         <models>
             <newsletter>
                 <class>Mage_Newsletter_Model</class>
-                <!-- <resourceModel>newsletter_mysql4</resourceModel> -->
                 <resourceModel>newsletter_resource</resourceModel>
             </newsletter>
             <newsletter_resource>
                 <class>Mage_Newsletter_Model_Resource</class>
+                <deprecatedNode>newsletter_mysql4</deprecatedNode>
                 <entities>
                     <subscriber>
                         <table>newsletter_subscriber</table>

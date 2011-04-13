@@ -35,11 +35,11 @@
         <models>
             <xmlconnect>
                 <class>Mage_XmlConnect_Model</class>
-                <!-- <resourceModel>xmlconnect_mysql4</resourceModel> -->
                 <resourceModel>xmlconnect_resource</resourceModel>
             </xmlconnect>
             <xmlconnect_resource>
                 <class>Mage_XmlConnect_Model_Mysql4</class>
+                <deprecatedNode>xmlconnect_mysql4</deprecatedNode>
                 <entities>
                     <application><table>xmlconnect_application</table></application>
                     <history><table>xmlconnect_history</table></history>

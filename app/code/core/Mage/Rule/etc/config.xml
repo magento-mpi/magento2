@@ -35,11 +35,11 @@
         <models>
             <rule>
                 <class>Mage_Rule_Model</class>
-                <!-- <resourceModel>rule_mysql4</resourceModel> -->
                 <resourceModel>rule_resource</resourceModel>
             </rule>
             <rule_resource>
                 <class>Mage_Rule_Model_Resource</class>
+                <deprecatedNode>rule_mysql4</deprecatedNode>
             </rule_resource>
         </models>
         <blocks>

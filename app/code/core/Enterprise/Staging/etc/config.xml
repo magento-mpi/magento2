@@ -35,11 +35,11 @@
         <models>
             <enterprise_staging>
                 <class>Enterprise_Staging_Model</class>
-                <!-- <resourceModel>enterprise_staging_mysql4</resourceModel> -->
                 <resourceModel>enterprise_staging_resource</resourceModel>
             </enterprise_staging>
             <enterprise_staging_resource>
                 <class>Enterprise_Staging_Model_Resource</class>
+                <deprecatedNode>enterprise_staging_mysql4</deprecatedNode>
                 <entities>
                     <staging>
                         <table>enterprise_staging</table>

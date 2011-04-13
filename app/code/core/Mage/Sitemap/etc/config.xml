@@ -35,11 +35,11 @@
         <models>
             <sitemap>
                 <class>Mage_Sitemap_Model</class>
-                <!-- <resourceModel>sitemap_mysql4</resourceModel> -->
                 <resourceModel>sitemap_resource</resourceModel>
             </sitemap>
             <sitemap_resource>
                 <class>Mage_Sitemap_Model_Resource</class>
+                <deprecatedNode>sitemap_mysql4</deprecatedNode>
                 <entities>
                     <sitemap>
                         <table>sitemap</table>

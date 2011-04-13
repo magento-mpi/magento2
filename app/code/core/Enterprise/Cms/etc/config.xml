@@ -35,11 +35,11 @@
         <models>
             <enterprise_cms>
                 <class>Enterprise_Cms_Model</class>
-                <!-- <resourceModel>enterprise_cms_mysql4</resourceModel> -->
                 <resourceModel>enterprise_cms_resource</resourceModel>
             </enterprise_cms>
             <enterprise_cms_resource>
                 <class>Enterprise_Cms_Model_Resource</class>
+                <deprecatedNode>enterprise_cms_mysql4</deprecatedNode>
                 <entities>
                     <page_version>
                         <table>enterprise_cms_page_version</table>
