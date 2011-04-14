@@ -51,14 +51,35 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     }
 
     /**
+     * Test navigation.
      *
-     * @param string $userData
+     * Steps:
+     *
+     * 1. Verify that 'Add New Customer' button is present and click her.
+     *
+     * 2. Verify that the create customer page is opened.
+     *
+     * 3. Verify that 'Back' button is present.
+     *
+     * 4. Verify that 'Save Customer' button is present.
+     *
+     * 5. Verify that 'Reset' button is present.
      */
-    public function createCustomer($userData)
+    public function test_Navigation()
     {
-        $this->clickButton('add_new_customer');
-        $this->fillForm($userData, 'account_information');
-        $this->clickButton('save_customer');
+        $this->assertTrue($this->clickButton('add_new_customer'),
+                'There is no "Add New Customer" button on the page');
+//        @TODO func 'navigated'
+//        $this->assertTrue($this->navigated('new_customer'),
+//                'Wrong page is displayed');
+        $this->assertTrue($this->controlIsPresent('button', 'back'),
+                'There is no "Back" button on the page');
+        $this->assertTrue($this->controlIsPresent('button', 'save_customer'),
+                'There is no "Save" button on the page');
+        $this->assertTrue($this->controlIsPresent('button', 'save_and_continue_edit'),
+                'There is no "Save and Continue Edit" button on the page');
+        $this->assertTrue($this->controlIsPresent('button', 'reset'),
+                'There is no "Reset" button on the page');
     }
 
     /**
@@ -80,13 +101,17 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithRequiredFieldsOnly()
     {
-        $userData = $this->loadData('generic_customer_account', null, null);
-        $this->createCustomer($userData);
-        $this->assertFalse($this->errorMessage(), $this->messages);
+        //Data
+        $userData = $this->loadData('generic_customer_account');
+        //Steps
+        $this->clickButton('add_new_customer');
+        $this->fillForm($userData, 'account_information');
+        $this->clickButton('save_customer');
+        //Verifying
+//        @TODO func 'navigated'
 //        $this->assertTrue($this->navigated('manage_customers'),
 //                'After successful customer creation should be redirected to Manage Customers page');
-        $this->assertTrue($this->successMessage('success_save_customer'),
-                'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
     }
 
     /**
@@ -96,7 +121,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      *
      * 1. Click 'Add New Customer' button.
      *
-     * 2. Fill in 'Email' field by using code that already exist.
+     * 2. Fill in 'Email' field by using email that already exist.
      *
      * 3. Fill other required fields by regular data.
      *
@@ -112,11 +137,14 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithEmailThatAlreadyExists()
     {
-        $userData = $this->loadData('generic_customer_account', null, null);
-        $this->createCustomer($userData);
-        $this->assertTrue($this->errorMessage('customer_email_exist'),
-                'No error message is displayed');
-        $this->assertFalse($this->successMessage(), $this->messages);
+        //Data
+        $userData = $this->loadData('generic_customer_account');
+        //Steps
+        $this->clickButton('add_new_customer');
+        $this->fillForm($userData, 'account_information');
+        $this->clickButton('save_customer');
+        //Verifying
+        $this->assertTrue($this->errorMessage('customer_email_exist'), $this->messages);
     }
 
     /**
@@ -138,17 +166,20 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      *
      * @dataProvider data_EmptyField
      */
-    public function test_WithRequiredFieldsEmpty($field)
+    public function test_WithRequiredFieldsEmpty_ExeptEmail($emptyFields)
     {
-        $userData = $this->loadData('generic_customer_account', $field, 'email');
-        $this->createCustomer($userData);
-        foreach ($field as $key => $value) {
-            $xpath = $this->getCurrentLocationUimapPage()->findFieldset('account_info')->findField($key);
+        //Data
+        $userData = $this->loadData('generic_customer_account', $emptyFields, 'email');
+        //Steps
+        $this->clickButton('add_new_customer');
+        $this->fillForm($userData, 'account_information');
+        $this->clickButton('save_customer');
+        //Verifying
+        foreach ($emptyFields as $key => $value) {
+            $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->getTab('account_information')->findField($key);
+            $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
         }
-        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
-        $this->assertTrue($this->errorMessage('empty_reqired_field'),
-                'No error message is displayed');
-        $this->assertFalse($this->successMessage(), $this->messages);
+        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
     }
 
     public function data_EmptyField()
@@ -180,13 +211,16 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithRequiredFieldsEmpty_EmptyEmail()
     {
-        $userData = $this->loadData('generic_customer_account', array('email' => NULL), NULL);
-        $this->createCustomer($userData);
-        $xpath = $this->getCurrentLocationUimapPage()->findFieldset('account_info')->findField('email');
+        //Data
+        $userData = $this->loadData('generic_customer_account', array('email' => NULL));
+        //Steps
+        $this->clickButton('add_new_customer');
+        $this->fillForm($userData, 'account_information');
+        $this->clickButton('save_customer');
+        //Verifying
+        $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->getTab('account_information')->findField('email');
         $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
-        $this->assertTrue($this->errorMessage('empty_reqired_field'),
-                'No error message is displayed');
-        $this->assertFalse($this->successMessage(), $this->messages);
+        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
     }
 
     /**
@@ -208,6 +242,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithSpecialCharacters_ExeptEmail()
     {
+        //Data
         $userData = $this->loadData(
                         'generic_customer_account',
                         array(
@@ -216,12 +251,15 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
                             'password' => $this->generate('string', 32, ':punct:'),
                         ),
                         'email');
-        $this->createCustomer($userData);
-        $this->assertFalse($this->errorMessage(), $this->messages);
+        //Steps
+        $this->clickButton('add_new_customer');
+        $this->fillForm($userData, 'account_information');
+        $this->clickButton('save_customer');
+        //Verifying
+//        @TODO func 'navigated'
 //        $this->assertTrue($this->navigated('manage_customers'),
 //                'After successful customer creation should be redirected to Manage Customers page');
-        $this->assertTrue($this->successMessage('success_saved_customer'),
-                'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
     }
 
     /**
@@ -243,34 +281,42 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithLongValues()
     {
+        //Data
         $longValues = array(
             'first_name' => $this->generate('string', 255, ':alnum:'),
             'last_name' => $this->generate('string', 255, ':alnum:'),
             'password' => $this->generate('string', 255, ':alnum:'),
-            'email' => $this->generate('email', 255, ':lower:')
+            'email' => $this->generate('email', 255, 'valid')
         );
         $userData = $this->loadData(
-                        'generic_customer_account', $longValues, NULL);
+                        'generic_customer_account', $longValues);
         $searchData = $this->loadData(
                         'search_customer',
                         array(
                             'name' => $userData['first_name'] . ' ' . $userData['last_name'],
                             'email' => $userData['email']
-                        ),
-                        NULL
+                        )
         );
-        $this->createCustomer($userData);
-        $this->assertFalse($this->errorMessage(), $this->messages);
+        //Steps
+        $this->clickButton('add_new_customer');
+        $this->fillForm($userData, 'account_information');
+        $this->clickButton('save_customer');
+        //Verifying
+//        @TODO func 'navigated'
 //        $this->assertTrue($this->navigated('manage_customers'),
 //                'After successful customer creation should be redirected to Manage Customers page');
-        $this->assertTrue($this->successMessage('success_saved_customer'),
-                'No success message is displayed');
-        $this->searchAndOpen($searchData);
-        $this->clickControl('tab', 'account_information', FALSE);
-        foreach ($longValues as $key => $value) {
-            $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->getTab('account_information')->findField($key);
-            $this->assertEquals(strlen($this->getValue($xpath)), 255);
-        }
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+//        @TODO
+//        //Steps
+//        $this->searchAndOpen($searchData);
+//        $this->clickControl('tab', 'account_information', FALSE);
+//        //Verifying
+//        foreach ($longValues as $key => $value) {
+//            if ($key != 'password') {
+//                $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->getTab('account_information')->findField($key);
+//                $this->assertEquals(strlen($this->getValue('//' . $xpath)), 255);
+//            }
+//        }
     }
 
     /**
@@ -296,11 +342,14 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithInvalidEmail($wrongEmail)
     {
-        $userData = $this->loadData('generic_customer_account', $wrongEmail, NULL);
-        $this->createCustomer($userData);
-        $this->assertTrue($this->errorMessage('customer_invalid_email'),
-                'No error message is displayed');
-        $this->assertFalse($this->successMessage(), $this->messages);
+        //Data
+        $userData = $this->loadData('generic_customer_account', $wrongEmail);
+        //Steps
+        $this->clickButton('add_new_customer');
+        $this->fillForm($userData, 'account_information');
+        $this->clickButton('save_customer');
+        //Verifying
+        $this->assertTrue($this->errorMessage('customer_invalid_email'), $this->messages);
     }
 
     public function data_InvalidEmail()
@@ -334,11 +383,14 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithInvalidPassword()
     {
+        //Data
         $userData = $this->loadData('generic_customer_account', array('password' => '12345'), 'email');
-        $this->createCustomer($userData);
-        $this->assertTrue($this->errorMessage('password_too_short'),
-                'No error message is displayed');
-        $this->assertFalse($this->successMessage(), $this->messages);
+        //Steps
+        $this->clickButton('add_new_customer');
+        $this->fillForm($userData, 'account_information');
+        $this->clickButton('save_customer');
+        //Verifying
+        $this->assertTrue($this->errorMessage('password_too_short'), $this->messages);
     }
 
     /**
@@ -346,8 +398,10 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithAddress()
     {
-        $userData = $this->loadData('all_fields_customer_account', NULL, NULL);
-        $adressData = $this->loadData('all_fields_address', NULL, NULL);
+        //Data
+        $userData = $this->loadData('all_fields_customer_account');
+        $adressData = $this->loadData('all_fields_address');
+        //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
         $this->clickControl('tab', 'addresses', FALSE);
@@ -355,11 +409,10 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => 1)));
         $this->fillForm($adressData, 'addresses');
         $this->clickButton('save_customer');
-        $this->assertFalse($this->errorMessage(), $this->messages);
+        //Verifying
 //        $this->assertTrue($this->navigated('manage_customers'),
 //                'After successful customer creation should be redirected to Manage Customers page');
-        $this->assertTrue($this->successMessage('success_saved_customer'),
-                'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
     }
 
     /**

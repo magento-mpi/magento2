@@ -50,7 +50,6 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->navigate('manage_stores'));
     }
 
-
     /**
      * Test navigation.
      *
@@ -107,12 +106,10 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($websiteData);
         $this->clickButton('save_website');
         //Verifying
-        $this->assertFalse($this->errorMessage(), $this->messages);
 //        @TODO func 'navigated'
 //        $this->assertTrue($this->navigated('manage_stores'),
 //                'After successful creation website should be redirected to Manage Stores page');
-        $this->assertTrue($this->successMessage('success_saved_website'),
-                'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
     }
 
     /**
@@ -145,9 +142,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($websiteData);
         $this->clickButton('save_website');
         //Verifying
-        $this->assertTrue($this->errorMessage('website_code_exist'),
-                'No error message is displayed');
-        $this->assertFalse($this->successMessage(), $this->messages);
+        $this->assertTrue($this->errorMessage('website_code_exist'), $this->messages);
     }
 
     /**
@@ -179,9 +174,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         //Verifying
         $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->findField('website_name');
         $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
-        $this->assertTrue($this->errorMessage('empty_required_field'),
-                'No error message is displayed');
-        $this->assertFalse($this->successMessage(), $this->messages);
+        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
     }
 
     /**
@@ -212,9 +205,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         //Verifying
         $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->findField('website_code');
         $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
-        $this->assertTrue($this->errorMessage('empty_required_field'),
-                'No error message is displayed');
-        $this->assertFalse($this->successMessage(), $this->messages);
+        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
     }
 
     /**
@@ -247,12 +238,10 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($websiteData);
         $this->clickButton('save_website');
         //Verifying
-        $this->assertFalse($this->errorMessage(), $this->messages);
 //        @TODO func 'navigated'
 //        $this->assertTrue($this->navigated('manage_stores'),
 //                'After successful creation website should be redirected to Manage Stores page');
-        $this->assertTrue($this->successMessage('success_saved_website'),
-                'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
 //        @TODO
 //        $this->searchAndOpen($searchData);
 //        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findField('website_name');
@@ -291,12 +280,10 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($websiteData);
         $this->clickButton('save_website');
         //Verifying
-        $this->assertFalse($this->errorMessage(), $this->messages);
 //        @TODO func 'navigated'
 //        $this->assertTrue($this->navigated('manage_stores'),
 //                'After successful creation website should be redirected to Manage Stores page');
-        $this->assertTrue($this->successMessage('success_saved_website'),
-                'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
     }
 
     /**
@@ -328,9 +315,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($websiteData);
         $this->clickButton('save_website');
         //Verifying
-        $this->assertTrue($this->errorMessage('wrong_website_code'),
-                'No error message is displayed');
-        $this->assertFalse($this->successMessage(), $this->messages);
+        $this->assertTrue($this->errorMessage('wrong_website_code'), $this->messages);
     }
 
     /**
@@ -363,9 +348,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($websiteData);
         $this->clickButton('save_website');
         //Verifying
-        $this->assertTrue($this->errorMessage('wrong_website_code'),
-                'No error message is displayed');
-        $this->assertFalse($this->successMessage(), $this->messages);
+        $this->assertTrue($this->errorMessage('wrong_website_code'), $this->messages);
     }
 
     public function data_InvalidCode()
@@ -399,9 +382,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($websiteData);
         $this->clickButton('save_website');
         //Verifying
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage('success_saved_website'),
-                'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
         //1.2.Create two stores
         for ($i = 1; $i <= 2; $i++) {
             //Data
@@ -412,9 +393,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
             $this->fillForm($storeData);
             $this->clickButton('save_store');
             //Verifying
-            $this->assertFalse($this->errorMessage(), $this->messages);
-            $this->assertTrue($this->successMessage('success_saved_store'),
-                    'No success message is displayed');
+            $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
         }
     }
 
@@ -442,9 +421,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($websiteData);
         $this->clickButton('save_website');
         //Verifying
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage('success_saved_website'),
-                'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
         //1.2.Create store
         //Data
         $storeData = $this->loadData('generic_store',
@@ -454,9 +431,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($storeData);
         $this->clickButton('save_store');
         //Verifying
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage('success_saved_store'),
-                'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
         //1.3.Create two store view
         for ($i = 1; $i <= 2; $i++) {
             //Data
@@ -468,9 +443,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
             $this->fillForm($storeViewData);
             $this->clickButton('save_store_view');
             //Verifying
-            $this->assertFalse($this->errorMessage(), $this->messages);
-            $this->assertTrue($this->successMessage('success_saved_store_view'),
-                    'No success message is displayed');
+            $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
         }
     }
 

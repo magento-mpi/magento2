@@ -65,20 +65,20 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
      *
      * 5. Verify that 'Reset' button is present.
      */
-//    public function test_Navigation()
-//    {
-//        $this->assertTrue($this->clickButton('create_store'),
-//                'There is no "Create Store" button on the page');
-////        @TODO func 'navigated'
-////        $this->assertTrue($this->navigated('new_store'),
-////                'Wrong page is displayed');
-//        $this->assertTrue($this->controlIsPresent('button', 'back'),
-//                'There is no "Back" button on the page');
-//        $this->assertTrue($this->controlIsPresent('button', 'save_store'),
-//                'There is no "Save" button on the page');
-//        $this->assertTrue($this->controlIsPresent('button', 'reset'),
-//                'There is no "Reset" button on the page');
-//    }
+    public function test_Navigation()
+    {
+        $this->assertTrue($this->clickButton('create_store'),
+                'There is no "Create Store" button on the page');
+//        @TODO func 'navigated'
+//        $this->assertTrue($this->navigated('new_store'),
+//                'Wrong page is displayed');
+        $this->assertTrue($this->controlIsPresent('button', 'back'),
+                'There is no "Back" button on the page');
+        $this->assertTrue($this->controlIsPresent('button', 'save_store'),
+                'There is no "Save" button on the page');
+        $this->assertTrue($this->controlIsPresent('button', 'reset'),
+                'There is no "Reset" button on the page');
+    }
 
     /**
      * Create Store. Fill in only required fields.
@@ -106,139 +106,131 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($storeData);
         $this->clickButton('save_store');
         //Verifying
-        $this->assertFalse($this->errorMessage(), $this->messages);
 //        @TODO func 'navigated'
 //        $this->assertTrue($this->navigated('manage_stores'),
 //                'After successful creation store should be redirected to Manage Stores page');
-        $this->assertTrue($this->successMessage('success_saved_store'),
-                'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
     }
-//
-//    /**
-//     * Create Store. Fill in required fields except one field.
-//     *
-//     * Steps:
-//     *
-//     * 1. Click 'Create Store' button.
-//     *
-//     * 2. Fill in fields except one required field.
-//     *
-//     * 3. Click 'Save Store' button.
-//     *
-//     * Expected result:
-//     *
-//     * Store is not created.
-//     *
-//     * Error Message is displayed.
-//     *
-//     * @dataProvider data_EmptyField
-//     */
-//    public function test_WithRequiredFieldsEmpty($emptyField)
-//    {
-//        //Data
-//        $storeData = $this->loadData('generic_store', $emptyField);
-//        //Steps
-//        $this->clickButton('create_store');
-//        $this->fillForm($storeData);
-//        $this->clickButton('save_store');
-//        //Verifying
-//        foreach ($emptyField as $key => $value) {
-//            $xpath = ($this->getCurrentLocationUimapPage()->getMainForm()->findField($key) == NULL) ?
-//                    ($this->getCurrentLocationUimapPage()->getMainForm()->findDropdown($key)) :
-//                    ($this->getCurrentLocationUimapPage()->getMainForm()->findField($key));
-//            $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
-//        }
-//        $this->assertTrue($this->errorMessage('empty_required_field'),
-//                'No error message is displayed');
-//        $this->assertFalse($this->successMessage(), $this->messages);
-//    }
-//
-//    /**
-//     * Data for test_WithRequiredFieldsEmpty
-//     * @return array
-//     */
-//    public function data_EmptyField()
-//    {
-//        return array(
-//            array(array('store_name' => NULL)),
-//            array(array('root_category' => NULL)),
-//        );
-//    }
-//
-//    /**
-//     * Create Store. Fill in only required fields. Use max long values for field 'Name'
-//     *
-//     * Steps:
-//     *
-//     * 1. Click 'Create Store' button.
-//     *
-//     * 2. Fill in required fields by long value alpha-numeric data.
-//     *
-//     * 3. Click 'Save Store' button.
-//     *
-//     * Expected result:
-//     *
-//     * Store is created. Success Message is displayed.
-//     *
-//     * Length of field "Name" is 255 characters.
-//     */
-//    public function test_WithLongValues()
-//    {
-//        //Data
-//        $longValues = array('store_name' => $this->generate('string', 255, ':alnum:'));
-//        $storeData = $this->loadData('generic_store', $longValues);
-//        //Steps
-//        $this->clickButton('create_store');
-//        $this->fillForm($storeData);
-//        $this->clickButton('save_store');
-//        //Verifying
-//        $this->assertFalse($this->errorMessage(), $this->messages);
-////        @TODO func 'navigated'
-////        $this->assertTrue($this->navigated('manage_stores'),
-////                'After successful creation store should be redirected to Manage Stores page');
-//        $this->assertTrue($this->successMessage('success_saved_store'),
-//                'No success message is displayed');
-////        @TODO
-////        $this->searchAndOpen($searchData);
-////        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findField('store_name');
-////        $this->assertEquals(strlen($this->getValue($xpathName)), 255);
-//    }
-//
-//    /**
-//     * Create Store. Fill in field 'Name' by using special characters.
-//     *
-//     * Steps:
-//     *
-//     * 1. Click 'Create Store' button.
-//     *
-//     * 2. Fill in 'Name' field by special characters.
-//     *
-//     * 3. Fill other required fields by regular data.
-//     *
-//     * 4. Click 'Save Store' button.
-//     *
-//     * Expected result:
-//     *
-//     * Store is created.
-//     *
-//     * Success Message is displayed
-//     */
-//    public function test_WithSpecialCharacters_InName()
-//    {
-//        //Data
-//        $storeData = $this->loadData('generic_store',
-//                        array('store_name' => $this->generate('string', 32, ':punct:')));
-//        //Steps
-//        $this->clickButton('create_store');
-//        $this->fillForm($storeData);
-//        $this->clickButton('save_store');
-//        //Verifying
-//        $this->assertFalse($this->errorMessage(), $this->messages);
-////        @TODO func 'navigated'
-////        $this->assertTrue($this->navigated('manage_stores'),
-////                'After successful creation store should be redirected to Manage Stores page');
-//        $this->assertTrue($this->successMessage('success_saved_store'),
-//                'No success message is displayed');
-//    }
+
+    /**
+     * Create Store. Fill in required fields except one field.
+     *
+     * Steps:
+     *
+     * 1. Click 'Create Store' button.
+     *
+     * 2. Fill in fields except one required field.
+     *
+     * 3. Click 'Save Store' button.
+     *
+     * Expected result:
+     *
+     * Store is not created.
+     *
+     * Error Message is displayed.
+     *
+     * @dataProvider data_EmptyField
+     */
+    public function test_WithRequiredFieldsEmpty($emptyField)
+    {
+        //Data
+        $storeData = $this->loadData('generic_store', $emptyField);
+        //Steps
+        $this->clickButton('create_store');
+        $this->fillForm($storeData);
+        $this->clickButton('save_store');
+        //Verifying
+        foreach ($emptyField as $key => $value) {
+            $xpath = ($this->getCurrentLocationUimapPage()->getMainForm()->findField($key) == NULL) ?
+                    ($this->getCurrentLocationUimapPage()->getMainForm()->findDropdown($key)) :
+                    ($this->getCurrentLocationUimapPage()->getMainForm()->findField($key));
+            $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
+        }
+        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
+    }
+
+    /**
+     * Data for test_WithRequiredFieldsEmpty
+     * @return array
+     */
+    public function data_EmptyField()
+    {
+        return array(
+            array(array('store_name' => NULL)),
+            array(array('root_category' => NULL)),
+        );
+    }
+
+    /**
+     * Create Store. Fill in only required fields. Use max long values for field 'Name'
+     *
+     * Steps:
+     *
+     * 1. Click 'Create Store' button.
+     *
+     * 2. Fill in required fields by long value alpha-numeric data.
+     *
+     * 3. Click 'Save Store' button.
+     *
+     * Expected result:
+     *
+     * Store is created. Success Message is displayed.
+     *
+     * Length of field "Name" is 255 characters.
+     */
+    public function test_WithLongValues()
+    {
+        //Data
+        $longValues = array('store_name' => $this->generate('string', 255, ':alnum:'));
+        $storeData = $this->loadData('generic_store', $longValues);
+        //Steps
+        $this->clickButton('create_store');
+        $this->fillForm($storeData);
+        $this->clickButton('save_store');
+        //Verifying
+//        @TODO func 'navigated'
+//        $this->assertTrue($this->navigated('manage_stores'),
+//                'After successful creation store should be redirected to Manage Stores page');
+        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+//        @TODO
+//        $this->searchAndOpen($searchData);
+//        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findField('store_name');
+//        $this->assertEquals(strlen($this->getValue($xpathName)), 255);
+    }
+
+    /**
+     * Create Store. Fill in field 'Name' by using special characters.
+     *
+     * Steps:
+     *
+     * 1. Click 'Create Store' button.
+     *
+     * 2. Fill in 'Name' field by special characters.
+     *
+     * 3. Fill other required fields by regular data.
+     *
+     * 4. Click 'Save Store' button.
+     *
+     * Expected result:
+     *
+     * Store is created.
+     *
+     * Success Message is displayed
+     */
+    public function test_WithSpecialCharacters_InName()
+    {
+        //Data
+        $storeData = $this->loadData('generic_store',
+                        array('store_name' => $this->generate('string', 32, ':punct:')));
+        //Steps
+        $this->clickButton('create_store');
+        $this->fillForm($storeData);
+        $this->clickButton('save_store');
+        //Verifying
+//        @TODO func 'navigated'
+//        $this->assertTrue($this->navigated('manage_stores'),
+//                'After successful creation store should be redirected to Manage Stores page');
+        $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+    }
 
 }

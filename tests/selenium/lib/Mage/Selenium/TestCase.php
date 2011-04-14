@@ -680,20 +680,36 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $xpath = "//td[normalize-space(@class)='pager']";
             $text = $this->getText("$xpath");
             preg_match("/Total [0-9]+ records found/", $text, $matches);
-            $xpath = substr("$xpath", 0, -1) . " and not(contains(.,'" . $matches[0] . "'))]";
+            preg_match("/[0-9+]/", $matches[0], $array);
+            if ($array[0] == 0 or $array[0] == 1) {
+                //Need implement
+                die("Need implement xpath\n");
+            } else {
+                $xpath = substr("$xpath", 0, -1) . " and not(contains(.,'" . $matches[0] . "'))]";
+            }
             // Forming xpath for string that contains the lookup data
             $xpathTR = '//tr[';
             $i = 1;
-            $count = count($data) - 1;
+            $count = 0;
+            foreach ($data as $k => $v) {
+                if ($v != Null) {
+                    if (preg_match('/website/', $k)) {
+                        $xpathField = $this->getCurrentLocationUimapPage()->getMainForm()->findField($k);
+                        if (!$this->isElementPresent($xpathField)) {
+                            $count -=1;
+                            unset($data[$k]);
+                        }
+                    }
+                    $count +=1;
+                }
+            }
             foreach ($data as $key => $value) {
                 if ($value != Null and !preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
                     $xpathTR .= "contains(.,'$value')";
-                    if ($i <= $count) {
+                    if ($i <= $count - 1) {
                         $xpathTR .= ' and ';
                     }
                     $i += 1;
-                } else {
-                    $count -=1;
                 }
             }
             $xpathTR .=']';
