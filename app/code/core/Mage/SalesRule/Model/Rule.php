@@ -469,11 +469,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function hasIsValidForAddress($address)
     {
-        if($address instanceof Mage_Sales_Model_Quote_Address) {
-            $addressId = $address->getId();
-        } else {
-            $addressId = $address;
-        }
+        $addressId = $this->_getAddressId($address);
         return isset($this->_validatedAddresses[$addressId]) ? true : false;
     }
 
@@ -486,11 +482,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function setIsValidForAddress($address, $validationResult)
     {
-        if($address instanceof Mage_Sales_Model_Quote_Address) {
-            $addressId = $address->getId();
-        } else {
-            $addressId = $address;
-        }
+        $addressId = $this->_getAddressId($address);
         $this->_validatedAddresses[$addressId] = $validationResult;
         return $this;
     }
@@ -503,11 +495,20 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function getIsValidForAddress($address)
     {
-        if($address instanceof Mage_Sales_Model_Quote_Address) {
-            $addressId = $address->getId();
-        } else {
-            $addressId = $address;
-        }
+        $addressId = $this->_getAddressId($address);
         return isset($this->_validatedAddresses[$addressId]) ? $this->_validatedAddresses[$addressId] : false;
+    }
+
+    /**
+     * Return id for address
+     *
+     * @param   Mage_Sales_Model_Quote_Address $address
+     * @return  string
+     */
+    private function _getAddressId($address) {
+        if($address instanceof Mage_Sales_Model_Quote_Address) {
+            return $address->getId();
+        }
+        return $address;
     }
 }

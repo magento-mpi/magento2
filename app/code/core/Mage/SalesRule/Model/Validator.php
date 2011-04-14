@@ -139,69 +139,69 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
      */
     protected function _canProcessRule($rule, $address)
     {
-        if (!$rule->hasIsValidForAddress($address)) {
-            /**
-             * check per coupon usage limit
-             */
-            if ($rule->getCouponType() != Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON) {
-                $couponCode = $address->getQuote()->getCouponCode();
-                if ($couponCode) {
-                    $coupon = Mage::getModel('salesrule/coupon');
-                    $coupon->load($couponCode, 'code');
-                    if ($coupon->getId()) {
-                        // check entire usage limit
-                        if ($coupon->getUsageLimit() && $coupon->getTimesUsed() >= $coupon->getUsageLimit()) {
-                            $rule->setIsValid(false);
-                            return false;
-                        }
-                        // check per customer usage limit
-                        $customerId = $address->getQuote()->getCustomerId();
-                        if ($customerId && $coupon->getUsagePerCustomer()) {
-                            $couponUsage = new Varien_Object();
-                            Mage::getResourceModel('salesrule/coupon_usage')->loadByCustomerCoupon(
-                                $couponUsage, $customerId, $coupon->getId());
-                            if ($couponUsage->getCouponId() &&
-                                $couponUsage->getTimesUsed() >= $coupon->getUsagePerCustomer()
-                            ) {
-                                $rule->setIsValidForAddress($address, false);
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
+        if ($rule->hasIsValidForAddress($address) && !$address->isObjectNew()) {
+            return $rule->getIsValidForAddress($address);
+        }
 
-            /**
-             * check per rule usage limit
-             */
-            $ruleId = $rule->getId();
-            if ($ruleId && $rule->getUsesPerCustomer()) {
-                $customerId     = $address->getQuote()->getCustomerId();
-                $ruleCustomer   = Mage::getModel('salesrule/rule_customer');
-                $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
-                if ($ruleCustomer->getId()) {
-                    if ($ruleCustomer->getTimesUsed() >= $rule->getUsesPerCustomer()) {
+        /**
+         * check per coupon usage limit
+         */
+        if ($rule->getCouponType() != Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON) {
+            $couponCode = $address->getQuote()->getCouponCode();
+            if ($couponCode) {
+                $coupon = Mage::getModel('salesrule/coupon');
+                $coupon->load($couponCode, 'code');
+                if ($coupon->getId()) {
+                    // check entire usage limit
+                    if ($coupon->getUsageLimit() && $coupon->getTimesUsed() >= $coupon->getUsageLimit()) {
                         $rule->setIsValidForAddress($address, false);
                         return false;
                     }
+                    // check per customer usage limit
+                    $customerId = $address->getQuote()->getCustomerId();
+                    if ($customerId && $coupon->getUsagePerCustomer()) {
+                        $couponUsage = new Varien_Object();
+                        Mage::getResourceModel('salesrule/coupon_usage')->loadByCustomerCoupon(
+                            $couponUsage, $customerId, $coupon->getId());
+                        if ($couponUsage->getCouponId() &&
+                            $couponUsage->getTimesUsed() >= $coupon->getUsagePerCustomer()
+                        ) {
+                            $rule->setIsValidForAddress($address, false);
+                            return false;
+                        }
+                    }
                 }
             }
-            $rule->afterLoad();
-            /**
-             * quote does not meet rule's conditions
-             */
-            if (!$rule->validate($address)) {
-                $rule->setIsValidForAddress($address, false);
-                return false;
-            }
-            /**
-             * passed all validations, remember to be valid
-             */
-            $rule->setIsValidForAddress($address, true);
         }
 
-        return $rule->getIsValidForAddress($address);
-
+        /**
+         * check per rule usage limit
+         */
+        $ruleId = $rule->getId();
+        if ($ruleId && $rule->getUsesPerCustomer()) {
+            $customerId     = $address->getQuote()->getCustomerId();
+            $ruleCustomer   = Mage::getModel('salesrule/rule_customer');
+            $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
+            if ($ruleCustomer->getId()) {
+                if ($ruleCustomer->getTimesUsed() >= $rule->getUsesPerCustomer()) {
+                    $rule->setIsValidForAddress($address, false);
+                    return false;
+                }
+            }
+        }
+        $rule->afterLoad();
+        /**
+         * quote does not meet rule's conditions
+         */
+        if (!$rule->validate($address)) {
+            $rule->setIsValidForAddress($address, false);
+            return false;
+        }
+        /**
+         * passed all validations, remember to be valid
+         */
+        $rule->setIsValidForAddress($address, true);
+        return true;
     }
 
     /**
