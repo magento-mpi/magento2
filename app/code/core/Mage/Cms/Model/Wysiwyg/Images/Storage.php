@@ -198,8 +198,11 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
 
         $io = new Varien_Io_File();
         if ($io->mkdir($newPath)) {
-            $relativePath = Mage::helper('core/file_storage_database')->getMediaRelativePath($newPath);
-            Mage::getModel('core/file_storage_directory_database')->createRecursive($relativePath);
+            if (Mage::helper('core/file_storage_database')->checkDbUsage()) {
+                $relativePath = Mage::helper('core/file_storage_database')->getMediaRelativePath($newPath);
+                Mage::getModel('core/file_storage_directory_database')->createRecursive($relativePath);
+            }
+
             $result = array(
                 'name'          => $name,
                 'short_name'    => $this->getHelper()->getShortFilename($name),
