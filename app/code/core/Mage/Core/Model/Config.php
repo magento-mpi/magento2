@@ -1257,8 +1257,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      *
      * Example:
      * $config->getResourceHelper('cms')
-     *
-     * Will instantiate Mage_Cms_Model_Resource_Helper_<db_adapter_name>
+     * will instantiate Mage_Cms_Model_Resource_Helper_<db_adapter_name>
      *
      * @param string $moduleName
      * @return Mage_Core_Model_Resource_Helper_Abstract|false

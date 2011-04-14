@@ -514,15 +514,32 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     }
 
     /**
-     * Retrieve Flat Column(s)
+     * Retrieve Flat Column(s) DDL definition
      *
      * @return array
      */
     public function getFlatColumns()
     {
+        // If source model exists - get definition from it
         if ($this->usesSource() && $this->getBackendType() != self::TYPE_STATIC) {
-            return $this->getSource()->getFlatColums();
+            $columns = $this->getSource()->getFlatColums();
+            /**
+             * In MMDB flat columns are returned in DDL format. But non-updated extensions may still return them in
+             * older not-so-strict format. We detect such case and reformat result.
+             */
+            if ($columns) {
+                $testColumn = current($columns);
+                if (array_key_exists('is_null', $testColumn)) {
+                    var_dump($columns);
+                    foreach ($columns as $key => $column) {
+                        $columns[$key] = $this->_convertOldColumn2New($column);
+                    }
+                }
+                return $columns;
+            }
         }
+
+        // Generate column definition by common rules
         $helper  = Mage::getResourceHelper('eav');
         $columns = array();
         switch ($this->getBackendType()) {
@@ -596,6 +613,24 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         }
 
         return $columns;
+    }
+
+    /**
+     * Convert older format of flat columns to new MMDB format that uses DDL types and definitions.
+     *
+     * @param array $column
+     * @return array
+     */
+    protected function _convertOldColumn2New($column)
+    {
+        $result = Mage::getResourceHelper('eav')
+            ->convertOldColumnType2Ddl($column['type']);
+        $result['unsigned'] = $column['unsigned'];
+        $result['nullable'] = $column['is_null'];
+        $result['default'] = $column['default'];
+        $result['identity'] = stripos($column['extra'], 'auto_increment') !== false;
+
+        return $result;
     }
 
     /**

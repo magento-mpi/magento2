@@ -1536,38 +1536,36 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     protected function _getColumnTypeByDdl($column)
     {
         switch ($column['DATA_TYPE']) {
+            case 'bool':
+                return Varien_Db_Ddl_Table::TYPE_BOOLEAN;
+            case 'tinytext':
             case 'char':
-                return Varien_Db_Ddl_Table::TYPE_TEXT;
             case 'varchar':
-                return Varien_Db_Ddl_Table::TYPE_TEXT;
             case 'text':
-                return Varien_Db_Ddl_Table::TYPE_TEXT;
             case 'mediumtext':
-                return Varien_Db_Ddl_Table::TYPE_TEXT;
             case 'longtext':
                 return Varien_Db_Ddl_Table::TYPE_TEXT;
-            case 'tinytext':
-                return Varien_Db_Ddl_Table::TYPE_TEXT;
             case 'blob':
-                return Varien_Db_Ddl_Table::TYPE_BLOB;
             case 'mediumblob':
+            case 'longblob':
                 return Varien_Db_Ddl_Table::TYPE_BLOB;
+            case 'tinyint':
+            case 'smallint':
+                return Varien_Db_Ddl_Table::TYPE_SMALLINT;
             case 'mediumint':
             case 'int':
                 return Varien_Db_Ddl_Table::TYPE_INTEGER;
             case 'bigint':
-                $type = Varien_Db_Ddl_Table::TYPE_BIGINT;
+                return Varien_Db_Ddl_Table::TYPE_BIGINT;
             case 'datetime':
             case 'timestamp':
                 return Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
             case 'date':
                 return Varien_Db_Ddl_Table::TYPE_DATE;
-            case 'tinyint':
-            case 'smallint':
-                return Varien_Db_Ddl_Table::TYPE_SMALLINT;
             case 'float':
                 return Varien_Db_Ddl_Table::TYPE_FLOAT;
             case 'decimal':
+            case 'numeric':
                 return Varien_Db_Ddl_Table::TYPE_DECIMAL;
         }
     }

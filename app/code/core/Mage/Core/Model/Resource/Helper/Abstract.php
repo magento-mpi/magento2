@@ -188,4 +188,119 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
         $quotedField = $this->_getReadAdapter()->quoteIdentifier($field);
         return new Zend_Db_Expr($quotedField . ' LIKE ' . $this->addLikeEscape($value, $options));
     }
+
+    /**
+     * Converts old pre-MMDB column type made for MySQL to new cross-db column DDL definition.
+     * Used to convert data from 3rd party extensions that hasn't been updated to MMDB style yet.
+     *
+     * E.g. Converts 'varchar(255)' to array('type' => Varien_Db_Ddl_Table::TYPE_TEXT, 'length' => 255)
+     *
+     * @param string $definition
+     * @return array
+     */
+    public function convertOldColumnType2Ddl($definition) 
+    {
+        // Match type and size - e.g. varchar(100) or decimal(12,4) or int
+        $matches = array();
+        $definition = trim($definition);
+        if (!preg_match('/([^(]*)(\\((.*)\\))?/', $definition, $matches)) {
+            throw Mage::exception('Mage_Core', Mage::helper('core')->__("Wrong old style column type definition: {$definition}."));
+        }
+
+        $length = null;
+        $proposedLength = (isset($matches[3]) && strlen($matches[3])) ? $matches[3] : null;
+        switch (strtolower($matches[1])) {
+            case 'bool':
+                $length = null;
+                $type = Varien_Db_Ddl_Table::TYPE_BOOLEAN;
+                break;
+            case 'char':
+            case 'varchar':
+            case 'tinytext':
+                $length = $proposedLength;
+                if (!$length) {
+                    $length = 255;
+                }
+                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                break;
+            case 'text':
+                $length = $proposedLength;
+                if (!$length) {
+                    $length = 65535;
+                }
+                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                break;
+            case 'mediumtext':
+                $length = $proposedLength;
+                if (!$length) {
+                    $length = 16777215;
+                }
+                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                break;
+            case 'longtext':
+                $length = $proposedLength;
+                if (!$length) {
+                    $length = 4294967295;
+                }
+                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                break;
+            case 'blob':
+                $length = $proposedLength;
+                if (!$length) {
+                    $length = 65535;
+                }
+                $type = Varien_Db_Ddl_Table::TYPE_BLOB;
+                break;
+            case 'mediumblob':
+                $length = $proposedLength;
+                if (!$length) {
+                    $length = 16777215;
+                }
+                $type = Varien_Db_Ddl_Table::TYPE_BLOB;
+                break;
+            case 'longblob':
+                $length = $proposedLength;
+                if (!$length) {
+                    $length = 4294967295;
+                }
+                $type = Varien_Db_Ddl_Table::TYPE_BLOB;
+                break;
+            case 'tinyint':
+            case 'smallint':
+                $type = Varien_Db_Ddl_Table::TYPE_SMALLINT;
+                break;
+            case 'mediumint':
+            case 'int':
+                $type = Varien_Db_Ddl_Table::TYPE_INTEGER;
+                break;
+            case 'bigint':
+                $type = Varien_Db_Ddl_Table::TYPE_BIGINT;
+                break;
+            case 'float':
+                $type = Varien_Db_Ddl_Table::TYPE_FLOAT;
+                break;
+            case 'decimal':
+            case 'numeric':
+                $length = $proposedLength;
+                $type = Varien_Db_Ddl_Table::TYPE_DECIMAL;
+                break;
+            case 'datetime':
+            case 'timestamp':
+            case 'time':
+                $type = Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
+                break;
+            case 'date':
+                $type = Varien_Db_Ddl_Table::TYPE_DATE;
+                break;
+            default:
+                throw Mage::exception('Mage_Core', Mage::helper('core')->__("Unknown old style column type definition: {$definition}."));
+        }
+
+        return array(
+            'type' => $type,
+            'length' => $length
+        );
+
+        return $result;
+    }
 }
