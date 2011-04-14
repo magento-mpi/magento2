@@ -129,6 +129,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
                 $isFilterAllowed = true;
             }
 
+            /*
+             * Stores should be filtered only if product and/or category is specified.
+             * If we use custom rewrite, all stores are accepted.
+             */
             if ($stores && $isFilterAllowed) {
                 foreach ($stores as $i => $store) {
                     if (isset($store['value']) && $store['value']) {
