@@ -145,7 +145,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
         $this->clickButton('save_store_view');
         //Verifying
         $this->assertTrue($this->errorMessage('store_view_code_exist'),
-                'No error message is displayed');
+              'Expected error message is not displayed.');
         $this->assertFalse($this->successMessage(), $this->messages);
     }
 
@@ -209,7 +209,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($storeViewData);
         $this->clickButton('save_store_view');
         //Verifying
-        $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->findField('store_view_name');
+        $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->findField('store_view_code');
         $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
         $this->assertTrue($this->errorMessage('empty_required_field'),
                 'No error message is displayed');
@@ -238,7 +238,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
         //Data
         $longValues = array(
             'store_view_name' => $this->generate('string', 255, ':alnum:'),
-            'store_view_code' => $this->generate('string', 32, array(':lower:', ':digit:'))
+            'store_view_code' => $this->generate('string', 32, array(':lower:'))
         );
         $storeViewData = $this->loadData('generic_store_view', $longValues);
         //Steps
@@ -281,16 +281,25 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithSpecialCharacters_InName()
     {
+        //Data
+        $storeViewData = $this->loadData(
+                        'generic_store_view',
+                        array(
+                            'store_view_name' => $this->generate('string', 32, ':punct:')
+                        ),
+                        'store_view_code'
+        );
+        //Steps
         $this->clickButton('create_store_view');
-        $this->fillForm($this->loadData('generic_store_view',
-                        array('store_view_name' => $this->generate('string', 32, ':punct:')),
-                        'store_view_code'));
+        $this->fillForm($storeViewData);
         $this->clickButton('save_store_view');
+        //Verifying
         $this->assertFalse($this->errorMessage(), $this->messages);
+//        @TODO func 'navigated'
+//        $this->assertTrue($this->navigated('manage_stores'),
+//                'After successful creation store view should be redirected to Manage Stores page');
         $this->assertTrue($this->successMessage('success_saved_store_view'),
                 'No success message is displayed');
-        $this->assertTrue($this->navigated('manage_stores'),
-                'After successful creation store view should be redirected to Manage Stores page');
     }
 
     /**
@@ -314,10 +323,14 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithSpecialCharacters_InCode()
     {
+        //Data
+        $storeViewData = $this->loadData('generic_store_view',
+                        array('store_view_code' => $this->generate('string', 32, ':punct:')));
+        //Steps
         $this->clickButton('create_store_view');
-        $this->fillForm($this->loadData('generic_store_view',
-                        array('store_view_code' => $this->generate('string', 32, ':punct:')), NULL));
+        $this->fillForm($storeViewData);
         $this->clickButton('save_store_view');
+        //Verifying
         $this->assertTrue($this->errorMessage('wrong_store_view_code'),
                 'No error message is displayed');
         $this->assertFalse($this->successMessage(), $this->messages);
@@ -346,9 +359,13 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      */
     public function test_WithInvalidCode($invalidCode)
     {
+        //Data
+        $storeViewData = $this->loadData('generic_store_view', $invalidCode);
+        //Steps
         $this->clickButton('create_store_view');
-        $this->fillForm($this->loadData('generic_store_view', $invalidCode, null));
+        $this->fillForm($storeViewData);
         $this->clickButton('save_store_view');
+        //Verifying
         $this->assertTrue($this->errorMessage('wrong_store_view_code'),
                 'No error message is displayed');
         $this->assertFalse($this->successMessage(), $this->messages);
