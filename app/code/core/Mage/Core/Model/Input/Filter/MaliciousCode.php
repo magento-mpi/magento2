@@ -19,37 +19,34 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Core
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Backend ajax controller
- *
- * @category    Mage
- * @package     Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Adminhtml_AjaxController extends Mage_Adminhtml_Controller_Action
+class Mage_Core_Model_Input_Filter_MaliciousCode implements Zend_Filter_Interface
 {
+    protected $_expressions = array(
+        //remove comments
+        '/((\/\*).*(\*\/))|(javascript\s*:)/Usi',
+        //remove js in the style attribute
+        '/style=[^<]*((expression\s*?\([^<]*?\))|(behavior\s*:))[^<]*(?=\>)/Uis',
+        //remove js attributes
+        '/(ondblclick|onclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onload)=[^<]*(?=\>)/Uis',
+        //remove script tag
+        '/<\/?script[^<]*\>/Uis',
+        //remove base64 usage
+        '/src=[^<]*?base64[^<]*(?=\>)/Uis',
+    );
+
     /**
-     * Ajax action for inline translation
+     * Filter value
      *
+     * @param string|array $value
+     * @return string|array         Filtered value
      */
-    public function translateAction()
+    public function filter($value)
     {
-        $translation = $this->getRequest()->getPost('translate');
-        $area = $this->getRequest()->getPost('area');
-
-        //filtering
-        /** @var $filter Mage_Core_Model_Input_Filter_MaliciousCode */
-        $filter = Mage::getModel('core/input_filter_maliciousCode');
-        foreach ($translation as &$item) {
-            $item['custom'] = $filter->filter($item['custom']);
-        }
-
-        echo Mage::helper('core/translate')->apply($translation, $area);
-        exit();
+        return preg_replace($this->_expressions, '', $value);
     }
 }
