@@ -453,7 +453,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
 
                 if ($attribute->usesSource()) {
                     $option = $attribute->getSource()->getOptionText($value);
-                    if ($value && empty($option) && $option !== 0) {
+                    if ($value && empty($option) && $option != '0') {
                         $this->addException(
                             Mage::helper('catalog')->__('Invalid option ID specified for %s (%s), skipping the record.', $field, $value),
                             Mage_Dataflow_Model_Convert_Exception::ERROR
