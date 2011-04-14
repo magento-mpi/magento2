@@ -55,7 +55,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         $product  = Mage::registry('current_product');
         $category = Mage::registry('current_category');
 
-        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        $form = new Varien_Data_Form(
+            array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post'
+            )
+        );
 
         // set form data either from model values or from session
         $formValues = array(
@@ -189,7 +195,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             'value'     => $formValues['target_path'],
         ));
 
-        // auto-generate paths for new urlrewrites
+        // auto-generate paths for new url rewrites
         if (!$model->getId()) {
             $_product  = null;
             $_category = null;
