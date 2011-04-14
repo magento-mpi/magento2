@@ -722,22 +722,32 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $order = $this->getOrder();
         $invoice = $this->_getInvoiceForTransactionId($this->getParentTransactionId());
 
-        $baseGrandTotal = ($invoice) ? $invoice->getBaseGrandTotal() : $order->getBaseGrandTotal();
-        $amountRefundLeft = $baseGrandTotal - $order->getBaseTotalRefunded();
+        if ($invoice) {
+            $baseGrandTotal = $invoice->getBaseGrandTotal();
+            $amountRefundLeft = $baseGrandTotal - $invoice->getBaseTotalRefunded();
+        } else {
+            $baseGrandTotal = $order->getBaseGrandTotal();
+            $amountRefundLeft = $baseGrandTotal - $order->getBaseTotalRefunded();
+        }
+
         if ($amountRefundLeft < $amount) {
             $amount = $amountRefundLeft;
         }
 
-        if ($order->getBaseTotalRefunded() > 0) {
-            $adjustment = array('adjustment_positive' => $amount);
-        } else {
-            $adjustment = array('adjustment_negative' => $baseGrandTotal - $amount);
-        }
-
         $serviceModel = Mage::getModel('sales/service_order', $order);
         if ($invoice) {
+            if ($invoice->getBaseTotalRefunded() > 0) {
+                $adjustment = array('adjustment_positive' => $amount);
+            } else {
+                $adjustment = array('adjustment_negative' => $baseGrandTotal - $amount);
+            }
             $creditmemo = $serviceModel->prepareInvoiceCreditmemo($invoice, $adjustment);
         } else {
+            if ($order->getBaseTotalRefunded() > 0) {
+                $adjustment = array('adjustment_positive' => $amount);
+            } else {
+                $adjustment = array('adjustment_negative' => $baseGrandTotal - $amount);
+            }
             $creditmemo = $serviceModel->prepareCreditmemo($adjustment);
         }
 
