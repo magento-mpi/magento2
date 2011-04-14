@@ -49,9 +49,9 @@ product_attribute_textfield:
   visible_on_product_view_page_on_frontend : No
   used_in_product_listing : No
   used_for_sorting_in_product_listing : No
-  manage_titles:
-    admin_title : Text Field Product Attribute Admin Title
-    storeview_title : Text Field Product Attribute Storeview Title
+#manage_titles:
+  admin_title : Text Field Product Attribute Admin Title
+  storeview_title : Text Field Product Attribute Storeview Title
 
 # Test Datasets for Add New TextArea type Product Attribute
 product_attribute_textarea:
@@ -70,9 +70,9 @@ product_attribute_textarea:
   use_for_promo_rule_conditions : No
   catalog_input_type_for_store_owner : Text Area
   visible_on_product_view_page_on_frontend : No
-  manage_titles:
-   admin_title : Text Area Product Attribute Admin Title
-   storeview_title : Text Area Product Attribute Storeview Title
+#manage_titles:
+  admin_title : Text Area Product Attribute Admin Title
+  storeview_title : Text Area Product Attribute Storeview Title
 
 # Test Datasets for Add New Date type Product Attribute
 product_attribute_date:
@@ -90,9 +90,9 @@ product_attribute_date:
   visible_on_product_view_page_on_frontend : No
   used_in_product_listing : No
   used_for_sorting_in_product_listing : No
-  manage_titles:
-    admin_title : Date Product Attribute Admin Title
-    storeview_title : Date Product Attribute Storeview Title
+#manage_titles:
+  admin_title : Date Product Attribute Admin Title
+  storeview_title : Date Product Attribute Storeview Title
 
 # Test Datasets for Add New Yes/No type Product Attribute
 product_attribute_yesno:
@@ -110,9 +110,9 @@ product_attribute_yesno:
   visible_on_product_view_page_on_frontend : No
   used_in_product_listing : No
   used_for_sorting_in_product_listing : No
-  manage_titles:
-    admin_title : Yes/No Product Attribute Admin Title
-    storeview_title : Yes/no Product Attribute Storeview Title
+#manage_titles:
+  admin_title : Yes/No Product Attribute Admin Title
+  storeview_title : Yes/no Product Attribute Storeview Title
 
 # Test Datasets for Add New MultipleSelect type Product Attribute
 product_attribute_multiselect:
@@ -132,15 +132,14 @@ product_attribute_multiselect:
   visible_on_product_view_page_on_frontend : No
   used_in_product_listing : No
   # used_for_sorting_in_product_listing : No
-  manage_titles:
-    admin_title : Multiple Select Product Attribute Admin Title
-    storeview_title : Multiple Select Product Attribute Storeview Title
-  manage_options:
-    admin : #Multiple Select Option
-      admin_option : Admin MultipleSelect Option
-      storeview_option : Storeview MultipleSelect Option
-      option_position : 0
-      is_default : 1
+#manage_titles:
+  admin_title : Multiple Select Product Attribute Admin Title
+  storeview_title : Multiple Select Product Attribute Storeview Title
+#manage_options:
+  admin_option : Admin MultipleSelect Option
+  storeview_option : Storeview MultipleSelect Option
+  option_position : 0
+  is_default : 1
 
 # Test Datasets for Add New Dropdown type Product Attribute
 product_attribute_dropdown:
@@ -162,15 +161,14 @@ product_attribute_dropdown:
   visible_on_product_view_page_on_frontend : No
   used_in_product_listing : No
   used_for_sorting_in_product_listing : No
-  manage_titles:
-    admin_title : Dropdown Product Attribute Admin Title
-    storeview_title : Dropdown Product Attribute Storeview Title
-  manage_options:
-   admin : #Dropdown Option
-     admin_option : Admin Dropdown Option
-     storeview_option : Storeview Dropdown Option
-     option_position : 0
-     is_default : 1
+#manage_titles:
+  admin_title : Dropdown Product Attribute Admin Title
+  storeview_title : Dropdown Product Attribute Storeview Title
+#manage_options:
+  admin_option : Admin Dropdown Option
+  storeview_option : Storeview Dropdown Option
+  option_position : 0
+  is_default : 1
 
 # Test Datasets for Add New Price type Product Attribute
 product_attribute_price:
@@ -191,9 +189,9 @@ product_attribute_price:
   visible_on_product_view_page_on_frontend : No
   used_in_product_listing : No
   used_for_sorting_in_product_listing : No
-  manage_titles:
-    admin_title : Price Product Attribute Admin Title
-    storeview_title : Price Product Attribute Storeview Title
+#manage_titles:
+  admin_title : Price Product Attribute Admin Title
+  storeview_title : Price Product Attribute Storeview Title
 
 # Test Datasets for Add New MediaImage type Product Attribute
 product_attribute_mediaimage:
@@ -201,9 +199,9 @@ product_attribute_mediaimage:
   apply_to : All Product Types
   attribute_code : attribute_mediaimage_code
   catalog_input_type_for_store_owner : Media Image
-  manage_titles:
-    admin_title : Media Image Product Attribute Admin Title
-    storeview_title : Text Field Product Attribute Storeview Title
+#manage_titles:
+  admin_title : Media Image Product Attribute Admin Title
+  storeview_title : Text Field Product Attribute Storeview Title
 
 # Test Datasets for Add New FixedProductTax type Product Attribute
 product_attribute_fpt:
@@ -212,6 +210,6 @@ product_attribute_fpt:
   # scope : Global
   catalog_input_type_for_store_owner : Fixed Product Tax
   apply_to : All Product Types
-  manage_titles:
-    admin_title : Fixed Product Tax Product Attribute Admin Title
-    storeview_title : Text Field Product Attribute Storeview Title
+#manage_titles:
+  admin_title : Fixed Product Tax Product Attribute Admin Title
+  storeview_title : Text Field Product Attribute Storeview Title
