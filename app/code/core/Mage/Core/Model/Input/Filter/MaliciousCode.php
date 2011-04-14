@@ -24,10 +24,22 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Filter for removing malicious code
+ *
+ * @category   Mage
+ * @package    Mage_Core
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Core_Model_Input_Filter_MaliciousCode implements Zend_Filter_Interface
 {
+    /**
+     * Regular expressions
+     *
+     * @var array
+     */
     protected $_expressions = array(
-        //remove comments
+        //remove comments, must be first
         '/((\/\*).*(\*\/))|(javascript\s*:)/Usi',
         //remove js in the style attribute
         '/style=[^<]*((expression\s*?\([^<]*?\))|(behavior\s*:))[^<]*(?=\>)/Uis',
