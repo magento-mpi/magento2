@@ -35,6 +35,19 @@
  */
 class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
 {
+    /**
+     * Action_helper method for Create Attribute action
+     *
+     * @param array $attrData Array which contains DataSet for filling of the current form
+     *
+     */
+    public function creteAttribute($attrData)
+    {
+        $this->clickButton('add_new_attribute');
+        $this->fillForm($attrData, 'properties');
+        $this->clickControl('tab', 'manage_lables_options',false);
+        $this->fillForm($attrData, 'manage_lables_options');
+    }
 
     /*
      * Preconditions
@@ -79,14 +92,11 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsOnly()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_date', null, null));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_date', null, null);
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute',true);
+        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
     }
 
     /**
@@ -100,20 +110,15 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      * 5.Click on "Save Attribute" button
      *
      * Expected result: new attribute ["Date" type] shouldn't be created.
-     *                  Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
-     *                                            this field, first character should be a letter.' is displayed.
+     *                  Error JS message: 'This is a required field.' is displayed.
      */
     public function test_WithRequiredFieldsEmpty_EmptyAttributeCode()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_date', array(
-            'attribute_code' => '')));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_date', array('attribute_code' => ''));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_empty_attribute_code'), $this->messages);
     }
 
     /**
@@ -132,15 +137,11 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyAdminTitle()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_date', array(
-            'admin_title' => '')));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_date', array('admin_title' => ''));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_empty_attribute_title'), $this->messages);
     }
 
     /**
@@ -160,15 +161,11 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      */
     public function test_WithInvalidAttributeCode()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_date', array(
-            'attribute_code' => '111')));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_date', array('attribute_code' => '111'));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_invalid_attribute_code'), $this->messages);
     }
 
     /**
@@ -188,14 +185,11 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      */
     public function test_WithAttributeCodeThatAlreadyExists()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_date', null, null));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_date', null, null);
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_exists_attribute_code'), $this->messages);
     }
 
     /**
@@ -215,17 +209,14 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      */
     public function test_WithSpecialCharacters()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_date', array(
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_date', array(
             'attribute_code' => $this->generate('string', 11, ':punct:'),
             'admin_title'  => $this->generate('string', 11, ':alnum:'),
-            'storeview_title'  => $this->generate('string', 11, ':alnum:'))));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+            'storeview_title'  => $this->generate('string', 11, ':alnum:')));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_invalid_attribute_code'), $this->messages);
     }
 
     /**
@@ -246,17 +237,15 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      */
     public function test_WithSpecialCharactersExclAttributeCode()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_date', array(
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_date', array(
             'attribute_code' => $this->generate('string', 12, ':alnum:'),
             'admin_title'  => $this->generate('string', 12, ':punct:'),
-            'storeview_title'  => $this->generate('string', 13, ':punct:'))));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+            'storeview_title'  => $this->generate('string', 13, ':punct:')));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_invalid_attribute_code'), $this->messages);
+        // TODO -> add assertTrue() for both validation massages
     }
 
     /**
@@ -274,17 +263,14 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      */
     public function test_WithLongValues()
     {
-       $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_date', array(
-            'attribute_code' => $this->generate('string', 260, ':alnum:'),
-            'admin_title'  => $this->generate('string', 260, ':alnum:'),
-            'storeview_title'  => $this->generate('string', 260, ':alnum:'))));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_date', array(
+            'attribute_code' => $this->generate('string', 255, ':alnum:'),
+            'admin_title'  => $this->generate('string', 255, ':alnum:'),
+            'storeview_title'  => $this->generate('string', 255, ':alnum:')));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', true);
+        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
     }
 
     /**
@@ -316,9 +302,9 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
         $this->clickButton('continue_button');
         $this->clickButton('fieldset_general/create_new_attribute_button');
         $this->waitForPopUp('new_attribute','30000');
-        $this->fillForm($this->loadData('product_attribute_date', null, 'attribute_code'));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $attrData = $this->loadData('product_attribute_date', null, 'attribute_code');
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', true);
+        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
     }
 }

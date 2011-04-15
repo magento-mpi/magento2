@@ -35,6 +35,19 @@
  */
 class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
 {
+    /**
+     * Action_helper method for Create Attribute action
+     *
+     * @param array $attrData Array which contains DataSet for filling of the current form
+     *
+     */
+    public function creteAttribute($attrData)
+    {
+        $this->clickButton('add_new_attribute');
+        $this->fillForm($attrData, 'properties');
+        $this->clickControl('tab', 'manage_lables_options',false);
+        $this->fillForm($attrData, 'manage_lables_options');
+    }
 
     /*
      * Preconditions
@@ -79,14 +92,11 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsOnly()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_textfield', null, null));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_textfield', null, null);
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute',true);
+        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
     }
 
     /**
@@ -105,15 +115,11 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyAttributeCode()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_textfield', array(
-            'attribute_code' => '')));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_textfield', array('attribute_code' => ''));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_empty_attribute_code'), $this->messages);
     }
 
     /**
@@ -132,15 +138,11 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty_EmptyAdminTitle()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_textfield', array(
-            'admin_title' => '')));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_textfield', array('admin_title' => ''));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_empty_attribute_title'), $this->messages);
     }
 
     /**
@@ -160,15 +162,11 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
      */
     public function test_WithInvalidAttributeCode()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_textfield', array(
-            'attribute_code' => '111')));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_textfield', array('attribute_code' => '111'));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_invalid_attribute_code'), $this->messages);
     }
 
     /**
@@ -188,14 +186,11 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
      */
     public function test_WithAttributeCodeThatAlreadyExists()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_textfield', null, null));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_textfield', null, null);
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_exists_attribute_code'), $this->messages);
     }
 
     /**
@@ -215,18 +210,15 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
      */
     public function test_WithSpecialCharacters()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_textfield', array(
-            'attribute_code' => $this->generate('string', 12, ':punct:'),
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_textfield', array(
+            'attribute_code' => $this->generate('string', 11, ':punct:'),
             'default_value'  => $this->generate('string', 15, ':punct:'),
-            'admin_title'  => $this->generate('string', 12, ':punct:'),
-            'storeview_title'  => $this->generate('string', 12, ':punct:'))));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+            'admin_title'  => $this->generate('string', 11, ':alnum:'),
+            'storeview_title'  => $this->generate('string', 11, ':alnum:')));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_invalid_attribute_code'), $this->messages);
     }
 
     /**
@@ -247,18 +239,16 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
      */
     public function test_WithSpecialCharactersExclAttributeCode()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_textfield', array(
-            'attribute_code' => $this->generate('string', 11, ':alnum:'),
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_textfield', array(
+            'attribute_code' => $this->generate('string', 12, ':alnum:'),
             'default_value'  => $this->generate('string', 15, ':punct:'),
-            'admin_title'  => $this->generate('string', 11, ':punct:'),
-            'storeview_title'  => $this->generate('string', 11, ':punct:'))));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+            'admin_title'  => $this->generate('string', 12, ':punct:'),
+            'storeview_title'  => $this->generate('string', 13, ':punct:')));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_invalid_attribute_code'), $this->messages);
+        // TODO -> add assertTrue() for both validation massages
     }
 
     /**
@@ -279,18 +269,16 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
      */
     public function test_WithSpecialCharactersExclDefaultValue()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_textfield', array(
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_textfield', array(
             'attribute_code' => $this->generate('string', 12, ':alnum:'),
-            'default_value'  => $this->generate('string', 15, ':digit:'),
+            'default_value'  => $this->generate('string', 15, ':alnum:'),
             'admin_title'  => $this->generate('string', 12, ':punct:'),
-            'storeview_title'  => $this->generate('string', 12, ':punct:'))));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+            'storeview_title'  => $this->generate('string', 13, ':punct:')));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', false);
+        $this->assertTrue($this->errorMessage('error_invalid_attribute_code'), $this->messages);
+        // TODO -> add assertTrue() for both validation massages
     }
 
     /**
@@ -308,18 +296,15 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
      */
     public function test_WithLongValues()
     {
-        $this->assertTrue(
-                $this->navigate('manage_attributes')->clickButton('add_new_attribute')->navigated('new_product_attribute'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($this->loadData('product_attribute_textfield', array(
-            'attribute_code' => $this->generate('string', 260, ':alnum:'),
-            'default_value'  => $this->generate('string', 300, ':alnum:'),
-            'admin_title'  => $this->generate('string', 260, ':alnum:'),
-            'storeview_title'  => $this->generate('string', 260, ':alnum:'))));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $attrData = $this->loadData('product_attribute_textfield', array(
+            'attribute_code' => $this->generate('string', 255, ':alnum:'),
+            'default_value'  => $this->generate('string', 255, ':alnum:'),
+            'admin_title'  => $this->generate('string', 255, ':alnum:'),
+            'storeview_title'  => $this->generate('string', 255, ':alnum:')));
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', true);
+        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
     }
 
     /**
@@ -351,9 +336,9 @@ class ProductAttribute_Create_TextFieldTest extends Mage_Selenium_TestCase
         $this->clickButton('continue_button');
         $this->clickButton('fieldset_general/create_new_attribute_button');
         $this->waitForPopUp('new_attribute','30000');
-        $this->fillForm($this->loadData('product_attribute_textfield', null, 'attribute_code'));
-        $this->clickButton('save_attribute');
-        $this->assertFalse($this->errorMessage(), $this->messages);
-        $this->assertTrue($this->successMessage(), 'No success message is displayed');
+        $attrData = $this->loadData('product_attribute_textfield', null, 'attribute_code');
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute', true);
+        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
     }
 }
