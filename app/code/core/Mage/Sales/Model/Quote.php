@@ -1379,7 +1379,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
 
         if ($multishipping) {
-            if (!$minOrderMulti) {
+            if ($minOrderMulti) {
                 $baseTotal = 0;
                 foreach ($this->getAllAddresses() as $address) {
                     /* @var $address Mage_Sales_Model_Quote_Address */
