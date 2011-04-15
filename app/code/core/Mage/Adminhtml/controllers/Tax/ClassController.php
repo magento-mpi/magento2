@@ -91,4 +91,15 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
 
         return $this;
     }
+
+    /**
+     * Check current user permission on resource and privilege
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('sales/tax/classes_product')
+            || Mage::getSingleton('admin/session')->isAllowed('sales/tax/classes_customer');
+    }
 }

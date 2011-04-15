@@ -135,4 +135,14 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController exte
 
         return false;
     }
+
+    /**
+     * Check the permission to Manage Customers
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+    }
 }

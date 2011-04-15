@@ -462,4 +462,14 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
         $this->_redirect('*/*/');
     }
+
+    /**
+     * Check current user permission on resource and privilege
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('system/enterprise_staging/staging_grid');
+    }
 }

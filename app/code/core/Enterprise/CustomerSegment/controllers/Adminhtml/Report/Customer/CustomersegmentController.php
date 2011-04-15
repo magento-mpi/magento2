@@ -254,4 +254,15 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         }
         return $this->_adminSession;
     }
+
+    /**
+     * Check the permission to run it
+     *
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('customer/customersegment') &&
+            Mage::helper('enterprise_customersegment')->isEnabled();
+    }
 }
