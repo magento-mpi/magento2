@@ -25,7 +25,7 @@
  */
 
 /**
- * Filter for removing malicious code
+ * Filter for removing malicious code from HTML
  *
  * @category   Mage
  * @package    Mage_Core
@@ -34,21 +34,27 @@
 class Mage_Core_Model_Input_Filter_MaliciousCode implements Zend_Filter_Interface
 {
     /**
-     * Regular expressions
+     * Regular expressions for cutting malicious code
      *
      * @var array
      */
     protected $_expressions = array(
-        //remove comments, must be first
-        '/((\/\*).*(\*\/))|(javascript\s*:)/Usi',
-        //remove js in the style attribute
+        //comments, must be first
+        '/(\/\*.*\*\/)/Us',
+        //tabs
+        '/(\t)/',
+        //javasript prefix
+        '/(javascript\s*:)/Usi',
+        //import styles
+        '/(@import)/Usi',
+        //js in the style attribute
         '/style=[^<]*((expression\s*?\([^<]*?\))|(behavior\s*:))[^<]*(?=\>)/Uis',
-        //remove js attributes
-        '/(ondblclick|onclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onload)=[^<]*(?=\>)/Uis',
-        //remove script tag
-        '/<\/?script[^<]*\>/Uis',
-        //remove base64 usage
-        '/src=[^<]*?base64[^<]*(?=\>)/Uis',
+        //js attributes
+        '/(ondblclick|onclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onload|onunload|onerror)=[^<]*(?=\>)/Uis',
+        //tags
+        '/<\/?(script|meta|link).*>/Uis',
+        //base64 usage
+        '/src=[^<]*base64[^<]*(?=\>)/Uis',
     );
 
     /**
@@ -60,5 +66,31 @@ class Mage_Core_Model_Input_Filter_MaliciousCode implements Zend_Filter_Interfac
     public function filter($value)
     {
         return preg_replace($this->_expressions, '', $value);
+    }
+
+    /**
+     * Add expression
+     *
+     * @param string $expression
+     * @return Mage_Core_Model_Input_Filter_MaliciousCode
+     */
+    public function addExpression($expression)
+    {
+        if (!in_array($expression, $this->_expressions)) {
+            $this->_expressions[] = $expression;
+        }
+        return $this;
+    }
+
+    /**
+     * Set expressions
+     *
+     * @param array $expressions
+     * @return Mage_Core_Model_Input_Filter_MaliciousCode
+     */
+    public function setExpressions(array $expressions)
+    {
+        $this->_expressions = $expressions;
+        return $this;
     }
 }
