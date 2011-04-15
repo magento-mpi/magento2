@@ -147,7 +147,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
                         </search_recommendations_enabled>
                         <search_recommendations_count translate="label">
                             <label>Search Recommendations Count</label>
@@ -156,7 +155,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
                             <depends><search_recommendations_enabled>1</search_recommendations_enabled></depends>
                         </search_recommendations_count>
                         <search_recommendations_count_results_enabled translate="label">
@@ -167,7 +165,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
                             <depends><search_recommendations_enabled>1</search_recommendations_enabled></depends>
                         </search_recommendations_count_results_enabled>
                         <solr_server_use_in_catalog_navigation translate="label">
