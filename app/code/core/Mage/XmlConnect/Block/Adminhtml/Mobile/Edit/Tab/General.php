@@ -107,6 +107,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
             'label'     => $this->__('Catalog Only App?'),
             'name'      => 'browsing_mode',
             'note'      => $this->__('A Catalog Only App will not support functions such as add to cart, add to wishlist, or login.'),
+            'value'     => $model->getBrowsingMode(),
             'values'    => $yesNoValues
         ));
 
