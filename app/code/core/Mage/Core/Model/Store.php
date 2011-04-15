@@ -356,7 +356,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             } elseif (strpos($sValue, '{{secure_base_url}}')!==false) {
                 $secureBaseUrl = $this->getConfig('web/secure/base_url');
                 $sValue = str_replace('{{secure_base_url}}', $secureBaseUrl, $sValue);
-            } elseif (strpos($sValue, '{{base_url}}') !== 0) {
+            } elseif (strpos($sValue, '{{base_url}}') === false) {
                 $sValue = Mage::getConfig()->substDistroServerVars($sValue);
             }
         }
@@ -386,7 +386,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         } elseif (strpos($value, '{{secure_base_url}}') !== false) {
             $secureBaseUrl = $this->getConfig('web/secure/base_url');
             $value = str_replace('{{secure_base_url}}', $secureBaseUrl, $value);
-        } elseif (strpos($value, '{{') !== false && strpos($value, '{{base_url}}') !== 0) {
+        } elseif (strpos($value, '{{') !== false && strpos($value, '{{base_url}}') === false) {
             $value = Mage::getConfig()->substDistroServerVars($value);
         }
         return $value;
@@ -456,7 +456,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                     throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid base url type'));
             }
 
-            if (0 === strpos($url, '{{base_url}}')) {
+            if (false !== strpos($url, '{{base_url}}')) {
                 $baseUrl = Mage::getConfig()->substDistroServerVars('{{base_url}}');
                 $url = str_replace('{{base_url}}', $baseUrl, $url);
             }
