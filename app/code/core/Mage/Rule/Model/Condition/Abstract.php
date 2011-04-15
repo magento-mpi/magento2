@@ -266,8 +266,10 @@ abstract class Mage_Rule_Model_Condition_Abstract
     {
         if ($this->getInputType()=='date' && !$this->getIsValueParsed()) {
             // date format intentionally hard-coded
-            $this->setValue(Mage::app()->getLocale()->date($this->getData('value'), Varien_Date::DATE_INTERNAL_FORMAT, null, false)
-                ->toString(Varien_Date::DATE_INTERNAL_FORMAT));
+            $this->setValue(
+                Mage::app()->getLocale()->date($this->getData('value'),
+                Varien_Date::DATE_INTERNAL_FORMAT, null, false)->toString(Varien_Date::DATE_INTERNAL_FORMAT)
+            );
             $this->setIsValueParsed(true);
         }
         return $this->getData('value');
@@ -558,7 +560,14 @@ abstract class Mage_Rule_Model_Condition_Abstract
                 break;
 
             case '{}': case '!{}':
-                if (is_array($value)) {
+                if (is_string($validatedValue) && is_array($value)) {
+                    foreach ($value as $item) {
+                        if (stripos($validatedValue,$item)!==false) {
+                            $result = true;
+                            break;
+                        }
+                    }
+                } elseif (is_array($value)) {
                     if (is_array($validatedValue)) {
                         $result = array_intersect($value, $validatedValue);
                         $result = !empty($result);
