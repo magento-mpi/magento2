@@ -65,7 +65,7 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
         $wishlist   = $this->_getWishlist();
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
 
-        if ($wishlist->getCustomerId() && $wishlist->getCustomerId() == $customerId) {
+        if ($wishlist && $wishlist->getCustomerId() && $wishlist->getCustomerId() == $customerId) {
             $this->_redirectUrl(Mage::helper('wishlist')->getListUrl());
             return;
         }
