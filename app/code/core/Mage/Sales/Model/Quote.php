@@ -1378,18 +1378,19 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             return true;
         }
 
-        if ($multishipping && !$minOrderMulti) {
-            $baseTotal = 0;
-            foreach ($this->getAllAddresses() as $address) {
-                /* @var $address Mage_Sales_Model_Quote_Address */
-                $baseTotal += $address->getBaseSubtotalWithDiscount();
-            }
+        if ($multishipping) {
+            if (!$minOrderMulti) {
+                $baseTotal = 0;
+                foreach ($this->getAllAddresses() as $address) {
+                    /* @var $address Mage_Sales_Model_Quote_Address */
+                    $baseTotal += $address->getBaseSubtotalWithDiscount();
+                }
 
-            if ($baseTotal < Mage::getStoreConfig('sales/minimum_order/amount', $storeId)) {
-                return false;
+                if ($baseTotal < Mage::getStoreConfig('sales/minimum_order/amount', $storeId)) {
+                    return false;
+                }
             }
-        }
-        else {
+        } else {
             foreach ($this->getAllAddresses() as $address) {
                 /* @var $address Mage_Sales_Model_Quote_Address */
                 if (!$address->validateMinimumAmount()) {
