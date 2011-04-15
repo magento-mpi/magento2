@@ -429,7 +429,7 @@ class Enterprise_PageCache_Model_Processor
                     $content = gzcompress($content);
                 }
 
-                $contentSize = mb_strlen($content, 'latin1');
+                $contentSize = strlen($content);
                 $currentStorageSize = (int) Mage::app()->loadCache(self::CACHE_SIZE_KEY);
 
                 $maxSizeInBytes = Mage::getStoreConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
