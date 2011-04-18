@@ -133,10 +133,6 @@
         </block>
     </adminhtml_catalog_product_relatedgrid>
 
-    <adminhtml_catalog_product_options>
-        <block type="adminhtml/catalog_product_edit_tab_options" name="admin.product.options" output="toHtml" />
-    </adminhtml_catalog_product_options>
-
     <adminhtml_catalog_product_superconfig>
         <block type="adminhtml/catalog_product_edit_tab_super_config_grid" name="admin.product.edit.tab.super.config.grid" output="toHtml" />
     </adminhtml_catalog_product_superconfig>
