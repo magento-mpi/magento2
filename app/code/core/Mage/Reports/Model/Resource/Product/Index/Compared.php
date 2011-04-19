@@ -42,14 +42,4 @@ class Mage_Reports_Model_Resource_Product_Index_Compared extends Mage_Reports_Mo
     {
         $this->_init('reports/compared_product_index', 'index_id');
     }
-
-    /**
-     * 
-     * Get unique columns
-     * @return array
-     */
-    protected function _getUniqColumns()
-    {
-        return array(array('visitor_id', 'product_id'), array('customer_id', 'product_id'));
-    }
 }

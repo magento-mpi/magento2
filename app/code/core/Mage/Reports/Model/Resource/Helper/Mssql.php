@@ -42,7 +42,6 @@ class Mage_Reports_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_
      * @param array $data
      * @return string
      */
-
     public function mergeVisitorProductIndex($mainTable, $data, $matchFields)
     {
         $pseudoUnique = array();
