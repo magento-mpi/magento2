@@ -484,7 +484,6 @@ final class Mage
     public static function getResourceSingleton($modelClass = '', array $arguments = array())
     {
         $registryKey = '_resource_singleton/'.$modelClass;
-//        echo $registryKey; die();
         if (!self::registry($registryKey)) {
             self::register($registryKey, self::getResourceModel($modelClass, $arguments));
         }
