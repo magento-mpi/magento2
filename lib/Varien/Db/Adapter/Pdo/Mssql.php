@@ -3894,9 +3894,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             throw new Zend_Db_Adapter_Exception("LIMIT argument offset={$offset} is not valid");
         }
 
-        $sql = preg_replace('/^SELECT\s+(DISTINCT\s)?/i', 'SELECT $1TOP ' . ($count+$offset) . ' ', $sql);
+        $sql = preg_replace('/^SELECT\s+(DISTINCT\s)?/i', 'SELECT $1TOP ' . ($count + $offset) . ' ', $sql);
 
-        if ($offset + $count == $offset + 1) {
+        if ($offset == 0) {
             $query = $sql;
         } else {
             $query = sprintf('
