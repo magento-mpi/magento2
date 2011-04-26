@@ -153,14 +153,18 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
             $select = $this->getSelect();
         }
 
+        if (is_array($storesIds) && (count($storesIds) == 1)) {
+            $storesIds = array_shift($storesIds);
+        }
+
         if (is_array($storesIds) && !empty($storesIds)) {
             $inCond = $adapter->prepareSqlCondition('store.store_id', array('in' => $storesIds));
-            $select->join(array('store'=>$this->_reviewStoreTable),
+            $select->join(array('store' => $this->_reviewStoreTable),
                 'rt.review_id=store.review_id AND ' . $inCond,
                 array())
             ->distinct(true);
         } else {
-            $select->join(array('store'=>$this->_reviewStoreTable),
+            $select->join(array('store' => $this->_reviewStoreTable),
                 $adapter->quoteInto('rt.review_id=store.review_id AND store.store_id = ?', (int)$storesIds),
                 array());
         }
