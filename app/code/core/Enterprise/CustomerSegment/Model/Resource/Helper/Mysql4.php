@@ -32,7 +32,7 @@
  * @package     Enterprise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Abstract
+class Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Mysql4
 {
     /**
      * Get comparison condition for rule condition operator which will be used in SQL query
@@ -74,13 +74,16 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4 extends Mage_Core_
                 Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified.'));
         }
     }
+
     /**
      * Set Mysql specific limit
      *
      * @param Varien_Db_Select $select
+     * @return Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4
      */
-    public function setOneRowLimit(Varien_Db_Select &$select)
+    public function setOneRowLimit(Varien_Db_Select $select)
     {
         $select->limit(1);
+        return $this;
     }
 }

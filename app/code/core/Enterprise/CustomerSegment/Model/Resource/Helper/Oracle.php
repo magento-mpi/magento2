@@ -74,13 +74,16 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Oracle extends Mage_Core_
                 Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified.'));
         }
     }
+
     /**
      * Set Oracle specific limit
      *
      * @param Varien_Db_Select $select
+     * @return Enterprise_CustomerSegment_Model_Resource_Helper_Oracle
      */
-    public function setOneRowLimit(Varien_Db_Select &$select)
+    public function setOneRowLimit(Varien_Db_Select $select)
     {
         $select->where("ROWNUM = 1");
+        return $this;
     }
 }
