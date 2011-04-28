@@ -412,7 +412,14 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     public function getBuyRequest()
     {
         $option = $this->getOptionByCode('info_buyRequest');
-        $buyRequest = new Varien_Object($option ? unserialize($option->getValue()) : null);
+        $initialData = $option ? unserialize($option->getValue()) : null;
+
+        // There can be wrong data due to bug in Grouped products - it formed 'info_buyRequest' as Varien_Object
+        if ($initialData instanceof Varien_Object) {
+            $initialData = $initialData->getData();
+        }
+
+        $buyRequest = new Varien_Object($initialData);
         $buyRequest->setOriginalQty($buyRequest->getQty())
             ->setQty($this->getQty() * 1);
         return $buyRequest;
