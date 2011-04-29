@@ -322,7 +322,9 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
                 continue;
             }
             $candidate->setWishlistStoreId($storeId);
-            $item = $this->_addCatalogProduct($candidate, $candidate->getQty(), $forciblySetQty);
+
+            $qty = $candidate->getQty() ? $candidate->getQty() : 1; // No null values as qty. Convert zero to 1.
+            $item = $this->_addCatalogProduct($candidate, $qty, $forciblySetQty);
             $items[] = $item;
 
             // Collect errors instead of throwing first one
