@@ -58,7 +58,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('wishlist/wishlist', 'customer_id', Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         'customer_id',
         array('type'=>Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addForeignKey($installer->getFkName('wishlist/wishlist', 'order_id', 'customer/entity', 'entity_id'),
+    ->addForeignKey($installer->getFkName('wishlist/wishlist', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer/entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Wishlist main Table');

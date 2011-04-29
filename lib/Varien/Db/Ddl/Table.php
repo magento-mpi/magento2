@@ -329,7 +329,8 @@ class Varien_Db_Ddl_Table
                 break;
             case self::TYPE_TEXT:
             case self::TYPE_BLOB:
-                $length = $this->_parseTextSize($size);
+                //$length = $this->_parseTextSize($size);
+                $length = $size;
                 break;
             default:
                 throw new Zend_Db_Exception('Invalid column data type "' . $type . '"');

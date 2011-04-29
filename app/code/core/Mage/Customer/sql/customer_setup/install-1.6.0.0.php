@@ -300,7 +300,7 @@ $table = $installer->getConnection()
         'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
-        ), 'Vakue Id')
+        ), 'Value Id')
     ->addColumn('entity_type_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -641,7 +641,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'customer_group'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('customer_group'))
+    ->newTable($installer->getTable('customer/customer_group'))
     ->addColumn('customer_group_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'unsigned'  => true,

@@ -93,10 +93,7 @@ $table = $installer->getConnection()
     ->setComment('Enterprise Catalogevent Event Image');
 $installer->getConnection()->createTable($table);
 
-
 $installer->addAttribute('quote_item', 'event_id', array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER));
-$installer->addAttribute('quote_item', 'event_name', array());
 $installer->addAttribute('order_item', 'event_id', array('type' => Varien_Db_Ddl_Table::TYPE_INTEGER));
-$installer->addAttribute('order_item', 'event_name', array());
 
 $installer->endSetup();

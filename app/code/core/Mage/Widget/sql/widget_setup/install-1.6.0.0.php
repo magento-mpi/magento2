@@ -32,24 +32,83 @@ $installer->startSetup();
 /**
  * Create table 'widget/widget'
  */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('widget/widget'))
-    ->addColumn('widget_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Widget Id')
-    ->addColumn('widget_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'Widget code for template directive')
-    ->addColumn('widget_type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'Block Model')
-    ->addColumn('parameters', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        'nullable'  => true,
-        ), 'Parameters')
-    ->addIndex($installer->getIdxName('widget/widget', 'widget_code'), 'widget_code')
-    ->setComment('Preconfigured Widgets');
-$installer->getConnection()->createTable($table);
+if (!$installer->getConnection()->isTableExists($installer->getTable('widget/widget'))) {
+    $table = $installer->getConnection()
+        ->newTable($installer->getTable('widget/widget'))
+        ->addColumn('widget_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+            'identity'  => true,
+            'unsigned'  => true,
+            'nullable'  => false,
+            'primary'   => true,
+            ), 'Widget Id')
+        ->addColumn('widget_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+            ), 'Widget code for template directive')
+        ->addColumn('widget_type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+            ), 'Widget Type')
+        ->addColumn('parameters', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
+            'nullable'  => true,
+            ), 'Parameters')
+        ->addIndex($installer->getIdxName('widget/widget', 'widget_code'), 'widget_code')
+        ->setComment('Preconfigured Widgets');
+    $installer->getConnection()->createTable($table);
+} else {
+
+    $installer->getConnection()->dropIndex(
+        $installer->getTable('widget/widget'),
+        'IDX_CODE'
+    );
+
+    $tables = array(
+        $installer->getTable('widget/widget') => array(
+            'columns' => array(
+                'widget_id' => array(
+                    'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
+                    'identity'  => true,
+                    'unsigned'  => true,
+                    'nullable'  => false,
+                    'primary'   => true,
+                    'comment'   => 'Widget Id'
+                ),
+                'parameters' => array(
+                    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+                    'length'    => '64K',
+                    'comment'   => 'Parameters'
+                )
+            ),
+            'comment' => 'Preconfigured Widgets'
+        )
+    );
+
+    $installer->getConnection()->modifyTables($tables);
+
+    $installer->getConnection()->changeColumn(
+        $installer->getTable('widget/widget'),
+        'code',
+        'widget_code',
+        array(
+            'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+            'length'    => 255,
+            'comment'   => 'Widget code for template directive'
+        )
+    );
+
+    $installer->getConnection()->changeColumn(
+        $installer->getTable('widget/widget'),
+        'type',
+        'widget_type',
+        array(
+            'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+            'length'    => 255,
+            'comment'   => 'Widget Type'
+        )
+    );
+
+    $installer->getConnection()->addIndex(
+        $installer->getTable('widget/widget'),
+        $installer->getIdxName('widget/widget', array('widget_code')),
+        array('widget_code')
+    );
+}
 
 /**
  * Create table 'widget/widget_instance'
@@ -63,7 +122,7 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Instance Id')
     ->addColumn('instance_type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'Block Model')
+        ), 'Instance Type')
     ->addColumn('package_theme', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Package Theme')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(

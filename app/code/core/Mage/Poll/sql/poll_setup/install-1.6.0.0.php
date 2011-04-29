@@ -169,7 +169,7 @@ $table = $installer->getConnection()
         ), 'Poll answer id')
     ->addColumn('customer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => true,
-        ), 'Poll answer id')
+        ), 'Customer id')
     ->addColumn('vote_time', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => true,
         ), 'Date closed')

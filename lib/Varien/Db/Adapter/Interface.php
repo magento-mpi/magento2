@@ -945,12 +945,12 @@ interface Varien_Db_Adapter_Interface
      */
     public function forUpdate($sql);
 
-	/**
-	 * Try to find installed primary key name, if not - formate new one.
-	 *
-	 * @param string $tableName Table name
-	 * @param string $schemaName OPTIONAL
-	 * @return string Primary Key name
-	 */
+    /**
+     * Try to find installed primary key name, if not - formate new one.
+     *
+     * @param string $tableName Table name
+     * @param string $schemaName OPTIONAL
+     * @return string Primary Key name
+     */
     public function getPrimaryKeyName($tableName, $schemaName = null);
 }

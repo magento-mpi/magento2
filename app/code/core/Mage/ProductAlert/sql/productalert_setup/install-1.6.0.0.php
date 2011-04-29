@@ -74,12 +74,12 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'product alert send count')
+        ), 'Product alert send count')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'rpoduct alert status')
+        ), 'Product alert status')
     ->addIndex($installer->getIdxName('productalert/price', array('customer_id')),
         array('customer_id'))
     ->addIndex($installer->getIdxName('productalert/price', array('product_id')),

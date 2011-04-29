@@ -27,8 +27,3 @@
 /* @var $installer Mage_Sales_Model_Mysql4_Setup */
 $installer = $this;
 
-$installer->startSetup();
-
-$installer->addAttribute('order', 'forced_do_shipment_with_invoice', array('type'=>'int', 'default' => 0));
-
-$installer->endSetup();

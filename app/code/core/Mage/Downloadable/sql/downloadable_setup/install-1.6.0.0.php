@@ -156,13 +156,7 @@ $table = $installer->getConnection()
     ->addColumn('link_section_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Link_section_title')
     ->addIndex($installer->getIdxName('downloadable/link_purchased', 'order_id'), 'order_id')
-//    ->addForeignKey($installer->getFkName('downloadable/link_purchased', 'order_id', 'sales/order', 'entity_id'),
-//        'order_id', $installer->getTable('sales/order'), 'entity_id',
-//        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addIndex($installer->getIdxName('downloadable/link_purchased', 'order_item_id'), 'order_item_id')
-//    ->addForeignKey($installer->getFkName('downloadable/link_purchased', 'order_item_id', 'sales/order_item', 'item_id'),
-//        'order_id', $installer->getTable('sales/order_item'), 'item_id',
-//        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addIndex($installer->getIdxName('downloadable/link_purchased', 'customer_id'), 'customer_id')
     ->addForeignKey($installer->getFkName('downloadable/link_purchased', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer/entity'), 'entity_id',
@@ -221,24 +215,21 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Shareable Flag')
     ->addColumn('link_url', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'link url')
+        ), 'Link Url')
     ->addColumn('link_file', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'link file')
+        ), 'Link File')
     ->addColumn('link_type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'link type')
+        ), 'Link Type')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        ), 'status')
+        ), 'Status')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
-        ), 'creation time')
+        ), 'Creation Time')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
-        ), 'update time')
+        ), 'Update Time')
     ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'link_hash'), 'link_hash')
     ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'order_item_id'), 'order_item_id')
-//    ->addForeignKey($installer->getFkName('downloadable/link_purchased_item', 'order_item_id', 'sales/order_item', 'item_id'),
-//        'order_item_id', $installer->getTable('downloadable/link_purchased'), 'item_id',
-//        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'purchased_id'), 'purchased_id')
     ->addForeignKey($installer->getFkName('downloadable/link_purchased_item', 'purchased_id', 'downloadable/link_purchased', 'purchased_id'),
         'purchased_id', $installer->getTable('downloadable/link_purchased'), 'purchased_id',

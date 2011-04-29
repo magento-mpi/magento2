@@ -38,11 +38,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         'default'   => '',
-        ), 'Сountry Id in ISO-2')
+        ), 'Country Id in ISO-2')
     ->addColumn('iso2_code', Varien_Db_Ddl_Table::TYPE_TEXT, 2, array(
         'nullable'  => false,
         'default'   => '',
-        ), 'Сountry ISO-2 format')
+        ), 'Country ISO-2 format')
     ->addColumn('iso3_code', Varien_Db_Ddl_Table::TYPE_TEXT, 3, array(
         'nullable'  => false,
         'default'   => '',

@@ -740,6 +740,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      *
      * Generally $defintion must be array with column data to keep this call cross-DB compatible.
      * Using string as $definition is allowed only for concrete DB adapter.
+     * Adds primary key if needed
      *
      * @param   string $tableName
      * @param   string $columnName
@@ -754,18 +755,23 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             return true;
         }
 
+        $primaryKey = '';
         if (is_array($definition)) {
             $definition = array_change_key_case($definition, CASE_UPPER);
             if (empty($definition['COMMENT'])) {
                 throw new Zend_Db_Exception("Impossible to create a column without comment.");
             }
+            if (!empty($definition['PRIMARY'])) {
+                $primaryKey = sprintf(', ADD PRIMARY KEY (%s)', $this->quoteIdentifier($columnName));
+            }
             $definition = $this->_getColumnDefinition($definition);
         }
 
-        $sql = sprintf('ALTER TABLE %s ADD COLUMN %s %s',
+        $sql = sprintf('ALTER TABLE %s ADD COLUMN %s %s %s',
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
             $this->quoteIdentifier($columnName),
-            $definition
+            $definition,
+            $primaryKey
         );
 
         $result = $this->raw_query($sql);
@@ -997,6 +1003,84 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         }
 
         return $ddl;
+    }
+
+    /**
+     * Retrieve the foreign keys tree for all tables
+     *
+     * @return array
+     */
+    public function getForeignKeysTree()
+    {
+        $tree = array();
+        foreach ($this->listTables() as $table) {
+            foreach($this->getForeignKeys($table) as $key) {
+                $tree[$table][$key['COLUMN_NAME']] = $key;
+            }
+        }
+        return $tree;
+    }
+
+    /**
+     * Modify tables, used for upgrade process
+     * Change columns definitions, reset foreign keys, change tables comments and engines.
+     *
+     * The value of each array element is an associative array
+     * with the following keys:
+     *
+     * columns => array; list of columns definitions
+     * comment => string; table comment
+     * engine  => string; table engine
+     *
+     * @return Varien_Db_Adapter_Pdo_Mysql
+     */
+    public function modifyTables($tables)
+    {
+        $foreignKeys = $this->getForeignKeysTree();
+        foreach ($tables as $table => $tableData) {
+            foreach ($tableData['columns'] as $column =>$columnDefinition) {
+                $droppedKeys = array();
+                foreach($foreignKeys as $keyTable => $columns) {
+                    foreach($columns as $columnName => $keyOptions) {
+                        if ($table == $keyOptions['REF_TABLE_NAME'] && $column == $keyOptions['REF_COLUMN_NAME']) {
+                            $this->dropForeignKey($keyTable, $keyOptions['FK_NAME']);
+                            $droppedKeys[] = $keyOptions;
+                        }
+                    }
+                }
+
+                $this->modifyColumn($table, $column, $columnDefinition);
+
+                foreach ($droppedKeys as $options) {
+                    unset($columnDefinition['identity'], $columnDefinition['primary'], $columnDefinition['comment']);
+
+                    $onDelete = $options['ON_DELETE'];
+                    $onUpdate = $options['ON_UPDATE'];
+
+                    if ($onDelete == Varien_Db_Adapter_Interface::FK_ACTION_SET_NULL
+                        || $onUpdate == Varien_Db_Adapter_Interface::FK_ACTION_SET_NULL) {
+                           $columnDefinition['nullable'] = true;
+                    }
+                    $this->modifyColumn($options['TABLE_NAME'], $options['COLUMN_NAME'], $columnDefinition);
+                    $this->addForeignKey(
+                        $options['FK_NAME'],
+                        $options['TABLE_NAME'],
+                        $options['COLUMN_NAME'],
+                        $options['REF_TABLE_NAME'],
+                        $options['REF_COLUMN_NAME'],
+                        ($onDelete) ? $onDelete : Varien_Db_Adapter_Interface::FK_ACTION_NO_ACTION,
+                        ($onUpdate) ? $onUpdate : Varien_Db_Adapter_Interface::FK_ACTION_NO_ACTION
+                    );
+                }
+            }
+            if (!empty($tableData['comment'])) {
+                $this->changeTableComment($table, $tableData['comment']);
+            }
+            if (!empty($tableData['engine'])) {
+                $this->changeTableEngine($table, $tableData['engine']);
+            }
+        }
+        return $this;
     }
 
     /**
@@ -1599,6 +1683,21 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
+     * Change table comment
+     *
+     * @param string $tableName
+     * @param string $comment
+     * @param string $schemaName
+     * @return mixed
+     */
+    public function changeTableComment($tableName, $comment, $schemaName = null)
+    {
+        $table = $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
+        $sql   = sprintf("ALTER TABLE %s COMMENT='%s'", $table, $comment);
+        return $this->raw_query($sql);
+    }
+
+    /**
      * Inserts a table row with specified data
      * Special for Zero values to identity column
      *
@@ -2018,14 +2117,16 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             case Varien_Db_Ddl_Table::TYPE_TEXT:
             case Varien_Db_Ddl_Table::TYPE_BLOB:
                 if (empty($options['LENGTH'])) {
-                    $options['LENGTH'] = Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
+                    $length = Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
+                } else {
+                    $length = $this->_parseTextSize($options['LENGTH']);
                 }
-                if ($options['LENGTH'] <= 255) {
+                if ($length <= 255) {
                     $cType = $ddlType == Varien_Db_Ddl_Table::TYPE_TEXT ? 'varchar' : 'varbinary';
-                    $cType = sprintf('%s(%d)', $cType, $options['LENGTH']);
-                } else if ($options['LENGTH'] > 255 && $options['LENGTH'] <= 65536) {
+                    $cType = sprintf('%s(%d)', $cType, $length);
+                } else if ($length > 255 && $length <= 65536) {
                     $cType = $ddlType == Varien_Db_Ddl_Table::TYPE_TEXT ? 'text' : 'blob';
-                } else if ($options['LENGTH'] > 65536 && $options['LENGTH'] <= 16777216) {
+                } else if ($length > 65536 && $length <= 16777216) {
                     $cType = $ddlType == Varien_Db_Ddl_Table::TYPE_TEXT ? 'mediumtext' : 'mediumblob';
                 } else {
                     $cType = $ddlType == Varien_Db_Ddl_Table::TYPE_TEXT ? 'longtext' : 'longblob';
@@ -2503,6 +2604,46 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         } else {
             return ($conditionKey == 'seq') ? 'eq' : 'neq';
         }
+    }
+
+    /**
+     * Parse text size
+     * Returns default value if value is empty or 0
+     * Returns max allowed size if value great it
+     *
+     * @param string|int $size
+     * @return int
+     */
+    protected function _parseTextSize($size)
+    {
+        // if empty text size - return default value
+        if (empty($size)) {
+            return Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
+        }
+
+        $size = trim($size);
+        $last = strtolower(substr($size, -1));
+
+        switch ($last) {
+            case 'k':
+                $size = intval($size) * 1024;
+                break;
+            case 'm':
+                $size = intval($size) * 1024 * 1024;
+                break;
+            case 'g':
+                $size = intval($size) * 1024 * 1024 * 1024;
+                break;
+        }
+
+        if (empty($size)) {
+            return Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
+        }
+        if ($size >= Varien_Db_Ddl_Table::MAX_TEXT_SIZE) {
+            return Varien_Db_Ddl_Table::MAX_TEXT_SIZE;
+        }
+
+        return intval($size);
     }
 
     /**
@@ -3250,13 +3391,13 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         return $result;
     }
 
-	/**
-	 * Try to find installed primary key name, if not - formate new one.
-	 *
-	 * @param string $tableName Table name
-	 * @param string $schemaName OPTIONAL
-	 * @return string Primary Key name
-	 */
+    /**
+     * Try to find installed primary key name, if not - formate new one.
+     *
+     * @param string $tableName Table name
+     * @param string $schemaName OPTIONAL
+     * @return string Primary Key name
+     */
     public function getPrimaryKeyName($tableName, $schemaName = null)
     {
         $indexes = $this->getIndexList($tableName, $schemaName);

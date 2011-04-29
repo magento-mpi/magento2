@@ -71,28 +71,30 @@ $tableApiUsers   = $installer->getTable('api/user');
 $installer->getConnection()->changeColumn($tableAdmins, 'password', 'password', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'    => 100,
+    'comment'   => 'User Password'
 ));
 
 $installer->getConnection()->changeColumn($tableApiUsers, 'api_key', 'api_key', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'    => 100,
+    'comment'   => 'Api key'
 ));
 
 $installer->getConnection()->addColumn($tableAdmins, 'failures_num', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
     'nullable'  => true,
     'default'   => 0,
-    'comment'   => 'Failure number'
+    'comment'   => 'Failure Number'
 ));
 
 $installer->getConnection()->addColumn($tableAdmins, 'first_failure', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
-    'comment'   => 'First failure'
+    'comment'   => 'First Failure'
 ));
 
 $installer->getConnection()->addColumn($tableAdmins, 'lock_expires', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
-    'comment'   => 'Expiration lock dates'
+    'comment'   => 'Expiration Lock Dates'
 ));
 
 $installer->endSetup();

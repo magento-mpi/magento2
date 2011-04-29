@@ -29,6 +29,7 @@
 $installer = $this;
 
 $installer->startSetup();
+
 $connection = $installer->getConnection();
 foreach (array('datetime', 'decimal', 'int', 'text', 'varchar') as $type) {
     $connection->addIndex(

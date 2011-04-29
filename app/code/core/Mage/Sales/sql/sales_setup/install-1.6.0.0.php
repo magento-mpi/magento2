@@ -196,8 +196,6 @@ $table = $installer->getConnection()
     ->addColumn('forced_shipment_with_invoice', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Forced Do Shipment With Invoice')
-    ->addColumn('gift_message_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        ), 'Gift Message Id')
     ->addColumn('payment_auth_expiration', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         ), 'Payment Authorization Expiration')
     ->addColumn('paypal_ipn_customer_notified', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -327,8 +325,8 @@ $table = $installer->getConnection()
         array('state'))
     ->addIndex($installer->getIdxName('sales/order', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('sales/order', array('increment_id')),
-        array('increment_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/order', array('increment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/order', array('created_at')),
         array('created_at'))
     ->addIndex($installer->getIdxName('sales/order', array('customer_id')),
@@ -402,8 +400,8 @@ $table = $installer->getConnection()
         array('grand_total'))
     ->addIndex($installer->getIdxName('sales/order_grid', array('total_paid')),
         array('total_paid'))
-    ->addIndex($installer->getIdxName('sales/order_grid', array('increment_id')),
-        array('increment_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/order_grid', array('increment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/order_grid', array('shipping_name')),
         array('shipping_name'))
     ->addIndex($installer->getIdxName('sales/order_grid', array('billing_name')),
@@ -682,34 +680,12 @@ $table = $installer->getConnection()
     ->addColumn('row_weight', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         'default'   => '0.0000',
         ), 'Row Weight')
-    ->addColumn('gift_message_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        ), 'Gift Message Id')
-    ->addColumn('gift_message_available', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        ), 'Gift Message Available')
     ->addColumn('base_tax_before_discount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Tax Before Discount')
     ->addColumn('tax_before_discount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Tax Before Discount')
     ->addColumn('ext_order_item_id', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Ext Order Item Id')
-    ->addColumn('weee_tax_applied', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        ), 'Weee Tax Applied')
-    ->addColumn('weee_tax_applied_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Applied Amount')
-    ->addColumn('weee_tax_applied_row_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Applied Row Amount')
-    ->addColumn('base_weee_tax_applied_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Applied Amount')
-    ->addColumn('base_weee_tax_applied_row_amnt', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Applied Row Amount')
-    ->addColumn('weee_tax_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Disposition')
-    ->addColumn('weee_tax_row_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Row Disposition')
-    ->addColumn('base_weee_tax_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Disposition')
-    ->addColumn('base_weee_tax_row_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Row Disposition')
     ->addColumn('locked_do_invoice', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Locked Do Invoice')
@@ -946,8 +922,8 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addIndex($installer->getIdxName('sales/shipment', array('total_qty')),
         array('total_qty'))
-    ->addIndex($installer->getIdxName('sales/shipment', array('increment_id')),
-        array('increment_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/shipment', array('increment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/shipment', array('order_id')),
         array('order_id'))
     ->addIndex($installer->getIdxName('sales/shipment', array('created_at')),
@@ -1003,8 +979,8 @@ $table = $installer->getConnection()
         array('order_id'))
     ->addIndex($installer->getIdxName('sales/shipment_grid', array('shipment_status')),
         array('shipment_status'))
-    ->addIndex($installer->getIdxName('sales/shipment_grid', array('increment_id')),
-        array('increment_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/shipment_grid', array('increment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/shipment_grid', array('order_increment_id')),
         array('order_increment_id'))
     ->addIndex($installer->getIdxName('sales/shipment_grid', array('created_at')),
@@ -1263,8 +1239,8 @@ $table = $installer->getConnection()
         array('order_id'))
     ->addIndex($installer->getIdxName('sales/invoice', array('state')),
         array('state'))
-    ->addIndex($installer->getIdxName('sales/invoice', array('increment_id')),
-        array('increment_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/invoice', array('increment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/invoice', array('created_at')),
         array('created_at'))
     ->addForeignKey($installer->getFkName('sales/invoice', 'order_id', 'sales/order', 'entity_id'),
@@ -1326,8 +1302,8 @@ $table = $installer->getConnection()
         array('order_id'))
     ->addIndex($installer->getIdxName('sales/invoice_grid', array('state')),
         array('state'))
-    ->addIndex($installer->getIdxName('sales/invoice_grid', array('increment_id')),
-        array('increment_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/invoice_grid', array('increment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/invoice_grid', array('order_increment_id')),
         array('order_increment_id'))
     ->addIndex($installer->getIdxName('sales/invoice_grid', array('created_at')),
@@ -1363,12 +1339,6 @@ $table = $installer->getConnection()
         ), 'Parent Id')
     ->addColumn('base_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Price')
-    ->addColumn('base_weee_tax_row_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Row Disposition')
-    ->addColumn('weee_tax_applied_row_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Applied Row Amount')
-    ->addColumn('base_weee_tax_applied_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Applied Amount')
     ->addColumn('tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Tax Amount')
     ->addColumn('base_row_total', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
@@ -1377,28 +1347,18 @@ $table = $installer->getConnection()
         ), 'Discount Amount')
     ->addColumn('row_total', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Row Total')
-    ->addColumn('weee_tax_row_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Row Disposition')
     ->addColumn('base_discount_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Discount Amount')
-    ->addColumn('base_weee_tax_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Disposition')
     ->addColumn('price_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Price Incl Tax')
-    ->addColumn('weee_tax_applied_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Applied Amount')
     ->addColumn('base_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Tax Amount')
     ->addColumn('base_price_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Price Incl Tax')
     ->addColumn('qty', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Qty')
-    ->addColumn('weee_tax_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Disposition')
     ->addColumn('base_cost', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Cost')
-    ->addColumn('base_weee_tax_applied_row_amnt', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Applied Row Amount')
     ->addColumn('price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Price')
     ->addColumn('base_row_total_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
@@ -1413,8 +1373,6 @@ $table = $installer->getConnection()
         ), 'Additional Data')
     ->addColumn('description', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Description')
-    ->addColumn('weee_tax_applied', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        ), 'Weee Tax Applied')
     ->addColumn('sku', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Sku')
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
@@ -1585,8 +1543,8 @@ $table = $installer->getConnection()
         array('order_id'))
     ->addIndex($installer->getIdxName('sales/creditmemo', array('creditmemo_status')),
         array('creditmemo_status'))
-    ->addIndex($installer->getIdxName('sales/creditmemo', array('increment_id')),
-        array('increment_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/creditmemo', array('increment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/creditmemo', array('state')),
         array('state'))
     ->addIndex($installer->getIdxName('sales/creditmemo', array('created_at')),
@@ -1666,8 +1624,8 @@ $table = $installer->getConnection()
         array('creditmemo_status'))
     ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('state')),
         array('state'))
-    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('increment_id')),
-        array('increment_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('increment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('order_increment_id')),
         array('order_increment_id'))
     ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('created_at')),
@@ -1701,44 +1659,28 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Parent Id')
-    ->addColumn('weee_tax_applied_row_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Applied Row Amount')
     ->addColumn('base_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Price')
-    ->addColumn('base_weee_tax_row_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Row Disposition')
     ->addColumn('tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Tax Amount')
-    ->addColumn('base_weee_tax_applied_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Applied Amount')
-    ->addColumn('weee_tax_row_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Row Disposition')
     ->addColumn('base_row_total', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Row Total')
     ->addColumn('discount_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Discount Amount')
     ->addColumn('row_total', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Row Total')
-    ->addColumn('weee_tax_applied_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Applied Amount')
     ->addColumn('base_discount_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Discount Amount')
-    ->addColumn('base_weee_tax_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Disposition')
     ->addColumn('price_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Price Incl Tax')
     ->addColumn('base_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Tax Amount')
-    ->addColumn('weee_tax_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Disposition')
     ->addColumn('base_price_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Price Incl Tax')
     ->addColumn('qty', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Qty')
     ->addColumn('base_cost', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Cost')
-    ->addColumn('base_weee_tax_applied_row_amnt', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Applied Row Amount')
     ->addColumn('price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Price')
     ->addColumn('base_row_total_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
@@ -1753,8 +1695,6 @@ $table = $installer->getConnection()
         ), 'Additional Data')
     ->addColumn('description', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Description')
-    ->addColumn('weee_tax_applied', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        ), 'Weee Tax Applied')
     ->addColumn('sku', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Sku')
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
@@ -1950,9 +1890,6 @@ $table = $installer->getConnection()
         ), 'Trigger Recollect')
     ->addColumn('ext_shipping_info', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Ext Shipping Info')
-    ->addColumn('gift_message_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Gift Message Id')
     ->addIndex($installer->getIdxName('sales/quote', array('customer_id', 'store_id', 'is_active')),
         array('customer_id', 'store_id', 'is_active'))
     ->addIndex($installer->getIdxName('sales/quote', array('store_id')),
@@ -2117,9 +2054,6 @@ $table = $installer->getConnection()
         ), 'Subtotal Incl Tax')
     ->addColumn('base_subtotal_total_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Subtotal Total Incl Tax')
-    ->addColumn('gift_message_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Gift Message Id')
     ->addColumn('hidden_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Hidden Tax Amount')
     ->addColumn('base_hidden_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
@@ -2266,27 +2200,6 @@ $table = $installer->getConnection()
         ), 'Row Total Incl Tax')
     ->addColumn('base_row_total_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Row Total Incl Tax')
-    ->addColumn('gift_message_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Gift Message Id')
-    ->addColumn('weee_tax_applied', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        ), 'Weee Tax Applied')
-    ->addColumn('weee_tax_applied_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Applied Amount')
-    ->addColumn('weee_tax_applied_row_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Applied Row Amount')
-    ->addColumn('base_weee_tax_applied_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Applied Amount')
-    ->addColumn('base_weee_tax_applied_row_amnt', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Applied Row Amount')
-    ->addColumn('weee_tax_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Disposition')
-    ->addColumn('weee_tax_row_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Weee Tax Row Disposition')
-    ->addColumn('base_weee_tax_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Disposition')
-    ->addColumn('base_weee_tax_row_disposition', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
-        ), 'Base Weee Tax Row Disposition')
     ->addColumn('hidden_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Hidden Tax Amount')
     ->addColumn('base_hidden_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
@@ -2425,9 +2338,6 @@ $table = $installer->getConnection()
         ), 'Row Total Incl Tax')
     ->addColumn('base_row_total_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Row Total Incl Tax')
-    ->addColumn('gift_message_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        ), 'Gift Message Id')
     ->addColumn('hidden_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Hidden Tax Amount')
     ->addColumn('base_hidden_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
@@ -2644,8 +2554,8 @@ $table = $installer->getConnection()
         ), 'Invoiced Captured')
     ->addColumn('invoiced_not_captured', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Invoiced Not Captured')
-    ->addIndex($installer->getIdxName('sales/invoiced_aggregated', array('period', 'store_id', 'order_status'), true),
-        array('period', 'store_id', 'order_status'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/invoiced_aggregated', array('period', 'store_id', 'order_status'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('period', 'store_id', 'order_status'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/invoiced_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/invoiced_aggregated', 'store_id', 'core/store', 'store_id'),
@@ -2687,8 +2597,8 @@ $table = $installer->getConnection()
         ), 'Invoiced Captured')
     ->addColumn('invoiced_not_captured', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Invoiced Not Captured')
-    ->addIndex($installer->getIdxName('sales/invoiced_aggregated_order', array('period', 'store_id', 'order_status'), true),
-        array('period', 'store_id', 'order_status'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/invoiced_aggregated_order', array('period', 'store_id', 'order_status'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('period', 'store_id', 'order_status'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/invoiced_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/invoiced_aggregated_order', 'store_id', 'core/store', 'store_id'),
@@ -2782,8 +2692,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Total Discount Amount Actual')
-    ->addIndex($installer->getIdxName('sales/order_aggregated_created', array('period', 'store_id', 'order_status'), true),
-        array('period', 'store_id', 'order_status'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/order_aggregated_created', array('period', 'store_id', 'order_status'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('period', 'store_id', 'order_status'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/order_aggregated_created', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/order_aggregated_created', 'store_id', 'core/store', 'store_id'),
@@ -2832,8 +2742,8 @@ $table = $installer->getConnection()
         ), 'Additional Information')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
-    ->addIndex($installer->getIdxName('sales/payment_transaction', array('order_id', 'payment_id', 'txn_id'), true),
-        array('order_id', 'payment_id', 'txn_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/payment_transaction', array('order_id', 'payment_id', 'txn_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('order_id', 'payment_id', 'txn_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/payment_transaction', array('order_id')),
         array('order_id'))
     ->addIndex($installer->getIdxName('sales/payment_transaction', array('parent_id')),
@@ -2883,8 +2793,8 @@ $table = $installer->getConnection()
         ), 'Online Refunded')
     ->addColumn('offline_refunded', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Offline Refunded')
-    ->addIndex($installer->getIdxName('sales/refunded_aggregated', array('period', 'store_id', 'order_status'), true),
-        array('period', 'store_id', 'order_status'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/refunded_aggregated', array('period', 'store_id', 'order_status'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('period', 'store_id', 'order_status'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/refunded_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/refunded_aggregated', 'store_id', 'core/store', 'store_id'),
@@ -2922,8 +2832,8 @@ $table = $installer->getConnection()
         ), 'Online Refunded')
     ->addColumn('offline_refunded', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Offline Refunded')
-    ->addIndex($installer->getIdxName('sales/refunded_aggregated_order', array('period', 'store_id', 'order_status'), true),
-        array('period', 'store_id', 'order_status'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/refunded_aggregated_order', array('period', 'store_id', 'order_status'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('period', 'store_id', 'order_status'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/refunded_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/refunded_aggregated_order', 'store_id', 'core/store', 'store_id'),
@@ -2961,8 +2871,8 @@ $table = $installer->getConnection()
         ), 'Total Shipping')
     ->addColumn('total_shipping_actual', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Total Shipping Actual')
-    ->addIndex($installer->getIdxName('sales/shipping_aggregated', array('period', 'store_id', 'order_status', 'shipping_description'), true),
-        array('period', 'store_id', 'order_status', 'shipping_description'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/shipping_aggregated', array('period', 'store_id', 'order_status', 'shipping_description'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('period', 'store_id', 'order_status', 'shipping_description'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/shipping_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/shipping_aggregated', 'store_id', 'core/store', 'store_id'),
@@ -3000,8 +2910,8 @@ $table = $installer->getConnection()
         ), 'Total Shipping')
     ->addColumn('total_shipping_actual', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Total Shipping Actual')
-    ->addIndex($installer->getIdxName('sales/shipping_aggregated_order', array('period', 'store_id', 'order_status', 'shipping_description'), true),
-        array('period', 'store_id', 'order_status', 'shipping_description'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/shipping_aggregated_order', array('period', 'store_id', 'order_status', 'shipping_description'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('period', 'store_id', 'order_status', 'shipping_description'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/shipping_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/shipping_aggregated_order', 'store_id', 'core/store', 'store_id'),
@@ -3339,8 +3249,8 @@ $table = $installer->getConnection()
         ), 'Profile Vendor Info')
     ->addColumn('additional_info', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Additional Info')
-    ->addIndex($installer->getIdxName('sales/recurring_profile', array('internal_reference_id'), true),
-        array('internal_reference_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/recurring_profile', array('internal_reference_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('internal_reference_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/recurring_profile', array('customer_id')),
         array('customer_id'))
     ->addIndex($installer->getIdxName('sales/recurring_profile', array('store_id')),
@@ -3376,8 +3286,8 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Order Id')
-    ->addIndex($installer->getIdxName('sales/recurring_profile_order', array('profile_id', 'order_id'), true),
-        array('profile_id', 'order_id'), array('type' => 'unique'))
+    ->addIndex($installer->getIdxName('sales/recurring_profile_order', array('profile_id', 'order_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('profile_id', 'order_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('sales/recurring_profile_order', array('order_id')),
         array('order_id'))
     ->addForeignKey($installer->getFkName('sales/recurring_profile_order', 'order_id', 'sales/order', 'entity_id'),

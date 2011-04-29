@@ -19,12 +19,12 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Enterprise
- * @package     Enterprise_Enterprise
+ * @package     Enterprise_CatalogPermissions
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/* @var $installer Mage_Core_Model_Resource_Setup */
+/* @var $installer Enterprise_CatalogPermissions_Model_Resource_Setup */
 $installer = $this;
 
 

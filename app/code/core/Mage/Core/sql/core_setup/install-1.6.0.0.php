@@ -163,7 +163,7 @@ $table = $installer->getConnection()
         array('code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core/store', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('core/store', array('sort_order', 'is_active')),
+    ->addIndex($installer->getIdxName('core/store', array('is_active', 'sort_order')),
         array('is_active', 'sort_order'))
     ->addIndex($installer->getIdxName('core/store', array('group_id')),
         array('group_id'))
