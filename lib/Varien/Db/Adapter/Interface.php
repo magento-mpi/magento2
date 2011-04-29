@@ -600,7 +600,7 @@ interface Varien_Db_Adapter_Interface
      *
      * @param int|string|Zend_Date $date
      * @param boolean $includeTime
-     * @return string
+     * @return Zend_Db_Expr
      */
     public function formatDate($date, $includeTime = true);
 

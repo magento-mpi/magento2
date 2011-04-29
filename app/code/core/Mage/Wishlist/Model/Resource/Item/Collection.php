@@ -325,10 +325,11 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     public function addDaysInWishlist()
     {
         $this->_addDaysInWishlist = true;
-        $this->getSelect()->columns(array('days_in_wishlist' =>
-            "(TO_DAYS('" . (substr(Mage::getSingleton('core/date')->date(), 0, -2) . '00') . "') ".
-            "- TO_DAYS(DATE_ADD(added_at, INTERVAL ".(int) Mage::getSingleton('core/date')->getGmtOffset()." SECOND)))"
-        ));
+
+        $dateDiff = Mage::getResourceHelper('wishlist')
+            ->getDaysInWishlist();
+        $this->getSelect()->columns(array('days_in_wishlist' => $dateDiff));
+
         return $this;
     }
 

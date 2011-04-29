@@ -490,7 +490,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
     }
 
     /**
-     * Returns expression of days difference between $startDate and $endDate.
+     * Returns expression of days passed from $startDate to $endDate
      *
      * @param  string|Zend_Db_Expr $startDate
      * @param  string|Zend_Db_Expr $endDate
@@ -498,8 +498,8 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
      */
     public function getDateDiff($startDate, $endDate)
     {
-        $query = sprintf('(trunc(%s) - trunc(%s))', $startDate, $endDate);
-        return new Zend_Db_Expr($query);
+        $dateDiff = '(trunc(' . $endDate . ') - trunc(' . $startDate . '))';
+        return new Zend_Db_Expr($dateDiff);
     }
 
     /**

@@ -144,12 +144,12 @@ class Mage_Wishlist_Model_Resource_Product_Collection extends Mage_Catalog_Model
         $this->setDaysInWishlist(false);
 
         $resourceHelper = Mage::getResourceHelper('core');
-        $startDate      = $adapter->formatDate(Mage::getSingleton('core/date')->date());
+        $nowDate = $adapter->formatDate(Mage::getSingleton('core/date')->date());
 
         $this->joinField('store_name', 'core/store', 'name', 'store_id=item_store_id');
         $this->joinField('days_in_wishlist',
             'wishlist/item',
-            $resourceHelper->getDateDiff($startDate, $this->_wishlistItemTableAlias.'.added_at'),
+            $resourceHelper->getDateDiff($this->_wishlistItemTableAlias . '.added_at', $nowDate),
             'wishlist_item_id=wishlist_item_id'
         );
 
