@@ -284,10 +284,10 @@ class Mage_ImportExport_Block_Adminhtml_Export_Filter extends Mage_Adminhtml_Blo
     /**
      * Prepare collection by setting page number, sorting etc..
      *
-     * @param Mage_Eav_Model_Mysql4_Entity_Attribute_Collection $collection
-     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     * @param Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection
+     * @return Mage_Eav_Model_Resource_Entity_Attribute_Collection
      */
-    public function prepareCollection(Mage_Eav_Model_Mysql4_Entity_Attribute_Collection $collection)
+    public function prepareCollection(Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection)
     {
         $this->_collection = $collection;
 

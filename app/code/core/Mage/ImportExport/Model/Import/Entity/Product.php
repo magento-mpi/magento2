@@ -349,7 +349,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     protected function _initCategories()
     {
         $collection = Mage::getResourceModel('catalog/category_collection')->addNameToResult();
-        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
+        /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         foreach ($collection as $category) {
             $structure = explode('/', $category->getPath());
             $pathSize  = count($structure);

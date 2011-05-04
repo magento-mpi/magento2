@@ -324,10 +324,10 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
     /**
      * Clean up attribute collection.
      *
-     * @param Mage_Eav_Model_Mysql4_Entity_Attribute_Collection $collection
-     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     * @param Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection
+     * @return Mage_Eav_Model_Resource_Entity_Attribute_Collection
      */
-    public function filterAttributeCollection(Mage_Eav_Model_Mysql4_Entity_Attribute_Collection $collection)
+    public function filterAttributeCollection(Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection)
     {
         $collection->load();
 
@@ -342,7 +342,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
     /**
      * Entity attributes collection getter.
      *
-     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     * @return Mage_Eav_Model_Resource_Entity_Attribute_Collection
      */
     abstract public function getAttributeCollection();
 

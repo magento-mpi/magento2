@@ -149,7 +149,7 @@ class Mage_ImportExport_Model_Import extends Varien_Object
      * DB data source model getter.
      *
      * @static
-     * @return Mage_ImportExport_Model_Mysql4_Import_Data
+     * @return Mage_ImportExport_Model_Resource_Import_Data
      */
     public static function getDataSourceModel()
     {

@@ -157,10 +157,10 @@ class Mage_ImportExport_Model_Export extends Varien_Object
     /**
      * Clean up already loaded attribute collection.
      *
-     * @param Mage_Eav_Model_Mysql4_Entity_Attribute_Collection $collection
-     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     * @param Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection
+     * @return Mage_Eav_Model_Resource_Entity_Attribute_Collection
      */
-    public function filterAttributeCollection(Mage_Eav_Model_Mysql4_Entity_Attribute_Collection $collection)
+    public function filterAttributeCollection(Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection)
     {
         return $this->_getEntityAdapter()->filterAttributeCollection($collection);
     }
@@ -220,7 +220,7 @@ class Mage_ImportExport_Model_Export extends Varien_Object
     /**
      * Entity attributes collection getter.
      *
-     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     * @return Mage_Eav_Model_Resource_Entity_Attribute_Collection
      */
     public function getEntityAttributeCollection()
     {

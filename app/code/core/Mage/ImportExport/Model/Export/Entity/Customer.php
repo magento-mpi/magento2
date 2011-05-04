@@ -236,10 +236,10 @@ class Mage_ImportExport_Model_Export_Entity_Customer extends Mage_ImportExport_M
     /**
      * Clean up already loaded attribute collection.
      *
-     * @param Mage_Eav_Model_Mysql4_Entity_Attribute_Collection $collection
-     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+     * @param Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection
+     * @return Mage_Eav_Model_Resource_Entity_Attribute_Collection
      */
-    public function filterAttributeCollection(Mage_Eav_Model_Mysql4_Entity_Attribute_Collection $collection)
+    public function filterAttributeCollection(Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection)
     {
         foreach (parent::filterAttributeCollection($collection) as $attribute) {
             if (!empty($this->_attributeOverrides[$attribute->getAttributeCode()])) {

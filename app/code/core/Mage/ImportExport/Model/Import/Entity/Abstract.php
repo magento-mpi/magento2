@@ -59,7 +59,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
     /**
      * DB data source model.
      *
-     * @var Mage_ImportExport_Model_Mysql4_Import_Data
+     * @var Mage_ImportExport_Model_Resource_Import_Data
      */
     protected $_dataSourceModel;
 

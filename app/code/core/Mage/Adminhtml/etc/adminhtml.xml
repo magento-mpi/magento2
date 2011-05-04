@@ -61,7 +61,7 @@
                             <sort_order>30</sort_order>
                         </gui>
                         <profiles translate="title">
-                            <title>Dataflow - Advance Profiles</title>
+                            <title>Dataflow - Advanced Profiles</title>
                             <action>adminhtml/system_convert_profile</action>
                             <sort_order>40</sort_order>
                         </profiles>
