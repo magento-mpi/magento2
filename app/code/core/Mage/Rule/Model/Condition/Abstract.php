@@ -254,7 +254,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
         $value = $this->getData('value');
 
         $op = $this->getOperator();
-        if (($op === '{}' || $op === '!{}' || $op === '()' || $op === '!()') && is_string($value)) {
+        if (($op === '{}' || $op === '!{}' || $op === '()' || $o p=== '!()') && is_scalar($value)) {
             $value = preg_split('#\s*[,;]\s*#', $value, null, PREG_SPLIT_NO_EMPTY);
             $this->setValue($value);
         }
@@ -560,7 +560,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
                 break;
 
             case '{}': case '!{}':
-                if (is_string($validatedValue) && is_array($value)) {
+                if (is_scalar($validatedValue) && is_array($value)) {
                     foreach ($value as $item) {
                         if (stripos($validatedValue,$item)!==false) {
                             $result = true;
