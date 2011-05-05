@@ -254,7 +254,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $response = $this->getResponse();
 
         $order = Mage::getModel('sales/order')
-                ->loadByIncrementId($response->getInvoice());
+                ->loadByIncrementId($response->getInvnum());
 
         if ($response->getResult() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER &&
             $response->getResult() != self::RESPONSE_CODE_DECLINED_BY_FILTER &&
@@ -265,7 +265,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             Mage::throwException($response->getRespmsg());
         }
 
-        $amountCompared = ($response->getAmount() ==
+        $amountCompared = ($response->getAmt() ==
             $order->getPayment()->getBaseAmountAuthorized()) ? true : false;
         if (!$order->getId() ||
             $order->getState() != Mage_Sales_Model_Order::STATE_PENDING_PAYMENT ||
