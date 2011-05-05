@@ -178,11 +178,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
             );
         }
         $select->where($condition);
-        $inOperator = ($requireValid ? 'IN' : 'NOT IN');
-        if (Mage::registry('combine:History')) {
-            // when used as a child of History condition - "IN operator" always set to "IN"
-            $inOperator = 'IN';
+        $select->where('main.entity_id = '.$fieldName);
+        $inOperator = ($requireValid ? 'EXISTS' : 'NOT EXISTS');
+        if ($this->getCombineHistory()) {
+            // when used as a child of History condition - "EXISTS" always set to "EXISTS"
+            $inOperator = 'EXISTS';
         }
-        return sprintf("%s %s (%s)", $fieldName, $inOperator, $select);
+        return sprintf("%s (%s)", $inOperator, $select);
     }
 }

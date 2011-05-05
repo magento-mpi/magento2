@@ -30,6 +30,13 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
+    /**
+     * Flag of using History condition (for conditions of Product_Attribute)
+     *
+     * @var bool
+     */
+    protected $_combineHistory = true;
+
     const VIEWED    = 'viewed_history';
     const ORDERED   = 'ordered_history';
 
@@ -183,12 +190,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      */
     public function getConditionsSql($customer, $website)
     {
-        // set flag of using History condition (for conditions of Product_Attribute)
-        Mage::register('combine:History', true);
         $select = parent::getConditionsSql($customer, $website);
-        // set flag of using History condition
-        Mage::unregister('combine:History');
-        // reverse the result when use WAS NOT condition
+
         return $this->_getRequiredValidation() ? $select : "IF(({$select}),NULL,1)";
     }
 

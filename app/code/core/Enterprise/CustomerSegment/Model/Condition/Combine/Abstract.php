@@ -27,6 +27,13 @@
 abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_Rule_Model_Condition_Combine
 {
     /**
+     * Flag of using History condition (for conditions of Product_Attribute)
+     *
+     * @var bool
+     */
+    protected $_combineHistory = false;
+
+    /**
      * Get array of event names where segment with such conditions combine can be matched
      *
      * @return array
@@ -164,6 +171,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
             foreach ($this->getConditions() as $condition) {
                 $subfilterType = $condition->getSubfilterType();
                 if (isset($subfilterMap[$subfilterType])) {
+                    $condition->setCombineHistory($this->_combineHistory);
                     $subfilter = $condition->getSubfilterSql($subfilterMap[$subfilterType], $required, $website);
                     if ($subfilter) {
                         $subfilters[] = $subfilter;
