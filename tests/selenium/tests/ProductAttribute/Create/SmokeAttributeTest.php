@@ -27,16 +27,16 @@
  */
 
 /**
- * Delete SMOKE product attributes created by ProductAttribute_Create_SmokeTest.
+ * Create SMOKE product attributes for ProductAttribute_DeleteTest.
+ * Types: textfield
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
+class ProductAttribute_Create_SmokeTest extends Mage_Selenium_TestCase
 {
-
-    /*
+    /**
      * Preconditions
      * Admin user should be logged in.
      * Should stay on the Admin Dashboard page after login
@@ -45,6 +45,21 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->loginAdminUser());
         $this->assertTrue($this->admin('dashboard'));
+    }
+
+
+    /**
+     * Action_helper method for Create Attribute action
+     *
+     * @param array $attrData Array which contains DataSet for filling of the current form
+     *
+     */
+    public function creteAttribute($attrData)
+    {
+        $this->clickButton('add_new_attribute');
+        $this->fillForm($attrData, 'properties');
+        $this->clickControl('tab', 'manage_lables_options',false);
+        $this->fillForm($attrData, 'manage_lables_options');
     }
 
     /**
@@ -56,40 +71,24 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * Create "Date" type Product Attribute (required fields only)
+     *
+     * Steps:
+     * 1.Go to Catalog->Attributes->Manage Attributes
+     * 2.Click on "Add New Attribute" button
+     * 3.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
+     * 4.Fill all required fields
+     * 5.Click on "Save Attribute" button
+     *
+     * Expected result: new attribute ["Date" type] successfully created.
+     *                  Success message: 'The product attribute has been saved.' is displayed.
      */
-    public function testDeleteProductAttribute_Smoke()
+    public function test_smokeWithRequiredFieldsOnly()
     {
         $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
-        $attrData = $this->loadData('product_attribute_smoke_del', null,null);
-        $this->searchAndOpen($attrData);
-        $this->_currentPage = 'edit_product_attribute';
-        $this->deleteElement('delete', 'delete_confirm_message');
-        $this->_currentPage = 'manage_attributes';
-        $this->assertFalse($this->successMessage('success_deleted_attribute'), $this->messages);
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_Deletable()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_ThatCannotBeDeleted_SystemAttribute()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_ThatCannotBeDeleted_DropdownAttributeUsedInConfigurableProduct()
-    {
-        // @TODO
+        $attrData = $this->loadData('product_attribute_smoke_add', null, null);
+        $this->creteAttribute($attrData);
+        $this->clickButton('save_attribute',true);
+        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
     }
 }

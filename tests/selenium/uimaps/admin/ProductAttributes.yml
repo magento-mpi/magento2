@@ -33,6 +33,24 @@ manage_attributes:
   title : Manage Attributes / Attributes / Catalog / Magento Admin
   uimap :
     form : &searchProductAttributeGrid
+      fieldsets:
+        -
+          attributes_grid:
+            xpath:  div[@id='attributeGrid']
+            buttons:
+              reset_filter: button[span='Reset Filter']
+              search: button[span='Search']
+            fields:
+              attribute_code: input[@id='filter_attribute_code']
+              attribute_lable: input[@id='filter_frontend_label']
+            dropdowns:
+              required: select[@id='filter_is_required']
+              system: select[@id='filter_is_user_defined']
+              visible:  select[@id='filter_is_visible']
+              scope:  select[@id='filter_is_global']
+              searchable: select[@id='filter_is_searchable']
+              use_in_layered_navigation:  select[@id='filter_is_filterable']
+              comparable: select[@id='filter_is_comparable']
       buttons :
         add_new_attribute : button[span='Add New Attribute']
   # Messages
@@ -108,6 +126,7 @@ new_product_attribute:
       buttons :
         back : button[span='Back']
         reset : button[span='Reset']
+        delete: button[span='Delete Attribute']
         save_attribute : button[span='Save Attribute']
         save_and_continue_edit : button[span='Save and Continue Edit']
  # Messages
@@ -118,3 +137,39 @@ new_product_attribute:
         error_empty_attribute_title : div[normalize-space(@id)='advice-required-option-frontend_label[0]'][text()='Failed']
         error_invalid_attribute_code : div[normalize-space(@id)='advice-validate-code-attribute_code'][text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.']
         error_invalid_position : div[normalize-space(@id)='advice-validate-digits-position'][text()='Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.']
+
+# Manage Product Attributes page
+edit_product_attribute:
+  mca : catalog_product_attribute/edit/attribute_id/996/
+  title : attribute_textfield_smoke / Manage Attributes / Attributes / Catalog / Magento Admin
+  uimap :
+    form : &searchProductAttributeGrid
+      fieldsets:
+        -
+          attributes_grid:
+            xpath:  div[@id='attributeGrid']
+            buttons:
+              reset_filter: button[span='Reset Filter']
+              search: button[span='Search']
+            fields:
+              attribute_code: input[@id='filter_attribute_code']
+              attribute_lable: input[@id='filter_frontend_label']
+            dropdowns:
+              required: select[@id='filter_is_required']
+              system: select[@id='filter_is_user_defined']
+              visible:  select[@id='filter_is_visible']
+              scope:  select[@id='filter_is_global']
+              searchable: select[@id='filter_is_searchable']
+              use_in_layered_navigation:  select[@id='filter_is_filterable']
+              comparable: select[@id='filter_is_comparable']
+      buttons :
+        back : button[span='Back']
+        reset : button[span='Reset']
+        delete: button[span='Delete Attribute']
+        save_attribute : button[span='Save Attribute']
+        save_and_continue_edit : button[span='Save and Continue Edit']
+  # Messages
+      messages :
+        success_saved_attribute : li[normalize-space(@class)='success-msg']//span[text()='The product attribute has been saved.']
+        success_deleted_attribute : li[normalize-space(@class)='success-msg']//span[text()='The product attribute has been deleted.']
+        delete_confirm_message : Are you sure you want to do this?

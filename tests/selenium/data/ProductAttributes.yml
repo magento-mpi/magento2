@@ -31,6 +31,40 @@
 # - 'Apply To' is 'All Product Types'
 # - Attributes will not assigned for using in Layered Navigation
 
+# Test Datasets for Delete SMOKE Product Attribute
+product_attribute_smoke_del:
+  attribute_code: attribute_textfield_smoke
+  attribute_lable: SMOKE Product Attribute Admin Title
+  required: No
+  system: No
+  visible: No
+  scope: Global
+  searchable: No
+  use_in_layered_navigation: No
+  comparable: No
+
+# Test Datasets for Add New TextField type SMOKE Product Attribute
+product_attribute_smoke_add:
+  attribute_code : attribute_textfield_smoke
+  scope : Global
+  catalog_input_type_for_store_owner : Text Field
+  default_value : SMOKE Default Value
+  unique_value : No
+  values_required : No
+  input_validation_for_store_owner : None
+  apply_to : All Product Types
+  use_in_quick_search : No
+  use_in_advanced_search : No
+  comparable_on_frontend : No
+  use_for_promo_rule_conditions : No
+  allow_html_tags_on_frontend : No
+  visible_on_product_view_page_on_frontend : No
+  used_in_product_listing : No
+  used_for_sorting_in_product_listing : No
+#manage_titles:
+  admin_title : SMOKE Product Attribute Admin Title
+  storeview_title : SMOKE Product Attribute Storeview Title
+
 # Test Datasets for Add New TextField type Product Attribute
 product_attribute_textfield:
   attribute_code : attribute_textfield_code
