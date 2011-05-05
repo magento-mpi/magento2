@@ -661,7 +661,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $data
      * @return Mage_Selenium_TestCase 
      */
-    public function searchAndOpen($data = array())
+     public function searchAndOpen(array $data)
     {
 //        $this->fillForm($data);
 //        $this->clickButton('search');
@@ -675,7 +675,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 //        return $this;
 //      @TODO Need REVIEW
         $result = False;
-        if (is_array($data) and count($data) > 0) {
+        foreach ($data as $k => $v) {
+            if (preg_match('/website/', $k)) {
+                $xpathField = $this->getCurrentLocationUimapPage()->getMainForm()->findDropdown($k);
+                if (!$this->isElementPresent('//' . $xpathField)) {
+                    unset($data[$k]);
+                }
+            }
+            if (empty($v)) {
+                unset($data[$k]);
+            }
+        }
+        if (count($data) > 0) {
             //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
             $xpath = "//td[normalize-space(@class)='pager']";
             $text = $this->getText("$xpath");
@@ -690,23 +701,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             // Forming xpath for string that contains the lookup data
             $xpathTR = '//tr[';
             $i = 1;
-            $count = 0;
-            foreach ($data as $k => $v) {
-                if ($v != Null) {
-                    if (preg_match('/website/', $k)) {
-                        $xpathField = $this->getCurrentLocationUimapPage()->getMainForm()->findField($k);
-                        if (!$this->isElementPresent($xpathField)) {
-                            $count -=1;
-                            unset($data[$k]);
-                        }
-                    }
-                    $count +=1;
-                }
-            }
             foreach ($data as $key => $value) {
-                if ($value != Null and !preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
+                if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
                     $xpathTR .= "contains(.,'$value')";
-                    if ($i <= $count - 1) {
+                    if ($i < count($data)) {
                         $xpathTR .= ' and ';
                     }
                     $i += 1;
@@ -732,19 +730,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             if ($this->isElementPresent($xpathTR)) {
                 // ID definition
-                $id = $this->getValue($xpathTR.'/@title');
+                $id = $this->getValue($xpathTR . '/@title');
                 preg_match("/\/id\/[0-9]+\//", $id, $match);
                 preg_match("/[0-9]+/", $match[0], $match);
 //                @TODO Need to implement.
 //                // Add ID to 'mca'
 //                $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('id' => $match[0])));
                 // Open element
-                $this->click($xpathTR . "//td[normalize-space(@class)='last']/a");
+                $this->click($xpathTR . "//td[normalize-space(text())='" . $data[array_rand($data)] . "']");
                 $this->waitForPageToLoad(self::timeoutPeriod);
                 $result = True;
             }
         } else {
-            echo 'Implementation of a function "searchAndOpen" is skipped because data for the search is not specified \r\n';
+            echo "Implementation of a function 'searchAndOpen' is skipped because data for the search is not specified \r\n";
         }
         $this->assertTrue($result, 'Element not found.');
         return $this;
