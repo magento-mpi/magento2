@@ -730,8 +730,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
                 sleep(1);
             }
-            // Open element
             if ($this->isElementPresent($xpathTR)) {
+                // ID definition
+                $id = $this->getValue($xpathTR.'/@title');
+                preg_match("/\/id\/[0-9]+\//", $id, $match);
+                preg_match("/[0-9]+/", $match[0], $match);
+//                @TODO Need to implement.
+//                // Add ID to 'mca'
+//                $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('id' => $match[0])));
+                // Open element
                 $this->click($xpathTR . "//td[normalize-space(@class)='last']/a");
                 $this->waitForPageToLoad(self::timeoutPeriod);
                 $result = True;
