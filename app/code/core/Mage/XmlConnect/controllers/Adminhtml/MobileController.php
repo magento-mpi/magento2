@@ -1072,6 +1072,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
         if ($data) {
             try {
+                $data = Mage::getModel('xmlconnect/input_filter_maliciousCode')->filter($data);
                 $template = $this->_initTemplate('template_id');
                 $message = $this->_initMessage();
 
@@ -1208,6 +1209,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $template = false;
         $isError = false;
         if ($data) {
+            $data = Mage::getModel('xmlconnect/input_filter_maliciousCode')->filter($data);
             Mage::getSingleton('adminhtml/session')->setFormData($data);
             try {
                 $id = $this->getRequest()->getParam('id');
