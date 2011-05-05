@@ -117,8 +117,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $filters = $this->_parseVars();
 
         if ($qty = $this->getFieldValue($filters, 'qty')) {
-            $qtyFrom = isset($qty['from']) ? $qty['from'] : 0;
-            $qtyTo   = isset($qty['to']) ? $qty['to'] : 0;
+            $qtyFrom = isset($qty['from']) ? (float) $qty['from'] : 0;
+            $qtyTo   = isset($qty['to']) ? (float) $qty['to'] : 0;
 
             $qtyAttr = array();
             $qtyAttr['alias']       = 'qty';
