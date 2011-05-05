@@ -120,6 +120,43 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_paramsHelper = null;
 
     /**
+     * @var    array
+     */
+    private $dependencies = array();
+    /**
+     * Whether or not this test is running in a separate PHP process.
+     *
+     * @var    boolean
+     */
+    private $inIsolation = FALSE;
+    /**
+     * The name of the test case.
+     *
+     * @var    string
+     */
+    private $name = NULL;
+    /**
+     * The name of the expected Exception.
+     *
+     * @var    mixed
+     */
+    private $expectedException = NULL;
+
+    /**
+     * The message of the expected Exception.
+     *
+     * @var    string
+     */
+    private $expectedExceptionMessage = '';
+    /**
+     * @var    array
+     */
+    private $data = array();
+    /**
+     * @var    array
+     */
+    private $dependencyInput = array();
+    /**
      * Timeout const
      *
      * @var int
@@ -171,6 +208,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_pageHelper = $this->_testConfig->getPageHelper($this, $this->_sutHelper);
         $this->_uid = $this->_testConfig->getUidHelper();
         $this->_uimapHelper = $this->_testConfig->getUimapHelper();
+        if ($name !== NULL) {
+            $this->name = $name;
+        }
         parent::__construct($name, $data, $dataName, $browser);
         $this->setArea('frontend');
     }
@@ -199,6 +239,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $driver->start();
         $this->drivers[] = $driver;
         return $driver;
+    }
+
+    /**
+     * Sets the dependencies of a TestCase.
+     *
+     * @param  array $dependencies
+     * @since  Method available since Release 3.4.0
+     */
+    public function setDependencies(array $dependencies)
+    {
+        $this->dependencies = $dependencies;
+
     }
 
     /**
@@ -661,7 +713,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $data
      * @return Mage_Selenium_TestCase 
      */
-     public function searchAndOpen(array $data)
+    public function searchAndOpen(array $data)
     {
 //        $this->fillForm($data);
 //        $this->clickButton('search');
@@ -689,9 +741,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (count($data) > 0) {
             //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
             $xpath = "//td[normalize-space(@class)='pager']";
-            $text = $this->getText("$xpath");
-            preg_match("/Total [0-9]+ records found/", $text, $matches);
-            preg_match("/[0-9+]/", $matches[0], $array);
+            $text = end(explode('|', $this->getText("$xpath")));
+            preg_match("/[0-9]+/", $text, $array);
             if ($array[0] == 0 or $array[0] == 1) {
                 //Need implement
                 die("Need implement xpath\n");
@@ -730,12 +781,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             if ($this->isElementPresent($xpathTR)) {
                 // ID definition
-                $id = $this->getValue($xpathTR . '/@title');
-                preg_match("/\/id\/[0-9]+\//", $id, $match);
-                preg_match("/[0-9]+/", $match[0], $match);
+                $id = explode('/', $this->getValue($xpathTR . '/@title'));
+                foreach ($id as $key => $value) {
+                    if ($value == 'id') {
+                        $id = $id[$key + 1];
+                        break;
+                    }
+                }
 //                @TODO Need to implement.
 //                // Add ID to 'mca'
-//                $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('id' => $match[0])));
+//                $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('id' => $id)));
                 // Open element
                 $this->click($xpathTR . "//td[normalize-space(text())='" . $data[array_rand($data)] . "']");
                 $this->waitForPageToLoad(self::timeoutPeriod);
@@ -3206,6 +3261,348 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function keyPressNative($keycode)
     {
         parent::keyPressNative($keycode);
+    }
+
+    /**
+    * takes a test and adds its dependencies
+    *
+    * @param  PHPUnit_Framework_Test $test
+    * @param  string $className
+    * @param  string $methodName
+    * @return void
+    */
+    public static function addTestDependencies(PHPUnit_Framework_Test $test, $className, $methodName)
+    {
+        if ($test instanceof PHPUnit_Framework_TestCase ||
+            $test instanceof PHPUnit_Framework_TestSuite_DataProvider) {
+            $test->setDependencies(
+                PHPUnit_Util_Test::getDependencies($className, $methodName)
+            );
+	}        
+	return $test;
+    }
+
+    /**
+     * redefined PHPUnit_Extensions_SeleniumTestCase::suite
+     * make possible to use dependency
+     *
+     * @param  string $className
+     * @return PHPUnit_Framework_TestSuite
+     */
+    public static function suite($className)
+    {
+
+        $suite = new PHPUnit_Framework_TestSuite;
+        $suite->setName($className);
+
+        $class            = new ReflectionClass($className);
+        $classGroups      = PHPUnit_Util_Test::getGroups($className);
+        $staticProperties = $class->getStaticProperties();
+
+        // Create tests from Selenese/HTML files.
+        if (isset($staticProperties['seleneseDirectory']) &&
+            is_dir($staticProperties['seleneseDirectory'])) {
+            $files = array_merge(
+              self::getSeleneseFiles($staticProperties['seleneseDirectory'], '.htm'),
+              self::getSeleneseFiles($staticProperties['seleneseDirectory'], '.html')
+            );
+
+            // Create tests from Selenese/HTML files for multiple browsers.
+            if (!empty($staticProperties['browsers'])) {
+                foreach ($staticProperties['browsers'] as $browser) {
+                    $browserSuite = new PHPUnit_Framework_TestSuite;
+                    $browserSuite->setName($className . ': ' . $browser['name']);
+
+                    foreach ($files as $file) {
+                        $browserSuite->addTest(
+
+                          //new $className($file, array(), '', $browser),
+                        self::addTestDependencies(new $className($file, array(), '', $browser), $className, $name),
+                        $classGroups
+                        );
+                    }
+
+                    $suite->addTest($browserSuite);
+                }
+            }
+
+            // Create tests from Selenese/HTML files for single browser.
+            else {
+                foreach ($files as $file) {
+                    $suite->addTest(new $className($file), $classGroups);
+                }
+            }
+        }
+
+        // Create tests from test methods for multiple browsers.
+        if (!empty($staticProperties['browsers'])) {
+            foreach ($staticProperties['browsers'] as $browser) {
+                $browserSuite = new PHPUnit_Framework_TestSuite;
+                $browserSuite->setName($className . ': ' . $browser['name']);
+
+                foreach ($class->getMethods() as $method) {
+                    if (PHPUnit_Framework_TestSuite::isPublicTestMethod($method)) {
+                        $name   = $method->getName();
+                        $data   = PHPUnit_Util_Test::getProvidedData($className, $name);
+                        $groups = PHPUnit_Util_Test::getGroups($className, $name);
+
+                        // Test method with @dataProvider.
+                        if (is_array($data) || $data instanceof Iterator) {
+                            $dataSuite = new PHPUnit_Framework_TestSuite_DataProvider(
+                              $className . '::' . $name
+                            );
+
+                            foreach ($data as $_dataName => $_data) {
+                                $dataSuite->addTest(
+
+                                 //new $className($name, $_data, $_dataName, $browser),
+                                self::addTestDependencies(new $className($name, $_data, $_dataName, $browser), $className, $name),
+                        		$groups
+                                );
+                            }
+
+                            $browserSuite->addTest($dataSuite);
+                        }
+
+                        // Test method with invalid @dataProvider.
+                        else if ($data === FALSE) {
+                            $browserSuite->addTest(
+                              new PHPUnit_Framework_Warning(
+                                sprintf(
+                                  'The data provider specified for %s::%s is invalid.',
+                                  $className,
+                                  $name
+                                )
+                              )
+                            );
+                        }
+
+                        // Test method without @dataProvider.
+                        else {
+                            $browserSuite->addTest(
+                            
+                             // new $className($name, array(), '', $browser),
+                            self::addTestDependencies( new $className($name, array(), '', $browser), $className, $name),
+                            $groups
+                            );
+                        }
+                    }
+                }
+
+                $suite->addTest($browserSuite);
+            }
+        }
+
+        // Create tests from test methods for single browser.
+        else {
+            foreach ($class->getMethods() as $method) {
+                if (PHPUnit_Framework_TestSuite::isPublicTestMethod($method)) {
+                    $name   = $method->getName();
+                    $data   = PHPUnit_Util_Test::getProvidedData($className, $name);
+                    $groups = PHPUnit_Util_Test::getGroups($className, $name);
+
+                    // Test method with @dataProvider.
+                    if (is_array($data) || $data instanceof Iterator) {
+                        $dataSuite = new PHPUnit_Framework_TestSuite_DataProvider(
+                          $className . '::' . $name
+                        );
+
+                        foreach ($data as $_dataName => $_data) {
+                            $dataSuite->addTest(
+                              //new $className($name, $_data, $_dataName),
+                             self::addTestDependencies(new $className($name, $_data, $_dataName), $className, $name),
+                              $groups
+                            );
+                        }
+
+                        $suite->addTest($dataSuite);
+                    }
+
+                    // Test method with invalid @dataProvider.
+                    else if ($data === FALSE) {
+                        $suite->addTest(
+                          new PHPUnit_Framework_Warning(
+                            sprintf(
+                              'The data provider specified for %s::%s is invalid.',
+                              $className,
+                              $name
+                            )
+                          )
+                        );
+                    }
+
+                    // Test method without @dataProvider.
+                    else {
+                        $suite->addTest(
+                         // new $className($name),
+                          self::addTestDependencies(new $className($name), $className, $name),
+                          $groups
+                        );
+                    }
+                }
+            }
+        }
+
+        return $suite;
+    }
+
+    public function run(PHPUnit_Framework_TestResult $result = NULL)
+    {
+        
+        if ($result === NULL) {
+            $result = $this->createResult();
+        }
+        
+	$this->setResult($result);
+        $this->setExpectedExceptionFromAnnotation();
+        $this->setUseErrorHandlerFromAnnotation();
+        $this->setUseOutputBufferingFromAnnotation();
+
+        $this->collectCodeCoverageInformation = $result->getCollectCodeCoverageInformation();
+
+        foreach ($this->drivers as $driver) {
+            $driver->setCollectCodeCoverageInformation(
+              $this->collectCodeCoverageInformation
+            );
+        }
+
+        if (!$this->handleDependencies()) {
+            return;
+        }
+
+        $result->run($this);
+
+        if ($this->collectCodeCoverageInformation) {
+            $result->getCodeCoverage()->append(
+              $this->getCodeCoverage(), $this
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * @since Method available since Release 3.5.4
+     */
+    protected function handleDependencies()
+    {
+        if (!empty($this->dependencies) && !$this->inIsolation) {
+            $className  = get_class($this);
+            $passed     = $this->getResult()->passed();
+
+            $passedKeys = array_keys($passed);
+            $numKeys    = count($passedKeys);
+
+            for ($i = 0; $i < $numKeys; $i++) {
+                $pos = strpos($passedKeys[$i], ' with data set');
+
+                if ($pos !== FALSE) {
+                    $passedKeys[$i] = substr($passedKeys[$i], 0, $pos);
+                }
+            }
+
+            $passedKeys = array_flip(array_unique($passedKeys));
+
+            foreach ($this->dependencies as $dependency) {
+                if (strpos($dependency, '::') === FALSE) {
+                    $dependency = $className . '::' . $dependency;
+                }
+
+                if (!isset($passedKeys[$dependency])) {
+                    $this->getResult()->addError(
+                      $this,
+                      new PHPUnit_Framework_SkippedTestError(
+                        sprintf(
+                          'This test depends on "%s" to pass.', $dependency
+                        )
+                      ),
+                      0
+                    );
+
+                    return FALSE;
+                } else {
+                    if (isset($passed[$dependency])) {
+                        $this->dependencyInput[] = $passed[$dependency];
+                    } else {
+                        $this->dependencyInput[] = NULL;
+                    }
+                }
+            }
+        }
+
+        return TRUE;
+    }
+    
+    /**
+     * Override to run the test and assert its state.
+     *
+     * @return mixed
+     * @throws RuntimeException
+     */
+    protected function runTest()
+    {
+        if ($this->name === NULL) {
+            throw new PHPUnit_Framework_Exception(
+              'PHPUnit_Framework_TestCase::$name must not be NULL.'
+            );
+        }
+
+        try {
+            $class  = new ReflectionClass($this);
+            $method = $class->getMethod($this->name);
+        }
+
+        catch (ReflectionException $e) {
+            $this->fail($e->getMessage());
+        }
+
+        try {
+
+            $testResult = $method->invokeArgs(
+              $this, array_merge($this->data, $this->dependencyInput)
+            );
+        }
+
+        catch (Exception $e) {
+            if (!$e instanceof PHPUnit_Framework_IncompleteTest &&
+                !$e instanceof PHPUnit_Framework_SkippedTest &&
+                is_string($this->expectedException) &&
+                $e instanceof $this->expectedException) {
+                if (is_string($this->expectedExceptionMessage) &&
+                    !empty($this->expectedExceptionMessage)) {
+                    $this->assertContains(
+                      $this->expectedExceptionMessage,
+                      $e->getMessage()
+                    );
+                }
+
+                if (is_int($this->expectedExceptionCode) &&
+                    $this->expectedExceptionCode !== 0) {
+                    $this->assertEquals(
+                      $this->expectedExceptionCode, $e->getCode()
+                    );
+                }
+
+                $this->numAssertions++;
+
+                return;
+            } else {
+                throw $e;
+            }
+        }
+
+        if ($this->expectedException !== NULL) {
+            $this->numAssertions++;
+
+            $this->syntheticFail(
+              'Expected exception ' . $this->expectedException,
+              '',
+              0,
+              $this->expectedExceptionTrace
+            );
+        }
+
+        return $testResult;
     }
 
     /**
