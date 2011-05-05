@@ -713,6 +713,8 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function registerRefundNotification($amount)
     {
+        Mage::log($this->getData());
+        $notificationAmount = $amount;
         $this->_generateTransactionId(Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
             $this->_lookupTransaction($this->getParentTransactionId())
         );
@@ -732,6 +734,11 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
         if ($amountRefundLeft < $amount) {
             $amount = $amountRefundLeft;
+        }
+
+        if ($amount <= 0) {
+            $order->addStatusHistoryComment(Mage::helper('sales')->__('IPN "Refunded". Refund issued by merchant. Registered notification about refunded amount of %s. Transaction ID: "%s"', $this->_formatPrice($notificationAmount), $this->getTransactionId()), false);
+            return $this;
         }
 
         $serviceModel = Mage::getModel('sales/service_order', $order);
