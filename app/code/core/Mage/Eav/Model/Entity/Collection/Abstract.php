@@ -1213,6 +1213,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             return $this;
         }
 
+        $adapter = $this->getConnection();
+
         $attrTable = $this->_getAttributeTableAlias($attributeCode);
         if (isset($this->_joinAttributes[$attributeCode])) {
             $attribute      = $this->_joinAttributes[$attributeCode]['attribute'];
@@ -1251,9 +1253,13 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             $attrFieldName = $attrTable . '.value';
         }
 
+        $fk = $adapter->quoteColumnAs($fk, null);
+        $pk = $adapter->quoteColumnAs($pk, null);
+
         $condArr = array("$pk = $fk");
         if (!$attribute->getBackend()->isStatic()) {
-            $condArr[] = $this->getConnection()->quoteInto($attrTable . '.attribute_id =?', $attribute->getId());
+            $condArr[] = $this->getConnection()->quoteInto(
+                $adapter->quoteColumnAs("$attrTable.attribute_id", null) . ' = ?', $attribute->getId());
         }
 
         /**

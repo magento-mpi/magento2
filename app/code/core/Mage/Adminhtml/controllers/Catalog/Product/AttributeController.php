@@ -193,7 +193,18 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             /* @var $helper Mage_Catalog_Helper_Product */
             $helper = Mage::helper('catalog/product');
 
-            if ($id = $this->getRequest()->getParam('attribute_id')) {
+            $id = $this->getRequest()->getParam('attribute_id');
+
+            //validate attribute_code
+            $validator = new Zend_Validate_Regex(array('pattern' => '/^[a-z_]{1,255}$/'));
+            if (!$validator->isValid($data['attribute_code'])) {
+                Mage::getSingleton('adminhtml/session')->addError(
+                    $helper->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.'));
+                $this->_redirect('*/*/edit', array('attribute_id' => $id, '_current' => true));
+                return;
+            }
+
+            if ($id) {
                 $model->load($id);
 
                 if (!$model->getId()) {
@@ -288,7 +299,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setAttributeData($data);
-                $this->_redirect('*/*/edit', array('_current' => true));
+                $this->_redirect('*/*/edit', array('attribute_id' => $id, '_current' => true));
                 return;
             }
         }

@@ -177,10 +177,11 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
     {
         if (isset($this->_joinAttributes[$fieldCode]['store_id'])) {
             $store_id = $this->_joinAttributes[$fieldCode]['store_id'];
-        }
-        else {
+        } else {
             $store_id = $this->getStoreId();
         }
+
+        $adapter = $this->getConnection();
 
         if ($store_id != $this->getDefaultStoreId() && !$attribute->isScopeGlobal()) {
             /**
@@ -194,7 +195,9 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
             $tableAlias   = $this->getConnection()->getTableName($tableAlias);
 
             $defCondition = str_replace($tableAlias, $defAlias, $defCondition);
-            $defCondition.= $this->getConnection()->quoteInto(" AND $defAlias.store_id=?", $this->getDefaultStoreId());
+            $defCondition.= $adapter->quoteInto(
+                " AND " . $adapter->quoteColumnAs("$defAlias.store_id", null) . " = ?",
+                $this->getDefaultStoreId());
 
             $this->getSelect()->$method(
                 array($defAlias => $attribute->getBackend()->getTable()),
@@ -210,7 +213,8 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
         } else {
             $store_id = $this->getDefaultStoreId();
         }
-        $condition[] = $this->getConnection()->quoteInto("$tableAlias.store_id=?", $store_id);
+        $condition[] = $adapter->quoteInto(
+            $adapter->quoteColumnAs("$tableAlias.store_id", null) . ' = ?', $store_id);
         return parent::_joinAttributeToSelect($method, $attribute, $tableAlias, $condition, $fieldCode, $fieldAlias);
     }
 }
