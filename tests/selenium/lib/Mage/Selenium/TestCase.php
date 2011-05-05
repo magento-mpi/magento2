@@ -747,7 +747,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 //Need implement
                 die("Need implement xpath\n");
             } else {
-                $xpath = substr("$xpath", 0, -1) . " and not(contains(.,'" . $matches[0] . "'))]";
+                $xpath = substr("$xpath", 0, -1) . " and not(contains(.,'" . $text . "'))]";
             }
             // Forming xpath for string that contains the lookup data
             $xpathTR = '//tr[';
