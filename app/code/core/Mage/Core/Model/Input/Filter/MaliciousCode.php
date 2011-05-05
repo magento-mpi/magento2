@@ -52,7 +52,7 @@ class Mage_Core_Model_Input_Filter_MaliciousCode implements Zend_Filter_Interfac
         //js attributes
         '/(ondblclick|onclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onload|onunload|onerror)=[^<]*(?=\>)/Uis',
         //tags
-        '/<\/?(script|meta|link).*>/Uis',
+        '/<\/?(script|meta|link|frame|iframe).*>/Uis',
         //base64 usage
         '/src=[^<]*base64[^<]*(?=\>)/Uis',
     );
