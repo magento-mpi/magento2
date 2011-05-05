@@ -742,6 +742,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 $adjustment = array('adjustment_negative' => $baseGrandTotal - $amount);
             }
             $creditmemo = $serviceModel->prepareInvoiceCreditmemo($invoice, $adjustment);
+            if ($creditmemo) {
+                $totalRefunded = $invoice->getBaseTotalRefunded() + $creditmemo->getBaseGrandTotal();
+                $this->setShouldCloseParentTransaction($invoice->getBaseGrandTotal() <= $totalRefunded);
+            }
         } else {
             if ($order->getBaseTotalRefunded() > 0) {
                 $adjustment = array('adjustment_positive' => $amount);
@@ -749,6 +753,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 $adjustment = array('adjustment_negative' => $baseGrandTotal - $amount);
             }
             $creditmemo = $serviceModel->prepareCreditmemo($adjustment);
+            if ($creditmemo) {
+                $totalRefunded = $order->getBaseTotalRefunded() + $creditmemo->getBaseGrandTotal();
+                $this->setShouldCloseParentTransaction($order->getBaseGrandTotal() <= $totalRefunded);
+            }
         }
 
         $creditmemo->setPaymentRefundDisallowed(true)
