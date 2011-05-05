@@ -417,7 +417,7 @@ $installer->getConnection()->changeColumn(
         'type'      => Varien_Db_Ddl_Table::TYPE_DECIMAL,
         'scale'     => 4,
         'precision' => 12,
-        'comment'   => 'Base Weee Tax Applied Row Amount'
+        'comment'   => 'Base Weee Tax Applied Row Amnt'
     )
 );
 
@@ -429,7 +429,7 @@ $installer->getConnection()->changeColumn(
         'type'      => Varien_Db_Ddl_Table::TYPE_DECIMAL,
         'scale'     => 4,
         'precision' => 12,
-        'comment'   => 'Base Weee Tax Applied Row Amount'
+        'comment'   => 'Base Weee Tax Applied Row Amnt'
     )
 );
 
@@ -441,7 +441,7 @@ $installer->getConnection()->changeColumn(
         'type'      => Varien_Db_Ddl_Table::TYPE_DECIMAL,
         'scale'     => 4,
         'precision' => 12,
-        'comment'   => 'Base Weee Tax Applied Row Amount'
+        'comment'   => 'Base Weee Tax Applied Row Amnt'
     )
 );
 
@@ -453,7 +453,7 @@ $installer->getConnection()->changeColumn(
         'type'      => Varien_Db_Ddl_Table::TYPE_DECIMAL,
         'scale'     => 4,
         'precision' => 12,
-        'comment'   => 'Base Weee Tax Applied Row Amount'
+        'comment'   => 'Base Weee Tax Applied Row Amnt'
     )
 );
 /**

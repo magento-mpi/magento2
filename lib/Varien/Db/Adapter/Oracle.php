@@ -1061,6 +1061,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         $comment = null;
+        $primaryKey = '';
         if (is_array($definition)) {
             // Retrieve comment to set it later
             $definition = array_change_key_case($definition, CASE_UPPER);
@@ -1069,14 +1070,19 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             }
             $comment = $definition['COMMENT'];
 
+            if (!empty($definition['PRIMARY'])) {
+                $primaryKey = ' PRIMARY KEY';
+            }
+
             $definition = $this->_getColumnDefinition($definition);
         }
 
         $realTableName = $this->_getTableName($tableName, $schemaName);
-        $query = sprintf('ALTER TABLE %s ADD %s %s',
+        $query = sprintf('ALTER TABLE %s ADD %s %s %s',
             $this->quoteIdentifier($realTableName),
             $this->quoteIdentifier($columnName),
-            $definition
+            $definition,
+            $primaryKey
         );
 
         $result = $this->query($query);

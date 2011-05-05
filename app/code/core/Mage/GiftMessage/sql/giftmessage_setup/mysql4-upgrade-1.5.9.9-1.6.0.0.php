@@ -110,7 +110,6 @@ $tables = array(
         'columns' => array(
             'gift_message_id' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
-                'unsigned'  => true,
                 'comment'   => 'Gift Message Id'
             ),
             'gift_message_available' => array(

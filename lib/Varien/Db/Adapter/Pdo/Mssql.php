@@ -1165,6 +1165,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * Generally $defintion must be array with column data to keep this call cross-DB compatible.
      * Using string as $definition is allowed only for concrete DB adapter.
+     * Adds primary key if needed
      *
      * @param string $tableName
      * @param string $columnName
@@ -1180,6 +1181,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         $comment = null;
+        $primaryKey = '';
         if (is_array($definition)) {
             // Retrieve comment to set it later
             $definition = array_change_key_case($definition, CASE_UPPER);
@@ -1188,14 +1190,19 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             }
             $comment = $definition['COMMENT'];
 
+            if (!empty($definition['PRIMARY'])) {
+                $primaryKey = ' PRIMARY KEY';
+            }
+
             $definition = $this->_getColumnDefinition($definition);
         }
 
         $realTableName = $this->_getTableName($tableName, $schemaName);
-        $sql = sprintf('ALTER TABLE %s ADD %s %s',
+        $sql = sprintf('ALTER TABLE %s ADD %s %s %s',
             $this->quoteIdentifier($realTableName),
             $this->quoteIdentifier($columnName),
-            $definition
+            $definition,
+            $primaryKey
         );
 
         $result = $this->raw_query($sql);
@@ -4385,13 +4392,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         return $result;
     }
 
-	/**
-	 * Try to find installed primary key name, if not - formate new one.
-	 *
-	 * @param string $tableName Table name
-	 * @param string $schemaName OPTIONAL
-	 * @return string Primary Key name
-	 */
+    /**
+     * Try to find installed primary key name, if not - formate new one.
+     *
+     * @param string $tableName Table name
+     * @param string $schemaName OPTIONAL
+     * @return string Primary Key name
+     */
     public function getPrimaryKeyName($tableName, $schemaName = null)
     {
         $indexes = $this->getIndexList($tableName, $schemaName);

@@ -234,13 +234,6 @@ $installer->getConnection()->addColumn(
  */
 $installer->getConnection()->addIndex(
     $installer->getTable('catalogsearch/fulltext'),
-    'PRIMARY',
-    array('fulltext_id'),
-    Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY
-);
-
-$installer->getConnection()->addIndex(
-    $installer->getTable('catalogsearch/fulltext'),
     $installer->getIdxName(
         'catalogsearch/fulltext',
         array('product_id', 'store_id'),
