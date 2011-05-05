@@ -239,15 +239,15 @@ class Enterprise_Search_Model_Resource_Collection
     /**
      * Add search query filter (fq)
      *
-     * @param   string|array $param
-     *
+     * @param   array $param
      * @return  Enterprise_Search_Model_Resource_Collection
      */
     public function addFqFilter($param)
     {
         if (is_array($param)) {
-            foreach ($param as $field => $value)
+            foreach ($param as $field => $value) {
                 $this->_searchQueryFilters[$field] = $value;
+            }
         }
 
         return $this;
@@ -263,6 +263,19 @@ class Enterprise_Search_Model_Resource_Collection
     public function addAdvancedSearchFilter($query)
     {
         return $this->addSearchFilter($query);
+    }
+
+    /**
+     * Specify category filter for product collection
+     *
+     * @param   Mage_Catalog_Model_Category $category
+     * @return  Enterprise_Search_Model_Resource_Collection
+     */
+    public function addCategoryFilter(Mage_Catalog_Model_Category $category)
+    {
+        $this->addFqFilter(array('categories' => $category->getId()));
+
+        return $this;
     }
 
     /**
@@ -285,9 +298,12 @@ class Enterprise_Search_Model_Resource_Collection
      */
     protected function _prepareBaseParams()
     {
-        $store                 = Mage::app()->getStore();
-        $params['store_id']    = $store->getId();
-        $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+        $store  = Mage::app()->getStore();
+        $params = array(
+            'store_id'      => $store->getId(),
+            'locale_code'   => $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE),
+            'filters'       => $this->_searchQueryFilters
+        );
         $params['filters']     = $this->_searchQueryFilters;
 
         if (!empty($this->_searchQueryParams)) {
@@ -367,7 +383,6 @@ class Enterprise_Search_Model_Resource_Collection
      */
     public function getSize()
     {
-        $params = array();
         if (is_null($this->_totalRecords)) {
             list($query, $params) = $this->_prepareBaseParams();
             $params['limit'] = 1;
@@ -487,14 +502,14 @@ class Enterprise_Search_Model_Resource_Collection
     /**
      * Set product visibility filter for enabled products
      *
-     * @param array $visibility
-     * @return Mage_Catalog_Model_Resource_Product_Collection
+     * @param   array $visibility
+     * @return  Mage_Catalog_Model_Resource_Product_Collection
      */
     public function setVisibility($visibility)
     {
         if (is_array($visibility)) {
             foreach ($visibility as $visibilityId) {
-                $this->addSearchQfFilter('visibility', $visibilityId);
+                $this->addFqFilter(array('visibility' => $visibilityId));
             }
         }
 

@@ -773,7 +773,10 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 ->distinct(false)
                 ->join(array('count_table' => $this->getTable('catalog/category_product_index')),
                     'count_table.product_id = e.entity_id',
-                    array('count_table.category_id', 'product_count' => new Zend_Db_Expr('COUNT(DISTINCT count_table.product_id)'))
+                    array(
+                        'count_table.category_id', 
+                        'product_count' => new Zend_Db_Expr('COUNT(DISTINCT count_table.product_id)')
+                    )
                 )
                 ->where('count_table.store_id = ?', $this->getStoreId())
                 ->group('count_table.category_id');
@@ -814,7 +817,10 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         if ($isAnchor || $isNotAnchor) {
             $select = $this->getProductCountSelect();
 
-            Mage::dispatchEvent('catalog_product_collection_before_add_count_to_categories', array('collection' => $this));
+            Mage::dispatchEvent(
+                'catalog_product_collection_before_add_count_to_categories', 
+                array('collection' => $this)
+            );
 
             if ($isAnchor) {
                 $anchorStmt = clone $select;
@@ -1570,10 +1576,12 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     {
         $this->_productLimitationFilters['use_price_index'] = true;
         if (!isset($this->_productLimitationFilters['customer_group_id'])) {
-            $this->_productLimitationFilters['customer_group_id'] = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $this->_productLimitationFilters['customer_group_id'] = $customerGroupId;            
         }
         if (!isset($this->_productLimitationFilters['website_id'])) {
-            $this->_productLimitationFilters['website_id'] = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+            $websiteId = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+            $this->_productLimitationFilters['website_id'] = $websiteId;
         }
         $this->_applyProductLimitations();
         return $this;
