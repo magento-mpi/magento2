@@ -251,7 +251,8 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (empty($value)
             || (isset($value['from']) && empty($value['from'])
-                && isset($value['to']) && empty($value['to']))
+                && isset($value['to']) && empty($value['to'])
+            )
         ) {
             return false;
         }
