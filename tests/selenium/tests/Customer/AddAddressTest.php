@@ -39,9 +39,9 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     /**
      * Preconditions:
      *
-     * Log in to Backend.
+     * 1. Log in to Backend.
      *
-     * Navigate to System -> Manage Customers
+     * 2. Navigate to System -> Manage Customers
      */
     protected function assertPreConditions()
     {
@@ -95,7 +95,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
      * @depends test_WithRequiredFieldsOnly
      * @dataProvider data_emptyFields
      */
-    public function test_WithRequiredFieldsEmpty(array $searchData, $emptyField)
+    public function test_WithRequiredFieldsEmpty($emptyField, array $searchData)
     {
         //Data
         $addressData = $this->loadData('generic_address', $emptyField);
@@ -106,7 +106,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $this->searchAndOpen($searchData);
         $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
-        $xpath = $this->getUimapPage('admin', 'edit_customer')->findFieldset('list_customer_addresses')->getXPath();
+        $xpath = $this->getCurrentLocationUimapPage()->findFieldset('list_customer_addresses')->getXPath();
         $addressCount = $this->getXpathCount('//' . $xpath . '//li') + 1;
         $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => $addressCount)));
         $this->clickButton('add_new_address', FALSE);
@@ -179,7 +179,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $this->searchAndOpen($searchData);
         $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
-        $xpath = $this->getUimapPage('admin', 'edit_customer')->findFieldset('list_customer_addresses')->getXPath();
+        $xpath = $this->getCurrentLocationUimapPage()->findFieldset('list_customer_addresses')->getXPath();
         $addressCount = $this->getXpathCount('//' . $xpath . '//li') + 1;
         $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => $addressCount)));
         $this->clickButton('add_new_address', FALSE);
@@ -193,8 +193,8 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         // @TODO
         // check saved values
 //        $this->clickButton('reset_filter'/* ,FALSE */);
-////        @TODO
-////        $this->pleaseWait();
+//        @TODO
+//        $this->pleaseWait();
 //        $this->searchAndOpen($searchData);
 //        $this->clickControl('tab', 'addresses', FALSE);
 //        foreach ($longValues as $key => $value) {
@@ -206,20 +206,19 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
 //        }
     }
 
-    /**
-     * @depends test_WithRequiredFieldsOnly
-     */
-    public function test_WithDefaultBillingAddress(array $searchData)
-    {
-        // @TODO
-    }
-
-    /**
-     * @depends test_WithRequiredFieldsOnly
-     */
-    public function test_WithDefaultShippingAddress(array $searchData)
-    {
-        // @TODO
-    }
-
+//    /**
+//     * @depends test_WithRequiredFieldsOnly
+//     */
+//    public function test_WithDefaultBillingAddress(array $searchData)
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @depends test_WithRequiredFieldsOnly
+//     */
+//    public function test_WithDefaultShippingAddress(array $searchData)
+//    {
+//        // @TODO
+//    }
 }

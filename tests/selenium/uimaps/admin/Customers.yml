@@ -267,3 +267,4 @@ edit_customer:
     messages:
       success_saved_customer: li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been saved.')]
       empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+      confirmation_for_delete: Are you sure you want to do this?
