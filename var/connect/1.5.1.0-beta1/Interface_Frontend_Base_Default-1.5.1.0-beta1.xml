@@ -1,0 +1,92 @@
+<_>
+   <form_key>ii0UwVETi24Gf1Yg</form_key>
+   <_create/>
+   <name>Interface_Frontend_Base_Default</name>
+   <channel>community</channel>
+   <summary>This is a Magento themes base</summary>
+   <description>This is a Magento themes base</description>
+   <license>AFL v3.0</license>
+   <license_uri>http://opensource.org/licenses/afl-3.0.php</license_uri>
+   <version>1.5.1.0-beta1</version>
+   <stability>beta</stability>
+   <notes>1.5.1.0-beta1</notes>
+   <authors>
+      <name>
+         <name>Magento Core Team</name>
+      </name>
+      <user>
+         <user>core</user>
+      </user>
+      <email>
+         <email>core@magentocommerce.com</email>
+      </email>
+   </authors>
+   <depends_php_min>5.2.0</depends_php_min>
+   <depends_php_max>6.0.0</depends_php_max>
+   <depends>
+      <package>
+         <name>
+            <name/>
+            <name>Mage_Core_Modules</name>
+         </name>
+         <channel>
+            <channel/>
+            <channel>community</channel>
+         </channel>
+         <min>
+            <min/>
+            <min>1.5.1.0-beta1</min>
+         </min>
+         <max>
+            <max/>
+            <max>1.6.0.0</max>
+         </max>
+         <files>
+            <files>       </files>
+            <files>       </files>
+         </files>
+      </package>
+      <extension>
+         <name>
+            <name>PDO</name>
+         </name>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+      </extension>
+   </depends>
+   <contents>
+      <target>
+         <target>magelocal</target>
+         <target>magedesign</target>
+         <target>mageskin</target>
+      </target>
+      <path>
+         <path/>
+         <path>frontend/base/default</path>
+         <path>frontend/base/default</path>
+      </path>
+      <type>
+         <type>file</type>
+         <type>dir</type>
+         <type>dir</type>
+      </type>
+      <include>
+         <include/>
+         <include/>
+         <include/>
+      </include>
+      <ignore>
+         <ignore/>
+         <ignore>#(layout/centinel.xml|template/centinel|layout/moneybookers.xml|template/moneybookers|xmlconnect|ogone|chronopay|cybermut|cybersource|eway|flo2cash|ideal|ogone|oscommerce|paybox|protx|strikeiron)#</ignore>
+         <ignore>#(images/centinel|images/moneybookers|xmlconnect|ogone|chronopay|cybermut|cybersource|eway|flo2cash|ideal|ogone|oscommerce|paybox|protx|strikeiron)#</ignore>
+      </ignore>
+   </contents>
+   <page>1</page>
+   <limit>200</limit>
+   <folder/>
+   <package/>
+</_>
