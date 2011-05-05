@@ -865,7 +865,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     public function addIndexToCategoryCollection($collection, $customerGroupId, $websiteId)
     {
         $adapter = $this->_getReadAdapter();
-        if ($collection instanceof Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection) {
+        if ($collection instanceof Mage_Catalog_Model_Resource_Category_Flat_Collection) {
             $tableAlias = 'main_table';
         } else {
             $tableAlias = 'e';

@@ -143,7 +143,7 @@ class Enterprise_SalesArchive_Model_Observer
     public function appendGridCollection(Varien_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getOrderGridCollection();
-        if ($collection instanceof Enterprise_SalesArchive_Model_Mysql4_Order_Collection
+        if ($collection instanceof Enterprise_SalesArchive_Model_Resource_Order_Collection
             || !$collection->getIsCustomerMode()) {
             return $this;
         }

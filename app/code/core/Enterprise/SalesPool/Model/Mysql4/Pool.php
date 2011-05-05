@@ -252,7 +252,7 @@ class Enterprise_SalesPool_Model_Mysql4_Pool extends Mage_Core_Model_Mysql4_Abst
      */
     public function applyPatchForObject($object)
     {
-        if ($object->getResource() instanceof Mage_Sales_Model_Mysql4_Order_Abstract) {
+        if ($object->getResource() instanceof Mage_Sales_Model_Resource_Order_Abstract) {
             $table = $this->_findTableMap($object->getResource()->getMainTable());
             if ($table) {
                 $object->getResource()->setMainTable($table);
@@ -270,7 +270,7 @@ class Enterprise_SalesPool_Model_Mysql4_Pool extends Mage_Core_Model_Mysql4_Abst
      */
     public function applyPatchForCollection($collection)
     {
-        if ($collection instanceof Mage_Sales_Model_Mysql4_Collection_Abstract) {
+        if ($collection instanceof Mage_Sales_Model_Resource_Collection_Abstract) {
             $table = $this->_findTableMap($collection->getMainTable());
             if ($table) {
                 $collection->setMainTable($table);
@@ -287,7 +287,7 @@ class Enterprise_SalesPool_Model_Mysql4_Pool extends Mage_Core_Model_Mysql4_Abst
      */
     public function discardPatchForObject($object)
     {
-        if ($object->getResource() instanceof Mage_Sales_Model_Mysql4_Order_Abstract) {
+        if ($object->getResource() instanceof Mage_Sales_Model_Resource_Order_Abstract) {
             $table = $this->_findTableMap($object->getResource()->getMainTable(), true);
             if ($table) {
                 $object->getResource()->setMainTable($table);

@@ -115,7 +115,7 @@ class Mage_CatalogIndex_Model_Resource_Indexer extends Mage_Core_Model_Resource_
             if ($store instanceof Mage_Core_Model_Store) {
                 $store = $store->getId();
                 $websiteIds[] = Mage::app()->getStore($store)->getWebsiteId();
-            } else if ($store instanceof Mage_Core_Model_Mysql4_Store_Collection) {
+            } else if ($store instanceof Mage_Core_Model_Resource_Store_Collection) {
                 $store = $store->getAllIds();
                 foreach ($store as $one) {
                     $websiteIds[] = Mage::app()->getStore($one)->getWebsiteId();
