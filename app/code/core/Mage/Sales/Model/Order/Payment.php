@@ -713,7 +713,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function registerRefundNotification($amount)
     {
-        Mage::log($this->getData());
         $notificationAmount = $amount;
         $this->_generateTransactionId(Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
             $this->_lookupTransaction($this->getParentTransactionId())
