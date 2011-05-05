@@ -58,11 +58,11 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
         $this->clickButton('save_customer');
-        $this->assertFalse($this->errorMessage(), $this->messages);
+        //Verifying
+//        @TODO func 'navigated'
 //        $this->assertTrue($this->navigated('manage_customers'),
 //                'After successful customer creation should be redirected to Manage Customers page');
-        $this->assertTrue($this->successMessage(/* 'success_saved_customer' */),
-                'No success message is displayed');
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         return $userData;
     }
 
@@ -72,21 +72,22 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     public function test_WithRequiredFieldsOnly(array $userData)
     {
         //Data
-        $searchData = $this->loadData('search_customer',
-                        array('email' => $userData['email']), NULL);
-        $addressData = $this->loadData('generic_address', null, null);
+        $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
+        $addressData = $this->loadData('generic_address');
         //Steps
         $this->searchAndOpen($searchData);
+        $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
-        $this->clickButton('add_new_address');
+        $xpath = $this->getCurrentLocationUimapPage()->findFieldset('list_customer_addresses')->getXPath();
+        $addressCount = $this->getXpathCount('//' . $xpath . '//li') + 1;
+        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => $addressCount)));
+        $this->clickButton('add_new_address', FALSE);
         $this->fillForm($addressData, 'addresses');
         $this->clickButton('save_customer');
-        $this->assertTrue($this->successMessage('success_saved_customer'),
-                'No success message is displayed');
-        $this->assertFalse($this->errorMessage(), $this->messages);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         return $searchData;
     }
-
 
     /**
      * Add Address for customer with one empty reqired field.
@@ -97,33 +98,52 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     public function test_WithRequiredFieldsEmpty(array $searchData, $emptyField)
     {
         //Data
-        $addressData = $this->loadData('generic_address', $emptyField, null);
+        $addressData = $this->loadData('generic_address', $emptyField);
         //Steps
+        $this->clickButton('reset_filter'/* ,FALSE */);
+//        @TODO
+//        $this->pleaseWait();
         $this->searchAndOpen($searchData);
+        $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
-        $this->clickButton('add_new_address');
+        $xpath = $this->getUimapPage('admin', 'edit_customer')->findFieldset('list_customer_addresses')->getXPath();
+        $addressCount = $this->getXpathCount('//' . $xpath . '//li') + 1;
+        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => $addressCount)));
+        $this->clickButton('add_new_address', FALSE);
         $this->fillForm($addressData, 'addresses');
         $this->clickButton('save_customer');
+        //Verifying
         foreach ($emptyField as $key => $value) {
-            $xpath = $this->getCurrentLocationUimapPage()->findFieldset('edit_address')->findField($key);
+            if ($this->getUimapPage('admin', 'edit_customer')->getMainForm()->getTab('addresses')->getFieldset('edit_address')->findField($key) != Null) {
+                $fieldXpath = $this->getUimapPage('admin', 'edit_customer')->getMainForm()->getTab('addresses')->getFieldset('edit_address')->findField($key);
+                $xpath1 = '//' . $this->_paramsHelper->replaceParameters($fieldXpath);
+                if (!$this->isElementPresent($xpath1)) {
+                    $fieldXpath = $this->getUimapPage('admin', 'edit_customer')->getMainForm()->getTab('addresses')->getFieldset('edit_address')->findDropdown($key);
+                }
+            } else {
+                $fieldXpath = $this->getUimapPage('admin', 'edit_customer')->getMainForm()->getTab('addresses')->getFieldset('edit_address')->findDropdown($key);
+            }
+            if (preg_match('/street_address/', $key)) {
+                $fieldXpath = $this->_paramsHelper->replaceParameters($fieldXpath) . "/ancestor::div[@class='multi-input']";
+            } else {
+                $fieldXpath = $this->_paramsHelper->replaceParameters($fieldXpath);
+            }
+            $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $fieldXpath)));
         }
-        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
-        $this->assertTrue($this->errorMessage('empty_reqired_field'),
-                'No error message is displayed');
-        $this->assertFalse($this->successMessage(), $this->messages);
+        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
     }
 
     public function data_emptyFields()
     {
         return array(
-            array('first_name' => ''),
-            array('last_name' => ''),
-            array('street_address_line_1' => NULL),
-            array('city' => Null),
-            array('country' => ''),
-            array('state' => ''),
-            array('zip_code' => Null),
-            array('telephone' => Null)
+            array(array('first_name' => '')),
+            array(array('last_name' => '')),
+            array(array('street_address_line_1' => '')),
+            array(array('city' => '')),
+            array(array('country' => '')),
+            array(array('state' => '')),
+            array(array('zip_code' => '')),
+            array(array('telephone' => ''))
         );
     }
 
@@ -134,8 +154,8 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     {
         //Data
         $longValues = array(
-            'default_billing_address' => 'No',
-            'default_shipping_address' => 'No',
+            'default_billing_address' => 'Yes',
+            'default_shipping_address' => 'yes',
             'prefix' => $this->generate('string', 255, ':alnum:'),
             'first_name' => $this->generate('string', 255, ':alnum:'),
             'middle_name_initial' => $this->generate('string', 255, ':alnum:'),
@@ -145,22 +165,45 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
             'street_address_line_1' => $this->generate('string', 255, ':alnum:'),
             'street_address_line_2' => $this->generate('string', 255, ':alnum:'),
             'city' => $this->generate('string', 255, ':alnum:'),
+            'country' => 'Ukraine',
+            'state' => $this->generate('string', 255, ':alnum:'),
             'zip_code' => $this->generate('string', 255, ':alnum:'),
             'telephone' => $this->generate('string', 255, ':alnum:'),
             'fax' => $this->generate('string', 255, ':alnum:')
         );
-        $addressData = $this->loadData('all_fields_address', $longValues, null);
+        $addressData = $this->loadData('all_fields_address', $longValues);
         //Steps
+        $this->clickButton('reset_filter'/* ,FALSE */);
+//        @TODO
+//        $this->pleaseWait();
         $this->searchAndOpen($searchData);
+        $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
-        $this->clickButton('add_new_address');
+        $xpath = $this->getUimapPage('admin', 'edit_customer')->findFieldset('list_customer_addresses')->getXPath();
+        $addressCount = $this->getXpathCount('//' . $xpath . '//li') + 1;
+        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => $addressCount)));
+        $this->clickButton('add_new_address', FALSE);
         $this->fillForm($addressData, 'addresses');
-        $this->clickButton('save_and_continue_edit');
-        $this->assertTrue($this->successMessage('success_saved_customer'),
-                'No success message is displayed');
-        $this->assertFalse($this->errorMessage(), $this->messages);
+        $this->clickButton('save_customer');
+        //Verifying
+//        @TODO func 'navigated'
+//        $this->assertTrue($this->navigated('manage_customers'),
+//                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         // @TODO
         // check saved values
+//        $this->clickButton('reset_filter'/* ,FALSE */);
+////        @TODO
+////        $this->pleaseWait();
+//        $this->searchAndOpen($searchData);
+//        $this->clickControl('tab', 'addresses', FALSE);
+//        foreach ($longValues as $key => $value) {
+//            if ($this->getUimapPage('admin', 'edit_customer')->getMainForm()->getTab('addresses')->getFieldset('edit_address')->findField($key) != Null) {
+//                $fieldXpath = $this->getUimapPage('admin', 'edit_customer')->getMainForm()->getTab('addresses')->getFieldset('edit_address')->findField($key);
+//                $fieldXpath = $this->_paramsHelper->replaceParameters($fieldXpath);
+//                $this->assertEquals(strlen($this->getValue('//' . $fieldXpath)), 255);
+//            }
+//        }
     }
 
     /**
@@ -178,4 +221,5 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     {
         // @TODO
     }
+
 }

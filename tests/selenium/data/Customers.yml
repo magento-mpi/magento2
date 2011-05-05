@@ -29,7 +29,7 @@
 customer_account_register:
   first_name: First name
   last_name: Last name
-  email: test@magento.com
+  email: test_frontend@example.com
   password: 123123q
   password_confirmation: 123123q
 
@@ -39,7 +39,7 @@ generic_customer_account:
   group: General
   first_name: First Name
   last_name: Last Name
-  email: test@magento.com
+  email: test_admin@example.com
   password: 123123q
 
 all_fields_customer_account:
@@ -50,7 +50,7 @@ all_fields_customer_account:
   middle_name_initial: Middle Name
   last_name: Last Name
   suffix: Suffix
-  email: testuser@magento.com
+  email: test_admin_user@example.com
   date_of_birth: 12/12/1983
   tax_vat_number: 123123
   gender: Male
@@ -93,7 +93,7 @@ search_customer:
   id_from:
   id_to:
   name: First Name Last Name
-  email: test@magento.com
+  email: test_admin@example.com
   group: General
   telephone:
   zip_code:
