@@ -118,7 +118,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @var Mage_Selenium_Helper_Params
      */
     protected $_paramsHelper = null;
-
+    /**
+     * @var PHPUnit_Framework_TestResult
+     */
+    private $result;
     /**
      * @var    array
      */
@@ -741,7 +744,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (count($data) > 0) {
             //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
             $xpath = "//td[normalize-space(@class)='pager']";
-            $text = end(explode('|', $this->getText("$xpath")));
+            $text = explode('|', $this->getText("$xpath"));
+            $text = end($text);
             preg_match("/[0-9]+/", $text, $array);
             if ($array[0] == 0 or $array[0] == 1) {
                 //Need implement
@@ -1076,6 +1080,41 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _getData($path='')
     {
         return $this->_testConfig->getDataValue($path);
+    }
+
+    /**
+     * Delete opened element
+     *
+     * @param string $buttonName
+     * @param string $message
+     */
+    public function deleteElement($buttonName, $message)
+    {
+        $result = TRUE;
+        $buttonXpath ='//'. $this->_getControlXpath('button', $buttonName);
+        if ($this->isElementPresent($buttonXpath)) {
+            $confirmation = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage())->findMessage($message);
+            $this->chooseCancelOnNextConfirmation();
+            $this->click($buttonXpath);
+            if ($this->isConfirmationPresent()) {
+                $text = $this->getConfirmation();
+                if ($text == $confirmation) {
+                    $this->chooseOkOnNextConfirmation();
+                    $this->click($buttonXpath);
+                    $this->getConfirmation();
+                } else {
+                    echo "'The confirmation text incorrect: ' . $text\n";
+                    $result = FALSE;
+                }
+            } else {
+                echo "The confirmation does not appear\n";
+            }
+            if ($result) {
+                $this->waitForPageToLoad(self::timeoutPeriod);
+            }
+        } else {
+            echo "There is no way to remove an item(There is no 'Delete' button)\n";
+        }
     }
 
 // PLEASE DO NOT ADD/EDIT ANYTHING BELOW THIS LINE
@@ -3263,6 +3302,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::keyPressNative($keycode);
     }
 
+
     /**
     * takes a test and adds its dependencies
     *
@@ -3453,7 +3493,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $result = $this->createResult();
         }
         
-	$this->setResult($result);
+	//$this->setResult($result);
+        $this->result = $result;
         $this->setExpectedExceptionFromAnnotation();
         $this->setUseErrorHandlerFromAnnotation();
         $this->setUseOutputBufferingFromAnnotation();
@@ -3484,11 +3525,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * @since Method available since Release 3.5.4
      */
+    
     protected function handleDependencies()
     {
         if (!empty($this->dependencies) && !$this->inIsolation) {
             $className  = get_class($this);
-            $passed     = $this->getResult()->passed();
+            $passed     = $this->result->passed();
 
             $passedKeys = array_keys($passed);
             $numKeys    = count($passedKeys);
@@ -3509,7 +3551,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
 
                 if (!isset($passedKeys[$dependency])) {
-                    $this->getResult()->addError(
+                    $this->result->addError(
                       $this,
                       new PHPUnit_Framework_SkippedTestError(
                         sprintf(
@@ -3604,7 +3646,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         return $testResult;
     }
-
     /**
      * *********************************************
      * *         DRIVER FUNCTIONS END              *
