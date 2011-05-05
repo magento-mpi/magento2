@@ -187,6 +187,9 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     {
         $data = $this->getRequest()->getPost();
         if ($data) {
+            /** @var $session Mage_Admin_Model_Session */
+            $session = Mage::getSingleton('adminhtml/session');
+
             $redirectBack   = $this->getRequest()->getParam('back', false);
             /* @var $model Mage_Catalog_Model_Entity_Attribute */
             $model = Mage::getModel('catalog/resource_eav_attribute');
@@ -197,10 +200,24 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             //validate attribute_code
             if (isset($data['attribute_code'])) {
-                $validator = new Zend_Validate_Regex(array('pattern' => '/^[a-z_]{1,255}$/'));
-                if (!$validator->isValid($data['attribute_code'])) {
-                    Mage::getSingleton('adminhtml/session')->addError(
+                $validatorAttrCode = new Zend_Validate_Regex(array('pattern' => '/^[a-z_]{1,255}$/'));
+                if (!$validatorAttrCode->isValid($data['attribute_code'])) {
+                    $session->addError(
                         $helper->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.'));
+                    $this->_redirect('*/*/edit', array('attribute_id' => $id, '_current' => true));
+                    return;
+                }
+            }
+
+
+            //validate frontend_input
+            if (isset($data['frontend_input'])) {
+                /** @var $validatorInputType Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator */
+                $validatorInputType = Mage::getModel('eav/adminhtml_system_config_source_inputtype_validator');
+                if (!$validatorInputType->isValid($data['frontend_input'])) {
+                    foreach ($validatorInputType->getMessages() as $message) {
+                        $session->addError($message);
+                    }
                     $this->_redirect('*/*/edit', array('attribute_id' => $id, '_current' => true));
                     return;
                 }
@@ -210,7 +227,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $model->load($id);
 
                 if (!$model->getId()) {
-                    Mage::getSingleton('adminhtml/session')->addError(
+                    $session->addError(
                         Mage::helper('catalog')->__('This Attribute no longer exists'));
                     $this->_redirect('*/*/');
                     return;
@@ -218,9 +235,9 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
                 // entity type check
                 if ($model->getEntityTypeId() != $this->_entityTypeId) {
-                    Mage::getSingleton('adminhtml/session')->addError(
+                    $session->addError(
                         Mage::helper('catalog')->__('This attribute cannot be updated.'));
-                    Mage::getSingleton('adminhtml/session')->setAttributeData($data);
+                    $session->setAttributeData($data);
                     $this->_redirect('*/*/');
                     return;
                 }
@@ -278,14 +295,14 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(
+                $session->addSuccess(
                     Mage::helper('catalog')->__('The product attribute has been saved.'));
 
                 /**
                  * Clear translation cache because attribute labels are stored in translation
                  */
                 Mage::app()->cleanCache(array(Mage_Core_Model_Translate::CACHE_TAG));
-                Mage::getSingleton('adminhtml/session')->setAttributeData(false);
+                $session->setAttributeData(false);
                 if ($this->getRequest()->getParam('popup')) {
                     $this->_redirect('adminhtml/catalog_product/addAttribute', array(
                         'id'       => $this->getRequest()->getParam('product'),
@@ -299,8 +316,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 }
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setAttributeData($data);
+                $session->addError($e->getMessage());
+                $session->setAttributeData($data);
                 $this->_redirect('*/*/edit', array('attribute_id' => $id, '_current' => true));
                 return;
             }
