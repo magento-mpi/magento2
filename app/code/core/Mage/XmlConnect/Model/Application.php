@@ -443,12 +443,21 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             ->getQuote()->isAllowedGuestCheckout();
 
         /**
-         * Check is wishlist enabled in a config
+         * Check is guest can post product reviews
          */
-        if (!Mage::getStoreConfigFlag('wishlist/general/active')) {
-            $result['general']['wishlistEnable'] = '0';
+        if (Mage::helper('review')->getIsGuestAllowToWrite()) {
+            $result['general']['isAllowedGuestReview'] = '1';
         } else {
+            $result['general']['isAllowedGuestReview'] = '0';
+        }
+
+        /**
+        * Check is wishlist enabled in a config
+        */
+        if (Mage::getStoreConfigFlag('wishlist/general/active')) {
             $result['general']['wishlistEnable'] = '1';
+        } else {
+            $result['general']['wishlistEnable'] = '0';
         }
 
         /**
@@ -751,16 +760,25 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (isset($native['socialNetworking'][$networkKey]['isActive'])
                 && $native['socialNetworking'][$networkKey]['isActive']
             ) {
-                $networkName = ucfirst($networkKey);
-                if (!isset($native['socialNetworking'][$networkKey]['apiKey'])
-                    || !Zend_Validate::is($native['socialNetworking'][$networkKey]['apiKey'], 'NotEmpty')
-                ) {
-                    $errors[] = Mage::helper('xmlconnect')->__('%s API Key required.', $networkName);
-                }
-                if (!isset($native['socialNetworking'][$networkKey]['secretKey'])
-                    || !Zend_Validate::is($native['socialNetworking'][$networkKey]['secretKey'], 'NotEmpty')
-                ) {
-                    $errors[] = Mage::helper('xmlconnect')->__('%s Secret Key required.', $networkName);
+                if ($networkKey !== Mage_XmlConnect_Helper_Data::SOCIAL_NETWORK_FACEBOOK) {
+                    $networkName = ucfirst($networkKey);
+                    if (!isset($native['socialNetworking'][$networkKey]['apiKey'])
+                        || !Zend_Validate::is($native['socialNetworking'][$networkKey]['apiKey'], 'NotEmpty')
+                    ) {
+                        $errors[] = Mage::helper('xmlconnect')->__('%s API Key required.', $networkName);
+                    }
+                    if (!isset($native['socialNetworking'][$networkKey]['secretKey'])
+                        || !Zend_Validate::is($native['socialNetworking'][$networkKey]['secretKey'], 'NotEmpty')
+                    ) {
+                        $errors[] = Mage::helper('xmlconnect')->__('%s Secret Key required.', $networkName);
+                    }
+                } else {
+                    $networkName = ucfirst($networkKey);
+                    if (!isset($native['socialNetworking'][$networkKey]['appID'])
+                        || !Zend_Validate::is($native['socialNetworking'][$networkKey]['appID'], 'NotEmpty')
+                    ) {
+                        $errors[] = Mage::helper('xmlconnect')->__('%s Application ID required.', $networkName);
+                    }
                 }
             }
         }

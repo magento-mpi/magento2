@@ -31,10 +31,10 @@
 <?php if (($buttons = $previewModel->getTabItems()) && is_array($buttons) && ($buttonsCount = count($buttons))) :?>
             <?php foreach ($buttons as $button) : ?>
                 <?php if ($button['action'] == 'Account') :?>
-                <div class="icon icon-account"></div>
+                <div class="icon icon-account">B</div>
                 <?php endif; ?>
                 <?php if ($button['action'] == 'Search') :?>
-                <div class="icon icon-search"></div>
+                <div class="icon icon-search">C</div>
                 <?php endif; ?>
             <?php endforeach; ?>
 <?php endif; ?>

@@ -41,8 +41,8 @@ $bannerImageAndroid = $previewModel->getBannerImage();
     <div class="phone home-page" style="">
         <div class="status-bar"></div>
         <div class="header-wrap" style="background-color:<?php echo $previewModel->getData('conf/navigationBar/tintColor'); ?>">
-            <div class="app-header">
-                <div class="icon icon-home"></div>
+            <div class="app-header" style="color:<?php echo $title1color; ?>;">
+                <div class="icon icon-home">A</div>
                 <?php echo $this->getChildHtml('tab_items'); ?>
                 <div class="app-logo">
                     <img src="<?php echo $previewModel->getLogoUrl(); ?>" alt="logo" /><span style="color:<?php echo $title1color; ?>;"><?php echo $this->__("Home"); ?></span>

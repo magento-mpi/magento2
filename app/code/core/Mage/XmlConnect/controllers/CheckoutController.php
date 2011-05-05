@@ -235,13 +235,16 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
                 $billingData = $billingAddress->getDataUsingMethod($key);
                 if (is_array($value) && is_array($billingData)) {
                     foreach ($value as $k => $v) {
-                        if (!isset($billingData[$k]) || $billingData[$k] != $v) {
+                        if (!isset($billingData[$k]) || $billingData[$k] != trim($v)) {
                             $useForShipping = false;
                             break;
                         }
                     }
                 } else {
-                    if ($billingData != $value) {
+                    if (is_string($value) && $billingData != trim($value)) {
+                        $useForShipping = false;
+                        break;
+                    } else {
                         $useForShipping = false;
                         break;
                     }

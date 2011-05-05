@@ -1,5 +1,6 @@
 <_>
-   <form_key>aO1DqmbO8moY9R12</form_key>
+   <form_key>60rzwn0ZkrHjTX25</form_key>
+   <_create/>
    <name>Magento_Mobile</name>
    <channel>community</channel>
    <version_ids>
@@ -9,9 +10,9 @@
    <description>An integration Magento with mobile applications (e.g. iPhone, Android, iPad)</description>
    <license>mixed</license>
    <license_uri/>
-   <version>1.5.0.0.18</version>
+   <version>1.5.0.0.20</version>
    <stability>stable</stability>
-   <notes>1.5.0.0.18</notes>
+   <notes>1.5.0.0.20</notes>
    <authors>
       <name>
          <name>Magento Core Team</name>
@@ -44,8 +45,8 @@
             <max>1.6.0.0</max>
          </max>
          <files>
-            <files>       </files>
-            <files>       </files>
+            <files>        </files>
+            <files>        </files>
          </files>
       </package>
       <extension>

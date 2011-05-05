@@ -139,7 +139,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         if (!in_array($data['country_id'], Mage::getModel('paypal/config')->getSupportedBuyerCountryCodes())) {
             return array(
                 'error' => 1,
-                'message' => Mage::helper('xmlconnect')->__('Buyer Country is not valid.')
+                'message' => Mage::helper('xmlconnect')->__('Buyer country is not allowed by store.')
             );
         }
 

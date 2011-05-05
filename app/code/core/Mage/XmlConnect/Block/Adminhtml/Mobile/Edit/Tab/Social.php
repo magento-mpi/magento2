@@ -134,42 +134,25 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Social
             )
         );
 
-        if (isset($data['conf[native][socialNetworking][facebook][apiKey]'])) {
-            $facebookApiKey = $data['conf[native][socialNetworking][facebook][apiKey]'];
+        if (isset($data['conf[native][socialNetworking][facebook][appID]'])) {
+            $facebookAppID = $data['conf[native][socialNetworking][facebook][appID]'];
         } else {
-            $facebookApiKey = '';
+            $facebookAppID = '';
         }
 
-        $facebookApiKeyField = $fieldsetFacebook->addField(
-            'conf/native/socialNetworking/facebook/apiKey',
+        $facebookAppIDField = $fieldsetFacebook->addField(
+            'conf/native/socialNetworking/facebook/appID',
             'text',
             array(
-                'label'     => $this->__('Facebook API Key'),
-                'name'      => 'conf[native][socialNetworking][facebook][apiKey]',
+                'label'     => $this->__('Facebook Application ID'),
+                'name'      => 'conf[native][socialNetworking][facebook][appID]',
                 'required'  => true,
-                'value'     => $facebookApiKey
-            )
-        );
-
-        if (isset($data['conf[native][socialNetworking][facebook][secretKey]'])) {
-            $facebookSecretKey = $data['conf[native][socialNetworking][facebook][secretKey]'];
-        } else {
-            $facebookSecretKey = '';
-        }
-
-        $facebookSecretKeyField = $fieldsetFacebook->addField(
-            'conf/native/socialNetworking/facebook/secretKey',
-            'text',
-            array(
-                'label'     => $this->__('Facebook Secret Key'),
-                'name'      => 'conf[native][socialNetworking][facebook][secretKey]',
-                'required'  => true,
-                'value'     => $facebookSecretKey
+                'value'     => $facebookAppID
             )
         );
 
         /**
-         * Facebook fieldset options
+         * LinkedIn fieldset options
          */
         $fieldsetLinkedin = $form->addFieldset('linkedin', array(
             'legend' => $this->__('LinkedIn API'),
@@ -232,15 +215,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Social
             /**
              * Facebook field dependencies
              */
-            ->addFieldMap($facebookApiKeyField->getHtmlId(), $facebookApiKeyField->getName())
             ->addFieldMap($facebookActiveField->getHtmlId(), $facebookActiveField->getName())
-            ->addFieldMap($facebookSecretKeyField->getHtmlId(), $facebookSecretKeyField->getName())
+            ->addFieldMap($facebookAppIDField->getHtmlId(), $facebookAppIDField->getName())
             ->addFieldDependence(
-                $facebookApiKeyField->getName(),
-                $facebookActiveField->getName(),
-            1)
-            ->addFieldDependence(
-                $facebookSecretKeyField->getName(),
+                $facebookAppIDField->getName(),
                 $facebookActiveField->getName(),
             1)
             /**

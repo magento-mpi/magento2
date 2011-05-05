@@ -52,7 +52,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Review extends Mage_XmlConnect_Block
         $item = new Mage_XmlConnect_Model_Simplexml_Element('<' . $itemNodeName . '></' . $itemNodeName . '>');
         if ($review->getId()) {
             $item->addChild('review_id', $review->getId());
-            $item->addChild('created_at', $review->getCreatedAt());
+            $item->addChild('created_at', $this->formatDate($review->getCreatedAt()));
             $item->addChild('title', $item->xmlentities(strip_tags($review->getTitle())));
             $item->addChild('nickname', $item->xmlentities(strip_tags($review->getNickname())));
             $detail = $item->xmlentities($review->getDetail());

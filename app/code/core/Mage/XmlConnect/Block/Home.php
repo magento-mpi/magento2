@@ -46,8 +46,10 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
      */
     protected function _toHtml()
     {
-        $homeXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<home></home>');
+        /** @var $xmlModel Mage_XmlConnect_Model_Simplexml_Element */
+        $homeXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<home></home>');
 
+        /** @var $categoryCollection Mage_XmlConnect_Model_Mysql4_Category_Collection */
         $categoryCollection = Mage::getResourceModel('xmlconnect/category_collection');
         $categoryCollection->setStoreId(Mage::app()->getStore()->getId())
             ->addParentIdFilter(Mage::app()->getStore()->getRootCategoryId())
