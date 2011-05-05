@@ -147,19 +147,16 @@ class Mage_Catalog_Model_Resource_Product_Link_Collection extends Mage_Core_Mode
             return $this;
         }
         $attributes = $this->getLinkModel()->getAttributes();
-
-        $attributesByType = array();
+        $adapter = $this->getConnection();
         foreach ($attributes as $attribute) {
             $table = $this->getLinkModel()->getAttributeTypeTable($attribute['type']);
             $alias = sprintf('link_attribute_%s_%s', $attribute['code'], $attribute['type']);
 
-            $joinCondition = array(
-                "{$alias}.link_id = main_table.link_id",
-                $this->getSelect()->getAdapter()->quoteInto("{$alias}.product_link_attribute_id = ?", $attribute['id'])
-            );
+            $aliasInCondition = $adapter->quoteColumnAs($alias, null);
             $this->getSelect()->joinLeft(
                 array($alias => $table),
-                implode(' AND ', $joinCondition),
+                $aliasInCondition . '.link_id = main_table.link_id AND '
+                    . $aliasInCondition . '.product_link_attribute_id = ' . (int) $attribute['id'],
                 array($attribute['code'] => 'value')
             );
         }
