@@ -115,10 +115,6 @@ if (empty($mediaDirectory)) {
     Mage::init($mageRunCode, $mageRunType, array(), array('Mage_Core'));
 }
 
-if (!Mage::helper('core/file_storage_database')->checkDbUsage()) {
-    sendNotFoundPage();
-}
-
 if (!$mediaDirectory) {
     $config = Mage_Core_Model_File_Storage::getScriptConfig();
     $mediaDirectory = str_replace($bp . $ds, '', $config['media_directory']);
