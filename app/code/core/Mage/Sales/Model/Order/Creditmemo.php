@@ -167,10 +167,9 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     }
 
     /**
-     * Init mapping array of short fields to
-     * its full names
+     * Init mapping array of short fields to its full names
      *
-     * @return Varien_Object
+     * @return Mage_Sales_Model_Order_Creditmemo
      */
     protected function _initOldFieldsMap()
     {

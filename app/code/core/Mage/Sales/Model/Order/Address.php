@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Sales order address model
  *
  * @method Mage_Sales_Model_Resource_Order_Address _getResource()
  * @method Mage_Sales_Model_Resource_Order_Address getResource()
@@ -78,17 +78,41 @@ class Mage_Sales_Model_Order_Address extends Mage_Customer_Model_Address_Abstrac
     protected $_eventPrefix = 'sales_order_address';
     protected $_eventObject = 'address';
 
+    /**
+     * Initialize resource
+     */
     protected function _construct()
     {
         $this->_init('sales/order_address');
     }
 
+    /**
+     * Init mapping array of short fields to its full names
+     *
+     * @return Mage_Sales_Model_Order_Address
+     */
+    protected function _initOldFieldsMap()
+    {
+        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('order_address');
+        return $this;
+    }
+
+    /**
+     * Set order
+     *
+     * @return Mage_Sales_Model_Order_Address
+     */
     public function setOrder(Mage_Sales_Model_Order $order)
     {
         $this->_order = $order;
         return $this;
     }
 
+    /**
+     * Get order
+     *
+     * @return Mage_Sales_Model_Order
+     */
     public function getOrder()
     {
         if (!$this->_order) {

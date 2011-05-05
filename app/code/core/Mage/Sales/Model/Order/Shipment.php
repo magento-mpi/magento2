@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Sales order shipment model
  *
  * @method Mage_Sales_Model_Resource_Order_Shipment _getResource()
  * @method Mage_Sales_Model_Resource_Order_Shipment getResource()
@@ -94,6 +94,17 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     protected function _construct()
     {
         $this->_init('sales/order_shipment');
+    }
+
+    /**
+     * Init mapping array of short fields to its full names
+     *
+     * @return Mage_Sales_Model_Order_Shipment
+     */
+    protected function _initOldFieldsMap()
+    {
+        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('order_shipment');
+        return $this;
     }
 
     /**

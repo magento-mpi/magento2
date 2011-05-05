@@ -182,6 +182,17 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     }
 
     /**
+     * Init mapping array of short fields to its full names
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
+    protected function _initOldFieldsMap()
+    {
+        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('order_invoice');
+        return $this;
+    }
+
+    /**
      * Load invoice by increment id
      *
      * @param string $incrementId
