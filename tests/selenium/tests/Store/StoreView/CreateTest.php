@@ -46,7 +46,8 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->assertTrue($this->admin());
+        $this->assertTrue($this->checkCurrentPage('dashboard'),
+                'Wrong page is opened');
         $this->navigate('manage_stores');
         $this->assertTrue($this->checkCurrentPage('manage_stores'),
                 'Wrong page is opened');

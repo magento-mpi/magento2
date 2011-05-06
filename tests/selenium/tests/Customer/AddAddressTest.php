@@ -46,9 +46,11 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->assertTrue($this->admin());
+        $this->assertTrue($this->checkCurrentPage('dashboard'),
+                'Wrong page is opened');
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'),
+                'Wrong page is opened');
     }
 
     /**
