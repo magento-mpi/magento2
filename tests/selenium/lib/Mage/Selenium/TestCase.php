@@ -693,20 +693,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $baseXpath = !empty($baseXpath) ? '//' . $baseXpath : '';
 
                     // ----------------------------------------------------
-                    $fields = $fieldset->getAllFields();
-                    if (!empty($fields)) {
-                        foreach ($fields as $fieldKey => $fieldXPath) {
-                            if (isset($data[$fieldKey])) {
-                                $this->type($baseXpath . '//' . $fieldXPath, $data[$fieldKey]);
-                            }
-                        }
-                    }
-                    // ----------------------------------------------------
                     $fields = $fieldset->getAllMultiselects();
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
-                            if (isset($data[$fieldKey])) {
-                                $this->select($baseXpath . '//' . $fieldXPath, 'regexp:'.$data[$fieldKey]);
+                            $elemXPath = $baseXpath . '//' . $fieldXPath;
+                            if (isset($data[$fieldKey]) && $this->isElementPresent($elemXPath)) {
+                                $this->addSelection($elemXPath, 'regexp:'.$data[$fieldKey]);
                             }
                         }
                     }
@@ -714,8 +706,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $fields = $fieldset->getAllDropdowns();
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
-                            if (isset($data[$fieldKey])) {
-                                $this->select($baseXpath . '//' . $fieldXPath, 'regexp:'.$data[$fieldKey]);
+                            $elemXPath = $baseXpath . '//' . $fieldXPath;
+                            if (isset($data[$fieldKey]) && $this->isElementPresent($elemXPath)) {
+                                $this->select($elemXPath, 'regexp:'.$data[$fieldKey]);
                             }
                         }
                     }
@@ -723,11 +716,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $fields = $fieldset->getAllCheckboxes();
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
-                            if (isset($data[$fieldKey])) {
+                            $elemXPath = $baseXpath . '//' . $fieldXPath;
+                            if (isset($data[$fieldKey]) && $this->isElementPresent($elemXPath)) {
                                 if (strtolower($data[$fieldKey]) == 'yes') {
-                                    $this->check($baseXpath . '//' . $fieldXPath);
+                                    $this->check($elemXPath);
                                 } else {
-                                    $this->uncheck($baseXpath . '//' . $fieldXPath);
+                                    $this->uncheck($elemXPath);
                                 }
                             }
                         }
@@ -736,12 +730,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $fields = $fieldset->getAllRadiobuttons();
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
-                            if (isset($data[$fieldKey])) {
+                            $elemXPath = $baseXpath . '//' . $fieldXPath;
+                            if (isset($data[$fieldKey]) && $this->isElementPresent($elemXPath)) {
                                 if (strtolower($data[$fieldKey]) == 'yes') {
-                                    $this->check($baseXpath . '//' . $fieldXPath);
+                                    $this->check($elemXPath);
                                 } else {
-                                    $this->uncheck($baseXpath . '//' . $fieldXPath);
+                                    $this->uncheck($elemXPath);
                                 }
+                            }
+                        }
+                    }
+                    // ----------------------------------------------------
+                    $fields = $fieldset->getAllFields();
+                    if (!empty($fields)) {
+                        foreach ($fields as $fieldKey => $fieldXPath) {
+                            $elemXPath = $baseXpath . '//' . $fieldXPath;
+                            if (isset($data[$fieldKey]) && $this->isElementPresent($elemXPath)) {
+                                $this->type($elemXPath, $data[$fieldKey]);
                             }
                         }
                     }

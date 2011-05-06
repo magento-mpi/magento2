@@ -68,6 +68,7 @@ generic_address:
   city: Culver City
   country: United States
   state: California
+  region: Kievskaya
   zip_code: 90232
   telephone: '530-918-3581'
 
@@ -85,6 +86,7 @@ all_fields_address:
   city: Culver City
   country: United States
   state: California
+  region: Kievskaya
   zip_code: 90232
   telephone: 530-918-3581
   fax: 530-918-3581

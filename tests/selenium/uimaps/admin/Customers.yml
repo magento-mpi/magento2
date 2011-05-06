@@ -120,7 +120,7 @@ create_customer:
                   xpath: div[@id='_item%address_number%address_fieldset']
                   dropdowns:
                     country: select[@id='_item%address_number%country_id']
-                    state: select[@id='_item%address_number%region_id' and not(@type='hidden')]
+                    state: select[@id='_item%address_number%region_id']
                   fields:
                     prefix: input[@id='_item%address_number%prefix']
                     first_name: input[@id='_item%address_number%firstname']
@@ -131,7 +131,7 @@ create_customer:
                     street_address_line_1: input[@id='_item%address_number%street0']
                     street_address_line_2: input[@id='_item%address_number%street1']
                     city: input[@id='_item%address_number%city']
-                    state: input[@id='_item%address_number%region' and not(@type='hidden')]
+                    region: input[@id='_item%address_number%region' and not(@type='hidden')]
                     zip_code: input[@id='_item%address_number%postcode']
                     telephone: input[@id='_item%address_number%telephone']
                     fax: input[@id='_item%address_number%fax']
