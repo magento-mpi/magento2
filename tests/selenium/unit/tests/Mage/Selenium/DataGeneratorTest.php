@@ -86,7 +86,7 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Mage_PHPUnit_TestCase
         $this->assertRegExp('/[0-9 ]+/', $this->_dataGenerator->generate('text', 20, array('class'=>':digit:')));
 
         // email generations
-        $this->assertEquals(20, strlen($this->_dataGenerator->generate('email')));
+        $this->assertEquals(100, strlen($this->_dataGenerator->generate('email')));
         $this->assertEquals(20, strlen($this->_dataGenerator->generate('email', 20, 'valid')));
         $this->assertEquals(20, strlen($this->_dataGenerator->generate('email', 20, 'some_value')));
         $this->assertEmpty($this->_dataGenerator->generate('email', 0));
@@ -96,6 +96,8 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Mage_PHPUnit_TestCase
                 $this->_dataGenerator->generate('email', 20, 'valid'));
         $this->_dataGenerator->generate('email');
         $this->assertRegExp('|([a-z0-9_\.\-]+)@([a-z0-9\.\-]+)\.([a-z]{2,4})|is', $this->_dataGenerator->generate('email'));
+
+        $this->assertEquals(255, strlen($this->_dataGenerator->generate('email', 255, 'valid')));
     }
 
     /**

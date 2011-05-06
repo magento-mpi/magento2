@@ -57,6 +57,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * @var string
      */
     protected $_emailDomain = 'example.com';
+    protected $_emailDomainZone = 'com';
 
     /**
      * Paragraph delimeter used for text generation
@@ -106,48 +107,49 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      */
     public function generateEmailAddress($length=20, $validity='valid', $prefix='')
     {
+        if ($length < 6 ) $length = 6;
         if (!$validity) {
             $validity = 'valid';
         }
-        
-        $email = $prefix;
 
-        $length -= strlen($this->_emailDomain)+1;
+        $email = $prefix;
+        
+        $mainlength = floor(($length - strlen($this->_emailDomainZone) - strlen($prefix) - 2)/2);
 
         switch ($validity) {
             case 'valid':
-                $email .= $this->generateRandomString($length);
+                $email .= $this->generateRandomString($mainlength);
                 break;
             case 'invalid':
                 mt_srand((double)microtime() * 100000);
                 switch (mt_rand(0,3)) {
                     case 0:
-                        $email .= $this->generateRandomString(ceil($length/2)) . $this->generateRandomString(floor($length/2), 'invalid-email');
+                        $email .= $this->generateRandomString(ceil($mainlength/2)) . $this->generateRandomString(floor($mainlength/2), 'invalid-email');
                         break;
                     case 1:
-                        $email .= $this->generateRandomString($length-1, ':alnum:', '.');
+                        $email .= $this->generateRandomString($mainlength-1, ':alnum:', '.');
                         break;
                     case 2:
-                        $length -= 2;
-                        $email .= $this->generateRandomString(ceil($length/2)) . '..' . $this->generateRandomString(floor($length/2));
+                        $mainlength -= 2;
+                        $email .= $this->generateRandomString(ceil($mainlength/2)) . '..' . $this->generateRandomString(floor($mainlength/2));
                         break;
                     case 3:
-                        $length -= 1;
-                        $email .= $this->generateRandomString(ceil($length/2)) . '@' . $this->generateRandomString(floor($length/2));
+                        $mainlength -= 1;
+                        $email .= $this->generateRandomString(ceil($mainlength/2)) . '@' . $this->generateRandomString(floor($mainlength/2));
                         break;
                 }
                 break;
             default:
-                $email .= $this->generateRandomString($length, array(':alnum:', 'invalid-email'));
+                $email .= $this->generateRandomString($mainlength, array(':alnum:', 'invalid-email'));
                 break;
         }
 
         if (!empty($email)) {
-            $email .= '@' . $this->_emailDomain;
+            $email .= '@' . $this->generateRandomString($length - strlen($this->_emailDomainZone) - strlen($prefix) - 2 - $mainlength)
+                . '.' . $this->_emailDomainZone;
         }
 
         return $email;
-
     }
 
     /**
