@@ -108,7 +108,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
             //French
             'fr' => array('fr_CA', 'fr_FR'),
             //German
-            'de' => array('de_DE','de_DE','de_AT'),
+            'de' => array('de_DE','de_CH','de_AT'),
             //Italian
             'it' => array('it_IT','it_CH'),
             //Norwegian
