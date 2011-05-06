@@ -46,6 +46,11 @@ class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator extends 
             $this->_haystack[] = $item['value'];
         }
 
+        //add additional input types
+        //which added in Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+        $this->_haystack[] = 'price';
+        $this->_haystack[] = 'media_image';
+
         $this->_strict = true;
 
         //reset message template and set custom
