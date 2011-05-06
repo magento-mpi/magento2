@@ -1232,6 +1232,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this;
     }
 
+    /**
+    * Verify messages count
+    * 
+    * @param integer $count
+    * @param string $xpath
+    */
+    public function verifyMessagesCount($count = 1, $xpath = Mage_Selenium_TestCase::xpathValidationMessage)
+    {
+        return $this->getXpathCount($xpath) == $count;
+    }
 
 
     // PLEASE DO NOT ADD/EDIT ANYTHING BELOW THIS LINE

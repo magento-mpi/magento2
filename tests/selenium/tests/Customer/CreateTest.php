@@ -112,6 +112,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
+
         return $userData;
     }
 
