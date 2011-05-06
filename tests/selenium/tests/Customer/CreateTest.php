@@ -107,7 +107,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
-        $this->clickButton('save_customer');
+        $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
@@ -141,7 +141,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
-        $this->clickButton('save_customer');
+        $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->errorMessage('customer_email_exist'), $this->messages);
     }
@@ -173,7 +173,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
-        $this->clickButton('save_customer');
+        $this->saveForm('save_customer');
         //Verifying
         foreach ($emptyFields as $key => $value) {
             if (empty($value)) {
@@ -227,7 +227,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
-        $this->clickButton('save_customer');
+        $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
@@ -273,7 +273,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
-        $this->clickButton('save_customer');
+        $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
@@ -323,7 +323,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
-        $this->clickButton('save_customer');
+        $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->errorMessage('customer_invalid_email'), $this->messages);
     }
@@ -369,7 +369,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
-        $this->clickButton('save_customer');
+        $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->errorMessage('password_too_short'), $this->messages);
     }
@@ -406,8 +406,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
-        die;
-        $this->clickButton('save_customer');
+        $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
@@ -452,7 +451,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         $this->clickButton('add_new_address', FALSE);
         $this->addParameter('address_number', 1);
         $this->fillForm($adressData, 'addresses');
-        $this->clickButton('save_customer');
+        $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),

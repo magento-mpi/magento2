@@ -1192,8 +1192,49 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return false;
     }
 
-// PLEASE DO NOT ADD/EDIT ANYTHING BELOW THIS LINE
+    /**
+     * Waiting for element appearance
+     * 
+     * @param string|array $locator xPath locator or array of locators
+     * @param integer $timeout Timeout period
+     */
+    public function waitForElement($locator, $timeout = 30)
+    {
+        $iStartTime = time();
+        while ($timeout > time() - $iStartTime) {
 
+            if (is_array($locator)) {
+                foreach ($locator as $loc) {
+                    if ($this->isElementPresent('//'.$loc)) {
+                        return true;
+                    }
+                }
+            } else {
+                if ($this->isElementPresent('//'.$locator)) {
+                    return true;
+                }
+            }
+            sleep(1);
+        }
+        return false;
+    }
+
+    /**
+     * Save standart form
+     *
+     * @param string $buttonName
+     */
+    public function saveForm($buttonName)
+    {
+        $this->clickButton($buttonName, false);
+        $this->waitForElement(array(self::xpathErrorMessage, self::xpathValidationMessage, self::xpathSuccessMessage));
+
+        return $this;
+    }
+
+
+
+    // PLEASE DO NOT ADD/EDIT ANYTHING BELOW THIS LINE
     /**
      * *********************************************
      * *         DRIVER FUNCTIONS START            *
