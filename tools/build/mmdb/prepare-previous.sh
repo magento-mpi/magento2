@@ -1,13 +1,10 @@
 #!/bin/bash
 
-. include.sh
+. mmdb/include.sh
 
-pwd
-exit 1
+cd $PWD/../
 
-cd $PWD/../../
-
-. $BUILD_TOOLS/../take-previous.sh
+. $BUILD_TOOLS/take-previous.sh
 
 if [ -d "$SB/websites" ]; then
     log "Copying websites..."

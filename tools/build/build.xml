@@ -406,7 +406,7 @@
 
     <target name="copy-previous-env-mmdb" depends="prepare" description="Prepare ENV (DB, websites folder) from previous instance.">
         <exec executable="/bin/sh" failonerror="true">
-            <arg value="prepare-previous.sh"/>
+            <arg value="mmdb/prepare-previous.sh"/>
             <arg value="${teamcity.buildConfName}"/>
             <arg value="${build.number}"/>
             <arg value="${db.model}"/>
