@@ -68,7 +68,6 @@ generic_address:
   city: Culver City
   country: United States
   state: California
-  region: Kievskaya
   zip_code: 90232
   telephone: '530-918-3581'
 
@@ -84,8 +83,7 @@ all_fields_address:
   street_address_line_1: 10441 Jefferson Blvd
   street_address_line_2: Suite 200
   city: Culver City
-  country: United States
-  state: California
+  country: Ukraine
   region: Kievskaya
   zip_code: 90232
   telephone: 530-918-3581
