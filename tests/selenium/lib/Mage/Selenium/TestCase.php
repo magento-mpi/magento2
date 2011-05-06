@@ -165,7 +165,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var int
      */
-    protected $_brouserTimeoutPeriod = 10000;
+    protected $_browserTimeoutPeriod = 10000;
 
     /**
      * Success message Xpath
@@ -225,7 +225,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->data     = $data;
         $this->dataName = $dataName;
 
-        $this->_brouserTimeoutPeriod = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
+        $this->_browserTimeoutPeriod = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
 
         parent::__construct($name, $data, $dataName, $browser);
         $this->setArea('frontend');
@@ -577,7 +577,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->click('//'.$xpath);
 
                 if ($willChangePage) {
-                    $this->waitForPageToLoad($this->_brouserTimeoutPeriod);
+                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                     $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
                 }
             } catch (PHPUnit_Framework_Exception $e) {
@@ -779,11 +779,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         if (count($data) > 0) {
             //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
-            $totalCount = intval($this->getText("//span[@id='customerGrid-total-count']"));
-            $xpath_pager = "//span[@id='customerGrid-total-count' and not(contains(.,'" . $totalCount . "'))]";
+            $totalCount = intval($this->getText("//td[@class='pager']//span[contains(@id, 'Grid-total-count')]"));
+            $xpath_pager = "//td[@class='pager']//span[contains(@id, 'Grid-total-count') and not(contains(.,'" . $totalCount . "'))]";
 
             // Forming xpath for string that contains the lookup data
-            $xpathTR = "//table[@id='customerGrid_table']//tr[";
+            $xpathTR = "//table[contains(@id, 'Grid_table')]//tr[";
             $i = 1;
             $n = count($data);
             foreach ($data as $key => $value) {
@@ -813,17 +813,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 // ID definition
                 $item_id = 0;
                 $title_arr = explode('/', $this->getValue($xpathTR . '/@title'));
+                $title_arr = array_reverse($title_arr);
                 foreach ($title_arr as $key => $value) {
-                    if ($value == 'id' && isset($title_arr[$key + 1])) {
-                        $item_id = $title_arr[$key + 1];
+                    if (preg_match('/id$/', $value) && isset($title_arr[$key - 1])) {
+                        $item_id = $title_arr[$key - 1];
                         break;
                     }
                 }
+
                 if ($item_id > 0) {
                     $this->addParameter('id', $item_id);
                     // Open element
-                    $this->click("//table[@id='customerGrid_table']//tr[contains(@title, '/id/" . $item_id . "')]/td[normalize-space(text())='" . $data[array_rand($data)] . "']");
-                    $this->waitForPageToLoad($this->_brouserTimeoutPeriod);
+                    $this->click("//table[contains(@id, 'Grid_table')]//tr[contains(@title, 'id/" . $item_id . "')]/td[normalize-space(text())='" . $data[array_rand($data)] . "']");
+                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                     $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
 
                     return true;
@@ -1021,7 +1023,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         try {
             $this->frontend('customer_account');
             if ("My Account" == $this->getTitle()) {
-                $this->clickAndWait("//a[@title='Log Out']", $this->_brouserTimeoutPeriod);
+                $this->clickAndWait("//a[@title='Log Out']", $this->_browserTimeoutPeriod);
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $this->_error = true;
@@ -1041,7 +1043,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if ("Dashboard / Magento Admin" !== $this->getTitle()) {
                 $this->type('username', $this->_sutHelper->getDefaultAdminUsername());
                 $this->type('login', $this->_sutHelper->getDefaultAdminPassword());
-                $this->clickAndWait("//input[@value='Login']", $this->_brouserTimeoutPeriod);
+                $this->clickAndWait("//input[@value='Login']", $this->_browserTimeoutPeriod);
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $this->_error = true;
@@ -1116,9 +1118,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function deleteElement($buttonName, $message)
     {
-        $result = TRUE;
-        $buttonXpath ='//'. $this->_getControlXpath('button', $buttonName);
-        if ($this->isElementPresent($buttonXpath)) {
+        $buttonXpath = '//'. $this->_getControlXpath('button', $buttonName);
+        if ($buttonXpath != '//' && $this->isElementPresent($buttonXpath)) {
             $confirmation = $this->getUimapPage($this->getArea(), $this->getCurrentPage())->findMessage($message);
             $this->chooseCancelOnNextConfirmation();
             $this->click($buttonXpath);
@@ -1128,19 +1129,25 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->chooseOkOnNextConfirmation();
                     $this->click($buttonXpath);
                     $this->getConfirmation();
+                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                    $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
+
+                    return true;
                 } else {
-                    echo "'The confirmation text incorrect: ' . $text\n";
-                    $result = FALSE;
+                    $this->messages['error'][] = "'The confirmation text incorrect: ' . $text\n";
                 }
             } else {
-                echo "The confirmation does not appear\n";
-            }
-            if ($result) {
-                $this->waitForPageToLoad($this->_brouserTimeoutPeriod);
+                $this->messages['error'][] = "The confirmation does not appear\n";
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
+
+                return true;
             }
         } else {
-            echo "There is no way to remove an item(There is no 'Delete' button)\n";
+            $this->messages['error'][] = "There is no way to remove an item(There is no 'Delete' button)\n";
         }
+        
+        return false;
     }
 
 // PLEASE DO NOT ADD/EDIT ANYTHING BELOW THIS LINE

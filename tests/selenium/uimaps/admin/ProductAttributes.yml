@@ -140,7 +140,7 @@ new_product_attribute:
 
 # Manage Product Attributes page
 edit_product_attribute:
-  mca : catalog_product_attribute/edit/attribute_id/996/
+  mca : catalog_product_attribute/edit/attribute_id/%id%/
   title : attribute_textfield_smoke / Manage Attributes / Attributes / Catalog / Magento Admin
   uimap :
     form : &searchProductAttributeGrid

@@ -45,6 +45,7 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->loginAdminUser());
         $this->assertTrue($this->admin('dashboard'));
+        $this->addParameter('id', 0);
     }
 
     /**
@@ -60,12 +61,10 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
      */
     public function testDeleteProductAttribute_Smoke()
     {
-        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
+        $this->assertTrue($this->navigate('manage_attributes'), 'Wrong page is displayed');
         $attrData = $this->loadData('product_attribute_smoke_del', null,null);
-        $this->searchAndOpen($attrData);
-        $this->_currentPage = 'edit_product_attribute';
-        $this->deleteElement('delete', 'delete_confirm_message');
-        $this->_currentPage = 'manage_attributes';
+        $this->assertTrue($this->searchAndOpen($attrData), 'Element not found.');
+        $this->assertTrue($this->deleteElement('delete', 'delete_confirm_message'), $this->messages);
         $this->assertFalse($this->successMessage('success_deleted_attribute'), $this->messages);
     }
 

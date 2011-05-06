@@ -49,6 +49,9 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->admin());
         $this->navigate('manage_customers');
         $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
+
+        // for replacing in MCA
+        $this->addParameter('id', '0');
     }
 
     /**
