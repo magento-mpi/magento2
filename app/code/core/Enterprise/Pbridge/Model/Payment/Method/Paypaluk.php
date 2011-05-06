@@ -126,7 +126,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      */
     public function getTitle()
     {
-        return parent::getTitle().' (PBridge)';
+        return parent::getTitle();
     }
 
     /**

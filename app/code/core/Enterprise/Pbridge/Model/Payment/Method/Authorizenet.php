@@ -103,7 +103,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
 
     public function getTitle()
     {
-        return parent::getTitle().' (PBridge)';
+        return parent::getTitle();
     }
 
     /**

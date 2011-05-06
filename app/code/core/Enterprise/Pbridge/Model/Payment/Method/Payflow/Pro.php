@@ -103,7 +103,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Mage_Paypal_Mo
 
     public function getTitle()
     {
-        return parent::getTitle().' (PBridge)';
+        return parent::getTitle();
     }
 
     /**
