@@ -2793,17 +2793,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function raw_query($sql)
     {
-        /**
-         * @todo fix message for MSSQL Error
-         */
-        $lostConnectionMessage = 'SQLSTATE[HY000]: General error: 2013 Lost connection to MySQL server during query';
+        $noConnectionStart = 'SQLSTATE[08001]';
         $tries = 0;
         do {
             $retry = false;
             try {
                 $result = $this->query($sql);
             } catch (Exception $e) {
-                if ($tries < 10 && $e->getMessage() == $lostConnectionMessage) {
+                if ($tries < 10 && substr($e->getMessage(), 0, strlen($noConnectionStart)) == $noConnectionStart) {
                     $retry = true;
                     $tries++;
                 } else {
