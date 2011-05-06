@@ -86,7 +86,6 @@ log() {
 }
 
 ch_baseurl() {
-echo "$DB_MODEL"
     if [ "$DB_MODEL" = 'mssql' ]; then
         CH_BASEURL_PWD=`pwd`
         cd $BUILD_TOOLS
