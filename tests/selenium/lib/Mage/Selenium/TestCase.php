@@ -796,6 +796,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 // Open element
                 $this->click($xpathTR . "//td[normalize-space(text())='" . $data[array_rand($data)] . "']");
                 $this->waitForPageToLoad($this->_brouserTimeoutPeriod);
+                $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
                 $result = True;
             }
         } else {
