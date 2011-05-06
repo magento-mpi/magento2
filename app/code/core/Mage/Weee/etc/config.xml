@@ -250,6 +250,15 @@
                     </weee>
                 </observers>
             </adminhtml_product_attribute_types>
+            <adminhtml_product_attribute_types_validator>
+                <observers>
+                    <weee>
+                        <type>model</type>
+                        <class>weee/observer</class>
+                        <method>addWeeeInputTypeToValidator</method>
+                    </weee>
+                </observers>
+            </adminhtml_product_attribute_types_validator>
             <adminhtml_catalog_product_edit_element_types>
                 <observers>
                     <weee>

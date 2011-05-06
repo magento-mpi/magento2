@@ -108,8 +108,9 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
                 $select->getAdapter()->quoteInto('discount_percent.website_id = ?', $websiteId),
                 $select->getAdapter()->quoteInto('discount_percent.customer_group_id = ?', $customerGroupId)
             );
+            $tableWeeDiscount = Mage::getSingleton('weee/tax')->getResource()->getTable('weee/discount');
             $select->joinLeft(
-                array('discount_percent' => Mage::getSingleton('weee/tax')->getResource()->getTable('weee/discount')),
+                array('_discount_percent' => $tableWeeDiscount),
                 implode(' AND ', $joinConditions),
                 array()
             );
@@ -125,8 +126,10 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
             }
         }
         $response->setAdditionalCalculations($additionalCalculations);
+
         /** @var $rateRequest Varien_Object */
         $rateRequest = Mage::getSingleton('tax/calculation')->getRateRequest();
+
         $attributes  = Mage::getSingleton('weee/tax')->getWeeeTaxAttributeCodes();
         foreach ($attributes as $attribute) {
             $attributeId = (int)Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, $attribute);
@@ -141,7 +144,6 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
                 ->where("{$tableAlias}.state IN(?)", array($rateRequest->getRegionId(), '*'))
                 ->limit(1);
 
-
             $order = array(
                 sprintf('%s.state %s', $tableAlias, Varien_Db_Select::SQL_DESC),
                 sprintf('%s.website_id %s', $tableAlias, Varien_Db_Select::SQL_DESC)
@@ -155,7 +157,6 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
                 array()
             );
         }
-
         return $this;
     }
 
@@ -202,6 +203,19 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $response->setTypes($types);
 
         return $this;
+    }
+
+    /**
+     * Add input type "weee" to validator haystack
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function addWeeeInputTypeToValidator(Varien_Event_Observer $observer)
+    {
+        /** @var $validator Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator */
+        $validator = $observer->getValidator();
+        $validator->addInputType('weee');
     }
 
     /**

@@ -43,19 +43,25 @@ class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator extends 
         /** @var $model Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype */
         $model = Mage::getSingleton('eav/adminhtml_system_config_source_inputtype');
         foreach ($model->toOptionArray() as $item) {
-            $this->_haystack[] = $item['value'];
+            $haystack[] = $item['value'];
         }
 
         //add additional input types
         //which added in Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
-        $this->_haystack[] = 'price';
-        $this->_haystack[] = 'media_image';
-
-        $this->_strict = true;
+        $haystack[] = 'price';
+        $haystack[] = 'media_image';
 
         //reset message template and set custom
         $this->_messageTemplates = null;
         $this->_initMessageTemplates();
+
+        //parent construct with options
+        parent::__construct(array(
+             'haystack' => $haystack,
+             'strict'   => true,
+        ));
+
+        Mage::dispatchEvent('adminhtml_product_attribute_types_validator', array('validator' => $this));
     }
 
     /**
@@ -67,8 +73,23 @@ class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator extends 
     {
         if (!$this->_messageTemplates) {
             $this->_messageTemplates = array(
-                self::NOT_IN_ARRAY => Mage::helper('core')->__('Input type "%value%" not found in the input types list.'),
+                self::NOT_IN_ARRAY =>
+                    Mage::helper('core')->__('Input type "%value%" not found in the input types list.'),
             );
+        }
+        return $this;
+    }
+
+    /**
+     * Add input type to haystack
+     *
+     * @param string $type
+     * @return Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator
+     */
+    public function addInputType($type)
+    {
+        if (!in_array((string) $type, $this->_haystack, true)) {
+            $this->_haystack[] = (string) $type;
         }
         return $this;
     }
