@@ -148,6 +148,15 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
 
         $additional = join('', $response->getAdditionalCalculations());
         $rate       = $filter->getCurrencyRate();
+
+        /**
+         * Check and set correct variable values to prevent SQL-injections
+         */
+        $rate       = floatval($rate);
+        $range      = floatval($range);
+        if ($range == 0) {
+            $range = 1;
+        }
         $countExpr  = new Zend_Db_Expr('COUNT(*)');
         $rangeExpr  = new Zend_Db_Expr("FLOOR((({$table}.min_price {$additional}) * {$rate}) / {$range}) + 1");
 
