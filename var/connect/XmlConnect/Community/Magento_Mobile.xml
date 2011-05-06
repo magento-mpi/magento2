@@ -1,6 +1,5 @@
 <_>
-   <form_key>60rzwn0ZkrHjTX25</form_key>
-   <_create/>
+   <form_key>Q5X4AENWXI6xEZIB</form_key>
    <name>Magento_Mobile</name>
    <channel>community</channel>
    <version_ids>
@@ -45,8 +44,8 @@
             <max>1.6.0.0</max>
          </max>
          <files>
-            <files>        </files>
-            <files>        </files>
+            <files>         </files>
+            <files>         </files>
          </files>
       </package>
       <extension>
