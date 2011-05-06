@@ -135,9 +135,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_File extends Mage_Core_Model_Co
      */
     protected function _getUploadRoot($token)
     {
-        $uploadRoot = (string)Mage::getConfig()->getNode($token, $this->getScope(), $this->getScopeId());
-        $uploadRoot = Mage::getConfig()->substDistroServerVars($uploadRoot);
-        return $uploadRoot;
+        return Mage::getBaseDir('media');
     }
 
     /**

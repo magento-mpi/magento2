@@ -60,7 +60,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Image
         } catch (Exception $e){
             return $this;
         }
-        $uploader->save(Mage::getStoreConfig('system/filesystem/media') . '/catalog/product');
+        $uploader->save(Mage::getBaseDir('media') . '/catalog/product');
 
         $fileName = $uploader->getUploadedFileName();
         if ($fileName) {
