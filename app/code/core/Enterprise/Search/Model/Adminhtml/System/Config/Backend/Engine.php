@@ -41,13 +41,14 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Backend_Engine extends Mag
      */
     protected function _afterSave()
     {
-        $indexer = Mage::getSingleton('index/indexer');
-
-        $indexer->getProcessByCode('catalogsearch_fulltext')
-            ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
-        $indexer->getProcessByCode('catalog_category_product')
-            ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
-
+        parent::_afterSave();
+        if ($this->isValueChanged()) {
+            $indexer = Mage::getSingleton('index/indexer');
+            $indexer->getProcessByCode('catalogsearch_fulltext')
+                ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            $indexer->getProcessByCode('catalog_category_product')
+                ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+        }
         return $this;
     }
 }
