@@ -113,4 +113,12 @@ abstract class Mage_Tools_Build_Abstract
      * @return void
      */
     abstract public function baseUrl();
+
+    /**
+     * Copy database from build
+     *
+     * @return void
+     */
+    abstract public function copyOtherBuildDb();
+
 }

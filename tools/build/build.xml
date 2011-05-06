@@ -362,6 +362,9 @@
     <!-- MMDB -->
 
     <target name="prepare-mmdb" depends="clean" description="Prepare basic (clean) ENV for instance.">
+        <mkdir dir="${dir.websites}"/>
+        <chmod dir="${dir.websites}" perm="777"/>
+
         <chmod dir="${dir.src}/media" perm="777"/>
         <chmod dir="${dir.src}/var" perm="777"/>
         <chmod dir="${dir.src}/app/etc" perm="777"/>
@@ -396,6 +399,22 @@
             <arg value="${teamcity.buildType.id}"/>
         </exec>
     </target>
+
+    <target name="build-mmdb-nightly" description="Installs Magento nightly build (MMDB)." depends="copy-previous-env-mmdb, install-mmdb, brutetest"/>
+
+    <target name="build-mmdb" description="Installs Magento clean build (MMDB)." depends="prepare-mmdb, install-mmdb, brutetest"/>
+
+    <target name="copy-previous-env-mmdb" depends="prepare" description="Prepare ENV (DB, websites folder) from previous instance.">
+        <exec executable="/bin/sh" failonerror="true">
+            <arg value="prepare-previous.sh"/>
+            <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
+            <arg value="${db.model}"/>
+            <arg value="${teamcity.buildType.id}"/>
+        </exec>
+    </target>
+
+    <!-- auto merges -->
 
     <target name="branch-sync-mmdb" description="Sync Branches (MMDB solver).">
         <exec dir="${dir.src}" executable="svn" failonerror="true">

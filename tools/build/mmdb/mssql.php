@@ -166,6 +166,16 @@ SQL;
         $stmt = $this->_connect->query($query);
         $stmt->execute();
     }
+
+    /**
+     * Copy database from build
+     *
+     * @return void
+     */
+    public function copyOtherBuildDb()
+    {
+
+    }
 }
 
 $shell = new Mage_Tools_Build_Prepare_Mssql();
