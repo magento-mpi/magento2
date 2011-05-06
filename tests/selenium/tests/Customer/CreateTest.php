@@ -36,12 +36,6 @@
  */
 class Customer_CreateTest extends Mage_Selenium_TestCase {
 
-    protected function setUpBeforeTestRun()
-    {
-        $this->loginAdminUser();
-        $this->assertTrue($this->admin());
-    }
-
     /**
      * Preconditions:
      *
@@ -51,6 +45,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
      */
     protected function assertPreConditions()
     {
+        $this->loginAdminUser();
+        $this->assertTrue($this->admin());
         $this->navigate('manage_customers');
         $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
     }
@@ -410,6 +406,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
+        die;
         $this->clickButton('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);

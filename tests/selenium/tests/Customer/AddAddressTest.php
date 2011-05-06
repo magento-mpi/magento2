@@ -37,14 +37,6 @@
 class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
 
     /**
-     * This method is called before the first test of this test class is run.
-     * 
-     */
-    protected function setUpBeforeTestRun()
-    {
-    }
-
-    /**
      * Preconditions:
      *
      * 1. Log in to Backend.

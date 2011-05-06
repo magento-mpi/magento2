@@ -229,7 +229,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         parent::__construct($name, $data, $dataName, $browser);
         $this->setArea('frontend');
-        $this->setUpBeforeTestRun();
     }
 
     /**
@@ -737,9 +736,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             if (isset($data[$fieldKey])) {
                                 if ($this->isElementPresent($elemXPath)) {
                                     if (strtolower($data[$fieldKey]) == 'yes') {
-                                        $this->check($elemXPath);
+                                        //$this->check($elemXPath);
+                                        if ($this->getValue($elemXPath) == 'off') {
+                                            $this->click($elemXPath);                                            
+                                        }
                                     } else {
-                                        $this->uncheck($elemXPath);
+                                        //$this->uncheck($elemXPath);
+                                        if ($this->getValue($elemXPath) == 'on') {
+                                            $this->click($elemXPath);                                            
+                                        }
                                     }
                                 } else {
                                     throw new PHPUnit_Framework_Exception("Can't find checkbox '{$fieldKey} : {$elemXPath}'");
@@ -755,7 +760,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             if (isset($data[$fieldKey])) {
                                 if ($this->isElementPresent($elemXPath)) {
                                     if (strtolower($data[$fieldKey]) == 'yes') {
-                                        $this->check($elemXPath);
+                                        //$this->check($elemXPath);
+                                        $this->click($elemXPath);
                                     } else {
                                         $this->uncheck($elemXPath);
                                     }
