@@ -789,9 +789,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         break;
                     }
                 }
-//                @TODO Need to implement.
-//                // Add ID to 'mca'
-//                $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('id' => $id)));
+                $this->addParameter('id', $id);
                 // Open element
                 $this->click($xpathTR . "//td[normalize-space(text())='" . $data[array_rand($data)] . "']");
                 $this->waitForPageToLoad($this->_brouserTimeoutPeriod);
