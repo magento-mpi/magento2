@@ -523,7 +523,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _getControlXpath($controlType, $controlName)
     {
-        $uipage = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage(), $this->_paramsHelper);
+        $uipage = $this->getUimapPage($this->getArea(), $this->getCurrentPage());
 
         $method = 'find' . ucfirst(strtolower($controlType));
 
@@ -628,6 +628,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $formData = $page->getMainForm();
         if(!$formData) return $this;
 
+        $formData->assignParams($this->_paramsHelper);
         if($tabId) {
             $fieldsets = $formData->getTab($tabId)->getFieldsets();
         } else {
@@ -635,44 +636,44 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         try {
-            if(!empty($fieldsets)) {
-                foreach($fieldsets as $fieldsetName => $fieldset) {
+            if (!empty($fieldsets)) {
+                foreach ($fieldsets as $fieldsetName => $fieldset) {
                     $baseXpath = $fieldset->getXPath();
                     $baseXpath = !empty($baseXpath) ? '//' . $baseXpath : '';
 
                     // ----------------------------------------------------
                     $fields = $fieldset->getAllFields();
-                    if(!empty($fields)) {
-                        foreach($fields as $fieldKey => $fieldXPath) {
-                            if(isset($data[$fieldKey])) {
+                    if (!empty($fields)) {
+                        foreach ($fields as $fieldKey => $fieldXPath) {
+                            if (isset($data[$fieldKey])) {
                                 $this->type($baseXpath . '//' . $fieldXPath, $data[$fieldKey]);
                             }
                         }
                     }
                     // ----------------------------------------------------
                     $fields = $fieldset->getAllMultiselects();
-                    if(!empty($fields)) {
-                        foreach($fields as $fieldKey => $fieldXPath) {
-                            if(isset($data[$fieldKey])) {
+                    if (!empty($fields)) {
+                        foreach ($fields as $fieldKey => $fieldXPath) {
+                            if (isset($data[$fieldKey])) {
                                 $this->select($baseXpath . '//' . $fieldXPath, 'regexp:'.$data[$fieldKey]);
                             }
                         }
                     }
                     // ----------------------------------------------------
                     $fields = $fieldset->getAllDropdowns();
-                    if(!empty($fields)) {
-                        foreach($fields as $fieldKey => $fieldXPath) {
-                            if(isset($data[$fieldKey])) {
+                    if (!empty($fields)) {
+                        foreach ($fields as $fieldKey => $fieldXPath) {
+                            if (isset($data[$fieldKey])) {
                                 $this->select($baseXpath . '//' . $fieldXPath, 'regexp:'.$data[$fieldKey]);
                             }
                         }
                     }
                     // ----------------------------------------------------
                     $fields = $fieldset->getAllCheckboxes();
-                    if(!empty($fields)) {
-                        foreach($fields as $fieldKey => $fieldXPath) {
-                            if(isset($data[$fieldKey])) {
-                                if(strtolower($data[$fieldKey]) == 'yes') {
+                    if (!empty($fields)) {
+                        foreach ($fields as $fieldKey => $fieldXPath) {
+                            if (isset($data[$fieldKey])) {
+                                if (strtolower($data[$fieldKey]) == 'yes') {
                                     $this->check($baseXpath . '//' . $fieldXPath);
                                 } else {
                                     $this->uncheck($baseXpath . '//' . $fieldXPath);
@@ -682,10 +683,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     }
                     // ----------------------------------------------------
                     $fields = $fieldset->getAllRadiobuttons();
-                    if(!empty($fields)) {
-                        foreach($fields as $fieldKey => $fieldXPath) {
-                            if(isset($data[$fieldKey])) {
-                                if(strtolower($data[$fieldKey]) == 'yes') {
+                    if (!empty($fields)) {
+                        foreach ($fields as $fieldKey => $fieldXPath) {
+                            if (isset($data[$fieldKey])) {
+                                if (strtolower($data[$fieldKey]) == 'yes') {
                                     $this->check($baseXpath . '//' . $fieldXPath);
                                 } else {
                                     $this->uncheck($baseXpath . '//' . $fieldXPath);
@@ -811,7 +812,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function checkMessage($message)
     {
-        $page = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage(), $this->_paramsHelper);
+        $page = $this->getUimapPage($this->getArea(), $this->getCurrentPage());
         if (!$page) {
             return false;
         }
@@ -1084,7 +1085,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $result = TRUE;
         $buttonXpath ='//'. $this->_getControlXpath('button', $buttonName);
         if ($this->isElementPresent($buttonXpath)) {
-            $confirmation = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage())->findMessage($message);
+            $confirmation = $this->getUimapPage($this->getArea(), $this->getCurrentPage())->findMessage($message);
             $this->chooseCancelOnNextConfirmation();
             $this->click($buttonXpath);
             if ($this->isConfirmationPresent()) {

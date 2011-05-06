@@ -120,12 +120,19 @@ class Mage_Selenium_Uimap_Abstract
     public function assignParams($params)
     {
         $this->_params = $params;
+        $this->_elements_cache = null;
 
         foreach($this->_elements as $elem) {
             if ($elem instanceof Mage_Selenium_Uimap_Abstract ||
                 $elem instanceof Mage_Selenium_Uimap_ElementsCollection
             ) {
                 $elem->assignParams($params);
+            } else if ($elem instanceof ArrayObject) {
+                foreach($elem as $arr_elem) {
+                    if ($arr_elem instanceof Mage_Selenium_Uimap_Abstract) {
+                        $arr_elem->assignParams($params);
+                    }
+                }
             }
         }
 
@@ -173,7 +180,7 @@ class Mage_Selenium_Uimap_Abstract
      */
     protected function __getElementsRecursive($elementsCollectionName, &$container, &$cache, $paramsDecorator = null)
     {
-        foreach ($container as $elKey => &$elValue) {
+        foreach ($container as $elKey => $elValue) {
             if ($elValue instanceof ArrayObject) {
                 if (($elementsCollectionName == 'tabs' && $elementsCollectionName == $elKey && $elValue instanceof Mage_Selenium_Uimap_TabsCollection) ||
                     ($elementsCollectionName == 'fieldsets' && $elementsCollectionName == $elKey && $elValue instanceof Mage_Selenium_Uimap_FieldsetsCollection) ||
@@ -220,7 +227,7 @@ class Mage_Selenium_Uimap_Abstract
         if (preg_match('|^getAll(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 6));
             if (!empty($elementName)) {
-                return $this->getAllElements($elementName);
+                return $this->getAllElements($elementName, $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
             }
         } elseif(preg_match('|^get(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 3));

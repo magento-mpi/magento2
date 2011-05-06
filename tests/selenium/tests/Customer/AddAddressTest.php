@@ -48,6 +48,9 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->loginAdminUser());
         $this->assertTrue($this->admin());
         $this->assertTrue($this->navigate('manage_customers'));
+
+        // for replacing in MCA
+        $this->addParameter('id', '0');
     }
 
     public function test_CreateCustomer()
@@ -76,19 +79,19 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         //Data
         $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
         $addressData = $this->loadData('generic_address');
-        $this->addParameter('id', '0');
 
         //Steps
         $this->searchAndOpen($searchData);
         $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
-        $xpath = $this->getCurrentLocationUimapPage()->findFieldset('list_customer_addresses')->getXPath();
+        $xpath = $this->getCurrentUimapPage()->findFieldset('list_customer_addresses')->getXPath();
         $addressCount = $this->getXpathCount('//' . $xpath . '//li') + 1;
         $this->addParameter('address_number', $addressCount);
 
         $this->clickButton('add_new_address', FALSE);
         $this->fillForm($addressData, 'addresses');
         $this->clickButton('save_customer');
+
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         return $searchData;
@@ -104,6 +107,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     {
         //Data
         $addressData = $this->loadData('generic_address', $emptyField);
+
         //Steps
         $this->clickButton('reset_filter'/* ,FALSE */);
 //        @TODO
@@ -111,12 +115,14 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $this->searchAndOpen($searchData);
         $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
-        $xpath = $this->getCurrentLocationUimapPage()->findFieldset('list_customer_addresses')->getXPath();
+        $xpath = $this->getCurrentUimapPage()->findFieldset('list_customer_addresses')->getXPath();
         $addressCount = $this->getXpathCount('//' . $xpath . '//li') + 1;
-        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => $addressCount)));
+        $this->addParameter('address_number', $addressCount);
         $this->clickButton('add_new_address', FALSE);
+
         $this->fillForm($addressData, 'addresses');
         $this->clickButton('save_customer');
+
         //Verifying
         foreach ($emptyField as $key => $value) {
             if ($this->getUimapPage('admin', 'edit_customer')->getMainForm()->getTab('addresses')->getFieldset('edit_address')->findField($key) != Null) {
@@ -133,8 +139,9 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
             } else {
                 $fieldXpath = $this->_paramsHelper->replaceParameters($fieldXpath);
             }
-            $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $fieldXpath)));
+            $this->addParameter('fieldXpath', $fieldXpath);
         }
+
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
     }
 
@@ -184,9 +191,9 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $this->searchAndOpen($searchData);
         $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
-        $xpath = $this->getCurrentLocationUimapPage()->findFieldset('list_customer_addresses')->getXPath();
+        $xpath = $this->getCurrentUimapPage()->findFieldset('list_customer_addresses')->getXPath();
         $addressCount = $this->getXpathCount('//' . $xpath . '//li') + 1;
-        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => $addressCount)));
+        $this->addParameter('address_number', $addressCount);
         $this->clickButton('add_new_address', FALSE);
         $this->fillForm($addressData, 'addresses');
         $this->clickButton('save_customer');

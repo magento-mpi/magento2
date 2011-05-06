@@ -43,7 +43,7 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
 
     /**
      *
-     * @param <type> $tabId
+     * @param string $tabId
      * @param array $tabContainer 
      */
     public function  __construct($tabId, array &$tabContainer) {
@@ -65,8 +65,8 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
 
     /**
      *
-     * @param <type> $id
-     * @return <type>
+     * @param string $id
+     * @return string
      */
     public function getFieldset($id)
     {
