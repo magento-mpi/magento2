@@ -84,8 +84,8 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
                         continue;
                     }
                     $regions[$region->getCountryId()][$region->getRegionId()] = array(
-                        'code'=>$region->getCode(),
-                        'name'=>$region->getName()
+                        'code' => $region->getCode(),
+                        'name' => $this->__($region->getName())
                     );
                 }
                 $json = Mage::helper('core')->jsonEncode($regions);
@@ -122,9 +122,8 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCountriesWithOptionalZip($asJson = false)
     {
         if (null === $this->_optionalZipCountries) {
-            $this->_optionalZipCountries = preg_split('/\,/', Mage::getStoreConfig('general/country/optional_zip_countries'),
-                0, PREG_SPLIT_NO_EMPTY
-            );
+            $this->_optionalZipCountries = preg_split('/\,/',
+                Mage::getStoreConfig('general/country/optional_zip_countries'), 0, PREG_SPLIT_NO_EMPTY);
         }
         if ($asJson) {
             return Mage::helper('core')->jsonEncode($this->_optionalZipCountries);
