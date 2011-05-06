@@ -86,7 +86,7 @@ create_customer:
                   fields:
                     prefix: input[@id='_accountprefix']
                     first_name: input[@id='_accountfirstname']
-                    middle_name_initial: input[@id='_accountmiddlename']
+                    middle_name: input[@id='_accountmiddlename']
                     last_name: input[@id='_accountlastname']
                     suffix: input[@id='_accountsuffix']
                     email: input[@id='_accountemail']
@@ -124,7 +124,7 @@ create_customer:
                   fields:
                     prefix: input[@id='_item%address_number%prefix']
                     first_name: input[@id='_item%address_number%firstname']
-                    middle_name_initial: input[@id='_item%address_number%middlename']
+                    middle_name: input[@id='_item%address_number%middlename']
                     last_name: input[@id='_item%address_number%lastname']
                     suffix: input[@id='_item%address_number%suffix']
                     company: input[@id='_item%address_number%company']
@@ -175,7 +175,7 @@ edit_customer:
                     created_from: input[@id='_accountcreated_in']
                     prefix: input[@id='_accountprefix']
                     first_name: input[@id='_accountfirstname']
-                    middle_name_initial: input[@id='_accountmiddlename']
+                    middle_name: input[@id='_accountmiddlename']
                     last_name: input[@id='_accountlastname']
                     suffix: input[@id='_accountsuffix']
                     email: input[@id='_accountemail']
@@ -213,7 +213,7 @@ edit_customer:
                   fields:
                     prefix: input[@id='_item%address_number%prefix']
                     first_name: input[@id='_item%address_number%firstname']
-                    middle_name_initial: input[@id='_item%address_number%middlename']
+                    middle_name: input[@id='_item%address_number%middlename']
                     last_name: input[@id='_item%address_number%lastname']
                     suffix: input[@id='_item%address_number%suffix']
                     company: input[@id='_item%address_number%company']

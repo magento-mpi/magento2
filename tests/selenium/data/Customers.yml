@@ -47,7 +47,7 @@ all_fields_customer_account:
   group: General
   prefix: Prefix
   first_name: First Name
-  middle_name_initial: Middle Name
+  middle_name: Middle Name
   last_name: Last Name
   suffix: Suffix
   email: test_admin_user@example.com
@@ -76,7 +76,7 @@ all_fields_address:
   default_shipping_address: Yes
   prefix: Prefix
   first_name: First Name
-  middle_name_initial: Middle Name
+  middle_name: Middle Name
   last_name: Last Name
   suffix: Suffix
   company: Magento

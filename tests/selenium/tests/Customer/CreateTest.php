@@ -176,13 +176,16 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($userData, 'account_information');
         $this->saveForm('save_customer');
         //Verifying
+        $page = $this->getUimapPage('admin', 'create_customer');
+        $tab = $page->findTab('account_information');
         foreach ($emptyFields as $key => $value) {
             if (empty($value)) {
-                $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->getTab('account_information')->findField($key);
+                $xpath = $tab->findField($key);
                 $this->addParameter('fieldXpath', $xpath);
-                $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
             }
         }
+        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     public function data_EmptyField()
@@ -196,13 +199,13 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     }
 
     /**
-     * Create customer. Fill in all reqired fields by using special characters(except the field "email").
+     * Create customer. Fill in all fields by using special characters(except the field "email").
      *
      * Steps:
      *
      * 1. Click 'Add New Customer' button.
      *
-     * 2. Fill in reqired fields.
+     * 2. Fill in fields on 'Account Information' tab.
      *
      * 3. Click 'Save Customer' button.
      *
@@ -220,10 +223,14 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         $userData = $this->loadData(
                         'generic_customer_account',
                         array(
+                            'prefix' => $this->generate('string', 32, ':punct:'),
                             'first_name' => $this->generate('string', 32, ':punct:'),
+                            'middle_name' => $this->generate('string', 32, ':punct:'),
                             'last_name' => $this->generate('string', 32, ':punct:'),
-                            'password' => $this->generate('string', 32, ':punct:'),
+                            'suffix' => $this->generate('string', 32, ':punct:'),
                             'email' => $this->generate('email', 20, 'valid'),
+                            'tax_vat_number' => $this->generate('string', 32, ':punct:'),
+                            'password' => $this->generate('string', 32, ':punct:'),
                 ));
         //Steps
         $this->clickButton('add_new_customer');
@@ -236,13 +243,13 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     }
 
     /**
-     * Create Customer. Fill in only reqired fields. Use max long values for fields.
+     * Create Customer. Fill in fields. Use max long values for fields.
      *
      * Steps:
      *
      * 1. Click 'Add New Customer' button.
      *
-     * 2. Fill in required fields by long value alpha-numeric data.
+     * 2. Fill in fields by long value alpha-numeric data on 'Account Information' tab.
      *
      * 3. Click 'Save Customer' button.
      *
@@ -258,18 +265,18 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     {
         //Data
         $longValues = array(
+            'prefix' => $this->generate('string', 255, ':alnum:'),
             'first_name' => $this->generate('string', 255, ':alnum:'),
+            'middle_name' => $this->generate('string', 255, ':alnum:'),
             'last_name' => $this->generate('string', 255, ':alnum:'),
+            'suffix' => $this->generate('string', 255, ':alnum:'),
+            'email' => $this->generate('email', 128, 'valid'),
+            'tax_vat_number' => $this->generate('string', 255, ':alnum:'),
             'password' => $this->generate('string', 255, ':alnum:'),
-            'email' => $this->generate('email', 128, 'valid')
         );
         $userData = $this->loadData('generic_customer_account', $longValues);
-        $searchData = $this->loadData(
-                        'search_customer',
-                        array(
-                            'name' => '',
-                            'email' => $userData['email']
-                        )
+        $searchData = $this->loadData('search_customer',
+                        array('name' => '', 'email' => $userData['email'])
         );
         //Steps
         $this->clickButton('add_new_customer');
@@ -401,9 +408,9 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
                         'generic_customer_account',
                         array(
                             'email' => $this->generate('email', 20, 'valid'),
-                            'password' => '',
                             'auto_generated_password' => 'Yes'
                 ));
+        unset($userData['password']);
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
@@ -447,6 +454,13 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         $adressData = $this->loadData('all_fields_address');
         //Steps
         $this->clickButton('add_new_customer');
+        // Verify that 'send_from' field is present
+        $page = $this->getCurrentUimapPage();
+        $tab = $page->findTab('account_information');
+        $xpath = $tab->findDropdown('send_from');
+        if (!$this->isElementPresent('//' . $xpath)) {
+            unset($userData['send_from']);
+        }
         $this->fillForm($userData, 'account_information');
         $this->clickControl('tab', 'addresses', FALSE);
         $this->clickButton('add_new_address', FALSE);
