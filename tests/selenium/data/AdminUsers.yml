@@ -40,4 +40,4 @@ generic_admin_user:
   password: 123123q
   password_confirmation: 123123q
   this_acount_is: Active
-  select_by_role_name: Administrators
+  role_name: Administrators

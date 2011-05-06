@@ -52,7 +52,7 @@ manage_admin_users:
     buttons:
       add_new_admin_user: button[span='Add New User']
     messages:
-      success_delete_user: div[@id='messages']//li[span='The user has been deleted.']
+      success_deleted_user: li[normalize-space(@class)='success-msg' and contains(.//span,'The user has been deleted.')]
 
 # 'New User' page
 new_admin_user:
@@ -63,7 +63,7 @@ new_admin_user:
       tabs:
         -
           user_info:
-            xpath: a[@id='page_tabs_main_section']
+            xpath: a[@id='page_tabs_main_section']/span
             fieldsets:
               -
                 account_information:
@@ -80,7 +80,7 @@ new_admin_user:
                   required: [user_name, first_name, last_name, email, password, password_confirmation]
         -
           user_role:
-            xpath: a[@id='page_tabs_roles_section']
+            xpath: a[@id='page_tabs_roles_section']/span
             fieldsets:
               -
                 permissions_user_roles:
@@ -101,18 +101,17 @@ new_admin_user:
       reset: button[span='Reset']
       save_admin_user: button[span='Save User']
     messages:
-      success_save_user: div[@id='messages']//li[span='The user has been saved.']
-      error_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
-      error_invalid_mail: div[@id='advice-validate-email-user_email']
-      error_password_unmatch: div[@id='advice-validate-cpassword-user_confirmation']
-      error_password_invalid: div[@id='advice-validate-admin-password-user_password']
-      error_repeating_name_email: div[@id='messages']//li[span='A user with the same user name or email aleady exists.']
-      error_email_exists: div[@id='messages']//li[span='Email already exists.']
+      empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+      invalid_email: div[@id='advice-validate-email-user_email']
+      password_unmatch: div[@id='advice-validate-cpassword-user_confirmation']
+      invalid_password: div[@id='advice-validate-admin-password-user_password']
+      exist_name_or_email: li[normalize-space(@class)='error-msg' and contains(.//span,'A user with the same user name or email aleady exists.')]
+      exist_email: li[normalize-space(@class)='error-msg' and contains(.//span,'Email already exists.')]
 
 # 'Edit User' page
 edit_admin_user:
-  mca: permissions_user/edit/user_id/%user_id%/
-  title: %userName% / Users / Permissions / System / Magento Admin
+  mca: permissions_user/edit/user_id/%id%/
+  title: %user_first_last_name% / Users / Permissions / System / Magento Admin
   uimap:
     form: &editUserForm
       tabs:
@@ -157,13 +156,14 @@ edit_admin_user:
      delete_user: button[span='Delete User']
      save_admin_user: button[span='Save User']
     messages:
-     success_save_user: div[@id='messages']//li[span='The user has been saved.']
-     error_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
-     error_invalid_mail: div[@id='advice-validate-email-user_email']
-     error_password_unmatch: div[@id='advice-validate-cpassword-user_confirmation']
-     error_password_invalid: div[@id='advice-validate-admin-password-user_password']
-     error_repeating_name_email: div[@id='messages']//li[span='A user with the same user name or email aleady exists.']
-     error_email_exists: div[@id='messages']//li[span='Email already exists.']
+     success_saved_user: li[normalize-space(@class)='success-msg' and contains(.//span,'The user has been saved.')]
+     empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+     invalid_email: div[@id='advice-validate-email-user_email']
+     password_unmatch: div[@id='advice-validate-cpassword-user_confirmation']
+     invalid_password: div[@id='advice-validate-admin-password-user_password']
+     exist_email: li[normalize-space(@class)='success-msg' and contains(.//span,'Email already exists.')]
+     exist_name_or_email: li[normalize-space(@class)='error-msg' and contains(.//span,'A user with the same user name or email aleady exists.')]
+     confirmation_for_delete: Are you sure you want to do this?
 
 # 'Roles' page
 manage_roles:
@@ -228,7 +228,7 @@ new_role:
      success_save_role: div[@id='messages']//li[span='The role has been successfully saved.']
      error_required_field_role_name: div[@id='advice-required-entry-role_name']
 
-  
+
 # 'Edit Role' page
 edit_role:
   mca: permissions_role/editrole/rid/%role_id%/
