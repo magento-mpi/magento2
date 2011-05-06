@@ -55,10 +55,23 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
     }
 
 
-    public function getWeeeAmount($product, $shipping = null, $billing = null, $website = null, $calculateTax = false, $ignoreDiscount = false)
+    public function getWeeeAmount(
+        $product,
+        $shipping = null,
+        $billing = null,
+        $website = null,
+        $calculateTax = false,
+        $ignoreDiscount = false)
     {
         $amount = 0;
-        $attributes = $this->getProductWeeeAttributes($product, $shipping, $billing, $website, $calculateTax, $ignoreDiscount);
+        $attributes = $this->getProductWeeeAttributes(
+            $product,
+            $shipping,
+            $billing,
+            $website,
+            $calculateTax,
+            $ignoreDiscount
+        );
         foreach ($attributes as $attribute) {
             $amount += $attribute->getAmount();
         }
@@ -88,7 +101,13 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         return $this->_allAttributes;
     }
 
-    public function getProductWeeeAttributes($product, $shipping = null, $billing = null, $website = null, $calculateTax = null, $ignoreDiscount = false)
+    public function getProductWeeeAttributes(
+        $product,
+        $shipping = null,
+        $billing = null,
+        $website = null,
+        $calculateTax = null,
+        $ignoreDiscount = false)
     {
         $result = array();
         $allWeee = $this->getWeeeTaxAttributeCodes();
@@ -148,7 +167,9 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
                      * We can't use FPT imcluding/excluding tax
                      */
 //                    if ($calculateTax && Mage::helper('weee')->isTaxable($store)) {
-//                        $defaultPercent = Mage::getModel('tax/calculation')->getRate($defaultRateRequest->setProductClassId($product->getTaxClassId()));
+//                        $defaultPercent = Mage::getModel('tax/calculation')
+//                              ->getRate($defaultRateRequest
+//                              ->setProductClassId($product->getTaxClassId()));
 //                        $currentPercent = $product->getTaxPercent();
 //
 //                        $taxAmount = Mage::app()->getStore()->roundPrice($value/(100+$defaultPercent)*$currentPercent);
@@ -174,7 +195,8 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         $group = Mage::getSingleton('customer/session')->getCustomerGroupId();
         $key = implode('-', array($website, $group, $product->getId()));
         if (!isset($this->_productDiscounts[$key])) {
-            $this->_productDiscounts[$key] = (int) $this->getResource()->getProductDiscountPercent($product->getId(), $website, $group);
+            $this->_productDiscounts[$key] = (int) $this->getResource()
+                ->getProductDiscountPercent($product->getId(), $website, $group);
         }
         if ($value = $this->_productDiscounts[$key]) {
             return 100-min(100, max(0, $value));
