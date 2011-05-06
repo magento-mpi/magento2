@@ -227,9 +227,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $this->_browserTimeoutPeriod = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
 
-        $this->setUpBeforeTestRun();
         parent::__construct($name, $data, $dataName, $browser);
         $this->setArea('frontend');
+        $this->setUpBeforeTestRun();
     }
 
     /**

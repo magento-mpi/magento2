@@ -209,7 +209,7 @@ edit_customer:
                   xpath:  div[@id='_item%address_number%address_fieldset']
                   dropdowns:
                     country: select[@id='_item%address_number%country_id']
-                    state: select[@id='_item%address_number%region_id']
+                    state: select[@id='_item%address_number%region_id' and not(@type='hidden')]
                   fields:
                     prefix: input[@id='_item%address_number%prefix']
                     first_name: input[@id='_item%address_number%firstname']

@@ -84,6 +84,7 @@ all_fields_address:
   street_address_line_2: Suite 200
   city: Culver City
   country: Ukraine
+  region: Kievskaya
   zip_code: 90232
   telephone: 530-918-3581
   fax: 530-918-3581
