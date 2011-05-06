@@ -29,7 +29,10 @@ class Enterprise_PageCache_Model_Processor
     const NO_CACHE_COOKIE               = 'NO_CACHE';
     const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
-    const XML_PATH_LIFE_TIME            = 'system/page_cache/lifetime';  /** @deprecated after 1.8 */
+    /**
+     * @deprecated after 1.8.0.0
+     */
+    const XML_PATH_LIFE_TIME            = 'system/page_cache/lifetime';
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
     const XML_PATH_CACHE_DEBUG          = 'system/page_cache/debug';
     const REQUEST_ID_PREFIX             = 'REQEST_';
@@ -143,7 +146,7 @@ class Enterprise_PageCache_Model_Processor
     }
 
     /**
-     * Get currenly configured design package.
+     * Get currently configured design package.
      * Depends on design exception rules configuration and browser user agent
      *
      * return string|bool
@@ -151,11 +154,10 @@ class Enterprise_PageCache_Model_Processor
     protected function _getDesignPackage()
     {
         $exceptions = Mage::app()->loadCache(self::DESIGN_EXCEPTION_KEY);
+        $this->_designExceptionExistsInCache = Mage::app()->getCache()->test(self::DESIGN_EXCEPTION_KEY);
 
         if (!$exceptions) {
             return false;
-        } else {
-            $this->_designExceptionExistsInCache = true;
         }
 
         $rules = @unserialize($exceptions);
