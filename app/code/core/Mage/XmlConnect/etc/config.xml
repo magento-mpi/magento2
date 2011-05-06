@@ -412,6 +412,13 @@
                 <broadcast_url>https://go.urbanairship.com/api/airmail/send/broadcast/</broadcast_url>
             </airmail>
         </xmlconnect>
+        <system>
+            <media_storage_configuration>
+                <allowed_resources>
+                    <xmlconnect_images_folder>xmlconnect</xmlconnect_images_folder>
+                </allowed_resources>
+            </media_storage_configuration>
+        </system>
     </default>
     <crontab>
         <jobs>

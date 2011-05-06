@@ -441,10 +441,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      */
     protected function _saveThemeAction($data, $paramId = 'saveTheme')
     {
-//        try {
+        try {
             $themeName = $this->getRequest()->getParam($paramId, false);
             if ($themeName) {
-//                if ($themeName == Mage::helper('xmlconnect/theme')->getCustomThemeName()) {
+                if ($themeName == Mage::helper('xmlconnect/theme')->getCustomThemeName()) {
                 $theme = Mage::helper('xmlconnect/theme')->getThemeByName($themeName);
                 if ($theme instanceof Mage_XmlConnect_Model_Theme) {
                     if ($paramId == 'saveTheme') {
@@ -466,23 +466,23 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 } else {
                     $response = array('error' => true, 'message' => $this->__('Cannot load theme "%s".', $themeName));
                 }
-//                } else {
-//                    $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
-//                }
+                } else {
+                    $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
+                }
             } else {
                 $response = array('error' => true, 'message' => $this->__('Theme name is not set.'));
             }
-//        } catch (Mage_Core_Exception $e) {
-//            $response = array(
-//                'error'     => true,
-//                'message'   => $e->getMessage(),
-//            );
-//        } catch (Exception $e) {
-//            $response = array(
-//                'error'     => true,
-//                'message'   => $this->__('Can\'t save theme.')
-//            );
-//        }
+        } catch (Mage_Core_Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $e->getMessage(),
+            );
+        } catch (Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $this->__('Can\'t save theme.')
+            );
+        }
         if (is_array($response)) {
             $response = Mage::helper('core')->jsonEncode($response);
             $this->getResponse()->setBody($response);
