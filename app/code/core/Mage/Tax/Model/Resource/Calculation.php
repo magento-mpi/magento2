@@ -286,8 +286,8 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
                 ))
                 ->joinLeft(
                     array('title_table' => $this->getTable('tax/tax_calculation_rate_title')),
-                    "rate.tax_calculation_rate_id = title_table.tax_calculation_rate_id '
-                    . 'AND title_table.store_id = '{$storeId}'",
+                   "rate.tax_calculation_rate_id = title_table.tax_calculation_rate_id "
+                   . "AND title_table.store_id = '{$storeId}'",
                     array('title' => $ifnullTitleValue))
                 ->where('rate.tax_country_id = ?', $countryId)
                 ->where("rate.tax_region_id IN(?)", array(0, (int)$regionId));
