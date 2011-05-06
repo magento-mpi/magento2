@@ -418,8 +418,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         $price          = $taxPrice         = $item->getCalculationPrice();
         $basePrice      = $baseTaxPrice     = $item->getBaseCalculationPrice();
         $subtotal       = $taxSubtotal      = $item->getRowTotal();
-
         $baseSubtotal   = $baseTaxSubtotal  = $item->getBaseRowTotal();
+
         $taxOnOrigPrice = !$this->_helper->applyTaxOnCustomPrice($this->_store) && $item->hasCustomPrice();
         if ($taxOnOrigPrice) {
             $origSubtotal       = $item->getOriginalPrice() * $qty;
@@ -467,50 +467,33 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
                 if ($taxOnOrigPrice) {
                     $storeTax           = $calc->calcTaxAmount($origSubtotal, $storeRate, true, false);
                     $baseStoreTax       = $calc->calcTaxAmount($baseOrigSubtotal, $storeRate, true, false);
-
-                    $origSubtotal       = $calc->round($origSubtotal - $storeTax);
-                    $baseOrigSubtotal   = $calc->round($baseOrigSubtotal - $baseStoreTax);
+                    $subtotal       = $calc->round($origSubtotal - $storeTax);
+                    $baseSubtotal   = $calc->round($baseOrigSubtotal - $baseStoreTax);
                 } else {
                     $storeTax           = $calc->calcTaxAmount($subtotal, $storeRate, true, false);
                     $baseStoreTax       = $calc->calcTaxAmount($baseSubtotal, $storeRate, true, false);
+                    $subtotal       = $calc->round($subtotal - $storeTax);
+                    $baseSubtotal   = $calc->round($baseSubtotal - $baseStoreTax);
                 }
-                $subtotal       = $calc->round($subtotal - $storeTax);
-                $baseSubtotal   = $calc->round($baseSubtotal - $baseStoreTax);
-
                 $price          = $calc->round($subtotal/$qty);
                 $basePrice      = $calc->round($baseSubtotal/$qty);
 
-                if ($taxOnOrigPrice) {
-                    $rowTax =
-                        $this->_deltaRound($calc->calcTaxAmount($origSubtotal, $rate, false, false), $rate, true);
-                    $baseRowTax =
-                        $this->_deltaRound(
-                            $calc->calcTaxAmount($baseOrigSubtotal, $rate, false, false), $rate, true, 'base'
-                        );
+                $rowTax =
+                    $this->_deltaRound($calc->calcTaxAmount($subtotal, $rate, false, false), $rate, true);
+                $baseRowTax =
+                    $this->_deltaRound(
+                        $calc->calcTaxAmount($baseSubtotal, $rate, false, false), $rate, true, 'base'
+                    );
 
-                    $taxSubtotal    = $subtotal + $rowTax;
-                    $baseTaxSubtotal= $baseSubtotal + $baseRowTax;
-                } else {
-                    $rowTax =
-                        $this->_deltaRound($calc->calcTaxAmount($subtotal, $rate, false, false), $rate, true);
-                    $baseRowTax =
-                        $this->_deltaRound(
-                            $calc->calcTaxAmount($baseSubtotal, $rate, false, false), $rate, true, 'base'
-                        );
+                $taxSubtotal    = $subtotal + $rowTax;
+                $baseTaxSubtotal= $baseSubtotal + $baseRowTax;
 
-                    $taxSubtotal    = $subtotal + $rowTax;
-                    $baseTaxSubtotal= $baseSubtotal + $baseRowTax;
-                }
                 $taxPrice       = $calc->round($taxSubtotal/$qty);
                 $baseTaxPrice   = $calc->round($baseTaxSubtotal/$qty);
 
-                if ($taxOnOrigPrice) {
-                    $taxable        = $origSubtotal;
-                    $baseTaxable    = $baseOrigSubtotal;
-                } else {
-                    $taxable        = $subtotal;
-                    $baseTaxable    = $baseSubtotal;
-                }
+                $taxable        = $subtotal;
+                $baseTaxable    = $baseSubtotal;
+
                 $isPriceInclTax = false;
             }
         } else {
