@@ -183,6 +183,13 @@
                     </available>
                 </sitemap_generate_valid_paths>
             </file>
+            <validator_data>
+                <input_types>
+                    <price>price</price>
+                    <media_image>media_image</media_image>
+                    <gallery>gallery</gallery>
+                </input_types>
+            </validator_data>
         </general>
     </default>
     <stores>

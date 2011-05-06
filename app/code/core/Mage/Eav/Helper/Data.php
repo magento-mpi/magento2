@@ -29,6 +29,8 @@
  */
 class Mage_Eav_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const XML_PATH_VALIDATOR_DATA_INPUT_TYPES = 'general/validator_data/input_types';
+
     protected $_attributesLockedFields = array();
 
     protected $_entityTypeFrontendClasses = array();
@@ -118,14 +120,24 @@ class Mage_Eav_Helper_Data extends Mage_Core_Helper_Abstract
         if (isset($this->_attributesLockedFields[$entityTypeCode])) {
             return $this->_attributesLockedFields[$entityTypeCode];
         }
-        $lockedAttributeFields = array();
         $_data = Mage::app()->getConfig()->getNode('global/eav_attributes/' . $entityTypeCode);
         if ($_data) {
             foreach ($_data->children() as $attribute) {
-                $this->_attributesLockedFields[$entityTypeCode][(string)$attribute->code] = array_keys($attribute->locked_fields->asArray());
+                $this->_attributesLockedFields[$entityTypeCode][(string)$attribute->code] =
+                    array_keys($attribute->locked_fields->asArray());
             }
             return $this->_attributesLockedFields[$entityTypeCode];
         }
         return array();
+    }
+
+    /**
+     * Get input types validator data
+     *
+     * @return array
+     */
+    public function getInputTypesValidatorData()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_VALIDATOR_DATA_INPUT_TYPES);
     }
 }

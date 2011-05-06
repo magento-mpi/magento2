@@ -250,15 +250,6 @@
                     </weee>
                 </observers>
             </adminhtml_product_attribute_types>
-            <adminhtml_product_attribute_types_validator>
-                <observers>
-                    <weee>
-                        <type>model</type>
-                        <class>weee/observer</class>
-                        <method>addWeeeInputTypeToValidator</method>
-                    </weee>
-                </observers>
-            </adminhtml_product_attribute_types_validator>
             <adminhtml_catalog_product_edit_element_types>
                 <observers>
                     <weee>
@@ -287,6 +278,13 @@
                 <include_in_subtotal>0</include_in_subtotal>
             </weee>
         </tax>
+        <general>
+            <validator_data>
+                <input_types>
+                    <weee>weee</weee>
+                </input_types>
+            </validator_data>
+        </general>
     </default>
     <frontend>
         <layout>

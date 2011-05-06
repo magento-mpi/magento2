@@ -40,16 +40,9 @@ class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator extends 
     public function __construct()
     {
         //set data haystack
-        /** @var $model Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype */
-        $model = Mage::getSingleton('eav/adminhtml_system_config_source_inputtype');
-        foreach ($model->toOptionArray() as $item) {
-            $haystack[] = $item['value'];
-        }
-
-        //add additional input types
-        //which added in Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
-        $haystack[] = 'price';
-        $haystack[] = 'media_image';
+        /** @var $helper Mage_Eav_Helper_Data */
+        $helper = Mage::helper('eav');
+        $haystack = $helper->getInputTypesValidatorData();
 
         //reset message template and set custom
         $this->_messageTemplates = null;
@@ -60,8 +53,6 @@ class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator extends 
              'haystack' => $haystack,
              'strict'   => true,
         ));
-
-        Mage::dispatchEvent('adminhtml_product_attribute_types_validator', array('validator' => $this));
     }
 
     /**

@@ -206,19 +206,6 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Add input type "weee" to validator haystack
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function addWeeeInputTypeToValidator(Varien_Event_Observer $observer)
-    {
-        /** @var $validator Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator */
-        $validator = $observer->getValidator();
-        $validator->addInputType('weee');
-    }
-
-    /**
      * Automaticaly assign backend model to weee attributes
      *
      * @param   Varien_Event_Observer $observer
