@@ -121,7 +121,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * @var PHPUnit_Framework_TestResult
      */
-    private $result;
+    protected $result;
     /**
      * @var    array
      */
@@ -551,7 +551,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (!empty($xpath)) {
             try {
                 $this->click('//'.$xpath);
-                echo $xpath."\n";
 
                 if ($willChangePage) {
                     $this->waitForPageToLoad(self::timeoutPeriod);
