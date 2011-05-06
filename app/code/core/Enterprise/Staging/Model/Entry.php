@@ -153,6 +153,26 @@ class Enterprise_Staging_Model_Entry
             file_put_contents($outputFile, $result);
 
             $sample = file_get_contents(BP . DS . '.htaccess.sample');
+
+$search = <<<SEARCH
+############################################
+## workaround for HTTP authorization
+## in CGI environment
+SEARCH;
+
+$replace = <<<REPLACE
+############################################
+## add 'no_cache' GET parameter for staging sites
+
+    RewriteCond %{QUERY_STRING} !(^|[?&])no_cache([&=]|$)
+    RewriteRule (.*) $1?no_cache [QSA]
+
+############################################
+## workaround for HTTP authorization
+## in CGI environment
+REPLACE;
+
+            $sample = str_replace($search, $replace, $sample);
             $outputFile = $this->getBaseFolder() . DS . $this->_website->getCode() . DS . '.htaccess';
             file_put_contents($outputFile, $sample);
         }
