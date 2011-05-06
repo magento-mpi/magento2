@@ -196,6 +196,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const xpathEditLink = "table/descendant::*[normalize-space(@class)='last'][1]/a[.='Edit']";
 
     /**
+    * Loading holder XPath
+    * @var string
+    */
+    const xpathLoadingHolder = "//div[@id='loading-mask' and not(contains(@style,'display: none'))]";
+
+    /**
      * Constructor
      *
      * @param  string $name
@@ -624,6 +630,30 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function buttonIsPresent($button)
     {
         return $this->controlIsPresent('button', $button);
+    }
+
+
+    /**
+     * Await for appear and disappear "Please wait" animated gif...
+     *
+     */
+    public function pleaseWait($waitAppear = 10, $waitDisappear = 30)
+    {
+        for ($second = 0; $second < $waitAppear; $second++) {
+            if ($this->isElementPresent(Mage_Selenium_TestCase::xpathLoadingHolder)) {
+                break;
+            }
+            sleep(1);
+        }
+
+        for ($second = 0; $second < $waitDisappear; $second++) {
+            if (!$this->isElementPresent(Mage_Selenium_TestCase::xpathLoadingHolder)) {
+                break;
+            }
+            sleep(1);
+        }
+
+        return $this;
     }
 
     /**
