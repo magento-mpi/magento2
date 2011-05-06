@@ -467,14 +467,13 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
                 if ($taxOnOrigPrice) {
                     $storeTax           = $calc->calcTaxAmount($origSubtotal, $storeRate, true, false);
                     $baseStoreTax       = $calc->calcTaxAmount($baseOrigSubtotal, $storeRate, true, false);
-                    $subtotal       = $calc->round($origSubtotal - $storeTax);
-                    $baseSubtotal   = $calc->round($baseOrigSubtotal - $baseStoreTax);
                 } else {
                     $storeTax           = $calc->calcTaxAmount($subtotal, $storeRate, true, false);
                     $baseStoreTax       = $calc->calcTaxAmount($baseSubtotal, $storeRate, true, false);
-                    $subtotal       = $calc->round($subtotal - $storeTax);
-                    $baseSubtotal   = $calc->round($baseSubtotal - $baseStoreTax);
                 }
+                $subtotal       = $calc->round($subtotal - $storeTax);
+                $baseSubtotal   = $calc->round($baseSubtotal - $baseStoreTax);
+
                 $price          = $calc->round($subtotal/$qty);
                 $basePrice      = $calc->round($baseSubtotal/$qty);
 
