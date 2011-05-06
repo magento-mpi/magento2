@@ -225,7 +225,9 @@ Product view
                     <action method="addToParentGroup"><group>detailed_info</group></action>
                 </block>
                 <block type="catalog/product_view" name="product.info.addto" as="addto" template="catalog/product/view/addto.phtml"/>
-                <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml"/>
+                <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml">
+                    <block type="catalog/product_view" name="product.info.addtowishlist" as="addto_wishlist" template="catalog/product/view/addtowishlist.phtml" />
+                </block>
 
                 <block type="core/text_list" name="product.info.extrahint" as="extrahint" translate="label">
                     <label>Product View Extra Hint</label>
