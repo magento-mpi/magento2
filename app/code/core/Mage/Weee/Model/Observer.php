@@ -110,7 +110,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
             );
             $tableWeeDiscount = Mage::getSingleton('weee/tax')->getResource()->getTable('weee/discount');
             $select->joinLeft(
-                array('_discount_percent' => $tableWeeDiscount),
+                array('discount_percent' => $tableWeeDiscount),
                 implode(' AND ', $joinConditions),
                 array()
             );
@@ -134,14 +134,14 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         foreach ($attributes as $attribute) {
             $attributeId = (int)Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, $attribute);
             $tableAlias  = sprintf('weee_%s_table', $attribute);
-
-            $attributeSelect = $this->_getSelect();
+            $quotedTableAlias = $select->getAdapter()->quoteTableAs($tableAlias, null);
+            $attributeSelect  = $this->_getSelect();
             $attributeSelect
                 ->from(array($tableAlias => Mage::getSingleton('weee/tax')->getResource()->getTable('weee/tax')))
-                ->where("{$tableAlias}.attribute_id = ?", $attributeId)
-                ->where("{$tableAlias}.website_id IN(?)", array($websiteId, 0))
-                ->where("{$tableAlias}.country = ?", $rateRequest->getCountryId())
-                ->where("{$tableAlias}.state IN(?)", array($rateRequest->getRegionId(), '*'))
+                ->where("{$quotedTableAlias}.attribute_id = ?", $attributeId)
+                ->where("{$quotedTableAlias}.website_id IN(?)", array($websiteId, 0))
+                ->where("{$quotedTableAlias}.country = ?", $rateRequest->getCountryId())
+                ->where("{$quotedTableAlias}.state IN(?)", array($rateRequest->getRegionId(), '*'))
                 ->limit(1);
 
             $order = array(
@@ -150,7 +150,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
             );
             $attributeSelect->order($order);
 
-            $joinCondition = sprintf('%s.entity_id = %s.entity_id', $table, $tableAlias);
+            $joinCondition = sprintf('%s.entity_id = %s.entity_id', $table, $quotedTableAlias);
             $select->joinLeft(
                 array($tableAlias => $attributeSelect),
                 $joinCondition,
