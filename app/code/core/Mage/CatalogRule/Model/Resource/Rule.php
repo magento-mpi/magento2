@@ -34,7 +34,7 @@
  */
 class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abstract
 {
-    const SECONDS_IN_DAY= 86400;
+    const SECONDS_IN_DAY = 86400;
 
     /**
      * Initialize main table and table id field
@@ -274,8 +274,10 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             }
 
             $select->joinInner(
-                array('product_website'=>$this->getTable('catalog/product_website')),
-                'product_website.product_id=rp.product_id AND rp.website_id=product_website.website_id AND product_website.website_id='.$websiteId,
+                array('product_website' => $this->getTable('catalog/product_website')),
+                'product_website.product_id=rp.product_id ' .
+                'AND rp.website_id=product_website.website_id ' .
+                'AND product_website.website_id='.$websiteId,
                 array()
             );
 
@@ -356,6 +358,8 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         if ($clearOldData) {
             $this->deleteOldData($fromDate, $productId);
         }
+
+        $dayPrices  = array();
 
         try {
             /**
