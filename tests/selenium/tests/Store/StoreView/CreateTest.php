@@ -45,9 +45,11 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      */
     protected function assertPreConditions()
     {
-        $this->assertTrue($this->loginAdminUser());
+        $this->loginAdminUser();
         $this->assertTrue($this->admin());
-        $this->assertTrue($this->navigate('manage_stores'));
+        $this->navigate('manage_stores');
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'Wrong page is opened');
     }
 
     /**
@@ -69,9 +71,8 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
     {
         $this->assertTrue($this->clickButton('create_store_view'),
                 'There is no "Create Store View" button on the page');
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('new_store_view'),
-//                'Wrong page is displayed');
+        $this->assertTrue($this->checkCurrentPage('new_store_view'),
+                'Wrong page is opened');
         $this->assertTrue($this->controlIsPresent('button', 'back'),
                 'There is no "Back" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'save_store_view'),
@@ -96,20 +97,24 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      * Store View is created.
      *
      * Success Message is displayed
+     *
+     * @depends test_Navigation
      */
     public function test_WithRequiredFieldsOnly()
     {
         //Data
-        $storeViewData = $this->loadData('generic_store_view');
+        $storeViewData = $this->loadData('generic_store_view',
+                        NULL, array('store_view_name', 'store_view_code'));
         //Steps
         $this->clickButton('create_store_view');
         $this->fillForm($storeViewData);
-        $this->clickButton('save_store_view');
+        $this->saveForm('save_store_view');
         //Verifying
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('manage_stores'),
-//                'After successful creation store view should be redirected to Manage Stores page');
         $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
+
+        return $storeViewData;
     }
 
     /**
@@ -133,26 +138,24 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      *
      * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithCodeThatAlreadyExists()
+    public function test_WithCodeThatAlreadyExists(array $storeViewData)
     {
-        //Data
-        $storeViewData = $this->loadData('generic_store_view');
         //Steps
         $this->clickButton('create_store_view');
         $this->fillForm($storeViewData);
-        $this->clickButton('save_store_view');
+        $this->saveForm('save_store_view');
         //Verifying
         $this->assertTrue($this->errorMessage('store_view_code_exist'), $this->messages);
     }
 
     /**
-     * Create Store View. Fill in all required fields except the field "Name".
+     * Create Store View. Fill in  required fields except one field.
      *
      * Steps:
      *
      * 1. Click 'Create Store View' button.
      *
-     * 2. Fill in required fields except the field "Name".
+     * 2. Fill in required fields except one field.
      *
      * 3. Click 'Save Store View' button.
      *
@@ -161,51 +164,34 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      * Store View is not created.
      *
      * Error Message is displayed.
+     *
+     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider data_EmptyField
      */
-    public function test_WithRequiredFieldsEmpty_EmptyName()
+    public function test_WithRequiredFieldsEmpty($emptyField)
     {
         //Data
-        $storeViewData = $this->loadData('generic_store_view',
-                        array('store_view_name' => null), 'store_view_code');
+        $storeViewData = $this->loadData('generic_store_view', $emptyField);
         //Steps
         $this->clickButton('create_store_view');
         $this->fillForm($storeViewData);
-        $this->clickButton('save_store_view');
+        $this->saveForm('save_store_view');
         //Verifying
-        $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->findField('store_view_name');
-        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
+        $page = $this->getUimapPage('admin', 'new_store_view');
+        foreach ($emptyField as $key => $value) {
+            $xpath = $page->findField($key);
+            $this->addParameter('fieldXpath', $xpath);
+        }
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    /**
-     * Create Store View. Fill in all required fields except the field "Code".
-     *
-     * Steps:
-     *
-     * 1. Click 'Create Store View' button.
-     *
-     * 2. Fill in required fields except the field "Code".
-     *
-     * 3. Click 'Save Store View' button.
-     *
-     * Expected result:
-     *
-     * Store View is not created.
-     *
-     * Error Message is displayed.
-     */
-    public function test_WithRequiredFieldsEmpty_EmptyCode()
+    public function data_EmptyField()
     {
-        //Data
-        $storeViewData = $this->loadData('generic_store_view', array('store_view_code' => null));
-        //Steps
-        $this->clickButton('create_store_view');
-        $this->fillForm($storeViewData);
-        $this->clickButton('save_store_view');
-        //Verifying
-        $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->findField('store_view_code');
-        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
+        return array(
+            array(array('store_view_name' => '')),
+            array(array('store_view_code' => '')),
+        );
     }
 
     /**
@@ -224,29 +210,32 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      * Store View is created. Success Message is displayed.
      *
      * Length of field "Name" is 255 characters. Length of field "Code" is 32 characters.
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithLongValues()
     {
         //Data
         $longValues = array(
             'store_view_name' => $this->generate('string', 255, ':alnum:'),
-            'store_view_code' => $this->generate('string', 32, array(':lower:'))
+            'store_view_code' => $this->generate('string', 32, ':lower:')
         );
         $storeViewData = $this->loadData('generic_store_view', $longValues);
         //Steps
         $this->clickButton('create_store_view');
         $this->fillForm($storeViewData);
-        $this->clickButton('save_store_view');
+        $this->saveForm('save_store_view');
         //Verifying
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('manage_stores'),
-//                'After successful creation store view should be redirected to Manage Stores page');
         $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
 //        @TODO
-//        $this->searchAndOpen($searchData);
+//        $this->searchAndOpen($longValues);
+//        $page = $this->getCurrentLocationUimapPage();
 //        foreach ($longValues as $key => $value) {
-//            $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findField($key);
-//            $this->assertEquals(strlen($this->getValue($xpathName)), 255);
+//            $xpath = $page->findField($key);
+//            $this->assertEquals($longValues[$key], $this->getValue('//' . $xpath),
+//                    "The stored value for '$key' field is not equal to specified");
 //        }
     }
 
@@ -268,26 +257,25 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      * Store View is created.
      *
      * Success Message is displayed
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSpecialCharacters_InName()
     {
         //Data
         $storeViewData = $this->loadData(
                         'generic_store_view',
-                        array(
-                            'store_view_name' => $this->generate('string', 32, ':punct:')
-                        ),
+                        array('store_view_name' => $this->generate('string', 32, ':punct:')),
                         'store_view_code'
         );
         //Steps
         $this->clickButton('create_store_view');
         $this->fillForm($storeViewData);
-        $this->clickButton('save_store_view');
+        $this->saveForm('save_store_view');
         //Verifying
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('manage_stores'),
-//                'After successful creation store view should be redirected to Manage Stores page');
         $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
     }
 
     /**
@@ -308,6 +296,8 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      * Store View is not created.
      *
      * Error Message is displayed.
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSpecialCharacters_InCode()
     {
@@ -317,7 +307,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('create_store_view');
         $this->fillForm($storeViewData);
-        $this->clickButton('save_store_view');
+        $this->saveForm('save_store_view');
         //Verifying
         $this->assertTrue($this->errorMessage('wrong_store_view_code'), $this->messages);
     }
@@ -342,6 +332,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
      * Error Message is displayed.
      *
      * @dataProvider data_InvalidCode
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithInvalidCode($invalidCode)
     {
@@ -350,7 +341,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('create_store_view');
         $this->fillForm($storeViewData);
-        $this->clickButton('save_store_view');
+        $this->saveForm('save_store_view');
         //Verifying
         $this->assertTrue($this->errorMessage('wrong_store_view_code'), $this->messages);
     }

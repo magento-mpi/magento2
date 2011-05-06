@@ -45,9 +45,11 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
      */
     protected function assertPreConditions()
     {
-        $this->assertTrue($this->loginAdminUser());
+        $this->loginAdminUser();
         $this->assertTrue($this->admin());
-        $this->assertTrue($this->navigate('manage_stores'));
+        $this->navigate('manage_stores');
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'Wrong page is opened');
     }
 
     /**
@@ -69,9 +71,8 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
     {
         $this->assertTrue($this->clickButton('create_website'),
                 'There is no "Create Website" button on the page');
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('new_website'),
-//                'Wrong page is displayed');
+        $this->assertTrue($this->checkCurrentPage('new_website'),
+                'Wrong page is opened');
         $this->assertTrue($this->controlIsPresent('button', 'back'),
                 'There is no "Back" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'save_website'),
@@ -96,20 +97,24 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
      * Website is created.
      *
      * Success Message is displayed
+     *
+     * @depends test_Navigation
      */
     public function test_WithRequiredFieldsOnly()
     {
         //Data
-        $websiteData = $this->loadData('generic_website');
+        $websiteData = $this->loadData('generic_website',
+                        NULL, array('website_name', 'website_code'));
         //Steps
         $this->clickButton('create_website');
         $this->fillForm($websiteData);
-        $this->clickButton('save_website');
+        $this->saveForm('save_website');
         //Verifying
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('manage_stores'),
-//                'After successful creation website should be redirected to Manage Stores page');
         $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
+
+        return $websiteData;
     }
 
     /**
@@ -133,26 +138,24 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
      *
      * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithCodeThatAlreadyExists()
+    public function test_WithCodeThatAlreadyExists(array $websiteData)
     {
-        //Data
-        $websiteData = $this->loadData('generic_website');
         //Steps
         $this->clickButton('create_website');
         $this->fillForm($websiteData);
-        $this->clickButton('save_website');
+        $this->saveForm('save_website');
         //Verifying
         $this->assertTrue($this->errorMessage('website_code_exist'), $this->messages);
     }
 
     /**
-     * Create Website. Fill in all required fields except the field "Name".
+     * Create Website. Fill in all required fields except one field.
      *
      * Steps:
      *
      * 1. Click 'Create Website' button.
      *
-     * 2. Fill in required fields except the field "Name".
+     * 2. Fill in required fields except one field.
      *
      * 3. Click 'Save Website' button.
      *
@@ -161,51 +164,34 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
      * Website is not created.
      *
      * Error Message is displayed.
+     *
+     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider data_EmptyField
      */
-    public function test_WithRequiredFieldsEmpty_EmptyName()
+    public function test_WithRequiredFieldsEmpty($emptyField)
     {
         //Data
-        $websiteData = $this->loadData('generic_website',
-                        array('website_name' => NULL), 'website_code');
+        $websiteData = $this->loadData('generic_website', $emptyField);
         //Steps
         $this->clickButton('create_website');
         $this->fillForm($websiteData);
-        $this->clickButton('save_website');
+        $this->saveForm('save_website');
         //Verifying
-        $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->findField('website_name');
-        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
+        $page = $this->getUimapPage('admin', 'new_website');
+        foreach ($emptyField as $key => $value) {
+            $xpath = $page->findField($key);
+            $this->addParameter('fieldXpath', $xpath);
+        }
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    /**
-     * Create Website. Fill in all required fields except the field "Code".
-     *
-     * Steps:
-     *
-     * 1. Click 'Create Website' button.
-     *
-     * 2. Fill in required fields except the field "Code".
-     *
-     * 3. Click 'Save Website' button.
-     *
-     * Expected result:
-     *
-     * Website is not created.
-     *
-     * Error Message is displayed.
-     */
-    public function test_WithRequiredFieldsEmpty_EmptyCode()
+    public function data_EmptyField()
     {
-        //Data
-        $websiteData = $this->loadData('generic_website', array('website_code' => NULL));
-        //Steps
-        $this->clickButton('create_website');
-        $this->fillForm($websiteData);
-        $this->clickButton('save_website');
-        //Verifying
-        $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->findField('website_code');
-        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
+        return array(
+            array(array('website_name' => '')),
+            array(array('website_code' => '')),
+        );
     }
 
     /**
@@ -224,30 +210,33 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
      * Website is created. Success Message is displayed.
      *
      * Length of field "Name" is 255 characters. Length of field "Code" is 32 characters.
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithLongValues()
     {
         //Data
         $longValues = array(
             'website_name' => $this->generate('string', 255, ':alnum:'),
-            'website_code' => $this->generate('string', 32, array(':lower:'))
+            'website_code' => $this->generate('string', 32, ':lower:')
         );
         $websiteData = $this->loadData('generic_website', $longValues);
         //Steps
         $this->clickButton('create_website');
         $this->fillForm($websiteData);
-        $this->clickButton('save_website');
+        $this->saveForm('save_website');
         //Verifying
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('manage_stores'),
-//                'After successful creation website should be redirected to Manage Stores page');
         $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
 //        @TODO
-//        $this->searchAndOpen($searchData);
-//        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findField('website_name');
-//        $this->assertEquals(strlen($this->getValue($xpathName)), 255);
-//        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findField('website_code');
-//        $this->assertEquals(strlen($this->getValue($xpathName)), 32);
+//        $this->searchAndOpen($longValues);
+//        $page = $this->getCurrentLocationUimapPage();
+//        foreach ($longValues as $key => $value) {
+//            $xpath = $page->findField($key);
+//            $this->assertEquals($longValues[$key], $this->getValue('//' . $xpath),
+//                    "The stored value for '$key' field is not equal to specified");
+//        }
     }
 
     /**
@@ -268,6 +257,8 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
      * Website is created.
      *
      * Success Message is displayed
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSpecialCharacters_InName()
     {
@@ -278,44 +269,11 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('create_website');
         $this->fillForm($websiteData);
-        $this->clickButton('save_website');
+        $this->saveForm('save_website');
         //Verifying
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('manage_stores'),
-//                'After successful creation website should be redirected to Manage Stores page');
         $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
-    }
-
-    /**
-     * Create Website.  Fill in field 'Code' by using special characters.
-     *
-     * Steps:
-     *
-     * 1. Click 'Create Website' button.
-     *
-     * 2. Fill in 'Code' field by special characters.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Website' button.
-     *
-     * Expected result:
-     *
-     * Website is not created.
-     *
-     * Error Message is displayed.
-     */
-    public function test_WithSpecialCharacters_InCode()
-    {
-        //Data
-        $websiteData = $this->loadData('generic_website',
-                        array('website_code' => $this->generate('string', 32, ':punct:')));
-        //Steps
-        $this->clickButton('create_website');
-        $this->fillForm($websiteData);
-        $this->clickButton('save_website');
-        //Verifying
-        $this->assertTrue($this->errorMessage('wrong_website_code'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
     }
 
     /**
@@ -338,6 +296,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
      * Error Message is displayed.
      *
      * @dataProvider data_InvalidCode
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithInvalidCode($invalidCode)
     {
@@ -346,7 +305,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('create_website');
         $this->fillForm($websiteData);
-        $this->clickButton('save_website');
+        $this->saveForm('save_website');
         //Verifying
         $this->assertTrue($this->errorMessage('wrong_website_code'), $this->messages);
     }
@@ -356,7 +315,8 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         return array(
             array(array('website_code' => 'invalid code')),
             array(array('website_code' => 'Invalid_code2')),
-            array(array('website_code' => '2invalid_code2'))
+            array(array('website_code' => '2invalid_code2')),
+            array(array('website_code' => $this->generate('string', 32, ':punct:')))
         );
     }
 
@@ -370,6 +330,8 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
      * 2. Create first store
      *
      * 3. Create second store
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSeveralStores_AssignedToOneRootCategory()
     {
@@ -380,9 +342,11 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('create_website');
         $this->fillForm($websiteData);
-        $this->clickButton('save_website');
+        $this->saveForm('save_website');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
         //1.2.Create two stores
         for ($i = 1; $i <= 2; $i++) {
             //Data
@@ -391,9 +355,11 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
             //Steps
             $this->clickButton('create_store');
             $this->fillForm($storeData);
-            $this->clickButton('save_store');
+            $this->saveForm('save_store');
             //Verifying
             $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+            $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                    'After successful creation store view should be redirected to Manage Stores page');
         }
     }
 
@@ -409,6 +375,8 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
      * 3. Create first store view
      *
      * 4. Create second store view
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSeveralStoresViewsInOneStore()
     {
@@ -419,9 +387,11 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('create_website');
         $this->fillForm($websiteData);
-        $this->clickButton('save_website');
+        $this->saveForm('save_website');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_website'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
         //1.2.Create store
         //Data
         $storeData = $this->loadData('generic_store',
@@ -429,9 +399,11 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('create_store');
         $this->fillForm($storeData);
-        $this->clickButton('save_store');
+        $this->saveForm('save_store');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store view should be redirected to Manage Stores page');
         //1.3.Create two store view
         for ($i = 1; $i <= 2; $i++) {
             //Data
@@ -441,7 +413,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase {
             //Steps
             $this->clickButton('create_store_view');
             $this->fillForm($storeViewData);
-            $this->clickButton('save_store_view');
+            $this->saveForm('save_store_view');
             //Verifying
             $this->assertTrue($this->successMessage('success_saved_store_view'), $this->messages);
         }
