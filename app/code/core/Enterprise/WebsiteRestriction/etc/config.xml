@@ -35,7 +35,7 @@
         <models>
             <enterprise_websiterestriction>
                 <class>Enterprise_WebsiteRestriction_Model</class>
-                <resourceModel>enterprise_websiterestriction_mysql4</resourceModel>
+                <resourceModel>enterprise_websiterestriction_resource</resourceModel>
             </enterprise_websiterestriction>
         </models>
         <blocks>
