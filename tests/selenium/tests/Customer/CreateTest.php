@@ -275,7 +275,6 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
             'email' => $this->generate('email', 128, 'valid'),
             'tax_vat_number' => $this->generate('string', 255, ':alnum:'),
             'password' => $this->generate('string', 255, ':alnum:'),
-            'send_welcome_email' => 'yes',
         );
         $userData = $this->loadData('generic_customer_account', $longValues);
         $searchData = $this->loadData('search_customer',
