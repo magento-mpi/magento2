@@ -6,6 +6,10 @@ cd $PWD/../
 
 . $BUILD_TOOLS/take-previous.sh
 
+if [ "$SB" == "" ]; then
+    exit
+fi
+
 if [ -d "$SB/websites" ]; then
     log "Copying websites..."
     cp -af "$SB/websites" ./$BUILD_NUMBER
