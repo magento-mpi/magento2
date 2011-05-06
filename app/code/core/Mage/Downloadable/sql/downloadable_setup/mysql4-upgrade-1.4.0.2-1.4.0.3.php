@@ -28,24 +28,22 @@
 $installer = $this;
 $adapter = $installer->getConnection();
 
-//set NULL to order_id column
-$adapter->query("
-    ALTER TABLE `{$installer->getTable('downloadable/link_purchased')}`
-        CHANGE COLUMN `order_id` `order_id` INT(10) UNSIGNED NULL DEFAULT '0'
-        AFTER `purchased_id`;
-");
-//set NULL to order_item_id column
-$adapter->query("
-    ALTER TABLE `{$installer->getTable('downloadable/link_purchased_item')}`
-        CHANGE COLUMN `order_item_id` `order_item_id` INT(10) UNSIGNED NULL DEFAULT '0'
-        AFTER `purchased_id`;
-");
+$adapter->modifyColumn(
+    $installer->getTable('downloadable/link_purchased'),
+    'order_id',
+    "INT(10) UNSIGNED NULL DEFAULT '0'"
+);
 
-
+$adapter->modifyColumn(
+    $installer->getTable('downloadable/link_purchased_item'),
+    'order_item_id',
+    "INT(10) UNSIGNED NULL DEFAULT '0'"
+);
 
 /**
  * Update order_id/order_item_id to NULL which contained invalid values
  */
+$adapter->beginTransaction();
 //update downloadable purchased data
 $select = $adapter->select()
     ->from(array('d' => $installer->getTable('downloadable/link_purchased')), array('purchased_id', 'purchased_id'))
@@ -54,14 +52,13 @@ $select = $adapter->select()
     ->where('o.entity_id IS NULL')
     ->where('d.order_id IS NOT NULL')
 ;
-$orderIds = $adapter->fetchPairs($select);
-if ($orderIds) {
+$ids = $adapter->fetchPairs($select);
+if ($ids) {
     $adapter->update($installer->getTable('downloadable/link_purchased'),
         array('order_id' => new Zend_Db_Expr('(NULL)')),
-        $adapter->quoteInto('purchased_id IN (?)', $orderIds)
+        $adapter->quoteInto('purchased_id IN (?)', $ids)
     );
 }
-
 //update downloadable purchased items data
 $select = $adapter->select()
     ->from(array('d' => $installer->getTable('downloadable/link_purchased_item')), array('item_id', 'item_id'))
@@ -70,27 +67,32 @@ $select = $adapter->select()
     ->where('o.item_id IS NULL')
     ->where('d.order_item_id IS NOT NULL')
 ;
-$orderItemIds = $adapter->fetchPairs($select);
-if ($orderItemIds) {
+$ids = $adapter->fetchPairs($select);
+if ($ids) {
     $adapter->update($installer->getTable('downloadable/link_purchased_item'),
         array('order_item_id' => new Zend_Db_Expr('(NULL)')),
-        $adapter->quoteInto('item_id IN (?)', $orderItemIds)
+        $adapter->quoteInto('item_id IN (?)', $ids)
     );
 }
+$adapter->commit();
 
 //add foreign keys
-$sql = "
-    ALTER TABLE `{$installer->getTable('downloadable/link_purchased')}`
-        ADD CONSTRAINT `FK_DOWNLOADABLE_LINK_ORDER_ID`
-        FOREIGN KEY (`order_id`) REFERENCES `{$installer->getTable('sales/order')}` (`entity_id`)
-        ON UPDATE CASCADE ON DELETE SET NULL;";
-$adapter->query($sql);
+$adapter->addConstraint(
+    'FK_DOWNLOADABLE_LINK_ORDER_ID',
+    $installer->getTable('downloadable/link_purchased'),
+    'order_id',
+    $installer->getTable('sales/order'),
+    'entity_id',
+    'set null'
+);
+$adapter->addConstraint(
+    'FK_DOWNLOADABLE_LINK_ORDER_ITEM_ID',
+    $installer->getTable('downloadable/link_purchased_item'),
+    'order_item_id',
+    $installer->getTable('sales/order_item'),
+    'item_id',
+    'set null'
+);
 
-$sql = "
-    ALTER TABLE `{$installer->getTable('downloadable/link_purchased_item')}`
-        ADD CONSTRAINT `FK_DOWNLOADABLE_LINK_ORDER_ITEM_ID`
-        FOREIGN KEY (`order_item_id`) REFERENCES `{$installer->getTable('sales/order_item')}` (`item_id`)
-        ON UPDATE CASCADE ON DELETE SET NULL;
-";
-$adapter->query($sql);
+
 
