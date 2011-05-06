@@ -37,6 +37,14 @@
 class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
 
     /**
+     * This method is called before the first test of this test class is run.
+     * 
+     */
+    protected function setUpBeforeTestRun()
+    {
+    }
+
+    /**
      * Preconditions:
      *
      * 1. Log in to Backend.
@@ -116,7 +124,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         // 2.Add Address and save
         $this->clickControl('tab', 'addresses', FALSE);
         $this->clickButton('add_new_address', FALSE);
-        $this->fillForm($addressData, 'addresses');
+        $this->assertTrue($this->fillForm($addressData, 'addresses'), $this->messages);
         $this->clickButton('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);

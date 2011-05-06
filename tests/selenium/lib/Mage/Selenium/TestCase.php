@@ -227,6 +227,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $this->_browserTimeoutPeriod = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
 
+        $this->setUpBeforeTestRun();
         parent::__construct($name, $data, $dataName, $browser);
         $this->setArea('frontend');
     }
@@ -273,6 +274,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $driver->start();
         $this->drivers[] = $driver;
         return $driver;
+    }
+
+    /**
+     * This method is called before the first test of this test class is run.
+     *
+     */
+    protected function setUpBeforeTestRun()
+    {
     }
 
     /**
@@ -659,7 +668,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Fill form with data
      *
-     * @param array $data
+     * @param array|string $data Array with data or datasource name
      * @return Mage_Selenium_TestCase
      */
     public function fillForm($data, $tabId = '')
@@ -697,8 +706,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
                             $elemXPath = $baseXpath . '//' . $fieldXPath;
-                            if (isset($data[$fieldKey]) && $this->isElementPresent($elemXPath)) {
-                                $this->addSelection($elemXPath, 'regexp:'.$data[$fieldKey]);
+                            if (isset($data[$fieldKey])) {
+                                if ($this->isElementPresent($elemXPath)) {
+                                    $this->addSelection($elemXPath, 'regexp:'.$data[$fieldKey]);
+                                } else {
+                                    throw new PHPUnit_Framework_Exception("Can't find multiselect '{$fieldKey} : {$elemXPath}'");
+                                }
                             }
                         }
                     }
@@ -707,8 +720,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
                             $elemXPath = $baseXpath . '//' . $fieldXPath;
-                            if (isset($data[$fieldKey]) && $this->isElementPresent($elemXPath)) {
-                                $this->select($elemXPath, 'regexp:'.$data[$fieldKey]);
+                            if (isset($data[$fieldKey])) {
+                                if ($this->isElementPresent($elemXPath)) {
+                                    $this->select($elemXPath, 'regexp:'.$data[$fieldKey]);
+                                } else {
+                                    throw new PHPUnit_Framework_Exception("Can't find dropdown '{$fieldKey} : {$elemXPath}'");
+                                }
                             }
                         }
                     }
@@ -717,11 +734,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
                             $elemXPath = $baseXpath . '//' . $fieldXPath;
-                            if (isset($data[$fieldKey]) && $this->isElementPresent($elemXPath)) {
-                                if (strtolower($data[$fieldKey]) == 'yes') {
-                                    $this->check($elemXPath);
+                            if (isset($data[$fieldKey])) {
+                                if ($this->isElementPresent($elemXPath)) {
+                                    if (strtolower($data[$fieldKey]) == 'yes') {
+                                        $this->check($elemXPath);
+                                    } else {
+                                        $this->uncheck($elemXPath);
+                                    }
                                 } else {
-                                    $this->uncheck($elemXPath);
+                                    throw new PHPUnit_Framework_Exception("Can't find checkbox '{$fieldKey} : {$elemXPath}'");
                                 }
                             }
                         }
@@ -731,11 +752,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
                             $elemXPath = $baseXpath . '//' . $fieldXPath;
-                            if (isset($data[$fieldKey]) && $this->isElementPresent($elemXPath)) {
-                                if (strtolower($data[$fieldKey]) == 'yes') {
-                                    $this->check($elemXPath);
+                            if (isset($data[$fieldKey])) {
+                                if ($this->isElementPresent($elemXPath)) {
+                                    if (strtolower($data[$fieldKey]) == 'yes') {
+                                        $this->check($elemXPath);
+                                    } else {
+                                        $this->uncheck($elemXPath);
+                                    }
                                 } else {
-                                    $this->uncheck($elemXPath);
+                                    throw new PHPUnit_Framework_Exception("Can't find rediobutton '{$fieldKey} : {$elemXPath}'");
                                 }
                             }
                         }
@@ -745,18 +770,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
                             $elemXPath = $baseXpath . '//' . $fieldXPath;
-                            if (isset($data[$fieldKey]) && $this->isElementPresent($elemXPath)) {
-                                $this->type($elemXPath, $data[$fieldKey]);
+                            if (isset($data[$fieldKey])) {
+                                if ($this->isElementPresent($elemXPath)) {
+                                    $this->type($elemXPath, $data[$fieldKey]);
+                                } else {
+                                    throw new PHPUnit_Framework_Exception("Can't find field '{$fieldKey} : {$elemXPath}'");
+                                }
                             }
                         }
                     }
                 }
             }
         } catch (PHPUnit_Framework_Exception $e) {
+            $this->messages['error'][] = $e->getMessage();
             $this->_error = true;
+            return false;
         }
 
-        return $this;
+        return true;
     }
 
     /**
