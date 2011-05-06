@@ -295,7 +295,7 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
     public function test_OnProductPage_WithRequiredFieldsOnly()
     {
         $this->assertTrue(
-                $this->navigate('manage_products')->clickButton('add_new_product')->navigated('new_product'),
+                $this->navigate('manage_products')->clickButton('add_new_product')->navigated('new_product_settings'),
                 'Wrong page is displayed'
         );
         $this->fillForm('product_create_settings_simple',null,null);

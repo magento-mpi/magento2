@@ -406,6 +406,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Check the current page
+     *
+     * @param string $page Page identifier
+     * @return boolean
+     */
+    public function checkCurrentPage($page)
+    {
+        return $this->findCurrentPageFromUrl($this->getLocation()) == $page;
+    }
+
+    /**
      * Return URL of a specified page
      *
      * @param string $page Page identifier
@@ -623,8 +634,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function fillForm($data, $tabId = '')
     {
+        if (is_string($data)) {
+            $data = $this->loadData($data);            
+        }
         if (!is_array($data)) {
-            throw new InvalidArgumentException('FillForm argument "$data" must be an array!!!');
+            throw new InvalidArgumentException('FillForm argument "data" must be an array!!!');
         }
 
         $page = $this->getCurrentLocationUimapPage();

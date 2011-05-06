@@ -102,7 +102,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     public function test_WithRequiredFieldsOnly()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account');
+        $userData = $this->loadData('generic_customer_account', array('email' => $this->generate('email', 20, 'valid')));
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
@@ -169,7 +169,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     public function test_WithRequiredFieldsEmpty_ExeptEmail($emptyFields)
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', $emptyFields, 'email');
+        $userData = $this->loadData('generic_customer_account', $emptyFields);
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
@@ -186,9 +186,9 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     public function data_EmptyField()
     {
         return array(
-            array(array('first_name' => null)),
-            array(array('last_name' => null)),
-            array(array('password' => null)),
+            array(array('first_name' => null, 'email' => $this->generate('email', 20, 'valid'))),
+            array(array('last_name' => null, 'email' => $this->generate('email', 20, 'valid'))),
+            array(array('password' => null, 'email' => $this->generate('email', 20, 'valid'))),
         );
     }
 
@@ -251,8 +251,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
                             'firs_name' => $this->generate('string', 32, ':punct:'),
                             'last_name' => $this->generate('string', 32, ':punct:'),
                             'password' => $this->generate('string', 32, ':punct:'),
-                        ),
-                        'email');
+                            'email' => $this->generate('email', 25, 'valid'),
+                        ));
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
@@ -386,7 +386,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     public function test_WithInvalidPassword()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', array('password' => '12345'), 'email');
+        $userData = $this->loadData('generic_customer_account', array('password' => '12345', 'email' => $this->generate('email', 20, 'valid')));
         //Steps
         $this->clickButton('add_new_customer');
         $this->fillForm($userData, 'account_information');
@@ -401,7 +401,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     public function test_WithAddress()
     {
         //Data
-        $userData = $this->loadData('all_fields_customer_account');
+        $userData = $this->loadData('all_fields_customer_account', array('email' => $this->generate('email', 20, 'valid')));
         $adressData = $this->loadData('all_fields_address');
         //Steps
         $this->clickButton('add_new_customer');
@@ -412,7 +412,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         //$this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => 1)));
         $this->fillForm($adressData, 'addresses');
         $this->clickButton('save_customer');
-        
+
         //Verifying
 //        $this->assertTrue($this->navigated('manage_customers'),
 //                'After successful customer creation should be redirected to Manage Customers page');

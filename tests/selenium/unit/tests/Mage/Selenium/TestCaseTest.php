@@ -99,6 +99,8 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($_testCaseInst->navigate('create_customer'));
 
         $this->assertNotNull($_testCaseInst->clickControl('button', 'save_customer', false));
+        $this->assertTrue($_testCaseInst->checkCurrentPage('create_customer'));
+        $this->assertFalse($_testCaseInst->checkCurrentPage('create_customer_bla_bla_bla'));
         $this->assertNotNull($_testCaseInst->clickControl('tab', 'addresses', false));
 
     }
@@ -285,7 +287,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($_testCaseInst->loginAdminUser());
         $this->assertNotNull($_testCaseInst->navigate('create_customer'));
 
-        $_formData = $_testCaseInst->loadData('generic_customer_account', array('email' => $this->_dataGenerator->generateEmailAddress()));
+        $_formData = $_testCaseInst->loadData('generic_customer_account', array('email' => $this->_config->getDataGenerator()->generateEmailAddress()));
         $_testCaseInst->click('//*[@id="add_address_button"]');
 
         $_testCaseInst->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number'=>1)));

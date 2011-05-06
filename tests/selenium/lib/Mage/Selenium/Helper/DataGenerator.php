@@ -130,12 +130,12 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
                         $email .= $this->generateRandomString($mainlength-1, ':alnum:', '.');
                         break;
                     case 2:
-                        $mainlength -= 2;
-                        $email .= $this->generateRandomString(ceil($mainlength/2)) . '..' . $this->generateRandomString(floor($mainlength/2));
+                        $ml = $mainlength - 2;
+                        $email .= $this->generateRandomString(ceil($ml/2)) . '..' . $this->generateRandomString(floor($ml/2));
                         break;
                     case 3:
-                        $mainlength -= 1;
-                        $email .= $this->generateRandomString(ceil($mainlength/2)) . '@' . $this->generateRandomString(floor($mainlength/2));
+                        $ml = $mainlength - 1;
+                        $email .= $this->generateRandomString(ceil($ml/2)) . '@' . $this->generateRandomString(floor($ml/2));
                         break;
                 }
                 break;
