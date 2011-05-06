@@ -4,7 +4,6 @@
 
 cd $PWD/../
 
-SKIP_IF_NEEDED=1
 . $BUILD_TOOLS/take-previous.sh
 
 ch_baseurl "current" $DB_NAME

@@ -8,10 +8,7 @@ if [[ -n $SB && -d $SB ]]; then
     SB_DB=${SB_DB_TEMP//-/_}
     echo 'SHOW DATABASES;' | mysql -u root | grep $SB_DB > /dev/null
     check_failure $?
-elif [[ $SKIP_IF_NEEDED -eq 1 ]]; then
-    log "Not found"
-    SB=""
 else
     log "Not found"
-    exit 1
+    SB=""
 fi
