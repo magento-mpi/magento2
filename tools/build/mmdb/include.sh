@@ -8,6 +8,8 @@ PHP_BIN="/usr/bin/php"
 BUILD_NAME="$1"
 BUILD_NUMBER="$2"
 
+BUILD_TYPE_ID="$4"
+
 if [ "$3" = 'oracle' ]
     then
         DB_NAME_PREFIX="b"

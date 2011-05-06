@@ -1,7 +1,7 @@
 #!/bin/bash
 
 log "Searching for last successful build..."
-SB=`wget -q -O - http://rest:gyroscope@kn.varien.com/teamcity/httpAuth/app/rest/buildTypes/id:$3/builds/status:SUCCESS/number`
+SB=`wget -q -O - http://rest:gyroscope@kn.varien.com/teamcity/httpAuth/app/rest/buildTypes/id:$BUILD_TYPE_ID/builds/status:SUCCESS/number`
 if [ -d $SB ]; then
     log "Searching for DB..."
     SB_DB_TEMP="builds-$BUILD_NAME-$SB"
