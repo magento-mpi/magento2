@@ -2,11 +2,10 @@
 
 . include.sh
 
-echo $PWD
+pwd
+exit 1
 
 cd $PWD/../../
-
-echo $BUILD_TOOLS
 
 . $BUILD_TOOLS/../take-previous.sh
 
