@@ -275,6 +275,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
             'email' => $this->generate('email', 128, 'valid'),
             'tax_vat_number' => $this->generate('string', 255, ':alnum:'),
             'password' => $this->generate('string', 255, ':alnum:'),
+            'send_welcome_email' => 'yes',
         );
         $userData = $this->loadData('generic_customer_account', $longValues);
         $searchData = $this->loadData('search_customer',
@@ -294,14 +295,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
         $this->clickControl('tab', 'account_information', FALSE);
         //Verifying
-        $page = $this->getUimapPage('admin', 'edit_customer');
-        $tab = $page->findTab('account_information');
-        unset($longValues['password']);
-        foreach ($longValues as $key => $value) {
-            $xpath = $tab->findField($key);
-            $this->assertEquals($value, $this->getValue('//' . $xpath),
-                    "The stored value for '$key' field is not equal to specified");
-        }
+        $this->assertTrue($this->verifyForm($longValues, 'account_information'), $this->messages);
     }
 
     /**
