@@ -64,9 +64,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $userData = $this->loadData('generic_customer_account',
                         array('email' => $this->generate('email', 20, 'valid')));
         //Steps
-        $this->clickButton('add_new_customer');
-        $this->fillForm($userData, 'account_information');
-        $this->saveForm('save_customer');
+        $this->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
@@ -107,16 +105,8 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
         $addressData = $this->loadData('generic_address_with_state');
         //Steps
-        // 1.Open customer
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
-        // Defining and adding %address_number% for customer Uimap
-        $this->addAddressNumber();
-        // 2.Add Address and save
-        $this->clickControl('tab', 'addresses', FALSE);
-        $this->clickButton('add_new_address', FALSE);
-        $this->fillForm($addressData, 'addresses');
+        $this->openCustomer($searchData);
+        $this->addAdress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
@@ -153,21 +143,13 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
      * @param array $emptyField
      * @param array $searchData
      */
-    public function test_WithRequiredFieldsEmpty($emptyField, $address, $searchData)
+    public function test_WithRequiredFieldsEmpty($emptyField, $searchData)
     {
         //Data
-        $addressData = $this->loadData($address, $emptyField);
+        $addressData = $this->loadData('generic_address_with_state', $emptyField);
         //Steps
-        // 1.Open customer
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
-        // Defining and adding %address_number% for customer Uimap
-        $this->addAddressNumber();
-        // 2.Add Address and save
-        $this->clickControl('tab', 'addresses', FALSE);
-        $this->clickButton('add_new_address', FALSE);
-        $this->fillForm($addressData, 'addresses');
+        $this->openCustomer($searchData);
+        $this->addAdress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         // Defining and adding %fieldXpath% for customer Uimap
@@ -178,7 +160,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
             if ($fieldSet->findField($key) != Null) {
                 $fieldXpath = $fieldSet->findField($key);
                 if (!$this->isElementPresent('//' . $fieldXpath)) {
-                    $fieldXpath = $fieldSet->findDropdown('state');
+                    $fieldXpath = $fieldSet->findDropdown($key);
                 }
             } else {
                 $fieldXpath = $fieldSet->findDropdown($key);
@@ -195,14 +177,14 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     public function data_emptyFields()
     {
         return array(
-            array(array('first_name' => ''), 'generic_address_with_state'),
-            array(array('last_name' => ''), 'generic_address_with_state'),
-            array(array('street_address_line_1' => ''), 'generic_address_with_state'),
-            array(array('city' => ''), 'generic_address_with_state'),
-            array(array('country' => ''), 'generic_address_with_region'),
-            array(array('state' => ''), 'generic_address_with_state'),
-            array(array('zip_code' => ''), 'generic_address_with_state'),
-            array(array('telephone' => ''), 'generic_address_with_state')
+            array(array('first_name' => '')),
+            array(array('last_name' => '')),
+            array(array('street_address_line_1' => '')),
+            array(array('city' => '')),
+            array(array('country' => '')),
+            array(array('state' => '')),
+            array(array('zip_code' => '')),
+            array(array('telephone' => ''))
         );
     }
 
@@ -232,7 +214,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     public function test_WithSpecialCharacters_ExeptCountry(array $searchData)
     {
         //Data
-        $longValues = array(
+        $specialCharacters = array(
             'prefix' => $this->generate('string', 32, ':punct:'),
             'first_name' => $this->generate('string', 32, ':punct:'),
             'middle_name' => $this->generate('string', 32, ':punct:'),
@@ -242,33 +224,22 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
             'street_address_line_1' => $this->generate('string', 32, ':punct:'),
             'street_address_line_2' => $this->generate('string', 32, ':punct:'),
             'city' => $this->generate('string', 32, ':punct:'),
-            'country' => 'Ukraine',
             'region' => $this->generate('string', 32, ':punct:'),
             'zip_code' => $this->generate('string', 32, ':punct:'),
             'telephone' => $this->generate('string', 32, ':punct:'),
             'fax' => $this->generate('string', 32, ':punct:')
         );
-        $addressData = $this->loadData('generic_address_with_region', $longValues);
+        $addressData = $this->loadData('generic_address_with_region', $specialCharacters);
         //Steps
-        // 1.Open customer
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
-        // Defining and adding %address_number% for customer Uimap
-        $this->addAddressNumber();
-        // 2.Add Address and save
-        $this->clickControl('tab', 'addresses', FALSE);
-        $this->clickButton('add_new_address', FALSE);
-        $this->fillForm($addressData, 'addresses');
+        $this->openCustomer($searchData);
+        $this->addAdress($addressData);
         $this->saveForm('save_customer');
         //Verifying #–1
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
-        // 3.Open customer
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
+        //Steps
+        $this->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);
         //Verifying #–2 - Check saved values
         $addressNumber = $this->isAddressPresent($addressData);
@@ -298,7 +269,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
      *
      * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithLongValues(array $searchData)
+    public function test_WithLongValues_ExeptCountry(array $searchData)
     {
         //Data
         $longValues = array(
@@ -311,7 +282,6 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
             'street_address_line_1' => $this->generate('string', 255, ':alnum:'),
             'street_address_line_2' => $this->generate('string', 255, ':alnum:'),
             'city' => $this->generate('string', 255, ':alnum:'),
-            'country' => 'Ukraine',
             'region' => $this->generate('string', 255, ':alnum:'),
             'zip_code' => $this->generate('string', 255, ':alnum:'),
             'telephone' => $this->generate('string', 255, ':alnum:'),
@@ -319,25 +289,15 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         );
         $addressData = $this->loadData('generic_address_with_region', $longValues);
         //Steps
-        // 1.Open customer
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
-        // Defining and adding %address_number% for customer Uimap
-        $this->addAddressNumber();
-        // 2.Add Address and save
-        $this->clickControl('tab', 'addresses', FALSE);
-        $this->clickButton('add_new_address', FALSE);
-        $this->fillForm($addressData, 'addresses');
+        $this->openCustomer($searchData);
+        $this->addAdress($addressData);
         $this->saveForm('save_customer');
         //Verifying #–1
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
-        // 3.Open customer
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
+        //Steps
+        $this->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);
         //Verifying #–2 - Check saved values
         $addressNumber = $this->isAddressPresent($addressData);
@@ -370,35 +330,23 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     public function test_WithDefaultBillingAddress(array $searchData)
     {
         //Data
-        $billingAddress = array(
-            'default_billing_address' => 'Yes',
-            'first_name' => $this->generate('string', 15, ':alnum:'),
-            'last_name' => $this->generate('string', 15, ':alnum:'),
-            'street_address_line_1' => $this->generate('string', 15, ':alnum:'),
-            'city' => $this->generate('string', 15, ':alnum:'),
-            'country' => 'Ukraine',
-            'region' => $this->generate('string', 15, ':alnum:'),
-            'zip_code' => $this->generate('string', 15, ':alnum:'),
-            'telephone' => $this->generate('string', 15, ':alnum:'),
-            'fax' => $this->generate('string', 15, ':alnum:')
-        );
-        $addressData = $this->loadData('generic_address_with_region', $billingAddress);
+        $addressData = $this->loadData('all_fields_address_with_state',
+                        array('default_billing_address' => 'Yes'));
         //Steps
         // 1.Open customer
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
-        // Defining and adding %address_number% for customer Uimap
-        $this->addAddressNumber();
-        // 2.Add Address and save
-        $this->clickControl('tab', 'addresses', FALSE);
-        $this->clickButton('add_new_address', FALSE);
-        $this->fillForm($addressData, 'addresses');
+        $this->openCustomer($searchData);
+        $this->addAdress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
+        //Steps
+        $this->openCustomer($searchData);
+        $this->clickControl('tab', 'addresses', FALSE);
+        //Verifying #–2 - Check saved values
+        $addressNumber = $this->isAddressPresent($addressData);
+        $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
     }
 
     /**
@@ -426,35 +374,22 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
      */
     public function test_WithDefaultShippingAddress(array $searchData)
     {
-        $shippingAddress = array(
-            'default_shipping_address' => 'Yes',
-            'first_name' => $this->generate('string', 15, ':alnum:'),
-            'last_name' => $this->generate('string', 15, ':alnum:'),
-            'street_address_line_1' => $this->generate('string', 15, ':alnum:'),
-            'city' => $this->generate('string', 15, ':alnum:'),
-            'country' => 'Ukraine',
-            'region' => $this->generate('string', 15, ':alnum:'),
-            'zip_code' => $this->generate('string', 15, ':alnum:'),
-            'telephone' => $this->generate('string', 15, ':alnum:'),
-            'fax' => $this->generate('string', 15, ':alnum:')
-        );
-        $addressData = $this->loadData('generic_address_with_region', $shippingAddress);
+        $addressData = $this->loadData('all_fields_address_with_region',
+                        array('default_shipping_address' => 'Yes'));
         //Steps
-        // 1.Open customer
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
-        // Defining and adding %address_number% for customer Uimap
-        $this->addAddressNumber();
-        // 2.Add Address and save
-        $this->clickControl('tab', 'addresses', FALSE);
-        $this->clickButton('add_new_address', FALSE);
-        $this->fillForm($addressData, 'addresses');
+        $this->openCustomer($searchData);
+        $this->addAdress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
+        //Steps
+        $this->openCustomer($searchData);
+        $this->clickControl('tab', 'addresses', FALSE);
+        //Verifying #–2 - Check saved values
+        $addressNumber = $this->isAddressPresent($addressData);
+        $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
     }
 
     /**
@@ -466,6 +401,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     /**
      * Verify that address is present.
      *
+     * PreConditions: Customer is opened on 'Addresses' tab.
      * @param array $addressData
      */
     public function isAddressPresent(array $addressData)
@@ -480,47 +416,69 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
             $arrayId = explode('_', $id);
             $id = end($arrayId);
             $this->addParameter('address_number', $id);
-            $page = $this->getCurrentUimapPage();
             $page->assignParams($this->_paramsHelper);
-            $fieldSet = $page->findFieldset('edit_address');
-            $res = 0;
-            foreach ($addressData as $key => $value) {
-                // Get Xpath
-                if ($fieldSet->findField($key) != Null) {
-                    $fieldXpath = $fieldSet->findField($key);
-                    $fieldType = 'field';
-                    if (!$this->isElementPresent('//' . $fieldXpath)) {
-                        $fieldXpath = $fieldSet->findDropdown('state');
-                        $fieldType = 'dropdown';
-                    }
-                } elseif ($fieldSet->findDropdown($key) != Null) {
-                    $fieldXpath = $fieldSet->findDropdown($key);
-                    $fieldType = 'dropdown';
-                }
-                // Get value
-                switch ($fieldType) {
-                    case 'field':
-                        $valueXpath = '//' . $fieldXpath;
-                        $text = $this->getValue($valueXpath);
-                        break;
-                    case 'dropdown':
-                        $valueXpath = '//' . $fieldXpath . '/option[@selected]';
-                        $text = $this->getText($valueXpath);
-                        break;
-                }
-                if ($value === $text) {
-                    $res++;
-                }
-            }
-            if ($res == count($addressData)) {
+            if ($this->verifyForm($addressData, 'addresses')) {
                 return $id;
             }
+//            $page = $this->getCurrentUimapPage();
+//            $page->assignParams($this->_paramsHelper);
+//            $tab = $page->findTab('addresses');
+//            $res = 0;
+//            foreach ($addressData as $key => $value) {
+//                // Get Xpath
+//                if ($tab->findField($key) != Null) {
+//                    $fieldXpath = $tab->findField($key);
+//                    $fieldType = 'field';
+//                    if (!$this->isElementPresent('//' . $fieldXpath)) {
+//                        echo "----------------------$key\n";
+//                        $fieldXpath = $tab->findDropdown('state');
+//                        $fieldType = 'dropdown';
+//                    }
+//                } elseif ($tab->findDropdown($key) != Null) {
+//                    $fieldXpath = $tab->findDropdown($key);
+//                    $fieldType = 'dropdown';
+//                } elseif ($tab->findRadiobutton($key) != Null) {
+//                    $fieldXpath = $tab->findRadiobutton($key);
+//                    $fieldType = 'radiobutton';
+//                }
+//                // Get value
+//                switch ($fieldType) {
+//                    case 'field':
+//                        $valueXpath = '//' . $fieldXpath;
+//                        $text = $this->getValue($valueXpath);
+//                        if ($value === $text) {
+//                            $res++;
+//                        }
+//                        break;
+//                    case 'dropdown':
+//                        $valueXpath = '//' . $fieldXpath;
+////                        $valueXpath = '//' . $fieldXpath . '/option[@selected]';
+//                        $text = $this->getSelectedLabels($valueXpath);
+//                        if ($value === $text) {
+//                            $res++;
+//                        }
+//                        break;
+//                    case 'radiobutton':
+//                        $valueXpath = '//' . $fieldXpath;
+//                        $f_val = $this->getValue($valueXpath);
+//                        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-------$f_val---------\n";
+//                        if (($f_val == 'on' && strtolower($value) == 'yes') || ($f_val == 'off' && (strtolower($value) == 'no' || $value == ''))) {
+//                            $res++;
+//                        }
+//                }
+//            }
+//            if ($res == count($addressData)) {
+//                echo "$id\n";
+//                return $id;
+//            }
         }
         return 0;
     }
 
     /**
-     * Defining and adding %address_number% for customer Uimap
+     * Defining and adding %address_number% for customer Uimap.
+     *
+     * PreConditions: Customer is opened on 'Addresses' tab.
      */
     public function addAddressNumber()
     {
@@ -529,6 +487,65 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $xpath = $fieldSet->getXPath();
         $addressCount = $this->getXpathCount('//' . $xpath . '//li') + 1;
         $this->addParameter('address_number', $addressCount);
+        $page->assignParams($this->_paramsHelper);
+    }
+
+    /**
+     * Add address for customer.
+     *
+     * PreConditions: Customer is opened.
+     * @param array $addressData
+     */
+    public function addAdress(array $addressData)
+    {
+        //Open 'Addresses' tab
+        $this->clickControl('tab', 'addresses', FALSE);
+        $this->addAddressNumber();
+        $this->clickButton('add_new_address', FALSE);
+        //Fill in 'Customer's Address' tab
+        $this->fillForm($addressData, 'addresses');
+    }
+
+    /**
+     * Create customer.
+     *
+     * PreConditions: 'Manage Customers' page is opened.
+     * @param array $userData
+     * @param array $addressData
+     */
+    public function createCustomer(array $userData, array $addressData = NULL)
+    {
+        //Click 'Add New Customer' button.
+        $this->clickButton('add_new_customer');
+        // Verify that 'send_from' field is present
+        if (array_key_exists('send_from', $userData)) {
+            $page = $this->getCurrentUimapPage();
+            $tab = $page->findTab('account_information');
+            $xpath = $tab->findDropdown('send_from');
+            if (!$this->isElementPresent('//' . $xpath)) {
+                unset($userData['send_from']);
+            }
+        }
+        //Fill in 'Account Information' tab
+        $this->fillForm($userData, 'account_information');
+        //Add address
+        if (isset($addressData)) {
+            $this->addAdress($addressData);
+        }
+        $this->saveForm('save_customer');
+    }
+
+    /**
+     * Open customer.
+     *
+     * PreConditions: 'Manage Customers' page is opened.
+     * @param array $searchData
+     */
+    public function openCustomer(array $searchData)
+    {
+        $this->clickButton('reset_filter', FALSE);
+        $this->pleaseWait();
+        $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
     }
 
 }

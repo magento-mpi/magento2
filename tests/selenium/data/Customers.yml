@@ -37,18 +37,19 @@ customer_account_register:
 generic_customer_account:
   associate_to_website: Main Website
   group: General
+  prefix:
   first_name: First Name
+  middle_name:
   last_name: Last Name
+  suffix:
   email: test_admin_1@example.com
+  date_of_birth:
+  tax_vat_number:
+  gender:
+  send_welcome_email:
+  send_from:
   password: 123123q
-
-customer_account_with_autopass:
-  associate_to_website: Main Website
-  group: General
-  first_name: First Name
-  last_name: Last Name
-  email: test_admin_2@example.com
-  auto_generated_password: Yes
+  auto_generated_password:
 
 all_fields_customer_account:
   associate_to_website: Main Website
@@ -58,7 +59,7 @@ all_fields_customer_account:
   middle_name: Middle Name
   last_name: Last Name
   suffix: Suffix
-  email: test_admin_user@example.com
+  email: test_admin_2@example.com
   date_of_birth: 12/12/1983
   tax_vat_number: 123123
   gender: Male
@@ -69,8 +70,12 @@ all_fields_customer_account:
 
 #Test data for Customer Addresses
 generic_address_with_state:
+  prefix:
   first_name: First Name
+  middle_name:
   last_name: Last Name
+  suffix:
+  company:
   street_address_line_1: 10441 Jefferson Blvd
   street_address_line_2: Suite 200
   city: Culver City
@@ -78,39 +83,29 @@ generic_address_with_state:
   state: California
   zip_code: 90232
   telephone: 530-918-3581
+  fax:
+  default_billing_address:
+  default_shipping_address:
 
 generic_address_with_region:
+  prefix:
   first_name: First Name
+  middle_name:
   last_name: Last Name
-  street_address_line_1: 10441 Jefferson Blvd
-  street_address_line_2: Suite 200
+  suffix:
+  company:
+  street_address_line_1: Lomonosova str.
+  street_address_line_2: Suite 81
   city: Kiev
   country: Ukraine
   region: Kievskaya
-  zip_code: 90232
-  telephone: 530-918-3581
-
-all_fields_address_with_region:
-  default_billing_address: Yes
-  default_shipping_address: Yes
-  prefix: Prefix
-  first_name: First Name
-  middle_name: Middle Name
-  last_name: Last Name
-  suffix: Suffix
-  company: Magento
-  street_address_line_1: 10441 Jefferson Blvd
-  street_address_line_2: Suite 200
-  city: Culver City
-  country: Ukraine
-  region: Kievskaya
-  zip_code: 90232
-  telephone: 530-918-3581
-  fax: 530-918-3581
+  zip_code: 03022
+  telephone: (044)-421-57-89
+  fax:
+  default_billing_address:
+  default_shipping_address:
 
 all_fields_address_with_state:
-  default_billing_address: Yes
-  default_shipping_address: Yes
   prefix: Prefix
   first_name: First Name
   middle_name: Middle Name
@@ -125,6 +120,26 @@ all_fields_address_with_state:
   zip_code: 90232
   telephone: 530-918-3581
   fax: 530-918-3581
+  default_billing_address: No
+  default_shipping_address: No
+
+all_fields_address_with_region:
+  prefix: Prefix
+  first_name: First Name
+  middle_name: Middle Name
+  last_name: Last Name
+  suffix: Suffix
+  company: Magento
+  street_address_line_1: Lomonosova str.
+  street_address_line_2: Suite 81
+  city: Kiev
+  country: Ukraine
+  region: Kievskaya
+  zip_code: 03022
+  telephone: (044)-421-57-89
+  fax: (044)-421-57-59
+  default_billing_address: No
+  default_shipping_address: No
 
 search_customer:
   id_from:
@@ -135,5 +150,5 @@ search_customer:
   telephone:
   zip_code:
   country:
-  state:
+  region:
   website: Main Website

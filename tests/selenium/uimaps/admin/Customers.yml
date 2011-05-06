@@ -202,8 +202,8 @@ edit_customer:
                     delete_address: li[@id='new_item%address_number%' or @id='address_item_%address_number%']//a[normalize-space(@class)='btn-remove-address']/img
                     edit_address: li[@id='new_item%address_number%' or @id='address_item_%address_number%']//a[normalize-space(@class)='select_button btn-edit-address']/img
                   radiobuttons:
-                    default_billing_address: input[@id='address_item_billing_item%address_number%']
-                    default_shipping_address: input[@id='address_item_shipping_item%address_number%']
+                    default_billing_address: input[@id='address_item_billing%address_number%' or @id='address_item_billing_item%address_number%']
+                    default_shipping_address: input[@id='address_item_shipping%address_number%' or @id='address_item_shipping_item%address_number%']
               -
                 edit_address:
                   xpath:  div[@id='_item%address_number%address_fieldset']
