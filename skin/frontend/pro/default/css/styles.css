@@ -1031,7 +1031,7 @@ tr.summary-details-excluded { font-style:italic; }
 .product-options-bottom .tier-prices .benefit { color:#f15d22; }
 .product-options-bottom .price-box { float:left; margin:0; padding:0; }
 .product-options-bottom .add-to-links { clear:both; padding:5px 0 0; text-align:right; }
-.product-options-bottom .price-tax { float:left; }
+.product-options-bottom .price-tax { display:block; }
 .product-options-bottom .add-to-cart { float:right; }
 .product-shop .product-options-bottom { margin:0 0 10px; }
 .product-shop .product-options-bottom .price-box { float:none; margin:0 0 5px; }
