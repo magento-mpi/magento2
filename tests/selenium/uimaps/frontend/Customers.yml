@@ -92,5 +92,5 @@ customer_account:
   title: My Account
   uimap:
     form:
-  messages:
-    success_registration: li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering')]
+    messages:
+      success_registration: li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering with Main Website Store.')]
