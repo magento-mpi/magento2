@@ -31,6 +31,7 @@ browsers:
     host    : '127.0.0.1'
     port    : 5555
     doNotKillBrowsers : false
+    browserTimeoutPeriod : 10000
 applications:
   magento-ce: &magento-ce
     frontendUrl : 'http://www.localhost.com/magento-trunk/'

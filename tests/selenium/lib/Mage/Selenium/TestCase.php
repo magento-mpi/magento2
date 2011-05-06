@@ -159,12 +159,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @var    array
      */
     protected $dependencyInput = array();
+
     /**
      * Timeout const
      *
      * @var int
      */
-    const timeoutPeriod = 10000;
+    protected $_brouserTimeoutPeriod = 10000;
 
     /**
      * Success message Xpath
@@ -214,6 +215,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($name !== NULL) {
             $this->name = $name;
         }
+
+        $this->_brouserTimeoutPeriod = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
+
         parent::__construct($name, $data, $dataName, $browser);
         $this->setArea('frontend');
     }
@@ -553,7 +557,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->click('//'.$xpath);
 
                 if ($willChangePage) {
-                    $this->waitForPageToLoad(self::timeoutPeriod);
+                    $this->waitForPageToLoad($this->_brouserTimeoutPeriod);
                     $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
                 }
             } catch (PHPUnit_Framework_Exception $e) {
@@ -715,7 +719,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 //        $this->clickButton('search');
 //
 //        try {
-//            $this->clickAndWait('//' . self::xpathEditLink, self::timeoutPeriod);
+//            $this->clickAndWait('//' . self::xpathEditLink, $this->_brouserTimeoutPeriod);
 //        } catch (PHPUnit_Framework_Exception $e) {
 //            $this->_error = true;
 //        }
@@ -790,7 +794,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 //                $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('id' => $id)));
                 // Open element
                 $this->click($xpathTR . "//td[normalize-space(text())='" . $data[array_rand($data)] . "']");
-                $this->waitForPageToLoad(self::timeoutPeriod);
+                $this->waitForPageToLoad($this->_brouserTimeoutPeriod);
                 $result = True;
             }
         } else {
@@ -987,7 +991,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         try {
             $this->frontend('customer_account');
             if ("My Account" == $this->getTitle()) {
-                $this->clickAndWait("//a[@title='Log Out']", self::timeoutPeriod);
+                $this->clickAndWait("//a[@title='Log Out']", $this->_brouserTimeoutPeriod);
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $this->_error = true;
@@ -1007,7 +1011,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if ("Dashboard / Magento Admin" !== $this->getTitle()) {
                 $this->type('username', $this->_sutHelper->getDefaultAdminUsername());
                 $this->type('login', $this->_sutHelper->getDefaultAdminPassword());
-                $this->clickAndWait("//input[@value='Login']", self::timeoutPeriod);
+                $this->clickAndWait("//input[@value='Login']", $this->_brouserTimeoutPeriod);
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $this->_error = true;
@@ -1102,7 +1106,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 echo "The confirmation does not appear\n";
             }
             if ($result) {
-                $this->waitForPageToLoad(self::timeoutPeriod);
+                $this->waitForPageToLoad($this->_brouserTimeoutPeriod);
             }
         } else {
             echo "There is no way to remove an item(There is no 'Delete' button)\n";
