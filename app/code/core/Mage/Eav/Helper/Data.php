@@ -29,6 +29,9 @@
  */
 class Mage_Eav_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * XML path to input types validator data in config
+     */
     const XML_PATH_VALIDATOR_DATA_INPUT_TYPES = 'general/validator_data/input_types';
 
     protected $_attributesLockedFields = array();
