@@ -1228,6 +1228,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->clickButton($buttonName, false);
         $this->waitForElement(array(self::xpathErrorMessage, self::xpathValidationMessage, self::xpathSuccessMessage));
+        $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
 
         return $this;
     }
