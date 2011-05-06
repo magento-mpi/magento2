@@ -423,8 +423,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             self::XML_PATH_SECURE_BASE_LINK_URL,
             $this->getStoreId()
         );
-        $maxRecipients = 0;
-        $allowGuest = 0;
+
+        $maxRecipients  = 0;
+        $allowGuest     = 0;
         if (Mage::getStoreConfig(Mage_Sendfriend_Helper_Data::XML_PATH_ENABLED)) {
             $maxRecipients = Mage::getStoreConfig(Mage_Sendfriend_Helper_Data::XML_PATH_MAX_RECIPIENTS);
             $allowGuest = Mage::getStoreConfig(Mage_Sendfriend_Helper_Data::XML_PATH_ALLOW_FOR_GUEST);

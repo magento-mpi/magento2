@@ -123,6 +123,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
     public function getAllThemes()
     {
         $result = array();
+
         foreach ($this->getThemes() as $theme) {
             $result[$theme->getName()] = $theme->getFormData();
         }

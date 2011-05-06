@@ -441,43 +441,48 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      */
     protected function _saveThemeAction($data, $paramId = 'saveTheme')
     {
-        try {
+//        try {
             $themeName = $this->getRequest()->getParam($paramId, false);
             if ($themeName) {
-                if ($themeName == Mage::helper('xmlconnect/theme')->getCustomThemeName()) {
-                    $theme = Mage::helper('xmlconnect/theme')->getThemeByName($themeName);
-                    if ($theme instanceof Mage_XmlConnect_Model_Theme) {
-                        if ($paramId == 'saveTheme') {
-                            $convertedConf = $this->_convertPost($data);
+//                if ($themeName == Mage::helper('xmlconnect/theme')->getCustomThemeName()) {
+                $theme = Mage::helper('xmlconnect/theme')->getThemeByName($themeName);
+                if ($theme instanceof Mage_XmlConnect_Model_Theme) {
+                    if ($paramId == 'saveTheme') {
+                        $convertedConf = $this->_convertPost($data);
+                    } else {
+                        if (isset($data['conf'])) {
+                            $convertedConf = $data['conf'];
                         } else {
-                            if (isset($data['conf'])) {
-                                $convertedConf = $data['conf'];
-                            } else {
-                                $response = array('error' => true, 'message' => $this->__('Cannot save theme "%s". Incorrect data received', $themeName));
-                            }
+                            $response = array(
+                                'error' => true,
+                                'message' => $this->__('Cannot save theme "%s". Incorrect data received', $themeName)
+                            );
                         }
+                    }
+                    if (!isset($response)) {
                         $theme->importAndSaveData($convertedConf);
                         $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
-                    } else {
-                        $response = array('error' => true, 'message' => $this->__('Cannot load theme "%s".', $themeName));
                     }
                 } else {
-                    $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
+                    $response = array('error' => true, 'message' => $this->__('Cannot load theme "%s".', $themeName));
                 }
+//                } else {
+//                    $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
+//                }
             } else {
                 $response = array('error' => true, 'message' => $this->__('Theme name is not set.'));
             }
-        } catch (Mage_Core_Exception $e) {
-            $response = array(
-                'error'     => true,
-                'message'   => $e->getMessage(),
-            );
-        } catch (Exception $e) {
-            $response = array(
-                'error'     => true,
-                'message'   => $this->__('Can\'t save theme.')
-            );
-        }
+//        } catch (Mage_Core_Exception $e) {
+//            $response = array(
+//                'error'     => true,
+//                'message'   => $e->getMessage(),
+//            );
+//        } catch (Exception $e) {
+//            $response = array(
+//                'error'     => true,
+//                'message'   => $this->__('Can\'t save theme.')
+//            );
+//        }
         if (is_array($response)) {
             $response = Mage::helper('core')->jsonEncode($response);
             $this->getResponse()->setBody($response);
@@ -530,9 +535,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      */
     public function resetThemeAction()
     {
-        $response = false;
         try {
-            Mage::helper('xmlconnect/theme')->resetAllThemes();
+            $theme = $this->getRequest()->getPost('theme', null);
+            Mage::helper('xmlconnect/theme')->resetTheme($theme);
             $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
         } catch (Mage_Core_Exception $e) {
             $response = array(
@@ -624,7 +629,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     protected function _previewAction($block)
     {
         $redirectBack = false;
-
         try {
             $deviceType = $this->getRequest()->getParam('devtype');
             $app = $this->_initApp('application_id', $deviceType);

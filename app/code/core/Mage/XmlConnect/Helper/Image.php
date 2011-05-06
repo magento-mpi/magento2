@@ -79,7 +79,8 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
         try {
             $this->_forcedConvertPng($field);
 
-            $uploader = new Mage_Core_Model_File_Uploader($field);
+            /** @var $uploader Mage_Core_Model_File_Uploader */
+            $uploader = Mage::getModel('core/file_uploader', $field);
             $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->save($uploadDir);

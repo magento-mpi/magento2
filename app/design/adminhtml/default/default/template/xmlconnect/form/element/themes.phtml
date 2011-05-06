@@ -36,20 +36,9 @@ $_imageHelper    = Mage::helper('xmlconnect/image');
 <script type="text/javascript">
 // <![CDATA[
 <?php
-    $themes = $this->getThemes();
-    $themeLabel = '';
-    $themeId = Mage::helper('xmlconnect')->getApplication()->getData('conf/extra/theme');
-    if (empty($themeId)) {
-        $themeId = $_themesHelper->getDefaultThemeName();
-    }
-    if (!empty($themeId)) {
-        foreach ($themes as $theme) {
-            if ($theme->getName() == $themeId) {
-                $themeLabel = $theme->getLabel();
-                break;
-            }
-        }
-    }
+    $themes     = $this->getThemes();
+    $themeId    = $_themesHelper->getThemeId();
+    $themeLabel = $_themesHelper->getThemeLabel($themes);
 ?>
 var currentTheme = '<?php echo $themeId; ?>';
 var visibleTheme = currentTheme;
@@ -209,8 +198,9 @@ function toggleBlock(block,link){
 
 function resetThemeChanges() {
     var actionUrl = '<?php echo $this->getResetThemeActionUrl() ?>';
+    currentTheme = visibleTheme;
     new Ajax.Request(actionUrl, {
-        parameters: {reset : 1},
+        parameters: {reset : 1, theme: visibleTheme},
         onSuccess: function(transport) {
             try {
                 response = transport.responseText;
@@ -222,7 +212,7 @@ function resetThemeChanges() {
                      } else {
                          mmColorThemes = responseJSON;
                          mmSetTheme(currentTheme);
-                         message = '<?php echo $this->__('Themes files were successfully reset.');?>';
+                         message = '<?php echo $this->__('Theme configurations are successfully reset.');?>';
                      }
                 } else {
                     message = '<?php echo $this->__('Unknown Error'); ?>';
@@ -236,8 +226,7 @@ function resetThemeChanges() {
 }
 
 function saveThemeChanges() {
-    customTheme = '<?php echo Mage::helper('xmlconnect/theme')->getCustomThemeName(); ?>';
-    var actionUrl = "<?php echo $this->getSaveThemeActionUrl() ?>" + 'saveTheme/' + customTheme;
+    var actionUrl = "<?php echo $this->getSaveThemeActionUrl() ?>" + 'saveTheme/' + visibleTheme;
     <?php
         $count = count($_themesHelper->getThemeAjaxParameters());
     ?>
@@ -258,7 +247,7 @@ function saveThemeChanges() {
                         message = responseJSON.message;
                      } else {
                          mmColorThemes = responseJSON;
-                         message = '<?php echo $this->__('Changes have been saved to "Custom Colors" theme.');?>';
+                         message = '<?php echo $this->__('Changes have been saved to theme.');?>';
                      }
                 } else {
                     message = '<?php echo $this->__('Unknown Error.'); ?>';
@@ -294,7 +283,9 @@ function saveThemeChanges() {
         </li>
     </ul>
     <div class="form-buttons" style="float:right">
-        <button type="button" class="scalable" style="margin: 0 2em 0 0" id="save_theme" onclick="saveTheme();"><span><?php echo $this->__('Save Theme'); ?></span></button>
+        <button type="button" class="scalable" style="margin: 0 2em 0 0" id="save_theme" onclick="saveTheme();">
+            <span><?php echo $this->__('Save Theme'); ?></span>
+        </button>
     </div>
     <br/><br/>
 </div>
@@ -307,7 +298,9 @@ $id2observe = array();
 ?>
 <?php foreach ($colorFieldset as $set) : ?>
 <tr><td colspan="2">
-<a href="javascript:void(0);" onclick="toggleBlock('<?php echo $set['id']; ?>', this);" class="a_color_block" style="display:block;"><strong><?php echo $set['label']; ?></strong></a>
+<a href="javascript:void(0);" onclick="toggleBlock('<?php echo $set['id']; ?>', this);" class="a_color_block" style="display:block;">
+    <strong><?php echo $set['label']; ?></strong>
+</a>
 </td></tr>
 <?php foreach ($set['fields'] as $field) : ?>
 
@@ -338,11 +331,15 @@ Event.observe(document, 'dom:loaded', function() {
 //]]>
 </script>
 
-<tr><td colspan="2">
-<div class="form-buttons">
-<button type="button" class="scalable back" style="margin: 0 2em 0 0" id="reset_theme" onclick="resetThemeChanges();"><span><?php echo $this->__('Reset all themes to default'); ?></span></button>
-</div>
-<br />
-</td>
 <tr>
-</td></tr>
+    <td colspan="2">
+    <div class="form-buttons">
+        <button type="button" class="scalable back" style="margin: 0 2em 0 0" id="reset_theme" onclick="resetThemeChanges();">
+            <span><?php echo $this->__('Reset theme to default'); ?></span>
+        </button>
+    </div>
+    <br />
+    </td>
+<tr>
+</td>
+</tr>

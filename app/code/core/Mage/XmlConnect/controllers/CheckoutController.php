@@ -42,7 +42,8 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     {
         parent::preDispatch();
         if (!Mage::getSingleton('customer/session')->isLoggedIn()
-            && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()) {
+            && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
+        ) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_message($this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR);
             return ;
@@ -435,7 +436,6 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             $error = $this->__('An error occurred while processing your order. Please contact us or try again later.');
         }
         $this->getOnepage()->getQuote()->save();
-
         $this->_message($error, self::MESSAGE_STATUS_ERROR);
     }
 }
