@@ -64,4 +64,17 @@ class Mage_Downloadable_Model_Link_Purchased extends Mage_Core_Model_Abstract
         parent::_construct();
     }
 
+    /**
+     * Check order id
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    public function _beforeSave()
+    {
+        if (null == $this->getOrderId()) {
+            throw new Exception('Order id cannot be null');
+        }
+        return parent::_beforeSave();
+    }
+
 }

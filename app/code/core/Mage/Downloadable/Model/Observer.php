@@ -62,6 +62,10 @@ class Mage_Downloadable_Model_Observer
     public function saveDownloadableOrderItem($observer)
     {
         $orderItem = $observer->getEvent()->getItem();
+        if (!$orderItem->getId()) {
+            //order not saved in the database
+            return $this;
+        }
         $product = $orderItem->getProduct();
         if ($product && $product->getTypeId() != Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
             return $this;
@@ -159,6 +163,12 @@ class Mage_Downloadable_Model_Observer
     public function setLinkStatus($observer)
     {
         $order = $observer->getEvent()->getOrder();
+
+        if (!$order->getId()) {
+            //order not saved in the database
+            return $this;
+        }
+
         /* @var $order Mage_Sales_Model_Order */
         $status = '';
         $orderItemsIds = array();
