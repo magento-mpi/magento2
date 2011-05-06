@@ -109,14 +109,15 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
      * Convert page MCA to page ID
      *
      * @param string page mca
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      * @return string Page identifier
      */
-    public function getPageByMca($mca)
+    public function getPageByMca($mca, $paramsDecorator = null)
     {
         if( !$this->_sutHelper )
             throw new Mage_Selenium_Exception("SutHelper hasn't inited yet");
 
-        return $this->_config->getUimapHelper()->getUimapPageByMca($this->_sutHelper->getArea(), $mca);
+        return $this->_config->getUimapHelper()->getUimapPageByMca($this->_sutHelper->getArea(), $mca, $paramsDecorator);
     }
 
 }

@@ -54,13 +54,21 @@ class Mage_Selenium_Uimap_Abstract
     protected $_elements_cache = array();
 
     /**
+     * Parameters helper instance
+     *
+     * @var Mage_Selenium_Helper_Params
+     */
+    protected $_params = null;
+
+    /**
      * Retrieve xpath of the current element
      *
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      * @return string|null
      */
-    public function getXPath()
+    public function getXPath($paramsDecorator = null)
     {
-        return $this->xPath;
+        return $this->applyParamsToString($this->xPath);
     }
 
     /**
@@ -74,7 +82,9 @@ class Mage_Selenium_Uimap_Abstract
 
     /**
      * Parser from native UIMap array to UIMap class hierarchy
+     * 
      * @param array Array with UIMap
+     * @return Mage_Selenium_Uimap_Abstract
      */
     protected function parseContainerArray(array &$container)
     {
@@ -97,28 +107,83 @@ class Mage_Selenium_Uimap_Abstract
                 }
             }
         }
+        
+        return $this;
+    }
+
+    /**
+     * Asign parameters decorator to uimap tree from any level
+     * 
+     * @param Mage_Selenium_Helper_Params $params Parameters decorator
+     * @return Mage_Selenium_Uimap_Abstract
+     */
+    public function assignParams($params)
+    {
+        $this->_params = $params;
+
+        foreach($this->_elements as $elem) {
+            if ($elem instanceof Mage_Selenium_Uimap_Abstract ||
+                $elem instanceof Mage_Selenium_Uimap_ElementsCollection
+            ) {
+                $elem->assignParams($params);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+    * Get parameters decorator 
+    * 
+    * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
+    * @return Mage_Selenium_Helper_Params|null
+    */
+    protected function getParams($paramsDecorator = null)
+    {
+        if ($paramsDecorator) {
+            return $paramsDecorator;
+        }
+        return $this->_params;
+    }
+
+    /**
+    * apply parameters decorator to string 
+    * 
+    * @param string $text
+    * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
+    * @return Mage_Selenium_Helper_Params|null
+    */
+    protected function applyParamsToString($text, $paramsDecorator = null)
+    {
+        $paramsDecorator = $this->getParams($paramsDecorator);
+        if($paramsDecorator) {
+            return $paramsDecorator->replaceParameters($text);
+        }
+        return $text;
     }
 
     /**
      * Internal recursive function
+     * 
      * @param string UIMap elements collection name
-     * @param Mage_Selenium_Uimap_ElementsCollection|Mage_Selenium_Uimap_Abstract UIMap container
-     * @param array Array with search results
+     * @param Mage_Selenium_Uimap_ElementsCollection|Mage_Selenium_Uimap_Abstract $container UIMap container
+     * @param array $cache Array with search results
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
      * @return array
      */
-    protected function __getElementsRecursive($elementsCollectionName, &$container, &$cache)
+    protected function __getElementsRecursive($elementsCollectionName, &$container, &$cache, $paramsDecorator = null)
     {
-        foreach($container as $elKey=>&$elValue) {
-            if($elValue instanceof ArrayObject) {
-                if( ($elementsCollectionName == 'tabs' && $elementsCollectionName == $elKey && $elValue instanceof Mage_Selenium_Uimap_TabsCollection) ||
+        foreach ($container as $elKey => &$elValue) {
+            if ($elValue instanceof ArrayObject) {
+                if (($elementsCollectionName == 'tabs' && $elementsCollectionName == $elKey && $elValue instanceof Mage_Selenium_Uimap_TabsCollection) ||
                     ($elementsCollectionName == 'fieldsets' && $elementsCollectionName == $elKey && $elValue instanceof Mage_Selenium_Uimap_FieldsetsCollection) ||
-                    $elKey==$elementsCollectionName && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection) {
+                    $elKey == $elementsCollectionName && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection) {
                     $cache = array_merge($cache, $elValue->getArrayCopy());
                 } else {
-                    $this->__getElementsRecursive($elementsCollectionName, $elValue, $cache);
+                    $this->__getElementsRecursive($elementsCollectionName, $elValue, $cache, $paramsDecorator);
                 }
             } elseif($elValue instanceof Mage_Selenium_Uimap_Abstract) {
-                $this->__getElementsRecursive($elementsCollectionName, $elValue->getElements(), $cache);
+                $this->__getElementsRecursive($elementsCollectionName, $elValue->getElements(), $cache, $paramsDecorator);
             }
         }
 
@@ -128,15 +193,17 @@ class Mage_Selenium_Uimap_Abstract
     /**
      * Search UIMap element by name on any level from current and deeper
      * This method uses a cache to save search results
+     * 
      * @param string UIMap elements collection name
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
      * @return array
      */
-    public function getAllElements($elementsCollectionName)
+    public function getAllElements($elementsCollectionName, $paramsDecorator = null)
     {
-        if(empty($this->_elements_cache[$elementsCollectionName])) {
+        if (empty($this->_elements_cache[$elementsCollectionName])) {
             $cache = array();
             $this->_elements_cache[$elementsCollectionName] = new Mage_Selenium_Uimap_ElementsCollection($elementsCollectionName,
-                    $this->__getElementsRecursive($elementsCollectionName, $this->_elements, $cache));
+                $this->__getElementsRecursive($elementsCollectionName, $this->_elements, $cache, $paramsDecorator), $paramsDecorator);
         }
 
         return $this->_elements_cache[$elementsCollectionName];
@@ -150,21 +217,21 @@ class Mage_Selenium_Uimap_Abstract
      * @return Mage_Selenium_Uimap_ElementsCollection|array|Null
      */
     public function __call($name, $arguments) {
-        if(preg_match('|^getAll(\w+)$|', $name)) {
+        if (preg_match('|^getAll(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 6));
-            if(!empty($elementName)) {
+            if (!empty($elementName)) {
                 return $this->getAllElements($elementName);
             }
-        }elseif(preg_match('|^get(\w+)$|', $name)) {
+        } elseif(preg_match('|^get(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 3));
-            if(!empty($elementName) && isset($this->_elements[$elementName])) {
+            if (!empty($elementName) && isset($this->_elements[$elementName])) {
                 return $this->_elements[$elementName];
             }
-        }elseif(preg_match('|^find(\w+)$|', $name)) {
+        } elseif(preg_match('|^find(\w+)$|', $name)) {
             $elementsCollectionName = strtolower(substr($name, 4)) . 's';
-            if(!empty($elementsCollectionName) && !empty($arguments)) {
+            if (!empty($elementsCollectionName) && !empty($arguments)) {
                 $elemetsColl = $this->getAllElements($elementsCollectionName);
-                return $elemetsColl->get($arguments[0]);
+                return $elemetsColl->get($arguments[0], $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
             }
         }
 

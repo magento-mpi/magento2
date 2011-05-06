@@ -31,6 +31,7 @@
  */
 class Mage_Selenium_UimapTest extends Mage_PHPUnit_TestCase
 {
+    const ERROR_REQUIRED_FIELD_MESSAGE = 'some-x-path/following-sibling::*[text()=\'This is a required field.\']';
 
     /**
      * Test UIMap helper
@@ -127,6 +128,40 @@ class Mage_Selenium_UimapTest extends Mage_PHPUnit_TestCase
         var_dump($uipage->getMainForm()->getTab('account_information')->findField('first_name'));
         var_dump($uipage->findMessage('success_saved_customer'));
         */
+    }
+
+    /**
+     * Test UIMap params helper
+     */
+    public function testUimapParams()
+    {
+        $uimapHelper = new Mage_Selenium_Helper_Uimap($this->_config);
+        $this->assertNotNull($uimapHelper);
+
+        $uipage = $uimapHelper->getUimapPage('admin', 'edit_admin_user');
+        $this->assertNotNull($uipage);
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+
+        $params = new Mage_Selenium_Helper_Params();
+        $params->setParameter('user_id', 1);
+        $params->setParameter('userName', 'Alex');
+        $params->setParameter('fieldXpath', 'some-x-path');
+
+        $uipage = $uimapHelper->getUimapPageByMca('admin', 'permissions_user/edit/user_id/100/', $params);
+        $this->assertNotNull($uipage);
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+
+        //$uipage->assignParams($params);
+
+        $this->assertEquals('permissions_user/edit/user_id/1/', $uipage->getMca());
+        $this->assertEquals('Alex / Users / Permissions / System / Magento Admin', $uipage->getTitle());
+
+        $this->assertEquals(self::ERROR_REQUIRED_FIELD_MESSAGE, $uipage->findMessage('error_required_field'));
+        $this->assertEquals(self::ERROR_REQUIRED_FIELD_MESSAGE, $uipage->getMessages()->get('error_required_field'));
+        
+        $messages = $uipage->getMessages();
+        $this->assertEquals(self::ERROR_REQUIRED_FIELD_MESSAGE, $messages['error_required_field']);
+
     }
 
 }

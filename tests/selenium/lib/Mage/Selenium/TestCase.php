@@ -125,46 +125,46 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * @var    array
      */
-    private $dependencies = array();
+    protected $dependencies = array();
     /**
      * Whether or not this test is running in a separate PHP process.
      *
      * @var    boolean
      */
-    private $inIsolation = FALSE;
+    protected $inIsolation = FALSE;
     /**
      * The name of the test case.
      *
      * @var    string
      */
-    private $name = NULL;
+    protected $name = NULL;
     /**
      * The name of the expected Exception.
      *
      * @var    mixed
      */
-    private $expectedException = NULL;
+    protected $expectedException = NULL;
 
     /**
      * The message of the expected Exception.
      *
      * @var    string
      */
-    private $expectedExceptionMessage = '';
+    protected $expectedExceptionMessage = '';
     /**
      * @var    array
      */
-    private $data = array();
+    protected $data = array();
     /**
      * @var    array
      */
-    private $dependencyInput = array();
+    protected $dependencyInput = array();
     /**
      * Timeout const
      *
      * @var int
      */
-    const timeoutPeriod = 30000;
+    const timeoutPeriod = 10000;
 
     /**
      * Success message Xpath
@@ -220,11 +220,29 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Append parameters decorator object
+     * 
      * @param Mage_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
      */
     public function appendParamsDecorator($paramsHelperObject)
     {
         $this->_paramsHelper = $paramsHelperObject;
+    }
+
+    /**
+     * Set parameter to decorator object instance
+     * 
+     * @param string $name   Parameter name
+     * @param string $value  Parameter value (null to unset)
+     * @param Mage_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
+     */
+    public function addParameter($name, $value)
+    {
+        if (!$this->_paramsHelper) {
+            $this->_paramsHelper = new Mage_Selenium_Helper_Params();
+        }
+        $this->_paramsHelper->setParameter($name, $value);
+
+        return $this->_paramsHelper;
     }
 
     /**
@@ -431,7 +449,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $mca = '';
 
         $currentUrl = preg_replace('|^http([s]{0,1})://|', '', str_replace('/index.php', '/', str_replace('index.php/', '', $currentUrl)));
-        $baseUrl = preg_replace('|^http([s]{0,1})://|', '', $baseUrl);
+        $baseUrl = preg_replace('|^http([s]{0,1})://|', '', str_replace('/index.php', '/', str_replace('index.php/', '', $baseUrl)));
 
         if(strpos($currentUrl, $baseUrl) !== false) {
             $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\");
@@ -472,7 +490,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getUimapPage($area, $pageKey)
     {
-        return $this->_uimapHelper->getUimapPage($area, $pageKey);
+        return $this->_uimapHelper->getUimapPage($area, $pageKey, $this->_paramsHelper);
     }
 
     /**
@@ -493,7 +511,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function getCurrentLocationUimapPage()
     {
         $mca = Mage_Selenium_TestCase::getMcaFromCurrentUrl($this->_sutHelper->getBaseUrl(), $this->getLocation());
-        return $this->_uimapHelper->getUimapPageByMca($this->getArea(), $mca);
+        return $this->_uimapHelper->getUimapPageByMca($this->getArea(), $mca, $this->_paramsHelper);
     }
 
     /**
@@ -505,7 +523,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _getControlXpath($controlType, $controlName)
     {
-        $uipage = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage());
+        $uipage = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage(), $this->_paramsHelper);
 
         $method = 'find' . ucfirst(strtolower($controlType));
 
@@ -513,10 +531,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         if (is_object($xpath) && method_exists($xpath, 'getXPath')) {
             $xpath = $xpath->getXPath();
-        }
-
-        if ($xpath && $this->_paramsHelper) {
-            $xpath = $this->_paramsHelper->replaceParameters($xpath);
         }
 
         return $xpath;
@@ -534,13 +548,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
 
-        if(!empty($xpath))
-        {
+        if (!empty($xpath)) {
             try {
                 $this->click('//'.$xpath);
+                echo $xpath."\n";
 
-                if($willChangePage)
-                {
+                if ($willChangePage) {
                     $this->waitForPageToLoad(self::timeoutPeriod);
                     $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
                 }
@@ -633,10 +646,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if(!empty($fields)) {
                         foreach($fields as $fieldKey => $fieldXPath) {
                             if(isset($data[$fieldKey])) {
-                                if($this->_paramsHelper != null) {
-                                    $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
-                                    $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
-                                }
                                 $this->type($baseXpath . '//' . $fieldXPath, $data[$fieldKey]);
                             }
                         }
@@ -646,10 +655,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if(!empty($fields)) {
                         foreach($fields as $fieldKey => $fieldXPath) {
                             if(isset($data[$fieldKey])) {
-                                if($this->_paramsHelper) {
-                                    $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
-                                    $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
-                                }
                                 $this->select($baseXpath . '//' . $fieldXPath, 'regexp:'.$data[$fieldKey]);
                             }
                         }
@@ -659,10 +664,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if(!empty($fields)) {
                         foreach($fields as $fieldKey => $fieldXPath) {
                             if(isset($data[$fieldKey])) {
-                                if($this->_paramsHelper) {
-                                    $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
-                                    $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
-                                }
                                 $this->select($baseXpath . '//' . $fieldXPath, 'regexp:'.$data[$fieldKey]);
                             }
                         }
@@ -672,10 +673,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if(!empty($fields)) {
                         foreach($fields as $fieldKey => $fieldXPath) {
                             if(isset($data[$fieldKey])) {
-                                if($this->_paramsHelper) {
-                                    $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
-                                    $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
-                                }
                                 if(strtolower($data[$fieldKey]) == 'yes') {
                                     $this->check($baseXpath . '//' . $fieldXPath);
                                 } else {
@@ -689,10 +686,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if(!empty($fields)) {
                         foreach($fields as $fieldKey => $fieldXPath) {
                             if(isset($data[$fieldKey])) {
-                                if($this->_paramsHelper) {
-                                    $baseXpath = $this->_paramsHelper->replaceParameters($baseXpath);
-                                    $fieldXPath = $this->_paramsHelper->replaceParameters($fieldXPath);
-                                }
                                 if(strtolower($data[$fieldKey]) == 'yes') {
                                     $this->check($baseXpath . '//' . $fieldXPath);
                                 } else {
@@ -819,8 +812,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function checkMessage($message)
     {
-        $messageLocator = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage())->findMessage($message);
-
+        $page = $this->_uimapHelper->getUimapPage($this->getArea(), $this->getCurrentPage(), $this->_paramsHelper);
+        if (!$page) {
+            return false;
+        }
+        $messageLocator = $page->findMessage($message);
         return $this->checkMessageByXpath($messageLocator);
     }
 
@@ -833,10 +829,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function checkMessageByXpath($xpath)
     {
         $this->_parseMessages();
-
-        if ($xpath && $this->_paramsHelper) {
-            $xpath = $this->_paramsHelper->replaceParameters($xpath);
-        }
 
         if ($xpath && $this->getXpathCount('//' . $xpath) > 0) {
             return true;

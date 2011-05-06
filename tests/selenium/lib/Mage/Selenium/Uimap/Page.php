@@ -76,20 +76,24 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
 
     /**
      * Get page mca
+     * 
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
      * @return string
      */
-    public function getMca()
+    public function getMca($paramsDecorator = null)
     {
-        return $this->mca;
+        return $this->applyParamsToString($this->mca, $paramsDecorator);
     }
 
     /**
      * Get page title
+     * 
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
      * @return string
      */
-    public function getTitle()
+    public function getTitle($paramsDecorator = null)
     {
-        return $this->title;
+        return $this->applyParamsToString($this->title, $paramsDecorator);
     }
 
     /**

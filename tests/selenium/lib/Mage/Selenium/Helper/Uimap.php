@@ -101,11 +101,16 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      *
      * @param string $area Application area ('frontend'|'admin')
      * @param string $pageKey UIMap page key
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      * @return Mage_Selenium_Uimap_Page
      */
-    public function getUimapPage($area, $pageKey)
+    public function getUimapPage($area, $pageKey, $paramsDecorator = null)
     {
-        return isset($this->_uimapData[$area][$pageKey]) ? $this->_uimapData[$area][$pageKey] : null;
+        $page = isset($this->_uimapData[$area][$pageKey]) ? $this->_uimapData[$area][$pageKey] : null;
+        if ($page && $paramsDecorator) {
+            $page->assignParams($paramsDecorator);
+        }
+        return $page;
     }
 
     /**
@@ -113,15 +118,24 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      *
      * @param string $area Application area ('frontend'|'admin')
      * @param string $pageKey UIMap page key
-     * @return Mage_Selenium_Uimap_Page
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
+     * @return Mage_Selenium_Uimap_Page|Null
      */
-    public function getUimapPageByMca($area, $mca)
+    public function getUimapPageByMca($area, $mca, $paramsDecorator = null)
     {
         $mca = trim($mca, ' /\\');
-        if(isset($this->_uimapData[$area])) {
-            foreach($this->_uimapData[$area] as &$page) {
-                if(trim($page->getMca(), ' /\\') == $mca) {
-                    return $page;
+        if (isset($this->_uimapData[$area])) {
+            foreach ($this->_uimapData[$area] as &$page) {
+                // get mca without any modifications
+                $page_mca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
+                if ($page_mca) {
+                    if ($paramsDecorator) {
+                        $page_mca = $paramsDecorator->replaceParametersWithRegexp($page_mca);
+                    }
+                    if (preg_match(';^'.$page_mca.'$;', $mca)) {
+                        $page->assignParams($paramsDecorator);
+                        return $page;
+                    }
                 }
             }
         }

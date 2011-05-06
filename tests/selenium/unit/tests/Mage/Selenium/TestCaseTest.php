@@ -133,11 +133,10 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($_testCaseInst->loginAdminUser());
         $this->assertNotNull($_testCaseInst->navigate('create_customer'));
 
-        $_formData = $_testCaseInst->loadData('generic_customer_account');
+        $_formData = $_testCaseInst->loadData('generic_customer_account', array('email' => $this->_config->getDataGenerator()->generateEmailAddress(100)));
         $_testCaseInst->click('//*[@id="add_address_button"]');
 
         $_testCaseInst->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number'=>1)));
-
         $this->assertNotNull($_testCaseInst->fillForm($_formData));
         $_testCaseInst->click('//*[@id="delete_button21"]');
         $_testCaseInst->getConfirmation();
@@ -286,7 +285,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $this->assertNotNull($_testCaseInst->loginAdminUser());
         $this->assertNotNull($_testCaseInst->navigate('create_customer'));
 
-        $_formData = $_testCaseInst->loadData('generic_customer_account', null, 'email');
+        $_formData = $_testCaseInst->loadData('generic_customer_account', array('email' => $this->_dataGenerator->generateEmailAddress()));
         $_testCaseInst->click('//*[@id="add_address_button"]');
 
         $_testCaseInst->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number'=>1)));

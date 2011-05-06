@@ -177,7 +177,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         //Verifying
         foreach ($emptyFields as $key => $value) {
             $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->getTab('account_information')->findField($key);
-            $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
+            $this->addParameter('fieldXpath', $xpath);
+            //$this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
         }
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
     }
@@ -219,7 +220,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         $this->clickButton('save_customer');
         //Verifying
         $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->getTab('account_information')->findField('email');
-        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
+        $this->addParameter('fieldXpath', $xpath);
+        //$this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
     }
 
@@ -406,9 +408,11 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
         $this->fillForm($userData, 'account_information');
         $this->clickControl('tab', 'addresses', FALSE);
         $this->clickButton('add_new_address', FALSE);
-        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => 1)));
+        $this->addParameter('address_number', 1);
+        //$this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => 1)));
         $this->fillForm($adressData, 'addresses');
         $this->clickButton('save_customer');
+        
         //Verifying
 //        $this->assertTrue($this->navigated('manage_customers'),
 //                'After successful customer creation should be redirected to Manage Customers page');

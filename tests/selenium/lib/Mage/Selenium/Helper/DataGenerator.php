@@ -104,7 +104,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * @param string $prefix Prefix to prepend the generated value
      * @return string
      */
-    public function generateEmailAddress($length=100, $validity='valid', $prefix='')
+    public function generateEmailAddress($length=20, $validity='valid', $prefix='')
     {
         if (!$validity) {
             $validity = 'valid';

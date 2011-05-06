@@ -42,13 +42,24 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
     protected $_type = '';
 
     /**
+     * Parameters helper instance
+     *
+     * @var Mage_Selenium_Helper_Params
+     */
+    protected $_params = null;
+
+    /**
      * Constructor
+     * 
      * @param string $type Type of element
      * @param array $objects Elements array
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
      */
-    public function __construct($type, $objects)
+    public function __construct($type, $objects, $paramsDecorator = null)
     {
         $this->_type = $type;
+        $this->_params = $paramsDecorator;
+
         parent::__construct($objects);
     }
 
@@ -62,7 +73,18 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
     }
 
     /**
+     * Asign parameters decorator
+     * 
+     * @param Mage_Selenium_Helper_Params $params Parameters decorator
+     */
+    public function assignParams($params)
+    {
+        $this->_params = $params;
+    }
+
+    /**
      * Get element by Id
+     * 
      * @param string $id Id of element
      * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
      * @return string|Null
@@ -72,11 +94,25 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
         $val = null;
         if(isset($this[$id])) {
             $val = $this[$id];
-            if($paramsDecorator != null && $paramsDecorator instanceof Mage_Selenium_Helper_Params) {
+            
+            if (!$paramsDecorator && $this->_params) {
+                $paramsDecorator = $this->_params;
+            }
+            if ($paramsDecorator != null) {
                 $val = $paramsDecorator->replaceParameters($val);
             }
         }
         return $val;
     }
-    
+
+    public function offsetGet($offset)
+    {
+        $val = parent::offsetGet($offset);
+        if ($val && $this->_params != null) {
+            $val = $this->_params->replaceParameters($val);
+        }
+
+        return $val;
+    }
+
 }

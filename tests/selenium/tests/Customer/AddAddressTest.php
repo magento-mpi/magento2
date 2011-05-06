@@ -53,15 +53,17 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     public function test_CreateCustomer()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', null, 'email');
+        $userData = $this->loadData('generic_customer_account', array('email' => $this->_dataGenerator->generateEmailAddress()));
         //Steps
         $this->clickButton('add_new_customer');
+
         $this->fillForm($userData, 'account_information');
         $this->clickButton('save_customer');
         //Verifying
 //        @TODO func 'navigated'
 //        $this->assertTrue($this->navigated('manage_customers'),
 //                'After successful customer creation should be redirected to Manage Customers page');
+
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         return $userData;
     }
@@ -74,13 +76,16 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         //Data
         $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
         $addressData = $this->loadData('generic_address');
+        $this->addParameter('id', '0');
+
         //Steps
         $this->searchAndOpen($searchData);
         $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
         $xpath = $this->getCurrentLocationUimapPage()->findFieldset('list_customer_addresses')->getXPath();
         $addressCount = $this->getXpathCount('//' . $xpath . '//li') + 1;
-        $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('address_number' => $addressCount)));
+        $this->addParameter('address_number', $addressCount);
+
         $this->clickButton('add_new_address', FALSE);
         $this->fillForm($addressData, 'addresses');
         $this->clickButton('save_customer');

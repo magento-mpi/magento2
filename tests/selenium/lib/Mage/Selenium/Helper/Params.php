@@ -89,10 +89,25 @@ class Mage_Selenium_Helper_Params
      */
      public function replaceParameters($source)
      {
-        if(empty($this->_paramsArray)) {
+        if (empty($this->_paramsArray) || !is_string($source) || empty($source)) {
             return $source;
         } else {
             return str_replace(array_keys($this->_paramsArray), array_values($this->_paramsArray), $source);
+        }
+     }
+
+    /**
+     * Populate string with Regexp for next matching
+     *
+     * @param string $source Source string
+     * @return string
+     */
+     public function replaceParametersWithRegexp($source, $regexp = '(.*?)')
+     {
+        if(empty($this->_paramsArray)) {
+            return $source;
+        } else {
+            return str_replace(array_keys($this->_paramsArray), $regexp, $source);
         }
      }
 
