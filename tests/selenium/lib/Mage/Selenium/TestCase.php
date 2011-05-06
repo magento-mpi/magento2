@@ -437,7 +437,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $baseUrl = $this->_sutHelper->getBaseUrl();
 
         $mca = Mage_Selenium_TestCase::getMcaFromCurrentUrl($baseUrl, $url);
-        $page = $this->_pageHelper->getPageByMca($mca);
+        $page = $this->_pageHelper->getPageByMca($mca, $this->_paramsHelper);
         if($page) {
             return $page->getPageId();
         }
