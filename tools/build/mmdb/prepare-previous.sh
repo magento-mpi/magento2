@@ -2,7 +2,11 @@
 
 . include.sh
 
+echo $PWD
+
 cd $PWD/../../
+
+echo $BUILD_TOOLS
 
 . $BUILD_TOOLS/../take-previous.sh
 
