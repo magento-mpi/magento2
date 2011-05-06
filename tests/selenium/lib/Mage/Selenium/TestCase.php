@@ -212,9 +212,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_pageHelper = $this->_testConfig->getPageHelper($this, $this->_sutHelper);
         $this->_uid = $this->_testConfig->getUidHelper();
         $this->_uimapHelper = $this->_testConfig->getUimapHelper();
+
         if ($name !== NULL) {
             $this->name = $name;
         }
+        $this->data     = $data;
+        $this->dataName = $dataName;
 
         $this->_brouserTimeoutPeriod = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
 
