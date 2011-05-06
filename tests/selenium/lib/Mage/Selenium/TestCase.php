@@ -762,92 +762,76 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function searchAndOpen(array $data)
     {
-//        $this->fillForm($data);
-//        $this->clickButton('search');
-//
-//        try {
-//            $this->clickAndWait('//' . self::xpathEditLink, $this->_brouserTimeoutPeriod);
-//        } catch (PHPUnit_Framework_Exception $e) {
-//            $this->_error = true;
-//        }
-//
-//        return $this;
-//      @TODO Need REVIEW
-        $result = False;
-        foreach ($data as $k => $v) {
-            if (preg_match('/website/', $k)) {
-                $xpathField = $this->getCurrentLocationUimapPage()->getMainForm()->findDropdown($k);
+        $keys_to_remove = array();
+        foreach ($data as $key => $val) {
+            if (empty($val)) {
+                $keys_to_remove[] = $key;
+            } else if (preg_match('/website/', $key)) {
+                $xpathField = $this->getCurrentLocationUimapPage()->getMainForm()->findDropdown($key);
                 if (!$this->isElementPresent('//' . $xpathField)) {
-                    unset($data[$k]);
+                    $keys_to_remove[] = $key;
                 }
             }
-            if (empty($v)) {
-                unset($data[$k]);
-            }
         }
+        foreach ($keys_to_remove as $key_name) {
+            unset($data[$key_name]);
+        }
+
         if (count($data) > 0) {
             //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
-            $xpath = "//td[normalize-space(@class)='pager']";
-            $text = explode('|', $this->getText("$xpath"));
-            $text = end($text);
-            preg_match("/[0-9]+/", $text, $array);
-            if ($array[0] == 0 or $array[0] == 1) {
-                //Need implement
-                die("Need implement xpath\n");
-            } else {
-                $xpath = substr("$xpath", 0, -1) . " and not(contains(.,'" . $text . "'))]";
-            }
+            $totalCount = intval($this->getText("//span[@id='customerGrid-total-count']"));
+            $xpath_pager = "//span[@id='customerGrid-total-count' and not(contains(.,'" . $totalCount . "'))]";
+
             // Forming xpath for string that contains the lookup data
-            $xpathTR = '//tr[';
+            $xpathTR = "//table[@id='customerGrid_table']//tr[";
             $i = 1;
+            $n = count($data);
             foreach ($data as $key => $value) {
                 if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
                     $xpathTR .= "contains(.,'$value')";
-                    if ($i < count($data)) {
+                    if ($i < $n) {
                         $xpathTR .= ' and ';
                     }
-                    $i += 1;
+                    $i ++;
                 }
             }
             $xpathTR .=']';
+
             // Fill in search form and click 'Search' button
             $this->fillForm($data);
             $this->clickButton('search', FALSE);
-            //WaitForElementPresent -> 	should be implemented as a separate function
-            for ($second = 0;; $second++) {
-                if ($second >= 60) {
-                    break; //fail("timeout");
-                }
-                try {
-                    if ($this->isElementPresent($xpath)) {
-                        break;
-                    }
-                } catch (Exception $e) {
 
+            //WaitForElementPresent
+            for ($second = 0; $second < 30; $second++) {
+                if ($this->isElementPresent($xpath_pager)) {
+                    break;
                 }
                 sleep(1);
             }
+
             if ($this->isElementPresent($xpathTR)) {
                 // ID definition
-                $id = explode('/', $this->getValue($xpathTR . '/@title'));
-                foreach ($id as $key => $value) {
-                    if ($value == 'id') {
-                        $id = $id[$key + 1];
+                $item_id = 0;
+                $title_arr = explode('/', $this->getValue($xpathTR . '/@title'));
+                foreach ($title_arr as $key => $value) {
+                    if ($value == 'id' && isset($title_arr[$key + 1])) {
+                        $item_id = $title_arr[$key + 1];
                         break;
                     }
                 }
-                $this->addParameter('id', $id);
-                // Open element
-                $this->click($xpathTR . "//td[normalize-space(text())='" . $data[array_rand($data)] . "']");
-                $this->waitForPageToLoad($this->_brouserTimeoutPeriod);
-                $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
-                $result = True;
+                if ($item_id > 0) {
+                    $this->addParameter('id', $item_id);
+                    // Open element
+                    $this->click("//table[@id='customerGrid_table']//tr[contains(@title, '/id/" . $item_id . "')]/td[normalize-space(text())='" . $data[array_rand($data)] . "']");
+                    $this->waitForPageToLoad($this->_brouserTimeoutPeriod);
+                    $this->_currentPage = $this->findCurrentPageFromUrl($this->getLocation());
+
+                    return true;
+                }
             }
-        } else {
-            echo "Implementation of a function 'searchAndOpen' is skipped because data for the search is not specified \r\n";
         }
-        $this->assertTrue($result, 'Element not found.');
-        return $this;
+
+        return false;
     }
 
     /**

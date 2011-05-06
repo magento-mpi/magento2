@@ -81,7 +81,8 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $addressData = $this->loadData('generic_address');
 
         //Steps
-        $this->searchAndOpen($searchData);
+        $this->assertTrue($this->searchAndOpen($searchData), 'Element not found.');
+
         $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
         $xpath = $this->getCurrentUimapPage()->findFieldset('list_customer_addresses')->getXPath();
@@ -111,7 +112,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         $this->clickButton('reset_filter', FALSE);
         $this->pleaseWait();
 
-        $this->searchAndOpen($searchData);
+        $this->assertTrue($this->searchAndOpen($searchData), 'Element not found.');
         $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
         $xpath = $this->getCurrentUimapPage()->findFieldset('list_customer_addresses')->getXPath();
@@ -184,10 +185,10 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         );
         $addressData = $this->loadData('all_fields_address', $longValues);
         //Steps
-        $this->clickButton('reset_filter'/* ,FALSE */);
-//        @TODO
-//        $this->pleaseWait();
-        $this->searchAndOpen($searchData);
+        $this->clickButton('reset_filter',FALSE);
+        $this->pleaseWait();
+
+        $this->assertTrue($this->searchAndOpen($searchData), 'Element not found.');
         $this->_currentPage = 'edit_customer';
         $this->clickControl('tab', 'addresses', FALSE);
         $xpath = $this->getCurrentUimapPage()->findFieldset('list_customer_addresses')->getXPath();
