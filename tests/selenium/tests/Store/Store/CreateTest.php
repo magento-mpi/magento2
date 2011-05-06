@@ -45,9 +45,11 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
      */
     protected function assertPreConditions()
     {
-        $this->assertTrue($this->loginAdminUser());
+        $this->loginAdminUser();
         $this->assertTrue($this->admin());
-        $this->assertTrue($this->navigate('manage_stores'));
+        $this->navigate('manage_stores');
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'Wrong page is opened');
     }
 
     /**
@@ -69,9 +71,8 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
     {
         $this->assertTrue($this->clickButton('create_store'),
                 'There is no "Create Store" button on the page');
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('new_store'),
-//                'Wrong page is displayed');
+        $this->assertTrue($this->checkCurrentPage('new_store'),
+                'Wrong page is opened');
         $this->assertTrue($this->controlIsPresent('button', 'back'),
                 'There is no "Back" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'save_store'),
@@ -100,16 +101,15 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
     public function test_WithRequiredFieldsOnly()
     {
         //Data
-        $storeData = $this->loadData('generic_store');
+        $storeData = $this->loadData('generic_store', Null, 'store_name');
         //Steps
         $this->clickButton('create_store');
         $this->fillForm($storeData);
-        $this->clickButton('save_store');
+        $this->saveForm('save_store');
         //Verifying
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('manage_stores'),
-//                'After successful creation store should be redirected to Manage Stores page');
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store should be redirected to Manage Stores page');
     }
 
     /**
@@ -130,6 +130,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
      * Error Message is displayed.
      *
      * @dataProvider data_EmptyField
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithRequiredFieldsEmpty($emptyField)
     {
@@ -138,15 +139,15 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('create_store');
         $this->fillForm($storeData);
-        $this->clickButton('save_store');
+        $this->saveForm('save_store');
         //Verifying
+        $page = $this->getCurrentLocationUimapPage();
         foreach ($emptyField as $key => $value) {
-            $xpath = ($this->getCurrentLocationUimapPage()->getMainForm()->findField($key) == NULL) ?
-                    ($this->getCurrentLocationUimapPage()->getMainForm()->findDropdown($key)) :
-                    ($this->getCurrentLocationUimapPage()->getMainForm()->findField($key));
-            $this->appendParamsDecorator(new Mage_Selenium_Helper_Params(array('fieldXpath' => $xpath)));
+            $xpath = ($page->findField($key) == NULL) ? ($page->findDropdown($key)) : ($page->findField($key));
+            $this->addParameter('fieldXpath', $xpath);
         }
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     /**
@@ -156,8 +157,8 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
     public function data_EmptyField()
     {
         return array(
-            array(array('store_name' => NULL)),
-            array(array('root_category' => NULL)),
+            array(array('store_name' => '')),
+            array(array('root_category' => '')),
         );
     }
 
@@ -177,6 +178,8 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
      * Store is created. Success Message is displayed.
      *
      * Length of field "Name" is 255 characters.
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithLongValues()
     {
@@ -186,16 +189,19 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('create_store');
         $this->fillForm($storeData);
-        $this->clickButton('save_store');
+        $this->saveForm('save_store');
         //Verifying
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('manage_stores'),
-//                'After successful creation store should be redirected to Manage Stores page');
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store should be redirected to Manage Stores page');
 //        @TODO
-//        $this->searchAndOpen($searchData);
-//        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findField('store_name');
-//        $this->assertEquals(strlen($this->getValue($xpathName)), 255);
+//        //Steps
+//        $this->searchAndOpen($longValues);
+//        //Verifying
+//        $page = $this->getCurrentLocationUimapPage();
+//        $xpathName = $page->findField('store_name');
+//        $this->assertEquals($longValues['store_name'], $this->getValue('//' . $xpathName),
+//                "The stored value for '$key' field is not equal to specified");
     }
 
     /**
@@ -216,6 +222,8 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
      * Store is created.
      *
      * Success Message is displayed
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSpecialCharacters_InName()
     {
@@ -225,12 +233,11 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase {
         //Steps
         $this->clickButton('create_store');
         $this->fillForm($storeData);
-        $this->clickButton('save_store');
+        $this->saveForm('save_store');
         //Verifying
-//        @TODO func 'navigated'
-//        $this->assertTrue($this->navigated('manage_stores'),
-//                'After successful creation store should be redirected to Manage Stores page');
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_stores'),
+                'After successful creation store should be redirected to Manage Stores page');
     }
 
 }

@@ -67,18 +67,19 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
     public function test_WithRequiredFieldsOnly()
     {
         //Data
-        $userData = $this->loadData('customer_account_register', array('email' => $this->generate('email', 20, 'valid')));
+        $userData = $this->loadData('customer_account_register',
+                        array('email' => $this->generate('email', 20, 'valid')));
         //Steps
         $this->navigate('customer_login');
         $this->clickButton('create_account');
         $this->fillForm($userData);
-        $this->clickButton('submit');
+        $this->saveForm('submit');
         //Verifying
-//      @TODO
-//        $this->assertTrue($this->navigated('customer_account'),
-//                'After succesfull registration customer should be redirected to account dashboard');
-        $this->_currentPage = 'customer_account';
         $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('customer_account'),
+                'After succesfull registration customer should be redirected to account dashboard');
+
+        return $userData;
     }
 
     /**
@@ -104,15 +105,13 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
      *
      * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithEmailThatAlreadyExists()
+    public function test_WithEmailThatAlreadyExists(array $userData)
     {
-        //Data
-        $userData = $this->loadData('customer_account_register');
         //Steps
         $this->navigate('customer_login');
         $this->clickButton('create_account');
         $this->fillForm($userData);
-        $this->clickButton('submit');
+        $this->saveForm('submit');
         //Verifying
         $this->assertTrue($this->errorMessage('email_exists'), $this->messages);
     }
@@ -135,6 +134,8 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
      * Customer is registered. Success Message is displayed.
      *
      * Length of fields are 255 characters.
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithLongValues()
     {
@@ -145,7 +146,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
                         array(
                             'first_name' => $this->generate('string', 255, ':alnum:'),
                             'last_name' => $this->generate('string', 255, ':alnum:'),
-                            'email' => $this->generate('email', 255, 'valid'),
+                            'email' => $this->generate('email', 128, 'valid'),
                             'password' => $password,
                             'password_confirmation' => $password,
                         )
@@ -154,21 +155,23 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
         $this->navigate('customer_login');
         $this->clickButton('create_account');
         $this->fillForm($userData);
-        $this->clickButton('submit');
+        $this->saveForm('submit');
         //Verifying
-//      @TODO
-//        $this->assertTrue($this->navigated('customer_account'),
-//                'After succesfull registration customer should be redirected to account dashboard');
-
-        //$this->assertTrue($this->successMessage('success_registration'), $this->messages);
-        $this->assertTrue($this->errorMessage('not_valid_length_email'), $this->messages);
-
-//        @TODO
-//        $this->clickControl('tab', 'account_information', FALSE);
-//        foreach ($longValues as $key => $value) {
-//            $xpath = $this->getCurrentLocationUimapPage()->getMainForm()->getTab('account_information')->findField($key);
-//            $this->assertEquals(strlen($this->getValue($xpath)), 255);
-//        }
+        $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('customer_account'),
+                'After succesfull registration customer should be redirected to account dashboard');
+        //Steps
+        $this->clickControl('tab', 'account_information');
+        //Verifying
+        $page = $this->getUimapPage('frontend', 'customer_account');
+        $tab = $page->findTab('account_information');
+        foreach ($userData as $key => $value) {
+            if ($key == 'first_name' or $key == 'last_name' or $key == 'email') {
+                $xpath = $tab->findField($key);
+                $this->assertEquals($value, $this->getValue('//' . $xpath),
+                        "The stored value for '$key' field is not equal to specified");
+            }
+        }
     }
 
     /**
@@ -191,8 +194,9 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
      * Error Message is displayed.
      *
      * @dataProvider data_EmptyField
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithRequiredFieldsEmpty($field)
+    public function test_WithRequiredFieldsEmpty($field, $messageCount)
     {
         //Data
         $userData = $this->loadData('customer_account_register', $field);
@@ -200,28 +204,26 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
         $this->navigate('customer_login');
         $this->clickButton('create_account');
         $this->fillForm($userData);
-        $this->clickButton('submit');
-
-        $page = $this->getCurrentLocationUimapPage();
+        $this->saveForm('submit');
         //Verifying
+        $page = $this->getCurrentLocationUimapPage();
+        $fieldset = $page->findFieldset('account_info');
         foreach ($field as $key => $value) {
-            $fieldset = $page->findFieldset('account_info');
-            if ($fieldset) {
-                $xpath = $fieldset->findField($key);
-                $this->addParameter('fieldXpath', $xpath);
-            }
+            $xpath = $fieldset->findField($key);
+            $this->addParameter('fieldXpath', $xpath);
         }
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount($messageCount), $this->messages);
     }
 
     public function data_EmptyField()
     {
         return array(
-            array(array('first_name' => null)),
-            array(array('last_name' => null)),
-            array(array('email' => null)),
-            array(array('password' => null)),
-            array(array('password_confirmation' => null)),
+            array(array('first_name' => ''), 1),
+            array(array('last_name' => ''), 1),
+            array(array('email' => ''), 1),
+            array(array('password' => ''), 2),
+            array(array('password_confirmation' => ''), 1),
         );
     }
 
@@ -243,29 +245,31 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
      * Customer is registered.
      *
      * Success Message is displayed
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSpecialCharacters()
     {
         //Data
+        $password = $this->generate('string', 25, ':punct:');
         $userData = $this->loadData(
                         'customer_account_register',
                         array(
                             'first_name' => $this->generate('string', 25, ':punct:'),
                             'last_name' => $this->generate('string', 25, ':punct:'),
-                            'email' => $this->generate('email', 20, 'valid')
-                        )
-        );
+                            'email' => $this->generate('email', 20, 'valid'),
+                            'password' => $password,
+                            'password_confirmation' => $password,
+                ));
         //Steps
         $this->navigate('customer_login');
         $this->clickButton('create_account');
         $this->fillForm($userData);
-        $this->clickButton('submit');
+        $this->saveForm('submit');
         //Verifying
-//      @TODO
-//        $this->assertTrue($this->navigated('customer_account'),
-//                'After succesfull registration customer should be redirected to account dashboard');
-        $this->_currentPage = 'customer_account';
         $this->assertTrue($this->successMessage('success_registration'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('customer_account'),
+                'After succesfull registration customer should be redirected to account dashboard');
     }
 
     /** Сustomer registration. Fill in only reqired fields. Use value that is greater than the allowable.
@@ -289,6 +293,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
      * Error Message is displayed.
      *
      * @dataProvider data_LongValues_NotValid
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithLongValues_NotValid($longValue)
     {
@@ -298,7 +303,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
         $this->navigate('customer_login');
         $this->clickButton('create_account');
         $this->fillForm($userData);
-        $this->clickButton('submit');
+        $this->saveForm('submit');
         //Verifying
         foreach ($longValue as $key => $value) {
             $fieldName = $key;
@@ -309,8 +314,8 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
     public function data_LongValues_NotValid()
     {
         return array(
-            array(array('first_name' => $this->generate('string', 256, ':punct:'))),
-            array(array('last_name' => $this->generate('string', 256, ':punct:'))),
+            array(array('first_name' => $this->generate('string', 256, ':alnum:'))),
+            array(array('last_name' => $this->generate('string', 256, ':alnum:'))),
             array(array('email' => $this->generate('email', 256, 'valid'))),
         );
     }
@@ -337,6 +342,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
      * Error Message is displayed.
      *
      * @dataProvider data_InvalidEmail
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithInvalidEmail($invalidEmail)
     {
@@ -346,7 +352,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
         $this->navigate('customer_login');
         $this->clickButton('create_account');
         $this->fillForm($userData);
-        $this->clickButton('submit');
+        $this->saveForm('submit');
         //Verifying
         $this->assertTrue($this->errorMessage('invalid_mail'), $this->messages);
     }
@@ -382,8 +388,9 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
      * Error Message is displayed.
      *
      * @dataProvider data_InvalidPassword
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithInvalidPassword($invalidPassword,$errorMessage)
+    public function test_WithInvalidPassword($invalidPassword, $errorMessage)
     {
         //Data
         $userData = $this->loadData('customer_account_register', $invalidPassword);
@@ -391,7 +398,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
         $this->navigate('customer_login');
         $this->clickButton('create_account');
         $this->fillForm($userData);
-        $this->clickButton('submit');
+        $this->saveForm('submit');
         //Verifying
         $this->assertTrue($this->errorMessage($errorMessage), $this->messages);
     }
@@ -399,8 +406,8 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
     public function data_InvalidPassword()
     {
         return array(
-            array(array('email' => $this->generate('email', 20, 'valid'), 'password' => 12345, 'password_confirmation' => 12345), 'short_passwords'),
-            array(array('email' => $this->generate('email', 20, 'valid'), 'password' => 1234567, 'password_confirmation' => 12345678), 'passwords_not_match'),
+            array(array('password' => 12345, 'password_confirmation' => 12345), 'short_passwords'),
+            array(array('password' => 1234567, 'password_confirmation' => 12345678), 'passwords_not_match'),
         );
     }
 
@@ -410,6 +417,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
     public function test_FromOnePageCheckoutPage()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -418,6 +426,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase {
     public function test_FromMultipleCheckoutPage()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
 }

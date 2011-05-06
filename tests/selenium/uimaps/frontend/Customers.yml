@@ -88,9 +88,31 @@ customer_login:
       invalid_login_or_password: li[normalize-space(@class)='error-msg' and contains(.//span,'Invalid login or password.')]
 
 customer_account:
-  mca: customer/account/
+  mca: customer/account/index/
   title: My Account
   uimap:
     form:
+      tabs:
+        -
+          account_dashboard:
+            xpath: a[text()='Account Dashboard']
+        -
+          account_information:
+            xpath: a[text()='Account Information']
+            fieldsets:
+              -
+                account_info:
+                  xpath: form[@id='form-validate']
+                  buttons:
+                    save: button[span='Save']
+                  checkboxes:
+                    change_password: input[@id='change_password']
+                  fields:
+                    first_name: input[@id='firstname']
+                    last_name:  input[@id='lastname']
+                    email: input[@id='email']
+                    current_password: input[@id='current_password']
+                    new_password: input[@id='password']
+                    confirm_new_password: input[@id='confirmation']
     messages:
-      success_registration: li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering with Main Website Store.')]
+      success_registration: li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering with')]

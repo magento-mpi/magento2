@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -27,31 +28,81 @@
  */
 
 /**
- * @TODO
+ * Test deletion customer.
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Customer_DeleteTest extends Mage_Selenium_TestCase
-{
+class Customer_DeleteTest extends Mage_Selenium_TestCase {
 
     /**
-     * @TODO
+     * Preconditions:
+     *
+     * Log in to Backend.
+     *
+     * Navigate to System -> Manage Customers
      */
     protected function assertPreConditions()
     {
-        // @TODO
-        $this->markTestIncomplete('TODO');
+        $this->loginAdminUser();
+        $this->assertTrue($this->admin());
+        $this->navigate('manage_customers');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
     }
 
+    /**
+     * Create customer for 'test_Single' test
+     *
+     * @return array
+     */
+    public function test_CreateCustomer()
+    {
+        //Data
+        $userData = $this->loadData('generic_customer_account',
+                        array('email' => $this->generate('email', 20, 'valid')));
+        //Steps
+        $this->clickButton('add_new_customer');
+        $this->fillForm($userData, 'account_information');
+        $this->saveForm('save_customer');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_customers'),
+                'After successful customer creation should be redirected to Manage Customers page');
+
+        return $userData;
+    }
 
     /**
-     * @TODO
+     * Delete customer.
+     *
+     * Steps:
+     *
+     * 1. Search and open customer.
+     *
+     * 2. Click 'Delete Customer' button.
+     *
+     * Expected result:
+     *
+     * Customer is deleted.
+     *
+     * Success Message is displayed.
+     *
+     * @depends test_CreateCustomer
      */
-    public function test_Single()
+    public function test_Single(array $userData)
     {
-        // @TODO
+        //Data
+        $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
+        //Steps
+        $this->clickButton('reset_filter', FALSE);
+        $this->pleaseWait();
+        $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
+        $this->deleteElement('delete_customer', 'confirmation_for_delete');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_deleted_customer'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_customers'),
+                'After successful customer creation should be redirected to Manage Customers page');
     }
 
     /**
@@ -60,5 +111,7 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
     public function test_ThroughMassAction()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
+
 }

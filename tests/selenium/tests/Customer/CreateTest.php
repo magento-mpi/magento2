@@ -475,6 +475,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     public function test_OnOrderPage_WithAddress()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -483,6 +484,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase {
     public function test_OnOrderPage_WithoutAddress()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
 }
