@@ -1240,6 +1240,24 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
+     * Is product salable detecting by product type
+     *
+     * @return bool
+     */
+    public function getIsSalable()
+    {
+        $productType = $this->getTypeInstance(true);
+        if (is_callable(array($productType, 'getIsSalable'))) {
+            return $this->getTypeInstance(true)->getIsSalable($this);
+        }
+        if ($this->hasData('is_salable')) {
+            return $this->getData('is_salable');
+        }
+        
+        return $this->isSalable();
+    }
+
+    /**
      * Check is a virtual product
      * Data helper wraper
      *
