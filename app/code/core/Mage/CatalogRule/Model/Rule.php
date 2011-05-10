@@ -324,9 +324,15 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     {
         $this->_getResource()->applyAllRulesForDateRange(NULL, NULL, $product);
         $this->_invalidateCache();
-        $indexProcess = Mage::getSingleton('index/indexer')->getProcessByCode('catalog_product_price');
-        if ($indexProcess) {
-            $indexProcess->reindexAll();
+
+        if ($product instanceof Mage_Catalog_Model_Product) {
+            $productId = $product->getId();
+        } else {
+            $productId = $product;
+        }
+
+        if ($productId) {
+            Mage::getResourceSingleton('catalog/product_indexer_price')->reindexProductIds(array($productId));
         }
     }
 
