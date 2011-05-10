@@ -185,7 +185,7 @@ hierarchyNodes = {
     },
     saveTreeData: function(){
         this.collectChilds(this.treeRoot);
-        $('nodes_data').value = this.treeData.toJSON();
+        $('nodes_data').value = Object.toJSON(this.treeData);
     },
     collectChilds: function(node){
         if (node.id == '_root') {

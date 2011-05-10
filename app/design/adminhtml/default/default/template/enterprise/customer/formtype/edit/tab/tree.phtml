@@ -287,7 +287,7 @@ var formType = {
     },
     save: function(continueEdit) {
         this.collectChilds(this.treeRoot);
-        $('form_type_data').value = this.treeData.toJSON();
+        $('form_type_data').value = Object.toJSON(this.treeData);
         $('continue_edit').value = continueEdit ? 1 : 0;
         editForm.submit();
     }

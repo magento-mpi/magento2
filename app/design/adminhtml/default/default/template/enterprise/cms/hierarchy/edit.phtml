@@ -318,7 +318,7 @@
             //    }
             //}
             this.collectChilds(this.treeRoot);
-            $('nodes_data').value = this.treeData.toJSON();
+            $('nodes_data').value = Object.toJSON(this.treeData);
             $('removed_nodes').value = this.removedNodes.join(',');
             editForm.submit();
         },
