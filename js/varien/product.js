@@ -135,6 +135,8 @@ Product.Zoom.prototype = {
         if (overSize) {
             if (this.imageDim.width > this.containerDim.width) {
                 this.imageEl.style.width = (this.imageZoom*this.containerDim.width)+'px';
+            } else if (this.imageDim.height > this.containerDim.height) {
+                this.imageEl.style.height = (this.imageZoom*this.containerDim.height)+'px';
             }
 
             if(this.containerDim.ratio){
