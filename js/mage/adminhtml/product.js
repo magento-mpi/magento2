@@ -746,8 +746,8 @@ Product.Configurable.prototype = {
         this.updateSaveInput();
     },
     updateSaveInput : function() {
-        $(this.idPrefix + 'save_attributes').value = this.attributes.toJSON();
-        $(this.idPrefix + 'save_links').value = this.links.toJSON();
+        $(this.idPrefix + 'save_attributes').value = Object.toJSON(this.attributes);
+        $(this.idPrefix + 'save_links').value = Object.toJSON(this.links);
     },
     initializeAdvicesForSimpleForm : function() {
         if ($(this.idPrefix + 'simple_form').advicesInited) {
