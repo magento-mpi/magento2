@@ -596,8 +596,25 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $fields
                 );
                 $writeAdapter->query($sql);
+
+                if ($entityName == 'catalog/product_website') {
+                    $unlinkedTable = $this->getTable('enterprise_staging/staging_product_unlinked');
+
+                    $select = $writeAdapter->select()
+                        ->from($unlinkedTable, array('product_id'))
+                        ->where('website_id = ?', $stagingWebsiteId);
+
+                    $writeAdapter->delete(
+                        $targetTable,
+                        array(
+                            'website_id = ?'    => $masterWebsiteId,
+                            'product_id IN (?)' => $select
+                        )
+                    );
+                }
             }
         }
+
         return $this;
     }
 
@@ -640,6 +657,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                 );
             }
         }
+
         return $this;
     }
 
@@ -695,6 +713,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                 }
             }
         }
+
         return $this;
     }
 
@@ -857,7 +876,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     }
                     $masterStoreId = intval($masterStoreId);
 
-                    $this->_beforeStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId, $stagingStoreId);
+                    $this->_beforeStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId,
+                        $stagingStoreId);
 
                     $resourceHelper->beforeIdentityItemDataInsert($targetDesc);
 
@@ -877,7 +897,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $query = $resourceHelper->getInsertFromSelect($select, $targetTable, $fields);
                     $connection->query($query);
 
-                    $this->_afterStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId, $stagingStoreId);
+                    $this->_afterStoreRollback($origSrcTable, $origTargetTable, $connection, $fields, $masterStoreId,
+                        $stagingStoreId);
                 }
             }
         }
@@ -896,7 +917,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _beforeStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId, $stagingStoreId)
+    protected function _beforeStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId, 
+        $stagingStoreId)
     {
         return $this;
     }
@@ -913,7 +935,8 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _afterStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId, $stagingStoreId)
+    protected function _afterStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId, 
+        $stagingStoreId)
     {
         return $this;
     }
@@ -1027,13 +1050,13 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
                     $this->{$callbackMethod}($_srcTable);
                 }
                 continue;
-            }
-            else if (isset($this->_flatTables[$entityName])) {
+            } else if (isset($this->_flatTables[$entityName])) {
                 $this->_itemFlatRun($entityName, $callbackMethod);
                 continue;
             }
             $this->{$callbackMethod}($entityName);
         }
+
         return $this;
     }
 }

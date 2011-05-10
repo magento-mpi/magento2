@@ -49,7 +49,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         if (is_null($stagingId)) {
             $stagingId  = (int) $this->getRequest()->getParam('id');
         }
-        $staging    = Mage::getModel('enterprise_staging/staging');
+        $staging = Mage::getModel('enterprise_staging/staging');
 
         if (!$stagingId) {
             if ($websiteId = (int) $this->getRequest()->getParam('master_website_id')) {
@@ -450,8 +450,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $this->_redirect('*/*/');
             return $this;
         }
-
-        $config = Mage::getSingleton('enterprise_staging/staging_config');
 
         try {
             $staging->unscheduleMege();

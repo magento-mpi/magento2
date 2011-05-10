@@ -685,14 +685,14 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
         $select = $adapter->select();
         $select->from(array('TGT' => $targetTable), array());
         if (is_array($masterIds)) {
-            $masterWhere = " IN (" . implode(", ", $masterIds). ") ";
+            $masterWhere = ' IN (' . implode(', ', $masterIds). ') ';
         } else {
-            $masterWhere = " = " . $masterIds;
+            $masterWhere = ' = ' . $masterIds;
         }
         if (is_array($slaveIds)) {
-            $slaveWhere = " IN (" . implode(", ", $slaveIds). ") ";
+            $slaveWhere = ' IN (' . implode(', ', $slaveIds). ') ';
         } else {
-            $slaveWhere = " = " . $slaveIds;
+            $slaveWhere = ' = ' . $slaveIds;
         }
 
         foreach ($keys as $keyData) {
@@ -711,23 +711,24 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
                     }
                 }
 
-                $sql = "DELETE T1.* FROM `{$targetTable}` as T1, `{$srcTable}` as T2 WHERE " . implode(" AND ", $_websiteFieldNameSql);
+                $sql = "DELETE T1.* FROM `{$targetTable}` as T1, `{$srcTable}` as T2 WHERE " 
+                    . implode(' AND ', $_websiteFieldNameSql);
 
                 $select->join(
                     array('SRCT' => $srcTable),
-                    implode(" AND ", $_websiteFieldNameSql),
+                    implode(' AND ', $_websiteFieldNameSql),
                     array()
                 );
 
                 if (!empty($additionalWhereCondition)) {
-                    $additionalWhereCondition = str_replace(array($srcTable, $targetTable), array("T2", "T1") , $additionalWhereCondition);
-                    $sql .= " AND " . $additionalWhereCondition;
+                    $additionalWhereCondition = str_replace(array($srcTable, $targetTable), array('T2', 'T1') , $additionalWhereCondition);
+                    $sql .= ' AND ' . $additionalWhereCondition;
                 }
                 $adapter->deleteFromSelect($select, $targetTable);
                 return $sql;
             }
         }
-        return "";
+        return '';
     }
 
     /**

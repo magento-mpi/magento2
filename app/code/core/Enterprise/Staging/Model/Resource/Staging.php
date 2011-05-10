@@ -316,7 +316,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
      * Retrieve item resource adapter instance
      *
      * @param Varien_Simplexml_Element $itemXmlConfig
-     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
+     * @return Enterprise_Staging_Model_Resource_Adapter_Abstract
      */
     public function getItemAdapterInstanse($itemXmlConfig)
     {
