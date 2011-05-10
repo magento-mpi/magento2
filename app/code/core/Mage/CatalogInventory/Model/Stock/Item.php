@@ -448,15 +448,6 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY:
                     break;
                 default:
-                    /*if ($this->getProduct()) {
-                        Mage::throwException(
-                            Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProduct()->getName())
-                        );
-                    }
-                    else {
-                        Mage::throwException(Mage::helper('cataloginventory')->__('The requested quantity is not available.'));
-                    }*/
-
                     return false;
                     break;
             }
@@ -513,8 +504,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     /**
      * Checking quote item quantity
      *
+     * Second parameter of this method specifies quantity of this product in whole shopping cart
+     * which should be checked for stock availability
+     *
      * @param mixed $qty quantity of this item (item qty x parent item qty)
-     * @param mixed $summaryQty quantity of this product in whole shopping cart which should be checked for stock availability
+     * @param mixed $summaryQty quantity of this product
      * @param mixed $origQty original qty of item (not multiplied on parent item qty)
      * @return Varien_Object
      */
@@ -522,6 +516,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     {
         $result = new Varien_Object();
         $result->setHasError(false);
+
+        /** @var $_helper Mage_CatalogInventory_Helper_Data */
+        $_helper = Mage::helper('cataloginventory');
 
         if (!is_numeric($qty)) {
             $qty = Mage::app()->getLocale()->getNumber($qty);
@@ -550,16 +547,20 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 
         if ($this->getMinSaleQty() && ($qty) < $this->getMinSaleQty()) {
             $result->setHasError(true)
-                ->setMessage(Mage::helper('cataloginventory')->__('The minimum quantity allowed for purchase is %s.', $this->getMinSaleQty() * 1))
-                ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in requested quantity.'))
+                ->setMessage(
+                    $_helper->__('The minimum quantity allowed for purchase is %s.', $this->getMinSaleQty() * 1)
+                )
+                ->setQuoteMessage($_helper->__('Some of the products cannot be ordered in requested quantity.'))
                 ->setQuoteMessageIndex('qty');
             return $result;
         }
 
         if ($this->getMaxSaleQty() && ($qty) > $this->getMaxSaleQty()) {
             $result->setHasError(true)
-                ->setMessage(Mage::helper('cataloginventory')->__('The maximum quantity allowed for purchase is %s.', $this->getMaxSaleQty() * 1))
-                ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in requested quantity.'))
+                ->setMessage(
+                    $_helper->__('The maximum quantity allowed for purchase is %s.', $this->getMaxSaleQty() * 1)
+                )
+                ->setQuoteMessage($_helper->__('Some of the products cannot be ordered in requested quantity.'))
                 ->setQuoteMessageIndex('qty');
             return $result;
         }
@@ -570,8 +571,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 
         if (!$this->getIsInStock()) {
             $result->setHasError(true)
-                ->setMessage(Mage::helper('cataloginventory')->__('This product is currently out of stock.'))
-                ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products are currently out of stock'))
+                ->setMessage($_helper->__('This product is currently out of stock.'))
+                ->setQuoteMessage($_helper->__('Some of the products are currently out of stock'))
                 ->setQuoteMessageIndex('stock');
             $result->setItemUseOldQty(true);
             return $result;
@@ -584,14 +585,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
 
         if (!$this->checkQty($summaryQty)) {
-            $message = Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProductName());
+            $message = $_helper->__('The requested quantity for "%s" is not available.', $this->getProductName());
             $result->setHasError(true)
                 ->setMessage($message)
                 ->setQuoteMessage($message)
                 ->setQuoteMessageIndex('qty');
             return $result;
-        }
-        else {
+        } else {
             if (($this->getQty() - $summaryQty) < 0) {
                 if ($this->getProductName()) {
                     if ($this->getIsChildItem()) {
@@ -614,10 +614,18 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 
                     if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY) {
                         if (!$this->getIsChildItem()) {
-                            $result->setMessage(Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %s of the items will be backordered.', ($backorderQty * 1)));
+                            $result->setMessage(
+                                $_helper->__('This product is not available in the requested quantity. %s of the items will be backordered.', ($backorderQty * 1))
+                            );
                         } else {
-                            $result->setMessage(Mage::helper('cataloginventory')->__('"%s" is not available in the requested quantity. %s of the items will be backordered.', $this->getProductName(), ($backorderQty * 1)));
+                            $result->setMessage(
+                               $_helper->__('"%s" is not available in the requested quantity. %s of the items will be backordered.', $this->getProductName(), ($backorderQty * 1))
+                            );
                         }
+                    } elseif (Mage::app()->getStore()->isAdmin()) {
+                        $result->setMessage(
+                            $_helper->__('The requested quantity for "%s" is not available.', $this->getProductName())
+                        );
                     }
                 }
             }
@@ -643,12 +651,18 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         $qtyIncrements = $this->getQtyIncrements();
         if ($qtyIncrements && ($qty % $qtyIncrements != 0)) {
             $result->setHasError(true)
-                ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in the requested quantity.'))
+                ->setQuoteMessage(
+                    Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in the requested quantity.')
+                )
                 ->setQuoteMessageIndex('qty');
             if ($this->getIsChildItem()) {
-                $result->setMessage(Mage::helper('cataloginventory')->__('%s is available for purchase in increments of %s only.', $this->getProductName(), $qtyIncrements * 1));
+                $result->setMessage(
+                    Mage::helper('cataloginventory')->__('%s is available for purchase in increments of %s only.',$this->getProductName(), $qtyIncrements * 1)
+                );
             } else {
-                $result->setMessage(Mage::helper('cataloginventory')->__('This product is available for purchase in increments of %s only.', $qtyIncrements * 1));
+                $result->setMessage(
+                    Mage::helper('cataloginventory')->__('This product is available for purchase in increments of %s only.', $qtyIncrements * 1)
+                );
             }
         }
 
@@ -676,8 +690,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      * @param string $errorIndex
      * @return Mage_CatalogInventory_Model_Stock_Item
      */
-    protected function _addQuoteItemError(Mage_Sales_Model_Quote_Item $item, $itemError, $quoteError, $errorIndex='error')
-    {
+    protected function _addQuoteItemError(Mage_Sales_Model_Quote_Item $item, $itemError,
+        $quoteError, $errorIndex='error'
+    ) {
         $item->setHasError(true);
         $item->setMessage($itemError);
         $item->setQuoteMessage($quoteError);
@@ -833,7 +848,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 }
             }
             $stockQty = (float) $stockQty;
-            if ($stockQty < 0 || !$this->getManageStock() || !$this->getIsInStock() || ($product && !$product->isSaleable())) {
+            if ($stockQty < 0 || !$this->getManageStock()
+                || !$this->getIsInStock() || ($product && !$product->isSaleable())
+            ) {
                 $stockQty = 0;
             }
             $this->setStockQty($stockQty);
