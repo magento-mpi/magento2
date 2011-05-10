@@ -691,13 +691,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $formData->assignParams($this->_paramsHelper);
         if($tabId) {
-            $fieldsets = $formData->getTab($tabId)->getFieldsets();
+            $fieldsets = $formData->getTab($tabId)->getAllFieldsets();
         } else {
             $fieldsets = $formData->getAllFieldsets();
         }
 
+        // if we have got empty uimap but not ampty dataset
+        if (empty($fieldsets) && !empty($data)) {
+            return false;
+        }
+
         try {
-            if (!empty($fieldsets)) {
+            foreach ($data as $d_key => $d_val) {
                 foreach ($fieldsets as $fieldsetName => $fieldset) {
                     $baseXpath = $fieldset->getXPath();
                     $baseXpath = !empty($baseXpath) ? '//' . $baseXpath : '';
@@ -706,89 +711,115 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $fields = $fieldset->getAllMultiselects();
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
-                            $elemXPath = $baseXpath . '//' . $fieldXPath;
-                            if (isset($data[$fieldKey])) {
+                            if ($fieldKey == $d_key) {
+                                $elemXPath = $baseXpath . '//' . $fieldXPath;
+
                                 if ($this->isElementPresent($elemXPath)) {
-                                    $this->addSelection($elemXPath, 'regexp:'.$data[$fieldKey]);
+                                    $this->addSelection($elemXPath, 'regexp:' . $d_val);
+                                    usleep(200000);
                                 } else {
                                     throw new PHPUnit_Framework_Exception("Can't find multiselect '{$fieldKey} : {$elemXPath}'");
                                 }
+
+                                break 2;
                             }
                         }
                     }
+
                     // ----------------------------------------------------
                     $fields = $fieldset->getAllDropdowns();
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
-                            $elemXPath = $baseXpath . '//' . $fieldXPath;
-                            if (isset($data[$fieldKey])) {
+                            if ($fieldKey == $d_key) {
+                                $elemXPath = $baseXpath . '//' . $fieldXPath;
+
                                 if ($this->isElementPresent($elemXPath)) {
-                                    $this->select($elemXPath, 'regexp:'.$data[$fieldKey]);
+                                    $this->select($elemXPath, 'regexp:' . $d_val);
+                                    usleep(300000);
                                 } else {
                                     throw new PHPUnit_Framework_Exception("Can't find dropdown '{$fieldKey} : {$elemXPath}'");
                                 }
+
+                                break 2;
                             }
                         }
                     }
-                    // ----------------------------------------------------
-                    $fields = $fieldset->getAllCheckboxes();
-                    if (!empty($fields)) {
-                        foreach ($fields as $fieldKey => $fieldXPath) {
-                            $elemXPath = $baseXpath . '//' . $fieldXPath;
-                            if (isset($data[$fieldKey])) {
-                                if ($this->isElementPresent($elemXPath)) {
-                                    if (strtolower($data[$fieldKey]) == 'yes') {
-                                        //$this->check($elemXPath);
-                                        if ($this->getValue($elemXPath) == 'off') {
-                                            $this->click($elemXPath);                                            
-                                        }
-                                    } else {
-                                        //$this->uncheck($elemXPath);
-                                        if ($this->getValue($elemXPath) == 'on') {
-                                            $this->click($elemXPath);                                            
-                                        }
-                                    }
-                                } else {
-                                    throw new PHPUnit_Framework_Exception("Can't find checkbox '{$fieldKey} : {$elemXPath}'");
-                                }
-                            }
-                        }
-                    }
+
                     // ----------------------------------------------------
                     $fields = $fieldset->getAllRadiobuttons();
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
-                            $elemXPath = $baseXpath . '//' . $fieldXPath;
-                            if (isset($data[$fieldKey])) {
+                            if ($fieldKey == $d_key) {
+                                $elemXPath = $baseXpath . '//' . $fieldXPath;
+
                                 if ($this->isElementPresent($elemXPath)) {
-                                    if (strtolower($data[$fieldKey]) == 'yes') {
+                                    if (strtolower($d_val) == 'yes') {
                                         //$this->check($elemXPath);
                                         $this->click($elemXPath);
                                     } else {
                                         $this->uncheck($elemXPath);
                                     }
+                                    usleep(100000);
                                 } else {
                                     throw new PHPUnit_Framework_Exception("Can't find rediobutton '{$fieldKey} : {$elemXPath}'");
                                 }
+
+                                break 2;
                             }
                         }
                     }
+
+                    // ----------------------------------------------------
+                    $fields = $fieldset->getAllCheckboxes();
+                    if (!empty($fields)) {
+                        foreach ($fields as $fieldKey => $fieldXPath) {
+                            if ($fieldKey == $d_key) {
+                                $elemXPath = $baseXpath . '//' . $fieldXPath;
+
+                                if ($this->isElementPresent($elemXPath)) {
+                                    if (strtolower($d_val) == 'yes') {
+                                        //$this->check($elemXPath);
+                                        if ($this->getValue($elemXPath) == 'off') {
+                                            $this->click($elemXPath);
+                                        }
+                                    } else {
+                                        //$this->uncheck($elemXPath);
+                                        if ($this->getValue($elemXPath) == 'on') {
+                                            $this->click($elemXPath);
+                                        }
+                                    }
+                                    usleep(100000);
+                                } else {
+                                    throw new PHPUnit_Framework_Exception("Can't find checkbox '{$fieldKey} : {$elemXPath}'");
+                                }
+
+                                break 2;
+                            }
+                        }
+                    }
+
                     // ----------------------------------------------------
                     $fields = $fieldset->getAllFields();
                     if (!empty($fields)) {
                         foreach ($fields as $fieldKey => $fieldXPath) {
-                            $elemXPath = $baseXpath . '//' . $fieldXPath;
-                            if (isset($data[$fieldKey])) {
+                            if ($fieldKey == $d_key) {
+                                $elemXPath = $baseXpath . '//' . $fieldXPath;
+
                                 if ($this->isElementPresent($elemXPath)) {
-                                    $this->type($elemXPath, $data[$fieldKey]);
+                                    $this->type($elemXPath, $d_val);
+                                    usleep(50000);
                                 } else {
                                     throw new PHPUnit_Framework_Exception("Can't find field '{$fieldKey} : {$elemXPath}'");
                                 }
+
+                                break 2;
                             }
                         }
                     }
-                }
-            }
+
+                } // foreach ($fieldsets as $fieldsetName => $fieldset)
+            } // foreach ($data as $d_key => $d_val)
+
         } catch (PHPUnit_Framework_Exception $e) {
             $this->messages['error'][] = $e->getMessage();
             $this->_error = true;
@@ -1456,6 +1487,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $xpath = '//' . $xpath;
         }
         return $this->getXpathCount($xpath) == $count;
+    }
+
+
+    /**
+     * Verify element present
+     * 
+     * @param <type> $xpath
+     */
+    public function verifyElementPresent($xpath)
+    {
+        try {
+            $this->assertTrue($this->isElementPresent($xpath));
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            $this->verificationErrors[] = $e->toString();
+        }
     }
 
 
@@ -3829,7 +3875,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     public function run(PHPUnit_Framework_TestResult $result = NULL)
     {
-        
         if ($result === NULL) {
             $result = $this->createResult();
         }
@@ -3866,7 +3911,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * @since Method available since Release 3.5.4
      */
-    
     protected function handleDependencies()
     {
         if (!empty($this->dependencies) && !$this->inIsolation) {
@@ -3942,7 +3986,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         try {
 
             $testResult = $method->invokeArgs(
-              $this, array_merge($this->data, $this->dependencyInput)
+                $this, array_merge($this->data, $this->dependencyInput)
             );
         }
 
@@ -3973,7 +4017,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 throw $e;
             }
         }
-
+/*
+        if (!empty($this->messages['error'])) {
+           echo "\nErrors: ";
+           echo implode("\n", $this->messages['error']);
+           echo "\n";
+        }
+        if (!empty($this->messages['validation'])) {
+           echo "\nValidation errors: ";
+           echo implode("\n", $this->messages['validation']);
+           echo "\n";
+            //$this->fail(implode("\n", $this->messages['validation']));
+        }
+*/
         if ($this->expectedException !== NULL) {
             $this->numAssertions++;
 

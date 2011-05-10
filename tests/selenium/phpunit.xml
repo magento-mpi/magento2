@@ -34,8 +34,8 @@
     convertWarningsToExceptions="true"
     stopOnFailure="false"
     syntaxCheck="false"
-    verbose="false"
-    strict="true">
+    verbose="true"
+    strict="false">
     <testsuites>
         <testsuite name="All Tests">            
             <directory suffix="Test.php">tests/Customer</directory>
