@@ -349,7 +349,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     protected function _initCategories()
     {
         $collection = Mage::getResourceModel('catalog/category_collection')->addNameToResult();
-        /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
         foreach ($collection as $category) {
             $structure = explode('/', $category->getPath());
             $pathSize  = count($structure);
@@ -384,13 +384,13 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initSkus()
     {
-        foreach (Mage::getModel('catalog/product')->getProductEntityInfo() as $info) {
-            $typeId = $info['type_id'];
-            $sku = $info['sku'];
+        foreach (Mage::getResourceModel('catalog/product_collection') as $product) {
+            $typeId = $product->getTypeId();
+            $sku = $product->getSku();
             $this->_oldSku[$sku] = array(
                 'type_id'        => $typeId,
-                'attr_set_id'    => $info['attribute_set_id'],
-                'entity_id'      => $info['entity_id'],
+                'attr_set_id'    => $product->getAttributeSetId(),
+                'entity_id'      => $product->getId(),
                 'supported_type' => isset($this->_productTypeModels[$typeId])
             );
         }
@@ -1234,12 +1234,12 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             'notify_stock_qty'                   => 1,
             'use_config_notify_stock_qty'        => 1,
             'enable_qty_increments'              => 0,
-            'use_config_enable_qty_increments'   => 1,
+            'use_config_enable_qty_inc'          => 1,
             'qty_increments'                     => 0,
             'use_config_qty_increments'          => 1,
             'is_in_stock'                        => 0,
             'low_stock_date'                     => null,
-            'stock_status_changed_automatically' => 0
+            'stock_status_changed_auto'          => 0
         );
 
         $entityTable = Mage::getResourceModel('cataloginventory/stock_item')->getMainTable();
@@ -1274,7 +1274,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                     } else {
                         $stockItem->setQty(0);
                     }
-                    $stockData[] = $stockItem->getData();
+                    $stockData[] = $stockItem->unsetOldData()->getData();
                 }
             }
             if ($stockData) {

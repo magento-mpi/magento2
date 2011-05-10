@@ -75,10 +75,10 @@ class Varien_Object implements ArrayAccess
      * @var boolean
      */
     protected $_isDeleted = false;
-    
+
     /**
      * Map short fields names to its full names
-     * 
+     *
      * @var array
      */
     protected $_oldFieldsMap = array();
@@ -99,10 +99,10 @@ class Varien_Object implements ArrayAccess
         }
         $this->_data = $args[0];
         $this->_addFullNames();
-        
+
         $this->_construct();
     }
-    
+
     protected function _addFullNames()
     {
         $existedShortKeys = array_intersect($this->_oldFieldsMap, array_keys($this->_data));
@@ -113,11 +113,11 @@ class Varien_Object implements ArrayAccess
             }
         }
     }
-    
+
     /**
      * Init mapping array of short fields to
      * its full names
-     * 
+     *
      * @resturn Varien_Object
      */
     protected function _initOldFieldsMap()
@@ -272,6 +272,26 @@ class Varien_Object implements ArrayAccess
                 $fullFieldName = $this->_oldFieldsMap[$key];
                 unset($this->_data[$fullFieldName]);
             }
+        }
+        return $this;
+    }
+
+    /**
+     * Unset old fields data from the object.
+     *
+     * $key can be a string only. Array will be ignored.
+     *
+     * @param string $key
+     * @return Varien_Object
+     */
+    public function unsetOldData($key=null)
+    {
+        if (is_null($key)) {
+            foreach ($this->_oldFieldsMap as $key => $newFieldName) {
+                unset($this->_data[$key]);
+            }
+        } else {
+            unset($this->_data[$key]);
         }
         return $this;
     }

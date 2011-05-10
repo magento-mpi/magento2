@@ -176,7 +176,8 @@ class Mage_ImportExport_Model_Export_Entity_Customer extends Mage_ImportExport_M
                     if ($attrValues) {
                         $value = $attrValues[$value];
                     }
-                    $addrRow[Mage_ImportExport_Model_Import_Entity_Customer_Address::getColNameForAttrCode($attrCode)] = $value;
+                    $column = Mage_ImportExport_Model_Import_Entity_Customer_Address::getColNameForAttrCode($attrCode);
+                    $addrRow[$column] = $value;
                 }
             }
             $customerAddrs[$address['parent_id']][$address->getId()] = $addrRow;

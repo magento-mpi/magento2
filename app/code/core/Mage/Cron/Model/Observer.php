@@ -60,11 +60,15 @@ class Mage_Cron_Model_Observer
         $scheduleLifetime = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_LIFETIME) * 60;
         $now = time();
         $jobsRoot = Mage::getConfig()->getNode('crontab/jobs');
+        $defaultJobsRoot = Mage::getConfig()->getNode('default/crontab/jobs');
 
         foreach ($schedules->getIterator() as $schedule) {
             $jobConfig = $jobsRoot->{$schedule->getJobCode()};
             if (!$jobConfig || !$jobConfig->run) {
-                continue;
+                $jobConfig = $defaultJobsRoot->{$schedule->getJobCode()};
+                if (!$jobConfig || !$jobConfig->run) {
+                    continue;
+                }
             }
 
             $runConfig = $jobConfig->run;

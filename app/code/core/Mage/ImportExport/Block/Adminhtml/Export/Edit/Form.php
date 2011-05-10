@@ -43,7 +43,7 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_Form extends Mage_Adminhtml_
         $helper = Mage::helper('importexport');
         $form = new Varien_Data_Form(array(
             'id'     => 'edit_form',
-            'action' => $this->getUrl('*/*/getfilter'),
+            'action' => $this->getUrl('*/*/getFilter'),
             'method' => 'post'
         ));
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => $helper->__('Export Settings')));

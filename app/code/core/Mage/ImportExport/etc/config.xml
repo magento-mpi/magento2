@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_ImportExport>
-            <version>1.6.0.0</version>
+            <version>1.6.0.1</version>
         </Mage_ImportExport>
     </modules>
     <global>
@@ -37,9 +37,8 @@
                 <class>Mage_ImportExport_Model</class>
                 <resourceModel>importexport_resource</resourceModel>
             </importexport>
-             <importexport_resource>
+            <importexport_resource>
                 <class>Mage_ImportExport_Model_Resource</class>
-                <deprecatedNode>importexport_mysql4</deprecatedNode>
                 <entities>
                     <importdata>
                         <table>importexport_importdata</table>
