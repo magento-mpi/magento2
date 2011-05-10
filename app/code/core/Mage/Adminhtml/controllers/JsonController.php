@@ -27,10 +27,17 @@
 /**
  * Json controller
  *
+ * @category    Mage
+ * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_JsonController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Return JSON-encoded array of country regions
+     *
+     * @return string
+     */
     public function countryRegionAction()
     {
         $arrRes = array();

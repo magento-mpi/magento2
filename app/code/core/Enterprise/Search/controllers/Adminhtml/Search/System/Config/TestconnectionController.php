@@ -27,11 +27,12 @@
  /**
  * Admin search test connection controller
  *
- * @category   Enterprise
- * @package    Enterprise_Search
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Enterprise
+ * @package     Enterprise_Search
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Adminhtml_Search_System_Config_TestconnectionController extends Mage_Adminhtml_Controller_Action
+class Enterprise_Search_Adminhtml_Search_System_Config_TestconnectionController
+    extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Check for connection to server

@@ -27,6 +27,9 @@
 /**
  * Website stub controller
  *
+ * @category    Enterprise
+ * @package     Enterprise_WebsiteRestriction
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller_Front_Action
 {
@@ -47,10 +50,12 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
     /**
      * Cache  will be ralted on configuration and website
      *
-     * @var unknown_type
+     * @var array
      */
-    protected $_cacheTags = array(Mage_Core_Model_Website::CACHE_TAG,
-        Mage_Core_Model_Config::CACHE_TAG);
+    protected $_cacheTags = array(
+        Mage_Core_Model_Website::CACHE_TAG,
+        Mage_Core_Model_Config::CACHE_TAG
+    );
 
     protected function _construct()
     {

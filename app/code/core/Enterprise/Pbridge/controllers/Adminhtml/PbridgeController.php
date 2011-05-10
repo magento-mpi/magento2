@@ -24,7 +24,6 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
  * Index controller
  *

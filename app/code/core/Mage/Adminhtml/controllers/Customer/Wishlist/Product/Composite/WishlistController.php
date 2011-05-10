@@ -27,11 +27,12 @@
 /**
  * Catalog composite product configuration controller
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category    Mage
+ * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
+    extends Mage_Adminhtml_Controller_Action
 {
      /**
      * Wishlist we're working with
