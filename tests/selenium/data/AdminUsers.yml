@@ -41,3 +41,11 @@ generic_admin_user:
   password_confirmation: 123123q
   this_acount_is: Active
   role_name: Administrators
+
+search_admin_user:
+  id:
+  user_name: testuser
+  first_name: John
+  last_name: Doe
+  email: johndoe@magento.com
+  status: Active
