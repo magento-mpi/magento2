@@ -726,7 +726,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                                 if ($this->isElementPresent($elemXPath)) {
                                     if ($d_val != Null) {
-                                        $this->addSelection($elemXPath, 'regexp:' . $d_val);
+                                        $this->addSelection($elemXPath, 'regexp:' . preg_quote($d_val));
                                         usleep(200000);
                                     }
                                 } else {
@@ -746,7 +746,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                                 $elemXPath = $baseXpath . '//' . $fieldXPath;
 
                                 if ($this->isElementPresent($elemXPath)) {
-                                    $this->select($elemXPath, 'regexp:' . $d_val);
+                                    $this->select($elemXPath, 'regexp:' . preg_quote($d_val));
                                     usleep(300000);
                                 } else {
                                     throw new PHPUnit_Framework_Exception("Can't find dropdown '{$fieldKey} : {$elemXPath}'");
