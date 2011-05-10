@@ -26,14 +26,11 @@
 #
 ---
 # Test Datasets for Add New Product Attribute for each types
-# Current limitations:
-# - 'Scope' for all test is 'Global'
-# - 'Apply To' is 'All Product Types'
 
-# Test Datasets for Delete SMOKE Product Attribute
+# Test Datasets for searching Product Attribute
 attribute_search_data:
-  attribute_code: attribute_textfield_smoke
-  attribute_lable: SMOKE Product Attribute Admin Title
+  attribute_code: attribute_textfield_code
+  attribute_lable: Text Field Product Attribute Admin Title
   required: No
   system: No
   visible: No
@@ -100,7 +97,6 @@ product_attribute_date:
   unique_value: No
   values_required: No
   apply_to: All Product Types
-  apply_product_types:
   use_in_quick_search: No
   use_in_advanced_search: No
   comparable_on_frontend: No
@@ -123,7 +119,6 @@ product_attribute_yesno:
   unique_value: No
   values_required: No
   apply_to: All Product Types
-  apply_product_types:
   use_in_quick_search: No
   use_in_advanced_search: No
   comparable_on_frontend: No
@@ -145,7 +140,6 @@ product_attribute_multiselect:
   unique_value: No
   values_required: no
   apply_to: All Product Types
-  apply_product_types:
   use_in_quick_search: No
   use_in_advanced_search: No
   comparable_on_frontend: No
@@ -194,7 +188,6 @@ product_attribute_dropdown:
   unique_value: No
   values_required: no
   apply_to: All Product Types
-  apply_product_types:
   use_to_create_configurable_product: No
   use_in_quick_search: No
   use_in_advanced_search: No
@@ -246,7 +239,6 @@ product_attribute_price:
   unique_value: No
   values_required: No
   apply_to: All Product Types
-  apply_product_types:
   use_in_quick_search: No
   use_in_advanced_search: No
   comparable_on_frontend: No
@@ -269,7 +261,6 @@ product_attribute_mediaimage:
   attribute_code: attribute_mediaimage_code
   scope: Global
   apply_to: All Product Types
-  apply_product_types:
 #manage_titles:
   admin_title: Media Image Product Attribute Admin Title
   title_1:
@@ -281,7 +272,6 @@ product_attribute_fpt:
   catalog_input_type_for_store_owner: Fixed Product Tax
   attribute_code: attribute_fpt_code
   apply_to: All Product Types
-  apply_product_types:
 #manage_titles:
   admin_title: Fixed Product Tax Product Attribute Admin Title
   title_1:

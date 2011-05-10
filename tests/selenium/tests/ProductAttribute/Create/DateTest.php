@@ -35,13 +35,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
-    /*
+
+    /**
      * Preconditions:
      * Admin user should be logged in.
      * Should stays on the Admin Dashboard page after login.
      * Navigate to System -> Manage Customers.
      */
-
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -149,13 +149,18 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
         foreach ($emptyField as $fieldName => $fieldXpath) {
             switch ($fieldName) {
                 case 'attribute_code':
-                    $fieldSet = $page->findFieldSet('attribute_properties');
+                    $fieldSet = $page->findFieldset('attribute_properties');
+                    $xpath = $fieldSet->findField($fieldName);
                     break;
                 case 'admin_title':
-                    $fieldSet = $page->findFieldSet('manage_titles');
+                    $fieldSet = $page->findFieldset('manage_titles');
+                    $xpath = $fieldSet->findField($fieldName);
+                    break;
+                case 'apply_to':
+                    $fieldSet = $page->findFieldset('attribute_properties');
+                    $xpath = $fieldSet->findMultiselect('apply_product_types');
                     break;
             }
-            $xpath = $fieldSet->findField($fieldName);
             $this->addParameter('fieldXpath', $xpath);
         }
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
@@ -167,6 +172,7 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
         return array(
             array(array('attribute_code' => '')),
             array(array('admin_title' => '')),
+            array(array('apply_to' => 'Selected Product Types')),
         );
     }
 
@@ -229,7 +235,7 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
     {
         //Data
         $attrData = $this->loadData('product_attribute_date',
-                        array('admin_title' => $this->generate('string', 32, ':punct:'),), 'attribute_code');
+                        array('admin_title' => $this->generate('string', 32, ':punct:')), 'attribute_code');
         //Steps
         $this->createAttribute($attrData);
         //Verifying
@@ -277,9 +283,10 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
         $this->navigate('manage_attributes');
         $this->assertTrue($this->searchAndOpen($searchData), 'Attribute is not found');
         //Verifying
-        $this->assertTrue($this->verifyForm($attrData, 'properties'));
-        $this->clickControl('tab', 'manage_lables_options');
-        $this->assertTrue($this->verifyForm($attrData, 'manage_lables_options'));
+        $this->assertTrue($this->verifyForm($attrData, 'properties'), $this->messages);
+        $this->clickControl('tab', 'manage_lables_options', FALSE);
+        $this->assertTrue($this->verifyForm($attrData, 'manage_lables_options'), $this->messages);
+        $this->titlesForStoreView($attrData, 'verify');
     }
 
     /**
@@ -297,25 +304,29 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
      * 7.Fill all required fields.
      * 8.Click on "Save Attribute" button
      *
-     * Expected result: new attribute ["Date" type] successfully created.
-     *                  Success message: 'The product attribute has been saved.' is displayed.
-     *                  Pop-up window is closed automatically
+     * Expected result:
+     * New attribute ["Date" type] successfully created.
+     * Success message: 'The product attribute has been saved.' is displayed.
+     * Pop-up window is closed automatically
      *
      * @depends test_WithRequiredFieldsOnly
      */
     public function test_OnProductPage_WithRequiredFieldsOnly()
     {
         //Data
-        $productSettings = $this->loadData('product_create_settings_simple');
-        $attrData = $this->loadData('product_attribute_date', null, 'attribute_code');
-        //Steps
+        $productSettings = $this->loadData('product_create_settings_virtual');
+        $attrData = $this->loadData('product_attribute_date',
+                        null, array('attribute_code', 'admin_title'));
+        // Defining and adding %attributeId% for Uimap pages.
+        $this->addParameter('attributeId', 0);
+        //Steps. Open 'Manage Products' page, click 'Add New Product' button, fill in form.
         $this->navigate('manage_products');
         $this->clickButton('add_new_product');
         $this->assertTrue($this->checkCurrentPage('new_product_settings'),
                 'Wrong page is displayed'
         );
         $this->fillForm($productSettings);
-        // Defining and adding %attributeSetID% and %productType% for 'new_product' Uimap
+        // Defining and adding %attributeSetID% and %productType% for Uimap pages.
         $page = $this->getCurrentUimapPage();
         $fieldSet = $page->findFieldset('product_settings');
         foreach ($productSettings as $fieldsName => $fieldValue) {
@@ -333,14 +344,33 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
         }
         $this->addParameter('attributeSetID', $attributeSetID);
         $this->addParameter('productType', $productType);
+        //Steps. Сlick 'Сontinue' button
         $this->clickButton('continue_button');
+        // Defining and adding %fieldSetId% for Uimap pages.
+        $page = $this->getCurrentUimapPage();
+        $fieldSet = $page->findFieldset('general');
+        $id = explode('_', $this->getAttribute('//' . $fieldSet->getXPath() . '@id'));
+        foreach ($id as $value) {
+            if (is_numeric($value)) {
+                $fieldSetId = $value;
+
+                $this->addParameter('fieldSetId', $fieldSetId);
+                break;
+            }
+        }
+        //Steps. Сlick 'Create New Attribute' button, select opened window.
         $this->clickButton('create_new_attribute', FALSE);
         $this->waitForPopUp('new_attribute', '30000');
-        $this->selectWindow("name=new_attribute");
-//        @TODO
-//        $this->creteAttribute($attrData);
-//        $this->clickButton('save_attribute', true);
-//        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->selectWindow("title=" .
+                $this->getUimapPage('admin', 'new_product_attribute_from_product_page')->getTitle());
+        //Steps. Fill in forms and save.
+        $this->fillForm($attrData, 'properties');
+        $this->clickControl('tab', 'manage_lables_options', false);
+        $this->fillForm($attrData, 'manage_lables_options');
+        $this->titlesForStoreView($attrData);
+        $this->saveForm('save_attribute');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
     }
 
     /**
@@ -360,7 +390,58 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
         $this->fillForm($attrData, 'properties');
         $this->clickControl('tab', 'manage_lables_options', false);
         $this->fillForm($attrData, 'manage_lables_options');
+        $this->titlesForStoreView($attrData);
         $this->saveForm('save_attribute');
+    }
+
+    /**
+     * Fill in(or verify) 'Title' field for different Store Views.
+     *
+     * PreConditions: attribute page is opened on 'Manage Label / Options' tab.
+     *
+     * @param array $attrData
+     * @param string $type
+     */
+    public function titlesForStoreView($attrData, $type = 'fill')
+    {
+        $titleArray = array();
+        foreach ($attrData as $f_key => $d_value) {
+            if (preg_match('/title/', $f_key) and is_array($attrData[$f_key])) {
+                reset($attrData[$f_key]);
+                $key = current($attrData[$f_key]);
+                $value = next($attrData[$f_key]);
+                $titleArray[$key] = $value;
+            }
+        }
+        $page = $this->getCurrentLocationUimapPage();
+        $fieldSet = $page->findFieldset('manage_titles');
+        $xpath = '//' . $fieldSet->getXPath();
+        $qtyStore = $this->getXpathCount($xpath . '//th');
+        foreach ($titleArray as $k => $v) {
+            $number = -1;
+            for ($i = 1; $i <= $qtyStore; $i++) {
+                if ($this->getText($xpath . "//th[$i]") == $k) {
+                    $number = $i;
+                    break;
+                }
+            }
+            if ($number != -1) {
+                $this->addParameter('fieldTitleNumber', $number);
+                $page->assignParams($this->_paramsHelper);
+                switch ($type) {
+                    case 'fill':
+                        $this->type($xpath . '//' . $page->findField('title_by_store_name'), $v);
+                        break;
+                    case 'verify':
+                        $a = $this->getValue($xpath . '//' . $page->findField('title_by_store_name'));
+                        $this->assertEquals($this->getValue($xpath . '//' . $page->findField('title_by_store_name')),
+                                $v, 'Stored data not equals to specified');
+                        break;
+                }
+            } else {
+                throw new OutOfRangeException("Can't find specified store view.");
+            }
+        }
     }
 
 }
