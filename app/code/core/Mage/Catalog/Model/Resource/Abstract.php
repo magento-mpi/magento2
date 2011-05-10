@@ -294,7 +294,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
                 'value'             => $this->_prepareValueForSave($value, $attribute)
             ));
             $bind  = $this->_prepareDataForTable($data, $table);
-            $this->_getWriteAdapter()->insertOnDuplicate($table, $bind, array('value'));
+            $this->_getWriteAdapter()->select()->insertIgnoreFromSelect($table, $bind);
         }
 
         return $this->_saveAttributeValue($object, $attribute, $value);
@@ -472,7 +472,10 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
      * @param array $origData
      * @return bool
      */
-    protected function _canUpdateAttribute(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $value, array &$origData)
+    protected function _canUpdateAttribute(
+        Mage_Eav_Model_Entity_Attribute_Abstract $attribute,
+        $value,
+        array &$origData)
     {
         $result = parent::_canUpdateAttribute($attribute, $value, $origData);
         if ($result &&
