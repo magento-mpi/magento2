@@ -143,10 +143,10 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
      * @param array $emptyField
      * @param array $searchData
      */
-    public function test_WithRequiredFieldsEmpty($emptyField, $searchData)
+    public function test_WithRequiredFieldsEmpty($address, $emptyField, $searchData)
     {
         //Data
-        $addressData = $this->loadData('generic_address_with_state', $emptyField);
+        $addressData = $this->loadData($address, $emptyField);
         //Steps
         $this->openCustomer($searchData);
         $this->addAdress($addressData);
@@ -177,14 +177,14 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
     public function data_emptyFields()
     {
         return array(
-            array(array('first_name' => '')),
-            array(array('last_name' => '')),
-            array(array('street_address_line_1' => '')),
-            array(array('city' => '')),
-            array(array('country' => '')),
-            array(array('state' => '')),
-            array(array('zip_code' => '')),
-            array(array('telephone' => ''))
+            array('generic_address_with_state', array('first_name' => '')),
+            array('generic_address_with_state', array('last_name' => '')),
+            array('generic_address_with_state', array('street_address_line_1' => '')),
+            array('generic_address_with_state', array('city' => '')),
+            array('generic_address_with_region', array('country' => '')),
+            array('generic_address_with_state', array('state' => '')),
+            array('generic_address_with_state', array('zip_code' => '')),
+            array('generic_address_with_state', array('telephone' => ''))
         );
     }
 

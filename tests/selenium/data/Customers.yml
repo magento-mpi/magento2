@@ -145,7 +145,7 @@ search_customer:
   id_from:
   id_to:
   name: First Name Last Name
-  email: test_admin@example.com
+  email: test_admin_1@example.com
   group: General
   telephone:
   zip_code:

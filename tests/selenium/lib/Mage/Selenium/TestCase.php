@@ -191,6 +191,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const xpathValidationMessage = "form/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]";
 
     /**
+    * Field Name xpath with ValidationMessage
+    * 
+    *  @var string
+    */
+    const xpathFieldNameWithValidationMessage ="/ancestor::*[2]//label/descendant-or-self::*[string-length(text())>1]";
+
+    /**
      * Edit link Xpath
      *
      * @var string
@@ -1028,7 +1035,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->messages['success']    = $this->getElementsByXpath(self::xpathSuccessMessage);
         $this->messages['error']      = $this->getElementsByXpath(self::xpathErrorMessage);
-        $this->messages['validation'] = $this->getElementsByXpath(self::xpathValidationMessage, "text", "/ancestor::tr/td[normalize-space(@class)='label']/descendant-or-self::*[string-length(text())>1]");
+        $this->messages['validation'] = $this->getElementsByXpath(self::xpathValidationMessage, "text", self::xpathFieldNameWithValidationMessage);
     }
 
     /**
