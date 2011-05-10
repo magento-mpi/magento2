@@ -274,6 +274,9 @@
     </target>
 
     <target name="selenium-smoke" description="Run smoke test using selenium">
+        <copy file="browsers.yml"
+              tofile="${dir.src}/tests/selenium/config/browsers.yml"
+              failonerror="true"/>
         <exec dir="${dir.src}/tests/selenium" executable="phpunit" failonerror="false">
             <arg line="--log-junit ${dir.reports}/selenium-smoke.xml --configuration phpunit.xml"/>
         </exec>
