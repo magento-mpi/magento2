@@ -120,7 +120,9 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
         $baseUrls = array();
         foreach (Mage::app()->getStores() as $store) {
             $website               = Mage::app()->getWebsite($store->getWebsiteId());
-            if ($website->getIsStaging() || (int)Mage::getStoreConfig('general/restriction/is_active', $store)) {
+            if ($website->getIsStaging()
+                || Mage::helper('enterprise_websiterestriction')->getIsRestrictionEnabled($store)
+            ) {
                 continue;
             }
             $baseUrl               = Mage::app()->getStore($store)->getBaseUrl();
@@ -190,11 +192,12 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
             $urlsPaths  = $this->_getResource()->getUrlsPaths($storeId);
             foreach ($urlsPaths as $urlPath) {
                 $url = $baseUrl . $urlPath;
-                if (in_array($url, $this->_visitedUrls)) {
+                $urlHash = md5($url);
+                if (isset($this->_visitedUrls[$urlHash])) {
                     continue;
                 }
                 $urls[] = $url;
-                $this->_visitedUrls[] = $url;
+                $this->_visitedUrls[$urlHash] = true;
                 $urlsCount++;
                 $totalCount++;
                 if ($urlsCount == $threads) {

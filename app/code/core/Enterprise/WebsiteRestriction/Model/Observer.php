@@ -42,11 +42,13 @@ class Enterprise_WebsiteRestriction_Model_Observer
 
         if (!Mage::app()->getStore()->isAdmin()) {
             $dispatchResult = new Varien_Object(array('should_proceed' => true));
-            Mage::dispatchEvent('websiterestriction_frontend', array('controller' => $controller, 'result' => $dispatchResult));
+            Mage::dispatchEvent('websiterestriction_frontend', array(
+                'controller' => $controller, 'result' => $dispatchResult
+            ));
             if (!$dispatchResult->getShouldProceed()) {
                 return;
             }
-            if (!(int)Mage::getStoreConfig('general/restriction/is_active')) {
+            if (!Mage::helper('enterprise_websiterestriction')->getIsRestrictionEnabled()) {
                 return;
             }
             /* @var $request Mage_Core_Controller_Request_Http */
@@ -63,7 +65,8 @@ class Enterprise_WebsiteRestriction_Model_Observer
                             ->setDispatched(false);
                         return;
                     }
-                    if (Enterprise_WebsiteRestriction_Model_Mode::HTTP_503 === (int)Mage::getStoreConfig('general/restriction/http_status')) {
+                    $httpStatus = (int)Mage::getStoreConfig('general/restriction/http_status');
+                    if (Enterprise_WebsiteRestriction_Model_Mode::HTTP_503 === $httpStatus) {
                         $response->setHeader('HTTP/1.1','503 Service Unavailable');
                     }
                     break;
@@ -80,8 +83,10 @@ class Enterprise_WebsiteRestriction_Model_Observer
                             ->getNode('frontend/enterprise/websiterestriction/full_action_names/generic')->asArray()
                         );
                         if (Mage::helper('customer')->isRegistrationAllowed()) {
-                            foreach(array_keys(Mage::getConfig()->getNode('frontend/enterprise/websiterestriction/full_action_names/register')
-                                ->asArray()) as $fullActionName) {
+                            foreach(array_keys(Mage::getConfig()
+                                ->getNode('frontend/enterprise/websiterestriction/full_action_names/register')
+                                ->asArray()) as $fullActionName
+                            ) {
                                 $allowedActionNames[] = $fullActionName;
                             }
                         }
@@ -113,7 +118,9 @@ class Enterprise_WebsiteRestriction_Model_Observer
                         Mage::getSingleton('core/session')->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
                     }
                     elseif (Mage::getSingleton('core/session')->hasWebsiteRestrictionAfterLoginUrl()) {
-                        $response->setRedirect(Mage::getSingleton('core/session')->getWebsiteRestrictionAfterLoginUrl(true));
+                        $response->setRedirect(
+                            Mage::getSingleton('core/session')->getWebsiteRestrictionAfterLoginUrl(true)
+                        );
                         $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                     }
                     break;
@@ -130,8 +137,9 @@ class Enterprise_WebsiteRestriction_Model_Observer
     {
         $result = $observer->getEvent()->getResult();
         if ((!Mage::app()->getStore()->isAdmin()) && $result->getIsAllowed()) {
-            $result->setIsAllowed((!(bool)(int)Mage::getStoreConfig('general/restriction/is_active'))
-                || (Enterprise_WebsiteRestriction_Model_Mode::ALLOW_REGISTER === (int)Mage::getStoreConfig('general/restriction/mode'))
+            $restrictionMode = (int)Mage::getStoreConfig('general/restriction/mode');
+            $result->setIsAllowed((!Mage::helper('enterprise_websiterestriction')->getIsRestrictionEnabled())
+                || (Enterprise_WebsiteRestriction_Model_Mode::ALLOW_REGISTER === $restrictionMode)
             );
         }
     }
