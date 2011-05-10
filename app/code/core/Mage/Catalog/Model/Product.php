@@ -1253,7 +1253,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if ($this->hasData('is_salable')) {
             return $this->getData('is_salable');
         }
-        
+
         return $this->isSalable();
     }
 
@@ -1887,5 +1887,15 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * Retrieve product entities info as array
+     *
+     * @return array
+     */
+    public function getProductEntitiesInfo()
+    {
+        return $this->_getResource()->getProductEntitiesInfo();
     }
 }

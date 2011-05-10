@@ -30,6 +30,9 @@
         <Mage_ImportExport>
             <active>true</active>
             <codePool>core</codePool>
+            <depends>
+                <Mage_Catalog/>
+            </depends>
         </Mage_ImportExport>
     </modules>
 </config>
