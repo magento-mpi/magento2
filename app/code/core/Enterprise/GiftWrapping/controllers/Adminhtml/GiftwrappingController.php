@@ -295,4 +295,14 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
         }
         return $wrappingRawData;
     }
+
+    /**
+     * Ajax action for GiftWrapping content in backend order creation
+     *
+     * @return void
+     */
+    public function orderOptionsAction() {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
 }

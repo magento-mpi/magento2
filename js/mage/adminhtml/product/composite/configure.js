@@ -368,6 +368,8 @@ ProductConfigure.prototype = {
             if (Object.isFunction(this.onLoadIFrameCallback[this.current.listType])) {
                 this.onLoadIFrameCallback[this.current.listType](response);
             }
+
+            document.fire(this.current.listType + ':afterIFrameLoaded');
         }
         this.clean('current');
     },

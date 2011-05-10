@@ -127,9 +127,10 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
      */
     public function canDisplayGiftWrappingForOrder()
     {
-        return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder($this->getStoreId())
+        return (Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder($this->getStoreId())
             || $this->getAllowPrintedCard()
-            || $this->getAllowGiftReceipt();
+            || $this->getAllowGiftReceipt())
+                && !$this->getQuote()->isVirtual();
     }
 
     /**
@@ -140,5 +141,14 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
     public function isGiftWrappingForEntireOrder()
     {
         return Mage::helper('enterprise_giftwrapping')->isGiftWrappingAvailableForOrder($this->getStoreId());
+    }
+
+    /**
+     * Get url for ajax to refresh Gift Wrapping block
+     *
+     * @return void
+     */
+    public function getRefreshWrappingUrl() {
+        return $this->getUrl('*/giftwrapping/orderOptions');
     }
 }
