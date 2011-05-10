@@ -853,6 +853,7 @@ Review.prototype = {
                 response = {};
             }
             if (response.redirect) {
+                this.isSuccess = true;
                 location.href = response.redirect;
                 return;
             }
