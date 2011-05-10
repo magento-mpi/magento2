@@ -530,7 +530,6 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             if ($columns) {
                 $testColumn = current($columns);
                 if (array_key_exists('is_null', $testColumn)) {
-                    var_dump($columns);
                     foreach ($columns as $key => $column) {
                         $columns[$key] = $this->_convertOldColumn2New($column);
                     }
