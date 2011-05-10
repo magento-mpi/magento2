@@ -418,7 +418,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         }
 
         $filters = $this->_productLimitationFilters;
-        if ($filters['store_id']) {
+        if (isset($filters['store_id'])) {
             if (!in_array($filters['store_id'], $storeIds)) {
                 $this->addStoreFilter($filters['store_id']);
             } else {
