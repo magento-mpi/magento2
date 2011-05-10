@@ -26,16 +26,32 @@
 #
 ---
 browsers:
-  default:
+  chrome: &chrome
     browser : '*chrome'
-    host    : '127.0.0.1'
-    port    : 5555
+    host    : 127.0.0.1
+    port    : 4444
+    doNotKillBrowsers : false
+  firefox: &firefox
+    browser : '*firefox'
+    host    : 127.0.0.1
+    port    : 4444
+    doNotKillBrowsers : false
+  iexplore: &iexplore
+    browser : '*iexplore'
+    host    : 127.0.0.1
+    port    : 4444
+    doNotKillBrowsers : false
+  googlechrome: &googlechrome
+    browser : '*googlechrome'
+    host    : 127.0.0.1
+    port    : 4444
     doNotKillBrowsers : false
     browserTimeoutPeriod : 10000
+  default: *chrome
 applications:
-  magento-ce: &magento-ce
-    frontendUrl : 'http://www.localhost.com/magento-trunk/'
-    adminUrl    : 'http://www.localhost.com/magento-trunk/control/'
-    adminLogin  : michael
-    adminPassword : 123123q
-  default: *magento-ce
+  magento: &magento
+    frontendUrl : 'http://www.localhost.com/magento/'
+    adminUrl    : 'http://www.localhost.com/magento/admin/'
+    adminLogin  : admin
+    adminPassword : admin
+  default: *magento
