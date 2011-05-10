@@ -151,6 +151,16 @@
                     </catalogrule>
                 </observers>
             </catalog_product_save_after>
+
+            <catalog_product_import_finish_before>
+                <observers>
+                    <catalogrule>
+                        <class>catalogrule/observer</class>
+                        <method>createCatalogRulesRelations</method>
+                    </catalogrule>
+                </observers>
+            </catalog_product_import_finish_before>
+
             <catalog_product_import_after>
                 <observers>
                     <catalogrule>

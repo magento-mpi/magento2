@@ -72,6 +72,7 @@ class Mage_Catalog_Model_Resource_Product_Action extends Mage_Catalog_Model_Reso
 
                 $i = 0;
                 foreach ($entityIds as $entityId) {
+                    $i++;
                     $object->setId($entityId);
                     // collect data for save
                     $this->_saveAttributeValue($object, $attribute, $value);
@@ -80,8 +81,8 @@ class Mage_Catalog_Model_Resource_Product_Action extends Mage_Catalog_Model_Reso
                         $this->_processAttributeValues();
                     }
                 }
+                $this->_processAttributeValues();
             }
-            $this->_processAttributeValues();
             $this->_getWriteAdapter()->commit();
         } catch (Exception $e) {
             $this->_getWriteAdapter()->rollBack();

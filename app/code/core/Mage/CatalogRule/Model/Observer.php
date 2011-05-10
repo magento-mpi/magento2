@@ -356,4 +356,27 @@ class Mage_CatalogRule_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Create catalog rule relations for imported products
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function createCatalogRulesRelations(Varien_Event_Observer $observer)
+    {
+        $adapter = $observer->getEvent()->getAdapter();
+        $affectedEntityIds = $adapter->getAffectedEntityIds();
+
+        if (empty($affectedEntityIds)) {
+            return;
+        }
+
+        $rules = Mage::getModel('catalogrule/rule')->getCollection()
+            ->addFieldToFilter('is_active', 1);
+
+        foreach ($rules as $rule) {
+            $rule->setProductsFilter($affectedEntityIds);
+            Mage::getResourceSingleton('catalogrule/rule')->updateRuleProductData($rule);
+        }
+    }
 }

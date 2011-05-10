@@ -87,6 +87,13 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     protected $_productIds;
 
+    /**
+     * Limitation for products collection
+     *
+     * @var int|array|null
+     */
+    protected $_productsFilter = null;
+
     protected $_now;
 
     /**
@@ -104,6 +111,16 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         parent::_construct();
         $this->_init('catalogrule/rule');
         $this->setIdFieldName('rule_id');
+    }
+
+    /**
+     * Filtering products that must be checked for matching with rule
+     *
+     * @param  int|array $productIds
+     */
+    public function setProductsFilter($productIds)
+    {
+        $this->_productsFilter = $productIds;
     }
 
     public function getConditionsInstance()
@@ -128,7 +145,6 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     {
         $this->_now = $now;
     }
-
 
     public function toString($format='')
     {
@@ -200,10 +216,18 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         if (is_null($this->_productIds)) {
             $this->_productIds = array();
             $this->setCollectedAttributes(array());
-            $websiteIds = explode(',', $this->getWebsiteIds());
+            $websiteIds = $this->getWebsiteIds();
+            if (!is_array($websiteIds)) {
+                $websiteIds = explode(',', $websiteIds);
+            }
+
             if ($websiteIds) {
-                $productCollection = Mage::getResourceModel('catalog/product_collection');
-                $productCollection->addWebsiteFilter($websiteIds);
+                $productCollection = Mage::getResourceModel('catalog/product_collection')
+                    ->addWebsiteFilter($websiteIds);
+                if ($this->_productsFilter) {
+                    $productCollection->addIdFilter($this->_productsFilter);
+                }
+
                 $this->getConditions()->collectValidatedAttributes($productCollection);
 
                 Mage::getSingleton('core/resource_iterator')->walk(
@@ -293,7 +317,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     /**
      * Apply all price rules to product
      *
-     * @param int|Mage_Catalog_Model_Product $product
+     * @param  int|Mage_Catalog_Model_Product $product
      * @return Mage_CatalogRule_Model_Rule
      */
     public function applyAllRulesToProduct($product)
@@ -309,24 +333,23 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     /**
      * Calculate price using catalog price rule of product
      *
-     * @param Mage_Catalog_Model_Product $product
-     * @param float $price
+     * @param  Mage_Catalog_Model_Product $product
+     * @param  float $price
      * @return float|null
      */
     public function calcProductPriceRule(Mage_Catalog_Model_Product $product, $price)
     {
-        $priceRules      = null;
-        $productId       = $product->getId();
-        $storeId         = $product->getStoreId();
-        $websiteId       = Mage::app()->getStore($storeId)->getWebsiteId();
-        $customerGroupId = null;
+        $priceRules = null;
+        $productId  = $product->getId();
+        $storeId    = $product->getStoreId();
+        $websiteId  = Mage::app()->getStore($storeId)->getWebsiteId();
         if ($product->hasCustomerGroupId()) {
             $customerGroupId = $product->getCustomerGroupId();
         } else {
             $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
         }
-        $dateTs          = Mage::app()->getLocale()->storeTimeStamp($storeId);
-        $cacheKey        = date('Y-m-d', $dateTs)."|$websiteId|$customerGroupId|$productId|$price";
+        $dateTs     = Mage::app()->getLocale()->storeTimeStamp($storeId);
+        $cacheKey   = date('Y-m-d', $dateTs) . "|$websiteId|$customerGroupId|$productId|$price";
 
         if (!array_key_exists($cacheKey, self::$_priceRulesData)) {
             $rulesData = $this->_getResource()->getRulesFromProduct($dateTs, $websiteId, $customerGroupId, $productId);

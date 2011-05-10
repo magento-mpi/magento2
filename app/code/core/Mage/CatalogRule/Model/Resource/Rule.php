@@ -65,8 +65,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
 
         if (!$object->getToDate()) {
             $object->setToDate(new Zend_Db_Expr('NULL'));
-        }
-        else {
+        } else {
             if ($object->getToDate() instanceof Zend_Date) {
                 $object->setToDate($object->getToDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
             }
@@ -93,10 +92,14 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             return $this;
         }
 
-        $websiteIds = explode(',', $rule->getWebsiteIds());
+        $websiteIds = $rule->getWebsiteIds();
+        if (!is_array($websiteIds)) {
+            $websiteIds = explode(',', $websiteIds);
+        }
         if (empty($websiteIds)) {
             return $this;
         }
+
         Varien_Profiler::start('__MATCH_PRODUCTS__');
         $productIds = $rule->getMatchingProductIds();
         Varien_Profiler::stop('__MATCH_PRODUCTS__');
@@ -218,7 +221,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
     }
 
     /**
-     * Get DB resource statment for processing query result
+     * Get DB resource statement for processing query result
      *
      * @param int $fromDate
      * @param int $toDate
@@ -242,7 +245,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         $select = $read->select()
             ->from(array('rp' => $this->getTable('catalogrule/rule_product')))
             ->where($read->quoteInto('rp.from_time=0 or rp.from_time<=?', $toDate)
-            ." or ".$read->quoteInto('rp.to_time=0 or rp.to_time>=?', $fromDate))
+            . ' or ' .$read->quoteInto('rp.to_time=0 or rp.to_time>=?', $fromDate))
             ->order(array('rp.website_id', 'rp.customer_group_id', 'rp.product_id', 'rp.sort_order', 'rp.rule_id'));
 
         if (!is_null($productId)) {
@@ -268,9 +271,9 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             $website  = Mage::app()->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
             if ($defaultGroup instanceof Mage_Core_Model_Store_Group) {
-                $storeId    = $defaultGroup->getDefaultStoreId();
+                $storeId = $defaultGroup->getDefaultStoreId();
             } else {
-                $storeId    = Mage_Core_Model_App::ADMIN_STORE_ID;
+                $storeId = Mage_Core_Model_App::ADMIN_STORE_ID;
             }
 
             $select->joinInner(
@@ -290,24 +293,24 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             );
         } else {
             foreach (Mage::app()->getWebsites() as $website) {
-                $websiteId  = $website->getId();
-                $defaultGroup = $website->getDefaultGroup();
+                $websiteId      = $website->getId();
+                $defaultGroup   = $website->getDefaultGroup();
                 if ($defaultGroup instanceof Mage_Core_Model_Store_Group) {
                     $storeId    = $defaultGroup->getDefaultStoreId();
                 } else {
                     $storeId    = Mage_Core_Model_App::ADMIN_STORE_ID;
                 }
 
-                $storeId    = $defaultGroup->getDefaultStoreId();
                 $tableAlias = 'pp'.$websiteId;
                 $fieldAlias = 'website_'.$websiteId.'_price';
                 $select->joinLeft(
-                    array($tableAlias=>$priceTable),
+                    array($tableAlias => $priceTable),
                     sprintf($joinCondition, $tableAlias, $storeId),
-                    array($fieldAlias=>$tableAlias.'.value')
+                    array($fieldAlias => $tableAlias . '.value')
                 );
             }
         }
+
         return $read->query($select);
     }
 
@@ -326,7 +329,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         $write = $this->_getWriteAdapter();
         $write->beginTransaction();
 
-        Mage::dispatchEvent('catalogrule_before_apply', array('resource'=>$this));
+        Mage::dispatchEvent('catalogrule_before_apply', array('resource' => $this));
 
         $clearOldData = false;
         if ($fromDate === null) {
@@ -350,8 +353,8 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
 
         $product = null;
         if ($productId instanceof Mage_Catalog_Model_Product) {
-            $product = $productId;
-            $productId = $productId->getId();
+            $product    = $productId;
+            $productId  = $productId->getId();
         }
 
         $this->removeCatalogPricesForDateRange($fromDate, $toDate, $productId);
@@ -363,7 +366,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
 
         try {
             /**
-             * Update products rules prices per each website separatly
+             * Update products rules prices per each website separately
              * because of max join limit in mysql
              */
             foreach (Mage::app()->getWebsites(false) as $website) {
@@ -379,8 +382,8 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
                 $prevKey    = null;
 
                 while ($ruleData = $productsStmt->fetch()) {
-                    $ruleProductId = $ruleData['product_id'];
-                    $productKey= $ruleProductId . '_'
+                    $ruleProductId  = $ruleData['product_id'];
+                    $productKey     = $ruleProductId . '_'
                        . $ruleData['website_id'] . '_'
                        . $ruleData['customer_group_id'];
 
@@ -393,8 +396,8 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
                      */
                     for ($time=$fromDate; $time<=$toDate; $time+=self::SECONDS_IN_DAY) {
                         if (($ruleData['from_time']==0 || $time >= $ruleData['from_time'])
-                            && ($ruleData['to_time']==0 || $time <=$ruleData['to_time'])) {
-
+                            && ($ruleData['to_time']==0 || $time <=$ruleData['to_time'])
+                        ) {
                             $priceKey = $time . '_' . $productKey;
 
                             if (isset($stopFlags[$priceKey])) {
@@ -411,8 +414,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
                                     'latest_start_date' => $ruleData['from_time'],
                                     'earliest_end_date' => $ruleData['to_time'],
                                 );
-                            }
-                            else {
+                            } else {
                                 $dayPrices[$priceKey]['rule_price'] = $this->_calcRuleProductPrice(
                                     $ruleData,
                                     $dayPrices[$priceKey]
@@ -464,7 +466,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             ->setTable($this->getTable('catalogrule/affected_product'))
             ->setPkFieldName('product_id');
         Mage::dispatchEvent('catalogrule_after_apply', array(
-            'product'=>$product,
+            'product' => $product,
             'product_condition' => $productCondition
         ));
         $write->delete($this->getTable('catalogrule/affected_product'));
@@ -483,13 +485,11 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
     {
         if ($productData !== null && isset($productData['rule_price'])) {
             $productPrice = $productData['rule_price'];
-        }
-        else {
+        } else {
             $websiteId = $ruleData['website_id'];
             if (isset($ruleData['website_'.$websiteId.'_price'])) {
                 $productPrice = $ruleData['website_'.$websiteId.'_price'];
-            }
-            else {
+            } else {
                 $productPrice = $ruleData['default_price'];
             }
         }
@@ -698,10 +698,11 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
         } catch (Exception $e) {
             $write->rollback();
             throw $e;
-
         }
+
         $this->applyAllRulesForDateRange(null, null, $product);
         $write->commit();
+
         return $this;
     }
 }
