@@ -531,12 +531,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
             $response->setMessage($e->getMessage());
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $response->setError(true);
             $response->setMessage($e->getMessage());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_initLayoutMessages('adminhtml/session');
             $response->setError(true);
@@ -551,7 +549,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _initProductSave()
     {
-        $product    = $this->_initProduct();
+        $product     = $this->_initProduct();
         $productData = $this->getRequest()->getPost('product');
         if ($productData) {
             if (!isset($productData['stock_data']['use_config_manage_stock'])) {
@@ -636,17 +634,19 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
          * Initialize data for configurable product
          */
         if (($data = $this->getRequest()->getPost('configurable_products_data'))
-            && !$product->getConfigurableReadonly()) {
+            && !$product->getConfigurableReadonly()
+        ) {
             $product->setConfigurableProductsData(Mage::helper('core')->jsonDecode($data));
         }
         if (($data = $this->getRequest()->getPost('configurable_attributes_data'))
-            && !$product->getConfigurableReadonly()) {
+            && !$product->getConfigurableReadonly()
+        ) {
             $product->setConfigurableAttributesData(Mage::helper('core')->jsonDecode($data));
         }
 
         $product->setCanSaveConfigurableAttributes(
-            (bool)$this->getRequest()->getPost('affect_configurable_product_attributes')
-            && !$product->getConfigurableReadonly()
+            (bool) $this->getRequest()->getPost('affect_configurable_product_attributes')
+                && !$product->getConfigurableReadonly()
         );
 
         /**
@@ -716,13 +716,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 Mage::getModel('catalogrule/rule')->applyAllRulesToProduct($productId);
 
                 $this->_getSession()->addSuccess($this->__('The product has been saved.'));
-            }
-            catch (Mage_Core_Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage())
                     ->setProductData($data);
                 $redirectBack = true;
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 Mage::logException($e);
                 $this->_getSession()->addError($e->getMessage());
                 $redirectBack = true;
@@ -734,15 +732,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 'id'    => $productId,
                 '_current'=>true
             ));
-        }
-        else if($this->getRequest()->getParam('popup')) {
+        } elseif($this->getRequest()->getParam('popup')) {
             $this->_redirect('*/*/created', array(
                 '_current'   => true,
                 'id'         => $productId,
                 'edit'       => $isEdit
             ));
-        }
-        else {
+        } else {
             $this->_redirect('*/*/', array('store'=>$storeId));
         }
     }
@@ -757,8 +753,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $newProduct = $product->duplicate();
             $this->_getSession()->addSuccess($this->__('The product has been duplicated.'));
             $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$newProduct->getId()));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('_current'=>true));
@@ -789,8 +784,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             try {
                 $product->delete();
                 $this->_getSession()->addSuccess($this->__('The product has been deleted.'));
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
         }
@@ -805,7 +799,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout();
         $this->getLayout()->getBlock('admin.product.tags')
-                ->setProductId($this->getRequest()->getParam('id'));
+            ->setProductId($this->getRequest()->getParam('id'));
         $this->renderLayout();
     }
 
@@ -906,11 +900,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
         catch (Mage_Core_Model_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_getSession()
                 ->addException($e, $this->__('An error occurred while updating the product(s) status.'));
         }

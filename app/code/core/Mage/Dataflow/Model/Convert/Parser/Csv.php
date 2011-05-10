@@ -169,7 +169,6 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
                 return;
             } else {
                 foreach ($line as $j=>$f) {
-//                    $this->_fields[$j] = 'column'.($j+1);
                     $this->_fields[$j] = $this->_mapfields[$j];
                 }
             }

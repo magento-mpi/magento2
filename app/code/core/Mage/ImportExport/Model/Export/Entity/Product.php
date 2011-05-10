@@ -38,7 +38,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Value that means all entities (e.g. websites, groups etc.)
      */
-    const VALUE_ALL = 'all';
+    const VALUE_ALL    = 'all';
 
     /**
      * Permanent column names.
@@ -118,11 +118,11 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         parent::__construct();
 
         $this->_initTypeModels()
-                ->_initAttrValues()
-                ->_initStores()
-                ->_initAttributeSets()
-                ->_initWebsites()
-                ->_initCategories();
+            ->_initAttrValues()
+            ->_initStores()
+            ->_initAttributeSets()
+            ->_initWebsites()
+            ->_initCategories();
     }
 
     /**
@@ -412,13 +412,10 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         /** @var $collection Mage_Catalog_Model_Resource_Eav_Resource_Product_Collection */
         $validAttrCodes  = $this->_getExportAttrCodes();
         $writer          = $this->getWriter();
-        $resource        = Mage::getSingleton('core/resource');
         $dataRows        = array();
         $rowCategories   = array();
         $rowWebsites     = array();
         $rowTierPrices   = array();
-        $stockItemRows   = array();
-        $linksRows       = array();
         $gfAmountFields  = array();
         $defaultStoreId  = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
         $collection = $this->_prepareEntityCollection(Mage::getResourceModel('catalog/product_collection'));
@@ -497,7 +494,6 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
 
         // prepare configurable products data
         $configurableData  = $this->_prepareConfigurableProductData($productIds);
-        $configurablePrice = array();
         if ($configurableData) {
             $configurablePrice = $this->_prepareConfigurableProductPrice($productIds);
             foreach ($configurableData as $productId => &$rows) {
