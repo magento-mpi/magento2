@@ -115,10 +115,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         );
 
         $addressModel = Mage::getModel('customer/address');
-        /* @var $addressForm Mage_Customer_Model_Form */
+        $addressModel->setCountryId(Mage::helper('core')->getDefaultCountry($customer->getStore()));
+        /** @var $addressForm Mage_Customer_Model_Form */
         $addressForm = Mage::getModel('customer/form');
         $addressForm->setFormCode('adminhtml_customer_address')
-            ->setEntity($addressModel);
+            ->setEntity($addressModel)
+            ->initDefaultValues();
 
         $attributes = $addressForm->getAttributes();
         foreach ($attributes as $attribute) {
@@ -186,6 +188,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         $addressCollection = $customer->getAddresses();
         $this->assign('customer', $customer);
         $this->assign('addressCollection', $addressCollection);
+        $form->setValues($addressModel->getData());
         $this->setForm($form);
 
         return $this;

@@ -114,7 +114,6 @@
     <?php
         // Set form template elements prefix
         $this->getFormObject()->setHtmlIdPrefix($_templatePrefix)
-                ->setValues(array('country_id' => Mage::helper('core')->getDefaultCountry($customer->getStore())))
                 ->setFieldNameSuffix('address['.$_templatePrefix.']');
     ?>
     <?php echo $this->getFormObject()->getHtml() ?>
