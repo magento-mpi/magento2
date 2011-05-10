@@ -1163,7 +1163,7 @@ tr.summary-details-excluded { font-style:italic; }
 .cart-table thead th.first,
 .cart-table tbody td.first { background-image:none!important; }
 .cart-table th { padding:15px 25px; }
-.cart-table td { padding:20px; }
+.cart-table td { padding:13px; }
 .cart-table tbody td { vertical-align:middle; }
 .cart-table .product-name { font-weight:bold; margin:0 0 5px; color:#2f2f2f; }
 .cart-table .item-msg { margin:5px 0; font-size:11px; font-weight:bold; color:#df280a; }
