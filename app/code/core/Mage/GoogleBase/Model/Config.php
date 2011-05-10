@@ -27,6 +27,7 @@
 /**
  * Google Base Config model
  *
+ * @deprecated after 1.5.1.0
  * @category   Mage
  * @package    Mage_GoogleBase
  * @author     Magento Core Team <core@magentocommerce.com>
@@ -38,7 +39,7 @@ class Mage_GoogleBase_Model_Config extends Varien_Object
      *
      *  @param    string $key Var path key
      *  @param    int $storeId Store View Id
-     *  @return	  mixed
+     *  @return   mixed
      */
     public function getConfigData($key, $storeId = null)
     {

@@ -50,9 +50,10 @@
  * @method int getIsHidden()
  * @method Mage_GoogleBase_Model_Item setIsHidden(int $value)
  *
- * @category    Mage
- * @package     Mage_GoogleBase
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @deprecated after 1.5.1.0
+ * @category   Mage
+ * @package    Mage_GoogleBase
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
 {
@@ -287,8 +288,10 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
             $frontendLabel = array_shift($frontendLabel);
         }
         if (!$this->_translations) {
+            $moduleName = Mage_Catalog_Model_Entity_Attribute::MODULE_NAME;
+            $separator  = Mage_Core_Model_Translate::SCOPE_SEPARATOR;
             $this->_translations = Mage::getModel('core/translate_string')
-               ->load(Mage_Catalog_Model_Entity_Attribute::MODULE_NAME.Mage_Core_Model_Translate::SCOPE_SEPARATOR.$frontendLabel)
+               ->load($moduleName . $separator . $frontendLabel)
                ->getStoreTranslations();
         }
         if (isset($this->_translations[$storeId])) {

@@ -27,6 +27,7 @@
 /**
  * Google Base Data Helper
  *
+ * @deprecated after 1.5.1.0
  * @category   Mage
  * @package    Mage_GoogleBase
  * @author     Magento Core Team <core@magentocommerce.com>

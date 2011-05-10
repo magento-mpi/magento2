@@ -28,9 +28,10 @@
 /**
  * Google Base Item resource model
  *
- * @category    Mage
- * @package     Mage_GoogleBase
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @deprecated after 1.5.1.0
+ * @category   Mage
+ * @package    Mage_GoogleBase
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleBase_Model_Mysql4_Item extends Mage_GoogleBase_Model_Resource_Item
 {

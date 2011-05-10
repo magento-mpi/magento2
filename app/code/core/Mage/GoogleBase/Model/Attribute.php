@@ -36,9 +36,10 @@
  * @method int getTypeId()
  * @method Mage_GoogleBase_Model_Attribute setTypeId(int $value)
  *
- * @category    Mage
- * @package     Mage_GoogleBase
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @deprecated after 1.5.1.0
+ * @category   Mage
+ * @package    Mage_GoogleBase
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleBase_Model_Attribute extends Mage_Core_Model_Abstract
 {
