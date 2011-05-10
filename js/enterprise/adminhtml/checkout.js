@@ -32,7 +32,7 @@ AdminCheckout.prototype = {
         this.gridProducts   = $H({});
         this.quoteAddFields = {};
         this.sourceGrids    = {};
-        
+
         this.actionUrls     = data.action_urls ? data.action_urls : {};
         this.messages       = data.messages ? data.messages : {};
         this.customerId     = data.customer_id ? data.customer_id : false;
@@ -40,13 +40,13 @@ AdminCheckout.prototype = {
         this.currencySymbol = data.currency_symbol ? data.currency_symbol : '';
         this.productPriceBase = {};
     },
-    
-    getActionUrl: function (action) 
+
+    getActionUrl: function (action)
     {
         return this.actionUrls[action];
     },
-    
-    getMessage: function (id) 
+
+    getMessage: function (id)
     {
         return this.messages[id];
     },
@@ -106,7 +106,7 @@ AdminCheckout.prototype = {
 
     searchProducts: function()
     {
-        productsGrid.reloadParams = {source: this.checkboxes.toJSON()};
+        productsGrid.reloadParams = {source: Object.toJSON(this.checkboxes)};
         productsGrid.doFilter();
     },
 

@@ -119,9 +119,7 @@ Product.Gallery.prototype = {
         this.updateImages();
     },
     updateImages : function() {
-        this.getElement('save').value = this.images.toJSON
-           ? this.images.toJSON()
-           : Object.toJSON(this.images);
+        this.getElement('save').value = Object.toJSON(this.images);
         $H(this.imageTypes).each(
                 function(pair) {
                     this.getFileElement('no_selection',
@@ -176,7 +174,7 @@ Product.Gallery.prototype = {
                 'cell-remove input').checked ? 1 : 0);
         this.images[index].disabled = (this.getFileElement(file,
                 'cell-disable input').checked ? 1 : 0);
-        this.getElement('save').value = this.images.toJSON();
+        this.getElement('save').value = Object.toJSON(this.images);
         this.updateState(file);
         this.container.setHasChanges();
     },
@@ -197,7 +195,7 @@ Product.Gallery.prototype = {
                             }
                         }.bind(this));
 
-        this.getElement('save_image').value = $H(this.imagesValues).toJSON();
+        this.getElement('save_image').value = Object.toJSON($H(this.imagesValues));
     },
     updateVisualisation : function(file) {
         var image = this.getImageByFile(file);

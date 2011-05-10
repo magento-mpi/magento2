@@ -314,7 +314,7 @@ Mediabrowser.prototype = {
             i++;
         });
         new Ajax.Request(this.deleteFilesUrl, {
-            parameters: {files: ids.toJSON()},
+            parameters: {files: Object.toJSON(ids)},
             onSuccess: function(transport) {
                 try {
                     this.onAjaxSuccess(transport);
