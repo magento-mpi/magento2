@@ -273,6 +273,13 @@
         <echo>##teamcity[importData type='junit' path='${dir.reports}/phpunit.xml']</echo>
     </target>
 
+    <target name="selenium-smoke" description="Run smoke test using selenium">
+        <exec dir="${dir.src}/tests/selenium" executable="phpunit" failonerror="false">
+            <arg line="--log-junit ${dir.reports}/selenium-smoke.xml --configuration phpunit.xml"/>
+        </exec>
+        <echo>##teamcity[importData type='junit' path='${dir.reports}/selenium-smoke.xml']</echo>
+    </target>
+
     <target name="code-analyze-in-parallel" description="Gather code stats in parallel mode.">
         <parallel>
             <antcall target="phpmd"/>
