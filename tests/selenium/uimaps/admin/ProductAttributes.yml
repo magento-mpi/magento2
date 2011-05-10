@@ -83,7 +83,7 @@ new_product_attribute:
                   fields:
                     attribute_code: input[@id='attribute_code']
                     default_text_field_value: "tr[not(@style='display: none;')]//input[@id='default_value_text']"
-                    default_text_area_value: "tr[not(@style='display: none;')]//input[@id='default_value_textarea']"
+                    default_text_area_value: "tr[not(@style='display: none;')]//textarea[@id='default_value_textarea']"
                     default_date_value: "tr[not(@style='display: none;')]//input[@id='default_value_date']"
                     default_price_value: "tr[not(@style='display: none;')]//input[@id='default_value_text']"
                   multiselects:
@@ -168,7 +168,7 @@ edit_product_attribute:
                   fields:
                     attribute_code: input[@id='attribute_code']
                     default_text_field_value: "tr[not(@style='display: none;')]//input[@id='default_value_text']"
-                    default_text_area_value: "tr[not(@style='display: none;')]//input[@id='default_value_textarea']"
+                    default_text_area_value: "tr[not(@style='display: none;')]//textarea[@id='default_value_textarea']"
                     default_date_value: "tr[not(@style='display: none;')]//input[@id='default_value_date']"
                     default_price_value: "tr[not(@style='display: none;')]//input[@id='default_value_text']"
                   multiselects:
@@ -253,7 +253,7 @@ new_product_attribute_from_product_page:
                   fields:
                     attribute_code: input[@id='attribute_code']
                     default_text_field_value: "tr[not(@style='display: none;')]//input[@id='default_value_text']"
-                    default_text_area_value: "tr[not(@style='display: none;')]//input[@id='default_value_textarea']"
+                    default_text_area_value: "tr[not(@style='display: none;')]//textarea[@id='default_value_textarea']"
                     default_date_value: "tr[not(@style='display: none;')]//input[@id='default_value_date']"
                     default_price_value: "tr[not(@style='display: none;')]//input[@id='default_value_text']"
                   multiselects:

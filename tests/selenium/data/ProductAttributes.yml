@@ -49,7 +49,6 @@ product_attribute_textfield:
   values_required: No
   input_validation_for_store_owner: None
   apply_to: All Product Types
-  apply_product_types:
   use_in_quick_search: No
   use_in_advanced_search: No
   comparable_on_frontend: No
@@ -73,7 +72,6 @@ product_attribute_textarea:
   unique_value: No
   values_required: No
   apply_to: All Product Types
-  apply_product_types:
   use_in_quick_search: No
   use_in_advanced_search: No
   comparable_on_frontend: No
@@ -138,12 +136,12 @@ product_attribute_multiselect:
   attribute_code: attribute_multiselect_code
   scope: Global
   unique_value: No
-  values_required: no
+  values_required: No
   apply_to: All Product Types
   use_in_quick_search: No
   use_in_advanced_search: No
   comparable_on_frontend: No
-  use_in_layered_navigation: Filterable (with results)
+  use_in_layered_navigation: Filterable (no results)
   use_in_search_results_layered_naigation: Yes
   use_for_promo_rule_conditions: No
   position: 10
@@ -186,7 +184,7 @@ product_attribute_dropdown:
   attribute_code: attribute_dropdown_code
   scope: Global
   unique_value: No
-  values_required: no
+  values_required: No
   apply_to: All Product Types
   use_to_create_configurable_product: No
   use_in_quick_search: No
@@ -234,8 +232,7 @@ product_attribute_dropdown:
 product_attribute_price:
   catalog_input_type_for_store_owner: Price
   attribute_code: attribute_price_code
-  scope: Global
-  default_value: 99.99
+  default_price_value: 99.99
   unique_value: No
   values_required: No
   apply_to: All Product Types
