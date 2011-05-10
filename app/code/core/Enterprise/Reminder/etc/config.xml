@@ -150,6 +150,9 @@
     <crontab>
         <jobs>
             <send_notification>
+                <schedule>
+                    <cron_expr>*/15 * * * *</cron_expr>
+                </schedule>
                 <run>
                     <model>enterprise_reminder/observer::scheduledNotification</model>
                 </run>
