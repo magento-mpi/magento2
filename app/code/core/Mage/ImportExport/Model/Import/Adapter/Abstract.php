@@ -81,7 +81,9 @@ abstract class Mage_ImportExport_Model_Import_Adapter_Abstract implements Seekab
             Mage::throwException(Mage::helper('importexport')->__('Source file path must be a string'));
         }
         if (!is_readable($source)) {
-            Mage::throwException(Mage::helper('importexport')->__("%s file does not exists or is not readable", $source));
+            Mage::throwException(
+                Mage::helper('importexport')->__("%s file does not exists or is not readable", $source)
+            );
         }
         $this->_source = $source;
 
@@ -92,7 +94,7 @@ abstract class Mage_ImportExport_Model_Import_Adapter_Abstract implements Seekab
             $this->_colQuantity = count($this->_colNames);
 
             if (count(array_unique($this->_colNames)) != $this->_colQuantity) {
-                Mage::throwException(Mage::helper('importexport')->__('Column names has duplicates'));
+                Mage::throwException(Mage::helper('importexport')->__('Column names have duplicates'));
             }
         } else {
             Mage::throwException(Mage::helper('importexport')->__('Column names is empty or is not an array'));
