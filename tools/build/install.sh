@@ -11,7 +11,7 @@ check_failure $?
 
 # Installing build...
 $PHP_BIN -f install.php -- --license_agreement_accepted yes \
---locale en_US --timezone "America/Los_Angeles" --default_currency USD \
+--locale en_US --timezone "Europe/Kiev" --default_currency USD \
 --db_host "$DB_HOST:$DB_PORT" --db_name "$DB_NAME"  --db_user "$DB_USER" --db_pass "$DB_PASS" \
 --db_prefix "$DB_PREFIX" \
 --use_rewrites yes \
