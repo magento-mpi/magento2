@@ -322,6 +322,8 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
             $field = 'attr_select_'. $field;
         } elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
+        } elseif ($backendType == 'datetime') {
+            $field = 'attr_datetime_'. $field;
         } elseif (in_array($backendType, $this->_textFieldTypes)) {
             $locale = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
             $languageCode = $this->getLanguageCodeByLocaleCode($locale);
