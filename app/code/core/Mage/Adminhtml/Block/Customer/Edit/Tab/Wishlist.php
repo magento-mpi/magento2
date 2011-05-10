@@ -203,7 +203,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
                     $collection->addDaysFilter($value);
                     break;
                 default:
-                    $collection()->addFieldToFilter($column->getIndex(), $column->getFilter()->getCondition());
+                    $collection->addFieldToFilter($column->getIndex(), $column->getFilter()->getCondition());
                     break;
             }
         }
