@@ -37,10 +37,6 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
      */
     public function indexAction()
     {
-        //$order = Mage::getModel('sales/order')->loadByIncrementId(100000093)->sendNewOrderEmail(); // Usual
-        $order = Mage::getModel('sales/order')->loadByIncrementId(100000086)->sendNewOrderEmail(); // Guest
-        exit;
-
         $this->_title($this->__('Billing Agreements'));
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
