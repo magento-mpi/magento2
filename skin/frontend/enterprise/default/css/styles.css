@@ -397,7 +397,7 @@ p.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
 /* Toolbar */
 .toolbar { margin-top:-1px; }
 .toolbar .pager { margin:0 0 0; border-width:1px 0; }
-.toolbar-bottom { display:none; }
+.toolbar-bottom { /*display:none;*/ }
 
 /* Data Table */
 .table-caption { border:1px solid #ddd; border-bottom:0; margin:-1px 0 0; background:#fff url(../images/bkg_block-title.gif) 0 100% repeat-x; font:14px/1.25 Arial, Helvetica, sans-serif; padding:3px 7px 4px; color:#444; }
