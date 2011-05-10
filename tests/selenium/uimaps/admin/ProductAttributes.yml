@@ -128,7 +128,7 @@ new_product_attribute:
                   fields:
                     admin_option_name: input[@name='option[value][option_%fieldOptionNumber%][0]']
                     option_position: input[@name='option[order][option_%fieldOptionNumber%]']
-                    option_name_by_store_view_name: input[@name='option[value][option_%fieldOptionNumber%][%storeViewID%]']
+                    option_name_by_store_name: td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewID%]/input
                   required: [admin_option]
     buttons:
       back: button[span='Back']
@@ -213,7 +213,7 @@ edit_product_attribute:
                   fields:
                     admin_option_name: input[@name='option[value][option_%fieldOptionNumber%][0]']
                     option_position: input[@name='option[order][option_%fieldOptionNumber%]']
-                    option_name_by_store_view_name: input[@name='option[value][option_%fieldOptionNumber%][%storeViewID%]']
+                    option_name_by_store_name: td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewID%]/input
                   required: [admin_option]
     buttons:
       back: button[span='Back']
@@ -298,7 +298,7 @@ new_product_attribute_from_product_page:
                   fields:
                     admin_option_name: input[@name='option[value][option_%fieldOptionNumber%][0]']
                     option_position: input[@name='option[order][option_%fieldOptionNumber%]']
-                    option_name_by_store_view_name: input[@name='option[value][option_%fieldOptionNumber%][%storeViewID%]']
+                    option_name_by_store_name: td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewID%]/input
                   required: [admin_option]
     buttons:
       close_window: button[span='Close Window']

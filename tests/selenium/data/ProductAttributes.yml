@@ -207,10 +207,11 @@ product_attribute_dropdown:
     is_default: No
     admin_option_name: Dropdown Option Admin Name 1
     option_position: 1
+    delete_option: No
     store_view_option_name_1:
       store_view_name: Default Store View
       option_name: Dropdown Option Default Store View Name 1
-    delete_option: No
+    
   option_2:
     is_default: No
     admin_option_name: Dropdown Option Admin Name 2

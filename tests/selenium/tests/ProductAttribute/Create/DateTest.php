@@ -286,7 +286,7 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->verifyForm($attrData, 'properties'), $this->messages);
         $this->clickControl('tab', 'manage_lables_options', FALSE);
         $this->assertTrue($this->verifyForm($attrData, 'manage_lables_options'), $this->messages);
-        $this->titlesForStoreView($attrData, 'verify');
+        $this->manageLabelsAndOptionsForStoreView($attrData, 'verify');
     }
 
     /**
@@ -360,17 +360,18 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
         }
         //Steps. Сlick 'Create New Attribute' button, select opened window.
         $this->clickButton('create_new_attribute', FALSE);
-        $this->waitForPopUp('new_attribute', '30000');
-        $this->selectWindow("title=" .
-                $this->getUimapPage('admin', 'new_product_attribute_from_product_page')->getTitle());
+        $names = $this->getAllWindowNames();
+        $this->waitForPopUp(end($names), '30000');
+        $this->selectWindow("name=" . end($names));
         //Steps. Fill in forms and save.
         $this->fillForm($attrData, 'properties');
         $this->clickControl('tab', 'manage_lables_options', false);
         $this->fillForm($attrData, 'manage_lables_options');
-        $this->titlesForStoreView($attrData);
+        $this->manageLabelsAndOptionsForStoreView($attrData);
         $this->saveForm('save_attribute');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->selectWindow(null);
     }
 
     /**
@@ -390,7 +391,8 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
         $this->fillForm($attrData, 'properties');
         $this->clickControl('tab', 'manage_lables_options', false);
         $this->fillForm($attrData, 'manage_lables_options');
-        $this->titlesForStoreView($attrData);
+        $this->manageLabelsAndOptionsForStoreView($attrData);
+        $this->manageAttributeOptions($attrData);
         $this->saveForm('save_attribute');
     }
 
@@ -400,24 +402,43 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
      * PreConditions: attribute page is opened on 'Manage Label / Options' tab.
      *
      * @param array $attrData
-     * @param string $type
+     * @param string $action
      */
-    public function titlesForStoreView($attrData, $type = 'fill')
+    public function manageLabelsAndOptionsForStoreView($attrData, $action = 'fill', $type ='titles')
     {
-        $titleArray = array();
-        foreach ($attrData as $f_key => $d_value) {
-            if (preg_match('/title/', $f_key) and is_array($attrData[$f_key])) {
-                reset($attrData[$f_key]);
-                $key = current($attrData[$f_key]);
-                $value = next($attrData[$f_key]);
-                $titleArray[$key] = $value;
-            }
-        }
         $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('manage_titles');
+        $dataArr = array();
+        switch ($type) {
+            case 'titles':
+                $fieldSet = $page->findFieldset('manage_titles');
+                foreach ($attrData as $f_key => $d_value) {
+                    if (preg_match('/title/', $f_key) and is_array($attrData[$f_key])) {
+                        reset($attrData[$f_key]);
+                        $key = current($attrData[$f_key]);
+                        $value = next($attrData[$f_key]);
+                        $dataArr[$key] = $value;
+                    }
+                }
+                break;
+            case 'options':
+                $fieldSet = $page->findFieldset('manage_options');
+                foreach ($attrData as $f_key => $d_value) {
+                    if (preg_match('/option/', $f_key) and is_array($attrData[$f_key])) {
+                        foreach ($attrData[$f_key] as $k1 => $v2) {
+                            if (is_array($attrData[$f_key][$k1]) and preg_match('/store_view_option_name/', $k1)) {
+                                reset($attrData[$f_key][$k1]);
+                                $key = current($attrData[$f_key][$k1]);
+                                $value = next($attrData[$f_key][$k1]);
+                                $dataArr[$key] = $value;
+                            }
+                        }
+                    }
+                }
+                break;
+        }
         $xpath = '//' . $fieldSet->getXPath();
         $qtyStore = $this->getXpathCount($xpath . '//th');
-        foreach ($titleArray as $k => $v) {
+        foreach ($dataArr as $k => $v) {
             $number = -1;
             for ($i = 1; $i <= $qtyStore; $i++) {
                 if ($this->getText($xpath . "//th[$i]") == $k) {
@@ -426,20 +447,48 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
                 }
             }
             if ($number != -1) {
-                $this->addParameter('fieldTitleNumber', $number);
-                $page->assignParams($this->_paramsHelper);
                 switch ($type) {
+                    case 'titles':
+                        $this->addParameter('fieldTitleNumber', $number);
+                        $fieldName = 'title_by_store_name';
+                        break;
+                    case 'options':
+                        $this->addParameter('storeViewID', $number);
+                        $fieldName = 'option_name_by_store_name';
+                        break;
+                }
+
+                $page->assignParams($this->_paramsHelper);
+                switch ($action) {
                     case 'fill':
-                        $this->type($xpath . '//' . $page->findField('title_by_store_name'), $v);
+                        $this->type($xpath . '//' . $page->findField($fieldName), $v);
                         break;
                     case 'verify':
-                        $a = $this->getValue($xpath . '//' . $page->findField('title_by_store_name'));
-                        $this->assertEquals($this->getValue($xpath . '//' . $page->findField('title_by_store_name')),
+                        $this->assertEquals($this->getValue($xpath . '//' . $page->findField($fieldName)),
                                 $v, 'Stored data not equals to specified');
                         break;
                 }
             } else {
                 throw new OutOfRangeException("Can't find specified store view.");
+            }
+        }
+    }
+
+    public function manageAttributeOptions($attrData, $action = 'fill')
+    {
+        $page = $this->getCurrentLocationUimapPage();
+        $fieldSet = $page->findFieldset('manage_options');
+        $fieldSetXpath = '//' . $fieldSet->getXPath();
+        foreach ($attrData as $key => $value) {
+            if (preg_match('/option/', $key) and is_array($attrData[$key])) {
+                if ($this->isElementPresent($fieldSetXpath)) {
+                    $optionCount = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
+                    $this->addParameter('fieldOptionNumber', $optionCount);
+                    $page->assignParams($this->_paramsHelper);
+                    $this->clickButton('add_option', FALSE);
+                    $this->fillForm($attrData[$key], 'manage_lables_options');
+                    $this->manageLabelsAndOptionsForStoreView($attrData, $action, 'options');
+                }
             }
         }
     }

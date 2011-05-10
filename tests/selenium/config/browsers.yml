@@ -31,16 +31,19 @@ browsers:
     host    : 127.0.0.1
     port    : 4444
     doNotKillBrowsers : false
+    browserTimeoutPeriod : 10000
   firefox: &firefox
     browser : '*firefox'
     host    : 127.0.0.1
     port    : 4444
     doNotKillBrowsers : false
+    browserTimeoutPeriod : 10000
   iexplore: &iexplore
     browser : '*iexplore'
     host    : 127.0.0.1
     port    : 4444
     doNotKillBrowsers : false
+    browserTimeoutPeriod : 10000
   googlechrome: &googlechrome
     browser : '*googlechrome'
     host    : 127.0.0.1
