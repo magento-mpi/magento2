@@ -1071,7 +1071,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                 if (!empty($element)) {
                     if ($additionalXPath) {
-                        $label = trim($this->getText($x.$additionalXPath), " *\t\n\r");
+                        if ($this->isElementPresent($x . $additionalXPath)) {
+                            $label = trim($this->getText($x . $additionalXPath), " *\t\n\r");
+                        } else {
+                            $label = $this->getAttribute($x . "[$i]" . "@id");
+                            $label = strrev($label);
+                            $label = strrev(substr($label, 0, strpos($label, "-")));
+                        }
                         if ($label) {
                             $element = "'" . $label . "': " . $element;
                         }

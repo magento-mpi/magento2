@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -33,139 +34,67 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
-{
-    /**
-     * Action_helper method for Create Attribute action
-     *
-     * @param array $attrData Array which contains DataSet for filling of the current form
-     *
-     */
-    public function creteAttribute($attrData)
-    {
-        $this->clickButton('add_new_attribute');
-        $this->fillForm($attrData, 'properties');
-        $this->clickControl('tab', 'manage_lables_options',false);
-        $this->fillForm($attrData, 'manage_lables_options');
-    }
-
+class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase {
     /*
-     * Preconditions
+     * Preconditions:
      * Admin user should be logged in.
-     * Should stays on the Admin Dashboard page after login
+     * Should stays on the Admin Dashboard page after login.
+     * Navigate to System -> Manage Customers.
      */
+
     protected function assertPreConditions()
     {
-        $this->assertTrue($this->loginAdminUser());
-        $this->assertTrue($this->admin('dashboard'));
+        $this->loginAdminUser();
+        $this->assertTrue($this->checkCurrentPage('dashboard'),
+                'Wrong page is opened');
+        $this->navigate('manage_attributes');
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'),
+                'Wrong page is opened');
     }
 
     public function test_Navigation()
     {
-        $this->assertTrue($this->navigate('manage_attributes'));
         $this->assertTrue($this->clickButton('add_new_attribute'),
                 'There is no "Add New Attribute" button on the page');
-        $this->assertTrue($this->navigated('new_product_attribute'),
-                'Wrong page is displayed');
-        $this->assertTrue($this->navigate('new_product_attribute'),
-                'Wrong page is displayed when accessing direct URL');
-        $this->assertTrue($this->controlIsPresent('field','attribute_code'),
-                'There is no "Attribute Code" field on the page');
-        $this->assertTrue($this->controlIsPresent('field','apply_to'),
-                'There is no "Apply To" dropdown on the page');
-        $this->assertTrue($this->controlIsPresent('field','admin_title'),
-                'There is no "Admin Title" field on the page');
+        $this->assertTrue($this->checkCurrentPage('new_product_attribute'),
+                'Wrong page is opened');
+        $this->assertTrue($this->controlIsPresent('button', 'back'),
+                'There is no "Back" button on the page');
+        $this->assertTrue($this->controlIsPresent('button', 'reset'),
+                'There is no "Reset" button on the page');
+        $this->assertTrue($this->controlIsPresent('button', 'save_attribute'),
+                'There is no "Save" button on the page');
+        $this->assertTrue($this->controlIsPresent('button', 'save_and_continue_edit'),
+                'There is no "Save and Continue Edit" button on the page');
     }
 
     /**
      * Create "Date" type Product Attribute (required fields only)
      *
      * Steps:
-     * 1.Go to Catalog->Attributes->Manage Attributes
-     * 2.Click on "Add New Attribute" button
-     * 3.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
-     * 4.Fill all required fields
-     * 5.Click on "Save Attribute" button
+     * 1.Click on "Add New Attribute" button
+     * 2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
+     * 3.Fill all required fields
+     * 4.Click on "Save Attribute" button
      *
-     * Expected result: new attribute ["Date" type] successfully created.
-     *                  Success message: 'The product attribute has been saved.' is displayed.
+     * Expected result:
+     * New attribute ["Date" type] successfully created.
+     * Success message: 'The product attribute has been saved.' is displayed.
+     *
+     * @depends test_Navigation
      */
     public function test_WithRequiredFieldsOnly()
     {
-        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
-        $attrData = $this->loadData('product_attribute_date', null, null);
-        $this->creteAttribute($attrData);
-        $this->clickButton('save_attribute',true);
-        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
-    }
+        //Data
+        $attrData = $this->loadData('product_attribute_date', null, array('attribute_code', 'admin_title'));
+        //Steps
+        $this->createAttribute($attrData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'),
+                'After successful customer creation should be redirected to Manage Attributes page');
 
-    /**
-     * Checking validation for 'Attribute Code' field is EMPTY
-     *
-     * Steps:
-     * 1.Go to Catalog->Attributes->Manage Attributes
-     * 2.Click on "Add New Attribute" button
-     * 3.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
-     * 4.Skip filling of 'Attribute Code' field and fill other required fields.
-     * 5.Click on "Save Attribute" button
-     *
-     * Expected result: new attribute ["Date" type] shouldn't be created.
-     *                  Error JS message: 'This is a required field.' is displayed.
-     */
-    public function test_WithRequiredFieldsEmpty_EmptyAttributeCode()
-    {
-        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
-        $attrData = $this->loadData('product_attribute_date', array('attribute_code' => ''));
-        $this->creteAttribute($attrData);
-        $this->clickButton('save_attribute', false);
-        $this->assertTrue($this->errorMessage('error_empty_attribute_code'), $this->messages);
-    }
-
-    /**
-     * Checking validation for 'Admin title field is EMPTY'
-     *
-     * Steps:
-     * 1.Go to Catalog->Attributes->Manage Attributes
-     * 2.Click on "Add New Attribute" button
-     * 3.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
-     * 4.Skip filling of 'Admin' field in the 'Manage Titles' fields set under the 'Manage Label / Options' tab
-     *      and fill other required fields.
-     * 5.Click on "Save Attribute" button
-     *
-     * Expected result: new attribute ["Date" type] shouldn't be created.
-     *                  Error JS message: 'Failed' is displayed below 'Admin' field.
-     */
-    public function test_WithRequiredFieldsEmpty_EmptyAdminTitle()
-    {
-        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
-        $attrData = $this->loadData('product_attribute_date', array('admin_title' => ''));
-        $this->creteAttribute($attrData);
-        $this->clickButton('save_attribute', false);
-        $this->assertTrue($this->errorMessage('error_empty_attribute_title'), $this->messages);
-    }
-
-    /**
-     * Checking validation for valid data in the 'Attribute Code' field
-     *
-     * Steps:
-     * 1.Go to Catalog->Attributes->Manage Attributes
-     * 2.Click on "Add New Attribute" button
-     * 3.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
-     * 4.Fill 'Attribute Code' field by invalid data [Examples: '0xxx'/'_xxx'/'111']
-     * 5.Fill other required fields by regular data.
-     * 6.Click on "Save Attribute" button
-     *
-     * Expected result: new attribute ["Date" type] shouldn't be created.
-     *                  Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
-     *                                            this field, first character should be a letter.' is displayed.
-     */
-    public function test_WithInvalidAttributeCode()
-    {
-        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
-        $attrData = $this->loadData('product_attribute_date', array('attribute_code' => '111'));
-        $this->creteAttribute($attrData);
-        $this->clickButton('save_attribute', false);
-        $this->assertTrue($this->errorMessage('error_invalid_attribute_code'), $this->messages);
+        return $attrData;
     }
 
     /**
@@ -173,104 +102,184 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      * Creation of new attribute with existing code.
      *
      * Steps:
-     * 1.Go to Catalog->Attributes->Manage Attributes
-     * 2.Click on "Add New Attribute" button
-     * 3.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
-     * 4.Fill 'Attribute Code' field by code used in test before.
-     * 5.Fill other required fields by regular data.
-     * 6.Click on "Save Attribute" button
+     * 1.Click on "Add New Attribute" button
+     * 2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
+     * 3.Fill 'Attribute Code' field by code used in test before.
+     * 4.Fill other required fields by regular data.
+     * 5.Click on "Save Attribute" button
      *
-     * Expected result: new attribute ["Date" type] shouldn't be created.
-     *                  Error message: 'Attribute with the same code already exists' is displayed.
+     * Expected result:
+     * New attribute ["Date" type] shouldn't be created.
+     * Error message: 'Attribute with the same code already exists' is displayed.
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithAttributeCodeThatAlreadyExists()
+    public function test_WithAttributeCodeThatAlreadyExists(array $attrData)
     {
-        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
-        $attrData = $this->loadData('product_attribute_date', null, null);
-        $this->creteAttribute($attrData);
-        $this->clickButton('save_attribute', false);
-        $this->assertTrue($this->errorMessage('error_exists_attribute_code'), $this->messages);
+        //Steps
+        $this->createAttribute($attrData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('exists_attribute_code'), $this->messages);
     }
 
     /**
-     * Checking of correct validate of submitting form by using special characters for 'Attribute Code' field filling.
+     * Checking validation for required fields are EMPTY
      *
      * Steps:
-     * 1.Go to Catalog->Attributes->Manage Attributes
-     * 2.Click on "Add New Attribute" button
-     * 3.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
-     * 4.Fill 'Attribute Code' field by special characters.
-     * 5.Fill other required fields by regular data.
-     * 6.Click on "Save Attribute" button
+     * 1.Click on "Add New Attribute" button
+     * 2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
+     * 3.Skip filling of one field required and fill other required fields.
+     * 4.Click on "Save Attribute" button
      *
-     * Expected result: new attribute ["Date" type] shouldn't be created.
-     *                  Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
-     *                                            this field, first character should be a letter.' is displayed.
+     * Expected result:
+     * New attribute ["Date" type] shouldn't be created.
+     * Error JS message: 'This is a required field.' is displayed.
+     *
+     * @dataProvider data_EmptyField
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithSpecialCharacters()
+    public function test_WithRequiredFieldsEmpty($emptyField)
     {
-        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
-        $attrData = $this->loadData('product_attribute_date', array(
-            'attribute_code' => $this->generate('string', 11, ':punct:'),
-            'admin_title'  => $this->generate('string', 11, ':alnum:'),
-            'storeview_title'  => $this->generate('string', 11, ':alnum:')));
-        $this->creteAttribute($attrData);
-        $this->clickButton('save_attribute', false);
-        $this->assertTrue($this->errorMessage('error_invalid_attribute_code'), $this->messages);
+        //Data
+        $attrData = $this->loadData('product_attribute_date', $emptyField);
+        //Steps
+        $this->createAttribute($attrData);
+        //Verifying
+        $page = $this->getUimapPage('admin', 'new_product_attribute');
+        foreach ($emptyField as $fieldName => $fieldXpath) {
+            switch ($fieldName) {
+                case 'attribute_code':
+                    $fieldSet = $page->findFieldSet('attribute_properties');
+                    break;
+                case 'admin_title':
+                    $fieldSet = $page->findFieldSet('manage_titles');
+                    break;
+            }
+            $xpath = $fieldSet->findField($fieldName);
+            $this->addParameter('fieldXpath', $xpath);
+        }
+        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function data_EmptyField()
+    {
+        return array(
+            array(array('attribute_code' => '')),
+            array(array('admin_title' => '')),
+        );
     }
 
     /**
-     * Checking of correct validate of submitting form by using special characters for all fields
-     *          exclude 'Attribute Code' field.
+     * Checking validation for valid data in the 'Attribute Code' field
      *
      * Steps:
-     * 1.Go to Catalog->Attributes->Manage Attributes
-     * 2.Click on "Add New Attribute" button
-     * 3.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
-     * 4.Fill 'Attribute Code' field by regular data.
-     * 5.Fill other required fields by special characters.
-     * 6.Click on "Save Attribute" button
+     * 1.Click on "Add New Attribute" button
+     * 2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
+     * 3.Fill 'Attribute Code' field by invalid data [Examples: '0xxx'/'_xxx'/'111']
+     * 4.Fill other required fields by regular data.
+     * 5.Click on "Save Attribute" button
      *
-     * Expected result: new attribute ["Date" type] shouldn't be created.
-     *                  Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
-     *                                            this field, first character should be a letter.' is displayed.
+     * Expected result:
+     * New attribute ["Date" type] shouldn't be created.
+     * Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
+     * this field, first character should be a letter.' is displayed.
+     *
+     * @dataProvider data_WrongCode
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithSpecialCharactersExclAttributeCode()
+    public function test_WithInvalidAttributeCode($wrongAttributeCode)
     {
-        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
-        $attrData = $this->loadData('product_attribute_date', array(
-            'attribute_code' => $this->generate('string', 12, ':alnum:'),
-            'admin_title'  => $this->generate('string', 12, ':punct:'),
-            'storeview_title'  => $this->generate('string', 13, ':punct:')));
-        $this->creteAttribute($attrData);
-        $this->clickButton('save_attribute', false);
-        $this->assertTrue($this->errorMessage('error_invalid_attribute_code'), $this->messages);
-        // TODO -> add assertTrue() for both validation massages
+        //Data
+        $attrData = $this->loadData('product_attribute_date', $wrongAttributeCode);
+        //Steps
+        $this->createAttribute($attrData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('invalid_attribute_code'), $this->messages);
+    }
+
+    public function data_WrongCode()
+    {
+        return array(
+            array(array('attribute_code' => '11code_wrong')),
+            array(array('attribute_code' => 'CODE_wrong')),
+            array(array('attribute_code' => 'wrong code')),
+            array(array('attribute_code' => $this->generate('string', 11, ':punct:'))),
+        );
+    }
+
+    /**
+     * Checking of correct validate of submitting form by using special
+     * characters for all fields exclude 'Attribute Code' field.
+     *
+     * Steps:
+     * 1.Click on "Add New Attribute" button
+     * 2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
+     * 3.Fill 'Attribute Code' field by regular data.
+     * 4.Fill other required fields by special characters.
+     * 5.Click on "Save Attribute" button
+     *
+     * Expected result:
+     * New attribute ["Date" type] successfully created.
+     * Success message: 'The product attribute has been saved.' is displayed.
+     *
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithSpecialCharacters_InTitle()
+    {
+        //Data
+        $attrData = $this->loadData('product_attribute_date',
+                        array('admin_title' => $this->generate('string', 32, ':punct:'),), 'attribute_code');
+        //Steps
+        $this->createAttribute($attrData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'),
+                'After successful customer creation should be redirected to Manage Attributes page');
     }
 
     /**
      * Checking of correct work of submitting form by using long values for fields filling
      *
      * Steps:
-     * 1.Go to Catalog->Attributes->Manage Attributes
-     * 2.Click on "Add New Attribute" button
-     * 3.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
-     * 4.Fill all required fields by long value alpha-numeric data.
-     * 5.Click on "Save Attribute" button
+     * 1.Click on "Add New Attribute" button
+     * 2.Choose "Date" in 'Catalog Input Type for Store Owner' dropdown
+     * 3.Fill all required fields by long value alpha-numeric data.
+     * 4.Click on "Save Attribute" button
      *
-     * Expected result: new attribute ["Date" type] successfully created.
-     *                  Success message: 'The product attribute has been saved.' is displayed.
+     * Expected result:
+     * New attribute ["Date" type] successfully created.
+     * Success message: 'The product attribute has been saved.' is displayed.
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithLongValues()
     {
-        $this->assertTrue($this->navigate('manage_attributes'),'Wrong page is displayed');
-        $attrData = $this->loadData('product_attribute_date', array(
-            'attribute_code' => $this->generate('string', 255, ':alnum:'),
-            'admin_title'  => $this->generate('string', 255, ':alnum:'),
-            'storeview_title'  => $this->generate('string', 255, ':alnum:')));
-        $this->creteAttribute($attrData);
-        $this->clickButton('save_attribute', true);
-        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
+        //Data
+        $attrData = $this->loadData('product_attribute_date',
+                        array(
+                            'attribute_code' => $this->generate('string', 255, ':lower:'),
+                            'admin_title' => $this->generate('string', 255, ':alnum:'),
+                ));
+        $searchData = $this->loadData('attribute_search_data',
+                        array(
+                            'attribute_code' => $attrData['attribute_code'],
+                            'attribute_lable' => $attrData['admin_title'],
+                ));
+        //Steps
+        $this->createAttribute($attrData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'),
+                'After successful customer creation should be redirected to Manage Attributes page');
+        //Steps
+        $this->clickButton('reset_filter');
+        $this->navigate('manage_attributes');
+        $this->assertTrue($this->searchAndOpen($searchData), 'Attribute is not found');
+        //Verifying
+        $this->assertTrue($this->verifyForm($attrData, 'properties'));
+        $this->clickControl('tab', 'manage_lables_options');
+        $this->assertTrue($this->verifyForm($attrData, 'manage_lables_options'));
     }
 
     /**
@@ -291,20 +300,67 @@ class ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      * Expected result: new attribute ["Date" type] successfully created.
      *                  Success message: 'The product attribute has been saved.' is displayed.
      *                  Pop-up window is closed automatically
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_OnProductPage_WithRequiredFieldsOnly()
     {
-        $this->assertTrue(
-                $this->navigate('manage_products')->clickButton('add_new_product')->navigated('new_product_settings'),
+        //Data
+        $productSettings = $this->loadData('product_create_settings_simple');
+        $attrData = $this->loadData('product_attribute_date', null, 'attribute_code');
+        //Steps
+        $this->navigate('manage_products');
+        $this->clickButton('add_new_product');
+        $this->assertTrue($this->checkCurrentPage('new_product_settings'),
                 'Wrong page is displayed'
         );
-        $this->fillForm('product_create_settings_simple',null,null);
+        $this->fillForm($productSettings);
+        // Defining and adding %attributeSetID% and %productType% for 'new_product' Uimap
+        $page = $this->getCurrentUimapPage();
+        $fieldSet = $page->findFieldset('product_settings');
+        foreach ($productSettings as $fieldsName => $fieldValue) {
+            $xpath = '//' . $fieldSet->findDropdown($fieldsName);
+            switch ($fieldsName) {
+                case 'attribute_set':
+                    $attributeSetID = $this->getValue($xpath . "/option[text()='$fieldValue']");
+                    break;
+                case 'product_type':
+                    $productType = $this->getValue($xpath . "/option[text()='$fieldValue']");
+                    break;
+                default:
+                    break;
+            }
+        }
+        $this->addParameter('attributeSetID', $attributeSetID);
+        $this->addParameter('productType', $productType);
         $this->clickButton('continue_button');
-        $this->clickButton('fieldset_general/create_new_attribute_button');
-        $this->waitForPopUp('new_attribute','30000');
-        $attrData = $this->loadData('product_attribute_date', null, 'attribute_code');
-        $this->creteAttribute($attrData);
-        $this->clickButton('save_attribute', true);
-        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
+        $this->clickButton('create_new_attribute', FALSE);
+        $this->waitForPopUp('new_attribute', '30000');
+        $this->selectWindow("name=new_attribute");
+//        @TODO
+//        $this->creteAttribute($attrData);
+//        $this->clickButton('save_attribute', true);
+//        $this->assertFalse($this->successMessage('success_saved_attribute'), $this->messages);
     }
+
+    /**
+     * *********************************************
+     * *         HELPER FUNCTIONS                  *
+     * *********************************************
+     */
+
+    /**
+     * Action_helper method for Create Attribute action
+     *
+     * @param array $attrData Array which contains DataSet for filling of the current form
+     */
+    public function createAttribute($attrData)
+    {
+        $this->clickButton('add_new_attribute');
+        $this->fillForm($attrData, 'properties');
+        $this->clickControl('tab', 'manage_lables_options', false);
+        $this->fillForm($attrData, 'manage_lables_options');
+        $this->saveForm('save_attribute');
+    }
+
 }

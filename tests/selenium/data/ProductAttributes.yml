@@ -29,10 +29,9 @@
 # Current limitations:
 # - 'Scope' for all test is 'Global'
 # - 'Apply To' is 'All Product Types'
-# - Attributes will not assigned for using in Layered Navigation
 
 # Test Datasets for Delete SMOKE Product Attribute
-product_attribute_smoke_del:
+attribute_search_data:
   attribute_code: attribute_textfield_smoke
   attribute_lable: SMOKE Product Attribute Admin Title
   required: No
@@ -43,207 +42,248 @@ product_attribute_smoke_del:
   use_in_layered_navigation: No
   comparable: No
 
-# Test Datasets for Add New TextField type SMOKE Product Attribute
-product_attribute_smoke_add:
-  attribute_code : attribute_textfield_smoke
-  scope : Global
-  catalog_input_type_for_store_owner : Text Field
-  default_value : SMOKE Default Value
-  unique_value : No
-  values_required : No
-  input_validation_for_store_owner : None
-  apply_to : All Product Types
-  use_in_quick_search : No
-  use_in_advanced_search : No
-  comparable_on_frontend : No
-  use_for_promo_rule_conditions : No
-  allow_html_tags_on_frontend : No
-  visible_on_product_view_page_on_frontend : No
-  used_in_product_listing : No
-  used_for_sorting_in_product_listing : No
-#manage_titles:
-  admin_title : SMOKE Product Attribute Admin Title
-  storeview_title : SMOKE Product Attribute Storeview Title
-
 # Test Datasets for Add New TextField type Product Attribute
 product_attribute_textfield:
-  attribute_code : attribute_textfield_code
-  scope : Global
-  catalog_input_type_for_store_owner : Text Field
-  default_value : Text Field Default Value
-  unique_value : No
-  values_required : No
-  input_validation_for_store_owner : None
-  apply_to : All Product Types
-  use_in_quick_search : No
-  use_in_advanced_search : No
-  comparable_on_frontend : No
-  use_for_promo_rule_conditions : No
-  allow_html_tags_on_frontend : No
-  visible_on_product_view_page_on_frontend : No
-  used_in_product_listing : No
-  used_for_sorting_in_product_listing : No
+  catalog_input_type_for_store_owner: Text Field
+  attribute_code: attribute_textfield_code
+  scope: Global
+  default_text_field_value: Text Field Default Value
+  unique_value: No
+  values_required: No
+  input_validation_for_store_owner: None
+  apply_to: All Product Types
+  apply_product_types:
+  use_in_quick_search: No
+  use_in_advanced_search: No
+  comparable_on_frontend: No
+  use_for_promo_rule_conditions: No
+  allow_html_tags_on_frontend: No
+  visible_on_product_view_page_on_frontend: No
+  used_in_product_listing: No
+  used_for_sorting_in_product_listing: No
 #manage_titles:
-  admin_title : Text Field Product Attribute Admin Title
-  storeview_title : Text Field Product Attribute Storeview Title
+  admin_title: Text Field Product Attribute Admin Title
+  title_1:
+    store_view_name: Default Store View
+    store_view_title: Text Field Product Attribute Storeview Title
 
 # Test Datasets for Add New TextArea type Product Attribute
 product_attribute_textarea:
-  scope : Global
-  apply_to : All Product Types
-  default_value : Text Area Default Value
-  attribute_code : attribute_textarea_code
-  unique_value : No
-  values_required : No
-  enable_wysiwyg : No
-  use_in_quick_search : No
-  use_in_advanced_search : No
-  comparable_on_frontend : No
-  used_in_product_listing : No
-  allow_html_tags_on_frontend : No
-  use_for_promo_rule_conditions : No
-  catalog_input_type_for_store_owner : Text Area
-  visible_on_product_view_page_on_frontend : No
+  catalog_input_type_for_store_owner: Text Area
+  attribute_code: attribute_textarea_code
+  scope: Global
+  default_text_area_value: Text Area Default Value
+  unique_value: No
+  values_required: No
+  apply_to: All Product Types
+  apply_product_types:
+  use_in_quick_search: No
+  use_in_advanced_search: No
+  comparable_on_frontend: No
+  use_for_promo_rule_conditions: No
+  enable_wysiwyg: No
+  allow_html_tags_on_frontend: No
+  visible_on_product_view_page_on_frontend: No
+  used_in_product_listing: No
 #manage_titles:
-  admin_title : Text Area Product Attribute Admin Title
-  storeview_title : Text Area Product Attribute Storeview Title
+  admin_title: Text Area Product Attribute Admin Title
+  title_1:
+    store_view_name: Default Store View
+    store_view_title: Text Area Product Attribute Storeview Title
 
 # Test Datasets for Add New Date type Product Attribute
 product_attribute_date:
-  attribute_code : attribute_date_code
-  scope : Global
-  catalog_input_type_for_store_owner : Date
-  default_value: 11/11/11
-  unique_value : No
-  values_required : No
-  apply_to : All Product Types
-  use_in_quick_search : No
-  use_in_advanced_search : No
-  comparable_on_frontend : No
-  use_for_promo_rule_conditions : No
-  visible_on_product_view_page_on_frontend : No
-  used_in_product_listing : No
-  used_for_sorting_in_product_listing : No
+  catalog_input_type_for_store_owner: Date
+  attribute_code: attribute_date_code
+  scope: Global
+  default_date_value: 11/11/11
+  unique_value: No
+  values_required: No
+  apply_to: All Product Types
+  apply_product_types:
+  use_in_quick_search: No
+  use_in_advanced_search: No
+  comparable_on_frontend: No
+  use_for_promo_rule_conditions: No
+  visible_on_product_view_page_on_frontend: No
+  used_in_product_listing: No
+  used_for_sorting_in_product_listing: No
 #manage_titles:
-  admin_title : Date Product Attribute Admin Title
-  storeview_title : Date Product Attribute Storeview Title
+  admin_title: Date Product Attribute Admin Title
+  title_1:
+    store_view_name: Default Store View
+    store_view_title: Date Product Attribute Storeview Title
 
 # Test Datasets for Add New Yes/No type Product Attribute
 product_attribute_yesno:
-  attribute_code : attribute_yesno_code
-  scope : Global
-  catalog_input_type_for_store_owner : Yes/No
-  default_value : Yes
-  unique_value : No
-  values_required : no
-  apply_to : All Product Types
-  use_in_quick_search : No
-  use_in_advanced_search : No
-  comparable_on_frontend : No
-  use_for_promo_rule_conditions : No
-  visible_on_product_view_page_on_frontend : No
-  used_in_product_listing : No
-  used_for_sorting_in_product_listing : No
+  catalog_input_type_for_store_owner: Yes/No
+  attribute_code: attribute_yesno_code
+  scope: Global
+  default_yesno_value: Yes
+  unique_value: No
+  values_required: No
+  apply_to: All Product Types
+  apply_product_types:
+  use_in_quick_search: No
+  use_in_advanced_search: No
+  comparable_on_frontend: No
+  use_for_promo_rule_conditions: No
+  visible_on_product_view_page_on_frontend: No
+  used_in_product_listing: No
+  used_for_sorting_in_product_listing: No
 #manage_titles:
-  admin_title : Yes/No Product Attribute Admin Title
-  storeview_title : Yes/no Product Attribute Storeview Title
+  admin_title: Yes/No Product Attribute Admin Title
+  title_1:
+    store_view_name: Default Store View
+    store_view_title: Yes/no Product Attribute Storeview Title
 
 # Test Datasets for Add New MultipleSelect type Product Attribute
 product_attribute_multiselect:
-  attribute_code : attribute_multiselect_code
-  scope : Global
-  catalog_input_type_for_store_owner : Multiple Select
-  unique_value : No
-  values_required : no
-  apply_to : All Product Types
-  use_in_quick_search : No
-  use_in_advanced_search : No
-  comparable_on_frontend : No
-  use_in_layered_navigation : Yes
-  use_in_search_results_layered_naigation : No
-  use_for_promo_rule_conditions : No
-  position : 10
-  visible_on_product_view_page_on_frontend : No
-  used_in_product_listing : No
-  # used_for_sorting_in_product_listing : No
+  catalog_input_type_for_store_owner: Multiple Select
+  attribute_code: attribute_multiselect_code
+  scope: Global
+  unique_value: No
+  values_required: no
+  apply_to: All Product Types
+  apply_product_types:
+  use_in_quick_search: No
+  use_in_advanced_search: No
+  comparable_on_frontend: No
+  use_in_layered_navigation: Filterable (with results)
+  use_in_search_results_layered_naigation: Yes
+  use_for_promo_rule_conditions: No
+  position: 10
+  visible_on_product_view_page_on_frontend: No
+  used_in_product_listing: No
 #manage_titles:
-  admin_title : Multiple Select Product Attribute Admin Title
-  storeview_title : Multiple Select Product Attribute Storeview Title
+  admin_title: Multiple Select Product Attribute Admin Title
+  title_1:
+    store_view_name: Default Store View
+    store_view_title: Multiple Select Product Attribute Storeview Title
 #manage_options:
-  admin_option : Admin MultipleSelect Option
-  storeview_option : Storeview MultipleSelect Option
-  option_position : 0
-  is_default : 1
+  option_1:
+    is_default: No
+    admin_option_name: MultipleSelect Option Admin Name 1
+    option_position: 1
+    store_view_option_name_1:
+      store_view_name: Default Store View
+      option_name: MultipleSelect Option Default Store View Name 1
+    delete_option: No
+  option_2:
+    is_default: No
+    admin_option_name: MultipleSelect Option Admin Name 2
+    option_position: 2
+    store_view_option_name_1:
+      store_view_name: Default Store View
+      option_name: MultipleSelect Option Default Store View Name 2
+    delete_option: No
+  option_3:
+    is_default: No
+    admin_option_name: MultipleSelect Option Admin Name 3
+    option_position: 3
+    store_view_option_name_1:
+      store_view_name: Default Store View
+      option_name: MultipleSelect Option Default Store View Name 3
+    delete_option: No
 
 # Test Datasets for Add New Dropdown type Product Attribute
 product_attribute_dropdown:
-  attribute_code : attribute_dropdown_code
-  scope : Global
-  catalog_input_type_for_store_owner : Dropdown
-  unique_value : No
-  values_required : no
-  apply_to : All Product Types
-  # 'Use To Create Configurable Product' is Dropdown specific parameter
-  use_to_create_configurable_product : No
-  use_in_quick_search : No
-  use_in_advanced_search : No
-  comparable_on_frontend : No
-  use_in_layered_navigation : Yes
-  use_in_search_results_layered_naigation : No
-  use_for_promo_rule_conditions : No
-  position : 10
-  visible_on_product_view_page_on_frontend : No
-  used_in_product_listing : No
-  used_for_sorting_in_product_listing : No
+  catalog_input_type_for_store_owner: Dropdown
+  attribute_code: attribute_dropdown_code
+  scope: Global
+  unique_value: No
+  values_required: no
+  apply_to: All Product Types
+  apply_product_types:
+  use_to_create_configurable_product: No
+  use_in_quick_search: No
+  use_in_advanced_search: No
+  comparable_on_frontend: No
+  use_in_layered_navigation: Filterable (no results)
+  use_in_search_results_layered_naigation: No
+  use_for_promo_rule_conditions: No
+  position: 10
+  visible_on_product_view_page_on_frontend: No
+  used_in_product_listing: No
+  used_for_sorting_in_product_listing: No
 #manage_titles:
-  admin_title : Dropdown Product Attribute Admin Title
-  storeview_title : Dropdown Product Attribute Storeview Title
+  admin_title: Dropdown Product Attribute Admin Title
+  title_1:
+    store_view_name: Default Store View
+    store_view_title: Dropdown Product Attribute Storeview Title
 #manage_options:
-  admin_option : Admin Dropdown Option
-  storeview_option : Storeview Dropdown Option
-  option_position : 0
-  is_default : 1
+  option_1:
+    is_default: No
+    admin_option_name: Dropdown Option Admin Name 1
+    option_position: 1
+    store_view_option_name_1:
+      store_view_name: Default Store View
+      option_name: Dropdown Option Default Store View Name 1
+    delete_option: No
+  option_2:
+    is_default: No
+    admin_option_name: Dropdown Option Admin Name 2
+    option_position: 2
+    store_view_option_name_1:
+      store_view_name: Default Store View
+      option_name: Dropdown Option Default Store View Name 2
+    delete_option: No
+  option_3:
+    is_default: No
+    admin_option_name: Dropdown Option Admin Name 3
+    option_position: 3
+    store_view_option_name_1:
+      store_view_name: Default Store View
+      option_name: Dropdown Option Default Store View Name 3
+    delete_option: No
 
 # Test Datasets for Add New Price type Product Attribute
 product_attribute_price:
-  attribute_code : attribute_price_code
-  scope : Global
-  catalog_input_type_for_store_owner : Price
-  default_value : 00.00
-  unique_value : No
-  values_required : no
-  apply_to : All Product Types
-  use_in_quick_search : No
-  use_in_advanced_search : No
-  comparable_on_frontend : No
-  use_in_layered_navigation : Yes
-  use_in_search_results_layered_naigation : No
-  use_for_promo_rule_conditions : No
-  position : 10
-  visible_on_product_view_page_on_frontend : No
-  used_in_product_listing : No
-  used_for_sorting_in_product_listing : No
+  catalog_input_type_for_store_owner: Price
+  attribute_code: attribute_price_code
+  scope: Global
+  default_value: 99.99
+  unique_value: No
+  values_required: No
+  apply_to: All Product Types
+  apply_product_types:
+  use_in_quick_search: No
+  use_in_advanced_search: No
+  comparable_on_frontend: No
+  use_in_layered_navigation: Filterable (no results)
+  use_in_search_results_layered_naigation: No
+  use_for_promo_rule_conditions: No
+  position: 10
+  visible_on_product_view_page_on_frontend: No
+  used_in_product_listing: No
+  used_for_sorting_in_product_listing: No
 #manage_titles:
-  admin_title : Price Product Attribute Admin Title
-  storeview_title : Price Product Attribute Storeview Title
+  admin_title: Price Product Attribute Admin Title
+  title_1:
+    store_view_name: Default Store View
+    store_view_title: Price Product Attribute Storeview Title
 
 # Test Datasets for Add New MediaImage type Product Attribute
 product_attribute_mediaimage:
-  scope : Global
-  apply_to : All Product Types
-  attribute_code : attribute_mediaimage_code
-  catalog_input_type_for_store_owner : Media Image
+  catalog_input_type_for_store_owner: Media Image
+  attribute_code: attribute_mediaimage_code
+  scope: Global
+  apply_to: All Product Types
+  apply_product_types:
 #manage_titles:
-  admin_title : Media Image Product Attribute Admin Title
-  storeview_title : Text Field Product Attribute Storeview Title
+  admin_title: Media Image Product Attribute Admin Title
+  title_1:
+    store_view_name: Default Store View
+    store_view_title: Text Field Product Attribute Storeview Title
 
 # Test Datasets for Add New FixedProductTax type Product Attribute
 product_attribute_fpt:
-  attribute_code : attribute_fpt_code
-  # FTP type attribute works without 'Scope'
-  # scope : Global
-  catalog_input_type_for_store_owner : Fixed Product Tax
-  apply_to : All Product Types
+  catalog_input_type_for_store_owner: Fixed Product Tax
+  attribute_code: attribute_fpt_code
+  apply_to: All Product Types
+  apply_product_types:
 #manage_titles:
-  admin_title : Fixed Product Tax Product Attribute Admin Title
-  storeview_title : Text Field Product Attribute Storeview Title
+  admin_title: Fixed Product Tax Product Attribute Admin Title
+  title_1:
+    store_view_name: Default Store View
+    store_view_title: Text Field Product Attribute Storeview Title
