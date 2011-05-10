@@ -295,6 +295,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             }
             $docs[] = $doc;
         }
+
         return $docs;
     }
 
@@ -692,9 +693,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             return array();
         }
 
-        //$data = array_intersect_key($data, array_flip($this->_usedFields));
         foreach ($data as $code => $value) {
-            if( !in_array($code, $this->_usedFields) && strpos($code, 'fulltext') !== 0 ) {
+            if(!in_array($code, $this->_usedFields) && strpos($code, 'fulltext') !== 0 ) {
                 unset($data[$code]);
             }
         }
@@ -702,7 +702,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         $languageCode = $this->_getLanguageCodeByLocaleCode($localeCode);
         if ($languageCode) {
             foreach ($data as $key => $value) {
-                if ( in_array($key, $this->_searchTextFields) || strpos($key, 'fulltext') === 0) {
+                if (in_array($key, $this->_searchTextFields) || strpos($key, 'fulltext') === 0) {
                     $data[$key . '_' . $languageCode] = $value;
                     unset($data[$key]);
                 }
@@ -759,12 +759,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     /**
      * Escape a value for special query characters such as ':', '(', ')', '*', '?', etc.
      *
+     * @link http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
+     *
      * @param string $value
      * @return string
      */
     public function _escape($value)
     {
-        //list taken from http://lucene.apache.org/java/docs/queryparsersyntax.html#Escaping%20Special%20Characters
         $pattern = '/(\+|-|&&|\|\||!|\(|\)|\{|}|\[|]|\^|"|~|\*|\?|:|\\\)/';
         $replace = '\\\$1';
 
@@ -810,6 +811,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         } else {
             $fieldCondition = $field .':'. $value;
         }
+
         return $fieldCondition;
     }
 
@@ -849,7 +851,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
         $res = array();
         foreach ($object['facet_fields'] as $attr => $val) {
-            foreach ((array)$val as $key => $value) {
+            foreach ($val as $key => $value) {
                 $res[$attr][$key] = $value;
             }
         }

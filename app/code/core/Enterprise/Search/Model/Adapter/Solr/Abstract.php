@@ -93,7 +93,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      * @param int $storeId
      * @param string $date
      *
-     * @return string
+     * @return string|null
      */
     protected function _getSolrDate($storeId, $date = null)
     {
@@ -163,7 +163,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 } else {
                     $result = array();
                     foreach ($value as $val) {
-                        if (is_array($value)) {
+                        if (is_array($val)) {
                             $result = array_merge($result, explode($this->_separator, $val));
                         }
                     }
@@ -179,7 +179,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 unset($data[$key]);
             } elseif (in_array($backendType, $this->_textFieldTypes) || in_array($key, $this->_searchTextFields)) {
                 /*
-                 * for groupped products imploding all possible unique values
+                 * for grouped products imploding all possible unique values
                  */
                 if (is_array($value)) {
                     $value = implode(' ', array_unique($value));
@@ -196,14 +196,19 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
                 if ($backendType == 'datetime') {
                     if (is_array($value)) {
-                        foreach ($value as &$val) {
+                        foreach ($value as $k => &$val) {
                             $val = $this->_getSolrDate($data['store_id'], $val);
+                            if (empty($val)) {
+                                unset($value[$k]);
+                            }
                         }
                     } else {
                         $value = $this->_getSolrDate($data['store_id'], $value);
                     }
                 }
-                $data['attr_'. $backendType .'_'. $key] = $value;
+                if (!empty($value)) {
+                    $data['attr_'. $backendType .'_'. $key] = $value;
+                }
                 unset($data[$key]);
             }
         }
