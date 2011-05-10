@@ -26,6 +26,10 @@
 
 /**
  * Controllers AdminGws validator
+ *
+ * @category    Enterprise
+ * @package     Enterprise_AdminGws
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Observer_Abstract
 {
@@ -966,8 +970,23 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validatePromoCatalogApplyRules($controller)
     {
-        $this->_forward();
-        return false;
+        if (!$this->_role->getIsAll()) {
+            $result = false;
+            if (Mage::getSingleton('admin/session')->isAllowed('admin/promo/catalog')) {
+                $websites = Mage::registry('ruleWebsites');
+                foreach ($this->_role->getWebsiteIds() as $roleWebsite) {
+                    if (in_array($roleWebsite, $websites)) {
+                        $result = true;
+                        break;
+                    }
+                }
+            }
+            if (!$result) {
+                $this->_forward();
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
