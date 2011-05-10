@@ -46,6 +46,8 @@ class Enterprise_PageCache_Model_Resource_Crawler extends Mage_Core_Model_Resour
     /**
      * Get statement for iterating store urls
      *
+     * @deprecated after 1.11.0.0 - use getUrlsPaths() instead
+     *
      * @param int $storeId
      * @return Zend_Db_Statement
      */
@@ -57,5 +59,21 @@ class Enterprise_PageCache_Model_Resource_Crawler extends Mage_Core_Model_Resour
             ->where('store_id = :store_id')
             ->where('is_system=1');
         return $this->_getReadAdapter()->query($select, array(':store_id' => $storeId));
+    }
+
+    /**
+     * Retrieve URLs paths that must be visited by crawler
+     *
+     * @param  $storeId
+     * @return array
+     */
+    public function getUrlsPaths($storeId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getTable('core/url_rewrite'), array('request_path'))
+            ->where('store_id=?', $storeId)
+            ->where('is_system=1');
+        return $adapter->fetchCol($select);
     }
 }

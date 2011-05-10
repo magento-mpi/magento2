@@ -54,13 +54,27 @@
  */
 class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
 {
+    /**
+     * Crawler settings
+     */
     const XML_PATH_CRAWLER_ENABLED     = 'system/page_crawl/enable';
     const XML_PATH_CRAWLER_THREADS     = 'system/page_crawl/threads';
     const XML_PATH_CRAWL_MULTICURRENCY = 'system/page_crawl/multicurrency';
-
-
+    /**
+     * Crawler user agent name
+     */
     const USER_AGENT = 'MagentoCrawler';
 
+    /**
+     * Store visited URLs by crawler
+     *
+     * @var array
+     */
+    protected $_visitedUrls = array();
+
+    /**
+     * Set resource model
+     */
     protected function _construct()
     {
         $this->_init('enterprise_pagecache/crawler');
@@ -68,6 +82,8 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
 
     /**
      * Get internal links from page content
+     *
+     * @deprecated after 1.11.0.0
      *
      * @param string $pageContent
      * @return array
@@ -80,12 +96,15 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
             $pageContent,
             $urls
         );
-        $urls = $urls[1];
+        if (isset($urls[1])) {
+            $urls = $urls[1];
+        }
         return $urls;
     }
 
     /**
      * Get configuration for stores base urls.
+     *
      * array(
      *  $index => array(
      *      'store_id'  => $storeId,
@@ -93,24 +112,25 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
      *      'cookie'    => $cookie
      *  )
      * )
+     *
      * @return array
      */
     public function getStoresInfo()
     {
         $baseUrls = array();
-
         foreach (Mage::app()->getStores() as $store) {
-            $website = Mage::app()->getWebsite($store->getWebsiteId());
-            $defaultWebsiteStore = $website->getDefaultStore();
-            $defaultWebsiteBaseUrl      = $defaultWebsiteStore->getBaseUrl();
-            $defaultWebsiteBaseCurrency = $defaultWebsiteStore->getDefaultCurrencyCode();
-
-            $baseUrl            = Mage::app()->getStore($store)->getBaseUrl();
-            $defaultCurrency    = Mage::app()->getStore($store)->getDefaultCurrencyCode();
+            $website               = Mage::app()->getWebsite($store->getWebsiteId());
+            if ($website->getIsStaging() || (int)Mage::getStoreConfig('general/restriction/is_active', $store)) {
+                continue;
+            }
+            $baseUrl               = Mage::app()->getStore($store)->getBaseUrl();
+            $defaultCurrency       = Mage::app()->getStore($store)->getDefaultCurrencyCode();
+            $defaultWebsiteStore   = $website->getDefaultStore();
+            $defaultWebsiteBaseUrl = $defaultWebsiteStore->getBaseUrl();
 
             $cookie = '';
             if (($baseUrl == $defaultWebsiteBaseUrl) && ($defaultWebsiteStore->getId() != $store->getId())) {
-                $cookie = 'store='.$store->getCode().';';
+                $cookie = 'store=' . $store->getCode() . ';';
             }
 
             $baseUrls[] = array(
@@ -126,7 +146,7 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
                         $baseUrls[] = array(
                             'store_id' => $store->getId(),
                             'base_url' => $baseUrl,
-                            'cookie'   => $cookie.'currency='.$currencyCode.';'
+                            'cookie'   => $cookie . 'currency=' . $currencyCode . ';'
                         );
                     }
                 }
@@ -137,37 +157,47 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
 
     /**
      * Crawl all system urls
+     *
      * @return Enterprise_PageCache_Model_Crawler
      */
     public function crawl()
     {
-        $storesInfo = $this->getStoresInfo();
-        $adapter = new Varien_Http_Adapter_Curl();
+        if (!Mage::app()->useCache('full_page')) {
+            return $this;
+        }
+        $storesInfo  = $this->getStoresInfo();
+        $adapter     = new Varien_Http_Adapter_Curl();
 
         foreach ($storesInfo as $info) {
-            $options    = array(CURLOPT_USERAGENT => self::USER_AGENT);
-            $storeId    = $info['store_id'];
+            $options = array(CURLOPT_USERAGENT => self::USER_AGENT);
+            $storeId = $info['store_id'];
+            $this->_visitedUrls = array();
 
             if (!Mage::app()->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_ENABLED)) {
                 continue;
             }
+
             $threads = (int)Mage::app()->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_THREADS);
             if (!$threads) {
                 $threads = 1;
             }
-            $stmt       = $this->_getResource()->getUrlStmt($storeId);
-            $baseUrl    = $info['base_url'];
             if (!empty($info['cookie'])) {
                 $options[CURLOPT_COOKIE] = $info['cookie'];
             }
-            $urls = array();
-            $urlsCount = 0;
-            $totalCount = 0;
-            while ($row = $stmt->fetch()) {
-                $urls[] = $baseUrl.$row['request_path'];
+            $urls       = array();
+            $baseUrl    = $info['base_url'];
+            $urlsCount  = $totalCount = 0;
+            $urlsPaths  = $this->_getResource()->getUrlsPaths($storeId);
+            foreach ($urlsPaths as $urlPath) {
+                $url = $baseUrl . $urlPath;
+                if (in_array($url, $this->_visitedUrls)) {
+                    continue;
+                }
+                $urls[] = $url;
+                $this->_visitedUrls[] = $url;
                 $urlsCount++;
                 $totalCount++;
-                if ($urlsCount==$threads) {
+                if ($urlsCount == $threads) {
                     $adapter->multiRequest($urls, $options);
                     $urlsCount = 0;
                     $urls = array();
