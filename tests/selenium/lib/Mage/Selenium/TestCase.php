@@ -564,7 +564,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _getControlXpath($controlType, $controlName)
     {
-        $uipage = $this->getUimapPage($this->getArea(), $this->getCurrentPage());
+        $uipage = $this->getCurrentLocationUimapPage();
+        if (!$uipage) {
+            throw new OutOfRangeException("Can't find specified form in UIMap array '".$this->getLocation()."', area['".$this->getArea()."']");
+        }
 
         $method = 'find' . ucfirst(strtolower($controlType));
 
@@ -722,8 +725,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                                 $elemXPath = $baseXpath . '//' . $fieldXPath;
 
                                 if ($this->isElementPresent($elemXPath)) {
-                                    $this->addSelection($elemXPath, 'regexp:' . $d_val);
-                                    usleep(200000);
+                                    if ($d_val != Null) {
+                                        $this->addSelection($elemXPath, 'regexp:' . $d_val);
+                                        usleep(200000);
+                                    }
                                 } else {
                                     throw new PHPUnit_Framework_Exception("Can't find multiselect '{$fieldKey} : {$elemXPath}'");
                                 }
@@ -930,8 +935,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function checkMessage($message)
     {
-        $page = $this->getUimapPage($this->getArea(), $this->getCurrentPage());
+        $page = $this->getCurrentLocationUimapPage();
         if (!$page) {
+            throw new OutOfRangeException("Can't find specified form in UIMap array '".$this->getLocation()."', area['".$this->getArea()."']");
             return false;
         }
         $messageLocator = $page->findMessage($message);

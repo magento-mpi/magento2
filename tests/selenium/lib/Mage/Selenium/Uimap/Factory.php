@@ -40,7 +40,7 @@ class Mage_Selenium_Uimap_Factory
      * Array with allowed element names
      * @var array
      */
-    protected static $allowedElementNames = array('buttons', 'messages', 'links', 'fields', 'dropdowns', 'checkboxes', 'radiobuttons', 'required');
+    protected static $allowedElementNames = array('buttons', 'messages', 'links', 'fields', 'dropdowns', 'multiselects', 'checkboxes', 'radiobuttons', 'required');
 
     /**
      * Class constructor
