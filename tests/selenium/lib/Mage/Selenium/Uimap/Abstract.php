@@ -68,7 +68,7 @@ class Mage_Selenium_Uimap_Abstract
      */
     public function getXPath($paramsDecorator = null)
     {
-        return $this->applyParamsToString($this->xPath);
+        return $this->applyParamsToString($this->xPath, $paramsDecorator);
     }
 
     /**

@@ -42,9 +42,9 @@ class Mage_Selenium_Uimap_Fieldset extends Mage_Selenium_Uimap_Abstract
     protected $fieldsetId = '';
 
     /**
-     *
-     * @param <type> $fieldsetId
-     * @param array $fieldsetContainer 
+     * Constructor
+     * @param string $fieldsetId Fieldset Id
+     * @param array $fieldsetContainer
      */
     public function  __construct($fieldsetId, array &$fieldsetContainer) {
         $this->fieldsetId = $fieldsetId;
