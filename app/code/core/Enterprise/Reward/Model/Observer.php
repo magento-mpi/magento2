@@ -259,8 +259,9 @@ class Enterprise_Reward_Model_Observer
         {
             return $this;
         }
-        if ($order->getCustomerId() && ((float)$order->getBaseTotalPaid() > 0)
-            && (($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled()) - $order->getBaseTotalPaid()) < 0.0001) {
+        if ($order->getCustomerId() && ((float)$order->getBaseTotalPaid() > 0) &&
+            (($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled()) - $order->getBaseTotalPaid()) < 0.0001
+        ) {
             /* @var $reward Enterprise_Reward_Model_Reward */
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setActionEntity($order)
@@ -431,7 +432,10 @@ class Enterprise_Reward_Model_Observer
                 ->setCustomer($quote->getCustomer())
                 ->setWebsiteId($quote->getStore()->getWebsiteId())
                 ->loadByCustomer();
-            $minPointsBalance = (int)Mage::getStoreConfig(Enterprise_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE, $quote->getStoreId());
+            $minPointsBalance = (int)Mage::getStoreConfig(
+                Enterprise_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE,
+                $quote->getStoreId()
+            );
 
             if ($reward->getId() && $reward->getPointsBalance() >= $minPointsBalance) {
                 $quote->setRewardInstance($reward);
@@ -500,7 +504,8 @@ class Enterprise_Reward_Model_Observer
     {
         if (!Mage::helper('enterprise_reward')->isEnabledOnFront()
             || (Mage::app()->getStore()->isAdmin()
-                && !Mage::getSingleton('admin/session')->isAllowed('enterprise_reward/affect'))
+                && !Mage::getSingleton('admin/session')
+                    ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT))
         ) {
             return $this;
         }
@@ -632,8 +637,12 @@ class Enterprise_Reward_Model_Observer
         $invoice = $observer->getEvent()->getInvoice();
         if ($invoice->getBaseRewardCurrencyAmount()) {
             $order = $invoice->getOrder();
-            $order->setRewardCurrencyAmountInvoiced($order->getRewardCurrencyAmountInvoiced() + $invoice->getRewardCurrencyAmount());
-            $order->setBaseRewardCurrencyAmountInvoiced($order->getBaseRewardCurrencyAmountInvoiced() + $invoice->getBaseRewardCurrencyAmount());
+            $order->setRewardCurrencyAmountInvoiced(
+                $order->getRewardCurrencyAmountInvoiced() + $invoice->getRewardCurrencyAmount()
+            );
+            $order->setBaseRewardCurrencyAmountInvoiced(
+                $order->getBaseRewardCurrencyAmountInvoiced() + $invoice->getBaseRewardCurrencyAmount()
+            );
         }
         // Update inviter balance if possible
         if (!$invoice->getOrigData($invoice->getResource()->getIdFieldName()) ) {
@@ -673,7 +682,9 @@ class Enterprise_Reward_Model_Observer
         $creditmemo = $observer->getEvent()->getCreditmemo();
         /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getCreditmemo()->getOrder();
-        $refundedAmount = (float)($order->getBaseRewardCurrencyAmountRefunded() + $creditmemo->getBaseRewardCurrencyAmount());
+        $refundedAmount = (float)(
+            $order->getBaseRewardCurrencyAmountRefunded() +$creditmemo->getBaseRewardCurrencyAmount()
+        );
         $rewardAmount = (float)$order->getBaseRewardCurrencyAmountInvoiced();
         if ($rewardAmount > 0 &&  $rewardAmount == $refundedAmount) {
             $order->setForcedCanCreditmemo(false);
@@ -702,10 +713,18 @@ class Enterprise_Reward_Model_Observer
         }
 
         if ($creditmemo->getBaseRewardCurrencyAmount()) {
-            $order->setRewardPointsBalanceRefunded($order->getRewardPointsBalanceRefunded() + $creditmemo->getRewardPointsBalance());
-            $order->setRewardCurrencyAmountRefunded($order->getRewardCurrencyAmountRefunded() + $creditmemo->getRewardCurrencyAmount());
-            $order->setBaseRewardCurrencyAmountRefunded($order->getBaseRewardCurrencyAmountRefunded() + $creditmemo->getBaseRewardCurrencyAmount());
-            $order->setRewardPointsBalanceToRefund($order->getRewardPointsBalanceToRefund() + $creditmemo->getRewardPointsBalanceToRefund());
+            $order->setRewardPointsBalanceRefunded(
+                $order->getRewardPointsBalanceRefunded() + $creditmemo->getRewardPointsBalance()
+            );
+            $order->setRewardCurrencyAmountRefunded(
+                $order->getRewardCurrencyAmountRefunded() + $creditmemo->getRewardCurrencyAmount()
+            );
+            $order->setBaseRewardCurrencyAmountRefunded(
+                $order->getBaseRewardCurrencyAmountRefunded() + $creditmemo->getBaseRewardCurrencyAmount()
+            );
+            $order->setRewardPointsBalanceToRefund(
+                $order->getRewardPointsBalanceToRefund() + $creditmemo->getRewardPointsBalanceToRefund()
+            );
 
             if ((int)$creditmemo->getRewardPointsBalanceToRefund() > 0) {
                 $reward = Mage::getModel('enterprise_reward/reward')
@@ -763,7 +782,8 @@ class Enterprise_Reward_Model_Observer
                 ->load();
 
             foreach ($collection as $item) {
-                Mage::getSingleton('enterprise_reward/reward')->sendBalanceWarningNotification($item, $website->getId());
+                Mage::getSingleton('enterprise_reward/reward')
+                    ->sendBalanceWarningNotification($item, $website->getId());
             }
 
             // mark records as sent
@@ -806,7 +826,8 @@ class Enterprise_Reward_Model_Observer
     {
         /* @var $website Mage_Core_Model_Website */
         $website = $observer->getEvent()->getWebsite();
-        Mage::getModel('enterprise_reward/reward')->prepareOrphanPoints($website->getId(), $website->getBaseCurrencyCode());
+        Mage::getModel('enterprise_reward/reward')
+            ->prepareOrphanPoints($website->getId(), $website->getBaseCurrencyCode());
         return $this;
     }
 
@@ -919,8 +940,14 @@ class Enterprise_Reward_Model_Observer
 
         $rate = Mage::getModel('enterprise_reward/reward_rate');
 
-        $hasRates = $rate->fetch($groupId, $websiteId, Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY)->getId()
-            && $rate->reset()->fetch($groupId, $websiteId, Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS)->getId();
+        $hasRates = $rate->fetch(
+            $groupId, $websiteId, Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
+        )->getId() &&
+            $rate->reset()->fetch(
+                $groupId,
+                $websiteId,
+                Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
+            )->getId();
 
         Mage::helper('enterprise_reward')->setHasRates($hasRates);
 
@@ -937,7 +964,9 @@ class Enterprise_Reward_Model_Observer
         $paypalCart = $observer->getEvent()->getPaypalCart();
         if ($paypalCart && abs($paypalCart->getSalesEntity()->getBaseRewardCurrencyAmount()) > 0.0001) {
             $salesEntity = $paypalCart->getSalesEntity();
-            $paypalCart->updateTotal(Mage_Paypal_Model_Cart::TOTAL_DISCOUNT, (float)$salesEntity->getBaseRewardCurrencyAmount(),
+            $paypalCart->updateTotal(
+                Mage_Paypal_Model_Cart::TOTAL_DISCOUNT,
+                (float)$salesEntity->getBaseRewardCurrencyAmount(),
                 Mage::helper('enterprise_reward')->formatReward($salesEntity->getRewardPointsBalance())
             );
         }

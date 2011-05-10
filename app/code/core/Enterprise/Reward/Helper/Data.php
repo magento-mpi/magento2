@@ -44,6 +44,9 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_LANDING_PAGE = 'enterprise_reward/general/landing_page';
     const XML_PATH_AUTO_REFUND = 'enterprise_reward/general/refund_automatically';
 
+    const XML_PATH_PERMISSION_BALANCE = 'customer/manage/reward_balance';
+    const XML_PATH_PERMISSION_AFFECT = 'sales/order/actions/create/reward_spend';
+
     protected $_expiryConfig;
     protected $_hasRates = true;
     protected $_ratesArray = null;
@@ -243,7 +246,9 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
         if (null === $amount) {
             return  null;
         }
-        return $asCurrency ? Mage::app()->getStore($storeId)->convertPrice($amount, true, false) : sprintf('%.2F', $amount);
+        return $asCurrency ?
+            Mage::app()->getStore($storeId)->convertPrice($amount, true, false) :
+            sprintf('%.2F', $amount);
     }
 
     /**
