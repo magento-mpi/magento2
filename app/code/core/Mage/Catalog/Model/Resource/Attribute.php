@@ -50,6 +50,46 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
     }
 
     /**
+     * Perform actions after object save
+     *
+     * @param  Mage_Core_Model_Abstract $object
+     * @return Mage_Catalog_Model_Resource_Attribute
+     */
+    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    {
+        $this->_clearUselessAttributeValues($object);
+        return parent::_afterSave($object);
+    }
+
+    /**
+     * Clear useless attribute values
+     *
+     * @param  Mage_Core_Model_Abstract $object
+     * @return Mage_Catalog_Model_Resource_Attribute
+     */
+    protected function _clearUselessAttributeValues(Mage_Core_Model_Abstract $object)
+    {
+        $origData = $object->getOrigData();
+
+        if ($object->isScopeGlobal()
+            && isset($origData['is_global'])
+            && Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL != $origData['is_global']
+        ) {
+            $attributeStoreIds = array_keys(Mage::app()->getStores());
+            if (!empty($attributeStoreIds)) {
+                $delCondition = array(
+                    'entity_type_id=?' => $object->getEntityTypeId(),
+                    'attribute_id = ?' => $object->getId(),
+                    'store_id IN(?)'   => $attributeStoreIds
+                );
+                $this->_getWriteAdapter()->delete($object->getBackendTable(), $delCondition);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Delete entity
      *
      * @param Mage_Core_Model_Abstract $object
