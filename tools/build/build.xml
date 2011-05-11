@@ -108,12 +108,18 @@
     </target>
 
     <target name="prepare-enterprise" description="Prepare enterprise edution checkout.">
+        <copy file="XEnterprise_Enabler.xml"
+              tofile="${dir.src}/app/etc/modules/XEnterprise_Enabler.xml"
+              failonerror="true"/>
         <property name="dir.staging" value="${dir.src}/staging"/>
         <mkdir dir="${dir.staging}"/>
         <chmod dir="${dir.staging}" perm="777"/>
     </target>
 
     <target name="prepare-professional" description="Prepare professional edition checkout.">
+        <copy file="XEnterprise_Enabler.xml"
+              tofile="${dir.src}/app/etc/modules/XEnterprise_Enabler.xml"
+              failonerror="true"/>
         <antcall target="prepare-enterprise"/>
     </target>
 
