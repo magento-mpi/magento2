@@ -329,7 +329,6 @@ class Varien_Db_Ddl_Table
                 break;
             case self::TYPE_TEXT:
             case self::TYPE_BLOB:
-                //$length = $this->_parseTextSize($size);
                 $length = $size;
                 break;
             default:
@@ -625,44 +624,4 @@ class Varien_Db_Ddl_Table
         }
         return $columns;
     }
-    /**
-     * Parse text size
-     * Returns default value if value is empty or 0
-     * Returns max allowed size if value great it
-     *
-     * @param string|int $size
-     * @return int
-     */
-    protected function _parseTextSize($size)
-    {
-        // if empty text size - return default value
-        if (empty($size)) {
-            return self::DEFAULT_TEXT_SIZE;
-        }
-
-        $size = trim($size);
-        $last = strtolower(substr($size, -1));
-
-        switch ($last) {
-            case 'k':
-                $size = intval($size) * 1024;
-                break;
-            case 'm':
-                $size = intval($size) * 1024 * 1024;
-                break;
-            case 'g':
-                $size = intval($size) * 1024 * 1024 * 1024;
-                break;
-        }
-
-        if (empty($size)) {
-            return self::DEFAULT_TEXT_SIZE;
-        }
-        if ($size >= self::MAX_TEXT_SIZE) {
-            return self::MAX_TEXT_SIZE;
-        }
-
-        return intval($size);
-    }
 }
-

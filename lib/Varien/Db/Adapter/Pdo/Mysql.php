@@ -2607,46 +2607,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
-     * Parse text size
-     * Returns default value if value is empty or 0
-     * Returns max allowed size if value great it
-     *
-     * @param string|int $size
-     * @return int
-     */
-    protected function _parseTextSize($size)
-    {
-        // if empty text size - return default value
-        if (empty($size)) {
-            return Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
-        }
-
-        $size = trim($size);
-        $last = strtolower(substr($size, -1));
-
-        switch ($last) {
-            case 'k':
-                $size = intval($size) * 1024;
-                break;
-            case 'm':
-                $size = intval($size) * 1024 * 1024;
-                break;
-            case 'g':
-                $size = intval($size) * 1024 * 1024 * 1024;
-                break;
-        }
-
-        if (empty($size)) {
-            return Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
-        }
-        if ($size >= Varien_Db_Ddl_Table::MAX_TEXT_SIZE) {
-            return Varien_Db_Ddl_Table::MAX_TEXT_SIZE;
-        }
-
-        return intval($size);
-    }
-
-    /**
      * Prepare value for save in column
      * Return converted to column data type value
      *
@@ -3406,5 +3366,39 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         } else {
             return 'PK_' . strtoupper($tableName);
         }
+    }
+
+    /**
+     * Parse text size
+     * Returns max allowed size if value great it
+     *
+     * @param string|int $size
+     * @return int
+     */
+    protected function _parseTextSize($size)
+    {
+        $size = trim($size);
+        $last = strtolower(substr($size, -1));
+
+        switch ($last) {
+            case 'k':
+                $size = intval($size) * 1024;
+                break;
+            case 'm':
+                $size = intval($size) * 1024 * 1024;
+                break;
+            case 'g':
+                $size = intval($size) * 1024 * 1024 * 1024;
+                break;
+        }
+
+        if (empty($size)) {
+            return Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
+        }
+        if ($size >= Varien_Db_Ddl_Table::MAX_TEXT_SIZE) {
+            return Varien_Db_Ddl_Table::MAX_TEXT_SIZE;
+        }
+
+        return intval($size);
     }
 }

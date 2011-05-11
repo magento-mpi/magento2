@@ -518,6 +518,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             case Varien_Db_Ddl_Table::TYPE_BLOB:
                 if (empty($options['LENGTH'])) {
                     $options['LENGTH'] = Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
+                } else {
+                    $options['LENGTH'] = $this->_parseTextSize($options['LENGTH']);
                 }
                 if ($options['LENGTH'] <= 8000) {
                     $ddlType = 'varchar';
@@ -4404,5 +4406,39 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         } else {
             return 'PK_' . strtoupper($tableName);
         }
+    }
+
+    /**
+     * Parse text size
+     * Returns max allowed size if value great it
+     *
+     * @param string|int $size
+     * @return int
+     */
+    protected function _parseTextSize($size)
+    {
+        $size = trim($size);
+        $last = strtolower(substr($size, -1));
+
+        switch ($last) {
+            case 'k':
+                $size = intval($size) * 1024;
+                break;
+            case 'm':
+                $size = intval($size) * 1024 * 1024;
+                break;
+            case 'g':
+                $size = intval($size) * 1024 * 1024 * 1024;
+                break;
+        }
+
+        if (empty($size)) {
+            return Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
+        }
+        if ($size >= Varien_Db_Ddl_Table::MAX_TEXT_SIZE) {
+            return Varien_Db_Ddl_Table::MAX_TEXT_SIZE;
+        }
+
+        return intval($size);
     }
 }
