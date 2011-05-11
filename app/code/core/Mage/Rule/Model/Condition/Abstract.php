@@ -242,8 +242,11 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
     public function getValueSelectOptions()
     {
-        $opt = array();
-        foreach ($this->getValueOption() as $k => $v) {
+        $valueOption = $opt = array();
+        if ($this->hasValueOption()) {
+            $valueOption = (array) $this->getValueOption();
+        }
+        foreach ($valueOption as $k => $v) {
             $opt[] = array('value' => $k, 'label' => $v);
         }
         return $opt;
@@ -254,7 +257,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
         $value = $this->getData('value');
 
         $op = $this->getOperator();
-        if (($op === '{}' || $op === '!{}' || $op === '()' || $o p=== '!()') && is_scalar($value)) {
+        if (($op === '{}' || $op === '!{}' || $op === '()' || $op === '!()') && is_scalar($value)) {
             $value = preg_split('#\s*[,;]\s*#', $value, null, PREG_SPLIT_NO_EMPTY);
             $this->setValue($value);
         }
