@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--  -->
-<messages>
-    <message>//div[@id="messages" and string-length(//ul/@class)>2]</message>
-    <success>//li[@class="success-msg"]</success>
-    <error>//li[normalize-space(@class)='error-msg']</error>
-</messages>

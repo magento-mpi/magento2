@@ -1,8 +1,0 @@
-http://magento-victor.kiev-dev/loadtest/
-http://magento-victor.kiev-dev/loadtest/render/categories/ GET:"nesting=3;min_count=10;max_count=20;"
-http://magento-victor.kiev-dev/loadtest/render/attributes/ GET:"text=8;textarea=8;date=8;boolean=8;multiselect=8,3,6;select=8,2,5;price=8;image=8;"
-http://magento-victor.kiev-dev/loadtest/render/simpleProducts/ GET:"count_products=20000;min_count=2;max_count=10;min_price=1;max_price=500;min_weight=1;max_weight=3;visibility=4;qty=10;start_product_name=0;attribute_set_id={{response.attribute_set_id}};fill_attribute=1;"
-http://magento-victor.kiev-dev/loadtest/render/customers/ GET:"count=20000;group_id=1;"
-http://magento-victor.kiev-dev/loadtest/render/reviews/ GET:"count=60000;"
-http://magento-victor.kiev-dev/loadtest/render/tags/ GET:"count=1000;min_assign=1;max_assign=10000;"
-http://magento-victor.kiev-dev/loadtest/render/orders/ GET:"count_orders=300000;year_ago=5;"

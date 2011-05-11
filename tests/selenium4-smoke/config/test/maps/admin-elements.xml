@@ -1,4 +1,0 @@
-<elements>
-    <progress_bar>//div[@id='loading-mask' and contains(@style,'display: none')]</progress_bar>
-    <no_records>No records found.</no_records>
-</elements>
