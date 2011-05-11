@@ -27,7 +27,9 @@
 /**
  * Staging unlinked product model
  *
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Enterprise
+ * @package     Enterprise_Staging
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Staging_Model_Staging_Product_Unlinked extends Mage_Core_Model_Abstract
 {

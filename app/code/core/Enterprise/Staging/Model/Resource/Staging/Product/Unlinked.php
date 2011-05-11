@@ -24,8 +24,18 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Staging_Model_Mysql4_Staging_Product_Unlinked extends Mage_Core_Model_Mysql4_Abstract
+/**
+ * Staging unlinked product resource
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Staging
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Enterprise_Staging_Model_Resource_Staging_Product_Unlinked extends Mage_Core_Model_Resource_Db_Abstract
 {
+    /**
+     * Resource initialization
+     */
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_product_unlinked', 'product_id');
@@ -36,7 +46,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Product_Unlinked extends Mage_Core
      *
      * @param  int|array $productIds
      * @param  int|array $websiteIds
-     * @return Enterprise_Staging_Model_Mysql4_Staging_Product_Unlinked
+     * @return Enterprise_Staging_Model_Resource_Staging_Product_Unlinked
      */
     public function addProductsUnlinkAssociations($productIds, $websiteIds)
     {
@@ -77,7 +87,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Product_Unlinked extends Mage_Core
      *
      * @param  array $productIds
      * @param  array $websiteIds
-     * @return Enterprise_Staging_Model_Mysql4_Staging_Product_Unlinked
+     * @return Enterprise_Staging_Model_Resource_Staging_Product_Unlinked
      */
     public function removeProductsUnlinkAssociations($productIds, $websiteIds)
     {

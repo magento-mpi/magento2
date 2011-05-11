@@ -24,12 +24,5 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * remove fireign keys
- */
-
 $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
-$installer->startSetup();
-
-$installer->endSetup();
