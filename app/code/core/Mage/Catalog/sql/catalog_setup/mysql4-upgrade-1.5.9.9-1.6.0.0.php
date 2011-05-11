@@ -4219,19 +4219,28 @@ $installer->getConnection()->addIndex(
 
 $installer->getConnection()->addIndex(
     $installer->getTable('catalog/category_product_index'),
-    $installer->getIdxName('catalog/category_product_index', array('product_id', 'store_id', 'category_id', 'visibility')),
+    $installer->getIdxName(
+        'catalog/category_product_index',
+        array('product_id', 'store_id', 'category_id', 'visibility')
+    ),
     array('product_id', 'store_id', 'category_id', 'visibility')
 );
 
 $installer->getConnection()->addIndex(
     $installer->getTable('catalog/category_product_index'),
-    $installer->getIdxName('catalog/category_product_index', array('store_id', 'category_id', 'visibility', 'is_parent', 'position')),
+    $installer->getIdxName(
+        'catalog/category_product_index',
+        array('store_id', 'category_id', 'visibility', 'is_parent', 'position')
+    ),
     array('store_id', 'category_id', 'visibility', 'is_parent', 'position')
 );
 
 $installer->getConnection()->addIndex(
     $installer->getTable('catalog/category_product_index'),
-    $installer->getIdxName('catalog/category_product_index', array('product_id', 'store_id', 'category_id', 'visibility')),
+    $installer->getIdxName(
+        'catalog/category_product_index',
+        array('product_id', 'store_id', 'category_id', 'visibility')
+    ),
     array('product_id', 'store_id', 'category_id', 'visibility')
 );
 
@@ -4346,7 +4355,10 @@ $installer->getConnection()->addIndex(
 
 $installer->getConnection()->addIndex(
     $installer->getTable('catalog/product_attribute_tier_price'),
-    $installer->getIdxName('catalog/product_attribute_tier_price', array('entity_id', 'all_groups', 'customer_group_id', 'qty', 'website_id')),
+    $installer->getIdxName(
+        'catalog/product_attribute_tier_price',
+        array('entity_id', 'all_groups', 'customer_group_id', 'qty', 'website_id')
+    ),
     array('entity_id', 'all_groups', 'customer_group_id', 'qty', 'website_id'),
     Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
 );
@@ -5336,7 +5348,12 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_attribute_media_gallery_value', 'value_id', 'catalog/product_attribute_media_gallery', 'value_id'),
+    $installer->getFkName(
+        'catalog/product_attribute_media_gallery_value',
+        'value_id',
+        'catalog/product_attribute_media_gallery',
+        'value_id'
+    ),
     $installer->getTable('catalog/product_attribute_media_gallery_value'),
     'value_id',
     $installer->getTable('catalog/product_attribute_media_gallery'),
@@ -5352,10 +5369,15 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_attribute_tier_price', 'customer_group_id', 'customer_group', 'customer_group_id'),
+    $installer->getFkName(
+        'catalog/product_attribute_tier_price',
+        'customer_group_id',
+        'customer/customer_group',
+        'customer_group_id'
+    ),
     $installer->getTable('catalog/product_attribute_tier_price'),
     'customer_group_id',
-    $installer->getTable('customer_group'),
+    $installer->getTable('customer/customer_group'),
     'customer_group_id'
 );
 
@@ -5368,10 +5390,10 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_attribute_tier_price', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('catalog/product_attribute_tier_price', 'website_id', 'core/website', 'website_id'),
     $installer->getTable('catalog/product_attribute_tier_price'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('core/website'),
     'website_id'
 );
 
@@ -5424,10 +5446,15 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_index_price', 'customer_group_id', 'customer_group', 'customer_group_id'),
+    $installer->getFkName(
+        'catalog/product_index_price',
+        'customer_group_id',
+        'customer/customer_group',
+        'customer_group_id'
+    ),
     $installer->getTable('catalog/product_index_price'),
     'customer_group_id',
-    $installer->getTable('customer_group'),
+    $installer->getTable('customer/customer_group'),
     'customer_group_id'
 );
 
@@ -5440,18 +5467,23 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_index_price', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('catalog/product_index_price', 'website_id', 'core/website', 'website_id'),
     $installer->getTable('catalog/product_index_price'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('core/website'),
     'website_id'
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_index_tier_price', 'customer_group_id', 'customer_group', 'customer_group_id'),
+    $installer->getFkName(
+        'catalog/product_index_tier_price',
+        'customer_group_id',
+        'customer/customer_group',
+        'customer_group_id'
+    ),
     $installer->getTable('catalog/product_index_tier_price'),
     'customer_group_id',
-    $installer->getTable('customer_group'),
+    $installer->getTable('customer/customer_group'),
     'customer_group_id'
 );
 
@@ -5464,18 +5496,18 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_index_tier_price', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('catalog/product_index_tier_price', 'website_id', 'core/website', 'website_id'),
     $installer->getTable('catalog/product_index_tier_price'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('core/website'),
     'website_id'
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_index_website', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('catalog/product_index_website', 'website_id', 'core/website', 'website_id'),
     $installer->getTable('catalog/product_index_website'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('core/website'),
     'website_id'
 );
 
@@ -5504,7 +5536,12 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_link_attribute', 'link_type_id', 'catalog/product_link_type', 'link_type_id'),
+    $installer->getFkName(
+        'catalog/product_link_attribute',
+        'link_type_id',
+        'catalog/product_link_type',
+        'link_type_id'
+    ),
     $installer->getTable('catalog/product_link_attribute'),
     'link_type_id',
     $installer->getTable('catalog/product_link_type'),
@@ -5520,7 +5557,12 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_link_attribute_decimal', 'product_link_attribute_id', 'catalog/product_link_attribute', 'product_link_attribute_id'),
+    $installer->getFkName(
+        'catalog/product_link_attribute_decimal',
+        'product_link_attribute_id',
+        'catalog/product_link_attribute',
+        'product_link_attribute_id'
+    ),
     $installer->getTable('catalog/product_link_attribute_decimal'),
     'product_link_attribute_id',
     $installer->getTable('catalog/product_link_attribute'),
@@ -5528,7 +5570,12 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_link_attribute_int', 'product_link_attribute_id', 'catalog/product_link_attribute', 'product_link_attribute_id'),
+    $installer->getFkName(
+        'catalog/product_link_attribute_int',
+        'product_link_attribute_id',
+        'catalog/product_link_attribute',
+        'product_link_attribute_id'
+    ),
     $installer->getTable('catalog/product_link_attribute_int'),
     'product_link_attribute_id',
     $installer->getTable('catalog/product_link_attribute'),
@@ -5552,7 +5599,12 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_link_attribute_varchar', 'product_link_attribute_id', 'catalog/product_link_attribute', 'product_link_attribute_id'),
+    $installer->getFkName(
+        'catalog/product_link_attribute_varchar',
+        'product_link_attribute_id',
+        'catalog/product_link_attribute',
+        'product_link_attribute_id'
+    ),
     $installer->getTable('catalog/product_link_attribute_varchar'),
     'product_link_attribute_id',
     $installer->getTable('catalog/product_link_attribute'),
@@ -5600,7 +5652,12 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_option_type_price', 'option_type_id', 'catalog/product_option_type_value', 'option_type_id'),
+    $installer->getFkName(
+        'catalog/product_option_type_price',
+        'option_type_id',
+        'catalog/product_option_type_value',
+        'option_type_id'
+    ),
     $installer->getTable('catalog/product_option_type_price'),
     'option_type_id',
     $installer->getTable('catalog/product_option_type_value'),
@@ -5616,7 +5673,12 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_option_type_title', 'option_type_id', 'catalog/product_option_type_value', 'option_type_id'),
+    $installer->getFkName(
+        'catalog/product_option_type_title',
+        'option_type_id',
+        'catalog/product_option_type_value',
+        'option_type_id'
+    ),
     $installer->getTable('catalog/product_option_type_title'),
     'option_type_id',
     $installer->getTable('catalog/product_option_type_value'),
@@ -5666,7 +5728,12 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_super_attribute_label', 'product_super_attribute_id', 'catalog/product_super_attribute', 'product_super_attribute_id'),
+    $installer->getFkName(
+        'catalog/product_super_attribute_label',
+        'product_super_attribute_id',
+        'catalog/product_super_attribute',
+        'product_super_attribute_id'
+    ),
     $installer->getTable('catalog/product_super_attribute_label'),
     'product_super_attribute_id',
     $installer->getTable('catalog/product_super_attribute'),
@@ -5682,15 +5749,20 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_super_attribute_pricing', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('catalog/product_super_attribute_pricing', 'website_id', 'core/website', 'website_id'),
     $installer->getTable('catalog/product_super_attribute_pricing'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('core/website'),
     'website_id'
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_super_attribute_pricing', 'product_super_attribute_id', 'catalog/product_super_attribute', 'product_super_attribute_id'),
+    $installer->getFkName(
+        'catalog/product_super_attribute_pricing',
+        'product_super_attribute_id',
+        'catalog/product_super_attribute',
+        'product_super_attribute_id'
+    ),
     $installer->getTable('catalog/product_super_attribute_pricing'),
     'product_super_attribute_id',
     $installer->getTable('catalog/product_super_attribute'),
@@ -5714,10 +5786,10 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('catalog/product_website', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('catalog/product_website', 'website_id', 'core/website', 'website_id'),
     $installer->getTable('catalog/product_website'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('core/website'),
     'website_id'
 );
 

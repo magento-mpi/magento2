@@ -24,24 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer = $this;
 
 $installer->startSetup();
-
-$connection = $installer->getConnection();
+$conn = $installer->getConnection();
 foreach (array('datetime', 'decimal', 'int', 'text', 'varchar') as $type) {
-    $connection->addIndex(
-        $installer->getTable(array('eav/entity_value_prefix', $type)),
-        $installer->getIdxName(
-            array('eav/entity_value_prefix', $type),
-            array('entity_id', 'attribute_id', 'store_id'),
-            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
-        ),
-        array('entity_id', 'attribute_id', 'store_id'),
-        Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
-    );
+    $tableName = $installer->getTable('eav_entity_' . $type);
+    $conn->addKey($tableName, 'UNQ_ATTRIBUTE_VALUE', array('entity_id','attribute_id','store_id'), 'unique');
 }
 
 $installer->endSetup();
