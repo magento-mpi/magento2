@@ -72,9 +72,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Storage_Media_Database
         $this->_connections = (array) Mage::app()->getConfig()->getNode('global/resources')->children();
         foreach (array_keys($this->_connections) as $connectionName) {
             $connection = $this->_collectConnectionConfig($connectionName);
-            if (!isset($connection['active']) || $connection['active'] != 1
-                || !isset($connection['host']) || empty($connection['host'])
-            ) {
+            if (!isset($connection['active']) || $connection['active'] != 1) {
                 continue;
             }
 
