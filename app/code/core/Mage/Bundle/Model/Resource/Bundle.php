@@ -76,16 +76,16 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_CatalogIndex_Model_Resource
      */
     public function dropAllQuoteChildItems($productId)
     {
-        $result = $this->_getReadAdapter()->fetchCol(
+        $quoteItemIds = $this->_getReadAdapter()->fetchCol(
             $this->_getReadAdapter()->select()
-            ->from($this->getTable('sales/quote_item'), array('items' => 'item_id'))
+            ->from($this->getTable('sales/quote_item'), array('item_id'))
             ->where('product_id = :product_id'),
             array('product_id' => $productId)
         );
-        if ($result['items'] != '') {
+        if ($quoteItemIds) {
             $this->_getWriteAdapter()->delete(
                 $this->getTable('sales/quote_item'),
-                array('parent_item_id IN(?)' => $result['items'])
+                array('parent_item_id IN(?)' => $quoteItemIds)
             );
         }
     }
