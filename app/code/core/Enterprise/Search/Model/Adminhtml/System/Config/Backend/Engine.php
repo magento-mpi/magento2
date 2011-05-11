@@ -46,9 +46,8 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Backend_Engine extends Mag
             $indexer = Mage::getSingleton('index/indexer');
             $indexer->getProcessByCode('catalogsearch_fulltext')
                 ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
-            $indexer->getProcessByCode('catalog_category_product')
-                ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
+
         return $this;
     }
 }

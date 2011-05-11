@@ -111,4 +111,16 @@ class Enterprise_Search_Model_Observer
             Mage::register('current_layer', Mage::getSingleton('enterprise_search/catalog_layer'));
         }
     }
+
+    /**
+     * Reset search engine if it is enabled for search navigation
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function resetCurrentSearchLayer(Varien_Event_Observer $observer)
+    {
+        if (Mage::helper('enterprise_search')->getIsEngineAvailableForNavigation(false)) {
+            Mage::register('current_layer', Mage::getSingleton('enterprise_search/search_layer'));
+        }
+    }
 }

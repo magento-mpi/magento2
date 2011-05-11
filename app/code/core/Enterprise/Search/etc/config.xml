@@ -144,16 +144,36 @@
                 </enterprise_search>
             </updates>
         </layout>
+
         <events>
-            <catalog_controller_category_init_after>
+            <controller_action_predispatch_catalog_category_view>
                 <observers>
                     <enterprise_search>
                         <class>enterprise_search/observer</class>
                         <method>resetCurrentCatalogLayer</method>
                     </enterprise_search>
                 </observers>
-            </catalog_controller_category_init_after>
+            </controller_action_predispatch_catalog_category_view>
+
+            <controller_action_predispatch_catalogsearch_result_index>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>resetCurrentSearchLayer</method>
+                    </enterprise_search>
+                </observers>
+            </controller_action_predispatch_catalogsearch_result_index>
+
+            <controller_action_predispatch_catalogsearch_advanced_result>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>resetCurrentSearchLayer</method>
+                    </enterprise_search>
+                </observers>
+            </controller_action_predispatch_catalogsearch_advanced_result>
         </events>
+
         <translate>
             <modules>
                 <Enterprise_Search>
