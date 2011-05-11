@@ -38,7 +38,8 @@ foreach ($revisionArray as $revision) {
     } 
    
     exec(sprintf('svn up --username %s --password %s --no-auth-cache %s', $user, $pass, $workingDir), $output, $exitCode);
-    analyzeExitCode($exitCode, $output); 
+    analyzeExitCode($exitCode, $output);
+    file_put_contents($logFileName, "[CI] " . file_get_contents($logFileName));
     exec(sprintf('svn ci -F %s --username %s --password %s --no-auth-cache %s', $logFileName, $user, $pass, $workingDir), $output, $exitCode);
     analyzeExitCode($exitCode, $output);
     echo "Done\n";
