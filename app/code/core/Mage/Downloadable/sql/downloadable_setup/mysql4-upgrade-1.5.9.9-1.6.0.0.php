@@ -403,7 +403,6 @@ $tables = array(
             'order_id' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
                 'unsigned'  => true,
-                'nullable'  => false,
                 'default'   => '0',
                 'comment'   => 'Order ID'
             ),
@@ -473,7 +472,6 @@ $tables = array(
             'order_item_id' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
                 'unsigned'  => true,
-                'nullable'  => false,
                 'default'   => '0',
                 'comment'   => 'Order Item ID'
             ),
@@ -796,11 +794,34 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->getConnection()->addForeignKey(
-    $installer->getFkName('downloadable/link_purchased_item', 'purchased_id', 'downloadable/link_purchased', 'purchased_id'),
+    $installer->getFkName('downloadable/link_purchased', 'order_id', 'sales/order', 'entity_id'),
+    $installer->getTable('downloadable/link_purchased'),
+    'order_id',
+    $installer->getTable('sales/order'),
+    'entity_id',
+    Varien_Db_Ddl_Table::ACTION_SET_NULL
+);
+
+$installer->getConnection()->addForeignKey(
+    $installer->getFkName(
+        'downloadable/link_purchased_item',
+        'purchased_id',
+        'downloadable/link_purchased',
+        'purchased_id'
+    ),
     $installer->getTable('downloadable/link_purchased_item'),
     'purchased_id',
     $installer->getTable('downloadable/link_purchased'),
     'purchased_id'
+);
+
+$installer->getConnection()->addForeignKey(
+    $installer->getFkName('downloadable/link_purchased_item', 'order_item_id', 'sales/order_item', 'item_id'),
+    $installer->getTable('downloadable/link_purchased_item'),
+    'order_item_id',
+    $installer->getTable('sales/order_item'),
+    'item_id',
+    Varien_Db_Ddl_Table::ACTION_SET_NULL
 );
 
 $installer->getConnection()->addForeignKey(

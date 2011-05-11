@@ -128,7 +128,6 @@ $table = $installer->getConnection()
         ), 'Purchased ID')
     ->addColumn('order_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
-        'nullable'  => false,
         'default'   => '0',
         ), 'Order ID')
     ->addColumn('order_increment_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
@@ -161,6 +160,9 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('downloadable/link_purchased', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer/entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
+    ->addForeignKey($installer->getFkName('downloadable/link_purchased', 'order_id', 'sales/order', 'entity_id'),
+        'order_id', $installer->getTable('sales/order'), 'entity_id',
+        Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Downloadable Link Purchased Table');
 $installer->getConnection()->createTable($table);
 
@@ -182,7 +184,6 @@ $table = $installer->getConnection()
         ), 'Purchased ID')
     ->addColumn('order_item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
-        'nullable'  => false,
         'default'   => '0',
         ), 'Order Item ID')
     ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -231,9 +232,24 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'link_hash'), 'link_hash')
     ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'order_item_id'), 'order_item_id')
     ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'purchased_id'), 'purchased_id')
-    ->addForeignKey($installer->getFkName('downloadable/link_purchased_item', 'purchased_id', 'downloadable/link_purchased', 'purchased_id'),
+    ->addForeignKey(
+        $installer->getFkName(
+            'downloadable/link_purchased_item',
+            'purchased_id',
+            'downloadable/link_purchased',
+            'purchased_id'
+        ),
         'purchased_id', $installer->getTable('downloadable/link_purchased'), 'purchased_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+    ->addForeignKey(
+        $installer->getFkName(
+            'downloadable/link_purchased_item',
+            'order_item_id',
+            'sales/order_item',
+            'item_id'
+        ),
+        'order_item_id', $installer->getTable('sales/order_item'), 'item_id',
+        Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Downloadable Link Purchased Item Table');
 $installer->getConnection()->createTable($table);
 
@@ -260,7 +276,12 @@ $table = $installer->getConnection()
         ), 'Store ID')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Title')
-    ->addIndex($installer->getIdxName('downloadable/link_title', array('link_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex(
+        $installer->getIdxName(
+            'downloadable/link_title',
+            array('link_id', 'store_id'),
+            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+        ),
         array('link_id', 'store_id'),
         array('type'=>Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('downloadable/link_title', 'link_id'), 'link_id')
@@ -331,7 +352,12 @@ $table = $installer->getConnection()
         ), 'Store ID')
     ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Title')
-    ->addIndex($installer->getIdxName('downloadable/sample_title', array('sample_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex(
+        $installer->getIdxName(
+            'downloadable/sample_title',
+            array('sample_id', 'store_id'),
+            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+        ),
         array('sample_id', 'store_id'),
         array('type'=>Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('downloadable/sample_title', 'sample_id'), 'sample_id')

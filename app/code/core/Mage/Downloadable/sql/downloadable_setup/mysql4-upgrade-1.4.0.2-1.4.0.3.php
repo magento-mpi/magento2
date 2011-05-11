@@ -93,6 +93,3 @@ $adapter->addConstraint(
     'item_id',
     'set null'
 );
-
-
-
