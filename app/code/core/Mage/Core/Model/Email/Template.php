@@ -164,17 +164,17 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
             $data['file'], 'email', $locale
         );
 
-        if (preg_match('/<!--@subject\s*(.*?)\s*@-->/', $templateText, $matches)) {
+        if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $templateText, $matches)) {
             $this->setTemplateSubject($matches[1]);
             $templateText = str_replace($matches[0], '', $templateText);
         }
 
-        if (preg_match('/<!--@vars\n((?:.)*?)\n@-->/us', $templateText, $matches)) {
+        if (preg_match('/<!--@vars\s*((?:.)*?)\s*@-->/us', $templateText, $matches)) {
             $this->setData('orig_template_variables', str_replace("\n", '', $matches[1]));
             $templateText = str_replace($matches[0], '', $templateText);
         }
 
-        if (preg_match('/<!--@styles\s*(.*?)\s*@-->/sm', $templateText, $matches)) {
+        if (preg_match('/<!--@styles\s*(.*?)\s*@-->/s', $templateText, $matches)) {
            $this->setTemplateStyles($matches[1]);
            $templateText = str_replace($matches[0], '', $templateText);
         }
