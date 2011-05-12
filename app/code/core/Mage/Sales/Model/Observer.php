@@ -238,5 +238,35 @@ class Mage_Sales_Model_Observer
             $observer->getEvent()->getResult()->isAvailable = false;
         }
     }
+
+    /**
+     * Set new customer group to all his quotes
+     *
+     * @param  Varien_Event_Observer $observer
+     * @return Mage_Sales_Model_Observer
+     */
+    public function customerSaveAfter(Varien_Event_Observer $observer)
+    {
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = $observer->getEvent()->getCustomer();
+
+        if ($customer->getGroupId() !== $customer->getOrigData('group_id')) {
+            /** @var $quote Mage_Sales_Model_Quote */
+            $quote = Mage::getSingleton('sales/quote');
+
+            foreach (Mage::app()->getStores() as $store) {
+                $quote->setStore($store);
+                $quote->loadByCustomer($customer);
+
+                if ($quote->getId()) {
+                    $quote->setCustomerGroupId($customer->getGroupId());
+                    $quote->collectTotals();
+                    $quote->save();
+                }
+            }
+        }
+
+        return $this;
+    }
 }
 

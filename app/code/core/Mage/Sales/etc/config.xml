@@ -1569,6 +1569,15 @@
                     </sales_billing_agreement>
                 </observers>
             </payment_method_is_active>
+
+            <customer_save_after>
+                <observers>
+                    <customer>
+                        <class>sales/observer</class>
+                        <method>customerSaveAfter</method>
+                    </customer>
+                </observers>
+            </customer_save_after>
         </events>
     </adminhtml>
     <default>
