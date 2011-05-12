@@ -196,6 +196,8 @@
                 <visible_on_product>1</visible_on_product>
                 <allow_ba_signup>never</allow_ba_signup>
                 <group>paypal</group>
+                <authorization_honor_period>3</authorization_honor_period>
+                <order_valid_period>29</order_valid_period>
             </paypal_express>
             <paypal_direct>
                 <model>paypal/direct</model>

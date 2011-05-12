@@ -466,6 +466,24 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </allow_ba_signup>
+                        <authorization_honor_period translate="label comment">
+                            <label>Authorization Honor Period</label>
+                            <comment>Specifies what the Authorization Honor Period is on the merchant’s PayPal account. It must mirror the setting in PayPal.</comment>
+                            <config_path>payment/paypal_express/authorization_honor_period</config_path>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </authorization_honor_period>
+                        <order_valid_period translate="label comment">
+                            <label>Order Valid Period</label>
+                            <comment>Specifies what the Order Valid Period is on the merchant’s PayPal account. It must mirror the setting in PayPal.</comment>
+                            <config_path>payment/paypal_express/order_valid_period</config_path>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </order_valid_period>
                     </fields>
                 </express>
 
