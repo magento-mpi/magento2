@@ -103,7 +103,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @var bool
      */
-    protected $_debug               = true;
+    protected $_debug               = false;
 
     /**
      * Minimum query duration time to be logged

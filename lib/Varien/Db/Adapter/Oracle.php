@@ -106,7 +106,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @var bool
      */
-    protected $_debug               = true;
+    protected $_debug               = false;
 
     /**
      * Minimum query duration time to be logged
@@ -134,7 +134,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @var string
      */
-    protected $_debugFile           = 'oracle/var/debug/oracle.log';
+    protected $_debugFile           = 'var/debug/oracle.log';
 
     /**
      * Io File Adapter
