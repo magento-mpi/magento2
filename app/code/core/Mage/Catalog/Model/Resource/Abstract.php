@@ -294,7 +294,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
                 'value'             => $this->_prepareValueForSave($value, $attribute)
             ));
             $bind  = $this->_prepareDataForTable($data, $table);
-            $this->_getWriteAdapter()->select()->insertIgnoreFromSelect($table, $bind);
+            $this->_getWriteAdapter()->insertOnDuplicate($table, $bind, array('value'));
         }
 
         return $this->_saveAttributeValue($object, $attribute, $value);
