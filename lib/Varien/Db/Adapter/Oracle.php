@@ -59,6 +59,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     const LENGTH_FOREIGN_NAME       = 30;
 
     const SQL_FOR_UPDATE            = 'FOR UPDATE';
+
     /**
      * Default class name for a DB statement.
      *
@@ -463,11 +464,17 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if (!$this->isTableExists($tableName, $schemaName)) {
             return true;
         }
-        // drop foreign key and cascade packages
+        /* Drop foreign key and cascade packages */
         $foreignKeys = $this->getForeignKeys($tableName, $schemaName);
 
         foreach ($foreignKeys as $foreignKey) {
             $this->dropForeignKey($tableName, $foreignKey['FK_NAME'], $schemaName);
+        }
+
+        /* Drop table sequence if exists */
+        $sequence = $this->_getSequenceName($tableName);
+        if ($this->isSequenceExists($sequence)) {
+            $this->query('DROP SEQUENCE ' . $this->quoteIdentifier($sequence));
         }
 
         $query = 'DROP TABLE ' . $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
@@ -921,6 +928,20 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         return $this->showTableStatus($tableName, $schemaName) !== false;
     }
 
+    /**
+     * Check is a sequence exists
+     *
+     * @param string $sequenceName
+     * @return boolean
+     */
+    public function isSequenceExists($sequenceName)
+    {
+        $select = $this->select()
+            ->from('user_sequences')
+            ->where('SEQUENCE_NAME = ?', $this->quoteIdentifier($sequenceName));
+
+        return (bool)$this->fetchOne($select);
+    }
 
     /**
      * Returns a list of the tables in the database.
@@ -1060,8 +1081,11 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             return true;
         }
 
-        $comment = null;
-        $primaryKey = '';
+        $comment      = null;
+        $isPrimaryKey = false;
+        $isIdentity   = false;
+        $needTimestampUpdate = false;
+
         if (is_array($definition)) {
             // Retrieve comment to set it later
             $definition = array_change_key_case($definition, CASE_UPPER);
@@ -1071,7 +1095,17 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $comment = $definition['COMMENT'];
 
             if (!empty($definition['PRIMARY'])) {
-                $primaryKey = ' PRIMARY KEY';
+                $isPrimaryKey = true;
+            }
+            if (!empty($definition['IDENTITY'])) {
+                $isIdentity   = true;
+            }
+            if (!empty($definition['DEFAULT']) && $definition['TYPE'] == Varien_Db_Ddl_Table::TYPE_TIMESTAMP) {
+                if ($definition['DEFAULT']== Varien_Db_Ddl_Table::TIMESTAMP_UPDATE
+                    || $definition['DEFAULT'] == Varien_Db_Ddl_Table::TIMESTAMP_INIT_UPDATE
+                ) {
+                    $needTimestampUpdate = true;
+                }
             }
 
             $definition = $this->_getColumnDefinition($definition);
@@ -1082,10 +1116,20 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->quoteIdentifier($realTableName),
             $this->quoteIdentifier($columnName),
             $definition,
-            $primaryKey
+            ($isPrimaryKey) ? ' PRIMARY KEY' : ''
         );
 
         $result = $this->query($query);
+
+        /* Add identity trigger */
+        if ($isIdentity) {
+            $this->_createIdentityTrigger($realTableName, $columnName);
+        }
+
+        /* Add time update trigger */
+        if ($needTimestampUpdate) {
+            $this->_createTimeUpdateTrigger($realTableName, $columnName);
+        }
 
         if (!empty($comment)) {
             $this->_addColumnComment($realTableName, $columnName, $comment);
@@ -1230,6 +1274,21 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             if (strtolower($fkData['COLUMN_NAME']) == $columnName) {
                 $this->dropForeignKey($tableName, $fkData['FK_NAME'], $schemaName);
             }
+        }
+
+        /* Drop column trigger if exists */
+        $availableTriggers = array(
+            $this->_getTriggerName($tableName, $columnName, self::TRIGGER_IDENTITY),
+            $this->_getTriggerName($tableName, $columnName, self::TRIGGER_TIME_UPDATE)
+        );
+
+        $select = $this->select()
+            ->from('user_triggers')
+            ->where('TRIGGER_NAME IN(?)', $availableTriggers);
+
+        $triggerName = $this->fetchOne($select);
+        if ($triggerName) {
+            $this->query('DROP TRIGGER ' . $this->quoteIdentifier($triggerName));
         }
 
         $query = sprintf('ALTER TABLE %s DROP COLUMN %s',
@@ -3308,10 +3367,12 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     protected function _createSequence($tableName)
     {
         $sequenceName = $this->_getSequenceName($tableName);
-        $query = 'CREATE SEQUENCE "%s" MINVALUE 0 MAXVALUE 4294967296 INCREMENT BY 1 START WITH 0 CACHE 20 NOORDER NOCYCLE';
-        $this->query(sprintf($query, $this->quoteIdentifier($sequenceName)));
-        $query = sprintf('SELECT "%s".NEXTVAL FROM dual', $this->quoteIdentifier($sequenceName));
-        $this->query($query);
+        if (!$this->isSequenceExists($sequenceName)) {
+            $query = 'CREATE SEQUENCE "%s" MINVALUE 0 MAXVALUE 4294967296 INCREMENT BY 1 START WITH 0 CACHE 20 NOORDER NOCYCLE';
+            $this->query(sprintf($query, $this->quoteIdentifier($sequenceName)));
+            $query = sprintf('SELECT "%s".NEXTVAL FROM dual', $this->quoteIdentifier($sequenceName));
+            $this->query($query);
+        }
 
         return $this;
     }
