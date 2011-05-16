@@ -33,7 +33,7 @@
  */
 class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller_Front_Action
 {
-    protected $_stubPageIdentifier = 'general/restriction/cms_page';
+    protected $_stubPageIdentifier = Enterprise_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_LANDING_PAGE;
 
     protected $_cacheKey;
 
