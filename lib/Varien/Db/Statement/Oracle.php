@@ -352,27 +352,54 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
             if (!is_array($params)) {
                 $params = array($params);
             }
+
+            // Bind parameters to placeholders
             $error = false;
-            foreach (array_keys($params) as $name) {
-                if (strlen($params[$name]) > 4000) {
+            $statement = $this->_stmt;
+            $bindValues = array(); // Separate array with values, as they are bound by reference
+            foreach ($params as $name => $param) {
+                // Prepare meta-info to bind parameter
+                $bindAsLob = false;
+                $length = -1;
+                $dataType = SQLT_CHR;
+
+                if ($param instanceof Varien_Db_Statement_Parameter) {
+                    if ($param->getIsBlob()) {
+                        $bindAsLob = true;
+                    } else {
+                        if ($param->getLength() !== null) {
+                            $length = $param->getLength();
+                        }
+                        if ($param->getDataType() !== null) {
+                            $dataType = $param->getDataType();
+                        }
+                    }
+                    $bindValues[$name] = $param->getValue();
+                } else {
+                    $bindAsLob = strlen($params[$name]) > 4000;
+                    $bindValues[$name] = $param;
+                }
+
+                // Bind parameter
+                if ($bindAsLob) {
                     $this->_lobDescriptors[$name] = oci_new_descriptor($connection);
-                    if (!@oci_bind_by_name($this->_stmt, $name, $this->_lobDescriptors[$name], -1, OCI_B_CLOB)) {
+                    if (!@oci_bind_by_name($statement, $name, $this->_lobDescriptors[$name], -1, OCI_B_CLOB)) {
                         $error = true;
                         break;
                     }
-                    $this->_lobDescriptors[$name]->writeTemporary($params[$name], OCI_TEMP_CLOB);
+                    $this->_lobDescriptors[$name]->writeTemporary($bindValues[$name], OCI_TEMP_CLOB);
                 } else {
-                    if (!@oci_bind_by_name($this->_stmt, $name, $params[$name], -1)) {
+                    if (!@oci_bind_by_name($statement, $name, $bindValues[$name], $length, $dataType)) {
                         $error = true;
                         break;
                     }
                 }
             }
+
             if ($error) {
                 /**
                  * @see Zend_Db_Adapter_Oracle_Exception
                  */
-                #require_once 'Zend/Db/Statement/Oracle/Exception.php';
                 throw new Zend_Db_Statement_Oracle_Exception(oci_error($this->_stmt));
             }
         }
@@ -382,13 +409,13 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
             /**
              * @see Zend_Db_Adapter_Oracle_Exception
              */
-            #require_once 'Zend/Db/Statement/Oracle/Exception.php';
             throw new Zend_Db_Statement_Oracle_Exception(oci_error($this->_stmt));
         }
 
         $this->_keys = Array();
-        if ($field_num = oci_num_fields($this->_stmt)) {
-            for ($i = 1; $i <= $field_num; $i++) {
+        $fieldNum = oci_num_fields($this->_stmt);
+        if ($fieldNum) {
+            for ($i = 1; $i <= $fieldNum; $i++) {
                 $name = oci_field_name($this->_stmt, $i);
                 $this->_keys[] = $name;
             }

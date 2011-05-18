@@ -48,6 +48,13 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     const LENGTH_FOREIGN_NAME   = 64;
 
     /**
+     * Default class name for a DB statement.
+     *
+     * @var string
+     */
+    protected $_defaultStmtClass = 'Varien_Db_Statement_Pdo_Mysql';
+
+    /**
      * Current Transaction Level
      *
      * @var int
@@ -161,6 +168,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'timestamp',
         Varien_Db_Ddl_Table::TYPE_TEXT          => 'text',
         Varien_Db_Ddl_Table::TYPE_BLOB          => 'blob',
+        Varien_Db_Ddl_Table::TYPE_VARBINARY     => 'blob'
     );
 
     /**
@@ -2116,6 +2124,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 break;
             case Varien_Db_Ddl_Table::TYPE_TEXT:
             case Varien_Db_Ddl_Table::TYPE_BLOB:
+            case Varien_Db_Ddl_Table::TYPE_VARBINARY:
                 if (empty($options['LENGTH'])) {
                     $length = Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
                 } else {
@@ -3400,5 +3409,17 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         }
 
         return intval($size);
+    }
+
+    /**
+     * Converts fetched blob into raw binary PHP data.
+     * The MySQL drivers do it nice, no processing required.
+     *
+     * @mixed $value
+     * @return mixed
+     */
+    public function decodeVarbinary($value)
+    {
+        return $value;
     }
 }

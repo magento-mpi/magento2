@@ -188,6 +188,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'TIMESTAMP',
         Varien_Db_Ddl_Table::TYPE_TEXT          => 'VARCHAR2',
         Varien_Db_Ddl_Table::TYPE_BLOB          => 'CLOB',
+        Varien_Db_Ddl_Table::TYPE_VARBINARY     => 'CLOB'
     );
 
     /**
@@ -3237,6 +3238,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 break;
             case Varien_Db_Ddl_Table::TYPE_TEXT:
             case Varien_Db_Ddl_Table::TYPE_BLOB:
+            case Varien_Db_Ddl_Table::TYPE_VARBINARY:
                 if (empty($options['LENGTH'])) {
                     $options['LENGTH'] = Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
                 } else {
@@ -4631,5 +4633,17 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         return intval($size);
+    }
+
+    /**
+     * Converts fetched blob into raw binary PHP data.
+     * The Oracle drivers do it nice, no processing required.
+     *
+     * @mixed $value
+     * @return mixed
+     */
+    public function decodeVarbinary($value)
+    {
+        return $value;
     }
 }

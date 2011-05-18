@@ -64,7 +64,7 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
                 'nullable'  => false,
                 'primary'   => true
                 ), 'File Id')
-            ->addColumn('content', Varien_Db_Ddl_Table::TYPE_BLOB, Varien_Db_Ddl_Table::MAX_TEXT_SIZE, array(
+            ->addColumn('content', Varien_Db_Ddl_Table::TYPE_VARBINARY, Varien_Db_Ddl_Table::MAX_VARBINARY_SIZE, array(
                 'nullable' => false
                 ), 'File Content')
             ->addColumn('upload_time', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
@@ -95,6 +95,32 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
     }
 
     /**
+     * Decodes blob content retrieved by DB driver
+     *
+     * @param  array $row Table row with 'content' key in it
+     * @return array
+     */
+    protected function _decodeFileContent($row)
+    {
+        $row['content'] = $this->_getReadAdapter()->decodeVarbinary($row['content']);
+        return $row;
+    }
+
+    /**
+     * Decodes blob content retrieved by Database driver
+     *
+     * @param  array $rows Array of table rows (files), each containing 'content' key
+     * @return array
+     */
+    protected function _decodeAllFilesContent($rows)
+    {
+        foreach ($rows as $key => $row) {
+            $rows[$key] = $this->_decodeFileContent($row);
+        }
+        return $rows;
+    }
+
+    /**
      * Load entity by filename
      *
      * @param  Mage_Core_Model_File_Storage_Database $object
@@ -113,6 +139,7 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
 
         $row = $adapter->fetchRow($select);
         if ($row) {
+            $row = $this->_decodeFileContent($row);
             $object->setData($row);
             $this->_afterLoad($object);
         }
@@ -152,11 +179,12 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
             ->order('file_id')
             ->limit($count, $offset);
 
-        return $adapter->fetchAll($select);
+        $rows = $adapter->fetchAll($select);
+        return $this->_decodeAllFilesContent($rows);
     }
 
     /**
-     * Save matched product Ids
+     * Save file to storage
      *
      * @param  Mage_Core_Model_File_Storage_Database|array $object
      * @return Mage_Core_Model_Mysql4_File_Storage_Database
@@ -164,8 +192,11 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
     public function saveFile($file)
     {
         $adapter = $this->_getWriteAdapter();
+
+        $contentParam = new Varien_Db_Statement_Parameter($file['content']);
+        $contentParam->setIsBlob(true);
         $data = array(
-            'content'        => $file['content'],
+            'content'        => $contentParam,
             'upload_time'    => $file['update_time'],
             'filename'       => $file['filename'],
             'directory_id'   => $file['directory_id'],
@@ -313,6 +344,7 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
             ->where($adapter->prepareSqlCondition('directory', array('seq' => $directory)))
             ->order('file_id');
 
-        return $adapter->fetchAll($select);
+        $rows = $adapter->fetchAll($select);
+        return $this->_decodeAllFilesContent($rows);
     }
 }

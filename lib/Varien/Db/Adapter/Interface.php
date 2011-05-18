@@ -953,4 +953,13 @@ interface Varien_Db_Adapter_Interface
      * @return string Primary Key name
      */
     public function getPrimaryKeyName($tableName, $schemaName = null);
+
+    /**
+     * Converts fetched blob into raw binary PHP data.
+     * Some DB drivers return blobs as hex-coded strings, so we need to process them.
+     *
+     * @mixed $value
+     * @return mixed
+     */
+    public function decodeVarbinary($value);
 }

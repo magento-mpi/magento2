@@ -63,6 +63,17 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     const LENGTH_INDEX_NAME         = 128;
     const LENGTH_FOREIGN_NAME       = 128;
 
+    // Capacity of varchar and varbinary types
+    const VAR_LIMIT             = 8000;
+    const VARMAX_LIMIT          = 2147483647;
+
+    /**
+     * Default class name for a DB statement.
+     *
+     * @var string
+     */
+    protected $_defaultStmtClass = 'Varien_Db_Statement_Pdo_Mssql';
+
     /**
      * Current Transaction Level
      *
@@ -224,6 +235,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'datetime',
         Varien_Db_Ddl_Table::TYPE_TEXT          => 'text',
         Varien_Db_Ddl_Table::TYPE_BLOB          => 'text',
+        Varien_Db_Ddl_Table::TYPE_VARBINARY     => 'varbinary'
     );
 
     /**
@@ -521,12 +533,22 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 } else {
                     $options['LENGTH'] = $this->_parseTextSize($options['LENGTH']);
                 }
-                if ($options['LENGTH'] <= 8000) {
+                if ($options['LENGTH'] <= self::VAR_LIMIT) {
                     $ddlType = 'varchar';
                     $cType   = sprintf('%s(%d)', $ddlType, $options['LENGTH']);
                 } else {
                     $cType = $ddlType = 'text';
                 }
+                break;
+            case Varien_Db_Ddl_Table::TYPE_VARBINARY:
+                $ddlType = 'varbinary';
+                if (empty($options['LENGTH'])) {
+                    $options['LENGTH'] = Varien_Db_Ddl_Table::DEFAULT_TEXT_SIZE;
+                } else {
+                    $options['LENGTH'] = $this->_parseTextSize($options['LENGTH']);
+                }
+                $size = ($options['LENGTH'] <= self::VAR_LIMIT) ? $options['LENGTH'] : 'max';
+                $cType = sprintf('%s(%s)', $ddlType, $size);
                 break;
         }
 
@@ -2444,6 +2466,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             if ($this->_pdoType == 'sqlsrv') {
                 // This pdo has some problems with different binds - so convert them to non-buggy ones
                 $this->_prepareQuery($sql, $bind);
+            } else {
+                // Embed blobs as hex data into query
+                $this->_embedBlobs($sql, $bind);
             }
 
             $result = parent::query($sql, $bind);
@@ -2456,9 +2481,57 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
-     * Prepares SQL query by moving to bind all special parameters that can be confused with bind placeholders
-     * (e.g. "foo:bar"). And also changes named bind to positional one, because underlying library has problems
-     * with named binds.
+     *
+     * Embeds blobs into query as hex data.
+     * Query must use positional binds only.
+     *
+     * @param Zend_Db_Select|string $sql
+     * @param mixed $bind
+     * @return Varien_Db_Adapter_Pdo_Mssql
+     */
+    protected function _embedBlobs(&$sql, &$bind = array())
+    {
+        // Safely check $bind, do not modify it, if there are no blobs, and we won't do anything
+        if (is_array($bind)) {
+            $hasBlobs = false;
+            foreach ($bind as $param) {
+                if (($param instanceof Varien_Db_Statement_Parameter) && $param->getIsBlob()) {
+                    $hasBlobs = true;
+                    break;
+                }
+            }
+        } else {
+            $hasBlobs = ($bind instanceof Varien_Db_Statement_Parameter) && $param->getIsBlob();
+        }
+        if (!$hasBlobs) {
+            return $this;
+        }
+
+        // We really have blobs there - insert them as hex data
+        $this->_prepareQuery($sql, $bind); // Convert to positional binds
+        $sqlParts = explode('?', $sql);
+        $sql = '';
+        foreach ($bind as $key => $val) {
+            $sql .= array_shift($sqlParts);
+            if (($val instanceof Varien_Db_Statement_Parameter) && ($val->getIsBlob())) {
+                $rawValue = $val->getValue();
+                $hexValue = bin2hex($rawValue);
+                $sql .= '0x' . $hexValue;
+                unset($bind[$key]);
+            } else {
+                $sql .= '?';
+            }
+        }
+        $sql .= array_shift($sqlParts);
+        $bind = array_values($bind);
+        return $this;
+    }
+
+    /**
+     * Prepares SQL query either to suit for SqlServer Windows client, or just to simplify query.
+     * 1) Moves to bind all special parameters that can be confused with bind placeholders
+     * (e.g. "foo:bar").
+     * 2) Changes named bind to positional one
      *
      * @param Zend_Db_Select|string $sql
      * @param mixed $bind
@@ -2473,7 +2546,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $bind = array($bind);
         }
 
-        // Mixed bind is not supported - so remember whether it is named bind, and normalize later if required
+        /**
+         * Mixed bind is not supported - so remember whether it is named bind, and normalize later if required.
+         */
         $isNamedBind = false;
         if ($bind) {
             foreach ($bind as $k => $v) {
@@ -4440,5 +4515,21 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         return intval($size);
+    }
+
+    /**
+     * Converts fetched blob into raw binary PHP data.
+     * The 'sqlsrv' windows drivers return it as hex string.
+     *
+     * @mixed $value
+     * @return mixed
+     */
+    public function decodeVarbinary($value)
+    {
+        if ($this->_pdoType == 'sqlsrv') {
+            return pack('H*', $value);
+        } else {
+            return $value;
+        }
     }
 }
