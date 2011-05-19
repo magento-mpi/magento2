@@ -71,7 +71,8 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
         $this->addColumn('name', array(
             'header'        => Mage::helper('enterprise_importexport')->__('Name'),
             'index'         => 'name',
-            'type'          => 'text'
+            'type'          => 'text',
+            'escape'        => true
         ));
 
         $dataModel = Mage::getSingleton('enterprise_importexport/scheduled_operation_data');
