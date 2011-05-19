@@ -33,6 +33,8 @@
  */
 class Enterprise_ImportExport_Model_Scheduled_Operation_Data
 {
+    const STATUS_PENDING = 2;
+
     /**
      * Get statuses option array
      *
@@ -120,9 +122,9 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getResultOptionArray()
     {
         return array(
-           -1  => Mage::helper('enterprise_importexport')->__('Pending'),
-            1  => Mage::helper('enterprise_importexport')->__('Successful'),
             0  => Mage::helper('enterprise_importexport')->__('Failed'),
+            1  => Mage::helper('enterprise_importexport')->__('Successful'),
+            self::STATUS_PENDING  => Mage::helper('enterprise_importexport')->__('Pending')
         );
     }
 

@@ -70,8 +70,9 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_SMALLINT, 1, array(
         'nullable'  => false,
         ), 'Status')
-    ->addColumn('is_success', Varien_Db_Ddl_Table::TYPE_BOOLEAN, null, array(
-        'nullable'  => false
+    ->addColumn('is_success', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+        'nullable'  => false,
+        'default'   => Enterprise_ImportExport_Model_Scheduled_Operation_Data::STATUS_PENDING
         ), 'Is Success')
     ->addColumn('last_run_date', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => true,

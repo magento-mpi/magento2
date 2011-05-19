@@ -144,8 +144,6 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
             $this->setEntityAttributes(unserialize($attrsInfo));
         }
 
-        $this->setData('is_success', $this->getIsSuccess());
-
         return parent::_afterLoad();
     }
 
@@ -525,21 +523,5 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         }
 
         return $dirPath . $fileName . '.' . $extension;
-    }
-
-    /**
-     * Get is success status.
-     * If operation did not run then return "-1"
-     *
-     * @return int
-     */
-    public function getIsSuccess()
-    {
-        $isSuccess = $this->getData('is_success');
-        if (is_numeric($isSuccess) && strpos($this->getLastRunDate(), ':') !== false) {
-            return $isSuccess;
-        } else {
-            return -1;
-        }
     }
 }
