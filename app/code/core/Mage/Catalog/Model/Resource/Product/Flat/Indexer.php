@@ -252,7 +252,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 }
             }
         }
- 
+
         return $this->_attributes;
     }
 
@@ -295,6 +295,111 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
     }
 
     /**
+     * Retrieve catalog product flat columns array in old format (used before MMDB support)
+     *
+     * @return array
+     */
+    protected function _getFlatColumnsOldDefinition()
+    {
+        $columns = array();
+        $columns['entity_id'] = array(
+            'type'      => 'int(10)',
+            'unsigned'  => true,
+            'is_null'   => false,
+            'default'   => null,
+            'extra'     => null
+        );
+        if ($this->getFlatHelper()->isAddChildData()) {
+            $columns['child_id'] = array(
+                'type'      => 'int(10)',
+                'unsigned'  => true,
+                'is_null'   => true,
+                'default'   => null,
+                'extra'     => null
+            );
+            $columns['is_child'] = array(
+                'type'      => 'tinyint(1)',
+                'unsigned'  => true,
+                'is_null'   => false,
+                'default'   => 0,
+                'extra'     => null
+            );
+        }
+        $columns['attribute_set_id'] = array(
+            'type'      => 'smallint(5)',
+            'unsigned'  => true,
+            'is_null'   => false,
+            'default'   => 0,
+            'extra'     => null
+        );
+        $columns['type_id'] = array(
+            'type'      => 'varchar(32)',
+            'unsigned'  => false,
+            'is_null'   => false,
+            'default'   => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+            'extra'     => null
+        );
+
+        return $columns;
+    }
+
+    /**
+     * Retrieve catalog product flat columns array in DDL format
+     *
+     * @return array
+     */
+    protected function _getFlatColumnsDdlDefinition()
+    {
+        $columns = array();
+        $columns['entity_id'] = array(
+            'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
+            'length'    => null,
+            'unsigned'  => true,
+            'nullable'  => false,
+            'default'   => false,
+            'primary'   => true,
+            'comment'   => 'Entity Id'
+        );
+        if ($this->getFlatHelper()->isAddChildData()) {
+            $columns['child_id'] = array(
+                'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
+                'length'    => null,
+                'unsigned'  => true,
+                'nullable'  => true,
+                'default'   => null,
+                'primary'   => true,
+                'comment'   => 'Child Id'
+            );
+            $columns['is_child'] = array(
+                'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+                'length'    => 1,
+                'unsigned'  => true,
+                'nullable'  => false,
+                'default'   => '0',
+                'comment'   => 'Checks If Entity Is Child'
+            );
+        }
+        $columns['attribute_set_id'] = array(
+            'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+            'length'    => 5,
+            'unsigned'  => true,
+            'nullable'  => false,
+            'default'   => '0',
+            'comment'   => 'Attribute Set Id'
+        );
+        $columns['type_id'] = array(
+            'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+            'length'    => 32,
+            'unsigned'  => false,
+            'nullable'  => false,
+            'default'   => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+            'comment'   => 'Type Id'
+        );
+
+        return $columns;
+    }
+
+    /**
      * Retrieve catalog product flat table columns array
      *
      * @return array
@@ -302,51 +407,11 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
     public function getFlatColumns()
     {
         if ($this->_columns === null) {
-            $this->_columns = array();
-            $this->_columns['entity_id'] = array(
-                'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
-                'length'    => null,
-                'unsigned'  => true,
-                'nullable'  => false,
-                'default'   => false,
-                'primary'   => true,
-                'comment'   => 'Entity Id'
-            );
-            if ($this->getFlatHelper()->isAddChildData()) {
-                $this->_columns['child_id'] = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
-                    'length'    => null,
-                    'unsigned'  => true,
-                    'nullable'  => true,
-                    'default'   => null,
-                    'primary'   => true,
-                    'comment'   => 'Child Id'
-                );
-                $this->_columns['is_child'] = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
-                    'length'    => 1,
-                    'unsigned'  => true,
-                    'nullable'  => false,
-                    'default'   => '0',
-                    'comment'   => 'Checks If Entity Is Child'
-                );
+            if (Mage::helper('core')->useDbCompatibleMode()) {
+                $this->_columns = $this->_getFlatColumnsOldDefinition();
+            } else {
+                $this->_columns = $this->_getFlatColumnsDdlDefinition();
             }
-            $this->_columns['attribute_set_id'] = array(
-                'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
-                'length'    => 5,
-                'unsigned'  => true,
-                'nullable'  => false,
-                'default'   => '0',
-                'comment'   => 'Attribute Set Id'
-            );
-            $this->_columns['type_id'] = array(
-                'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
-                'length'    => 32,
-                'unsigned'  => false,
-                'nullable'  => false,
-                'default'   => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-                'comment'   => 'Type Id'
-            );
 
             foreach ($this->getAttributes() as $attribute) {
                 /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
@@ -361,9 +426,9 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
             $columnsObject = new Varien_Object();
             $columnsObject->setColumns($this->_columns);
-            Mage::dispatchEvent('catalog_product_flat_prepare_columns', array(
-                'columns'   => $columnsObject
-            ));
+            Mage::dispatchEvent('catalog_product_flat_prepare_columns',
+                array('columns' => $columnsObject)
+            );
             $this->_columns = $columnsObject->getColumns();
         }
 
@@ -542,19 +607,25 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      */
     public function prepareFlatTable($storeId)
     {
-        $columns    = $this->getFlatColumns();
-        $indexes    = $this->getFlatIndexes();
-        $maxIndex   = Mage::getConfig()->getNode(self::XML_NODE_MAX_INDEX_COUNT);
+        $columns = $this->getFlatColumns();
+        if (Mage::helper('core')->useDbCompatibleMode()) {
+             /* Convert old format of flat columns to new MMDB format that uses DDL types and definitions */
+            foreach ($columns as $key => $column) {
+                $columns[$key] = Mage::getResourceHelper('core')->convertOldColumnDefinition($column);
+            }
+        }
+
+        $indexes  = $this->getFlatIndexes();
+        $maxIndex = Mage::getConfig()->getNode(self::XML_NODE_MAX_INDEX_COUNT);
 
         if (count($indexes) > $maxIndex) {
             Mage::throwException(Mage::helper('catalog')->__("The Flat Catalog module has a limit of %2\$d filterable and/or sortable attributes. Currently there are %1\$d of them. Please reduce the number of filterable/sortable attributes in order to use this module", count($indexes), $maxIndex));
         }
 
-        $adapter        = $this->_getWriteAdapter();
-        $tableName      = $this->getFlatTableName($storeId);
-        /*
-         * Apply new names For indexes;
-         */
+        $adapter   = $this->_getWriteAdapter();
+        $tableName = $this->getFlatTableName($storeId);
+
+         /* Apply new names for indexes */
         $indexNames = array();
         $indexProps = array_values($indexes);
         foreach ($indexProps as $propId => $indexProp) {
@@ -569,12 +640,18 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             /** @var $table Varien_Db_Ddl_Table */
             $table = $adapter->newTable($tableName);
             foreach ($columns as $fieldName => $fieldProp) {
-                $table->addColumn($fieldName, $fieldProp['type'], isset($fieldProp['length']) ? $fieldProp['length'] : null, array(
-                    'nullable' => isset($fieldProp['nullable']) ? (bool)$fieldProp['nullable'] : false,
-                    'unsigned' => isset($fieldProp['unsigned']) ? (bool)$fieldProp['unsigned'] : false,
-                    'default'  => isset($fieldProp['default']) ? $fieldProp['default'] : false,
-                    'primary'  => false,
-                ), isset($fieldProp['comment']) ? $fieldProp['comment'] : $fieldName);
+                $table->addColumn(
+                    $fieldName,
+                    $fieldProp['type'],
+                    isset($fieldProp['length']) ? $fieldProp['length'] : null,
+                    array(
+                        'nullable' => isset($fieldProp['nullable']) ? (bool)$fieldProp['nullable'] : false,
+                        'unsigned' => isset($fieldProp['unsigned']) ? (bool)$fieldProp['unsigned'] : false,
+                        'default'  => isset($fieldProp['default']) ? $fieldProp['default'] : false,
+                        'primary'  => false,
+                    ),
+                    isset($fieldProp['comment']) ? $fieldProp['comment'] : $fieldName
+                );
             }
 
             foreach ($indexes as $indexName => $indexProp) {

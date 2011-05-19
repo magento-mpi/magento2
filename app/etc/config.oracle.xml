@@ -32,6 +32,7 @@
                 <types>
                     <oracle>
                         <adapter>Varien_Db_Adapter_Oracle</adapter>
+                        <compatibleMode>0</compatibleMode>
                     </oracle>
                 </types>
             </connection>

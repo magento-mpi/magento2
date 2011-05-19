@@ -26,11 +26,15 @@
 
 class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
+    /**
+     * Get all options
+     *
+     * @return array
+     */
     public function getAllOptions()
     {
         $result = array();
-
-        foreach ($this->_getValues() as $k=>$v) {
+        foreach ($this->_getValues() as $k => $v) {
             $result[] = array(
                 'value' => $k,
                 'label' => $v,
@@ -40,6 +44,11 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attrib
         return $result;
     }
 
+    /**
+     * Get option text
+     *
+     * @return string|null
+     */
     public function getOptionText($value)
     {
         $options = $this->_getValues();
@@ -49,6 +58,11 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attrib
         return null;
     }
 
+    /**
+     * Get values
+     *
+     * @return array
+     */
     protected function _getValues()
     {
         return array(
@@ -59,29 +73,34 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attrib
     }
 
     /**
-     * Retrieve Column(s) for Flat
+     * Retrieve flat column definition
      *
      * @return array
      */
     public function getFlatColums()
     {
-        $columns = array(
-            $this->getAttribute()->getAttributeCode() => array(
-                'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
-                'unsigned'  => true,
-                'nullable'  => true,
-                'default'   => null,
-                'extra'     => null,
-                'comment'   => 'Enterprise Giftcard Type '. $this->getAttribute()->getAttributeCode() .' column '
-            )
+        $attributeCode = $this->getAttribute()->getAttributeCode();
+        $column = array(
+            'unsigned'  => true,
+            'default'   => null,
+            'extra'     => null
         );
-        return $columns;
+
+        if (Mage::helper('core')->useDbCompatibleMode()) {
+            $column['type']     = 'tinyint';
+            $column['is_null']  = true;
+        } else {
+            $column['type']     = Varien_Db_Ddl_Table::TYPE_SMALLINT;
+            $column['nullable'] = true;
+            $column['comment']  = 'Enterprise Giftcard Type ' . $attributeCode . ' column';
+        }
+
+        return array($attributeCode => $column);
     }
 
     /**
-     * Retrieve Select For Flat Attribute update
+     * Retrieve select for flat attribute update
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param int $store
      * @return Varien_Db_Select|null
      */

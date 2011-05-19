@@ -186,20 +186,29 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
     }
 
     /**
-     * Retrieve Column(s) for Flat
+     * Retrieve flat column definition
      *
      * @return array
      */
     public function getFlatColums()
     {
-        return array($this->getAttribute()->getAttributeCode() => array(
-            'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+        $attributeCode = $this->getAttribute()->getAttributeCode();
+        $column = array(
             'unsigned'  => true,
-            'nullable'   => true,
             'default'   => null,
-            'extra'     => null,
-            'comment'   => 'Catalog Product Visibility ' . $this->getAttribute()->getAttributeCode() . ' column'
-        ));
+            'extra'     => null
+        );
+
+        if (Mage::helper('core')->useDbCompatibleMode()) {
+            $column['type']     = 'tinyint';
+            $column['is_null']  = true;
+        } else {
+            $column['type']     = Varien_Db_Ddl_Table::TYPE_SMALLINT;
+            $column['nullable'] = true;
+            $column['comment']  = 'Catalog Product Visibility ' . $attributeCode . ' column';
+        }
+
+        return array($attributeCode => $column);
     }
 
     /**
@@ -284,7 +293,9 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
                         . " AND `{$valueTable2}`.`store_id`='{$collection->getStoreId()}'",
                     array()
                 );
-            $valueExpr = new Zend_Db_Expr("IF(`{$valueTable2}`.`value_id`>0, `{$valueTable2}`.`value`, `{$valueTable1}`.`value`)");
+            $valueExpr = new Zend_Db_Expr(
+                "IF(`{$valueTable2}`.`value_id`>0, `{$valueTable2}`.`value`, `{$valueTable1}`.`value`)"
+            );
         }
 
         $collection->getSelect()->order($valueExpr . ' ' . $dir);
