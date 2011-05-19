@@ -106,7 +106,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
 
                 'total_amount'            =>
                     $adapter->getIfNullSql('SUM((base_subtotal - ' .
-                        $adapter->getIfNullSql('base_subtotal_canceled', 0) . ' + '.
+                        $adapter->getIfNullSql('base_subtotal_canceled', 0) . ' - '.
                         $adapter->getIfNullSql('ABS(base_discount_amount) - ' .
                         $adapter->getIfNullSql('base_discount_canceled', 0), 0). ')
                         * base_to_global_rate)', 0),

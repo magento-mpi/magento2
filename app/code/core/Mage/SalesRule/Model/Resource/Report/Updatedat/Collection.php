@@ -70,7 +70,7 @@ class Mage_SalesRule_Model_Resource_Report_Updatedat_Collection
 
             'total_amount'            =>
                 'SUM((e.base_subtotal - '.
-                $adapter->getIfNullSql('e.base_subtotal_canceled', 0) . ' + ' .
+                $adapter->getIfNullSql('e.base_subtotal_canceled', 0) . ' - ' .
                 $adapter->getIfNullSql('ABS(e.base_discount_amount) - ' .
                 $adapter->getIfNullSql('e.base_discount_canceled', 0), 0) .
                     ') * e.base_to_global_rate)',
@@ -97,11 +97,20 @@ class Mage_SalesRule_Model_Resource_Report_Updatedat_Collection
 
 
             if ('month' == $this->_period) {
-                $this->_periodFormat = $adapter->getDateFormatSql('e.updated_at', '%Y-%m');
+                $this->_periodFormat = $adapter->getDateFormatSql(
+                    'e.updated_at',
+                    '%Y-%m'
+                );
             } elseif ('year' == $this->_period) {
-                $this->_periodFormat = $adapter->getDateExtractSql('e.updated_at', Varien_Db_Adapter_Interface::INTERVAL_YEAR);
+                $this->_periodFormat = $adapter->getDateExtractSql(
+                    'e.updated_at',
+                    Varien_Db_Adapter_Interface::INTERVAL_YEAR
+                );
             } else {
-                $this->_periodFormat = $adapter->getDateFormatSql('e.updated_at', '%Y-%m-%d');
+                $this->_periodFormat = $adapter->getDateFormatSql(
+                    'e.updated_at',
+                    '%Y-%m-%d'
+                );
             }
             $this->_selectedColumns['period'] = $this->_periodFormat;
         }
