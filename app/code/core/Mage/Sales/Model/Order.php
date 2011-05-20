@@ -755,7 +755,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 
         if (!empty($products)) {
             /*
-             * @TODO ACPAOC: Use product collection here, but ensure that product is loaded with order store id, otherwise there'll be problems with isSalable()
+             * @TODO ACPAOC: Use product collection here, but ensure that product
+             * is loaded with order store id, otherwise there'll be problems with isSalable()
              * for configurables, bundles and other composites
              *
              */
@@ -949,12 +950,15 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * @param $shouldProtectState
      * @return Mage_Sales_Model_Order
      */
-    protected function _setState($state, $status = false, $comment = '', $isCustomerNotified = null, $shouldProtectState = false)
+    protected function _setState($state, $status = false, $comment = '',
+        $isCustomerNotified = null, $shouldProtectState = false)
     {
         // attempt to set the specified state
         if ($shouldProtectState) {
             if ($this->isStateProtected($state)) {
-                Mage::throwException(Mage::helper('sales')->__('The Order State "%s" must not be set manually.', $state));
+                Mage::throwException(
+                    Mage::helper('sales')->__('The Order State "%s" must not be set manually.', $state)
+                );
             }
         }
         $this->setData('state', $state);
@@ -1126,8 +1130,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $this->setDiscountCanceled(abs($this->getDiscountAmount()) - $this->getDiscountInvoiced());
             $this->setBaseDiscountCanceled(abs($this->getBaseDiscountAmount()) - $this->getBaseDiscountInvoiced());
 
-            $this->setTotalCanceled($this->getSubtotalCanceled() + $this->getTaxCanceled() + $this->getShippingCanceled() - $this->getDiscountCanceled());
-            $this->setBaseTotalCanceled($this->getBaseSubtotalCanceled() + $this->getBaseTaxCanceled() + $this->getBaseShippingCanceled() - $this->getBaseDiscountCanceled());
+            $this->setTotalCanceled($this->getGrandTotal() - $this->getTotalPaid());
+            $this->setBaseTotalCanceled($this->getBaseGrandTotal() - $this->getBaseTotalPaid());
 
             $this->_setState($cancelState, true, $comment);
         } elseif (!$graceful) {
@@ -1296,7 +1300,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $mailer->addEmailInfo($emailInfo);
         }
 
-        // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
+        // Email copies are sent as separated emails if their copy method is
+        // 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
                 $emailInfo = Mage::getModel('core/email_info');
@@ -2023,7 +2028,9 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
              * Order can be closed just in case when we have refunded amount.
              * In case of "0" grand total order checking ForcedCanCreditmemo flag
              */
-            elseif(floatval($this->getTotalRefunded()) || (!$this->getTotalRefunded() && $this->hasForcedCanCreditmemo())) {
+            elseif (floatval($this->getTotalRefunded()) || (!$this->getTotalRefunded()
+                && $this->hasForcedCanCreditmemo())
+            ) {
                 if ($this->getState() !== self::STATE_CLOSED) {
                     $this->_setState(self::STATE_CLOSED, true, '', $userNotification);
                 }
