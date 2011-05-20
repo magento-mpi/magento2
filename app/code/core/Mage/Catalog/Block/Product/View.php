@@ -109,6 +109,10 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             $additional['wishlist_next'] = 1;
         }
 
+        $addUrlKey = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $addUrlValue = Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => false));
+        $additional[$addUrlKey] = Mage::helper('core')->urlEncode($addUrlValue);
+
         return $this->helper('checkout/cart')->getAddUrl($product, $additional);
     }
 
