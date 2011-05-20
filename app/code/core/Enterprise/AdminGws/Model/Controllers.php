@@ -973,11 +973,16 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if (!$this->_role->getIsAll()) {
             $result = false;
             if (Mage::getSingleton('admin/session')->isAllowed('admin/promo/catalog')) {
-                $websites = Mage::registry('ruleWebsites');
-                foreach ($this->_role->getWebsiteIds() as $roleWebsite) {
-                    if (in_array($roleWebsite, $websites)) {
-                        $result = true;
-                        break;
+                $ruleModel = Mage::getModel('catalogrule/rule')->load(
+                    Mage::app()->getRequest()->getParam('rule_id')
+                );
+                if ($ruleModel->getId()) {
+                    $websites = explode(',', $ruleModel->getWebsiteIds());
+                    foreach ($this->_role->getWebsiteIds() as $roleWebsite) {
+                        if (in_array($roleWebsite, $websites)) {
+                            $result = true;
+                            break;
+                        }
                     }
                 }
             }
