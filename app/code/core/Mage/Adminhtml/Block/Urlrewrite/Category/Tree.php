@@ -34,14 +34,8 @@
 class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {
     /**
-     * List of allowed category ids
-     *
-     * @var array|null
-     */
-    protected $_allowedCategooryIds = null;
-
-    /**
      * Set custom template for the block
+     *
      */
     public function __construct()
     {
@@ -59,12 +53,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
      */
     public function getTreeArray($parentId = null, $asJson = false, $recursionLevel = 3)
     {
-        if ($productId = Mage::app()->getRequest()->getParam('product')) {
-            $product = Mage::getModel('catalog/product')->setId($productId);
-            $this->_allowedCategooryIds = $product->getCategoryIds();
-            unset($product);
-        }
-
         $result = array();
         if ($parentId) {
             $category = Mage::getModel('catalog/category')->load($parentId);
@@ -74,16 +62,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
                     $result = $tree['children'];
                 }
             }
-        } else {
+        }
+        else {
             $result = $this->_getNodesArray($this->getRoot(null, $recursionLevel));
         }
-
         if ($asJson) {
             return Mage::helper('core')->jsonEncode($result);
         }
-
-        $this->_allowedCategooryIds = null;
-
         return $result;
     }
 
@@ -102,14 +87,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
             ;
             $this->setData('category_collection', $collection);
         }
-
         return $collection;
     }
 
     /**
      * Convert categories tree to array recursively
      *
-     * @param  Varien_Data_Tree_Node $node
      * @return array
      */
     protected function _getNodesArray($node)
@@ -121,22 +104,19 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
             'is_active'      => (bool)$node->getIsActive(),
             'name'           => $node->getName(),
             'level'          => (int)$node->getLevel(),
-            'product_count'  => (int)$node->getProductCount()
+            'product_count'  => (int)$node->getProductCount(),
         );
-
-        if (is_array($this->_allowedCategooryIds) && !in_array($result['id'], $this->_allowedCategooryIds)) {
-            $result['disabled'] = true;
-        }
-
         if ($node->hasChildren()) {
             $result['children'] = array();
             foreach ($node->getChildren() as $childNode) {
                 $result['children'][] = $this->_getNodesArray($childNode);
             }
         }
-        $result['cls']      = ($result['is_active'] ? '' : 'no-') . 'active-category';
-        $result['expanded'] = (!empty($result['children']));
-
+        $result['cls'] = ($result['is_active'] ? '' : 'no-') . 'active-category';
+        $result['expanded'] = false;
+        if (!empty($result['children'])) {
+            $result['expanded'] = true;
+        }
         return $result;
     }
 
