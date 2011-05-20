@@ -218,7 +218,7 @@ function parseFile($fileName, $basicModuleName)
             }
         }
         /** Mage::helper('helper_name')->__ or $this->helper('helper_name')->__ */
-        if (preg_match_all('/helper\(\\\'([a-z_]+)\\\'\)-\>__\([\s]*([\'|\\\"])(.*?[^\\\\])\\2.*?\)/', $fileString, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all('/helper\(\\\'([a-z_]+)\\\'\)-\>__\([\s]*([\'|\\\"])(.*?[^\\\\])\\2/', $fileString, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $k => $match) {
                 $CONFIG['generate']['match_helper'] ++;
 
@@ -227,29 +227,29 @@ function parseFile($fileName, $basicModuleName)
                     continue;
                 }
                 $moduleName     = $CONFIG['helpers'][$match[1]];
-                $translationKey = $match[3];
+                $translationKey = str_replace('\\' . $match[2], $match[2], $match[3]);
 
                 writeToCsv($moduleName, $translationKey, $fileName, $fileLine);
             }
         }
         /** $this->__ */
-        if (preg_match_all('/\$this-\>__\([\s]*([\'|\\\"])(.*?[^\\\\])\\1.*?\)/', $fileString, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all('/\$this-\>__\([\s]*([\'|\\\"])(.*?[^\\\\])\\1/', $fileString, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $k => $match) {
                 $CONFIG['generate']['match_this'] ++;
 
                 $moduleName     = $basicModuleName;
-                $translationKey = $match[2];
+                $translationKey = str_replace('\\' . $match[1], $match[1], $match[2]);
 
                 writeToCsv($moduleName, $translationKey, $fileName, $fileLine);
             }
         }
         /** __ */
-        if (preg_match_all('/[^-][^>]__\([\s]*([\'|\\\"])(.*?[^\\\\])\\1.*?\)/', $fileString, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all('/[^-][^>]__\([\s]*([\'|\\\"])(.*?[^\\\\])\\1/', $fileString, $matches, PREG_SET_ORDER)) {
             foreach ($matches as $k => $match) {
                 $CONFIG['generate']['match___'] ++;
 
                 $moduleName     = 'translate';
-                $translationKey = $match[2];
+                $translationKey = str_replace('\\' . $match[1], $match[1], $match[2]);
 
                 writeToCsv($moduleName, $translationKey, $fileName, $fileLine);
             }
