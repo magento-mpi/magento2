@@ -52,7 +52,7 @@ $table = $installer->getConnection()
     ->addColumn('start_time', Varien_Db_Ddl_Table::TYPE_TEXT, 10, array(
         'nullable'  => false,
         ), 'Start Time')
-    ->addColumn('freq', Varien_Db_Ddl_Table::TYPE_SMALLINT, 1, array(
+    ->addColumn('freq', Varien_Db_Ddl_Table::TYPE_TEXT, 1, array(
         'nullable'  => false,
         ), 'Frequency')
     ->addColumn('force_import', Varien_Db_Ddl_Table::TYPE_SMALLINT, 1, array(
