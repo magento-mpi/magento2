@@ -383,16 +383,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         }
         $this->_isCaptureFinal($paidWorkaround);
 
-        if (!$this->getParentTransactionId()) {
-            $orderingTransaction = $this->_lookupTransaction(
-                false,
-                Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
-            );
-            if ($orderingTransaction) {
-                $this->setParentTransactionId($orderingTransaction->getTxnId());
-            }
-        }
-
         $this->_generateTransactionId(
             Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE,
             $this->getAuthorizationTransaction()
@@ -986,6 +976,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $status = true;
         $this->getMethodInstance()->setStore($order->getStoreId())->order($this, $amount);
 
+        if ($this->getSkipOrderProcessing()) {
+            return $this;
+        }
+
         // similar logic of "payment review" order as in capturing
         if ($this->getIsTransactionPending()) {
             $message = Mage::helper('sales')->__('Ordering amount of %s is pending approval on gateway.', $this->_formatPrice($amount));
@@ -1383,7 +1377,8 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 $collection = Mage::getModel('sales/order_payment_transaction')->getCollection()
                     ->setOrderFilter($this->getOrder())
                     ->addPaymentIdFilter($this->getId())
-                    ->addTxnTypeFilter($txnType);
+                    ->addTxnTypeFilter($txnType)
+                    ->setOrder('created_at', Varien_Data_Collection::SORT_ORDER_DESC);
                 foreach ($collection as $txn) {
                     $txn->setOrderPaymentObject($this);
                     $this->_transactionsLookup[$txn->getTxnId()] = $txn;
@@ -1404,6 +1399,17 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $this->_transactionsLookup[$txnId] = false;
         }
         return $this->_transactionsLookup[$txnId];
+    }
+
+    /**
+     * Find one transaction by ID or type
+     * @param string $txnId
+     * @param string $txnType
+     * @return Mage_Sales_Model_Order_Payment_Transaction|false
+     */
+    public function lookupTransaction($txnId, $txnType = false)
+    {
+        return $this->_lookupTransaction($txnId, $txnType);
     }
 
     /**
@@ -1514,7 +1520,25 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function setTransactionAdditionalInfo($key, $value)
     {
-        $this->_transactionAdditionalInfo[$key] = $value;
+        if (is_array($key)) {
+            $this->_transactionAdditionalInfo = $key;
+        } else {
+            $this->_transactionAdditionalInfo[$key] = $value;
+        }
+    }
+
+    /**
+     * Additionnal transaction info getter
+     *
+     * @param sting $key
+     * @return mixed
+     */
+    public function getTransactionAdditionalInfo($key = null)
+    {
+        if (is_null($key)) {
+            return $this->_transactionAdditionalInfo;
+        }
+        return isset($this->_transactionAdditionalInfo[$key]) ? $this->_transactionAdditionalInfo[$key] : null;
     }
 
     /**

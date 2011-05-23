@@ -137,6 +137,18 @@ class Mage_Paypal_Model_Pro
     }
 
     /**
+     * Destroy existing NVP Api object
+     *
+     * @return Mage_Paypal_Model_Pro
+     */
+    public function resetApi()
+    {
+        $this->_api = null;
+
+        return $this;
+    }
+
+    /**
      * Instantiate and return info model
      *
      * @return Mage_Paypal_Model_Info
@@ -352,8 +364,9 @@ class Mage_Paypal_Model_Pro
      * @param Mage_Payment_Model_Info $paymentInfo
      * @throws Mage_Core_Exception
      */
-    public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile, Mage_Payment_Model_Info $paymentInfo)
-    {
+    public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile,
+        Mage_Payment_Model_Info $paymentInfo
+    ) {
         $api = $this->getApi();
         Varien_Object_Mapper::accumulateByMap($profile, $api, array(
             'token', // EC fields

@@ -484,6 +484,15 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </order_valid_period>
+                        <child_authorization_number translate="label comment">
+                            <label>Number of Child Authorizations</label>
+                            <comment>The default number of child authorizations in your PayPal account is 1. To do multiple authorizations please contact PayPal to request an increase.</comment>
+                            <config_path>payment/paypal_express/child_authorization_number</config_path>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </child_authorization_number>
                     </fields>
                 </express>
 

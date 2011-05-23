@@ -1158,6 +1158,9 @@ class Mage_Paypal_Model_Config
             case 'solution_type':
             case 'visible_on_cart':
             case 'visible_on_product':
+            case 'authorization_honor_period':
+            case 'order_valid_period':
+            case 'child_authorization_number':
             case 'allow_ba_signup':
                 return "payment/{$this->_methodCode}/{$fieldName}";
             default:

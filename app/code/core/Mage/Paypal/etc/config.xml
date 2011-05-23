@@ -198,6 +198,7 @@
                 <group>paypal</group>
                 <authorization_honor_period>3</authorization_honor_period>
                 <order_valid_period>29</order_valid_period>
+                <child_authorization_number>1</child_authorization_number>
             </paypal_express>
             <paypal_direct>
                 <model>paypal/direct</model>
