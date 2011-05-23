@@ -25,9 +25,11 @@
  */
 
 /**
- * XmlConnect module observer
+ * XmlConnect Model Observer
  *
- * @author  Magento Mobile Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Model_Observer
 {

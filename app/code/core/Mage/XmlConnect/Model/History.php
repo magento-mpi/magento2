@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * XmlConnect Model History
  *
  * @method Mage_XmlConnect_Model_Resource_History _getResource()
  * @method Mage_XmlConnect_Model_Resource_History getResource()

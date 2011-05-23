@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * XML Connect Setup Resource Model
  *
  * @category    Mage
  * @package     Mage_XmlConnect

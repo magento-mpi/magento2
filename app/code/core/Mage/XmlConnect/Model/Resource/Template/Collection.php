@@ -25,27 +25,50 @@
  */
 
 /**
- * Adminhtml airmail queue grid block action item renderer
+ * Template resource collection
  *
  * @category   Mage
  * @package    Mage_XmlConnect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Adminhtml_Template_Grid_Renderer_Application
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_XmlConnect_Model_Resource_Template_Collection
+    extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Render grid row
+     * Internal constructor
      *
-     * @param Varien_Object $row
-     * @return string
+     * @return void
      */
-    public function render(Varien_Object $row)
+    protected function _construct()
     {
-        $str = htmlspecialchars($row->getAppName());
-        if ($str == '') {
-            $str = ' --- ';
-        }
-        return $str;
-     }
+        $this->_init('xmlconnect/template');
+    }
+
+    /**
+     * Initialize collection select
+     *
+     * @return Mage_XmlConnect_Model_Resource_Template_Collection
+     */
+    protected function _initSelect()
+    {
+        parent::_initSelect();
+        $this->_joinApplicationName();
+        return $this;
+    }
+
+    /**
+     * Join Application Name to collection
+     *
+     * @return Mage_XmlConnect_Model_Resource_Template_Collection
+     */
+    protected function _joinApplicationName()
+    {
+        $this->getSelect()
+            ->joinLeft(
+                array('app' => $this->getTable('xmlconnect/application')),
+                'app.application_id = main_table.application_id',
+                array('app_name' => 'app.name', 'app_code' => 'app.code')
+        );
+        return $this;
+    }
 }

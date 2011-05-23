@@ -25,38 +25,24 @@
  */
 
 /**
- * Extended CMS page collection
+ * Adminhtml airmail queue grid block action item renderer
  *
- * @category    Mage
- * @package     Mage_XmlConnect
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_XmlConnect
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Resource_Cms_Page_Collection extends Mage_Cms_Model_Resource_Page_Collection
+class Mage_XmlConnect_Block_Adminhtml_Template_Grid_Renderer_Name
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
-     * Returns pairs identifier - title for unique identifiers
-     * and pairs identifier|page_id - title for non-unique after first
+     * Render grid row
      *
-     * @return array
+     * @param Varien_Object $row
+     * @return string
      */
-    public function toOptionIdArray()
+    public function render(Varien_Object $row)
     {
-        $res = array();
-        $existingIdentifiers = array();
-        foreach ($this as $item) {
-            $identifier = $item->getData('identifier');
-
-            $data['value'] = $identifier;
-            $data['label'] = $item->getData('title');
-            if (in_array($identifier, $existingIdentifiers)) {
-                $data['value'] .= '|' . $item->getData('page_id');
-            } else {
-                $existingIdentifiers[] = $identifier;
-            }
-
-            $res[] = $data;
-        }
-
-        return $res;
-    }
+        $str = htmlspecialchars($row->getName());
+        return $str;
+     }
 }

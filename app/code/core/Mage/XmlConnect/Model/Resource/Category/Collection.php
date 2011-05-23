@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Category resource collection
  *
@@ -34,6 +33,11 @@
  */
 class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Model_Resource_Category_Collection
 {
+    /**
+     * Default parent category level
+     *
+     * @var int
+     */
     const PARENT_CATEGORIES_LEVEL = 2;
 
     /**
@@ -63,7 +67,7 @@ class Mage_XmlConnect_Model_Resource_Category_Collection extends Mage_Catalog_Mo
 
     /**
      * Set limit collection
-     * 
+     *
      * @param int $offset
      * @param int $count
      * @return Mage_XmlConnect_Model_Resource_Category_Collection

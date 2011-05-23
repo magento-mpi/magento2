@@ -32,41 +32,6 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Model_Mysql4_Template_Collection
-    extends Mage_Core_Model_Mysql4_Collection_Abstract
+    extends Mage_XmlConnect_Model_Recourse_Template_Collection
 {
-    /**
-     * Internal constructor
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        $this->_init('xmlconnect/template');
-    }
-
-    /**
-     * Initialize collection select
-     *
-     * @return Mage_XmlConnect_Model_Mysql4_Template_Collection
-     */
-    protected function _initSelect()
-    {
-        parent::_initSelect();
-        $this->_joinApplicationName();
-        return $this;
-    }
-
-    /**
-     * Join Application Name to collection
-     *
-     * @return Mage_XmlConnect_Model_Mysql4_Template_Collection
-     */
-    protected function _joinApplicationName()
-    {
-        $this->getSelect()
-            ->joinLeft(array('app' => $this->getTable('xmlconnect/application')), 'app.code = app_code', array(
-                'app_name' => 'app.name',
-            ));
-        return $this;
-    }
 }

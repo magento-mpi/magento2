@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_XmlConnect>
-            <version>1.5.0.0</version>
+            <version>1.6.0.0</version>
         </Mage_XmlConnect>
     </modules>
     <global>
@@ -38,7 +38,7 @@
                 <resourceModel>xmlconnect_resource</resourceModel>
             </xmlconnect>
             <xmlconnect_resource>
-                <class>Mage_XmlConnect_Model_Mysql4</class>
+                <class>Mage_XmlConnect_Model_Resource</class>
                 <deprecatedNode>xmlconnect_mysql4</deprecatedNode>
                 <entities>
                     <application><table>xmlconnect_application</table></application>

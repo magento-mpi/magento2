@@ -25,38 +25,21 @@
  */
 
 /**
- * Extended CMS page collection
+ * XmlConnect Model Resource Template
  *
  * @category    Mage
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Resource_Cms_Page_Collection extends Mage_Cms_Model_Resource_Page_Collection
+class Mage_XmlConnect_Model_Resource_Template extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Returns pairs identifier - title for unique identifiers
-     * and pairs identifier|page_id - title for non-unique after first
+     * Constructor, setting table and index field
      *
-     * @return array
+     * @return void
      */
-    public function toOptionIdArray()
+    protected function _construct()
     {
-        $res = array();
-        $existingIdentifiers = array();
-        foreach ($this as $item) {
-            $identifier = $item->getData('identifier');
-
-            $data['value'] = $identifier;
-            $data['label'] = $item->getData('title');
-            if (in_array($identifier, $existingIdentifiers)) {
-                $data['value'] .= '|' . $item->getData('page_id');
-            } else {
-                $existingIdentifiers[] = $identifier;
-            }
-
-            $res[] = $data;
-        }
-
-        return $res;
+        $this->_init('xmlconnect/template', 'template_id');
     }
 }

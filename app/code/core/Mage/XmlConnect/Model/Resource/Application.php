@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * XmlConnect Model Resource Application
  *
@@ -49,14 +48,16 @@ class Mage_XmlConnect_Model_Resource_Application extends Mage_Core_Model_Resourc
      *
      * @param int $applicationId
      * @param string $status
-     * @param Mage_XmlConnect_Model_Mysql4_Application $status
+     * @param Mage_XmlConnect_Model_Resource_Application $status
      */
     public function updateApplicationStatus($applicationId, $status)
     {
         $this->_getWriteAdapter()->update(
             $this->getMainTable(),
             array('status' => $status),
-            $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . '=?', $applicationId)
+            $this->_getWriteAdapter()->quoteInto(
+                $this->getIdFieldName() . '=?', $applicationId
+            )
         );
         return $this;
     }
@@ -91,7 +92,9 @@ class Mage_XmlConnect_Model_Resource_Application extends Mage_Core_Model_Resourc
             $this->_getWriteAdapter()->update(
                 $this->getMainTable(),
                 array('code' => $appCode . $object->getId()),
-                $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . '=?', $object->getId())
+                $this->_getWriteAdapter()->quoteInto(
+                    $this->getIdFieldName() . '=?', $object->getId()
+                )
             );
         }
         return parent::_afterSave($object);
@@ -114,11 +117,14 @@ class Mage_XmlConnect_Model_Resource_Application extends Mage_Core_Model_Resourc
     /**
      * Update all applications "updated at" parameter with current date
      *
-     * @return Mage_XmlConnect_Model_Mysql4_Application
+     * @return Mage_XmlConnect_Model_Resource_Application
      */
     public function updateAllAppsUpdatedAtParameter()
     {
-        $select = $this->_getWriteAdapter()->update($this->getMainTable(), array('updated_at' => date('Y-m-d H:i:s')));
+        $this->_getWriteAdapter()->update(
+            $this->getMainTable(),
+            array('updated_at' => date('Y-m-d H:i:s'))
+        );
         return $this;
     }
 }

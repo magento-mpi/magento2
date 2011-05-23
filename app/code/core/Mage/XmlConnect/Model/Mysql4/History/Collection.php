@@ -24,15 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * History resource collection
  *
  * @category    Mage
  * @package     Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Model_Mysql4_History_Collection
-    extends Mage_Core_Model_Mysql4_Collection_Abstract
+    extends Mage_XmlConnect_Model_Resource_History_Collection
 {
 }

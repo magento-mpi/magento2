@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Filter collection
  *
@@ -38,7 +37,7 @@ class Mage_XmlConnect_Model_Resource_Filter_Collection extends Varien_Data_Colle
      * Set CategoryId filter
      *
      * @param int $categoryId
-     * @return Mage_XmlConnect_Model_Mysql4_Filter_Collection
+     * @return Mage_XmlConnect_Model_Resource_Filter_Collection
      */
     public function setCategoryId($categoryId)
     {
@@ -50,10 +49,10 @@ class Mage_XmlConnect_Model_Resource_Filter_Collection extends Varien_Data_Colle
 
     /**
      * Load data
-     * 
+     *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Mage_XmlConnect_Model_Mysql4_Filter_Collection
+     * @return Mage_XmlConnect_Model_Resource_Filter_Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {

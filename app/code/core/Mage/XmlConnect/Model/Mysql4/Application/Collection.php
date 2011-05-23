@@ -24,9 +24,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Enter description here ...
+ * XmlConnect Model Resource Application Collection
  *
  * @category    Mage
  * @package     Mage_XmlConnect
