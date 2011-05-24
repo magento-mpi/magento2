@@ -776,7 +776,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         $formData->assignParams($this->_paramsHelper);
-        if ($tabId) {
+        if ($tabId && $formData->getTab($tabId)) {
             $fieldsets = $formData->getTab($tabId)->getAllFieldsets();
         } else {
             $fieldsets = $formData->getAllFieldsets();
@@ -812,11 +812,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
             }
         } catch (PHPUnit_Framework_Exception $e) {
-            $this->fail($e->getMessage());
-//
-//            $this->messages['error'][] = $e->getMessage();
-//            $this->_error = true;
-//            return false;
+            $errorMessage = isset($formFieldName)
+                                ? 'Problem with field \''
+                                  . $formFieldName
+                                  . '\': '
+                                  .  $e->getMessage()
+                                : $e->getMessage();
+            $this->fail($errorMessage);
         }
 
         return true;
@@ -868,11 +870,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormField($fieldData)
     {
-        if ($this->isElementPresent($fieldData['path'])) {
+        if ($this->waitForElement($fieldData['path'], 5)) {
             $this->type($fieldData['path'], $fieldData['value']);
-            usleep(50000);
         } else {
-            throw new PHPUnit_Framework_Exception("Can't find field : {$fieldData['path']}");
+            throw new PHPUnit_Framework_Exception("Can't find field: {$fieldData['path']}");
         }
     }
 
@@ -883,18 +884,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormMultiselect($fieldData)
     {
-        if ($this->isElementPresent($fieldData['path'])) {
+        if ($this->waitForElement($fieldData['path'], 5)) {
             $this->removeAllSelections($fieldData['path']);
             $valuesArray = explode(',', $fieldData['value']);
             $valuesArray = array_map('trim', $valuesArray);
             foreach ($valuesArray as $value) {
                 if ($value != NULL) {
                     $this->addSelection($fieldData['path'], 'regexp:' . preg_quote($value));
-                    usleep(200000);
                 }
             }
         } else {
-            throw new PHPUnit_Framework_Exception("Can't find multiselect : {$fieldData['path']}");
+            throw new PHPUnit_Framework_Exception("Can't find multiselect: {$fieldData['path']}");
         }
     }
 
@@ -905,11 +905,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormDropdown($fieldData)
     {
-        if ($this->isElementPresent($fieldData['path'])) {
+        if ($this->waitForElement($fieldData['path'], 5)) {
             $this->select($fieldData['path'], 'regexp:' . preg_quote($fieldData['value']));
-            usleep(300000);
         } else {
-            throw new PHPUnit_Framework_Exception("Can't find dropdown : {$fieldData['path']}");
+            throw new PHPUnit_Framework_Exception("Can't find dropdown: {$fieldData['path']}");
         }
     }
 
@@ -920,7 +919,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormCheckbox($fieldData)
     {
-        if ($this->isElementPresent($fieldData['path'])) {
+        if ($this->waitForElement($fieldData['path'], 5)) {
             if (strtolower($fieldData['value']) == 'yes') {
                 if ($this->getValue($fieldData['path']) == 'off') {
                     $this->click($fieldData['path']);
@@ -930,9 +929,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->click($fieldData['path']);
                 }
             }
-            usleep(100000);
         } else {
-            throw new PHPUnit_Framework_Exception("Can't find checkbox : {$fieldData['path']}");
+            throw new PHPUnit_Framework_Exception("Can't find checkbox: {$fieldData['path']}");
         }
     }
 
@@ -943,15 +941,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormRadiobutton($fieldData)
     {
-        if ($this->isElementPresent($fieldData['path'])) {
+        if ($this->waitForElement($fieldData['path'], 5)) {
             if (strtolower($fieldData['value']) == 'yes') {
                 $this->click($fieldData['path']);
             } else {
                 $this->uncheck($fieldData['path']);
             }
-            usleep(100000);
         } else {
-            throw new PHPUnit_Framework_Exception("Can't find rediobutton : {$fieldData['path']}");
+            throw new PHPUnit_Framework_Exception("Can't find rediobutton: {$fieldData['path']}");
         }
     }
 
