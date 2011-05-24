@@ -363,6 +363,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     const REPORT_DATE_TYPE_CREATED = 'created';
     const REPORT_DATE_TYPE_UPDATED = 'updated';
+    /*
+     * Identifier for history item
+     */
+    const HISTORY_ENTITY_NAME = 'order';
 
     protected $_eventPrefix = 'sales_order';
     protected $_eventObject = 'order';
@@ -393,6 +397,13 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * @var bool
      */
     protected $_canSendNewEmailFlag = true;
+
+    /*
+     * Identifier for history item
+     *
+     * @var string
+     */
+    protected $_historyEntityName = self::HISTORY_ENTITY_NAME;
 
     /**
      * Initialize resource model
@@ -1033,9 +1044,22 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         }
         $history = Mage::getModel('sales/order_status_history')
             ->setStatus($status)
-            ->setComment($comment);
+            ->setComment($comment)
+            ->setEntityName($this->_historyEntityName);
         $this->addStatusHistory($history);
         return $history;
+    }
+
+    /**
+     * Overrides entity id, which will be saved to comments history status
+     * 
+     * @param string $status
+     * @return Mage_Sales_Model_Order
+     */
+    public function setHistoryEntityName( $entityName )
+    {
+        $this->_historyEntityName = $entityName;
+        return $this;
     }
 
     /**

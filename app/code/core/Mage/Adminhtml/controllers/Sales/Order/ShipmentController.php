@@ -230,6 +230,12 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 $shipment->sendEmail(true)
                     ->setEmailSent(true)
                     ->save();
+                $historyItem = Mage::getResourceModel('sales/order_status_history_collection')
+                    ->getUnnotifiedForInstance($shipment, Mage_Sales_Model_Order_Shipment::HISTORY_ENTITY_NAME);
+                if ($historyItem) {
+                    $historyItem->setIsCustomerNotified(1);
+                    $historyItem->save();
+                }
                 $this->_getSession()->addSuccess($this->__('The shipment has been sent.'));
             }
         } catch (Mage_Core_Exception $e) {
