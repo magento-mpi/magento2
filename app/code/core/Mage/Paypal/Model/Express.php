@@ -555,14 +555,14 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function canCapture()
     {
-
         $payment = $this->getInfoInstance();
+        $this->_pro->getConfig()->setStoreId($payment->getOrder()->getStore()->getId());
+
         if ($payment->getAdditionalInformation($this->_isOrderPaymentActionKey)) {
             $orderTransaction = $payment->lookupTransaction(false,
                 Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
             );
             $orderValidPeriod = abs(intval($this->getConfigData('order_valid_period')));
-
             $transactionDate = new DateTime($orderTransaction->getCreatedAt());
             $dateCompass = new DateTime('-' . $orderValidPeriod . ' days');
 
