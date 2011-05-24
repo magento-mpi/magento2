@@ -352,14 +352,27 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function validate(Varien_Object $object)
     {
+        $errorsArray = array();
+        $validator = new Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z0-9_\/]{1,255}$/'));
+        $actionArgsList = $object->getData('rule');
+        if(is_array($actionArgsList) && isset($actionArgsList['actions'])) {
+            foreach ($actionArgsList['actions'] AS $actionArgsIndex=>$actionArgs) {
+                if(1 === $actionArgsIndex) {
+                    continue;
+                }
+                if (!$validator->isValid($actionArgs['type']) || !$validator->isValid($actionArgs['attribute'])) {
+                    $errorsArray[] = Mage::helper('catalog/product')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.');
+                }
+            }
+        }
         if($object->getData('from_date') && $object->getData('to_date')){
             $dateStartUnixTime = strtotime($object->getData('from_date'));
             $dateEndUnixTime   = strtotime($object->getData('to_date'));
 
             if ($dateEndUnixTime < $dateStartUnixTime) {
-                return array(Mage::helper('enterprise_targetrule')->__("End Date should be greater than Start Date"));
+                $errorsArray[] = (Mage::helper('enterprise_targetrule')->__("End Date should be greater than Start Date"));
             }
         }
-        return true;
+        return empty($errorsArray) ? true : $errorsArray;
     }
 }
