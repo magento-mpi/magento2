@@ -1,0 +1,93 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# Product creation page and related pages
+
+# Manage Product page
+manage_products:
+ mca: catalog_product/
+ title: Manage Products / Catalog / Magento Admin
+ uimap:
+  form: &searchProductGrid
+  buttons:
+    add_new_product: //button[span='Add Product']
+  messages:
+
+# Settings for New Product creation
+new_product_settings:
+  mca: catalog_product/new/
+  title: New Product / Manage Products / Catalog / Magento Admin
+  uimap:
+    form: &newProductSettingsForm
+      fieldsets:
+        -
+          product_settings:
+            xpath: //div[@id='settings']
+            buttons:
+              continue_button: //button[span='Continue']
+            dropdowns:
+              attribute_set: //select[@id='attribute_set_id']
+              product_type: //select[@id='product_type']
+
+# Add New Product page
+new_product:
+  mca: catalog_product/new/set/%attributeSetID%/type/%productType%/
+  title: New Product / Manage Products / Catalog / Magento Admin
+  uimap:
+    form: &newProductCreationForm
+      tabs:
+        -
+          general:
+            xpath: //a[@title='General']
+            fieldsets:
+              -
+                general:
+                  xpath: "//div[contains(div/div/h4,'General') and not (@style='display: none;')]"
+                  buttons:
+                    create_new_attribute: //button[span='Create New Attribute']
+                  dropdowns:
+                    product_status: //select[@id='status']
+                    product_visibility: //select[@id='visibility']
+                    product_in_feed: //select[@id='is_imported']
+                  fields:
+                    product_name: //input[@id='name']
+                    product_description: //input[@id='description']
+                    product_short_description: //input[@id='short_description']
+                    product_sku: //input[@id='sku']
+                    product_weight: //input[@id='weight']
+                    product_news_from_date: //input[@id='news_from_date']
+                    product_news_to_date: //input[@id='news_to_date']
+                    product_url_key: //input[@id='url_key']
+                  required: [product_name, product_description, product_short_description, product_sku, product_weight, product_status, product_visibility]
+        #@TODO
+    buttons:
+      back: //button[span='Back']
+      reset: //button[span='Reset']
+      save_attribute: //button[span='Save']
+      save_and_continue_edit: //button[span='Save and Continue Edit']
+    messages:
+      #@TODO
