@@ -645,7 +645,7 @@ XML;
      */
     public function uniqHash($prefix = '')
     {
-        return $prefix . md5(uniqid(microtime(), true));
+        return $prefix . md5(uniqid(microtime().mt_rand(), true));
     }
 
     /**
