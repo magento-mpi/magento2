@@ -52,7 +52,7 @@ manage_attributes:
               use_in_layered_navigation:  //select[@id='filter_is_filterable']
               comparable: //select[@id='filter_is_comparable']
     buttons:
-      add_new_attribute: //button[span='Add New Attribute']
+      add_new_attribute: //button[span='Add New']
     messages:
       success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been saved.')]
       success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been deleted.')]
