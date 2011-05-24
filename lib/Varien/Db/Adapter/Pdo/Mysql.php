@@ -186,6 +186,11 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     );
 
     /**
+     * Hook callback to modify queries. Mysql specific property, designed only for backwards compatibility.
+     */
+    protected $_queryHook = null;
+
+    /**
      * Begin new DB transaction for connection
      *
      * @return Varien_Db_Adapter_Pdo_Mysql
@@ -431,6 +436,13 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             }
         }
 
+        // Special query hook
+        if ($this->_queryHook) {
+            $object = $this->_queryHook['object'];
+            $method = $this->_queryHook['method'];
+            $object->$method($sql, $bind);
+        }
+
         return $this;
     }
 
@@ -529,6 +541,22 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $sql = strtr($sql, $map);
 
         return $this;
+    }
+
+    /**
+     * Sets (removes) query hook.
+     *
+     * $hook must be either array with 'object' and 'method' entries, or null to remove hook.
+     * Previous hook is returned.
+     *
+     * @param array $hook
+     * @return mixed
+     */
+    public function setQueryHook($hook)
+    {
+        $prev = $this->_queryHook;
+        $this->_queryHook = $hook;
+        return $prev;
     }
 
     /**
