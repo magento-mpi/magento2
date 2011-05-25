@@ -175,7 +175,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $page = $this->getUimapPage('admin', 'create_customer');
         $tab = $page->findTab('account_information');
         foreach ($emptyFields as $key => $value) {
-            if (empty($value)) {
+            if ($value == '%noValue%') {
                 $xpath = $tab->findField($key);
                 $this->addParameter('fieldXpath', $xpath);
             }
@@ -187,10 +187,10 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function data_EmptyField()
     {
         return array(
-            array(array('first_name' => '', 'email' => $this->generate('email', 20, 'valid'))),
-            array(array('last_name' => '', 'email' => $this->generate('email', 20, 'valid'))),
-            array(array('password' => '', 'email' => $this->generate('email', 20, 'valid'))),
-            array(array('email' => ''))
+            array(array('first_name' => '%noValue%', 'email' => $this->generate('email', 20, 'valid'))),
+            array(array('last_name' => '%noValue%', 'email' => $this->generate('email', 20, 'valid'))),
+            array(array('password' => '%noValue%', 'email' => $this->generate('email', 20, 'valid'))),
+            array(array('email' => '%noValue%'))
         );
     }
 
@@ -216,17 +216,19 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithSpecialCharacters_ExeptEmail()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account',
+        $userData = $this->loadData(
+                        'generic_customer_account',
                         array(
-                    'prefix' => $this->generate('string', 32, ':punct:'),
-                    'first_name' => $this->generate('string', 32, ':punct:'),
-                    'middle_name' => $this->generate('string', 32, ':punct:'),
-                    'last_name' => $this->generate('string', 32, ':punct:'),
-                    'suffix' => $this->generate('string', 32, ':punct:'),
-                    'email' => $this->generate('email', 20, 'valid'),
-                    'tax_vat_number' => $this->generate('string', 32, ':punct:'),
-                    'password' => $this->generate('string', 32, ':punct:'),
-                ));
+                            'prefix'            => $this->generate('string', 32, ':punct:'),
+                            'first_name'        => $this->generate('string', 32, ':punct:'),
+                            'middle_name'       => $this->generate('string', 32, ':punct:'),
+                            'last_name'         => $this->generate('string', 32, ':punct:'),
+                            'suffix'            => $this->generate('string', 32, ':punct:'),
+                            'email'             => $this->generate('email', 20, 'valid'),
+                            'tax_vat_number'    => $this->generate('string', 32, ':punct:'),
+                            'password'          => $this->generate('string', 32, ':punct:')
+                        )
+        );
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
@@ -258,18 +260,18 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $longValues = array(
-            'prefix' => $this->generate('string', 255, ':alnum:'),
-            'first_name' => $this->generate('string', 255, ':alnum:'),
-            'middle_name' => $this->generate('string', 255, ':alnum:'),
-            'last_name' => $this->generate('string', 255, ':alnum:'),
-            'suffix' => $this->generate('string', 255, ':alnum:'),
-            'email' => $this->generate('email', 128, 'valid'),
-            'tax_vat_number' => $this->generate('string', 255, ':alnum:'),
-            'password' => $this->generate('string', 255, ':alnum:'),
+            'prefix'            => $this->generate('string', 255, ':alnum:'),
+            'first_name'        => $this->generate('string', 255, ':alnum:'),
+            'middle_name'       => $this->generate('string', 255, ':alnum:'),
+            'last_name'         => $this->generate('string', 255, ':alnum:'),
+            'suffix'            => $this->generate('string', 255, ':alnum:'),
+            'email'             => $this->generate('email', 128, 'valid'),
+            'tax_vat_number'    => $this->generate('string', 255, ':alnum:'),
+            'password'          => $this->generate('string', 255, ':alnum:')
         );
         $userData = $this->loadData('generic_customer_account', $longValues);
         $searchData = $this->loadData('search_customer',
-                        array('name' => '', 'email' => $userData['email']));
+                        array('name' => '%noValue%', 'email' => $userData['email']));
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
@@ -277,7 +279,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
         //Steps
-        $this->openCustomer($searchData);
+        $this->CustomerHelper()->openCustomer($searchData);
         $this->clickControl('tab', 'account_information', FALSE);
         //Verifying
         $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->messages);
@@ -348,11 +350,13 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithInvalidPassword()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account',
+        $userData = $this->loadData(
+                        'generic_customer_account',
                         array(
-                    'password' => $this->generate('string', 5, ':alnum:'),
-                    'email' => $this->generate('email', 20, 'valid')
-                ));
+                            'password'  => $this->generate('string', 5, ':alnum:'),
+                            'email'     => $this->generate('email', 20, 'valid')
+                        )
+        );
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
@@ -381,13 +385,14 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithAutoGeneratedPassword()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account',
+        $userData = $this->loadData(
+                        'generic_customer_account',
                         array(
-                    'email' => $this->generate('email', 20, 'valid'),
-                    'password' => '',
-                    'auto_generated_password' => 'Yes',
-                ));
-
+                            'email'                     => $this->generate('email', 20, 'valid'),
+                            'password'                  => '%noValue%',
+                            'auto_generated_password'   => 'Yes'
+                        )
+        );
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
