@@ -50,7 +50,7 @@ manage_admin_users:
             links:
               select_by_user_name: //table[@id="permissionsUserGrid_table"]//td[normalize-space(text())="%userName%"]
     buttons:
-      add_new_admin_user: //button[span='Add New']
+      add_new_admin_user: //button[span='Add New User']
     messages:
       success_deleted_user: //li[normalize-space(@class)='success-msg' and contains(.//span,'The user has been deleted.')]
 
