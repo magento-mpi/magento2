@@ -962,9 +962,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $keys_to_remove = array();
         foreach ($data as $key => $val) {
-            if (empty($val)) {
+            if ($val == '%noValue%' or empty($val)) {
                 $keys_to_remove[] = $key;
-            } else if (preg_match('/website/', $key)) {
+            } elseif (preg_match('/website/', $key)) {
                 $xpathField = $this->getCurrentLocationUimapPage()->getMainForm()->findDropdown($key);
                 if (!$this->isElementPresent($xpathField)) {
                     $keys_to_remove[] = $key;
@@ -976,10 +976,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         if (count($data) > 0) {
-            //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
-            $totalCount = intval($this->getText("//td[@class='pager']//span[contains(@id, 'Grid-total-count')]"));
-            $xpath_pager = "//td[@class='pager']//span[contains(@id, 'Grid-total-count') and not(contains(.,'" . $totalCount . "'))]";
-
             // Forming xpath for string that contains the lookup data
             $xpathTR = "//table[contains(@id, 'Grid_table')]//tr[";
             $i = 1;
@@ -990,7 +986,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if ($i < $n) {
                         $xpathTR .= ' and ';
                     }
-                    $i ++;
+                    $i++;
                 }
             }
             $xpathTR .=']';
@@ -998,14 +994,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             // Fill in search form and click 'Search' button
             $this->fillForm($data);
             $this->clickButton('search', FALSE);
-
-            //WaitForElementPresent
-            for ($second = 0; $second < 30; $second++) {
-                if ($this->isElementPresent($xpath_pager)) {
-                    break;
-                }
-                sleep(1);
-            }
+            $this->waitForAjax();
 
             if ($this->isElementPresent($xpathTR)) {
                 // ID definition
@@ -1022,7 +1011,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 if ($item_id > 0) {
                     $this->addParameter('id', $item_id);
                     // Open element
-                    $this->click("//table[contains(@id, 'Grid_table')]//tr[contains(@title, 'id/" . $item_id . "')]/td[normalize-space(text())='" . $data[array_rand($data)] . "']");
+                    $this->click("//table[contains(@id, 'Grid_table')]//tr[contains(@title, 'id/" . $item_id . "/')]/td[contains(text(),'" . $data[array_rand($data)] . "')]");
                     $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                     $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
 
