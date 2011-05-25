@@ -302,7 +302,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
                 );
         }
 
-        return array(
+        $result = array(
             'type'     => $type,
             'length'   => $length,
             'unsigned' => $column['unsigned'],
@@ -310,5 +310,15 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
             'default'  => $column['default'],
             'identity' => stripos($column['extra'], 'auto_increment') !== false
         );
+
+        /**
+         * Process the case when 'is_null' prohibits null value, and 'default' proposed to be null.
+         * It just means that default value not specified, and we must remove it from column definition.
+         */
+        if (false === $column['is_null'] && null === $column['default']) {
+            unset($result['default']);
+        }
+
+        return $result;
     }
 }
