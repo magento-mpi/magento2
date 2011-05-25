@@ -67,17 +67,17 @@
             <email>
                 <enterprise_importexport_import_failed translate="label" module="enterprise_importexport">
                     <label>Import Failed</label>
-                    <file>scheduled_import_failed.html</file>
+                    <file>enterprise/scheduled_import_failed.html</file>
                     <type>html</type>
                 </enterprise_importexport_import_failed>
                 <enterprise_importexport_export_failed translate="label" module="enterprise_importexport">
                     <label>Export Failed</label>
-                    <file>scheduled_export_failed.html</file>
+                    <file>enterprise/scheduled_export_failed.html</file>
                     <type>html</type>
                 </enterprise_importexport_export_failed>
                 <system_enterprise_import_export_log_error_email_template translate="label" module="enterprise_importexport">
                     <label>File History Clean Failed</label>
-                    <file>scheduled_importexport_file_history_clean_failed.html</file>
+                    <file>enterprise/scheduled_importexport_file_history_clean_failed.html</file>
                     <type>html</type>
                 </system_enterprise_import_export_log_error_email_template>
             </email>

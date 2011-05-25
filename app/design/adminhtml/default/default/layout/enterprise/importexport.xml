@@ -43,7 +43,7 @@
         <reference name="content">
             <block type="adminhtml/template" template="importexport/export/form/before.phtml" name="export.form.before" alias="form_before"/>
             <block type="enterprise_importexport/adminhtml_scheduled_operation_edit" name="operation.edit" />
-            <block type="adminhtml/template" template="importexport/scheduled/form/after.phtml" name="operation.form.after" />
+            <block type="adminhtml/template" template="enterprise/importexport/scheduled/form/after.phtml" name="operation.form.after" />
         </reference>
     </adminhtml_scheduled_operation_edit>
 </layout>
