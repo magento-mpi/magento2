@@ -326,6 +326,31 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Implementetion of setUpBeforeClass() in object context
+     *
+     * @staticvar boolean $_isFirst
+     * @return NULL
+     */
+    public function setUp()
+    {
+        static $_isFirst = true;
+        
+        if ($_isFirst)  {
+            $this->setUpBeforeTests();
+            $_isFirst = false;
+        }
+    }
+
+    /**
+     * Function is called before all tests in test case
+     *
+     * @return NULL
+     */
+    public function setUpBeforeTests()
+    {
+    }
+
+    /**
      * Append parameters decorator object
      * 
      * @param Mage_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
