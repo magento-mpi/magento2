@@ -243,7 +243,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         // Check Authoriztion transaction state
         $authTransaction = $this->getAuthorizationTransaction();
         if ($authTransaction && $authTransaction->getIsClosed()) {
-            return false;
+            $orderTransaction = $this->_lookupTransaction(null, Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER);
+            if (!$orderTransaction) {
+                return false;
+            }
         }
         return true;
     }
