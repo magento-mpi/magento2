@@ -1066,7 +1066,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $fields    = $indexData['COLUMNS_LIST'];
             $options   = array();
             $indexType = '';
-            if ($indexData['INDEX_TYPE'] == 'UNIQUE') {
+            if ($indexData['INDEX_TYPE'] == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
                 $options   = array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE);
                 $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE;
             }
@@ -1472,7 +1472,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $primaryKey = false;
         foreach ($this->getIndexList($tableName, $schemaName) as $index) {
-            if (strtolower($index['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
+            if ($index['INDEX_TYPE'] == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
                 $primaryKey = $index['KEY_NAME'];
             }
         }
@@ -1675,7 +1675,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             return $this;
         }
 
-        switch (strtolower($keyType)) {
+        switch ($keyType) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
             case Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY:
                 $query = $this->_getDdlScriptDropPrimaryKey($tableName, $keyName, $schemaName);
@@ -1698,8 +1698,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      * Returns the table index information
      *
-     * The return value is an associative array keyed by the UPPERCASE index key,
-     * as returned by the RDBMS.
+     * The return value is an associative array keyed by the UPPERCASE index key (except for primary key,
+     * that is always stored under 'PRIMARY' key) as returned by the RDBMS.
      *
      * The value of each array element is an associative array
      * with the following keys:
@@ -1708,7 +1708,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * TABLE_NAME       => string; name of the table
      * KEY_NAME         => string; the original index name
      * COLUMNS_LIST     => array; array of index column names
-     * INDEX_TYPE       => string; create index type
+     * INDEX_TYPE       => string; lowercase, create index type
      * INDEX_METHOD     => string; index method using
      * type             => string; see INDEX_TYPE
      * fields           => array; see COLUMNS_LIST
@@ -1776,10 +1776,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                         'TABLE_NAME'    => $tableName,
                         'KEY_NAME'      => $row[$fieldKeyName],
                         'COLUMNS_LIST'  => array($row[$fieldColumn]),
-                        'INDEX_TYPE'    => strtoupper($indexType),
+                        'INDEX_TYPE'    => strtolower($indexType),
                         'INDEX_METHOD'  => strtoupper($indexType),
-                        'type'          => $indexType, // for compatible
-                        'fields'        => array($row[$fieldColumn]) // for compatible
+                        'type'          => strtolower($indexType), // for compatibility
+                        'fields'        => array($row[$fieldColumn]) // for compatibility
                     );
                 }
             }
@@ -2104,7 +2104,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $primaryKeyColumns = array();
 
         foreach ($this->getIndexList($tableName, $schemaName) as $index ) {
-            if (strtolower($index['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY ) {
+            if ($index['INDEX_TYPE'] == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
                 foreach($index['COLUMNS_LIST'] as $value) {
                     $primaryKeyColumns[$value] = $value;
                 }
@@ -2125,7 +2125,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $uniqueIndexColumns = array();
 
         foreach ($this->getIndexList($tableName, $schemaName) as $index ) {
-            if (strtolower($index['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE ) {
+            if ($index['INDEX_TYPE'] == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
                 foreach($index['COLUMNS_LIST'] as $value) {
                     $uniqueIndexColumns[$value] = $value;
                 }
@@ -4002,7 +4002,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $indexList = $this->getIndexList($tableName, $schemaName);
         $tableName = $this->_getTableName($tableName, $schemaName);
         foreach ($indexList as $indexProp) {
-            if (strtolower($indexProp['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX) {
+            if ($indexProp['INDEX_TYPE'] != Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX) {
                 continue;
             }
             $query = sprintf('ALTER INDEX %s ON %s DISABLE',
@@ -4027,7 +4027,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $indexList = $this->getIndexList($tableName, $schemaName);
         $tableName = $this->_getTableName($tableName, $schemaName);
         foreach ($indexList as $indexProp) {
-            if (strtolower($indexProp['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX) {
+            if ($indexProp['INDEX_TYPE'] != Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX) {
                 continue;
             }
             $query = sprintf('ALTER INDEX %s ON %s REBUILD',
@@ -4102,7 +4102,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         // Obtain unique indexes fields
         foreach ($indexes as $indexData) {
-            if (strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
+            if ($indexData['INDEX_TYPE'] != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
                 continue;
             }
 

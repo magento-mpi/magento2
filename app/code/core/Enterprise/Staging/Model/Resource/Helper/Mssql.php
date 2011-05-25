@@ -183,8 +183,8 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
 
         // Obtain unique indexes fields
         foreach ($indexes as $indexData) {
-            if (strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
-                && strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY
+            if ($indexData['INDEX_TYPE'] != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+                && $indexData['INDEX_TYPE'] != Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY
             ) {
                 continue;
             }
@@ -220,5 +220,4 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
         $sql    = "SELECT name FROM sys.Tables where name like '" . str_replace('_', '[_]', $prefix) . "%'";
         return $this->_getReadAdapter()->fetchCol($sql);
     }
-
 }

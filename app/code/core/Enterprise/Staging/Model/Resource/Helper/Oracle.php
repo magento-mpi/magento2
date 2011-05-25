@@ -165,10 +165,10 @@ class  Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Re
 
         // Obtain unique indexes fields
         foreach ($indexes as $indexData) {
-            if (strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
-                && strtolower($indexData['INDEX_TYPE']) != Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY
+            if ($indexData['INDEX_TYPE'] != Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+                && $indexData['INDEX_TYPE'] != Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY
             ) {
-                if (strtolower($indexData['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT) {
+                if ($indexData['INDEX_TYPE'] == Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT) {
                     $compatible = true;
                 }
                 continue;

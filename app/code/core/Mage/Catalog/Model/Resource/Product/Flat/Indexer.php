@@ -607,6 +607,10 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      */
     public function prepareFlatTable($storeId)
     {
+        $adapter   = $this->_getWriteAdapter();
+        $tableName = $this->getFlatTableName($storeId);
+
+        // Extract columns we need to have in flat table
         $columns = $this->getFlatColumns();
         if (Mage::helper('core')->useDbCompatibleMode()) {
              /* Convert old format of flat columns to new MMDB format that uses DDL types and definitions */
@@ -615,27 +619,41 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             }
         }
 
-        $indexes  = $this->getFlatIndexes();
+        // Extract indexes we need to have in flat table
+        $indexesNeed  = $this->getFlatIndexes();
+
         $maxIndex = Mage::getConfig()->getNode(self::XML_NODE_MAX_INDEX_COUNT);
-
-        if (count($indexes) > $maxIndex) {
-            Mage::throwException(Mage::helper('catalog')->__("The Flat Catalog module has a limit of %2\$d filterable and/or sortable attributes. Currently there are %1\$d of them. Please reduce the number of filterable/sortable attributes in order to use this module", count($indexes), $maxIndex));
+        if (count($indexesNeed) > $maxIndex) {
+            Mage::throwException(Mage::helper('catalog')->__("The Flat Catalog module has a limit of %2\$d filterable and/or sortable attributes. Currently there are %1\$d of them. Please reduce the number of filterable/sortable attributes in order to use this module", count($indexesNeed), $maxIndex));
         }
 
-        $adapter   = $this->_getWriteAdapter();
-        $tableName = $this->getFlatTableName($storeId);
+        // Process indexes to create names for them in MMDB-style and reformat to common index definition
+        $indexKeys = array();
+        $indexProps = array_values($indexesNeed);
+        $upperPrimaryKey = strtoupper(Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY);
+        foreach ($indexProps as $i => $indexProp) {
+            $indexName = $adapter->getIndexName($tableName, $indexProp['fields'], $indexProp['type']);
+            $indexProp['type'] = strtoupper($indexProp['type']);
+            if ($indexProp['type'] == $upperPrimaryKey) {
+                $indexKey = $upperPrimaryKey;
+            } else {
+                $indexKey = $indexName;
+            }
 
-         /* Apply new names for indexes */
-        $indexNames = array();
-        $indexProps = array_values($indexes);
-        foreach ($indexProps as $propId => $indexProp) {
-            $indexNames[$propId] = $adapter->getIndexName($tableName, $indexProp['fields'], $indexProp['type']);
+            $indexProps[$i] = array(
+                'KEY_NAME' => $indexName,
+                'COLUMNS_LIST' => $indexProp['fields'],
+                'INDEX_TYPE' => strtolower($indexProp['type'])
+            );
+            $indexKeys[$i] = $indexKey;
         }
-        $indexes = array_combine($indexNames, $indexProps);
+        $indexesNeed = array_combine($indexKeys, $indexProps); // Array with index names as keys, except for primary
 
+        // Foreign keys
         $foreignEntityKey = $this->getFkName($tableName, 'entity_id', 'catalog/product', 'entity_id');
         $foreignChildKey  = $this->getFkName($tableName, 'child_id', 'catalog/product', 'entity_id');
 
+        // Create table or modify existing one
         if (!$this->_isFlatTableExists($storeId)) {
             /** @var $table Varien_Db_Ddl_Table */
             $table = $adapter->newTable($tableName);
@@ -654,11 +672,9 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 );
             }
 
-            foreach ($indexes as $indexName => $indexProp) {
-                if ($indexName == 'PRIMARY') {
-                    continue;
-                }
-                $table->addIndex($indexName, $indexProp['fields'], array('type' => $indexProp['type']));
+            foreach ($indexesNeed as $indexProp) {
+                $table->addIndex($indexProp['KEY_NAME'], $indexProp['COLUMNS_LIST'],
+                    array('type' => $indexProp['INDEX_TYPE']));
             }
 
             $table->addForeignKey($foreignEntityKey,
@@ -677,16 +693,40 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             $this->_existsFlatTables[$storeId] = true;
         } else {
             $adapter->resetDdlCache($tableName);
+
+            // Sort columns into added/altered/dropped lists
             $describe   = $adapter->describeTable($tableName);
-            $indexList  = $adapter->getIndexList($tableName);
             $addColumns     = array_diff_key($columns, $describe);
             $dropColumns    = array_diff_key($describe, $columns);
             $modifyColumns  = array();
+            foreach ($columns as $field => $fieldProp) {
+                if (isset($describe[$field]) && !$this->_compareColumnProperties($fieldProp, $describe[$field])) {
+                    $modifyColumns[$field] = $fieldProp;
+                }
+            }
 
-            $addIndexes     = array_diff_key($indexes, $indexList);
-            $dropIndexes    = array_diff_key($indexList, $indexes);
+            // Sort indexes into added/dropped lists. Altered indexes are put into both lists.
+            $addIndexes = array();
+            $dropIndexes = array();
+            $indexesNow  = $adapter->getIndexList($tableName); // Note: primary is always stored under 'PRIMARY' key
+            $newIndexes = $indexesNeed;
+            foreach ($indexesNow as $key => $indexNow) {
+                if (isset($indexesNeed[$key])) {
+                    $indexNeed = $indexesNeed[$key];
+                    if (($indexNeed['INDEX_TYPE'] != $indexNow['INDEX_TYPE'])
+                        || ($indexNeed['COLUMNS_LIST'] != $indexNow['COLUMNS_LIST'])) {
+                        $dropIndexes[$key] = $indexNow;
+                        $addIndexes[$key] = $indexNeed;
+                    }
+                    unset($newIndexes[$key]);
+                } else {
+                    $dropIndexes[$key] = $indexNow;
+                }
+            }
+            $addIndexes = $addIndexes + $newIndexes;
+
+            // Compose contstraints
             $addConstraints = array();
-
             $addConstraints[$foreignEntityKey] = array(
                 'table_index'   => 'entity_id',
                 'ref_table'     => $this->getTable('catalog/product'),
@@ -695,6 +735,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 'on_delete'     => Varien_Db_Ddl_Table::ACTION_CASCADE
             );
 
+            // Additional data from childs
             $isAddChildData = $this->getFlatHelper()->isAddChildData();
             if (!$isAddChildData && isset($describe['is_child'])) {
                 $adapter->delete($tableName, array('is_child = ?' => 1));
@@ -702,8 +743,8 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             }
             if ($isAddChildData && !isset($describe['is_child'])) {
                 $adapter->truncateTable($tableName);
-                $dropIndexes['PRIMARY'] = $indexList['PRIMARY'];
-                $addIndexes['PRIMARY']  = $indexes['PRIMARY'];
+                $dropIndexes['PRIMARY'] = $indexesNow['PRIMARY'];
+                $addIndexes['PRIMARY']  = $indexesNeed['PRIMARY'];
 
                 $addConstraints[$foreignChildKey] = array(
                     'table_index'   => 'child_id',
@@ -714,34 +755,22 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 );
             }
 
-            foreach ($columns as $field => $fieldProp) {
-                if (isset($describe[$field])
-                    && !$this->_compareColumnProperties($fieldProp, $describe[$field])) {
-                    $modifyColumns[$field] = $fieldProp;
-                }
-            }
-
-            foreach ($indexList as $indexName => $indexProp) {
-                if (isset($indexes[$indexName]) && ($indexes[$indexName]['type'] != $indexProp['type'])) {
-                    $dropIndexes[$indexName] = $indexProp;
-                    $addIndexes[$indexName] = $indexes[$indexName];
-                }
-            }
-
+            // Drop constraints
             foreach (array_keys($adapter->getForeignKeys($tableName)) as $constraintName) {
                 $adapter->dropForeignKey($tableName, $constraintName);
             }
-            // drop indexes
-            foreach (array_keys($dropIndexes) as $indexName) {
-                $adapter->dropIndex($tableName, $indexName);
+
+            // Drop indexes
+            foreach ($dropIndexes as $indexProp) {
+                $adapter->dropIndex($tableName, $indexProp['KEY_NAME']);
             }
 
-            // drop columns
+            // Drop columns
             foreach (array_keys($dropColumns) as $columnName) {
                 $adapter->dropColumn($tableName, $columnName);
             }
 
-            // modify column
+            // Modify columns
             foreach ($modifyColumns as $columnName => $columnProp) {
                 $columnProp = array_change_key_case($columnProp, CASE_UPPER);
                 if (!isset($columnProp['COMMENT'])) {
@@ -749,7 +778,8 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 }
                 $adapter->changeColumn($tableName, $columnName, $columnName, $columnProp);
             }
-            // add columns
+
+            // Add columns
             foreach ($addColumns as $columnName => $columnProp) {
                 $columnProp = array_change_key_case($columnProp, CASE_UPPER);
                 if (!isset($columnProp['COMMENT'])) {
@@ -758,11 +788,13 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 $adapter->addColumn($tableName, $columnName, $columnProp);
             }
 
-            // add indexes
-            foreach ($addIndexes as $indexName => $indexProp) {
-                $adapter->addIndex($tableName, $indexName, $indexProp['fields'], $indexProp['type']);
+            // Add indexes
+            foreach ($addIndexes as $indexProp) {
+                $adapter->addIndex($tableName, $indexProp['KEY_NAME'], $indexProp['COLUMNS_LIST'],
+                    $indexProp['INDEX_TYPE']);
             }
 
+            // Add constraints
             foreach ($addConstraints as $constraintName => $constraintProp) {
                 $adapter->addForeignKey($constraintName, $tableName,
                     $constraintProp['table_index'],

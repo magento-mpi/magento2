@@ -819,7 +819,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $fields = $indexData['COLUMNS_LIST'];
             $options = array();
             $indexType = '';
-            if ($indexData['INDEX_TYPE'] == 'UNIQUE') {
+            if ($indexData['INDEX_TYPE'] == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
                 $options = array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE);
                 $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE;
             }
@@ -1384,24 +1384,21 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $schemaName = $this->_getSchemaName();
         }
 
-        $indexExists = false;
+        $keyType = null;
         foreach($indexList as $index) {
             if ($index['KEY_NAME'] == $keyName) {
                 $keyType = $index['INDEX_TYPE'];
-                $indexExists = true;
                 break;
             }
         }
 
-        if (!$indexExists) {
+        if ($keyType === null) {
             return $this;
         }
 
-
-        switch (strtolower($indexList[$keyName]['INDEX_TYPE'])){
+        switch ($keyType) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY:
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
-
                 $condition = 'ALTER TABLE %1$s DROP CONSTRAINT "%2$s" CASCADE';
                 break;
             case Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT:
@@ -1410,7 +1407,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 break;
         }
 
-        $keyName = $indexList[$keyName]['KEY_NAME'];
         $table   = $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
         $sql     = sprintf($condition, $table, $keyName);
 
@@ -1423,8 +1419,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     /**
      * Returns the table index information
      *
-     * The return value is an associative array keyed by the UPPERCASE index key,
-     * as returned by the RDBMS.
+     * The return value is an associative array keyed by the UPPERCASE index key (except for primary key,
+     * that is always stored under 'PRIMARY' key) as returned by the RDBMS.
      *
      * The value of each array element is an associative array
      * with the following keys:
@@ -1433,7 +1429,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * TABLE_NAME       => string; name of the table
      * KEY_NAME         => string; the original index name
      * COLUMNS_LIST     => array; array of index column names
-     * INDEX_TYPE       => string; create index type
+     * INDEX_TYPE       => string; lowercase, create index type
      * INDEX_METHOD     => string; index method using
      * type             => string; see INDEX_TYPE
      * fields           => array; see COLUMNS_LIST
@@ -1529,7 +1525,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                         break;
                 }
                 if (isset($ddl[$upperKeyName])) {
-                    $ddl[$upperKeyName]['fields'][] = $columnName; // for compatible
+                    $ddl[$upperKeyName]['fields'][] = $columnName; // for compatibility
                     $ddl[$upperKeyName]['COLUMNS_LIST'][] = $columnName;
                 } else {
                     $ddl[$upperKeyName] = array(
@@ -1537,10 +1533,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                         'TABLE_NAME'    => $row['table_name'],
                         'KEY_NAME'      => $row['key_name'],
                         'COLUMNS_LIST'  => array($columnName),
-                        'INDEX_TYPE'    => $row['index_type'],
+                        'INDEX_TYPE'    => strtolower($row['index_type']),
                         'INDEX_METHOD'  => $row['index_method'],
-                        'type'          => $row['index_type'], // for compatible
-                        'fields'        => array($columnName) // for compatible
+                        'type'          => strtolower($row['index_type']), // for compatibility
+                        'fields'        => array($columnName) // for compatibility
                     );
                 }
             }
@@ -1655,11 +1651,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function dropForeignKey($tableName, $fkName, $schemaName = null)
     {
-
-        if ($schemaName === null) {
-            $schemaName = $this->_getSchemaName();
-        }
-
         $foreignKeys = $this->getForeignKeys($tableName, $schemaName);
         $fkName      = strtoupper($fkName);
         if (!isset($foreignKeys[$fkName])) {
@@ -1684,8 +1675,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             }
         }
 
+        // Do not modify $schemaName, or we'll get wrong cache key
+        $reqSchemaName = ($schemaName !== null) ? $schemaName : $this->_getSchemaName();
         $sql = sprintf('ALTER TABLE %s DROP CONSTRAINT %s',
-            $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
+            $this->quoteIdentifier($this->_getTableName($tableName, $reqSchemaName)),
             $this->quoteIdentifier($foreignKeys[$fkName]['FK_NAME']));
 
         $this->raw_query($sql);
@@ -1719,13 +1712,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function getForeignKeys($tableName, $schemaName = null)
     {
-        if ($schemaName === null) {
-            $schemaName = $this->_getSchemaName();
-        }
         $cacheKey = $this->_getTableName($tableName, $schemaName);
         $ddl = $this->loadDdlCache($cacheKey, self::DDL_FOREIGN_KEY);
+
         if ($ddl === false) {
             $ddl = array();
+            if ($schemaName === null) {
+                $schemaName = $this->_getSchemaName();
+            }
 
             $select = $this->select()
                 ->from(array('c' => 'all_constraints'), '')

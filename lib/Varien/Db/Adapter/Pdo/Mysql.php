@@ -1122,8 +1122,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     /**
      * Retrieve table index information
      *
-     * The return value is an associative array keyed by the UPPERCASE index key,
-     * as returned by the RDBMS.
+     * The return value is an associative array keyed by the UPPERCASE index key (except for primary key,
+     * that is always stored under 'PRIMARY' key) as returned by the RDBMS.
      *
      * The value of each array element is an associative array
      * with the following keys:
@@ -1132,7 +1132,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * TABLE_NAME       => string; name of the table
      * KEY_NAME         => string; the original index name
      * COLUMNS_LIST     => array; array of index column names
-     * INDEX_TYPE       => string; create index type
+     * INDEX_TYPE       => string; lowercase, create index type
      * INDEX_METHOD     => string; index method using
      * type             => string; see INDEX_TYPE
      * fields           => array; see COLUMNS_LIST
@@ -1176,10 +1176,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                         'TABLE_NAME'    => $tableName,
                         'KEY_NAME'      => $row[$fieldKeyName],
                         'COLUMNS_LIST'  => array($row[$fieldColumn]),
-                        'INDEX_TYPE'    => strtoupper($indexType),
+                        'INDEX_TYPE'    => strtolower($indexType),
                         'INDEX_METHOD'  => $row[$fieldIndexType],
-                        'type'          => $indexType, // for compatible
-                        'fields'        => array($row[$fieldColumn]) // for compatible
+                        'type'          => strtolower($indexType), // for compatibility
+                        'fields'        => array($row[$fieldColumn]) // for compatibility
                     );
                 }
             }
@@ -1604,7 +1604,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             $fields = $indexData['COLUMNS_LIST'];
             $options = array();
             $indexType = '';
-            if ($indexData['INDEX_TYPE'] == 'UNIQUE') {
+            if ($indexData['INDEX_TYPE'] == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
                 $options = array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE);
                 $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE;
             }
@@ -2317,7 +2317,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
 
         $query = sprintf('ALTER TABLE %s', $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)));
         if (isset($keyList[strtoupper($indexName)])) {
-            if (strtolower($keyList[strtoupper($indexName)]['INDEX_TYPE']) == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
+            if ($keyList[strtoupper($indexName)]['INDEX_TYPE'] == Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
                 $query .= ' DROP PRIMARY KEY,';
             } else {
                 $query .= sprintf(' DROP INDEX %s,', $this->quoteIdentifier($indexName));
