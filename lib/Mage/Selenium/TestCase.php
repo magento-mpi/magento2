@@ -318,6 +318,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
         }
 
+        if ($this->_testHelpers[$helperClassName] instanceof Mage_Selenium_TestCase) {
+            $this->_testHelpers[$helperClassName]->setArea($this->getArea());
+        }
+
         return $this->_testHelpers[$helperClassName];
     }
 
