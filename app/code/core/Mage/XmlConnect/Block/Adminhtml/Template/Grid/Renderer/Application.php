@@ -42,7 +42,7 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Grid_Renderer_Application
      */
     public function render(Varien_Object $row)
     {
-        $str = htmlspecialchars($row->getAppName());
+        $str = $this->escapeHtml($row->getAppName());
         if ($str == '') {
             $str = ' --- ';
         }

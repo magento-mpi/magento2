@@ -901,7 +901,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      */
     protected function _initTemplate($paramName = 'id')
     {
-        $id = $this->getRequest()->getParam($paramName);
+        $id = (int) $this->getRequest()->getParam($paramName);
         $template = Mage::getModel('xmlconnect/template')->load($id);
         Mage::unregister('current_template');
         Mage::register('current_template', $template);
@@ -1223,10 +1223,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     $this->_redirect('*/*/');
                     return;
                 }
-                if (!$template->getId() && !$id) {
-                    $template->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
-                }
-                $template->setModifiedAt(Mage::getSingleton('core/date')->gmtDate())->addData($data);
+                $template->addData($data);
                 $template->save();
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addException($e, $e->getMessage());

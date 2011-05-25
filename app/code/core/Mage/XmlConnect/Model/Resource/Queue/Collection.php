@@ -63,12 +63,35 @@ class Mage_XmlConnect_Model_Resource_Queue_Collection
      */
     protected function _joinNames()
     {
+        $this->_joinTemplateName();
+        $this->_joinApplicationName();
+        return $this;
+    }
+
+   /**
+    * Join Template Name to collection
+    *
+    * @return Mage_XmlConnect_Model_Resource_Queue_Collection
+    */
+    protected function _joinTemplateName()
+    {
         $this->getSelect()
             ->joinLeft(
                 array('t' => $this->getTable('xmlconnect/template')),
                 't.template_id = main_table.template_id',
                 array('template_name' => 't.name')
-            )
+        );
+        return $this;
+    }
+
+    /**
+     * Join Application Name to collection
+     *
+     * @return Mage_XmlConnect_Model_Resource_Queue_Collection
+     */
+    protected function _joinApplicationName()
+    {
+        $this->getSelect()
             ->joinLeft(
                 array('app' => $this->getTable('xmlconnect/application')),
                 'app.application_id = t.application_id',

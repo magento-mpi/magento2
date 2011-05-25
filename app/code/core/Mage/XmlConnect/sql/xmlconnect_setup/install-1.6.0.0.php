@@ -25,7 +25,6 @@
  */
 
 /** @var $installer Mage_XmlConnect_Model_Resource_Setup */
-/** @var $this Mage_XmlConnect_Model_Resource_Setup */
 $installer = $this;
 $installer->startSetup();
 

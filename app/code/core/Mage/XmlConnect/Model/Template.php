@@ -44,6 +44,25 @@ class Mage_XmlConnect_Model_Template extends Mage_Core_Model_Template
     }
 
     /**
+     * Processing object before save data
+     * Add created_at  and modified_at params
+     *
+     * @return Mage_XmlConnect_Model_Template
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+
+        $currentDate = Mage::getSingleton('core/date')->gmtDate();
+        if (!$this->getId()) {
+            $this->setCreatedAt($currentDate);
+        }
+        $this->setModifiedAt($currentDate);
+
+        return $this;
+    }
+
+    /**
      * Get template type
      *
      * @return int
