@@ -34,8 +34,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
-{
+class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
+
     /**
      * Preconditions:
      *
@@ -46,11 +46,9 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->assertTrue($this->checkCurrentPage('dashboard'),
-                'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('dashboard'), 'Wrong page is opened');
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
     }
 
     /**
@@ -61,14 +59,12 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     public function test_CreateCustomer()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account',
-                        array('email' => $this->generate('email', 20, 'valid')));
+        $userData = $this->loadData('generic_customer_account', array('email' => $this->generate('email', 20, 'valid')));
         //Steps
         $this->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'After successful customer creation should be redirected to Manage Customers page');
 
         return $userData;
     }
@@ -110,8 +106,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'After successful customer creation should be redirected to Manage Customers page');
 
         return $searchData;
     }
@@ -236,8 +231,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->saveForm('save_customer');
         //Verifying #–1
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'After successful customer creation should be redirected to Manage Customers page');
         //Steps
         $this->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);
@@ -294,8 +288,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->saveForm('save_customer');
         //Verifying #–1
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'After successful customer creation should be redirected to Manage Customers page');
         //Steps
         $this->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);
@@ -330,8 +323,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     public function test_WithDefaultBillingAddress(array $searchData)
     {
         //Data
-        $addressData = $this->loadData('all_fields_address_with_state',
-                        array('default_billing_address' => 'Yes'));
+        $addressData = $this->loadData('all_fields_address_with_state', array('default_billing_address' => 'Yes'));
         //Steps
         // 1.Open customer
         $this->openCustomer($searchData);
@@ -339,8 +331,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'After successful customer creation should be redirected to Manage Customers page');
         //Steps
         $this->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);
@@ -374,16 +365,14 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
      */
     public function test_WithDefaultShippingAddress(array $searchData)
     {
-        $addressData = $this->loadData('all_fields_address_with_region',
-                        array('default_shipping_address' => 'Yes'));
+        $addressData = $this->loadData('all_fields_address_with_region', array('default_shipping_address' => 'Yes'));
         //Steps
         $this->openCustomer($searchData);
         $this->addAdress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'After successful customer creation should be redirected to Manage Customers page');
         //Steps
         $this->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);
@@ -495,6 +484,71 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->clickButton('reset_filter', FALSE);
         $this->pleaseWait();
         $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
+    }
+
+    public function searchAndOpen(array $data)
+    {
+        $keys_to_remove = array();
+        foreach ($data as $key => $val) {
+            if ($val == '%noValue%' or empty($val)) {
+                $keys_to_remove[] = $key;
+            } elseif (preg_match('/website/', $key)) {
+                $xpathField = $this->getCurrentLocationUimapPage()->getMainForm()->findDropdown($key);
+                if (!$this->isElementPresent($xpathField)) {
+                    $keys_to_remove[] = $key;
+                }
+            }
+        }
+        foreach ($keys_to_remove as $key_name) {
+            unset($data[$key_name]);
+        }
+        print_r($data);
+        if (count($data) > 0) {
+            // Forming xpath for string that contains the lookup data
+            $xpathTR = "//table[contains(@id, 'Grid_table')]//tr[";
+            $i = 1;
+            $n = count($data);
+            foreach ($data as $key => $value) {
+                if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
+                    $xpathTR .= "contains(.,'$value')";
+                    if ($i < $n) {
+                        $xpathTR .= ' and ';
+                    }
+                    $i++;
+                }
+            }
+            $xpathTR .=']';
+
+            // Fill in search form and click 'Search' button
+            $this->fillForm($data);
+            $this->clickButton('search', FALSE);
+            $this->waitForAjax();
+
+            if ($this->isElementPresent($xpathTR)) {
+                // ID definition
+                $item_id = 0;
+                $title_arr = explode('/', $this->getValue($xpathTR . '/@title'));
+                $title_arr = array_reverse($title_arr);
+                foreach ($title_arr as $key => $value) {
+                    if (preg_match('/id$/', $value) && isset($title_arr[$key - 1])) {
+                        $item_id = $title_arr[$key - 1];
+                        break;
+                    }
+                }
+
+                if ($item_id > 0) {
+                    $this->addParameter('id', $item_id);
+                    // Open element
+                    $this->click("//table[contains(@id, 'Grid_table')]//tr[contains(@title, 'id/" . $item_id . "/')]/td[contains(text(),'" . $data[array_rand($data)] . "')]");
+                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                    $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 }

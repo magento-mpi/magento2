@@ -27,128 +27,128 @@
 ---
 #Test data for customer registration(Frontend)
 customer_account_register:
-  first_name: First name
-  last_name: Last name
-  email: test_frontend@example.com
-  password: 123123q
-  password_confirmation: 123123q
+    first_name: First name
+    last_name: Last name
+    email: test_frontend@example.com
+    password: 123123q
+    password_confirmation: 123123q
 
 #Test data for customer creation(Backend)
 generic_customer_account:
-  associate_to_website: Main Website
-  group: General
-  prefix:
-  first_name: First Name
-  middle_name:
-  last_name: Last Name
-  suffix:
-  email: test_admin_1@example.com
-  date_of_birth:
-  tax_vat_number:
-  gender:
-  send_welcome_email:
-  send_from:
-  password: 123123q
-  auto_generated_password:
+    associate_to_website: Main Website
+    group: General
+    prefix: %noValue%
+    first_name: First Name
+    middle_name: %noValue%
+    last_name: Last Name
+    suffix: %noValue%
+    email: test_admin_1@example.com
+    date_of_birth: %noValue%
+    tax_vat_number: %noValue%
+    gender: %noValue%
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
 
 all_fields_customer_account:
-  associate_to_website: Main Website
-  group: General
-  prefix: Prefix
-  first_name: First Name
-  middle_name: Middle Name
-  last_name: Last Name
-  suffix: Suffix
-  email: test_admin_2@example.com
-  date_of_birth: 12/12/1983
-  tax_vat_number: 123123
-  gender: Male
-  send_welcome_email: Yes
-  send_from: Default Store View
-  password: 123123q
-  auto_generated_password: No
+    associate_to_website: Main Website
+    group: General
+    prefix: Prefix
+    first_name: First Name
+    middle_name: Middle Name
+    last_name: Last Name
+    suffix: Suffix
+    email: test_admin_2@example.com
+    date_of_birth: 12/12/1983
+    tax_vat_number: 123123
+    gender: Male
+    send_welcome_email: Yes
+    send_from: Default Store View
+    password: 123123q
+    auto_generated_password: No
 
 #Test data for Customer Addresses
 generic_address_with_state:
-  prefix:
-  first_name: First Name
-  middle_name:
-  last_name: Last Name
-  suffix:
-  company:
-  street_address_line_1: 10441 Jefferson Blvd
-  street_address_line_2: Suite 200
-  city: Culver City
-  country: United States
-  state: California
-  zip_code: 90232
-  telephone: 530-918-3581
-  fax:
-  default_billing_address:
-  default_shipping_address:
+    prefix: %noValue%
+    first_name: First Name
+    middle_name: %noValue%
+    last_name: Last Name
+    suffix: %noValue%
+    company: %noValue%
+    street_address_line_1: 10441 Jefferson Blvd
+    street_address_line_2: Suite 200
+    city: Culver City
+    country: United States
+    state: California
+    zip_code: 90232
+    telephone: 530-918-3581
+    fax: %noValue%
+    default_billing_address: %noValue%
+    default_shipping_address: %noValue%
 
 generic_address_with_region:
-  prefix:
-  first_name: First Name
-  middle_name:
-  last_name: Last Name
-  suffix:
-  company:
-  street_address_line_1: Lomonosova str.
-  street_address_line_2: Suite 81
-  city: Kiev
-  country: Ukraine
-  region: Kievskaya
-  zip_code: 03022
-  telephone: (044)-421-57-89
-  fax:
-  default_billing_address:
-  default_shipping_address:
+    prefix: %noValue%
+    first_name: First Name
+    middle_name: %noValue%
+    last_name: Last Name
+    suffix: %noValue%
+    company: %noValue%
+    street_address_line_1: Lomonosova str.
+    street_address_line_2: Suite 81
+    city: Kiev
+    country: Ukraine
+    region: Kievskaya
+    zip_code: 03022
+    telephone: (044)-421-57-89
+    fax: %noValue%
+    default_billing_address: %noValue%
+    default_shipping_address: %noValue%
 
 all_fields_address_with_state:
-  prefix: Prefix
-  first_name: First Name
-  middle_name: Middle Name
-  last_name: Last Name
-  suffix: Suffix
-  company: Magento
-  street_address_line_1: 10441 Jefferson Blvd
-  street_address_line_2: Suite 200
-  city: Culver City
-  country: United States
-  state: California
-  zip_code: 90232
-  telephone: 530-918-3581
-  fax: 530-918-3581
-  default_billing_address: No
-  default_shipping_address: No
+    prefix: Prefix
+    first_name: First Name
+    middle_name: Middle Name
+    last_name: Last Name
+    suffix: Suffix
+    company: Magento
+    street_address_line_1: 10441 Jefferson Blvd
+    street_address_line_2: Suite 200
+    city: Culver City
+    country: United States
+    state: California
+    zip_code: 90232
+    telephone: 530-918-3581
+    fax: 530-918-3581
+    default_billing_address: No
+    default_shipping_address: No
 
 all_fields_address_with_region:
-  prefix: Prefix
-  first_name: First Name
-  middle_name: Middle Name
-  last_name: Last Name
-  suffix: Suffix
-  company: Magento
-  street_address_line_1: Lomonosova str.
-  street_address_line_2: Suite 81
-  city: Kiev
-  country: Ukraine
-  region: Kievskaya
-  zip_code: 03022
-  telephone: (044)-421-57-89
-  fax: (044)-421-57-59
-  default_billing_address: No
-  default_shipping_address: No
+    prefix: Prefix
+    first_name: First Name
+    middle_name: Middle Name
+    last_name: Last Name
+    suffix: Suffix
+    company: Magento
+    street_address_line_1: Lomonosova str.
+    street_address_line_2: Suite 81
+    city: Kiev
+    country: Ukraine
+    region: Kievskaya
+    zip_code: 03022
+    telephone: (044)-421-57-89
+    fax: (044)-421-57-59
+    default_billing_address: No
+    default_shipping_address: No
 
 search_customer:
-  id_from:
-  id_to:
-  name: First Name Last Name
-  email: test_admin_1@example.com
-  group: General
-  telephone:
-  zip_code:
-  country:
-  region:
-  website: Main Website
+    id_from: %noValue%
+    id_to: %noValue%
+    name: First Name  Last Name
+    email: test_admin_1@example.com
+    group: General
+    telephone: %noValue%
+    zip_code: %noValue%
+    country: %noValue%
+    region: %noValue%
+    website: Main Website

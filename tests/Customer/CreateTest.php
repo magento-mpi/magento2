@@ -47,11 +47,9 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->assertTrue($this->checkCurrentPage('dashboard'),
-                'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('dashboard'), 'Wrong page is opened');
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
     }
 
     /**
@@ -73,8 +71,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->clickButton('add_new_customer'),
                 'There is no "Add New Customer" button on the page');
-        $this->assertTrue($this->checkCurrentPage('create_customer'),
-                'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('create_customer'), 'Wrong page is opened');
         $this->assertTrue($this->controlIsPresent('button', 'back'),
                 'There is no "Back" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'save_customer'),
@@ -110,7 +107,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $userData = $this->loadData('generic_customer_account',
                         array('email' => $this->generate('email', 20, 'valid')));
         //Steps
-        $this->createCustomer($userData);
+        $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
@@ -143,7 +140,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithEmailThatAlreadyExists(array $userData)
     {
         //Steps
-        $this->createCustomer($userData);
+        $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->errorMessage('customer_email_exist'), $this->messages);
     }
@@ -173,7 +170,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('generic_customer_account', $emptyFields);
         //Steps
-        $this->createCustomer($userData);
+        $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $page = $this->getUimapPage('admin', 'create_customer');
         $tab = $page->findTab('account_information');
@@ -219,20 +216,19 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithSpecialCharacters_ExeptEmail()
     {
         //Data
-        $userData = $this->loadData(
-                        'generic_customer_account',
+        $userData = $this->loadData('generic_customer_account',
                         array(
-                            'prefix' => $this->generate('string', 32, ':punct:'),
-                            'first_name' => $this->generate('string', 32, ':punct:'),
-                            'middle_name' => $this->generate('string', 32, ':punct:'),
-                            'last_name' => $this->generate('string', 32, ':punct:'),
-                            'suffix' => $this->generate('string', 32, ':punct:'),
-                            'email' => $this->generate('email', 20, 'valid'),
-                            'tax_vat_number' => $this->generate('string', 32, ':punct:'),
-                            'password' => $this->generate('string', 32, ':punct:'),
+                    'prefix' => $this->generate('string', 32, ':punct:'),
+                    'first_name' => $this->generate('string', 32, ':punct:'),
+                    'middle_name' => $this->generate('string', 32, ':punct:'),
+                    'last_name' => $this->generate('string', 32, ':punct:'),
+                    'suffix' => $this->generate('string', 32, ':punct:'),
+                    'email' => $this->generate('email', 20, 'valid'),
+                    'tax_vat_number' => $this->generate('string', 32, ':punct:'),
+                    'password' => $this->generate('string', 32, ':punct:'),
                 ));
         //Steps
-        $this->createCustomer($userData);
+        $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
@@ -273,10 +269,9 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         );
         $userData = $this->loadData('generic_customer_account', $longValues);
         $searchData = $this->loadData('search_customer',
-                        array('name' => '', 'email' => $userData['email'])
-        );
+                        array('name' => '', 'email' => $userData['email']));
         //Steps
-        $this->createCustomer($userData);
+        $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
@@ -315,7 +310,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('generic_customer_account', $wrongEmail);
         //Steps
-        $this->createCustomer($userData);
+        $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->errorMessage('customer_invalid_email'), $this->messages);
     }
@@ -330,7 +325,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create customer. Use a value for 'Password' field the length of which less than 6 characters
+     * Create customer. Use a value for 'Password' field the length of which less than 6 characters.
      *
      * Steps:
      *
@@ -355,11 +350,11 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('generic_customer_account',
                         array(
-                            'password' => $this->generate('string', 5, ':alnum:'),
-                            'email' => $this->generate('email', 20, 'valid')
+                    'password' => $this->generate('string', 5, ':alnum:'),
+                    'email' => $this->generate('email', 20, 'valid')
                 ));
         //Steps
-        $this->createCustomer($userData);
+        $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->errorMessage('password_too_short'), $this->messages);
     }
@@ -388,13 +383,13 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('generic_customer_account',
                         array(
-                            'email' => $this->generate('email', 20, 'valid'),
-                            'password' => '',
-                            'auto_generated_password' => 'Yes',
+                    'email' => $this->generate('email', 20, 'valid'),
+                    'password' => '',
+                    'auto_generated_password' => 'Yes',
                 ));
 
         //Steps
-        $this->createCustomer($userData);
+        $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
@@ -433,7 +428,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
                         array('email' => $this->generate('email', 20, 'valid')));
         $addressData = $this->loadData('all_fields_address_with_state');
         //Steps
-        $this->createCustomer($userData, $addressData);
+        $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
@@ -456,84 +451,6 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     {
         // @TODO
         $this->markTestIncomplete();
-    }
-
-    /**
-     * *********************************************
-     * *         HELPER FUNCTIONS                  *
-     * *********************************************
-     */
-
-    /**
-     * Defining and adding %address_number% for customer Uimap.
-     *
-     * PreConditions: Customer is opened on 'Addresses' tab.
-     */
-    public function addAddressNumber()
-    {
-        $page = $this->getCurrentUimapPage();
-        $fieldSet = $page->findFieldset('list_customer_addresses');
-        $xpath = $fieldSet->getXPath();
-        $addressCount = $this->getXpathCount($xpath . '//li') + 1;
-        $this->addParameter('address_number', $addressCount);
-    }
-
-    /**
-     * Add address for customer.
-     *
-     * PreConditions: Customer is opened.
-     * @param array $addressData
-     */
-    public function addAdress(array $addressData)
-    {
-        //Open 'Addresses' tab
-        $this->clickControl('tab', 'addresses', FALSE);
-        $this->addAddressNumber();
-        $this->clickButton('add_new_address', FALSE);
-        //Fill in 'Customer's Address' tab
-        $this->fillForm($addressData, 'addresses');
-    }
-
-    /**
-     * Create customer.
-     *
-     * PreConditions: 'Manage Customers' page is opened.
-     * @param array $userData
-     * @param array $addressData
-     */
-    public function createCustomer(array $userData, array $addressData = NULL)
-    {
-        //Click 'Add New Customer' button.
-        $this->clickButton('add_new_customer');
-        // Verify that 'send_from' field is present
-        if (array_key_exists('send_from', $userData)) {
-            $page = $this->getCurrentUimapPage();
-            $tab = $page->findTab('account_information');
-            $xpath = $tab->findDropdown('send_from');
-            if (!$this->isElementPresent($xpath)) {
-                unset($userData['send_from']);
-            }
-        }
-        //Fill in 'Account Information' tab
-        $this->fillForm($userData, 'account_information');
-        //Add address
-        if (isset($addressData)) {
-            $this->addAdress($addressData);
-        }
-        $this->saveForm('save_customer');
-    }
-
-    /**
-     * Open customer.
-     *
-     * PreConditions: 'Manage Customers' page is opened
-     * @param array $searchData
-     */
-    public function openCustomer(array $searchData)
-    {
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
     }
 
 }
