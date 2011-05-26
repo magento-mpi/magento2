@@ -255,6 +255,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         $order = $payment->getOrder();
 
         if ($payment->getAdditionalInformation($this->_isOrderPaymentActionKey)) {
+            $voided = false;
             if (!$authorizationTransaction->getIsClosed()) {
                 $transactionDate = new DateTime($authorizationTransaction->getCreatedAt());
                 $dateCompass = new DateTime('-' . $authorizationPeriod . ' days');
@@ -276,36 +277,38 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
                     //Revert payment state after voiding
                     $payment->unsAuthorizationTransaction();
                     $payment->setShouldCloseParentTransaction($isCaptureFinal);
-
+                    $voided = true;
                 }
             }
 
-            $api = $this->_callDoAuthorize(
-                $order->getBaseGrandTotal() - $order->getBaseTotalInvoiced(),
-                $payment,
-                $authorizationTransaction->getParentTxnId()
-            );
+            if (!$authorizationTransaction || $voided) {
+                $api = $this->_callDoAuthorize(
+                    $order->getBaseGrandTotal() - $order->getBaseTotalInvoiced(),
+                    $payment,
+                    $authorizationTransaction->getParentTxnId()
+                );
 
-            //Adding authorization transaction
-            $this->_pro->importPaymentInfo($api, $payment);
-            $payment->setTransactionId($api->getTransactionId());
-            $payment->setParentTransactionId($authorizationTransaction->getParentTxnId());
-            $payment->setIsTransactionClosed(false);
+                //Adding authorization transaction
+                $this->_pro->importPaymentInfo($api, $payment);
+                $payment->setTransactionId($api->getTransactionId());
+                $payment->setParentTransactionId($authorizationTransaction->getParentTxnId());
+                $payment->setIsTransactionClosed(false);
 
-            $formatedPrice = $order->getBaseCurrency()->
-                formatTxt($order->getBaseGrandTotal() - $order->getBaseTotalInvoiced());
+                $formatedPrice = $order->getBaseCurrency()->
+                    formatTxt($order->getBaseGrandTotal() - $order->getBaseTotalInvoiced());
 
-            if ($payment->getIsTransactionPending()) {
-                $message = Mage::helper('paypal')->__('Authorizing amount of %s is pending approval on gateway.', $formatedPrice);
-            } else {
-                $message = Mage::helper('paypal')->__('Authorized amount of %s.', $formatedPrice);
+                if ($payment->getIsTransactionPending()) {
+                    $message = Mage::helper('paypal')->__('Authorizing amount of %s is pending approval on gateway.', $formatedPrice);
+                } else {
+                    $message = Mage::helper('paypal')->__('Authorized amount of %s.', $formatedPrice);
+                }
+
+                $transaction = $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH, null,
+                    false, $message
+                );
+
+                $payment->setParentTransactionId($api->getTransactionId());
             }
-
-            $transaction = $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH, null,
-                false, $message
-            );
-
-             $payment->setParentTransactionId($api->getTransactionId());
         }
 
         if (false === $this->_pro->capture($payment, $amount)) {
