@@ -141,6 +141,7 @@ new_product_attribute:
       empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
       invalid_attribute_code: //div[@id='advice-validate-code-attribute_code']
       error_invalid_position: //div[@id='advice-validate-digits-position']
+      wrong_length_attribute_code: //div[@id='advice-validate-length-attribute_code']
 
 # Manage Product Attributes page
 edit_product_attribute:

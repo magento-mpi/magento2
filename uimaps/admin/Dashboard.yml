@@ -26,10 +26,9 @@
 #
 ---
 dashboard:
-  mca: dashboard
-  title: "Dashboard / Magento Admin"
-  uimap:
-    form:
-    buttons:
-    messages:
-
+    mca: dashboard
+    title: "Dashboard / Magento Admin"
+    uimap:
+        form:
+        buttons:
+        messages:

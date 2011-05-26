@@ -24,82 +24,101 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-frontend_navigation:
-  guest:
+frontend_navigation_as_guest:
     -
-      login:
-        url: customer/account/login/
-        title: Customer Login
+        login:
+            mca: customer/account/login/
+            title: Customer Login
+            xpath:
     -
-      register:
-        url: customer/account/create/
-        title: Create New Customer Account
+        register:
+            mca: customer/account/create/
+            title: Create New Customer Account
+            xpath:
     -
-      about_us:
-        url: about-magento-demo-store/
-        title: About  Us
+        about_us:
+            mca: about-magento-demo-store/
+            title: About  Us
+            xpath:
     -
-      customer_service:
-        url: customer-service/
-        title: 	Customer Service
+        customer_service:
+            mca: customer-service/
+            title: Customer Service
+            xpath:
     -
-      search_terms:
-        url: term/popular/
-        title: 	Magento Commerce
+        search_terms:
+            mca: term/popular/
+            title: Magento Commerce
+            xpath:
     -
-      advanced_search:
-        url: catalogsearch/advanced/
-        title: Catalog Advanced Search
+        advanced_search:
+            mca: catalogsearch/advanced/
+            title: Catalog Advanced Search
+            xpath:
     -
-      contact_us:
-        url: contacts/
-        title: Magento Commerce
+        contact_us:
+            mca: contacts/
+            title: Magento Commerce
+            xpath:
     -
-      checkout:
-        url: checkout/cart/
-        title: Shopping Cart
-  logged_in_customer:
+        checkout:
+            mca: checkout/cart/
+            title: Shopping Cart
+            xpath:
+
+frontend_navigation_as_logged_in_customer:
     -
-      my_account:
-        url: customer/account/
-        title: My Account
+        my_account:
+            mca: customer/account/
+            title: My Account
+            xpath:
     -
-      account_info:
-        url: customer/account/edit/
-        title: 	Account Information
+        account_info:
+            mca: customer/account/edit/
+            title: Account Information
+            xpath:
     -
-      address_book:
-        url: customer/address/new/
-        title: Add New Address
+        address_book:
+            mca: customer/address/new/
+            title: Add New Address
+            xpath:
     -
-      orders:
-        url: sales/order/history/
-        title: My Orders
+        orders:
+            mca: sales/order/history/
+            title: My Orders
+            xpath:
     -
-      billing_agreements:
-        url: sales/billing_agreement/
-        title: Billing Agreements / Magento Commerce
+        billing_agreements:
+            mca: sales/billing_agreement/
+            title: Billing Agreements / Magento Commerce
+            xpath:
     -
-      recurring_profiles:
-        url: sales/recurring_profile/
-        title: Recurring Profiles / Magento Commerce
+        recurring_profiles:
+            mca: sales/recurring_profile/
+            title: Recurring Profiles / Magento Commerce
+            xpath:
     -
-      product_reviews:
-        url: review/customer/
-        title: 	My Product Reviews
+        product_reviews:
+            mca: review/customer/
+            title: My Product Reviews
+            xpath:
     -
-      tags:
-        url: tag/customer/
-        title: My Tags
+        tags:
+            mca: tag/customer/
+            title: My Tags
+            xpath:
     -
-      wishlist:
-        url: wishlist/
-        title: My Wishlist
+        wishlist:
+            mca: wishlist/
+            title: My Wishlist
+            xpath:
     -
-      downloadable_products:
-        url: downloadable/customer/products/
-        title: 	My Downloadable Products
+        downloadable_products:
+            mca: downloadable/customer/products/
+            title: My Downloadable Products
+            xpath:
     -
-      newsletter_subscriptions:
-        url: newsletter/manage/
-        title: Newsletter Subscription
+        newsletter_subscriptions:
+            mca: newsletter/manage/
+            title: Newsletter Subscription
+            xpath:
