@@ -1021,17 +1021,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             $xpathTR .=']';
 
-            if ($totalCount <= 20) {
-                if (!$this->isElementPresent($xpathTR)) {
-                    return false;
-                }
-            } else {
+            if (!$this->isElementPresent($xpathTR)) {
                 // Fill in search form and click 'Search' button
                 $this->fillForm($data);
-                $this->clickButton('search', FALSE);
-                $this->waitForElement($xpath_pager);
+                $this->clickButton('search', TRUE);
             }
-
+            
             if ($this->isElementPresent($xpathTR)) {
                 // ID definition
                 $item_id = 0;
@@ -1501,19 +1496,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $resultFlag = true;
         foreach ($data as $d_key => $d_val) {
-            // skip some fields
-            if ($skipElements) {
-                $skipFlag = false;
-                foreach ($skipElements as $skip) {
-                    if (preg_match('|' . $skip . '|', $d_key)) {
-                        $skipFlag = true;
-                        break;
-                    }
-                }
 
-                if ($skipFlag) {
-                    continue;
-                }
+            if (in_array($d_key, $skipElements) || $d_val = '%noValue%') {
+                continue;
             }
 
             foreach ($fieldsets as $fieldsetName => $fieldset) {

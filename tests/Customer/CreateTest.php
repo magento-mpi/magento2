@@ -280,6 +280,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
                 'After successful customer creation should be redirected to Manage Customers page');
         //Steps
         $this->CustomerHelper()->openCustomer($searchData);
+        $this->addParameter('id', '');
         $this->clickControl('tab', 'account_information', FALSE);
         //Verifying
         $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->messages);
@@ -324,7 +325,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
             array(array('email' => 'test@invalidDomain')),
             array(array('email' => 'te@st@magento.com'))
         );
-    }
+}
 
     /**
      * Create customer. Use a value for 'Password' field the length of which less than 6 characters.

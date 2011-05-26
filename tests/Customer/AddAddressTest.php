@@ -502,7 +502,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase {
         foreach ($keys_to_remove as $key_name) {
             unset($data[$key_name]);
         }
-        print_r($data);
+
         if (count($data) > 0) {
             // Forming xpath for string that contains the lookup data
             $xpathTR = "//table[contains(@id, 'Grid_table')]//tr[";
