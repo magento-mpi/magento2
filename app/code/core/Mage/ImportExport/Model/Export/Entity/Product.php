@@ -487,7 +487,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         $stockItemRows = $this->_prepareCatalogInventory($productIds);
 
         // prepare links information
-        $this->_prepareLinks($productIds);
+        $linksRows = $this->_prepareLinks($productIds);
         $linkIdColPrefix = array(
             Mage_Catalog_Model_Product_Link::LINK_TYPE_RELATED   => '_links_related_',
             Mage_Catalog_Model_Product_Link::LINK_TYPE_UPSELL    => '_links_upsell_',
