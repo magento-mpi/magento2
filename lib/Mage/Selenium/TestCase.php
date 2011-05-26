@@ -96,7 +96,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var string
      */
-    protected $_area = '';
+    protected static $_area = 'frontend';
 
     /**
      * Current page
@@ -273,7 +273,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_browserTimeoutPeriod = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
 
         parent::__construct($name, $data, $dataName, $browser);
-        $this->setArea('frontend');
     }
 
     /**
@@ -316,10 +315,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             } else {
                 return false;
             }
-        }
-
-        if ($this->_testHelpers[$helperClassName] instanceof Mage_Selenium_TestCase) {
-            $this->_testHelpers[$helperClassName]->setArea($this->getArea());
         }
 
         return $this->_testHelpers[$helperClassName];
@@ -607,7 +602,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getArea()
     {
-        return $this->_area;
+        return self::$_area; //$this->_area;
     }
 
     /**
@@ -618,7 +613,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function setArea($area)
     {
-        $this->_area = $area;
+        self::$_area = $area;
+        //$this->_area = $area;
         $this->_applicationHelper->setArea($area);
         return $this;
     }
