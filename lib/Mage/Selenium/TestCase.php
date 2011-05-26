@@ -932,6 +932,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         if ($this->waitForElement($fieldData['path'], 5)) {
             $this->select($fieldData['path'], 'regexp:' . preg_quote($fieldData['value']));
+            $this->waitForAjax();
         } else {
             throw new PHPUnit_Framework_Exception("Can't find dropdown: {$fieldData['path']}");
         }
@@ -1001,6 +1002,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         if (count($data) > 0) {
+            //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
+            $totalCount = intval($this->getText("//td[@class='pager']//span[contains(@id, 'Grid-total-count')]"));
+            $xpath_pager = "//td[@class='pager']//span[contains(@id, 'Grid-total-count') and not(contains(.,'" . $totalCount . "'))]";
+
             // Forming xpath for string that contains the lookup data
             $xpathTR = "//table[contains(@id, 'Grid_table')]//tr[";
             $i = 1;
@@ -1016,10 +1021,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             $xpathTR .=']';
 
-            // Fill in search form and click 'Search' button
-            $this->fillForm($data);
-            $this->clickButton('search', FALSE);
-            $this->waitForAjax();
+            if ($totalCount <= 20) {
+                if (!$this->isElementPresent($xpathTR)) {
+                    return false;
+                }
+            } else {
+                // Fill in search form and click 'Search' button
+                $this->fillForm($data);
+                $this->clickButton('search', FALSE);
+                $this->waitForElement($xpath_pager);
+            }
 
             if ($this->isElementPresent($xpathTR)) {
                 // ID definition
