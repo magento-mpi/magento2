@@ -28,13 +28,11 @@
 #Test data for Store
 
 generic_store:
-  website       : Main Website
-  store_name    : Test Store
-  root_category : Default Category
+    website: Main Website
+    store_name: Test Store
+    root_category: Default Category
 
-# @TODO
-#edit_store:
-#  store_name:
-#  root_category:
-#  default_store_view:
-
+edit_store:
+    store_name: Test Store 1
+    root_category: Default Category
+    default_store_view: Default Store View

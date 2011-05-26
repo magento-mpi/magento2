@@ -28,24 +28,28 @@
 #Test data for Admin User and Admin Role
 
 generic_admin_role:
-  role_name: TestRole
-  role_scopes: All
-  resource_access: All
+#role_info:
+    role_name: TestRole
+#role_resources:
+    role_scopes: All
+    resource_access: All
 
 generic_admin_user:
-  user_name: testuser
-  first_name: John
-  last_name: Doe
-  email: johndoe@magento.com
-  password: 123123q
-  password_confirmation: 123123q
-  this_acount_is: Active
-  role_name: Administrators
+#user_info:
+    user_name: testuser
+    first_name: John
+    last_name: Doe
+    email: johndoe@magento.com
+    password: 123123q
+    password_confirmation: 123123q
+    this_acount_is: %noValue%
+#user_role:
+    role_name: Administrators
 
 search_admin_user:
-  id:
-  user_name: testuser
-  first_name: John
-  last_name: Doe
-  email: johndoe@magento.com
-  status: Active
+    id: %noValue%
+    user_name: testuser
+    first_name: John
+    last_name: Doe
+    email: johndoe@magento.com
+    status: %noValue%

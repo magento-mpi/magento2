@@ -69,7 +69,7 @@ all_fields_customer_account:
     auto_generated_password: No
 
 #Test data for Customer Addresses
-generic_address_with_state:
+generic_address:
     prefix: %noValue%
     first_name: First Name
     middle_name: %noValue%
@@ -81,31 +81,14 @@ generic_address_with_state:
     city: Culver City
     country: United States
     state: California
+    region: %noValue%
     zip_code: 90232
     telephone: 530-918-3581
     fax: %noValue%
     default_billing_address: %noValue%
     default_shipping_address: %noValue%
 
-generic_address_with_region:
-    prefix: %noValue%
-    first_name: First Name
-    middle_name: %noValue%
-    last_name: Last Name
-    suffix: %noValue%
-    company: %noValue%
-    street_address_line_1: Lomonosova str.
-    street_address_line_2: Suite 81
-    city: Kiev
-    country: Ukraine
-    region: Kievskaya
-    zip_code: 03022
-    telephone: (044)-421-57-89
-    fax: %noValue%
-    default_billing_address: %noValue%
-    default_shipping_address: %noValue%
-
-all_fields_address_with_state:
+all_fields_address:
     prefix: Prefix
     first_name: First Name
     middle_name: Middle Name
@@ -117,29 +100,12 @@ all_fields_address_with_state:
     city: Culver City
     country: United States
     state: California
+    region: %noValue%
     zip_code: 90232
     telephone: 530-918-3581
     fax: 530-918-3581
-    default_billing_address: No
-    default_shipping_address: No
-
-all_fields_address_with_region:
-    prefix: Prefix
-    first_name: First Name
-    middle_name: Middle Name
-    last_name: Last Name
-    suffix: Suffix
-    company: Magento
-    street_address_line_1: Lomonosova str.
-    street_address_line_2: Suite 81
-    city: Kiev
-    country: Ukraine
-    region: Kievskaya
-    zip_code: 03022
-    telephone: (044)-421-57-89
-    fax: (044)-421-57-59
-    default_billing_address: No
-    default_shipping_address: No
+    default_billing_address: Yes
+    default_shipping_address: Yes
 
 search_customer:
     id_from: %noValue%

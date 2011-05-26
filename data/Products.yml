@@ -29,30 +29,30 @@
 
 # Test Dataset for Add New Simple Product based on Default attribute set
 product_create_settings_simple:
-  attribute_set: Default
-  product_type: Simple Product
+    attribute_set: Default
+    product_type: Simple Product
 
 # Test Dataset for Add New Grouped Product based on Default attribute set
 product_create_settings_grouped:
-  attribute_set: Default
-  product_type: Grouped Product
+    attribute_set: Default
+    product_type: Grouped Product
 
 # Test Dataset for Add New Configurable Product based on Default attribute set
 product_create_settings_configurable:
-  attribute_set: Default
-  product_type: Configurable Product
+    attribute_set: Default
+    product_type: Configurable Product
 
 # Test Dataset for Add New Virtual Product based on Default attribute set
 product_create_settings_virtual:
-  attribute_set: Default
-  product_type: Virtual Product
+    attribute_set: Default
+    product_type: Virtual Product
 
 # Test Dataset for Add New Bundle Product based on Default attribute set
 product_create_settings_bundle:
-  attribute_set: Default
-  product_type: Bundle Product
+    attribute_set: Default
+    product_type: Bundle Product
 
 # Test Dataset for Add New downloadable Product based on Default attribute set
 product_create_settings_downloadable:
-  attribute_set: Default
-  product_type: Downloadable Product
+    attribute_set: Default
+    product_type: Downloadable Product

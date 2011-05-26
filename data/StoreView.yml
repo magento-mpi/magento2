@@ -28,14 +28,15 @@
 #Test data for Store View
 
 generic_store_view:
-  store_name: Main Website Store
-  store_view_name: Test Store View Name
-  store_view_code: test_store_view_code
-  store_view_status: Enabled
+    store_name: Main Website Store
+    store_view_name: Test Store View Name
+    store_view_code: test_store_view_code
+    store_view_status: Enabled
+    store_view_sort_order: %noValue%
 
 all_fields_store_view:
-  store_name: Main Website Store
-  store_view_name: Test Store View Name 2
-  store_view_code: test_store_view_code_2
-  store_view_status: Enabled
-  store_view_sort_order: 1
+    store_name: Main Website Store
+    store_view_name: Test Store View Name 2
+    store_view_code: test_store_view_code_2
+    store_view_status: Enabled
+    store_view_sort_order: 1

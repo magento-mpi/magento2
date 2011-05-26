@@ -28,18 +28,18 @@
 #Test data for Website
 
 generic_website:
-  website_name: Test Website
-  website_code: test_website_code
+    website_name: Test Website
+    website_code: test_website_code
+    website_sort_order: %noValue%
 
 all_fields_website:
-  website_name: Test Website 2
-  website_code: test_website_code_2
-  website_sort_order: 10
+    website_name: Test Website 2
+    website_code: test_website_code_2
+    website_sort_order: 10
 
-# @TODO
-#edit_website:
-#  website_name:
-#  website_code:
-#  website_sort_order:
-#  default_store:
-#  set_default:
+edit_website:
+    website_name: Main Website
+    website_code: base
+    website_sort_order: 1
+    default_store: Main Website Store
+    set_default: Yes
