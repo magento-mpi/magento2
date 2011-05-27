@@ -35,13 +35,16 @@
 class Mage_Adminhtml_Block_Widget_Grid_Container extends Mage_Adminhtml_Block_Widget_Container
 {
 
-    protected $_addButtonLabel = 'Add New';
-    protected $_backButtonLabel = 'Back';
+    protected $_addButtonLabel;
+    protected $_backButtonLabel;
     protected $_blockGroup = 'adminhtml';
 
     public function __construct()
     {
         parent::__construct();
+
+        $this->_addButtonLabel = $this->__('Add New');
+        $this->_backButtonLabel = $this->__('Back');
 
         $this->setTemplate('widget/grid/container.phtml');
 
