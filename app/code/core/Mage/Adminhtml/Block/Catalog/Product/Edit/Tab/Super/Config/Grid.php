@@ -105,11 +105,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     protected function _prepareCollection()
     {
         $allowProductTypes = array();
-        foreach (
-            Mage::getConfig()
-                ->getNode('global/catalog/product/type/configurable/allow_product_types')
-                ->children() as $type
-        ) {
+        foreach (Mage::helper('catalog/product_configuration')->getConfigurableAllowedTypes() as $type) {
             $allowProductTypes[] = $type->getName();
         }
 
