@@ -54,7 +54,7 @@ class Customer_Helper extends Mage_Selenium_TestCase
         $fieldSet = $page->findFieldset('list_customer_addresses');
         $xpath = $fieldSet->getXPath() . '//li';
         $addressCount = $this->getXpathCount($xpath);
-        for ($i = 1; $i <= $addressCount; $i++) {
+        for ($i = $addressCount; $i > 0; $i--) {
             $this->click($xpath . "[$i]");
             $id = $this->getValue($xpath . "[$i]/@id");
             $arrayId = explode('_', $id);
@@ -114,7 +114,8 @@ class Customer_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('send_from', $userData)) {
             $page = $this->getCurrentUimapPage();
             $tab = $page->findTab('account_information');
-            $xpath = $tab->findDropdown('send_from');
+            $pattern = preg_quote(' and not(@disabled)');
+            $xpath = preg_replace("/$pattern/", '', $tab->findDropdown('send_from'));
             if (!$this->isElementPresent($xpath)) {
                 unset($userData['send_from']);
             }

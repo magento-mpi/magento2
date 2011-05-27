@@ -55,7 +55,7 @@ manage_customers:
                         links:
                             open_customer_by_value:
         buttons:
-            add_new_customer: //button[span='Add New Customer']
+            add_new_customer: //button[span='Add New Customer' or span='Add New']
         messages:
             success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been saved.')]
             success_deleted_customer: //li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been deleted.')]

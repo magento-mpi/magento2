@@ -36,20 +36,23 @@
  */
 class Customer_CreateTest extends Mage_Selenium_TestCase
 {
+    /**
+     * Log in to Backend.
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
 
     /**
      * Preconditions:
-     *
-     * Log in to Backend.
-     *
      * Navigate to System -> Manage Customers
      */
     protected function assertPreConditions()
     {
-        $this->loginAdminUser();
-        $this->assertTrue($this->checkCurrentPage('dashboard'), 'Wrong page is opened');
         $this->navigate('manage_customers');
         $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
     }
 
     /**
@@ -280,7 +283,6 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
                 'After successful customer creation should be redirected to Manage Customers page');
         //Steps
         $this->CustomerHelper()->openCustomer($searchData);
-        $this->addParameter('id', '');
         $this->clickControl('tab', 'account_information', FALSE);
         //Verifying
         $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->messages);
@@ -325,7 +327,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
             array(array('email' => 'test@invalidDomain')),
             array(array('email' => 'te@st@magento.com'))
         );
-}
+    }
 
     /**
      * Create customer. Use a value for 'Password' field the length of which less than 6 characters.
@@ -432,9 +434,9 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('all_fields_customer_account',
                         array('email' => $this->generate('email', 20, 'valid')));
-        $addressData = $this->loadData('all_fields_address_with_state');
+        $addressData = $this->loadData('all_fields_address');
         //Steps
-        $this->CustomerHelper()->createCustomer($userData);
+        $this->CustomerHelper()->createCustomer($userData, $addressData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),

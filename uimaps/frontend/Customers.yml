@@ -99,20 +99,29 @@ customer_account:
                 -
                     account_information:
                         xpath: //a[text()='Account Information']
-                        fieldsets:
-                            -
-                                account_info:
-                                    xpath: //form[@id='form-validate']
-                                    buttons:
-                                        save: //button[span='Save']
-                                    checkboxes:
-                                        change_password: //input[@id='change_password']
-                                    fields:
-                                        first_name: //input[@id='firstname']
-                                        last_name:  //input[@id='lastname']
-                                        email: //input[@id='email']
-                                        current_password: //input[@id='current_password']
-                                        new_password: //input[@id='password']
-                                        confirm_new_password: //input[@id='confirmation']
         messages:
             success_registration: //li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering with')]
+            success_saved: //li[normalize-space(@class)='success-msg' and contains(.//span,'The account information has been saved.')]
+
+edit_account_info:
+    mca: customer/account/edit/
+    title: Account Information
+    uimap:
+        form:
+            fieldsets:
+                -
+                    account_info:
+                        xpath: //form[@id='form-validate']
+                        buttons:
+                            save: //button[span='Save']
+                        checkboxes:
+                            change_password: //input[@id='change_password']
+                        fields:
+                            first_name: //input[@id='firstname']
+                            last_name:  //input[@id='lastname']
+                            email: //input[@id='email']
+                            current_password: //input[@id='current_password']
+                            new_password: //input[@id='password']
+                            confirm_new_password: //input[@id='confirmation']
+        messages:
+            empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
