@@ -548,6 +548,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Return click xpath of a specified page
+     *
+     * @param string $page Page identifier
+     * @return string
+     */
+    public function getPageClickXpath($page)
+    {
+        return $this->_pageHelper->getPageClickXpath($page);
+    }
+
+    /**
      * Return ID of current page
      *
      * @return string
@@ -1004,7 +1015,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (count($data) > 0) {
             //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
             $totalCount = intval($this->getText("//td[@class='pager']//span[contains(@id, 'Grid-total-count')]"));
-            $xpath_pager = "//td[@class='pager']//span[contains(@id, 'Grid-total-count') and not(contains(.,'" . $totalCount . "'))]";
+            $xpathPager = "//td[@class='pager']//span[contains(@id, 'Grid-total-count') and not(contains(.,'" . $totalCount . "'))]";
 
             // Forming xpath for string that contains the lookup data
             $xpathTR = "//table[contains(@id, 'Grid_table')]//tr[";
@@ -1021,10 +1032,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             $xpathTR .=']';
 
-            if (!$this->isElementPresent($xpathTR)) {
+            if (!$this->isElementPresent($xpathTR) && $totalCount > 0) {
                 // Fill in search form and click 'Search' button
                 $this->fillForm($data);
-                $this->clickButton('search', TRUE);
+                $this->clickButton('search', FALSE);
+                $this->waitForElement($xpathPager);
+            } else if ($totalCount == 0) {
+                return false;
             }
             
             if ($this->isElementPresent($xpathTR)) {
@@ -1497,7 +1511,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $resultFlag = true;
         foreach ($data as $d_key => $d_val) {
 
-            if (in_array($d_key, $skipElements) || $d_val = '%noValue%') {
+            if (in_array($d_key, $skipElements) || $d_val == '%noValue%') {
                 continue;
             }
 
