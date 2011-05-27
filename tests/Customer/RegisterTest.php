@@ -44,6 +44,8 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
+        $this->navigate('customer_login');
+        $this->assertTrue($this->checkCurrentPage('customer_login'), 'Wrong page is opened');
     }
 
     /**
@@ -71,10 +73,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $userData = $this->loadData('customer_account_register',
                         array('email' => $this->generate('email', 20, 'valid')));
         //Steps
-        $this->navigate('customer_login');
-        $this->clickButton('create_account');
-        $this->fillForm($userData);
-        $this->saveForm('submit');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_registration'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('customer_account'),
@@ -109,10 +108,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     public function test_WithEmailThatAlreadyExists(array $userData)
     {
         //Steps
-        $this->navigate('customer_login');
-        $this->clickButton('create_account');
-        $this->fillForm($userData);
-        $this->saveForm('submit');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertTrue($this->errorMessage('email_exists'), $this->messages);
     }
@@ -145,18 +141,15 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $userData = $this->loadData(
                         'customer_account_register',
                         array(
-                            'first_name' => $this->generate('string', 255, ':alnum:'),
-                            'last_name' => $this->generate('string', 255, ':alnum:'),
-                            'email' => $this->generate('email', 128, 'valid'),
-                            'password' => $password,
-                            'password_confirmation' => $password,
+                    'first_name' => $this->generate('string', 255, ':alnum:'),
+                    'last_name' => $this->generate('string', 255, ':alnum:'),
+                    'email' => $this->generate('email', 128, 'valid'),
+                    'password' => $password,
+                    'password_confirmation' => $password,
                         )
         );
         //Steps
-        $this->navigate('customer_login');
-        $this->clickButton('create_account');
-        $this->fillForm($userData);
-        $this->saveForm('submit');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_registration'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('customer_account'),
@@ -164,15 +157,8 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Steps
         $this->clickControl('tab', 'account_information');
         //Verifying
-        $page = $this->getUimapPage('frontend', 'customer_account');
-        $tab = $page->findTab('account_information');
-        foreach ($userData as $key => $value) {
-            if ($key == 'first_name' or $key == 'last_name' or $key == 'email') {
-                $xpath = $tab->findField($key);
-                $this->assertEquals($value, $this->getValue($xpath),
-                        "The stored value for '$key' field is not equal to specified");
-            }
-        }
+        $this->assertTrue($this->verifyForm($userData, NULL,
+                        array('password', 'password_confirmation')), $this->messages);
     }
 
     /**
@@ -202,10 +188,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('customer_account_register', $field);
         //Steps
-        $this->navigate('customer_login');
-        $this->clickButton('create_account');
-        $this->fillForm($userData);
-        $this->saveForm('submit');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $page = $this->getCurrentLocationUimapPage();
         $fieldset = $page->findFieldset('account_info');
@@ -220,11 +203,11 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     public function data_EmptyField()
     {
         return array(
-            array(array('first_name' => ''), 1),
-            array(array('last_name' => ''), 1),
-            array(array('email' => ''), 1),
-            array(array('password' => ''), 2),
-            array(array('password_confirmation' => ''), 1),
+            array(array('first_name' => '%noValue%'), 1),
+            array(array('last_name' => '%noValue%'), 1),
+            array(array('email' => '%noValue%'), 1),
+            array(array('password' => '%noValue%'), 2),
+            array(array('password_confirmation' => '%noValue%'), 1),
         );
     }
 
@@ -256,17 +239,15 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $userData = $this->loadData(
                         'customer_account_register',
                         array(
-                            'first_name' => $this->generate('string', 25, ':punct:'),
-                            'last_name' => $this->generate('string', 25, ':punct:'),
-                            'email' => $this->generate('email', 20, 'valid'),
-                            'password' => $password,
+                            'first_name'            => $this->generate('string', 25, ':punct:'),
+                            'last_name'             => $this->generate('string', 25, ':punct:'),
+                            'email'                 => $this->generate('email', 20, 'valid'),
+                            'password'              => $password,
                             'password_confirmation' => $password,
-                ));
+                        )
+        );
         //Steps
-        $this->navigate('customer_login');
-        $this->clickButton('create_account');
-        $this->fillForm($userData);
-        $this->saveForm('submit');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_registration'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('customer_account'),
@@ -301,10 +282,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('customer_account_register', $longValue);
         //Steps
-        $this->navigate('customer_login');
-        $this->clickButton('create_account');
-        $this->fillForm($userData);
-        $this->saveForm('submit');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
         foreach ($longValue as $key => $value) {
             $fieldName = $key;
@@ -350,10 +328,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('customer_account_register', $invalidEmail);
         //Steps
-        $this->navigate('customer_login');
-        $this->clickButton('create_account');
-        $this->fillForm($userData);
-        $this->saveForm('submit');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertTrue($this->errorMessage('invalid_mail'), $this->messages);
     }
@@ -396,10 +371,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('customer_account_register', $invalidPassword);
         //Steps
-        $this->navigate('customer_login');
-        $this->clickButton('create_account');
-        $this->fillForm($userData);
-        $this->saveForm('submit');
+        $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertTrue($this->errorMessage($errorMessage), $this->messages);
     }

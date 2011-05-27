@@ -142,4 +142,17 @@ class Customer_Helper extends Mage_Selenium_TestCase
         $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
     }
 
+    /**
+     * Register Customer on Frontend.
+     *
+     * PreConditions: 'Login or Create an Account' page is opened.
+     * @param array $registerData
+     */
+    public function registerCustomer(array $registerData)
+    {
+        $this->clickButton('create_account');
+        $this->fillForm($registerData);
+        $this->saveForm('submit');
+    }
+
 }
