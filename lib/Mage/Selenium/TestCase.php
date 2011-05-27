@@ -498,7 +498,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function navigate($page)
     {
         try {
-            $this->open($this->getPageUrl($page));
+            $clickXpath = $this->getPageClickXpath($page);
+
+            if ($clickXpath && $this->isElementPresent($clickXpath)) {
+                $this->click($clickXpath);
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            } else {
+                $this->open($this->getPageUrl($page));
+            }
+
             $this->_pageHelper->validateCurrentPage();
             $this->_currentPage = $page;
         } catch (PHPUnit_Framework_Exception $e) {
@@ -603,7 +611,25 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\");
         }
 
-        return $mca;
+        if (self::$_area != 'admin') {
+            return $mca;
+        }
+
+        $mcaArray = explode('/', $mca);
+
+        //Delete secret key from url
+        if (in_array('key', $mcaArray)) {
+            $key = array_search('key', $mcaArray);
+            unset($mcaArray[$key]);
+            unset($mcaArray[$key + 1]);
+        }
+
+        //Delete action part of mca if it's index
+        if (end($mcaArray) == 'index') {
+            unset($mcaArray[count($mcaArray) - 1]);
+        }
+
+        return implode('/', $mcaArray);
     }
 
     /**
@@ -613,7 +639,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getArea()
     {
-        return self::$_area; //$this->_area;
+        return self::$_area;
     }
 
     /**
@@ -625,7 +651,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function setArea($area)
     {
         self::$_area = $area;
-        //$this->_area = $area;
         $this->_applicationHelper->setArea($area);
         return $this;
     }

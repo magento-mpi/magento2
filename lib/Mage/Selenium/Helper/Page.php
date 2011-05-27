@@ -107,6 +107,27 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * Return xpath which we need to click to open page
+     *
+     * @param string $page Page identifier
+     * @return string
+     */
+    public function getPageClickXpath($page)
+    {
+        if (!$this->_applicationHelper) {
+            throw new Mage_Selenium_Exception("ApplicationHelper hasn't inited yet");
+        }
+
+        $pageData = $this->_config->getUimapHelper()->getUimapPage($this->_applicationHelper->getArea(), $page);
+
+        if (empty($pageData)) {
+            throw new Mage_Selenium_Exception('Page data is not defined');
+        }
+
+        return $pageData->getClickXpath();
+    }
+
+    /**
      * Convert page MCA to page ID
      *
      * @param string page mca

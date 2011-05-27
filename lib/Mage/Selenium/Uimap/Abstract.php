@@ -88,20 +88,15 @@ class Mage_Selenium_Uimap_Abstract
      */
     protected function parseContainerArray(array &$container)
     {
-        foreach($container as $formElemKey=>&$formElemValue) {
-            if(!empty($formElemValue)) {
+        foreach ($container as $formElemKey => &$formElemValue) {
+            if (!empty($formElemValue)) {
                 $newElement = Mage_Selenium_Uimap_Factory::createUimapElement($formElemKey, $formElemValue);
-                if(!empty($newElement)) {
-                    if(!isset($this->_elements[$formElemKey])) {
+                if (!empty($newElement)) {
+                    if (!isset($this->_elements[$formElemKey])) {
                         $this->_elements[$formElemKey] = $newElement;
                     } else {
                         if($this->_elements[$formElemKey] instanceof ArrayObject) {
-                            $this->_elements[$formElemKey].append($newElement);
-                        } else {
-                            //var_dump($formElemKey);
-                            //var_dump($formElemValue);
-                            // @TODO Some reaction?
-                            //die;
+                            $this->_elements[$formElemKey]->append($newElement);
                         }
                     }
                 }
@@ -122,13 +117,13 @@ class Mage_Selenium_Uimap_Abstract
         $this->_params = $params;
         $this->_elements_cache = null;
 
-        foreach($this->_elements as $elem) {
+        foreach ($this->_elements as $elem) {
             if ($elem instanceof Mage_Selenium_Uimap_Abstract ||
                 $elem instanceof Mage_Selenium_Uimap_ElementsCollection
             ) {
                 $elem->assignParams($params);
             } else if ($elem instanceof ArrayObject) {
-                foreach($elem as $arr_elem) {
+                foreach ($elem as $arr_elem) {
                     if ($arr_elem instanceof Mage_Selenium_Uimap_Abstract) {
                         $arr_elem->assignParams($params);
                     }
@@ -163,7 +158,7 @@ class Mage_Selenium_Uimap_Abstract
     protected function applyParamsToString($text, $paramsDecorator = null)
     {
         $paramsDecorator = $this->getParams($paramsDecorator);
-        if($paramsDecorator) {
+        if ($paramsDecorator) {
             return $paramsDecorator->replaceParameters($text);
         }
         return $text;
@@ -182,14 +177,20 @@ class Mage_Selenium_Uimap_Abstract
     {
         foreach ($container as $elKey => $elValue) {
             if ($elValue instanceof ArrayObject) {
-                if (($elementsCollectionName == 'tabs' && $elementsCollectionName == $elKey && $elValue instanceof Mage_Selenium_Uimap_TabsCollection) ||
-                    ($elementsCollectionName == 'fieldsets' && $elementsCollectionName == $elKey && $elValue instanceof Mage_Selenium_Uimap_FieldsetsCollection) ||
-                    $elKey == $elementsCollectionName && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection) {
+                if (($elementsCollectionName == 'tabs'
+                        && $elementsCollectionName == $elKey
+                        && $elValue instanceof Mage_Selenium_Uimap_TabsCollection)
+                    || ($elementsCollectionName == 'fieldsets'
+                        && $elementsCollectionName == $elKey
+                        && $elValue instanceof Mage_Selenium_Uimap_FieldsetsCollection)
+                    || $elKey == $elementsCollectionName
+                    && $elValue instanceof Mage_Selenium_Uimap_ElementsCollection
+                ) {
                     $cache = array_merge($cache, $elValue->getArrayCopy());
                 } else {
                     $this->__getElementsRecursive($elementsCollectionName, $elValue, $cache, $paramsDecorator);
                 }
-            } elseif($elValue instanceof Mage_Selenium_Uimap_Abstract) {
+            } elseif ($elValue instanceof Mage_Selenium_Uimap_Abstract) {
                 $this->__getElementsRecursive($elementsCollectionName, $elValue->getElements(), $cache, $paramsDecorator);
             }
         }
@@ -223,7 +224,8 @@ class Mage_Selenium_Uimap_Abstract
      *                    or "find"+"UIMap element type"(element name) to get UIMap element by name on any level from current and deeper
      * @return Mage_Selenium_Uimap_ElementsCollection|array|Null
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         if (preg_match('|^getAll(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 6));
             if (!empty($elementName)) {
@@ -241,8 +243,5 @@ class Mage_Selenium_Uimap_Abstract
                 return $elemetsColl->get($arguments[0], $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
             }
         }
-
-        return null;
     }
-
 }
