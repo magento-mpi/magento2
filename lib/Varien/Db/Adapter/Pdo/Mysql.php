@@ -1544,6 +1544,16 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $ddl = $this->loadDdlCache($cacheKey, self::DDL_DESCRIBE);
         if ($ddl === false) {
             $ddl = parent::describeTable($tableName, $schemaName);
+            /**
+             * Remove bug in some MySQL versions, when int-column without default value is described as:
+             * having default empty string value
+             */
+            $affected = array('tinyint', 'smallint', 'mediumint', 'int', 'bigint');
+            foreach ($ddl as $key => $columnData) {
+                if (($columnData['DEFAULT'] === '') && (array_search($columnData['DATA_TYPE'], $affected) !== FALSE)) {
+                    $ddl[$key]['DEFAULT'] = null;
+                }
+            }
             $this->saveDdlCache($cacheKey, self::DDL_DESCRIBE, $ddl);
         }
 
@@ -1572,8 +1582,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 $options['unsigned']  = true;
             }
             if ($columnData['NULLABLE'] === false
-                && !($type == Varien_Db_Ddl_Table::TYPE_TEXT
-                && strlen($columnData['DEFAULT']) != 0)
+                && !($type == Varien_Db_Ddl_Table::TYPE_TEXT && strlen($columnData['DEFAULT']) != 0)
                 ) {
                 $options['nullable'] = false;
             }
