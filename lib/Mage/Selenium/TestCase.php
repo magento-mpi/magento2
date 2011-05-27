@@ -725,20 +725,26 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
 
-        if (!empty($xpath)) {
-            try {
-                $this->click($xpath);
-
-                if ($willChangePage) {
-                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                    $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-                }
-            } catch (PHPUnit_Framework_Exception $e) {
-                $this->_error = true;
-            }
-        } else {
-            $this->_error = true;
+        if (empty($xpath)) {
+            $this->fail('Xpath for control "' . $controlName . '" is empty');
         }
+
+        if (!$this->isElementPresent($xpath)) {
+            $this->fail('Control "' . $controlName . '" is not present on the page. '
+                        . 'Type: ' . $controlType . ', xpath: ' . $xpath);
+        }
+
+        try {
+            $this->click($xpath);
+
+            if ($willChangePage) {
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+            }
+        } catch (PHPUnit_Framework_Exception $e) {
+            $this->fail($e->getMessage());
+        }
+
         return $this;
     }
 
@@ -1327,7 +1333,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
             }
         } catch (PHPUnit_Framework_Exception $e) {
-            $this->_error = true;
+            $this->fail($e->getMessage());
         }
         return $this;
     }
