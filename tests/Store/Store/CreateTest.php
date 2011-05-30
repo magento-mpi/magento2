@@ -36,21 +36,23 @@
  */
 class Store_Store_CreateTest extends Mage_Selenium_TestCase
 {
+
+    /**
+     * Log in to Backend.
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
     /**
      * Preconditions:
-     *
-     * Log in to Backend.
-     *
      * Navigate to System -> Manage Stores
      */
     protected function assertPreConditions()
     {
-        $this->loginAdminUser();
-        $this->assertTrue($this->checkCurrentPage('dashboard'),
-                'Wrong page is opened');
         $this->navigate('manage_stores');
-        $this->assertTrue($this->checkCurrentPage('manage_stores'),
-                'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_stores'), 'Wrong page is opened');
     }
 
     /**
@@ -72,8 +74,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->clickButton('create_store'),
                 'There is no "Create Store" button on the page');
-        $this->assertTrue($this->checkCurrentPage('new_store'),
-                'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('new_store'), 'Wrong page is opened');
         $this->assertTrue($this->controlIsPresent('button', 'back'),
                 'There is no "Back" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'save_store'),
@@ -104,9 +105,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         //Data
         $storeData = $this->loadData('generic_store', NULL, 'store_name');
         //Steps
-        $this->clickButton('create_store');
-        $this->fillForm($storeData);
-        $this->saveForm('save_store');
+        $this->storeHelper()->createStore($storeData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'),
@@ -138,9 +137,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         //Data
         $storeData = $this->loadData('generic_store', $emptyField);
         //Steps
-        $this->clickButton('create_store');
-        $this->fillForm($storeData);
-        $this->saveForm('save_store');
+        $this->storeHelper()->createStore($storeData);
         //Verifying
         $page = $this->getCurrentLocationUimapPage();
         foreach ($emptyField as $key => $value) {
@@ -185,12 +182,10 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
     public function test_WithLongValues()
     {
         //Data
-        $longValues = array('store_name' => $this->generate('string', 255, ':alnum:'));
-        $storeData = $this->loadData('generic_store', $longValues);
+        $storeData = $this->loadData('generic_store',
+                        array('store_name' => $this->generate('string', 255, ':alnum:')));
         //Steps
-        $this->clickButton('create_store');
-        $this->fillForm($storeData);
-        $this->saveForm('save_store');
+        $this->storeHelper()->createStore($storeData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'),
@@ -224,9 +219,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
         $storeData = $this->loadData('generic_store',
                         array('store_name' => $this->generate('string', 32, ':punct:')));
         //Steps
-        $this->clickButton('create_store');
-        $this->fillForm($storeData);
-        $this->saveForm('save_store');
+        $this->storeHelper()->createStore($storeData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'),
