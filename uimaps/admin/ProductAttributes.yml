@@ -30,6 +30,7 @@
 # Manage Product Attributes page
 manage_attributes:
   mca: catalog_product_attribute/
+  click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_attribute')]
   title: Manage Attributes / Attributes / Catalog / Magento Admin
   uimap:
     form: &searchProductAttributeGrid

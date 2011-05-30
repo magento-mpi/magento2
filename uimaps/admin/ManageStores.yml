@@ -29,6 +29,7 @@
 # 'Manage Stores' page
 manage_stores:
     mca: system_store/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_store')]
     title: Stores / System / Magento Admin
     uimap:
         form:

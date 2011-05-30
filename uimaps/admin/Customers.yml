@@ -29,6 +29,7 @@
 # 'Manage Customers' page
 manage_customers:
     mca: customer/
+    click_xpath: //div[@class='nav-bar']//a[span='Manage Customers']
     title: Manage Customers / Customers / Magento Admin
     uimap:
         form: &searchCustomerGrid

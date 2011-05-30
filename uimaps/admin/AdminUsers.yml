@@ -58,7 +58,6 @@ manage_admin_users:
 # 'New User' page
 new_admin_user:
     mca: permissions_user/new/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'permissions_user/new')]
     title: New Users / Users / Permissions / System / Magento Admin
     uimap:
         form: &newUserForm
@@ -67,37 +66,37 @@ new_admin_user:
                     user_info:
                         xpath: //a[@id='page_tabs_main_section']/span
                         fieldsets:
-                          -
-                            account_information:
-                                xpath: //div[@id='user_base_fieldset']
-                                dropdowns:
-                                    this_acount_is: //select[@id='user_is_active']
-                                fields:
-                                    user_name: //input[@id='user_username']
-                                    first_name: //input[@id='user_firstname']
-                                    last_name: //input[@id='user_lastname']
-                                    email: //input[@id='user_email']
-                                    password: //input[@id='user_password']
-                                    password_confirmation: //input[@id='user_confirmation']
-                                required: [user_name, first_name, last_name, email, password, password_confirmation]
+                            -
+                                account_information:
+                                    xpath: //div[@id='user_base_fieldset']
+                                    dropdowns:
+                                        this_acount_is: //select[@id='user_is_active']
+                                    fields:
+                                        user_name: //input[@id='user_username']
+                                        first_name: //input[@id='user_firstname']
+                                        last_name: //input[@id='user_lastname']
+                                        email: //input[@id='user_email']
+                                        password: //input[@id='user_password']
+                                        password_confirmation: //input[@id='user_confirmation']
+                                    required: [user_name, first_name, last_name, email, password, password_confirmation]
                 -
                     user_role:
                         xpath: //a[@id='page_tabs_roles_section']/span
                         fieldsets:
-                          -
-                            permissions_user_roles:
-                                xpath: //div[@id='permissionsUserRolesGrid']
-                                buttons:
-                                    reset_filter: //button[span="Reset Filter"]
-                                    search: //button[span="Search"]
-                                checkboxes:
+                            -
+                                permissions_user_roles:
+                                    xpath: //div[@id='permissionsUserRolesGrid']
+                                    buttons:
+                                        reset_filter: //button[span="Reset Filter"]
+                                        search: //button[span="Search"]
+                                    checkboxes:
                                     #must be implemented
-                                dropdowns:
-                                    assigned: //input[@id='filter_assigned_user_role']
-                                fields:
-                                    role_name: //input[@id='filter_role_name']
-                                radiobuttons:
-                                    select_by_role_name: //td[normalize-space(text())='%roleName%']/ancestor::tr//input[@class='radio']
+                                    dropdowns:
+                                        assigned: //input[@id='filter_assigned_user_role']
+                                    fields:
+                                        role_name: //input[@id='filter_role_name']
+                                    radiobuttons:
+                                        select_by_role_name: //td[normalize-space(text())='%roleName%']/ancestor::tr//input[@class='radio']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -172,18 +171,18 @@ manage_roles:
     title: Roles / Permissions / System / Magento Admin
     uimap:
         form: &manageRolesForm
-          fieldsets:
-              -
-                  role_list:
-                      xpath: //div[@id='roleGrid']
-                      buttons:
-                         reset_filter: //button[span='Reset Filter']
-                         search: //button[span='Search']
-                      fields:
-                         id: //input[@id='filter_role_id']
-                         role_name: //input[@id='filter_role_name']
-                      links:
-                          select_by_role_name: //table[@id="roleGrid_table"]//td[normalize-space(text())="%roleName%"]
+            fieldsets:
+                -
+                    role_list:
+                        xpath: //div[@id='roleGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        fields:
+                            id: //input[@id='filter_role_id']
+                            role_name: //input[@id='filter_role_name']
+                        links:
+                            select_by_role_name: //table[@id="roleGrid_table"]//td[normalize-space(text())="%roleName%"]
         buttons:
             add_new_role: //button[span='Add New Role']
         messages:
@@ -314,7 +313,6 @@ my_account:
                             email: //input[@id='email']
                             new_password: //input[@id='password']
                             password_confirmation: //input[@id='user_confirmation']
-
         buttons:
             save_account: //button[span='Save Account']
             reset_filter: //button[span='Reset Filter']

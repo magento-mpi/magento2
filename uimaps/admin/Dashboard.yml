@@ -27,6 +27,7 @@
 ---
 dashboard:
     mca: dashboard
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'dashboard')]
     title: "Dashboard / Magento Admin"
     uimap:
         form:

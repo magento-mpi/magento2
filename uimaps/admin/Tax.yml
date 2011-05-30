@@ -29,6 +29,7 @@
 # 'Manage Customers Tax Classes' page
 manage_customer_tax_class:
     mca: tax_class_customer/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_class_customer')]
     title: Customer Tax Classes / Tax / Sales / Magento Admin
     uimap:
         form: &searchCustomerTaxClassGrid
@@ -93,6 +94,7 @@ edit_customer_tax_class:
 # 'Manage Product Tax Classes' page
 manage_product_tax_class:
     mca: tax_class_product/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_class_product')]
     title: Product Tax Classes / Tax / Sales / Magento Admin
     uimap:
         form: &searchProductTaxClassGrid
@@ -157,6 +159,7 @@ edit_product_tax_class:
 # 'Manage Tax Zones and Rates' page
 manage_tax_zones_and_rates:
     mca: tax_rate/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rate') and not(contains(@href, 'importExport'))]
     title: Manage Tax Zones and Rates / Tax / Sales / Magento Admin
     uimap:
         form: &searchTaxRatesGrid
@@ -253,6 +256,7 @@ edit_tax_rate:
 # Manage Tax Rules page
 manage_tax_rule:
     mca: tax_rule/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rule')]
     title: Manage Tax Rules / Tax / Sales / Magento Admin
     uimap:
         form: &searchTaxRulesGrid
