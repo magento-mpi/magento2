@@ -190,18 +190,218 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function data_EmptyField()
     {
         return array(
-            array(
-                array('first_name' => '%noValue%',
-                      'email'      => $this->generate('email', 20, 'valid'))),
-            array(
-                array('last_name'  => '%noValue%',
-                      'email'      => $this->generate('email', 20, 'valid'))),
-            array(
-                array('password'   => '%noValue%',
-                      'email'      => $this->generate('email', 20, 'valid'))),
-            array(
-                array('email'      => '%noValue%'))
+            array(array('first_name' => '%noValue%', 'email' => $this->generate('email', 20, 'valid'))),
+            array(array('last_name' => '%noValue%', 'email' => $this->generate('email', 20, 'valid'))),
+            array(array('password' => '%noValue%', 'email' => $this->generate('email', 20, 'valid'))),
+            array(array('email' => '%noValue%'))
         );
+    }
+
+    /**
+     * Create customer. Fill in all fields by using special characters(except the field "email").
+     *
+     * Steps:
+     *
+     * 1. Click 'Add New Customer' button.
+     *
+     * 2. Fill in fields on 'Account Information' tab.
+     *
+     * 3. Click 'Save Customer' button.
+     *
+     * Expected result:
+     *
+     * Customer is created.
+     *
+     * Success Message is displayed
+     *
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithSpecialCharacters_ExeptEmail()
+    {
+        //Data
+        $userData = $this->loadData(
+                        'generic_customer_account',
+                        array(
+                            'prefix'            => $this->generate('string', 32, ':punct:'),
+                            'first_name'        => $this->generate('string', 32, ':punct:'),
+                            'middle_name'       => $this->generate('string', 32, ':punct:'),
+                            'last_name'         => $this->generate('string', 32, ':punct:'),
+                            'suffix'            => $this->generate('string', 32, ':punct:'),
+                            'email'             => $this->generate('email', 20, 'valid'),
+                            'tax_vat_number'    => $this->generate('string', 32, ':punct:'),
+                            'password'          => $this->generate('string', 32, ':punct:')
+                        )
+        );
+        //Steps
+        $this->CustomerHelper()->createCustomer($userData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_customers'),
+                'After successful customer creation should be redirected to Manage Customers page');
+    }
+
+    /**
+     * Create Customer. Fill in fields. Use max long values for fields.
+     *
+     * Steps:
+     *
+     * 1. Click 'Add New Customer' button.
+     *
+     * 2. Fill in fields by long value alpha-numeric data on 'Account Information' tab.
+     *
+     * 3. Click 'Save Customer' button.
+     *
+     * Expected result:
+     *
+     * Customer is created. Success Message is displayed.
+     *
+     * Length of fields are 255 characters.
+     *
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithLongValues()
+    {
+        //Data
+        $longValues = array(
+            'prefix'            => $this->generate('string', 255, ':alnum:'),
+            'first_name'        => $this->generate('string', 255, ':alnum:'),
+            'middle_name'       => $this->generate('string', 255, ':alnum:'),
+            'last_name'         => $this->generate('string', 255, ':alnum:'),
+            'suffix'            => $this->generate('string', 255, ':alnum:'),
+            'email'             => $this->generate('email', 128, 'valid'),
+            'tax_vat_number'    => $this->generate('string', 255, ':alnum:'),
+            'password'          => $this->generate('string', 255, ':alnum:')
+        );
+        $userData = $this->loadData('generic_customer_account', $longValues);
+        $searchData = $this->loadData('search_customer',
+                        array('name' => '%noValue%', 'email' => $userData['email']));
+        //Steps
+        $this->CustomerHelper()->createCustomer($userData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_customers'),
+                'After successful customer creation should be redirected to Manage Customers page');
+        //Steps
+        $this->CustomerHelper()->openCustomer($searchData);
+        $this->clickControl('tab', 'account_information', FALSE);
+        //Verifying
+        $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->messages);
+    }
+
+    /**
+     * Create customer with invalid value for 'Email' field
+     *
+     * Steps:
+     *
+     * 1. Click 'Add New Customer' button.
+     *
+     * 2. Fill in 'Email' field by wrong value.
+     *
+     * 3. Fill other required fields by regular data.
+     *
+     * 4. Click 'Save Customer' button.
+     *
+     * Expected result:
+     *
+     * Customer is not created.
+     *
+     * Error Message is displayed.
+     *
+     * @dataProvider data_InvalidEmail
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithInvalidEmail($wrongEmail)
+    {
+        //Data
+        $userData = $this->loadData('generic_customer_account', $wrongEmail);
+        //Steps
+        $this->CustomerHelper()->createCustomer($userData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('customer_invalid_email'), $this->messages);
+    }
+
+    public function data_InvalidEmail()
+    {
+        return array(
+            array(array('email' => 'invalid')),
+            array(array('email' => 'test@invalidDomain')),
+            array(array('email' => 'te@st@magento.com'))
+        );
+    }
+
+    /**
+     * Create customer. Use a value for 'Password' field the length of which less than 6 characters.
+     *
+     * Steps:
+     *
+     * 1. Click 'Add New Customer' button.
+     *
+     * 2. Fill in 'Password' field by wrong value.
+     *
+     * 3. Fill other required fields by regular data.
+     *
+     * 4. Click 'Save Customer' button.
+     *
+     * Expected result:
+     *
+     * Customer is not created.
+     *
+     * Error Message is displayed.
+     *
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithInvalidPassword()
+    {
+        //Data
+        $userData = $this->loadData(
+                        'generic_customer_account',
+                        array(
+                            'password'  => $this->generate('string', 5, ':alnum:'),
+                            'email'     => $this->generate('email', 20, 'valid')
+                        )
+        );
+        //Steps
+        $this->CustomerHelper()->createCustomer($userData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('password_too_short'), $this->messages);
+    }
+
+    /**
+     * Create customer with auto-generated password
+     *
+     * Steps:
+     *
+     * 1. Click 'Add New Customer' button.
+     *
+     * 2. Fill in reqired fields.
+     *
+     * 3. Click 'Save Customer' button.
+     *
+     * Expected result:
+     *
+     * Customer is created.
+     *
+     * Success Message is displayed
+     *
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithAutoGeneratedPassword()
+    {
+        //Data
+        $userData = $this->loadData(
+                        'generic_customer_account',
+                        array(
+                            'email'                     => $this->generate('email', 20, 'valid'),
+                            'password'                  => '%noValue%',
+                            'auto_generated_password'   => 'Yes'
+                        )
+        );
+        //Steps
+        $this->CustomerHelper()->createCustomer($userData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_customers'),
+                'After successful customer creation should be redirected to Manage Customers page');
     }
 
     /**
@@ -260,4 +460,5 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         // @TODO
         $this->markTestIncomplete();
     }
+
 }
