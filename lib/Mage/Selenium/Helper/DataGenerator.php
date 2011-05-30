@@ -204,7 +204,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
         $string = $prefix;
         if (!empty($chars)) {
             $charsLength = strlen($chars);
-            mt_srand(time());
+            mt_srand((double)microtime() * 100000);
             for ($i = 0; $i < $length; $i++) {
                 $string .= $chars[mt_rand(0, $charsLength-1)];
             }
@@ -241,7 +241,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
 
         // reserve place for paragraph delimiters
         $length -= ($paraCount - 1) * strlen($this->_paraDelim);
-        $paraLength = floor($length/$paraCount);
+        $paraLength = floor($length / $paraCount);
 
         for($i = 0; $i < $paraCount; $i++) {
             $textArr[] = $this->generateRandomString($paraLength, $class);
