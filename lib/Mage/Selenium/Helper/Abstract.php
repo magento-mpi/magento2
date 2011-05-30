@@ -27,7 +27,7 @@
  */
 
 /**
- * Abstract helper object
+ * Abstract helper class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -35,7 +35,6 @@
  */
 class Mage_Selenium_Helper_Abstract
 {
-
     /**
      * Current test case
      *

@@ -92,7 +92,7 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
     public function get($id, $paramsDecorator = null)
     {
         $val = null;
-        if(isset($this[$id])) {
+        if (isset($this[$id])) {
             $val = $this[$id];
             
             if (!$paramsDecorator && $this->_params) {
@@ -105,36 +105,24 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
         return $val;
     }
 
-    public function getIterator() {
+    public function getIterator()
+    {
         return new Mage_Selenium_Uimap_ElementsCollectionIterator($this, $this->_params);
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         $val = $this[$name];
         if ($val && $this->_params != null) {
             $val = $this->_params->replaceParameters($val);
         }
         return $val;
     }
-
-/*
-    public function offsetGet($offset)
-    {
-        $val = parent::offsetGet($offset);
-        if ($val && $this->_params != null) {
-            $val = $this->_params->replaceParameters($val);
-        }
-
-        return $val;
-    }
-*/
-
 }
 
 
 class Mage_Selenium_Uimap_ElementsCollectionIterator extends ArrayIterator
 {
- 
     /**
      * Parameters helper instance
      *
@@ -155,10 +143,6 @@ class Mage_Selenium_Uimap_ElementsCollectionIterator extends ArrayIterator
         parent::__construct($collection);
     }
 
-    /**
-    * 
-    * 
-    */
     public function current()
     {
         $val = parent::current();

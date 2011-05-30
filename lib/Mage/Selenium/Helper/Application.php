@@ -27,7 +27,7 @@
  */
 
 /**
- * Application helper object
+ * Application helper
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -46,10 +46,11 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
     /**
      * Application information:
      * array(
-     *      'frontendUrl' => '',
-     *      'adminUrl' => '',
-     *      'adminLogin' => '',
+     *      'frontendUrl'   => '',
+     *      'adminUrl'      => '',
+     *      'adminLogin'    => '',
      *      'adminPassword' => '',
+     *      'basePath'      => ''
      * )
      *
      * @var array
@@ -88,7 +89,8 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
      */
     public function getBaseUrl()
     {
-        $url = $this->isAdmin() ? $this->_appInfo['adminUrl'] : $this->_appInfo['frontendUrl'];
+        $url = $this->isAdmin() ? $this->_appInfo['adminUrl']
+                 : $this->_appInfo['frontendUrl'];
         return $url;
     }
 
@@ -109,7 +111,7 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
      */
     protected function _init()
     {
-        $applications = $this->_config->getConfigValue('applications');
+        $applications   = $this->_config->getConfigValue('applications');
         $this->_appInfo = $applications['default'];
         return parent::_init();
     }

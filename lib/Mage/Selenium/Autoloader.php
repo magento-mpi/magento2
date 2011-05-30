@@ -56,5 +56,4 @@ class Mage_Selenium_Autoloader
         $classFile = $classFile . '.php';
         return include_once $classFile;
     }
-
 }

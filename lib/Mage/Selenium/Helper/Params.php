@@ -45,7 +45,8 @@ class Mage_Selenium_Helper_Params
      * Class constructor
      * @param array $params Parameters array
      */
-    public function  __construct(array $params = null) {
+    public function  __construct(array $params = null)
+    {
         if(!empty($params)) {
             foreach($params as $paramName => $paramValue) {
                 $this->setParameter($paramName, $paramValue);
@@ -62,7 +63,7 @@ class Mage_Selenium_Helper_Params
     public function setParameter($name, $value)
     {
         $key = '%' . $name . '%';
-        if($value === null) {
+        if ($value === null) {
             unset($this->_paramsArray[$key]);
         } else {
             $this->_paramsArray[$key] = $value;

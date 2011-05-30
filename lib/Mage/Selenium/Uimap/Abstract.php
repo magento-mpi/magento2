@@ -95,7 +95,7 @@ class Mage_Selenium_Uimap_Abstract
                     if (!isset($this->_elements[$formElemKey])) {
                         $this->_elements[$formElemKey] = $newElement;
                     } else {
-                        if($this->_elements[$formElemKey] instanceof ArrayObject) {
+                        if ($this->_elements[$formElemKey] instanceof ArrayObject) {
                             $this->_elements[$formElemKey]->append($newElement);
                         }
                     }
@@ -118,8 +118,8 @@ class Mage_Selenium_Uimap_Abstract
         $this->_elements_cache = null;
 
         foreach ($this->_elements as $elem) {
-            if ($elem instanceof Mage_Selenium_Uimap_Abstract ||
-                $elem instanceof Mage_Selenium_Uimap_ElementsCollection
+            if ($elem instanceof Mage_Selenium_Uimap_Abstract 
+                || $elem instanceof Mage_Selenium_Uimap_ElementsCollection
             ) {
                 $elem->assignParams($params);
             } else if ($elem instanceof ArrayObject) {

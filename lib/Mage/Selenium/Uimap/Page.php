@@ -66,10 +66,19 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
     public function  __construct($pageId, array &$pageContainer)
     {
         $this->pageId = $pageId;
-        if(isset($pageContainer['mca'])) $this->mca = $pageContainer['mca'];
-        if(isset($pageContainer['click_xpath'])) $this->_clickXpath = $pageContainer['click_xpath'];
-        if(isset($pageContainer['title'])) $this->title = $pageContainer['title'];
-        if(isset($pageContainer['uimap'])) $this->parseContainerArray($pageContainer['uimap']);
+
+        if (isset($pageContainer['mca'])) {
+            $this->mca = $pageContainer['mca'];
+        }
+        if (isset($pageContainer['click_xpath'])) {
+            $this->_clickXpath = $pageContainer['click_xpath'];
+        }
+        if (isset($pageContainer['title'])) {
+            $this->title = $pageContainer['title'];
+        }
+        if (isset($pageContainer['uimap'])) {
+            $this->parseContainerArray($pageContainer['uimap']);
+        }
     }
 
     /**
@@ -121,7 +130,7 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
      */
     public function getMainForm()
     {
-        return $this->_elements['form']; // Stub
+        return $this->_elements['form'];
     }
 
 }

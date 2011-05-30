@@ -27,7 +27,7 @@
  */
 
 /**
- * Uimap helper object
+ * Uimap helper class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -55,7 +55,8 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * Class constructor
      * @param Mage_Selenium_TestConfiguration $config
      */
-    public function  __construct(Mage_Selenium_TestConfiguration $config) {
+    public function  __construct(Mage_Selenium_TestConfiguration $config)
+    {
         parent::__construct($config);
 
         $this->_fileHelper = new Mage_Selenium_Helper_File($this->_config);
@@ -71,12 +72,17 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      */
     protected function _loadUimapData($area)
     {
-        $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'uimaps'
-                . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR . '*.yml';
+        $files = SELENIUM_TESTS_BASEDIR
+                 . DIRECTORY_SEPARATOR
+                 . 'uimaps'
+                 . DIRECTORY_SEPARATOR
+                 . $area
+                 . DIRECTORY_SEPARATOR
+                 . '*.yml';
 
         $pages = $this->_fileHelper->loadYamlFiles($files);
-        foreach($pages as $pageKey => $pageContent) {
-            if(!empty($pageContent)) {
+        foreach ($pages as $pageKey => $pageContent) {
+            if (!empty($pageContent)) {
                 $this->_uimapData[$area][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $pageContent);
             }
         }
@@ -92,7 +98,10 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      */
     public function &getUimap($area)
     {
-        if(!array_key_exists($area, $this->_uimapData)) throw new OutOfRangeException();
+        if(!array_key_exists($area, $this->_uimapData)) {
+            throw new OutOfRangeException();
+        }
+
         return $this->_uimapData[$area];
     }
 
@@ -139,8 +148,5 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                 }
             }
         }
-
-        return null;
     }
-
 }

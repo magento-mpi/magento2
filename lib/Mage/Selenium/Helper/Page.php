@@ -53,7 +53,6 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
      * Validates current page properties
      *
      * @return Mage_Selenium_Helper_Page
-     * @throws @TODO
      */
     public function validateCurrentPage()
     {
@@ -115,10 +114,13 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
     public function getPageClickXpath($page)
     {
         if (!$this->_applicationHelper) {
-            throw new Mage_Selenium_Exception("ApplicationHelper hasn't inited yet");
+            throw new Mage_Selenium_Exception('ApplicationHelper hasn\'t inited yet');
         }
 
-        $pageData = $this->_config->getUimapHelper()->getUimapPage($this->_applicationHelper->getArea(), $page);
+        $pageData = $this->_config
+                            ->getUimapHelper()
+                                ->getUimapPage($this->_applicationHelper->getArea(),
+                                               $page);
 
         if (empty($pageData)) {
             throw new Mage_Selenium_Exception('Page data is not defined');
@@ -140,7 +142,11 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
             throw new Mage_Selenium_Exception("ApplicationHelper hasn't inited yet");
         }
 
-        return $this->_config->getUimapHelper()->getUimapPageByMca($this->_applicationHelper->getArea(), $mca, $paramsDecorator);
+        return $this->_config
+                        ->getUimapHelper()
+                            ->getUimapPageByMca($this->_applicationHelper->getArea(),
+                                                $mca,
+                                                $paramsDecorator);
     }
 
 }

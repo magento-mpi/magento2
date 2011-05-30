@@ -39,7 +39,8 @@ class Mage_Selenium_Uimap_Form extends Mage_Selenium_Uimap_Abstract
      *
      * @param array $formContainer
      */
-    public function  __construct(array &$formContainer) {
+    public function  __construct(array &$formContainer)
+    {
         $this->parseContainerArray($formContainer);
     }
 
@@ -50,7 +51,8 @@ class Mage_Selenium_Uimap_Form extends Mage_Selenium_Uimap_Abstract
      */
     public function getTab($id)
     {
-        return isset($this->_elements['tabs'])?$this->_elements['tabs']->getTab($id):null;
+        return isset($this->_elements['tabs'])
+                ? $this->_elements['tabs']->getTab($id)
+                : null;
     }
-
 }

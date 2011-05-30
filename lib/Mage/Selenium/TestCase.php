@@ -64,13 +64,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_applicationHelper = null;
 
     /**
-     * Uid helper instance
-     *
-     * @var Mage_Selenium_Uid
-     */
-    protected $_uid = null;
-
-    /**
      * Uimap helper instance
      *
      * @var Mage_Selenium_Helper_Uimap
@@ -261,7 +254,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_dataGenerator = $this->_testConfig->getDataGenerator();
         $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
         $this->_pageHelper = $this->_testConfig->getPageHelper($this, $this->_applicationHelper);
-        $this->_uid = $this->_testConfig->getUidHelper();
         $this->_uimapHelper = $this->_testConfig->getUimapHelper();
 
         if ($name !== NULL) {

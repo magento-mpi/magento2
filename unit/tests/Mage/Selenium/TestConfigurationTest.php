@@ -84,14 +84,6 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Testing Mage_Selenium_TestConfiguration::getUidHelper()
-     */
-    public function testGetUidHelper()
-    {
-        $this->assertInstanceOf('Mage_Selenium_Uid', $this->_config->getUidHelper());
-    }
-
-    /**
      * Testing Mage_Selenium_TestConfiguration::getConfigValue()
      */
     public function testGetConfigValue()

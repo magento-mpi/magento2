@@ -71,13 +71,6 @@ class Mage_Selenium_TestConfiguration
     protected $_applicationHelper = null;
 
     /**
-     * Uid helper instance
-     *
-     * @var Mage_Selenium_Uid
-     */
-    protected $_uidHelper = null;
-
-    /**
      * Uimap helper instance
      *
      * @var Mage_Selenium_Helper_Uimap
@@ -237,19 +230,6 @@ class Mage_Selenium_TestConfiguration
             $this->_applicationHelper = new Mage_Selenium_Helper_Application($this);
         }
         return $this->_applicationHelper;
-    }
-
-    /**
-     * Retrieve uid helper instance
-     *
-     * @return Mage_Selenium_Uid
-     */
-    public function getUidHelper()
-    {
-        if (is_null($this->_uidHelper)) {
-            $this->_uidHelper = new Mage_Selenium_Uid($this);
-        }
-        return $this->_uidHelper;
     }
 
     /**
