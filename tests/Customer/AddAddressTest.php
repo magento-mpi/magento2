@@ -64,8 +64,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     public function test_CreateCustomer()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account',
-                        array('email' => $this->generate('email', 20, 'valid')));
+        $userData = $this->loadData('generic_customer_account', NULL, 'email');
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
@@ -156,7 +155,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->saveForm('save_customer');
         //Verifying
         // Defining and adding %fieldXpath% for customer Uimap
-        $page = $this->getCurrentUimapPage();
+        $page = $this->getUimapPage('admin', 'edit_customer');
         $fieldSet = $page->findFieldset('edit_address');
         foreach ($emptyField as $key => $value) {
             if ($value == '%noValue%' || !$fieldSet) {

@@ -76,8 +76,7 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
     public function test_Single()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account',
-                        array('email' => $this->generate('email', 20, 'valid')));
+        $userData = $this->loadData('generic_customer_account', NULL, 'email');
         $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
         //Preconditions
         $this->CustomerHelper()->createCustomer($userData);

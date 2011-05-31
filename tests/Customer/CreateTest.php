@@ -36,6 +36,7 @@
  */
 class Customer_CreateTest extends Mage_Selenium_TestCase
 {
+
     /**
      * Log in to Backend.
      */
@@ -75,14 +76,12 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->clickButton('add_new_customer'),
                 'There is no "Add New Customer" button on the page');
         $this->assertTrue($this->checkCurrentPage('create_customer'), 'Wrong page is opened');
-        $this->assertTrue($this->controlIsPresent('button', 'back'),
-                'There is no "Back" button on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'save_customer'),
+        $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
+        $this->assertTrue($this->buttonIsPresent('save_customer'),
                 'There is no "Save" button on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'save_and_continue_edit'),
+        $this->assertTrue($this->buttonIsPresent('save_and_continue_edit'),
                 'There is no "Save and Continue Edit" button on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'reset'),
-                'There is no "Reset" button on the page');
+        $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
     }
 
     /**
@@ -107,8 +106,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsOnly()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account',
-                        array('email' => $this->generate('email', 20, 'valid')));
+        $userData = $this->loadData('generic_customer_account', NULL, 'email');
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
@@ -171,7 +169,11 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty($emptyFields)
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', $emptyFields);
+        if (!array_key_exists('email', $emptyFields)) {
+            $userData = $this->loadData('generic_customer_account', $emptyFields, 'email');
+        } else {
+            $userData = $this->loadData('generic_customer_account', $emptyFields);
+        }
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
@@ -190,9 +192,9 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function data_EmptyField()
     {
         return array(
-            array(array('first_name' => '%noValue%', 'email' => $this->generate('email', 20, 'valid'))),
-            array(array('last_name' => '%noValue%', 'email' => $this->generate('email', 20, 'valid'))),
-            array(array('password' => '%noValue%', 'email' => $this->generate('email', 20, 'valid'))),
+            array(array('first_name' => '%noValue%')),
+            array(array('last_name' => '%noValue%')),
+            array(array('password' => '%noValue%')),
             array(array('email' => '%noValue%'))
         );
     }
@@ -220,17 +222,16 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData(
-                        'generic_customer_account',
+                        'generic_customer_account',                
                         array(
-                            'prefix'            => $this->generate('string', 32, ':punct:'),
-                            'first_name'        => $this->generate('string', 32, ':punct:'),
-                            'middle_name'       => $this->generate('string', 32, ':punct:'),
-                            'last_name'         => $this->generate('string', 32, ':punct:'),
-                            'suffix'            => $this->generate('string', 32, ':punct:'),
-                            'email'             => $this->generate('email', 20, 'valid'),
-                            'tax_vat_number'    => $this->generate('string', 32, ':punct:'),
-                            'password'          => $this->generate('string', 32, ':punct:')
-                        )
+                            'prefix'         => $this->generate('string', 32, ':punct:'),
+                            'first_name'     => $this->generate('string', 32, ':punct:'),
+                            'middle_name'    => $this->generate('string', 32, ':punct:'),
+                            'last_name'      => $this->generate('string', 32, ':punct:'),
+                            'suffix'         => $this->generate('string', 32, ':punct:'),
+                            'tax_vat_number' => $this->generate('string', 32, ':punct:'),
+                            'password'       => $this->generate('string', 32, ':punct:')
+                        ), 'email'
         );
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
@@ -263,14 +264,14 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $longValues = array(
-            'prefix'            => $this->generate('string', 255, ':alnum:'),
-            'first_name'        => $this->generate('string', 255, ':alnum:'),
-            'middle_name'       => $this->generate('string', 255, ':alnum:'),
-            'last_name'         => $this->generate('string', 255, ':alnum:'),
-            'suffix'            => $this->generate('string', 255, ':alnum:'),
-            'email'             => $this->generate('email', 128, 'valid'),
-            'tax_vat_number'    => $this->generate('string', 255, ':alnum:'),
-            'password'          => $this->generate('string', 255, ':alnum:')
+            'prefix'         => $this->generate('string', 255, ':alnum:'),
+            'first_name'     => $this->generate('string', 255, ':alnum:'),
+            'middle_name'    => $this->generate('string', 255, ':alnum:'),
+            'last_name'      => $this->generate('string', 255, ':alnum:'),
+            'suffix'         => $this->generate('string', 255, ':alnum:'),
+            'email'          => $this->generate('email', 128, 'valid'),
+            'tax_vat_number' => $this->generate('string', 255, ':alnum:'),
+            'password'       => $this->generate('string', 255, ':alnum:')
         );
         $userData = $this->loadData('generic_customer_account', $longValues);
         $searchData = $this->loadData('search_customer',
@@ -353,13 +354,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithInvalidPassword()
     {
         //Data
-        $userData = $this->loadData(
-                        'generic_customer_account',
-                        array(
-                            'password'  => $this->generate('string', 5, ':alnum:'),
-                            'email'     => $this->generate('email', 20, 'valid')
-                        )
-        );
+        $userData = $this->loadData('generic_customer_account',
+                        array('password' => $this->generate('string', 5, ':alnum:')), 'email');
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
@@ -388,14 +384,9 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithAutoGeneratedPassword()
     {
         //Data
-        $userData = $this->loadData(
-                        'generic_customer_account',
-                        array(
-                            'email'                     => $this->generate('email', 20, 'valid'),
-                            'password'                  => '%noValue%',
-                            'auto_generated_password'   => 'Yes'
-                        )
-        );
+        $userData = $this->loadData('generic_customer_account',
+                        array('password' => '%noValue%', 'auto_generated_password' => 'Yes'),
+                        'email');
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
@@ -432,8 +423,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithAddress()
     {
         //Data
-        $userData = $this->loadData('all_fields_customer_account',
-                        array('email' => $this->generate('email', 20, 'valid')));
+        $userData = $this->loadData('all_fields_customer_account', NULL, 'email');
         $addressData = $this->loadData('all_fields_address');
         //Steps
         $this->CustomerHelper()->createCustomer($userData, $addressData);
