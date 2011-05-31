@@ -31,8 +31,14 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes
+class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
+    extends Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes
 {
+    /**
+     * Prepare attributes form of bundle product
+     *
+     * @return void
+     */
     protected function _prepareForm()
     {
         parent::_prepareForm();
@@ -53,8 +59,8 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes extends Ma
 
         if ($price = $this->getForm()->getElement('price')) {
             $price->setRenderer(
-                $this->getLayout()->createBlock('bundle/adminhtml_catalog_product_edit_tab_attributes_extend')
-                    ->setDisableChild(true)
+                $this->getLayout()->createBlock('bundle/adminhtml_catalog_product_edit_tab_attributes_extend',
+                    'adminhtml.catalog.product.bundle.edit.tab.attributes.price')->setDisableChild(true)
             );
         }
 
@@ -76,8 +82,10 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes extends Ma
                     }
                 }
 
-                $('price_type').observe('change', changeTaxClassId);
-                changeTaxClassId();
+                if ($('price_type')) {
+                    $('price_type').observe('change', changeTaxClassId);
+                    changeTaxClassId();
+                }
                 "
                 . '</script>'
             );

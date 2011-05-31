@@ -1010,6 +1010,8 @@ ul.tabs a.paypal-section:hover span { background:url(images/paypal_section.png) 
 .rule-tree .x-tree ul           { padding-left:0 !important; border-left:none !important; }
 .rule-param .label              { font-weight:bold; color:black; }
 .rule-param .label:hover        { font-weight:bold; color:blue; }
+.rule-param .label-disabled     { color:black; cursor:default; text-decoration:none; }
+.rule-param .label-disabled:hover { color:black;}
 .rule-param .element            { display:none; }
 .rule-param input,
 .rule-param select              { width:auto !important; min-width:170px; }

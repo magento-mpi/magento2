@@ -769,7 +769,7 @@ serializerController.prototype = {
         var isInput   = Event.element(event).tagName == 'INPUT';
         if(trElement){
             var checkbox = Element.select(trElement, 'input');
-            if(checkbox[0]){
+            if(checkbox[0] && !checkbox[0].disabled){
                 var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
                 this.grid.setCheckboxChecked(checkbox[0], checked);
             }

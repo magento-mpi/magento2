@@ -208,15 +208,14 @@ class Mage_Sales_Model_Observer
     {
         // replace the element of recurring payment profile field with a form
         $profileElement = $observer->getEvent()->getProductElement();
-        $block = Mage::app()->getLayout()->createBlock('sales/adminhtml_recurring_profile_edit_form')
-            ->setParentElement($profileElement)
-            ->setProductEntity($observer->getEvent()->getProduct())
-        ;
+        $block = Mage::app()->getLayout()->createBlock('sales/adminhtml_recurring_profile_edit_form',
+            'adminhtml_recurring_profile_edit_form')->setParentElement($profileElement)
+            ->setProductEntity($observer->getEvent()->getProduct());
         $observer->getEvent()->getResult()->output = $block->toHtml();
 
         // make the profile element dependent on is_recurring
-        $dependencies = Mage::app()->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
-            ->addFieldMap('is_recurring', 'product[is_recurring]')
+        $dependencies = Mage::app()->getLayout()->createBlock('adminhtml/widget_form_element_dependence',
+            'adminhtml_recurring_profile_edit_form_dependence')->addFieldMap('is_recurring', 'product[is_recurring]')
             ->addFieldMap($profileElement->getHtmlId(), $profileElement->getName())
             ->addFieldDependence($profileElement->getName(), 'product[is_recurring]', '1')
             ->addConfigOptions(array('levels_up' => 2));
