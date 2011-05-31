@@ -1894,8 +1894,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      *
      * @return array
      */
-    public function getProductEntitiesInfo()
+    public function getProductEntitiesInfo($columns = array('entity_id', 'type_id', 'attribute_set_id', 'sku'))
     {
-        return $this->_getResource()->getProductEntitiesInfo();
+        return $this->_getResource()->getProductEntitiesInfo($columns);
     }
 }

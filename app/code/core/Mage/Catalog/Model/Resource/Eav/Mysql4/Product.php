@@ -40,10 +40,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
      *
      * @return array
      */
-    public function getProductEntitiesInfo()
+    public function getProductEntitiesInfo($columns = array('entity_id', 'type_id', 'attribute_set_id', 'sku'))
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('catalog/product'), array('entity_id', 'type_id', 'attribute_set_id', 'sku'));
+            ->from($this->getTable('catalog/product'), $columns);
         return $this->_getReadAdapter()->fetchAll($select);
     }
 }
