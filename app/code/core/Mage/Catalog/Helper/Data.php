@@ -41,7 +41,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     const CONFIG_USE_STATIC_URLS           = 'cms/wysiwyg/use_static_urls_in_catalog';
     const CONFIG_PARSE_URL_DIRECTIVES      = 'catalog/frontend/parse_url_directives';
     const XML_PATH_CONTENT_TEMPLATE_FILTER = 'global/catalog/content/tempate_filter';
-    
+
     /**
      * Breadcrumb Path cache
      *
@@ -268,13 +268,18 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         $model = (string)Mage::getConfig()->getNode(self::XML_PATH_CONTENT_TEMPLATE_FILTER);
         return Mage::getModel($model);
     }
-    
+
     /**
     * Initialize mapping for old and new field names
+    *
+    * @return array
     */
     public function getOldFieldMap()
     {
-        return (array)Mage::getConfig()->getNode('global/catalog_product/old_fields_map/');
+        $node = Mage::getConfig()->getNode('global/catalog_product/old_fields_map');
+        if ($node === false) {
+            return array();
+        }
+        return (array) $node;
     }
-
 }

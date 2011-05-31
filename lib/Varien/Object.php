@@ -124,10 +124,10 @@ class Varien_Object implements ArrayAccess
     }
 
     /**
-     * Init mapping array of old used object fields to its new fields.
-     * Must be overloaded by descendants to set specific fields map.
+     * Inits mapping array of object's previously used fields to new fields.
+     * Must be overloaded by descendants to set concrete fields map.
      *
-     * @resturn Varien_Object
+     * @return Varien_Object
      */
     protected function _initOldFieldsMap()
     {
@@ -138,13 +138,13 @@ class Varien_Object implements ArrayAccess
      * Called after old fields are inited. Forms synchronization map to sync old fields and new fields
      * between each other.
      *
-     * @resturn Varien_Object
+     * @return Varien_Object
      */
     protected function _prepareSyncFieldsMap()
     {
         $old2New = $this->_oldFieldsMap;
         $new2Old = array_flip($this->_oldFieldsMap);
-        $this->_syncFieldsMap = $old2New + $new2Old;
+        $this->_syncFieldsMap = array_merge($old2New, $new2Old);
         return $this;
     }
 
