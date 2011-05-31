@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -35,6 +36,7 @@
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
+
     /**
      * Testcase error
      *
@@ -119,27 +121,30 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected $_browserTimeoutPeriod = 10000;
 
-
     /**
      * @var PHPUnit_Framework_TestResult
      */
     protected $result;
+
     /**
      * @var    array
      */
     protected $dependencies = array();
+
     /**
      * Whether or not this test is running in a separate PHP process.
      *
      * @var    boolean
      */
     protected $inIsolation = FALSE;
+
     /**
      * The name of the test case.
      *
      * @var    string
      */
     protected $name = NULL;
+
     /**
      * The name of the expected Exception.
      *
@@ -153,10 +158,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @var    string
      */
     protected $expectedExceptionMessage = '';
+
     /**
      * @var    array
      */
     protected $data = array();
+
     /**
      * @var    array
      */
@@ -194,10 +201,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const xpathValidationMessage = "//form/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]";
 
     /**
-    * Field Name xpath with ValidationMessage
-    * 
-    *  @var string
-    */
+     * Field Name xpath with ValidationMessage
+     *
+     *  @var string
+     */
     const xpathFieldNameWithValidationMessage ="/ancestor::*[2]//label/descendant-or-self::*[string-length(text())>1]";
 
     /**
@@ -208,10 +215,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const xpathEditLink = "//table/descendant::*[normalize-space(@class)='last'][1]/a[.='Edit']";
 
     /**
-    * Loading holder XPath
-    * @var string
-    */
+     * Loading holder XPath
+     * @var string
+     */
     const xpathLoadingHolder = "//div[@id='loading-mask' and not(contains(@style,'display: none'))]";
+
+    /**
+     * Log Out link
+     * @var string
+     */
+    const xpathLogOutAdmin = "//div[@class='header-right']//a[@class='link-logout']";
 
     /**
      * @var string
@@ -274,7 +287,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $arguments
      * @return mixed
      */
-    public function  __call($command, $arguments)
+    public function __call($command, $arguments)
     {
         $helper = strstr($command, 'Helper', true);
         if ($helper !== FALSE) {
@@ -300,7 +313,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         $helperClassName = $testScope . '_' . $helperName;
-        
+
         if (!isset($this->_testHelpers[$helperClassName])) {
             if (class_exists($helperClassName)) {
                 $this->_testHelpers[$helperClassName] = new $helperClassName;
@@ -321,8 +334,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function setUp()
     {
         static $_isFirst = true;
-        
-        if ($_isFirst)  {
+
+        if ($_isFirst) {
             $this->setUpBeforeTests();
             $_isFirst = false;
         }
@@ -335,11 +348,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function setUpBeforeTests()
     {
+
     }
 
     /**
      * Append parameters decorator object
-     * 
+     *
      * @param Mage_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
      */
     public function appendParamsDecorator($paramsHelperObject)
@@ -349,7 +363,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Set parameter to decorator object instance
-     * 
+     *
      * @param string $name   Parameter name
      * @param string $value  Parameter value (null to unset)
      * @param Mage_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
@@ -390,7 +404,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function setDependencies(array $dependencies)
     {
         $this->dependencies = $dependencies;
-
     }
 
     /**
@@ -429,7 +442,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $randomize = (!is_array($randomize)) ? array($randomize) : $randomize;
 
             foreach ($randomize as $field) {
-                $data[$field] .= $this->generate('string', 5, ':lower:');
+                $data[$field] = $this->generate('string', 5, ':lower:') . '_' . $data[$field];
             }
         }
 
@@ -577,7 +590,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $baseUrl = $this->_applicationHelper->getBaseUrl();
 
-        $mca  = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($baseUrl, $url);
+        $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($baseUrl, $url);
         $page = $this->_pageHelper->getPageByMca($mca, $this->_paramsHelper);
         if ($page) {
             return $page->getPageId();
@@ -596,10 +609,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $mca = '';
 
-        $currentUrl = preg_replace('|^http([s]{0,1})://|', '', str_replace('/index.php', '/', str_replace('index.php/', '', $currentUrl)));
-        $baseUrl = preg_replace('|^http([s]{0,1})://|', '', str_replace('/index.php', '/', str_replace('index.php/', '', $baseUrl)));
+        $currentUrl = preg_replace('|^http([s]{0,1})://|', '',
+                str_replace('/index.php', '/', str_replace('index.php/', '', $currentUrl)));
+        $baseUrl = preg_replace('|^http([s]{0,1})://|', '',
+                str_replace('/index.php', '/', str_replace('index.php/', '', $baseUrl)));
 
-        if(strpos($currentUrl, $baseUrl) !== false) {
+        if (strpos($currentUrl, $baseUrl) !== false) {
             $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\");
         }
 
@@ -612,6 +627,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         //Delete secret key from url
         if (in_array('key', $mcaArray)) {
             $key = array_search('key', $mcaArray);
+            if ($mcaArray[$key - 1] == 'index') {
+                unset($mcaArray[$key - 1]);
+            }
             unset($mcaArray[$key]);
             unset($mcaArray[$key + 1]);
         }
@@ -676,7 +694,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getCurrentLocationUimapPage()
     {
-        $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($this->_applicationHelper->getBaseUrl(), $this->getLocation());
+        $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($this->_applicationHelper->getBaseUrl(),
+                        $this->getLocation());
         return $this->_uimapHelper->getUimapPageByMca($this->getArea(), $mca, $this->_paramsHelper);
     }
 
@@ -691,7 +710,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $uipage = $this->getCurrentLocationUimapPage();
         if (!$uipage) {
-            throw new OutOfRangeException("Can't find specified form in UIMap array '".$this->getLocation()."', area['".$this->getArea()."']");
+            throw new OutOfRangeException("Can't find specified form in UIMap array '" . $this->getLocation() . "', area['" . $this->getArea() . "']");
         }
 
         $method = 'find' . ucfirst(strtolower($controlType));
@@ -783,7 +802,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this->controlIsPresent('button', $button);
     }
 
-
     /**
      * Await for appear and disappear "Please wait" animated gif...
      *
@@ -816,7 +834,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function fillForm($data, $tabId = '')
     {
         if (is_string($data)) {
-            $data = $this->loadData($data);            
+            $data = $this->loadData($data);
         }
 
         if (!is_array($data)) {
@@ -825,11 +843,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $page = $this->getCurrentLocationUimapPage();
         if (!$page) {
-            throw new OutOfRangeException("Can't find specified form in UIMap array '".$this->getLocation()."', area['".$this->getArea()."']");
+            throw new OutOfRangeException("Can't find specified form in UIMap array '" . $this->getLocation() . "', area['" . $this->getArea() . "']");
         }
 
         $formData = $page->getMainForm();
-        
+
         if (!$formData) {
             return $this;
         }
@@ -1014,9 +1032,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Perform search and open first result
-     * 
+     *
      * @param array $data
-     * @return Mage_Selenium_TestCase 
+     * @return Mage_Selenium_TestCase
      */
     public function searchAndOpen(array $data)
     {
@@ -1063,7 +1081,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             } else if ($totalCount == 0) {
                 return false;
             }
-            
+
             if ($this->isElementPresent($xpathTR)) {
                 // ID definition
                 $item_id = 0;
@@ -1105,7 +1123,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $page = $this->getCurrentLocationUimapPage();
         if (!$page) {
-            throw new OutOfRangeException("Can't find specified form in UIMap array '".$this->getLocation()."', area['".$this->getArea()."']");
+            throw new OutOfRangeException("Can't find specified form in UIMap array '" . $this->getLocation() . "', area['" . $this->getArea() . "']");
             return false;
         }
         $messageLocator = $page->findMessage($message);
@@ -1128,7 +1146,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return false;
     }
 
-
     /**
      * Check if any error message exists on page
      *
@@ -1143,13 +1160,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Return all error messages on page
-     * 
-     * @return array 
+     *
+     * @return array
      */
     public function getErrorMessages()
     {
         $this->_parseMessages();
-        
+
         return $this->messages['error'];
     }
 
@@ -1208,12 +1225,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->messages['success']    = $this->getElementsByXpath(self::xpathSuccessMessage);
         $this->messages['error']      = $this->getElementsByXpath(self::xpathErrorMessage);
-        $this->messages['validation'] = $this->getElementsByXpath(self::xpathValidationMessage, 'text', self::xpathFieldNameWithValidationMessage);
+        $this->messages['validation'] = $this->getElementsByXpath(self::xpathValidationMessage,
+                        'text', self::xpathFieldNameWithValidationMessage);
     }
 
     /**
      * Get elements by Xpath
-     * 
+     *
      * @param string $xpath
      * @param string $get    What to get. Available choices are 'text', 'value'
      * @return array
@@ -1231,7 +1249,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
             for ($i = 1; $i < $totalElements + 1; $i++) {
                 $x = $xpath . '[' . $i . ']';
-                
+
                 switch ($get) {
                     case 'value' :
                         $element = $this->getValue($x);
@@ -1258,7 +1276,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                     $elements[] = $element;
                 }
-
             }
         }
 
@@ -1276,7 +1293,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return array_shift($this->getElementsByXpath($xpath, $get));
     }
-
 
     /**
      * Magento helper methods
@@ -1337,12 +1353,22 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function logoutAdminUser()
     {
-        $this->admin('log_out_from_admin');
-        $this->assertTrue($this->checkCurrentPage('log_in_to_admin'));
+        try {
+            if ($this->isElementPresent(self::xpathLogOutAdmin)) {
+                $this->click(self::xpathLogOutAdmin);
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+                if (!$this->checkCurrentPage('log_in_to_admin')) {
+                    throw new PHPUnit_Framework_Exception('Admin was not logged out');
+                }
+            }
+        } catch (PHPUnit_Framework_Exception $e) {
+            $this->fail($e->getMessage());
+        }
+        return $this;
     }
 
-
-     /**
+    /**
      * Asserts that a condition is true.
      *
      * @param  boolean $condition
@@ -1352,7 +1378,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public static function assertTrue($condition, $message = '')
     {
         if (is_array($message)) {
-             $message =  implode("\n", call_user_func_array('array_merge', $message));
+            $message = implode("\n", call_user_func_array('array_merge', $message));
         }
 
         if (is_object($condition)) {
@@ -1376,7 +1402,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public static function assertFalse($condition, $message = '')
     {
         if (is_array($message)) {
-             $message =  implode("\n", call_user_func_array('array_merge', $message));
+            $message = implode("\n", call_user_func_array('array_merge', $message));
         }
 
         if (is_object($condition)) {
@@ -1437,13 +1463,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         } else {
             $this->messages['error'][] = "There is no way to remove an item(There is no 'Delete' button)\n";
         }
-        
+
         return false;
     }
 
     /**
      * Waiting for element appearance
-     * 
+     *
      * @param string|array $locator xPath locator or array of locators
      * @param integer $timeout Timeout period
      */
@@ -1497,14 +1523,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Verify form values
-     * 
+     *
      * @param array|string $data Array with data or datasource name
      * @param string $tabName
      */
     public function verifyForm($data, $tabName = '', $skipElements = array('password'))
     {
         if (is_string($data)) {
-            $data = $this->loadData($data);            
+            $data = $this->loadData($data);
         }
         if (!is_array($data)) {
             throw new InvalidArgumentException('FillForm argument "data" must be an array!!!');
@@ -1512,12 +1538,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $page = $this->getCurrentLocationUimapPage();
         if (!$page) {
-            throw new OutOfRangeException("Can't find specified form in UIMap array '".$this->getLocation()."', area['".$this->getArea()."']");
+            throw new OutOfRangeException("Can't find specified form in UIMap array '" . $this->getLocation() . "', area['" . $this->getArea() . "']");
         }
 
         $formData = $page->getMainForm();
         if (!$formData) {
-            throw new OutOfRangeException("Can't find main form in UIMap array '".$this->getLocation()."', area['".$this->getArea()."']");
+            throw new OutOfRangeException("Can't find main form in UIMap array '" . $this->getLocation() . "', area['" . $this->getArea() . "']");
         }
         $formData->assignParams($this->_paramsHelper);
 
@@ -1608,7 +1634,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             if ($this->isElementPresent($elemXPath)) {
                                 $f_val = $this->getValue($elemXPath);
                                 if (($f_val == 'on' && strtolower($d_val) != 'yes') ||
-                                    ($f_val == 'off' && !(strtolower($d_val) == 'no' || $d_val == ''))) {
+                                        ($f_val == 'off' && !(strtolower($d_val) == 'no' || $d_val == ''))) {
                                     $this->messages['error'][] = "The stored value for '$d_key' field is not equal to specified";
                                     $resultFlag = false;
                                 }
@@ -1636,9 +1662,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             if ($this->isElementPresent($elemXPath)) {
                                 $f_val = $this->getValue($elemXPath);
                                 if (($f_val == 'on' && strtolower($d_val) != 'yes') ||
-                                    ($f_val == 'off' && !(strtolower($d_val) == 'no' || $d_val == ''))) {
-                                     $this->messages['error'][] = "The stored value for '$d_key' field is not equal to specified";
-                                   $resultFlag = false;
+                                        ($f_val == 'off' && !(strtolower($d_val) == 'no' || $d_val == ''))) {
+                                    $this->messages['error'][] = "The stored value for '$d_key' field is not equal to specified";
+                                    $resultFlag = false;
                                 }
                             } else {
                                 $this->messages['error'][] = "Can't find '$d_key' field";
@@ -1678,7 +1704,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         continue;
                     }
                 }
-
             }
         }
 
@@ -1687,7 +1712,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Verify messages count
-     * 
+     *
      * @param integer $count
      * @param string $xpath
      */
@@ -1699,10 +1724,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this->getXpathCount($xpath) == $count;
     }
 
-
     /**
      * Verify element present
-     * 
+     *
      * @param <type> $xpath
      */
     public function verifyElementPresent($xpath)
@@ -1733,10 +1757,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         // Create tests from Selenese/HTML files.
         if (isset($staticProperties['seleneseDirectory']) &&
-            is_dir($staticProperties['seleneseDirectory'])) {
+                is_dir($staticProperties['seleneseDirectory'])) {
             $files = array_merge(
-              self::getSeleneseFiles($staticProperties['seleneseDirectory'], '.htm'),
-              self::getSeleneseFiles($staticProperties['seleneseDirectory'], '.html')
+                    self::getSeleneseFiles($staticProperties['seleneseDirectory'], '.htm'),
+                    self::getSeleneseFiles($staticProperties['seleneseDirectory'], '.html')
             );
 
             // Create tests from Selenese/HTML files for multiple browsers.
@@ -2063,7 +2087,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * *         DRIVER FUNCTIONS START            *
      * *********************************************
      */
-
     /** Copyright 2006 ThoughtWorks, Inc
      *
      * Licensed under the Apache License, Version 2.0 (the "License");
@@ -2104,7 +2127,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::doubleClick($locator);
     }
 
-
     /**
      * Simulates opening the context menu for the specified element (as might happen if the user "right-clicked" on the element).
      *
@@ -2114,7 +2136,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::contextMenu($locator);
     }
-
 
     /**
      * Clicks on a link, button, checkbox or radio button. If the click action
@@ -2129,7 +2150,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::clickAt($locator, $coordString);
     }
 
-
     /**
      * Doubleclicks on a link, button, checkbox or radio button. If the action
      * causes a new page to load (like a link usually does), call
@@ -2143,7 +2163,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::doubleClickAt($locator, $coordString);
     }
 
-
     /**
      * Simulates opening the context menu for the specified element (as might happen if the user "right-clicked" on the element).
      *
@@ -2154,7 +2173,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::contextMenuAt($locator, $coordString);
     }
-
 
     /**
      * Explicitly simulate an event, to trigger the corresponding "on<i>event</i>"
@@ -2168,7 +2186,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::fireEvent($locator, $eventName);
     }
 
-
     /**
      * Move the focus to the specified element; for example, if the element is an input field, move the cursor to that field.
      *
@@ -2178,7 +2195,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::focus($locator);
     }
-
 
     /**
      * Simulates a user pressing and releasing a key.
@@ -2191,7 +2207,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::keyPress($locator, $keySequence);
     }
 
-
     /**
      * Press the shift key and hold it down until doShiftUp() is called or a new page is loaded.
      *
@@ -2200,7 +2215,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::shiftKeyDown();
     }
-
 
     /**
      * Release the shift key.
@@ -2211,7 +2225,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::shiftKeyUp();
     }
 
-
     /**
      * Press the meta key and hold it down until doMetaUp() is called or a new page is loaded.
      *
@@ -2220,7 +2233,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::metaKeyDown();
     }
-
 
     /**
      * Release the meta key.
@@ -2231,7 +2243,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::metaKeyUp();
     }
 
-
     /**
      * Press the alt key and hold it down until doAltUp() is called or a new page is loaded.
      *
@@ -2240,7 +2251,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::altKeyDown();
     }
-
 
     /**
      * Release the alt key.
@@ -2251,7 +2261,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::altKeyUp();
     }
 
-
     /**
      * Press the control key and hold it down until doControlUp() is called or a new page is loaded.
      *
@@ -2261,7 +2270,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::controlKeyDown();
     }
 
-
     /**
      * Release the control key.
      *
@@ -2270,7 +2278,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::controlKeyUp();
     }
-
 
     /**
      * Simulates a user pressing a key (without releasing it yet).
@@ -2283,7 +2290,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::keyDown($locator, $keySequence);
     }
 
-
     /**
      * Simulates a user releasing a key.
      *
@@ -2295,7 +2301,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::keyUp($locator, $keySequence);
     }
 
-
     /**
      * Simulates a user hovering a mouse over the specified element.
      *
@@ -2306,7 +2311,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::mouseOver($locator);
     }
 
-
     /**
      * Simulates a user moving the mouse pointer away from the specified element.
      *
@@ -2316,7 +2320,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::mouseOut($locator);
     }
-
 
     /**
      * Simulates a user pressing the left mouse button (without releasing it yet) on
@@ -2329,7 +2332,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::mouseDown($locator);
     }
 
-
     /**
      * Simulates a user pressing the right mouse button (without releasing it yet) on
      * the specified element.
@@ -2340,7 +2342,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::mouseDownRight($locator);
     }
-
 
     /**
      * Simulates a user pressing the left mouse button (without releasing it yet) at
@@ -2353,7 +2354,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::mouseDownAt($locator, $coordString);
     }
-
 
     /**
      * Simulates a user pressing the right mouse button (without releasing it yet) at
@@ -2368,7 +2368,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::mouseDownRightAt($locator, $coordString);
     }
 
-
     /**
      * Simulates the event that occurs when the user releases the mouse button (i.e., stops
      * holding the button down) on the specified element.
@@ -2380,7 +2379,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::mouseUp($locator);
     }
 
-
     /**
      * Simulates the event that occurs when the user releases the right mouse button (i.e., stops
      * holding the button down) on the specified element.
@@ -2391,7 +2389,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::mouseUpRight($locator);
     }
-
 
     /**
      * Simulates the event that occurs when the user releases the mouse button (i.e., stops
@@ -2405,7 +2402,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::mouseUpAt($locator, $coordString);
     }
 
-
     /**
      * Simulates the event that occurs when the user releases the right mouse button (i.e., stops
      * holding the button down) at the specified location.
@@ -2418,7 +2414,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::mouseUpRightAt($locator, $coordString);
     }
 
-
     /**
      * Simulates a user pressing the mouse button (without releasing it yet) on
      * the specified element.
@@ -2429,7 +2424,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::mouseMove($locator);
     }
-
 
     /**
      * Simulates a user pressing the mouse button (without releasing it yet) on
@@ -2442,7 +2436,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::mouseMoveAt($locator, $coordString);
     }
-
 
     /**
      * Sets the value of an input field, as though you typed it in.
@@ -2459,7 +2452,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::type($locator, $value);
     }
-
 
     /**
      * Simulates keystroke events on the specified element, as though you typed the value key-by-key.
@@ -2485,7 +2477,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::typeKeys($locator, $value);
     }
 
-
     /**
      * Set execution speed (i.e., set the millisecond length of a delay which will follow each selenium operation).  By default, there is no such delay, i.e.,
      * the delay is 0 milliseconds.
@@ -2496,7 +2487,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::setSpeed($value);
     }
-
 
     /**
      * Get execution speed (i.e., get the millisecond length of the delay following each selenium operation).  By default, there is no such delay, i.e.,
@@ -2511,7 +2501,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getSpeed();
     }
 
-
     /**
      * Check a toggle-button (checkbox/radio)
      *
@@ -2522,7 +2511,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::check($locator);
     }
 
-
     /**
      * Uncheck a toggle-button (checkbox/radio)
      *
@@ -2532,7 +2520,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::uncheck($locator);
     }
-
 
     /**
      * Select an option from a drop-down using an option locator.
@@ -2607,7 +2594,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::select($selectLocator, $optionLocator);
     }
 
-
     /**
      * Add a selection to the set of selected options in a multi-select element using an option locator.
      *
@@ -2620,7 +2606,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::addSelection($locator, $optionLocator);
     }
-
 
     /**
      * Remove a selection from the set of selected options in a multi-select element using an option locator.
@@ -2635,7 +2620,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::removeSelection($locator, $optionLocator);
     }
 
-
     /**
      * Unselects all of the selected options in a multi-select element.
      *
@@ -2645,7 +2629,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::removeAllSelections($locator);
     }
-
 
     /**
      * Submit the specified form. This is particularly useful for forms without
@@ -2657,7 +2640,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::submit($formLocator);
     }
-
 
     /**
      * Opens an URL in the test frame. This accepts both relative and absolute
@@ -2678,7 +2660,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::open($url);
     }
 
-
     /**
      * Opens a popup window (if a window with that ID isn't already open).
      * After opening the window, you'll need to select it using the selectWindow
@@ -2697,7 +2678,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::openWindow($url, $windowID);
     }
-
 
     /**
      * Selects a popup window using a window locator; once a popup window has been selected, all
@@ -2766,7 +2746,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::selectWindow($windowID);
     }
 
-
     /**
      * Simplifies the process of selecting a popup window (and does not offer
      * functionality beyond what <code>selectWindow()</code> already provides).
@@ -2797,7 +2776,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::selectPopUp($windowID);
     }
 
-
     /**
      * Selects the main window. Functionally equivalent to using
      * <code>selectWindow()</code> and specifying no value for
@@ -2808,7 +2786,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::deselectPopUp();
     }
-
 
     /**
      * Selects a frame within the current window.  (You may invoke this command
@@ -2828,7 +2805,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::selectFrame($locator);
     }
-
 
     /**
      * Determine whether current/locator identify the frame containing this running code.
@@ -2850,7 +2826,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getWhetherThisFrameMatchFrameExpression($currentFrameString, $target);
     }
 
-
     /**
      * Determine whether currentWindowString plus target identify the window containing this running code.
      *
@@ -2871,7 +2846,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getWhetherThisWindowMatchWindowExpression($currentWindowString, $target);
     }
 
-
     /**
      * Waits for a popup window to appear and load up.
      *
@@ -2882,7 +2856,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::waitForPopUp($windowID, $timeout);
     }
-
 
     /**
      * <p>
@@ -2908,7 +2881,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::chooseCancelOnNextConfirmation();
     }
-
 
     /**
      * <p>
@@ -2936,7 +2908,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::chooseOkOnNextConfirmation();
     }
 
-
     /**
      * Instructs Selenium to return the specified answer string in response to
      * the next JavaScript prompt [window.prompt()].
@@ -2948,7 +2919,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::answerOnNextPrompt($answer);
     }
 
-
     /**
      * Simulates the user clicking the "back" button on their browser.
      *
@@ -2957,7 +2927,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::goBack();
     }
-
 
     /**
      * Simulates the user clicking the "Refresh" button on their browser.
@@ -2968,7 +2937,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::refresh();
     }
 
-
     /**
      * Simulates the user clicking the "close" button in the titlebar of a popup
      * window or tab.
@@ -2978,7 +2946,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::close();
     }
-
 
     /**
      * Has an alert occurred?
@@ -2996,7 +2963,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::isAlertPresent();
     }
 
-
     /**
      * Has a prompt occurred?
      *
@@ -3013,7 +2979,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::isPromptPresent();
     }
 
-
     /**
      * Has confirm() been called?
      *
@@ -3029,7 +2994,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::isConfirmationPresent();
     }
-
 
     /**
      * Retrieves the message of a JavaScript alert generated during the previous action, or fail if there were no alerts.
@@ -3053,7 +3017,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getAlert();
     }
-
 
     /**
      * Retrieves the message of a JavaScript confirmation dialog generated during
@@ -3091,7 +3054,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getConfirmation();
     }
 
-
     /**
      * Retrieves the message of a JavaScript question prompt dialog generated during
      * the previous action.
@@ -3116,7 +3078,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getPrompt();
     }
 
-
     /**
      * Gets the absolute URL of the current page.
      *
@@ -3126,7 +3087,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getLocation();
     }
-
 
     /**
      * Gets the title of the current page.
@@ -3138,7 +3098,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getTitle();
     }
 
-
     /**
      * Gets the entire text of the page.
      *
@@ -3148,7 +3107,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getBodyText();
     }
-
 
     /**
      * Gets the (whitespace-trimmed) value of an input field (or anything else with a value parameter).
@@ -3162,7 +3120,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getValue($locator);
     }
-
 
     /**
      * Gets the text of an element. This works for any element that contains
@@ -3178,7 +3135,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getText($locator);
     }
 
-
     /**
      * Briefly changes the backgroundColor of the specified element yellow.  Useful for debugging.
      *
@@ -3188,7 +3144,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::highlight($locator);
     }
-
 
     /**
      * Gets the result of evaluating the specified JavaScript snippet.  The snippet may
@@ -3212,7 +3167,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getEval($script);
     }
 
-
     /**
      * Gets whether a toggle-button (checkbox/radio) is checked.  Fails if the specified element doesn't exist or isn't a toggle-button.
      *
@@ -3223,7 +3177,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::isChecked($locator);
     }
-
 
     /**
      * Gets the text from a cell of a table. The cellAddress syntax
@@ -3237,7 +3190,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getTable($tableCellAddress);
     }
 
-
     /**
      * Gets all option labels (visible text) for selected options in the specified select or multi-select element.
      *
@@ -3248,7 +3200,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getSelectedLabels($selectLocator);
     }
-
 
     /**
      * Gets option label (visible text) for selected option in the specified select element.
@@ -3261,7 +3212,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getSelectedLabel($selectLocator);
     }
 
-
     /**
      * Gets all option values (value attributes) for selected options in the specified select or multi-select element.
      *
@@ -3272,7 +3222,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getSelectedValues($selectLocator);
     }
-
 
     /**
      * Gets option value (value attribute) for selected option in the specified select element.
@@ -3285,7 +3234,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getSelectedValue($selectLocator);
     }
 
-
     /**
      * Gets all option indexes (option number, starting at 0) for selected options in the specified select or multi-select element.
      *
@@ -3296,7 +3244,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getSelectedIndexes($selectLocator);
     }
-
 
     /**
      * Gets option index (option number, starting at 0) for selected option in the specified select element.
@@ -3309,7 +3256,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getSelectedIndex($selectLocator);
     }
 
-
     /**
      * Gets all option element IDs for selected options in the specified select or multi-select element.
      *
@@ -3320,7 +3266,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getSelectedIds($selectLocator);
     }
-
 
     /**
      * Gets option element ID for selected option in the specified select element.
@@ -3333,7 +3278,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getSelectedId($selectLocator);
     }
 
-
     /**
      * Determines whether some option in a drop-down menu is selected.
      *
@@ -3345,7 +3289,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::isSomethingSelected($selectLocator);
     }
 
-
     /**
      * Gets all option labels in the specified select drop-down.
      *
@@ -3356,7 +3299,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getSelectOptions($selectLocator);
     }
-
 
     /**
      * Gets the value of an element attribute. The value of the attribute may
@@ -3371,7 +3313,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getAttribute($attributeLocator);
     }
 
-
     /**
      * Verifies that the specified text pattern appears somewhere on the rendered page shown to the user.
      *
@@ -3383,7 +3324,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::isTextPresent($pattern);
     }
 
-
     /**
      * Verifies that the specified element is somewhere on the page.
      *
@@ -3394,7 +3334,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::isElementPresent($locator);
     }
-
 
     /**
      * Determines if the specified element is visible. An
@@ -3411,7 +3350,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::isVisible($locator);
     }
 
-
     /**
      * Determines whether the specified input element is editable, ie hasn't been disabled.
      * This method will fail if the specified element isn't an input element.
@@ -3423,7 +3361,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::isEditable($locator);
     }
-
 
     /**
      * Returns the IDs of all buttons on the page.
@@ -3439,7 +3376,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getAllButtons();
     }
 
-
     /**
      * Returns the IDs of all links on the page.
      *
@@ -3453,7 +3389,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getAllLinks();
     }
-
 
     /**
      * Returns the IDs of all input fields on the page.
@@ -3469,7 +3404,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getAllFields();
     }
 
-
     /**
      * Returns an array of JavaScript property values from all known windows having one.
      *
@@ -3481,7 +3415,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getAttributeFromAllWindows($attributeName);
     }
 
-
     /**
      * deprecated - use dragAndDrop instead
      *
@@ -3492,7 +3425,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::dragdrop($locator, $movementsString);
     }
-
 
     /**
      * Configure the number of pixels between "mousemove" events during dragAndDrop commands (default=10).
@@ -3512,7 +3444,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::setMouseSpeed($pixels);
     }
 
-
     /**
      * Returns the number of pixels between "mousemove" events during dragAndDrop commands (default=10).
      *
@@ -3522,7 +3453,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getMouseSpeed();
     }
-
 
     /**
      * Drags an element a certain distance and then drops it
@@ -3535,7 +3465,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::dragAndDrop($locator, $movementsString);
     }
 
-
     /**
      * Drags an element and drops it on another element
      *
@@ -3547,7 +3476,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::dragAndDropToObject($locatorOfObjectToBeDragged, $locatorOfDragDestinationObject);
     }
 
-
     /**
      * Gives focus to the currently selected window
      *
@@ -3557,7 +3485,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::windowFocus();
     }
 
-
     /**
      * Resize currently selected window to take up the entire screen
      *
@@ -3566,7 +3493,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::windowMaximize();
     }
-
 
     /**
      * Returns the IDs of all windows that the browser knows about in an array.
@@ -3578,7 +3504,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getAllWindowIds();
     }
 
-
     /**
      * Returns the names of all windows that the browser knows about in an array.
      *
@@ -3588,7 +3513,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getAllWindowNames();
     }
-
 
     /**
      * Returns the titles of all windows that the browser knows about in an array.
@@ -3600,7 +3524,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getAllWindowTitles();
     }
 
-
     /**
      * Returns the entire HTML source between the opening and
      * closing "html" tags.
@@ -3611,7 +3534,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getHtmlSource();
     }
-
 
     /**
      * Moves the text cursor to the specified position in the given input element or textarea.
@@ -3625,7 +3547,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::setCursorPosition($locator, $position);
     }
 
-
     /**
      * Get the relative index of an element to its parent (starting from 0). The comment node and empty text node
      * will be ignored.
@@ -3637,7 +3558,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getElementIndex($locator);
     }
-
 
     /**
      * Check if these two elements have same parent and are ordered siblings in the DOM. Two same elements will
@@ -3652,7 +3572,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::isOrdered($locator1, $locator2);
     }
 
-
     /**
      * Retrieves the horizontal position of an element
      *
@@ -3663,7 +3582,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getElementPositionLeft($locator);
     }
-
 
     /**
      * Retrieves the vertical position of an element
@@ -3676,7 +3594,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getElementPositionTop($locator);
     }
 
-
     /**
      * Retrieves the width of an element
      *
@@ -3688,7 +3605,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getElementWidth($locator);
     }
 
-
     /**
      * Retrieves the height of an element
      *
@@ -3699,7 +3615,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getElementHeight($locator);
     }
-
 
     /**
      * Retrieves the text cursor position in the given input element or textarea; beware, this may not work perfectly on all browsers.
@@ -3718,7 +3633,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getCursorPosition($locator);
     }
 
-
     /**
      * Returns the specified expression.
      *
@@ -3735,7 +3649,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getExpression($expression);
     }
 
-
     /**
      * Returns the number of nodes that match the specified xpath, eg. "//table" would give
      * the number of tables.
@@ -3747,7 +3660,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getXpathCount($xpath);
     }
-
 
     /**
      * Temporarily sets the "id" attribute of the specified element, so you can locate it in the future
@@ -3761,7 +3673,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::assignId($locator, $identifier);
     }
-
 
     /**
      * Specifies whether Selenium should use the native in-browser implementation
@@ -3777,7 +3688,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::allowNativeXpath($allow);
     }
-
 
     /**
      * Specifies whether Selenium will ignore xpath attributes that have no
@@ -3796,7 +3706,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::ignoreAttributesWithoutValue($ignore);
     }
-
 
     /**
      * Runs the specified JavaScript snippet repeatedly until it evaluates to "true".
@@ -3818,7 +3727,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::waitForCondition($script, $timeout);
     }
 
-
     /**
      * Specifies the amount of time that Selenium will wait for actions to complete.
      *
@@ -3833,7 +3741,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::setTimeout($timeout);
     }
-
 
     /**
      * Waits for a new page to load.
@@ -3855,7 +3762,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::waitForPageToLoad($timeout);
     }
 
-
     /**
      * Waits for a new frame to load.
      *
@@ -3874,7 +3780,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::waitForFrameToLoad($frameAddress, $timeout);
     }
 
-
     /**
      * Return all cookies of the current page under test.
      *
@@ -3884,7 +3789,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::getCookie();
     }
-
 
     /**
      * Returns the value of the cookie with the specified name, or throws an error if the cookie is not present.
@@ -3897,7 +3801,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return parent::getCookieByName($name);
     }
 
-
     /**
      * Returns true if a cookie with the specified name is present, or false otherwise.
      *
@@ -3908,7 +3811,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         return parent::isCookiePresent($name);
     }
-
 
     /**
      * Create a new cookie whose path and domain are same with those of current page
@@ -3921,7 +3823,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::createCookie($nameValuePair, $optionsString);
     }
-
 
     /**
      * Delete a named cookie with specified path and domain.  Be careful; to delete a cookie, you
@@ -3943,7 +3844,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::deleteCookie($name, $optionsString);
     }
 
-
     /**
      * Calls deleteCookie with recurse=true on all cookies visible to the current page.
      * As noted on the documentation for deleteCookie, recurse=true can be much slower
@@ -3954,7 +3854,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::deleteAllVisibleCookies();
     }
-
 
     /**
      * Sets the threshold for browser-side logging messages; log messages beneath this threshold will be discarded.
@@ -3968,7 +3867,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::setBrowserLogLevel($logLevel);
     }
-
 
     /**
      * Creates a new "script" tag in the body of the current test window, and
@@ -3985,7 +3883,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::runScript($script);
     }
-
 
     /**
      * Defines a new function for Selenium to locate elements on the page.
@@ -4019,7 +3916,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::addLocationStrategy($strategyName, $functionDefinition);
     }
 
-
     /**
      * Saves the entire contents of the current window canvas to a PNG file.
      * Contrast this with the captureScreenshot command, which captures the
@@ -4033,15 +3929,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param string $filename the path to the file to persist the screenshot as. No                  filename extension will be appended by default.                  Directories will not be created if they do not exist,                    and an exception will be thrown, possibly by native                  code.
      * @param string $kwargs a kwargs string that modifies the way the screenshot                  is captured. Example: "background=#CCFFDD" .                  Currently valid options:                  <dl>
-<dt>background</dt>
-<dd>the background CSS for the HTML document. This                     may be useful to set for capturing screenshots of                     less-than-ideal layouts, for example where absolute                     positioning causes the calculation of the canvas                     dimension to fail and a black background is exposed                     (possibly obscuring black text).</dd>
-</dl>
+      <dt>background</dt>
+      <dd>the background CSS for the HTML document. This                     may be useful to set for capturing screenshots of                     less-than-ideal layouts, for example where absolute                     positioning causes the calculation of the canvas                     dimension to fail and a black background is exposed                     (possibly obscuring black text).</dd>
+      </dl>
      */
     public function captureEntirePageScreenshot($filename, $kwargs)
     {
         parent::captureEntirePageScreenshot($filename, $kwargs);
     }
-
 
     /**
      * Executes a command rollup, which is a series of commands with a unique
@@ -4056,7 +3951,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::rollup($rollupName, $kwargs);
     }
-
 
     /**
      * Loads script content into a new script tag in the Selenium document. This
@@ -4080,7 +3974,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         parent::addScript($scriptContent, $scriptTagId);
     }
 
-
     /**
      * Removes a script tag from the Selenium document identified by the given
      * id. Does nothing if the referenced tag doesn't exist.
@@ -4091,7 +3984,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::removeScript($scriptTagId);
     }
-
 
     /**
      * Allows choice of one of the available libraries.
@@ -4240,6 +4132,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         parent::keyPressNative($keycode);
     }
+
     /**
      * *********************************************
      * *         DRIVER FUNCTIONS END              *
