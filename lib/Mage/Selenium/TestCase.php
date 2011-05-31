@@ -793,7 +793,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             return true;
         }
 
-        return false;
+        $this->fail('Control "' . $controlName
+                    . '" with xpath "'
+                    . $xpath
+                    . '" isn\'t present on the page');
     }
 
     /**
