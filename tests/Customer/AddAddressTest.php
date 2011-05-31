@@ -63,12 +63,11 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
      */
     public function test_CreateCustomer()
     {
-
         //Data
         $userData = $this->loadData('generic_customer_account',
                         array('email' => $this->generate('email', 20, 'valid')));
         //Steps
-        $this->CustomerHelper()->createCustomer($userData);
+        $this->customerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
@@ -109,8 +108,8 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
         $addressData = $this->loadData('generic_address');
         //Steps
-        $this->CustomerHelper()->openCustomer($searchData);
-        $this->CustomerHelper()->addAdress($addressData);
+        $this->customerHelper()->openCustomer($searchData);
+        $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
@@ -152,16 +151,15 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         //Data
         $addressData = $this->loadData('generic_address', $emptyField);
         //Steps
-        $this->CustomerHelper()->openCustomer($searchData);
-        $this->CustomerHelper()->addAdress($addressData);
+        $this->customerHelper()->openCustomer($searchData);
+        $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         // Defining and adding %fieldXpath% for customer Uimap
-        $page = $this->getUimapPage('admin', 'edit_customer');
-        $page->assignParams($this->_paramsHelper);
+        $page = $this->getCurrentUimapPage();
         $fieldSet = $page->findFieldset('edit_address');
         foreach ($emptyField as $key => $value) {
-            if ($value == '%noValue%') {
+            if ($value == '%noValue%' || !$fieldSet) {
                 continue;
             }
             if ($fieldSet->findField($key) != Null) {
@@ -237,18 +235,18 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         );
         $addressData = $this->loadData('generic_address', $specialCharacters);
         //Steps
-        $this->CustomerHelper()->openCustomer($searchData);
-        $this->CustomerHelper()->addAdress($addressData);
+        $this->customerHelper()->openCustomer($searchData);
+        $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying #–1
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
         //Steps
-        $this->CustomerHelper()->openCustomer($searchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);
         //Verifying #–2 - Check saved values
-        $addressNumber = $this->CustomerHelper()->isAddressPresent($addressData);
+        $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
     }
 
@@ -297,18 +295,18 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         );
         $addressData = $this->loadData('generic_address', $longValues);
         //Steps
-        $this->CustomerHelper()->openCustomer($searchData);
-        $this->CustomerHelper()->addAdress($addressData);
+        $this->customerHelper()->openCustomer($searchData);
+        $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying #–1
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
         //Steps
-        $this->CustomerHelper()->openCustomer($searchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);
         //Verifying #–2 - Check saved values
-        $addressNumber = $this->CustomerHelper()->isAddressPresent($addressData);
+        $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
     }
 
@@ -342,18 +340,18 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
                         array('default_shipping_address' => 'No'));
         //Steps
         // 1.Open customer
-        $this->CustomerHelper()->openCustomer($searchData);
-        $this->CustomerHelper()->addAdress($addressData);
+        $this->customerHelper()->openCustomer($searchData);
+        $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
         //Steps
-        $this->CustomerHelper()->openCustomer($searchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);
         //Verifying #–2 - Check saved values
-        $addressNumber = $this->CustomerHelper()->isAddressPresent($addressData);
+        $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
     }
 
@@ -385,18 +383,18 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $addressData = $this->loadData('all_fields_address',
                         array('default_billing_address' => 'No'));
         //Steps
-        $this->CustomerHelper()->openCustomer($searchData);
-        $this->CustomerHelper()->addAdress($addressData);
+        $this->customerHelper()->openCustomer($searchData);
+        $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
         //Steps
-        $this->CustomerHelper()->openCustomer($searchData);
+        $this->customerHelper()->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);
         //Verifying #–2 - Check saved values
-        $addressNumber = $this->CustomerHelper()->isAddressPresent($addressData);
+        $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
     }
 

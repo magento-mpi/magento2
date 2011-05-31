@@ -317,6 +317,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (!isset($this->_testHelpers[$helperClassName])) {
             if (class_exists($helperClassName)) {
                 $this->_testHelpers[$helperClassName] = new $helperClassName;
+
+                if ($this->_testHelpers[$helperClassName] instanceof Mage_Selenium_TestCase) {
+                    $this->_testHelpers[$helperClassName]->appendParamsDecorator($this->_paramsHelper);
+                }
+
             } else {
                 return false;
             }

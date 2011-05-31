@@ -89,7 +89,7 @@ class Customer_Helper extends Mage_Selenium_TestCase
      * PreConditions: Customer is opened.
      * @param array $addressData
      */
-    public function addAdress(array $addressData)
+    public function addAddress(array $addressData)
     {
         //Open 'Addresses' tab
         $this->clickControl('tab', 'addresses', FALSE);
@@ -124,7 +124,7 @@ class Customer_Helper extends Mage_Selenium_TestCase
         $this->fillForm($userData, 'account_information');
         //Add address
         if (isset($addressData)) {
-            $this->addAdress($addressData);
+            $this->addAddress($addressData);
         }
         $this->saveForm('save_customer');
     }
