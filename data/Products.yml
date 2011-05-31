@@ -56,3 +56,65 @@ product_create_settings_bundle:
 product_create_settings_downloadable:
     attribute_set: Default
     product_type: Downloadable Product
+
+# Dataset  for Simple Product Creation
+simple_product:
+    #general_tab
+    product_name: Simple Product
+    product_description: Description for Simple Product
+    product_short_description: Short Description for Simple Product
+    product_sku: SP-01
+    product_weight: 2.56
+    product_news_from_date: 12/12/12
+    product_news_to_date: 12/12/13
+    product_url_key: simple_product_url_key
+    product_status: Enabled
+    product_visibility: Not Visible Individually
+    product_in_feed: Yes
+    #prices_tab:
+    product_price: 4.95
+    product_special_price: 3.99
+    product_special_price_from: 05/05/11
+    product_special_price_to: 09/09/11
+    product_cost: 2
+    product_tier_price_website: %noValue%
+    product_tier_price_customer_group: %noValue%
+    product_tier_price_qty: %noValue%
+    product_tier_price_price: %noValue%
+    product_tax_class: None
+    google_checkout: Yes
+    #meta_information_tab:
+    meta_title: Meta Title for Simple Product
+    meta_keywords: Meta Keywords for Simple Product
+    meta_description: Meta Description for Simple Product
+    #recurring_profile_tab:
+    enable_recurring_profile: No
+    #design_tab:
+    custom_design: default
+    active_from: 11/11/11
+    active_to: 2/12/12
+    custom_layout_update: Custom Layout Update
+    page_layout: 3 columns
+    display_product_options_in: Product Info Column
+    #gift_options_tab:
+    use_config_settings: %noValue%
+    #inventory_tab:
+    use_manage_stock: No
+    manage_stock: Yes
+    qty: 120
+    use_qty_for_items_status: No
+    qty_for_items_status: 10
+    use_min_allowed_qty: No
+    min_allowed_qty: 2
+    use_max_allowed_qty: No
+    max_allowed_qty: 10
+    qty_uses_decimals: Yes
+    use_backorders: No
+    backorders: Allow Qty Below 0
+    use_notify_for_qty_below: No
+    notify_for_qty_below: 10
+    use_enable_qty_increments: No
+    enable_qty_increments: Yes
+    use_qty_increments: No
+    qty_increments: 5
+    stock_availability: In Stock
