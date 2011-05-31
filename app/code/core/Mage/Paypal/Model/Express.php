@@ -269,6 +269,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 
                     //Save payment state and configure payment object for voiding
                     $isCaptureFinal = $payment->getShouldCloseParentTransaction();
+                    $captureTrxId = $payment->getTransactionId();
                     $payment->setShouldCloseParentTransaction(false);
                     $payment->setParentTransactionId($authorizationTransaction->getTxnId());
                     $payment->unsTransactionId();
@@ -276,12 +277,13 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 
                     //Revert payment state after voiding
                     $payment->unsAuthorizationTransaction();
+                    $payment->unsTransactionId();
                     $payment->setShouldCloseParentTransaction($isCaptureFinal);
                     $voided = true;
                 }
             }
 
-            if (!$authorizationTransaction || $voided) {
+            if ($authorizationTransaction->getIsClosed() || $voided) {
                 $api = $this->_callDoAuthorize(
                     $order->getBaseGrandTotal() - $order->getBaseTotalInvoiced(),
                     $payment,
