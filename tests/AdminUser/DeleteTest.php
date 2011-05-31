@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Deleting Admin User
  *
  * @package     selenium
  * @subpackage  tests
@@ -38,20 +38,22 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Preconditions:
-     *
      * Log in to Backend.
-     *
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
+    /**
+     * Preconditions:
      * Navigate to System -> Permissions -> Users.
      */
     protected function assertPreConditions()
     {
-        $this->addParameter('id', 0);
-        $this->loginAdminUser();
-        $this->assertTrue($this->admin());
         $this->navigate('manage_admin_users');
-        $this->assertTrue($this->checkCurrentPage('manage_admin_users'),
-                'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_admin_users'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
     }
 
     /**
@@ -61,8 +63,7 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
      * 1.Press "Add New User" button.
      * 2.Fill all required fields.
      * 3.Press "Save User" button.
-     * 4.Search and open user.
-     * 5.Press "Delete User" button.
+     * 4.Press "Delete User" button.
      *
      * Expected result:
      * User successfully deleted.
@@ -71,30 +72,16 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
     public function test_DeleteAdminUser_Deletable()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user',
-                        array(
-                            'email' => $this->generate('email', 20, 'valid'),
-                            'user_name' => $this->generate('string', 7, ':alnum:')
-                ));
+        $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
         $searchData = $this->loadData('search_admin_user',
-                        array(
-                            'email' => $userData['email'],
-                            'user_name' => $userData['user_name']
-                ));
+                        array('email' => $userData['email'], 'user_name' => $userData['user_name']));
         //Steps
-        $this->clickButton('add_new_admin_user');
-        $this->fillForm($userData);
-        $this->saveForm('save_admin_user');
+        $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->defineId();
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('edit_admin_user'),
                 'After successful user creation should be redirected to Edit User page');
         //Steps
-        $this->navigate('manage_admin_users');
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($searchData), 'Admin User is not found');
         $this->deleteElement('delete_user', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_user'), $this->messages);
@@ -110,8 +97,7 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
         $searchDataCurrentUser = array();
         //Steps
         $this->navigate('my_account');
-        $this->assertTrue($this->checkCurrentPage('my_account'),
-                'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('my_account'), 'Wrong page is opened');
         $page = $this->getCurrentLocationUimapPage();
         $fieldSet = $page->findFieldset('account_info');
         foreach ($searchData as $key => $value) {
@@ -127,30 +113,9 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
         $this->pleaseWait();
         $this->assertTrue($this->searchAndOpen($searchDataCurrentUser), 'Admin User is not found');
         //Verifying
-        $this->assertFalse($this->controlIsPresent('button', 'success_deleted_user'),
-                '"Delete Admin User" button is present on the page');
-    }
-
-    /**
-     * *********************************************
-     * *         HELPER FUNCTIONS                  *
-     * *********************************************
-     */
-    public function defineId()
-    {
-        // ID definition
-        $item_id = 0;
-        $title_arr = explode('/', $this->getLocation());
-        $title_arr = array_reverse($title_arr);
-        foreach ($title_arr as $key => $value) {
-            if (preg_match('/id$/', $value) && isset($title_arr[$key - 1])) {
-                $item_id = $title_arr[$key - 1];
-                break;
-            }
-        }
-        if ($item_id > 0) {
-            $this->addParameter('id', $item_id);
-        }
+        $this->deleteElement('delete_user', 'confirmation_for_delete');
+        //Verifying
+        $this->assertTrue($this->errorMessage('cannot_delete_account'), $this->messages);
     }
 
 }

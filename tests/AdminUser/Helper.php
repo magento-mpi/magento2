@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -26,7 +27,86 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * *********************************************
+ * *         HELPER FUNCTIONS                  *
+ * *********************************************
+ */
 class AdminUser_Helper extends Mage_Selenium_TestCase
 {
-    
+
+    /**
+     * Define Admin User Id.
+     * 
+     * Preconditions:
+     * User is opened.
+     */
+    public function defineId()
+    {
+        // ID definition
+        $item_id = 0;
+        $title_arr = explode('/', $this->getLocation());
+        $title_arr = array_reverse($title_arr);
+        foreach ($title_arr as $key => $value) {
+            if (preg_match('/id$/', $value) && isset($title_arr[$key - 1])) {
+                $item_id = $title_arr[$key - 1];
+                break;
+            }
+        }
+        if ($item_id > 0) {
+            $this->addParameter('id', $item_id);
+        }
+    }
+
+    /**
+     * Search Role for Admin User.
+     * 
+     * @param Array $data
+     * @return type 
+     */
+    public function searchRole($data)
+    {
+        if (isset($data['role_name'])) {
+            //Data
+            $search['role_name'] = $data['role_name'];
+            //Steps
+            $this->clickButton('reset_filter', FALSE);
+            $this->pleaseWait();
+            $this->fillForm($search);
+            $this->clickButton('search', FALSE);
+            $this->pleaseWait();
+            $this->addParameter('roleName', $search['role_name']);
+            $page = $this->getCurrentUimapPage();
+            $page->assignParams($this->_paramsHelper);
+            $fieldsSet = $page->findFieldset('permissions_user_roles');
+            $xpathField = $fieldsSet->findRadiobutton('select_by_role_name');
+            if ($this->isElementPresent($xpathField)) {
+                $this->click($xpathField);
+                return TRUE;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Create Admin User.
+     * @param Array $userData 
+     */
+    public function createAdminUser($userData)
+    {
+        $this->clickButton('add_new_admin_user');
+        $this->fillForm($userData, 'user_info');
+        if (array_key_exists('role_name', $userData)
+                and $userData['role_name'] !== '%noValue%'
+                and $userData['role_name'] !== NULL) {
+            $role['role_name'] = $userData['role_name'];
+            $this->clickControl('tab', 'user_role', FALSE);
+            $this->assertTrue($this->searchRole($userData), 'Role is not found');
+        }
+        $this->saveForm('save_admin_user');
+        if ($this->checkCurrentPage('edit_admin_user')) {
+            $this->defineId();
+        }
+    }
+
 }

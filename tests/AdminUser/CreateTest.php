@@ -46,12 +46,10 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->addParameter('id', 0);
         $this->loginAdminUser();
-        $this->assertTrue($this->admin());
         $this->navigate('manage_admin_users');
-        $this->assertTrue($this->checkCurrentPage('manage_admin_users'),
-                'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_admin_users'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
     }
 
     /**
@@ -73,14 +71,11 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->clickButton('add_new_admin_user'),
                 'There is no "Add New Customer" button on the page');
-        $this->assertTrue($this->checkCurrentPage('new_admin_user'),
-                'Wrong page is opened');
-        $this->assertTrue($this->controlIsPresent('button', 'back'),
-                'There is no "Back" button on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'save_admin_user'),
+        $this->assertTrue($this->checkCurrentPage('new_admin_user'), 'Wrong page is opened');
+        $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
+        $this->assertTrue($this->buttonIsPresent('save_admin_user'),
                 'There is no "Save User" button on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'reset'),
-                'There is no "Reset" button on the page');
+        $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
     }
 
     /**
@@ -107,20 +102,73 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsOnly()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user',
-                        array('email' => $this->generate('email', 20, 'valid'),
-                            'user_name' => $this->generate('string', 7, ':alnum:')));
+        $userData = $this->loadData('generic_admin_user', Null, array('email', 'user_name'));
         //Steps
-        $this->clickButton('add_new_admin_user');
-        $this->fillForm($userData);
-        $this->saveForm('save_admin_user');
+        $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->defineId();
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('edit_admin_user'),
                 'After successful user creation should be redirected to Edit User page');
 
         return $userData;
+    }
+
+    /**
+     * Create Admin User. Use user name that already exist
+     *
+     * Steps:
+     *
+     * 1. Click 'Add New User' button.
+     *
+     * 2. Fill in 'user name' field by using data that already exist.
+     *
+     * 3. Fill other required fields by regular data.
+     *
+     * 4. Click 'Save User' button.
+     *
+     * Expected result:
+     *
+     * User is not created. Error Message is displayed.
+     * @depends test_WithRequiredFieldsOnly
+     * @param array $userData
+     */
+    public function test_WithUserNameThatAlreadyExists($userData)
+    {
+        //Data
+        $userData['email'] = $this->generate('email', 20, 'valid');
+        //Steps
+        $this->adminUserHelper()->createAdminUser($userData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('exist_name_or_email'), $this->messages);
+    }
+
+    /**
+     * Create Admin User. Use email that already exist
+     *
+     * Steps:
+     *
+     * 1. Click 'Add New User' button.
+     *
+     * 2. Fill in 'email' field by using email that already exist.
+     *
+     * 3. Fill other required fields by regular data.
+     *
+     * 4. Click 'Save User' button.
+     *
+     * Expected result:
+     *
+     * User is not created. Error Message is displayed.
+     * @depends test_WithRequiredFieldsOnly
+     * @param array $userData
+     */
+    public function test_WithUserEmailThatAlreadyExists($userData)
+    {
+        //Data
+        $userData['user_name'] = $this->generate('string', 5, ':lower:');
+        //Steps
+        $this->adminUserHelper()->createAdminUser($userData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('exist_email'), $this->messages);
     }
 
     /**
@@ -148,18 +196,21 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty($emptyField, $messageCount)
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', $emptyField);
+        if (array_key_exists('user_name', $emptyField)) {
+            $userData = $this->loadData('generic_admin_user', $emptyField, 'email');
+        } elseif (array_key_exists('email', $emptyField)) {
+            $userData = $this->loadData('generic_admin_user', $emptyField, 'user_name');
+        } else {
+            $userData = $this->loadData('generic_admin_user', $emptyField,
+                            array('email', 'user_name'));
+        }
         //Steps
-        $this->clickButton('add_new_admin_user');
-        $this->fillForm($userData);
-        $this->saveForm('save_admin_user');
+        $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $page = $this->getCurrentUimapPage();
+        $page = $this->getUimapPage('admin', 'new_admin_user');
         foreach ($emptyField as $key => $value) {
-            if ($value == NULL) {
-                $xpath = $page->findField($key);
-                $this->addParameter('fieldXpath', $xpath);
-            }
+            $xpath = $page->findField($key);
+            $this->addParameter('fieldXpath', $xpath);
         }
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->messages);
@@ -168,18 +219,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function data_emptyFields()
     {
         return array(
-            array(array('user_name' => '',
-                    'email' => $this->generate('email', 20, 'valid')), 1),
-            array(array('first_name' => '',
-                    'user_name' => $this->generate('string', 7, ':alnum:'), 'email' => $this->generate('email', 20, 'valid')), 1),
-            array(array('last_name' => '',
-                    'user_name' => $this->generate('string', 7, ':alnum:'), 'email' => $this->generate('email', 20, 'valid')), 1),
-            array(array('email' => '',
-                    'user_name' => $this->generate('string', 7, ':alnum:')), 1),
-            array(array('password' => '',
-                    'user_name' => $this->generate('string', 7, ':alnum:'), 'email' => $this->generate('email', 20, 'valid')), 2),
-            array(array('password_confirmation' => '',
-                    'user_name' => $this->generate('string', 7, ':alnum:'), 'email' => $this->generate('email', 20, 'valid')), 1),
+            array(array('user_name' => '%noValue%'), 1),
+            array(array('first_name' => '%noValue%'), 1),
+            array(array('last_name' => '%noValue%'), 1),
+            array(array('email' => '%noValue%'), 1),
+            array(array('password' => '%noValue%'), 2),
+            array(array('password_confirmation' => '%noValue%'), 1),
         );
     }
 
@@ -214,18 +259,18 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
             'user_name' => $this->generate('string', 32, ':punct:'),
             'first_name' => $this->generate('string', 32, ':punct:'),
             'last_name' => $this->generate('string', 32, ':punct:'),
-            'email' => $this->generate('email', 20, 'valid')
         );
-        $userData = $this->loadData('generic_admin_user', $specialCharacters);
+        $userData = $this->loadData('generic_admin_user', $specialCharacters, 'email');
         //Steps
-        $this->clickButton('add_new_admin_user');
-        $this->fillForm($userData);
-        $this->saveForm('save_admin_user');
+        $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->defineId();
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('edit_admin_user'),
                 'After successful user creation should be redirected to Edit User page');
+        $this->assertTrue(
+                $this->verifyForm(
+                        $userData, 'user_info', array('password', 'password_confirmation')
+                ), $this->messages);
     }
 
     /**
@@ -263,22 +308,15 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         );
         $userData = $this->loadData('generic_admin_user', $longValues);
         //Steps
-        $this->clickButton('add_new_admin_user');
-        $this->fillForm($userData);
-        $this->saveForm('save_admin_user');
+        $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->defineId();
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('edit_admin_user'),
                 'After successful user creation should be redirected to Edit User page');
-        unset($longValues['password']);
-        unset($longValues['password_confirmation']);
-        $page = $this->getCurrentUimapPage();
-        foreach ($longValues as $key => $value) {
-            $xpath = $page->findField($key);
-            $this->assertEquals($value, $this->getValue($xpath),
-                    "The stored value for '$key' field is not equal to specified");
-        }
+        $this->assertTrue(
+                $this->verifyForm(
+                        $userData, 'user_info', array('password', 'password_confirmation')
+                ), $this->messages);
     }
 
     /**
@@ -305,22 +343,14 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      * @depends test_WithRequiredFieldsOnly
      * @dataProvider data_invalidPassword
      */
-    public function test_WithInvalidPassword($password, $passwordConfirm, $errorMessage)
+    public function test_WithInvalidPassword($wrongPasswords, $errorMessage)
     {
         //Data
-        $userData = $this->loadData(
-                        'generic_admin_user',
-                        array(
-                            'password' => $password,
-                            'password_confirmation' => $passwordConfirm,
-                            'user_name' => $this->generate('string', 7, ':alnum:'),
-                            'email' => $this->generate('email', 20, 'valid')
-                ));
+        $userData = $this->loadData('generic_admin_user', $wrongPasswords,
+                        array('email', 'user_name'));
         //Steps
-        $this->clickButton('add_new_admin_user');
-        $this->fillForm($userData);
-        $this->saveForm('save_admin_user');
-        //
+        $this->adminUserHelper()->createAdminUser($userData);
+        //Verifying
         $this->assertTrue($this->errorMessage($errorMessage), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -328,10 +358,22 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function data_invalidPassword()
     {
         return array(
-            array('1234567890', '1234567890', 'invalid_password'),
-            array('qwertyqw', 'qwertyqw', 'invalid_password'),
-            array('123qwe', '123qwe', 'invalid_password'),
-            array('123123qwe', '1231234qwe', 'password_unmatch')
+            array(array(
+                    'password' => '1234567890',
+                    'password_confirmation' => '1234567890',
+                ), 'invalid_password'),
+            array(array(
+                    'password' => 'qwertyqw',
+                    'password_confirmation' => 'qwertyqw',
+                ), 'invalid_password'),
+            array(array(
+                    'password' => '123qwe',
+                    'password_confirmation' => '123qwe',
+                ), 'invalid_password'),
+            array(array(
+                    'password' => '123123qwe',
+                    'password_confirmation' => '1231234qwe',
+                ), 'password_unmatch')
         );
     }
 
@@ -365,10 +407,8 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadData('generic_admin_user', $invalidEmail, 'user_name');
         //Steps
-        $this->clickButton('add_new_admin_user');
-        $this->fillForm($userData);
-        $this->saveForm('save_admin_user');
-        //
+        $this->adminUserHelper()->createAdminUser($userData);
+        //Verifying
         $this->assertTrue($this->errorMessage('invalid_email'), $this->messages);
     }
 
@@ -398,33 +438,34 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      *
      * Expected result:
      *
-     * New user successfully saved.
+     * New user successfully saved. Message "The user has been saved." is displayed.
      *
-     * Message "The user has been saved." is displayed.
+     * 6.Log out
      *
+     * 7.Log in using created user.
+     *
+     * Expected result:
+     *
+     * Error Message "This account is inactive." is displayed.
      * @depends test_WithRequiredFieldsOnly
      */
     public function test_InactiveUser()
     {
         //Data
-        $userData = $this->loadData(
-                        'generic_admin_user',
-                        array(
-                            'email' => $this->generate('email', 20, 'valid'),
-                            'this_acount_is' => 'Inactive'
-                        ),
-                        'user_name');
+        $userData = $this->loadData('generic_admin_user',
+                        array('this_acount_is' => 'Inactive', 'role_name' => 'Administrators'),
+                        array('email', 'user_name')
+        );
         //Steps
-        $this->clickButton('add_new_admin_user');
-        $this->fillForm($userData, 'user_info');
-        $this->clickControl('tab', 'user_role', FALSE);
-        $this->assertTrue($this->searchRole($userData), 'Role is not found');
-        $this->saveForm('save_admin_user');
+        $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->defineId();
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('edit_admin_user'),
-                'After successful user creation should be redirected to Edit User page');
+        //Steps
+        $this->logoutAdminUser();
+        $this->fillForm($userData);
+        $this->clickButton('login');
+        //Verifying
+        $this->assertTrue($this->errorMessage('inactive_aacount'), $this->messages);
     }
 
     /**
@@ -444,74 +485,74 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      *
      * Expected result:
      *
-     * Nnew user successfully saved.
+     * New user successfully saved. Message "The user has been saved." is displayed
      *
-     * Message "The user has been saved." is displayed
+     * 6.Log out
      *
+     * 7.Log in using created user.
+     *
+     * Expected result:
+     *
+     * Logged in to Admin.
      * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithRole()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user',
-                        array('email' => $this->generate('email', 20, 'valid')), 'user_name');
+        $userData = $this->loadData('generic_admin_user', array('role_name' => 'Administrators'),
+                        array('email', 'user_name'));
         //Steps
-        $this->clickButton('add_new_admin_user');
-        $this->fillForm($userData, 'user_info');
-        $this->clickControl('tab', 'user_role', FALSE);
-        $this->assertTrue($this->searchRole($userData), 'Role is not found');
-        $this->saveForm('save_admin_user');
+        $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->defineId();
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('edit_admin_user'),
-                'After successful user creation should be redirected to Edit User page');
+        //Steps
+        $this->logoutAdminUser();
+        $this->fillForm($userData);
+        $this->clickButton('login');
+        //Verifying
+        $this->assertTrue($this->checkCurrentPage('dashboard'), 'Wrong page is opened');
     }
 
     /**
-     * *********************************************
-     * *         HELPER FUNCTIONS                  *
-     * *********************************************
+     * Create Admin User (with Admin User Role).
+     *
+     * Steps:
+     *
+     * 1.Go to System-Permissions-Users.
+     *
+     * 2.Press "Add New User" button.
+     *
+     * 3.Fill all required fields.
+     *
+     * 4.Press "Save User" button.
+     *
+     * Expected result:
+     *
+     * New user successfully saved. Message "The user has been saved." is displayed
+     *
+     * 6.Log out
+     *
+     * 7.Log in using created user.
+     *
+     * Expected result:
+     *
+     * Error Message "Access denied." is displayed.
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function defineId()
+    public function test_WithoutRole()
     {
-        // ID definition
-        $item_id = 0;
-        $title_arr = explode('/', $this->getLocation());
-        $title_arr = array_reverse($title_arr);
-        foreach ($title_arr as $key => $value) {
-            if (preg_match('/id$/', $value) && isset($title_arr[$key - 1])) {
-                $item_id = $title_arr[$key - 1];
-                break;
-            }
-        }
-        if ($item_id > 0) {
-            $this->addParameter('id', $item_id);
-        }
-    }
-
-    public function searchRole($data)
-    {
-        if (isset($data['role_name'])) {
-            //Data
-            $search['role_name'] = $data['role_name'];
-            //Steps
-            $this->clickButton('reset_filter', FALSE);
-            $this->pleaseWait();
-            $this->fillForm($search);
-            $this->clickButton('search', FALSE);
-            $this->pleaseWait();
-            $this->addParameter('roleName', $search['role_name']);
-            $page = $this->getCurrentUimapPage();
-            $page->assignParams($this->_paramsHelper);
-            $fieldsSet = $page->findFieldset('permissions_user_roles');
-            $xpathField = $fieldsSet->findRadiobutton('select_by_role_name');
-            if ($this->isElementPresent($xpathField)) {
-                $this->click($xpathField);
-                return TRUE;
-            }
-        }
-        return false;
+        //Data
+        $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
+        //Steps
+        $this->adminUserHelper()->createAdminUser($userData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
+        //Steps
+        $this->logoutAdminUser();
+        $this->fillForm($userData);
+        $this->clickButton('login');
+        //Verifying
+        $this->assertTrue($this->errorMessage('access_denied'), $this->messages);
     }
 
 }

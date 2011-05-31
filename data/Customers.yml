@@ -110,7 +110,7 @@ all_fields_address:
 search_customer:
     id_from: %noValue%
     id_to: %noValue%
-    name: First Name  Last Name
+    name: %noValue%
     email: test_admin_1@example.com
     group: General
     telephone: %noValue%

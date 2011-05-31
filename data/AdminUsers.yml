@@ -28,14 +28,14 @@
 #Test data for Admin User and Admin Role
 
 generic_admin_role:
-#role_info:
+    #role_info:
     role_name: TestRole
-#role_resources:
+    #role_resources:
     role_scopes: All
     resource_access: All
 
 generic_admin_user:
-#user_info:
+    #user_info:
     user_name: testuser
     first_name: John
     last_name: Doe
@@ -43,8 +43,8 @@ generic_admin_user:
     password: 123123q
     password_confirmation: 123123q
     this_acount_is: %noValue%
-#user_role:
-    role_name: Administrators
+    #user_role:
+    role_name: %noValue%
 
 search_admin_user:
     id: %noValue%
