@@ -66,11 +66,11 @@ Default layout, loads most of the pages
         </reference>
         <block type="catalog/product_price_template" name="catalog_product_price_template" />
     </default>
-
+    
 <!--
 Category default layout
 -->
-
+    
     <catalog_category_default translate="label">
         <label>Catalog Category (Non-Anchor)</label>
         <reference name="left">
@@ -91,7 +91,6 @@ Category default layout
                             <action method="addPagerLimit"><mode>list</mode><limit>8</limit></action>
                             <action method="addPagerLimit" translate="label"><mode>list</mode><limit>all</limit><label>All</label></action>
                         -->
-                        <action method="addPagerLimit"><mode>list</mode><limit>5</limit></action>
                     </block>
                     <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
@@ -133,7 +132,6 @@ Category layered navigation layout
                             <action method="addPagerLimit"><mode>grid</mode><limit>9</limit></action>
                             <action method="addPagerLimit" translate="label"><mode>grid</mode><limit>all</limit><label>All</label></action>
                         -->
-                            <action method="addPagerLimit"><mode>list</mode><limit>5</limit></action>
                     </block>
                     <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
@@ -176,7 +174,6 @@ Compare products page
     <customer_account_index>
         <reference name="right">
             <action method="unsetChild"><name>catalog.compare.sidebar</name></action>
-
         </reference>
     </customer_account_index>
 
@@ -225,9 +222,7 @@ Product view
                     <action method="addToParentGroup"><group>detailed_info</group></action>
                 </block>
                 <block type="catalog/product_view" name="product.info.addto" as="addto" template="catalog/product/view/addto.phtml"/>
-                <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml">
-                    <block type="catalog/product_view" name="product.info.addtowishlist" as="addto_wishlist" template="catalog/product/view/addtowishlist.phtml" />
-                </block>
+                <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml"/>
 
                 <block type="core/text_list" name="product.info.extrahint" as="extrahint" translate="label">
                     <label>Product View Extra Hint</label>

@@ -44,7 +44,6 @@ Customer account home dashboard layout
 
         <!-- Mage_Review -->
         <reference name="customer_account_dashboard">
-            <action method="unsetChild"><name>customer_account_dashboard_info1</name></action>
             <block type="review/customer_recent" name="customer_account_dashboard_info1" as="info1" template="review/customer/recent.phtml"/>
         </reference>
 
@@ -90,6 +89,7 @@ Product reviews page
                         </block>
                     </block>
                 </block>
+
                 <block type="catalog/product_view" name="product.tierprices" as="tierprices" template="catalog/product/view/tierprices.phtml"/>
                 <block type="core/template" name="product.info.other" as="other" template="review/product/view/other.phtml"/>
                 <block type="page/html_pager" name="product_review_list.toolbar" />
@@ -133,4 +133,3 @@ Product reviews page
     </review_customer_view>
 
 </layout>
-

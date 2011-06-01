@@ -19,23 +19,20 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     default_iphone
+ * @package     base_default
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="forgot-password">
-    <h1><?php echo $this->__('Retrieve your password here') ?></h1>
-    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    <form action="<?php echo $this->getUrl('*/*/forgotpasswordpost') ?>" method="post" id="form-validate">
-        <label for="email_address" class="required"></label>
-        <input type="email" class="required-entry validate-email" name="email" id="email_adress" value="<?php echo $this->htmlEscape($this->getEmailValue()) ?>" placeholder="<?php echo $this->__('Email Address') ?>" />
-        <a href="<?php echo $this->helper('customer')->getLoginUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back to Login') ?></a>
-        <input type="submit" value="<?php echo $this->__('Submit') ?>" />
-    </form>
-</div>
-<script type="text/javascript">
-//<![CDATA[
-    var dataForm = new VarienForm('form-validate', true);
-//]]>
-</script>
+
+<?php $_product = $this->getProduct(); ?>
+<?php $_wishlistSubmitUrl = $this->helper('wishlist')->getAddUrl($_product); ?>
+<?php if ($this->helper('wishlist')->isAllow()) : ?>
+    <li><a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, '<?php echo $_wishlistSubmitUrl ?>'); return false;" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+<?php endif; ?>
+<?php
+    $_compareUrl = $this->helper('catalog/product_compare')->getAddUrl($_product);
+?>
+<?php if($_compareUrl) : ?>
+    <li><a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
+<?php endif; ?>

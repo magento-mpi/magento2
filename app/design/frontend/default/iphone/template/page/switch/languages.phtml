@@ -19,23 +19,23 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     default_iphone
+ * @package     base_default
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="forgot-password">
-    <h1><?php echo $this->__('Retrieve your password here') ?></h1>
-    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    <form action="<?php echo $this->getUrl('*/*/forgotpasswordpost') ?>" method="post" id="form-validate">
-        <label for="email_address" class="required"></label>
-        <input type="email" class="required-entry validate-email" name="email" id="email_adress" value="<?php echo $this->htmlEscape($this->getEmailValue()) ?>" placeholder="<?php echo $this->__('Email Address') ?>" />
-        <a href="<?php echo $this->helper('customer')->getLoginUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back to Login') ?></a>
-        <input type="submit" value="<?php echo $this->__('Submit') ?>" />
-    </form>
-</div>
-<script type="text/javascript">
-//<![CDATA[
-    var dataForm = new VarienForm('form-validate', true);
-//]]>
-</script>
+<?php
+/**
+ * Language switcher template
+ *
+ * @see Mage_Page_Block_Switch
+ */
+?>
+<?php if(count($this->getStores())>1): ?>
+    <select name="language" id="language" title="<?php echo $this->__('Your Language') ?>" onchange="window.location.href=this.value">
+        <?php foreach ($this->getStores() as $_lang): ?>
+            <?php $_selected = ($_lang->getId() == $this->getCurrentStoreId()) ? ' selected="selected"' : '' ?>
+            <option value="<?php echo $_lang->getCurrentUrl() ?>"<?php echo $_selected ?>><?php echo $this->htmlEscape($_lang->getName()) ?></option>
+        <?php endforeach; ?>
+    </select>
+<?php endif; ?>
