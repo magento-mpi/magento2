@@ -57,6 +57,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     const LENGTH_TABLE_NAME         = 30;
     const LENGTH_INDEX_NAME         = 25;
     const LENGTH_FOREIGN_NAME       = 30;
+    const LENGTH_SCHEMA_INDEX_NAME  = 40;
 
     const SQL_FOR_UPDATE            = 'FOR UPDATE';
 
@@ -3778,7 +3779,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
      protected function _minusSuperfluous($hash, $prefix, $maxCharacters)
      {
-         $diff        = strlen($hash) + strlen($prefix) -  $maxCharacters;
+         $diff        = strlen($hash) + strlen($prefix) - $maxCharacters;
          $superfluous = $diff / 2;
          $odd         = $diff % 2;
          $hash        = substr($hash, $superfluous, -($superfluous+$odd));
@@ -3827,7 +3828,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $fields = implode('_', $fields);
         }
 
-        switch (strtolower($indexType)) {
+        $indexType = strtolower($indexType);
+        switch ($indexType) {
             case Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE:
                 $prefix = 'unq_';
                 break;
@@ -3850,6 +3852,17 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 }
             } else {
                 $hash = $short;
+            }
+        }
+
+        /*
+         * Fixed Oracle issue, when length of schema.index must be less then 40 chars.
+         */
+        if ($indexType == Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT) {
+            $schema = $this->_getSchemaName();
+            if (strlen($schema) + strlen($prefix) + strlen($hash) >= self::LENGTH_SCHEMA_INDEX_NAME) {
+                $maxHashLength = self::LENGTH_SCHEMA_INDEX_NAME - strlen($schema) - strlen($prefix) - 1;
+                $hash = $this->_minusSuperfluous($hash, '', $maxHashLength);
             }
         }
 
