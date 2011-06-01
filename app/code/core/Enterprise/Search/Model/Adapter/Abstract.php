@@ -341,21 +341,23 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
         try {
             $this->_client->ping();
-            $response = $this->_client->addDocuments($_docs);
+            $this->_client->addDocuments($_docs);
         } catch (Exception $e) {
             $this->rollback();
             Mage::logException($e);
         }
+
         $this->optimize();
+
         return $this;
     }
 
     /**
      * Remove documents from Solr index
      *
-     * @param int|string|array $docIDs
-     * @param string|array $queries if "all" specified and $docIDs are empty, then all documents will be removed
-     * @return unknown
+     * @param  int|string|array $docIDs
+     * @param  string|array|null $queries if "all" specified and $docIDs are empty, then all documents will be removed
+     * @return Enterprise_Search_Model_Adapter_Abstract
      */
     public function deleteDocs($docIDs = array(), $queries = null)
     {
@@ -376,16 +378,18 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $_deleteBySuffix = 'Queries';
             $params = $queries;
         }
+
         if ($params) {
             $deleteMethod = sprintf('deleteBy%s', $_deleteBySuffix);
 
             try {
                 $this->_client->ping();
-                $response = $this->_client->$deleteMethod($params);
+                $this->_client->$deleteMethod($params);
             } catch (Exception $e) {
                 $this->rollback();
                 Mage::logException($e);
             }
+
             $this->optimize();
         }
 

@@ -108,19 +108,21 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     /**
      * Regenerate search index for store(s)
      *
-     * @param int $storeId Store View Id
-     * @param int|array $productIds Product Entity Id(s)
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext
+     * @param  int $storeId Store View Id
+     * @param  int|array $productIds Product Entity Id(s)
+     * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
      */
     public function rebuildIndex($storeId = null, $productIds = null)
     {
         if (is_null($storeId)) {
-            foreach (Mage::app()->getStores(false) as $store) {
-                $this->_rebuildStoreIndex($store->getId(), $productIds);
+            $storeIds = array_keys(Mage::app()->getStores());
+            foreach ($storeIds as $storeId) {
+                $this->_rebuildStoreIndex($storeId, $productIds);
             }
         } else {
             $this->_rebuildStoreIndex($storeId, $productIds);
         }
+
         return $this;
     }
 

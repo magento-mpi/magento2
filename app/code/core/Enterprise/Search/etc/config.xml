@@ -124,6 +124,51 @@
                     </enterprise_search>
                 </observers>
             </customer_group_save_after>
+
+            <website_delete_before>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>saveStoreIdsBeforeScopeDelete</method>
+                    </enterprise_search>
+                </observers>
+            </website_delete_before>
+
+            <store_group_delete_before>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>saveStoreIdsBeforeScopeDelete</method>
+                    </enterprise_search>
+                </observers>
+            </store_group_delete_before>
+
+            <website_delete_after>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>clearIndexForStores</method>
+                    </enterprise_search>
+                </observers>
+            </website_delete_after>
+
+            <store_group_delete_after>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>clearIndexForStores</method>
+                    </enterprise_search>
+                </observers>
+            </store_group_delete_after>
+
+            <store_delete_after>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>clearIndexForStores</method>
+                    </enterprise_search>
+                </observers>
+            </store_delete_after>
         </events>
         <translate>
             <modules>

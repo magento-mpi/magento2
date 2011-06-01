@@ -115,7 +115,7 @@ class Enterprise_Search_Model_Resource_Engine
 
     /**
      * Retrieve found document statuses
-     * 
+     *
      * @param string $query
      * @param array $params
      * @param string $entityType
@@ -207,37 +207,42 @@ class Enterprise_Search_Model_Resource_Engine
     /**
      * Remove entity data from search index
      *
-     * @param int $storeId
-     * @param int $entityId
-     * @param string $entityType 'product'|'cms'
+     * For deletion of all documents parameters should be null. Empty array will do nothing.
+     *
+     * @param  int|array|null $storeIds
+     * @param  int|array|null $entityIds
+     * @param  string $entityType 'product'|'cms'
      * @return Enterprise_Search_Model_Resource_Engine
      */
-    public function cleanIndex($storeId = null, $entityId = null, $entityType = 'product')
+    public function cleanIndex($storeIds = null, $entityIds = null, $entityType = 'product')
     {
-        if ($storeId == Mage_Core_Model_App::ADMIN_STORE_ID) {
-            foreach (Mage::app()->getStores(false) as $store) {
-                $this->cleanIndex($store->getId(), $entityId, $entityType);
-            }
-
+        if ($storeIds === array() || $entityIds === array()) {
             return $this;
         }
 
-        if (is_null($storeId) && is_null($entityId)) {
-            $this->_adapter->deleteDocs(array(), 'all');
-        } elseif (is_null($storeId) && !is_null($entityId)) {
-            $this->_adapter->deleteDocs($entityId);
-        } elseif (!is_null($storeId) && is_null($entityId)) {
-            $this->_adapter->deleteDocs(array(), array('store_id:' . $storeId));
-        } elseif (!is_null($storeId) && !is_null($entityId)) {
-            $idsQuery = array();
-            if (!is_array($entityId)) {
-                $entityId = array($entityId);
-            }
-            foreach ($entityId as $id) {
-                $idsQuery[] = $this->_adapter->getUniqueKey() . ':' . $id . '|' . $storeId;
-            }
-            $this->_adapter->deleteDocs(array(), array('store_id:' . $storeId . ' AND (' . implode(' OR ', $idsQuery) . ')'));
+        if (is_null($storeIds) || $storeIds == Mage_Core_Model_App::ADMIN_STORE_ID) {
+            $storeIds = array_keys(Mage::app()->getStores());
+        } else {
+            $storeIds = (array) $storeIds;
         }
+
+        $queries = array();
+        if (empty($entityIds)) {
+            foreach ($storeIds as $storeId) {
+                $queries[] = 'store_id:' . $storeId;
+            }
+        } else {
+            $entityIds = (array) $entityIds;
+            $uniqueKey = $this->_adapter->getUniqueKey();
+            foreach ($storeIds as $storeId) {
+                foreach ($entityIds as $entityId) {
+                    $queries[] = $uniqueKey . ':' . $entityId . '|' . $storeId;
+                }
+            }
+        }
+
+        $this->_adapter->deleteDocs(array(), $queries);
+
         return $this;
     }
 
