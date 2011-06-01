@@ -219,6 +219,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _prepareTierPrices(array $productIds)
     {
+        if (empty($productIds)) {
+            return array();
+        }
         $resource = Mage::getSingleton('core/resource');
         $select = $this->_connection->select()
             ->from($resource->getTableName('catalog/product_attribute_tier_price'))
@@ -249,6 +252,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _prepareCatalogInventory(array $productIds)
     {
+        if (empty($productIds)) {
+            return array();
+        }
         $select = $this->_connection->select()
             ->from(Mage::getResourceModel('cataloginventory/stock_item')->getMainTable())
             ->where('product_id IN (?)', $productIds);
@@ -274,6 +280,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _prepareLinks(array $productIds)
     {
+        if (empty($productIds)) {
+            return array();
+        }
         $resource = Mage::getSingleton('core/resource');
         $select = $this->_connection->select()
             ->from(
@@ -337,6 +346,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _prepareConfigurableProductData(array $productIds)
     {
+        if (empty($productIds)) {
+            return array();
+        }
         $resource = Mage::getSingleton('core/resource');
         $select = $this->_connection->select()
             ->from(
@@ -366,6 +378,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _prepareConfigurableProductPrice(array $productIds)
     {
+        if (empty($productIds)) {
+            return array();
+        }
         $resource = Mage::getSingleton('core/resource');
         $select = $this->_connection->select()
             ->from(
