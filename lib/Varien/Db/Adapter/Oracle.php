@@ -479,7 +479,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->query('DROP SEQUENCE ' . $this->quoteIdentifier($sequence));
         }
 
-        $query = 'DROP TABLE ' . $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
+        $query = 'DROP TABLE ' . $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)) . ' PURGE';
         $this->query($query);
 
         return true;
