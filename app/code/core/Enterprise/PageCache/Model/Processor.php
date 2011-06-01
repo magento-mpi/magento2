@@ -38,6 +38,7 @@ class Enterprise_PageCache_Model_Processor
     const REQUEST_ID_PREFIX             = 'REQEST_';
     const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
     const DESIGN_EXCEPTION_KEY          = 'FPC_DESIGN_EXCEPTION_CACHE';
+    const DESIGN_CHANGE_CACHE_SUFFIX    = 'FPC_DESIGN_CHANGE_CACHE';
     const CACHE_SIZE_KEY                = 'FPC_CACHE_SIZE_CAHCE_KEY';
     const XML_PATH_CACHE_MAX_SIZE       = 'system/page_cache/max_cache_size';
 
@@ -229,6 +230,18 @@ class Enterprise_PageCache_Model_Processor
      */
     public function extractContent($content)
     {
+        /*
+         * Apply design change
+         */
+        if ($designChange = Mage::app()->loadCache($this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX)) {
+            $designChange = unserialize($designChange);
+            if (is_array($designChange) && isset($designChange['package']) && isset($designChange['theme'])) {
+                $designPackage = Mage::getSingleton('core/design_package');
+                $designPackage->setPackageName($designChange['package'])
+                    ->setTheme($designChange['theme']);
+            }
+        }
+
         if (!$this->_designExceptionExistsInCache) {
             //no design exception value - error
             //must be at least empty value
@@ -448,6 +461,18 @@ class Enterprise_PageCache_Model_Processor
                     self::CACHE_SIZE_KEY,
                     $this->getRequestTags()
                 );
+
+                /*
+                 * Save design change in cache
+                 */
+                $designChange = Mage::getSingleton('core/design');
+                if ($designChange->getData()) {
+                    Mage::app()->saveCache(
+                        serialize($designChange->getData()),
+                        $this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX,
+                        $this->getRequestTags()
+                    );
+                }
 
                 // save response headers
                 $this->setMetadata('response_headers', $response->getHeaders());
