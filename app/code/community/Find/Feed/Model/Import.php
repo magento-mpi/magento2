@@ -45,7 +45,13 @@ class Find_Feed_Model_Import extends Mage_Core_Model_Abstract
 
     const XML_NODE_FIND_FEED_ATTRIBUTES = 'find_feed_attributes';
 
+    /**
+     * Attribute sources
+     *
+     * @var array
+     */
     protected $_attributeSources = array();
+
     /**
      * Cron action
      */
@@ -129,6 +135,13 @@ class Find_Feed_Model_Import extends Mage_Core_Model_Abstract
         return false;
     }
 
+    /**
+     * Check attribute source
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param string $value
+     * @return bool
+     */
     protected function _checkAttributeSource($product, $value)
     {
         if (!array_key_exists($value, $this->_attributeSources)) {
