@@ -35,12 +35,16 @@
 class Mage_Core_Model_Resource_Setup_Query_Modifier
 {
     /**
+     * MySQL adapter instance
+     *
      * @var Varien_Db_Adapter_Pdo_Mysql
      */
     protected $_adapter;
 
     /**
      * Types of column we process for foreign keys
+     *
+     * @var array
      */
     protected $_processedTypes = array('tinyint', 'smallint', 'mediumint', 'int', 'longint');
 
@@ -59,6 +63,7 @@ class Mage_Core_Model_Resource_Setup_Query_Modifier
      * Returns column definition from CREATE TABLE sql
      *
      * @param string $sql
+     * @param string $column
      * @return array
      */
     protected function _getColumnDefinitionFromSql($sql, $column)
@@ -211,7 +216,8 @@ class Mage_Core_Model_Resource_Setup_Query_Modifier
      * Returns column definition from already existing table
      *
      * @param string $sql
-     * @return array
+     * @param string $column
+     * @return array|null
      */
     protected function _getColumnDefinitionFromTable($table, $column)
     {

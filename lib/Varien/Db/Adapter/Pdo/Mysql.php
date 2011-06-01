@@ -187,6 +187,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
 
     /**
      * Hook callback to modify queries. Mysql specific property, designed only for backwards compatibility.
+     *
+     * @var array|null
      */
     protected $_queryHook = null;
 

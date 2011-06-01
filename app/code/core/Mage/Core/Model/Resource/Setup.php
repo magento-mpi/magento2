@@ -100,6 +100,8 @@ class Mage_Core_Model_Resource_Setup
 
     /**
      * Flag which shows, that setup has hooked queries from DB adapter
+     *
+     * @var bool
      */
     protected $_queriesHooked = false;
 
