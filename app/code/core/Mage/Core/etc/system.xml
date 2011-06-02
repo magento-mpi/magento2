@@ -1001,7 +1001,9 @@
                         <custom translate="label comment">
                             <label>Custom Admin URL</label>
                             <frontend_type>text</frontend_type>
+                            <validate>required-entry validate-alphanum</validate>
                             <backend_model>adminhtml/system_config_backend_admin_custom</backend_model>
+                            <depends><use_custom>1</use_custom></depends>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>

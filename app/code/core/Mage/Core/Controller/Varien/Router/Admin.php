@@ -93,6 +93,26 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
 
     protected function _getCurrentSecureUrl($request)
     {
-        return Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID)->getBaseUrl('link', true).ltrim($request->getPathInfo(), '/');
+        return Mage::app()->getStore(
+            Mage_Core_Model_App::ADMIN_STORE_ID)->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/'
+        );
+    }
+
+    /**
+     * Emulate custom admin url
+     *
+     * @param string $configArea
+     * @param bool $useRouterName
+     */
+    public function collectRoutes($configArea, $useRouterName)
+    {
+        if ((bool)(string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_URL)) {
+            $customUrl = (string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_CUSTOM_ADMIN_URL);
+            $xmlPath = Mage_Adminhtml_Helper_Data::XML_PATH_ADMINHTML_ROUTER_FRONTNAME;
+            if ((string)Mage::getConfig()->getNode($xmlPath) != $customUrl) {
+                Mage::getConfig()->setNode($xmlPath, $customUrl, true);
+            }
+        }
+        parent::collectRoutes($configArea, $useRouterName);
     }
 }

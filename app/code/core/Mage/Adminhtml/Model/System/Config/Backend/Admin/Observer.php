@@ -24,35 +24,31 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-/**
- * Adminhtml backend model for "Use Secure URLs in Admin" option
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustom extends Mage_Core_Model_Config_Data
+class Mage_Adminhtml_Model_System_Config_Backend_Admin_Observer
 {
     /**
-     * Validate custom url and check whether redirect should be set
+     * Log out user and redirect him to new admin custom url
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustom
+     * @param Varien_Event_Observer $observer
      */
-    protected function _beforeSave()
+    public function afterCustomUrlChanged($observer)
     {
-        $value = $this->getValue();
-        if ($value == 1) {
-            $customUrl = $this->getData('groups/url/fields/custom/value');
-            if (empty($customUrl)) {
-                Mage::throwException(Mage::helper('adminhtml')->__('Please specify the admin custom URL.'));
-            }
+        if (is_null(Mage::registry('custom_admin_url_redirect'))) {
+            return;
         }
 
-        if ($this->getOldValue() != $value) {
-            Mage::register('custom_admin_url_redirect', true, true);
-        }
+        /** @var $adminSession Mage_Admin_Model_Session */
+        $adminSession = Mage::getSingleton('admin/session');
+        $adminSession->unsetAll();
+        $adminSession->getCookie()->delete($adminSession->getSessionName());
 
-        return $this;
+        $route = ((bool)(string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_URL))
+            ? Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_CUSTOM_ADMIN_URL)
+            : Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_ADMINHTML_ROUTER_FRONTNAME);
+
+        Mage::app()->getResponse()
+            ->setRedirect(Mage::getBaseUrl() . $route)
+            ->sendResponse();
+        exit(0);
     }
 }
