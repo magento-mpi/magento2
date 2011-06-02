@@ -1444,8 +1444,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function deleteElement($buttonName, $message)
     {
         $buttonXpath = $this->_getControlXpath('button', $buttonName);
-        if ($buttonXpath != '//' && $this->isElementPresent($buttonXpath)) {
-            $confirmation = $this->getUimapPage($this->getArea(), $this->getCurrentPage())->findMessage($message);
+        if ($this->isElementPresent($buttonXpath)) {
+            $confirmation = $this->getCurrentLocationUimapPage()->findMessage($message);
             $this->chooseCancelOnNextConfirmation();
             $this->click($buttonXpath);
             if ($this->isConfirmationPresent()) {

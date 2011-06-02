@@ -38,34 +38,34 @@ class ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
 {
 
     /**
+     * Log in to Backend.
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
+    /**
      * Preconditions:
-     * Admin user should be logged in.
-     * Should stays on the Admin Dashboard page after login.
-     * Navigate to System -> Manage Customers.
+     * Navigate to System -> Manage Attributes.
      */
     protected function assertPreConditions()
     {
-        $this->loginAdminUser();
-        $this->assertTrue($this->checkCurrentPage('dashboard'),
-                'Wrong page is opened');
         $this->navigate('manage_attributes');
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'),
-                'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'), 'Wrong page is opened');
+        $this->addParameter('id', 0);
     }
 
     public function test_Navigation()
     {
         $this->assertTrue($this->clickButton('add_new_attribute'),
                 'There is no "Add New Attribute" button on the page');
-        $this->assertTrue($this->checkCurrentPage('new_product_attribute'),
-                'Wrong page is opened');
-        $this->assertTrue($this->controlIsPresent('button', 'back'),
-                'There is no "Back" button on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'reset'),
-                'There is no "Reset" button on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'save_attribute'),
+        $this->assertTrue($this->checkCurrentPage('new_product_attribute'), 'Wrong page is opened');
+        $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
+        $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
+        $this->assertTrue($this->buttonIsPresent('save_attribute'),
                 'There is no "Save" button on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'save_and_continue_edit'),
+        $this->assertTrue($this->buttonIsPresent('save_and_continue_edit'),
                 'There is no "Save and Continue Edit" button on the page');
     }
 
@@ -87,13 +87,14 @@ class ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsOnly()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_fpt', null, array('attribute_code', 'admin_title'));
+        $attrData = $this->loadData('product_attribute_fpt', null,
+                        array('attribute_code', 'admin_title'));
         //Steps
-        $this->createAttribute($attrData);
+        $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_attributes'),
-                'After successful customer creation should be redirected to Manage Attributes page');
+                'After successful attribute creation should be redirected to Manage Attributes page');
 
         return $attrData;
     }
@@ -118,7 +119,7 @@ class ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
     public function test_WithAttributeCodeThatAlreadyExists(array $attrData)
     {
         //Steps
-        $this->createAttribute($attrData);
+        $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertTrue($this->errorMessage('exists_attribute_code'), $this->messages);
     }
@@ -142,9 +143,13 @@ class ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty($emptyField)
     {
         //Data
-        $attrData = $this->loadData('product_attribute_fpt', $emptyField);
+        if (!array_key_exists('attribute_code', $emptyField)) {
+            $attrData = $this->loadData('product_attribute_fpt', $emptyField, 'attribute_code');
+        } else {
+            $attrData = $this->loadData('product_attribute_fpt', $emptyField);
+        }
         //Steps
-        $this->createAttribute($attrData);
+        $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $page = $this->getUimapPage('admin', 'new_product_attribute');
         foreach ($emptyField as $fieldName => $fieldXpath) {
@@ -164,15 +169,15 @@ class ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
             }
             $this->addParameter('fieldXpath', $xpath);
         }
-        $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     public function data_EmptyField()
     {
         return array(
-            array(array('attribute_code' => '')),
-            array(array('admin_title' => '')),
+            array(array('attribute_code' => '%noValue%')),
+            array(array('admin_title' => '%noValue%')),
             array(array('apply_to' => 'Selected Product Types')),
         );
     }
@@ -195,23 +200,26 @@ class ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
      * @dataProvider data_WrongCode
      * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithInvalidAttributeCode($wrongAttributeCode)
+    public function test_WithInvalidAttributeCode($wrongAttributeCode, $errorMeassage)
     {
         //Data
         $attrData = $this->loadData('product_attribute_fpt', $wrongAttributeCode);
         //Steps
-        $this->createAttribute($attrData);
+        $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->errorMessage('invalid_attribute_code'), $this->messages);
+        $this->assertTrue($this->validationMessage($errorMeassage), $this->messages);
     }
 
     public function data_WrongCode()
     {
         return array(
-            array(array('attribute_code' => '11code_wrong')),
-            array(array('attribute_code' => 'CODE_wrong')),
-            array(array('attribute_code' => 'wrong code')),
-            array(array('attribute_code' => $this->generate('string', 11, ':punct:'))),
+            array(array('attribute_code' => '11code_wrong'), 'invalid_attribute_code'),
+            array(array('attribute_code' => 'CODE_wrong'), 'invalid_attribute_code'),
+            array(array('attribute_code' => 'wrong code'), 'invalid_attribute_code'),
+            array(array('attribute_code' => $this->generate('string', 11, ':punct:')),
+                'invalid_attribute_code'),
+            array(array('attribute_code' => $this->generate('string', 31, ':lower:')),
+                'wrong_length_attribute_code')
         );
     }
 
@@ -236,13 +244,14 @@ class ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
     {
         //Data
         $attrData = $this->loadData('product_attribute_fpt',
-                        array('admin_title' => $this->generate('string', 32, ':punct:')), 'attribute_code');
+                        array('admin_title' => $this->generate('string', 32, ':punct:')),
+                        'attribute_code');
         //Steps
-        $this->createAttribute($attrData);
+        $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_attributes'),
-                'After successful customer creation should be redirected to Manage Attributes page');
+                'After successful attribute creation should be redirected to Manage Attributes page');
     }
 
     /**
@@ -265,31 +274,26 @@ class ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadData('product_attribute_fpt',
                         array(
-                            'attribute_code' => $this->generate('string', 255, ':lower:'),
-                            'admin_title' => $this->generate('string', 255, ':alnum:'),
-                ));
+                            'attribute_code' => $this->generate('string', 30, ':lower:'),
+                            'admin_title'    => $this->generate('string', 255, ':alnum:'),
+                        )
+        );
         $searchData = $this->loadData('attribute_search_data',
                         array(
-                            'attribute_code' => $attrData['attribute_code'],
+                            'attribute_code'  => $attrData['attribute_code'],
                             'attribute_lable' => $attrData['admin_title'],
-                            'scope' => 'Store View'
-                ));
+                        )
+        );
         //Steps
-        $this->createAttribute($attrData);
+        $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_attributes'),
-                'After successful customer creation should be redirected to Manage Attributes page');
+                'After successful attribute creation should be redirected to Manage Attributes page');
         //Steps
-        $this->clickButton('reset_filter');
-        $this->navigate('manage_attributes');
-        $this->assertTrue($this->searchAndOpen($searchData), 'Attribute is not found');
+        $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying
-        unset($attrData['apply_to']);
-        $this->assertTrue($this->verifyForm($attrData, 'properties'), $this->messages);
-        $this->clickControl('tab', 'manage_lables_options', FALSE);
-        $this->assertTrue($this->verifyForm($attrData, 'manage_lables_options'), $this->messages);
-        $this->manageLabelsAndOptionsForStoreView($attrData, 'verify');
+        $this->productAttributeHelper()->verifyAttribute($attrData);
     }
 
     /**
@@ -318,182 +322,16 @@ class ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
     {
         //Data
         $productSettings = $this->loadData('product_create_settings_virtual');
-        $attrData = $this->loadData('product_attribute_fpt',
-                        null, array('attribute_code', 'admin_title'));
-        // Defining and adding %attributeId% for Uimap pages.
-        $this->addParameter('attributeId', 0);
-        //Steps. Open 'Manage Products' page, click 'Add New Product' button, fill in form.
+        $attrData = $this->loadData('product_attribute_fpt', null,
+                        array('attribute_code', 'admin_title'));
+        //Steps
         $this->navigate('manage_products');
         $this->clickButton('add_new_product');
-        $this->assertTrue($this->checkCurrentPage('new_product_settings'),
-                'Wrong page is displayed'
-        );
-        $this->fillForm($productSettings);
-        // Defining and adding %attributeSetID% and %productType% for Uimap pages.
-        $page = $this->getCurrentUimapPage();
-        $fieldSet = $page->findFieldset('product_settings');
-        foreach ($productSettings as $fieldsName => $fieldValue) {
-            $xpath = $fieldSet->findDropdown($fieldsName);
-            switch ($fieldsName) {
-                case 'attribute_set':
-                    $attributeSetID = $this->getValue($xpath . "/option[text()='$fieldValue']");
-                    break;
-                case 'product_type':
-                    $productType = $this->getValue($xpath . "/option[text()='$fieldValue']");
-                    break;
-                default:
-                    break;
-            }
-        }
-        $this->addParameter('attributeSetID', $attributeSetID);
-        $this->addParameter('productType', $productType);
-        //Steps. Сlick 'Сontinue' button
-        $this->clickButton('continue_button');
-        // Defining and adding %fieldSetId% for Uimap pages.
-        $page = $this->getCurrentUimapPage();
-        $fieldSet = $page->findFieldset('general');
-        $id = explode('_', $this->getAttribute($fieldSet->getXPath() . '@id'));
-        foreach ($id as $value) {
-            if (is_numeric($value)) {
-                $fieldSetId = $value;
-
-                $this->addParameter('fieldSetId', $fieldSetId);
-                break;
-            }
-        }
-        //Steps. Сlick 'Create New Attribute' button, select opened window.
-        $this->clickButton('create_new_attribute', FALSE);
-        $names = $this->getAllWindowNames();
-        $this->waitForPopUp(end($names), '30000');
-        $this->selectWindow("name=" . end($names));
-        //Steps. Fill in forms and save.
-        $this->fillForm($attrData, 'properties');
-        $this->clickControl('tab', 'manage_lables_options', false);
-        $this->fillForm($attrData, 'manage_lables_options');
-        $this->manageLabelsAndOptionsForStoreView($attrData);
-        $this->saveForm('save_attribute');
+        $this->productHelper()->fillProductSettings($productSettings);
+        $this->productAttributeHelper()->createAttributeOnGeneralTab($attrData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
         $this->selectWindow(null);
-    }
-
-    /**
-     * *********************************************
-     * *         HELPER FUNCTIONS                  *
-     * *********************************************
-     */
-
-    /**
-     * Action_helper method for Create Attribute action
-     *
-     * @param array $attrData Array which contains DataSet for filling of the current form
-     */
-    public function createAttribute($attrData)
-    {
-        $this->clickButton('add_new_attribute');
-        $this->fillForm($attrData, 'properties');
-        $this->clickControl('tab', 'manage_lables_options', false);
-        $this->fillForm($attrData, 'manage_lables_options');
-        $this->manageLabelsAndOptionsForStoreView($attrData);
-        $this->manageAttributeOptions($attrData);
-        $this->saveForm('save_attribute');
-    }
-
-    /**
-     * Fill in(or verify) 'Title' field for different Store Views.
-     *
-     * PreConditions: attribute page is opened on 'Manage Label / Options' tab.
-     *
-     * @param array $attrData
-     * @param string $action
-     */
-    public function manageLabelsAndOptionsForStoreView($attrData, $action = 'fill', $type ='titles')
-    {
-        $page = $this->getCurrentLocationUimapPage();
-        $dataArr = array();
-        switch ($type) {
-            case 'titles':
-                $fieldSet = $page->findFieldset('manage_titles');
-                foreach ($attrData as $f_key => $d_value) {
-                    if (preg_match('/title/', $f_key) and is_array($attrData[$f_key])) {
-                        reset($attrData[$f_key]);
-                        $key = current($attrData[$f_key]);
-                        $value = next($attrData[$f_key]);
-                        $dataArr[$key] = $value;
-                    }
-                }
-                break;
-            case 'options':
-                $fieldSet = $page->findFieldset('manage_options');
-                foreach ($attrData as $f_key => $d_value) {
-                    if (preg_match('/option/', $f_key) and is_array($attrData[$f_key])) {
-                        foreach ($attrData[$f_key] as $k1 => $v2) {
-                            if (is_array($attrData[$f_key][$k1]) and preg_match('/store_view_option_name/', $k1)) {
-                                reset($attrData[$f_key][$k1]);
-                                $key = current($attrData[$f_key][$k1]);
-                                $value = next($attrData[$f_key][$k1]);
-                                $dataArr[$key] = $value;
-                            }
-                        }
-                    }
-                }
-                break;
-        }
-        $xpath = $fieldSet->getXPath();
-        $qtyStore = $this->getXpathCount($xpath . '//th');
-        foreach ($dataArr as $k => $v) {
-            $number = -1;
-            for ($i = 1; $i <= $qtyStore; $i++) {
-                if ($this->getText($xpath . "//th[$i]") == $k) {
-                    $number = $i;
-                    break;
-                }
-            }
-            if ($number != -1) {
-                switch ($type) {
-                    case 'titles':
-                        $this->addParameter('fieldTitleNumber', $number);
-                        $fieldName = 'title_by_store_name';
-                        break;
-                    case 'options':
-                        $this->addParameter('storeViewID', $number);
-                        $fieldName = 'option_name_by_store_name';
-                        break;
-                }
-
-                $page->assignParams($this->_paramsHelper);
-                switch ($action) {
-                    case 'fill':
-                        $this->type($xpath . $page->findField($fieldName), $v);
-                        break;
-                    case 'verify':
-                        $this->assertEquals($this->getValue($xpath . $page->findField($fieldName)),
-                                $v, 'Stored data not equals to specified');
-                        break;
-                }
-            } else {
-                throw new OutOfRangeException("Can't find specified store view.");
-            }
-        }
-    }
-
-    public function manageAttributeOptions($attrData, $action = 'fill')
-    {
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('manage_options');
-        $fieldSetXpath = $fieldSet->getXPath();
-        foreach ($attrData as $key => $value) {
-            if (preg_match('/option/', $key) and is_array($attrData[$key])) {
-                if ($this->isElementPresent($fieldSetXpath)) {
-                    $optionCount = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
-                    $this->addParameter('fieldOptionNumber', $optionCount);
-                    $page->assignParams($this->_paramsHelper);
-                    $this->clickButton('add_option', FALSE);
-                    $this->fillForm($attrData[$key], 'manage_lables_options');
-                    $this->manageLabelsAndOptionsForStoreView($attrData, $action, 'options');
-                }
-            }
-        }
     }
 
 }

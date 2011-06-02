@@ -53,7 +53,7 @@ manage_attributes:
               use_in_layered_navigation:  //select[@id='filter_is_filterable']
               comparable: //select[@id='filter_is_comparable']
     buttons:
-      add_new_attribute: //button[span='Add New Attribute']
+      add_new_attribute: //button[span='Add New Attribute' or span='Add New']
     messages:
       success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been saved.')]
       success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been deleted.')]
@@ -116,7 +116,7 @@ new_product_attribute:
                   xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
                   fields:
                     admin_title: //input[@name='frontend_label[0]']
-                    title_by_store_name: //td[%fieldTitleNumber%]/input
+                    title_by_store_name: //td[%storeViewNumber%]/input
                   required: [admin_title]
               -
                 manage_options:
@@ -129,7 +129,7 @@ new_product_attribute:
                   fields:
                     admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
                     option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
-                    option_name_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewID%]/input
+                    option_name_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
                   required: [admin_option]
     buttons:
       back: //button[span='Back']
@@ -202,20 +202,20 @@ edit_product_attribute:
                   xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
                   fields:
                     admin_title: //input[@name='frontend_label[0]']
-                    title_by_store_name: //td[%fieldTitleNumber%]/input
+                    title_by_store_name: //td[%storeViewNumber%]/input
                   required: [admin_title]
               -
                 manage_options:
                   xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]"
                   buttons:
                     add_option: //button[@id='add_new_option_button']
-                    delete_option: //td[contains(input/@name,'option[delete][option_%fieldOptionNumber%]')]/button
+                    delete_option: //td[contains(input/@name,'option[delete][%fieldOptionNumber%]')]/button
                   checkboxes:
-                    is_default: //input[@name='default[]' and @value='option_%fieldOptionNumber%']
+                    is_default: //input[@name='default[]' and @value='%fieldOptionNumber%']
                   fields:
-                    admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
-                    option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
-                    option_name_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewID%]/input
+                    admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]']
+                    option_position: //input[@name='option[order][%fieldOptionNumber%]']
+                    option_name_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
                   required: [admin_option]
     buttons:
       back: //button[span='Back']
@@ -231,7 +231,7 @@ edit_product_attribute:
 
 # Add New Product Attribute page from Product page
 new_product_attribute_from_product_page:
-  mca: "catalog_product_attribute/new/group/%fieldSetId%/tab/group_%fieldSetId%/store/0/set/%attributeSetID%/type/%productType%/popup/1/"
+  mca: "catalog_product_attribute/new/group/%tabId%/tab/group_%tabId%/store/0/set/%attributeSetID%/type/%productType%/popup/1/"
   title: New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
   uimap:
     form: &newProductAttributeFromProductPageForm
@@ -287,7 +287,7 @@ new_product_attribute_from_product_page:
                   xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
                   fields:
                     admin_title: //input[@name='frontend_label[0]']
-                    title_by_store_name: //td[%fieldTitleNumber%]/input
+                    title_by_store_name: //td[%storeViewNumber%]/input
                   required: [admin_title]
               -
                 manage_options:
@@ -300,7 +300,7 @@ new_product_attribute_from_product_page:
                   fields:
                     admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
                     option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
-                    option_name_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewID%]/input
+                    option_name_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
                   required: [admin_option]
     buttons:
       close_window: //button[span='Close Window']
@@ -313,7 +313,7 @@ new_product_attribute_from_product_page:
       error_invalid_position: //div[@id='advice-validate-digits-position']
 
 saved_product_attribute_from_product_page:
-  mca: catalog_product/addAttribute/attribute/%attributeId%/group/%fieldSetId%/tab/group_%fieldSetId%/store/0/set/%attributeSetID%/type/%productType%/popup/1/
+  mca: catalog_product/addAttribute/attribute/%id%/group/%tabId%/tab/group_%tabId%/store/0/set/%attributeSetID%/type/%productType%/popup/1/
   title: Manage Products / Catalog / Magento Admin
   uimap:
     form: &savedProductAttributeFromProductPageForm
