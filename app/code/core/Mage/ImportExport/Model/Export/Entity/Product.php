@@ -704,8 +704,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             $largestLinks = 0;
 
             if (isset($linksRows[$productId])) {
-                foreach ($linksRows[$productId] as &$linkData) {
-                    $largestLinks = max($largestLinks, count($linkData));
+                $linksRowsKeys = array_keys($linksRows[$productId]);
+                foreach ($linksRowsKeys as $linksRowsKey) {
+                    $largestLinks = max($largestLinks, count($linksRows[$productId][$linksRowsKey]));
                 }
             }
             $additionalRowsCount = max(
