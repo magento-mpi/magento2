@@ -103,7 +103,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
          */
         $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
 
-        $expression = sprintf('%s - %s - %s - %s - %s - %s',
+        $expression = sprintf('%s - %s - %s - (%s - %s - %s)',
             $adapter->getIfNullSql('main_table.base_total_invoiced', 0),
             $adapter->getIfNullSql('main_table.base_tax_invoiced', 0),
             $adapter->getIfNullSql('main_table.base_shipping_invoiced', 0),
@@ -134,8 +134,12 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
                 'quantity' => 'COUNT(main_table.entity_id)',
                 'range' => $rangeCreatedAt2,
             ))
-            ->order('range', 'asc')
-            ->group($rangeCreatedAt);
+            ->order('range', Zend_Db_Select::SQL_ASC)
+            ->group($rangeCreatedAt)
+            ->where('main_table.state NOT IN (?)', array(
+                Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
+                Mage_Sales_Model_Order::STATE_NEW)
+            );
 
         $this->addFieldToFilter('created_at', $this->getDateRange($range, $customStart, $customEnd));
 
@@ -152,7 +156,6 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     protected function _prepareSummaryAggregated($range, $customStart, $customEnd)
     {
-
         $this->setMainTable('sales/order_aggregated_created');
         /**
          * Reset all columns, because result will group only by 'created_at' field
@@ -189,21 +192,15 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     /**
      * Get range expression
      *
-     * @param unknown_type $range
-     * @return unknown
+     * @param string $range
+     * @return Zend_Db_Expr
      */
     protected function _getRangeExpression($range)
     {
-        // dont need of this offset bc we are format date in block
-        //$timeZoneOffset = Mage::getModel('core/date')->getGmtOffset();
-
         switch ($range)
         {
             case '24h':
-                $expression = $this->getConnection()->getConcatSql(array(
-                    $this->getConnection()->getDateFormatSql('{{attribute}}', '%Y-%m-%d %H:'),
-                    $this->getConnection()->quote('00')
-                ));
+                $expression = $this->getConnection()->getDateFormatSql('{{attribute}}', '%Y-%m-%d %H:00');
                 break;
             case '7d':
             case '1m':
@@ -250,10 +247,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         $adapter = $this->getConnection();
         $expression = $this->_getRangeExpression($range);
         $attribute  = $adapter->quoteIdentifier($attribute);
-
-        $periodExpr = $adapter->getDatePartSql(
-            $adapter->getDateAddSql($attribute, $tzTo, Varien_Db_Adapter_Interface::INTERVAL_HOUR)
-        );
+        $periodExpr = $adapter->getDateAddSql($attribute, $tzTo, Varien_Db_Adapter_Interface::INTERVAL_HOUR);
 
         return str_replace('{{attribute}}', $periodExpr, $expression);
     }
@@ -376,7 +370,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         $baseShippingInvoiced = $adapter->getIfNullSql('main_table.base_shipping_invoiced', 0);
         $baseShippingRefunded = $adapter->getIfNullSql('main_table.base_shipping_refunded', 0);
 
-        $revenueExp = sprintf('%s - %s - %s - %s - %s - %s',
+        $revenueExp = sprintf('%s - %s - %s - (%s - %s - %s)',
             $baseTotalInvoiced,
             $baseTaxInvoiced,
             $baseShippingInvoiced,
@@ -485,7 +479,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
             $this->setMainTable('sales/order');
             $this->removeAllFieldsFromSelect();
 
-            $expr = sprintf('%s - %s - %s - %s - %s - %s',
+            $expr = sprintf('%s - %s - %s - (%s - %s - %s)',
                 $adapter->getIfNullSql('main_table.base_total_invoiced', 0),
                 $adapter->getIfNullSql('main_table.base_tax_invoiced', 0),
                 $adapter->getIfNullSql('main_table.base_shipping_invoiced', 0),
