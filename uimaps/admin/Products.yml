@@ -160,6 +160,275 @@ new_product:
                                     xpath: "//div[contains(div/div/h4,'Recurring Profile') and not (@style='display: none;')]"
                                     dropdowns:
                                         enable_recurring_profile: //select[@id='is_recurring']
+                                        customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
+                                        auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
+                                        billing_period_unit: //select[@id='recurring_profileperiod_unit']
+                                        trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
+                                        allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
+                                    fields:
+                                        schedule_description: //input[@id='recurring_profileschedule_description']
+                                        max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
+                                        billing_frequency: //input[@id='recurring_profileperiod_frequency']
+                                        max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
+                                        trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
+                                        max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
+                                        trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
+                                        initial_fee: //input[@id='recurring_profileinit_amount']
+                -
+                    design:
+                        xpath: //a[@title='Design']/span
+                        fieldsets:
+                            -
+                                design:
+                                    xpath: "//div[contains(div/div/h4,'Design') and not (@style='display: none;')]"
+                                    buttons:
+                                        create_new_attribute: //button[span='Create New Attribute']
+                                    dropdowns:
+                                        custom_design: //select[@id='custom_design']
+                                        page_layout: //select[@id='page_layout']
+                                        display_product_options_in: //select[@id='options_container']
+                                    fields:
+                                        active_from: //input[@id='custom_design_from']
+                                        active_to: //input[@id='custom_design_to']
+                                        custom_layout_update: //textarea[@id='custom_layout_update']
+                -
+                    gift_options:
+                        xpath: //a[@title='Gift Options']/span
+                        fieldsets:
+                            -
+                                gift_options:
+                                    xpath: "//div[contains(div/div/h4,'Gift Options') and not (@style='display: none;')]"
+                                    buttons:
+                                        create_new_attribute: //button[span='Create New Attribute']
+                                    checkboxes:
+                                        use_config_settings: //input[@id='use_config_gift_message_available']
+                                    dropdown:
+                                        allow_gift_message: //select[@id='gift_message_available']
+                -
+                    inventory:
+                        xpath: //a[@title='Inventory']/span
+                        fieldsets:
+                            -
+                                inventory:
+                                    xpath: "//div[contains(div/div/h4,'Inventory') and not (@style='display: none;')]"
+                                    checkboxes:
+                                        use_manage_stock: //input[@id='inventory_use_config_manage_stock']
+                                        use_qty_for_items_status: //input[@id='inventory_use_config_min_qty']
+                                        use_min_allowed_qty: //input[@id='inventory_use_config_min_sale_qty']
+                                        use_max_allowed_qty: //input[@id='inventory_use_config_max_sale_qty']
+                                        use_backorders: //input[@id='inventory_use_config_backorders']
+                                        use_notify_for_qty_below: //input[@id='inventory_use_config_notify_stock_qty']
+                                        use_enable_qty_increments: //input[@id='inventory_use_config_enable_qty_increments']
+                                        use_qty_increments: //input[@id='inventory_use_config_qty_increments']
+                                    dropdowns:
+                                        manage_stock: //select[@id='inventory_manage_stock']
+                                        qty_uses_decimals: //select[@id='inventory_is_qty_decimal']
+                                        backorders: //select[@id='inventory_backorders']
+                                        enable_qty_increments: //select[@id='inventory_enable_qty_increments']
+                                        stock_availability: //select[@id='inventory_stock_availability']
+                                    fields:
+                                        qty: //input[@id='inventory_qty']
+                                        qty_for_items_out_of_stock: //input[@id='inventory_min_qty']
+                                        min_allowed_qty: //input[@id='inventory_min_sale_qty']
+                                        max_allowed_qty: //input[@id='inventory_max_sale_qty']
+                                        notify_for_qty_below: //input[@id='inventory_notify_stock_qty']
+                                        qty_increments: //input[@id='inventory_qty_increments' and not(@disabled)]
+                                    required: [qty]
+                -
+                    custom_options:
+                        xpath: //a[@title='Custom Options']/span
+                        fieldsets:
+                            -
+                                custom_options:
+                                    xpath: "//div[contains(div/div/h4,'Custom Options') and not (@style='display: none;')]"
+                                    buttons:
+                                        add_new_option: //button[span='Add New Option']
+                                        delete_option: //div[@id='option_%optionNumber%']//button[span='Delete Option']
+                                        add_new_row: //button[span='Add New Row']
+                                        delete_row: //tr[@id='product_option_%optionNumber%_select_%selectNumber%']//button[span='Delete Row']
+                                    dropdowns:
+                                        custom_input_type: //select[@id='product_option_%optionNumber%_type']
+                                        custom_is_required: //select[@id='product_option_%optionNumber%_is_require']
+                                        custom_price_type: //select[@id='product_option_%optionNumber%_price_type']
+                                        custom_select_price_type: //[@id='product_option_%optionNumber%_select_%valueNumber%_price_type']
+                                    fields:
+                                        custom_title: //input[@id='product_option_%optionNumber%_title']
+                                        custom_sort_order: //input[@name='product[options][%optionNumber%][sort_order]']
+                                        custom_price: //input[@id='product_option_%optionNumber%_price']
+                                        custom_sku: //input[@name='product[options][%optionNumber%][sku]']
+                                        custom_text_characters: //input[@name='product[options][%optionNumber%][max_characters]']
+                                        custom_file_extensions: //input[@name='product[options][%optionNumber%][file_extension]']
+                                        custom_file_size_x: //input[@name='product[options][%optionNumber%][image_size_x]']
+                                        custom_file_size_y: //input[@name='product[options][%optionNumber%][image_size_y]']
+                                        custom_select_title: //input[@id='product_option_%optionNumber%_select_%valueNumber%_title']
+                                        custom_select_price: //input[@id='product_option_%optionNumber%_select_%valueNumber%_price']
+                                        custom_select_sku: //input[@id='product_option_%optionNumber%_select_%valueNumber%_sku']
+                                        custom_select_sort_order: //input[@name='product[options][%optionNumber%][values][%valueNumber%][sort_order]']
+                -
+                    bundle_items:
+                        xpath: //a[@title='Bundle Items']/span
+                        fieldsets:
+                            -
+                                shipment:
+                                    xpath: "//div[contains(div/h4,'Shipment') and not (@style='display: none;')]"
+                                    dropdowns:
+                                        ship_bundle_items: //select[@id='shipment_type']
+                            -
+                                bundle_items:
+                                    xpath: //div[@id='product_bundle_container']
+                                    buttons:
+                                        add_new_option: //button[span='Add New Option']
+                                        delete_option: //div[@id='option_%optionNumber%']//button[span='Delete Option']
+                                        add_selection: //button[@id='bundle_option_%optionNumber%_add_button']
+                                    dropdowns:
+                                        input_type: //select[@id='bundle_option_%optionNumber%_type']
+                                        is_required: //select[@id='bundle_option_%optionNumber%_required']
+                                    fields:
+                                        default_title: //input[@id='id_bundle_option_%optionNumber%_title']
+                                        position: //input[@id='bundle_option_%optionNumber%']//input[@class='input-text validate-zero-or-greater']
+                -
+                    associated_products:
+                        xpath: //a[@title='Associated Products']/span
+                        fieldsets:
+                            -
+                                create_simple_assosiated_product:
+                                    xpath: "//div[contains(div/h4,'Create Simple Associated Product') and not (@style='display: none;')]"
+                                    buttons:
+                                        create_empty: //button[span='Create Empty']
+                            -
+                                super_products_attribute_configuration:
+                                    xpath: "//div[contains(div/h4,'Super product attributes configuration') and not (@style='display: none;')]"
+                                    checkboxes:
+                                        use_default: //input[@id='configurable__attribute_0_label_use_default']
+                                    fields:
+                                        attribute_name: //input[@id='configurable__attribute_%attribute_number%_label']
+                            -
+                                associated_products_grid:
+                                    xpath: //div[@id='super_product_grid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    checkboxes:
+                                        select_all: //input[@title='Select All']
+                                    dropdowns:
+                                        view_per_page: //select[@name='limit']
+                                        filter_in_products: //select[@id='filter_in_products']
+                                    fields:
+                                        id: //input[@id='filter_entity_id']
+                                        name: //input[@id='filter_name']
+                                        sku: //input[@id='filter_sku']
+                                        price_from: //input[@id='filter_price_from']
+                                        price_to: //input[@id='filter_price_to']
+                                        default_qty_from: //input[@id='filter_qty_from']
+                                        default_qty_to: //input[@id='filter_qty_to']
+                                        position_from: //input[@id='filter_position_from']
+                                        position_to: //input[@id='filter_position_to']
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save: //button[span='Save']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages:
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            existing_sku: //div[@id='advice-validate-ajax-sku']
+            invalid_price: //div[@id='advice-validate-zero-or-greater-price']
+            invalid_special_price: //div[@id='advice-validate-zero-or-greater-special_price']
+            invalid_qty: //div[@id='advice-validate-number-inventory_qty']
+            select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionNumber%_type']
+
+# Add New Product page
+edit_product:
+    mca: catalog_product/edit/id/%id%/
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap:
+        form: &newProductEditingForm
+            tabs:
+                -
+                    general:
+                        xpath: //a[@title='General']/span
+                        fieldsets:
+                            -
+                                general:
+                                    xpath: "//div[contains(div/div/h4,'General') and not (@style='display: none;')]"
+                                    buttons:
+                                        create_new_attribute: //button[span='Create New Attribute']
+                                    dropdowns:
+                                        product_status: //select[@id='status']
+                                        product_visibility: //select[@id='visibility']
+                                        product_in_feed: //select[@id='is_imported']
+                                        sku_type: //select[@id='sku_type']
+                                        weight_type: //select[@id='weight_type']
+                                    fields:
+                                        product_name: //input[@id='name']
+                                        product_description: //textarea[@id='description']
+                                        product_short_description: //textarea[@id='short_description']
+                                        product_sku: //input[@id='sku']
+                                        product_weight: //input[@id='weight']
+                                        product_news_from_date: //input[@id='news_from_date']
+                                        product_news_to_date: //input[@id='news_to_date']
+                                        product_url_key: //input[@id='url_key']
+                                    required: [product_name, product_description, product_short_description, product_sku, product_weight, product_status, product_visibility]
+                -
+                    prices:
+                        xpath: //a[@title='Prices']/span
+                        fieldsets:
+                            -
+                                prices:
+                                    xpath: "//div[contains(div/div/h4,'Prices') and not (@style='display: none;')]"
+                                    buttons:
+                                        create_new_attribute: //button[span='Create New Attribute']
+                                        add_tier_price: //button[span='Add Tier']
+                                        delete_tier_price: //button[@id='tier_price_row_%rowNumber%_delete_button']
+                                    dropdowns:
+                                        product_tax_class: //select[@id='tax_class_id']
+                                        google_checkout: //select[@id='enable_googlecheckout']
+                                        product_tier_price_customer_group: //select[@id='tier_price_row_%rowNumber%_cust_group']
+                                        product_tier_price_website: //select[@id='tier_price_row_%rowNumber%_website']
+                                        product_price_type: //select[@id='price_type']
+                                    fields:
+                                        product_price: //input[@id='price']
+                                        product_special_price: //input[@id='special_price']
+                                        product_special_price_from: //input[@id='special_from_date']
+                                        product_special_price_to: //input[@id='special_to_date']
+                                        product_cost: //input[@id='cost']
+                                        product_tier_price_qty: //input[@id='tier_price_row_%rowNumber%_qty']
+                                        product_tier_price_price: //input[@id='tier_price_row_%rowNumber%_price']
+                                        product_price_view_bundle: //select[@id='price_view']
+                                    required: [product_price, product_tier_price_qty, product_tier_price_price, product_tax_class, product_price_view_bundle]
+                -
+                    meta_information:
+                        xpath: //a[@title='Meta Information']/span
+                        fieldsets:
+                            -
+                                meta_information:
+                                    xpath: "//div[contains(div/div/h4,'Meta Information') and not (@style='display: none;')]"
+                                    fields:
+                                        meta_title: //input[@id='meta_title']
+                                        meta_keywords: //textarea[@id='meta_keyword']
+                                        meta_description: //textarea[@id='meta_description']
+                -
+                    recurring_profile:
+                        xpath: //a[@title='Recurring Profile']/span
+                        fieldsets:
+                            -
+                                recurring_profile:
+                                    xpath: "//div[contains(div/div/h4,'Recurring Profile') and not (@style='display: none;')]"
+                                    dropdowns:
+                                        enable_recurring_profile: //select[@id='is_recurring']
+                                        customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
+                                        auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
+                                        billing_period_unit: //select[@id='recurring_profileperiod_unit']
+                                        trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
+                                        allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
+                                    fields:
+                                        schedule_description: //input[@id='recurring_profileschedule_description']
+                                        max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
+                                        billing_frequency: //input[@id='recurring_profileperiod_frequency']
+                                        max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
+                                        trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
+                                        max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
+                                        trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
+                                        initial_fee: //input[@id='recurring_profileinit_amount']
                 -
                     design:
                         xpath: //a[@title='Design']/span
@@ -297,6 +566,8 @@ new_product:
                                         position_to: //input[@id='filter_position_to']
         buttons:
             back: //button[span='Back']
+            delete: //button[span='Delete']
+            duplicate: //button[span='Back']
             reset: //button[span='Reset']
             save: //button[span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
