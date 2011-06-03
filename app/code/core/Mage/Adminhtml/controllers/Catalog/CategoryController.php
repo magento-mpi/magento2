@@ -423,7 +423,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             return;
         }
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_category_tab_product')->toHtml()
+            $this->getLayout()->createBlock('adminhtml/catalog_category_tab_product', 'category.product.grid')
+                ->toHtml()
         );
     }
 

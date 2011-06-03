@@ -135,6 +135,7 @@ class Enterprise_PricePermissions_Model_Observer
         switch ($blockNameInLayout) {
             // Handle general product grid, related, upsell, crosssell tabs
             case 'product.grid' :
+            case 'admin.product.grid' :
             case 'catalog.product.edit.tab.related' :
             case 'catalog.product.edit.tab.upsell' :
             case 'catalog.product.edit.tab.crosssell' :
