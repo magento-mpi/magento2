@@ -53,6 +53,11 @@
 </select>
 <script type="text/javascript">
 //<![CDATA[
+
+document.observe("dom:loaded", function() {
+    $('preview_selected_store').value = $('store_switcher').value;
+});
+
 Event.observe($('store_switcher'), 'change', function(event) {
     var element = Event.element(event);
     $('preview_selected_store').value = element.value;
