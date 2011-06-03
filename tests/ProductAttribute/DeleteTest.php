@@ -78,8 +78,8 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         $attrData = $this->loadData($dataName, null, array('attribute_code', 'admin_title'));
         $searchData = $this->loadData('attribute_search_data',
                         array(
-                    'attribute_code' => $attrData['attribute_code'],
-                    'attribute_lable' => $attrData['admin_title'],
+                            'attribute_code'  => $attrData['attribute_code'],
+                            'attribute_lable' => $attrData['admin_title'],
                         )
         );
         //Step 1. Create attribute
@@ -123,8 +123,9 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     {
         $searchData = $this->loadData('attribute_search_data',
                         array(
-                            'attribute_code' => 'price',
+                            'attribute_code'  => 'price',
                             'attribute_lable' => 'Price',
+                            'system'          => 'Yes'
                         )
         );
         //Step.

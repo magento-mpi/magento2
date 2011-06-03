@@ -78,14 +78,14 @@ configuration:
                         fields:
                             base_url: //input[@id='base_url']
                             admin_path: //input[@id='admin_frontname']
-                            secure_base_url: //input[@id='secure_base_url']
+                            secure_base_url: "//ul[@id='use_secure_options' and not(@style='display: none;')]//input[@id='secure_base_url']"
                         checkboxes:
                             enable_charts: //input[@id='enable_charts']
                             skip_base_url_validation: //input[@id='skip_base_url_validation']
                             use_rewrites: //input[@id='use_rewrites']
                             use_secure: //input[@id='use_secure']
-                            run_admin_with_ssl: //input[@id='use_secure_admin']
-                            skip_secure_url_validation: //input[@id='skip_url_validation']
+                            run_admin_with_ssl: "//ul[@id='use_secure_options' and not(@style='display: none;')]//input[@id='use_secure_admin']"
+                            skip_secure_url_validation: "//ul[@id='use_secure_options' and not(@style='display: none;')]//input[@id='skip_url_validation']"
                 -
                     session_storage_options:
                         xpath: //fieldset[legend='Session Storage Options']

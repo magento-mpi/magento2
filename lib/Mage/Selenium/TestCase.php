@@ -789,14 +789,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
 
-        if ($xpath && $this->getXpathCount($xpath) > 0) {
+        if ($xpath == NULL) {
+            $this->fail("Can't find control: [$controlType: $controlName]");
+        }
+
+        if ($this->isElementPresent($xpath)) {
             return true;
         }
 
-        $this->fail('Control "' . $controlName
-                    . '" with xpath "'
-                    . $xpath
-                    . '" isn\'t present on the page');
+        return FALSE;
     }
 
     /**
@@ -1273,7 +1274,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         if ($this->isElementPresent($x . $additionalXPath)) {
                             $label = trim($this->getText($x . $additionalXPath), " *\t\n\r");
                         } else {
-                            $label = $this->getAttribute($x . "[$i]" . "@id");
+                            $label = $this->getAttribute($x . "@id");
                             $label = strrev($label);
                             $label = strrev(substr($label, 0, strpos($label, "-")));
                         }

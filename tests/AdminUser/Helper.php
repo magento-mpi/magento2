@@ -101,7 +101,7 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
                 and $userData['role_name'] !== NULL) {
             $role['role_name'] = $userData['role_name'];
             $this->clickControl('tab', 'user_role', FALSE);
-            $this->assertTrue($this->searchRole($userData), 'Role is not found');
+            $this->assertTrue($this->searchRole($role), 'Role is not found');
         }
         $this->saveForm('save_admin_user');
         if ($this->checkCurrentPage('edit_admin_user')) {
