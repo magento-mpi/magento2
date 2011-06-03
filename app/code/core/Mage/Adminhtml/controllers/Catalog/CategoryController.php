@@ -417,6 +417,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->getResponse()->setRedirect($this->getUrl('*/*/', array('_current'=>true, 'id'=>null)));
     }
 
+    /**
+     * Grid Action
+     * Display list of products related to current category
+     *
+     * @return void
+     */
     public function gridAction()
     {
         if (!$category = $this->_initCategory(true)) {
@@ -428,6 +434,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         );
     }
 
+    /**
+     * Tree Action
+     * Retrieve category tree
+     *
+     * @return void
+     */
     public function treeAction()
     {
         $storeId = (int) $this->getRequest()->getParam('store');
@@ -475,6 +487,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
     }
 
+    /**
+     * Check if admin has permissions to visit related pages
+     *
+     * @return boolean
+     */
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('catalog/categories');
