@@ -474,7 +474,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $websiteId = $this->getRequest()->getParam('website_id');
 
         // delete an item from cart
-        if ($deleteItemId = $this->getRequest()->getPost('delete')) {
+        $deleteItemId = $this->getRequest()->getPost('delete');
+        if ($deleteItemId) {
             $quote = Mage::getModel('sales/quote')
                 ->setWebsite(Mage::app()->getWebsite($websiteId))
                 ->loadByCustomer(Mage::registry('current_customer'));
@@ -486,8 +487,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart', '', array('website_id'=>$websiteId))
-                ->toHtml()
+            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart', 'admin.customer.view.cart',
+                array('website_id'=>$websiteId))->toHtml()
         );
     }
 
