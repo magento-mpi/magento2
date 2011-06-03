@@ -151,6 +151,29 @@ class Enterprise_PricePermissions_Model_Observer
                     $block->removeColumn('total');
                 }
                 break;
+            // Handle prices on Manage Shopping Cart page (Enterprise_Checkout module)
+            case 'products' :
+            case 'wishlist' :
+            case 'compared' :
+            case 'rcompared' :
+            case 'rviewed' :
+            case 'ordered' :
+            case 'checkout.accordion.products' :
+            case 'checkout.accordion.wishlist' :
+            case 'checkout.accordion.compared' :
+            case 'checkout.accordion.rcompared' :
+            case 'checkout.accordion.rviewed' :
+            case 'checkout.accordion.ordered' :
+                if (!$this->_canReadProductPrice) {
+                    $block->removeColumn('price');
+                }
+                break;
+            case 'checkout.items' :
+            case 'items' :
+                if (!$this->_canReadProductPrice) {
+                    $block->setCanReadPrice(false);
+                }
+                break;
             // Handle Downloadable Links tab of downloadable products
             case 'catalog.product.edit.tab.downloadable.links' :
                 if (!$this->_canEditProductPrice) {

@@ -35,20 +35,32 @@
     <div class="grid" id="order-items_grid">
         <table cellspacing="0" class="data order-tables">
             <col />
+            <?php if ($this->getCanReadPrice() !== false) : ?>
             <col width="100" />
+            <?php endif; ?>
             <col width="40" />
+            <?php if ($this->getCanReadPrice() !== false) : ?>
             <col width="100" />
+            <?php endif; ?>
             <col width="80" />
+            <?php if ($this->getCanReadPrice() !== false) : ?>
             <col width="100" />
+            <?php endif; ?>
             <col width="80" />
             <thead>
                 <tr class="headings">
                     <th class="no-link"><?php echo $this->helper('enterprise_checkout')->__('Product') ?></th>
+                    <?php if ($this->getCanReadPrice() !== false) : ?>
                     <th class="no-link"><?php echo $this->helper('enterprise_checkout')->__('Price') ?></th>
+                    <?php endif; ?>
                     <th class="no-link"><?php echo $this->helper('enterprise_checkout')->__('Qty') ?></th>
+                    <?php if ($this->getCanReadPrice() !== false) : ?>
                     <th class="no-link"><?php echo $this->helper('enterprise_checkout')->__('Subtotal') ?></th>
+                    <?php endif; ?>
                     <th class="no-link"><?php echo $this->helper('enterprise_checkout')->__('Discount') ?></th>
+                    <?php if ($this->getCanReadPrice() !== false) : ?>
                     <th class="no-link"><?php echo $this->helper('enterprise_checkout')->__('Row Subtotal') ?></th>
+                    <?php endif; ?>
                     <?php if ($this->isAllowedActionColumn()): ?>
                     <th class="no-link last"><?php echo $this->helper('enterprise_checkout')->__('Action') ?></th>
                     <?php endif; ?>
@@ -66,21 +78,33 @@
     <div class="grid" id="order-items_grid">
         <table cellspacing="0" class="data order-tables">
             <col />
+            <?php if ($this->getCanReadPrice() !== false) : ?>
             <col width="100" />
             <col width="100" />
+            <?php endif; ?>
             <col width="40" />
+            <?php if ($this->getCanReadPrice() !== false) : ?>
             <col width="100" />
+            <?php endif; ?>
             <col width="80" />
+            <?php if ($this->getCanReadPrice() !== false) : ?>
             <col width="100" />
+            <?php endif; ?>
             <col width="80" />
             <thead>
                 <tr class="headings">
                     <th class="no-link" colspan="2"><?php echo $this->helper('enterprise_checkout')->__('Product') ?></th>
+                    <?php if ($this->getCanReadPrice() !== false) : ?>
                     <th class="no-link"><?php echo $this->helper('enterprise_checkout')->__('Price') ?></th>
+                    <?php endif; ?>
                     <th class="no-link"><?php echo $this->helper('enterprise_checkout')->__('Qty') ?></th>
+                    <?php if ($this->getCanReadPrice() !== false) : ?>
                     <th class="no-link"><?php echo $this->helper('enterprise_checkout')->__('Subtotal') ?></th>
+                    <?php endif; ?>
                     <th class="no-link"><?php echo $this->helper('enterprise_checkout')->__('Discount') ?></th>
+                    <?php if ($this->getCanReadPrice() !== false) : ?>
                     <th class="no-link"><?php echo $this->helper('enterprise_checkout')->__('Row Subtotal') ?></th>
+                    <?php endif; ?>
                     <?php if ($this->isAllowedActionColumn()): ?>
                     <th class="no-link last"><?php echo $this->helper('enterprise_checkout')->__('Action') ?></th>
                     <?php endif; ?>
@@ -89,12 +113,20 @@
             <tfoot>
                 <tr>
                     <td class="a-left" colspan="2"><?php echo $this->helper('enterprise_checkout')->__('Total %d product(s)', count($_items)) ?></td>
+                    <?php if ($this->getCanReadPrice() !== false) : ?>
                     <td colspan="2" class="a-right"><?php echo $this->helper('enterprise_checkout')->__('Subtotal:') ?></td>
                     <td class="price"><strong><?php echo $this->formatPrice($this->getSubtotal()) ?></strong></td>
                     <td class="price"><strong><?php echo $this->formatPrice($this->getDiscountAmount()) ?></strong></td>
                     <td class="price"><strong><?php echo $this->formatPrice($this->getSubtotalWithDiscount()) ?></strong></td>
                     <?php if ($this->isAllowedActionColumn()): ?>
                     <td>&nbsp;</td>
+                    <?php endif; ?>
+                    <?php else : ?>
+                    <td>&nbsp;</td>
+                    <td class="price"><strong><?php echo $this->formatPrice($this->getDiscountAmount()) ?></strong></td>
+                    <?php if ($this->isAllowedActionColumn()) : ?>
+                    <td class="a-right">&nbsp;</td>
+                    <?php endif; ?>
                     <?php endif; ?>
                 </tr>
             </tfoot>
@@ -118,6 +150,7 @@
                         <td class="a-center v-middle">
                             <?php echo $this->getConfigureButtonHtml($_item) ?>
                         </td>
+                        <?php if ($this->getCanReadPrice() !== false) : ?>
                         <td class="price">
 
 
@@ -198,7 +231,9 @@
         <?php endif; ?>
     <?php endif; ?>
                         </td>
+                        <?php endif; ?>
                         <td><input name="item[<?php echo $_item->getId() ?>][qty]" class="input-text item-qty" value="<?php echo $_item->getQty()*1 ?>" maxlength="12" /></td>
+                        <?php if ($this->getCanReadPrice() !== false) : ?>
                         <td class="price">
 
 
@@ -282,9 +317,11 @@
 
 
                         </td>
+                        <?php endif; ?>
                         <td class="price">
                             <?php echo $this->formatPrice(-$_item->getDiscountAmount()) ?><br />
                         </td>
+                        <?php if ($this->getCanReadPrice() !== false) : ?>
                         <td class="price">
 
 
@@ -365,6 +402,7 @@
     <?php endif; ?>
 
                         </td>
+                        <?php endif; ?>
                         <?php if ($this->isAllowedActionColumn()): ?>
                         <td class="last">
                             <select name="item[<?php echo $_item->getId() ?>][action]" style="width:100px;">
