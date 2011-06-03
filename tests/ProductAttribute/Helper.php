@@ -28,9 +28,11 @@
  */
 
 /**
- * *********************************************
- * *         HELPER FUNCTIONS                  *
- * *********************************************
+ * Helper class
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class ProductAttribute_Helper extends Mage_Selenium_TestCase
 {
@@ -105,7 +107,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->waitForPopUp(end($names), '30000');
         $this->selectWindow("name=" . end($names));
         $this->fillForm($attrData, 'properties');
-        $this->clickControl('tab', 'manage_lables_options', false);
+        $this->clickControl('tab', 'manage_lables_options', FALSE);
         $this->fillForm($attrData, 'manage_lables_options');
         $this->attributeTiteles($attrData);
         $this->attributeOptions($attrData);

@@ -28,9 +28,11 @@
  */
 
 /**
- * *********************************************
- * *         HELPER FUNCTIONS                  *
- * *********************************************
+ * Helper class
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Product_Helper extends Mage_Selenium_TestCase
 {
