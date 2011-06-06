@@ -1047,21 +1047,66 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function searchAndOpen(array $data)
     {
-        $keys_to_remove = array();
+        $this->_prepareDataForSearch($data);
+
+        $itemId = $this->_findItemIdInGrid($data);
+
+        $this->addParameter('id', $itemId);
+        $this->click("//table[contains(@id, 'Grid_table')]//tr[contains(@title, 'id/" . $itemId . "/')]/td[contains(text(),'" . $data[array_rand($data)] . "')]");
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+
+        return true;
+    }
+
+    /**
+     * Perform search and choose first element
+     *
+     * @param array $data
+     * @return Mage_Selenium_TestCase
+     */
+    public function searchAndChoose(array $data)
+    {
+        $this->_prepareDataForSearch($data);
+
+        $itemId = $this->_findItemIdInGrid($data);
+
+        $this->addParameter('id', $itemId);
+        $this->click("//table[contains(@id, 'Grid_table')]//tr[contains(@title, 'id/" . $itemId . "/')]/td[contains(text(),'" . $data[array_rand($data)] . "')]/../td/input");
+
+        return true;
+    }
+
+    /**
+     * Prepare data array to grid search
+     *
+     * @param array $data
+     * @return @array
+     */
+    protected function _prepareDataForSearch(array &$data)
+    {
         foreach ($data as $key => $val) {
             if ($val == '%noValue%' or empty($val)) {
-                $keys_to_remove[] = $key;
+                unset($data[$key]);
             } elseif (preg_match('/website/', $key)) {
                 $xpathField = $this->getCurrentLocationUimapPage()->getMainForm()->findDropdown($key);
                 if (!$this->isElementPresent($xpathField)) {
-                    $keys_to_remove[] = $key;
+                    unset($data[$key]);
                 }
             }
         }
-        foreach ($keys_to_remove as $key_name) {
-            unset($data[$key_name]);
-        }
 
+        return $data;
+    }
+
+    /**
+     * Perform search in grid
+     *
+     * @param array $data
+     * @return Mage_Selenium_TestCase
+     */
+    protected function _findItemIdInGrid(array $data)
+    {
         if (count($data) > 0) {
             //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
             $totalCount = intval($this->getText("//td[@class='pager']//span[contains(@id, 'Grid-total-count')]"));
@@ -1085,37 +1130,27 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if (!$this->isElementPresent($xpathTR) && $totalCount > 0) {
                 // Fill in search form and click 'Search' button
                 $this->fillForm($data);
-                $this->clickButton('search', FALSE);
+                $this->clickButton('search', false);
                 $this->waitForElement($xpathPager);
             } else if ($totalCount == 0) {
-                return false;
+                $this->fail('There is no items in the grid!');
             }
 
             if ($this->isElementPresent($xpathTR)) {
                 // ID definition
-                $item_id = 0;
-                $title_arr = explode('/', $this->getValue($xpathTR . '/@title'));
-                $title_arr = array_reverse($title_arr);
-                foreach ($title_arr as $key => $value) {
-                    if (preg_match('/id$/', $value) && isset($title_arr[$key - 1])) {
-                        $item_id = $title_arr[$key - 1];
-                        break;
-                    }
-                }
+                $titleArr = explode('/', $this->getValue($xpathTR . '/@title'));
 
-                if ($item_id > 0) {
-                    $this->addParameter('id', $item_id);
-                    // Open element
-                    $this->click("//table[contains(@id, 'Grid_table')]//tr[contains(@title, 'id/" . $item_id . "/')]/td[contains(text(),'" . $data[array_rand($data)] . "')]");
-                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                    $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+                $idKey = array_search('id', $titleArr);
 
-                    return true;
+                if ($idKey !== false && isset($titleArr[$idKey + 1])) {
+                    return $titleArr[$idKey + 1];
                 }
+            } else {
+                $this->fail('Cant\'t find item in grig for data: ' . print_r($data, true));
             }
+        } else {
+            $this->fail('Data for search in grid is empty!');
         }
-
-        return false;
     }
 
     /**
