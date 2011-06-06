@@ -1918,9 +1918,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getProductEntitiesInfo($columns = null)
     {
-        if (empty($columns) || !is_array($columns)) {
-            $columns = array('entity_id', 'type_id', 'attribute_set_id', 'sku');
-        }
         return $this->_getResource()->getProductEntitiesInfo($columns);
     }
 }

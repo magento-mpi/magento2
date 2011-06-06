@@ -642,8 +642,11 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      */
     public function getProductEntitiesInfo($columns = null)
     {
+        if (!empty($columns) && is_string($columns)) {
+            $columns = array($columns);
+        }
         if (empty($columns) || !is_array($columns)) {
-            $columns = array('entity_id', 'type_id', 'attribute_set_id', 'sku');
+            $columns = $this->_getDefaultAttributes();
         }
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('catalog/product'), $columns);

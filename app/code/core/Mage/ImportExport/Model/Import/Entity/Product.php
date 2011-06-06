@@ -384,7 +384,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initSkus()
     {
-        foreach (Mage::getModel('catalog/product')->getProductEntitiesInfo() as $info) {
+        $columns = array('entity_id', 'type_id', 'attribute_set_id', 'sku');
+        foreach (Mage::getModel('catalog/product')->getProductEntitiesInfo($columns) as $info) {
             $typeId = $info['type_id'];
             $sku = $info['sku'];
             $this->_oldSku[$sku] = array(
