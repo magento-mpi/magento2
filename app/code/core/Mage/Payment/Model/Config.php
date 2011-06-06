@@ -51,7 +51,7 @@ class Mage_Payment_Model_Config
             if (Mage::getStoreConfigFlag('payment/'.$code.'/active', $store)) {
                 if (array_key_exists('model', $methodConfig)) {
                     $methodModel = Mage::getModel($methodConfig['model']);
-                    if ($methodModel && $methodModel->isAvailable()) {
+                    if ($methodModel && $methodModel->getConfigData('active', $store)) {
                         $methods[$code] = $this->_getMethod($code, $methodConfig);
                     }
                 }
