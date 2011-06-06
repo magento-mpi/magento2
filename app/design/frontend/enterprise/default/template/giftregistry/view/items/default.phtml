@@ -71,7 +71,11 @@
     </td>
     <td class="a-right">
         <span class="cart-price">
-        <?php echo $this->helper('core')->currency($_item->getGiftRegistryPrice()) ?>
+            <?php if ($_item->getCanApplyMsrp()): ?>
+                <?php echo $this->getMsrpHtml($_item); ?>
+            <?php else: ?>
+                <?php echo $this->helper('core')->currency($_item->getGiftRegistryPrice()) ?>
+            <?php endif; ?>
         </span>
     </td>
     <td class="a-center">

@@ -35,6 +35,13 @@
 class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstract
 {
     /**
+     * Default MAP renderer type
+     *
+     * @var string
+     */
+    protected $_mapRenderer = 'msrp_item';
+
+    /**
      * Add meta information from product to head block
      *
      * @return Mage_Catalog_Block_Product_View

@@ -2121,6 +2121,27 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 /* ======================================================================================= */
 
 
+/* MAP Popup============================================================================== */
+.cart-msrp-totals { color:red; font-size:12px !important; font-weight:bold; padding:10px 20px 20px; text-align:right; text-transform:uppercase;}
+.map-cart-sidebar-total { color:red; display:block; font-size:10px; line-height:14px; font-weight:bold; padding:5px 2px; text-shadow:0 1px 0 #fff; }
+
+.map-popup { background:#fff; border:1px solid #aaa; margin:12px 0 0; position:absolute; -moz-box-shadow:0 0 6px #ccc; -webkit-box-shadow:0 0 6px #ccc; box-shadow:0 0 6px #ccc; text-align:left; width:300px; z-index:100; }
+.map-popup-heading { background:#efefef ; border-bottom:1px solid #ccc; padding:5px 30px 5px 10px; width:260px; }
+.map-popup-heading h2 { color:#333; font-size:14px; font-weight:bold; margin:0; text-shadow:0 1px 0 #f6f6f6; overflow:hidden; white-space:nowrap; word-wrap:break-word; text-align:left; text-overflow:ellipsis; }
+.map-popup-arrow { background:url(../images/map_popup_arrow.gif) no-repeat; position:absolute; left:50%; top:-10px; height:10px; width:19px; }
+.map-popup-close { background:url(../images/btn_window_close.gif) no-repeat; display:block; position:absolute; top:6px; right:8px; height:15px; width:15px; text-align:left; text-indent:-9999em; }
+.map-popup-content { border-top:1px solid #eee; padding:10px; overflow:hidden; width:280px; }
+.map-popup-checkout { display:inline; float:right; text-align:right; }
+.map-popup-checkout span { display:block; padding-right:30px; }
+.map-popup-checkout .paypal-logo { margin:0 0 5px; }
+.map-popup-price .price-box,
+.map-popup-price .price-box .special-price { margin:0; padding:0; }
+.map-popup-price { margin:5px 0 0; }
+.map-popup-text { background:#fefefe; clear:right; line-height:1.5; margin:0 10px; padding:10px 0; text-align:left; word-wrap:break-word; }
+.map-popup-only-text { border-top:1px solid #ddd; }
+/* ======================================================================================= */
+
+
 /* Footer ================================================================================ */
 .footer-before-container { margin:0 0 3px; text-align:center; }
 

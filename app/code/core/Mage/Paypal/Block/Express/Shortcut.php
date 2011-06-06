@@ -30,6 +30,12 @@
 class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
 {
     /**
+     * Position of "OR" label against shortcut
+     */
+    const POSITION_BEFORE = 'before';
+    const POSITION_AFTER = 'after';
+
+    /**
      * Whether the block should be eventually rendered
      *
      * @var bool
@@ -135,5 +141,28 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
             return '';
         }
         return parent::_toHtml();
+    }
+
+    /**
+     * Check is "OR" label position before shortcut
+     *
+     * @return bool
+     */
+    public function isOrPositionBefore()
+    {
+        return ($this->getIsInCatalogProduct() && !$this->getShowOrPosition())
+            || ($this->getShowOrPosition() && $this->getShowOrPosition() == self::POSITION_BEFORE);
+
+    }
+
+    /**
+     * Check is "OR" label position after shortcut
+     *
+     * @return bool
+     */
+    public function isOrPositionAfter()
+    {
+        return (!$this->getIsInCatalogProduct() && !$this->getShowOrPosition())
+            || ($this->getShowOrPosition() && $this->getShowOrPosition() == self::POSITION_AFTER);
     }
 }

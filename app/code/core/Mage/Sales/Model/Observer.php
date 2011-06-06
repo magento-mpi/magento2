@@ -267,5 +267,28 @@ class Mage_Sales_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Set Quote information about MSRP price enabled
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function setQuoteCanApplyMsrp(Varien_Event_Observer $observer)
+    {
+        /** @var $quote Mage_Sales_Model_Quote */
+        $quote = $observer->getEvent()->getQuote();
+
+        $canApplyMsrp = false;
+        if (Mage::helper('catalog')->isMsrpEnabled()) {
+            foreach ($quote->getAllAddresses() as $adddress) {
+                if ($adddress->getCanApplyMsrp()) {
+                    $canApplyMsrp = true;
+                    break;
+                }
+            }
+        }
+
+        $quote->setCanApplyMsrp($canApplyMsrp);
+    }
 }
 

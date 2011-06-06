@@ -1007,4 +1007,15 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             && parent::canConfigure();
     }
 
+    /**
+     * Check if Minimum Advertise Price is enabled at least in one option
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param int $visibility
+     * @return bool|null
+     */
+    public function isMapEnabledInOptions($product, $visibility = null)
+    {
+        return null;
+    }
 }
