@@ -462,7 +462,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     }
 
     /**
-     * Chack is product available for sale
+     * Check whether the product is available for sale
      * is alias to isSalable for compatibility
      *
      * @return bool
