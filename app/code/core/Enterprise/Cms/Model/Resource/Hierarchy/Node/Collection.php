@@ -136,7 +136,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
      */
     public function setOrderByLevel()
     {
-        $this->getSelect()->order(array('level','main_table.sort_order'));
+        $this->getSelect()->order(array('main_table.level','main_table.sort_order'));
         return $this;
     }
 
