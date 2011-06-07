@@ -80,10 +80,11 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
 
         if ($isInCatalog) {
             // Show PayPal shortcut on a product view page only if product has nonzero price
+            /** @var $currentProduct Mage_Catalog_Model_Product */
             $currentProduct = Mage::registry('current_product');
             if (!is_null($currentProduct)) {
                 $productPrice = (float)$currentProduct->getFinalPrice();
-                if (empty($productPrice)) {
+                if (empty($productPrice) && !$currentProduct->isGrouped()) {
                     $this->_shouldRender = false;
                     return $result;
                 }
