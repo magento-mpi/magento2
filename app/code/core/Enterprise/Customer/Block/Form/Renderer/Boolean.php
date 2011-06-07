@@ -32,28 +32,6 @@
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Form_Renderer_Boolean extends Enterprise_Customer_Block_Form_Renderer_Select
+class Enterprise_Customer_Block_Form_Renderer_Boolean extends Enterprise_Eav_Block_Form_Renderer_Boolean
 {
-    /**
-     * Return array of select options
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return array(
-            array(
-                'value' => '',
-                'label' => ''
-            ),
-            array(
-                'value' => '0',
-                'label' => Mage::helper('enterprise_customer')->__('No')
-            ),
-            array(
-                'value' => '1',
-                'label' => Mage::helper('enterprise_customer')->__('Yes')
-            ),
-        );
-    }
 }

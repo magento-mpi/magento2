@@ -466,6 +466,13 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </allow_ba_signup>
+                        <!-- heading_sftp translate="label">
+                            <label>some text</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>75</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </heading_sftp -->
                         <authorization_honor_period translate="label comment">
                             <label>Authorization Honor Period (days)</label>
                             <comment>Specifies what the Authorization Honor Period is on the merchant’s PayPal account. It must mirror the setting in PayPal.</comment>

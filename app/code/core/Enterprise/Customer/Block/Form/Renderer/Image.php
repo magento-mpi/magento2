@@ -32,6 +32,6 @@
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Form_Renderer_Image extends Enterprise_Customer_Block_Form_Renderer_File
+class Enterprise_Customer_Block_Form_Renderer_Image extends Enterprise_Eav_Block_Form_Renderer_Image
 {
 }

@@ -32,18 +32,6 @@
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Form_Renderer_File extends Enterprise_Customer_Block_Form_Renderer_Abstract
+class Enterprise_Customer_Block_Form_Renderer_File extends Enterprise_Eav_Block_Form_Renderer_File
 {
-    /**
-     * Return escaped value
-     *
-     * @return string
-     */
-    public function getEscapedValue()
-    {
-        if ($this->getValue()) {
-            return $this->escapeHtml(Mage::helper('core')->urlEncode($this->getValue()));
-        }
-        return '';
-    }
 }

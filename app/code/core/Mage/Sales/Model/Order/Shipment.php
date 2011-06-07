@@ -560,6 +560,9 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
             $this->setOrderId($this->getOrder()->getId());
             $this->setShippingAddressId($this->getOrder()->getShippingAddress()->getId());
         }
+        if ($this->getPackages()) {
+            $this->setPackages(serialize($this->getPackages()));
+        }
 
         return parent::_beforeSave();
     }
@@ -606,5 +609,17 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     public function getStore()
     {
         return $this->getOrder()->getStore();
+    }
+
+    /**
+     * Set shipping label
+     *
+     * @param string $label   label representation (image or pdf file)
+     * @return Mage_Sales_Model_Order_Shipment
+     */
+    public function setShippingLabel($label)
+    {
+        $this->setData('shipping_label', $label);
+        return $this;
     }
 }

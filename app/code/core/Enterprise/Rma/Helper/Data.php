@@ -1,0 +1,428 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Rma
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+
+
+/**
+ * RMA Helper
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Rma
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
+{
+    /**
+     * Variable to contain country model
+     *
+     * @var Mage_Directory_Model_Country
+     */
+    protected $_countryModel = null;
+
+    /**
+     * Variable to contain order items collection for RMA creating
+     *
+     * @var Mage_Sales_Model_Resource_Order_Item_Collection
+     */
+    protected $_orderItems = null;
+
+    /**
+     * Allowed hash keys for shipment tracking
+     *
+     * @var array
+     */
+    protected $_allowedHashKeys = array('rma_id', 'track_id');
+
+    /**
+     * Checks whether RMA module is enabled in system config
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return Mage::getStoreConfigFlag(Enterprise_Rma_Model_Rma::XML_PATH_ENABLED);
+    }
+
+    /**
+     * Checks for ability to create RMA
+     *
+     * @param  int|Mage_Sales_Model_Order $order
+     * @param  bool $forceCreate
+     * @return bool
+     */
+    public function canCreateRma($order, $forceCreate = false)
+    {
+        $items = $this->getOrderItems($order);
+        if ($items->count() && ($forceCreate || $this->isEnabled())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets available order items collection for RMA creating
+     *
+     * @param  int|Mage_Sales_Model_Order $orderId
+     * @param  bool $onlyParents If needs only parent items (only for backend)
+     * @throws Mage_Core_Exception
+     * @return Mage_Sales_Model_Resource_Order_Item_Collection
+     */
+    public function getOrderItems($orderId, $onlyParents = false)
+    {
+        if ($orderId instanceof Mage_Sales_Model_Order) {
+            $orderId = $orderId->getId();
+        }
+        if (!is_numeric($orderId)) {
+            Mage::throwException($this->__('It isn\'t valid order'));
+        }
+        if (is_null($this->_orderItems) || !isset($this->_orderItems[$orderId])) {
+            $this->_orderItems[$orderId] = Mage::getResourceModel('enterprise_rma/item')->getOrderItems($orderId);
+        }
+
+        if ($onlyParents) {
+            foreach ($this->_orderItems[$orderId] as &$item) {
+                if ($item->getParentItemId()) {
+                    $this->_orderItems[$orderId]->removeItemByKey($item->getId());
+                }
+                if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+                    $productOptions = $item->getProductOptions();
+                    $item->setName($productOptions['simple_name']);
+                }
+            }
+        }
+
+        return $this->_orderItems[$orderId];
+    }
+
+    /**
+     * Get url for rma create
+     *
+     * @param  Mage_Sales_Model_Order $order
+     * @return string
+     */
+    public function getReturnCreateUrl($order)
+    {
+        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            return Mage::getUrl('rma/return/create', array('order_id' => $order->getId()));
+        } else {
+            return Mage::getUrl('rma/guest/create', array('order_id' => $order->getId()));
+        }
+    }
+
+    /**
+     * Get formatted return address
+     *
+     * @param string $formatCode
+     * @param array $data - array of address data
+     * @param int|null $storeId - Store Id
+     * @return string
+     */
+    public function getReturnAddress($formatCode = 'html', $data = array(), $storeId = null)
+    {
+        if (empty($data)) {
+            $data = $this->_getAddressData($storeId);
+        }
+
+        $store = Mage::app()->getStore();
+
+        $format = null;
+
+        if (isset($data['countryId'])) {
+            $countryModel = $this->_getCountryModel()->load($data['countryId']);
+            $format = $countryModel->getFormat($formatCode);
+        }
+
+        if (!$format) {
+            $path = sprintf('%s%s', Mage_Customer_Model_Address_Config::XML_PATH_ADDRESS_TEMPLATE, $formatCode);
+            $format = Mage::getStoreConfig($path, $store);
+        }
+
+        $formater = new Varien_Filter_Template();
+        $formater->setVariables($data);
+        return $formater->filter($format);
+    }
+
+    /**
+     * Get return address model
+     *
+     * @param int|null $storeId
+     * @return Mage_Sales_Model_Quote_Address
+     */
+    public function getReturnAddressModel($storeId = null)
+    {
+        $addressModel = Mage::getModel('sales/quote_address');
+        $addressModel->setData($this->_getAddressData($storeId));
+        $addressModel->setCountryId($addressModel->getData('countryId'));
+        $addressModel->setStreet($addressModel->getData('street1')."\n".$addressModel->getData('street2'));
+
+        return $addressModel;
+    }
+
+    /**
+     * Get return address array depending on config settings
+     *
+     * @param Mage_Core_Model_Store|null $store
+     * @return array
+     */
+    protected function _getAddressData($store = null)
+    {
+        if (!$store) {
+            $store = Mage::app()->getStore();
+        }
+
+        if (Mage::getStoreConfigFlag(Enterprise_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $store)) {
+            $data = array(
+                'city'      => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY, $store),
+                'company'   => Mage::getStoreConfig(Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME, $store),
+                'countryId' => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $store),
+                'postcode'  => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, $store),
+                'region_id' => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, $store),
+                'street2'   => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $store),
+                'street1'   => Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, $store)
+            );
+        } else {
+            $data = array(
+                'city'      => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_CITY, $store),
+                'company'   => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_STORE_NAME, $store),
+                'countryId' => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_COUNTRY_ID, $store),
+                'postcode'  => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_ZIP, $store),
+                'region_id' => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_REGION_ID, $store),
+                'street2'   => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_ADDRESS2, $store),
+                'street1'    => Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_ADDRESS1, $store)
+            );
+        }
+
+        $data['country'] = $this->_getCountryModel()->loadByCode($data['countryId'])->getName();
+        $region = Mage::getModel('directory/region')->load($data['region_id']);
+        $data['region_id'] = $region->getCode();
+        $data['region'] = $region->getName();
+
+        return $data;
+    }
+
+    /**
+     * Get Country model
+     *
+     * @return Mage_Directory_Model_Country
+     */
+    protected function _getCountryModel()
+    {
+        if (is_null($this->_countryModel)) {
+            $this->_countryModel = Mage::getModel('directory/country');
+        }
+        return $this->_countryModel;
+    }
+
+    /**
+     * Get Contact Email Address title
+     *
+     * @return string
+     */
+    public function getContactEmailLabel()
+    {
+        return $this->__('Contact Email Address');
+    }
+
+    /**
+     * Get key=>value array of "big four" shipping carriers with store-defined labels
+     *
+     * @param int|Mage_Core_Model_Store|null $store
+     * @return array
+     */
+    public function getShippingCarriers($store = null)
+    {
+        $return = array();
+        foreach (array('dhl', 'fedex', 'ups', 'usps') as $carrier) {
+            $return[$carrier] = Mage::getStoreConfig('carriers/' . $carrier . '/title', $store);
+        }
+        return $return;
+    }
+
+    /**
+     * Get key=>value array of enabled in website and enabled for RMA shipping carriers
+     * from "big four" with their store-defined labels
+     *
+     * @param int|Mage_Core_Model_Store|null $store
+     * @return array
+     */
+    public function getAllowedShippingCarriers($store = null)
+    {
+        $return = $this->getShippingCarriers($store);
+        foreach (array_keys($return) as $carrier) {
+            if (!((bool)Mage::getStoreConfig('carriers/' . $carrier . '/active', $store)
+                && (bool)Mage::getStoreConfig('carriers/' . $carrier . '/active_rma', $store))
+            ) {
+                unset ($return[$carrier]);
+            }
+        }
+        return $return;
+    }
+
+    /**
+     * Retrieve carrier
+     *
+     * @param string $code Shipping method code
+     * @param mixed $storeId
+     * @return Carrier Model
+     */
+    public function getCarrier($code, $storeId = null)
+    {
+        $carrierModel   = false;
+        $data           = explode('_', $code);
+        $carrierCode    = $data[0];
+
+        if (!Mage::getStoreConfigFlag('carriers/'.$carrierCode.'/active', $storeId)
+            || !Mage::getStoreConfig('carriers/' . $carrierCode . '/active_rma', $storeId)) {
+            return false;
+        }
+        $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model', $storeId);
+        if (!$className) {
+            return false;
+        }
+        $obj = Mage::getModel($className);
+        if ($storeId) {
+            $obj->setStore($storeId);
+        }
+        return $obj;
+    }
+
+    /**
+     * Shipping package popup URL getter
+     *
+     * @param $model Enterprise_Rma_Model_Rma
+     * @param $action string
+     * @return string
+     */
+    public function getPackagePopupUrlByRmaModel($model, $action = 'package')
+    {
+        $key    = 'rma_id';
+        $method = 'getId';
+        $param = array(
+             'hash' => Mage::helper('core')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+        );
+
+         $storeId = is_object($model) ? $model->getStoreId() : null;
+         $storeModel = Mage::app()->getStore($storeId);
+         return $storeModel->getUrl('rma/tracking/'.$action, $param);
+    }
+
+    /**
+     * Shipping tracking popup URL getter
+     *
+     * @param $track
+     * @return string
+     */
+    public function getTrackingPopupUrlBySalesModel($track)
+    {
+        if ($track instanceof Enterprise_Rma_Model_Rma) {
+            return $this->_getTrackingUrl('rma_id', $track);
+        } elseif ($track instanceof Enterprise_Rma_Model_Shipping) {
+            return $this->_getTrackingUrl('track_id', $track, 'getEntityId');
+        }
+    }
+
+    /**
+     * Retrieve tracking url with params
+     *
+     * @param  string $key
+     * @param  Enterprise_Rma_Model_Shipping|Enterprise_Rma_Model_Rma $model
+     * @param  string $method - option
+     * @return string
+     */
+    protected function _getTrackingUrl($key, $model, $method = 'getId')
+    {
+         $param = array(
+             'hash' => Mage::helper('core')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+         );
+
+         $storeId = is_object($model) ? $model->getStoreId() : null;
+         $storeModel = Mage::app()->getStore($storeId);
+         return $storeModel->getUrl('rma/tracking/popup', $param);
+    }
+
+    /**
+     * Decode url hash
+     *
+     * @param  string $hash
+     * @return array
+     */
+    public function decodeTrackingHash($hash)
+    {
+        $hash = explode(':', Mage::helper('core')->urlDecode($hash));
+        if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
+            return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
+        }
+        return array();
+    }
+
+    /**
+     * Get whether selected product is returnable
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function canReturnProduct($product, $storeId = null)
+    {
+        $isReturnable = $product->getIsReturnable();
+
+        if (is_null($isReturnable)) {
+            $isReturnable = Enterprise_Rma_Model_Product_Source::ATTRIBUTE_ENABLE_RMA_USE_CONFIG;
+        }
+        switch ($isReturnable) {
+            case Enterprise_Rma_Model_Product_Source::ATTRIBUTE_ENABLE_RMA_YES:
+                return true;
+            case Enterprise_Rma_Model_Product_Source::ATTRIBUTE_ENABLE_RMA_NO:
+                return false;
+            default: //Use config and NULL
+                return Mage::getStoreConfig(Enterprise_Rma_Model_Product_Source::XML_PATH_PRODUCTS_ALLOWED, $storeId);
+        }
+    }
+
+    /**
+     * Get formated date in store timezone
+     *
+     * @param   string $date
+     * @return  string
+     */
+    public function getFormatedDate($date)
+    {
+        $storeDate = Mage::app()
+            ->getLocale()
+            ->storeDate(
+                Mage::app()->getStore(),
+                Varien_Date::toTimestamp($date),
+                true
+        );
+
+        return Mage::helper('core')
+            ->formatDate(
+                $storeDate,
+                Mage_Core_Model_Locale::FORMAT_TYPE_SHORT,
+                true
+            );
+    }
+}

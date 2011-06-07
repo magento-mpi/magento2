@@ -2299,3 +2299,5 @@ address.copyright { margin-top:6px; }
 .addresses-list .col-2 li:after,
 .product-view .product-shop:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 /* ======================================================================================= */
+
+.guest-select {width:305px !important;}
