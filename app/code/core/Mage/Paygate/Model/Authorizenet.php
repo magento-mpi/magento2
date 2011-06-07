@@ -244,14 +244,16 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     public function canRefund()
     {
         if ($this->_isGatewayActionsLocked($this->getInfoInstance())
-            || $this->getCardsStorage()->getCardsCount() <= 0) {
+            || $this->getCardsStorage()->getCardsCount() <= 0
+        ) {
             return false;
         }
         foreach($this->getCardsStorage()->getCards() as $card) {
             $lastTransaction = $this->getInfoInstance()->getTransaction($card->getLastTransId());
             if ($lastTransaction
                 && $lastTransaction->getTxnType() == Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE
-                && !$lastTransaction->getIsClosed()) {
+                && !$lastTransaction->getIsClosed()
+            ) {
                 return true;
             }
         }
@@ -412,8 +414,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     {
         $cardsStorage = $this->getCardsStorage($payment);
 
-        if ($this->_formatAmount($cardsStorage->getCapturedAmount()
-                - $cardsStorage->getRefundedAmount()) < $requestedAmount) {
+        if ($this->_formatAmount(
+                $cardsStorage->getCapturedAmount() - $cardsStorage->getRefundedAmount()
+            ) < $requestedAmount
+        ) {
             Mage::throwException(Mage::helper('paygate')->__('Invalid amount for refund.'));
         }
 
@@ -533,7 +537,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 return $this;
             case self::RESPONSE_CODE_HELD:
                 if ($result->getResponseReasonCode() == self::RESPONSE_REASON_CODE_PENDING_REVIEW_AUTHORIZED
-                    || $result->getResponseReasonCode() == self::RESPONSE_REASON_CODE_PENDING_REVIEW) {
+                    || $result->getResponseReasonCode() == self::RESPONSE_REASON_CODE_PENDING_REVIEW
+                ) {
                     $card = $this->_registerCard($result, $payment);
                     $this->_addTransaction(
                         $payment,
@@ -658,7 +663,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         foreach($this->getCardsStorage()->getCards() as $card) {
             $lastTransaction = $payment->getTransaction($card->getLastTransId());
             if (!$lastTransaction
-                    || $lastTransaction->getTxnType() != Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH) {
+                || $lastTransaction->getTxnType() != Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH
+            ) {
                 return false;
             }
         }
@@ -676,8 +682,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     {
         $cardsStorage = $this->getCardsStorage($payment);
 
-        if ($this->_formatAmount($cardsStorage->getProcessedAmount()
-                - $cardsStorage->getCapturedAmount()) < $requestedAmount) {
+        if ($this->_formatAmount(
+                $cardsStorage->getProcessedAmount() - $cardsStorage->getCapturedAmount()
+            ) < $requestedAmount
+        ) {
             Mage::throwException(Mage::helper('paygate')->__('Invalid amount for capture.'));
         }
 
@@ -1464,25 +1472,37 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      */
     protected function _getTransactionDetails($transactionId)
     {
-        $xmlHeader = '<?xml version="1.0" encoding="utf-8"?>'
+        $requestBody = sprintf(
+            '<?xml version="1.0" encoding="utf-8"?>'
             . '<getTransactionDetailsRequest xmlns="AnetApi/xml/v1/schema/AnetApiSchema.xsd">'
-            . '</getTransactionDetailsRequest>';
-        $xmlDocument = @new SimpleXMLElement($xmlHeader);
-        $authentication = $xmlDocument->addChild('merchantAuthentication');
-        $authentication->addChild('name', $this->getConfigData('login'));
-        $authentication->addChild('transactionKey', $this->getConfigData('trans_key'));
-        $xmlDocument->addChild('transId', $transactionId);
+            . '<merchantAuthentication><name>%s</name><transactionKey>%s</transactionKey></merchantAuthentication>'
+            . '<transId>%s</transId>'
+            . '</getTransactionDetailsRequest>',
+            $this->getConfigData('login'),
+            $this->getConfigData('trans_key'),
+            $transactionId
+        );
 
+        $client = new Varien_Http_Client();
         $uri = $this->getConfigData('cgi_url_td');
-        $curlRequest = curl_init($uri ? $uri : self::CGI_URL_TD);
-        curl_setopt($curlRequest, CURLOPT_HTTPHEADER, Array("Content-Type: text/xml"));
-        curl_setopt($curlRequest, CURLOPT_HEADER, 0);
-        curl_setopt($curlRequest, CURLOPT_TIMEOUT, 45);
-        curl_setopt($curlRequest, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curlRequest, CURLOPT_POSTFIELDS, $xmlDocument->asXML());
-        $curlResponse = curl_exec($curlRequest);
-        $responseXmlDocument = @simplexml_load_string($curlResponse);
-        curl_close($curlRequest);
+        $client->setUri($uri ? $uri : self::CGI_URL_TD);
+        $client->setConfig(array('timeout'=>45));
+        $client->setHeaders(array('Content-Type: text/xml'));
+        $client->setMethod(Zend_Http_Client::POST);
+        $client->setRawData($requestBody);
+
+        $debugData = array('request' => $requestBody);
+
+        try {
+            $responseBody = $client->request()->getBody();
+            $debugData['result'] = $responseBody;
+            $this->_debug($debugData);
+            libxml_use_internal_errors(true);
+            $responseXmlDocument = new Varien_Simplexml_Element($responseBody);
+            libxml_use_internal_errors(false);
+        } catch (Exception $e) {
+            Mage::throwException(Mage::helper('paygate')->__('Payment updating error.'));
+        }
 
         $response = new Varien_Object;
         $response
