@@ -838,35 +838,6 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function isMapEnabledInOptions($product, $visibility = null)
     {
-        $collection = $this->getUsedProductCollection($product);
-        $helper = Mage::helper('catalog');
-
-        $result = null;
-        $parentVisibility = $product->getMsrpDisplayActualPriceType();
-        if ($parentVisibility === null) {
-            $parentVisibility = $helper->getMsrpDisplayActualPriceType();
-        }
-        $visibilities = array($parentVisibility);
-        foreach ($collection as $item) {
-            if ($helper->canApplyMsrp($item)) {
-                $productVisibility = $item->getMsrpDisplayActualPriceType();
-                if ($productVisibility === null) {
-                    $productVisibility = $helper->getMsrpDisplayActualPriceType();
-                }
-                $visibilities[] = $productVisibility;
-                $result = true;
-            }
-        }
-
-        if ($result && $visibility !== null) {
-            if ($visibilities) {
-                $maxVisibility = max($visibilities);
-                $result = $result && $maxVisibility == $visibility;
-            } else {
-                $result = false;
-            }
-        }
-
-        return $result;
+        return null;
     }
 }
