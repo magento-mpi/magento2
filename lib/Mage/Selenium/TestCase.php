@@ -136,21 +136,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var    boolean
      */
-    protected $inIsolation = FALSE;
+    protected $inIsolation = false;
 
     /**
      * The name of the test case.
      *
      * @var    string
      */
-    protected $name = NULL;
+    protected $name = null;
 
     /**
      * The name of the expected Exception.
      *
      * @var    mixed
      */
-    protected $expectedException = NULL;
+    protected $expectedException = null;
 
     /**
      * The message of the expected Exception.
@@ -260,7 +260,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param  array  $browser
      * @throws InvalidArgumentException
      */
-    public function __construct($name = NULL, array $data = array(), $dataName = '', array $browser = array())
+    public function __construct($name = null, array $data = array(), $dataName = '', array $browser = array())
     {
         $this->_testConfig = Mage_Selenium_TestConfiguration::initInstance();
         $this->_dataHelper = $this->_testConfig->getDataHelper();
@@ -269,7 +269,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_pageHelper = $this->_testConfig->getPageHelper($this, $this->_applicationHelper);
         $this->_uimapHelper = $this->_testConfig->getUimapHelper();
 
-        if ($name !== NULL) {
+        if ($name !== null) {
             $this->name = $name;
         }
         $this->data     = $data;
@@ -290,7 +290,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function __call($command, $arguments)
     {
         $helper = strstr($command, 'Helper', true);
-        if ($helper !== FALSE) {
+        if ($helper !== false) {
             $helper = $this->_loadHelper($helper);
             if ($helper) {
                 return $helper;
@@ -334,7 +334,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Implementetion of setUpBeforeClass() in object context
      *
      * @staticvar boolean $_isFirst
-     * @return NULL
+     * @return null
      */
     public function setUp()
     {
@@ -349,7 +349,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Function is called before all tests in test case
      *
-     * @return NULL
+     * @return null
      */
     public function setUpBeforeTests()
     {
@@ -599,6 +599,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $page = $this->_pageHelper->getPageByMca($mca, $this->_paramsHelper);
         if ($page) {
             return $page->getPageId();
+        } else {
+            $this->fail('Can\'t find page for url: ' . $url);
         }
 
         return false;
@@ -679,7 +681,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getUimapPage($area, $pageKey)
     {
-        return $this->_uimapHelper->getUimapPage($area, $pageKey, $this->_paramsHelper);
+        $page = $this->_uimapHelper->getUimapPage($area, $pageKey, $this->_paramsHelper);
+
+        if (!$page) {
+            $this->fail('Can\'t find page in area "' . $area . '" for key "' . $pageKey . '"');
+        }
+
+        return $page;
     }
 
     /**
@@ -701,7 +709,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($this->_applicationHelper->getBaseUrl(),
                         $this->getLocation());
-        return $this->_uimapHelper->getUimapPageByMca($this->getArea(), $mca, $this->_paramsHelper);
+        $page = $this->_uimapHelper->getUimapPageByMca($this->getArea(), $mca, $this->_paramsHelper);
+
+        if (!$page) {
+            $this->fail('Can\'t find page in area "' . $this->getArea() . '" for mca "' . $mca . '"');
+        }
+
+        return $page;
     }
 
     /**
@@ -789,7 +803,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
 
-        if ($xpath == NULL) {
+        if ($xpath == null) {
             $this->fail("Can't find control: [$controlType: $controlName]");
         }
 
@@ -797,7 +811,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             return true;
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -952,7 +966,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Fill input form fields
      *
      * @param array $fieldData
-     * @return NULL
+     * @return null
      */
     protected function _fillFormField($fieldData)
     {
@@ -975,7 +989,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $valuesArray = explode(',', $fieldData['value']);
             $valuesArray = array_map('trim', $valuesArray);
             foreach ($valuesArray as $value) {
-                if ($value != NULL) {
+                if ($value != null) {
                     $this->addSelection($fieldData['path'], 'regexp:' . preg_quote($value));
                 }
             }
@@ -1165,11 +1179,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function checkMessage($message)
     {
-        $page = $this->getCurrentLocationUimapPage();
-        if (!$page) {
-            throw new OutOfRangeException("Can't find specified form in UIMap array '" . $this->getLocation() . "', area['" . $this->getArea() . "']");
-            return false;
-        }
+        $page           = $this->getCurrentLocationUimapPage();
         $messageLocator = $page->findMessage($message);
         return $this->checkMessageByXpath($messageLocator);
     }
@@ -1865,7 +1875,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         }
 
                         // Test method with invalid @dataProvider.
-                        else if ($data === FALSE) {
+                        else if ($data === false) {
                             $browserSuite->addTest(
                               new PHPUnit_Framework_Warning(
                                 sprintf(
@@ -1919,7 +1929,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     }
 
                     // Test method with invalid @dataProvider.
-                    else if ($data === FALSE) {
+                    else if ($data === false) {
                         $suite->addTest(
                           new PHPUnit_Framework_Warning(
                             sprintf(
@@ -1965,9 +1975,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 	return $test;
     }
 
-    public function run(PHPUnit_Framework_TestResult $result = NULL)
+    public function run(PHPUnit_Framework_TestResult $result = null)
     {
-        if ($result === NULL) {
+        if ($result === null) {
             $result = $this->createResult();
         }
 
@@ -2015,7 +2025,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             for ($i = 0; $i < $numKeys; $i++) {
                 $pos = strpos($passedKeys[$i], ' with data set');
 
-                if ($pos !== FALSE) {
+                if ($pos !== false) {
                     $passedKeys[$i] = substr($passedKeys[$i], 0, $pos);
                 }
             }
@@ -2023,7 +2033,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $passedKeys = array_flip(array_unique($passedKeys));
 
             foreach ($this->dependencies as $dependency) {
-                if (strpos($dependency, '::') === FALSE) {
+                if (strpos($dependency, '::') === false) {
                     $dependency = $className . '::' . $dependency;
                 }
 
@@ -2038,18 +2048,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                       0
                     );
 
-                    return FALSE;
+                    return false;
                 } else {
                     if (isset($passed[$dependency])) {
                         $this->dependencyInput[] = $passed[$dependency];
                     } else {
-                        $this->dependencyInput[] = NULL;
+                        $this->dependencyInput[] = null;
                     }
                 }
             }
         }
 
-        return TRUE;
+        return true;
     }
 
     /**
@@ -2060,9 +2070,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function runTest()
     {
-        if ($this->name === NULL) {
+        if ($this->name === null) {
             throw new PHPUnit_Framework_Exception(
-              'PHPUnit_Framework_TestCase::$name must not be NULL.'
+              'PHPUnit_Framework_TestCase::$name must not be null.'
             );
         }
 
@@ -2110,7 +2120,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
         }
 
-        if ($this->expectedException !== NULL) {
+        if ($this->expectedException !== null) {
             $this->numAssertions++;
 
             $this->syntheticFail(
