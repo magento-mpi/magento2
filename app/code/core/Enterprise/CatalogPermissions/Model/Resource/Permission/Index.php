@@ -257,8 +257,6 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         /* @var $isActive Mage_Eav_Model_Entity_Attribute */
         $isActive = Mage::getSingleton('eav/config')->getAttribute('catalog_category', 'is_active');
 
-        //$isActiveAttributeId = Mage::getSingleton('eav/config')->getAttribute('catalog_category', 'is_active')->getId();
-
         $selectCategory = $readAdapter->select()
             ->from(
                 array('category_product_index' => $this->getTable('catalog/category_product_index')),
@@ -747,8 +745,8 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
             ->from($this->getMainTable(), 'category_id')
-            ->where('customer_group_id = ?', $customerGroupId)
-            ->where('website_id = ?', $websiteId)
+            ->where('customer_group_id = :customer_group_id')
+            ->where('website_id = :website_id')
             ->where('grant_catalog_category_view = :grant_catalog_category_view');
         $bind = array(
             ':customer_group_id' => $customerGroupId,
