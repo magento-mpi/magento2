@@ -519,6 +519,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         switch ($result->getResponseCode()) {
             case self::RESPONSE_CODE_APPROVED:
+                $this->getCardsStorage($payment)->flushCards();
                 $card = $this->_registerCard($result, $payment);
                 $this->_addTransaction(
                     $payment,
@@ -532,7 +533,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 );
                 if ($requestType == self::REQUEST_TYPE_AUTH_CAPTURE) {
                     $card->setCapturedAmount($card->getProcessedAmount());
-                    $this->getCardsStorage()->updateCard($card);
+                    $this->getCardsStorage($payment)->updateCard($card);
                 }
                 return $this;
             case self::RESPONSE_CODE_HELD:
