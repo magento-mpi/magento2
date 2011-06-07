@@ -970,10 +970,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormField($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5)) {
+        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
             $this->type($fieldData['path'], $fieldData['value']);
         } else {
-            throw new PHPUnit_Framework_Exception("Can't find field: {$fieldData['path']}");
+            throw new PHPUnit_Framework_Exception("Can't fill in the field: {$fieldData['path']}");
         }
     }
 
@@ -984,7 +984,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormMultiselect($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5)) {
+        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
             $this->removeAllSelections($fieldData['path']);
             $valuesArray = explode(',', $fieldData['value']);
             $valuesArray = array_map('trim', $valuesArray);
@@ -994,7 +994,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
             }
         } else {
-            throw new PHPUnit_Framework_Exception("Can't find multiselect: {$fieldData['path']}");
+            throw new PHPUnit_Framework_Exception("Can't fill in the multiselect field: {$fieldData['path']}");
         }
     }
 
@@ -1005,11 +1005,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormDropdown($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5)) {
+        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
             $this->select($fieldData['path'], 'regexp:' . preg_quote($fieldData['value']));
             $this->waitForAjax();
         } else {
-            throw new PHPUnit_Framework_Exception("Can't find dropdown: {$fieldData['path']}");
+            throw new PHPUnit_Framework_Exception("Can't fill in the dropdown field: {$fieldData['path']}");
         }
     }
 
@@ -1020,7 +1020,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormCheckbox($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5)) {
+        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
             if (strtolower($fieldData['value']) == 'yes') {
                 if ($this->getValue($fieldData['path']) == 'off') {
                     $this->click($fieldData['path']);
@@ -1031,7 +1031,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 }
             }
         } else {
-            throw new PHPUnit_Framework_Exception("Can't find checkbox: {$fieldData['path']}");
+            throw new PHPUnit_Framework_Exception("Can't fill in the checkbox field: {$fieldData['path']}");
         }
     }
 
@@ -1042,14 +1042,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormRadiobutton($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5)) {
+        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
             if (strtolower($fieldData['value']) == 'yes') {
                 $this->click($fieldData['path']);
             } else {
                 $this->uncheck($fieldData['path']);
             }
         } else {
-            throw new PHPUnit_Framework_Exception("Can't find rediobutton: {$fieldData['path']}");
+            throw new PHPUnit_Framework_Exception("Can't fill in the radiobutton field: {$fieldData['path']}");
         }
     }
 
@@ -1086,7 +1086,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $itemId = $this->_findItemIdInGrid($data);
 
         $this->addParameter('id', $itemId);
-        $this->click("//table[contains(@id, 'Grid_table')]//tr[contains(@title, 'id/" . $itemId . "/')]/td[contains(text(),'" . $data[array_rand($data)] . "')]/../td/input");
+        $this->click("//table[contains(@id, 'Grid_table')]//tr[contains(@title, 'id/" . $itemId . "/')]//input[contains(@class,'checkbox')]");
 
         return true;
     }
