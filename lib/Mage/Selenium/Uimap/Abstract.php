@@ -226,22 +226,30 @@ class Mage_Selenium_Uimap_Abstract
      */
     public function __call($name, $arguments)
     {
+        $returnValue = null;
+
         if (preg_match('|^getAll(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 6));
             if (!empty($elementName)) {
-                return $this->getAllElements($elementName, $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
+                $returnValue = $this->getAllElements($elementName, $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
             }
         } elseif(preg_match('|^get(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 3));
             if (!empty($elementName) && isset($this->_elements[$elementName])) {
-                return $this->_elements[$elementName];
+                $returnValue = $this->_elements[$elementName];
             }
         } elseif(preg_match('|^find(\w+)$|', $name)) {
-            $elementsCollectionName = strtolower(substr($name, 4)) . 's';
-            if (!empty($elementsCollectionName) && !empty($arguments)) {
-                $elemetsColl = $this->getAllElements($elementsCollectionName);
-                return $elemetsColl->get($arguments[0], $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
+            $elementName = strtolower(substr($name, 4)) . 's';
+            if (!empty($elementName) && !empty($arguments)) {
+                $elemetsColl = $this->getAllElements($elementName);
+                $returnValue = $elemetsColl->get($arguments[0], $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
             }
         }
+
+        if (!empty($elementName) && !$returnValue) {
+            throw new Exception('Cant\' find element(s) "' . $elementName . '"');
+        }
+
+        return $returnValue;
     }
 }
