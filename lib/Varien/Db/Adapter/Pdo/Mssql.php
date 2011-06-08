@@ -1404,6 +1404,14 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             return true;
         }
 
+        $default = $this->_getDefaultConstraint($tableName, $columnName);
+        if ($default) {
+            $query = sprintf("ALTER TABLE %s DROP CONSTRAINT %s",
+                $tableName, $this->quoteIdentifier($default['constraint_name'])
+            );
+            $this->raw_query($query);
+        }
+
         $alterDrop   = array();
         $foreignKeys = $this->getForeignKeys($tableName, $schemaName);
         foreach ($foreignKeys as $fkProp) {
