@@ -124,10 +124,10 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     /**
      * Return container types of carrier
      *
-     * @param array $params
+     * @param Varien_Object|null $params
      * @return array
      */
-    public function getContainerTypes(array $params = null)
+    public function getContainerTypes(Varien_Object $params = null)
     {
         return array();
     }

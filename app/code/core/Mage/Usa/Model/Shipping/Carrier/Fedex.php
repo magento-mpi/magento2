@@ -1146,35 +1146,99 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     }
 
     /**
-     * Return allowed container types of carrier
+     * Return container types of carrier
      *
-     * @param array|null $params
+     * @param Varien_Object|null $params
      * @return array|bool
      */
-    public function getContainerTypes(array $params = null)
+    public function getContainerTypes(Varien_Object $params = null)
     {
-        return $this->getCode('packaging');
+        return $this->_getAllowedContainers($params);
     }
 
     /**
-     * Get allowed containers
+     * Get allowed containers of carrier
      *
-     * @param  $shippingMethod
-     * @return array
+     * @param Varien_Object|null $params
+     * @return array|bool
      */
-    protected function _getAllowedContainers($shippingMethod, $isIntl)
+    protected function _getAllowedContainers(Varien_Object $params = null)
     {
-        if ($shippingMethod == 'fedex_FEDEX_GROUND')
-
-        switch ($shippingMethod) {
-            case 'fedex_FEDEX_EXPRESS_SAVER':
-                return array(
-                'FEDEX_ENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
-                'FEDEX_PAK'      => Mage::helper('usa')->__('FedEx Pak'),
-                'YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging')
-            );
-            break;
+        if (!$params
+            || !$params->getShippingMethod()
+            || !$params->getCountryShipper()
+            || !$params->getCountryRecipient()
+        ) {
+            return $this->getCode('packaging');
         }
+        if ($params->getCountryShipper() == self::USA_COUNTRY_ID
+            && $params->getCountryRecipient() == self::USA_COUNTRY_ID
+        ) {
+            $isUsShipping = true;
+        } else if (
+            $params->getCountryShipper() == self::USA_COUNTRY_ID
+            && $params->getCountryRecipient() != self::USA_COUNTRY_ID
+        ) {
+            $isUsShipping = false;
+        } else {
+            return $this->getCode('packaging');
+        }
+
+        if ($isUsShipping) {
+            if ($params->getShippingMethod() == 'fedex_FEDEX_GROUND'
+                || $params->getShippingMethod() == 'fedex_GROUND_HOME_DELIVERY'
+                || $params->getShippingMethod() == 'fedex_SMART_POST'
+            ) {
+                return array('YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging'));
+            } elseif ($params->getShippingMethod() == 'fedex_FEDEX_EXPRESS_SAVER') {
+                return array(
+                    'FEDEX_ENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
+                    'FEDEX_PAK'      => Mage::helper('usa')->__('FedEx Pak'),
+                    'YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging'),
+                );
+            } else if ($params->getShippingMethod() == 'fedex_FEDEX_2_DAY'
+                || $params->getShippingMethod() == 'fedex_STANDARD_OVERNIGHT'
+                || $params->getShippingMethod() == 'fedex_PRIORITY_OVERNIGHT'
+            ) {
+                return array(
+                    'FEDEX_ENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
+                    'FEDEX_PAK'      => Mage::helper('usa')->__('FedEx Pak'),
+                    'FEDEX_BOX'      => Mage::helper('usa')->__('FedEx Box'),
+                    'FEDEX_TUBE'     => Mage::helper('usa')->__('FedEx Tube'),
+                    'YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging'),
+                );
+            } else {
+                return $this->getCode('packaging');
+            }
+        } else {
+            if ($params->getShippingMethod() == 'fedex_INTERNATIONAL_FIRST'
+                || $params->getShippingMethod() == 'fedex_INTERNATIONAL_ECONOMY'
+            ) {
+                return array(
+                    'FEDEX_ENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
+                    'FEDEX_PAK'      => Mage::helper('usa')->__('FedEx Pak'),
+                    'FEDEX_BOX'      => Mage::helper('usa')->__('FedEx Box'),
+                    'FEDEX_TUBE'     => Mage::helper('usa')->__('FedEx Tube'),
+                    'YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging'),
+                );
+            } else if ($params->getShippingMethod() == 'fedex_INTERNATIONAL_PRIORITY') {
+                return array(
+                    'FEDEX_ENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
+                    'FEDEX_PAK'      => Mage::helper('usa')->__('FedEx Pak'),
+                    'FEDEX_BOX'      => Mage::helper('usa')->__('FedEx Box'),
+                    'FEDEX_TUBE'     => Mage::helper('usa')->__('FedEx Tube'),
+                    'FEDEX_10KG_BOX' => Mage::helper('usa')->__('FedEx 10kg Box'),
+                    'FEDEX_25KG_BOX' => Mage::helper('usa')->__('FedEx 25kg Box'),
+                    'YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging'),
+                );
+            } else if ($params->getShippingMethod() == 'fedex_INTERNATIONAL_GROUND') {
+                return array('YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging'));
+            } else {
+                return $this->getCode('packaging');
+            }
+        }
+
+        return $this->getCode('packaging');
     }
 
     /**

@@ -1521,12 +1521,11 @@ XMLAuth;
     }
 
     /**
-     * Return container types of carrier
+     * Return all container types of carrier
      *
-     * @param array|null $params
-     * @return arra|booly
+     * @return array|bool
      */
-    public function getContainerTypes(array $params = null)
+    public function _getAllContainers()
     {
         $codes        = $this->getCode('container');
         $descriptions = $this->getCode('container_description');
@@ -1535,6 +1534,86 @@ XMLAuth;
             $result[$code] = $descriptions[$key];
         }
         return $result;
+    }
+
+    /**
+     * Return container types of carrier
+     *
+     * @param Varien_Object|null $params
+     * @return array|bool
+     */
+    public function getContainerTypes(Varien_Object $params = null)
+    {
+        return $this->_getAllowedContainers($params);
+    }
+
+    /**
+     * Get allowed containers of carrier
+     *
+     * @param Varien_Object|null $params
+     * @return array|bool
+     */
+    protected function _getAllowedContainers(Varien_Object $params = null)
+    {
+        if (!$params
+            || !$params->getShippingMethod()
+            || !$params->getCountryShipper()
+            || !$params->getCountryRecipient()
+        ) {
+            return $this->_getAllContainers();
+        }
+        if ($params->getCountryShipper() == self::USA_COUNTRY_ID
+            && $params->getCountryRecipient() == self::USA_COUNTRY_ID
+        ) {
+            $isUsShipping = true;
+        } else if (
+            $params->getCountryShipper() == self::USA_COUNTRY_ID
+            && $params->getCountryRecipient() != self::USA_COUNTRY_ID
+        ) {
+            $isUsShipping = false;
+        } else {
+            return $this->_getAllContainers();
+        }
+
+        if ($isUsShipping) {
+            if ($params->getShippingMethod() == 'ups_01' // Next Day Air
+                || $params->getShippingMethod() == 'ups_13' // Next Day Air Saver
+                || $params->getShippingMethod() == 'ups_12' // 3 Day Select
+                || $params->getShippingMethod() == 'ups_59' // 2nd Day Air AM
+                || $params->getShippingMethod() == 'ups_03' // Ground
+            ) {
+                return array(
+                    '00' => Mage::helper('usa')->__('Customer Packaging')
+                );
+            } elseif ($params->getShippingMethod() == 'ups_14' // Next Day Air Early AM
+                || $params->getShippingMethod() == 'ups_02' // 2nd Day Air
+            ) {
+                return array(
+                    '00' => Mage::helper('usa')->__('Customer Packaging'),
+                    '21' => Mage::helper('usa')->__('UPS Express Box'),
+                    '03' => Mage::helper('usa')->__('UPS Tube'),
+                );
+            } else {
+                return $this->_getAllContainers();
+            }
+        } else {
+            if ($params->getShippingMethod() == 'ups_07' // Worldwide Express
+                || $params->getShippingMethod() == 'ups_54' // Worldwide Express Plus
+                || $params->getShippingMethod() == 'ups_08' // Worldwide Expedited
+            ) {
+                return array(
+                    '00' => Mage::helper('usa')->__('Customer Packaging'),
+                    '21' => Mage::helper('usa')->__('UPS Express Box'),
+                    '03' => Mage::helper('usa')->__('UPS Tube'),
+                    '24' => Mage::helper('usa')->__('UPS Worldwide 25 kilo'),
+                    '25' => Mage::helper('usa')->__('UPS Worldwide 10 kilo'),
+                );
+            } else {
+                return $this->_getAllContainers();
+            }
+        }
+
+        return $this->_getAllContainers();
     }
 
     /**

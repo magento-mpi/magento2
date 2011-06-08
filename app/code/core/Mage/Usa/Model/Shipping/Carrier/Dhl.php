@@ -1378,10 +1378,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Return container types of carrier
      *
-     * @param array|null $params
+     * @param Varien_Object|null $params
      * @return array|bool
      */
-    public function getContainerTypes(array $params = null)
+    public function getContainerTypes(Varien_Object $params = null)
     {
         return $this->getCode('shipment_type');
     }

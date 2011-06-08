@@ -112,15 +112,13 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
         $carrier = $order->getShippingCarrier();
-        $isIntl = $address->getCountryId() != Mage::getStoreConfig(
-            Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
-            $storeId
-        );
+        $countryShipper = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
-            $params = array(
+            $params = new Varien_Object(array(
                 'shipping_method' => $order->getShippingMethod(),
-                'is_intl' => $isIntl
-            );
+                'country_shipper' => $countryShipper,
+                'country_recipient' => $address->getCountryId(),
+            ));
             return $carrier->getContainerTypes($params);
         }
         return array();
