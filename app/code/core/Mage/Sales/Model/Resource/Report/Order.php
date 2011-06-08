@@ -91,7 +91,7 @@ class Mage_Sales_Model_Resource_Report_Order extends Mage_Sales_Model_Resource_R
                     )
                 ),
                 'total_revenue_amount'           => new Zend_Db_Expr(
-                    sprintf('SUM((%s - %s - %s - %s - %s - %s) * %s)',
+                    sprintf('SUM((%s - %s - %s - (%s - %s - %s)) * %s)',
                         $adapter->getIfNullSql('o.base_total_invoiced', 0),
                         $adapter->getIfNullSql('o.base_tax_invoiced', 0),
                         $adapter->getIfNullSql('o.base_shipping_invoiced', 0),
