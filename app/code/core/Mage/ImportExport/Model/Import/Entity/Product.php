@@ -213,7 +213,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         '_custom_option_is_required', '_custom_option_price', '_custom_option_sku', '_custom_option_max_characters',
         '_custom_option_sort_order', '_custom_option_file_extension', '_custom_option_image_size_x',
         '_custom_option_image_size_y', '_custom_option_row_title', '_custom_option_row_price',
-        '_custom_option_row_sku', '_custom_option_row_sort'
+        '_custom_option_row_sku', '_custom_option_row_sort', '_media_attribute_id', '_media_image', '_media_lable',
+        '_media_position', '_media_is_disabled'
     );
 
     /**
@@ -1027,6 +1028,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             $websites     = array();
             $categories   = array();
             $tierPrices   = array();
+            $mediaGallery = array();
 
             foreach ($bunch as $rowNum => $rowData) {
                 if (!$this->validateRow($rowData, $rowNum)) {
@@ -1085,6 +1087,18 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                                                0 : $this->_websiteCodeToId[$rowData['_tier_price_website']]
                     );
                 }
+                if (!empty($rowData['_media_image'])) { // 5. Media gallery phase
+                    $mediaGallery['file'][$rowSku][] = array(
+                        'attribute_id'      => $rowData['_media_attribute_id'],
+                        'value'             => $rowData['_media_image']
+                    );
+                    $mediaGallery['value'][$rowSku][] = array(
+                        'label'             => $rowData['_media_lable'],
+                        'position'          => $rowData['_media_position'],
+                        'disabled'          => $rowData['_media_is_disabled'],
+                        'value'             => $rowData['_media_image']
+                    );
+                }
                 // 5. Attributes phase
                 if (self::SCOPE_NULL == $rowScope) {
                     continue; // skip attribute processing for SCOPE_NULL rows
@@ -1126,6 +1140,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 ->_saveProductWebsites($websites)
                 ->_saveProductCategories($categories)
                 ->_saveProductTierPrices($tierPrices)
+                ->_saveMediaGallery($mediaGallery)
                 ->_saveProductAttributes($attributes);
         }
         return $this;
@@ -1168,6 +1183,81 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 $this->_connection->insertOnDuplicate($tableName, $tierPriceIn, array('value'));
             }
         }
+        return $this;
+    }
+
+    /**
+     * Save product media gallery.
+     *
+     * @param array $mediaGalleryData
+     * @return Mage_ImportExport_Model_Import_Entity_Product
+     */
+    protected function _saveMediaGallery(array $mediaGalleryData)
+    {
+        if (empty($mediaGalleryData)) {
+            return $this;
+        }
+
+        static $mediaGalleryTableName = null;
+        static $mediaValueTableName = null;
+        static $productId = null;
+
+        if (!$mediaGalleryTableName) {
+            $mediaGalleryTableName = Mage::getModel('importexport/import_proxy_product_resource')
+                    ->getTable('catalog/product_attribute_media_gallery');
+        }
+
+        if (!$mediaValueTableName) {
+            $mediaValueTableName = Mage::getModel('importexport/import_proxy_product_resource')
+                    ->getTable('catalog/product_attribute_media_gallery_value');
+        }
+
+        $mediaGalleryIn  = array();
+        $delProductId = array();
+
+        foreach ($mediaGalleryData['file'] as $delSku => $mediaGalleryRows) {
+            $productId      = $this->_newSku[$delSku]['entity_id'];
+            $delProductId[] = $productId;
+
+            foreach ($mediaGalleryRows as $row) {
+                $row['entity_id'] = $productId;
+                $mediaGalleryIn['file'][]  = $row;
+            }
+        }
+        $mediaGalleryIn['value'] = array_shift($mediaGalleryData['value']);
+
+        if (Mage_ImportExport_Model_Import::BEHAVIOR_APPEND != $this->getBehavior()) {
+            $this->_connection->delete(
+                $tableName,
+                $this->_connection->quoteInto('entity_id IN (?)', $delProductId)
+            );
+        }
+        if ($mediaGalleryIn['file']) {
+            $this->_connection
+                    ->insertOnDuplicate($mediaGalleryTableName, $mediaGalleryIn['file'], array('entity_id'));
+
+            $newMediaValues = $this->_connection->fetchPairs($this->_connection->select()
+                                    ->from($mediaGalleryTableName, array('value', 'value_id'))
+                                    ->where('entity_id IN (?)', $productId)
+            );
+
+            $mediaGalleryValueKeys = array_keys($mediaGalleryIn['value']);
+            foreach ($mediaGalleryValueKeys as $valueKey) {
+                $fileName = $mediaGalleryIn['value'][$valueKey]['value'];
+                unset($mediaGalleryIn['value'][$valueKey]['value']);
+                $mediaGalleryIn['value'][$valueKey]['value_id'] = $newMediaValues[$fileName];
+            }
+
+            try {
+                $this->_connection
+                        ->insertOnDuplicate($mediaValueTableName, $mediaGalleryIn['value'], array('value_id'));
+            } catch (Exception $e) {
+                $this->_connection->delete(
+                        $mediaGalleryTableName, $this->_connection->quoteInto('value_id IN (?)', $newMediaValues)
+                );
+            }
+        }
+
         return $this;
     }
 

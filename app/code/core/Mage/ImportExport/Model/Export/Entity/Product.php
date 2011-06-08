@@ -245,6 +245,48 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     }
 
     /**
+     * Prepare products media gallery
+     *
+     * @param  array $productIds
+     * @return array
+     */
+    protected function _prepareMediaGallery(array $productIds)
+    {
+        if (empty($productIds)) {
+            return array();
+        }
+        $resource = Mage::getSingleton('core/resource');
+        $select = $this->_connection->select()
+                ->from(
+                        array('mg' => $resource->getTableName('catalog/product_attribute_media_gallery')),
+                        array(
+                            'mg.entity_id', 'mg.attribute_id', 'filename' => 'mg.value', 'mgv.label',
+                            'mgv.position', 'mgv.disabled'
+                        )
+                )
+                ->joinLeft(
+                        array('mgv' => $resource->getTableName('catalog/product_attribute_media_gallery_value')),
+                        '(mg.value_id = mgv.value_id)',
+                        array()
+                )
+                ->where('entity_id IN(?)', $productIds);
+
+        $rowMediaGallery = array();
+        $stmt = $this->_connection->query($select);
+        while ($mediaRow = $stmt->fetch()) {
+            $rowMediaGallery[$mediaRow['entity_id']][] = array(
+                '_media_attribute_id'   => $mediaRow['attribute_id'],
+                '_media_image'          => $mediaRow['filename'],
+                '_media_lable'          => $mediaRow['label'],
+                '_media_position'       => $mediaRow['position'],
+                '_media_is_disabled'    => $mediaRow['disabled']
+            );
+        }
+
+        return $rowMediaGallery;
+    }
+
+    /**
      * Prepare catalog inventory
      *
      * @param  array $productIds
@@ -432,6 +474,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         $rowCategories   = array();
         $rowWebsites     = array();
         $rowTierPrices   = array();
+        $mediaGalery     = array();
         $stockItemRows   = array();
         $linksRows       = array();
         $gfAmountFields  = array();
@@ -448,6 +491,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
 
                 // tier price data getting only once
                 $rowTierPrices = $this->_prepareTierPrices($collection->getAllIds());
+
+                // getting media gallery data
+                $mediaGalery = $this->_prepareMediaGallery($collection->getAllIds());
             }
             foreach ($collection as $itemId => $item) { // go through all products
                 $rowIsEmpty = true; // row is empty by default
@@ -643,7 +689,8 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 '_links_crosssell_position', '_links_upsell_sku', '_links_upsell_position',
                 '_associated_sku', '_associated_default_qty', '_associated_position'
             ),
-            array('_tier_price_website', '_tier_price_customer_group', '_tier_price_qty', '_tier_price_price')
+            array('_tier_price_website', '_tier_price_customer_group', '_tier_price_qty', '_tier_price_price'),
+            array('_media_attribute_id', '_media_image', '_media_lable', '_media_position', '_media_is_disabled')
         );
 
         // have we merge custom options columns
@@ -679,6 +726,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 }
                 if (!empty($rowTierPrices[$productId])) {
                     $dataRow = array_merge($dataRow, array_shift($rowTierPrices[$productId]));
+                }
+                if (!empty($mediaGalery[$productId])) {
+                    $dataRow = array_merge($dataRow, array_shift($mediaGalery[$productId]));
                 }
                 foreach ($linkIdColPrefix as $linkId => &$colPrefix) {
                     if (!empty($linksRows[$productId][$linkId])) {
@@ -717,6 +767,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             if (!empty($rowTierPrices[$productId])) {
                 $additionalRowsCount = max($additionalRowsCount, count($rowTierPrices[$productId]));
             }
+            if (!empty($mediaGalery[$productId])) {
+                $additionalRowsCount = max($additionalRowsCount, count($mediaGalery[$productId]));
+            }
             if (!empty($customOptionsData[$productId])) {
                 $additionalRowsCount = max($additionalRowsCount, count($customOptionsData[$productId]));
             }
@@ -736,6 +789,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                     }
                     if (!empty($rowTierPrices[$productId])) {
                         $dataRow = array_merge($dataRow, array_shift($rowTierPrices[$productId]));
+                    }
+                    if (!empty($mediaGalery[$productId])) {
+                        $dataRow = array_merge($dataRow, array_shift($mediaGalery[$productId]));
                     }
                     foreach ($linkIdColPrefix as $linkId => &$colPrefix) {
                         if (!empty($linksRows[$productId][$linkId])) {
