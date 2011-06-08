@@ -179,7 +179,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
                     ),
                     'reason_other'           => array(
                         'type'               => 'varchar',
-                        'label'              => '',
+                        'label'              => 'Other',
                         'input'              => 'text',
                         'validate_rules'     => 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}',
                         'sort_order'         => 120,
