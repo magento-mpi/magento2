@@ -214,9 +214,11 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         // apply scopes
         foreach ($helper->getAttributeElementScopes() as $elementId => $scope) {
             $element = $form->getElement($elementId);
-            $element->setScope($scope);
-            if ($this->getAttributeObject()->getWebsite()->getId()) {
-                $element->setName('scope_' . $element->getName());
+            if ($element) {
+                $element->setScope($scope);
+                if ($this->getAttributeObject()->getWebsite()->getId()) {
+                    $element->setName('scope_' . $element->getName());
+                }
             }
         }
 
