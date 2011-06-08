@@ -127,7 +127,6 @@ function toggleCreateLabelCheckbox(){
 function submitShipment(btn){
     var checkbox = $(btn).up('.order-totals').select('#create_shipping_label')[0];
     if (checkbox && checkbox.checked) {
-        packaging.setParamsCreateLabelRequest(btn.up('form').serialize(true));
         packaging.showWindow();
     } else if(editForm.submit()) {
         disableElements('submit-button');
