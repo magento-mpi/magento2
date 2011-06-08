@@ -236,7 +236,9 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function void(Varien_Object $payment)
     {
         //Switching to order transaction if needed
-        if ($payment->getAdditionalInformation($this->_isOrderPaymentActionKey)) {
+        if ($payment->getAdditionalInformation($this->_isOrderPaymentActionKey)
+            && !$payment->getVoidOnlyAuthorization()
+        ) {
             $orderTransaction = $payment->lookupTransaction(
                 false, Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
             );
@@ -275,6 +277,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
                 $payment->setShouldCloseParentTransaction(false);
                 $payment->setParentTransactionId($authorizationTransaction->getTxnId());
                 $payment->unsTransactionId();
+                $payment->setVoidOnlyAuthorization(true);
                 $payment->void(new Varien_Object());
 
                 //Revert payment state after voiding
