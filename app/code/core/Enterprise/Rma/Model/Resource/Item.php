@@ -251,6 +251,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
             }
 
             /* checks enable on product level */
+            $product->reset();
             $product->setStoreId($item->getStoreId());
             $product->load($item->getProductId());
 
@@ -300,6 +301,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
                 $parentItemId       = $item->getId();
             } elseif ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
                 $productOptions     = $item->getProductOptions();
+                $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
                 if (!Mage::helper('enterprise_rma')->canReturnProduct($product, $item->getStoreId())) {
                     $orderItemsCollection->removeItemByKey($item->getId());

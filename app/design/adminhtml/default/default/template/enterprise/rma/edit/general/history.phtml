@@ -50,8 +50,8 @@
                 <ul class="note-list">
                 <?php foreach ($this->getComments() as $_item): ?>
                     <li>
-                        <strong><?php echo $this->helper('core')->formatDate($_item->getCreatedAtDate(), 'medium') ?></strong>
-                        <strong><?php echo $this->helper('core')->formatTime($_item->getCreatedAtDate(), 'medium') ?></strong>
+                        <strong><?php echo $this->helper('core')->formatDate($_item->getCreatedAt(), 'medium') ?></strong>
+                        <strong><?php echo $this->helper('core')->formatTime($_item->getCreatedAt(), 'medium') ?></strong>
                         <span class="separator">|</span>
                         <strong>
                             <?php if ($_item->getIsAdmin()): ?>

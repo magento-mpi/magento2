@@ -448,6 +448,7 @@ AdminRma.prototype = {
     deleteRow: function (event) {
         var tableRmaBody = event.findElement('a').up(2);
         event.findElement('a').up(1).remove();
+        this.bundleArray = new Object();
         if (!tableRmaBody.down()) {
             tableRmaBody.remove();
             $('rma_items_grid_table').down('tbody').show();
