@@ -43,7 +43,7 @@
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </enabled>
                         <enabled_on_product translate="label" module="enterprise_rma">
                             <label>Enable RMA on Product Level</label>
@@ -52,7 +52,7 @@
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </enabled_on_product>
                         <use_store_address translate="label" module="enterprise_rma">
                             <label>Use Store Address</label>
