@@ -305,13 +305,11 @@ $tables = array(
             'shipping_address' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_BLOB,
                 'length'    => '64K',
-                'nullable'  => false,
                 'comment'   => 'Shipping Address'
             ),
             'custom_values' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
                 'length'    => '64K',
-                'nullable'  => false,
                 'comment'   => 'Custom Values'
             ),
             'is_active' => array(
@@ -355,20 +353,17 @@ $tables = array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_DECIMAL,
                 'scale'     => 4,
                 'precision' => 12,
-                'nullable'  => false,
                 'comment'   => 'Qty'
             ),
             'qty_fulfilled' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_DECIMAL,
                 'scale'     => 4,
                 'precision' => 12,
-                'nullable'  => false,
                 'comment'   => 'Qty Fulfilled'
             ),
             'note' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
                 'length'    => '64K',
-                'nullable'  => false,
                 'comment'   => 'Note'
             ),
             'added_at' => array(
@@ -378,7 +373,6 @@ $tables = array(
             'custom_options' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
                 'length'    => '64K',
-                'nullable'  => false,
                 'comment'   => 'Custom Options'
             )
         ),
