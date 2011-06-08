@@ -35,6 +35,11 @@
 class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Interface
 {
     /**
+     * Session maximum cookie lifetime
+     */
+    const SEESION_MAX_COOKIE_LIFETIME = 3155692600;
+
+    /**
      * Session lifetime
      *
      * @var integer
@@ -110,6 +115,10 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
 
             if ($this->_lifeTime < 60) {
                 $this->_lifeTime = 3600; //one hour
+            }
+
+            if ($this->_lifeTime > self::SEESION_MAX_COOKIE_LIFETIME) {
+                $this->_lifeTime = self::SEESION_MAX_COOKIE_LIFETIME; // 100 years
             }
         }
         return $this->_lifeTime;
