@@ -341,7 +341,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $package->addChild('Pounds', $r->getWeightPounds());
             $package->addChild('Ounces', $r->getWeightOunces());
             // Because some methods don't accept VARIABLE and (NON)RECTANGULAR containers
-            $package->addChild('Container', 'FLAT RATE BOX');
+            $package->addChild('Container', $r->getContainer());
             $package->addChild('Size', $r->getSize());
             $package->addChild('Width', $r->getWidth());
             $package->addChild('Length', $r->getLength());
