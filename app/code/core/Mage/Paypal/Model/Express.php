@@ -235,6 +235,16 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function void(Varien_Object $payment)
     {
+        //Switching to order transaction if needed
+        if ($payment->getAdditionalInformation($this->_isOrderPaymentActionKey)) {
+            $orderTransaction = $payment->lookupTransaction(
+                false, Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
+            );
+            if ($orderTransaction) {
+                $payment->setParentTransactionId($orderTransaction->getTxnId());
+                $payment->setTransactionId($orderTransaction->getTxnId() . '-void');
+            }
+        }
         $this->_pro->void($payment);
         return $this;
     }
@@ -259,10 +269,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             if (!$authorizationTransaction->getIsClosed()
                 && $this->_isTransactionExpired($authorizationTransaction, $authorizationPeriod)
             ) {
-                if ($payment->getAdditionalInformation($this->_authorizationCountKey) > $maxAuthorizationNumber - 1) {
-                    Mage::throwException(Mage::helper('paypal')->__('The maximum number of child authorizations is reached.'));
-                }
-
                 //Save payment state and configure payment object for voiding
                 $isCaptureFinal = $payment->getShouldCloseParentTransaction();
                 $captureTrxId = $payment->getTransactionId();
@@ -279,6 +285,9 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             }
 
             if ($authorizationTransaction->getIsClosed() || $voided) {
+                if ($payment->getAdditionalInformation($this->_authorizationCountKey) > $maxAuthorizationNumber - 1) {
+                    Mage::throwException(Mage::helper('paypal')->__('The maximum number of child authorizations is reached.'));
+                }
                 $api = $this->_callDoAuthorize(
                     $amount,
                     $payment,
@@ -555,6 +564,15 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             || $payment instanceof Mage_Sales_Model_Order_Creditmemo
         ) {
             return false;
+        }
+        $info = $this->getInfoInstance();
+        if ($info->getAdditionalInformation($this->_isOrderPaymentActionKey)) {
+            $orderTransaction = $info->lookupTransaction(
+                false, Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER
+            );
+            if ($orderTransaction) {
+                $info->setParentTransactionId($orderTransaction->getTxnId());
+            }
         }
 
         return $this->_canVoid;
