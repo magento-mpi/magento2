@@ -326,7 +326,8 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             return array();
         }
         $resource = Mage::getSingleton('core/resource');
-        $select = $this->_connection->select()
+        $adapter = $this->_connection;
+        $select = $adapter->select()
             ->from(
                 array('cpl' => $resource->getTableName('catalog/product_link')),
                 array(
@@ -341,12 +342,18 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             )
             ->joinLeft(
                 array('cpla' => $resource->getTableName('catalog/product_link_attribute')),
-                '(cpla.link_type_id = cpl.link_type_id AND cpla.product_link_attribute_code = \'position\')',
+                $adapter->quoteInto(
+                    '(cpla.link_type_id = cpl.link_type_id AND cpla.product_link_attribute_code = ?)',
+                    'position'
+                ),
                 array()
             )
             ->joinLeft(
                 array('cplaq' => $resource->getTableName('catalog/product_link_attribute')),
-                '(cplaq.link_type_id = cpl.link_type_id AND cplaq.product_link_attribute_code = \'qty\')',
+                $adapter->quoteInto(
+                    '(cplaq.link_type_id = cpl.link_type_id AND cplaq.product_link_attribute_code = ?)',
+                    'qty'
+                ),
                 array()
             )
             ->joinLeft(
@@ -367,7 +374,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             ))
             ->where('cpl.product_id IN (?)', $productIds);
 
-        $stmt = $this->_connection->query($select);
+        $stmt = $adapter->query($select);
         $linksRows = array();
         while ($linksRow = $stmt->fetch()) {
             $linksRows[$linksRow['product_id']][$linksRow['link_type_id']][] = array(
