@@ -598,6 +598,9 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                         if (empty($item['reason'])) {
                             $item['reason'] = $itemModel->getReason();
                         }
+                        if (empty($item['reason_other'])) {
+                            $item['reason_other'] = $itemModel->getReasonOther();
+                        }
                         if (empty($item['condition'])) {
                             $item['condition'] = $itemModel->getCondition();
                         }
