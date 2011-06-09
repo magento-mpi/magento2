@@ -245,12 +245,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         if ($item) {
             $item->setQty($item->getQty() + $qty);
         } else {
-            $isGrouped = $product->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
-            $processMode = $isGrouped ?
-                Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL :
-                Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE;
-            $product->setCartQty($config->getQty());
-            $item = $this->getQuote()->addProductAdvanced($product, $config, $processMode);
+            $item = $this->getQuote()->addProduct($product, $config);
             if (is_string($item)) {
                 Mage::throwException($item);
             }
