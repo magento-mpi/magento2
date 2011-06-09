@@ -745,13 +745,16 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
             ->from($this->getMainTable(), 'category_id')
-            ->where('customer_group_id = :customer_group_id')
-            ->where('website_id = :website_id')
             ->where('grant_catalog_category_view = :grant_catalog_category_view');
-        $bind = array(
-            ':customer_group_id' => $customerGroupId,
-            ':website_id'        => $websiteId,
-        );
+        $bind = array();
+        if ($customerGroupId) {
+            $select->where('customer_group_id = :customer_group_id');
+            $bind[':customer_group_id'] = $customerGroupId;
+        }
+        if ($websiteId) {
+            $select->where('website_id = :website_id');
+            $bind[':website_id'] = $websiteId;
+        }
         if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
             $bind[':grant_catalog_category_view'] = Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;
         } else {
