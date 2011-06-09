@@ -39,9 +39,9 @@ input, select { font-size:14px; vertical-align:middle; }
 -----------------------------*/
 html { -webkit-text-size-adjust:none; }
 html, body { height:100%; }
-body { background:#fefefe; font:12px/18px "Trebuchet MS", Helvetica, sans-serif; min-height:100%; }
+body { background:#fefefe; font:12px/18px HelveticaNeue, Helvetica, sans-serif; min-height:100%; }
 
-h1 { font-size:20px; font-weight:normal; line-height:24px; }
+h1 { font-size:15px; font-weight:bold; line-height:24px; }
 h2 { font-size:16px; font-weight:normal; line-height:20px; }
 
 legend { display:none; }
@@ -568,13 +568,12 @@ section .category-title { display:none; }
     
 /* Cart
 -----------------------------*/
+section > .cart { margin:0 0 -10px; }
+section > .cart .page-title { background:#eee; border:solid #ccc; border-width:1px 0; margin:0 -10px 10px; padding:10px; text-align:left; -webkit-box-shadow:none; }
+section > .cart .page-title h1 { display:block; margin:0 auto; line-height:30px; text-shadow:0 1px 1px #fff; text-align:center; }
+section > .cart .page-title a { background:#ccc; border:1px solid #bbb; display:block; float:left; margin:-30px 0 0; font-size:11px; font-weight:bold; padding:5px 10px; -webkit-border-radius:4px; text-shadow:none; }
 
-section > .cart {}
-section > .cart .page-title { background:#eee; border:solid #ccc; border-width:1px 0; margin:0 -10px 10px; padding:10px; text-align:right; }
-section > .cart .page-title h1 { float:left; line-height:30px; text-shadow:0 1px 1px #fff; }
-section > .cart .page-title a  { background:#ccc; border:1px solid #bbb; display:inline-block; font-size:12px; padding:5px 10px; -webkit-border-radius:10px 0 0 10px; }
-
-section > .cart fieldset { border-bottom:1px solid #ccc; margin:0 -10px; padding:0 10px 5px; -webkit-box-shadow:0 3px 3px #ccc; }
+section > .cart fieldset { border-bottom:1px solid #ccc; margin:0 -10px; padding:0 10px 5px; }
 
 section > .cart .cart-table { width:100%; }
 section > .cart .cart-table,
@@ -591,40 +590,26 @@ section > .cart .cart-table tfoot button { background:-webkit-gradient(linear, 0
 
 section > .cart .cart-table .product-name { font-size:11px; line-height:13px; font-weight:bold; }
 
-section > .cart .totals table { border-spacing:0; font-size:14px; width:100%; }
+section > .cart .totals table { border-spacing:0; font-size:12px; width:100%; }
 section > .cart .totals td { padding:2px; }
-section > .cart .totals td:nth-child(2) {}
 
-section > .cart .discount { background:#eee; font-size:12px; margin:0 -10px 20px; padding:10px 15px 15px; -webkit-box-shadow:inset 0 0 3px #ccc; }
-section > .cart .discount h2 { font-size:16px; font-weight:bold; margin:0; text-shadow:0 1px 0 #fff; }
-
-section > .cart .discount label { display:block; margin-bottom:2px; }
-section > .cart .discount .input-box { margin-bottom:5px; }
-section > .cart .discount .buttons-set {}
-section > .cart .discount .input-box input {
-    background:#fefefe;
-    border:1px solid;
-    border-color:#8e8e8e #e1e1e1 #e1e1e1 #8e8e8e;
-    border-radius:2px;
-    font-size:18px;
-    margin:0;
-    padding:5px;
-    width:100%;
-    -webkit-appearance:none;
-    -webkit-box-sizing:border-box;
-    -webkit-box-shadow:inset 1px 1px 1px rgba(0, 0, 0, 0.1);
-}
-section > .cart .discount .buttons-set button,
-section > .cart .checkout-types button { background:transparent; border:0 none; font-size:1px; margin:0; padding:0; -webkit-appearance:none; vertical-align:middle; width:100%; }
-section > .cart .discount .buttons-set button > span,
-section > .cart .checkout-types button > span { background:-webkit-gradient(linear, 0 0, 0 100%, from(#ff9822), to(#f30)); border-radius:5px; color:#fff; display:inline-block; font-size:16px; padding:7px 15px; text-shadow:0 1px 1px #111; -webkit-box-shadow:0 0 1px #000; width:100%; -webkit-box-sizing:border-box; }
-
-section > .cart .discount .buttons-set button > span { background:-webkit-gradient(linear, 0 0, 0 100%, from(#35d23d), to(#278b2b)); }
-
-section > .cart .checkout-types { padding:0 0 10px; }
-section > .cart .checkout-types li { text-align:center; }
+section > .cart .discount {  font-size:12px; margin:0 -10px 20px; padding:10px 15px 15px; }
+section > .cart .discount h2 { font-size:12px; font-weight:bold; margin:0; text-shadow:0 1px 0 #fff; }
+section > .cart .discount label { display:none; }
+section > .cart .discount .input-box { display:inline-block; }
+section > .cart .discount .input-box input { width:140px; border:1px soldi #CAC8C8; }
+section > .cart .discount .buttons-set { display:inline-block; }
+section > .cart .discount .buttons-set button { padding:3px 10px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#E2E2E2), to(#9D9D9D)); font-size:11px; font-weight:bold; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
+section > .cart .checkout-types { float:right; }
+section > .cart .checkout-types li { text-align:right; }
+section > .cart .checkout-types li:first-child {margin:0 0 10px; }
+section > .cart .checkout-types li button { text-align:right; padding:5px 10px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:11px; font-weight:bold; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
+section > .cart .update-cart { float:left; padding:5px 10px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#E2E2E2), to(#9D9D9D)); font-size:11px; font-weight:bold; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
 section > .cart .checkout-types .paypal-or { color:#333; display:block; padding:0 0 5px; text-shadow:0 0 1px #fff; }
 section > .cart .checkout-types li:nth-child(3) > a { display:inline-block; margin:10px 0 0; padding:10px; }
+
+section > .cart .cart-footer { margin:0 -10px; padding:10px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#FDFDFD), to(#CFD0D1)); -webkit-box-shadow: 0px 0px 10px 0px #222; }
+section > .cart .cart-footer:after { content:"."; display:block; clear:both; visibility:hidden; line-height:0; height:0; }
 
 .a-left { text-align:left; }
 .a-center { text-align:center; }

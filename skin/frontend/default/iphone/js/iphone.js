@@ -23,6 +23,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
+ // Homepage categories and subcategories slider
 document.observe("dom:loaded", function() {
     var sliderPosition = 0;
     
@@ -30,6 +31,7 @@ document.observe("dom:loaded", function() {
     
     $$("#nav a").each(function(sliderLink) {
         if (sliderLink.next(0) !== undefined) {
+            sliderLink.href = "#";
             sliderLink.clonedSubmenuList = sliderLink.next(0);
             
             sliderLink.observe('click', function() {
