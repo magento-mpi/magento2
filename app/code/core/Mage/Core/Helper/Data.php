@@ -790,29 +790,15 @@ XML;
     }
 
     /**
-     * Check whether current database engine allow compatible mode
-     * Use for compatibility with older extensions and custom modules
-     *
-     * @return bool
-     */
-    public function isDbCompatibleModeAllowed()
-    {
-        $type = (string)Mage::getConfig()->getNode('global/resources/default_setup/connection/type');
-        return (bool)(string)Mage::getConfig()->getNode('global/resource/connection/types/'.$type.'/compatibleMode');
-    }
-
-    /**
-     * Check whether database compatible mode is used
-     * Enabled as default for MySql
+     * Check whether database compatible mode is used (configs enable it for MySQL by default).
      *
      * @return bool
      */
     public function useDbCompatibleMode()
     {
-        if ($this->isDbCompatibleModeAllowed()) {
-            return Mage::getStoreConfigFlag('system/db_compatible_mode/enabled');
-        }
-
-        return false;
+        $connType = (string) Mage::getConfig()->getNode('global/resources/default_setup/connection/type');
+        $path = 'global/resource/connection/types/' . $connType . '/compatibleMode';
+        $value = (string) Mage::getConfig()->getNode($path);
+        return (bool) $value;
     }
 }

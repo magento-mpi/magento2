@@ -276,9 +276,6 @@
                     <compiled_js_folder>js</compiled_js_folder>
                 </allowed_resources>
             </media_storage_configuration>
-            <db_compatible_mode>
-                <enabled>1</enabled>
-            </db_compatible_mode>
         </system>
         <trans_email>
             <ident_custom1>
