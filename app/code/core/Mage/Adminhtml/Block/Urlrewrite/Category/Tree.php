@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
      *
      * @var array|null
      */
-    protected $_allowedCategooryIds = null;
+    protected $_allowedCategoryIds = null;
 
     /**
      * Set custom template for the block
@@ -59,9 +59,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
      */
     public function getTreeArray($parentId = null, $asJson = false, $recursionLevel = 3)
     {
-        if ($productId = Mage::app()->getRequest()->getParam('product')) {
+        $productId = Mage::app()->getRequest()->getParam('product');
+        if ($productId) {
             $product = Mage::getModel('catalog/product')->setId($productId);
-            $this->_allowedCategooryIds = $product->getCategoryIds();
+            $this->_allowedCategoryIds = $product->getCategoryIds();
             unset($product);
         }
 
@@ -82,7 +83,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
             return Mage::helper('core')->jsonEncode($result);
         }
 
-        $this->_allowedCategooryIds = null;
+        $this->_allowedCategoryIds = null;
 
         return $result;
     }
@@ -98,8 +99,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
         if (is_null($collection)) {
             $collection = Mage::getModel('catalog/category')->getCollection()
                 ->addAttributeToSelect(array('name', 'is_active'))
-                ->setLoadProductCount(true)
-            ;
+                ->setLoadProductCount(true);
             $this->setData('category_collection', $collection);
         }
 
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
             'product_count'  => (int)$node->getProductCount()
         );
 
-        if (is_array($this->_allowedCategooryIds) && !in_array($result['id'], $this->_allowedCategooryIds)) {
+        if (is_array($this->_allowedCategoryIds) && !in_array($result['id'], $this->_allowedCategoryIds)) {
             $result['disabled'] = true;
         }
 
