@@ -37,7 +37,7 @@
     </div>
     <div class="header2">
         <div class="quick-access">
-            <p class="welcome-msg"><?php echo $this->getWelcome()?></p>
+            <p class="welcome-msg"><?php echo $this->getWelcome()?> <?php echo $this->getAdditionalHtml() ?></p>
             <?php echo $this->getChildHtml('topLinks') ?>
             <?php echo $this->getChildHtml('topContainer'); ?>
         </div>

@@ -35,6 +35,13 @@
 class Mage_Sales_Model_Observer
 {
     /**
+     * Expire quotes additional fields to filter
+     *
+     * @var array
+     */
+    protected $_expireQuotesFilterFields = array();
+
+    /**
      * Clean expired quotes (cron process)
      *
      * @param Mage_Cron_Model_Schedule $schedule
@@ -42,18 +49,47 @@ class Mage_Sales_Model_Observer
      */
     public function cleanExpiredQuotes($schedule)
     {
+        Mage::dispatchEvent('clear_expired_quotes_before', array('sales_observer' => $this));
+
         $lifetimes = Mage::getConfig()->getStoresConfigByPath('checkout/cart/delete_quote_after');
         foreach ($lifetimes as $storeId=>$lifetime) {
             $lifetime *= 86400;
 
+            /** @var $quotes Mage_Sales_Model_Mysql4_Quote_Collection */
             $quotes = Mage::getModel('sales/quote')->getCollection();
-            /* @var $quotes Mage_Sales_Model_Mysql4_Quote_Collection */
 
             $quotes->addFieldToFilter('store_id', $storeId);
             $quotes->addFieldToFilter('updated_at', array('to'=>date("Y-m-d", time()-$lifetime)));
             $quotes->addFieldToFilter('is_active', 0);
+
+            foreach ($this->getExpireQuotesAdditionalFilterFields() as $field => $condition) {
+                $quotes->addFieldToFilter($field, $condition);
+            }
+
             $quotes->walk('delete');
         }
+        return $this;
+    }
+
+    /**
+     * Retrieve expire quotes additional fields to filter
+     *
+     * @return array
+     */
+    public function getExpireQuotesAdditionalFilterFields()
+    {
+        return $this->_expireQuotesFilterFields;
+    }
+
+    /**
+     * Set expire quotes additional fields to filter
+     *
+     * @param array $fields
+     * @return Mage_Sales_Model_Observer
+     */
+    public function setExpireQuotesAdditionalFilterFields(array $fields)
+    {
+        $this->_expireQuotesFilterFields = $fields;
         return $this;
     }
 

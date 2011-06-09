@@ -83,11 +83,15 @@ class Enterprise_CustomerSegment_Model_Observer
     public function processEvent(Varien_Event_Observer $observer)
     {
         $eventName = $observer->getEvent()->getName();
+        $customer = Mage::registry('segment_customer');
+
         $customerSession = Mage::getSingleton('customer/session');
-        if (!$customerSession->isLoggedIn()) {
+        if (!$customerSession->isLoggedIn() && !$customer) {
             return $this;
         }
-        $customer = $customerSession->getCustomer();
+        if (!$customer) {
+            $customer = $customerSession->getCustomer();
+        }
         $website = Mage::app()->getStore()->getWebsite();
         Mage::getSingleton('enterprise_customersegment/customer')->processEvent($eventName, $customer, $website);
     }

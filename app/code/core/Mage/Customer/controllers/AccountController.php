@@ -319,6 +319,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 if (true === $validationResult) {
                     $customer->save();
 
+                    Mage::dispatchEvent('customer_register_success',
+                        array('account_controller' => $this, 'customer' => $customer)
+                    );
+
                     if ($customer->isConfirmationRequired()) {
                         $customer->sendNewAccountEmail('confirmation', $session->getBeforeAuthUrl());
                         $session->addSuccess($this->__('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%s">click here</a>.', Mage::helper('customer')->getEmailConfirmationUrl($customer->getEmail())));

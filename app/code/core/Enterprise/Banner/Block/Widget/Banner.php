@@ -189,10 +189,12 @@ class Enterprise_Banner_Block_Widget_Banner
         $bannersContent = array();
         $aplliedRules = null;
         $segmentIds = array();
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $segmentIds = Mage::getSingleton('enterprise_customersegment/customer')->getCustomerSegmentIds(
-                Mage::getSingleton('customer/session')->getCustomer()
-            );
+        $customer = Mage::registry('segment_customer');
+        if (Mage::getSingleton('customer/session')->isLoggedIn() || $customer) {
+            if (!$customer) {
+                $customer = Mage::getSingleton('customer/session')->getCustomer();
+            }
+            $segmentIds = Mage::getSingleton('enterprise_customersegment/customer')->getCustomerSegmentIds($customer);
         }
 
         $this->_bannerResource->filterByTypes($this->getTypes());

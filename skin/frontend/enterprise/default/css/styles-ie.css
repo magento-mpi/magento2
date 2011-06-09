@@ -46,6 +46,7 @@
 .top-cart  { _width:10px; }
 .cart .crosssell { _height:400px; }
 .event  .event-bottom { _bottom:-14px }
+* html .window-overlay { background:#ccc; filter:alpha(opacity=50); }
 
 /* Doubled Margin Fixes */
 #bundle-product-wrapper,
