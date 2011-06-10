@@ -362,6 +362,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     protected function _preparePost($item)
     {
+        $_POST          = array();
         $errors         = false;
         $preparePost    = array();
         $qtyKeys        = array('qty_authorized', 'qty_returned', 'qty_approved');
@@ -629,7 +630,6 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 if (isset($item['entity_id']) && $item['entity_id']) {
                     $itemModel->load($item['entity_id']);
                     if ($itemModel->getId()) {
-                        $data = $itemModel->getData();
                         if (empty($item['reason'])) {
                             $item['reason'] = $itemModel->getReason();
                         }
