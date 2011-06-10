@@ -135,6 +135,9 @@ class Enterprise_PricePermissions_Model_Observer
         switch ($blockNameInLayout) {
             // Handle general product grid, related, upsell, crosssell tabs
             case 'product.grid' :
+                if (!$this->_canEditProductStatus) {
+                    $block->getMassactionBlock()->removeItem('status');
+                }
             case 'admin.product.grid' :
             case 'catalog.product.edit.tab.related' :
             case 'catalog.product.edit.tab.upsell' :
