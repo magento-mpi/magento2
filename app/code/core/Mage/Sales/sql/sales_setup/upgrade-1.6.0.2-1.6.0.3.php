@@ -26,11 +26,9 @@
 
 /* @var $installer Mage_Sales_Model_Entity_Setup */
 $installer = $this;
-$installer->startSetup();
 $installer->getConnection()
     ->addColumn($installer->getTable('sales/shipment'), 'shipping_label', array(
         'type'    => Varien_Db_Ddl_Table::TYPE_BLOB,
         'comment' => 'Shipping Label Content',
-        'length'  => '1048576'
+        'length'  => '2m'
     ));
-$installer->endSetup();
