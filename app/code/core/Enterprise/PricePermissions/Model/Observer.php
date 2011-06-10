@@ -561,6 +561,61 @@ class Enterprise_PricePermissions_Model_Observer
     }
 
     /**
+     * Handle adminhtml_catalog_product_form_prepare_excluded_field_list event
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function adminhtmlCatalogProductFormPrepareExcludedFieldList($observer)
+    {
+        /** @var $block Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes */
+        $block = $observer->getEvent()->getObject();
+        $excludedFieldList = array();
+
+        if (!$this->_canEditProductPrice) {
+            $excludedFieldList = array(
+                'price', 'special_price', 'tier_price', 'special_from_date', 'special_to_date', 'is_recurring',
+                'cost', 'price_type', 'open_amount_max', 'open_amount_min', 'allow_open_amount', 'giftcard_amounts',
+            );
+        }
+        if (!$this->_canEditProductStatus) {
+            $excludedFieldList[] = 'status';
+        }
+
+        $block->setFormExcludedFieldList(array_merge($block->getFormExcludedFieldList(), $excludedFieldList));
+    }
+
+    /**
+     * Handle catalog_product_attribute_update_before event
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function catalogProductAttributeUpdateBefore($observer)
+    {
+        /** @var $block Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes */
+        $attributesData = $observer->getEvent()->getAttributesData();
+        $excludedAttributes = array();
+
+        if (!$this->_canEditProductPrice) {
+            $excludedAttributes = array(
+                'price', 'special_price', 'tier_price', 'special_from_date', 'special_to_date', 'is_recurring',
+                'cost', 'price_type', 'open_amount_max', 'open_amount_min', 'allow_open_amount', 'giftcard_amounts',
+            );
+        }
+        if (!$this->_canEditProductStatus) {
+            $excludedAttributes[] = 'status';
+        }
+        foreach ($excludedAttributes as $excludedAttributeCode) {
+            if (isset($attributesData[$excludedAttributeCode])) {
+                unset($attributesData[$excludedAttributeCode]);
+            }
+        }
+
+        $observer->getEvent()->setAttributesData($attributesData);
+    }
+
+    /**
      * Hide price elements on Price Tab of Product Edit Page if needed
      *
      * @param Mage_Core_Block_Abstract $block

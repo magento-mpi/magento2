@@ -98,6 +98,22 @@
                     </enterprise_pricepermissions>
                 </observers>
             </catalog_product_prepare_save>
+            <adminhtml_catalog_product_form_prepare_excluded_field_list>
+                <observers>
+                    <enterprise_pricepermissions>
+                        <class>enterprise_pricepermissions/observer</class>
+                        <method>adminhtmlCatalogProductFormPrepareExcludedFieldList</method>
+                    </enterprise_pricepermissions>
+                </observers>
+            </adminhtml_catalog_product_form_prepare_excluded_field_list>
+            <catalog_product_attribute_update_before>
+                <observers>
+                    <enterprise_pricepermissions>
+                        <class>enterprise_pricepermissions/observer</class>
+                        <method>catalogProductAttributeUpdateBefore</method>
+                    </enterprise_pricepermissions>
+                </observers>
+            </catalog_product_attribute_update_before>
         </events>
         <translate>
             <modules>
