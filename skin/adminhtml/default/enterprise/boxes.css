@@ -856,7 +856,7 @@ ul.item-options li { padding-left:.7em; }
 
 /* Popup Configuration Popup */
 #product_composite_configure_messages { margin-left:0 !important; padding:10px 15px; }
-.rma-popup { background-color:#6f8992; background:rgba(111, 137, 146, 0.5); left:50%; margin:0 0 0 -271px; position:fixed; top:30%; width:540px; padding:8px; z-index:400; -moz-box-shadow:0 0 100px #ccc; -webkit-box-shadow:0 0 100px #ccc; box-shadow:0 0 100px #ccc; }
+.rma-popup { background-color:#6f8992; background:rgba(111, 137, 146, 0.5); cursor:default; left:50%; margin:0 0 0 -271px; position:fixed; top:30%; width:540px; padding:8px; z-index:400; -moz-box-shadow:0 0 100px #ccc; -webkit-box-shadow:0 0 100px #ccc; box-shadow:0 0 100px #ccc; }
 .rma-popup .entry-edit { border:1px solid #6f8992; }
 .rma-popup .entry-edit .fieldset { border:none; }
 .rma-popup .validation-advice { margin-left:0; }
@@ -870,6 +870,8 @@ ul.item-options li { padding-left:.7em; }
 .rma-popup .buttons-set { border-top:1px solid #ddd; background:#eee; margin:0; overflow:hidden; padding:7px 10px 8px; width:518px; }
 .rma-popup .buttons-set button { margin:0 0 0 5px; }
 .rma-popup .fieldset {margin-bottom:0 !important; }
+.grid .rma-popup .form-list tr,
+.grid tr.on-mouse .rma-popup .form-list tr{ background:#fafafa !important; }
 
 /* Order Totals */
 .order-totals                           { margin-left:auto; border:1px solid #d7c699 !important; padding:12px 0; background:#fcfac9; text-align:right; }
