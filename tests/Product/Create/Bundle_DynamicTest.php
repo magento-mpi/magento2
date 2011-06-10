@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -37,115 +38,173 @@ class Product_Create_Bundle_DynamicTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * @TODO
+     * Login to backend
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
+    /**
+     * Preconditions
+     * Navigate to Catalog->Manage Products
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is displayed');
+        $this->addParameter('id', '0');
     }
 
-
-    /**
-     * @TODO
-     */
-    public function test_WithRequiredFieldsOnly()
+    public function test_CreateBundleDynamicProduct()
     {
-        // @TODO
+        //Data
+        $productSettings = $this->loadData('product_create_settings_bundle');
+        $productData = $this->loadData('bundle_dynamic_product', NULL, 'product_sku');
+
+        //Steps.
+        $this->productHelper()->createBundleProduct($productSettings, $productData);
+        $this->clickControl('tab', 'bundle_items', FALSE);
+        $this->pleaseWait();
+        $page = $this->getCurrentLocationUimapPage();
+        $fieldSet = $page->findFieldset('bundle_items');
+        $fieldSetXpath = $fieldSet->getXpath();
+        $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@class='option-box']");
+        $this->addParameter('itemID', $rowNumber);
+        $this->clickButton('add_new_option', FALSE);
+        $this->fillForm($productData, 'bundle_items');
+        $this->saveForm('save');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
     }
 
-    /**
-     * @TODO
-     */
-    public function test_WithSkuThatAlreadyExists()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithRequiredFieldsEmpty()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithSpecialCharacters()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithInvalidValueForFields_InvalidWeight()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithInvalidValueForFields_InvalidPrice()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithInvalidValueForFields_InvalidQty()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithCustomOptions_EmptyFields()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithCustomOptions_InvalidValues()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithSpecialPrice_EmptyValue()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithSpecialPrice_InvalidValue()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithTierPrice_EmptyFields()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_WithTierPrice_InvalidValues()
-    {
-        // @TODO
-    }
+//    /**
+//     * Steps:
+//     *
+//     * 1. Login to Admin Page;
+//     *
+//     * 2. Goto Catalog -> Manage Products;
+//     *
+//     * 3. Click "Add product" button;
+//     *
+//     * 4. Fill in "Attribute Set" and "Product Type" fields;
+//     *
+//     * 5. Click "Continue" button;
+//     *
+//     * 6. Fill in required fields on General tab;
+//     *
+//     * 7. Fill in required fields on Prices tab;
+//     *
+//     * 8. Click "Save" button;
+//     *
+//     * 9. Verify confirmation message;
+//     *
+//     * Expected result:
+//     *
+//     * Product created, confirmation message appears;
+//     *
+//     * @depends test_CreateSimpleProduct
+//     */
+//    public function test_WithRequiredFieldsOnly()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithSkuThatAlreadyExists()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithRequiredFieldsEmpty()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithSpecialCharacters()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithInvalidValueForFields_InvalidWeight()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithInvalidValueForFields_InvalidPrice()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithInvalidValueForFields_InvalidQty()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithCustomOptions_EmptyFields()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithCustomOptions_InvalidValues()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithSpecialPrice_EmptyValue()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithSpecialPrice_InvalidValue()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithTierPrice_EmptyFields()
+//    {
+//        // @TODO
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_WithTierPrice_InvalidValues()
+//    {
+//        // @TODO
+//    }
 }
