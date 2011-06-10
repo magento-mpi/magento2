@@ -72,6 +72,10 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
     protected function _initAttribute()
     {
         $attribute = Mage::getModel('enterprise_rma/item_attribute');
+        $websiteId = $this->getRequest()->getParam('website');
+        if ($websiteId) {
+            $attribute->setWebsite($websiteId);
+        }
         return $attribute;
     }
 
