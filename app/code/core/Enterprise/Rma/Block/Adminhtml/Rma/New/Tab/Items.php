@@ -32,15 +32,23 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Block_Widget_Form
-//Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Class constructor
+     *
+     */
     public function _construct()
     {
         parent::_construct();
         $this->setId('rma_items_grid');
     }
 
+    /**
+     * Get "Add Products" button
+     *
+     * @return string
+     */
     public function getAddButtonHtml()
     {
         $addButtonData = array(
@@ -51,6 +59,11 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
         return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();
     }
 
+    /**
+     * Get "Add products to RMA" button
+     *
+     * @return string
+     */
     public function getAddProductButtonHtml()
     {
         $addButtonData = array(
@@ -62,9 +75,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
     }
 
     /**
-     * Set form id prefix, add customer segment binding, set values if banner is editing
+     * Prepare form before rendering HTML
      *
-     * @return Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Properties
+     * @return Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items
      */
     protected function _prepareForm()
     {
@@ -90,7 +103,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
 
         //Renderer puts available quantity instead of order_item_id
         $fieldset->addField('qty_ordered', 'text', array(
-            'label'=> Mage::helper('enterprise_rma')->__('Order Qty'),
+            'label'=> Mage::helper('enterprise_rma')->__('Remaining Qty'),
             'name' => 'qty_ordered',
             'required'  => false,
         ));
@@ -149,7 +162,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
             'required' => false
         ));
 
-        //$form->setValues($model->getData());
         $this->setForm($form);
 
         return $this;
