@@ -50,6 +50,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         parent::_construct();
         $this->setId('order_items_grid');
         $this->setDefaultSort('item_id');
+        $this->setUseAjax(true);
+        $this->setPagerVisibility(false);
     }
 
     /**
@@ -64,7 +66,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         /** @var $collection Enterprise_Rma_Model_Resource_Item */
 
         $orderItemsCollection = Mage::helper('enterprise_rma')
-                ->getOrderItems($orderId, true);
+                ->getOrderItems($orderId, true)
+                ->clear();
 
         $this->setCollection($orderItemsCollection);
 
@@ -78,8 +81,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
      */
     protected function _prepareColumns()
     {
-        $statusManager = Mage::getSingleton('enterprise_rma/item_status');
-
         $this->addColumn('select', array(
             'header'=> Mage::helper('enterprise_rma')->__('Select'),
             'width' => '40px',
@@ -90,7 +91,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         ));
 
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('sales')->__('Product Name'),
+            'header'    => Mage::helper('enterprise_rma')->__('Product Name'),
             'renderer'  => 'enterprise_rma/adminhtml_product_bundle_product',
             'index'     => 'name'
         ));
@@ -115,6 +116,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
             'type'  => 'text',
             'index' => 'available_qty',
             'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_quantity',
+            'filter' => false,
+            'sortable' => false,
         ));
 
         return parent::_prepareColumns();
@@ -146,4 +149,15 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         ';
         return $js;
     }
+
+    /**
+     * Get Url to action to reload grid
+     *
+     * @return string
+     */
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/addProductGrid', array('_current' => true));
+    }
+
 }

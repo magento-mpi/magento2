@@ -52,6 +52,10 @@
         <block type="enterprise_rma/adminhtml_rma_edit_tab_general_history" template="enterprise/rma/edit/general/history.phtml" name="comments_history" output="toHtml"/>
     </adminhtml_rma_addcomment>
 
+    <adminhtml_rma_addproductgrid>
+        <block type="enterprise_rma/adminhtml_rma_new_tab_items_order_grid" name="add_product_grid" output="toHtml"/>
+    </adminhtml_rma_addproductgrid>
+
     <adminhtml_rma_edit>
         <reference name="head">
             <action method="addJs"><file>mage/adminhtml/sales/packaging.js</file></action>

@@ -44,9 +44,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
     public function getAddButtonHtml()
     {
         $addButtonData = array(
-            'label' => Mage::helper('enterprise_rma')->__('Add Product'),
+            'label' => Mage::helper('enterprise_rma')->__('Add Products'),
             'onclick' => "rma.addProduct()",
-            'class' => '',
+            'class' => 'add',
         );
         return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();
     }
@@ -54,9 +54,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
     public function getAddProductButtonHtml()
     {
         $addButtonData = array(
-            'label' => Mage::helper('enterprise_rma')->__('Add Selected Products to RMA'),
+            'label' => Mage::helper('enterprise_rma')->__('Add Selected Product(s) to RMA'),
             'onclick' => "rma.addSelectedProduct()",
-            'class' => '',
+            'class' => 'add',
         );
         return $this->getLayout()->createBlock('adminhtml/widget_button')->setData($addButtonData)->toHtml();
     }

@@ -454,6 +454,40 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     }
 
     /**
+     * Generate RMA items grid for ajax request from selecting product grid during RMA creation
+     *
+     * @throws Mage_Core_Exception
+     */
+    public function addProductGridAction()
+    {
+        try {
+            $this->_initModel();
+            $order = Mage::registry('current_order');
+            if (!$order) {
+                Mage::throwException(Mage::helper('enterprise_rma')->__('Invalid order.'));
+            }
+            $this->loadLayout();
+            $response = $this->getLayout()->getBlock('add_product_grid')->toHtml();
+        } catch (Mage_Core_Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $e->getMessage(),
+            );
+        } catch (Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $this->__('Cannot get product list.')
+            );
+        }
+        if (is_array($response)) {
+            $response = Mage::helper('core')->jsonEncode($response);
+            $this->getResponse()->setBody($response);
+        } else {
+            $this->getResponse()->setBody($response);
+        }
+    }
+
+    /**
      * Generate PDF form of RMA
      */
     public function printAction()
