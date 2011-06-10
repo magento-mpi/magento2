@@ -45,6 +45,14 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     const CODE = 'ups';
 
     /**
+     * Delivery Confirmation level based on origin/destination
+     *
+     * @var int
+     */
+    const DELIVERY_CONFIRMATION_SHIPMENT = 1;
+    const DELIVERY_CONFIRMATION_PACKAGE = 2;
+
+    /**
      * Code of the carrier
      *
      * @var string
@@ -352,7 +360,9 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             '14_origCountry' => $r->getOrigCountry(),
             '15_origPostal'  => $r->getOrigPostal(),
             'origCity'       => $r->getOrigCity(),
-            '19_destPostal'  => 'US' == $r->getDestCountry() ? substr($r->getDestPostal(), 0, 5) : $r->getDestPostal(),
+            '19_destPostal'  => Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID == $r->getDestCountry() ?
+                substr($r->getDestPostal(), 0, 5) :
+                $r->getDestPostal(),
             '22_destCountry' => $r->getDestCountry(),
             '23_weight'      => $r->getWeight(),
             '47_rate_chart'  => $r->getPickup(),
@@ -655,13 +665,6 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                 'LBS'   =>  Mage::helper('usa')->__('Pounds'),
                 'KGS'   =>  Mage::helper('usa')->__('Kilograms'),
             ),
-
-            'delivery_confirmation_types' => array(
-                '1' => Mage::helper('usa')->__('Not Required'),
-                '2' => Mage::helper('usa')->__('Required'),
-                '3' => Mage::helper('usa')->__('Adult Required'),
-            ),
-
         );
 
         if (!isset($codes[$type])) {
@@ -698,7 +701,9 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             '15_origPostal'  => $r->getOrigPostal(),
             'origCity'       => $r->getOrigCity(),
             'origRegionCode' => $r->getOrigRegionCode(),
-            '19_destPostal'  => 'US' == $r->getDestCountry() ? substr($r->getDestPostal(), 0, 5) : $r->getDestPostal(),
+            '19_destPostal'  => Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID == $r->getDestCountry() ?
+                substr($r->getDestPostal(), 0, 5) :
+                $r->getDestPostal(),
             '22_destCountry' => $r->getDestCountry(),
             'destRegionCode' => $r->getDestRegionCode(),
             '23_weight'      => $r->getWeight(),
@@ -1383,11 +1388,22 @@ XMLAuth;
             $referencePart->addChild('Value', $referenceData);
         }
 
-        if ($this->_displayDeliveryConfirmation($request->getShippingMethod())) {
-            if ($packageParams->getDeliveryConfirmation()) {
-                $packagePart->addChild('PackageServiceOptions')
-                        ->addChild('DeliveryConfirmation')
-                        ->addChild('DCISType', $packageParams->getDeliveryConfirmation());
+        $deliveryConfirmation = $packageParams->getDeliveryConfirmation();
+        if ($deliveryConfirmation) {
+            /** @var $serviceOptionsNode SimpleXMLElement */
+            $serviceOptionsNode = null;
+            switch ($this->_getDeliveryConfirmationLevel($request->getRecipientAddressCountryCode())) {
+                case self::DELIVERY_CONFIRMATION_PACKAGE:
+                    $serviceOptionsNode = $packagePart->addChild('PackageServiceOptions');
+                    break;
+                case self::DELIVERY_CONFIRMATION_SHIPMENT:
+                    $serviceOptionsNode = $shipmentPart->addChild('ShipmentServiceOptions');
+                    break;
+            }
+            if (!is_null($serviceOptionsNode)) {
+                $serviceOptionsNode
+                    ->addChild('DeliveryConfirmation')
+                    ->addChild('DCISType', $packageParams->getDeliveryConfirmation());
             }
         }
 
@@ -1624,7 +1640,24 @@ XMLAuth;
      */
     public function getDeliveryConfirmationTypes($countyDest = null)
     {
-        return $this->getCode('delivery_confirmation_types');
+        $deliveryConfirmationTypes = array();
+        switch ($this->_getDeliveryConfirmationLevel($countyDest)) {
+            case self::DELIVERY_CONFIRMATION_PACKAGE:
+                $deliveryConfirmationTypes = array(
+                    1 => Mage::helper('usa')->__('No Signature'),
+                    2 => Mage::helper('usa')->__('Signature Required'),
+                    3 => Mage::helper('usa')->__('Adult Required'),
+                );
+                break;
+            case self::DELIVERY_CONFIRMATION_SHIPMENT:
+                $deliveryConfirmationTypes = array(
+                    1 => Mage::helper('usa')->__('Signature Required'),
+                    2 => Mage::helper('usa')->__('Adult Required'),
+                );
+        }
+        array_unshift($deliveryConfirmationTypes, Mage::helper('usa')->__('Not Required'));
+
+        return $deliveryConfirmationTypes;
     }
 
     /**
@@ -1643,23 +1676,19 @@ XMLAuth;
     }
 
     /**
-     * Check if we need to send confirmation type in request
+     * Get delivery confirmation level based on origin/destination
+     * Return null if delivery confirmation is not acceptable
      *
-     * @param  $code
-     * @return bool
+     * @var string $countyDest
+     * @return int|null
      */
-    protected function _displayDeliveryConfirmation($code)
-    {
-        // '07' => 'UPS Worldwide Express'
-        // '08' => 'UPS Worldwide Expedited'
-        // '65' => 'UPS Saver'
-        // '54' => 'UPS Worldwide Express Plus'
-
-        $methodsWithoutDeliveryConfirmation = array('07', '08', '65', '54');
-        if (in_array($code, $methodsWithoutDeliveryConfirmation)) {
-            return false;
-        } else {
-            return true;
+    protected function _getDeliveryConfirmationLevel($countyDest = null) {
+        if (is_null($countyDest)) {
+            return null;
         }
+
+        return ($countyDest == Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID) ?
+            self::DELIVERY_CONFIRMATION_PACKAGE :
+            self::DELIVERY_CONFIRMATION_SHIPMENT;
     }
 }
