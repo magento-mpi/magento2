@@ -332,7 +332,7 @@ new_product:
                         xpath: //a[@title='Custom Options']/span
                         fieldsets:
                             -
-                                custom_options:
+                                product_custom_options:
                                     xpath: "//div[contains(div/div/h4,'Custom Options') and not (@style='display: none;')]"
                                     buttons:
                                         add_option: //button[span='Add New Option']
@@ -367,24 +367,24 @@ new_product:
                                 bundle_items:
                                     xpath: //div[@id='product_bundle_container']
                                     buttons:
-                                        add_new_option: //button[span='Add New Option']
-                                        delete_option: //div[@id='option_%itemID%']//button[span='Delete Option']
+                                        add_new_option: //button[@id='add_new_option']
+                                        delete_option: //div[@id='bundle_option_%itemID%']//button[span='Delete Option']
                                         add_selection: //button[@id='bundle_option_%itemID%_add_button']
-                                        reset_filter: //div[@id='option_%itemID%']//button[span='Reset Filter']
-                                        search: //div[@id='option_%itemID%']//button[span='Search']
+                                        reset_filter: //div[@id='bundle_selection_search_grid_%itemID%']//button[span='Reset Filter']
+                                        search: //div[@id='bundle_selection_search_grid_%itemID%']//button[span='Search']
                                     dropdowns:
                                         input_type: //select[@id='bundle_option_%itemID%_type']
                                         is_required: //select[@id='bundle_option_%itemID%_required']
-                                        filter_massaction: //div[@id='option_%itemID%']//select[@id='filter_is_selected']]
-                                        product_attribute_set: //div[@id='option_%itemID%']//select[@id='filter_set_name']
+                                        filter_massaction: //div[@id='bundle_selection_search_grid_%itemID%']//select[@id='filter_is_selected']]
+                                        product_attribute_set: //div[@id='bundle_selection_search_grid_%itemID%']//select[@id='filter_set_name']
                                     fields:
-                                        default_title: //input[@id='id_bundle_option_%itemID%_title']
+                                        default_title: //input[@id='id_bundle_options_%itemID%_title']
                                         position: //input[@name='bundle_options[%itemID%][position]']
-                                        product_id: //div[@id='option_%itemID%']//input[@id='filter_id']
-                                        product_name: //div[@id='option_%itemID%']//input[@id='filter_name']
-                                        product_sku: //div[@id='option_%itemID%']//input[@id='filter_sku']
-                                        product_price_from: //div[@id='option_%itemID%']//input[@id='filter_price_from']
-                                        product_price_to: //div[@id='option_%itemID%']//input[@id='filter_price_to']
+                                        product_id: //div[@id='bundle_selection_search_grid_%itemID%']//input[@id='filter_id']
+                                        product_name_bundle: //div[@id='bundle_selection_search_grid_%itemID%']//input[@id='filter_name']
+                                        product_sku_bundle: //div[@id='bundle_selection_search_grid_%itemID%']//input[@id='filter_sku']
+                                        product_price_from: //div[@id='bundle_selection_search_grid_%itemID%']//input[@id='filter_price_from']
+                                        product_price_to: //div[@id='bundle_selection_search_grid_%itemID%']//input[@id='filter_price_to']
                 -
                     associated_products:
                         xpath: //a[@title='Associated Products']/span
