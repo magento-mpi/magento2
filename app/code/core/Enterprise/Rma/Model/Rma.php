@@ -362,6 +362,12 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     protected function _preparePost($item)
     {
+        /*
+         * Due to specific save process of EAV entities, it takes data directly from POST
+         * If we save more than one entity at once it's possible that some entity's attributes take
+         * it's value from previous saved entity
+         * To avoid this we cleaning POST
+         */
         $_POST          = array();
         $errors         = false;
         $preparePost    = array();
