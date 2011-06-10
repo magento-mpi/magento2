@@ -362,21 +362,22 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     protected function _preparePost($item)
     {
-        $preparePost = array();
+        $errors         = false;
+        $preparePost    = array();
+        $qtyKeys        = array('qty_authorized', 'qty_returned', 'qty_approved');
+
         ksort($item);
         foreach ($item as $key=>$value) {
             if ($key == 'order_item_id') {
                 $preparePost['order_item_id'] = (int)$value;
             } elseif ($key == 'qty_requested') {
                 $preparePost['qty_requested'] = is_numeric($value) ? $value : 0;
-            } elseif (($key == 'qty_authorized') || ($key == 'qty_returned') || ($key == 'qty_approved')){
+            } elseif (in_array($key, $qtyKeys)) {
                 if (is_numeric($value)) {
-                    $preparePost[$key] = $value;
+                    $preparePost[$key] = (float)$value;
                 } else {
                     $preparePost[$key] = '';
                 }
-            } elseif ($key == 'qty_requested') {
-                $preparePost['qty_requested'] = is_numeric($value) ? $value : 0;
             } elseif ($key == 'resolution') {
                 $preparePost['resolution'] = (int)$value;
             } elseif ($key == 'condition') {
@@ -409,6 +410,40 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         $preparePost['product_admin_sku']   = $this->_getProductSku($realItem);
         $preparePost['product_options']     = serialize($realItem->getProductOptions());
         $preparePost['is_qty_decimal']      = $realItem->getIsQtyDecimal();
+
+        if ($preparePost['is_qty_decimal']) {
+            $preparePost['qty_requested']   = (float)$preparePost['qty_requested'];
+        } else {
+            $preparePost['qty_requested']   = (int)$preparePost['qty_requested'];
+
+            foreach ($qtyKeys as $key) {
+                if (!empty($preparePost[$key])) {
+                    $preparePost[$key] = (int)$preparePost[$key];
+                }
+            }
+        }
+
+        if (isset($preparePost['qty_requested'])
+            && $preparePost['qty_requested'] <= 0
+        ) {
+            $errors = true;
+        }
+
+        foreach ($qtyKeys as $key) {
+            if (isset($preparePost[$key])
+                && !is_string($preparePost[$key])
+                && $preparePost[$key] <= 0
+            ) {
+                $errors = true;
+            }
+        }
+
+        if ($errors) {
+            $session = Mage::getSingleton('core/session');
+            $session->addError(
+                Mage::helper('enterprise_rma')->__('There is an error in quantities for item %s.', $preparePost['product_name'])
+            );
+        }
 
         return $preparePost;
     }
@@ -443,10 +478,10 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 foreach (array('qty_requested', 'qty_authorized', 'qty_returned', 'qty_approved') as $tempQty) {
                     if (is_null($item->getData($tempQty))) {
                         if (!is_null($item->getOrigData($tempQty))) {
-                            $validation[$tempQty] = intval($item->getOrigData($tempQty));
+                            $validation[$tempQty] = (float)$item->getOrigData($tempQty);
                         }
                     } else {
-                        $validation[$tempQty] = intval($item->getData($tempQty));
+                        $validation[$tempQty] = (float)$item->getData($tempQty);
                     }
                 }
                 $validation['dummy'] = -1;
@@ -599,7 +634,11 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                             $item['reason'] = $itemModel->getReason();
                         }
                         if (empty($item['reason_other'])) {
-                            $item['reason_other'] = $itemModel->getReasonOther();
+                            if ($itemModel->getReasonOther() === NULL) {
+                                $item['reason_other'] = '';
+                            } else {
+                                $item['reason_other'] = $itemModel->getReasonOther();
+                            }
                         }
                         if (empty($item['condition'])) {
                             $item['condition'] = $itemModel->getCondition();
@@ -634,14 +673,18 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             $errorKeys  = array_merge($errorKey, $errorKeys);
         }
 
-        if (!empty($errors)) {
-            $session = Mage::getSingleton('core/session');
+        $session    = Mage::getSingleton('core/session');
+        $eMessages  = $session->getMessages()->getErrors();
+
+        if (!empty($errors) || !empty($eMessages)) {
             $session->setRmaFormData($data);
             if (!empty($errorKeys)) {
                 $session->setRmaErrorKeys($errorKeys);
             }
-            foreach ($errors as $message) {
-                $session->addError($message);
+            if (!empty($errors)) {
+                foreach ($errors as $message) {
+                    $session->addError($message);
+                }
             }
             return false;
         }
