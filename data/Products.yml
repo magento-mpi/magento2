@@ -29,32 +29,32 @@
 
 # Test Dataset for Add New Simple Product based on Default attribute set
 product_create_settings_simple:
-    attribute_set: Default
+    product_attribute_set: Default
     product_type: Simple Product
 
 # Test Dataset for Add New Grouped Product based on Default attribute set
 product_create_settings_grouped:
-    attribute_set: Default
+    product_attribute_set: Default
     product_type: Grouped Product
 
 # Test Dataset for Add New Configurable Product based on Default attribute set
 product_create_settings_configurable:
-    attribute_set: Default
+    product_attribute_set: Default
     product_type: Configurable Product
 
 # Test Dataset for Add New Virtual Product based on Default attribute set
 product_create_settings_virtual:
-    attribute_set: Default
+    product_attribute_set: Default
     product_type: Virtual Product
 
 # Test Dataset for Add New Bundle Product based on Default attribute set
 product_create_settings_bundle:
-    attribute_set: Default
+    product_attribute_set: Default
     product_type: Bundle Product
 
 # Test Dataset for Add New downloadable Product based on Default attribute set
 product_create_settings_downloadable:
-    attribute_set: Default
+    product_attribute_set: Default
     product_type: Downloadable Product
 
 # Dataset  for Simple Product Creation
@@ -79,8 +79,8 @@ simple_product:
     product_cost: 2
     product_tier_price_website: %noValue%
     product_tier_price_customer_group: %noValue%
-    product_tier_price_qty: %noValue%
-    product_tier_price_price: %noValue%
+    product_tier_price_qty: 1
+    product_tier_price_price: 12
     product_tax_class: None
     google_checkout: Yes
     #meta_information_tab:
@@ -88,7 +88,102 @@ simple_product:
     meta_keywords: Meta Keywords for Simple Product
     meta_description: Meta Description for Simple Product
     #recurring_profile_tab:
+    enable_recurring_profile: Yes
+    customer_define_start_date: No
+    schedule_description: Shedule Description
+    max_payment_failures: Max Payment Failures
+    auto_bill_next_cycle: No
+    billing_period_unit: Week
+    billing_frequency: Billing Frequency
+    max_billing_cycles: Max Billing Cycles
+    trial_billing_period_unit: Month
+    trial_billing_frequency: Trial Billing Frequency
+    max_trial_billing_cycles: Max Trial Billing Cycles
+    trial_billing_amount: Trial Billing Amount
+    initial_fee: Initial Fee
+    allow_initial_fee_failure: No
+    #design_tab:
+    custom_design: default
+    active_from: 11/11/11
+    active_to: 2/12/12
+    custom_layout_update: Custom Layout Update
+    page_layout: 3 columns
+    display_product_options_in: Product Info Column
+    #gift_options_tab:
+    use_allow_gift_message: No
+    allow_gift_message: Yes
+    #inventory_tab:
+    use_manage_stock: No
+    manage_stock: Yes
+    qty: 120
+    use_qty_for_items_status: No
+    qty_for_items_status: 10
+    use_min_allowed_qty: No
+    min_allowed_qty: 2
+    use_max_allowed_qty: No
+    max_allowed_qty: 10
+    qty_uses_decimals: Yes
+    use_backorders: No
+    backorders: Allow Qty Below 0
+    use_notify_for_qty_below: No
+    notify_for_qty_below: 10
+    use_enable_qty_increments: No
+    enable_qty_increments: Yes
+    use_qty_increments: No
+    qty_increments: 5
+    stock_availability: In Stock
+    #custom_options:
+    option_general_title: Title1
+    option_general_input_type: Field
+    option_general_is_required: No
+    option_general_sort_order: 10
+    option_price: 5
+    option_sku: gdn
+
+virtual_product:
+    #general_tab
+    product_name: Virtual Product
+    product_description: Description for Virtual Product
+    product_short_description: Short Description for Virtual Product
+    product_sku: VP-01
+    product_weight: %noValue%
+    product_news_from_date: 12/12/12
+    product_news_to_date: 12/12/13
+    product_url_key: virtual_product_url_key
+    product_status: Enabled
+    product_visibility: Not Visible Individually
+    product_in_feed: Yes
+    #prices_tab:
+    product_price: 4.95
+    product_special_price: 3.99
+    product_special_price_from: 05/05/11
+    product_special_price_to: 09/09/11
+    product_cost: 2
+    product_tier_price_website: %noValue%
+    product_tier_price_customer_group: %noValue%
+    product_tier_price_qty: %noValue%
+    product_tier_price_price: %noValue%
+    product_tax_class: None
+    google_checkout: Yes
+    #meta_information_tab:
+    meta_title: Meta Title for Virtual Product
+    meta_keywords: Meta Keywords for Virtual Product
+    meta_description: Meta Description for Virtual Product
+    #recurring_profile_tab:
     enable_recurring_profile: No
+    customer_define_start_date: No
+    schedule_description: Shedule Description
+    max_payment_failures: Max Payment Failures
+    auto_bill_next_cycle: No
+    billing_period_unit: Week
+    billing_frequency: Billing Frequency
+    max_billing_cycles: Max Billing Cycles
+    trial_billing_period_unit: Month
+    trial_billing_frequency: Trial Billing Frequency
+    max_trial_billing_cycles: Max Trial Billing Cycles
+    trial_billing_amount: Trial Billing Amount
+    initial_fee: Initial Fee
+    allow_initial_fee_failure: No
     #design_tab:
     custom_design: default
     active_from: 11/11/11
@@ -118,3 +213,87 @@ simple_product:
     use_qty_increments: No
     qty_increments: 5
     stock_availability: In Stock
+    #custom_options:
+    custom_title: Title1
+    custom_input_type: Field
+    custom_is_required: %noValue%
+    custom_sort_order: %noValue%
+    custom_price: %noValue%
+    custom_sku: %noValue%
+
+bundle_dynamic_product:
+    #general_tab
+    product_name: Bundle Dynamic Product
+    product_description: Description for Bundle Dynamic Product
+    product_short_description: Short Description for Bundle Dynamic Product
+    sku_type: Dynamic
+    product_sku: BDP-01
+    weight_type: Dynamic
+    product_weight: %noValue%
+    product_news_from_date: 12/12/12
+    product_news_to_date: 12/12/13
+    product_status: Enabled
+    product_url_key: bundle_dynamic_product_url_key
+    product_visibility: Not Visible Individually
+    product_in_feed: Yes
+    #prices_tab:
+    product_price_type: Dynamic
+    product_price: %noValue%
+    product_special_price: 3.99
+    product_special_price_from: 05/05/11
+    product_special_price_to: 09/09/11
+    product_cost: 2
+    product_tier_price_website: %noValue%
+    product_tier_price_customer_group: %noValue%
+    product_tier_price_qty: 1
+    product_tier_price_price: 12
+    product_tax_class: %noValue%
+    google_checkout: Yes
+    product_price_view_bundle_dynamic: Price Range
+    #meta_information_tab:
+    meta_title: Meta Title for Simple Product
+    meta_keywords: Meta Keywords for Simple Product
+    meta_description: Meta Description for Simple Product
+    #recurring_profile_tab:
+    enable_recurring_profile: No
+    customer_define_start_date: No
+    schedule_description: Shedule Description
+    max_payment_failures: Max Payment Failures
+    auto_bill_next_cycle: No
+    billing_period_unit: Week
+    billing_frequency: Billing Frequency
+    max_billing_cycles: Max Billing Cycles
+    trial_billing_period_unit: Month
+    trial_billing_frequency: Trial Billing Frequency
+    max_trial_billing_cycles: Max Trial Billing Cycles
+    trial_billing_amount: Trial Billing Amount
+    initial_fee: Initial Fee
+    allow_initial_fee_failure: No
+    #design_tab:
+    custom_design: default
+    active_from: 11/11/11
+    active_to: 2/12/12
+    custom_layout_update: Custom Layout Update
+    page_layout: 3 columns
+    display_product_options_in: Product Info Column
+    #gift_options_tab:
+    use_config_settings: %noValue%
+    #inventory_tab:
+    use_manage_stock: No
+    manage_stock: Yes
+    use_enable_qty_increments: No
+    enable_qty_increments: Yes
+    use_qty_increments: No
+    qty_increments: 5
+    stock_availability: In Stock
+    #bundle_items:
+    ship_bundle_items: Together
+    default_title: Bundle Item Title
+    input_type: Drop-down
+    is_required: Yes
+    position: %noValue%
+    product_id: %noValue%
+    product_name_bundle: %noValue%
+    product_sku_bundle: %noValue%
+    product_price_from: %noValue%
+    product_price_to: %noValue%
