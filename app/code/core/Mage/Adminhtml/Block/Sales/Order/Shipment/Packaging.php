@@ -248,4 +248,19 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
             ))
             ->toHtml();
     }
+
+    /**
+     * Check whether girth is allowed for current carrier
+     *
+     * @return void
+     */
+    public function isGirthAllowed()
+    {
+        Mage::log($this->getShipment()->getOrder()->getShippingAddress()->getCountryId());
+        return $this
+            ->getShipment()
+            ->getOrder()
+            ->getShippingCarrier()
+            ->isGirthAllowed($this->getShipment()->getOrder()->getShippingAddress()->getCountryId());
+    }
 }

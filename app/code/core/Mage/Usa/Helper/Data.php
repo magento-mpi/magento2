@@ -104,7 +104,7 @@ class Mage_Usa_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Define if we need girth parameter in the package window
      *
-     * @param  $shippingMethod
+     * @param string $shippingMethod
      * @return bool
      */
     public function displayGirthValue($shippingMethod)
@@ -122,9 +122,9 @@ class Mage_Usa_Helper_Data extends Mage_Core_Helper_Abstract
                                             'usps_Priority Mail'
                                             )
         )) {
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
 }

@@ -1259,16 +1259,6 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $xml->addChild('POZipCode');
         $xml->addChild('ImageType', 'PDF');
 
-        // set size
-        if ($packageParams->getSize()) {
-            $xml->addChild('Size', $packageParams->getSize());
-        }
-        // set dimensions
-        if ($girth) {
-            $xml->addChild('Girth', $girth);
-        }
-
-
         $xml = $xmlWrap->{$rootNode}->asXML();
         return $xml;
     }
@@ -1596,5 +1586,16 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         } else {
             return array();
         }
+    }
+
+    /**
+     * Check whether girth is allowed for the USPS
+     *
+     * @param null|string $countyDest
+     * @return bool
+     */
+    public function isGirthAllowed($countyDest = null)
+    {
+        return $this->_isUSCountry($countyDest) ? false : true;
     }
 }
