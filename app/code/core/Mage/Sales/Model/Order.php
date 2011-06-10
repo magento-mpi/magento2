@@ -1177,6 +1177,11 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         return array();
     }
 
+    /**
+     * Return model of shipping carrier
+     *
+     * @return bool|float|Mage_Shipping_Model_Carrier_Abstract
+     */
     public function getShippingCarrier()
     {
         $carrierModel = $this->getData('shipping_carrier');
@@ -1185,10 +1190,9 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             /**
              * $method - carrier_method
              */
-            if ($method = $this->getShippingMethod()) {
-                $data = explode('_', $method);
-                $carrierCode = $data[0];
-                $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model');
+            $method = $this->getShippingMethod(true);
+            if ($method instanceof Varien_Object) {
+                $className = Mage::getStoreConfig('carriers/' . $method->getCarrierCode() . '/model');
                 if ($className) {
                     $carrierModel = Mage::getModel($className);
                 }
@@ -1196,6 +1200,26 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $this->setData('shipping_carrier', $carrierModel);
         }
         return $carrierModel;
+    }
+
+    /**
+     * Retrieve shipping method
+     *
+     * @param bool $asObject return carrier code and shipping method data as object
+     * @return string|Varien_Object
+     */
+    public function getShippingMethod($asObject = false)
+    {
+        $shippingMethod = parent::getShippingMethod();
+        if (!$asObject) {
+            return $shippingMethod;
+        } else {
+            list($carrierCode, $method) = explode('_', $shippingMethod, 2);
+            return new Varien_Object(array(
+                'carrier_code' => $carrierCode,
+                'method'       => $method
+            ));
+        }
     }
 
     /**

@@ -45,6 +45,8 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
      */
     protected $_customizableContainerTypes = array();
 
+    const USA_COUNTRY_ID = 'US';
+
     const HANDLING_TYPE_PERCENT = 'P';
     const HANDLING_TYPE_FIXED = 'F';
 
@@ -130,6 +132,59 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     public function getContainerTypes(Varien_Object $params = null)
     {
         return array();
+    }
+
+    /**
+     * Get allowed containers of carrier
+     *
+     * @param Varien_Object|null $params
+     * @return array|bool
+     */
+    protected function _getAllowedContainers(Varien_Object $params = null)
+    {
+        $containersAll = $this->getContainerTypesAll();
+        if (empty($containersAll)) {
+            return array();
+        }
+        if (empty($params)) {
+            return $containersAll;
+        }
+        $containersFilter   = $this->getContainerTypesFilter();
+        $containersFiltered = array();
+        $method             = $params->getMethod();
+        $countryShipper     = $params->getCountryShipper();
+        $countryRecipient   = $params->getCountryRecipient();
+
+        if (empty($containersFilter)) {
+            return $containersAll;
+        }
+        if (!$params || !$method || !$countryShipper || !$countryRecipient) {
+            return $containersAll;
+        }
+
+        if ($countryShipper == self::USA_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID) {
+            $direction = 'within_us';
+        } else if ($countryShipper == self::USA_COUNTRY_ID && $countryRecipient != self::USA_COUNTRY_ID) {
+            $direction = 'from_us';
+        } else {
+            return $containersAll;
+        }
+
+        foreach ($containersFilter as $dataItem) {
+            $containers = $dataItem['containers'];
+            $filters = $dataItem['filters'];
+            if (!empty($filters[$direction]['method'])
+                && in_array($method, $filters[$direction]['method'])
+            ) {
+                foreach ($containers as $container) {
+                    if (!empty($containersAll[$container])) {
+                        $containersFiltered[$container] = $containersAll[$container];
+                    }
+                }
+            }
+        }
+
+        return !empty($containersFiltered) ? $containersFiltered : $containersAll;
     }
 
     /**

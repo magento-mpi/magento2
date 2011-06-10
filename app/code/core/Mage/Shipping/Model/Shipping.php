@@ -241,14 +241,12 @@ class Mage_Shipping_Model_Shipping
         $admin = Mage::getSingleton('admin/session')->getUser();
         $order = $orderShipment->getOrder();
         $address = $order->getShippingAddress();
-        $matched = explode('_', $order->getShippingMethod(), 2);
-        $carrierCode = $matched[0];
-        $shippingMethod = $matched[1];
+        $shippingMethod = $order->getShippingMethod(true);
         $shipmentStoreId = $orderShipment->getStoreId();
         $shipmentCarrier = $order->getShippingCarrier();
         $baseCurrencyCode = Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
         if (!$shipmentCarrier) {
-            Mage::throwException('Invalid carrier: '.$carrierCode);
+            Mage::throwException('Invalid carrier: ' . $shippingMethod->getCarrierCode());
         }
         $shipperRegionCode = Mage::getStoreConfig(self::XML_PATH_STORE_REGION_ID, $shipmentStoreId);
         if (is_numeric($shipperRegionCode)) {
@@ -301,7 +299,7 @@ class Mage_Shipping_Model_Shipping
         $request->setRecipientAddressRegionCode($recipientRegionCode);
         $request->setRecipientAddressPostalCode($address->getPostcode());
         $request->setRecipientAddressCountryCode($address->getCountryId());
-        $request->setShippingMethod($shippingMethod);
+        $request->setShippingMethod($shippingMethod->getMethod());
         $request->setPackageWeight($order->getWeight());
         $request->setPackages($orderShipment->getPackages());
         $request->setBaseCurrencyCode($baseCurrencyCode);

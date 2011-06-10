@@ -593,6 +593,125 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                 'NONRECTANGULAR'     => Mage::helper('usa')->__('Non-rectangular'),
             ),
 
+            'containers_filter' => array(
+                array(
+                    'containers' => array('VARIABLE'),
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array(
+                                'Express Mail Flat Rate Envelope',
+                                'Express Mail Flat Rate Envelope Hold For Pickup',
+                                'Priority Mail Flat Rate Envelope',
+                                'Priority Mail Large Flat Rate Box',
+                                'Priority Mail Medium Flat Rate Box',
+                                'Priority Mail Small Flat Rate Box',
+                                'Express Mail',
+                                'Priority Mail',
+                                'Parcel Post',
+                                'Media Mail',
+                                'Express Mail',
+                                'First-Class Mail Large Envelope',
+                            )
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                'Express Mail International Flat Rate Envelope',
+                                'Priority Mail International Flat Rate Envelope',
+                                'Priority Mail International Large Flat Rate Box',
+                                'Priority Mail International Medium Flat Rate Box',
+                                'Priority Mail International Small Flat Rate Box',
+                                'Global Express Guaranteed (GXG)',
+                                'USPS GXG Envelopes',
+                                'Express Mail International',
+                                'Priority Mail International',
+                                'First-Class Mail International Package',
+                                'First-Class Mail International Large Envelope',
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'containers' => array('FLAT RATE BOX'),
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array(
+                                'Priority Mail Large Flat Rate Box',
+                                'Priority Mail Medium Flat Rate Box',
+                                'Priority Mail Small Flat Rate Box',
+                            )
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                'Priority Mail International Large Flat Rate Box',
+                                'Priority Mail International Medium Flat Rate Box',
+                                'Priority Mail International Small Flat Rate Box',
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'containers' => array('FLAT RATE ENVELOPE'),
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array(
+                                'Express Mail Flat Rate Envelope',
+                                'Express Mail Flat Rate Envelope Hold For Pickup',
+                                'Priority Mail Flat Rate Envelope',
+                            )
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                'Express Mail International Flat Rate Envelope',
+                                'Priority Mail International Flat Rate Envelope',
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'containers' => array('RECTANGULAR'),
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array(
+                                'Express Mail',
+                                'Priority Mail',
+                                'Parcel Post',
+                                'Media Mail',
+                            )
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                'USPS GXG Envelopes',
+                                'Express Mail International',
+                                'Priority Mail International',
+                                'Class Mail International Package',
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'containers' => array('NONRECTANGULAR'),
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array(
+                                'Express Mail',
+                                'Priority Mail',
+                                'Parcel Post',
+                                'Media Mail',
+                            )
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                'Global Express Guaranteed (GXG)',
+                                'USPS GXG Envelopes',
+                                'Express Mail International',
+                                'Priority Mail International',
+                                'First-Class Mail International Package',
+                            )
+                        )
+                    )
+                ),
+             ),
+
             'size'=>array(
                 'REGULAR'     => Mage::helper('usa')->__('Regular'),
                 'LARGE'       => Mage::helper('usa')->__('Large'),
@@ -1445,106 +1564,23 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     }
 
     /**
-     * Get allowed containers of carrier
+     * Return all container types of carrier
      *
-     * @param Varien_Object|null $params
      * @return array|bool
      */
-    protected function _getAllowedContainers(Varien_Object $params = null)
+    public function getContainerTypesAll()
     {
-        if (!$params
-            || !$params->getShippingMethod()
-            || !$params->getCountryShipper()
-            || !$params->getCountryRecipient()
-        ) {
-            return $this->getCode('container');
-        }
-        if ($params->getCountryShipper() == self::USA_COUNTRY_ID
-            && $params->getCountryRecipient() == self::USA_COUNTRY_ID
-        ) {
-            $isUsShipping = true;
-        } else if (
-            $params->getCountryShipper() == self::USA_COUNTRY_ID
-            && $params->getCountryRecipient() != self::USA_COUNTRY_ID
-        ) {
-            $isUsShipping = false;
-        } else {
-            return $this->getCode('container');
-        }
-
-        if ($isUsShipping) {
-            if ($params->getShippingMethod() == 'usps_Express Mail Flat Rate Envelope'
-                || $params->getShippingMethod() == 'usps_Express Mail Flat Rate Envelope Hold For Pickup'
-                || $params->getShippingMethod() == 'usps_Priority Mail Flat Rate Envelope'
-            ) {
-                return array(
-                    'VARIABLE'           => Mage::helper('usa')->__('Variable'),
-                    'FLAT RATE ENVELOPE' => Mage::helper('usa')->__('Flat-Rate Envelope'),
-                );
-            } else if ($params->getShippingMethod() == 'usps_Priority Mail Large Flat Rate Box'
-                      || $params->getShippingMethod() == 'usps_Priority Mail Medium Flat Rate Box'
-                      || $params->getShippingMethod() == 'usps_Priority Mail Small Flat Rate Box'
-            ) {
-                return array(
-                    'VARIABLE'           => Mage::helper('usa')->__('Variable'),
-                    'FLAT RATE BOX'      => Mage::helper('usa')->__('Flat-Rate Box'),
-                );
-            } else if ($params->getShippingMethod() == 'usps_Express Mail'
-                      || $params->getShippingMethod() == 'usps_Priority Mail'
-                      || $params->getShippingMethod() == 'usps_Parcel Post'
-                      || $params->getShippingMethod() == 'usps_Media Mail'
-            ) {
-                return array(
-                    'VARIABLE'           => Mage::helper('usa')->__('Variable'),
-                    'RECTANGULAR'        => Mage::helper('usa')->__('Rectangular'),
-                    'NONRECTANGULAR'     => Mage::helper('usa')->__('Non-rectangular'),
-                );
-            } else if ($params->getShippingMethod() == 'usps_Express Mail'
-                      || $params->getShippingMethod() == 'usps_First-Class Mail Large Envelope'
-            ) {
-                return array('VARIABLE' => Mage::helper('usa')->__('Variable'));
-            } else {
-                return $this->getCode('container');
-            }
-        } else {
-            if ($params->getShippingMethod() == 'usps_Express Mail International Flat Rate Envelope'
-                || $params->getShippingMethod() == 'usps_Priority Mail International Flat Rate Envelope'
-            ) {
-                return array(
-                    'VARIABLE'           => Mage::helper('usa')->__('Variable'),
-                    'FLAT RATE ENVELOPE' => Mage::helper('usa')->__('Flat-Rate Envelope'),
-                );
-            } else if ($params->getShippingMethod() == 'usps_Priority Mail International Large Flat Rate Box'
-                || $params->getShippingMethod() == 'usps_Priority Mail International Medium Flat Rate Box'
-                || $params->getShippingMethod() == 'usps_Priority Mail International Small Flat Rate Box'
-            ) {
-                return array(
-                    'VARIABLE'           => Mage::helper('usa')->__('Variable'),
-                    'FLAT RATE BOX'      => Mage::helper('usa')->__('Flat-Rate Box'),
-                );
-            } else if ($params->getShippingMethod() == 'usps_Global Express Guaranteed (GXG)') {
-                return array(
-                    'VARIABLE'           => Mage::helper('usa')->__('Variable'),
-                    'NONRECTANGULAR'     => Mage::helper('usa')->__('Non-rectangular'),
-                );
-            } else if ($params->getShippingMethod() == 'usps_USPS GXG Envelopes'
-                || $params->getShippingMethod() == 'usps_Express Mail International'
-                || $params->getShippingMethod() == 'usps_Priority Mail International'
-                || $params->getShippingMethod() == 'First-Class Mail International Package'
-            ) {
-                return array(
-                    'VARIABLE'           => Mage::helper('usa')->__('Variable'),
-                    'RECTANGULAR'        => Mage::helper('usa')->__('Rectangular'),
-                    'NONRECTANGULAR'     => Mage::helper('usa')->__('Non-rectangular'),
-                );
-            } else if ($params->getShippingMethod() == 'usps_First-Class Mail International Large Envelope') {
-                return array('VARIABLE' => Mage::helper('usa')->__('Variable'));
-            } else {
-                return $this->getCode('container');
-            }
-        }
-
         return $this->getCode('container');
+    }
+
+    /**
+     * Return structured data of containers witch related with shipping methods
+     *
+     * @return array|bool
+     */
+    public function getContainerTypesFilter()
+    {
+        return $this->getCode('containers_filter');
     }
 
     /**

@@ -665,6 +665,64 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                 'LBS'   =>  Mage::helper('usa')->__('Pounds'),
                 'KGS'   =>  Mage::helper('usa')->__('Kilograms'),
             ),
+            'containers_filter' => array(
+                array(
+                    'containers' => array('00'),
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array(
+                                '01', // Next Day Air
+                                '13', // Next Day Air Saver
+                                '12', // 3 Day Select
+                                '59', // 2nd Day Air AM
+                                '03', // Ground
+                                '14', // Next Day Air Early AM
+                                '02', // 2nd Day Air
+                            )
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                '07', // Worldwide Express
+                                '54', // Worldwide Express Plus
+                                '08', // Worldwide Expedited
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'containers' => array('21', '03'),
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array(
+                                '14', // Next Day Air Early AM
+                                '02', // 2nd Day Air
+                            )
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                '07', // Worldwide Express
+                                '54', // Worldwide Express Plus
+                                '08', // Worldwide Expedited
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'containers' => array('24', '25'),
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array()
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                '07', // Worldwide Express
+                                '54', // Worldwide Express Plus
+                                '08', // Worldwide Expedited
+                            )
+                        )
+                    )
+                ),
+            )
         );
 
         if (!isset($codes[$type])) {
@@ -1537,22 +1595,6 @@ XMLAuth;
     }
 
     /**
-     * Return all container types of carrier
-     *
-     * @return array|bool
-     */
-    public function _getAllContainers()
-    {
-        $codes        = $this->getCode('container');
-        $descriptions = $this->getCode('container_description');
-        $result       = array();
-        foreach ($codes as $key => &$code) {
-            $result[$code] = $descriptions[$key];
-        }
-        return $result;
-    }
-
-    /**
      * Return container types of carrier
      *
      * @param Varien_Object|null $params
@@ -1564,72 +1606,30 @@ XMLAuth;
     }
 
     /**
-     * Get allowed containers of carrier
+     * Return all container types of carrier
      *
-     * @param Varien_Object|null $params
      * @return array|bool
      */
-    protected function _getAllowedContainers(Varien_Object $params = null)
+    public function getContainerTypesAll()
     {
-        if (!$params
-            || !$params->getShippingMethod()
-            || !$params->getCountryShipper()
-            || !$params->getCountryRecipient()
-        ) {
-            return $this->_getAllContainers();
+        $codes        = $this->getCode('container');
+        $descriptions = $this->getCode('container_description');
+        $result       = array();
+        foreach ($codes as $key => &$code) {
+            $result[$code] = $descriptions[$key];
         }
-        if ($params->getCountryShipper() == self::USA_COUNTRY_ID
-            && $params->getCountryRecipient() == self::USA_COUNTRY_ID
-        ) {
-            $isUsShipping = true;
-        } else if (
-            $params->getCountryShipper() == self::USA_COUNTRY_ID
-            && $params->getCountryRecipient() != self::USA_COUNTRY_ID
-        ) {
-            $isUsShipping = false;
-        } else {
-            return $this->_getAllContainers();
-        }
+        return $result;
 
-        if ($isUsShipping) {
-            if ($params->getShippingMethod() == 'ups_01' // Next Day Air
-                || $params->getShippingMethod() == 'ups_13' // Next Day Air Saver
-                || $params->getShippingMethod() == 'ups_12' // 3 Day Select
-                || $params->getShippingMethod() == 'ups_59' // 2nd Day Air AM
-                || $params->getShippingMethod() == 'ups_03' // Ground
-            ) {
-                return array(
-                    '00' => Mage::helper('usa')->__('Customer Packaging')
-                );
-            } elseif ($params->getShippingMethod() == 'ups_14' // Next Day Air Early AM
-                || $params->getShippingMethod() == 'ups_02' // 2nd Day Air
-            ) {
-                return array(
-                    '00' => Mage::helper('usa')->__('Customer Packaging'),
-                    '21' => Mage::helper('usa')->__('UPS Express Box'),
-                    '03' => Mage::helper('usa')->__('UPS Tube'),
-                );
-            } else {
-                return $this->_getAllContainers();
-            }
-        } else {
-            if ($params->getShippingMethod() == 'ups_07' // Worldwide Express
-                || $params->getShippingMethod() == 'ups_54' // Worldwide Express Plus
-                || $params->getShippingMethod() == 'ups_08' // Worldwide Expedited
-            ) {
-                return array(
-                    '00' => Mage::helper('usa')->__('Customer Packaging'),
-                    '21' => Mage::helper('usa')->__('UPS Express Box'),
-                    '03' => Mage::helper('usa')->__('UPS Tube'),
-                    '24' => Mage::helper('usa')->__('UPS Worldwide 25 kilo'),
-                    '25' => Mage::helper('usa')->__('UPS Worldwide 10 kilo'),
-                );
-            } else {
-                return $this->_getAllContainers();
-            }
-        }
-
-        return $this->_getAllContainers();
+    }
+    
+    /**
+     * Return structured data of containers witch related with shipping methods
+     *
+     * @return array|bool
+     */
+    public function getContainerTypesFilter()
+    {
+        return $this->getCode('containers_filter');
     }
 
     /**

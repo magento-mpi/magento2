@@ -69,7 +69,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $countryRecipient = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new Varien_Object(array(
-                'shipping_method' => $order->getShippingMethod(),
+                'method' => $order->getShippingMethod(true)->getMethod(),
                 'country_shipper' => $address->getCountryId(),
                 'country_recipient' => $countryRecipient,
             ));
