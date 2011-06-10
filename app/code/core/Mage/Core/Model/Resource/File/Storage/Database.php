@@ -71,7 +71,7 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
                 'nullable' => false,
                 'default' => Varien_Db_Ddl_Table::TIMESTAMP_INIT
                 ), 'Upload Timestamp')
-            ->addColumn('filename', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+            ->addColumn('filename', Varien_Db_Ddl_Table::TYPE_TEXT, 100, array(
                 'nullable' => false
                 ), 'Filename')
             ->addColumn('directory_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -81,9 +81,9 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
             ->addColumn('directory', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
                 'default' => null
                 ), 'Directory Path')
-            ->addIndex($adapter->getIndexName($table, array('filename', 'directory'),
+            ->addIndex($adapter->getIndexName($table, array('filename', 'directory_id'),
                 Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
-                array('filename', 'directory'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
+                array('filename', 'directory_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
             ->addIndex($adapter->getIndexName($table, array('directory_id')), array('directory_id'))
             ->addForeignKey($adapter->getForeignKeyName($table, 'directory_id', $dirStorageTable, 'directory_id'),
                 'directory_id', $dirStorageTable, 'directory_id',
