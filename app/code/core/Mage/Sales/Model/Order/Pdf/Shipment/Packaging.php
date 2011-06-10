@@ -94,8 +94,8 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
      */
     protected function _drawPackageBlock($page)
     {
-        if ($this->getIsReturn()) {
-            $packaging = Mage::getBlockSingleton('enterprise_rma/adminhtml_rma_edit_tab_general_shippingmethod');
+        if ($this->getPackageShippingBlock()) {
+            $packaging = $this->getPackageShippingBlock();
         } else {
             $packaging = Mage::getBlockSingleton('adminhtml/sales_order_shipment_packaging');
         }

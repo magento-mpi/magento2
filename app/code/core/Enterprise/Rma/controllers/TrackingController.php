@@ -177,7 +177,9 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
 
         if ($model) {
             $pdf = Mage::getModel('sales/order_pdf_shipment_packaging')
-                    ->setIsReturn(true)
+                    ->setPackageShippingBlock(
+                        Mage::getBlockSingleton('enterprise_rma/adminhtml_rma_edit_tab_general_shippingmethod')
+                    )
                     ->getPdf($model)
             ;
 
