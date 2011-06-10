@@ -155,10 +155,6 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                 );
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
                 if ($autoApply) {
-                    /**
-                     * set rule ID for validation
-                     * @see Enterprise_AdminGws_Model_Controllers::validatePromoCatalogApplyRules
-                     */
                     $this->getRequest()->setParam('rule_id', $model->getId());
                     $this->_forward('applyRules');
                 } else {
