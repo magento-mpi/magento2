@@ -563,17 +563,17 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if ($offset < 0) {
             throw new Zend_Db_Adapter_Oracle_Exception("LIMIT argument offset={$offset} is not valid");
         }
-        $offsetCountSum = $offset + $count;
-        if ($offsetCountSum == $offset + 1) {
+
+        if ($offset == 0) {
             $query = sprintf('SELECT m1.* FROM (%s) m1 WHERE ROWNUM <= %d',
-                $sql, $offsetCountSum);
+                $sql, $count);
         } else {
             $query = sprintf('
                 SELECT m2.* FROM (
                     SELECT m1.*, ROWNUM AS analytic_clmn
                     FROM (%s) m1
                     WHERE ROWNUM <= %d) m2
-                WHERE m2.analytic_clmn >= %d', $sql, $offsetCountSum, $offset + 1);
+                WHERE m2.analytic_clmn >= %d', $sql, $offset + $count, $offset + 1);
         }
             return $query;
     }
