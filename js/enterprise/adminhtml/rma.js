@@ -87,18 +87,30 @@ AdminRma.prototype = {
             onSuccess: function(transport) {
                 var response = transport.responseText;
                 var divId = 'itemDiv_' + itemId;
-                this.addPopupDiv(response, divId);
-                $(divId).select('input[type="file"]').each(function(file) {
-                    file.name = file.name + '_' + itemId;
-                })
+                this.addPopupDiv(response, divId, itemId);
+                $(divId).descendants().each(function(element){
+                    if ((element.tagName.toLowerCase() == 'input') || (element.tagName.toLowerCase() == 'select') || (element.tagName.toLowerCase() == 'textarea')) {
+                        if ((element.tagName.toLowerCase() == 'input') && (element.type == 'file')) {
+                            element.name = element.name + '_' + itemId;
+                        } else {
+                            element.name = 'items[' + itemId + '][' + element.name + ']';
+                        }
+                    }
+                });
+
                 this.addPopupDivButtonsBindnigs(divId);
                 this.showPopup(divId);
             }.bind(this)
         });
     },
 
-    addPopupDiv: function(response, divId){
-        $('details_container').insert({
+    addPopupDiv: function(response, divId, itemId){
+        if ($('h' + itemId)) {
+            var parentTd = $('h' + itemId).up('td');
+        } else {
+            var parentTd = $('id_'+itemId).childElements().last();
+        }
+        parentTd.insert({
             top: new Element('div', {id: divId}).update(response).addClassName('rma-popup')
         });
     },
@@ -121,17 +133,6 @@ AdminRma.prototype = {
                 element.remove()
             }
         })
-        $(divId).descendants().each(function(element){
-            if ((element.tagName.toLowerCase() == 'input') || (element.tagName.toLowerCase() == 'select') || (element.tagName.toLowerCase() == 'textarea')) {
-                var fieldName = 'items[' + itemId + '][' + element.name + ']';
-                var newE = new Element('input', {type: 'hidden', value: element.value});
-                newE.addClassName('attrsValues');
-                newE.writeAttribute('name', fieldName);
-                parentTd.insert({
-                    top: newE
-                });
-            }
-        });
         this.hidePopups();
     },
 
@@ -149,6 +150,7 @@ AdminRma.prototype = {
 
     hidePopups: function() {
         $('details_container').childElements().each(Element.hide);
+        $$('.rma-popup').each(Element.hide);
         $('popup-window-mask').hide();
         //this.windowMask.hide();
     },
@@ -232,9 +234,16 @@ AdminRma.prototype = {
             new Ajax.Request(url, {
                 onSuccess: function(transport) {
                     var response = transport.responseText;
-                    this.addPopupDiv(response, detailsDivId);
+                    this.addPopupDiv(response, detailsDivId, itemId);
                     this.hidePopups();
-                    this.copyDetailsData(detailsDivId, newDetailsDivId);
+                    $(detailsDivId).descendants().each(function(element){
+                        if ((element.tagName.toLowerCase() == 'input') || (element.tagName.toLowerCase() == 'select') || (element.tagName.toLowerCase() == 'textarea')) {
+                            if (!((element.tagName.toLowerCase() == 'input') && (element.type == 'file'))) {
+                                element.name = 'items[' + itemId + '][' + element.name + ']';
+                            }
+                        }
+                    });
+                    this.copyDetailsData(detailsDivId, newDetailsDivId, itemId, timeSuffix);
                     $(detailsDivId).select('input[type="file"]').each(function(file) {
                         file.name = file.name + '_' + itemId;
                     });
@@ -246,7 +255,7 @@ AdminRma.prototype = {
                 }.bind(this)
             });
         } else {
-            this.copyDetailsData(detailsDivId, newDetailsDivId);
+            this.copyDetailsData(detailsDivId, newDetailsDivId, itemId, timeSuffix);
             $(newDetailsDivId).select('input[type="file"]').each(function(file) {
                 file.name = file.name + '_' + itemId + '_' + timeSuffix;
             })
@@ -265,10 +274,26 @@ AdminRma.prototype = {
         });
     },
 
-    copyDetailsData: function(detailsDivId, newDetailsDivId) {
-        $(detailsDivId).insert({
-            after: new Element('div', {id: newDetailsDivId}).update($(detailsDivId).innerHTML).addClassName($(detailsDivId).className)
+    copyDetailsData: function(detailsDivId, newDetailsDivId, itemId, timeSuffix) {
+
+        if ($('h' + itemId)) {
+            var parentTd = $('h' + itemId + '_' + timeSuffix).up('td');
+        } else {
+            var parentTd = $('id_'+itemId + '_' + timeSuffix).childElements().last();
+        }
+
+        parentTd.insert({
+            top: new Element('div', {id: newDetailsDivId}).update($(detailsDivId).innerHTML).addClassName($(detailsDivId).className)
         });
+
+        $(newDetailsDivId).descendants().each(function(element){
+            if ((element.tagName.toLowerCase() == 'input') || (element.tagName.toLowerCase() == 'select')) {
+                element.name = element.name.replace('[' + itemId + ']', '[' + itemId + '_' + timeSuffix + ']');
+                if (element.type != 'hidden') {
+                    element.value = '';
+                }
+            }
+        })
 
         this.addPopupDivButtonsBindnigs(detailsDivId);
         this.addPopupDivButtonsBindnigs(newDetailsDivId);

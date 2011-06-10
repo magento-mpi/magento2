@@ -36,7 +36,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $this->loadLayout()
             ->_setActiveMenu('sales/rma');
 
-        $this->_title($this->__('Sales'))->_title($this->__('Manage RMA'));
+        $this->_title($this->__('enterprise_rma'))->_title($this->__('Manage RMA'));
         return $this;
     }
 
@@ -512,7 +512,12 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         }
 
         $this->loadLayout();
-        $response = $this->getLayout()->getBlock('enterprise_rma_edit_item')->initForm()->toHtml();
+        $block = $this
+                ->getLayout()
+                ->getBlock('enterprise_rma_edit_item')
+                ->initForm();
+        $block->getForm()->setHtmlIdPrefix('_rma' . $itemId);
+        $response = $block->toHtml();
 
         if (is_array($response)) {
             $response = Mage::helper('core')->jsonEncode($response);
