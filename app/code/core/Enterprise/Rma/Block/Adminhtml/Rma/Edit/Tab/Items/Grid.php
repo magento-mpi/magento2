@@ -81,12 +81,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
     {
         $rma = Mage::registry('current_rma');
 
-        /** @var $collection Enterprise_Rma_Model_Resource_Item */
-        $collection = Mage::getResourceModel('enterprise_rma/item_collection')
-            ->addAttributeToSelect('*')
-            ->addFilter('rma_entity_id', $rma->getEntityId())
-            ->setOrder('order_item_id')
-            ->setOrder('entity_id');
+        /** @var $collection Enterprise_Rma_Model_Resource_Item_Collection */
+        $collection = $rma->getItemsForDisplay();
 
         if ($this->getItemFilter()) {
             $collection->addFilter('entity_id', $this->getItemFilter());

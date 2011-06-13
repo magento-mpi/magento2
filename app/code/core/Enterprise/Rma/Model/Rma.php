@@ -344,7 +344,8 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                         'rma'               => $this,
                         'order'             => $this->getOrder(),
                         'return_address'    => $returnAddress,
-                        'item_collection'   => $this->_items,
+                        //We cannot use $this->_items as items collection, because some items might not be loaded now
+                        'item_collection'   => $this->getItemsForDisplay(),
                     )
                 );
         }
@@ -986,5 +987,24 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             }
         }
         return $return;
+    }
+
+    /**
+     * Get collection of RMA Items with common order rules to be displayed in different lists
+     *
+     * @param bool $withoutAttributes - sets whether add EAV attributes into select
+     * @return Enterprise_Rma_Model_Resource_Item_Collection
+     */
+    public function getItemsForDisplay($withoutAttributes = false)
+    {
+        $collection = Mage::getResourceModel('enterprise_rma/item_collection')
+            ->addFieldToFilter('rma_entity_id', $this->getEntityId())
+            ->setOrder('order_item_id')
+            ->setOrder('entity_id');
+
+        if (!$withoutAttributes) {
+            $collection->addAttributeToSelect('*');
+        }
+        return $collection;
     }
 }

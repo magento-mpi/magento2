@@ -174,10 +174,8 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
 
         /* Add body */
 
-        /** @var $collection Enterprise_Rma_Model_Resource_Item */
-        $collection = Mage::getResourceModel('enterprise_rma/item_collection')
-            ->addAttributeToSelect('*')
-            ->addFilter('rma_entity_id', $rma->getEntityId());
+        /** @var $collection Enterprise_Rma_Model_Resource_Item_Collection */
+        $collection = $rma->getItemsForDisplay();
 
         foreach ($collection as $item){
 
