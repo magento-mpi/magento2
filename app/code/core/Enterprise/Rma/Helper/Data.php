@@ -425,4 +425,57 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
                 true
             );
     }
+
+    /**
+     * Retrieves RMA item name for backend
+     *
+     * @param Mage_Sales_Model_Order_Item $item
+     * @return string
+     */
+    public function getAdminProductName($item)
+    {
+        $name   = $item->getName();
+        $result = array();
+        if ($options = $item->getProductOptions()) {
+            if (isset($options['options'])) {
+                $result = array_merge($result, $options['options']);
+            }
+            if (isset($options['additional_options'])) {
+                $result = array_merge($result, $options['additional_options']);
+            }
+            if (isset($options['attributes_info'])) {
+                $result = array_merge($result, $options['attributes_info']);
+            }
+
+            if (!empty($result)) {
+                $implode = array();
+                foreach ($result as $val) {
+                    $implode[] =  isset($val['print_value']) ? $val['print_value'] : $val['value'];
+                }
+
+                if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+                    return $options['simple_name'].' ('.implode(', ', $implode).')';
+                }
+                return $name.' ('.implode(', ', $implode).')';
+            }
+        }
+        return $name;
+    }
+
+    /**
+     * Retrieves RMA item sku for backend
+     *
+     * @param  Mage_Sales_Model_Order_Item $item
+     * @return string
+     */
+    public function getAdminProductSku($item)
+    {
+        $name = $item->getSku();
+        if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            $productOptions = $item->getProductOptions();
+
+            return $productOptions['simple_sku'];
+        }
+        return $name;
+    }
 }

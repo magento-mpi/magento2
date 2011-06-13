@@ -568,32 +568,18 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     {
         $response = false;
         $orderId = $this->getRequest()->getParam('order_id');
-
-//        /* @var $itemModel  */
-//        $itemModel = Mage::getModel('enterprise_rma/item');
-//
-//        /* @var $itemForm Enterprise_Rma_Model_Item_Form */
-//        $itemForm   = Mage::getModel('enterprise_rma/item_form');
-//        $itemForm->setFormCode('default')
-//            ->setStore($this->getStore())
-//            ->setEntity($itemModel);
-//
-//        // prepare item attributes to show
-//        $attributes     = array();
-//
-//        // add user defined attributes
-//        foreach ($itemForm->getUserAttributes() as $attribute) {
-//            /* @var $attribute Enterprise_Rma_Model_Item_Attribute */
-//            if ($attribute->getIsVisible()) {
-//                $attributes[$attribute->getAttributeCode()] = $attribute;
-//            }
-//        }
+        $productId = $this->getRequest()->getParam('product_id');
 
         $rma_item = Mage::getModel('enterprise_rma/item');
         Mage::register('current_rma_item', $rma_item);
 
         $this->loadLayout();
-        $response = $this->getLayout()->getBlock('enterprise_rma_edit_item')->initForm()->toHtml();
+        $response = $this
+            ->getLayout()
+            ->getBlock('enterprise_rma_edit_item')
+            ->setProductId(intval($productId))
+            ->initForm()
+            ->toHtml();
 
         if (is_array($response)) {
             $response = Mage::helper('core')->jsonEncode($response);

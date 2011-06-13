@@ -47,6 +47,11 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
 
         $item = Mage::registry('current_rma_item');
 
+        if (!$item->getId()) {
+            // for creating RMA process when we have no item loaded, $item is just empty model
+            $this->_populateItemWithProductData($item);
+        }
+
         /* @var $customerForm Mage_Customer_Model_Form */
         $customerForm = Mage::getModel('enterprise_rma/item_form');
         $customerForm->setEntity($item)
@@ -119,4 +124,18 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
         );
     }
 
+    /**
+     * Add needed data (Product name) to RMA item during create process
+     *
+     * @param Enterprise_Rma_Model_Item $item
+     */
+    protected function _populateItemWithProductData($item)
+    {
+        if ($this->getProductId()) {
+            $orderItem = Mage::getModel('sales/order_item')->load($this->getProductId());
+            if ($orderItem && $orderItem->getId()) {
+                $item->setProductAdminName(Mage::helper('enterprise_rma')->getAdminProductName($orderItem));
+            }
+        }
+    }
 }

@@ -487,6 +487,8 @@ AdminRma.prototype = {
         var divId   = 'itemDiv_' + itemId;
 
         if (!$(divId)) {
+            var itemCalculated = $$('input[name="items[' + itemId + '][order_item_id]"]')[0].value;
+            this.loadAttributesUrl = this.loadAttributesUrl + 'product_id/' + itemCalculated + '/';
             this.getAjaxData(itemId);
         } else {
             this.showPopup(divId);

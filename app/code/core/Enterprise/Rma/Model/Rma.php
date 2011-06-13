@@ -414,8 +414,8 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
 
         $preparePost['product_name']        = $realItem->getName();
         $preparePost['product_sku']         = $realItem->getSku();
-        $preparePost['product_admin_name']  = $this->_getProductName($realItem);
-        $preparePost['product_admin_sku']   = $this->_getProductSku($realItem);
+        $preparePost['product_admin_name']  = Mage::helper('enterprise_rma')->getAdminProductName($realItem);
+        $preparePost['product_admin_sku']   = Mage::helper('enterprise_rma')->getAdminProductSku($realItem);
         $preparePost['product_options']     = serialize($realItem->getProductOptions());
         $preparePost['is_qty_decimal']      = $realItem->getIsQtyDecimal();
 
@@ -531,60 +531,6 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             return array($errors, $errorKeys);
         }
         return true;
-    }
-
-
-    /**
-     * Retrieves item name for backend
-     *
-     * @param  Mage_Sales_Model_Order_Item $item
-     * @return string
-     */
-    protected function _getProductName($item)
-    {
-        $name   = $item->getName();
-        $result = array();
-        if ($options = $item->getProductOptions()) {
-            if (isset($options['options'])) {
-                $result = array_merge($result, $options['options']);
-            }
-            if (isset($options['additional_options'])) {
-                $result = array_merge($result, $options['additional_options']);
-            }
-            if (isset($options['attributes_info'])) {
-                $result = array_merge($result, $options['attributes_info']);
-            }
-
-            if (!empty($result)) {
-                $implode = array();
-                foreach ($result as $val) {
-                    $implode[] =  isset($val['print_value']) ? $val['print_value'] : $val['value'];
-                }
-
-                if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
-                    return $options['simple_name'].' ('.implode(', ', $implode).')';
-                }
-                return $name.' ('.implode(', ', $implode).')';
-            }
-        }
-        return $name;
-    }
-
-    /**
-     * Retrieves item sku for backend
-     *
-     * @param  Mage_Sales_Model_Order_Item $item
-     * @return string
-     */
-    protected function _getProductSku($item)
-    {
-        $name = $item->getSku();
-        if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
-            $productOptions = $item->getProductOptions();
-
-            return $productOptions['simple_sku'];
-        }
-        return $name;
     }
 
     /**
