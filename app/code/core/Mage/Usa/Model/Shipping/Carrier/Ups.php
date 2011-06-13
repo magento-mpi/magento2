@@ -1621,7 +1621,7 @@ XMLAuth;
         return $result;
 
     }
-    
+
     /**
      * Return structured data of containers witch related with shipping methods
      *
@@ -1687,8 +1687,10 @@ XMLAuth;
             return null;
         }
 
-        return ($countyDest == Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID) ?
-            self::DELIVERY_CONFIRMATION_PACKAGE :
-            self::DELIVERY_CONFIRMATION_SHIPMENT;
+        if ($countyDest == Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID) {
+            return self::DELIVERY_CONFIRMATION_PACKAGE;
+        }
+
+        return self::DELIVERY_CONFIRMATION_SHIPMENT;
     }
 }
