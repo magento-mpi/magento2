@@ -35,10 +35,8 @@ $indexNameTmp = $installer->getConnection()->getPrimaryKeyName($tableNameTmp);
 $fields = array('entity_id', 'attribute_id', 'store_id');
 
 $installer->getConnection()
-        ->dropIndex($tableName, $indexName)
         ->addIndex($tableName, $indexName, $fields, Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY);
 
 $installer->getConnection()
-        ->dropIndex($tableNameTmp, $indexNameTmp)
         ->addIndex($tableNameTmp, $indexNameTmp, $fields, Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY);
 
