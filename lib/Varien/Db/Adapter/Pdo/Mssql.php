@@ -1578,7 +1578,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $fields        the validated and queted columns list (SQL)
      * @param string $indexType     the index type
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Pdo_Mssql
+     * @return bool|Zend_Db_Statement_Interface
      */
     protected function _createIndex($tableName, $keyName, $indexType, $fields, $schemaName = null)
     {
@@ -1599,11 +1599,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $query = $this->_getDdlScriptCreateIndex($tableName, $keyName, $fields, false, $schemaName);
                 break;
         }
-        $this->raw_query($query);
+        $result = $this->raw_query($query);
 
         $this->resetDdlCache($tableName, $schemaName);
 
-        return $this;
+        return $result;
     }
 
     /**
@@ -1614,7 +1614,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string|array $fields  the table column name or array of ones
      * @param string $indexType     the index type
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Pdo_Mssql
+     * @return Zend_Db_Statement_Interface
      * @throws Zend_Db_Exception
      */
     public function addIndex($tableName, $indexName, $fields,
@@ -1652,9 +1652,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         // Create index
-        $this->_createIndex($tableName, $indexName, $indexType, $fieldSql, $schemaName);
+        $result = $this->_createIndex($tableName, $indexName, $indexType, $fieldSql, $schemaName);
 
-        return $this;
+        return $result;
     }
 
     /**
@@ -1663,7 +1663,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param string $tableName
      * @param string $keyName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Pdo_Mssql
+     * @return bool|Zend_Db_Statement_Interface
      */
     public function dropIndex($tableName, $keyName, $schemaName = null)
     {
@@ -1680,7 +1680,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         if (!$indexExists) {
-            return $this;
+            return true;
         }
 
         switch ($keyType) {
@@ -1696,11 +1696,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 break;
         }
 
-        $this->raw_query($query);
+        $result = $this->raw_query($query);
 
         $this->resetDdlCache($tableName, $schemaName);
 
-        return $this;
+        return $result;
     }
 
     /**

@@ -1310,7 +1310,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string|array $fields  the table column name or array of ones
      * @param string $indexType     the index type
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Oracle
+     * @return Zend_Db_Statement_Interface
      * @throws Zend_Db_Adapter_Oracle_Exception
      */
     public function addIndex($tableName, $indexName, $fields,
@@ -1363,10 +1363,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $this->quoteIdentifier($indexName),
             $fieldSql);
 
-        $this->raw_query($query);
+        $result = $this->raw_query($query);
         $this->resetDdlCache($tableName, $schemaName);
 
-        return $this;
+        return $result;
     }
 
     /**
@@ -1375,7 +1375,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $tableName
      * @param string $keyName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Oracle
+     * @return bool|Zend_Db_Statement_Interface
      */
     public function dropIndex($tableName, $keyName, $schemaName = null)
     {
@@ -1394,7 +1394,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         if ($keyType === null) {
-            return $this;
+            return true;
         }
 
         switch ($keyType) {
@@ -1411,10 +1411,10 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $table   = $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
         $sql     = sprintf($condition, $table, $keyName);
 
-        $this->raw_query($sql);
+        $result = $this->raw_query($sql);
         $this->resetDdlCache($tableName, $schemaName);
 
-        return $this;
+        return $result;
     }
 
     /**

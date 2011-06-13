@@ -687,7 +687,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string $tableName
      * @param string $keyName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Pdo_Mysql
+     * @return bool|Zend_Db_Statement_Interface
      */
     public function dropKey($tableName, $keyName, $schemaName = null)
     {
@@ -1199,8 +1199,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string|array $fields
      * @param string $indexType
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Pdo_Mysql
-
+     * @return Zend_Db_Statement_Interface
      */
     public function addKey($tableName, $indexName, $fields, $indexType = 'index', $schemaName = null)
     {
@@ -2317,7 +2316,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string|array $fields  the table column name or array of ones
      * @param string $indexType     the index type
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Pdo_Mysql
+     * @return Zend_Db_Statement_Interface
      * @throws Zend_Db_Exception|Exception
      */
     public function addIndex($tableName, $indexName, $fields,
@@ -2370,7 +2369,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $cycle = true;
         while ($cycle === true) {
             try {
-                $this->raw_query($query);
+                $result = $this->raw_query($query);
                 $cycle  = false;
             } catch (Exception $e) {
                 if (in_array(strtolower($indexType), array('primary', 'unique'))) {
@@ -2387,7 +2386,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
 
         $this->resetDdlCache($tableName, $schemaName);
 
-        return $this;
+        return $result;
     }
 
     /**
@@ -2396,14 +2395,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param string $tableName
      * @param string $keyName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Pdo_Mysql
+     * @return bool|Zend_Db_Statement_Interface
      */
     public function dropIndex($tableName, $keyName, $schemaName = null)
     {
         $indexList = $this->getIndexList($tableName, $schemaName);
         $keyName = strtoupper($keyName);
         if (!isset($indexList[$keyName])) {
-            return $this;
+            return true;
         }
 
         if ($keyName == 'PRIMARY') {

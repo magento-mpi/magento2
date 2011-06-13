@@ -264,7 +264,7 @@ interface Varien_Db_Adapter_Interface
      * @param string|array $fields  the table column name or array of ones
      * @param string $indexType     the index type
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return Zend_Db_Statement_Interface
      */
     public function addIndex($tableName, $indexName, $fields, $indexType = self::INDEX_TYPE_INDEX, $schemaName = null);
 
@@ -274,7 +274,7 @@ interface Varien_Db_Adapter_Interface
      * @param string $tableName
      * @param string $keyName
      * @param string $schemaName
-     * @return Varien_Db_Adapter_Interface
+     * @return bool|Zend_Db_Statement_Interface
      */
     public function dropIndex($tableName, $keyName, $schemaName = null);
 
