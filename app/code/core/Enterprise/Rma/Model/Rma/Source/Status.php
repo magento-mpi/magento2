@@ -176,4 +176,31 @@ class Enterprise_Rma_Model_Rma_Source_Status extends Enterprise_Rma_Model_Rma_So
             self::STATE_PROCESSED_CLOSED,
         );
     }
+
+    /**
+     * Get button disabled status
+     *
+     * @param string $status
+     * @return bool
+     */
+    public function getButtonDisabledStatus($status)
+    {
+        if (
+            in_array(
+                $status,
+                array(
+                    self::STATE_PARTIAL_AUTHORIZED,
+                    self::STATE_RECEIVED,
+                    self::STATE_RECEIVED_ON_ITEM,
+                    self::STATE_APPROVED_ON_ITEM,
+                    self::STATE_REJECTED_ON_ITEM,
+                    self::STATE_CLOSED,
+                    self::STATE_PROCESSED_CLOSED,
+                )
+            )
+        ) {
+           return true;
+        }
+        return false;
+    }
 }

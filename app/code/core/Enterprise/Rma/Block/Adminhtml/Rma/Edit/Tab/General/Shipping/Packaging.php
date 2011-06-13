@@ -35,17 +35,29 @@
 class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extends Mage_Adminhtml_Block_Template
 {
     /**
-     * Retrieve shipment model instance
+     * Variable to store RMA instance
      *
-     * @return Mage_Sales_Model_Order_Shipment
+     * @var null|Enterprise_Rma_Model_Rma
+     */
+    protected $_rma = null;
+
+    /**
+     * Declare rma instance
+     *
+     * @return  Enterprise_Rma_Model_Item
      */
     public function getRma()
     {
-        return Mage::registry('current_rma');
+        if (is_null($this->_rma)) {
+            $this->_rma = Mage::registry('current_rma');
+        }
+        return $this->_rma;
     }
 
     /**
      * Retrieve carrier
+     *
+     * @return string
      */
     public function getCarrier()
     {
@@ -62,10 +74,11 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
      */
     public function getContainers()
     {
-        $order = $this->getShipment()->getOrder();
-        $storeId = $this->getShipment()->getStoreId();
-        $address = $order->getShippingAddress();
-        $carrier = $order->getShippingCarrier();
+        $order      = $this->getRma()->getOrder();
+        $storeId    = $this->getRma()->getStoreId();
+        $address    = $order->getShippingAddress();
+        $carrier    = $this->getCarrier();
+
         $countryRecipient = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new Varien_Object(array(
@@ -81,6 +94,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
     /**
      * Return name of container type by its code
      *
+     * @param string $code
      * @return string
      */
     public function getContainerTypeByCode($code)
@@ -102,17 +116,21 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
      */
     public function displayCustomsValue()
     {
-        return false;
-        $storeId = $this->getShipment()->getStoreId();
-        $order = $this->getShipment()->getOrder();
-        $carrierCode = $order->getShippingCarrier()->getCarrierCode();
-        $address = $order->getShippingAddress();
-        $shipperAddressCountryCode = Mage::getStoreConfig('shipping/origin/country_id', $storeId);
-        $recipientAddressCountryCode = $address->getCountryId();
 
-        if (($carrierCode == 'fedex' || $carrierCode == 'dhl')
-            && $shipperAddressCountryCode != $recipientAddressCountryCode) {
-            return true;
+        $storeId    = $this->getRma()->getStoreId();
+        $order      = $this->getRma()->getOrder();
+        $code       = $this->getRequest()->getParam('method');
+        if (!empty($code)) {
+            list($carrierCode, $methodCode) = explode('_', $code);
+            $address                        = $order->getShippingAddress();
+            $shipperAddressCountryCode      = $address->getCountryId();
+            $recipientAddressCountryCode    = Mage::helper('enterprise_rma')
+                ->getReturnAddressModel($storeId)->getCountryId();
+
+            if (($carrierCode == 'fedex' || $carrierCode == 'dhl')
+                && $shipperAddressCountryCode != $recipientAddressCountryCode) {
+                return true;
+            }
         }
         return false;
     }

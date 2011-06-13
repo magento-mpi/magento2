@@ -214,7 +214,24 @@ Packaging.prototype = {
                     }
                 }.bind(this)
             });
-            this.paramsCreateLabelRequest = {};
+            if (this.paramsCreateLabelRequest['code']
+                && this.paramsCreateLabelRequest['carrier_title']
+                && this.paramsCreateLabelRequest['method_title']
+                && this.paramsCreateLabelRequest['price']
+            ) {
+                var a = this.paramsCreateLabelRequest['code'];
+                var b = this.paramsCreateLabelRequest['carrier_title'];
+                var c = this.paramsCreateLabelRequest['method_title'];
+                var d = this.paramsCreateLabelRequest['price'];
+
+                this.paramsCreateLabelRequest = {};
+                this.paramsCreateLabelRequest['code']           = a;
+                this.paramsCreateLabelRequest['carrier_title']  = b;
+                this.paramsCreateLabelRequest['method_title']   = c;
+                this.paramsCreateLabelRequest['price']          = d;
+            } else {
+                this.paramsCreateLabelRequest = {};
+            }
         }
     },
 

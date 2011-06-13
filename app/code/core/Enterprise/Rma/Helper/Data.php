@@ -272,9 +272,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $return = $this->getShippingCarriers($store);
         foreach (array_keys($return) as $carrier) {
-            if (!((bool)Mage::getStoreConfig('carriers/' . $carrier . '/active', $store)
-                && (bool)Mage::getStoreConfig('carriers/' . $carrier . '/active_rma', $store))
-            ) {
+            if (!Mage::getStoreConfig('carriers/' . $carrier . '/active_rma', $store)) {
                 unset ($return[$carrier]);
             }
         }
@@ -294,8 +292,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         $data           = explode('_', $code);
         $carrierCode    = $data[0];
 
-        if (!Mage::getStoreConfigFlag('carriers/'.$carrierCode.'/active', $storeId)
-            || !Mage::getStoreConfig('carriers/' . $carrierCode . '/active_rma', $storeId)) {
+        if (!Mage::getStoreConfig('carriers/' . $carrierCode . '/active_rma', $storeId)) {
             return false;
         }
         $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model', $storeId);

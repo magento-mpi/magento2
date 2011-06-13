@@ -67,22 +67,24 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
         ;
     }
 
-        /**
+    /**
      * Prepares layout of block
      *
-     * @return Mage_Adminhtml_Block_Sales_Order_View_Giftmessage
+     * @return string
      */
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
-        $this->setChild('save_button',
+        $this->setChild(
+            'save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'   => Mage::helper('sales')->__('Add'),
-                    'class'   => 'save',
-                    'onclick' => $onclick
-                ))
-
+                ->setData(
+                    array(
+                        'label'   => Mage::helper('sales')->__('Add'),
+                        'class'   => 'save',
+                        'onclick' => $onclick
+                    )
+                )
         );
     }
 
@@ -119,24 +121,12 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
     /**
      * Retrieve remove url
      *
+     * @param Enterprise_Rma_Model_Shipping $track
      * @return string
      */
     public function getRemoveUrl($track)
     {
         return $this->getUrl('*/*/removeTrack/', array(
-            'id' => $this->getRma()->getId(),
-            'track_id' => $track->getId()
-        ));
-    }
-
-    /**
-     * Retrieve remove url
-     *
-     * @return string
-     */
-    public function getTrackInfoUrl($track)
-    {
-        return $this->getUrl('*/*/viewTrack/', array(
             'id' => $this->getRma()->getId(),
             'track_id' => $track->getId()
         ));
@@ -152,8 +142,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
     {
         if ($carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($code)) {
             return $carrier->getConfigData('title');
-        }
-        else {
+        } else {
             return Mage::helper('sales')->__('Custom Value');
         }
         return false;

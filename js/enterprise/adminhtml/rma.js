@@ -632,9 +632,10 @@ AdminRma.prototype = {
         this.loadPslUrl  = url;
     },
 
-    showShippingMethods: function(){
-        var url = this.loadShippingMethodsUrl;
-        var divId = 'get-shipping-method';
+    showShippingMethods: function() {
+        var url         = this.loadShippingMethodsUrl;
+        var parentDiv   = $('get-psl');
+        var divId       = 'get-shipping-method';
 
         if ($(divId)) {
             this.showPopup(divId);
@@ -642,7 +643,9 @@ AdminRma.prototype = {
             new Ajax.Request(url, {
                 onSuccess: function(transport) {
                     var response = transport.responseText;
-                    this.addPopupDiv(response, divId);
+                    parentDiv.insert({
+                        after: new Element('div', {id: divId}).update(response).addClassName('rma-popup')
+                    });
                     this.showPopup(divId);
                     Event.observe($('get-shipping-method-cancel-button'), 'click', this.shippingMethodsCancelButton.bind(this));
                     Event.observe($('get-shipping-method-ok-button'), 'click', this.shippingMethodsCancelButton.bind(this));

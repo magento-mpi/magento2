@@ -825,22 +825,22 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         $request->setPackageCurrency($store->getCurrentCurrency());
 
         /** @var $result Mage_Shipping_Model_Shipping */
-        $result = Mage::getModel('shipping/shipping')->collectRates($request)->getResult();
+        $result = Mage::getModel('shipping/shipping')
+            ->setCarrierCheckPath('active_rma')
+            ->collectRates($request)
+            ->getResult();
 
         $found = false;
         if ($result) {
             $shippingRates = $result->getAllRates();
 
             foreach ($shippingRates as $shippingRate) {
-                $enable = (bool)Mage::getStoreConfig(
-                    'carriers/'.$shippingRate->getCarrier().'/active_rma',
-                    $this->getStoreId()
-                );
                 if (
                     in_array(
                         $shippingRate->getCarrier(),
                         array_keys(Mage::helper('enterprise_rma')->getShippingCarriers())
-                    ) && $enable) {
+                    )
+                ) {
                     $found[] = Mage::getModel('sales/quote_address_rate')->importShippingRate($shippingRate);
                 }
             }
@@ -888,7 +888,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     public function isAvailableForPrintLabel()
     {
-        return $this->_isRmaAvailableForPrintLabel() && $this->_isItemsAvailableForPrintLabel();
+        return (bool)($this->_isRmaAvailableForPrintLabel() && $this->_isItemsAvailableForPrintLabel());
     }
 
     /**
@@ -919,8 +919,6 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 array(
                     Enterprise_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED,
                     Enterprise_Rma_Model_Item_Attribute_Source_Status::STATE_DENIED,
-                    Enterprise_Rma_Model_Item_Attribute_Source_Status::STATE_APPROVED,
-                    Enterprise_Rma_Model_Item_Attribute_Source_Status::STATE_RECEIVED,
                 ), true)
             ) {
                 return false;
@@ -952,5 +950,36 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             $collection->addAttributeToSelect('*');
         }
         return $collection;
+    }
+
+    /**
+     * Get button disabled status
+     *
+     * @return bool
+     */
+    public function getButtonDisabledStatus()
+    {
+        return (bool)(
+            Mage::getModel('enterprise_rma/rma_source_status')->getButtonDisabledStatus($this->getStatus())
+            && $this->_isItemsNotInPendingStatus()
+        );
+    }
+
+    /**
+     * Defines whether RMA items' not in pending status
+     *
+     * @return bool
+     */
+    public function _isItemsNotInPendingStatus()
+    {
+        $collection = Mage::getResourceModel('enterprise_rma/item_collection')
+            ->addFieldToFilter('rma_entity_id', $this->getEntityId());
+
+        foreach ($collection as $item) {
+            if ($item->getStatus() == Enterprise_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING) {
+                return false;
+            }
+        }
+        return true;
     }
 }

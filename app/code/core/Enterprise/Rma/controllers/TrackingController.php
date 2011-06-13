@@ -74,11 +74,15 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     protected function _canViewRma($rma)
     {
-        $currentOrder = Mage::registry('current_order');
-        if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $currentOrder = Mage::registry('current_order');
+            if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
+                return true;
+            }
+            return false;
+        } else {
             return true;
         }
-        return false;
     }
 
     /**
@@ -89,7 +93,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!Mage::helper('sales/guest')->loadValidOrder()) {
+        if (!Mage::getSingleton('customer/session')->isLoggedIn() && !Mage::helper('sales/guest')->loadValidOrder()) {
             return;
         }
 
@@ -115,7 +119,6 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
 
     /**
      * Print label for one specific shipment
-     *
      */
     public function printLabelAction()
     {

@@ -36,6 +36,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
 {
 
     /**
+     * PSL Button statuses
+     */
+    const PSL_DISALLOWED    = 0;
+    const PSL_ALLOWED       = 1;
+    const PSL_DISABLED      = 2;
+
+    /**
      * Variable to store RMA instance
      *
      * @var null|Enterprise_Rma_Model_Rma
@@ -44,9 +51,14 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
 
     public function _construct()
     {
-        $this->setIsPsl((bool)(
-            $this->_getShippingAvailability()
-            && $this->getRma()->isAvailableForPrintLabel()));
+        $buttonStatus       = Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISALLOWED;
+        if ((bool)($this->_getShippingAvailability() && $this->getRma()->isAvailableForPrintLabel())) {
+            $buttonStatus   = Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_ALLOWED;
+        } elseif((bool)$this->getRma()->getButtonDisabledStatus()) {
+            $buttonStatus   = Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISABLED;
+        }
+
+        $this->setIsPsl($buttonStatus);
     }
 
     /**
@@ -84,6 +96,20 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
             ->getShippingLabelByRma($this->getRma());
     }
 
+    public function getShippingPrice($price)
+    {
+        return Mage::app()
+            ->getStore($this->getRma()->getStoreId())
+            ->convertPrice(
+                Mage::helper('tax')->getShippingPrice(
+                    $price
+                ),
+                true,
+                false
+            )
+        ;
+    }
+
     /**
      * Get packed products in packages
      *
@@ -107,13 +133,15 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
      */
     public function displayCustomsValue()
     {
-        return false;
-        $storeId = $this->getShipment()->getStoreId();
-        $order = $this->getShipment()->getOrder();
-        $carrierCode = $order->getShippingCarrier()->getCarrierCode();
-        $address = $order->getShippingAddress();
-        $shipperAddressCountryCode = Mage::getStoreConfig('shipping/origin/country_id', $storeId);
-        $recipientAddressCountryCode = $address->getCountryId();
+        $storeId    = $this->getRma()->getStoreId();
+        $order      = $this->getRma()->getOrder();
+        $carrierCode= $this->getShipment()->getCarrierCode();
+        if (!$carrierCode) {
+            return false;
+        }
+        $address    = $order->getShippingAddress();
+        $shipperAddressCountryCode  = $address->getCountryId();
+        $recipientAddressCountryCode= Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
 
         if (($carrierCode == 'fedex' || $carrierCode == 'dhl')
             && $shipperAddressCountryCode != $recipientAddressCountryCode) {

@@ -51,6 +51,12 @@ class Mage_Shipping_Model_Shipping
      */
     protected $_result = null;
 
+    /**
+     * Part of carrier xml config path
+     *
+     * @var string
+     */
+    protected $_partCode = 'active';
 
     /**
      * Get shipping rate result model
@@ -208,6 +214,18 @@ class Mage_Shipping_Model_Shipping
     }
 
     /**
+     * Set part of carrier xml config path
+     *
+     * @param string $code
+     * @return Mage_Shipping_Model_Shipping
+     */
+    public function setCarrierCheckPath($code = 'active')
+    {
+        $this->_partCode = $code;
+        return $this;
+    }
+
+    /**
      * Get carrier by its code
      *
      * @param string $carrierCode
@@ -216,7 +234,7 @@ class Mage_Shipping_Model_Shipping
      */
     public function getCarrierByCode($carrierCode, $storeId = null)
     {
-        if (!Mage::getStoreConfigFlag('carriers/'.$carrierCode.'/active', $storeId)) {
+        if (!Mage::getStoreConfigFlag('carriers/'.$carrierCode.'/'.$this->_partCode, $storeId)) {
             return false;
         }
         $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model', $storeId);

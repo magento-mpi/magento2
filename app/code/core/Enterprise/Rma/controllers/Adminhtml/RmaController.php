@@ -1021,6 +1021,11 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             }
             $shipment->setPackages($data['packages']);
             $shipment->setCode($data['code']);
+
+            list($carrierCode, $methodCode) = explode('_', $data['code']);
+            $shipment->setCarrierCode($carrierCode);
+            $shipment->setMethodCode($data['code']);
+
             $shipment->setCarrierTitle($data['carrier_title']);
             $shipment->setMethodTitle($data['method_title']);
             $shipment->setPrice($data['price']);
@@ -1049,6 +1054,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 $shipment->setPackages(serialize($data['packages']));
                 $shipment->setShippingLabel($outputPdf->render());
                 $shipment->setIsAdmin(Enterprise_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL);
+                $shipment->setRmaEntityId($model->getId());
                 $shipment->save();
 
                 $carrierCode = $carrier->getCarrierCode();
@@ -1070,6 +1076,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 Mage::throwException($response->getErrors());
             }
         }
+        return false;
     }
 
     /**
@@ -1128,7 +1135,9 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
 
         if ($shipment) {
             $pdf = Mage::getModel('sales/order_pdf_shipment_packaging')
-                    ->setIsReturn(true)
+                    ->setPackageShippingBlock(
+                        Mage::getBlockSingleton('enterprise_rma/adminhtml_rma_edit_tab_general_shippingmethod')
+                    )
                     ->getPdf($shipment);
             $this->_prepareDownloadResponse(
                 'packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
@@ -1284,56 +1293,4 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         }
         $this->getResponse()->setBody($response);
     }
-
-    /**
-     * View shipment tracking information
-     */
-    public function viewTrackAction()
-    {
-        $trackId    = $this->getRequest()->getParam('track_id');
-        $track      = Mage::getModel('sales/order_shipment_track')->load($trackId);
-        if ($track->getId()) {
-            try {
-                $model = $this->_initModel();
-                if ($model->getId()) {
-                    $track->setStoreId($model->getStoreId());
-                    $response = $track->getNumberDetail();
-                } else {
-                    $response = array(
-                        'error'     => true,
-                        'message'   => $this->__('Cannot initialize rma for delete tracking number.'),
-                    );
-                }
-            } catch (Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => $this->__('Cannot retrieve tracking number detail.'),
-                );
-            }
-        } else {
-            $response = array(
-                'error'     => true,
-                'message'   => $this->__('Cannot load track with retrieving identifier.'),
-            );
-        }
-
-        if (is_object($response)){
-            $className = Mage::getConfig()->getBlockClassName('adminhtml/template');
-            $block = new $className();
-            $block->setType('adminhtml/template')
-                ->setIsAnonymous(true)
-                ->setTemplate('sales/order/shipment/tracking/info.phtml');
-
-            $block->setTrackingInfo($response);
-
-            $this->getResponse()->setBody($block->toHtml());
-        } else {
-            if (is_array($response)) {
-                $response = Mage::helper('core')->jsonEncode($response);
-            }
-
-            $this->getResponse()->setBody($response);
-        }
-    }
-
 }
