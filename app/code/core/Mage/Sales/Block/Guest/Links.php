@@ -40,8 +40,8 @@ class Mage_Sales_Block_Guest_Links extends Mage_Page_Block_Template_Links_Block
     public function __construct()
     {
         if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $this->_label       = $this->__('Order Statuses and Returns');
-            $this->_title       = $this->__('Order Statuses and Returns');
+            $this->_label       = $this->__('Orders and Returns');
+            $this->_title       = $this->__('Orders and Returns');
             $this->_url         = $this->getUrl('sales/guest/form');
 
             parent::__construct();
