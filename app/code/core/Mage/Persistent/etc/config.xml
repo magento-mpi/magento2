@@ -242,7 +242,7 @@
     <default>
         <persistent>
             <options>
-                <enabled>1</enabled>
+                <enabled>0</enabled>
                 <lifetime>31536000</lifetime>
                 <remember_enabled>1</remember_enabled>
                 <remember_default>1</remember_default>
