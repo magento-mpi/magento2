@@ -501,6 +501,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _prepareRowForDb(array $rowData)
     {
+        $rowData = parent::_prepareRowForDb($rowData);
+
         static $lastSku  = null;
 
         if (Mage_ImportExport_Model_Import::BEHAVIOR_DELETE == $this->getBehavior()) {
@@ -568,8 +570,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         $typePriceTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_type_price');
         $typeTitleTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_type_title');
         $typeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_type_value');
-        $nextOptionId   = $this->getNextAutoincrement($optionTable);
-        $nextValueId    = $this->getNextAutoincrement($typeValueTable);
+        $nextOptionId   = Mage::getResourceHelper('importexport')->getNextAutoincrement($optionTable);
+        $nextValueId    = Mage::getResourceHelper('importexport')->getNextAutoincrement($typeValueTable);
         $priceIsGlobal  = Mage::helper('catalog')->isPriceGlobal();
         $type           = null;
         $typeSpecific   = array(
@@ -820,17 +822,22 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         $resource       = Mage::getResourceModel('catalog/product_link');
         $mainTable      = $resource->getMainTable();
         $positionAttrId = array();
-        $nextLinkId     = $this->getNextAutoincrement($mainTable);
+        $nextLinkId     = Mage::getResourceHelper('importexport')->getNextAutoincrement($mainTable);
+        $adapter = $this->_connection;
 
         // pre-load 'position' attributes ID for each link type once
         foreach ($this->_linkNameToId as $linkName => $linkId) {
-            $select = $this->_connection->select()
+            $select = $adapter->select()
                 ->from(
                     $resource->getTable('catalog/product_link_attribute'),
                     array('id' => 'product_link_attribute_id')
                 )
-                ->where('link_type_id = ? AND product_link_attribute_code = "position"', $linkId);
-            $positionAttrId[$linkId] = $this->_connection->fetchOne($select);
+                ->where('link_type_id = :link_id AND product_link_attribute_code = :position');
+            $bind = array(
+                ':link_id' => $linkId,
+                ':position' => 'position'
+            );
+            $positionAttrId[$linkId] = $adapter->fetchOne($select, $bind);
         }
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $productIds   = array();
@@ -880,20 +887,20 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 }
             }
             if (Mage_ImportExport_Model_Import::BEHAVIOR_APPEND != $this->getBehavior() && $productIds) {
-                $this->_connection->delete(
+                $adapter->delete(
                     $mainTable,
-                    $this->_connection->quoteInto('product_id IN (?)', array_keys($productIds))
+                    $adapter->quoteInto('product_id IN (?)', array_keys($productIds))
                 );
             }
             if ($linkRows) {
-                $this->_connection->insertOnDuplicate(
+                $adapter->insertOnDuplicate(
                     $mainTable,
                     $linkRows,
                     array('link_id')
                 );
             }
             if ($positionRows) { // process linked product positions
-                $this->_connection->insertOnDuplicate(
+                $adapter->insertOnDuplicate(
                     $resource->getAttributeTypeTable('int'),
                     $positionRows,
                     array('value')
@@ -1339,35 +1346,40 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $stockData = array();
 
+            // Format bunch to stock data rows
             foreach ($bunch as $rowNum => $rowData) {
                 if (!$this->isRowAllowedToImport($rowData, $rowNum)) {
                     continue;
                 }
                 // only SCOPE_DEFAULT can contain stock data
-                if (self::SCOPE_DEFAULT == $this->getRowScope($rowData)) {
-                    $row = array_merge(
-                        $defaultStockData,
-                        array_intersect_key($rowData, $defaultStockData)
-                    );
-                    $row['product_id'] = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
-                    $row['stock_id'] = 1;
-                    /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                    $stockItem = Mage::getModel('cataloginventory/stock_item', $row);
-
-                    if ($helper->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
-                        if ($stockItem->verifyNotification()) {
-                            $stockItem->setLowStockDate(Mage::app()->getLocale()
-                                ->date(null, null, null, false)
-                                ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
-                            );
-                        }
-                        $stockItem->setStockStatusChangedAutomatically((int) !$stockItem->verifyStock());
-                    } else {
-                        $stockItem->setQty(0);
-                    }
-                    $stockData[] = $stockItem->unsetOldData()->getData();
+                if (self::SCOPE_DEFAULT != $this->getRowScope($rowData)) {
+                    continue;
                 }
+
+                $row = array_merge(
+                    $defaultStockData,
+                    array_intersect_key($rowData, $defaultStockData)
+                );
+                $row['product_id'] = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
+                $row['stock_id'] = 1;
+                /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+                $stockItem = Mage::getModel('cataloginventory/stock_item', $row);
+
+                if ($helper->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
+                    if ($stockItem->verifyNotification()) {
+                        $stockItem->setLowStockDate(Mage::app()->getLocale()
+                            ->date(null, null, null, false)
+                            ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
+                        );
+                    }
+                    $stockItem->setStockStatusChangedAutomatically((int) !$stockItem->verifyStock());
+                } else {
+                    $stockItem->setQty(0);
+                }
+                $stockData[] = $stockItem->unsetOldData()->getData();
             }
+
+            // Insert rows
             if ($stockData) {
                 $this->_connection->insertOnDuplicate($entityTable, $stockData);
             }

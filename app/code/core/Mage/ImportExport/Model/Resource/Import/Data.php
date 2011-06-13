@@ -115,7 +115,7 @@ class Mage_ImportExport_Model_Resource_Import_Data
     }
 
     /**
-     * Get next bunch of validatetd rows.
+     * Get next bunch of validated rows.
      *
      * @return array|null
      */

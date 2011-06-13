@@ -474,7 +474,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         }
 
         /* Drop table sequence if exists */
-        $sequence = $this->_getSequenceName($tableName);
+        $sequence = $this->getSequenceName($tableName);
         if ($this->isSequenceExists($sequence)) {
             $this->query('DROP SEQUENCE ' . $this->quoteIdentifier($sequence));
         }
@@ -3097,7 +3097,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $tableName
      * @return string
      */
-    protected function _getSequenceName($tableName)
+    public function getSequenceName($tableName)
     {
         $hash = sprintf('sqc_%s', $tableName);
         if (strlen($hash) > 30) {
@@ -3363,7 +3363,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     protected function _createSequence($tableName)
     {
-        $sequenceName = $this->_getSequenceName($tableName);
+        $sequenceName = $this->getSequenceName($tableName);
         if (!$this->isSequenceExists($sequenceName)) {
             $query = 'CREATE SEQUENCE "%s" MINVALUE 0 MAXVALUE 4294967296 INCREMENT BY 1 START WITH 0 CACHE 20 NOORDER NOCYCLE';
             $this->query(sprintf($query, $this->quoteIdentifier($sequenceName)));
@@ -3386,7 +3386,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         // create sequence
         $this->_createSequence($tableName);
 
-        $sequenceName = $this->_getSequenceName($tableName);
+        $sequenceName = $this->getSequenceName($tableName);
         $triggerName  = $this->_getTriggerName($tableName, $columnName);
         $functionName = $this->_getSequenceFunctionName($tableName);
 

@@ -51,4 +51,21 @@ class Mage_ImportExport_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Res
         $maxPacket = empty($maxPacketData['Value']) ? self::DB_MAX_PACKET_SIZE : $maxPacketData['Value'];
         return floor($maxPacket * self::DB_MAX_PACKET_COEFFICIENT);
     }
+
+    /**
+     * Returns next autoincrement value for a table
+     *
+     * @param string $table Real table name in DB
+     * @return int
+     */
+    public function getNextAutoincrement($tableName)
+    {
+        $adapter = $this->_getReadAdapter();
+        $entityStatus = $adapter->showTableStatus($tableName);
+
+        if (empty($entityStatus['Auto_increment'])) {
+            Mage::throwException(Mage::helper('importexport')->__('Cannot get autoincrement value'));
+        }
+        return $entityStatus['Auto_increment'];
+    }
 }

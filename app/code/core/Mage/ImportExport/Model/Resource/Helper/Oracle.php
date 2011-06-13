@@ -48,4 +48,23 @@ class Mage_ImportExport_Model_Resource_Helper_Oracle extends Mage_Core_Model_Res
     {
         return self::DB_MAX_STATEMENT_SIZE;
     }
+
+    /**
+     * Returns next autoincrement value for a table.
+     *
+     * @param string $table Real table name in DB
+     * @return int
+     */
+    public function getNextAutoincrement($table)
+    {
+        $adapter = $this->_getReadAdapter();
+        $seqName = $adapter->getSequenceName($table);
+        try {
+            $row = $adapter->fetchRow("SELECT {$seqName}.CURRVAL AS current_id FROM dual");
+        } catch (Exception $e) {
+            // Sequence is not inited - we need to call NEXTVAL first
+            $row = $adapter->fetchRow("SELECT {$seqName}.NEXTVAL AS current_id FROM dual");
+        }
+        return $row['current_id'] + 1;
+    }
 }
