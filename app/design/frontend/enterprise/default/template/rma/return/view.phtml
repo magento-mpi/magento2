@@ -260,37 +260,37 @@
                 <p class="box-content">
                     <?php echo $this->__('Comment Text') ?>
                     <textarea id="rma_comment_text" style="height:6em;width:99%;" cols="5" rows="3" name="comment" class="required-entry"></textarea>
-                    <div class="buttons-set form-buttons" style="width:696px">
-                        <button type="submit" class="button" id="submit.save"><span><span><?php echo $this->__('Submit Comment')?></span></span></button>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="divider"></div>
-                    <ul class="note-list box-content">
-                        <?php $_comments = $this->getComments(); ?>
-                        <?php if (!empty($_comments)): ?>
-                        <?php foreach($_comments as $_comment): ?>
-                            <?php if ($_comment->getIsVisibleOnFront()): ?>
-                            <li>
-                                <strong><?php echo $this->formatDate($_comment->getCreatedAt()) ?> <?php echo $this->formatTime($_comment->getCreatedAt()) ?></strong>
-                                <span class="separator">|</span>
-                                <strong>
-                                    <?php if ($_comment->getIsAdmin()): ?>
-                                        <?php echo $this->__('Customer Service')?>
-                                    <?php else: ?>
-                                        <?php echo $this->escapeHtml($this->getCustomerName())?>
-                                   <?php endif; ?>
-                                </strong>
-                                <br />
-                                <span>
-                                    <?php echo nl2br($_comment->getComment()); ?>
-                                </span>
-                                <div class="divider"></div>
-                            </li>
-                            <?php endif; ?>
-                        <?php endforeach ?>
-                        <?php endif ?>
-                    </ul>
                 </p>
+                <div class="box-content buttons-set">
+                    <button type="submit" class="button" id="submit.save"><span><span><?php echo $this->__('Submit Comment')?></span></span></button>
+                </div>
+                <div class="clear"></div>
+                <div class="divider"></div>
+                <ul class="note-list box-content">
+                    <?php $_comments = $this->getComments(); ?>
+                    <?php if (!empty($_comments)): ?>
+                    <?php foreach($_comments as $_comment): ?>
+                        <?php if ($_comment->getIsVisibleOnFront()): ?>
+                        <li>
+                            <strong><?php echo $this->formatDate($_comment->getCreatedAt()) ?> <?php echo $this->formatTime($_comment->getCreatedAt()) ?></strong>
+                            <span class="separator">|</span>
+                            <strong>
+                                <?php if ($_comment->getIsAdmin()): ?>
+                                    <?php echo $this->__('Customer Service')?>
+                                <?php else: ?>
+                                    <?php echo $this->escapeHtml($this->getCustomerName())?>
+                               <?php endif; ?>
+                            </strong>
+                            <br />
+                            <span>
+                                <?php echo nl2br($_comment->getComment()); ?>
+                            </span>
+                            <div class="divider"></div>
+                        </li>
+                        <?php endif; ?>
+                    <?php endforeach ?>
+                    <?php endif ?>
+                </ul>
             </div>
         </div>
     </div>

@@ -34,7 +34,8 @@ class Enterprise_Rma_Block_Return_Returns extends Mage_Core_Block_Template
 
             $returns = Mage::getResourceModel('enterprise_rma/rma_grid_collection')
                 ->addFieldToSelect('*')
-                ->addFieldToFilter('order_id', Mage::registry('current_order')->getId());
+                ->addFieldToFilter('order_id', Mage::registry('current_order')->getId())
+                ->setOrder('date_requested', 'desc');
 
             $customerSession = Mage::getSingleton('customer/session');
             if ($customerSession->isLoggedIn()) {
