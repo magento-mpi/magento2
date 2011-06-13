@@ -46,7 +46,7 @@ AdminRma.prototype = {
             var trElement = $(event.srcElement).up('tr');
         }
         this.formId = trElement.up('form').id;
-        return trElement.down('input[class="rowId"]').value;
+        return trElement.down('input.rowId').value;
     },
 
     itemDetailsRowClick : function(event,forceDivId){
@@ -414,6 +414,7 @@ AdminRma.prototype = {
                 if (data){
                     data = $(data).cloneNode(true);
                     data.name   = 'items[' + newRmaItemId + '][' + data.name + ']';
+                    data.id     = data.id + '_' + newRmaItemId;
                     data.addClassName('required-entry');
                 }
             }

@@ -61,7 +61,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Tex
         if (!$row->getIsQtyDecimal() && !is_null($value)) {
             $value = intval($value);
         }
-        $class = 'input-text ' . $this->getColumn()->getInlineCss();
+        $class = 'input-text ' . $this->getColumn()->getValidateClass();
         $html = '<input type="text" ';
         $html .= 'name="items[' . $row->getId() . '][' . $this->getColumn()->getId() . ']" ';
         $html .= 'value="' . $value . '" ';

@@ -142,6 +142,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'width' => '80px',
             'index' => 'qty_requested',
             'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_textinput',
+            'validate_class' => 'validate-greater-than-zero'
         ));
 
         $this->addColumn('qty_authorized', array(
@@ -149,6 +150,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'width' => '80px',
             'index' => 'qty_authorized',
             'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_textinput',
+            'validate_class' => 'validate-greater-than-zero'
         ));
 
         $this->addColumn('qty_returned', array(
@@ -156,6 +158,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'width' => '80px',
             'index' => 'qty_returned',
             'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_textinput',
+            'validate_class' => 'validate-greater-than-zero'
         ));
 
         $this->addColumn('qty_approved', array(
@@ -163,6 +166,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
             'width' => '80px',
             'index' => 'qty_approved',
             'renderer'  => 'enterprise_rma/adminhtml_rma_edit_tab_items_grid_column_renderer_textinput',
+            'validate_class' => 'validate-greater-than-zero'
         ));
 
         $this->addColumn('reason', array(

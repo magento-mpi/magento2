@@ -111,7 +111,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Mage_Adminhtml_Bl
         $fieldset->addField('qty_requested', 'text', array(
             'label'=> Mage::helper('enterprise_rma')->__('Requested Qty'),
             'name' => 'qty_requested',
-            'required' => false
+            'required' => false,
+            'class' => 'validate-greater-than-zero'
         ));
 
         $reasonOtherAttribute =
