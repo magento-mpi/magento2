@@ -256,7 +256,6 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
      */
     public function isGirthAllowed()
     {
-        Mage::log($this->getShipment()->getOrder()->getShippingAddress()->getCountryId());
         return $this
             ->getShipment()
             ->getOrder()
