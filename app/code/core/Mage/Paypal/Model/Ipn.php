@@ -97,9 +97,7 @@ class Mage_Paypal_Model_Ipn
      */
     public function processIpnRequest(array $request, Zend_Http_Client_Adapter_Interface $httpAdapter = null)
     {
-        $this->_request = $request;
-        $this->_config->debug = true;
-
+        $this->_request   = $request;
         $this->_debugData = array('ipn' => $request);
         ksort($this->_debugData['ipn']);
 
