@@ -144,14 +144,14 @@ class Enterprise_PricePermissions_Model_Observer
             case 'catalog.product.edit.tab.crosssell' :
             case 'category.product.grid' :
                 if (!$this->_canReadProductPrice) {
-                    $block->removeColumn('price');
+                    $this->_removeColumnFromGrid($block, 'price');
                 }
                 break;
             // Handle prices on Shopping Cart Tab of customer
             case 'admin.customer.view.cart' :
                 if (!$this->_canReadProductPrice) {
-                    $block->removeColumn('price');
-                    $block->removeColumn('total');
+                    $this->_removeColumnFromGrid($block, 'price');
+                    $this->_removeColumnFromGrid($block, 'total');
                 }
                 break;
             // Handle prices on Manage Shopping Cart page (Enterprise_Checkout module)
@@ -168,7 +168,7 @@ class Enterprise_PricePermissions_Model_Observer
             case 'checkout.accordion.rviewed' :
             case 'checkout.accordion.ordered' :
                 if (!$this->_canReadProductPrice) {
-                    $block->removeColumn('price');
+                    $this->_removeColumnFromGrid($block, 'price');
                 }
                 break;
             case 'checkout.items' :
@@ -189,13 +189,13 @@ class Enterprise_PricePermissions_Model_Observer
             // Handle price column at Associated Products tab of configurable products
             case 'admin.product.edit.tab.super.config.grid' :
                 if (!$this->_canReadProductPrice) {
-                    $block->removeColumn('price');
+                    $this->_removeColumnFromGrid($block, 'price');
                 }
                 break;
             // Handle price column at Associated Products tab of grouped products
             case 'catalog.product.edit.tab.super.group' :
                 if (!$this->_canReadProductPrice) {
-                    $block->removeColumn('price');
+                    $this->_removeColumnFromGrid($block, 'price');
                 }
                 break;
             case 'product_tabs' :
@@ -221,7 +221,7 @@ class Enterprise_PricePermissions_Model_Observer
             // Handle product grid on Bundle Items tab of bundle products
             case 'adminhtml.catalog.product.edit.tab.bundle.option.search.grid' :
                 if (!$this->_canReadProductPrice) {
-                    $block->removeColumn('price');
+                    $this->_removeColumnFromGrid($block, 'price');
                 }
                 break;
             // Handle Price tab of bundle product
@@ -260,8 +260,8 @@ class Enterprise_PricePermissions_Model_Observer
         if (stripos($blockNameInLayout, 'customer_cart_') === 0) {
             if (!$this->_canReadProductPrice) {
                 if ($block->getParentBlock()->getNameInLayout() == 'admin.customer.carts') {
-                    $block->removeColumn('price');
-                    $block->removeColumn('total');
+                    $this->_removeColumnFromGrid($block, 'price');
+                    $this->_removeColumnFromGrid($block, 'total');
                 }
             }
         }
@@ -626,6 +626,21 @@ class Enterprise_PricePermissions_Model_Observer
         }
 
         $observer->getEvent()->setAttributesData($attributesData);
+    }
+
+    /**
+     * Remove column from grid
+     *
+     * @param Mage_Adminhtml_Block_Widget_Grid $block
+     * @param string $columnId
+     * @return Mage_Adminhtml_Block_Widget_Grid|bool
+     */
+    protected function _removeColumnFromGrid($block, $column)
+    {
+        if (!$block instanceof Mage_Adminhtml_Block_Widget_Grid) {
+            return false;
+        }
+        return $block->removeColumn($column);
     }
 
     /**
