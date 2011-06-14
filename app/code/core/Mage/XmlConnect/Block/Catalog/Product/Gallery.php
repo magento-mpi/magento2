@@ -48,7 +48,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Gallery extends Mage_XmlConnect_Bloc
             ->load($productId);
         $collection = $product->getMediaGalleryImages();
 
-        $imagesNode = new Mage_XmlConnect_Model_Simplexml_Element('<images></images>');
+        $imagesNode = Mage::getModel('xmlconnect/simplexml_element', '<images></images>');
         $helper = $this->helper('catalog/image');
 
         foreach ($collection as $item) {

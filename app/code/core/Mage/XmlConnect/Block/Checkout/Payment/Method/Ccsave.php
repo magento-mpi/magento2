@@ -135,7 +135,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
         $verification
     </fieldset>
 EOT;
-        $fieldsetXmlObj = new Mage_XmlConnect_Model_Simplexml_Element($xml);
+        $fieldsetXmlObj = Mage::getModel('xmlconnect/simplexml_element', $xml);
         $formXmlObj->appendChild($fieldsetXmlObj);
     }
 }

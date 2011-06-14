@@ -25,12 +25,46 @@
  */
 
 /**
- * Category resource collection
+ * Customer order item xml renderer for grouped product type
  *
  * @category    Mage
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Mysql4_Category_Collection extends Mage_XmlConnect_Model_Resource_Category_Collection
+class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Grouped
+    extends Mage_Sales_Block_Order_Item_Renderer_Grouped
 {
+    const DEFAULT_PRODUCT_TYPE = 'default';
+
+    /**
+     * Prepare item html
+     *
+     * This method uses renderer for real product type
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        return '';
+    }
+
+    /**
+     * Add item to XML object
+     *
+     * @param Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj
+     * @return void
+     */
+    public function addItemToXmlObject(Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj)
+    {
+        if (!($item = $this->getItem()->getOrderItem())) {
+            $item = $this->getItem();
+        }
+        if (!($productType = $item->getRealProductType())) {
+            $productType = self::DEFAULT_PRODUCT_TYPE;
+        }
+        $renderer = $this->getRenderedBlock()->getItemRenderer($productType);
+        $renderer->setItem($this->getItem());
+
+        $renderer->addItemToXmlObject($orderItemXmlObj);
+    }
 }

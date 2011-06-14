@@ -173,7 +173,9 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
                 $subProduct = $product->getTypeInstance(true)
                     ->getProductByAttributes($request->getSuperAttribute(), $product);
 
-                if ($requestedQty < ($requiredQty = $subProduct->getStockItem()->getMinSaleQty())) {
+                if (!empty($subProduct)
+                    && $requestedQty < ($requiredQty = $subProduct->getStockItem()->getMinSaleQty())
+                ) {
                     $requestedQty = $requiredQty;
                 }
 

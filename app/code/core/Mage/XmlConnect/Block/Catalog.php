@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Catalog extends Mage_Core_Block_Template
      */
     public function getProductSortFeildsXmlObject()
     {
-        $ordersXmlObject    = new Mage_XmlConnect_Model_Simplexml_Element('<orders></orders>');
+        $ordersXmlObject    = Mage::getModel('xmlconnect/simplexml_element', '<orders></orders>');
         /* @var $category Mage_Catalog_Model_Category */
         $category           = Mage::getModel('catalog/category');
         $sortOptions        = $category->getAvailableSortByOptions();

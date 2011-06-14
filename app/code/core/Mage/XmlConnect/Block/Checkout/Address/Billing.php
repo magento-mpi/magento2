@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Billing extends Mage_Checkout_Block
      */
     protected function _toHtml()
     {
-        $billingXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<billing></billing>');
+        $billingXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<billing></billing>');
 
         $addressId = $this->getAddress()->getId();
         $address = $this->getCustomer()->getPrimaryBillingAddress();

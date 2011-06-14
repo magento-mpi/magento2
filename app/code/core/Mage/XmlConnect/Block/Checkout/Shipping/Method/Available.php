@@ -31,7 +31,8 @@
  * @package    Mage_XmlConnect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Checkout_Shipping_Method_Avaliable extends Mage_Checkout_Block_Onepage_Shipping_Method_Available
+class Mage_XmlConnect_Block_Checkout_Shipping_Method_Available
+    extends Mage_Checkout_Block_Onepage_Shipping_Method_Available
 {
     /**
      * Render shipping methods xml
@@ -40,33 +41,51 @@ class Mage_XmlConnect_Block_Checkout_Shipping_Method_Avaliable extends Mage_Chec
      */
     protected function _toHtml()
     {
-        $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<shipping_methods></shipping_methods>');
+        /** @var $methodsXmlObj Mage_XmlConnect_Model_Simplexml_Element */
+        $methodsXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<shipping_methods></shipping_methods>');
         $_shippingRateGroups = $this->getShippingRates();
         if ($_shippingRateGroups) {
             $store = $this->getQuote()->getStore();
             $_sole = count($_shippingRateGroups) == 1;
             foreach ($_shippingRateGroups as $code => $_rates) {
                 $methodXmlObj = $methodsXmlObj->addChild('method');
-                $methodXmlObj->addAttribute('label', $methodsXmlObj->xmlentities(strip_tags($this->getCarrierName($code))));
+                $methodXmlObj->addAttribute(
+                    'label',
+                    $methodsXmlObj->xmlentities($this->getCarrierName($code))
+                );
                 $ratesXmlObj = $methodXmlObj->addChild('rates');
 
                 $_sole = $_sole && count($_rates) == 1;
                 foreach ($_rates as $_rate) {
                     $rateXmlObj = $ratesXmlObj->addChild('rate');
-                    $rateXmlObj->addAttribute('label', $methodsXmlObj->xmlentities(strip_tags($_rate->getMethodTitle())));
+                    $rateXmlObj->addAttribute(
+                        'label',
+                        $methodsXmlObj->xmlentities($_rate->getMethodTitle())
+                    );
                     $rateXmlObj->addAttribute('code', $_rate->getCode());
                     if ($_rate->getErrorMessage()) {
-                        $rateXmlObj->addChild('error_message', $methodsXmlObj->xmlentities(strip_tags($_rate->getErrorMessage())));
+                        $rateXmlObj->addChild(
+                            'error_message',
+                            $methodsXmlObj->xmlentities($_rate->getErrorMessage()));
                     } else {
-                        $price = Mage::helper('tax')->getShippingPrice($_rate->getPrice(), Mage::helper('tax')->displayShippingPriceIncludingTax(), $this->getAddress());
+                        $price = Mage::helper('tax')->getShippingPrice(
+                            $_rate->getPrice(),
+                            Mage::helper('tax')->displayShippingPriceIncludingTax(),
+                            $this->getAddress()
+                        );
                         $formattedPrice = $store->convertPrice($price, true, false);
-                        $rateXmlObj->addAttribute('price', Mage::helper('xmlconnect')->formatPriceForXml($store->convertPrice($price, false, false)));
+                        $rateXmlObj->addAttribute(
+                            'price',
+                            Mage::helper('xmlconnect')->formatPriceForXml(
+                                $store->convertPrice($price, false, false)
+                            )
+                        );
                         $rateXmlObj->addAttribute('formated_price', $formattedPrice);
                     }
                 }
             }
         } else {
-            Mage::throwException($this->__('Sorry, no quotes are available for this order at this time.'));
+            Mage::throwException($this->__('Shipping to this address is not possible.'));
         }
         return $methodsXmlObj->asNiceXml();
     }
