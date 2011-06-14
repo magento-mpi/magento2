@@ -24,21 +24,19 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<div id="rma_reason_container" style="display:none">
-    <div class="rma-popup">
-        <div class="entry-edit">
-            <div class="entry-edit-head">
-                <h4 class="icon-head head-edit-form fieldset-legend">
-                    <?php echo Mage::helper('enterprise_rma')->__('Reason to Return') ?>
-                </h4>
-            </div>
-            <div id="rma_reason_content" class="content"></div>
-            <div class="buttons-set">
-                <div class="f-right">
-                    <button style="" onclick="" class="scalable ok_button" type="button" id="">
-                        <span><?php echo Mage::helper('enterprise_rma')->__('OK') ?></span>
-                    </button>
-                </div>
+<div id="rma_reason_container" class="rma-popup" style="display:none">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend">
+                <?php echo Mage::helper('enterprise_rma')->__('Reason to Return') ?>
+            </h4>
+        </div>
+        <div id="rma_reason_content" class="content"></div>
+        <div class="buttons-set">
+            <div class="f-right">
+                <button style="" onclick="" class="scalable ok_button" type="button" id="">
+                    <span><?php echo Mage::helper('enterprise_rma')->__('OK') ?></span>
+                </button>
             </div>
         </div>
     </div>
