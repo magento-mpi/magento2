@@ -98,7 +98,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      *
      * @var array
      */
-    protected $_customizableContainerTypes = array('VARIABLE', 'NONRECTANGULAR');
+    protected $_customizableContainerTypes = array('VARIABLE', 'RECTANGULAR', 'NONRECTANGULAR');
 
     /**
      * Check is Zip Code Required
