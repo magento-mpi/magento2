@@ -232,6 +232,15 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             ));
         }
 
+        if ($request->getOrigCountryId()) {
+            $r->setOrigCountryId($request->getOrigCountryId());
+        } else {
+            $r->setOrigCountryId(Mage::getStoreConfig(
+                Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+                $request->getStoreId()
+            ));
+        }
+
         if ($request->getDestCountryId()) {
             $destCountry = $request->getDestCountryId();
         } else {
@@ -309,10 +318,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     {
         $r = $this->_rawRequest;
 
-        $storeCountry = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID);
-
         // The origin address(shipper) must be only in USA
-        if(!$this->_isUSCountry($storeCountry)){
+        if(!$this->_isUSCountry($r->getOrigCountryId())){
             $responseBody = '';
             return $this->_parseXmlResponse($responseBody);
         }
