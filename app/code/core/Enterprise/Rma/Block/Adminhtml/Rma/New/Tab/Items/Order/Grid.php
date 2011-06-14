@@ -72,11 +72,24 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         return parent::_prepareCollection();
     }
 
+    /**
+     * After load collection processing.
+     *
+     * Filter items collection due to RMA needs. Remove forbidden items, non-applicable
+     * bundles (and their children) and configurables
+     *
+     * @return Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
+     */
     protected function _afterLoadCollection()
     {
         $orderId = Mage::registry('current_order')->getId();
         $orderItemsCollection   = Mage::getResourceModel('enterprise_rma/item')->getOrderItemsCollection($orderId);
 
+        /**
+         * contains data that defines possibility of return for an order item
+         * array value ['self'] refers to item's own rules
+         * array value ['child'] refers to rules defined from item's sub-items
+         */
         $parent = array();
 
         /** @var $product Mage_Catalog_Model_Product */
