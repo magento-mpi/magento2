@@ -31,6 +31,8 @@
  */
 class Mage_Sales_Helper_Reorder extends Mage_Core_Helper_Data
 {
+    const XML_PATH_SALES_REORDER_ALLOW = 'sales/reorder/allow';
+
     public function isAllow()
     {
         return $this->isAllowed();
@@ -44,7 +46,7 @@ class Mage_Sales_Helper_Reorder extends Mage_Core_Helper_Data
      */
     public function isAllowed($store = null)
     {
-        if (Mage::getStoreConfig('sales/reorder/allow', $store)) {
+        if (Mage::getStoreConfig(self::XML_PATH_SALES_REORDER_ALLOW, $store)) {
             return true;
         }
         return false;
