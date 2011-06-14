@@ -62,8 +62,12 @@ class Mage_ImportExport_Model_Resource_Helper_Oracle extends Mage_Core_Model_Res
         try {
             $row = $adapter->fetchRow("SELECT {$seqName}.CURRVAL AS current_id FROM dual");
         } catch (Exception $e) {
-            // Sequence is not inited - we need to call NEXTVAL first
-            $row = $adapter->fetchRow("SELECT {$seqName}.NEXTVAL AS current_id FROM dual");
+            // Maybe sequence is not inited - and we need to call NEXTVAL first
+            if (strpos($e->getMessage(), 'ORA-08002') !== false) {
+                $row = $adapter->fetchRow("SELECT {$seqName}.NEXTVAL AS current_id FROM dual");
+            } else {
+                throw $e;
+            }
         }
         return $row['current_id'] + 1;
     }
