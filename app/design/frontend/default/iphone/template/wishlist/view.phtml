@@ -39,17 +39,18 @@
                             $isVisibleProduct = $product->isVisibleInSiteVisibility();
                         ?>
                         <li>
-                            <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->htmlEscape($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></a>
+                            <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->htmlEscape($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(45, 45); ?>" width="45" height="45" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></a>
                              <div class="wishlist-item">
                                 <h2><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->htmlEscape($product->getName()) ?></a>
                                     <?php if ($isVisibleProduct): ?>
                                         <a class="btn-edit" href="<?php echo $this->getItemConfigureUrl($item) ?>"><?php echo $this->__('E') ?></a>
                                     <?php endif ?>
-                                    <a href="<?php echo $this->getItemRemoveUrl($item) ?>" title="<?php echo $this->__('Remove') ?>" onclick="return confirmRemoveWishlistItem();" class="btn-remove"><?php echo $this->__('X')?></a>
+                                    <a href="<?php echo $this->getItemRemoveUrl($item) ?>" title="<?php echo $this->__('Remove') ?>" onclick="return confirmRemoveWishlistItem();" class="btn-remove"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="10" height="10" alt="<?php echo $this->__('Remove item')?>" /></a>
                                 </h2>
                                 <?php echo $this->getPriceHtml($product) ?>
                                 <?php echo $this->getDetailsHtml($item) ?>
                                 <?php if ($item->canHaveQty() && $isVisibleProduct): ?>
+                                    <b><?php echo $this->__('Qty') ?>:</b>
                                     <input type="text" class="input-text qty" name="qty[<?php echo $item->getId() ?>]" value="<?php echo $this->getAddToCartQty($item) * 1 ?>" />
                                 <?php endif; ?>
                                 <?php if ($product->isSaleable()): ?>
@@ -64,10 +65,10 @@
                     <?php endforeach ?>
             </ul>
             <ul class="buttons-set">
+                <li><span class="update-wishlist" title="<?php echo $this->__('Update Wishlist') ?>" onclick="this.name='do'"><?php echo $this->__('Update Wishlist') ?></span></li>
                 <?php if($this->isSaleable()):?>
-                    <li><span title="<?php echo $this->__('Add All to Cart') ?>" onclick="addAllWItemsToCart()"><?php echo $this->__('Add All to Cart') ?></span></li>
+                    <li><span class="add-all-to-cart" title="<?php echo $this->__('Add All to Cart') ?>" onclick="addAllWItemsToCart()"><?php echo $this->__('Add All to Cart') ?></span></li>
                 <?php endif;?>
-                <li><span title="<?php echo $this->__('Update Wishlist') ?>" onclick="this.name='do'"><?php echo $this->__('Update Wishlist') ?></span></li>
             </ul>
         </form>
     <?php else: ?>

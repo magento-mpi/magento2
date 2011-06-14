@@ -40,41 +40,46 @@
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php echo $this->getChildHtml('form_before') ?>
-    <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
-        <fieldset>
-            <table id="shopping-cart-table" class="data-table cart-table" cellspacing="0">
-            <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
-                <thead>
-                    <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                    <tr>
-                        <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
-                        <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
-                        <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
-                        <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
-                    </tr>
-                    <?php endif; ?>
-                </thead>
-                <tbody>
-                <?php foreach($this->getItems() as $_item): ?>
-                    <?php echo $this->getItemHtml($_item) ?>
-                <?php endforeach ?>
-                </tbody>
-            </table>
-        </fieldset>
-        <?php echo $this->getChildHtml('coupon') ?>
-        <div class="cart-footer">
-            <div class="totals">
-                <?php echo $this->getChildHtml('totals'); ?>
-            </div>
-            <?php if(!$this->hasError()): ?>
-                <ul class="checkout-types">
-                <?php foreach ($this->getMethods('methods') as $method): ?>
-                    <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
-                    <li><?php echo $methodHtml; ?></li>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
-            <button type="submit" title="<?php echo $this->__('Update Cart') ?>" class="update-cart"><?php echo $this->__('Update Cart') ?></button>
-        </div>
+    <form id="shopping-cart-form" action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
+        <table id="shopping-cart-table" class="data-table cart-table" cellspacing="0">
+        <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+            <thead>
+                <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                <tr>
+                    <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                    <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                    <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                    <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                </tr>
+                <?php endif; ?>
+            </thead>
+            <tbody>
+            <?php foreach($this->getItems() as $_item): ?>
+                <?php echo $this->getItemHtml($_item) ?>
+            <?php endforeach ?>
+            </tbody>
+        </table>
     </form>
+    <?php echo $this->getChildHtml('coupon') ?>
+    <div class="cart-footer">
+        <div class="totals">
+            <?php echo $this->getChildHtml('totals'); ?>
+        </div>
+        <?php if(!$this->hasError()): ?>
+            <ul class="checkout-types">
+            <?php foreach ($this->getMethods('methods') as $method): ?>
+                <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
+                <li><?php echo $methodHtml; ?></li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+        <button type="submit" title="<?php echo $this->__('Update Cart') ?>" id="update-cart"><?php echo $this->__('Update Cart') ?></button>
+    </div>
+    <script type="text/javascript">
+    document.observe("dom:loaded", function() {
+        $("update-cart").observe("click", function() {
+            $("shopping-cart-form").submit();
+        });
+    });
+    </script>
