@@ -426,4 +426,47 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
     }
+
+    /**
+     * Filter post data
+     *
+     * @param array $data
+     * @throws Mage_Core_Exception
+     * @return array
+     */
+    public function filterPostData($data)
+    {
+        if ($data) {
+            //labels
+            foreach ($data['frontend_label'] as & $value) {
+                if ($value) {
+                    $value = $this->stripTags($value);
+                }
+            }
+            //options
+            if (!empty($data['option']['value'])) {
+                foreach ($data['option']['value'] as &$options) {
+                    foreach ($options as &$label) {
+                        $label = $this->stripTags($label);
+                    }
+                }
+            }
+            //default value
+            if (!empty($data['default_value_text'])) {
+                $data['default_value_text'] = $this->stripTags($data['default_value_text']);
+            }
+            if (!empty($data['default_value_textarea'])) {
+                $data['default_value_textarea'] = $this->stripTags($data['default_value_textarea']);
+            }
+
+            //validate attribute_code
+            if (isset($data['attribute_code'])) {
+                $validatorAttrCode = new Zend_Validate_Regex(array('pattern' => '/^[a-z_0-9]{1,255}$/'));
+                if (!$validatorAttrCode->isValid($data['attribute_code'])) {
+                    Mage::throwException(Mage::helper('enterprise_eav')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.'));
+                }
+            }
+        }
+        return $data;
+    }
 }
