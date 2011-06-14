@@ -56,7 +56,7 @@ class Mage_Shipping_Model_Shipping
      *
      * @var string
      */
-    protected $_partCode = 'active';
+    protected $_availabilityConfigField = 'active';
 
     /**
      * Get shipping rate result model
@@ -219,9 +219,9 @@ class Mage_Shipping_Model_Shipping
      * @param string $code
      * @return Mage_Shipping_Model_Shipping
      */
-    public function setCarrierCheckPath($code = 'active')
+    public function setCarrierAvailabilityConfigField($code = 'active')
     {
-        $this->_partCode = $code;
+        $this->_availabilityConfigField = $code;
         return $this;
     }
 
@@ -234,7 +234,7 @@ class Mage_Shipping_Model_Shipping
      */
     public function getCarrierByCode($carrierCode, $storeId = null)
     {
-        if (!Mage::getStoreConfigFlag('carriers/'.$carrierCode.'/'.$this->_partCode, $storeId)) {
+        if (!Mage::getStoreConfigFlag('carriers/'.$carrierCode.'/'.$this->_availabilityConfigField, $storeId)) {
             return false;
         }
         $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model', $storeId);

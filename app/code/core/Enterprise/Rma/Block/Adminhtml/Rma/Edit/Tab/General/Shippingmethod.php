@@ -96,6 +96,12 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
             ->getShippingLabelByRma($this->getRma());
     }
 
+    /**
+     * Return price according to store
+     *
+     * @param  string $price
+     * @return double
+     */
     public function getShippingPrice($price)
     {
         return Mage::app()

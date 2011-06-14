@@ -826,7 +826,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
 
         /** @var $result Mage_Shipping_Model_Shipping */
         $result = Mage::getModel('shipping/shipping')
-            ->setCarrierCheckPath('active_rma')
+            ->setCarrierAvailabilityConfigField('active_rma')
             ->collectRates($request)
             ->getResult();
 
