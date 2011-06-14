@@ -65,13 +65,80 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
 
         /** @var $collection Enterprise_Rma_Model_Resource_Item */
 
-        $orderItemsCollection = Mage::helper('enterprise_rma')
-                ->getOrderItems($orderId, true)
-                ->clear();
+        $orderItemsCollection = Mage::getResourceModel('enterprise_rma/item')->getOrderItemsCollection($orderId);
 
         $this->setCollection($orderItemsCollection);
 
         return parent::_prepareCollection();
+    }
+
+    protected function _afterLoadCollection()
+    {
+        $orderId = Mage::registry('current_order')->getId();
+        $orderItemsCollection   = Mage::getResourceModel('enterprise_rma/item')->getOrderItemsCollection($orderId);
+
+        $parent = array();
+
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('catalog/product');
+
+        foreach ($this->getCollection() as $item) {
+            $allowed = true;
+            if (in_array($item->getId(), $orderItemsCollection)) {
+                $allowed = false;
+            }
+
+            if ($allowed === true) {
+                $product->reset();
+                $product->setStoreId($item->getStoreId());
+                $product->load($item->getProductId());
+
+                if (!Mage::helper('enterprise_rma')->canReturnProduct($product, $item->getStoreId())) {
+                    $allowed = false;
+                }
+            }
+
+            if ($item->getParentItemId()) {
+                if (!isset($parent[$item->getParentItemId()]['child'])) {
+                    $parent[$item->getParentItemId()]['child'] = false;
+                }
+                $parent[$item->getParentItemId()]['child']  = $parent[$item->getParentItemId()]['child'] || $allowed;
+                $parent[$item->getItemId()]['self']         = false;
+            } else {
+                $parent[$item->getItemId()]['self']         = $allowed;
+            }
+        }
+
+        foreach ($this->getCollection() as $item) {
+            if (isset($parent[$item->getId()]['self']) && $parent[$item->getId()]['self'] === false) {
+                $this->getCollection()->removeItemByKey($item->getId());
+                continue;
+            }
+            if (isset($parent[$item->getId()]['child']) && $parent[$item->getId()]['child'] === false) {
+                $this->getCollection()->removeItemByKey($item->getId());
+                continue;
+            }
+            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+                && !isset($parent[$item->getId()]['child'])
+            ) {
+                $this->getCollection()->removeItemByKey($item->getId());
+                continue;
+            }
+
+            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+                $productOptions     = $item->getProductOptions();
+                $product->reset();
+                $product->load($product->getIdBySku($productOptions['simple_sku']));
+                if (!Mage::helper('enterprise_rma')->canReturnProduct($product, $item->getStoreId())) {
+                    $this->getCollection()->removeItemByKey($item->getId());
+                    continue;
+                }
+            }
+
+            $item->setName(Mage::helper('enterprise_rma')->getAdminProductName($item));
+        }
+
+        return $this;
     }
 
     /**
