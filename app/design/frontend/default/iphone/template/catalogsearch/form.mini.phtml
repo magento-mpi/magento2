@@ -24,8 +24,6 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="search-box" role="search">
-    <form action="<?php echo $this->helper('catalogsearch')->getResultUrl() ?>" method="get">
-        <span><input type="search" name="<?php echo $this->helper('catalogsearch')->getQueryParamName() ?>" id="search" placeholder="Search" /></span>
-    </form>
-</div>
+<form action="<?php echo $this->helper('catalogsearch')->getResultUrl() ?>" method="get">
+    <input type="search" name="<?php echo $this->helper('catalogsearch')->getQueryParamName() ?>" id="search" placeholder="Search" />
+</form>

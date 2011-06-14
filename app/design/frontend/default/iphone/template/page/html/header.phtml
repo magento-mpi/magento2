@@ -28,11 +28,25 @@
  */
 ?>
 <header>
-    <h1><a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
+    <div class="store-logo">
+        <a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+    </div>
+    <div class="menu-wrapper">
+        <dl id="menu">
+            <dt class="search dropdown"><a href="#">Search</a></dt>
+            <dd class="search-box" style="display:none;">
+               <?php echo $this->getChildHtml('topSearch') ?>
+            </dd>
+            <dt class="cart"><a href="#">Cart</a></dt>
+            <dt class="menu dropdown"><a href="#">Menu</a></dt>
+            <dd class="menu-box" style="display:none;">
+                <ul>
+                    <?php echo $this->getChildHtml('topLinks') ?>
+                    <?php echo $this->getChildHtml('store_switcher') ?>
+                    <?php echo $this->getChildHtml('store_language') ?>
+                </ul>
+            </dd>
+        </dl>
+    </div>
     <?php echo $this->getChildHtml('accountLinks') ?>
 </header>
-<nav>
-    <?php echo $this->getChildHtml('topLinks') ?>
-</nav>
-
-<?php echo $this->getChildHtml('topSearch') ?>

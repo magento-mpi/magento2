@@ -25,6 +25,11 @@
 
  // Homepage categories and subcategories slider
 document.observe("dom:loaded", function() {
+	
+	Event.observe(window, 'orientationchange', function() {
+	    $$("#nav-container ul").each(function(ul) { ul.style.width = document.body.offsetWidth + "px"; });
+	});
+	
     var sliderPosition = 0;
     
     $$("#nav-container ul").each(function(ul) { ul.style.width = document.body.offsetWidth + "px"; });
@@ -60,4 +65,44 @@ document.observe("dom:loaded", function() {
             });
         };
     });
+
+	//iPhone header menu
+	
+	$('menu').on('click', 'dt.dropdown a', function(e, elem) {
+		var parent = elem.up();
+		if (parent.hasClassName('active')) {
+			parent.removeClassName('active');
+			$$('#menu dd').each(function(elem) {
+				elem.hide();
+			})
+		}
+		else {
+			$$('#menu dt').each(function (elem){
+				elem.removeClassName('active');
+				elem.next('dd').hide();
+			});
+			parent.addClassName('active');
+			parent.next().show();
+		};
+		e.preventDefault();
+	});
+	
+	//iPhone header menu switchers
+	
+	var curLang = $$('#language-switcher li.selected a')[0].innerHTML,
+		curStore = $$('#store-switcher li.selected a')[0].innerHTML;
+	
+	$('current-language').update(curLang);
+	$('current-store').update(curStore);
+	
+	$$('#language-switcher > a')[0].observe('click', function (e){
+		this.next().toggle();
+		e.preventDefault();
+	});
+	
+	$$('#store-switcher > a')[0].observe('click', function (e){
+		this.next().toggle();
+		e.preventDefault();
+	});
+
 });
