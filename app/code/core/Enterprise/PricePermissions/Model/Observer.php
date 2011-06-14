@@ -294,6 +294,12 @@ class Enterprise_PricePermissions_Model_Observer
             $product->lockAttribute('open_amount_min');
             $product->lockAttribute('allow_open_amount');
             $product->lockAttribute('giftcard_amounts');
+            // For MAP fields
+            $product->lockAttribute('msrp_enabled');
+            $product->lockAttribute('use_config_msrp_enabled');
+            $product->lockAttribute('msrp_display_actual_price_type');
+            $product->lockAttribute('use_config_msrp_display_actual_price_type');
+            $product->lockAttribute('msrp');
         }
         if (!$this->_canEditProductStatus) {
             $product->lockAttribute('status');
@@ -579,6 +585,8 @@ class Enterprise_PricePermissions_Model_Observer
             $excludedFieldList = array(
                 'price', 'special_price', 'tier_price', 'special_from_date', 'special_to_date', 'is_recurring',
                 'cost', 'price_type', 'open_amount_max', 'open_amount_min', 'allow_open_amount', 'giftcard_amounts',
+                'msrp_enabled', 'use_config_msrp_enabled', 'msrp_display_actual_price_type',
+                'use_config_msrp_display_actual_price_type', 'msrp'
             );
         }
         if (!$this->_canEditProductStatus) {
@@ -604,6 +612,8 @@ class Enterprise_PricePermissions_Model_Observer
             $excludedAttributes = array(
                 'price', 'special_price', 'tier_price', 'special_from_date', 'special_to_date', 'is_recurring',
                 'cost', 'price_type', 'open_amount_max', 'open_amount_min', 'allow_open_amount', 'giftcard_amounts',
+                'msrp_enabled', 'use_config_msrp_enabled', 'msrp_display_actual_price_type',
+                'use_config_msrp_display_actual_price_type', 'msrp'
             );
         }
         if (!$this->_canEditProductStatus) {
@@ -646,7 +656,13 @@ class Enterprise_PricePermissions_Model_Observer
                 'open_amount_max',
                 'open_amount_min',
                 'allow_open_amount',
-                'giftcard_amounts'
+                'giftcard_amounts',
+                // MAP attributes
+                'msrp_enabled',
+                'use_config_msrp_enabled',
+                'msrp_display_actual_price_type',
+                'use_config_msrp_display_actual_price_type',
+                'msrp'
             );
 
             // Leave price element for bundle product active in order to change/view price type when product is created
