@@ -183,7 +183,9 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Mage_Adminhtml_Block_Te
             <script type="text/javascript">
                 ' . $chooserId . ' = new WysiwygWidget.chooser("' . $chooserId . '", "' . $this->getSourceUrl() . '", '
             . $configJson . ');
-                $("'.$chooserId.'value").advaiceContainer = "'.$chooserId.'advice-container";
+                if ($("'.$chooserId.'value")) {
+                    $("'.$chooserId.'value").advaiceContainer = "'.$chooserId.'advice-container";
+                }
             </script>
         ';
     }
