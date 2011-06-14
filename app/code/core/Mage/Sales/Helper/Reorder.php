@@ -33,7 +33,18 @@ class Mage_Sales_Helper_Reorder extends Mage_Core_Helper_Data
 {
     public function isAllow()
     {
-        if (Mage::getStoreConfig('sales/reorder/allow')) {
+        return $this->isAllowed();
+    }
+
+    /**
+     * Check if reorder is allowed for given store
+     *
+     * @param Mage_Core_Model_Store|int|null $store
+     * @return bool
+     */
+    public function isAllowed($store = null)
+    {
+        if (Mage::getStoreConfig('sales/reorder/allow', $store)) {
             return true;
         }
         return false;
@@ -41,7 +52,7 @@ class Mage_Sales_Helper_Reorder extends Mage_Core_Helper_Data
 
     public function canReorder(Mage_Sales_Model_Order $order)
     {
-        if (!$this->isAllow()) {
+        if (!$this->isAllowed($order->getStore())) {
             return false;
         }
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
