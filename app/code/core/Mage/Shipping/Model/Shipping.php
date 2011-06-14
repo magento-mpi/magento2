@@ -157,6 +157,7 @@ class Mage_Shipping_Model_Shipping
         if (!$carrier) {
             return $this;
         }
+        $carrier->setActiveFlag($this->_availabilityConfigField);
         $result = $carrier->checkAvailableShipCountries($request);
         if (false !== $result && !($result instanceof Mage_Shipping_Model_Rate_Result_Error)) {
             $result = $carrier->proccessAdditionalValidation($request);

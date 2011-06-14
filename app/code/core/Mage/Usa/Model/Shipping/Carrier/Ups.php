@@ -127,7 +127,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
 
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        if (!$this->getConfigFlag('active')) {
+        if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
         }
 
