@@ -46,10 +46,6 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-
-    new Insertion.Bottom($$('body')[0], $('window-overlay'));
-    new Insertion.Bottom($$('body')[0], $('remember-me-popup'));
-
     function toggleRememberMepopup(event){
         if($('remember-me-popup')){
             var viewportHeight = document.viewport.getHeight(),
@@ -60,11 +56,17 @@
         }
         Event.stop(event);
     }
-    $$('.remember-me-popup-close').each(function(element){
-        Event.observe(element, 'click', toggleRememberMepopup);
-    })
-    $$('#remember-me-box a').each(function(element) {
-        Event.observe(element, 'click', toggleRememberMepopup);
+
+    document.observe("dom:loaded", function() {
+        new Insertion.Bottom($$('body')[0], $('window-overlay'));
+        new Insertion.Bottom($$('body')[0], $('remember-me-popup'));
+
+        $$('.remember-me-popup-close').each(function(element){
+            Event.observe(element, 'click', toggleRememberMepopup);
+        })
+        $$('#remember-me-box a').each(function(element) {
+            Event.observe(element, 'click', toggleRememberMepopup);
+        });
     });
 //]]>
 </script>
