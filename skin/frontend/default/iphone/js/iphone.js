@@ -66,8 +66,8 @@ document.observe("dom:loaded", function() {
         };
     });
 
+
     //iPhone header menu
-    
     $('menu').on('click', 'dt.dropdown a', function(e, elem) {
         var parent = elem.up();
         if (parent.hasClassName('active')) {
@@ -88,7 +88,6 @@ document.observe("dom:loaded", function() {
     });
     
     //iPhone header menu switchers
-    
     var curLang = $$('#language-switcher li.selected a')[0].innerHTML,
         curStore = $$('#store-switcher li.selected a')[0].innerHTML;
     

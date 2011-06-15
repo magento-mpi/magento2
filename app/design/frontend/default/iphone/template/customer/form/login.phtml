@@ -33,32 +33,32 @@
 ?>
 <div class="login-box">
     <div class="registred-users">
-        <hgroup>
-            <h1><?php echo $this->__('Registered Customers') ?></h1>
-            <h2><?php echo $this->__('If you have an account with us, please log in.') ?></h2>
-        </hgroup>
+        <h1><?php echo $this->__('Log in') ?></h1>
         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
         <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
+            <h2><?php echo $this->__('Registered Users') ?></h2>
             <ul class="form-list">
                 <li>
-                    <label for="email"></label>
+                    <label for="email"><?php echo $this->__('Enter your email') ?>:</label>
                     <input type="email" class="required-entry validate-email" name="login[username]" id="email" value="<?php echo $this->htmlEscape($this->getUsername()) ?>" placeholder="<?php echo $this->__('Email Address') ?>" />
                 </li>
                 <li>
-                    <label for="pass"></label>
+                    <label for="pass"><?php echo $this->__('Enter your password') ?>:</label>
                     <input type="password" class="required-entry validate-password" name="login[password]" id="pass" placeholder="<?php echo $this->__('Password') ?>" />
                 </li>
             </ul>
-            <input type="submit" value="<?php echo $this->__('Login') ?>" />
-            <a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot Your Password?') ?></a>
+            <a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot your password?') ?></a>
+            <div class="login-button">
+                <input type="submit" value="<?php echo $this->__('Log In') ?>" />
+            </div>
         </form>
     </div>
     <div class="new-users">
-        <header>
-            <h1><?php echo $this->__('New Customers') ?></h1>
-        </header>
-        <p><?php echo $this->__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>
-        <a href="<?php echo $this->getCreateAccountUrl() ?>"><input type="submit" value="<?php echo $this->__('Create an Account') ?>" /></a>
+        <form action="">
+            <h2><?php echo $this->__('New Customers') ?></h2>
+            <p><?php echo $this->__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>
+            <a href="<?php echo $this->getCreateAccountUrl() ?>"><input type="submit" value="<?php echo $this->__('Create an Account') ?>" /></a>
+        </form>
     </div>
 </div>
 <script type="text/javascript">

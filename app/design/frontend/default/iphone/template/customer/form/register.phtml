@@ -33,6 +33,7 @@
 ?>
 
 <div class="new-customer">
+    <h1><?php echo $this->__('New Customer') ?></h1>
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="form-validate">
         <fieldset>
             <input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>" />
@@ -40,13 +41,20 @@
             <?php echo $this->getChildHtml('form_fields_before')?>
             <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
             <div class="personal-information">
-                <header>
-                    <h1><?php echo $this->__('Personal Information') ?></h1>
-                </header>
+                <h2><?php echo $this->__('Personal Information') ?></h2>
                 <ul class="form-list">
-                    <li><input type="text" name="firstname" id="firstname" class="input-text required-entry" placeholder="First Name" /></li>
-                    <li><input type="text" name="lastname" id="lastname" class="input-text required-entry" placeholder="Last Name" /></li>
-                    <li><input type="email" name="email" id="email_adress" placeholder="Email Address" /></li>
+                    <li>
+                        <label for="firstname"><?php echo $this->__('First name') ?>:</label>
+                        <input type="text" name="firstname" id="firstname" class="input-text required-entry" placeholder="First Name" />
+                    </li>
+                    <li>
+                        <label for="lastname"><?php echo $this->__('Last name') ?>:</label>
+                        <input type="text" name="lastname" id="lastname" class="input-text required-entry" placeholder="Last Name" />
+                    </li>
+                    <li>
+                        <label for="email_adress"><?php echo $this->__('Email') ?>:</label>
+                        <input type="email" name="email" id="email_adress" placeholder="Email Address" />
+                    </li>
                     <?php if ($this->isNewsletterEnabled()): ?>
                         <li><label for="is_subscribed"><input type="checkbox" name="is_subscribed" id="is_subscribed"  title="<?php echo $this->__('Sign Up for Newsletter') ?>" <?php if($this->getFormData()->getIsSubscribed()): ?> checked="checked"<?php endif; ?> /> <?php echo $this->__('Sign Up for Newsletter') ?></label></li>
                     <?php endif ?>
@@ -142,14 +150,18 @@
                 </ul>
             </div>
             <div class="login-information">
-                <header>
-                    <h1><?php echo $this->__('Login Information') ?></h1>
-                </header>
+                <h2><?php echo $this->__('Login Information') ?></h2>
                 <ul class="form-list">
-                    <li><input type="password" name="password" id="password" class="required-entry validate-password" placeholder="<?php echo $this->__('Password') ?>" /></li>
-                    <li><input type="password" name="confirmation" id="confirmation" class="required-entry validate-cpassword" placeholder="<?php echo $this->__('Confirm Password') ?>" /></li>
+                    <li>
+                        <label for="password"><?php echo $this->__('Password') ?>:</label>
+                        <input type="password" name="password" id="password" class="required-entry validate-password" placeholder="<?php echo $this->__('Password') ?>" />
+                    </li>
+                    <li>
+                        <label for="confirmation"><?php echo $this->__('Confirm password') ?>:</label>
+                        <input type="password" name="confirmation" id="confirmation" class="required-entry validate-cpassword" placeholder="<?php echo $this->__('Confirm Password') ?>" />
+                    </li>
                 </ul>
-                <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>">&laquo; <?php echo $this->__('Back') ?></a>
+                <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><?php echo $this->__('Back') ?></a>
                 <input type="submit" value="<?php echo $this->__('Create') ?>" />
             </div>
         </fieldset>

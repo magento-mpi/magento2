@@ -440,41 +440,26 @@ input[type="text"] {
 /* Account
 -----------------------------*/
 .login-box { margin:-10px; padding:10px; }
-.login-box h2 { font-size:14px; line-height:16px; margin-bottom:7px; }
+.login-box form h2 { font-size:16px; line-height:16px; font-weight:bold; margin:0 0 7px 5px; color:#333; }
+.login-box form { display:block; border:1px solid #D1D1D1; margin:-6px -7px -7px; padding:9px; border-radius:2px 2px 5px 5px; background:-webkit-gradient(linear, 0 0, 0 100%,color-stop(0, #FCFDFD), color-stop(0.8, #EEEEEE), color-stop(1, #E8E9E9)); }
+.login-box form:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
+.login-box form label { display:block; padding:0 0 3px 5px; font-weight:bold; color:#5E5E5E; }
+.login-box form > a { font-weight:bold; color:#F4641E; }
+.login-box form .login-button { margin:7px 0 0; }
+.login-box form .login-button input { padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
 .login-box .required { font-size:14px; line-height:16px; margin:8px 0; }
-
-.login-box .registred-users { margin:0 0 24px; }
-.login-box .registred-users input[type="submit"] {
-    margin-right:10px;
-    float:left;
-    padding:5px 10px;
-    border:1px solid #CECECE;
-    border-radius:5px;
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#FEFEFE), to(#EEE));
-    font-size:16px;
-    text-transform: small-caps;
-}
+.login-box .registred-users { margin:0 0 10px; }
 .login-box .registred-users input[type="submit"] + a { text-decoration:underline; vertical-align:middle; }
 .login-box .registred-users h1 { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; text-shadow:0 1px 0 #fff; margin:0 -10px 10px; padding:10px; -webkit-box-shadow:0 3px 3px #eee; }
-
-.login-box .new-users { border-top:1px solid #e5e5e5; margin:10px -10px 0; padding:10px 10px 7px; }
-.login-box .new-users p { font-size:14px; line-height:18px; margin:7px 0; }
-.login-box .new-users input[type="submit"] {
-    width:100%;
-    padding:8px 10px;
-    border:1px solid #CECECE;
-    border-radius:5px;
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#FEFEFE), to(#EEE));
-    font-size:16px;
-    text-transform: small-caps;
-}
-
+.login-box .new-users { margin:0 -10px -5px; padding:10px 10px 7px; }
+.login-box .new-users p { padding:0 0 7px 5px; }
+.login-box .new-users input[type="submit"] { width:100%; padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
 .customer-account-logoutsuccess .page-title { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; margin:0 -10px 10px; padding:10px; }
 
 
 /* Forgot password
 -----------------------------*/
-.forgot-password { margin:-10px; padding:10px; }
+.forgot-password { margin:-10px; padding:10px; color:#333; }
 .forgot-password h1 {
     background: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(#CCC));
     border: solid #999;
@@ -485,84 +470,39 @@ input[type="text"] {
     -webkit-box-shadow: 0 3px 3px #eee;
     border-width: 1px 0;
 }
+.forgot-password a { float:left; font-size:12px; }
+.forgot-password h2 { font-size:16px; font-weight:bold; padding:0 0 0 5px; margin:0 0 7px; }
+.forgot-password label { padding:0 0 0 5px; font-weight:bold; }
 .forgot-password input[type="email"] {
     background:#fefefe;
     border:1px solid;
     border-color:#8e8e8e #e1e1e1 #e1e1e1 #8e8e8e;
     border-radius:2px;
     font-size:18px;
-    margin:7px 0 8px;
+    margin:3x 0 8px;
     padding:5px;
     width:100%;
     -webkit-appearance:none;
     -webkit-box-sizing:border-box;
     -webkit-box-shadow:inset 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
-.forgot-password form:after {
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
-}
-.forgot-password form > a {
-    float:left;
-    padding:5px 10px;
-    border:1px solid #CECECE;
-    border-radius:2px;
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#FEFEFE), to(#EEE));
-    font-size:16px;
-    text-transform: small-caps;
-    text-shadow: 0 0 1px white;
-    vertical-align: middle;
-    -webkit-appearance: none;
-    -webkit-box-shadow: 0 1px 1px #8A8A8A;
-    -webkit-background-clip: padding-box;
-}
-.forgot-password input[type="submit"] {
-    float:right;
-    padding:5px 10px;
-    border:1px solid #CECECE;
-    border-radius:2px;
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#FEFEFE), to(#EEE));
-    font-size:16px;
-    text-transform: small-caps;
-}
+.forgot-password form { display:block; border:1px solid #D1D1D1; margin:3px -7px -7px; padding:9px 9px 30px; border-radius:2px 2px 5px 5px; background:-webkit-gradient(linear, 0 0, 0 100%,color-stop(0, #FCFDFD), color-stop(0.8, #EEEEEE), color-stop(1, #E8E9E9)); }
+.forgot-password form:after { content: "."; display:block; clear:both; visibility:hidden; line-height:0; height:0; }
+.forgot-password input[type="submit"] { margin:5px 0 0; padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
 
 /* New Customer
 -----------------------------*/
-.new-customer { margin:-10px; padding:10px 10px 17px; }
-.new-customer h1 { margin:0 0 10px; }
+.new-customer { margin:-10px; padding:10px 10px 17px; color:#333 }
+.new-customer h1 { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; text-shadow:0 1px 0 #fff; margin:0 -10px 10px; padding:10px; -webkit-box-shadow:0 3px 3px #eee; }
+.new-customer h2 { font-size:16px; line-height:16px; font-weight:bold; margin:0 0 7px 5px; color:#333; }
+.new-customer form { display:block; border:1px solid #D1D1D1; margin:-6px -7px -7px; padding:9px; border-radius:2px 2px 5px 5px; background:-webkit-gradient(linear, 0 0, 0 100%,color-stop(0, #FCFDFD), color-stop(0.8, #EEEEEE), color-stop(1, #E8E9E9)); }
+.new-customer form:after { content: "."; display:block; clear:both; visibility:hidden; line-height:0; height:0; }
+.new-customer form label { padding:0 0 0 5px; font-weight:bold; }
 .new-customer .required { font-size:14px; line-height:16px; margin:8px 0; }
-
 .new-customer .personal-information { border-bottom:1px solid #eee; padding:0 0 5px; }
 .new-customer .login-information { padding-top:10px; }
-
-.new-customer .login-information input[type="submit"] {
-    float:right;
-    margin:0;
-    padding:5px 10px;
-    border:1px solid #CECECE;
-    border-radius:2px;
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#FEFEFE), to(#EEE));
-    font-size:16px;
-}
-.new-customer .login-information input[type="submit"] + a { vertical-align:middle; }
-.new-customer .login-information > a {
-    float:left;
-    padding:5px 10px;
-    border:1px solid #CECECE;
-    border-radius:2px;
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#FEFEFE), to(#EEE));
-    font-size:16px;
-    text-transform: small-caps;
-    text-shadow: 0 0 1px white;
-    vertical-align: middle;
-    -webkit-appearance: none;
-    -webkit-box-shadow: 0 1px 1px #8A8A8A;
-    -webkit-background-clip: padding-box;
-}
+.new-customer .login-information input[type="submit"] { float:right; margin:0; padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
+.new-customer .login-information > a { float:left; display:block; padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
 
 
 /* Breadcrumbs
