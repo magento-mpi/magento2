@@ -42,6 +42,8 @@
                                 <col width="100" />
                                 <col width="*" />
                                 <col width="60" />
+                                <col width="70" />
+                                <col width="150" />
                                 <col width="*" />
                             </colgroup>
                             <tbody>
@@ -56,6 +58,13 @@
                                             --
                                         <?php endif; ?>
                                     </td>
+                                    <?php if ($params->getDeliveryConfirmation() != null): ?>
+                                        <th><?php echo Mage::helper('sales')->__('Signature Confirmation') ?></th>
+                                        <td><?php echo $this->getDeliveryConfirmationTypeByCode($params->getDeliveryConfirmation()) ?></td>
+                                    <?php else: ?>
+                                        <th>&nbsp;</th>
+                                        <td>&nbsp;</td>
+                                    <?php endif; ?>
                                 </tr>
                                 <tr>
                                     <?php if ($this->displayCustomsValue()): ?>
@@ -73,6 +82,8 @@
                                             --
                                         <?php endif; ?>
                                     </td>
+                                    <th>&nbsp;</th>
+                                    <td>&nbsp;</td>
                                 </tr>
                                 <tr>
                                     <?php if ($this->displayCustomsValue()): ?>
@@ -90,6 +101,8 @@
                                             --
                                         <?php endif; ?>
                                     <td>
+                                    <th>&nbsp;</th>
+                                    <td>&nbsp;</td>
                                 </tr>
                                 <tr>
                                     <?php if ($params->getSize()): ?>
@@ -106,6 +119,8 @@
                                         <th>&nbsp;</th>
                                         <td>&nbsp;</td>
                                     <?php endif; ?>
+                                    <th>&nbsp;</th>
+                                    <td>&nbsp;</td>
                                 </tr>
                             </tbody>
                         </table>
