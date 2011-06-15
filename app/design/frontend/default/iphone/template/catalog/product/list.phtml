@@ -45,15 +45,17 @@
             <?php $i=0; foreach ($_productCollection as $_product): ?>
                 <li>
                     <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>">
-                        <div class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(65); ?>" width="65" height="65" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></div>
+                        <div class="product-image">
+                            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(65); ?>" width="65" height="65" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                        </div>
                         <div class="product-shop">
                             <header>
                                 <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                                <?php if(!$_product->isSaleable()): ?>
+                                    <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                <?php endif; ?>
                             </header>
-                            <?php echo $this->getPriceHtml($_product, true) ?>
-                            <?php if(!$_product->isSaleable()): ?>
-                                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
-                            <?php endif; ?>
                         </div>
                     </a>
                 </li>
