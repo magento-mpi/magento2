@@ -83,7 +83,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected function _afterLoadCollection()
     {
         $orderId = Mage::registry('current_order')->getId();
-        $orderItemsCollection   = Mage::getResourceModel('enterprise_rma/item')->getOrderItemsCollection($orderId);
+        $itemsInActiveRmaArray = Mage::getResourceModel('enterprise_rma/item')->getItemsIdsByOrder($orderId);
 
         /**
          * contains data that defines possibility of return for an order item
@@ -97,7 +97,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
 
         foreach ($this->getCollection() as $item) {
             $allowed = true;
-            if (in_array($item->getId(), $orderItemsCollection)) {
+            if (in_array($item->getId(), $itemsInActiveRmaArray)) {
                 $allowed = false;
             }
 
