@@ -50,8 +50,11 @@
                                     <td><?php echo $this->getContainerTypeByCode($params->getContainer()) ?></td>
                                     <th><?php echo Mage::helper('sales')->__('Length') ?></th>
                                     <td>
-                                        <?php echo $params->getLength() != null ? $params->getLength() : '-' ?>
-                                        <?php echo Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                        <?php if ($params->getLength() != null): ?>
+                                            <?php echo $params->getLength() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                        <?php else: ?>
+                                            --
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -64,8 +67,11 @@
                                     <?php endif; ?>
                                     <th><?php echo Mage::helper('sales')->__('Width') ?></th>
                                     <td>
-                                        <?php echo $params->getWidth() != null ? $params->getWidth() : '-' ?>
-                                        <?php echo Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                        <?php if ($params->getWidth() != null): ?>
+                                            <?php echo $params->getWidth() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                        <?php else: ?>
+                                            --
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -78,8 +84,11 @@
                                     <?php endif; ?>
                                     <th><?php echo Mage::helper('sales')->__('Height') ?></th>
                                     <td>
-                                        <?php echo $params->getHeight() != null ? $params->getHeight() : '-' ?>
-                                        <?php echo Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                        <?php if ($params->getHeight() != null): ?>
+                                            <?php echo $params->getHeight() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                        <?php else: ?>
+                                            --
+                                        <?php endif; ?>
                                     <td>
                                 </tr>
                                 <tr>
