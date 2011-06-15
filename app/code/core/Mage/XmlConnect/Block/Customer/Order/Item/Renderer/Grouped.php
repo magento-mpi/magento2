@@ -34,19 +34,10 @@
 class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Grouped
     extends Mage_Sales_Block_Order_Item_Renderer_Grouped
 {
-    const DEFAULT_PRODUCT_TYPE = 'default';
-
     /**
-     * Prepare item html
-     *
-     * This method uses renderer for real product type
-     *
-     * @return string
+     * Default product type
      */
-    protected function _toHtml()
-    {
-        return '';
-    }
+    const DEFAULT_PRODUCT_TYPE = 'default';
 
     /**
      * Add item to XML object

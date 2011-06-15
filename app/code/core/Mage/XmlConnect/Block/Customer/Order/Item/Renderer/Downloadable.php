@@ -34,11 +34,6 @@
 class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
     extends Mage_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable
 {
-    protected function _toHtml()
-    {
-        return '';
-    }
-
     /**
      * Add item to XML object
      *
@@ -65,7 +60,8 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
         /** @var $taxHelper Mage_Tax_Helper_Data */
         $taxHelper  = $this->helper('tax');
 
-        if ($options = $this->getItemOptions()) {
+        $options = $this->getItemOptions();
+        if ($options) {
             /** @var $optionsXml Mage_XmlConnect_Model_Simplexml_Element */
             $optionsXml = $itemXml->addChild('options');
             foreach ($options as $option) {
@@ -93,7 +89,8 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
             }
         }
 
-        if ($links = $this->getLinks()) {
+        $links = $this->getLinks();
+        if ($links) {
             $linksXml = $itemXml->addCustomChild(
                 'links',
                 null,
@@ -260,7 +257,8 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
         // Quantity: Ordered, Shipped, Cancelled, Refunded
         /** @var $quantityXml Mage_XmlConnect_Model_Simplexml_Element */
         $quantityXml = $itemXml->addChild('qty');
-        if (($qty = 1 * $item->getQtyOrdered()) > 0) {
+        $qty = 1 * $item->getQtyOrdered();
+        if ($qty > 0) {
             $quantityXml->addCustomChild(
                 'value',
                 $qty,
@@ -269,7 +267,8 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
                 )
             );
         }
-        if (($qty = 1 * $item->getQtyShipped()) > 0) {
+        $qty = 1 * $item->getQtyShipped();
+        if ($qty > 0) {
             $quantityXml->addCustomChild(
                 'value',
                 $qty,
@@ -278,7 +277,8 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
                 )
             );
         }
-        if (($qty = 1 * $item->getQtyCanceled()) > 0) {
+        $qty = 1 * $item->getQtyCanceled();
+        if ($qty > 0) {
             $quantityXml->addCustomChild(
                 'value',
                 $qty,
@@ -287,7 +287,8 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Downloadable
                 )
             );
         }
-        if (($qty = 1 * $item->getQtyRefunded()) > 0) {
+        $qty = 1 * $item->getQtyRefunded();
+        if ($qty > 0) {
             $quantityXml->addCustomChild(
                 'value',
                 $qty,

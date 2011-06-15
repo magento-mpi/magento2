@@ -33,11 +33,6 @@
  */
 class Mage_XmlConnect_Block_Customer_Order_Totals_Tax extends Mage_Tax_Block_Sales_Order_Tax
 {
-    protected function _toHtml()
-    {
-        return '';
-    }
-
     /**
      * Add order taxes rendered to XML object
      *

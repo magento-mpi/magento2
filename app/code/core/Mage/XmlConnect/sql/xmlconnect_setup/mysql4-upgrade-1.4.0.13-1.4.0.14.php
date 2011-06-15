@@ -36,28 +36,49 @@
 $installer = $this;
 $installer->startSetup();
 
-$configTable = $installer->getTable('xmlconnect/configData');
-
-$installer->run("CREATE TABLE `{$configTable}` (
-    `application_id` smallint(5) unsigned NOT NULL,
-    `category` varchar( 255 ) NOT NULL DEFAULT 'default',
-    `path` varchar( 255 ) NOT NULL,
-    `value` TEXT NOT NULL
-) ENGINE = INNODB DEFAULT CHARSET=utf8;");
-
-$installer->getConnection()->addKey(
-    $configTable,
-    'UNQ_XMLCONNECT_CONFIG',
-    array('application_id', 'category', 'path'),
-    'unique'
-);
-
-$installer->getConnection()->addConstraint(
-    'FK_APPLICATION_ID',
-    $configTable,
-    'application_id',
-    $installer->getTable('xmlconnect/application'),
-    'application_id'
-);
+/**
+ * Create table 'xmlconnect_config_data'
+ */
+$configTableName = $installer->getTable('xmlconnect/configData');
+$configTable = $installer->getConnection()
+    ->newTable($configTableName)
+    ->addColumn('application_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+            'unsigned'  => true,
+            'nullable'  => false,
+        ), 'Application Id')
+    ->addColumn('category', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+            'nullable'  => false,
+            'default'  => 'default',
+        ), 'Category')
+    ->addColumn('path', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+            'nullable'  => false,
+        ), 'Path')
+    ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
+            'nullable'  => false,
+        ), 'Value')
+    ->addIndex(
+        $installer->getIdxName(
+            $configTableName,
+            array('application_id', 'category', 'path'),
+            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+        ),
+        array('application_id', 'category', 'path'),
+        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
+    )
+    ->addForeignKey(
+        $installer->getFkName(
+            $configTableName,
+            'application_id',
+            $installer->getTable('xmlconnect/application'),
+            'application_id'
+        ),
+        'application_id',
+        $installer->getTable('xmlconnect/application'),
+        'application_id',
+        Varien_Db_Ddl_Table::ACTION_CASCADE,
+        Varien_Db_Ddl_Table::ACTION_CASCADE
+    )
+    ->setComment('Xmlconnect Configuration Data');
+$installer->getConnection()->createTable($configTable);
 
 $installer->endSetup();

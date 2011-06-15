@@ -37,11 +37,11 @@ $installer = $this;
 
 $appTableName = $installer->getTable('xmlconnect/application');
 
-$appTableDesc = $installer
+$configField = $installer
     ->getConnection()
-    ->describeTable($appTableName);
+    ->tableColumnExists($appTableName, 'configuration');
 
-if (array_key_exists('configuration', $appTableDesc)) {
+if ($configField) {
     /** @var $appModel Mage_XmlConnect_Model_Application */
     $appModel = Mage::getModel('xmlconnect/application');
     $select = $appModel->getResource()

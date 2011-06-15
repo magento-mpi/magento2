@@ -27,9 +27,9 @@
 /**
  * Credit Card (Authorize.net) Payment method xml renderer
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Block_Checkout_Payment_Method_Authorizenet extends Mage_Payment_Block_Form_Ccsave
 {

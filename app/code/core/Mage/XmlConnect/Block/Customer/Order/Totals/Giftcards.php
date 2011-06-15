@@ -34,11 +34,6 @@
 class Mage_XmlConnect_Block_Customer_Order_Totals_Giftcards
     extends Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards
 {
-    protected function _toHtml()
-    {
-        return '';
-    }
-
     /**
      * Add order total rendered to XML object
      *
@@ -57,12 +52,15 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Giftcards
                     array('label' => $label)
                 );
             }
-        } elseif (($cardsAmount = $this->getSource()->getGiftCardsAmount()) > 0) {
-            $totalsXml->addCustomChild(
-                $this->getTotal()->getCode(),
-                '-' . $this->_formatPrice($cardsAmount),
-                array('label' => Mage::helper('enterprise_giftcardaccount')->__('Gift Card'))
-            );
+        } else {
+            $cardsAmount = $this->getSource()->getGiftCardsAmount();
+            if ($cardsAmount > 0) {
+                $totalsXml->addCustomChild(
+                    $this->getTotal()->getCode(),
+                    '-' . $this->_formatPrice($cardsAmount),
+                    array('label' => Mage::helper('enterprise_giftcardaccount')->__('Gift Card'))
+                );
+            }
         }
     }
 

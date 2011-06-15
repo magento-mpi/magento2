@@ -32,16 +32,13 @@ class Mage_XmlConnect_Block_Catalog extends Mage_Core_Block_Template
 
     /**
      * Prefix that used in specifing filters on request
-     *
      */
     const REQUEST_FILTER_PARAM_REFIX = 'filter_';
 
     /**
      * Prefix that used in specifing sort order params on request
-     *
      */
     const REQUEST_SORT_ORDER_PARAM_REFIX = 'order_';
-
 
     /**
      * Retrieve product sort fields as xml object
@@ -67,5 +64,4 @@ class Mage_XmlConnect_Block_Catalog extends Mage_Core_Block_Template
 
         return $ordersXmlObject;
     }
-
 }

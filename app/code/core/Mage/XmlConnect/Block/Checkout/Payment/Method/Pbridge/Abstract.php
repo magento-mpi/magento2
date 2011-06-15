@@ -27,9 +27,9 @@
 /**
  * Abstract Pbridge Payment method xml renderer
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_XmlConnect_Block_Checkout_Payment_Method_Pbridge_Abstract
     extends Enterprise_Pbridge_Block_Payment_Form_Abstract

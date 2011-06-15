@@ -80,11 +80,6 @@ class Mage_XmlConnect_Block_Customer_Order_Items extends Mage_Sales_Block_Order_
         return $this->_itemRenders[$type]['renderer'];
     }
 
-    protected function _toHtml()
-    {
-        return '';
-    }
-
     /**
      * Render XML for items
      *

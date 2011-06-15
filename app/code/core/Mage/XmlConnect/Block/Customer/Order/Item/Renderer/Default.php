@@ -34,11 +34,6 @@
 class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default
     extends Mage_Sales_Block_Order_Item_Renderer_Default
 {
-    protected function _toHtml()
-    {
-        return '';
-    }
-
     /**
      * Add item to XML object
      *
@@ -65,7 +60,8 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default
         /** @var $taxHelper Mage_Tax_Helper_Data */
         $taxHelper  = $this->helper('tax');
 
-        if ($options = $this->getItemOptions()) {
+        $options = $this->getItemOptions();
+        if ($options) {
             /** @var $optionsXml Mage_XmlConnect_Model_Simplexml_Element */
             $optionsXml = $itemXml->addChild('options');
             foreach ($options as $option) {
@@ -130,6 +126,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default
                 $config
             );
 
+            // TODO: move repeated code into another place
             if ($weeeTaxes) {
                 /** @var $weeeXml Mage_XmlConnect_Model_Simplexml_Element */
                 if ($typeOfDisplay1) {
@@ -197,7 +194,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default
             if ($weeeTaxes) {
                 /** @var $weeeXml Mage_XmlConnect_Model_Simplexml_Element */
                 if ($typeOfDisplay1) {
-                    $weeeXml = $inclPriceXml->tddChild('weee');
+                    $weeeXml = $inclPriceXml->addChild('weee');
                     foreach ($weeeTaxes as $tax) {
                         $weeeXml->addCustomChild(
                             'tax',
@@ -206,7 +203,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default
                         );
                     }
                 } elseif ($typeOfDisplay2 || $typeOfDisplay4) {
-                    $weeeXml = $inclPriceXml->tddChild('weee');
+                    $weeeXml = $inclPriceXml->addChild('weee');
                     foreach ($weeeTaxes as $tax) {
                         $weeeXml->addCustomChild(
                             'tax',
@@ -235,28 +232,32 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default
         // Quantity: Ordered, Shipped, Cancelled, Refunded
         /** @var $quantityXml Mage_XmlConnect_Model_Simplexml_Element */
         $quantityXml = $itemXml->addChild('qty');
-        if (($qty = 1 * $item->getQtyOrdered()) > 0) {
+        $qty = 1 * $item->getQtyOrdered();
+        if ($qty > 0) {
             $quantityXml->addCustomChild(
                 'value',
                 $qty,
                 array('label' => $this->__('Ordered'))
             );
         }
-        if (($qty = 1 * $item->getQtyShipped()) > 0) {
+        $qty = 1 * $item->getQtyShipped();
+        if ($qty > 0) {
             $quantityXml->addCustomChild(
                 'value',
                 $qty,
                 array('label' => $this->__('Shipped'))
             );
         }
-        if (($qty = 1 * $item->getQtyCanceled()) > 0) {
+        $qty = 1 * $item->getQtyCanceled();
+        if ($qty > 0) {
             $quantityXml->addCustomChild(
                 'value',
                 $qty,
                 array('label' => $this->__('Canceled'))
             );
         }
-        if (($qty = 1 * $item->getQtyRefunded()) > 0) {
+        $qty = 1 * $item->getQtyRefunded();
+        if ($qty > 0) {
             $quantityXml->addCustomChild(
                 'value',
                 $qty,

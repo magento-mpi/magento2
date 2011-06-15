@@ -35,18 +35,6 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle
     extends Mage_Bundle_Block_Sales_Order_Items_Renderer
 {
     /**
-     * Prepare item html
-     *
-     * This method uses renderer for real product type
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        return '';
-    }
-
-    /**
      * Add item to XML object
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj
@@ -138,6 +126,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle
                         $config
                     );
 
+                    // TODO: move repeated code into another place
                     if ($weeeTaxes) {
                         /** @var $weeeXml Mage_XmlConnect_Model_Simplexml_Element */
                         if ($typeOfDisplay1) {
@@ -159,22 +148,22 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle
                                 );
                             }
                         }
-                    }
 
-                    if ($typeOfDisplay2) {
-                        if (!isset($weeeXml)) {
-                            $weeeXml = $exclPriceXml->addChild('weee');
+                        if ($typeOfDisplay2) {
+                            if (!isset($weeeXml)) {
+                                $weeeXml = $exclPriceXml->addChild('weee');
+                            }
+                            $weeeXml->addCustomChild(
+                                'total',
+                                $this->_formatPrice(
+                                    $parentItem->getPrice() + $weeeTaxAppliedAmount + $weeeTaxDisposition
+                                ),
+                                array('label' => $weeeHelper->__('Total'))
+                            );
                         }
-                        $weeeXml->addCustomChild(
-                            'total',
-                            $this->_formatPrice(
-                                $parentItem->getPrice() + $weeeTaxAppliedAmount + $weeeTaxDisposition
-                            ),
-                            array('label' => $weeeHelper->__('Total'))
-                        );
-                    }
-                    if (isset($weeeXml)) {
-                        unset($weeeXml);
+                        if (isset($weeeXml)) {
+                            unset($weeeXml);
+                        }
                     }
                 }
 
@@ -221,22 +210,22 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle
                                 );
                             }
                         }
-                    }
 
-                    if ($typeOfDisplay2) {
-                        if (!isset($weeeXml)) {
-                            $weeeXml = $inclPriceXml->addChild('weee');
+                        if ($typeOfDisplay2) {
+                            if (!isset($weeeXml)) {
+                                $weeeXml = $inclPriceXml->addChild('weee');
+                            }
+                            $weeeXml->addCustomChild(
+                                'total',
+                                $this->_formatPrice(
+                                    $incl + $weeeTaxAppliedAmount
+                                ),
+                                array('label' => $weeeHelper->__('Total incl. tax'))
+                            );
                         }
-                        $weeeXml->addCustomChild(
-                            'total',
-                            $this->_formatPrice(
-                                $incl + $weeeTaxAppliedAmount
-                            ),
-                            array('label' => $weeeHelper->__('Total incl. tax'))
-                        );
-                    }
-                    if (isset($weeeXml)) {
-                        unset($weeeXml);
+                        if (isset($weeeXml)) {
+                            unset($weeeXml);
+                        }
                     }
                 }
             }
@@ -332,24 +321,24 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle
                                 );
                             }
                         }
-                    }
 
-                    if ($typeOfDisplay2) {
-                        if (!isset($weeeXml)) {
-                            $weeeXml = $exclPriceXml->addChild('weee');
+                        if ($typeOfDisplay2) {
+                            if (!isset($weeeXml)) {
+                                $weeeXml = $exclPriceXml->addChild('weee');
+                            }
+                            $weeeXml->addCustomChild(
+                                'total',
+                                $this->_formatPrice(
+                                    $parentItem->getRowTotal()
+                                    + $parentItem->getWeeeTaxAppliedRowAmount()
+                                    + $parentItem->getWeeeTaxRowDisposition()
+                                ),
+                                array('label' => $weeeHelper->__('Total'))
+                            );
                         }
-                        $weeeXml->addCustomChild(
-                            'total',
-                            $this->_formatPrice(
-                                $parentItem->getRowTotal()
-                                + $parentItem->getWeeeTaxAppliedRowAmount()
-                                + $parentItem->getWeeeTaxRowDisposition()
-                            ),
-                            array('label' => $weeeHelper->__('Total'))
-                        );
-                    }
-                    if (isset($weeeXml)) {
-                        unset($weeeXml);
+                        if (isset($weeeXml)) {
+                            unset($weeeXml);
+                        }
                     }
                 }
 
@@ -396,22 +385,22 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle
                                 );
                             }
                         }
-                    }
 
-                    if ($typeOfDisplay2) {
-                        if (!isset($weeeXml)) {
-                            $weeeXml = $inclPriceXml->addChild('weee');
+                        if ($typeOfDisplay2) {
+                            if (!isset($weeeXml)) {
+                                $weeeXml = $inclPriceXml->addChild('weee');
+                            }
+                            $weeeXml->addCustomChild(
+                                'total',
+                                $this->_formatPrice(
+                                    $incl + $parentItem->getWeeeTaxAppliedRowAmount()
+                                ),
+                                array('label' => $weeeHelper->__('Total incl. tax'))
+                            );
                         }
-                        $weeeXml->addCustomChild(
-                            'total',
-                            $this->_formatPrice(
-                                $incl + $parentItem->getWeeeTaxAppliedRowAmount()
-                            ),
-                            array('label' => $weeeHelper->__('Total incl. tax'))
-                        );
-                    }
-                    if (isset($weeeXml)) {
-                        unset($weeeXml);
+                        if (isset($weeeXml)) {
+                            unset($weeeXml);
+                        }
                     }
                 }
             }
@@ -448,12 +437,19 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Bundle
         }
     }
 
+    /**
+     * Prepare option data for output
+     *
+     * @param Mage_Sales_Model_Order_Item $item
+     * @return string
+     */
     public function getValueHtml($item)
     {
-        if ($attributes = $this->getSelectionAttributes($item)) {
-            return sprintf('%d', $attributes['qty']) . ' x ' .
-                $item->getName() .
-                ' - ' . $this->_formatPrice($attributes['price']);
+        $attributes = $this->getSelectionAttributes($item);
+        if ($attributes) {
+            return sprintf('%d', $attributes['qty']) . ' x '
+                . $item->getName()
+                . ' - ' . $this->_formatPrice($attributes['price']);
         } else {
             return $item->getName();
         }

@@ -27,9 +27,9 @@
 /**
  * Application configuration renderer
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template

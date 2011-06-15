@@ -27,10 +27,9 @@
 /**
  * One page checkout order info xml renderer
  *
- * @category   Mage
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Block_Onepage_Review_Info
 {
@@ -118,7 +117,6 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
                 }
             }
 
-
             /**
              * Subtotal
              */
@@ -192,5 +190,4 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
 
         return $itemsXmlObj->asNiceXml();
     }
-
 }

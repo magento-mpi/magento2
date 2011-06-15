@@ -33,11 +33,6 @@
  */
 class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order_Totals
 {
-    protected function _toHtml()
-    {
-        return '';
-    }
-
     /**
      * Add order totals rendered to XML object
      *

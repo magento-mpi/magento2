@@ -34,11 +34,6 @@
 class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Giftcard
     extends Enterprise_GiftCard_Block_Sales_Order_Item_Renderer
 {
-    protected function _toHtml()
-    {
-        return '';
-    }
-
     /**
      * Prepare custom option for display, returns false if there's no value
      *

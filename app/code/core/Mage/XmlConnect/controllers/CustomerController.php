@@ -62,7 +62,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             } catch (Mage_Core_Exception $e) {
                 switch ($e->getCode()) {
                     case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
-                        // TODO: resend configmation email message with action
+                        // TODO: resend confirmation email message with action
                         break;
                     case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
                         $message = $e->getMessage();

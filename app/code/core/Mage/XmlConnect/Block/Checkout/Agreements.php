@@ -27,9 +27,9 @@
 /**
  * One page checkout agreements xml renderer
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Block_Checkout_Agreements extends Mage_Checkout_Block_Agreements
 {
@@ -58,5 +58,4 @@ class Mage_XmlConnect_Block_Checkout_Agreements extends Mage_Checkout_Block_Agre
 
         return $agreementsXmlObj->asNiceXml();
     }
-
 }

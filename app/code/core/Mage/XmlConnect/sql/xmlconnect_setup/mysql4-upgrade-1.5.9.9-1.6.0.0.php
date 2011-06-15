@@ -60,7 +60,7 @@ $installer->getConnection()->dropForeignKey(
 
 $installer->getConnection()->dropForeignKey(
     $configTableName,
-    'FK_APPLICATION_ID'
+    'FK_31EE36D814216200D7C0723145AC510E'
 );
 
 /**
@@ -83,7 +83,7 @@ $installer->getConnection()->dropIndex(
 
 $installer->getConnection()->dropIndex(
     $configTableName,
-    'UNQ_XMLCONNECT_CONFIG'
+    'UNQ_XMLCONNECT_CONFIG_DATA_APPLICATION_ID_CATEGORY_PATH'
 );
 
 /**

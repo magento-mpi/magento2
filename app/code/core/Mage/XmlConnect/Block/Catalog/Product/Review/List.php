@@ -27,11 +27,10 @@
 /**
  * Review block
  *
- * @category   Mage
- * @package    Mage_XmlConnect
+ * @category    Mage
+ * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_XmlConnect_Block_Catalog_Product_Review_List extends Mage_XmlConnect_Block_Catalog_Product_Review
 {
     /**
