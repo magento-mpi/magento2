@@ -127,25 +127,48 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         }
 
         $requestDhl = clone $request;
-        $origCompanyName = Mage::getStoreConfig(
-            Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME,
-            $requestDhl->getStoreId()
-        );
-        $countryId = Mage::getStoreConfig(
-            Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
-            $requestDhl->getStoreId()
-        );
-        $origState = Mage::getStoreConfig(
-            Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID,
-            $requestDhl->getStoreId()
-        );
-        $origCity = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY, $requestDhl->getStoreId());
-        $origPosta = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, $requestDhl->getStoreId());
+        $origCompanyName = $requestDhl->getOrigCompanyName();
+        if (!$origCompanyName) {
+            $origCompanyName = Mage::getStoreConfig(
+                Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME,
+                $requestDhl->getStoreId()
+            );
+        }
+
+        $origCountryId = $requestDhl->getOrigCountryId();
+        if (!$origCountryId) {
+            $origCountryId = Mage::getStoreConfig(
+                Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+                $requestDhl->getStoreId()
+            );
+        }
+        $origState = $requestDhl->getOrigState();
+        if (!$origState) {
+            $origState = Mage::getStoreConfig(
+                Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID,
+                $requestDhl->getStoreId()
+            );
+        }
+        $origCity = $requestDhl->getOrigCity();
+        if (!$origCity) {
+            $origCity = Mage::getStoreConfig(
+                Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY,
+                $requestDhl->getStoreId()
+            );
+        }
+
+        $origPostcode = $requestDhl->getOrigPostcode();
+        if (!$origPostcode) {
+            $origPostcode = Mage::getStoreConfig(
+                Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
+                $requestDhl->getStoreId()
+            );
+        }
         $requestDhl->setOrigCompanyName($origCompanyName)
-            ->setCountryId($countryId)
+            ->setCountryId($origCountryId)
             ->setOrigState($origState)
             ->setOrigCity($origCity)
-            ->setOrigPostal($origPosta);
+            ->setOrigPostal($origPostcode);
         $this->setRequest($requestDhl);
         $this->_result = $this->_getQuotes();
         $this->_updateFreeMethodQuote($request);
@@ -642,7 +665,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
 
         $shipmentDetail = $shipment->addChild('ShipmentDetail');
         if ($r->getAction() == 'GenerateLabel') {
-            if ($r->getIsReturn()) {
+            if ($r->getOrderShipment()->getRma()) {
                 $referenceData = 'RMA #'
                                  . $r->getOrderShipment()->getRma()->getIncrementId()
                                  . ' P'

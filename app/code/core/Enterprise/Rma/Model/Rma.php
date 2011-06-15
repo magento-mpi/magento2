@@ -806,6 +806,16 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         $request->setPackageWeight($weight);
         $request->setPackageQty($qty);
 
+        $shippingDestinationInfo = Mage::helper('enterprise_rma')->getReturnAddressModel($this->getStoreId());
+
+        //shop destination address data
+        $request
+            ->setOrigCountryId($shippingDestinationInfo->getCountryId())
+            ->setOrigState($shippingDestinationInfo->getRegionId())
+            ->setOrigCity($shippingDestinationInfo->getCity())
+            ->setOrigPostcode($shippingDestinationInfo->getPostcode())
+            ->setOrig(true);
+
         /**
          * Need for shipping methods that use insurance based on price of physical products
          */

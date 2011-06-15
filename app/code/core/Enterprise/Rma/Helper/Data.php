@@ -184,7 +184,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get return address array depending on config settings
      *
-     * @param Mage_Core_Model_Store|null $store
+     * @param Mage_Core_Model_Store|null|int $store
      * @return array
      */
     protected function _getAddressData($store = null)
