@@ -226,6 +226,11 @@ class Mage_Core_Model_App
      */
     protected $_useSessionVar = false;
 
+    /**
+     * Cache locked flag
+     *
+     * @var null|bool
+     */
     protected $_isCacheLocked = null;
 
     /**
@@ -375,6 +380,7 @@ class Mage_Core_Model_App
      */
     protected function _initCache()
     {
+        $this->_isCacheLocked = true;
         $options = $this->_config->getNode('global/cache');
         if ($options) {
             $options = $options->asArray();
@@ -382,6 +388,7 @@ class Mage_Core_Model_App
             $options = array();
         }
         $this->_cache = Mage::getModel('core/cache', $options);
+        $this->_isCacheLocked = false;
         return $this;
     }
 
@@ -1460,5 +1467,15 @@ class Mage_Core_Model_App
         $id = strtoupper($id);
         $id = preg_replace('/([^a-zA-Z0-9_]{1,1})/', '_', $id);
         return $id;
+    }
+
+    /**
+     * Get is cache locked
+     *
+     * @return bool
+     */
+    public function getIsCacheLocked()
+    {
+        return (bool)$this->_isCacheLocked;
     }
 }
