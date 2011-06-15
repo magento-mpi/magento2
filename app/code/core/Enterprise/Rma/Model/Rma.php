@@ -494,15 +494,41 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 }
                 $validation['dummy'] = -1;
                 $previousValue = null;
+                $name = $item->getProductName();
                 foreach ($validation as $key => $value) {
                     if (!is_null($previousValue) && ($value > $previousValue)) {
-                        $name = $item->getProductName();
                         $errors[] =
                             Mage::helper('enterprise_rma')->__('There is an error in quantities for item %s.', $name);
                         $errorKeys[$item->getId()] = $key;
                         break;
                     }
                     $previousValue = $value;
+                }
+
+                //if we change item status i.e. to authorized, then qty_authorized must be non-empty and so on.
+                $qtyToStatus = array(
+                    'qty_authorized' => array(
+                            'name' => Mage::helper('enterprise_rma')->__('Authorized Qty'),
+                            'status' => Enterprise_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED
+                        ),
+                    'qty_returned' => array(
+                            'name' => Mage::helper('enterprise_rma')->__('Returned Qty'),
+                            'status' => Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED
+                        ),
+                    'qty_approved' => array(
+                            'name' => Mage::helper('enterprise_rma')->__('Approved Qty'),
+                            'status' => Enterprise_Rma_Model_Rma_Source_Status::STATE_APPROVED
+                        ),
+
+                );
+                foreach ($qtyToStatus as $qtyKey => $qtyValue) {
+                    if (($item->getStatus() === $qtyValue['status'])
+                        && ($item->getOrigData('status') !== $qtyValue['status'])
+                        && !$item->getData($qtyKey)) {
+                        $errors[] =
+                            Mage::helper('enterprise_rma')->__('%s for item %s cannot be empty.', $qtyValue['name'], $name);
+                        $errorKeys[$item->getId()] = $key;
+                    }
                 }
             }
         }
