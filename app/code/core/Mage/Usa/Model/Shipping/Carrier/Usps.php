@@ -336,6 +336,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             if (!$service) {
                 $service = $r->getService();
             }
+            if ($r->getContainer() == 'FLAT RATE BOX' || $r->getContainer() == 'FLAT RATE ENVELOPE') {
+                $service = 'PRIORITY';
+            }
             $package->addChild('Service', $service);
 
             // no matter Letter, Flat or Parcel, use Parcel
@@ -572,7 +575,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                 'USPS GXG Envelopes'                               => 'EXPRESS',
                 'Express Mail International'                       => 'EXPRESS',
                 'Express Mail International Flat Rate Envelope'    => 'EXPRESS',
-                'Priority Mail'                        => 'PRIORITY',
+                'Priority Mail'                        => 'EXPRESS',
                 'Priority Mail Small Flat Rate Box'    => 'PRIORITY',
                 'Priority Mail Medium Flat Rate Box'   => 'PRIORITY',
                 'Priority Mail Large Flat Rate Box'    => 'PRIORITY',
