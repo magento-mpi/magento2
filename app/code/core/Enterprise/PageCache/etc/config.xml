@@ -309,6 +309,14 @@
                     </enterprise_pagecache>
                 </observers>
             </sales_order_place_after>
+            <poll_vote_add>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>registerPollChange</method>
+                    </enterprise_pagecache>
+                </observers>
+            </poll_vote_add>
         </events>
         <cache>
             <requests>

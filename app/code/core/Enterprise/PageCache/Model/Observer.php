@@ -438,6 +438,23 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
+     * Set poll hash in cookie on poll vote
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function registerPollChange(Varien_Event_Observer $observer)
+    {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
+
+        $cookieValue = $observer->getEvent()->getPoll()->getId();
+        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::COOKIE_POLL, $cookieValue);
+
+        return $this;
+    }
+
+    /**
      * Clean order sidebar cache
      *
      * @param Varien_Event_Observer $observer

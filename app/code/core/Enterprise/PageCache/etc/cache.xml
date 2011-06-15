@@ -73,7 +73,7 @@
         <poll_activepoll>
             <block>poll/activePoll</block>
             <placeholder>POLL</placeholder>
-            <container>Enterprise_PageCache_Model_Container_Blackhole</container>
+            <container>Enterprise_PageCache_Model_Container_Sidebar_Poll</container>
             <cache_lifetime>86400</cache_lifetime>
         </poll_activepoll>
         <widget_enterprise_banner>

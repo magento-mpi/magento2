@@ -42,6 +42,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     const COOKIE_MESSAGE            = 'NEWMESSAGE';
     const COOKIE_CART               = 'CART';
     const COOKIE_COMPARE_LIST       = 'COMPARE';
+    const COOKIE_POLL               = 'POLL';
     const COOKIE_RECENTLY_COMPARED  = 'RECENTLYCOMPARED';
     const COOKIE_WISHLIST           = 'WISHLIST';
     const COOKIE_WISHLIST_ITEMS     = 'WISHLIST_CNT';
