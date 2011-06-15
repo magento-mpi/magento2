@@ -1478,4 +1478,28 @@ class Mage_Core_Model_App
     {
         return (bool)$this->_isCacheLocked;
     }
+
+    /**
+     *  Unset website by id from app cache
+     *
+     * @param null|bool|int|string|Mage_Core_Model_Website $id
+     * @return void
+     */
+    public function clearWebsiteCache($id = null)
+    {
+        if (is_null($id)) {
+            $id = $this->getStore()->getWebsiteId();
+        } elseif ($id instanceof Mage_Core_Model_Website) {
+            $id = $id->getId();
+        } elseif ($id === true) {
+            $id = $this->_website->getId();
+        }
+
+        if (!empty($this->_websites[$id])) {
+            $website = $this->_websites[$id];
+
+            unset($this->_websites[$website->getWebsiteId()]);
+            unset($this->_websites[$website->getCode()]);
+        }
+    }
 }

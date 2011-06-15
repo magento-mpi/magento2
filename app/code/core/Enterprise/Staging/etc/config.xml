@@ -288,14 +288,14 @@
             </updates>
         </layout>
         <events>
-            <website_delete_after>
+            <website_delete_commit_after>
                 <observers>
                     <enterprise_staging_delete_website>
                         <class>enterprise_staging/observer</class>
                         <method>deleteWebsite</method>
                     </enterprise_staging_delete_website>
                 </observers>
-            </website_delete_after>
+            </website_delete_commit_after>
 
             <catalog_product_save_before>
                 <observers>
