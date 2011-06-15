@@ -118,7 +118,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
             $params = new Varien_Object($package->getParams());
             $dimensionUnits = Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits());
 
-            $typeText = 'Type : ' . $params->getContainer();
+            $typeText = 'Type : ' . $packaging->getContainerTypeByCode($params->getContainer());
             $lengthText = 'Length : ' . $params->getLength() .' '. $dimensionUnits;
             $widthText = 'Width : ' . $params->getWidth() .' '. $dimensionUnits;
             $heightText = 'Height : ' . $params->getHeight() .' '. $dimensionUnits;
