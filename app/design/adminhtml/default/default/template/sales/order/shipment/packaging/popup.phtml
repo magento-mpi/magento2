@@ -27,7 +27,7 @@
 <?php
 $shippingMethod = $this->getShipment()->getOrder()->getShippingMethod();
 $sizeSource = Mage::getModel('usa/shipping_carrier_usps_source_size')->toOptionArray();
-$girthEnabled = Mage::helper('usa')->displayGirthValue($shippingMethod) && $this->isGirthAllowed();
+$girthEnabled = Mage::helper('usa')->displayGirthValue($shippingMethod) && $this->isGirthAllowed() ? 1 : 0;
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -36,7 +36,7 @@ document.observe("dom:loaded", function() {
     packaging.changeContainerType($$('select[name=package_container]')[0]);
     packaging.checkSizeAndGirthParameter(
         $$('select[name=package_container]')[0],
-        <?php echo $girthEnabled ? 1 : 0; ?>
+        <?php echo $girthEnabled; ?>
     );
 });
 //]]>
