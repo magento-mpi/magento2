@@ -360,12 +360,14 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
             foreach ($params as $name => $param) {
                 // Prepare meta-info to bind parameter
                 $bindAsLob = false;
+                $bindAsBlob = false;
                 $length = -1;
                 $dataType = SQLT_CHR;
 
                 if ($param instanceof Varien_Db_Statement_Parameter) {
                     if ($param->getIsBlob()) {
                         $bindAsLob = true;
+                        $bindAsBlob = true;
                     } else {
                         if ($param->getLength() !== null) {
                             $length = $param->getLength();
@@ -383,11 +385,20 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
                 // Bind parameter
                 if ($bindAsLob) {
                     $this->_lobDescriptors[$name] = oci_new_descriptor($connection);
-                    if (!@oci_bind_by_name($statement, $name, $this->_lobDescriptors[$name], -1, OCI_B_CLOB)) {
+                    if (!@oci_bind_by_name(
+                        $statement,
+                        $name,
+                        $this->_lobDescriptors[$name],
+                        -1,
+                        $bindAsBlob ? OCI_B_BLOB : OCI_B_CLOB
+                    )) {
                         $error = true;
                         break;
                     }
-                    $this->_lobDescriptors[$name]->writeTemporary($bindValues[$name], OCI_TEMP_CLOB);
+                    $this->_lobDescriptors[$name]->writeTemporary(
+                        $bindValues[$name],
+                        $bindAsBlob ? OCI_TEMP_BLOB : OCI_TEMP_CLOB
+                    );
                 } else {
                     if (!@oci_bind_by_name($statement, $name, $bindValues[$name], $length, $dataType)) {
                         $error = true;

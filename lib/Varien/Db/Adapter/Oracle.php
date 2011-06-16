@@ -189,7 +189,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'TIMESTAMP',
         Varien_Db_Ddl_Table::TYPE_TEXT          => 'VARCHAR2',
         Varien_Db_Ddl_Table::TYPE_BLOB          => 'CLOB',
-        Varien_Db_Ddl_Table::TYPE_VARBINARY     => 'CLOB'
+        Varien_Db_Ddl_Table::TYPE_VARBINARY     => 'BLOB'
     );
 
     /**
@@ -903,6 +903,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 return Varien_Db_Ddl_Table::TYPE_TEXT;
             case 'CLOB':
                 return Varien_Db_Ddl_Table::TYPE_BLOB;
+            case 'BLOB':
+                return Varien_Db_Ddl_Table::TYPE_VARBINARY;
             case 'TIMESTAMP':
                 return Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
             case 'NUMBER':
@@ -1902,11 +1904,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                         $line[] = $this->quoteColumnAs($val, $col);
                     } else {
                         $key    = ':vv' . $i++;
-                        if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
-                            $line[] = "to_clob({$key}) AS {$col}";
-                        } else {
-                            $line[] = $this->quoteColumnAs($key, $col);
-                        }
+                        $line[] = $this->_quoteColumnByDdl($ddl, $key, $col);
                         $bind[$key] = $val;
                     }
                 }
@@ -1922,11 +1920,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     $line[] = $this->quoteColumnAs($val, $col);
                 } else {
                     $key    = ':vv' . $i++;
-                    if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
-                        $line[] = "to_clob({$key}) AS {$col}";
-                    } else {
-                        $line[] = $this->quoteColumnAs($key, $col);
-                    }
+                    $line[] = $this->_quoteColumnByDdl($ddl, $key, $col);
                     $bind[$key] = $val;
                 }
             }
@@ -2048,11 +2042,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                         $line[] = $this->quoteColumnAs($val, $col);
                     } else {
                         $key    = ':vv' . $i++;
-                        if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
-                            $line[] = "to_clob({$key}) AS {$col}";
-                        } else {
-                            $line[] = $this->quoteColumnAs($key, $col);
-                        }
+                        $line[] = $this->_quoteColumnByDdl($ddl, $key, $col);
                         $bind[$key] = $val;
                     }
                 }
@@ -2068,11 +2058,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     $line[] = $this->quoteColumnAs($val, $col);
                 } else {
                     $key    = ':vv' . $i++;
-                    if ($ddl[$col]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
-                        $line[] = "to_clob({$key}) AS {$col}";
-                    } else {
-                        $line[] = $this->quoteColumnAs($key, $col);
-                    }
+                    $line[] = $this->_quoteColumnByDdl($ddl, $key, $col);
                     $bind[$key] = $val;
                 }
             }
@@ -2221,10 +2207,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     $line = 'NULL';
                 } else {
                     $key  = ':vv' . ($inc ++);
-                    if ($ddl[$columns[0]]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]) {
-                        $line = sprintf('to_clob(%s)', $key);
-                    } else {
-                        $line = $key;
+                    switch ($ddl[$columns[0]]['DATA_TYPE']) {
+                        case $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]:
+                        case $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_VARBINARY]:
+                            $line = sprintf($this->_getLobFunction($ddl[$columns[0]]['DATA_TYPE']) . '(%s)', $key);
+                            break;
+                        default:
+                            $line = $key;
+                            break;
                     }
                     $bind[$key] = $row;
                 }
@@ -2242,8 +2232,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                         } else {
                             $ddlKey = $col;
                         }
-                        if (isset($ddl[$ddlKey]) && ($ddl[$ddlKey]['DATA_TYPE'] == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB])) {
-                            $line[] = sprintf('to_clob(%s)', $key);
+                        if (array_key_exists($ddlKey, $ddl)
+                            && in_array($ddl[$ddlKey]['DATA_TYPE'], array(
+                                $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB],
+                                $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_VARBINARY]
+                            ))
+                        ) {
+                            $line[] = sprintf($this->_getLobFunction($ddl[$ddlKey]['DATA_TYPE']) . '(%s)', $key);
                         } else {
                             $line[] = $key;
                         }
@@ -2732,6 +2727,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             case 'VARCHAR':
             case 'VARCHAR2':
             case 'CLOB':
+            case 'BLOB':
                 $value  = (string)$value;
                 if ($column['NULLABLE'] && $value == '') {
                     $value = null;
@@ -3239,11 +3235,15 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 } else {
                     $options['LENGTH'] = $this->_parseTextSize($options['LENGTH']);
                 }
-                if ($options['LENGTH'] <= 4000) {
-                    $cType = 'VARCHAR2';
-                    $cType = sprintf('%s(%d) ', $cType, $options['LENGTH']);
+                if ($ddlType != Varien_Db_Ddl_Table::TYPE_VARBINARY) {
+                    if ($options['LENGTH'] <= 4000) {
+                        $cType = 'VARCHAR2';
+                        $cType = sprintf('%s(%d) ', $cType, $options['LENGTH']);
+                    } else {
+                        $cType = 'CLOB';
+                    }
                 } else {
-                    $cType = 'CLOB';
+                    $cType = 'BLOB';
                 }
                 break;
         }
@@ -4652,5 +4652,39 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function decodeVarbinary($value)
     {
         return $value;
+    }
+
+    /**
+     * Get lob (clob/blob) function depending on the field ddl type
+     *
+     * @param string $ddlType
+     * @return string
+     */
+    protected function _getLobFunction($ddlType)
+    {
+        if ($ddlType == Varien_Db_Ddl_Table::TYPE_VARBINARY) {
+            return 'to_blob';
+        }
+
+        return 'to_clob';
+    }
+
+    /**
+     * Quote field to query depending on the field ddl type
+     *
+     * @param array $ddl
+     * @param string $key
+     * @param string $col
+     * @return string
+     */
+    protected function _quoteColumnByDdl($ddl, $key, $col)
+    {
+        if ($ddl[$col]['DATA_TYPE'] == Varien_Db_Ddl_Table::TYPE_BLOB
+            || $ddl[$col]['DATA_TYPE'] == Varien_Db_Ddl_Table::TYPE_VARBINARY
+        ) {
+            return $this->_getLobFunction($ddl[$col]['DATA_TYPE']) . "({$key}) AS {$col}";
+        }
+
+        return $this->quoteColumnAs($key, $col);
     }
 }

@@ -86,6 +86,10 @@ class  Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Re
                 $ddlType = Varien_Db_Ddl_Table::TYPE_TEXT;
                 $ddlSize = $field['LENGTH'];
                 break;
+            case 'BLOB':
+                $ddlType = Varien_Db_Ddl_Table::TYPE_VARBINARY;
+                $ddlSize = $field['LENGTH'];
+                break;
             case 'DATE':
                 $ddlType = Varien_Db_Ddl_Table::TYPE_DATE;
                 break;
