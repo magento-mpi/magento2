@@ -209,4 +209,42 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
             ))
             ->toHtml();
     }
+
+    /**
+     * Return name of container type by its code
+     *
+     * @param string $code
+     * @return string
+     */
+    public function getContainerTypeByCode($code)
+    {
+        $carrierCode= $this->getShipment()->getCarrierCode();
+        $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $this->getRma()->getStoreId());
+        if ($carrier) {
+            $containerTypes = $carrier->getContainerTypes();
+            $containerType = !empty($containerTypes[$code]) ? $containerTypes[$code] : '';
+            return $containerType;
+        }
+        return '';
+    }
+
+    /**
+     * Return name of delivery confirmation type by its code
+     *
+     * @param string $code
+     * @return string
+     */
+    public function getDeliveryConfirmationTypeByCode($code)
+    {
+        $storeId    = $this->getRma()->getStoreId();
+        $countryId  = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
+        $carrierCode= $this->getShipment()->getCarrierCode();
+        $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $this->getRma()->getStoreId());
+        if ($carrier) {
+            $confirmationTypes = $carrier->getDeliveryConfirmationTypes($countryId);
+            $containerType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
+            return $containerType;
+        }
+        return '';
+    }
 }

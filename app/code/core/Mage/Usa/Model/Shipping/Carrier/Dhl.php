@@ -665,11 +665,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
 
         $shipmentDetail = $shipment->addChild('ShipmentDetail');
         if ($r->getAction() == 'GenerateLabel') {
-            if ($r->getOrderShipment()->getRma()) {
-                $referenceData = 'RMA #'
-                                 . $r->getOrderShipment()->getRma()->getIncrementId()
-                                 . ' P'
-                                 . $r->getPackageId();
+            if ($this->_request->getReferenceData()) {
+                $referenceData = $this->_request->getReferenceData() . $this->_request->getPackageId();
             } else {
                 $referenceData = 'Order #'
                                  . $r->getOrderShipment()->getOrder()->getIncrementId()

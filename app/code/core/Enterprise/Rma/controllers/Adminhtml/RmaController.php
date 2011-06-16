@@ -1022,7 +1022,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $shipment->setPackages($data['packages']);
             $shipment->setCode($data['code']);
 
-            list($carrierCode, $methodCode) = explode('_', $data['code']);
+            list($carrierCode, $methodCode) = explode('_', $data['code'], 2);
             $shipment->setCarrierCode($carrierCode);
             $shipment->setMethodCode($data['code']);
 

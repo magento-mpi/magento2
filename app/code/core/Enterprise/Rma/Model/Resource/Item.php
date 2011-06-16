@@ -142,13 +142,18 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
         $adapter = $this->_getReadAdapter();
 
         $select = $adapter->select()
-            ->from(
-                $this->getTable('enterprise_rma/item_entity'),
-                array('order_item_id','sum(qty_authorized) as qty', 'product_name')
-            )
+            ->from($this->getTable('enterprise_rma/item_entity'), array())
             ->where('rma_entity_id = ?', $rmaId)
             ->where('status = ?', Enterprise_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED)
-            ->group('order_item_id');
+            ->group(array('order_item_id', 'product_name'))
+            ->columns(
+                array(
+                    'order_item_id' => 'order_item_id',
+                    'qty'           => new Zend_Db_Expr('SUM(qty_authorized)'),
+                    'product_name'  => new Zend_Db_Expr('MAX(product_name)')
+                )
+            )
+        ;
 
         $return     = $adapter->fetchAll($select);
         $itemsArray = array();

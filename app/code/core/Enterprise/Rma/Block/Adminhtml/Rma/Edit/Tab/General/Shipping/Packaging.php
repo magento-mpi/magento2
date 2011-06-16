@@ -92,24 +92,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
     }
 
     /**
-     * Return name of container type by its code
-     *
-     * @param string $code
-     * @return string
-     */
-    public function getContainerTypeByCode($code)
-    {
-        $carrier = $this->getShipment()->getOrder()->getShippingCarrier();
-        if ($carrier) {
-            $containerTypes = $carrier->getContainerTypes();
-            $containerType = !empty($containerTypes[$code]) ? $containerTypes[$code] : '';
-            return $containerType;
-        }
-        return '';
-    }
-
-
-    /**
      * Can display customs value
      *
      * @return bool
@@ -121,7 +103,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $order      = $this->getRma()->getOrder();
         $code       = $this->getRequest()->getParam('method');
         if (!empty($code)) {
-            list($carrierCode, $methodCode) = explode('_', $code);
+            list($carrierCode, $methodCode) = explode('_', $code, 2);
             $address                        = $order->getShippingAddress();
             $shipperAddressCountryCode      = $address->getCountryId();
             $recipientAddressCountryCode    = Mage::helper('enterprise_rma')
@@ -133,5 +115,26 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
             }
         }
         return false;
+    }
+
+    /**
+     * Return delivery confirmation types of current carrier
+     *
+     * @return array
+     */
+    public function getDeliveryConfirmationTypes()
+    {
+        $storeId    = $this->getRma()->getStoreId();
+        $code       = $this->getRequest()->getParam('method');
+        if (!empty($code)) {
+            list($carrierCode, $methodCode) = explode('_', $code, 2);
+            $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $storeId);
+            $countryId  = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
+
+            if ($carrier && is_array($carrier->getDeliveryConfirmationTypes())) {
+                return $carrier->getDeliveryConfirmationTypes($countryId);
+            }
+        }
+        return array();
     }
 }

@@ -48,7 +48,7 @@
                 <tbody>
                     <tr>
                         <th class="label"><?php echo Mage::helper('enterprise_rma')->__('Type') ?></th>
-                        <td class="value"><?php echo $this->getContainerTypeByCode($package->getContainer()) ?></td>
+                        <td class="value"><?php echo $this->getContainerTypeByCode($params->getContainer()) ?></td>
                         <th class="label"><?php echo Mage::helper('enterprise_rma')->__('Length') ?></th>
                         <td class="value"><?php echo $params->getLength() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
                     </tr>

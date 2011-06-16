@@ -46,7 +46,7 @@
             <?php if ($this->getIsPsl() == Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_ALLOWED): ?>
                 <button class="scalable save" type="button" id="get-shipping-method-and-rates"><span><?php echo Mage::helper('enterprise_rma')->__('Create Shipping Label') ?></span></button>
             <?php elseif ($this->getIsPsl() == Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISABLED): ?>
-                <button class="scalable save disabled" type="button" title="<?php Mage::helper('enterprise_rma')->__('Enabled when authorized items require a new shipment'); ?>"><span><?php echo Mage::helper('enterprise_rma')->__('Create Shipping Label') ?></span></button>
+                <button class="scalable save disabled" type="button" title="<?php echo Mage::helper('enterprise_rma')->__('Enabled when authorized items require a new shipment'); ?>"><span><?php echo Mage::helper('enterprise_rma')->__('Create Shipping Label') ?></span></button>
             <?php endif; ?>
             <?php if ($this->getShipment()->getShippingLabel()): ?>
                 <?php echo $this->getPrintLabelButton() ?>
@@ -79,6 +79,8 @@
                                 <col width="100" />
                                 <col width="*" />
                                 <col width="60" />
+                                <col width="70" />
+                                <col width="150" />
                                 <col width="*" />
                             </colgroup>
                             <tbody>
@@ -87,6 +89,13 @@
                                     <td><?php echo $this->getContainerTypeByCode($params->getContainer()) ?></td>
                                     <th><?php echo Mage::helper('enterprise_rma')->__('Length') ?></th>
                                     <td><?php echo $params->getLength() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                                    <?php if ($params->getDeliveryConfirmation() != null): ?>
+                                        <th><?php echo Mage::helper('sales')->__('Signature Confirmation') ?></th>
+                                        <td><?php echo $this->getDeliveryConfirmationTypeByCode($params->getDeliveryConfirmation()) ?></td>
+                                    <?php else: ?>
+                                        <th>&nbsp;</th>
+                                        <td>&nbsp;</td>
+                                    <?php endif; ?>
                                 </tr>
                                 <tr>
                                     <?php if ($this->displayCustomsValue()): ?>

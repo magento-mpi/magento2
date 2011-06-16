@@ -95,7 +95,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         $shipperAddress     = $order->getShippingAddress();
         $recipientAddress   = Mage::helper('enterprise_rma')->getReturnAddressModel($this->getRma()->getStoreId());
 
-        list($carrierCode, $shippingMethod) = explode('_', $this->getCode());
+        list($carrierCode, $shippingMethod) = explode('_', $this->getCode(), 2);
 
         $shipmentCarrier    = Mage::helper('enterprise_rma')->getCarrier($this->getCode(), $shipmentStoreId);
         $baseCurrencyCode   = Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
@@ -166,6 +166,9 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         $request->setPackages($this->getPackages());
         $request->setBaseCurrencyCode($baseCurrencyCode);
         $request->setStoreId($shipmentStoreId);
+
+        $referenceData = 'RMA #'. $request->getOrderShipment()->getRma()->getIncrementId(). ' P';
+        $request->setReferenceData($referenceData);
 
         return $shipmentCarrier->returnOfShipment($request);
     }

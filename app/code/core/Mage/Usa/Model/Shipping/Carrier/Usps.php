@@ -1384,11 +1384,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $xml->addChild('FromZip5', $fromZip5);
         $xml->addChild('FromZip4', $fromZip4);
         $xml->addChild('FromPhone', $request->getShipperContactPhoneNumber());
-        if ($request->getIsReturn()) {
-            $referenceData = 'RMA #'
-                             . $request->getOrderShipment()->getRma()->getIncrementId()
-                             . ' P'
-                             . $request->getPackageId();
+        if ($request->getReferenceData()) {
+            $referenceData = $request->getReferenceData() . $request->getPackageId();
         } else {
             $referenceData = 'Order #'
                              . $request->getOrderShipment()->getOrder()->getIncrementId()

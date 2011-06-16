@@ -1430,11 +1430,8 @@ XMLAuth;
 
         // ups support reference number only for domestic service
         if ($this->_isUSCountry($request->getRecipientAddressCountryCode())) {
-            if ($request->getIsReturn()) {
-                $referenceData = 'RMA #'
-                                 . $request->getOrderShipment()->getRma()->getIncrementId()
-                                 . ' P'
-                                 . $request->getPackageId();
+            if ($request->getReferenceData()) {
+                $referenceData = $request->getReferenceData() . $request->getPackageId();
             } else {
                 $referenceData = 'Order #'
                                  . $request->getOrderShipment()->getOrder()->getIncrementId()

@@ -55,4 +55,22 @@ class Enterprise_Rma_Block_Return_Tracking_Package extends Mage_Shipping_Block_T
         $data['hash'] = $this->getRequest()->getParam('hash');
         return $this->getUrl('*/*/packageprint', $data);
     }
+
+    /**
+     * Return name of container type by its code
+     *
+     * @param string $code
+     * @return string
+     */
+    public function getContainerTypeByCode($code)
+    {
+        $carrierCode= $this->getPackageInfo()->getCarrierCode();
+        $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, Mage::app()->getStore()->getId());
+        if ($carrier) {
+            $containerTypes = $carrier->getContainerTypes();
+            $containerType = !empty($containerTypes[$code]) ? $containerTypes[$code] : '';
+            return $containerType;
+        }
+        return '';
+    }
 }

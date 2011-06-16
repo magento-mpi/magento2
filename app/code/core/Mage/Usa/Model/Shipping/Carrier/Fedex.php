@@ -109,7 +109,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        if (!$this->getConfigFlag($this->_activeFlag)) {
+        if (!$this->getConfigFlag('active')) {
             return false;
         }
 
@@ -980,11 +980,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
      */
     protected function _formShipmentRequest(Varien_Object $request)
     {
-        if ($request->getIsReturn()) {
-            $referenceData = 'RMA #'
-                             . $request->getOrderShipment()->getRma()->getIncrementId()
-                             . ' P'
-                             . $request->getPackageId();
+        if ($request->getReferenceData()) {
+            $referenceData = $request->getReferenceData() . $request->getPackageId();
         } else {
             $referenceData = 'Order #'
                              . $request->getOrderShipment()->getOrder()->getIncrementId()
