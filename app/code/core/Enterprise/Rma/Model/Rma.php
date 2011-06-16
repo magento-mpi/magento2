@@ -500,6 +500,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                         $errors[] =
                             Mage::helper('enterprise_rma')->__('There is an error in quantities for item %s.', $name);
                         $errorKeys[$item->getId()] = $key;
+                        $errorKeys['tabs'] = 'items_section';
                         break;
                     }
                     $previousValue = $value;
@@ -527,7 +528,8 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                         && !$item->getData($qtyKey)) {
                         $errors[] =
                             Mage::helper('enterprise_rma')->__('%s for item %s cannot be empty.', $qtyValue['name'], $name);
-                        $errorKeys[$item->getId()] = $key;
+                        $errorKeys[$item->getId()] = $qtyKey;
+                        $errorKeys['tabs'] = 'items_section';
                     }
                 }
             }
@@ -550,6 +552,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             if (isset($availableItemsArray[$key]) && $availableItemsArray[$key]['qty'] < $qty) {
                 $errors[] = Mage::helper('enterprise_rma')->__('Quantity of %s is greater than you can return.', $name);
                 $errorKeys[$key] = 'qty_requested';
+                $errorKeys['tabs'] = 'items_section';
             }
         }
 
@@ -634,6 +637,9 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 $itemModel->setData($itemPost)
                     ->prepareAttributes($itemPost, $key);
                 $errors = array_merge($itemModel->getErrors(), $errors);
+                if ($errors) {
+                    $errorKeys['tabs'] = 'items_section';
+                }
 
                 $itemModels[]               = $itemModel;
 

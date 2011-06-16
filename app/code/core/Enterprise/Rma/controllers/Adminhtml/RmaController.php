@@ -226,7 +226,13 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 }
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                $this->_redirect('*/*/new', array('id' => Mage::registry('current_order')));
+                $errorKeys = Mage::getSingleton('core/session')->getRmaErrorKeys();
+                $controllerParams = array('order_id' => Mage::registry('current_order')->getId());
+                if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
+                    $controllerParams['active_tab'] = 'items_section';
+                }
+                $this->_redirect('*/*/new', $controllerParams);
+
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($this->__('Failed to save RMA.'));
@@ -297,7 +303,13 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 }
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('id' => $model->getId()));
+
+                $errorKeys = Mage::getSingleton('core/session')->getRmaErrorKeys();
+                $controllerParams = array('id' => $model->getId());
+                if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
+                    $controllerParams['active_tab'] = 'items_section';
+                }
+                $this->_redirect('*/*/edit', $controllerParams);
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($this->__('Failed to save RMA.'));
