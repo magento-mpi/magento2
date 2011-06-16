@@ -353,10 +353,14 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             // Because some methods don't accept VARIABLE and (NON)RECTANGULAR containers
             $package->addChild('Container', $r->getContainer());
             $package->addChild('Size', $r->getSize());
-            $package->addChild('Width', $r->getWidth());
-            $package->addChild('Length', $r->getLength());
-            $package->addChild('Height', $r->getHeight());
-            $package->addChild('Girth', $r->getGirth());
+            if ($r->getSize() == 'LARGE') {
+                $package->addChild('Width', $r->getWidth());
+                $package->addChild('Length', $r->getLength());
+                $package->addChild('Height', $r->getHeight());
+                if ($r->getContainer() == 'NONRECTANGULAR' || $r->getContainer() == 'VARIABLE') {
+                    $package->addChild('Girth', $r->getGirth());
+                }
+            }
             $package->addChild('Machinable', $r->getMachinable());
 
             $api = 'RateV4';
@@ -375,10 +379,14 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $package->addChild('Country', $r->getDestCountryName());
             $package->addChild('Container', $r->getContainer());
             $package->addChild('Size', $r->getSize());
-            $package->addChild('Width', $r->getWidth());
-            $package->addChild('Length', $r->getLength());
-            $package->addChild('Height', $r->getHeight());
-            $package->addChild('Girth', $r->getGirth());
+            if ($r->getSize() == 'LARGE') {
+                $package->addChild('Width', $r->getWidth());
+                $package->addChild('Length', $r->getLength());
+                $package->addChild('Height', $r->getHeight());
+                if ($r->getContainer() == 'NONRECTANGULAR') {
+                    $package->addChild('Girth', $r->getGirth());
+                }
+            }
 
             $api = 'IntlRateV2';
         }
