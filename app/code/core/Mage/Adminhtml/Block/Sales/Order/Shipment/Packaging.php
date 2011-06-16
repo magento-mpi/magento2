@@ -167,8 +167,8 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
         $carrier = $this->getShipment()->getOrder()->getShippingCarrier();
         if ($carrier) {
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($countryId);
-            $containerType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
-            return $containerType;
+            $confirmationType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
+            return $confirmationType;
         }
         return '';
     }
