@@ -61,11 +61,11 @@ var giftWrappingItem = {
     itemsInfo : <?php echo $this->getItemsInfo()->toJson() ?>,
     designsInfo : <?php echo $this->getDesignsInfo()->toJson() ?>,
     isObserved : false,
+    isWrapped : false,
     init : function() {
         $$('.action-link').each(function (el) {
             Event.observe(el, 'click', this.setData.bind(this));
         }, this);
-        Event.observe($('giftwrapping_design_item'), 'change', this.setWrapping.bind(this));
     },
 
     setWrapping : function(event, value) {
@@ -138,6 +138,10 @@ var giftWrappingItem = {
             Event.observe($('gift_options_ok_button'), 'click', this.processOk.bind(this));
             Event.observe($('gift_options_cancel_button'), 'click', this.processCancel.bind(this));
             this.isObserved = true;
+        }
+        if (!this.isWrapped) {
+            Event.observe($('giftwrapping_design_item'), 'change', this.setWrapping.bind(this));
+            this.isWrapped = true;
         }
     },
 
