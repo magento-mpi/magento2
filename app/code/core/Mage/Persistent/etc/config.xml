@@ -216,7 +216,7 @@
                 <observers>
                     <persistent>
                         <class>persistent/observer</class>
-                        <method>clearPersistent</method>
+                        <method>removePersistentCookie</method>
                     </persistent>
                 </observers>
             </customer_register_success>

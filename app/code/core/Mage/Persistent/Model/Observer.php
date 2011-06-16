@@ -229,34 +229,15 @@ class Mage_Persistent_Model_Observer
             return;
         }
 
-        /** @var $action Mage_Checkout_OnepageController */
-        $action = $observer->getEvent()->getControllerAction();
-
-        if ($action->getRequest()->getPost('method') == Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER) {
-            $this->_getPersistentHelper()->getSession()->removePersistentCookie();
-            /** @var $customerSession Mage_Customer_Model_Session */
-            $customerSession = Mage::getSingleton('customer/session');
-            if (!$customerSession->isLoggedIn()) {
-                $customerSession->setCustomerId(null)
-                    ->setCustomerGroupId(null);
-            }
-
-            $this->_setQuoteGuest();
-        }
-    }
-
-    /**
-     * Clear persistent data
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function clearPersistent($observer)
-    {
         $this->_getPersistentHelper()->getSession()->removePersistentCookie();
-        Mage::getSingleton('checkout/session')->unsetAll();
-        Mage::getSingleton('customer/session')
-            ->setCustomerId(null)
-            ->setCustomerGroupId(null);
+        /** @var $customerSession Mage_Customer_Model_Session */
+        $customerSession = Mage::getSingleton('customer/session');
+        if (!$customerSession->isLoggedIn()) {
+            $customerSession->setCustomerId(null)
+                ->setCustomerGroupId(null);
+        }
+
+        $this->_setQuoteGuest();
     }
 
     /**
