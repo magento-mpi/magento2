@@ -235,7 +235,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
              */
             $attributesWeights = array();
             $needToReplaceSeparator = ($this->_separator != ' ');
-            $currentCurrency = Mage::app()->getStore($index['store_id'])->getCurrentCurrency();
+            $currentCurrency = Mage::app()->getStore($index['store_id'])->getDefaultCurrency();
             foreach ($index as $code => $value) {
                 $weight = 0;
                 $isSearchable = 0;
