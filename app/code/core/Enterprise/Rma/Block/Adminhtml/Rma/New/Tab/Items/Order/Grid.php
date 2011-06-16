@@ -85,6 +85,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         $orderId = Mage::registry('current_order')->getId();
         $itemsInActiveRmaArray = Mage::getResourceModel('enterprise_rma/item')->getItemsIdsByOrder($orderId);
 
+        $fullItemsCollection = Mage::getResourceModel('enterprise_rma/item')->getOrderItemsCollection($orderId);
         /**
          * contains data that defines possibility of return for an order item
          * array value ['self'] refers to item's own rules
@@ -95,7 +96,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product');
 
-        foreach ($this->getCollection() as $item) {
+        foreach ($fullItemsCollection as $item) {
             $allowed = true;
             if (in_array($item->getId(), $itemsInActiveRmaArray)) {
                 $allowed = false;
