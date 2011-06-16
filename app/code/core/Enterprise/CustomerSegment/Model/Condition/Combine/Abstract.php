@@ -181,7 +181,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
             }
         }
 
-        if ($gotConditions) {
+        if ($gotConditions && !empty($subfilters)) {
             $select->where(implode(($this->getAggregator() == 'all') ? ' AND ' : ' OR ', $subfilters));
         } else {
             $select->where('1=1');
