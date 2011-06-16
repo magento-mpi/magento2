@@ -667,7 +667,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             ),
             'containers_filter' => array(
                 array(
-                    'containers' => array('00'),
+                    'containers' => array('00'), // Customer Packaging
                     'filters'    => array(
                         'within_us' => array(
                             'method' => array(
@@ -690,7 +690,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                     )
                 ),
                 array(
-                    'containers' => array('21', '03'),
+                    'containers' => array('21', '03'), // UPS Express Box, UPS Tube
                     'filters'    => array(
                         'within_us' => array(
                             'method' => array(
@@ -708,7 +708,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                     )
                 ),
                 array(
-                    'containers' => array('24', '25'),
+                    'containers' => array('24', '25'), // UPS Worldwide 25 kilo, UPS Worldwide 10 kilo
                     'filters'    => array(
                         'within_us' => array(
                             'method' => array()
