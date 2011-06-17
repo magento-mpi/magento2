@@ -200,7 +200,10 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         switch ($range)
         {
             case '24h':
-                $expression = $this->getConnection()->getDateFormatSql('{{attribute}}', '%Y-%m-%d %H:00');
+                $expression = $this->getConnection()->getConcatSql(array(
+                    $this->getConnection()->getDateFormatSql('{{attribute}}', '%Y-%m-%d %H:'),
+                    $this->getConnection()->quote('00')
+                ));
                 break;
             case '7d':
             case '1m':
