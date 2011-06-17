@@ -154,9 +154,9 @@ class Enterprise_PageCache_Model_Processor
      */
     protected function _getDesignPackage()
     {
-        $exceptions = Enterprise_PageCache_Model_Cache::getCacheInstance()->load(self::DESIGN_EXCEPTION_KEY);
-        $this->_designExceptionExistsInCache = Enterprise_PageCache_Model_Cache::getCacheInstance()->getFrontend()
-            ->test(self::DESIGN_EXCEPTION_KEY);
+        $cacheInstance = Enterprise_PageCache_Model_Cache::getCacheInstance();
+        $exceptions = $cacheInstance->load(self::DESIGN_EXCEPTION_KEY);
+        $this->_designExceptionExistsInCache = $cacheInstance->getFrontend()->test(self::DESIGN_EXCEPTION_KEY);
 
         if (!$exceptions) {
             return false;
