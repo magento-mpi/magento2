@@ -376,9 +376,18 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     public function getIsEngineAvailableForNavigation($isCatalog = true)
     {
         if (is_null($this->_isEngineAvailableForNavigation)) {
-            $this->_isEngineAvailableForNavigation = $this->isActiveEngine()
-                && ($this->getSearchConfigData('solr_server_use_in_catalog_navigation') || !$isCatalog)
-                && !$this->getTaxInfluence();
+            $this->_isEngineAvailableForNavigation = false;
+            if ($this->isActiveEngine()) {
+                if ($isCatalog) {
+                    if ($this->getSearchConfigData('solr_server_use_in_catalog_navigation')
+                        && !$this->getTaxInfluence()
+                    ) {
+                        $this->_isEngineAvailableForNavigation = true;
+                    }
+                } else {
+                    $this->_isEngineAvailableForNavigation = true;
+                }
+            }
         }
 
         return $this->_isEngineAvailableForNavigation;
