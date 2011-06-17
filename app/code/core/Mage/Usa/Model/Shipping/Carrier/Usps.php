@@ -379,14 +379,20 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $package->addChild('Country', $r->getDestCountryName());
             $package->addChild('Container', $r->getContainer());
             $package->addChild('Size', $r->getSize());
+            $width = $length = $height = $girth = '';
             if ($r->getSize() == 'LARGE') {
-                $package->addChild('Width', $r->getWidth());
-                $package->addChild('Length', $r->getLength());
-                $package->addChild('Height', $r->getHeight());
+                $width = $r->getWidth();
+                $length = $r->getLength();
+                $height = $r->getHeight();
                 if ($r->getContainer() == 'NONRECTANGULAR') {
-                    $package->addChild('Girth', $r->getGirth());
+                    $girth = $r->getGirth();
                 }
             }
+            $package->addChild('Width', $width);
+            $package->addChild('Length', $length);
+            $package->addChild('Height', $height);
+            $package->addChild('Girth', $girth);
+
 
             $api = 'IntlRateV2';
         }
