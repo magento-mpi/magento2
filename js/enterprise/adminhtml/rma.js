@@ -37,6 +37,8 @@ AdminRma.prototype = {
         this.bundleArray            = new Object();
         this.formId                 = false;
         this.shippingMethod         = false;
+        this.gridProducts           = $H({});
+        this.grid                   = false;
     },
 
     getRowIdByClick : function(event){
@@ -328,6 +330,8 @@ AdminRma.prototype = {
     },
 
     addProduct : function(event){
+        this.gridProducts = $H({});
+        this.grid.reloadParams = {'products[]':this.gridProducts.keys()};
         Element.hide('rma-items-block');
         Element.show('select-order-items-block');
     },
@@ -448,6 +452,32 @@ AdminRma.prototype = {
         row.insert(column);
         tableRma.insert(tb.insert(row));
         this.newRmaItemId++;
+    },
+
+    addProductRowCallback: function(grid, event) {
+        var trElement = Event.findElement(event, 'tr');
+        var isInput = Event.element(event).tagName == 'INPUT';
+        if (trElement) {
+            var checkbox = Element.select(trElement, 'input');
+            if (checkbox[0]) {
+                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+                grid.setCheckboxChecked(checkbox[0], checked);
+            }
+            var link = Element.select(trElement, 'a[class="product_to_add"]');
+            if (link[0]) {
+                rma.showBundleItems(event)
+            }
+        }
+    },
+
+    addProductCheckboxCheckCallback: function(grid, element, checked){
+        if (checked) {
+            this.gridProducts.set(element.value, {});
+        } else {
+            this.gridProducts.unset(element.value);
+        }
+        grid.reloadParams = {'products[]':this.gridProducts.keys()};
+        this.grid = grid;
     },
 
     reasonChanged: function(event) {
@@ -736,4 +766,9 @@ AdminRma.prototype = {
         }
     }
 
+}
+
+
+function ttt() {
+    alert('colbacl');
 }

@@ -169,6 +169,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
             'align'     => 'center',
             'sortable' => false,
             'index' => 'item_id',
+            'values'    => $this->_getSelectedProducts(),
+            'name'      => 'in_products',
         ));
 
         $this->addColumn('product_name', array(
@@ -213,19 +215,22 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     {
         $js = '
             function (grid, event) {
-                var trElement = Event.findElement(event, \'tr\');
-                var isInput = Event.element(event).tagName == \'INPUT\';
-                if (trElement) {
-                    var checkbox = Element.select(trElement, \'input\');
-                    if (checkbox[0]) {
-                        var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
-                        grid.setCheckboxChecked(checkbox[0], checked);
-                    }
-                    var link = Element.select(trElement, \'a[class="product_to_add"]\');
-                    if (link[0]) {
-                        rma.showBundleItems(event)
-                    }
-                }
+                return rma.addProductRowCallback(grid, event);
+            }
+        ';
+        return $js;
+    }
+
+    /**
+     * Checkbox Click JS Callback
+     *
+     * @return string
+     */
+    public function getCheckboxCheckCallback()
+    {
+        $js = '
+            function (grid, element, checked) {
+                return rma.addProductCheckboxCheckCallback(grid, element, checked);
             }
         ';
         return $js;
@@ -241,4 +246,50 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         return $this->getUrl('*/*/addProductGrid', array('_current' => true));
     }
 
+    /**
+     * List of selected products
+     *
+     * @return array
+     */
+    protected function _getSelectedProducts()
+    {
+        $products = $this->getRequest()->getPost('products', array());
+
+        if (!is_array($products)) {
+            $products = array();
+        } else {
+            foreach ($products as &$value) {
+                $value = intval($value);
+            }
+        }
+
+        return $products;
+    }
+
+    /**
+     * Setting column filters to collection
+     *
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @return Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
+     */
+    protected function _addColumnFilterToCollection($column)
+    {
+        // Set custom filter for selected products flag
+        if ($column->getId() == 'select') {
+            $productIds = $this->_getSelectedProducts();
+            if (empty($productIds)) {
+                $productIds = 0;
+            }
+            if ($column->getFilter()->getValue()) {
+                $this->getCollection()->addFieldToFilter('item_id', array('in'=>$productIds));
+            } else {
+                if($productIds) {
+                    $this->getCollection()->addFieldToFilter('item_id', array('nin'=>$productIds));
+                }
+            }
+        } else {
+            parent::_addColumnFilterToCollection($column);
+        }
+        return $this;
+    }
 }
