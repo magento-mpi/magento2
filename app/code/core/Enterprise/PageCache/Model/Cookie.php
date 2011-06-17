@@ -68,10 +68,10 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     {
         if ($this->_salt === null) {
             $saltCacheId = 'full_page_cache_key';
-            $this->_salt = Mage::app()->getCache()->load($saltCacheId);
+            $this->_salt = Enterprise_PageCache_Model_Cache::getCacheInstance()->load($saltCacheId);
             if (!$this->_salt) {
                 $this->_salt = md5(microtime() . rand());
-                Mage::app()->getCache()->save($this->_salt, $saltCacheId,
+                Enterprise_PageCache_Model_Cache::getCacheInstance()->save($this->_salt, $saltCacheId,
                     array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
             }
         }

@@ -154,8 +154,9 @@ class Enterprise_PageCache_Model_Processor
      */
     protected function _getDesignPackage()
     {
-        $exceptions = Mage::app()->loadCache(self::DESIGN_EXCEPTION_KEY);
-        $this->_designExceptionExistsInCache = Mage::app()->getCache()->test(self::DESIGN_EXCEPTION_KEY);
+        $exceptions = Enterprise_PageCache_Model_Cache::getCacheInstance()->load(self::DESIGN_EXCEPTION_KEY);
+        $this->_designExceptionExistsInCache = Enterprise_PageCache_Model_Cache::getCacheInstance()->getFrontend()
+            ->test(self::DESIGN_EXCEPTION_KEY);
 
         if (!$exceptions) {
             return false;
@@ -230,10 +231,11 @@ class Enterprise_PageCache_Model_Processor
      */
     public function extractContent($content)
     {
+        $cacheInstance = Enterprise_PageCache_Model_Cache::getCacheInstance();
         /*
          * Apply design change
          */
-        $designChange = Mage::app()->loadCache($this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX);
+        $designChange = $cacheInstance->load($this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX);
         if ($designChange) {
             $designChange = unserialize($designChange);
             if (is_array($designChange) && isset($designChange['package']) && isset($designChange['theme'])) {
@@ -261,7 +263,7 @@ class Enterprise_PageCache_Model_Processor
             $subprocessor = new $subprocessorClass;
             $cacheId = $this->prepareCacheId($subprocessor->getPageIdWithoutApp($this));
 
-            $content = Mage::app()->loadCache($cacheId);
+            $content = $cacheInstance->load($cacheId);
 
             if ($content) {
                 if (function_exists('gzuncompress')) {
@@ -278,8 +280,8 @@ class Enterprise_PageCache_Model_Processor
                 }
 
                 // renew recently viewed products
-                $productId = Mage::app()->loadCache($this->getRequestCacheId() . '_current_product_id');
-                $countLimit = Mage::app()->loadCache($this->getRecentlyViewedCountCacheId());
+                $productId = $cacheInstance->load($this->getRequestCacheId() . '_current_product_id');
+                $countLimit = $cacheInstance->load($this->getRecentlyViewedCountCacheId());
                 if ($productId && $countLimit) {
                     Enterprise_PageCache_Model_Cookie::registerViewedProducts($productId, $countLimit);
                 }
@@ -340,7 +342,8 @@ class Enterprise_PageCache_Model_Processor
         }
         $isProcessed = empty($containers);
         // renew session cookie
-        $sessionInfo = Mage::app()->loadCache($this->getSessionInfoCacheId());
+        $sessionInfo = Enterprise_PageCache_Model_Cache::getCacheInstance()->load($this->getSessionInfoCacheId());
+
         if ($sessionInfo) {
             $sessionInfo = unserialize($sessionInfo);
             foreach ($sessionInfo as $cookieName => $cookieInfo) {
@@ -423,8 +426,9 @@ class Enterprise_PageCache_Model_Processor
      * @return Enterprise_PageCache_Model_Processor
      */
     public function processRequestResponse(Zend_Controller_Request_Http $request,
-        Zend_Controller_Response_Http $response)
-    {
+        Zend_Controller_Response_Http $response
+    ) {
+        $cacheInstance = Enterprise_PageCache_Model_Cache::getCacheInstance();
         /**
          * Basic validation for request processing
          */
@@ -446,7 +450,7 @@ class Enterprise_PageCache_Model_Processor
                 }
 
                 $contentSize = strlen($content);
-                $currentStorageSize = (int) Mage::app()->loadCache(self::CACHE_SIZE_KEY);
+                $currentStorageSize = (int) $cacheInstance->load(self::CACHE_SIZE_KEY);
 
                 $maxSizeInBytes = Mage::getStoreConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
 
@@ -455,9 +459,9 @@ class Enterprise_PageCache_Model_Processor
                     return $this;
                 }
 
-                Mage::app()->saveCache($content, $cacheId, $this->getRequestTags());
+                $cacheInstance->save($content, $cacheId, $this->getRequestTags());
 
-                Mage::app()->saveCache(
+                $cacheInstance->save(
                     $currentStorageSize + $contentSize,
                     self::CACHE_SIZE_KEY,
                     $this->getRequestTags()
@@ -468,7 +472,7 @@ class Enterprise_PageCache_Model_Processor
                  */
                 $designChange = Mage::getSingleton('core/design');
                 if ($designChange->getData()) {
-                    Mage::app()->saveCache(
+                    $cacheInstance->save(
                         serialize($designChange->getData()),
                         $this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX,
                         $this->getRequestTags()
@@ -622,7 +626,7 @@ class Enterprise_PageCache_Model_Processor
      */
     protected function _saveMetadata()
     {
-        Mage::app()->saveCache(
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->save(
             serialize($this->_metaData),
             $this->getRequestCacheId() . self::METADATA_CACHE_SUFFIX,
             $this->getRequestTags()
@@ -635,7 +639,8 @@ class Enterprise_PageCache_Model_Processor
     protected function _loadMetadata()
     {
         if ($this->_metaData === null) {
-            $cacheMetadata = Mage::app()->loadCache($this->getRequestCacheId() . self::METADATA_CACHE_SUFFIX);
+            $cacheMetadata = Enterprise_PageCache_Model_Cache::getCacheInstance()
+                ->load($this->getRequestCacheId() . self::METADATA_CACHE_SUFFIX);
             if ($cacheMetadata) {
                 $cacheMetadata = unserialize($cacheMetadata);
             }

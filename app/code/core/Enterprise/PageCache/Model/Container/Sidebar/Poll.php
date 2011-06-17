@@ -89,7 +89,7 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
         $data = serialize($renderedParams);
         $id = $this->_getInfoCacheId();
         $tags = array(Enterprise_PageCache_Model_Processor::CACHE_TAG);
-        Mage::app()->getCache()->save($data, $id, $tags);
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->save($data, $id, $tags);
         return $this;
     }
 

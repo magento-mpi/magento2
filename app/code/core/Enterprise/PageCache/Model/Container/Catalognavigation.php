@@ -105,7 +105,7 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
                 }
                 $this->_saveCache($categoryUniqueClasses, $categoryCacheId);
             }
-            if (!Mage::app()->getCache()->test($blockCacheId)) {
+            if (!Enterprise_PageCache_Model_Cache::getCacheInstance()->getFrontend()->test($blockCacheId)) {
                 $this->_saveCache($blockContent, $blockCacheId);
             }
         }

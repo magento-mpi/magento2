@@ -120,10 +120,10 @@ class Enterprise_PageCache_Model_Observer
         }
         $cacheId = Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY;
 
-        $exception = Mage::app()->loadCache($cacheId);
+        $exception = Enterprise_PageCache_Model_Cache::getCacheInstance()->load($cacheId);
         if (!$exception) {
             $exception = Mage::getStoreConfig(self::XML_PATH_DESIGN_EXCEPTION);
-            Mage::app()->saveCache($exception, $cacheId);
+            Enterprise_PageCache_Model_Cache::getCacheInstance()->save($exception, $cacheId);
             $this->_processor->refreshRequestIds();
         }
         return $this;
@@ -223,7 +223,7 @@ class Enterprise_PageCache_Model_Observer
      */
     public function cleanCache()
     {
-        Mage::app()->cleanCache(Enterprise_PageCache_Model_Processor::CACHE_TAG);
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->clean(Enterprise_PageCache_Model_Processor::CACHE_TAG);
         return $this;
     }
 
@@ -291,10 +291,11 @@ class Enterprise_PageCache_Model_Observer
             $observer->getEvent()->getQuoteItem()->getQuote();
         $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_CART, 'quote_' . $quote->getId());
 
-        $cacheTag = md5(Enterprise_PageCache_Model_Container_Sidebar_Cart::CACHE_TAG_PREFIX
+        $cacheId = md5(Enterprise_PageCache_Model_Container_Sidebar_Cart::CACHE_TAG_PREFIX
             . $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CART)
             . $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER));
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($cacheTag));
+
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->remove($cacheId);
 
         return $this;
     }
@@ -466,10 +467,8 @@ class Enterprise_PageCache_Model_Observer
         }
 
         // Customer order sidebar tag
-        $cacheTag = md5(Enterprise_PageCache_Model_Container_Orders::CACHE_TAG_PREFIX
-            . $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER));
-
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($cacheTag));
+        $cacheId = md5($this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER));
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->remove($cacheId);
         return $this;
     }
 
@@ -495,7 +494,8 @@ class Enterprise_PageCache_Model_Observer
     public function registerDesignExceptionsChange(Varien_Event_Observer $observer)
     {
         $object = $observer->getDataObject();
-        Mage::app()->saveCache($object->getValue(), Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY);
+        Enterprise_PageCache_Model_Cache::getCacheInstance()
+            ->save($object->getValue(), Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY);
         return $this;
     }
 

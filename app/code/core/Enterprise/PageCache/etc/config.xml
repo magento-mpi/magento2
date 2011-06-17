@@ -151,7 +151,14 @@
                     </enterprise_pagecache>
                 </observers>
             </core_config_backend_design_exception_save_after>
-
+            <adminhtml_cache_refresh_type>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>cleanCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </adminhtml_cache_refresh_type>
         </events>
     </adminhtml>
     <frontend>

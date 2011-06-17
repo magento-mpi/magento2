@@ -87,7 +87,7 @@ class Enterprise_PageCache_Model_Container_Banner
         if (!$lifetime) {
             $lifetime = false;
         }
-        Mage::app()->getCache()->save($data, $id, $tags, $lifetime);
+        Enterprise_PageCache_Model_Cache::getCacheInstance()->save($data, $id, $tags, $lifetime);
         return $this;
     }
 
