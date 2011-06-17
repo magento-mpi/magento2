@@ -1634,6 +1634,11 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 $keyData['REF_COLUMN_NAME'], $onDelete, $onUpdate
             );
         }
+
+        // Set additional options
+        $tableData = $this->showTableStatus($tableName);
+        $table->setOption('type', $tableData['Engine']);
+
         return $table;
     }
 

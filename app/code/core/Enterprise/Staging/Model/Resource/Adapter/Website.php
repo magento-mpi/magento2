@@ -123,7 +123,6 @@ class Enterprise_Staging_Model_Resource_Adapter_Website extends Enterprise_Stagi
 
         $websites = $staging->getMapperInstance()->getWebsites();
         foreach ($websites as $website) {
-            $masterWebsiteId = $website->getMasterWebsiteId();
             $stagingWebsiteId = $website->getStagingWebsiteId();
             if ($stagingWebsiteId) {
                 $stagingWebsite = Mage::app()->getWebsite($stagingWebsiteId);

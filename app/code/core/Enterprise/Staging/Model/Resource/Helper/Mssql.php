@@ -54,73 +54,6 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
     }
 
     /**
-     * Returns Ddl Column info from native Db format
-     * @param  $field
-     * @return array
-     */
-    public function getDdlInfoByDescription($field)
-    {
-        $columnName = $field['COLUMN_NAME'];
-        $ddlOptions = array();
-        $ddlSize = $ddlType = null;
-        switch ($field['DATA_TYPE']) {
-            case 'bit':
-                $ddlType = Varien_Db_Ddl_Table::TYPE_BOOLEAN;
-                break;
-            case 'smallint':
-                $ddlType = Varien_Db_Ddl_Table::TYPE_SMALLINT;
-                break;
-            case 'int':
-                $ddlType = Varien_Db_Ddl_Table::TYPE_INTEGER;
-                break;
-            case 'bigint':
-                $ddlType = Varien_Db_Ddl_Table::TYPE_BIGINT;
-                break;
-            case 'boolean':
-                $ddlType = Varien_Db_Ddl_Table::TYPE_BOOLEAN;
-                break;
-            case 'float':
-                $ddlType = Varien_Db_Ddl_Table::TYPE_FLOAT;
-                break;
-            case 'decimal':
-                $ddlType = Varien_Db_Ddl_Table::TYPE_DECIMAL;
-                $ddlSize = $field['PRECISION'] . ',' .$field['SCALE'];
-                break;
-            case 'date':
-                $ddlType = Varien_Db_Ddl_Table::TYPE_DATE;
-                break;
-            case 'datetime':
-                $ddlType = Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
-                break;
-            case 'varchar':
-            case 'text':
-                $ddlType = Varien_Db_Ddl_Table::TYPE_TEXT;
-                $ddlSize = $field['LENGTH'];
-                break;
-            default:
-                break;
-        }
-
-        if ($field['UNSIGNED']) {
-            $ddlOptions['unsigned'] = true;
-        }
-        if (!$field['NULLABLE']) {
-            $ddlOptions['nullable'] = false;
-        }
-        if ($field['IDENTITY']) {
-            $ddlOptions['identity'] = true;
-        }
-        if ($field['PRIMARY']) {
-            $ddlOptions['primary'] = true;
-        }
-        if ($field['DEFAULT']) {
-            $ddlOptions['default'] = $field['DEFAULT'];
-        }
-
-        return array($columnName, $ddlType, $ddlSize, $ddlOptions);
-    }
-
-    /**
      * Modify table properties before Staging Item Data Insert
      *
      * @param array $tableDesc
@@ -154,18 +87,6 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
             );
         }
         $this->_getWriteAdapter()->enableTableKeys($tableDesc['table_name']);
-    }
-
-    /**
-     * Add custom option to Table Ddl
-     *
-     * @param Varien_Db_Ddl_Table $ddlTable
-     * @param string $sourceTableName
-     * @return void
-     */
-    public function setCustomTableOptions($ddlTable, $sourceTableName)
-    {
-
     }
 
     /**

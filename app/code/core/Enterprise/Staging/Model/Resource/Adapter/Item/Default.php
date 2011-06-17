@@ -383,7 +383,6 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
         if (!empty($websites)) {
             $srcTable    = $this->getTable($entityName);
             $targetTable = $this->_getStagingTableName($srcTable);
-            $updateField = end($fields);
             foreach ($websites as $website) {
                 $stores = $website->getStores();
                 foreach ($stores as $store) {
@@ -917,7 +916,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _beforeStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId, 
+    protected function _beforeStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId,
         $stagingStoreId)
     {
         return $this;
@@ -935,7 +934,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _afterStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId, 
+    protected function _afterStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId,
         $stagingStoreId)
     {
         return $this;

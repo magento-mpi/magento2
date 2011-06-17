@@ -307,7 +307,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      *
      * @param string $tableName
      * @param string $srcTableName
-     * @param bool $isFlat
+     * @param bool $isFlat Ignored, left for compatibility
      * @return Enterprise_Staging_Model_Resource_Adapter_Abstract
      */
     public function createTable($tableName, $srcTableName, $isFlat = false)
@@ -318,7 +318,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
         }
         $srcTableDesc['table_name'] = $this->getTable($tableName);
         $srcTableDesc['src_table_name'] = $this->getTable($srcTableName);
-        $newTable = $this->_getCreateDdl($srcTableDesc, $isFlat);
+        $newTable = $this->_getCreateDdl($srcTableDesc);
 
         try {
             $this->_getWriteAdapter()->createTable($newTable);
@@ -390,56 +390,77 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     }
 
     /**
-     * Get create table Ddl
+     * Get create table sql
      *
+     * @deprecated after 1.10.1.0
      * @param mixed $tableDescription
      * @param bool $isFlat
-     * @return Varien_Db_Ddl_Table
+     * @return string
      */
-    protected function _getCreateDdl($tableDescription, $isFlat = false)
+    protected function _getCreateSql($tableDescription, $isFlat = false)
     {
-        $adapter = $this->_getWriteAdapter();
-        $newTable = $adapter->newTable($adapter->getTableName($tableDescription['table_name']));
+        $_sql = "CREATE TABLE IF NOT EXISTS `{$tableDescription['table_name']}`\n";
 
+        $rows = array();
         if (!empty($tableDescription['fields'])) {
             foreach ($tableDescription['fields'] as $field) {
-                list($columnName, $ddlType, $ddlSize, $ddlOptions) =
-                    Mage::getResourceHelper('enterprise_staging')->getDdlInfoByDescription($field);
-                $comment = 'Staging ' . str_replace('_', ' ', $columnName);
-                $newTable->addColumn($columnName, $ddlType, $ddlSize, $ddlOptions, $comment);
+                $rows[] = $this->_getFieldSql($field);
             }
         }
 
-        foreach ($tableDescription['indexes'] as $index) {
-            if ($index['type'] != Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY) {
-                $newTable->addIndex(
-                    $adapter->getIndexName($tableDescription['table_name'], $index['fields']),
-                    $index['fields'],
-                    array('type' => $index['type'])
-                );
+        foreach ($tableDescription['keys'] as $key) {
+            $rows[] = $this->_getKeySql($key);
+        }
+        foreach ($tableDescription['constraints'] as $key) {
+            if ($isFlat) {
+                $rows[] = $this->_getFlatConstraintSql($key, $tableDescription);
+            }
+            else {
+                $rows[] = $this->_getConstraintSql($key);
             }
         }
+        $rows = implode(",\n", $rows);
+        $_sql .= " ({$rows})";
 
-        foreach ($tableDescription['foreign_keys'] as $foreignKey) {
-            $newTable->addForeignKey(
-                $adapter->getForeignKeyName(
-                    $tableDescription['table_name'], $foreignKey['COLUMN_NAME'],
-                    $foreignKey['REF_TABLE_NAME'], $foreignKey['REF_COLUMN_NAME']
-                ),
-                $foreignKey['COLUMN_NAME'], $foreignKey['REF_TABLE_NAME'], $foreignKey['REF_COLUMN_NAME'],
-                $foreignKey['ON_DELETE'], $foreignKey['ON_UPDATE']
-            );
+        if (!empty($tableDescription['engine'])) {
+            $_sql .= " ENGINE={$tableDescription['engine']}";
         }
-        Mage::getResourceHelper('enterprise_staging')->setCustomTableOptions($newTable, $tableDescription['src_table_name']);
+        if (!empty($tableDescription['charset'])) {
+            $_sql .= " DEFAULT CHARSET={$tableDescription['charset']}";
+        }
+        if (!empty($tableDescription['collate'])) {
+            $_sql .= " COLLATE={$tableDescription['collate']}";
+        }
+
+        return $_sql;
+    }
+
+    /**
+     * Get create table Ddl
+     *
+     * @param array $tableDescription
+     * @return Varien_Db_Ddl_Table
+     */
+    protected function _getCreateDdl($tableDescription)
+    {
+        $adapter = $this->_getReadAdapter();
+
+        $newTableName = $adapter->getTableName($tableDescription['table_name']);
+        $srcTableName = $adapter->getTableName($tableDescription['src_table_name']);
+        $newTable = $adapter->createTableByDdl($srcTableName, $newTableName);
+
+        foreach ($newTable->getColumns(false) as $column) {
+            $column['COMMENT'] = 'Staging ' . $column['COMMENT'];
+            $newTable->setColumn($column);
+        }
         $newTable->setComment($tableDescription['comment']);
-
         return $newTable;
     }
 
     /**
      * Get sql fields list
      *
-     * @deprecated since 1.10.0.0
+     * @deprecated after 1.10.1.0
      * @param mixed $field
      * @return string
      */
@@ -473,7 +494,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     /**
      * Get sql keys list
      *
-     * @deprecated since 1.10.0.0
+     * @deprecated after 1.10.1.0
      * @param mixed $key
      * @return string
      */
@@ -505,7 +526,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     /**
      * Retrieve SQL fragment for FOREIGN KEY
      *
-     * @deprecated since 1.10.0.0
+     * @deprecated after 1.10.1.0
      * @param array $properties the foreign key properties
      * @param array $table      the table properties
      * @return string
@@ -534,7 +555,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     /**
      * Retrieve SQL FOREIGN KEY list
      *
-     * @deprecated since 1.10.0.0
+     * @deprecated after 1.10.1.0
      * @param mixed $key
      * @return string
      */
@@ -647,7 +668,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
     /**
      * Add sql quotes to fields and return imploded string
      *
-     * @deprecered since 1.10.0.0
+     * @deprecated after 1.10.1.0
      * @param array $fields
      * @return string
      */
@@ -711,7 +732,7 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
                     }
                 }
 
-                $sql = "DELETE T1.* FROM `{$targetTable}` as T1, `{$srcTable}` as T2 WHERE " 
+                $sql = "DELETE T1.* FROM `{$targetTable}` as T1, `{$srcTable}` as T2 WHERE "
                     . implode(' AND ', $_websiteFieldNameSql);
 
                 $select->join(

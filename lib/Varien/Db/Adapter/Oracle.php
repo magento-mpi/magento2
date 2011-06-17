@@ -668,7 +668,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $position        = 11;
 
         $desc = array();
-        foreach ($result as $key => $row) {
+        foreach ($result as $row) {
             list ($primary, $primaryPosition, $identity) = array(false, null, false);
             if ($row[$constraint_type] == 'P') {
                 $primary = true;
@@ -678,13 +678,16 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                  */
                 $identity = false;
             }
-            $desc[$this->foldCase($row[$column_name])] = array(
+
+            $colName = $this->foldCase($row[$column_name]);
+            $colType = $row[$data_type];
+            $describedInfo = array(
                 'SCHEMA_NAME'      => $this->foldCase($row[$owner]),
                 'TABLE_NAME'       => $this->foldCase($row[$table_name]),
-                'COLUMN_NAME'      => $this->foldCase($row[$column_name]),
+                'COLUMN_NAME'      => $colName,
                 'COLUMN_POSITION'  => $row[$column_id],
-                'DATA_TYPE'        => $row[$data_type],
-                'DEFAULT'          => trim($row[$data_default], "' "),
+                'DATA_TYPE'        => $colType,
+                'DEFAULT'          => $row[$data_default],
                 'NULLABLE'         => (bool) ($row[$nullable] == 'Y'),
                 'LENGTH'           => $row[$data_length],
                 'SCALE'            => $row[$data_scale],
@@ -694,6 +697,29 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 'PRIMARY_POSITION' => $primaryPosition,
                 'IDENTITY'         => $identity
             );
+
+            // Trim possible wrong characters from default value
+            if ($describedInfo['DEFAULT'] !== null) {
+                $val = $describedInfo['DEFAULT'];
+                if (($colType == 'CLOB') || (strpos($colType, 'CHAR') !== false)) {
+                    // Strip quotes and empty spaces
+                    $val = preg_replace('/^\s*\'/', '', $val);
+                    $val = preg_replace('/\'\s*$/', '', $val);
+                    if ($val === '') {
+                        $val = null;
+                    }
+                } else {
+                    // Easier stripping without regexps
+                    $val = trim($val, "' \n");
+                    // Check that null value is given as string
+                    if (strtolower($val) == 'null') {
+                        $val = null;
+                    }
+                }
+                $describedInfo['DEFAULT'] = $val;
+            }
+
+            $desc[$colName] = $describedInfo;
         }
         /*
          * Set Identity to fields with autoincrement
@@ -787,19 +813,22 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             if ($columnData['UNSIGNED'] === true) {
                 $options['unsigned']  = true;
             }
-            if ($columnData['NULLABLE'] === false
-                && !($type == Varien_Db_Ddl_Table::TYPE_TEXT
-                && strlen($columnData['DEFAULT']) != 0)
-                ) {
+            if ($columnData['NULLABLE'] === false) {
                 $options['nullable'] = false;
             }
             if ($columnData['PRIMARY'] === true) {
                 $options['primary'] = true;
             }
-            if ($columnData['DEFAULT'] !== null
-                && $type != Varien_Db_Ddl_Table::TYPE_TEXT
-                ) {
-                $options['default'] = trim($columnData['DEFAULT'], "' ");
+            if (strlen($columnData['DEFAULT']) > 0) {
+                $options['default'] = $columnData['DEFAULT'];
+            } else {
+                /**
+                 * Force NULL, as empty strings are NULLs in Magento (cross-db compatibility)
+                 * But set NULL only when column is nullable
+                 */
+                if ($columnData['NULLABLE']) {
+                    $options['default'] = null;
+                }
             }
             if (strlen($columnData['SCALE']) > 0) {
                 $options['scale'] = $columnData['SCALE'];
@@ -902,6 +931,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             case 'VARCHAR2':
                 return Varien_Db_Ddl_Table::TYPE_TEXT;
             case 'CLOB':
+                if ($column['LENGTH'] <= 4000) {
+                    return Varien_Db_Ddl_Table::TYPE_TEXT; // Just to justify a little from blobs
+                }
                 return Varien_Db_Ddl_Table::TYPE_BLOB;
             case 'BLOB':
                 return Varien_Db_Ddl_Table::TYPE_VARBINARY;
