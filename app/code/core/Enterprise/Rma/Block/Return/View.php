@@ -271,6 +271,21 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
     }
 
     /**
+     * Get shipping label of RMA
+     *
+     * @return Enterprise_Rma_Model_Shipping
+     */
+    public function canShowButtons()
+    {
+        return (bool)(
+            $this->getShippingLabel()->getId()
+            && (!($this->getRma()->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_CLOSED
+                || $this->getRma()->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED))
+        );
+    }
+
+
+    /**
      * Get print label button html
      *
      * @return string

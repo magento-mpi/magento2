@@ -31,12 +31,6 @@
 
 <div class="page-title">
     <h1><?php echo $this->__('RMA') ?> #<?php echo $_rma->getIncrementId()?> - <?php echo $this->escapeHtml($_rma->getStatusLabel()) ?></h1>
-    <?php if ($this->getShippingLabel()->getId()): ?>
-        <div class="a-right">
-            <?php echo $this->getPrintShippingLabelButton() ?>
-            <?php echo $this->getShowPackagesButton() ?>
-        </div>
-    <?php endif; ?>
 </div>
 
 <div class="col2-set">
@@ -77,16 +71,23 @@
         <div class="box">
             <div class="box-content">
                 <div class="info-box">
-                    <h3 class="box-title"><?php echo $this->__('Tracking Information') ?></h3>
+                    <h3 class="box-title"><?php echo $this->__('Shipping and Tracking Information') ?></h3>
                     <div class="box-content">
+                        <div class="a-right">
                         <?php if ($trackingNumbers->count()): ?>
-                            <a
+                            <a class="f-left"
                                 href="#"
                                 onclick="popWin('<?php echo $this->helper('enterprise_rma')->getTrackingPopupUrlBySalesModel($this->getRma()) ?>','trackshipment','width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
                                 title="<?php echo $this->__('Track this shipment') ?>">
                                     <?php echo $this->__('Track this shipment') ?>
                             </a>
                         <?php endif ?>
+                        <?php if ($this->canShowButtons()): ?>
+                            <?php echo $this->getPrintShippingLabelButton() ?>
+                            <?php echo $this->getShowPackagesButton() ?>
+                        <?php endif; ?>
+                        </div>
+                        <div class="clear wrapper"></div>
                         <table class="data-table" id="track-info-table">
                             <col width="230" />
                             <col width="350" />
