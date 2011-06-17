@@ -418,6 +418,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
                     ->setLastCybersourceToken($result->requestToken)
                     ->setCcTransId($result->requestID)
                     ->setTransactionId($result->requestID)
+                    ->setIsTransactionClosed(0)
                     ->setCybersourceToken($result->requestToken)
                 ;
             } else {
