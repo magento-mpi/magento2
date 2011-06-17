@@ -660,6 +660,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                                 'FEDEX_2_DAY',
                                 'STANDARD_OVERNIGHT',
                                 'PRIORITY_OVERNIGHT',
+                                'FIRST_OVERNIGHT',
                             )
                         ),
                         'from_us' => array(

@@ -633,7 +633,6 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                                 'Priority Mail',
                                 'Parcel Post',
                                 'Media Mail',
-                                'Express Mail',
                                 'First-Class Mail Large Envelope',
                             )
                         ),
@@ -707,7 +706,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                                 'USPS GXG Envelopes',
                                 'Express Mail International',
                                 'Priority Mail International',
-                                'Class Mail International Package',
+                                'First-Class Mail International Package',
                             )
                         )
                     )
