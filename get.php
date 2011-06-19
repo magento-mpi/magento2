@@ -137,9 +137,11 @@ if (0 !== stripos($pathInfo, $mediaDirectory . '/')) {
     sendNotFoundPage();
 }
 
-$databaseFileSotrage = Mage::getModel('core/file_storage_database');
-$databaseFileSotrage->loadByFilename($relativeFilename);
-
+try {
+    $databaseFileSotrage = Mage::getModel('core/file_storage_database');
+    $databaseFileSotrage->loadByFilename($relativeFilename);
+} catch (Exception $e) {
+}
 if ($databaseFileSotrage->getId()) {
     $directory = dirname($filePath);
     if (!is_dir($directory)) {
