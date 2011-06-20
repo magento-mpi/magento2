@@ -64,6 +64,7 @@
 .checkout-cart-index .col1-layout .widget-compared { display:block; padding:0 20px; }
 
 /* Widget CMS Static Block */
+.category-view + .widget-static-block { display:block; padding:40px 0 0; }
 .widget-static-block {}
 
 /* Widget Catalog Events Carousel */
