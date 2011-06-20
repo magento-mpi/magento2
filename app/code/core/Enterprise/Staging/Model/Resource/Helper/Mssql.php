@@ -32,7 +32,7 @@
  * @package     Enterprise_Staging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Resource_Helper_Mssql
+class Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Resource_Helper_Mssql
 {
     /**
      * Join information for last staging logs
@@ -54,39 +54,41 @@ class  Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Res
     }
 
     /**
-     * Modify table properties before Staging Item Data Insert
+     * Modify table properties before Staging Item Data Insert to allow inserting into identity column
      *
+     * @param string|Varien_Db_Select $sql
      * @param array $tableDesc
-     * @return void
+     * @return string|Varien_Db_Select $sql
      */
-    public function beforeIdentityItemDataInsert($tableDesc)
+    public function wrapEnableIdentityDataInsert($sql, $tableDesc)
     {
         $field = reset($tableDesc['fields']);
         if ($field['IDENTITY']) {
-            $adapter = $this->_getWriteAdapter();
-            $adapter->query(
-                sprintf('SET IDENTITY_INSERT %s ON', $adapter->quoteIdentifier($tableDesc['table_name']))
-            );
+            $quotedTableName = $this->_getWriteAdapter()->quoteIdentifier($tableDesc['table_name']);
+            $sql = sprintf('SET IDENTITY_INSERT %s ON', $quotedTableName) .
+                "\n" . $sql . "\n" .
+                sprintf(';SET IDENTITY_INSERT %s OFF', $quotedTableName);
         }
-        $this->_getWriteAdapter()->disableTableKeys($tableDesc['table_name']);
+        return $sql;
     }
 
     /**
-     * Modify table properties after Staging Item Data Insert
+     * Modify table properties after Staging Item Data Insert, disable inserting of identity fields
      *
      * @param array $tableDesc
-     * @return void
+     * @return Enterprise_Staging_Model_Resource_Helper_Mssql
      */
-    public function afterIdentityItemDataInsert($tableDesc)
+    public function disableIdentityItemDataInsert($tableDesc)
     {
         $field = reset($tableDesc['fields']);
         if ($field['IDENTITY']) {
             $adapter = $this->_getWriteAdapter();
+            $quotedTableName = $adapter->quoteIdentifier($tableDesc['table_name']);
             $adapter->query(
-                sprintf('SET IDENTITY_INSERT %s OFF', $adapter->quoteIdentifier($tableDesc['table_name']))
+                sprintf('SET IDENTITY_INSERT %s OFF', $quotedTableName)
             );
         }
-        $this->_getWriteAdapter()->enableTableKeys($tableDesc['table_name']);
+        return $this;
     }
 
     /**

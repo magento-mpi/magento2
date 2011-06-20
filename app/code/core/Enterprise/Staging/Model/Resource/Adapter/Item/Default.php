@@ -471,23 +471,28 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      */
     protected function _backupItemData($srcTable, $targetTable)
     {
-        $readAdapter  = $this->_getReadAdapter();
-        $writeAdapter = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
         $resourceHelper = Mage::getResourceHelper('enterprise_staging');
-
         $targetTableDesc = $this->getTableProperties($targetTable);
-        $resourceHelper->beforeIdentityItemDataInsert($targetTableDesc);
+        $adapter->disableTableKeys($targetTableDesc['table_name']);
+
         try {
             $fields = array_keys($targetTableDesc['fields']);
             $srcSelectSql  = $this->_getSimpleSelect($srcTable, $fields);
-            $sql = $readAdapter->insertFromSelect($srcSelectSql, $targetTable, $fields);
-            $writeAdapter->query($sql);
-
-            $resourceHelper->afterIdentityItemDataInsert($targetTableDesc);
+            $sql = $adapter->insertFromSelect($srcSelectSql, $targetTable, $fields);
+            $sql = $resourceHelper->wrapEnableIdentityDataInsert($sql, $targetTableDesc);
+            $adapter->query($sql);
         } catch (Exception $e) {
-            $resourceHelper->afterIdentityItemDataInsert($targetTableDesc);
+            try {
+                $adapter->enableTableKeys($targetTableDesc['table_name']);
+                $resourceHelper->disableIdentityItemDataInsert($targetTableDesc);
+            } catch (Exception $eTemp) {
+            }
             throw $e;
         }
+
+        $adapter->enableTableKeys($targetTableDesc['table_name']);
+
         return $this;
     }
 

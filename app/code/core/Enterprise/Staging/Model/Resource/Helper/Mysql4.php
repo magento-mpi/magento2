@@ -56,23 +56,24 @@ class Enterprise_Staging_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
     /**
      * Modify table properties before Staging Item Data Insert
      *
+     * @param string|Varien_Db_Select $sql
      * @param array $tableDesc
-     * @return void
+     * @return string|Varien_Db_Select $sql
      */
-    public function beforeIdentityItemDataInsert($tableDesc)
+    public function wrapEnableIdentityDataInsert($sql, $tableDesc)
     {
-        $this->_getWriteAdapter()->disableTableKeys($tableDesc['table_name']);
+        return $sql;
     }
 
     /**
      * Modify table properties after Staging Item Data Insert
      *
      * @param array $tableDesc
-     * @return void
+     * @return Enterprise_Staging_Model_Resource_Helper_Mysql4
      */
-    public function afterIdentityItemDataInsert($tableDesc)
+    public function disableIdentityItemDataInsert($tableDesc)
     {
-        $this->_getWriteAdapter()->enableTableKeys($tableDesc['table_name']);
+        return $this;
     }
 
     /**
