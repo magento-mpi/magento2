@@ -56,7 +56,7 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        if (!$this->getStoreId()) {
+        if (!$this->hasStoreId() && !$this->getStoreId()) {
             $xmlModel = Mage::getModel('enterprise_giftregistry/attribute_processor');
             $this->setMetaXml($xmlModel->processData($this));
             $this->_cleanupData();
