@@ -586,7 +586,9 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     public function groupByCustomer()
     {
-        $this->getSelect()->group('main_table.customer_id');
+        $this->getSelect()
+            ->where('main_table.customer_id IS NOT NULL')
+            ->group('main_table.customer_id');
 
         /*
          * Allow Analytic functions usage
