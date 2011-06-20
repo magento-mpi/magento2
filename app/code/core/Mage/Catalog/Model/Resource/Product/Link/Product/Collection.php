@@ -293,4 +293,22 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
 
         return $this;
     }
+    
+    /**
+     * Set sorting order
+     *
+     * $attribute can also be an array of attributes
+     *
+     * @param string|array $attribute
+     * @param string $dir
+     * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection
+     */
+    public function setOrder($attribute, $dir = self::SORT_ORDER_ASC)
+    {
+        if ($attribute == 'position') {
+            $this->setPositionOrder($dir);
+            return $this;
+        }
+        return parent::setOrder($attribute, $dir);
+    }
 }
