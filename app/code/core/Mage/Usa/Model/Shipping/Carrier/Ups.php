@@ -526,7 +526,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                     '14' => Mage::helper('usa')->__('UPS Next Day Air Early A.M.'),
                     '54' => Mage::helper('usa')->__('UPS Worldwide Express Plus'),
                     '59' => Mage::helper('usa')->__('UPS Second Day Air A.M.'),
-                    '65' => Mage::helper('usa')->__('UPS Saver'),
+                    '65' => Mage::helper('usa')->__('UPS Worldwide Saver'),
                 ),
                 // Shipments Originating in Canada
                 'Shipments Originating in Canada' => array(
@@ -685,6 +685,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                                 '07', // Worldwide Express
                                 '54', // Worldwide Express Plus
                                 '08', // Worldwide Expedited
+                                '65', // Worldwide Saver
                             )
                         )
                     )
@@ -703,6 +704,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                                 '07', // Worldwide Express
                                 '54', // Worldwide Express Plus
                                 '08', // Worldwide Expedited
+                                '65', // Worldwide Saver
                             )
                         )
                     )
@@ -718,6 +720,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                                 '07', // Worldwide Express
                                 '54', // Worldwide Express Plus
                                 '08', // Worldwide Expedited
+                                '65', // Worldwide Saver
                             )
                         )
                     )
