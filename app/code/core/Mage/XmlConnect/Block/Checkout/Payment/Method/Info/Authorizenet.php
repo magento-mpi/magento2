@@ -35,19 +35,9 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Authorizenet
     extends Mage_Paygate_Block_Authorizenet_Info_Cc
 {
     /**
-     * Prevent any rendering
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        return '';
-    }
-
-    /**
      * Add Authorizenet info to order XML object
      *
-     * @param Mage_XmlConnect_Model_Simplexml_Element $paymentItemXmlObj
+     * @param Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj
      * @return Mage_XmlConnect_Model_Simplexml_Element
      */
     public function addPaymentInfoToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj)
@@ -56,7 +46,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Authorizenet
         if (!$this->getHideTitle()) {
             $orderItemXmlObj->addAttribute(
                 'title',
-                $this->escapeHtml($this->getMethod()->getTitle())
+                $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle())
             );
         }
 
@@ -71,12 +61,12 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Authorizenet
                     'label' => $showCount ? $this->__('Credit Card %s', $key + 1) : $this->__('Credit Card')
                 )
             );
-            foreach ($card as $_label => $_value) {
+            foreach ($card as $label => $value) {
                 $creditCard->addCustomChild(
                     'item',
-                    implode($this->getValueAsArray($_value, true), PHP_EOL),
+                    implode($this->getValueAsArray($value, true), PHP_EOL),
                     array(
-                        'label' => $this->escapeHtml($_label)
+                        'label' => $label
                     )
                 );
             }

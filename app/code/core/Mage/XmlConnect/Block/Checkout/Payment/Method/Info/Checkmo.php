@@ -34,16 +34,6 @@
 class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Checkmo extends Mage_Payment_Block_Info_Checkmo
 {
     /**
-     * Prevent any rendering
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        return '';
-    }
-
-    /**
      * Add Check / Money order info to order XML object
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj
@@ -52,13 +42,16 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Checkmo extends Mage_Pa
     public function addPaymentInfoToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj)
     {
         $orderItemXmlObj->addAttribute('type', $this->getMethod()->getCode());
-        $orderItemXmlObj->addAttribute('title', $this->getMethod()->getTitle());
+        $orderItemXmlObj->addAttribute(
+            'title',
+            $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle())
+        );
 
         if ($this->getInfo()->getAdditionalData()) {
             if ($this->getPayableTo()) {
                 $orderItemXmlObj->addCustomChild(
                     'item',
-                    $this->htmlEscape($this->getPayableTo()),
+                    $this->getPayableTo(),
                     array(
                         'label' => Mage::helper('sales')->__('Make Check payable to:')
                     )
@@ -67,7 +60,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Checkmo extends Mage_Pa
             if ($this->getMailingAddress()) {
                 $orderItemXmlObj->addCustomChild(
                     'item',
-                    $this->htmlEscape($this->getMailingAddress()),
+                    $this->getMailingAddress(),
                     array(
                         'label' => Mage::helper('payment')->__('Send Check to:')
                     )

@@ -27,40 +27,33 @@
 /**
  * CC Save Payment info xml renderer
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Ccsave extends Mage_Payment_Block_Info_Ccsave
 {
     /**
-     * Prevent any rendering
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        return '';
-    }
-
-    /**
      * Add CC Save Payment info to order XML object
      *
-     * @param Mage_XmlConnect_Model_Simplexml_Element $paymentItemXmlObj
+     * @param Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj
      * @return Mage_XmlConnect_Model_Simplexml_Element
      */
     public function addPaymentInfoToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj)
     {
         $orderItemXmlObj->addAttribute('type', $this->getMethod()->getCode());
-        $orderItemXmlObj->addAttribute('title', $this->getMethod()->getTitle());
+        $orderItemXmlObj->addAttribute(
+            'title',
+            $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle())
+        );
 
         if ($_specificInfo = $this->getSpecificInformation()) {
-            foreach ($_specificInfo as $_label => $_value) {
+            foreach ($_specificInfo as $label => $value) {
                 $orderItemXmlObj->addCustomChild(
                     'item',
-                    implode($this->getValueAsArray($_value, true), PHP_EOL),
+                    implode($this->getValueAsArray($value, true), PHP_EOL),
                     array(
-                        'label' => $this->escapeHtml($_label)
+                        'label' => $label
                     )
                 );
             }
