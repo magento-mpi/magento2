@@ -77,6 +77,6 @@ if ($installer->tableExists($fileStorageTable)) {
           commit;
         END;";
     $connection->query(trim($queryString));
-    $connection->dropColumn($fileStorageTable,$originColumnName);
+    $connection->dropColumn($fileStorageTable, $originColumnName);
     $connection->query("ALTER TABLE {$fileStorageTable} RENAME COLUMN {$temporaryColumnName} TO {$originColumnName}");
 }

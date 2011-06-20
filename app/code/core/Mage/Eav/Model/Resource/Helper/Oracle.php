@@ -51,6 +51,7 @@ class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Hel
         Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'TIMESTAMP',
         Varien_Db_Ddl_Table::TYPE_TEXT          => 'VARCHAR2',
         Varien_Db_Ddl_Table::TYPE_BLOB          => 'CLOB',
+        Varien_Db_Ddl_Table::TYPE_VARBINARY     => 'BLOB',
     );
 
     /**

@@ -360,14 +360,12 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
             foreach ($params as $name => $param) {
                 // Prepare meta-info to bind parameter
                 $bindAsLob = false;
-                $bindAsBlob = false;
                 $length = -1;
                 $dataType = SQLT_CHR;
 
                 if ($param instanceof Varien_Db_Statement_Parameter) {
                     if ($param->getIsBlob()) {
-                        $bindAsLob = true;
-                        $bindAsBlob = true;
+                        $bindAsLob = 'blob';
                     } else {
                         if ($param->getLength() !== null) {
                             $length = $param->getLength();
@@ -378,7 +376,9 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
                     }
                     $bindValues[$name] = $param->getValue();
                 } else {
-                    $bindAsLob = strlen($params[$name]) > 4000;
+                    if (strlen($params[$name]) > 4000) {
+                        $bindAsLob = 'clob';
+                    }
                     $bindValues[$name] = $param;
                 }
 
@@ -390,14 +390,14 @@ class Varien_Db_Statement_Oracle extends Zend_Db_Statement_Oracle
                         $name,
                         $this->_lobDescriptors[$name],
                         -1,
-                        $bindAsBlob ? OCI_B_BLOB : OCI_B_CLOB
+                        ($bindAsLob == 'blob') ? OCI_B_BLOB : OCI_B_CLOB
                     )) {
                         $error = true;
                         break;
                     }
                     $this->_lobDescriptors[$name]->writeTemporary(
                         $bindValues[$name],
-                        $bindAsBlob ? OCI_TEMP_BLOB : OCI_TEMP_CLOB
+                        ($bindAsLob == 'blob') ? OCI_TEMP_BLOB : OCI_TEMP_CLOB
                     );
                 } else {
                     if (!@oci_bind_by_name($statement, $name, $bindValues[$name], $length, $dataType)) {

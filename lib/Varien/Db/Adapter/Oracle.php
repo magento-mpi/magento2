@@ -1936,7 +1936,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                         $line[] = $this->quoteColumnAs($val, $col);
                     } else {
                         $key    = ':vv' . $i++;
-                        $line[] = $this->_quoteColumnByDdl($ddl, $key, $col);
+                        $line[] = $this->_quoteColumnByDdl($ddl[$col]['DATA_TYPE'], $key, $col);
                         $bind[$key] = $val;
                     }
                 }
@@ -1952,7 +1952,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     $line[] = $this->quoteColumnAs($val, $col);
                 } else {
                     $key    = ':vv' . $i++;
-                    $line[] = $this->_quoteColumnByDdl($ddl, $key, $col);
+                    $line[] = $this->_quoteColumnByDdl($ddl[$col]['DATA_TYPE'], $key, $col);
                     $bind[$key] = $val;
                 }
             }
@@ -2074,7 +2074,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                         $line[] = $this->quoteColumnAs($val, $col);
                     } else {
                         $key    = ':vv' . $i++;
-                        $line[] = $this->_quoteColumnByDdl($ddl, $key, $col);
+                        $line[] = $this->_quoteColumnByDdl($ddl[$col]['DATA_TYPE'], $key, $col);
                         $bind[$key] = $val;
                     }
                 }
@@ -2090,7 +2090,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     $line[] = $this->quoteColumnAs($val, $col);
                 } else {
                     $key    = ':vv' . $i++;
-                    $line[] = $this->_quoteColumnByDdl($ddl, $key, $col);
+                    $line[] = $this->_quoteColumnByDdl($ddl[$col]['DATA_TYPE'], $key, $col);
                     $bind[$key] = $val;
                 }
             }
@@ -2227,6 +2227,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $bind = array();
         $ddl = $this->describeTable($table);
         $columnsCount = count($columns);
+        $ddlColumnTypeBlob = $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB];
+        $ddlColumnTypeVarbinary = $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_VARBINARY];
         foreach ($data as $row) {
             if ($columnsCount != count($row)) {
                 throw new Zend_Db_Exception('Invalid data for insert');
@@ -2240,9 +2242,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                 } else {
                     $key  = ':vv' . ($inc ++);
                     switch ($ddl[$columns[0]]['DATA_TYPE']) {
-                        case $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]:
-                        case $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_VARBINARY]:
-                            $line = sprintf($this->_getLobFunction($ddl[$columns[0]]['DATA_TYPE']) . '(%s)', $key);
+                        case $ddlColumnTypeBlob:
+                        case $ddlColumnTypeVarbinary:
+                            $line = $this->_quoteColumnByDdl($ddl[$columns[0]]['DATA_TYPE'], $key);
                             break;
                         default:
                             $line = $key;
@@ -2264,13 +2266,11 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                         } else {
                             $ddlKey = $col;
                         }
-                        if (array_key_exists($ddlKey, $ddl)
-                            && in_array($ddl[$ddlKey]['DATA_TYPE'], array(
-                                $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB],
-                                $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_VARBINARY]
-                            ))
+                        if (isset($ddl[$ddlKey])
+                            && ($ddl[$ddlKey]['DATA_TYPE'] == $ddlColumnTypeVarbinary
+                            || $ddl[$ddlKey]['DATA_TYPE'] == $ddlColumnTypeBlob)
                         ) {
-                            $line[] = sprintf($this->_getLobFunction($ddl[$ddlKey]['DATA_TYPE']) . '(%s)', $key);
+                            $line[] = $this->_quoteColumnByDdl($ddl[$ddlKey]['DATA_TYPE'], $key);
                         } else {
                             $line[] = $key;
                         }
@@ -4694,7 +4694,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     protected function _getLobFunction($ddlType)
     {
-        if ($ddlType == Varien_Db_Ddl_Table::TYPE_VARBINARY) {
+        if ($ddlType == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_VARBINARY]) {
             return 'to_blob';
         }
 
@@ -4709,14 +4709,15 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $col
      * @return string
      */
-    protected function _quoteColumnByDdl($ddl, $key, $col)
+    protected function _quoteColumnByDdl($columnDdl, $bindKey, $columnAlias = null)
     {
-        if ($ddl[$col]['DATA_TYPE'] == Varien_Db_Ddl_Table::TYPE_BLOB
-            || $ddl[$col]['DATA_TYPE'] == Varien_Db_Ddl_Table::TYPE_VARBINARY
+        if ($columnDdl == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]
+            || $columnDdl == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_VARBINARY]
         ) {
-            return $this->_getLobFunction($ddl[$col]['DATA_TYPE']) . "({$key}) AS {$col}";
+            $columnAlias = is_null($columnAlias) ? '' : " AS {$columnAlias}";
+            return $this->_getLobFunction($columnDdl) . "({$bindKey}){$columnAlias}";
         }
 
-        return $this->quoteColumnAs($key, $col);
+        return $this->quoteColumnAs($bindKey, $columnAlias);
     }
 }
