@@ -46,11 +46,11 @@ $configTable = $installer->getConnection()
             'unsigned'  => true,
             'nullable'  => false,
         ), 'Application Id')
-    ->addColumn('category', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('category', Varien_Db_Ddl_Table::TYPE_TEXT, 60, array(
             'nullable'  => false,
             'default'  => 'default',
         ), 'Category')
-    ->addColumn('path', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('path', Varien_Db_Ddl_Table::TYPE_TEXT, 250, array(
             'nullable'  => false,
         ), 'Path')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(

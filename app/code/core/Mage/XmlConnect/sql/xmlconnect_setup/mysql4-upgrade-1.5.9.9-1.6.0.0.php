@@ -215,14 +215,14 @@ $tables = array(
             ),
             'category' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
-                'length'    => 255,
+                'length'    => 60,
                 'nullable'  => false,
                 'default'   => 'default',
                 'comment'   => 'Category'
             ),
             'path' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
-                'length'    => 255,
+                'length'    => 250,
                 'nullable'  => false,
                 'comment'   => 'Path'
             ),
