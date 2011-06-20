@@ -2707,6 +2707,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if ($value instanceof Zend_Db_Expr) {
             return $value;
         }
+        if ($value instanceof Varien_Db_Statement_Parameter) {
+            return $value;
+        }
 
         // return original value if invalid column describe data
         if (!isset($column['DATA_TYPE'])) {
@@ -2759,10 +2762,19 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             case 'VARCHAR':
             case 'VARCHAR2':
             case 'CLOB':
-            case 'BLOB':
                 $value  = (string)$value;
                 if ($column['NULLABLE'] && $value == '') {
                     $value = null;
+                }
+                break;
+
+            case 'BLOB':
+                $value  = (string) $value;
+                if ($column['NULLABLE'] && $value === '') {
+                    $value = null;
+                } else {
+                    $value = new Varien_Db_Statement_Parameter($value);
+                    $value->setIsBlob(true);
                 }
                 break;
         }

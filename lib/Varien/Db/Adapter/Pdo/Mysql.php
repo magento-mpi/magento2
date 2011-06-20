@@ -2671,6 +2671,9 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         if ($value instanceof Zend_Db_Expr) {
             return $value;
         }
+        if ($value instanceof Varien_Db_Statement_Parameter) {
+            return $value;
+        }
 
         // return original value if invalid column describe data
         if (!isset($column['DATA_TYPE'])) {
@@ -2721,6 +2724,13 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 if ($column['NULLABLE'] && $value == '') {
                     $value = null;
                 }
+                break;
+
+            case 'varbinary':
+            case 'mediumblob':
+            case 'blob':
+            case 'longblob':
+                // No special processing for MySQL is needed
                 break;
         }
 

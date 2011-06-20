@@ -996,7 +996,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if ($ddl === false) {
             $ddl = parent::describeTable($tableName, $schemaName);
             foreach ($ddl as &$columnProp) {
-                //Prepare default value
+                // Fix type to really used
+                if ($columnProp['DATA_TYPE'] == 'image') {
+                    $columnProp['DATA_TYPE'] = 'varbinary';
+                }
+
+                // Prepare default value
                 $matches = array();
                 preg_match('/^(\(*\'+(.*)\'+\)*)/', $columnProp['DEFAULT'], $matches);
                 if (!empty($matches) && isset($matches[2])) {
@@ -3194,6 +3199,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if ($value instanceof Zend_Db_Expr) {
             return $value;
         }
+        if ($value instanceof Varien_Db_Statement_Parameter) {
+            return $value;
+        }
 
         // return original value if invalid column describe data
         if (!isset($column['DATA_TYPE'])) {
@@ -3240,6 +3248,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 if ($column['NULLABLE'] && $value == '') {
                     $value = null;
                 }
+                break;
+
+            case 'varbinary':
+                $value = new Varien_Db_Statement_Parameter($value);
+                $value->setIsBlob(true);
                 break;
         }
 
