@@ -36,7 +36,6 @@ Default layout, loads most of the pages
             <block type="page/html_head" name="head" as="head">
                 <action method="addCss"><stylesheet>css/iphone.css</stylesheet></action>
                 <action method="addJs"><script>prototype/prototype.js</script></action>
-                <action method="addJs" ifconfig="dev/js/deprecation"><script>prototype/deprecation.js</script></action>
                 <action method="addJs"><script>lib/ccard.js</script></action>
                 <action method="addJs"><script>prototype/validation.js</script></action>
                 <action method="addJs"><script>scriptaculous/builder.js</script></action>
@@ -50,7 +49,7 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>mage/translate.js</script></action>
                 <action method="addJs"><script>mage/cookies.js</script></action>
                 <action method="addItem"><type>skin_js</type><name>js/iphone.js</name></action>
-                
+
                 <block type="page/js_cookie" name="js_cookies" template="page/js/cookie.phtml"/>
             </block>
 

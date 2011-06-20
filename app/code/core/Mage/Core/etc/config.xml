@@ -258,7 +258,6 @@
             </log>
             <js>
                 <merge_files>0</merge_files>
-                <deprecation>0</deprecation>
             </js>
         </dev>
         <system>
