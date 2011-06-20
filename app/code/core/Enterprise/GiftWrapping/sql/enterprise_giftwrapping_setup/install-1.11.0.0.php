@@ -73,10 +73,22 @@ $table = $installer->getConnection()
         ), 'Design')
     ->addIndex($installer->getIdxName('enterprise_giftwrapping/attribute', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('enterprise_giftwrapping/attribute', 'wrapping_id', 'enterprise_giftwrapping/wrapping', 'wrapping_id'),
+    ->addForeignKey(
+        $installer->getFkName(
+            'enterprise_giftwrapping/attribute',
+            'wrapping_id',
+            'enterprise_giftwrapping/wrapping',
+            'wrapping_id'
+        ),
         'wrapping_id', $installer->getTable('enterprise_giftwrapping/wrapping'), 'wrapping_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_giftwrapping/attribute', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey(
+        $installer->getFkName(
+            'enterprise_giftwrapping/attribute',
+            'store_id',
+            'core/store',
+            'store_id'
+        ),
         'store_id', $installer->getTable('core/store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Wrapping Attribute Table');
@@ -100,57 +112,26 @@ $table = $installer->getConnection()
         ), 'Website Id')
     ->addIndex($installer->getIdxName('enterprise_giftwrapping/website', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('enterprise_giftwrapping/website', 'wrapping_id', 'enterprise_giftwrapping/wrapping', 'wrapping_id'),
+    ->addForeignKey(
+        $installer->getFkName(
+            'enterprise_giftwrapping/website',
+            'wrapping_id',
+            'enterprise_giftwrapping/wrapping',
+            'wrapping_id'
+        ),
         'wrapping_id', $installer->getTable('enterprise_giftwrapping/wrapping'), 'wrapping_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_giftwrapping/website', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey(
+        $installer->getFkName(
+            'enterprise_giftwrapping/website',
+            'website_id',
+            'core/website',
+            'website_id'
+        ),
         'website_id', $installer->getTable('core/website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Wrapping Website Table');
 $installer->getConnection()->createTable($table);
-
-
-/**
- * Add gift wrapping attributes for catalog product entity
- */
-
-$types = Mage::getModel('catalog/product_type')->getOptionArray();
-unset($types['virtual'], $types['downloadable'], $types['grouped']);
-$applyTo = join(',', array_keys($types));
-
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_available', array(
-    'group'         => 'Gift Options',
-    'backend'       => 'catalog/product_attribute_backend_boolean',
-    'frontend'      => '',
-    'label'         => 'Allow Gift Wrapping',
-    'input'         => 'select',
-    'source'        => 'eav/entity_attribute_source_boolean',
-    'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
-    'visible'       => true,
-    'required'      => false,
-    'user_defined'  => false,
-    'default'       => '',
-    'apply_to'      => $applyTo,
-    'class'         => 'hidden-for-virtual',
-    'input_renderer'   => 'enterprise_giftwrapping/adminhtml_product_helper_form_config',
-    'visible_on_front' => false
-));
-
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_price', array(
-    'group'         => 'Gift Options',
-    'type'          => 'decimal',
-    'backend'       => 'catalog/product_attribute_backend_price',
-    'frontend'      => '',
-    'label'         => 'Price for Gift Wrapping',
-    'input'         => 'price',
-    'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
-    'visible'       => true,
-    'required'      => false,
-    'user_defined'  => false,
-    'apply_to'      => $applyTo,
-    'class'         => 'hidden-for-virtual',
-    'visible_on_front' => false
-));
 
 /**
  * Add gift wrapping attributes for sales entities
@@ -253,3 +234,48 @@ foreach ($entityAttributesCodes as $code => $type) {
     $installer->addAttribute('invoice', $code, array('type' => $type));
     $installer->addAttribute('creditmemo', $code, array('type' => $type));
 }
+
+
+/**
+ * Add gift wrapping attributes for catalog product entity
+ */
+$types = Mage::getModel('catalog/product_type')->getOptionArray();
+unset($types['virtual'], $types['downloadable'], $types['grouped']);
+$applyTo = join(',', array_keys($types));
+
+$installer = Mage::getResourceModel('catalog/setup', 'catalog_setup');
+
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_available', array(
+    'group'         => 'Gift Options',
+    'backend'       => 'catalog/product_attribute_backend_boolean',
+    'frontend'      => '',
+    'label'         => 'Allow Gift Wrapping',
+    'input'         => 'select',
+    'source'        => 'eav/entity_attribute_source_boolean',
+    'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+    'visible'       => true,
+    'required'      => false,
+    'user_defined'  => false,
+    'default'       => '',
+    'apply_to'      => $applyTo,
+    'class'         => 'hidden-for-virtual',
+    'frontend_input_renderer' => 'enterprise_giftwrapping/adminhtml_product_helper_form_config',
+    'input_renderer'   => 'enterprise_giftwrapping/adminhtml_product_helper_form_config',
+    'visible_on_front' => false
+));
+
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_price', array(
+    'group'         => 'Gift Options',
+    'type'          => 'decimal',
+    'backend'       => 'catalog/product_attribute_backend_price',
+    'frontend'      => '',
+    'label'         => 'Price for Gift Wrapping',
+    'input'         => 'price',
+    'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'visible'       => true,
+    'required'      => false,
+    'user_defined'  => false,
+    'apply_to'      => $applyTo,
+    'class'         => 'hidden-for-virtual',
+    'visible_on_front' => false
+));
