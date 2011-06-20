@@ -127,7 +127,9 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
 
         /* add address blocks */
         $shippingAddress = $this->_formatAddress($rma->getOrder()->getShippingAddress()->format('pdf'));
-        $returnAddress = $this->_formatAddress(Mage::helper('enterprise_rma')->getReturnAddress('pdf'));
+        $returnAddress = $this
+            ->_formatAddress(Mage::helper('enterprise_rma')
+            ->getReturnAddress('pdf', array(), $this->getStoreId()));
 
         $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
         $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));

@@ -36,7 +36,6 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
     /**
      * Store address
      */
-    const XML_PATH_STORE_NAME           = 'sales/enterprise_rma/store_name';
     const XML_PATH_ADDRESS1             = 'sales/enterprise_rma/address';
     const XML_PATH_ADDRESS2             = 'sales/enterprise_rma/address1';
     const XML_PATH_CITY                 = 'sales/enterprise_rma/city';

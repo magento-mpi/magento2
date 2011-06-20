@@ -331,7 +331,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             }
         }
 
-        $returnAddress = Mage::helper('enterprise_rma')->getReturnAddress('html');
+        $returnAddress = Mage::helper('enterprise_rma')->getReturnAddress('html', array(), $this->getStoreId());
 
         foreach ($sendTo as $recipient) {
             $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
@@ -841,11 +841,15 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         $shippingDestinationInfo = Mage::helper('enterprise_rma')->getReturnAddressModel($this->getStoreId());
 
         //shop destination address data
+        //different carriers use different variables. So we duplicate them
         $request
             ->setOrigCountryId($shippingDestinationInfo->getCountryId())
+            ->setOrigCountry($shippingDestinationInfo->getCountryId())
             ->setOrigState($shippingDestinationInfo->getRegionId())
+            ->setOrigRegionCode($shippingDestinationInfo->getRegionId())
             ->setOrigCity($shippingDestinationInfo->getCity())
             ->setOrigPostcode($shippingDestinationInfo->getPostcode())
+            ->setOrigPostal($shippingDestinationInfo->getPostcode())
             ->setOrig(true);
 
         /**
