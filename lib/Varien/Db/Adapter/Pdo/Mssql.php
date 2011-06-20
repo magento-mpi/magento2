@@ -1137,12 +1137,16 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     protected function _getColumnTypeByDdl($column)
     {
         switch ($column['DATA_TYPE']) {
+            case 'bit':
+                return Varien_Db_Ddl_Table::TYPE_BOOLEAN;
             case 'int':
                 return Varien_Db_Ddl_Table::TYPE_INTEGER;
             case 'varchar':
                 return Varien_Db_Ddl_Table::TYPE_TEXT;
             case 'text':
                 return Varien_Db_Ddl_Table::TYPE_TEXT;
+            case 'date':
+                return Varien_Db_Ddl_Table::TYPE_DATE;
             case 'datetime':
                 return Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
             case 'decimal':
@@ -1153,6 +1157,8 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 return Varien_Db_Ddl_Table::TYPE_BIGINT;
             case 'smallint':
                 return Varien_Db_Ddl_Table::TYPE_SMALLINT;
+            case 'varbinary':
+                return Varien_Db_Ddl_Table::TYPE_VARBINARY;
         }
     }
 
