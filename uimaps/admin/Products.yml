@@ -266,19 +266,19 @@ new_product:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
                                     dropdowns:
-                                        filter_massaction: //select[@id='filter_in_products']
-                                        product_type: //select[@id='filter_type']
-                                        product_attribute_set: //select[@id='filter_set_name']
-                                        product_status: //select[@id='filter_status']
-                                        product_visibility: //select[@id='filter_visibility']
+                                        related_filter_massaction: //select[@id='filter_in_products']
+                                        related_product_type: //select[@id='filter_type']
+                                        related_product_attribute_set: //select[@id='filter_set_name']
+                                        related_product_status: //select[@id='filter_status']
+                                        related_product_visibility: //select[@id='filter_visibility']
                                     fields:
-                                        product_id: //input[@id='filter_entity_id']
-                                        product_name: //input[@id='filter_name']
-                                        product_sku: //input[@id='filter_sku']
-                                        product_price_from: //input[@id='filter_price_from']
-                                        product_price_to: //input[@id='filter_price_to']
-                                        product_position_from: //input[@id='filter_position_from']
-                                        product_position_to: //input[@id='filter_position_to']
+                                        related_product_id: //input[@id='filter_entity_id']
+                                        related_product_name: //input[@id='filter_name']
+                                        related_product_sku: //input[@id='filter_sku']
+                                        related_product_price_from: //input[@id='filter_price_from']
+                                        related_product_price_to: //input[@id='filter_price_to']
+                                        related_product_position_from: //input[@id='filter_position_from']
+                                        related_product_position_to: //input[@id='filter_position_to']
                 -
                     up_sells:
                         xpath: //a[@title='Up-sells']/span
@@ -290,43 +290,43 @@ new_product:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
                                     dropdowns:
-                                        filter_massaction: //select[@id='filter_in_products']
-                                        product_type: //select[@id='filter_type']
-                                        product_attribute_set: //select[@id='filter_set_name']
-                                        product_status: //select[@id='filter_status']
-                                        product_visibility: //select[@id='filter_visibility']
+                                        up_sells_filter_massaction: //select[@id='filter_in_products']
+                                        up_sells_product_type: //select[@id='filter_type']
+                                        up_sells_product_attribute_set: //select[@id='filter_set_name']
+                                        up_sells_product_status: //select[@id='filter_status']
+                                        up_sells_product_visibility: //select[@id='filter_visibility']
                                     fields:
-                                        product_id: //input[@id='filter_entity_id']
-                                        product_name: //input[@id='filter_name']
-                                        product_sku: //input[@id='filter_sku']
-                                        product_price_from: //input[@id='filter_price_from']
-                                        product_price_to: //input[@id='filter_price_to']
-                                        product_position_from: //input[@id='filter_position_from']
-                                        product_position_to: //input[@id='filter_position_to']
+                                        up_sells_product_id: //input[@id='filter_entity_id']
+                                        up_sells_product_name: //input[@id='filter_name']
+                                        up_sells_product_sku: //input[@id='filter_sku']
+                                        up_sells_product_price_from: //input[@id='filter_price_from']
+                                        up_sells_product_price_to: //input[@id='filter_price_to']
+                                        up_sells_product_position_from: //input[@id='filter_position_from']
+                                        up_sells_product_position_to: //input[@id='filter_position_to']
                 -
                     cross_sells:
                         xpath: //a[@title='Cross-sells']/span
                         fieldsets:
                             -
-                                up_sells_products:
+                                cross_sells_products:
                                     xpath: //div[@id='cross_sell_product_grid']
                                     buttons:
-                                        reset_filter: //button[span='Reset Filter']
-                                        search: //button[span='Search']
+                                        cross_sells_reset_filter: //button[span='Reset Filter']
+                                        cross_sells_search: //button[span='Search']
                                     dropdowns:
-                                        filter_massaction: //select[@id='filter_in_products']
-                                        product_type: //select[@id='filter_type']
-                                        product_attribute_set: //select[@id='filter_set_name']
-                                        product_status: //select[@id='filter_status']
-                                        product_visibility: //select[@id='filter_visibility']
+                                        cross_sells_filter_massaction: //select[@id='filter_in_products']
+                                        cross_sells_product_type: //select[@id='filter_type']
+                                        cross_sells_product_attribute_set: //select[@id='filter_set_name']
+                                        cross_sells_product_status: //select[@id='filter_status']
+                                        cross_sells_product_visibility: //select[@id='filter_visibility']
                                     fields:
-                                        product_id: //input[@id='filter_entity_id']
-                                        product_name: //input[@id='filter_name']
-                                        product_sku: //input[@id='filter_sku']
-                                        product_price_from: //input[@id='filter_price_from']
-                                        product_price_to: //input[@id='filter_price_to']
-                                        product_position_from: //input[@id='filter_position_from']
-                                        product_position_to: //input[@id='filter_position_to']
+                                        cross_sells_product_id: //input[@id='filter_entity_id']
+                                        cross_sells_product_name: //input[@id='filter_name']
+                                        cross_sells_product_sku: //input[@id='filter_sku']
+                                        cross_sells_product_price_from: //input[@id='filter_price_from']
+                                        cross_sells_product_price_to: //input[@id='filter_price_to']
+                                        cross_sells_product_position_from: //input[@id='filter_position_from']
+                                        cross_sells_product_position_to: //input[@id='filter_position_to']
                 -
                     custom_options:
                         xpath: //a[@title='Custom Options']/span
@@ -405,23 +405,23 @@ new_product:
                                 associated_products:
                                     xpath: //div[@id='super_product_grid' or @id='super_product_links']
                                     buttons:
-                                        reset_filter: //button[span='Reset Filter']
-                                        search: //button[span='Search']
+                                        associated_reset_filter: //button[span='Reset Filter']
+                                        associated_search: //button[span='Search']
                                     dropdowns:
-                                        filter_massaction: //select[@id='filter_in_products']
-                                        product_attribute_set: //select[@id='filter_set_name']
-                                        inventory: //select[@id='filter_is_saleable']
-                                        by_attribute_value: //select[@id='filter_%attributeCode%']
+                                        associated_filter_massaction: //select[@id='filter_in_products']
+                                        associated_product_attribute_set: //select[@id='filter_set_name']
+                                        associated_inventory: //select[@id='filter_is_saleable']
+                                        associated_by_attribute_value: //select[@id='filter_%attributeCode%']
                                     fields:
-                                        product_id: //input[@id='filter_entity_id']
-                                        product_name: //input[@id='filter_name']
-                                        product_sku: //input[@id='filter_sku']
-                                        product_price_from: //input[@id='filter_price_from']
-                                        product_price_to: //input[@id='filter_price_to']
-                                        product_default_qty_from: //input[@id='filter_qty_from']
-                                        product_default_qty_to: //input[@id='filter_qty_to']
-                                        product_position_from: //input[@id='filter_position_from']
-                                        product_position_to: //input[@id='filter_position_to']
+                                        associated_product_id: //input[@id='filter_entity_id']
+                                        associated_product_name: //input[@id='filter_name']
+                                        associated_product_sku: //input[@id='filter_sku']
+                                        associated_product_price_from: //input[@id='filter_price_from']
+                                        associated_product_price_to: //input[@id='filter_price_to']
+                                        associated_product_default_qty_from: //input[@id='filter_qty_from']
+                                        associated_product_default_qty_to: //input[@id='filter_qty_to']
+                                        associated_product_position_from: //input[@id='filter_position_from']
+                                        associated_product_position_to: //input[@id='filter_position_to']
                 -
                     downloadable_information:
                         xpath: //a[@title='Downloadable Information']/span
@@ -437,6 +437,7 @@ new_product:
             invalid_special_price: //div[@id='advice-validate-zero-or-greater-special_price']
             invalid_qty: //div[@id='advice-validate-number-inventory_qty']
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionNumber%_type']
+            invalid_tier_price: "%fieldXpath%/following-sibling::*[text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]"
 
 # Add New Product page
 edit_product:
@@ -620,22 +621,22 @@ edit_product:
                                 related_products:
                                     xpath: //div[@id='related_product_grid']
                                     buttons:
-                                        reset_filter: //button[span='Reset Filter']
-                                        search: //button[span='Search']
+                                        related_reset_filter: //button[span='Reset Filter']
+                                        related_search: //button[span='Search']
                                     dropdowns:
-                                        filter_massaction: //select[@id='filter_in_products']
-                                        product_type: //select[@id='filter_type']
-                                        product_attribute_set: //select[@id='filter_set_name']
-                                        product_status: //select[@id='filter_status']
-                                        product_visibility: //select[@id='filter_visibility']
+                                        related_filter_massaction: //select[@id='filter_in_products']
+                                        related_product_type: //select[@id='filter_type']
+                                        related_product_attribute_set: //select[@id='filter_set_name']
+                                        related_product_status: //select[@id='filter_status']
+                                        related_product_visibility: //select[@id='filter_visibility']
                                     fields:
-                                        product_id: //input[@id='filter_entity_id']
-                                        product_name: //input[@id='filter_name']
-                                        product_sku: //input[@id='filter_sku']
-                                        product_price_from: //input[@id='filter_price_from']
-                                        product_price_to: //input[@id='filter_price_to']
-                                        product_position_from: //input[@id='filter_position_from']
-                                        product_position_to: //input[@id='filter_position_to']
+                                        related_product_id: //input[@id='filter_entity_id']
+                                        related_product_name: //input[@id='filter_name']
+                                        related_product_sku: //input[@id='filter_sku']
+                                        related_product_price_from: //input[@id='filter_price_from']
+                                        related_product_price_to: //input[@id='filter_price_to']
+                                        related_product_position_from: //input[@id='filter_position_from']
+                                        related_product_position_to: //input[@id='filter_position_to']
                 -
                     up_sells:
                         xpath: //a[@title='Up-sells']/span
@@ -644,22 +645,22 @@ edit_product:
                                 up_sells_products:
                                     xpath: //div[@id='up_sell_product_grid']
                                     buttons:
-                                        reset_filter: //button[span='Reset Filter']
-                                        search: //button[span='Search']
+                                        up_sells_reset_filter: //button[span='Reset Filter']
+                                        up_sells_search: //button[span='Search']
                                     dropdowns:
-                                        filter_massaction: //select[@id='filter_in_products']
-                                        product_type: //select[@id='filter_type']
-                                        product_attribute_set: //select[@id='filter_set_name']
-                                        product_status: //select[@id='filter_status']
-                                        product_visibility: //select[@id='filter_visibility']
+                                        up_sells_filter_massaction: //select[@id='filter_in_products']
+                                        up_sells_product_type: //select[@id='filter_type']
+                                        up_sells_product_attribute_set: //select[@id='filter_set_name']
+                                        up_sells_product_status: //select[@id='filter_status']
+                                        up_sells_product_visibility: //select[@id='filter_visibility']
                                     fields:
-                                        product_id: //input[@id='filter_entity_id']
-                                        product_name: //input[@id='filter_name']
-                                        product_sku: //input[@id='filter_sku']
-                                        product_price_from: //input[@id='filter_price_from']
-                                        product_price_to: //input[@id='filter_price_to']
-                                        product_position_from: //input[@id='filter_position_from']
-                                        product_position_to: //input[@id='filter_position_to']
+                                        up_sells_product_id: //input[@id='filter_entity_id']
+                                        up_sells_product_name: //input[@id='filter_name']
+                                        up_sells_product_sku: //input[@id='filter_sku']
+                                        up_sells_product_price_from: //input[@id='filter_price_from']
+                                        up_sells_product_price_to: //input[@id='filter_price_to']
+                                        up_sells_product_position_from: //input[@id='filter_position_from']
+                                        up_sells_product_position_to: //input[@id='filter_position_to']
                 -
                     cross_sells:
                         xpath: //a[@title='Cross-sells']/span
@@ -668,22 +669,22 @@ edit_product:
                                 up_sells_products:
                                     xpath: //div[@id='cross_sell_product_grid']
                                     buttons:
-                                        reset_filter: //button[span='Reset Filter']
-                                        search: //button[span='Search']
+                                        cross_sells_reset_filter: //button[span='Reset Filter']
+                                        cross_sells_search: //button[span='Search']
                                     dropdowns:
-                                        filter_massaction: //select[@id='filter_in_products']
-                                        product_type: //select[@id='filter_type']
-                                        product_attribute_set: //select[@id='filter_set_name']
-                                        product_status: //select[@id='filter_status']
-                                        product_visibility: //select[@id='filter_visibility']
+                                        cross_sells_filter_massaction: //select[@id='filter_in_products']
+                                        cross_sells_product_type: //select[@id='filter_type']
+                                        cross_sells_product_attribute_set: //select[@id='filter_set_name']
+                                        cross_sells_product_status: //select[@id='filter_status']
+                                        cross_sells_product_visibility: //select[@id='filter_visibility']
                                     fields:
-                                        product_id: //input[@id='filter_entity_id']
-                                        product_name: //input[@id='filter_name']
-                                        product_sku: //input[@id='filter_sku']
-                                        product_price_from: //input[@id='filter_price_from']
-                                        product_price_to: //input[@id='filter_price_to']
-                                        product_position_from: //input[@id='filter_position_from']
-                                        product_position_to: //input[@id='filter_position_to']
+                                        cross_sells_product_id: //input[@id='filter_entity_id']
+                                        cross_sells_product_name: //input[@id='filter_name']
+                                        cross_sells_product_sku: //input[@id='filter_sku']
+                                        cross_sells_product_price_from: //input[@id='filter_price_from']
+                                        cross_sells_product_price_to: //input[@id='filter_price_to']
+                                        cross_sells_product_position_from: //input[@id='filter_position_from']
+                                        cross_sells_product_position_to: //input[@id='filter_position_to']
                 -
                     custom_options:
                         xpath: //a[@title='Custom Options']/span
@@ -724,24 +725,24 @@ edit_product:
                                 bundle_items:
                                     xpath: //div[@id='product_bundle_container']
                                     buttons:
-                                        add_new_option: //button[span='Add New Option']
-                                        delete_option: //div[@id='option_%itemID%']//button[span='Delete Option']
-                                        add_selection: //button[@id='bundle_option_%itemID%_add_button']
-                                        reset_filter: //div[@id='option_%itemID%']//button[span='Reset Filter']
-                                        search: //div[@id='option_%itemID%']//button[span='Search']
+                                        bundle_add_new_option: //button[span='Add New Option']
+                                        bundle_delete_option: //div[@id='option_%itemID%']//button[span='Delete Option']
+                                        bundle_add_selection: //button[@id='bundle_option_%itemID%_add_button']
+                                        bundle_reset_filter: //div[@id='option_%itemID%']//button[span='Reset Filter']
+                                        bundle_search: //div[@id='option_%itemID%']//button[span='Search']
                                     dropdowns:
-                                        input_type: //select[@id='bundle_option_%itemID%_type']
-                                        is_required: //select[@id='bundle_option_%itemID%_required']
-                                        filter_massaction: //div[@id='option_%itemID%']//select[@id='filter_is_selected']]
-                                        product_attribute_set: //div[@id='option_%itemID%']//select[@id='filter_set_name']
+                                        bundle_input_type: //select[@id='bundle_option_%itemID%_type']
+                                        bundle_is_required: //select[@id='bundle_option_%itemID%_required']
+                                        bundle_filter_massaction: //div[@id='option_%itemID%']//select[@id='filter_is_selected']]
+                                        bundle_product_attribute_set: //div[@id='option_%itemID%']//select[@id='filter_set_name']
                                     fields:
-                                        default_title: //input[@id='id_bundle_option_%itemID%_title']
-                                        position: //input[@name='bundle_options[%itemID%][position]']
-                                        product_id: //div[@id='option_%itemID%']//input[@id='filter_id']
-                                        product_name: //div[@id='option_%itemID%']//input[@id='filter_name']
-                                        product_sku: //div[@id='option_%itemID%']//input[@id='filter_sku']
-                                        product_price_from: //div[@id='option_%itemID%']//input[@id='filter_price_from']
-                                        product_price_to: //div[@id='option_%itemID%']//input[@id='filter_price_to']
+                                        bundle_default_title: //input[@id='id_bundle_option_%itemID%_title']
+                                        bundle_position: //input[@name='bundle_options[%itemID%][position]']
+                                        bundle_product_id: //div[@id='option_%itemID%']//input[@id='filter_id']
+                                        bundle_product_name: //div[@id='option_%itemID%']//input[@id='filter_name']
+                                        bundle_product_sku: //div[@id='option_%itemID%']//input[@id='filter_sku']
+                                        bundle_product_price_from: //div[@id='option_%itemID%']//input[@id='filter_price_from']
+                                        bundle_product_price_to: //div[@id='option_%itemID%']//input[@id='filter_price_to']
                 -
                     associated_products:
                         xpath: //a[@title='Associated Products']/span
@@ -762,23 +763,23 @@ edit_product:
                                 associated_products:
                                     xpath: //div[@id='super_product_grid' or @id='super_product_links']
                                     buttons:
-                                        reset_filter: //button[span='Reset Filter']
-                                        search: //button[span='Search']
+                                        associated_reset_filter: //button[span='Reset Filter']
+                                        associated_search: //button[span='Search']
                                     dropdowns:
-                                        filter_massaction: //select[@id='filter_in_products']
-                                        product_attribute_set: //select[@id='filter_set_name']
-                                        inventory: //select[@id='filter_is_saleable']
-                                        by_attribute_value: //select[@id='filter_%attributeCode%']
+                                        associated_filter_massaction: //select[@id='filter_in_products']
+                                        associated_product_attribute_set: //select[@id='filter_set_name']
+                                        associated_inventory: //select[@id='filter_is_saleable']
+                                        associated_by_attribute_value: //select[@id='filter_%attributeCode%']
                                     fields:
-                                        product_id: //input[@id='filter_entity_id']
-                                        product_name: //input[@id='filter_name']
-                                        product_sku: //input[@id='filter_sku']
-                                        product_price_from: //input[@id='filter_price_from']
-                                        product_price_to: //input[@id='filter_price_to']
-                                        product_default_qty_from: //input[@id='filter_qty_from']
-                                        product_default_qty_to: //input[@id='filter_qty_to']
-                                        product_position_from: //input[@id='filter_position_from']
-                                        product_position_to: //input[@id='filter_position_to']
+                                        associated_product_id: //input[@id='filter_entity_id']
+                                        associated_product_name: //input[@id='filter_name']
+                                        associated_product_sku: //input[@id='filter_sku']
+                                        associated_product_price_from: //input[@id='filter_price_from']
+                                        associated_product_price_to: //input[@id='filter_price_to']
+                                        associated_product_default_qty_from: //input[@id='filter_qty_from']
+                                        associated_product_default_qty_to: //input[@id='filter_qty_to']
+                                        associated_product_position_from: //input[@id='filter_position_from']
+                                        associated_product_position_to: //input[@id='filter_position_to']
                 -
                     downloadable_information:
                         xpath: //a[@title='Downloadable Information']/span
