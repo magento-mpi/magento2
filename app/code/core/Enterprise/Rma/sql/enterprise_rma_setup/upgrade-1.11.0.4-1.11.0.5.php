@@ -42,7 +42,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'RMA Entity Id')
-    ->addColumn('shipping_label', Varien_Db_Ddl_Table::TYPE_BLOB, '1M', array(
+    ->addColumn('shipping_label', Varien_Db_Ddl_Table::TYPE_VARBINARY, '2M', array(
         ), 'Shipping Label Content')
     ->addColumn('packages', Varien_Db_Ddl_Table::TYPE_TEXT, 20000, array(
         ), 'Packed Products in Packages')

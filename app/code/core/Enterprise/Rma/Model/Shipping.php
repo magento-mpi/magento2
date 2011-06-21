@@ -221,10 +221,18 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         if (!is_int($rma)) {
             $rma = $rma->getId();
         }
-        return $this->getCollection()
+        $label = $this->getCollection()
             ->addFieldToFilter('rma_entity_id', $rma)
             ->addFieldToFilter('is_admin', self::IS_ADMIN_STATUS_ADMIN_LABEL)
             ->getFirstItem();
+
+        if ($label->getShippingLabel()) {
+            $label->setShippingLabel(
+                $this->getResource()->getReadConnection()->decodeVarbinary($label->getShippingLabel())
+            );
+        }
+
+        return $label;
     }
 
     /**
