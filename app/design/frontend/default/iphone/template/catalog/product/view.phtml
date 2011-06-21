@@ -42,30 +42,29 @@
         <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
             <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
             <input type="hidden" name="related_product" id="related-products-field" value="" />
-            <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
             <div class="product-shop">
                 <div class="wrap">
-                    <?php echo $this->getChildHtml('media') ?>
-                    <div class="product-desc">
-                        <div class="price-box">
-                            <?php echo $this->getChildHtml('product_type_data') ?>
-                        </div>
-                        <div class="actions-wrap">
-                            <fieldset class="add-to-cart-box">
-                                <legend>Add Items to Cart</legend>
-                                <?php if($_product->isSaleable()): ?>
-                                    <?php echo $this->getChildHtml('addtocart') ?>
-                                <?php endif; ?>
-                            </fieldset>
-                            <ul class="actions">
+                    <div class="product-image-and-actions">
+                        <?php echo $this->getChildHtml('media') ?>
+                        <ul class="actions">
                                 <?php if (!$this->hasOptions()):?>
                                     <?php echo $this->getChildHtml('addto') ?>
                                 <?php endif; ?>
                                 <?php if ($this->canEmailToFriend()): ?>
                                     <li><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></li>
                                 <?php endif; ?>
-                            </ul>
+                        </ul>
+                    </div>
+                    <div class="product-desc">
+                        <div class="price-box">
+                            <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                            <?php echo $this->getChildHtml('product_type_data') ?>
                         </div>
+                        <fieldset class="add-to-cart-box">
+                            <?php if($_product->isSaleable()): ?>
+                                <?php echo $this->getChildHtml('addtocart') ?>
+                            <?php endif; ?>
+                        </fieldset>
                     </div>
                 </div>
             </div>
@@ -85,7 +84,9 @@
         </form>
     </div>
     <div class="product-collateral">
-        <?php echo $this->getChildHtml('upsell_products') ?>
+        <?php if ($this->getChildHtml('upsell_products')):?>
+            <div class="collateral-box"><?php echo $this->getChildHtml('upsell_products') ?></div>
+        <?php endif;?>
         <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
 </div>
