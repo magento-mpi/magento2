@@ -4732,4 +4732,23 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         return $this->quoteColumnAs($bindKey, $columnAlias);
     }
+
+    /**
+     * Quotes a value and places into a piece of text at a placeholder.
+     *
+     * Method revrited for handle empty arrays in value param
+     *
+     * @param string  $text  The text with a placeholder.
+     * @param mixed   $value The value to quote.
+     * @param string  $type  OPTIONAL SQL datatype
+     * @param integer $count OPTIONAL count of placeholders to replace
+     * @return string An SQL-safe quoted value placed into the orignal text.
+     */
+    public function quoteInto($text, $value, $type = null, $count = null)
+    {
+        if (is_array($value) && empty($value)) {
+            $value = new Zend_Db_Expr('NULL');
+        }
+        return parent::quoteInto($text, $value, $type, $count);
+    }
 }
