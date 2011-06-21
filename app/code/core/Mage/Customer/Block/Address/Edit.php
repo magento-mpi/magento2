@@ -127,7 +127,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
 
     public function getRegionId()
     {
-        return $this->getAddress()->getRegionId();
+        return intval($this->getAddress()->getRegionId());
     }
 
     public function getCustomerAddressCount()

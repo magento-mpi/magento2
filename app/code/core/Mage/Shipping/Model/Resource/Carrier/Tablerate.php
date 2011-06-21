@@ -118,9 +118,9 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         $adapter = $this->_getReadAdapter();
         $bind    = array(
             ':website_id'   => (int)$request->getWebsiteId(),
-            ':country_id'   => $request->getDestCountryId(),
+            ':country_id'   => (int)$request->getDestCountryId(),
             ':region_id'    => (int)$request->getDestRegionId(),
-            ':postcode'     => $request->getDestPostcode()
+            ':postcode'     => (int)$request->getDestPostcode()
         );
         $select  = $adapter->select()
             ->from($this->getMainTable())
