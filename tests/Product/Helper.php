@@ -83,17 +83,17 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->clickButton('add_tier_price', FALSE);
         $this->fillForm($productData, 'prices');
         //fill in meta information tab
-        $this->clickControl('tab', 'meta_information', FALSE);
-        $this->fillForm($productData, 'meta_information');
+//        $this->clickControl('tab', 'meta_information', FALSE);
+//        $this->fillForm($productData, 'meta_information');
         //
-        $this->clickControl('tab', 'recurring_profile', FALSE);
-        $this->fillForm($productData, 'recurring_profile');
+//        $this->clickControl('tab', 'recurring_profile', FALSE);
+//        $this->fillForm($productData, 'recurring_profile');
         //
-        $this->clickControl('tab', 'design', FALSE);
-        $this->fillForm($productData, 'design');
+//        $this->clickControl('tab', 'design', FALSE);
+//        $this->fillForm($productData, 'design');
         //
-        $this->clickControl('tab', 'gift_options', FALSE);
-        $this->fillForm($productData, 'gift_options');
+//        $this->clickControl('tab', 'gift_options', FALSE);
+//        $this->fillForm($productData, 'gift_options');
         //
         $this->clickControl('tab', 'inventory', FALSE);
         $this->fillForm($productData, 'inventory');
@@ -108,7 +108,7 @@ class Product_Helper extends Mage_Selenium_TestCase
 //        $this->clickButton('add_new_option', FALSE);
 //        $this->fillForm($productData, 'custom_options');
         //save
-        //$this->saveForm('save');
+        $this->saveForm('save');
     }
 
     public function createBundleProduct(array $productSettings, array $productData)
@@ -152,7 +152,8 @@ class Product_Helper extends Mage_Selenium_TestCase
 //        $this->clickButton('add_new_option', FALSE);
 //        $this->fillForm($productData, 'custom_options');
         //save
-        //$this->saveForm('save');
+        $this->saveForm('save');
+        
+        //$this->pleaseWait();
     }
-
 }
