@@ -78,7 +78,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     /**
      * Return items collection
      *
-     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     public function getItemsCollection()
     {
@@ -92,6 +92,12 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
                     ->resetSortOrder();
             } else {
                 $collection = parent::getItemsCollection();
+            }
+            foreach ($collection as $item) {
+                if ($item->getProduct()) {
+                    $item->setName($item->getProduct()->getName());
+                    $item->setPrice($item->getProduct()->getPrice());
+                }
             }
             $this->setData('items_collection', $collection);
         }
