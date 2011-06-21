@@ -45,7 +45,7 @@
                             <show_in_store>0</show_in_store>
                         </save_days>
                         <enabled translate="label">
-                            <label>Enable File History Cleaning</label>
+                            <label>Enable Scheduled File History Cleaning</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>20</sort_order>
