@@ -304,9 +304,9 @@ class Mage_Shipping_Model_Shipping
         $request->setShipperAddressStateOrProvinceCode($shipperRegionCode);
         $request->setShipperAddressPostalCode(Mage::getStoreConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId));
         $request->setShipperAddressCountryCode(Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId));
-        $request->setRecipientContactPersonName($order->getCustomerName());
-        $request->setRecipientContactPersonFirstName($order->getCustomerFirstname());
-        $request->setRecipientContactPersonLastName($order->getCustomerLastname());
+        $request->setRecipientContactPersonName($address->getFirstname() . ' ' . $address->getLastname());
+        $request->setRecipientContactPersonFirstName($address->getFirstname());
+        $request->setRecipientContactPersonLastName($address->getLastname());
         $request->setRecipientContactCompanyName($address->getCompany());
         $request->setRecipientContactPhoneNumber($address->getTelephone());
         $request->setRecipientEmail($address->getEmail());
