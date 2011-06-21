@@ -41,6 +41,7 @@
     /** @var $_product Mage_Catalog_Model_Product */
     $_product = $this->getProduct();
     $_id = $_product->getId();
+    $_msrpPrice = '';
 ?>
     <div class="price-box map-info">
     <?php $_price = $this->helper('tax')->getPrice($_product, $_product->getMsrp()) ?>

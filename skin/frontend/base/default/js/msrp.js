@@ -250,7 +250,7 @@ Catalog.Map = {
     },
 
     bindProductForm: function(){
-        if (productAddToCartForm) {
+        if ('undefined' !== typeof(productAddToCartForm) && productAddToCartForm) {
             productAddToCartFormOld = productAddToCartForm;
         }else if(!$('product_addtocart_form_from_popup')) {
             return false;
