@@ -4721,13 +4721,13 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * @param string $col
      * @return string
      */
-    protected function _quoteColumnByDdl($columnDdl, $bindKey, $columnAlias = null)
+    protected function _quoteColumnByDdl($ddlType, $bindKey, $columnAlias = null)
     {
-        if ($columnDdl == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]
-            || $columnDdl == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_VARBINARY]
+        if ($ddlType == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_BLOB]
+            || $ddlType == $this->_ddlColumnTypes[Varien_Db_Ddl_Table::TYPE_VARBINARY]
         ) {
             $columnAlias = is_null($columnAlias) ? '' : " AS {$columnAlias}";
-            return $this->_getLobFunction($columnDdl) . "({$bindKey}){$columnAlias}";
+            return $this->_getLobFunction($ddlType) . "({$bindKey}){$columnAlias}";
         }
 
         return $this->quoteColumnAs($bindKey, $columnAlias);
