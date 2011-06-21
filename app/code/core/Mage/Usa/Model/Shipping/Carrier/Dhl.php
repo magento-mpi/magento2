@@ -1361,7 +1361,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $request->setOrigCountryId($request->getShipperAddressCountryCode());
         $request->setOrigState($request->getShipperAddressStateOrProvinceCode());
         $request->setOrigCity($request->getShipperAddressCity());
-        $request->setOrigStreet($request->getShipperAddressStreet1());
+        $request->setOrigStreet($request->getShipperAddressStreet1() . ' ' . $request->getShipperAddressStreet2());
         $request->setOrigStreetLine2($request->getShipperAddressStreet2());
 
         $request->setDestPersonName($request->getRecipientContactPersonName());
