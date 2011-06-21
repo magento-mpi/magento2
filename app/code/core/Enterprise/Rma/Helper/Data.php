@@ -447,10 +447,6 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
                 foreach ($result as $val) {
                     $implode[] =  isset($val['print_value']) ? $val['print_value'] : $val['value'];
                 }
-
-                if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
-                    return $options['simple_name'].' ('.implode(', ', $implode).')';
-                }
                 return $name.' ('.implode(', ', $implode).')';
             }
         }

@@ -39,6 +39,7 @@ AdminRma.prototype = {
         this.shippingMethod         = false;
         this.gridProducts           = $H({});
         this.grid                   = false;
+        this.reloadResponder        = new Object({onComplete: this.doAddSelectedProduct.bind(this)});
     },
 
     getRowIdByClick : function(event){
@@ -330,6 +331,7 @@ AdminRma.prototype = {
     },
 
     addProduct : function(event){
+        Ajax.Responders.unregister(this.reloadResponder);
         this.gridProducts = $H({});
         this.grid.reloadParams = {'products[]':this.gridProducts.keys()};
         Element.hide('rma-items-block');
@@ -337,6 +339,11 @@ AdminRma.prototype = {
     },
 
     addSelectedProduct : function(event) {
+        Ajax.Responders.register(this.reloadResponder);
+        this.grid.resetFilter();
+    },
+
+    doAddSelectedProduct : function(event) {
         var order_items_grid_table = $('order_items_grid_table');
         var items = $$('#order_items_grid_table .checkbox');
         var selected_items = [];
@@ -765,10 +772,4 @@ AdminRma.prototype = {
             }
         }
     }
-
-}
-
-
-function ttt() {
-    alert('colbacl');
 }

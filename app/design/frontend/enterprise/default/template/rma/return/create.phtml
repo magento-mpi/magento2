@@ -139,7 +139,7 @@
                                             <td>
                                             <?php if ($item[3]): ?>
                                                 <input type="checkbox" disabled />
-                                            <? else: ?>
+                                            <?php else: ?>
                                                 <input id="items[_index_][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" onclick="showBundleInput(<?php echo $item[0]?>, <?php echo $bundleID?>, '_index_');" type="checkbox" value="<?php echo $item[0]?>" class="checkbox validate-one-checkbox-<?php echo $bundleID ?> change-container-classname" />
                                             <?php endif; ?>
                                             </td>

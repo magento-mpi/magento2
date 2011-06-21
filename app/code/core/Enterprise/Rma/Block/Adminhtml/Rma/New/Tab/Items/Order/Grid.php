@@ -43,6 +43,15 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected $_attributeOptionValues = null;
 
     /**
+     * Default limit for order item collection
+     *
+     * We cannot manage items quantity in right way so we get all the items without limits and paging
+     *
+     * @var int
+     */
+    protected $_defaultLimit = 0;
+
+    /**
      * Block constructor
      */
     public function _construct()
