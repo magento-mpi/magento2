@@ -125,23 +125,21 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
             ));
         }
 
-        $rangeCreatedAt  = $this->_getTZRangeExpressionForAttribute($range, 'created_at');
-        $rangeCreatedAt2 = str_replace($this->getConnection()->quoteIdentifier('created_at'),
-          'MIN(created_at)', $rangeCreatedAt);
+        $dateRange = $this->getDateRange($range, $customStart, $customEnd);
 
         $this->getSelect()
             ->columns(array(
                 'quantity' => 'COUNT(main_table.entity_id)',
-                'range' => $rangeCreatedAt2,
+                'range' => $this->_getTZRangeOffsetExpression($range, 'created_at', $dateRange['from'], $dateRange['to']),
             ))
-            ->order('range', Zend_Db_Select::SQL_ASC)
-            ->group($rangeCreatedAt)
             ->where('main_table.state NOT IN (?)', array(
                 Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
                 Mage_Sales_Model_Order::STATE_NEW)
-            );
+            )
+            ->order('range', Zend_Db_Select::SQL_ASC)
+            ->group('range');
 
-        $this->addFieldToFilter('created_at', $this->getDateRange($range, $customStart, $customEnd));
+        $this->addFieldToFilter('created_at', $dateRange);
 
         return $this;
     }
@@ -231,6 +229,25 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     {
         $expression = $this->_getRangeExpression($range);
         return str_replace('{{attribute}}', $this->getConnection()->quoteIdentifier($attribute), $expression);
+    }
+
+    /**
+     * Retrieve query for attribute with timezone conversion
+     *
+     * @param string $range
+     * @param string $attribute
+     * @param mixed $from
+     * @param mixed $to
+     * @return string
+     */
+    protected function _getTZRangeOffsetExpression($range, $attribute, $from = null, $to = null)
+    {
+        return str_replace(
+            '{{attribute}}',
+            Mage::getResourceModel('sales/report_order')
+                    ->getStoreTZOffsetQuery($this->getMainTable(), $attribute, $from, $to),
+            $this->_getRangeExpression($range)
+        );
     }
 
     /**
