@@ -103,5 +103,57 @@ document.observe("dom:loaded", function() {
         this.next().toggle();
         e.preventDefault();
     });
+    
+    //Slider
+    
+    var carousel = $$('.carousel')[0],
+        carouselItems = carousel.select('.carousel-items')[0],
+        itemsWidth = carouselItems.getWidth(),
+        itemsLength = carouselItems.childElements().size(),
+        screens = Math.round(itemsLength/3),
+        itemPos = 0,
+        lastItemPos = (itemsLength-3) * 100/3,
+        prevButton = carousel.select('.prev')[0],
+        nextButton = carousel.select('.next')[0];
+        
+
+    carouselItems.wrap('div', {'class': 'carousel-wrap'});
+    
+    prevButton.observe('click', function () {
+        if (itemPos !== 0) {
+            itemPos += 100/3;
+            carouselItems.setStyle({
+                'position': 'relative',
+                '-webkit-transform': 'translateX(' + itemPos + '%)'
+            });
+            
+            if(itemPos === 0) {
+                prevButton.addClassName('disabled');
+            };
+            
+            if (nextButton.hasClassName('disabled')) {
+                nextButton.removeClassName('disabled');
+            };
+            
+        };
+    });
+    
+    nextButton.observe('click', function () {
+        if(Math.abs(itemPos) < lastItemPos) {
+            itemPos -= 100/3;
+            carouselItems.setStyle({
+                'position': 'relative',
+                '-webkit-transform': 'translateX(' + itemPos + '%)'
+            });
+            
+            if (Math.abs(itemPos) >= lastItemPos) {
+                nextButton.addClassName('disabled');
+            }
+            
+            if (prevButton.hasClassName('disabled')) {
+                prevButton.removeClassName('disabled');
+            };
+        };
+    });
 
 });
