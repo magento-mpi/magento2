@@ -1215,6 +1215,9 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         return $this;
     }
 
+    /**
+     * Returns an object for upload a media files
+     */
     protected function _getUploader()
     {
         if (is_null($this->_fileUploader)) {
@@ -1234,6 +1237,13 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         return $this->_fileUploader;
     }
 
+    /**
+     * Uploading files into the "catalog/product" media folder.
+     * Return a new file name if the same file is already exists.
+     *
+     * @param string $fileName
+     * @return string
+     */
     protected function _uploadMediaFiles($fileName)
     {
         try {

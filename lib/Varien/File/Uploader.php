@@ -226,6 +226,13 @@ class Varien_File_Uploader
         return $this->_result;
     }
 
+    /**
+     * Move files from TMP folder into destination folder
+     *
+     * @param string $tmpPath
+     * @param string $destPath
+     * @return bool
+     */
     protected function _moveFile($tmpPath, $destPath)
     {
         return move_uploaded_file($tmpPath, $destPath);

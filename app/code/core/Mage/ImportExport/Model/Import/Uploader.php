@@ -50,6 +50,9 @@ class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploa
         }
     }
 
+    /**
+     * Initiate uploader defoult settings
+     */
     public function init()
     {
         $this->setAllowRenameFiles(true);
@@ -61,6 +64,12 @@ class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploa
         $this->_uploadType = self::SINGLE_STYLE;
     }
 
+    /**
+     * Proceed moving a file from TMP to destination folder
+     *
+     * @param string $fileName
+     * @return array
+     */
     public function move($fileName)
     {
         $filePath = realpath($this->getTmpDir() . DS . $fileName);
@@ -70,6 +79,11 @@ class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploa
         return $result;
     }
 
+    /**
+     * Prepare information about the file for moving
+     *
+     * @param string $filePath
+     */
     protected function _setUploadFile($filePath)
     {
         if (!is_readable($filePath)) {
@@ -80,6 +94,12 @@ class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploa
         $this->_validateFile();
     }
 
+    /**
+     * Reads file info
+     *
+     * @param string $filePath
+     * @return array
+     */
     protected function _readFileInfo($filePath)
     {
         $fileInfo = pathinfo($filePath);
@@ -93,6 +113,9 @@ class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploa
         );
     }
 
+    /**
+     * Validate uploaded file by type and etc.
+     */
     protected function _validateFile()
     {
         $filePath = $this->_file['tmp_name'];
@@ -114,6 +137,12 @@ class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploa
         }
     }
 
+    /**
+     * Returns file MIME type by extension
+     *
+     * @param string $ext
+     * @return string
+     */
     protected function _getMimeTypeByExt($ext)
     {
         if (array_key_exists($ext, $this->_allowedMimeTypes)) {
@@ -172,11 +201,18 @@ class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploa
         return false;
     }
 
-    protected function _moveFile($fileName, $newName = null)
+    /**
+     * Move files from TMP folder into destination folder
+     *
+     * @param string $tmpPath
+     * @param string $destPath
+     * @return bool
+     */
+    protected function _moveFile($tmpPath, $destPath = null)
     {
-        $sourceFile = realpath($fileName);
-        $newName = is_null($newName) ? $fileName : $newName;
-        $destinationFile  = $newName;
+        $sourceFile = realpath($tmpPath);
+        $destPath = is_null($destPath) ? $tmpPath : $destPath;
+        $destinationFile  = $destPath;
         if ($sourceFile !== false) {
             return copy($sourceFile, $destinationFile);
         } else {
