@@ -237,23 +237,29 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
             return $orderItemsCollection;
         }
 
-        /* flags for bundle and configurable items */
-        $bundle         = array();
-        $parentItemId   = 0;
-        $notAllowedItems= array();
-        //$parentConfigId = 0;
-        $simpleId       = false;
-        /* Log for item object */
-        $itemLog        = new Varien_Object();
+        /**
+         * contains data that defines possibility of return for an order item
+         * array value ['self'] refers to item's own rules
+         * array value ['child'] refers to rules defined from item's sub-items
+         */
+        $parent = array();
+
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product');
 
         foreach ($orderItemsCollection as $item) {
             /* retrieves only bundle and children by $parentId */
-            if($parentId && ($item->getId() != $parentId) && ($item->getParentItemId() != $parentId)) {
+            if ($parentId && ($item->getId() != $parentId) && ($item->getParentItemId() != $parentId)) {
                 $orderItemsCollection->removeItemByKey($item->getId());
                 continue;
             }
+
+            $allowed = true;
+            /* checks item in active rma */
+            if (in_array($item->getId(), $getItemsIdsByOrder)) {
+                $allowed = false;
+            }
+
 
             /* checks enable on product level */
             $product->reset();
@@ -262,49 +268,51 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
 
             if (!Mage::helper('enterprise_rma')->canReturnProduct($product, $item->getStoreId())) {
                 $orderItemsCollection->removeItemByKey($item->getId());
-                $notAllowedItems[] = $item->getId();
                 continue;
             }
 
-            if (in_array($item->getParentItemId(), $notAllowedItems)) {
-                $orderItemsCollection->removeItemByKey($item->getId());
-                continue;
-            }
-
-            /* checks item in active rma */
-            if (!empty($getItemsIdsByOrder) && in_array($item->getId(), $getItemsIdsByOrder)) {
-                /* checks if bundle child */
-                if ($item->getParentItemId() && $parentItemId && ($item->getParentItemId() == $parentItemId)) {
+            if ($item->getParentItemId()) {
+                if (!isset($parent[$item->getParentItemId()]['child'])) {
+                    $parent[$item->getParentItemId()]['child'] = false;
+                }
+                if (!$allowed) {
                     $item->setIsOrdered(1);
                     $item->setAvailableQty($item->getQtyShipped()-$item->getQtyRefunded()-$item->getQtyCanceled());
+                }
+                $parent[$item->getParentItemId()]['child']  = $parent[$item->getParentItemId()]['child'] || $allowed;
+                $parent[$item->getItemId()]['self']         = false;
+            } else {
+                $parent[$item->getItemId()]['self']         = $allowed;
+            }
+        }
 
-                    $bundle[$parentItemId][]    = $item->getId();
-                    if ($simpleId === false) {
-                        $simpleId = $item->getId();
-                    }
+        $bundle = false;
+        foreach ($orderItemsCollection as $item) {
+            if (isset($parent[$item->getId()]['child']) && $parent[$item->getId()]['child'] === false) {
+                $orderItemsCollection->removeItemByKey($item->getId());
+                $bundle = $item->getId();
+                continue;
+            }
+
+            if ($bundle && $item->getParentItemId() && $bundle == $item->getParentItemId()) {
+                $orderItemsCollection->removeItemByKey($item->getId());
+            } elseif (isset($parent[$item->getId()]['self']) && $parent[$item->getId()]['self'] === false) {
+                if ($item->getParentItemId() && $bundle != $item->getParentItemId()) {
+
+                } else {
+                    $orderItemsCollection->removeItemByKey($item->getId());
                     continue;
                 }
+            }
 
+            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+                && !isset($parent[$item->getId()]['child'])
+            ) {
                 $orderItemsCollection->removeItemByKey($item->getId());
                 continue;
             }
 
-            /* checks available for bundle */
-            if (!$item->getParentItemId() && ($simpleId != false && $simpleId)
-                && $parentItemId && !empty($bundle[$parentItemId])) {
-                $orderItemsCollection->removeItemByKey($parentItemId);
-                if (!empty($bundle[$parentItemId])) {
-                    foreach ($bundle[$parentItemId] as $child) {
-                        $orderItemsCollection->removeItemByKey($child);
-                    }
-                }
-                $parentItemId       = 0;
-            }
-
-            $itemLog = $item;
-            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
-                $parentItemId       = $item->getId();
-            } elseif ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
@@ -312,24 +320,9 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
                     $orderItemsCollection->removeItemByKey($item->getId());
                     continue;
                 }
-            } elseif ($item->getParentItemId()) {
-                $parentItemId       = $item->getParentItemId();
-                $simpleId           = 0;
-            } else {
-                $simpleId           = false;
             }
 
             $item->setName($this->getProductName($item));
-        }
-
-         /* checks available for bundle */
-        if ($itemLog->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
-            $orderItemsCollection->removeItemByKey($parentItemId);
-            if (!empty($bundle[$parentItemId])) {
-                foreach ($bundle[$parentItemId] as $child) {
-                    $orderItemsCollection->removeItemByKey($child);
-                }
-            }
         }
 
         return $orderItemsCollection;

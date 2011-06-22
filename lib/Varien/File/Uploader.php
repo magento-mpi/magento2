@@ -190,7 +190,8 @@ class Varien_File_Uploader
         $this->_result = false;
 
         $destinationFile = $destinationFolder;
-        $fileName = isset($newFileName) ? $newFileName : self::getCorrectFileName($this->_file['name']);
+        $fileName = isset($newFileName) ? $newFileName : $this->_file['name'];
+        $fileName = self::getCorrectFileName($fileName);
         if ($this->_enableFilesDispersion) {
             $fileName = $this->correctFileNameCase($fileName);
             $this->setAllowCreateFolders(true);
