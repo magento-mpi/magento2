@@ -48,6 +48,14 @@
             </enterprise_pbridge>
         </helpers>
         <events>
+            <controller_action_predispatch>
+                <observers>
+                    <enterprise_pbridge>
+                        <class>enterprise_pbridge/observer</class>
+                        <method>addPrivacyHeader</method>
+                    </enterprise_pbridge>
+                </observers>
+            </controller_action_predispatch>
             <payment_method_is_active>
                 <observers>
                     <enterprise_pbridge>
@@ -128,6 +136,16 @@
                 <model>enterprise_pbridge/payment_method_payflow_pro</model>
                 <enabled>1</enabled>
             </pbridge_verisign>
+            <pbridge_ogone_direct>
+                <model>enterprise_pbridge/payment_method_ogone</model>
+                <title>Ogone Direct Link</title>
+                <userid backend_model="adminhtml/system_config_backend_encrypted"/>
+                <password backend_model="adminhtml/system_config_backend_encrypted"/>
+                <passphrase backend_model="adminhtml/system_config_backend_encrypted"/>
+                <payment_action>authorize</payment_action>
+                <cctypes>VI</cctypes>
+                <useccv>1</useccv>
+            </pbridge_ogone_direct>
         </payment>
     </default>
 </config>

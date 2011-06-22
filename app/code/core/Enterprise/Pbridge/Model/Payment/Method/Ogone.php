@@ -26,38 +26,57 @@
 
 
 /**
- * Authoreze.Net dummy payment method model
+ * Ogone Direct Link dummy payment method model
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_Model_Authorizenet
+class Enterprise_Pbridge_Model_Payment_Method_Ogone extends Mage_Payment_Model_Method_Cc
 {
     /**
-     * Form block type for the frontend
-     *
+     * Payment method code
      * @var string
      */
-    protected $_formBlockType = 'enterprise_pbridge/checkout_payment_authorizenet';
+    protected $_code = 'pbridge_ogone_direct';
+
+    /**
+     * Availability options
+     */
+    protected $_isGateway               = true;
+    protected $_canAuthorize            = true;
+    protected $_canCapture              = true;
+    protected $_canCapturePartial       = true;
+    protected $_canRefund               = true;
+    protected $_canRefundInvoicePartial = true;
+    protected $_canVoid                 = true;
+    protected $_canUseInternal          = true;
+    protected $_canUseCheckout          = true;
+    protected $_canUseForMultishipping  = true;
+    protected $_canSaveCc = false;
+    protected $_canFetchTransactionInfo = true;
+    protected $_canReviewPayment        = true;
+
+    /**
+     * Form block type for the frontend
+     * @var string
+     */
+    protected $_formBlockType = 'enterprise_pbridge/checkout_payment_ogone';
 
     /**
      * Form block type for the backend
-     *
      * @var string
      */
-    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_authorizenet';
+    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_ogone';
 
     /**
      * Payment Bridge Payment Method Instance
-     *
      * @var Enterprise_Pbridge_Model_Payment_Method_Pbridge
      */
     protected $_pbridgeMethodInstance = null;
 
     /**
      * Return that current payment method is dummy
-     *
      * @return boolean
      */
     public function getIsDummy()
@@ -66,83 +85,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
     }
 
     /**
-     * Return Payment Bridge method instance
-     *
-     * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge
-     */
-    public function getPbridgeMethodInstance()
-    {
-        if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
-            if ($this->_pbridgeMethodInstance) {
-                $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
-            }
-        }
-        return $this->_pbridgeMethodInstance;
-    }
-
-    /**
-     * Retrieve dummy payment method code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return 'pbridge_' . parent::getCode();
-    }
-
-    /**
-     * Retrieve original payment method code
-     *
+     * Getter for original method code
      * @return string
      */
     public function getOriginalCode()
     {
-        return parent::getCode();
-    }
-
-    public function getTitle()
-    {
-        return parent::getTitle();
-    }
-
-    /**
-     * Assign data to info model instance
-     *
-     * @param  mixed $data
-     * @return Mage_Payment_Model_Info
-     */
-    public function assignData($data)
-    {
-        $this->getPbridgeMethodInstance()->assignData($data);
-        return $this;
-    }
-
-    /**
-     * Retrieve information from payment configuration
-     *
-     * @param   string $field
-     * @return  mixed
-     */
-    public function getConfigData($field, $storeId = null)
-    {
-        if (null === $storeId) {
-            $storeId = $this->getStore();
-        }
-        $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
-    }
-
-    /**
-     * Check whether payment method can be used
-     *
-     * @param Mage_Sales_Model_Quote $quote
-     * @return boolean
-     */
-    public function isAvailable($quote = null)
-    {
-        return $this->getPbridgeMethodInstance() ?
-            $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote) : false;
+        return $this->getCode();
     }
 
     /**
@@ -158,9 +106,33 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
     }
 
     /**
-     * Validate payment method information object
+     * Return Payment Bridge method instance
+     * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge
+     */
+    public function getPbridgeMethodInstance()
+    {
+        if ($this->_pbridgeMethodInstance === null) {
+            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
+        }
+        return $this->_pbridgeMethodInstance;
+    }
+
+    /**
+     * Assign data to info model instance
      *
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @param  mixed $data
+     * @return Mage_Payment_Model_Info
+     */
+    public function assignData($data)
+    {
+        $this->getPbridgeMethodInstance()->assignData($data);
+        return $this;
+    }
+
+    /**
+     * Validate payment method information object
+     * @return Enterprise_Pbridge_Model_Payment_Method_Ogone
      */
     public function validate()
     {
@@ -173,7 +145,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      *
      * @param Varien_Object $payment
      * @param float $amount
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @return Enterprise_Pbridge_Model_Payment_Method_Ogone
      */
     public function authorize(Varien_Object $payment, $amount)
     {
@@ -187,7 +159,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      *
      * @param Varien_Object $payment
      * @param float $amount
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @return Enterprise_Pbridge_Model_Payment_Method_Ogone
      */
     public function capture(Varien_Object $payment, $amount)
     {
@@ -205,12 +177,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      *
      * @param Varien_Object $payment
      * @param float $amount
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @return Enterprise_Pbridge_Model_Payment_Method_Ogone
      */
     public function refund(Varien_Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
+        $payment->setShouldCloseParentTransaction(false);
         return $this;
     }
 
@@ -218,7 +191,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      * Voiding method being executed via Payment Bridge
      *
      * @param Varien_Object $payment
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @return Enterprise_Pbridge_Model_Payment_Method_Ogone
      */
     public function void(Varien_Object $payment)
     {
@@ -231,7 +204,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      * Cancel payment
      *
      * @param Varien_Object $payment
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
+     * @return Enterprise_Pbridge_Model_Payment_Method_Ogone
      */
     public function cancel(Varien_Object $payment)
     {
@@ -242,6 +215,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
         return $this;
     }
 
+    /**
+     * Getter for Centinel validation availability
+     * @return bool
+     */
     public function getIsCentinelValidationEnabled()
     {
         return false;
@@ -249,35 +226,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
 
     /**
      * Store id setter, also set storeId to helper
-     *
      * @param int $store
+     * @return Enterprise_Pbridge_Model_Payment_Method_Ogone
      */
     public function setStore($store)
     {
         $this->setData('store', $store);
         Mage::helper('enterprise_pbridge')->setStoreId(is_object($store) ? $store->getId() : $store);
-        return $this;
-    }
-
-    /**
-     * Check refund availability
-     *
-     * @return bool
-     */
-    public function canRefund()
-    {
-         return $this->_canRefund;
-    }
-
-    /**
-     * Set capture transaction ID to invoice for informational purposes
-     * @param Mage_Sales_Model_Order_Invoice $invoice
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Payment_Model_Method_Abstract
-     */
-    public function processInvoice($invoice, $payment)
-    {
-        $invoice->setTransactionId($payment->getLastTransId());
         return $this;
     }
 }
