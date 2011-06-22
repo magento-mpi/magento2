@@ -127,17 +127,21 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
 
         $dateRange = $this->getDateRange($range, $customStart, $customEnd);
 
+        $tzRangeOffsetExpression = $this->_getTZRangeOffsetExpression(
+            $range, 'created_at', $dateRange['from'], $dateRange['to']
+        );
+
         $this->getSelect()
             ->columns(array(
                 'quantity' => 'COUNT(main_table.entity_id)',
-                'range' => $this->_getTZRangeOffsetExpression($range, 'created_at', $dateRange['from'], $dateRange['to']),
+                'range' => $tzRangeOffsetExpression,
             ))
             ->where('main_table.state NOT IN (?)', array(
                 Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
                 Mage_Sales_Model_Order::STATE_NEW)
             )
             ->order('range', Zend_Db_Select::SQL_ASC)
-            ->group('range');
+            ->group($tzRangeOffsetExpression);
 
         $this->addFieldToFilter('created_at', $dateRange);
 

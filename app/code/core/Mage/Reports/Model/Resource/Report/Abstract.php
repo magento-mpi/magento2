@@ -231,7 +231,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
         $adapter = $this->_getReadAdapter();
         foreach ($selectResult as $date) {
             $date = substr($date, 0, 10); // to fix differences in oracle
-            $whereCondition[] = "{$periodColumn} LIKE '{$date}%'";
+            $whereCondition[] = $adapter->prepareSqlCondition($periodColumn, array('like' => $date));
         }
         $whereCondition = implode(' OR ', $whereCondition);
         if ($whereCondition == '') {
