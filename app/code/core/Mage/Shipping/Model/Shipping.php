@@ -284,7 +284,7 @@ class Mage_Shipping_Model_Shipping
             || !Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId)
         ) {
             Mage::throwException(
-                Mage::helper('sales')->__('The shipping label has not been created. Please configure your Store Information and Shipping Settings')
+                Mage::helper('sales')->__('Insufficient information to create shipping label(s). Please verify your Store Information and Shipping Settings.')
             );
         }
 

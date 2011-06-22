@@ -118,7 +118,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
             || !$recipientAddress->getCountryId()
         ) {
             Mage::throwException(
-                Mage::helper('enterprise_rma')->__('The shipping label has not been created. Please configure your Store Information and Shipping Settings')
+                Mage::helper('enterprise_rma')->__('Insufficient information to create shipping label(s). Please verify your Store Information and Shipping Settings.')
             );
         }
 
