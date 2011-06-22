@@ -1066,7 +1066,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $itemId = $this->_findItemIdInGrid($data);
 
         $this->addParameter('id', $itemId);
-        $this->click("//table[contains(@id, 'Grid_table')]//tr[contains(@title, 'id/" . $itemId . "/')]/td[contains(text(),'" . $data[array_rand($data)] . "')]");
+        $this->click("//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[contains(@title, 'id/"
+                . $itemId . "/') or @title='" . $itemId . "']/td[contains(text(),'" . $data[array_rand($data)] . "')]");
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
 
@@ -1086,7 +1087,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $itemId = $this->_findItemIdInGrid($data);
 
         $this->addParameter('id', $itemId);
-        $this->click("//table[contains(@id, 'Grid_table')]//tr[contains(@title, 'id/" . $itemId . "/')]//input[contains(@class,'checkbox')]");
+        $this->click("//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[contains(@title, 'id/"
+                . $itemId . "/') or @title='" . $itemId . "']//input[contains(@class,'checkbox')]");
 
         return true;
     }
@@ -1152,12 +1154,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
             if ($this->isElementPresent($xpathTR)) {
                 // ID definition
-                $titleArr = explode('/', $this->getValue($xpathTR . '/@title'));
+                $title = $this->getValue($xpathTR . '/@title');
+
+                if (is_numeric($title)) {
+                    return $title;
+                }
+                $titleArr = explode('/', $title);
 
                 $idKey = array_search('id', $titleArr);
 
                 if ($idKey !== false && isset($titleArr[$idKey + 1])) {
                     return $titleArr[$idKey + 1];
+                } else {
+                    $this->fail('Cant\'t find item ID');
                 }
             } else {
                 $this->fail('Cant\'t find item in grig for data: ' . print_r($data, true));
