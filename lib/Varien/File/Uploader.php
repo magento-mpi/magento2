@@ -205,7 +205,7 @@ class Varien_File_Uploader
 
         $destinationFile = self::_addDirSeparator($destinationFile) . $fileName;
 
-        $this->_result = move_uploaded_file($this->_file['tmp_name'], $destinationFile);
+        $this->_result = $this->_moveFile($this->_file['tmp_name'], $destinationFile);
 
         if ($this->_result) {
             chmod($destinationFile, 0777);
@@ -223,6 +223,11 @@ class Varien_File_Uploader
         }
 
         return $this->_result;
+    }
+
+    protected function _moveFile($tmpPath, $destPath)
+    {
+        return move_uploaded_file($tmpPath, $destPath);
     }
 
     /**
