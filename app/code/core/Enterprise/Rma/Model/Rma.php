@@ -822,34 +822,33 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     protected function _requestShippingRates($items, $address, $store, $subtotal, $weight, $qty)
     {
+        $shippingDestinationInfo = Mage::helper('enterprise_rma')->getReturnAddressModel($this->getStoreId());
+
         /** @var $request Mage_Shipping_Model_Rate_Request */
         $request = Mage::getModel('shipping/rate_request');
         $request->setAllItems($items);
-        $request->setDestCountryId($address->getCountryId());
-        $request->setDestRegionId($address->getRegionId());
-        $request->setDestRegionCode(
-            Mage::getModel('directory/region')->load($address->getRegionId())->getCode()
-        );
-        $request->setDestStreet($address->getStreet(-1));
-        $request->setDestCity($address->getCity());
-        $request->setDestPostcode($address->getPostcode());
+        $request->setDestCountryId($shippingDestinationInfo->getCountryId());
+        $request->setDestRegionId($shippingDestinationInfo->getRegionId());
+        $request->setDestRegionCode($shippingDestinationInfo->getRegionId());
+        $request->setDestStreet($shippingDestinationInfo->getStreet(-1));
+        $request->setDestCity($shippingDestinationInfo->getCity());
+        $request->setDestPostcode($shippingDestinationInfo->getPostcode());
+
         $request->setPackageValue($subtotal);
         $request->setPackageValueWithDiscount($subtotal);
         $request->setPackageWeight($weight);
         $request->setPackageQty($qty);
 
-        $shippingDestinationInfo = Mage::helper('enterprise_rma')->getReturnAddressModel($this->getStoreId());
-
         //shop destination address data
         //different carriers use different variables. So we duplicate them
         $request
-            ->setOrigCountryId($shippingDestinationInfo->getCountryId())
-            ->setOrigCountry($shippingDestinationInfo->getCountryId())
-            ->setOrigState($shippingDestinationInfo->getRegionId())
-            ->setOrigRegionCode($shippingDestinationInfo->getRegionId())
-            ->setOrigCity($shippingDestinationInfo->getCity())
-            ->setOrigPostcode($shippingDestinationInfo->getPostcode())
-            ->setOrigPostal($shippingDestinationInfo->getPostcode())
+            ->setOrigCountryId($address->getCountryId())
+            ->setOrigCountry($address->getCountryId())
+            ->setOrigState($address->getRegionId())
+            ->setOrigRegionCode($address->getRegionId())
+            ->setOrigCity($address->getCity())
+            ->setOrigPostcode($address->getPostcode())
+            ->setOrigPostal($address->getPostcode())
             ->setOrig(true);
 
         /**

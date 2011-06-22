@@ -906,7 +906,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $itemsPrice[$item->getItemId()]     = $item->getPrice();
             $itemsName[$item->getItemId()]      = $item->getName();
             $itemsWeight[$item->getItemId()]    = $item->getWeight();
-            $itemsProductId[$item->getItemId()] = $item->getgetProductId();
+            $itemsProductId[$item->getItemId()] = $item->getProductId();
         }
 
         $shippingInformation = $this->getLayout()

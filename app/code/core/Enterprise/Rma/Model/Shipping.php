@@ -86,7 +86,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
     public function requestToShipment()
     {
         $admin              = Mage::getSingleton('admin/session')->getUser();
-        $shipmentStoreId    = $this->getStoreId();
+        $shipmentStoreId    = $this->getRma()->getStoreId();
         $storeInfo          = new Varien_Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
 
         /** @var $order Mage_Sales_Model_Order */
