@@ -77,7 +77,7 @@
                             <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
                         </select>
                         <script type="text/javascript">
-                            $('region_id').setAttribute('defaultValue',  "<?php echo intval($this->getAddress()->getRegionId()) ?>");
+                            $('region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
                         </script>
                         <input type="text" id="region" name="region" value="<?php echo $this->htmlEscape($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text required-entry" style="display:none;" />
                     </div>

@@ -83,7 +83,7 @@
                                 <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
                             </select>
                             <script type="text/javascript">
-                                $('billing:region_id').setAttribute('defaultValue',  "<?php echo intval($this->getAddress()->getRegionId()) ?>");
+                                $('billing:region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
                             </script>
                             <input type="text" id="billing:region" name="billing[region]" value="<?php echo $this->htmlEscape($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none;" />
                         </div>

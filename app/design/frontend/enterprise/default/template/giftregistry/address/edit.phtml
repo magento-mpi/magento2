@@ -84,7 +84,7 @@
                         <script type="text/javascript">
                         //<![CDATA[
                         document.observe("dom:loaded", function() {
-                            $('address:region_id').setAttribute('defaultValue',  "<?php echo intval($this->getAddress()->getRegionId()) ?>");
+                            $('address:region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
                         })
                         //]]>
                         </script>
