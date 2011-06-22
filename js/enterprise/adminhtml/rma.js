@@ -636,6 +636,7 @@ AdminRma.prototype = {
         } else {
             $$('input[value="'+itemId+'"]')[0].checked = false;
             delete this.bundleArray[itemId];
+            this.addProductCheckboxCheckCallback(this.grid, $$('input[value="'+itemId+'"]')[0], false)
         }
 
         this.hidePopups();
@@ -646,6 +647,7 @@ AdminRma.prototype = {
             $$('input[value="'+itemId+'"]')[0].checked = "checked";
         } else {
             $$('input[value="'+itemId+'"]')[0].checked = false;
+            this.addProductCheckboxCheckCallback(this.grid, $$('input[value="'+itemId+'"]')[0], false)
         }
 
         this.hidePopups();
