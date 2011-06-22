@@ -1059,7 +1059,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $data
      * @return Mage_Selenium_TestCase
      */
-    public function searchAndOpen(array $data)
+    public function searchAndOpen(array $data, $willChangePage = true)
     {
         $this->_prepareDataForSearch($data);
 
@@ -1068,8 +1068,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->addParameter('id', $itemId);
         $this->click("//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[contains(@title, 'id/"
                 . $itemId . "/') or @title='" . $itemId . "']/td[contains(text(),'" . $data[array_rand($data)] . "')]");
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+        
+        if ($willChangePage) {
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+            }else {
+                $this->waitForAjax($this->_browserTimeoutPeriod);        
+            }
+        
 
         return true;
     }
@@ -1125,11 +1131,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         if (count($data) > 0) {
             //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
-            $totalCount = intval($this->getText("//td[@class='pager']//span[contains(@id, 'Grid-total-count')]"));
-            $xpathPager = "//td[@class='pager']//span[contains(@id, 'Grid-total-count') and not(contains(.,'" . $totalCount . "'))]";
+            $totalCount = intval($this->getText("//td[@class='pager']//span[contains(@id, 'Grid-total-count') or contains(@id, 'grid-total-count')]"));
+            $xpathPager = "//td[@class='pager']//span[contains(@id, 'Grid-total-count') or contains(@id, 'grid-total-count') and not(contains(.,'" . $totalCount . "'))]";
 
             // Forming xpath for string that contains the lookup data
-            $xpathTR = "//table[contains(@id, 'Grid_table')]//tr[";
+            $xpathTR = "//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[";
             $i = 1;
             $n = count($data);
             foreach ($data as $key => $value) {
