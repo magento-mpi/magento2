@@ -334,7 +334,18 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             } elseif (isset($response->RateReplyDetails)) {
                 $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
 
-                foreach ($response->RateReplyDetails as $rate) {
+                if (is_array($response->RateReplyDetails)) {
+                    foreach ($response->RateReplyDetails as $rate) {
+                        $serviceName = (string)$rate->ServiceType;
+                        if (in_array($serviceName, $allowedMethods)) {
+                            $amount = (string)$rate->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount;
+                            $costArr[$serviceName]  = $amount;
+                            $priceArr[$serviceName] = $this->getMethodPrice($amount, $serviceName);
+                        }
+                    }
+                    asort($priceArr);
+                } else {
+                    $rate = $response->RateReplyDetails;
                     $serviceName = (string)$rate->ServiceType;
                     if (in_array($serviceName, $allowedMethods)) {
                         $amount = (string)$rate->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount;
@@ -342,7 +353,6 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                         $priceArr[$serviceName] = $this->getMethodPrice($amount, $serviceName);
                     }
                 }
-                asort($priceArr);
             }
         }
 
