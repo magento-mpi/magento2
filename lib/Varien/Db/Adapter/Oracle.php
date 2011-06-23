@@ -601,6 +601,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if (!$schemaName) {
             $schemaName = $this->_getSchemaName();
         }
+
         $version = $this->getServerVersion();
         if (($version === null) || version_compare($version, '9.0.0', '>=')) {
             $sql = "SELECT TC.TABLE_NAME, TC.OWNER, TC.COLUMN_NAME,
@@ -702,11 +703,21 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             if ($describedInfo['DEFAULT'] !== null) {
                 $val = $describedInfo['DEFAULT'];
                 if (($colType == 'CLOB') || (strpos($colType, 'CHAR') !== false)) {
+                    // Check maybe we have NULL there
+                    $valMatched = false;
+                    if (strpos($val, "'") === false) {
+                        if (strtolower(trim($val)) == 'null') {
+                            $valMatched = true;
+                            $val = null;
+                        }
+                    }
                     // Strip quotes and empty spaces
-                    $val = preg_replace('/^\s*\'/', '', $val);
-                    $val = preg_replace('/\'\s*$/', '', $val);
-                    if ($val === '') {
-                        $val = null;
+                    if (!$valMatched) {
+                        $val = preg_replace('/^\s*\'/', '', $val);
+                        $val = preg_replace('/\'\s*$/', '', $val);
+                        if ($val === '') {
+                            $val = null;
+                        }
                     }
                 } else {
                     // Easier stripping without regexps
@@ -793,10 +804,63 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
+     * Formats described column to definition, ready to be added to ddl table.
+     * Returns array with keys: name, type, length, options, comment
+     *
+     * @param array $columnData
+     * @return array
+     */
+    public function getColumnCreateByDescribe($columnData)
+    {
+        $type = $this->_getColumnTypeByDdl($columnData);
+        $options = array();
+        if ($columnData['IDENTITY'] === true) {
+            $options['identity']  = true;
+        }
+        if ($columnData['UNSIGNED'] === true) {
+            $options['unsigned']  = true;
+        }
+        if ($columnData['NULLABLE'] === false) {
+            $options['nullable'] = false;
+        }
+        if ($columnData['PRIMARY'] === true) {
+            $options['primary'] = true;
+        }
+        if (strlen($columnData['DEFAULT']) > 0) {
+            $options['default'] = $columnData['DEFAULT'];
+        } else {
+            /**
+             * Force NULL, as empty strings are NULLs in Magento (cross-db compatibility)
+             * But set NULL only when column is nullable
+             */
+            if ($columnData['NULLABLE']) {
+                $options['default'] = null;
+            }
+        }
+        if (strlen($columnData['SCALE']) > 0) {
+            $options['scale'] = $columnData['SCALE'];
+        }
+        if (strlen($columnData['PRECISION']) > 0) {
+            $options['precision'] = $columnData['PRECISION'];
+        }
+        $comment = ucwords(str_replace('_', ' ', $columnData['COLUMN_NAME']));
+
+        $result = array(
+            'name' => $columnData['COLUMN_NAME'],
+            'type' => $type,
+            'length' => $columnData['LENGTH'],
+            'options' => $options,
+            'comment' => $comment
+        );
+
+        return $result;
+    }
+
+    /**
      * Create Varien_Db_Ddl_Table object by data from describe table
      *
-     * @param $tableName
-     * @param $newTableName
+     * @param string $tableName
+     * @param string $newTableName
      * @return Varien_Db_Ddl_Table
      */
     public function createTableByDdl($tableName, $newTableName)
@@ -805,39 +869,14 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $table = $this->newTable($newTableName)
             ->setComment(ucwords(str_replace('_', ' ', $newTableName)));
         foreach ($describe as $columnData) {
-            $type = $this->_getColumnTypeByDdl($columnData);
-            $options = array();
-            if ($columnData['IDENTITY'] === true) {
-                $options['identity']  = true;
-            }
-            if ($columnData['UNSIGNED'] === true) {
-                $options['unsigned']  = true;
-            }
-            if ($columnData['NULLABLE'] === false) {
-                $options['nullable'] = false;
-            }
-            if ($columnData['PRIMARY'] === true) {
-                $options['primary'] = true;
-            }
-            if (strlen($columnData['DEFAULT']) > 0) {
-                $options['default'] = $columnData['DEFAULT'];
-            } else {
-                /**
-                 * Force NULL, as empty strings are NULLs in Magento (cross-db compatibility)
-                 * But set NULL only when column is nullable
-                 */
-                if ($columnData['NULLABLE']) {
-                    $options['default'] = null;
-                }
-            }
-            if (strlen($columnData['SCALE']) > 0) {
-                $options['scale'] = $columnData['SCALE'];
-            }
-            if (strlen($columnData['PRECISION']) > 0) {
-                $options['precision'] = $columnData['PRECISION'];
-            }
-            $comment = ucwords(str_replace('_', ' ', $columnData['COLUMN_NAME']));
-            $table->addColumn($columnData['COLUMN_NAME'], $type, $columnData['LENGTH'], $options, $comment);
+            $columnInfo = $this->getColumnCreateByDescribe($columnData);
+            $table->addColumn(
+                $columnInfo['name'],
+                $columnInfo['type'],
+                $columnInfo['length'],
+                $columnInfo['options'],
+                $columnInfo['comment']
+            );
         }
 
         $indexes = $this->getIndexList($tableName);
@@ -3227,10 +3266,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         // convert keys to upper case
         $options = array_change_key_case($options, CASE_UPPER);
 
-        $cType      = null;
         $cNullable  = true;
         $cDefault   = false;
-        //$cIdentity  = false;
 
         // detect and validate column type
         if (is_null($ddlType) && isset($options['TYPE'])) {
@@ -3295,10 +3332,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if (array_key_exists('NULLABLE', $options)) {
             $cNullable = (bool)$options['NULLABLE'];
         }
-
-//        if (!empty($options['IDENTITY']) || !empty($options['AUTO_INCREMENT'])) {
-//            $cIdentity = true;
-//        }
 
         // prepare default value string
         if ($ddlType == Varien_Db_Ddl_Table::TYPE_TIMESTAMP) {
