@@ -652,4 +652,37 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
             ->from($this->getTable('catalog/product'), $columns);
         return $this->_getReadAdapter()->fetchAll($select);
     }
+
+    /**
+     * Return assigned images for specific stores
+     *
+     * @param int $productId
+     * @param int|array $storeIds
+     * @return array
+     *
+     */
+    public function getAssignedImages($productId, $storeIds)
+    {
+        if (!is_array($storeIds)) {
+            $storeIds = array($storeIds);
+        }
+
+        $read   = $this->_getReadAdapter();
+        $select = $read->select()
+            ->from(
+                array('images' => $this->getTable('catalog_product_entity_varchar')),
+                array('value as filepath', 'store_id')
+            )
+            ->joinLeft(
+                array('attr' => $this->getTable('eav/attribute')),
+                'images.attribute_id = attr.attribute_id',
+                array('attribute_code')
+            )
+            ->where('entity_id = ?', $productId)
+            ->where('store_id IN (?)', $storeIds)
+            ->where('attribute_code IN (?)', array('small_image', 'thumbnail', 'image'));
+
+        $images = $read->fetchAll($select);
+        return $images;
+    }
 }

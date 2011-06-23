@@ -201,16 +201,17 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         $storeIds = $object->getStoreIds();
         $storeIds[] = Mage_Core_Model_App::ADMIN_STORE_ID;
 
+        // remove current storeId
+        $storeIds = array_flip($storeIds);
+        unset($storeIds[$storeId]);
+        $storeIds = array_keys($storeIds);
+
+        $images = Mage::getResourceModel('catalog/product')
+            ->getAssignedImages($object->getId(), $storeIds);
+
         $picturesInOtherStores = array();
-        foreach ($storeIds as $id) {
-            if ($id == $storeId) {
-                continue;
-            }
-            $product = Mage::getModel('catalog/product')->setStoreId($id)->load($object->getId());
-            $picturesInOtherStores[$product->getImage()] = true;
-            $picturesInOtherStores[$product->getSmallImage()] = true;
-            $picturesInOtherStores[$product->getThumbnail()] = true;
-            unset($product);
+        foreach ($images as $image) {
+            $picturesInOtherStores[$image['filepath']] = true;
         }
 
         $toDelete = array();
