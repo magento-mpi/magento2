@@ -145,7 +145,9 @@ AdminRma.prototype = {
 
     showPopup: function(divId) {
         //this.hidePopups();
-        $(divId).show();
+        $(divId).show().setStyle({
+			'marginTop': -$(divId).getDimensions().height / 2 + 'px'
+		});
         $('popup-window-mask').setStyle({
             height: $('html-body').getHeight() + 'px'
         }).show();
