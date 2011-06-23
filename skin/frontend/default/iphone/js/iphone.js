@@ -110,50 +110,65 @@ document.observe("dom:loaded", function() {
         carouselItems = carousel.select('.carousel-items')[0],
         itemsWidth = carouselItems.getWidth(),
         itemsLength = carouselItems.childElements().size(),
-        screens = Math.round(itemsLength/3),
+        screens = Math.ceil(itemsLength/3),
+        counter = carousel.select('.counter')[0],
         itemPos = 0,
         lastItemPos = (itemsLength-3) * 100/3,
         prevButton = carousel.select('.prev')[0],
         nextButton = carousel.select('.next')[0];
-        
-
+    
     carouselItems.wrap('div', {'class': 'carousel-wrap'});
     
-    prevButton.observe('click', function () {
-        if (itemPos !== 0) {
-            itemPos += 100/3;
-            carouselItems.setStyle({
-                'position': 'relative',
-                '-webkit-transform': 'translateX(' + itemPos + '%)'
-            });
-            
-            if(itemPos === 0) {
-                prevButton.addClassName('disabled');
-            };
-            
-            if (nextButton.hasClassName('disabled')) {
-                nextButton.removeClassName('disabled');
-            };
-            
-        };
-    });
+    if (screens > 1) {
     
-    nextButton.observe('click', function () {
-        if(Math.abs(itemPos) < lastItemPos) {
-            itemPos -= 100/3;
-            carouselItems.setStyle({
-                'position': 'relative',
-                '-webkit-transform': 'translateX(' + itemPos + '%)'
-            });
-            
-            if (Math.abs(itemPos) >= lastItemPos) {
-                nextButton.addClassName('disabled');
-            }
-            
-            if (prevButton.hasClassName('disabled')) {
-                prevButton.removeClassName('disabled');
+        for (var i = 0; i < screens; i++) {
+            if (i === 0) {
+                counter.insert(new Element('span', { 'class': 'active' }));
+            } else {
+                counter.insert(new Element('span'));
             };
-        };
-    });
+        }
+    
+        prevButton.observe('click', function () {
+            if (itemPos !== 0) {
+                itemPos += 100/3;
+                carouselItems.setStyle({
+                    'position': 'relative',
+                    '-webkit-transform': 'translateX(' + itemPos + '%)'
+                });
+            
+                if(itemPos === 0) {
+                    prevButton.addClassName('disabled');
+                };
+            
+                if (nextButton.hasClassName('disabled')) {
+                    nextButton.removeClassName('disabled');
+                };
+                counter.select('.active')[0].removeClassName('active').previous().addClassName('active');
+            };
+        });
+    
+        nextButton.observe('click', function () {
+            if(Math.abs(itemPos) < lastItemPos) {
+                itemPos -= 100/3;
+                carouselItems.setStyle({
+                    'position': 'relative',
+                    '-webkit-transform': 'translateX(' + itemPos + '%)'
+                });
+            
+                if (Math.abs(itemPos) >= lastItemPos) {
+                    nextButton.addClassName('disabled');
+                }
+            
+                if (prevButton.hasClassName('disabled')) {
+                    prevButton.removeClassName('disabled');
+                };
+                counter.select('.active')[0].removeClassName('active').next().addClassName('active');
+            };
+        });
+
+    } else {
+        carousel.select('.controls')[0].hide();
+    }
 
 });

@@ -560,7 +560,7 @@ input[type="text"] {
     z-index:3;
     -webkit-appearance:none;
 }
-.breadcrumbs ul li:last-child { display:block; font-size:14px; font-weight:bold; text-align:center; }
+.breadcrumbs ul li:last-child { display:block; font-size:14px; font-weight:bold; text-align:center; text-shadow:0 1px 0 #fff; margin:0 auto; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:50%; }
 
 
 /* Catalog List
@@ -690,9 +690,11 @@ section .category-title { display:none; }
     
     .up-sell-box .up-sell-heading {
         font-size:13px;
+        line-height:24px;
+        height:24px;
         font-weight:bold;
-        margin:0 0 10px;
-        padding:0;
+        margin:0;
+        padding:5px 0 10px;
         text-shadow:0 1px 0 #fff;
     }
     
@@ -759,8 +761,9 @@ section .category-title { display:none; }
     .up-sell-box .up-sell li {
         display:inline-block;
         vertical-align:top;
+        padding:0 5px;
         white-space:normal;
-        width:33.333%;
+        width:33.333333333%;
         -webkit-box-sizing:border-box;
     }
     
@@ -770,7 +773,7 @@ section .category-title { display:none; }
         display:inline-block;
         padding:3px;
         border:1px solid #ccc;
-        -webkit-box-shadow:0 1px 6px #999;
+        -webkit-box-shadow:0 1px 2px #999;
         text-align:center;
     }
     
@@ -786,6 +789,27 @@ section .category-title { display:none; }
     }
     
     .up-sell li .price-box { font-weight:bold; }
+    
+    .counter {
+        padding:5px 0 0;
+        text-align:center;
+    }
+    
+    .counter span {
+        margin:0 2px;
+    }
+    
+    .counter span:before {
+        content:'\2022';
+        color:#c4c4c4;
+        font-size:20px;
+        display:inline-block;
+        -webkit-text-stroke:1px #555;
+    }
+    
+    .counter span.active:before {
+        color:#fff;
+    }
     
 .collateral-box { margin:16px 0 0; }
     .collateral-box .tags-list { font-size:12px; padding:10px; }
