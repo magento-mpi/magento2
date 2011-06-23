@@ -191,7 +191,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var string
      */
-    const xpathErrorMessage = "//li[normalize-space(@class)='error-msg']/ul/li";
+    const xpathErrorMessage = "//li[normalize-space(@class)='error-msg']/ul/li
+        [not(text()='Bundle with dynamic pricing cannot include custom defined options. Options will not be saved.')]";
 
     /**
      * Error message Xpath
@@ -1006,7 +1007,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _fillFormDropdown($fieldData)
     {
         if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
-            $this->select($fieldData['path'], 'regexp:' . preg_quote($fieldData['value']));
+//            $this->select($fieldData['path'], 'regexp:' . preg_quote($fieldData['value']));
+            $this->select($fieldData['path'], 'label=' . $fieldData['value']);
             $this->waitForAjax();
         } else {
             throw new PHPUnit_Framework_Exception("Can't fill in the dropdown field: {$fieldData['path']}");
@@ -1068,14 +1070,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->addParameter('id', $itemId);
         $this->click("//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[contains(@title, 'id/"
                 . $itemId . "/') or @title='" . $itemId . "']/td[contains(text(),'" . $data[array_rand($data)] . "')]");
-        
+
         if ($willChangePage) {
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-            }else {
-                $this->waitForAjax($this->_browserTimeoutPeriod);        
-            }
-        
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+        } else {
+            $this->waitForAjax($this->_browserTimeoutPeriod);
+        }
 
         return true;
     }

@@ -89,174 +89,174 @@ new_product:
         form: &newProductCreationForm
             tabs:
                 -
-                    general:
+                    general: &generalTab
                         xpath: //a[@title='General']/span
                         fieldsets:
                             -
                                 product_general:
-                                    xpath: "//div[contains(div/div/h4,'General') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/div/h4,'General')]"
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                     dropdowns:
-                                        product_sku_type: //select[@id='sku_type']
-                                        product_weight_type: //select[@id='weight_type']
-                                        product_status: //select[@id='status']
-                                        product_visibility: //select[@id='visibility']
-                                        product_in_feed: //select[@id='is_imported']
+                                        general_sku_type: //select[@id='sku_type']
+                                        general_weight_type: //select[@id='weight_type']
+                                        general_status: //select[@id='status']
+                                        general_visibility: //select[@id='visibility']
+                                        general_in_feed: //select[@id='is_imported']
                                     fields:
-                                        product_name: //input[@id='name']
-                                        product_description: //textarea[@id='description']
-                                        product_short_description: //textarea[@id='short_description']
-                                        product_sku: //input[@id='sku']
-                                        product_weight: //input[@id='weight' and not(@disabled)]
-                                        product_news_from: //input[@id='news_from_date']
-                                        product_news_to: //input[@id='news_to_date']
-                                        product_url_key: //input[@id='url_key']
+                                        general_name: //input[@id='name']
+                                        general_description: //textarea[@id='description']
+                                        general_short_description: //textarea[@id='short_description']
+                                        general_sku: //input[@id='sku']
+                                        general_weight: //input[@id='weight' and not(@disabled)]
+                                        general_news_from: //input[@id='news_from_date']
+                                        general_news_to: //input[@id='news_to_date']
+                                        general_url_key: //input[@id='url_key']
                 -
-                    prices:
+                    prices: &pricesTab
                         xpath: //a[@title='Prices']/span
                         fieldsets:
                             -
                                 product_prices:
-                                    xpath: "//div[contains(div/div/h4,'Prices') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/div/h4,'Prices')]"
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                         add_tier_price: //button[span='Add Tier']
                                         delete_tier_price: //button[@id='tier_price_row_%tierPriceId%_delete_button']
                                     dropdowns:
-                                        product_price_type: //select[@id='price_type']
-                                        product_tier_price_website: //select[@id='tier_price_row_%tierPriceId%_website']
-                                        product_tier_price_customer_group: //select[@id='tier_price_row_%tierPriceId%_cust_group']
-                                        product_tax_class: //select[@id='tax_class_id']
-                                        enable_googlecheckout: //select[@id='enable_googlecheckout']
-                                        product_price_view_bundle: //select[@id='price_view']
+                                        prices_price_type: //select[@id='price_type']
+                                        prices_tier_price_website: //select[@id='tier_price_row_%tierPriceId%_website']
+                                        prices_tier_price_customer_group: //select[@id='tier_price_row_%tierPriceId%_cust_group']
+                                        prices_tax_class: //select[@id='tax_class_id']
+                                        prices_enable_googlecheckout: //select[@id='enable_googlecheckout']
+                                        prices_price_view_bundle: //select[@id='price_view']
                                     fields:
-                                        product_price: //input[@id='price' and not(@disabled)]
-                                        product_special_price: //input[@id='special_price']
-                                        product_special_price_from: //input[@id='special_from_date']
-                                        product_special_price_to: //input[@id='special_to_date']
-                                        product_tier_price_qty: //input[@id='tier_price_row_%tierPriceId%_qty']
-                                        product_tier_price_price: //input[@id='tier_price_row_%tierPriceId%_price']
+                                        prices_price: //input[@id='price' and not(@disabled)]
+                                        prices_special_price: //input[@id='special_price']
+                                        prices_special_price_from: //input[@id='special_from_date']
+                                        prices_special_price_to: //input[@id='special_to_date']
+                                        prices_tier_price_qty: //input[@id='tier_price_row_%tierPriceId%_qty']
+                                        prices_tier_price_price: //input[@id='tier_price_row_%tierPriceId%_price']
                 -
-                    meta_information:
+                    meta_information: &metaInformationTab
                         xpath: //a[@title='Meta Information']/span
                         fieldsets:
                             -
                                 product_meta_information:
-                                    xpath: "//div[contains(div/div/h4,'Meta Information') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/div/h4,'Meta Information')]"
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                     fields:
-                                        meta_title: //input[@id='meta_title']
-                                        meta_keywords: //textarea[@id='meta_keyword']
-                                        meta_description: //textarea[@id='meta_description']
+                                        meta_information_meta_title: //input[@id='meta_title']
+                                        meta_information_meta_keywords: //textarea[@id='meta_keyword']
+                                        meta_information_meta_description: //textarea[@id='meta_description']
                 -
-                    images:
+                    images: &imagesTab
                         xpath: //a[@title='Images']/span
                         fieldsets:
                             -
                                 product_images:
-                                    xpath: "//div[contains(div/div/h4,'Images') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/div/h4,'Images')]"
                 -
-                    recurring_profile:
+                    recurring_profile: &recurringProfileTab
                         xpath: //a[@title='Recurring Profile']/span
                         fieldsets:
                             -
                                 product_recurring_profile:
-                                    xpath: "//div[contains(div/div/h4,'Recurring Profile') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/div/h4,'Recurring Profile')]"
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                     dropdowns:
-                                        enable_recurring_profile: //select[@id='is_recurring']
-                                        customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
-                                        auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
-                                        billing_period_unit: //select[@id='recurring_profileperiod_unit']
-                                        trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
-                                        allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
+                                        recurring_profile_enable_recurring_profile: //select[@id='is_recurring']
+                                        recurring_profile_customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
+                                        recurring_profile_auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
+                                        recurring_profile_billing_period_unit: //select[@id='recurring_profileperiod_unit']
+                                        recurring_profile_trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
+                                        recurring_profile_allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
                                     fields:
-                                        schedule_description: //input[@id='recurring_profileschedule_description']
-                                        max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
-                                        billing_frequency: //input[@id='recurring_profileperiod_frequency']
-                                        max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
-                                        trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
-                                        max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
-                                        trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
-                                        initial_fee: //input[@id='recurring_profileinit_amount']
+                                        recurring_profile_schedule_description: //input[@id='recurring_profileschedule_description']
+                                        recurring_profile_max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
+                                        recurring_profile_billing_frequency: //input[@id='recurring_profileperiod_frequency']
+                                        recurring_profile_max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
+                                        recurring_profile_trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
+                                        recurring_profile_max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
+                                        recurring_profile_trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
+                                        recurring_profile_initial_fee: //input[@id='recurring_profileinit_amount']
                 -
-                    design:
+                    design: &designTab
                         xpath: //a[@title='Design']/span
                         fieldsets:
                             -
                                 product_design:
-                                    xpath: "//div[contains(div/div/h4,'Design') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/div/h4,'Design')]"
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                     dropdowns:
-                                        custom_design: //select[@id='custom_design']
-                                        page_layout: //select[@id='page_layout']
-                                        display_product_options_in: //select[@id='options_container']
+                                        design_custom_design: //select[@id='custom_design']
+                                        design_page_layout: //select[@id='page_layout']
+                                        design_display_product_options_in: //select[@id='options_container']
                                     fields:
-                                        active_from: //input[@id='custom_design_from']
-                                        active_to: //input[@id='custom_design_to']
-                                        custom_layout_update: //textarea[@id='custom_layout_update']
+                                        design_active_from: //input[@id='custom_design_from']
+                                        design_active_to: //input[@id='custom_design_to']
+                                        design_custom_layout_update: //textarea[@id='custom_layout_update']
                 -
-                    gift_options:
+                    gift_options: &giftOptionsTab
                         xpath: //a[@title='Gift Options']/span
                         fieldsets:
                             -
                                 product_gift_options:
-                                    xpath: "//div[contains(div/div/h4,'Gift Options') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/div/h4,'Gift Options')]"
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                     checkboxes:
-                                        use_allow_gift_message: //input[@id='use_config_gift_message_available']
-                                    dropdown:
-                                        allow_gift_message: //select[@id='gift_message_available']
+                                        gift_options_allow_gift_message_default: //input[@id='use_config_gift_message_available']
+                                    dropdowns:
+                                        gift_options_allow_gift_message: //select[@id='gift_message_available']
                 -
-                    inventory:
+                    inventory: &inventoryTab
                         xpath: //a[@title='Inventory']/span
                         fieldsets:
                             -
                                 product_inventory:
-                                    xpath: "//div[contains(div/div/h4,'Inventory') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/div/h4,'Inventory')]"
                                     checkboxes:
-                                        use_manage_stock: //input[@id='inventory_use_config_manage_stock']
-                                        use_qty_for_items_status: //input[@id='inventory_use_config_min_qty']
-                                        use_min_allowed_qty: //input[@id='inventory_use_config_min_sale_qty']
-                                        use_max_allowed_qty: //input[@id='inventory_use_config_max_sale_qty']
-                                        use_backorders: //input[@id='inventory_use_config_backorders']
-                                        use_notify_for_qty_below: //input[@id='inventory_use_config_notify_stock_qty']
-                                        use_enable_qty_increments: //input[@id='inventory_use_config_enable_qty_increments']
-                                        use_qty_increments: //input[@id='inventory_use_config_qty_increments']
+                                        inventory_manage_stock_default: //input[@id='inventory_use_config_manage_stock']
+                                        inventory_qty_for_items_out_of_stock_default: //input[@id='inventory_use_config_min_qty']
+                                        inventory_min_allowed_qty_default: //input[@id='inventory_use_config_min_sale_qty']
+                                        inventory_max_allowed_qty_default: //input[@id='inventory_use_config_max_sale_qty']
+                                        inventory_backorders_default: //input[@id='inventory_use_config_backorders']
+                                        inventory_notify_for_qty_below_default: //input[@id='inventory_use_config_notify_stock_qty']
+                                        inventory_enable_qty_increments_default: //input[@id='inventory_use_config_enable_qty_increments']
+                                        inventory_qty_increments_default: //input[@id='inventory_use_config_qty_increments']
                                     dropdowns:
-                                        manage_stock: //select[@id='inventory_manage_stock']
-                                        qty_uses_decimals: //select[@id='inventory_is_qty_decimal']
-                                        backorders: //select[@id='inventory_backorders']
-                                        enable_qty_increments: //select[@id='inventory_enable_qty_increments']
-                                        stock_availability: //select[@id='inventory_stock_availability']
+                                        inventory_manage_stock: //select[@id='inventory_manage_stock']
+                                        inventory_qty_uses_decimals: //select[@id='inventory_is_qty_decimal']
+                                        inventory_backorders: //select[@id='inventory_backorders']
+                                        inventory_enable_qty_increments: //select[@id='inventory_enable_qty_increments']
+                                        inventory_stock_availability: //select[@id='inventory_stock_availability']
                                     fields:
-                                        qty: //input[@id='inventory_qty']
-                                        qty_for_items_out_of_stock: //input[@id='inventory_min_qty']
-                                        min_allowed_qty: //input[@id='inventory_min_sale_qty']
-                                        max_allowed_qty: //input[@id='inventory_max_sale_qty']
-                                        notify_for_qty_below: //input[@id='inventory_notify_stock_qty']
-                                        qty_increments: //input[@id='inventory_qty_increments' and not(@disabled)]
+                                        inventory_qty: //input[@id='inventory_qty']
+                                        inventory_qty_for_items_out_of_stock: //input[@id='inventory_min_qty']
+                                        inventory_min_allowed_qty: //input[@id='inventory_min_sale_qty']
+                                        inventory_max_allowed_qty: //input[@id='inventory_max_sale_qty']
+                                        inventory_notify_for_qty_below: //input[@id='inventory_notify_stock_qty']
+                                        inventory_qty_increments: //input[@id='inventory_qty_increments' and not(@disabled)]
                 -
-                    websites:
+                    websites: &websitesTab
                         xpath: //a[@title='Websites']/span
                         fieldsets:
                             -
                                 product_websites:
-                                    xpath: "//div[contains(div/div/h4,'Product In Websites') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/div/h4,'Product In Websites')]"
                 -
-                    categories:
+                    categories: &categoriesTab
                         xpath: //a[@title='Categories']/span
                         fieldsets:
                             -
                                 product_categories:
-                                    xpath: "//div[contains(div/div/h4,'Product Categories') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/div/h4,'Product Categories')]"
                 -
-                    related_products:
+                    related_products: &relatedProductsTab
                         xpath: //a[@title='Related Products']/span
                         fieldsets:
                             -
@@ -266,21 +266,21 @@ new_product:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
                                     dropdowns:
-                                        related_filter_massaction: //select[@id='filter_in_products']
-                                        related_product_type: //select[@id='filter_type']
-                                        related_product_attribute_set: //select[@id='filter_set_name']
-                                        related_product_status: //select[@id='filter_status']
-                                        related_product_visibility: //select[@id='filter_visibility']
+                                        related_products_filter_massaction: //select[@id='filter_in_products']
+                                        related_products_type: //select[@id='filter_type']
+                                        related_products_attribute_set: //select[@id='filter_set_name']
+                                        related_products_status: //select[@id='filter_status']
+                                        related_products_visibility: //select[@id='filter_visibility']
                                     fields:
-                                        related_product_id: //input[@id='filter_entity_id']
-                                        related_product_name: //input[@id='filter_name']
-                                        related_product_sku: //input[@id='filter_sku']
-                                        related_product_price_from: //input[@id='filter_price_from']
-                                        related_product_price_to: //input[@id='filter_price_to']
-                                        related_product_position_from: //input[@id='filter_position_from']
-                                        related_product_position_to: //input[@id='filter_position_to']
+                                        related_products_id: //input[@id='filter_entity_id']
+                                        related_products_name: //input[@id='filter_name']
+                                        related_products_sku: //input[@id='filter_sku']
+                                        related_products_price_from: //input[@id='filter_price_from']
+                                        related_products_price_to: //input[@id='filter_price_to']
+                                        related_products_position_from: //input[@id='filter_position_from']
+                                        related_products_position_to: //input[@id='filter_position_to']
                 -
-                    up_sells:
+                    up_sells_products: &upSellsProductsTab
                         xpath: //a[@title='Up-sells']/span
                         fieldsets:
                             -
@@ -290,77 +290,77 @@ new_product:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
                                     dropdowns:
-                                        up_sells_filter_massaction: //select[@id='filter_in_products']
-                                        up_sells_product_type: //select[@id='filter_type']
-                                        up_sells_product_attribute_set: //select[@id='filter_set_name']
-                                        up_sells_product_status: //select[@id='filter_status']
-                                        up_sells_product_visibility: //select[@id='filter_visibility']
+                                        up_sells_products_filter_massaction: //select[@id='filter_in_products']
+                                        up_sells_products_type: //select[@id='filter_type']
+                                        up_sells_products_attribute_set: //select[@id='filter_set_name']
+                                        up_sells_products_status: //select[@id='filter_status']
+                                        up_sells_products_visibility: //select[@id='filter_visibility']
                                     fields:
-                                        up_sells_product_id: //input[@id='filter_entity_id']
-                                        up_sells_product_name: //input[@id='filter_name']
-                                        up_sells_product_sku: //input[@id='filter_sku']
-                                        up_sells_product_price_from: //input[@id='filter_price_from']
-                                        up_sells_product_price_to: //input[@id='filter_price_to']
-                                        up_sells_product_position_from: //input[@id='filter_position_from']
-                                        up_sells_product_position_to: //input[@id='filter_position_to']
+                                        up_sells_products_id: //input[@id='filter_entity_id']
+                                        up_sells_products_name: //input[@id='filter_name']
+                                        up_sells_products_sku: //input[@id='filter_sku']
+                                        up_sells_products_price_from: //input[@id='filter_price_from']
+                                        up_sells_products_price_to: //input[@id='filter_price_to']
+                                        up_sells_products_position_from: //input[@id='filter_position_from']
+                                        up_sells_products_position_to: //input[@id='filter_position_to']
                 -
-                    cross_sells:
+                    cross_sells_products: &crossSellsProductsTab
                         xpath: //a[@title='Cross-sells']/span
                         fieldsets:
                             -
                                 cross_sells_products:
                                     xpath: //div[@id='cross_sell_product_grid']
                                     buttons:
-                                        cross_sells_reset_filter: //button[span='Reset Filter']
-                                        cross_sells_search: //button[span='Search']
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
                                     dropdowns:
-                                        cross_sells_filter_massaction: //select[@id='filter_in_products']
-                                        cross_sells_product_type: //select[@id='filter_type']
-                                        cross_sells_product_attribute_set: //select[@id='filter_set_name']
-                                        cross_sells_product_status: //select[@id='filter_status']
-                                        cross_sells_product_visibility: //select[@id='filter_visibility']
+                                        cross_sells_products_filter_massaction: //select[@id='filter_in_products']
+                                        cross_sells_products_type: //select[@id='filter_type']
+                                        cross_sells_products_attribute_set: //select[@id='filter_set_name']
+                                        cross_sells_products_status: //select[@id='filter_status']
+                                        cross_sells_products_visibility: //select[@id='filter_visibility']
                                     fields:
-                                        cross_sells_product_id: //input[@id='filter_entity_id']
-                                        cross_sells_product_name: //input[@id='filter_name']
-                                        cross_sells_product_sku: //input[@id='filter_sku']
-                                        cross_sells_product_price_from: //input[@id='filter_price_from']
-                                        cross_sells_product_price_to: //input[@id='filter_price_to']
-                                        cross_sells_product_position_from: //input[@id='filter_position_from']
-                                        cross_sells_product_position_to: //input[@id='filter_position_to']
+                                        cross_sells_products_id: //input[@id='filter_entity_id']
+                                        cross_sells_products_name: //input[@id='filter_name']
+                                        cross_sells_products_sku: //input[@id='filter_sku']
+                                        cross_sells_products_price_from: //input[@id='filter_price_from']
+                                        cross_sells_products_price_to: //input[@id='filter_price_to']
+                                        cross_sells_products_position_from: //input[@id='filter_position_from']
+                                        cross_sells_products_position_to: //input[@id='filter_position_to']
                 -
-                    custom_options:
+                    custom_options: &customOptionsTab
                         xpath: //a[@title='Custom Options']/span
                         fieldsets:
                             -
                                 product_custom_options:
-                                    xpath: "//div[contains(div/div/h4,'Custom Options') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/div/h4,'Custom Options')]"
                                     buttons:
                                         add_option: //button[span='Add New Option']
                                         delete_option: //div[@id='option_%optionId%']//button[span='Delete Option']
                                         add_row: //button[span='Add New Row']
                                         delete_row: //tr[@id='product_option_%optionId%_select_%rowId%']//button[span='Delete Row']
                                     dropdowns:
-                                        option_general_input_type: //select[@id='product_option_%optionId%_type']
-                                        option_general_is_required: //select[@id='product_option_%optionId%_is_require']
-                                        option_price_type: //select[@id='product_option_%optionId%_price_type' or @id='product_option_%optionId%_select_%rowId%_price_type']
+                                        custom_options_general_input_type: //select[@id='product_option_%optionId%_type']
+                                        custom_options_general_is_required: //select[@id='product_option_%optionId%_is_require']
+                                        custom_options_price_type: //select[@id='product_option_%optionId%_price_type' or @id='product_option_%optionId%_select_%rowId%_price_type']
                                     fields:
-                                        option_general_title: //input[@id='product_option_%optionId%_title']
-                                        option_general_sort_order: //input[@name='product[options][%optionId%][sort_order]']
-                                        option_title: //input[@id='product_option_%optionId%_select_%rowId%_title']
-                                        option_price: //input[@id='product_option_%optionId%_price' or @id='product_option_%optionId%_select_%rowId%_price']
-                                        option_sku: //input[@name='product[options][%optionId%][sku]' or @id='product_option_%optionId%_select_%rowId%_sku']
-                                        option_max_characters: //input[@name='product[options][%optionId%][max_characters]']
-                                        option_allowed_file_extension: //input[@name='product[options][%optionId%][file_extension]']
-                                        option_image_size_x: //input[@name='product[options][%optionId%][image_size_x]']
-                                        option_image_size_y: //input[@name='product[options][%optionId%][image_size_y]']
-                                        option_sort_order: //input[@name='product[options][%optionId%][values][%rowId%][sort_order]']
+                                        custom_options_general_title: //input[@id='product_option_%optionId%_title']
+                                        custom_options_general_sort_order: //input[@name='product[options][%optionId%][sort_order]']
+                                        custom_options_title: //input[@id='product_option_%optionId%_select_%rowId%_title']
+                                        custom_options_price: //input[@name='product[options][%optionId%][price]' or @id='product_option_%optionId%_select_%rowId%_price']
+                                        custom_options_sku: //input[@name='product[options][%optionId%][sku]' or @name='product[options][%optionId%][values][%rowId%][sku]']
+                                        custom_options_max_characters: //input[@name='product[options][%optionId%][max_characters]']
+                                        custom_options_allowed_file_extension: //input[@name='product[options][%optionId%][file_extension]']
+                                        custom_options_image_size_x: //input[@name='product[options][%optionId%][image_size_x]']
+                                        custom_options_image_size_y: //input[@name='product[options][%optionId%][image_size_y]']
+                                        custom_options_sort_order: //input[@name='product[options][%optionId%][values][%rowId%][sort_order]']
                 -
-                    bundle_items:
+                    bundle_items: &bundleItemsTab
                         xpath: //a[@title='Bundle Items']/span
                         fieldsets:
                             -
                                 shipment:
-                                    xpath: "//div[contains(div/h4,'Shipment') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/h4,'Shipment')]"
                                     dropdowns:
                                         ship_bundle_items: //select[@id='shipment_type']
                             -
@@ -386,17 +386,17 @@ new_product:
                                         product_price_from: //div[@id='bundle_selection_search_grid_%itemID%']//input[@id='filter_price_from']
                                         product_price_to: //div[@id='bundle_selection_search_grid_%itemID%']//input[@id='filter_price_to']
                 -
-                    associated_products:
+                    associated_products: &associatedProductsTab
                         xpath: //a[@title='Associated Products']/span
                         fieldsets:
                             -
                                 create_simple_assosiated_product:
-                                    xpath: "//div[contains(div/h4,'Create Simple Associated Product') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/h4,'Create Simple Associated Product')]"
                                     buttons:
                                         create_empty: //button[span='Create Empty']
                             -
                                 super_products_attribute_configuration:
-                                    xpath: "//div[contains(div/h4,'Super product attributes configuration') and not (@style='display: none;')]"
+                                    xpath: "//div[contains(div/h4,'Super product attributes configuration')]"
                                     checkboxes:
                                         use_default_name: //input[@id='configurable__attribute_0_label_use_default']
                                     fields:
@@ -423,7 +423,7 @@ new_product:
                                         associated_product_position_from: //input[@id='filter_position_from']
                                         associated_product_position_to: //input[@id='filter_position_to']
                 -
-                    downloadable_information:
+                    downloadable_information: &downloadableInformationTab
                         xpath: //a[@title='Downloadable Information']/span
         buttons:
             back: //button[span='Back']
@@ -431,6 +431,7 @@ new_product:
             save: //button[span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages:
+            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             existing_sku: //div[@id='advice-validate-ajax-sku']
             invalid_price: //div[@id='advice-validate-zero-or-greater-price']
@@ -439,357 +440,60 @@ new_product:
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionNumber%_type']
             invalid_tier_price: "%fieldXpath%/following-sibling::*[text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]"
 
-# Add New Product page
+# Edit Product page
 edit_product:
-    mca: catalog_product/edit/id/%id%/
-    title: New Product / Manage Products / Catalog / Magento Admin
+    mca:
+    title:
     uimap:
-        form: &editProductForm
+        form:
             tabs:
                 -
-                    general:
-                        xpath: //a[@title='General']/span
-                        fieldsets:
-                            -
-                                product_general:
-                                    xpath: "//div[contains(div/div/h4,'General') and not (@style='display: none;')]"
-                                    buttons:
-                                        create_new_attribute: //button[span='Create New Attribute']
-                                    dropdowns:
-                                        product_sku_type: //select[@id='sku_type']
-                                        product_weight_type: //select[@id='weight_type']
-                                        product_status: //select[@id='status']
-                                        product_visibility: //select[@id='visibility']
-                                        product_in_feed: //select[@id='is_imported']
-                                    fields:
-                                        product_name: //input[@id='name']
-                                        product_description: //textarea[@id='description']
-                                        product_short_description: //textarea[@id='short_description']
-                                        product_sku: //input[@id='sku']
-                                        product_weight: //input[@id='weight' and not(@disabled)]
-                                        product_news_from: //input[@id='news_from_date']
-                                        product_news_to: //input[@id='news_to_date']
-                                        product_url_key: //input[@id='url_key']
+                    general: *generalTab
                 -
-                    prices:
-                        xpath: //a[@title='Prices']/span
-                        fieldsets:
-                            -
-                                product_prices:
-                                    xpath: "//div[contains(div/div/h4,'Prices') and not (@style='display: none;')]"
-                                    buttons:
-                                        create_new_attribute: //button[span='Create New Attribute']
-                                        add_tier_price: //button[span='Add Tier']
-                                        delete_tier_price: //button[@id='tier_price_row_%tierPriceId%_delete_button']
-                                    dropdowns:
-                                        product_price_type: //select[@id='price_type']
-                                        product_tier_price_website: //select[@id='tier_price_row_%tierPriceId%_website']
-                                        product_tier_price_customer_group: //select[@id='tier_price_row_%tierPriceId%_cust_group']
-                                        product_tax_class: //select[@id='tax_class_id']
-                                        enable_googlecheckout: //select[@id='enable_googlecheckout']
-                                        product_price_view_bundle: //select[@id='price_view']
-                                    fields:
-                                        product_price: //input[@id='price' and not(@disabled)]
-                                        product_special_price: //input[@id='special_price']
-                                        product_special_price_from: //input[@id='special_from_date']
-                                        product_special_price_to: //input[@id='special_to_date']
-                                        product_tier_price_qty: //input[@id='tier_price_row_%tierPriceId%_qty']
-                                        product_tier_price_price: //input[@id='tier_price_row_%tierPriceId%_price']
+                    prices: *pricesTab
                 -
-                    meta_information:
-                        xpath: //a[@title='Meta Information']/span
-                        fieldsets:
-                            -
-                                product_meta_information:
-                                    xpath: "//div[contains(div/div/h4,'Meta Information') and not (@style='display: none;')]"
-                                    buttons:
-                                        create_new_attribute: //button[span='Create New Attribute']
-                                    fields:
-                                        meta_title: //input[@id='meta_title']
-                                        meta_keywords: //textarea[@id='meta_keyword']
-                                        meta_description: //textarea[@id='meta_description']
+                    meta_information: *metaInformationTab
                 -
-                    images:
-                        xpath: //a[@title='Images']/span
-                        fieldsets:
-                            -
-                                product_images:
-                                    xpath: "//div[contains(div/div/h4,'Images') and not (@style='display: none;')]"
+                    images: *imagesTab
                 -
-                    recurring_profile:
-                        xpath: //a[@title='Recurring Profile']/span
-                        fieldsets:
-                            -
-                                product_recurring_profile:
-                                    xpath: "//div[contains(div/div/h4,'Recurring Profile') and not (@style='display: none;')]"
-                                    buttons:
-                                        create_new_attribute: //button[span='Create New Attribute']
-                                    dropdowns:
-                                        enable_recurring_profile: //select[@id='is_recurring']
-                                        customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
-                                        auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
-                                        billing_period_unit: //select[@id='recurring_profileperiod_unit']
-                                        trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
-                                        allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
-                                    fields:
-                                        schedule_description: //input[@id='recurring_profileschedule_description']
-                                        max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
-                                        billing_frequency: //input[@id='recurring_profileperiod_frequency']
-                                        max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
-                                        trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
-                                        max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
-                                        trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
-                                        initial_fee: //input[@id='recurring_profileinit_amount']
+                    recurring_profile: *recurringProfileTab
                 -
-                    design:
-                        xpath: //a[@title='Design']/span
-                        fieldsets:
-                            -
-                                product_design:
-                                    xpath: "//div[contains(div/div/h4,'Design') and not (@style='display: none;')]"
-                                    buttons:
-                                        create_new_attribute: //button[span='Create New Attribute']
-                                    dropdowns:
-                                        custom_design: //select[@id='custom_design']
-                                        page_layout: //select[@id='page_layout']
-                                        display_product_options_in: //select[@id='options_container']
-                                    fields:
-                                        active_from: //input[@id='custom_design_from']
-                                        active_to: //input[@id='custom_design_to']
-                                        custom_layout_update: //textarea[@id='custom_layout_update']
+                    design: *designTab
                 -
-                    gift_options:
-                        xpath: //a[@title='Gift Options']/span
-                        fieldsets:
-                            -
-                                product_gift_options:
-                                    xpath: "//div[contains(div/div/h4,'Gift Options') and not (@style='display: none;')]"
-                                    buttons:
-                                        create_new_attribute: //button[span='Create New Attribute']
-                                    checkboxes:
-                                        use_allow_gift_message: //input[@id='use_config_gift_message_available']
-                                    dropdown:
-                                        allow_gift_message: //select[@id='gift_message_available']
+                    gift_options: *giftOptionsTab
                 -
-                    inventory:
-                        xpath: //a[@title='Inventory']/span
-                        fieldsets:
-                            -
-                                product_inventory:
-                                    xpath: "//div[contains(div/div/h4,'Inventory') and not (@style='display: none;')]"
-                                    checkboxes:
-                                        use_manage_stock: //input[@id='inventory_use_config_manage_stock']
-                                        use_qty_for_items_status: //input[@id='inventory_use_config_min_qty']
-                                        use_min_allowed_qty: //input[@id='inventory_use_config_min_sale_qty']
-                                        use_max_allowed_qty: //input[@id='inventory_use_config_max_sale_qty']
-                                        use_backorders: //input[@id='inventory_use_config_backorders']
-                                        use_notify_for_qty_below: //input[@id='inventory_use_config_notify_stock_qty']
-                                        use_enable_qty_increments: //input[@id='inventory_use_config_enable_qty_increments']
-                                        use_qty_increments: //input[@id='inventory_use_config_qty_increments']
-                                    dropdowns:
-                                        manage_stock: //select[@id='inventory_manage_stock']
-                                        qty_uses_decimals: //select[@id='inventory_is_qty_decimal']
-                                        backorders: //select[@id='inventory_backorders']
-                                        enable_qty_increments: //select[@id='inventory_enable_qty_increments']
-                                        stock_availability: //select[@id='inventory_stock_availability']
-                                    fields:
-                                        qty: //input[@id='inventory_qty']
-                                        qty_for_items_out_of_stock: //input[@id='inventory_min_qty']
-                                        min_allowed_qty: //input[@id='inventory_min_sale_qty']
-                                        max_allowed_qty: //input[@id='inventory_max_sale_qty']
-                                        notify_for_qty_below: //input[@id='inventory_notify_stock_qty']
-                                        qty_increments: //input[@id='inventory_qty_increments' and not(@disabled)]
+                    inventory: *inventoryTab
                 -
-                    websites:
-                        xpath: //a[@title='Websites']/span
-                        fieldsets:
-                            -
-                                product_websites:
-                                    xpath: "//div[contains(div/div/h4,'Product In Websites') and not (@style='display: none;')]"
+                    websites: *websitesTab
                 -
-                    categories:
-                        xpath: //a[@title='Categories']/span
-                        fieldsets:
-                            -
-                                product_categories:
-                                    xpath: "//div[contains(div/div/h4,'Product Categories') and not (@style='display: none;')]"
+                    categories: *categoriesTab
                 -
-                    related_products:
-                        xpath: //a[@title='Related Products']/span
-                        fieldsets:
-                            -
-                                related_products:
-                                    xpath: //div[@id='related_product_grid']
-                                    buttons:
-                                        related_reset_filter: //button[span='Reset Filter']
-                                        related_search: //button[span='Search']
-                                    dropdowns:
-                                        related_filter_massaction: //select[@id='filter_in_products']
-                                        related_product_type: //select[@id='filter_type']
-                                        related_product_attribute_set: //select[@id='filter_set_name']
-                                        related_product_status: //select[@id='filter_status']
-                                        related_product_visibility: //select[@id='filter_visibility']
-                                    fields:
-                                        related_product_id: //input[@id='filter_entity_id']
-                                        related_product_name: //input[@id='filter_name']
-                                        related_product_sku: //input[@id='filter_sku']
-                                        related_product_price_from: //input[@id='filter_price_from']
-                                        related_product_price_to: //input[@id='filter_price_to']
-                                        related_product_position_from: //input[@id='filter_position_from']
-                                        related_product_position_to: //input[@id='filter_position_to']
+                    related_products: *relatedProductsTab
                 -
-                    up_sells:
-                        xpath: //a[@title='Up-sells']/span
-                        fieldsets:
-                            -
-                                up_sells_products:
-                                    xpath: //div[@id='up_sell_product_grid']
-                                    buttons:
-                                        up_sells_reset_filter: //button[span='Reset Filter']
-                                        up_sells_search: //button[span='Search']
-                                    dropdowns:
-                                        up_sells_filter_massaction: //select[@id='filter_in_products']
-                                        up_sells_product_type: //select[@id='filter_type']
-                                        up_sells_product_attribute_set: //select[@id='filter_set_name']
-                                        up_sells_product_status: //select[@id='filter_status']
-                                        up_sells_product_visibility: //select[@id='filter_visibility']
-                                    fields:
-                                        up_sells_product_id: //input[@id='filter_entity_id']
-                                        up_sells_product_name: //input[@id='filter_name']
-                                        up_sells_product_sku: //input[@id='filter_sku']
-                                        up_sells_product_price_from: //input[@id='filter_price_from']
-                                        up_sells_product_price_to: //input[@id='filter_price_to']
-                                        up_sells_product_position_from: //input[@id='filter_position_from']
-                                        up_sells_product_position_to: //input[@id='filter_position_to']
+                    up_sells_products: *upSellsProductsTab
                 -
-                    cross_sells:
-                        xpath: //a[@title='Cross-sells']/span
-                        fieldsets:
-                            -
-                                up_sells_products:
-                                    xpath: //div[@id='cross_sell_product_grid']
-                                    buttons:
-                                        cross_sells_reset_filter: //button[span='Reset Filter']
-                                        cross_sells_search: //button[span='Search']
-                                    dropdowns:
-                                        cross_sells_filter_massaction: //select[@id='filter_in_products']
-                                        cross_sells_product_type: //select[@id='filter_type']
-                                        cross_sells_product_attribute_set: //select[@id='filter_set_name']
-                                        cross_sells_product_status: //select[@id='filter_status']
-                                        cross_sells_product_visibility: //select[@id='filter_visibility']
-                                    fields:
-                                        cross_sells_product_id: //input[@id='filter_entity_id']
-                                        cross_sells_product_name: //input[@id='filter_name']
-                                        cross_sells_product_sku: //input[@id='filter_sku']
-                                        cross_sells_product_price_from: //input[@id='filter_price_from']
-                                        cross_sells_product_price_to: //input[@id='filter_price_to']
-                                        cross_sells_product_position_from: //input[@id='filter_position_from']
-                                        cross_sells_product_position_to: //input[@id='filter_position_to']
+                    cross_sells_products: *crossSellsProductsTab
                 -
-                    custom_options:
-                        xpath: //a[@title='Custom Options']/span
-                        fieldsets:
-                            -
-                                custom_options:
-                                    xpath: "//div[contains(div/div/h4,'Custom Options') and not (@style='display: none;')]"
-                                    buttons:
-                                        add_option: //button[span='Add New Option']
-                                        delete_option: //div[@id='option_%optionId%']//button[span='Delete Option']
-                                        add_row: //button[span='Add New Row']
-                                        delete_row: //tr[@id='product_option_%optionId%_select_%rowId%']//button[span='Delete Row']
-                                    dropdowns:
-                                        option_general_input_type: //select[@id='product_option_%optionId%_type']
-                                        option_general_is_required: //select[@id='product_option_%optionId%_is_require']
-                                        option_price_type: //select[@id='product_option_%optionId%_price_type' or @id='product_option_%optionId%_select_%rowId%_price_type']
-                                    fields:
-                                        option_general_title: //input[@id='product_option_%optionId%_title']
-                                        option_general_sort_order: //input[@name='product[options][%optionId%][sort_order]']
-                                        option_title: //input[@id='product_option_%optionId%_select_%rowId%_title']
-                                        option_price: //input[@id='product_option_%optionId%_price' or @id='product_option_%optionId%_select_%rowId%_price']
-                                        option_sku: //input[@name='product[options][%optionId%][sku]' or @id='product_option_%optionId%_select_%rowId%_sku']
-                                        option_max_characters: //input[@name='product[options][%optionId%][max_characters]']
-                                        option_allowed_file_extension: //input[@name='product[options][%optionId%][file_extension]']
-                                        option_image_size_x: //input[@name='product[options][%optionId%][image_size_x]']
-                                        option_image_size_y: //input[@name='product[options][%optionId%][image_size_y]']
-                                        option_sort_order: //input[@name='product[options][%optionId%][values][%rowId%][sort_order]']
+                    custom_options: *customOptionsTab
                 -
-                    bundle_items:
-                        xpath: //a[@title='Bundle Items']/span
-                        fieldsets:
-                            -
-                                shipment:
-                                    xpath: "//div[contains(div/h4,'Shipment') and not (@style='display: none;')]"
-                                    dropdowns:
-                                        ship_bundle_items: //select[@id='shipment_type']
-                            -
-                                bundle_items:
-                                    xpath: //div[@id='product_bundle_container']
-                                    buttons:
-                                        bundle_add_new_option: //button[span='Add New Option']
-                                        bundle_delete_option: //div[@id='option_%itemID%']//button[span='Delete Option']
-                                        bundle_add_selection: //button[@id='bundle_option_%itemID%_add_button']
-                                        bundle_reset_filter: //div[@id='option_%itemID%']//button[span='Reset Filter']
-                                        bundle_search: //div[@id='option_%itemID%']//button[span='Search']
-                                    dropdowns:
-                                        bundle_input_type: //select[@id='bundle_option_%itemID%_type']
-                                        bundle_is_required: //select[@id='bundle_option_%itemID%_required']
-                                        bundle_filter_massaction: //div[@id='option_%itemID%']//select[@id='filter_is_selected']]
-                                        bundle_product_attribute_set: //div[@id='option_%itemID%']//select[@id='filter_set_name']
-                                    fields:
-                                        bundle_default_title: //input[@id='id_bundle_option_%itemID%_title']
-                                        bundle_position: //input[@name='bundle_options[%itemID%][position]']
-                                        bundle_product_id: //div[@id='option_%itemID%']//input[@id='filter_id']
-                                        bundle_product_name: //div[@id='option_%itemID%']//input[@id='filter_name']
-                                        bundle_product_sku: //div[@id='option_%itemID%']//input[@id='filter_sku']
-                                        bundle_product_price_from: //div[@id='option_%itemID%']//input[@id='filter_price_from']
-                                        bundle_product_price_to: //div[@id='option_%itemID%']//input[@id='filter_price_to']
+                    bundle_items: *bundleItemsTab
                 -
-                    associated_products:
-                        xpath: //a[@title='Associated Products']/span
-                        fieldsets:
-                            -
-                                create_simple_assosiated_product:
-                                    xpath: "//div[contains(div/h4,'Create Simple Associated Product') and not (@style='display: none;')]"
-                                    buttons:
-                                        create_empty: //button[span='Create Empty']
-                            -
-                                super_products_attribute_configuration:
-                                    xpath: "//div[contains(div/h4,'Super product attributes configuration') and not (@style='display: none;')]"
-                                    checkboxes:
-                                        use_default_name: //input[@id='configurable__attribute_0_label_use_default']
-                                    fields:
-                                        attribute_name: //input[@id='configurable__attribute_%attribute_number%_label']
-                            -
-                                associated_products:
-                                    xpath: //div[@id='super_product_grid' or @id='super_product_links']
-                                    buttons:
-                                        associated_reset_filter: //button[span='Reset Filter']
-                                        associated_search: //button[span='Search']
-                                    dropdowns:
-                                        associated_filter_massaction: //select[@id='filter_in_products']
-                                        associated_product_attribute_set: //select[@id='filter_set_name']
-                                        associated_inventory: //select[@id='filter_is_saleable']
-                                        associated_by_attribute_value: //select[@id='filter_%attributeCode%']
-                                    fields:
-                                        associated_product_id: //input[@id='filter_entity_id']
-                                        associated_product_name: //input[@id='filter_name']
-                                        associated_product_sku: //input[@id='filter_sku']
-                                        associated_product_price_from: //input[@id='filter_price_from']
-                                        associated_product_price_to: //input[@id='filter_price_to']
-                                        associated_product_default_qty_from: //input[@id='filter_qty_from']
-                                        associated_product_default_qty_to: //input[@id='filter_qty_to']
-                                        associated_product_position_from: //input[@id='filter_position_from']
-                                        associated_product_position_to: //input[@id='filter_position_to']
+                    associated_products: *associatedProductsTab
                 -
-                    downloadable_information:
-                        xpath: //a[@title='Downloadable Information']/span
+                    downloadable_information: *downloadableInformationTab
         buttons:
             back: //button[span='Back']
-            delete: //button[span='Delete']
-            duplicate: //button[span='Back']
             reset: //button[span='Reset']
+            delete: //button[span='Delete']
+            duplicate: //button[span='Duplicate']
             save: //button[span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages:
+            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             existing_sku: //div[@id='advice-validate-ajax-sku']
+            invalid_price: //div[@id='advice-validate-zero-or-greater-price']
+            invalid_special_price: //div[@id='advice-validate-zero-or-greater-special_price']
+            invalid_qty: //div[@id='advice-validate-number-inventory_qty']
+            select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionNumber%_type']
+            invalid_tier_price: "%fieldXpath%/following-sibling::*[text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]"

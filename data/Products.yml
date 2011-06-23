@@ -27,121 +27,282 @@
 ---
 # Test Datasets for Add New Product for each types
 
-# Test Dataset for Add New Simple Product based on Default attribute set
-product_create_settings_simple:
+#*********************************************
+#*         Product Settings Data             *
+#*********************************************
+
+settings_simple:
     product_attribute_set: Default
     product_type: Simple Product
 
-# Test Dataset for Add New Grouped Product based on Default attribute set
-product_create_settings_grouped:
+settings_grouped:
     product_attribute_set: Default
     product_type: Grouped Product
 
-# Test Dataset for Add New Configurable Product based on Default attribute set
-product_create_settings_configurable:
+settings_configurable:
     product_attribute_set: Default
     product_type: Configurable Product
 
-# Test Dataset for Add New Virtual Product based on Default attribute set
-product_create_settings_virtual:
+settings_virtual:
     product_attribute_set: Default
     product_type: Virtual Product
 
-# Test Dataset for Add New Bundle Product based on Default attribute set
-product_create_settings_bundle:
+settings_bundle:
     product_attribute_set: Default
     product_type: Bundle Product
 
-# Test Dataset for Add New downloadable Product based on Default attribute set
-product_create_settings_downloadable:
+settings_downloadable:
     product_attribute_set: Default
     product_type: Downloadable Product
 
-# Dataset  for Simple Product Creation
+#*********************************************
+#*         Custom Options Data               *
+#*********************************************
+
+custom_options_field: &field
+    custom_options_general_title: Custom Option Field
+    custom_options_general_input_type: Field
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 1
+    custom_options_price: 15
+    custom_options_price_type: Fixed
+    custom_options_sku: sku_field
+    custom_options_max_characters: 25
+
+custom_options_area: &area
+    custom_options_general_title: Custom Option Area
+    custom_options_general_input_type: Area
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 2
+    custom_options_price: 18
+    custom_options_price_type: Percent
+    custom_options_sku: sku_area
+    custom_options_max_characters: 80
+
+custom_options_file: &file
+    custom_options_general_title: Custom Option File
+    custom_options_general_input_type: File
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 3
+    custom_options_price: 180
+    custom_options_price_type: Percent
+    custom_options_sku: sku_file
+    custom_options_allowed_file_extension: gif,bmp
+    custom_options_image_size_x: 320
+    custom_options_image_size_y: 240
+
+custom_options_date: &date
+    custom_options_general_title: Custom Option Date
+    custom_options_general_input_type: Date
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 4
+    custom_options_price: 5
+    custom_options_price_type: Percent
+    custom_options_sku: sku_date
+
+custom_options_date_time: &dateTime
+    custom_options_general_title: Custom Option Date & Time
+    custom_options_general_input_type: Date & Time
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 5
+    custom_options_price: 99.99
+    custom_options_price_type: Percent
+    custom_options_sku: sku_data_time
+
+custom_options_time: &time
+    custom_options_general_title: Custom Option Time
+    custom_options_general_input_type: Time
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 6
+    custom_options_price: 8.99
+    custom_options_price_type: Percent
+    custom_options_sku: sku_time
+
+custom_options_dropdown: &dropdown
+    custom_options_general_title: Custom Option Drop-down
+    custom_options_general_input_type: Drop-down
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 7
+    custom_option_row_1:
+        custom_options_title: Title 1
+        custom_options_price: 2.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_drop_down_row_1
+        custom_options_sort_order: 1
+    custom_option_row_2:
+        custom_options_title: Title 2
+        custom_options_price: 12.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_drop_down_row_2
+        custom_options_sort_order: 2
+
+custom_options_radiobutton:  &radiobutton
+    custom_options_general_title: Custom Option Radio Buttons
+    custom_options_general_input_type: Radio Buttons
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 8
+    custom_option_row_1:
+        custom_options_title: Title 1
+        custom_options_price: 2.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_radio_row_1
+        custom_options_sort_order: 1
+    custom_option_row_2:
+        custom_options_title: Title 2
+        custom_options_price: 12.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_radio_row_2
+        custom_options_sort_order: 2
+
+custom_options_checkbox: &checkbox
+    custom_options_general_title: Custom Option Checkbox
+    custom_options_general_input_type: Checkbox
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 9
+    custom_option_row_1:
+        custom_options_title: Title 1
+        custom_options_price: 2.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_checkbox_row_1
+        custom_options_sort_order: 1
+    custom_option_row_2:
+        custom_options_title: Title 2
+        custom_options_price: 12.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_checkbox_row_2
+        custom_options_sort_order: 2
+
+custom_options_multipleselect: &multipleselect
+    custom_options_general_title: Custom Option Multiple Select
+    custom_options_general_input_type: Multiple Select
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 10
+    custom_option_row_1:
+        custom_options_title: Title 1
+        custom_options_price: 2.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_multipleselect_row_1
+        custom_options_sort_order: 1
+    custom_option_row_2:
+        custom_options_title: Title 2
+        custom_options_price: 12.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_multipleselect_row_2
+        custom_options_sort_order: 2
+
+#*********************************************
+#*         Tier Price Data                   *
+#*********************************************
+
+prices_tier_price_1: &tierPrice1
+    prices_tier_price_website: All Websites [USD]
+    prices_tier_price_customer_group: ALL GROUPS
+    prices_tier_price_qty: 5
+    prices_tier_price_price: 8.88
+
+prices_tier_price_2: &tierPrice2
+    prices_tier_price_website: All Websites [USD]
+    prices_tier_price_customer_group: NOT LOGGED IN
+    prices_tier_price_qty: 50
+    prices_tier_price_price: 5.55
+
+#*********************************************
+#*         Simple Product Data               *
+#*********************************************
+
+simple_product_required:
+    general_name: Simple Product Required
+    general_description: Description for Simple Product Required
+    general_short_description: Short Description for Simple Product Required
+    general_sku: simple_sku.req
+    general_weight: 1.13
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 9.99
+    prices_tax_class: None
+    inventory_qty: %noValue%
+
 simple_product:
-    #general_tab
-    product_name: Simple Product
-    product_description: Description for Simple Product
-    product_short_description: Short Description for Simple Product
-    product_sku: SP-01
-    product_weight: 2.56
-    product_news_from_date: 12/12/12
-    product_news_to_date: 12/12/13
-    product_url_key: simple_product_url_key
-    product_status: Enabled
-    product_visibility: Not Visible Individually
-    product_in_feed: Yes
-    #prices_tab:
-    product_price: 4.95
-    product_special_price: 3.99
-    product_special_price_from: 05/05/11
-    product_special_price_to: 09/09/11
-    product_cost: 2
-    product_tier_price_website: %noValue%
-    product_tier_price_customer_group: %noValue%
-    product_tier_price_qty: 1
-    product_tier_price_price: 12
-    product_tax_class: None
-    google_checkout: Yes
-    #meta_information_tab:
-    meta_title: Meta Title for Simple Product
-    meta_keywords: Meta Keywords for Simple Product
-    meta_description: Meta Description for Simple Product
-    #recurring_profile_tab:
-    enable_recurring_profile: Yes
-    customer_define_start_date: No
-    schedule_description: Shedule Description
-    max_payment_failures: Max Payment Failures
-    auto_bill_next_cycle: No
-    billing_period_unit: Week
-    billing_frequency: Billing Frequency
-    max_billing_cycles: Max Billing Cycles
-    trial_billing_period_unit: Month
-    trial_billing_frequency: Trial Billing Frequency
-    max_trial_billing_cycles: Max Trial Billing Cycles
-    trial_billing_amount: Trial Billing Amount
-    initial_fee: Initial Fee
-    allow_initial_fee_failure: No
-    #design_tab:
-    custom_design: default
-    active_from: 11/11/11
-    active_to: 2/12/12
-    custom_layout_update: Custom Layout Update
-    page_layout: 3 columns
-    display_product_options_in: Product Info Column
-    #gift_options_tab:
-    use_allow_gift_message: No
-    allow_gift_message: Yes
-    #inventory_tab:
-    use_manage_stock: No
-    manage_stock: Yes
-    qty: 120
-    use_qty_for_items_status: No
-    qty_for_items_status: 10
-    use_min_allowed_qty: No
-    min_allowed_qty: 2
-    use_max_allowed_qty: No
-    max_allowed_qty: 10
-    qty_uses_decimals: Yes
-    use_backorders: No
-    backorders: Allow Qty Below 0
-    use_notify_for_qty_below: No
-    notify_for_qty_below: 10
-    use_enable_qty_increments: No
-    enable_qty_increments: Yes
-    use_qty_increments: No
-    qty_increments: 5
-    stock_availability: In Stock
-    #custom_options:
-    option_general_title: Title1
-    option_general_input_type: Field
-    option_general_is_required: No
-    option_general_sort_order: 10
-    option_price: 5
-    option_sku: gdn
+    general_name: Simple Product
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku
+    general_weight: 2.56
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: simple_product_url_key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+#    general_in_feed: Yes
+    prices_price: 4.95
+    prices_special_price: 3.99
+    prices_special_price_from: 05/05/11
+    prices_special_price_to: 09/09/11
+    prices_tier_price_1: *tierPrice1
+    prices_tier_price_2: *tierPrice2
+    prices_tax_class: None
+    prices_enable_googlecheckout: No
+    meta_information_meta_title: Meta Title for Simple Product
+    meta_information_meta_keywords: Meta Keywords for Simple Product
+    meta_information_meta_description: Meta Description for Simple Product
+    recurring_profile_enable_recurring_profile: Yes
+    recurring_profile_customer_define_start_date: No
+    recurring_profile_schedule_description: Shedule Description
+    recurring_profile_max_payment_failures: Max Payment Failures
+    recurring_profile_auto_bill_next_cycle: No
+    recurring_profile_billing_period_unit: Week
+    recurring_profile_billing_frequency: Billing Frequency
+    recurring_profile_max_billing_cycles: Max Billing Cycles
+    recurring_profile_trial_billing_period_unit: Month
+    recurring_profile_trial_billing_frequency: Trial Billing Frequency
+    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
+    recurring_profile_trial_billing_amount: Trial Billing Amount
+    recurring_profile_initial_fee: Initial Fee
+    recurring_profile_allow_initial_fee_failure: No
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+#    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_qty_for_items_out_of_stock_default: No
+    inventory_qty_for_items_out_of_stock: 10
+    inventory_min_allowed_qty_default: No
+    inventory_min_allowed_qty: 2
+    inventory_max_allowed_qty_default: No
+    inventory_max_allowed_qty: 11
+    inventory_qty_uses_decimals: Yes
+    inventory_backorders_default: No
+    inventory_backorders: Allow Qty Below 0
+    inventory_notify_for_qty_below_default: No
+    inventory_notify_for_qty_below: 12
+    inventory_enable_qty_increments_default: No
+    inventory_enable_qty_increments: Yes
+    inventory_qty_increments_default: No
+    inventory_qty_increments: 5
+    inventory_stock_availability: In Stock
+    custom_options_field: *field
+    custom_options_area: *area
+    custom_options_file: *file
+    custom_options_date: *date
+    custom_options_date_time: *dateTime
+    custom_options_time: *time
+    custom_options_dropdown: *dropdown
+    custom_options_radiobutton: *radiobutton
+    custom_options_checkbox: *checkbox
+    custom_options_multipleselect: *multipleselect
+
+#*********************************************
+#*         Virtual Product Data              *
+#*********************************************
 
 virtual_product:
-    #general_tab
+    #general
     product_name: Virtual Product
     product_description: Description for Virtual Product
     product_short_description: Short Description for Virtual Product
@@ -153,7 +314,7 @@ virtual_product:
     product_status: Enabled
     product_visibility: Not Visible Individually
     product_in_feed: Yes
-    #prices_tab:
+    #prices:
     product_price: 4.95
     product_special_price: 3.99
     product_special_price_from: 05/05/11
@@ -165,12 +326,12 @@ virtual_product:
     product_tier_price_price: %noValue%
     product_tax_class: None
     google_checkout: Yes
-    #meta_information_tab:
+    #meta_information:
     meta_title: Meta Title for Virtual Product
     meta_keywords: Meta Keywords for Virtual Product
     meta_description: Meta Description for Virtual Product
-    #recurring_profile_tab:
-    enable_recurring_profile: No
+    #recurring_profile_profile_tab:
+    enable_recurring_profile_profile: No
     customer_define_start_date: No
     schedule_description: Shedule Description
     max_payment_failures: Max Payment Failures
@@ -184,7 +345,7 @@ virtual_product:
     trial_billing_amount: Trial Billing Amount
     initial_fee: Initial Fee
     allow_initial_fee_failure: No
-    #design_tab:
+    #design:
     custom_design: default
     active_from: 11/11/11
     active_to: 2/12/12
@@ -193,7 +354,7 @@ virtual_product:
     display_product_options_in: Product Info Column
     #gift_options_tab:
     use_config_settings: %noValue%
-    #inventory_tab:
+    #inventory:
     use_manage_stock: No
     manage_stock: Yes
     qty: 120
@@ -222,7 +383,7 @@ virtual_product:
     custom_sku: %noValue%
 
 bundle_dynamic_product:
-    #general_tab
+    #general
     product_name: Bundle Dynamic Product
     product_description: Description for Bundle Dynamic Product
     product_short_description: Short Description for Bundle Dynamic Product
@@ -236,7 +397,7 @@ bundle_dynamic_product:
     product_url_key: bundle_dynamic_product_url_key
     product_visibility: Not Visible Individually
     product_in_feed: Yes
-    #prices_tab:
+    #prices:
     product_price_type: Dynamic
     product_price: %noValue%
     product_special_price: 3.99
@@ -250,12 +411,12 @@ bundle_dynamic_product:
     product_tax_class: %noValue%
     google_checkout: Yes
     product_price_view_bundle_dynamic: Price Range
-    #meta_information_tab:
+    #meta_information:
     meta_title: Meta Title for Simple Product
     meta_keywords: Meta Keywords for Simple Product
     meta_description: Meta Description for Simple Product
-    #recurring_profile_tab:
-    enable_recurring_profile: No
+    #recurring_profile_profile_tab:
+    enable_recurring_profile_profile: No
     customer_define_start_date: No
     schedule_description: Shedule Description
     max_payment_failures: Max Payment Failures
@@ -269,7 +430,7 @@ bundle_dynamic_product:
     trial_billing_amount: Trial Billing Amount
     initial_fee: Initial Fee
     allow_initial_fee_failure: No
-    #design_tab:
+    #design:
     custom_design: default
     active_from: 11/11/11
     active_to: 2/12/12
@@ -278,7 +439,7 @@ bundle_dynamic_product:
     display_product_options_in: Product Info Column
     #gift_options_tab:
     use_config_settings: %noValue%
-    #inventory_tab:
+    #inventory:
     use_manage_stock: No
     manage_stock: Yes
     use_enable_qty_increments: No
