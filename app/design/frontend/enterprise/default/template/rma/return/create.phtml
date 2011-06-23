@@ -402,6 +402,9 @@ document.observe("dom:loaded", function() {
                         setFieldById('items:<?php echo $field.$i?>', '<?php echo $value;?>');
                     <?php else: ?>
                         setFieldById('items:<?php echo $field.$i?>', '<?php echo $value;?>');
+                        <?php if ($field == 'reason'): ?>
+                            showOtherOption('<?php echo $value;?>', <?php echo $i ?>);
+                        <?php endif; ?>
                     <?php endif; ?>
 
                 <?php endforeach; ?>
