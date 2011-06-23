@@ -1094,8 +1094,26 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $itemId = $this->_findItemIdInGrid($data);
 
         $this->addParameter('id', $itemId);
-        $this->click("//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[contains(@title, 'id/"
-                . $itemId . "/') or @title='" . $itemId . "']//input[contains(@class,'checkbox')]");
+        if ($itemId == null)
+        {
+            $xpathTR = "//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[";
+            $i = 1;
+            $n = count($data);
+            foreach ($data as $key => $value) {
+                if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
+                    $xpathTR .= "contains(.,'$value')";
+                    if ($i < $n) {
+                        $xpathTR .= ' and ';
+                    }
+                    $i++;
+                }
+            }
+            $xpathTR .="]//input[contains(@class,'checkbox')]";
+            $this->click($xpathTR);
+        } else {
+            $this->click("//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[contains(@title, 'id/"
+               . $itemId . "/') or @title='" . $itemId . "']//input[contains(@class,'checkbox')]");
+        }
 
         return true;
     }
@@ -1172,9 +1190,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                 if ($idKey !== false && isset($titleArr[$idKey + 1])) {
                     return $titleArr[$idKey + 1];
-                } else {
-                    $this->fail('Cant\'t find item ID');
-                }
+                } //else {
+                    //$this->fail('Cant\'t find item ID');
+                //}
             } else {
                 $this->fail('Cant\'t find item in grig for data: ' . print_r($data, true));
             }
