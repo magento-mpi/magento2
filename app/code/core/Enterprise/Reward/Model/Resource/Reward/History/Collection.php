@@ -257,8 +257,8 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
         $this->addWebsiteFilter($websiteId);
 
         $field = $expiryConfig->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
-        $now = $this->formatDate(time());
-        $expireAtLimit = new Zend_Date($now);
+        $locale = Mage::app()->getLocale()->getLocale();
+        $expireAtLimit = new Zend_Date($locale);
         $expireAtLimit->addDay($inDays);
         $expireAtLimit = $this->formatDate($expireAtLimit);
 
