@@ -869,7 +869,7 @@ ul.item-options li { padding-left:.7em; }
 .rma-popup .last-fieldset .product-options { border:0 none; margin-bottom:0; padding-bottom:0; }
 .rma-popup .buttons-set { border-top:1px solid #ddd; background:#eee; margin:0; overflow:hidden; padding:7px 10px 8px; width:518px; }
 .rma-popup .buttons-set button { margin:0 0 0 5px; }
-.rma-popup .fieldset { background:#fff; margin-bottom:0 !important; max-height:400px; overflow:auto; }
+.rma-popup .fieldset { background:#fff; margin-bottom:0 !important; padding:0; }
 .grid .rma-popup .form-list tr,
 .grid tr.even .rma-popup .form-list tr,
 .grid tr.on-mouse .rma-popup .form-list tr { background:#fff !important; }
