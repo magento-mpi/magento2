@@ -214,6 +214,8 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             }
             $this->_quote = $customerQuote;
         } else {
+            $this->getQuote()->getBillingAddress();
+            $this->getQuote()->getShippingAddress();
             $this->getQuote()->setCustomer(Mage::getSingleton('customer/session')->getCustomer())
                 ->save();
         }
