@@ -38,6 +38,8 @@ class Mage_Core_Model_App
 
     const XML_PATH_INSTALL_DATE = 'global/install/date';
 
+    const XML_PATH_SKIP_PROCESS_MODULES_UPDATES = 'global/skip_process_modules_updates';
+
     const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
 
     const DISTRO_LOCALE_CODE = 'en_US';
@@ -401,7 +403,7 @@ class Mage_Core_Model_App
     {
         if (!$this->_config->loadModulesCache()) {
             $this->_config->loadModules();
-            if ($this->_config->isLocalConfigLoaded()) {
+            if ($this->_config->isLocalConfigLoaded() && !$this->_shouldSkipProcessModulesUpdates()) {
                 Varien_Profiler::start('mage::app::init::apply_db_schema_updates');
                 Mage_Core_Model_Resource_Setup::applyAllUpdates();
                 Varien_Profiler::stop('mage::app::init::apply_db_schema_updates');
@@ -410,6 +412,24 @@ class Mage_Core_Model_App
             $this->_config->saveCache();
         }
         return $this;
+    }
+
+    /**
+     * Check whether modules updates processing should be skipped
+     *
+     * @return bool
+     */
+    protected function _shouldSkipProcessModulesUpdates()
+    {
+        if (!Mage::isInstalled()) {
+            return false;
+        }
+
+        if (Mage::getIsDeveloperMode()) {
+            return false;
+        }
+
+        return (bool)(string)$this->_config->getNode(self::XML_PATH_SKIP_PROCESS_MODULES_UPDATES);
     }
 
     /**
