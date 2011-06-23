@@ -1644,15 +1644,15 @@ XMLAuth;
         switch ($this->_getDeliveryConfirmationLevel($countyDest)) {
             case self::DELIVERY_CONFIRMATION_PACKAGE:
                 $deliveryConfirmationTypes = array(
-                    1 => Mage::helper('usa')->__('No Signature'),
+                    1 => Mage::helper('usa')->__('Delivery Confirmation'),
                     2 => Mage::helper('usa')->__('Signature Required'),
-                    3 => Mage::helper('usa')->__('Adult Required'),
+                    3 => Mage::helper('usa')->__('Adult Signature Required'),
                 );
                 break;
             case self::DELIVERY_CONFIRMATION_SHIPMENT:
                 $deliveryConfirmationTypes = array(
                     1 => Mage::helper('usa')->__('Signature Required'),
-                    2 => Mage::helper('usa')->__('Adult Required'),
+                    2 => Mage::helper('usa')->__('Adult Signature Required'),
                 );
         }
         array_unshift($deliveryConfirmationTypes, Mage::helper('usa')->__('Not Required'));
