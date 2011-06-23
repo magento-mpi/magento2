@@ -84,7 +84,7 @@ $pathInfo = str_replace('..', '', ltrim($request->getPathInfo(), '/'));
 $filePath = str_replace('/', $ds, rtrim($bp, $ds) . $ds . $pathInfo);
 
 if ($mediaDirectory) {
-    if (0 !== stripos($pathInfo, $mediaDirectory . '/')) {
+    if (0 !== stripos($pathInfo, $mediaDirectory . '/') || is_dir($filePath)) {
         sendNotFoundPage();
     }
 
