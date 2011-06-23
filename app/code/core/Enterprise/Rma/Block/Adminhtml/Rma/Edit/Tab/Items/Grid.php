@@ -35,6 +35,13 @@
 class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Default limit collection
+     *
+     * @var int
+     */
+    protected $_defaultLimit = 0;
+
+    /**
      * Variable to store store-depended string values of attributes
      *
      * @var null|array
