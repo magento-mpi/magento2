@@ -1376,40 +1376,63 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     }
 
     /**
-     * Add new index to table name
+     * Add new index to table.
+     *
+     * Can receive additional $params for optimization and other purposes:
+     *   'index_exists' - [boolean] contains information, whether this index already exists.
+     *   'column_exists' - TRUE value means, that the indexed column(s) exists. Otherwise we'll check.
      *
      * @param string $tableName
      * @param string $indexName
      * @param string|array $fields  the table column name or array of ones
      * @param string $indexType     the index type
      * @param string $schemaName
+     * @param array $params
      * @return Zend_Db_Statement_Interface
      * @throws Zend_Db_Adapter_Oracle_Exception
      */
-    public function addIndex($tableName, $indexName, $fields,
-        $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX, $schemaName = null)
+    protected function _addIndex($tableName, $indexName, $fields,
+        $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX, $schemaName = null, $params = array())
     {
         if ($schemaName === null) {
             $schemaName = $this->_getSchemaName();
         }
         $this->resetDdlCache($tableName, $schemaName);
-        $keyList = $this->getIndexList($tableName, $schemaName);
 
-        // Drop index if exists
-        foreach($keyList as $key) {
-            if ($key['KEY_NAME'] == strtoupper($indexName)) {
-                $this->dropIndex($tableName, $indexName, $schemaName);
+        // Check to drop already existing index
+        if (isset($params['index_exists'])) {
+            $indexExists = $params['index_exists'];
+        } else {
+            $indexExists = false;
+            $keyList = $this->getIndexList($tableName, $schemaName);
+            $upperIndexName = strtoupper($indexName);
+            foreach($keyList as $key) {
+                if ($key['KEY_NAME'] == $upperIndexName) {
+                    $indexExists = true;
+                    break;
+                }
             }
         }
+        if ($indexExists) {
+            $this->dropIndex($tableName, $indexName, $schemaName);
+        }
 
+        // Compose fields for index
+        if (isset($params['column_exists'])) {
+            $skipColumnExistsCheck = $params['column_exists'];
+        } else {
+            $skipColumnExistsCheck = false;
+        }
         if (!is_array($fields)) {
             $fields = array($fields);
         }
         $fieldSql = array();
         foreach ($fields as $field) {
-            if (!$this->tableColumnExists($tableName, $field, $schemaName)) {
-                throw new Zend_Db_Adapter_Oracle_Exception(
-                    sprintf('Column "%s" does not exists on table "%s"', $field, $tableName));
+            if (!$skipColumnExistsCheck) {
+                if (!$this->tableColumnExists($tableName, $field, $schemaName)) {
+                    throw new Zend_Db_Adapter_Oracle_Exception(
+                        sprintf('Column "%s" does not exists on table "%s"', $field, $tableName));
+                }
             }
             $fieldSql[] = $this->quoteIdentifier($field);
         }
@@ -1440,6 +1463,23 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $this->resetDdlCache($tableName, $schemaName);
 
         return $result;
+    }
+
+    /**
+     * Add new index to table name
+     *
+     * @param string $tableName
+     * @param string $indexName
+     * @param string|array $fields  the table column name or array of ones
+     * @param string $indexType     the index type
+     * @param string $schemaName
+     * @return Zend_Db_Statement_Interface
+     * @throws Zend_Db_Adapter_Oracle_Exception
+     */
+    public function addIndex($tableName, $indexName, $fields,
+        $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX, $schemaName = null)
+    {
+        return $this->_addIndex($tableName, $indexName, $fields, $indexType, $schemaName);
     }
 
     /**
@@ -1549,8 +1589,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     'index_type'    => $indexTypeExpr,
                     'index_method'  => 'ui.index_type',
                 ))
-                ->where('ui.table_name = upper(?)', $tableName)
-                ->where('ui.owner = upper(?)', $schemaName);
+                ->where('ui.table_name = ?', strtoupper($tableName))
+                ->where('ui.owner = ?', strtoupper($schemaName));
 
             $isIndexExists = $this->select()
                 ->from(
@@ -1566,9 +1606,9 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     array('acc' => 'all_cons_columns'),
                     'acc.owner = ac.owner AND acc.constraint_name = ac.constraint_name',
                     array())
-                ->where('ac.table_name = upper(?)', $tableName)
+                ->where('ac.table_name = ?', strtoupper($tableName))
                 ->where("ac.constraint_type IN ('P','U')")
-                ->where('ac.owner = upper(?)', $schemaName)
+                ->where('ac.owner = ?', strtoupper($schemaName))
                 ->where(sprintf('NOT EXISTS (%s)', $isIndexExists->assemble()))
                 ->columns(array(
                     'schema_name'   => 'ac.owner',
@@ -1586,7 +1626,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
             $keys = $this->select()->union(array($select, $constraints));
             $rowset = $this->fetchAll($keys);
             foreach ($rowset as $row) {
-                $upperKeyName = strtoupper($row['key_name']);
                 $columnName   = strtolower($row['column_name']);
 
                 $indexType = $row['index_type'];
@@ -3563,34 +3602,53 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         return $this;
     }
     /**
-     * Retrieve table indexes definition array for create table
+     * Retrieve table indexes definition array for create table.
+     * $params can be defined for optimization of indexes creation. The can contain following keys:
+     *   'all_indexes_exist' - [boolean] contains information, whether all created indexes already exist.
+     *   'all_columns_exist' - [boolean] whether all indexed columns exist.
      *
      * @param Varien_Db_Ddl_Table $table
-     * @return array
+     * @param array $params
+     * @return Varien_Db_Adapter_Oracle
      */
-    protected function _createIndexes(Varien_Db_Ddl_Table $table)
+    protected function _createIndexes(Varien_Db_Ddl_Table $table, $params = array())
     {
+        // Create indexes
         $indexes = $table->getIndexes();
-        if (!empty($indexes)) {
-            foreach ($indexes as $indexData) {
-                if (strtoupper($indexData['INDEX_NAME']) == 'PRIMARY') {
-                    $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY;
-                } else {
-                    $indexType = $indexData['TYPE'];
-                }
-
-                if ($indexType == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
-                    continue;
-                }
-
-                $columns = array();
-                foreach ($indexData['COLUMNS'] as $columnData) {
-                    $columns[] = $columnData['NAME'];
-                }
-
-                $this->addIndex($table->getName(), $indexData['INDEX_NAME'], $columns, $indexType);
-            }
+        if (empty($indexes)) {
+            return $this;
         }
+
+        // Optimization parameters
+        $addIndexParams = array();
+        if (isset($params['all_indexes_exist'])) {
+            $addIndexParams['index_exists'] = $params['all_indexes_exist'];
+        }
+        if (isset($params['all_columns_exist'])) {
+            $addIndexParams['column_exists'] = $params['all_columns_exist'];
+        }
+
+        // Create all indexes
+        foreach ($indexes as $indexData) {
+            if (strtoupper($indexData['INDEX_NAME']) == 'PRIMARY') {
+                $indexType = Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY;
+            } else {
+                $indexType = $indexData['TYPE'];
+            }
+
+            if ($indexType == Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE) {
+                continue;
+            }
+
+            $columns = array();
+            foreach ($indexData['COLUMNS'] as $columnData) {
+                $columns[] = $columnData['NAME'];
+            }
+
+            $this->_addIndex($table->getName(), $indexData['INDEX_NAME'], $columns, $indexType, null, $addIndexParams);
+        }
+
+        return $this;
     }
 
     /**
@@ -3760,7 +3818,12 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
 
         $result = $this->query($sql);
 
-        $this->_createIndexes($table);
+        $params = array(
+            'all_indexes_exist' => false,
+            'all_columns_exist' => true
+        );
+        $this->_createIndexes($table, $params);
+
         $this->_createForeignKeysActions($table);
 
         $tableName = $this->_getTableName($table->getName(), $table->getSchema());
