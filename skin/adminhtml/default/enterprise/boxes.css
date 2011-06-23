@@ -863,13 +863,13 @@ ul.item-options li { padding-left:.7em; }
 .rma-popup .content { background:#fff; border-bottom:1px solid #ccc; max-height:400px; overflow:auto; }
 .rma-popup .content .grid { padding:0; }
 .rma-popup .content .grid table { border-bottom:1px solid #CBD3D4; }
+.rma-popup .content .fieldset { background:#fff; margin-bottom:0 !important; padding:0; }
 .rma-popup .product-options { border-bottom:1px solid #e7e7e7; margin:0 0 15px; padding:0 0 12px; }
 .rma-popup .product-options .required { color:#333 !important; font-weight:normal !important; }
 .rma-popup .product-options .required em { color:#d40707; }
 .rma-popup .last-fieldset .product-options { border:0 none; margin-bottom:0; padding-bottom:0; }
 .rma-popup .buttons-set { border-top:1px solid #ddd; background:#eee; margin:0; overflow:hidden; padding:7px 10px 8px; width:518px; }
 .rma-popup .buttons-set button { margin:0 0 0 5px; }
-.rma-popup .fieldset { background:#fff; margin-bottom:0 !important; padding:0; }
 .grid .rma-popup .form-list tr,
 .grid tr.even .rma-popup .form-list tr,
 .grid tr.on-mouse .rma-popup .form-list tr { background:#fff !important; }
