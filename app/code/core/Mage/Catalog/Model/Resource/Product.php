@@ -656,21 +656,24 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     /**
      * Return assigned images for specific stores
      *
-     * @param int $productId
+     * @param Mage_Catalog_Model_Product $product
      * @param int|array $storeIds
      * @return array
      *
      */
-    public function getAssignedImages($productId, $storeIds)
+    public function getAssignedImages($product, $storeIds)
     {
         if (!is_array($storeIds)) {
             $storeIds = array($storeIds);
         }
 
-        $read   = $this->_getReadAdapter();
-        $select = $read->select()
+        $mainTable = $product->getResource()->getAttribute('image')
+            ->getBackend()
+            ->getTable();
+        $read      = $this->_getReadAdapter();
+        $select    = $read->select()
             ->from(
-                array('images' => $this->getTable('catalog_product_entity_varchar')),
+                array('images' => $mainTable),
                 array('value as filepath', 'store_id')
             )
             ->joinLeft(
@@ -678,7 +681,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
                 'images.attribute_id = attr.attribute_id',
                 array('attribute_code')
             )
-            ->where('entity_id = ?', $productId)
+            ->where('entity_id = ?', $product->getId())
             ->where('store_id IN (?)', $storeIds)
             ->where('attribute_code IN (?)', array('small_image', 'thumbnail', 'image'));
 
