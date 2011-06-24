@@ -59,6 +59,43 @@ class Mage_Persistent_Model_Observer
     }
 
     /**
+     * Apply persistent data to specific block
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Persistent_Model_Observer
+     */
+    public function applyBlockPersistentData($observer)
+    {
+        if (!$this->_getPersistentHelper()->isPersistent() || Mage::getSingleton('customer/session')->isLoggedIn()) {
+            return $this;
+        }
+
+        /** @var $block Mage_Core_Block_Abstract */
+        $block = $observer->getEvent()->getBlock();
+        /** @var $placeholder Enterprise_PageCache_Model_Container_Placeholder */
+        $placeholder = $observer->getEvent()->getPlaceholder();
+
+        if (!$block || !$placeholder) {
+            return $this;
+        }
+
+        $xPath = '//instances/blocks/*[block_type="' . get_class($block) . '"]';
+        $configFilePath = $observer->getEvent()->getConfigFilePath();
+
+        /** @var $persistentConfig Mage_Persistent_Model_Persistent_Config */
+        $persistentConfig = Mage::getModel('persistent/persistent_config')
+            ->setConfigFilePath(
+                $configFilePath ? $configFilePath : Mage::helper('persistent')->getPersistentConfigFilePath()
+            );
+
+        foreach ($persistentConfig->getXmlConfig()->xpath($xPath) as $persistentConfigInfo) {
+            $persistentConfig->fireOne($persistentConfigInfo->asArray(), $block);
+        }
+
+        return $this;
+    }
+
+    /**
      * Emulate 'welcome' block with persistent data
      *
      * @param Mage_Core_Block_Abstract $block
@@ -70,13 +107,52 @@ class Mage_Persistent_Model_Observer
             Mage::helper('persistent')->__('Welcome, %s!', Mage::helper('core')->escapeHtml($this->_getPersistentCustomer()->getName(), null))
         );
 
-        $additionalBlock = $block->getLayout()->getBlock('header.additional');
-        if ($additionalBlock) {
-            $block->setAdditionalHtml($additionalBlock->toHtml());
-        }
-        $block->getLayout()->getBlock('top.links')->removeLinkByUrl(Mage::getUrl('customer/account/login'));
+        $this->_applyAccountLinksPersistentData();
+        $block->setAdditionalHtml(Mage::app()->getLayout()->getBlock('header.additional')->toHtml());
 
         return $this;
+    }
+
+    /**
+     * Emulate 'account links' block with persistent data
+     */
+    protected function _applyAccountLinksPersistentData()
+    {
+        if (!Mage::app()->getLayout()->getBlock('header.additional')) {
+            Mage::app()->getLayout()->addBlock('persistent/header_additional', 'header.additional');
+        }
+    }
+
+    /**
+     * Emulate 'account links' block with persistent data
+     *
+     * @param Mage_Core_Block_Abstract $block
+     */
+    public function emulateAccountLinks($block)
+    {
+        $this->_applyAccountLinksPersistentData();
+        $block->getCacheKeyInfo();
+        $block->addLink(
+            Mage::helper('persistent')->getPersistentName(),
+            Mage::helper('persistent')->getUnsetCookieUrl(),
+            Mage::helper('persistent')->getPersistentName(),
+            false,
+            array(),
+            110
+        );
+        $block->removeLinkByUrl(Mage::helper('customer')->getRegisterUrl());
+        $block->removeLinkByUrl(Mage::helper('customer')->getLoginUrl());
+    }
+
+    /**
+     * Emulate 'top links' block with persistent data
+     *
+     * @param Mage_Core_Block_Abstract $block
+     */
+    public function emulateTopLinks($block)
+    {
+        $this->_applyAccountLinksPersistentData();
+        $block->removeLinkByUrl(Mage::getUrl('customer/account/login'));
     }
 
     /**

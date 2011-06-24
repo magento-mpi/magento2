@@ -133,6 +133,7 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
             $category = Mage::getModel('catalog/category')->load($categoryId);
             Mage::register('current_category', $category);
         }
+        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();
     }

@@ -47,6 +47,8 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     const COOKIE_WISHLIST           = 'WISHLIST';
     const COOKIE_WISHLIST_ITEMS     = 'WISHLIST_CNT';
 
+    const COOKIE_CUSTOMER_LOGGED_IN = 'CUSTOMER_AUTH';
+
     /**
      * Subprocessors cookie names
      */
@@ -104,12 +106,18 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     {
         /** @var Mage_Customer_Model_Session $session */
         $session = Mage::getSingleton('customer/session');
-        if ($session->isLoggedIn()) {
+        if ($session->getCustomerId() && !is_null($session->getCustomerGroupId())) {
             $this->setObscure(self::COOKIE_CUSTOMER, 'customer_' . $session->getCustomerId());
             $this->setObscure(self::COOKIE_CUSTOMER_GROUP, 'customer_group_' . $session->getCustomerGroupId());
+            if ($session->isLoggedIn()) {
+                $this->setObscure(self::COOKIE_CUSTOMER_LOGGED_IN, 'customer_logged_in_' . $session->isLoggedIn());
+            } else {
+                $this->delete(self::COOKIE_CUSTOMER_LOGGED_IN);
+            }
         } else {
             $this->delete(self::COOKIE_CUSTOMER);
             $this->delete(self::COOKIE_CUSTOMER_GROUP);
+            $this->delete(self::COOKIE_CUSTOMER_LOGGED_IN);
         }
     }
 

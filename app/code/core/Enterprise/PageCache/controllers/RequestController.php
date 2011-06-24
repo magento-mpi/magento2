@@ -60,6 +60,7 @@ class Enterprise_PageCache_RequestController extends Mage_Core_Controller_Front_
             // customer cookies have to be refreshed as well as the session cookie
             $sessionInfo[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER] = $cookieInfo;
             $sessionInfo[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP] = $cookieInfo;
+            $sessionInfo[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN] = $cookieInfo;
             $sessionInfo = serialize($sessionInfo);
             $cacheInstance->save($sessionInfo, $cacheId, array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
         }

@@ -195,6 +195,14 @@
                     </enterprise_persistent>
                 </observers>
             </controller_action_predispatch_checkout_onepage_saveOrder>
+            <render_block>
+                <observers>
+                    <enterprise_persistent>
+                        <class>enterprise_persistent/observer</class>
+                        <method>applyBlockPersistentData</method>
+                    </enterprise_persistent>
+                </observers>
+            </render_block>
         </events>
     </frontend>
 </config>

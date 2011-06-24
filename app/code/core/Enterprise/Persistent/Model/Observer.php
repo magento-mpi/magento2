@@ -90,6 +90,12 @@ class Enterprise_Persistent_Model_Observer
             ->fire();
     }
 
+    public function applyBlockPersistentData($observer)
+    {
+        $observer->getEvent()->setConfigFilePath(Mage::helper('enterprise_persistent')->getPersistentConfigFilePath());
+        return Mage::getSingleton('persistent/observer')->applyBlockPersistentData($observer);
+    }
+
     /**
      * Set whislist items count in top wishlist link block
      *

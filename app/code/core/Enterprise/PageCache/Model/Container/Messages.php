@@ -82,6 +82,7 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
         foreach ($types as $type) {
             $this->_addMessagesToBlock($type, $block);
         }
+        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();
     }

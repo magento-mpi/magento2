@@ -228,14 +228,14 @@
                     </enterprise_pagecache>
                 </observers>
             </customer_login>
-            <customer_logout>
+            <controller_action_postdispatch_customer_account_logoutSuccess>
                 <observers>
                     <enterprise_pagecache>
                         <class>enterprise_pagecache/observer</class>
                         <method>customerLogout</method>
                     </enterprise_pagecache>
                 </observers>
-            </customer_logout>
+            </controller_action_postdispatch_customer_account_logoutSuccess>
             <sales_quote_save_after>
                 <observers>
                     <enterprise_pagecache>
@@ -354,7 +354,7 @@
                 <multicurrency>1</multicurrency>
             </page_crawl>
         </system>
-        
+
         <dev>
             <translate_inline>
                 <invalid_caches>
