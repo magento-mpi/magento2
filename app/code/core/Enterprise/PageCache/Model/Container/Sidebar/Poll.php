@@ -44,7 +44,7 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
     {
         $visitor = $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER, '');
         if (!$visitor) {
-            $visitor = Mage::helper('core/http')->getRemoteAddr();
+            $visitor = $_SERVER['REMOTE_ADDR'];
         }
         return $visitor;
     }

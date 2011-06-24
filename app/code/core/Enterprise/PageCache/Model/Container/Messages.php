@@ -77,8 +77,9 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
 
         $block = $this->_placeholder->getAttribute('block');
         $block = new $block;
+        $types = unserialize($this->_placeholder->getAttribute('storage_types'));
 
-        foreach ($this->_messageStoreTypes as $type) {
+        foreach ($types as $type) {
             $this->_addMessagesToBlock($type, $block);
         }
 

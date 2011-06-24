@@ -33,6 +33,13 @@
             <container>Enterprise_PageCache_Model_Container_Messages</container>
             <cache_lifetime>86400</cache_lifetime>
         </messages>
+        <global_messages>
+            <block>core/messages</block>
+            <placeholder>GLOBAL_MESSAGES</placeholder>
+            <name>global_messages</name>
+            <container>Enterprise_PageCache_Model_Container_Messages</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </global_messages>
         <recently_compared_sidebar>
             <block>reports/product_compared</block>
             <placeholder>RECENTLYCOMPARED_SIDEBAR</placeholder>
