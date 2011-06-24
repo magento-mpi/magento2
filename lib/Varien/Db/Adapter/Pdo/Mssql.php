@@ -128,7 +128,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @var bool
      */
-    protected $_logAllQueries       = true;
+    protected $_logAllQueries       = false;
 
     /**
      * Add to log call stack data (backtrace)
