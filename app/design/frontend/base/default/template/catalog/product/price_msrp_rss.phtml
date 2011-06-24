@@ -40,7 +40,7 @@ $_product = $this->getProduct();
 ?>
 <div class="price-box map-info">
     <?php $_msrpPrice = $_product->getMsrp(); ?>
-    <?php if ($_msrpPrice): ?>
+    <?php if (!$_catalogHelper->isShowPriceOnGesture($_product) && $_msrpPrice): ?>
         <p class="old-price">
             <?php $_msrpPrice = $_coreHelper->currency($_msrpPrice, true, true) ?>
             <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>

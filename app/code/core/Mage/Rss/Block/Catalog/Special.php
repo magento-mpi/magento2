@@ -31,7 +31,7 @@
  * @package    Mage_Rss
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
+class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Catalog_Abstract
 {
     /**
      * Zend_Date object for date comparsions
@@ -126,14 +126,14 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
                     }
                     if (Mage::helper('catalog')->canApplyMsrp($product)) {
                         $msrpPrice = $product->getMsrp();
-                        if ($msrpPrice) {
+                        if (!$this->helper('catalog')->isShowPriceOnGesture($product) && $msrpPrice) {
                             $html .= '<p class="old-price">';
                             $msrpPrice = $this->helper('core')->currency($msrpPrice, true, true);
                             $html .= '<span class="price-label">' . $this->__('Regular Price:') . '</span>'
                                 . ' <span class="price">' . $msrpPrice . '</span> ';
                         }
                         if ($this->helper('catalog')->isShowPriceOnGesture($product)) {
-                            $html .= '<a href="' . $product->getProductUrl() . '">'
+                            $html .= '<br/><a href="' . $product->getProductUrl() . '">'
                                 . $this->__('Click for price') . '</a>';
                         } else {
                             $html .= $this->helper('catalog')->getMsrpPriceMessage($product);
