@@ -38,8 +38,8 @@ $_element = $this->getElement();
 </div>
 <?php endif; ?>
 <?php if (!$_element->getNoContainer()): ?>
-	<div class="content">
-		<div class="fieldset <?php echo $_element->getClass() ?>" id="<?php echo $_element->getHtmlId() ?>">
+    <div class="content">
+        <div class="fieldset <?php echo $_element->getClass() ?>" id="<?php echo $_element->getHtmlId() ?>">
 <?php endif; ?>
         <?php if ($_element->getComment()): ?>
             <p class="comment"><?php echo $this->escapeHtml($_element->getComment()) ?></p>
@@ -59,8 +59,8 @@ $_element = $this->getElement();
 
         <?php endif; ?>
     <?php echo $_element->getSubFieldsetHtml() ?>
-<?php if (!$_element->getNoContainer()): ?>	
-		</div>
+<?php if (!$_element->getNoContainer()): ?>
+        </div>
     </div>
 
     <div class="buttons-set">

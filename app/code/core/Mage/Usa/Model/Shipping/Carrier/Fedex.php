@@ -109,7 +109,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        if (!$this->getConfigFlag('active')) {
+        if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
         }
 
@@ -203,6 +203,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         $r->setMeterNumber($this->getConfigData('meter_number'));
         $r->setKey($this->getConfigData('key'));
         $r->setPassword($this->getConfigData('password'));
+
+        $r->setIsReturn($request->getIsReturn());
 
         $this->_rawRequest = $r;
 
@@ -1130,7 +1132,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                         ),
                         'NumberOfPieces' => 1,
                         'CountryOfManufacture' => implode(',', array_unique($countriesOfManufacture)),
-                        'Description' => implode('\r\n', $itemsDesc),
+                        'Description' => implode(', ', $itemsDesc),
                         'Quantity' => $itemsQty,
                         'QuantityUnits' => 'pcs',
                         'UnitPrice' => array(

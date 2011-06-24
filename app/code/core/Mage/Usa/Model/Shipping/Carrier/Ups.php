@@ -198,10 +198,9 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                 Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID,
                 $request->getStoreId()
             );
-
-            if (is_numeric($origRegionCode)) {
-                $origRegionCode = Mage::getModel('directory/region')->load($origRegionCode)->getCode();
-            }
+        }
+        if (is_numeric($origRegionCode)) {
+            $origRegionCode = Mage::getModel('directory/region')->load($origRegionCode)->getCode();
         }
         $r->setOrigRegionCode($origRegionCode);
 
@@ -270,6 +269,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $unit = $this->getConfigData('unit_of_measure');
         }
         $r->setUnitMeasure($unit);
+
+        $r->setIsReturn($request->getIsReturn());
 
         $this->_rawRequest = $r;
 
@@ -816,12 +817,24 @@ XMLRequest;
             $xmlRequest .= "<ShipperNumber>{$shipper}</ShipperNumber>";
         }
 
+        if ($r->getIsReturn()) {
+            $shipperCity = '';
+            $shipperPostalCode = $params['19_destPostal'];
+            $shipperCountryCode = $params['22_destCountry'];
+            $shipperStateProvince = $params['destRegionCode'];
+        } else {
+            $shipperCity = $params['origCity'];
+            $shipperPostalCode = $params['15_origPostal'];
+            $shipperCountryCode = $params['14_origCountry'];
+            $shipperStateProvince = $params['origRegionCode'];
+        }
+
 $xmlRequest .= <<< XMLRequest
       <Address>
-          <City>{$params['origCity']}</City>
-          <PostalCode>{$params['15_origPostal']}</PostalCode>
-          <CountryCode>{$params['14_origCountry']}</CountryCode>
-          <StateProvinceCode>{$params['origRegionCode']}</StateProvinceCode>
+          <City>{$shipperCity}</City>
+          <PostalCode>{$shipperPostalCode}</PostalCode>
+          <CountryCode>{$shipperCountryCode}</CountryCode>
+          <StateProvinceCode>{$shipperStateProvince}</StateProvinceCode>
       </Address>
     </Shipper>
     <ShipTo>
@@ -1327,7 +1340,7 @@ XMLAuth;
             // UPS Print Return Label
             $returnPart->addChild('Code', '9');
         }
-        $shipmentPart->addChild('Description', implode(' ', $itemsDesc));
+        $shipmentPart->addChild('Description', substr(implode(' ', $itemsDesc), 0, 35));//empirical
 
         $shipperPart = $shipmentPart->addChild('Shipper');
         if ($request->getIsReturn()) {
@@ -1415,7 +1428,7 @@ XMLAuth;
         $servicePart = $shipmentPart->addChild('Service');
         $servicePart->addChild('Code', $request->getShippingMethod());
         $packagePart = $shipmentPart->addChild('Package');
-        $packagePart->addChild('Description', implode(' ', $itemsDesc));
+        $packagePart->addChild('Description', substr(implode(' ', $itemsDesc), 0, 35));//empirical
         $packagePart->addChild('PackagingType')
             ->addChild('Code', $request->getPackagingType());
         $packageWeight = $packagePart->addChild('PackageWeight');
@@ -1432,7 +1445,9 @@ XMLAuth;
         }
 
         // ups support reference number only for domestic service
-        if ($this->_isUSCountry($request->getRecipientAddressCountryCode())) {
+        if ($this->_isUSCountry($request->getRecipientAddressCountryCode())
+            && $this->_isUSCountry($request->getShipperAddressCountryCode())
+        ) {
             if ($request->getReferenceData()) {
                 $referenceData = $request->getReferenceData() . $request->getPackageId();
             } else {

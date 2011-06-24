@@ -833,6 +833,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         $request->setDestStreet($shippingDestinationInfo->getStreet(-1));
         $request->setDestCity($shippingDestinationInfo->getCity());
         $request->setDestPostcode($shippingDestinationInfo->getPostcode());
+        $request->setDestCompanyName($shippingDestinationInfo->getCompany());
 
         $request->setPackageValue($subtotal);
         $request->setPackageValueWithDiscount($subtotal);
@@ -849,6 +850,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             ->setOrigCity($address->getCity())
             ->setOrigPostcode($address->getPostcode())
             ->setOrigPostal($address->getPostcode())
+            ->setOrigCompanyName($address->getCompany() ? $address->getCompany() : 'NA')
             ->setOrig(true);
 
         /**
@@ -868,6 +870,8 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
          */
         $request->setBaseCurrency($store->getBaseCurrency());
         $request->setPackageCurrency($store->getCurrentCurrency());
+
+        $request->setIsReturn(true);
 
         /** @var $result Mage_Shipping_Model_Shipping */
         $result = Mage::getModel('shipping/shipping')
