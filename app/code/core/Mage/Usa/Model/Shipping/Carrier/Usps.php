@@ -1364,20 +1364,17 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         }
         // the wrap node needs for remove xml declaration above
         $xmlWrap = new SimpleXMLElement('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>');
+        $method = '';
         if (stripos($shippingMethod, 'Priority') !== false) {
+            $method = 'Priority';
             $rootNode = 'PriorityMailIntlRequest';
             $xml = $xmlWrap->addChild($rootNode);
         } else if (stripos($shippingMethod, 'First-Class') !== false) {
+            $method = 'FirstClass';
             $rootNode = 'FirstClassMailIntlRequest';
             $xml = $xmlWrap->addChild($rootNode);
-            if (stripos($shippingMethod, 'Letter') !== false) {
-                $xml->addChild('FirstClassMailType', 'LETTER');
-            } else if (stripos($shippingMethod, 'Flat') !== false) {
-                $xml->addChild('FirstClassMailType', 'FLAT');
-            } else{
-                $xml->addChild('FirstClassMailType', 'PARCEL');
-            }
         } else {
+            $method = 'Express';
             $rootNode = 'ExpressMailIntlRequest';
             $xml = $xmlWrap->addChild($rootNode);
         }
@@ -1397,16 +1394,16 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $xml->addChild('FromZip5', $fromZip5);
         $xml->addChild('FromZip4', $fromZip4);
         $xml->addChild('FromPhone', $request->getShipperContactPhoneNumber());
-        if ($request->getReferenceData()) {
-            $referenceData = $request->getReferenceData() . $request->getPackageId();
-        } else {
-            $referenceData = 'Order #'
-                             . $request->getOrderShipment()->getOrder()->getIncrementId()
-                             . ' P'
-                             . $request->getPackageId();
+        if ($method != 'FirstClass') {
+            if ($request->getReferenceData()) {
+                $referenceData = $request->getReferenceData() . ' P' . $request->getPackageId();
+            } else {
+                $referenceData = $request->getOrderShipment()->getOrder()->getIncrementId()
+                                 . ' P'
+                                 . $request->getPackageId();
+            }
+            $xml->addChild('FromCustomsReference', 'Order #' . $referenceData);
         }
-        $xml->addChild('FromCustomsReference', 'Order #' . $referenceData);
-
         $xml->addChild('ToName', $request->getRecipientContactPersonName());
         $xml->addChild('ToFirm', $request->getRecipientContactCompanyName());
         $xml->addChild('ToAddress1', $request->getRecipientAddressStreet1());
@@ -1419,16 +1416,26 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $xml->addChild('ToPhone', $request->getRecipientContactPhoneNumber());
         $xml->addChild('ToFax');
         $xml->addChild('ToEmail');
-        $xml->addChild('NonDeliveryOption', 'Return');
-        $xml->addChild('Container', $container);
+        if ($method != 'FirstClass') {
+            $xml->addChild('NonDeliveryOption', 'Return');
+        }
+        if ($method == 'FirstClass') {
+            if (stripos($shippingMethod, 'Letter') !== false) {
+                $xml->addChild('FirstClassMailType', 'LETTER');
+            } else if (stripos($shippingMethod, 'Flat') !== false) {
+                $xml->addChild('FirstClassMailType', 'FLAT');
+            } else{
+                $xml->addChild('FirstClassMailType', 'PARCEL');
+            }
+        }
+        if ($method != 'FirstClass') {
+            $xml->addChild('Container', $container);
+        }
         $shippingContents = $xml->addChild('ShippingContents');
-
         $packageItems = $request->getPackageItems();
-
         // get countries of manufacture
         $countriesOfManufacture = array();
         $productIds = array();
-
         foreach ($packageItems as $itemShipment) {
                 $item = new Varien_Object();
                 $item->setData($itemShipment);
@@ -1479,7 +1486,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $xml->addChild('Agreement', 'y');
         $xml->addChild('ImageType', 'PDF');
         $xml->addChild('ImageLayout', 'ALLINONEFILE');
-
+        if ($method == 'FirstClass') {
+            $xml->addChild('Container', $container);
+        }
         // set size
         if ($packageParams->getSize()) {
             $xml->addChild('Size', $packageParams->getSize());
