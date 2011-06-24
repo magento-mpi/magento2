@@ -1342,6 +1342,9 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             case 'FLAT RATE ENVELOPE':
                 $container = 'FLATRATEENV';
                 break;
+            case 'FLAT RATE BOX':
+                $container = 'FLATRATEBOX';
+                break;
             case 'RECTANGULAR':
                 $container = 'RECTANGULAR';
                 break;
