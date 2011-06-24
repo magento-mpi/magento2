@@ -164,13 +164,21 @@ class Enterprise_Search_Model_Resource_Collection
      * Add search query filter
      * Set search query
      *
-     * @param   string $query
+     * @param   string $queryText
      *
      * @return  Enterprise_Search_Model_Resource_Collection
      */
-    public function addSearchFilter($query)
+    public function addSearchFilter($queryText)
     {
-        $this->_searchQueryText = $query;
+        /**
+         * @var Mage_CatalogSearch_Model_Query $query
+         */
+        $query = Mage::helper('catalogsearch')->getQuery();
+        $this->_searchQueryText = $queryText;
+        $synonymFor = $query->getSynonymFor();
+        if (!empty($synonymFor)) {
+            $this->_searchQueryText .= ' ' . $synonymFor;
+        }
 
         return $this;
     }
