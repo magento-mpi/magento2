@@ -106,69 +106,111 @@ document.observe("dom:loaded", function() {
     
     //Slider
     
-    var carousel = $$('.carousel')[0],
-        carouselItems = carousel.select('.carousel-items')[0],
-        itemsWidth = carouselItems.getWidth(),
-        itemsLength = carouselItems.childElements().size(),
-        screens = Math.ceil(itemsLength/3),
-        counter = carousel.select('.counter')[0],
-        itemPos = 0,
-        lastItemPos = (itemsLength-3) * 100/3,
-        prevButton = carousel.select('.prev')[0],
-        nextButton = carousel.select('.next')[0];
-    
-    carouselItems.wrap('div', {'class': 'carousel-wrap'});
-    
-    if (screens > 1) {
-    
-        for (var i = 0; i < screens; i++) {
-            if (i === 0) {
-                counter.insert(new Element('span', { 'class': 'active' }));
-            } else {
-                counter.insert(new Element('span'));
-            };
-        }
-    
-        prevButton.observe('click', function () {
-            if (itemPos !== 0) {
-                itemPos += 100/3;
-                carouselItems.setStyle({
+    var Carousel = Class.create({
+       initialize: function (carousel, options) { 
+           this.options  = Object.extend({
+              visibleElements: 3,
+              threshold: {
+                  x: 30,
+                  y: 20
+              },
+              preventDefaultEvents: false
+           }, options || {});
+           
+           this.carousel = $(carousel);
+           this.items    = this.carousel.select('.carousel-items')[0];
+           this.itemPos  = 0;
+           this.itemsLength = this.items.childElements().size();
+           this.lastItemPos = (this.itemsLength-this.options.visibleElements) * 100/this.options.visibleElements;
+           this.screens  = Math.ceil(this.itemsLength/this.options.visibleElements);
+           this.counter  = this.carousel.insert(new Element('div', {'class' : 'counter'})).select('.counter')[0];
+           this.prevButton = carousel.select('.prev')[0];
+           this.nextButton = carousel.select('.next')[0];
+           this.originalCoord = { x: 0, y: 0 };
+           this.finalCoord    = { x: 0, y: 0 };
+       },
+       init: function () {
+           this.carousel.wrap('div', { 'class' : 'carousel-wrap' });
+           if (this.screens > 1) {
+               for (var i = 0; i < this.screens; i++) {
+                   if (i === 0) {
+                       this.counter.insert(new Element('span', {'class': 'active'}));
+                   } else {
+                       this.counter.insert(new Element('span'));
+                   }
+               };
+           };
+           this.nextButton.observe('click', this.moveRight.bind(this));
+           this.prevButton.observe('click', this.moveLeft.bind(this));
+           this.items.observe('touchstart', this.touchStart.bind(this));
+           this.items.observe('touchmove', this.touchMove.bind(this));
+           this.items.observe('touchend', this.touchEnd.bind(this));
+        },
+        moveRight: function () {
+            if(Math.abs(this.itemPos) < this.lastItemPos) {
+                this.itemPos -= 100/this.options.visibleElements;
+                this.items.setStyle({
                     'position': 'relative',
-                    '-webkit-transform': 'translateX(' + itemPos + '%)'
+                    '-webkit-transform': 'translateX(' + this.itemPos + '%)'
                 });
             
-                if(itemPos === 0) {
-                    prevButton.addClassName('disabled');
-                };
-            
-                if (nextButton.hasClassName('disabled')) {
-                    nextButton.removeClassName('disabled');
-                };
-                counter.select('.active')[0].removeClassName('active').previous().addClassName('active');
-            };
-        });
-    
-        nextButton.observe('click', function () {
-            if(Math.abs(itemPos) < lastItemPos) {
-                itemPos -= 100/3;
-                carouselItems.setStyle({
-                    'position': 'relative',
-                    '-webkit-transform': 'translateX(' + itemPos + '%)'
-                });
-            
-                if (Math.abs(itemPos) >= lastItemPos) {
-                    nextButton.addClassName('disabled');
+                if (Math.abs(this.itemPos) >= this.lastItemPos) {
+                    this.nextButton.addClassName('disabled');
                 }
             
-                if (prevButton.hasClassName('disabled')) {
-                    prevButton.removeClassName('disabled');
+                if (this.prevButton.hasClassName('disabled')) {
+                    this.prevButton.removeClassName('disabled');
                 };
-                counter.select('.active')[0].removeClassName('active').next().addClassName('active');
-            };
-        });
-
-    } else {
-        carousel.select('.controls')[0].hide();
-    }
+                this.counter.select('.active')[0].removeClassName('active').next().addClassName('active');
+            }
+        },
+        moveLeft: function () {
+            if (this.itemPos !== 0) {
+                this.itemPos += 100/this.options.visibleElements;
+                this.items.setStyle({
+                    'position': 'relative',
+                    '-webkit-transform': 'translateX(' + this.itemPos + '%)'
+                });
+        
+                if(this.itemPos === 0) {
+                    this.prevButton.addClassName('disabled');
+                };
+        
+                if (this.nextButton.hasClassName('disabled')) {
+                    this.nextButton.removeClassName('disabled');
+                };
+                this.counter.select('.active')[0].removeClassName('active').previous().addClassName('active');
+            }
+        },
+        touchStart: function (e) {
+            this.originalCoord.x = event.targetTouches[0].pageX;
+            this.originalCoord.y = event.targetTouches[0].pageY;
+        },
+        touchMove: function (e) {
+            if (this.options.preventDefaultEvents) {
+                e.preventDefault();
+            }
+            this.finalCoord.x = e.targetTouches[0].pageX;
+            this.finalCoord.y = e.targetTouches[0].pageY;
+        },
+        touchEnd: function (e) {
+            var changeY = this.originalCoord.y - this.finalCoord.y,
+                changeX;
+            if (changeY < this.options.threshold.y && changeY > (this.options.threshold.y * -1)) {
+                changeX = this.originalCoord.x - this.finalCoord.x;
+                if(changeX > this.options.threshold.x) {
+                    this.moveRight();
+                }
+                if(changeX < this.options.threshold.x * -1) {
+                    this.moveLeft();
+                }
+            }
+        }
+    });
+    
+    var upSellCarousel = new Carousel($$('.carousel')[0], {
+        visibleElements: 3,
+        preventDefaultEvents: true
+    }).init();
 
 });
