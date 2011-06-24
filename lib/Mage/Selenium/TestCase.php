@@ -273,7 +273,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($name !== null) {
             $this->name = $name;
         }
-        $this->data     = $data;
+        $this->data = $data;
         $this->dataName = $dataName;
 
         $this->_browserTimeoutPeriod = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
@@ -322,7 +322,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 if ($this->_testHelpers[$helperClassName] instanceof Mage_Selenium_TestCase) {
                     $this->_testHelpers[$helperClassName]->appendParamsDecorator($this->_paramsHelper);
                 }
-
             } else {
                 return false;
             }
@@ -934,8 +933,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _getFormDataMap($fieldsets, $data)
     {
-        $dataMap      = array();
-        $uimapFields  = array();
+        $dataMap = array();
+        $uimapFields = array();
 
         foreach ($data as $dataFieldName => $dataFieldValue) {
             if ($dataFieldValue == '%noValue%') {
@@ -1061,21 +1060,64 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $data
      * @return Mage_Selenium_TestCase
      */
-    public function searchAndOpen(array $data, $willChangePage = true)
+    public function searchAndOpen(array $data, $willChangePage = true, $fieldSetName = null)
     {
         $this->_prepareDataForSearch($data);
 
-        $itemId = $this->_findItemIdInGrid($data);
+        if (count($data) > 0) {
+            if (isset($fieldSetName)) {
+                $xpath = $this->getCurrentLocationUimapPage()->findFieldset($fieldSetName)->getXpath();
+            } else {
+                $xpath = '';
+            }
+            //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
+            $totalCount = intval($this->getText($xpath . "//table[@class='actions']//td[@class='pager']//span[@id]"));
+            $xpathPager = $xpath
+                    . "//table[@class='actions']//td[@class='pager']//span[@id and not(text()='" . $totalCount . "')]";
 
-        $this->addParameter('id', $itemId);
-        $this->click("//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[contains(@title, 'id/"
-                . $itemId . "/') or @title='" . $itemId . "']/td[contains(text(),'" . $data[array_rand($data)] . "')]");
+            // Forming xpath for string that contains the lookup data
+            $xpathTR = $xpath . "//table[@class='data']//tr";
+            foreach ($data as $key => $value) {
+                if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
+                    $xpathTR .= "[contains(.,'$value')]";
+                }
+            }
 
-        if ($willChangePage) {
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+            if (!$this->isElementPresent($xpathTR) && $totalCount > 0) {
+                // Fill in search form and click 'Search' button
+                $this->fillForm($data);
+                $this->clickButton('search', false);
+                $this->waitForElement($xpathPager);
+            } else if ($totalCount == 0) {
+                $this->fail('There is no items in the grid!');
+            }
+
+            if ($this->isElementPresent($xpathTR)) {
+                if ($willChangePage) {
+                    // ID definition
+                    $title = $this->getValue($xpathTR . '/@title');
+                    if (is_numeric($title)) {
+                        $itemId = $title;
+                    } else {
+                        $titleArr = explode('/', $title);
+                        $idKey = array_search('id', $titleArr);
+                        if ($idKey !== false && isset($titleArr[$idKey + 1])) {
+                            $itemId = $titleArr[$idKey + 1];
+                        }
+                    }
+                    $this->addParameter('id', $itemId);
+                    $this->click($xpathTR . "/td[contains(text(),'" . $data[array_rand($data)] . "')]");
+                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                    $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+                } else {
+                    $this->click($xpathTR . "/td[contains(text(),'" . $data[array_rand($data)] . "')]");
+                    $this->waitForAjax($this->_browserTimeoutPeriod);
+                }
+            } else {
+                $this->fail('Cant\'t find item in grig for data: ' . print_r($data, true));
+            }
         } else {
-            $this->waitForAjax($this->_browserTimeoutPeriod);
+            $this->fail('Data for search in grid is empty!');
         }
 
         return true;
@@ -1087,32 +1129,46 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $data
      * @return Mage_Selenium_TestCase
      */
-    public function searchAndChoose(array $data)
+    public function searchAndChoose(array $data, $fieldSetName = null)
     {
         $this->_prepareDataForSearch($data);
 
-        $itemId = $this->_findItemIdInGrid($data);
+        if (count($data) > 0) {
+            if (isset($fieldSetName)) {
+                $xpath = $this->getCurrentLocationUimapPage()->findFieldset($fieldSetName)->getXpath();
+            } else {
+                $xpath = '';
+            }
+            //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
+            $totalCount = intval($this->getText($xpath . "//table[@class='actions']//td[@class='pager']//span[@id]"));
 
-        $this->addParameter('id', $itemId);
-        if ($itemId == null)
-        {
-            $xpathTR = "//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[";
-            $i = 1;
-            $n = count($data);
+            // Forming xpath for string that contains the lookup data
+            $xpathTR = $xpath . "//table[@class='data']//tr";
             foreach ($data as $key => $value) {
                 if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
-                    $xpathTR .= "contains(.,'$value')";
-                    if ($i < $n) {
-                        $xpathTR .= ' and ';
-                    }
-                    $i++;
+                    $xpathTR .= "[contains(.,'$value')]";
                 }
             }
-            $xpathTR .="]//input[contains(@class,'checkbox')]";
-            $this->click($xpathTR);
+
+            if (!$this->isElementPresent($xpathTR) && $totalCount > 0) {
+                // Fill in search form and click 'Search' button
+                $this->fillForm($data);
+                $this->clickButton('search', false);
+                $this->pleaseWait();
+            } elseif ($totalCount == 0) {
+                $this->fail('There is no items in the grid!');
+            }
+
+            if ($this->isElementPresent($xpathTR)) {
+                $xpathTR .="//input[contains(@class,'checkbox')]";
+                if ($this->getValue($xpathTR) == 'off') {
+                    $this->click($xpathTR);
+                }
+            } else {
+                $this->fail('Cant\'t find item in grig for data: ' . print_r($data, true));
+            }
         } else {
-            $this->click("//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[contains(@title, 'id/"
-               . $itemId . "/') or @title='" . $itemId . "']//input[contains(@class,'checkbox')]");
+            $this->fail('Data for search in grid is empty!');
         }
 
         return true;
@@ -1141,67 +1197,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Perform search in grid
-     *
-     * @param array $data
-     * @return Mage_Selenium_TestCase
-     */
-    protected function _findItemIdInGrid(array $data)
-    {
-        if (count($data) > 0) {
-            //Forming xpath that contains string 'Total $number records found' where $number - number of items in a table
-            $totalCount = intval($this->getText("//td[@class='pager']//span[contains(@id, 'Grid-total-count') or contains(@id, 'grid-total-count')]"));
-            $xpathPager = "//td[@class='pager']//span[contains(@id, 'Grid-total-count') or contains(@id, 'grid-total-count') and not(contains(.,'" . $totalCount . "'))]";
-
-            // Forming xpath for string that contains the lookup data
-            $xpathTR = "//table[contains(@id, 'Grid_table') or contains(@id, 'grid_table')]//tr[";
-            $i = 1;
-            $n = count($data);
-            foreach ($data as $key => $value) {
-                if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
-                    $xpathTR .= "contains(.,'$value')";
-                    if ($i < $n) {
-                        $xpathTR .= ' and ';
-                    }
-                    $i++;
-                }
-            }
-            $xpathTR .=']';
-
-            if (!$this->isElementPresent($xpathTR) && $totalCount > 0) {
-                // Fill in search form and click 'Search' button
-                $this->fillForm($data);
-                $this->clickButton('search', false);
-                $this->waitForElement($xpathPager);
-            } else if ($totalCount == 0) {
-                $this->fail('There is no items in the grid!');
-            }
-
-            if ($this->isElementPresent($xpathTR)) {
-                // ID definition
-                $title = $this->getValue($xpathTR . '/@title');
-
-                if (is_numeric($title)) {
-                    return $title;
-                }
-                $titleArr = explode('/', $title);
-
-                $idKey = array_search('id', $titleArr);
-
-                if ($idKey !== false && isset($titleArr[$idKey + 1])) {
-                    return $titleArr[$idKey + 1];
-                } //else {
-                    //$this->fail('Cant\'t find item ID');
-                //}
-            } else {
-                $this->fail('Cant\'t find item in grig for data: ' . print_r($data, true));
-            }
-        } else {
-            $this->fail('Data for search in grid is empty!');
-        }
-    }
-
-    /**
      * Messages helper methods
      */
 
@@ -1213,7 +1208,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function checkMessage($message)
     {
-        $page           = $this->getCurrentLocationUimapPage();
+        $page = $this->getCurrentLocationUimapPage();
         $messageLocator = $page->findMessage($message);
         return $this->checkMessageByXpath($messageLocator);
     }
@@ -1417,7 +1412,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
                 if ($this->checkCurrentPage('log_in_to_admin')) {
                     $loginData = array('user_name' => $this->_applicationHelper->getDefaultAdminUsername(),
-                                       'password' => $this->_applicationHelper->getDefaultAdminPassword());
+                                        'password' => $this->_applicationHelper->getDefaultAdminPassword());
                     $this->fillForm($loginData);
                     $this->clickButton('login');
                     if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
@@ -1839,8 +1834,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $suite = new PHPUnit_Framework_TestSuite;
         $suite->setName($className);
 
-        $class            = new ReflectionClass($className);
-        $classGroups      = PHPUnit_Util_Test::getGroups($className);
+        $class = new ReflectionClass($className);
+        $classGroups = PHPUnit_Util_Test::getGroups($className);
         $staticProperties = $class->getStaticProperties();
 
         // Create tests from Selenese/HTML files.
@@ -1859,10 +1854,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                     foreach ($files as $file) {
                         $browserSuite->addTest(
-
-                          //new $className($file, array(), '', $browser),
-                        self::addTestDependencies(new $className($file, array(), '', $browser), $className, $name),
-                        $classGroups
+                                //new $className($file, array(), '', $browser),
+                                self::addTestDependencies(new $className($file, array(), '', $browser),
+                                        $className, $name), $classGroups
                         );
                     }
 
@@ -1886,22 +1880,22 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                 foreach ($class->getMethods() as $method) {
                     if (PHPUnit_Framework_TestSuite::isPublicTestMethod($method)) {
-                        $name   = $method->getName();
-                        $data   = PHPUnit_Util_Test::getProvidedData($className, $name);
+                        $name = $method->getName();
+                        $data = PHPUnit_Util_Test::getProvidedData($className, $name);
                         $groups = PHPUnit_Util_Test::getGroups($className, $name);
 
                         // Test method with @dataProvider.
                         if (is_array($data) || $data instanceof Iterator) {
                             $dataSuite = new PHPUnit_Framework_TestSuite_DataProvider(
-                              $className . '::' . $name
+                                            $className . '::' . $name
                             );
 
                             foreach ($data as $_dataName => $_data) {
                                 $dataSuite->addTest(
-
-                                 //new $className($name, $_data, $_dataName, $browser),
-                                self::addTestDependencies(new $className($name, $_data, $_dataName, $browser), $className, $name),
-                        		$groups
+                                        //new $className($name, $_data, $_dataName, $browser),
+                                        self::addTestDependencies(
+                                                new $className($name, $_data, $_dataName, $browser),
+                                                $className, $name), $groups
                                 );
                             }
 
@@ -1911,23 +1905,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         // Test method with invalid @dataProvider.
                         else if ($data === false) {
                             $browserSuite->addTest(
-                              new PHPUnit_Framework_Warning(
-                                sprintf(
-                                  'The data provider specified for %s::%s is invalid.',
-                                  $className,
-                                  $name
-                                )
-                              )
+                                    new PHPUnit_Framework_Warning(
+                                            sprintf(
+                                                    'The data provider specified for %s::%s is invalid.',
+                                                    $className, $name
+                                            )
+                                    )
                             );
                         }
 
                         // Test method without @dataProvider.
                         else {
                             $browserSuite->addTest(
-
-                             // new $className($name, array(), '', $browser),
-                            self::addTestDependencies( new $className($name, array(), '', $browser), $className, $name),
-                            $groups
+                                    // new $className($name, array(), '', $browser),
+                                    self::addTestDependencies(new $className($name, array(), '', $browser),
+                                            $className, $name), $groups
                             );
                         }
                     }
@@ -1941,21 +1933,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         else {
             foreach ($class->getMethods() as $method) {
                 if (PHPUnit_Framework_TestSuite::isPublicTestMethod($method)) {
-                    $name   = $method->getName();
-                    $data   = PHPUnit_Util_Test::getProvidedData($className, $name);
+                    $name = $method->getName();
+                    $data = PHPUnit_Util_Test::getProvidedData($className, $name);
                     $groups = PHPUnit_Util_Test::getGroups($className, $name);
 
                     // Test method with @dataProvider.
                     if (is_array($data) || $data instanceof Iterator) {
                         $dataSuite = new PHPUnit_Framework_TestSuite_DataProvider(
-                          $className . '::' . $name
+                                        $className . '::' . $name
                         );
 
                         foreach ($data as $_dataName => $_data) {
                             $dataSuite->addTest(
-                              //new $className($name, $_data, $_dataName),
-                             self::addTestDependencies(new $className($name, $_data, $_dataName), $className, $name),
-                              $groups
+                                    //new $className($name, $_data, $_dataName),
+                                    self::addTestDependencies(new $className($name, $_data, $_dataName),
+                                            $className, $name), $groups
                             );
                         }
 
@@ -1965,22 +1957,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     // Test method with invalid @dataProvider.
                     else if ($data === false) {
                         $suite->addTest(
-                          new PHPUnit_Framework_Warning(
-                            sprintf(
-                              'The data provider specified for %s::%s is invalid.',
-                              $className,
-                              $name
-                            )
-                          )
+                                new PHPUnit_Framework_Warning(
+                                        sprintf(
+                                                'The data provider specified for %s::%s is invalid.',
+                                                $className, $name
+                                        )
+                                )
                         );
                     }
 
                     // Test method without @dataProvider.
                     else {
                         $suite->addTest(
-                         // new $className($name),
-                          self::addTestDependencies(new $className($name), $className, $name),
-                          $groups
+                                // new $className($name),
+                                self::addTestDependencies(new $className($name), $className, $name),
+                                $groups
                         );
                     }
                 }
@@ -2001,12 +1992,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public static function addTestDependencies(PHPUnit_Framework_Test $test, $className, $methodName)
     {
         if ($test instanceof PHPUnit_Framework_TestCase ||
-            $test instanceof PHPUnit_Framework_TestSuite_DataProvider) {
+                $test instanceof PHPUnit_Framework_TestSuite_DataProvider) {
             $test->setDependencies(
-                PHPUnit_Util_Test::getDependencies($className, $methodName)
+                    PHPUnit_Util_Test::getDependencies($className, $methodName)
             );
-	}
-	return $test;
+        }
+        return $test;
     }
 
     public function run(PHPUnit_Framework_TestResult $result = null)
@@ -2015,7 +2006,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $result = $this->createResult();
         }
 
-	//$this->setResult($result);
+        //$this->setResult($result);
         $this->result = $result;
         $this->setExpectedExceptionFromAnnotation();
         $this->setUseErrorHandlerFromAnnotation();
@@ -2025,7 +2016,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         foreach ($this->drivers as $driver) {
             $driver->setCollectCodeCoverageInformation(
-              $this->collectCodeCoverageInformation
+                    $this->collectCodeCoverageInformation
             );
         }
 
@@ -2037,7 +2028,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         if ($this->collectCodeCoverageInformation) {
             $result->getCodeCoverage()->append(
-              $this->getCodeCoverage(), $this
+                    $this->getCodeCoverage(), $this
             );
         }
 
@@ -2050,11 +2041,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function handleDependencies()
     {
         if (!empty($this->dependencies) && !$this->inIsolation) {
-            $className  = get_class($this);
-            $passed     = $this->result->passed();
+            $className = get_class($this);
+            $passed = $this->result->passed();
 
             $passedKeys = array_keys($passed);
-            $numKeys    = count($passedKeys);
+            $numKeys = count($passedKeys);
 
             for ($i = 0; $i < $numKeys; $i++) {
                 $pos = strpos($passedKeys[$i], ' with data set');
@@ -2073,13 +2064,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
                 if (!isset($passedKeys[$dependency])) {
                     $this->result->addError(
-                      $this,
-                      new PHPUnit_Framework_SkippedTestError(
-                        sprintf(
-                          'This test depends on "%s" to pass.', $dependency
-                        )
-                      ),
-                      0
+                            $this,
+                            new PHPUnit_Framework_SkippedTestError(
+                                    sprintf('This test depends on "%s" to pass.', $dependency)
+                            ), 0
                     );
 
                     return false;
@@ -2106,43 +2094,38 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         if ($this->name === null) {
             throw new PHPUnit_Framework_Exception(
-              'PHPUnit_Framework_TestCase::$name must not be null.'
+                    'PHPUnit_Framework_TestCase::$name must not be null.'
             );
         }
 
         try {
-            $class  = new ReflectionClass($this);
+            $class = new ReflectionClass($this);
             $method = $class->getMethod($this->name);
-        }
-
-        catch (ReflectionException $e) {
+        } catch (ReflectionException $e) {
             $this->fail($e->getMessage());
         }
 
         try {
 
             $testResult = $method->invokeArgs(
-                $this, array_merge($this->data, $this->dependencyInput)
+                            $this, array_merge($this->data, $this->dependencyInput)
             );
-        }
-
-        catch (Exception $e) {
+        } catch (Exception $e) {
             if (!$e instanceof PHPUnit_Framework_IncompleteTest &&
-                !$e instanceof PHPUnit_Framework_SkippedTest &&
-                is_string($this->expectedException) &&
-                $e instanceof $this->expectedException) {
+                    !$e instanceof PHPUnit_Framework_SkippedTest &&
+                    is_string($this->expectedException) &&
+                    $e instanceof $this->expectedException) {
                 if (is_string($this->expectedExceptionMessage) &&
-                    !empty($this->expectedExceptionMessage)) {
+                        !empty($this->expectedExceptionMessage)) {
                     $this->assertContains(
-                      $this->expectedExceptionMessage,
-                      $e->getMessage()
+                            $this->expectedExceptionMessage, $e->getMessage()
                     );
                 }
 
                 if (is_int($this->expectedExceptionCode) &&
-                    $this->expectedExceptionCode !== 0) {
+                        $this->expectedExceptionCode !== 0) {
                     $this->assertEquals(
-                      $this->expectedExceptionCode, $e->getCode()
+                            $this->expectedExceptionCode, $e->getCode()
                     );
                 }
 
@@ -2158,10 +2141,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->numAssertions++;
 
             $this->syntheticFail(
-              'Expected exception ' . $this->expectedException,
-              '',
-              0,
-              $this->expectedExceptionTrace
+                    'Expected exception ' . $this->expectedException, '', 0,
+                    $this->expectedExceptionTrace
             );
         }
 
@@ -4077,10 +4058,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Allows choice of one of the available libraries.
      *
      * @param string $libraryName name of the desired library Only the following three can be chosen: <ul>
-                                  <li>"ajaxslt" - Google's library</li>
-                                  <li>"javascript-xpath" - Cybozu Labs' faster library</li>
-                                  <li>"default" - The default library. Currently the default library is "ajaxslt".</li>
-                                  </ul> If libraryName isn't one of these three, then  no change will be made.
+      <li>"ajaxslt" - Google's library</li>
+      <li>"javascript-xpath" - Cybozu Labs' faster library</li>
+      <li>"default" - The default library. Currently the default library is "ajaxslt".</li>
+      </ul> If libraryName isn't one of these three, then  no change will be made.
      */
     public function useXpathLibrary($libraryName)
     {
