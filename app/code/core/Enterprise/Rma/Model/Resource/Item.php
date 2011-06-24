@@ -267,8 +267,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
             $product->load($item->getProductId());
 
             if (!Mage::helper('enterprise_rma')->canReturnProduct($product, $item->getStoreId())) {
-                $orderItemsCollection->removeItemByKey($item->getId());
-                continue;
+                $allowed = false;
             }
 
             if ($item->getParentItemId()) {
@@ -288,7 +287,9 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
 
         $bundle = false;
         foreach ($orderItemsCollection as $item) {
-            if (isset($parent[$item->getId()]['child']) && $parent[$item->getId()]['child'] === false) {
+            if (isset($parent[$item->getId()]['child'])
+                && ($parent[$item->getId()]['child'] === false || $parent[$item->getId()]['self'] == false)
+            ) {
                 $orderItemsCollection->removeItemByKey($item->getId());
                 $bundle = $item->getId();
                 continue;
