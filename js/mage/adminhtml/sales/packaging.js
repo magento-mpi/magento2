@@ -484,7 +484,8 @@ Packaging.prototype = {
             return;
         }
 
-        var girthEnabled = (packageSize[0].value == 'LARGE' && packageContainer[0].value == 'NONRECTANGULAR');
+        var girthEnabled = (packageSize[0].value == 'LARGE' && (packageContainer[0].value == 'NONRECTANGULAR'
+            || packageContainer[0].value == 'VARIABLE' ));
 
         if (!girthEnabled) {
             packageGirth[0].value='';
@@ -496,7 +497,7 @@ Packaging.prototype = {
         }
 
         var sizeEnabled = (packageContainer[0].value == 'NONRECTANGULAR' || packageContainer[0].value == 'RECTANGULAR'
-        || packageContainer[0].value == 'VARIABLE');
+            || packageContainer[0].value == 'VARIABLE');
 
         if (!sizeEnabled) {
             option = document.createElement('OPTION');
