@@ -279,4 +279,23 @@ class Mage_Core_Helper_String extends Mage_Core_Helper_Abstract
     {
         return iconv_strpos($haystack, $needle, $offset, self::ICONV_CHARSET);
     }
+
+    /**
+     * Sorts array with multibyte string keys
+     *
+     * @param array $sort
+     * @return array
+     */
+    public function ksortMultibyte(array &$sort)
+    {
+        if (empty($sort)) {
+            return false;
+        }
+        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF8');
+        ksort($sort, SORT_LOCALE_STRING);
+        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode());
+
+        return $sort;
+    }
+
 }
