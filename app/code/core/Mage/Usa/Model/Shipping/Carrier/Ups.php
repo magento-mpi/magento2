@@ -1485,6 +1485,24 @@ XMLAuth;
             ->addChild('BillShipper')
             ->addChild('AccountNumber', $this->getConfigData('shipper_number'));
 
+        if ($request->getPackagingType() != $this->getCode('container', 'ULE')
+            && $request->getShipperAddressCountryCode() == Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID
+            && ($request->getRecipientAddressCountryCode() == 'CA' //Canada
+                || $request->getRecipientAddressCountryCode() == 'PR' //Puerto Rico
+        )) {
+            $invoiceLineTotalPart = $shipmentPart->addChild('InvoiceLineTotal');
+            $invoiceLineTotalPart->addChild('CurrencyCode', $request->getBaseCurrencyCode());
+            $monetaryValue = 0;
+            if ($request->getPackageItems()) {
+                foreach ($request->getPackageItems() as $packageItem) {
+                    if (array_key_exists('price', $packageItem) && array_key_exists('qty', $packageItem)) {
+                        $monetaryValue += $packageItem['price'] * $packageItem['qty'];
+                    }
+                }
+            }
+            $invoiceLineTotalPart->addChild('MonetaryValue', $monetaryValue);
+        }
+
         $labelPart = $xmlRequest->addChild('LabelSpecification');
         $labelPart->addChild('LabelPrintMethod')
                 ->addChild('Code', 'GIF');
