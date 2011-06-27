@@ -313,20 +313,20 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             $this->setSubscriberConfirmCode($this->randomSequence());
         }
 
-        $isConfirmNeed = (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
+        $isConfirmNeed   = (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
         $isOwnSubscribes = false;
-
         $ownerId = Mage::getModel('customer/customer')
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
             ->loadByEmail($email)
             ->getId();
+	$isSubscribeOwnEmail = $customerSession->isLoggedIn() && $ownerId == $customerSession->getId();
 
         if (!$this->getId() || $this->getStatus() == self::STATUS_UNSUBSCRIBED
             || $this->getStatus() == self::STATUS_NOT_ACTIVE
         ) {
             if ($isConfirmNeed === true) {
                 // if user subscribes own login email - confirmation is not needed
-                $isOwnSubscribes = $customerSession->isLoggedIn() && $ownerId == $customerSession->getId();
+                $isOwnSubscribes = $isSubscribeOwnEmail;
                 if ($isOwnSubscribes == true){
                     $this->setStatus(self::STATUS_SUBSCRIBED);
                 } else {
@@ -338,7 +338,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             $this->setSubscriberEmail($email);
         }
 
-        if ($customerSession->isLoggedIn() && $ownerId == $customerSession->getId()) {
+        if ($isSubscribeOwnEmail) {
             $this->setStoreId($customerSession->getCustomer()->getStoreId());
             $this->setCustomerId($customerSession->getCustomerId());
         } else {
