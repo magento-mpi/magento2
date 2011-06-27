@@ -319,7 +319,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
             ->loadByEmail($email)
             ->getId();
-	$isSubscribeOwnEmail = $customerSession->isLoggedIn() && $ownerId == $customerSession->getId();
+        $isSubscribeOwnEmail = $customerSession->isLoggedIn() && $ownerId == $customerSession->getId();
 
         if (!$this->getId() || $this->getStatus() == self::STATUS_UNSUBSCRIBED
             || $this->getStatus() == self::STATUS_NOT_ACTIVE
