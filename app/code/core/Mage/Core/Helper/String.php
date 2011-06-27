@@ -291,9 +291,10 @@ class Mage_Core_Helper_String extends Mage_Core_Helper_Abstract
         if (empty($sort)) {
             return false;
         }
-        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF8');
+        $oldLocale = setlocale(LC_COLLATE, "0");
+        setlocale(LC_COLLATE, Mage::app()->getLocale()->getLocaleCode() . '.UTF8');
         ksort($sort, SORT_LOCALE_STRING);
-        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode());
+        setlocale(LC_COLLATE, $oldLocale);
 
         return $sort;
     }
