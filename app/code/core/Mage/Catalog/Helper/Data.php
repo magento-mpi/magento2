@@ -85,6 +85,13 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         return $this;
     }
 
+    public function getStoreId() {
+        if (is_null($this->_storeId)) {
+            $this->_storeId = Mage::app()->getStore()->getId();
+        }
+        return $this->_storeId;
+    }
+
     /**
      * Return current category path or get it from current category
      * and creating array of categories|product paths for breadcrumbs
@@ -263,7 +270,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isUsingStaticUrlsAllowed()
     {
-        return Mage::getStoreConfigFlag(self::CONFIG_USE_STATIC_URLS, $this->_storeId);
+        return Mage::getStoreConfigFlag(self::CONFIG_USE_STATIC_URLS, $this->getStoreId());
     }
 
     /**
@@ -273,7 +280,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isUrlDirectivesParsingAllowed()
     {
-        return Mage::getStoreConfigFlag(self::CONFIG_PARSE_URL_DIRECTIVES, $this->_storeId);
+        return Mage::getStoreConfigFlag(self::CONFIG_PARSE_URL_DIRECTIVES, $this->getStoreId());
     }
 
     /**
@@ -307,7 +314,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isMsrpEnabled()
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_ENABLED);
+        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_ENABLED, $this->getStoreId());
     }
 
     /**
@@ -317,7 +324,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getMsrpDisplayActualPriceType()
     {
-        return Mage::getStoreConfig(self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE);
+        return Mage::getStoreConfig(self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE, $this->getStoreId());
     }
 
     /**
@@ -327,7 +334,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isMsrpApplyToAll()
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_APPLY_TO_ALL);
+        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_APPLY_TO_ALL, $this->getStoreId());
     }
 
     /**
@@ -338,7 +345,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMsrpExplanationMessage()
     {
         return $this->escapeHtml(
-            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE)
+            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE, $this->getStoreId())
         );
     }
 
@@ -350,7 +357,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMsrpExplanationMessageWhatsThis()
     {
         return $this->escapeHtml(
-            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS)
+            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS, $this->getStoreId())
         );
     }
 
@@ -380,16 +387,24 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $result = $product->getMsrpEnabled();
+        if ($result == Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_USE_CONFIG) {
+            $result = $this->isMsrpApplyToAll();
+        }
+
         if (!$product->hasMsrpEnabled() && $this->isMsrpApplyToAll()) {
             $result = true;
         }
 
         if ($result && $visibility !== null) {
             $productVisibility = $product->getMsrpDisplayActualPriceType();
-            if ($productVisibility === null) {
+            if ($productVisibility == Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG) {
                 $productVisibility = $this->getMsrpDisplayActualPriceType();
             }
-            $result = $productVisibility == $visibility;
+            if ($productVisibility == $visibility) {
+                $result = true;
+            } else {
+                $result = false;
+            }
         }
 
         if ($product->getTypeInstance(true)->isComposite($product)
@@ -433,12 +448,12 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         $message = "";
         if ($this->canApplyMsrp(
             $product,
-            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_IN_CART
+            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_IN_CART
         )) {
             $message = $this->__('To see product price, add this item to your cart. You can always remove it later.');
         } elseif ($this->canApplyMsrp(
             $product,
-            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM
+            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_BEFORE_ORDER_CONFIRM
         )) {
             $message = $this->__('See price before order confirmation.');
         }
@@ -455,7 +470,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->canApplyMsrp(
             $product,
-            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_ON_GESTURE
+            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_ON_GESTURE
         );
     }
 }
