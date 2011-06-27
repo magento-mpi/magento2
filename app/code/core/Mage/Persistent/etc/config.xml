@@ -244,6 +244,14 @@
                     </persistent>
                 </observers>
             </render_block>
+            <update_customer_cookies>
+                <observers>
+                    <persistent>
+                        <class>persistent/observer</class>
+                        <method>updateCustomerCookies</method>
+                    </persistent>
+                </observers>
+            </update_customer_cookies>
         </events>
     </frontend>
 

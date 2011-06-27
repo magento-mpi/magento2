@@ -526,4 +526,23 @@ class Mage_Persistent_Model_Observer
             $layout->getUpdate()->addHandle($handle);
         }
     }
+
+    /**
+     * Update customer id and customer group id if user is in persistent session
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function updateCustomerCookies(Varien_Event_Observer $observer)
+    {
+        if (!$this->_isPersistent()) {
+            return;
+        }
+
+        $customerCookies = $observer->getEvent()->getCustomerCookies();
+        if ($customerCookies instanceof Varien_Object) {
+            $persistentCustomer = $this->_getPersistentCustomer();
+            $customerCookies->setCustomerId($persistentCustomer->getId());
+            $customerCookies->setCustomerGroupId($persistentCustomer->getGroupId());
+        }
+    }
 }

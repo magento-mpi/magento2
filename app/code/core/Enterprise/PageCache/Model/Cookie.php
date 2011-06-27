@@ -106,9 +106,21 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     {
         /** @var Mage_Customer_Model_Session $session */
         $session = Mage::getSingleton('customer/session');
-        if ($session->getCustomerId() && !is_null($session->getCustomerGroupId())) {
-            $this->setObscure(self::COOKIE_CUSTOMER, 'customer_' . $session->getCustomerId());
-            $this->setObscure(self::COOKIE_CUSTOMER_GROUP, 'customer_group_' . $session->getCustomerGroupId());
+        $customerId = $session->getCustomerId();
+        $customerGroupId = $session->getCustomerGroupId();
+        if (!$customerId || is_null($customerGroupId)) {
+            $customerCookies = new Varien_Object();
+            Mage::dispatchEvent('update_customer_cookies', array('customer_cookies' => $customerCookies));
+            if (!$customerId) {
+                $customerId = $customerCookies->getCustomerId();
+            }
+            if (is_null($customerGroupId)) {
+                $customerGroupId = $customerCookies->getCustomerGroupId();
+            }
+        }
+        if ($customerId && !is_null($customerGroupId)) {
+            $this->setObscure(self::COOKIE_CUSTOMER, 'customer_' . $customerId);
+            $this->setObscure(self::COOKIE_CUSTOMER_GROUP, 'customer_group_' . $customerGroupId);
             if ($session->isLoggedIn()) {
                 $this->setObscure(self::COOKIE_CUSTOMER_LOGGED_IN, 'customer_logged_in_' . $session->isLoggedIn());
             } else {
