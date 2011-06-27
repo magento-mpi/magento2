@@ -226,6 +226,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     {
         $anchor     = array();
         $regular    = array();
+        $websiteId  = Mage::app()->getStore($this->getProductStoreId())->getWebsiteId();
 
         foreach ($items as $item) {
             if ($item->getIsAnchor()) {
@@ -246,6 +247,13 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
                     )
                     ->where($this->_conn->quoteInto('main_table.category_id IN(?)', $regularIds))
                     ->group('main_table.category_id');
+                if ($websiteId) {
+                    $select->join(
+                        array('w' => $this->_productWebsiteTable),
+                        'main_table.product_id = w.product_id', array()
+                    )
+                    ->where('w.website_id = ?', $websiteId);
+                }
                 $counts = $this->_conn->fetchPairs($select);
                 foreach ($regular as $item) {
                     if (isset($counts[$item->getId()])) {
@@ -277,6 +285,13 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
                         )
                         ->where('e.entity_id = :entity_id')
                         ->orWhere('e.path LIKE :c_path');
+                    if ($websiteId) {
+                        $select->join(
+                            array('w' => $this->_productWebsiteTable),
+                            'main_table.product_id = w.product_id', array()
+                        )
+                        ->where('w.website_id = ?', $websiteId);
+                    }
                     $item->setProductCount((int) $this->_conn->fetchOne($select, $bind));
                 } else {
                     $item->setProductCount(0);
