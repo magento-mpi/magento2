@@ -1390,8 +1390,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $xml->addChild('FromFirstName', $request->getShipperContactPersonFirstName());
         $xml->addChild('FromLastName', $request->getShipperContactPersonLastName());
         $xml->addChild('FromFirm', $request->getShipperContactCompanyName());
-        $xml->addChild('FromAddress1', $request->getShipperAddressStreet1());
-        $xml->addChild('FromAddress2', $request->getShipperAddressStreet2());
+        $xml->addChild('FromAddress1', $request->getShipperAddressStreet2());
+        $xml->addChild('FromAddress2', $request->getShipperAddressStreet1());
         $xml->addChild('FromCity', $request->getShipperAddressCity());
         $xml->addChild('FromState', $request->getShipperAddressStateOrProvinceCode());
         $xml->addChild('FromZip5', $fromZip5);
@@ -1409,8 +1409,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         }
         $xml->addChild('ToName', $request->getRecipientContactPersonName());
         $xml->addChild('ToFirm', $request->getRecipientContactCompanyName());
-        $xml->addChild('ToAddress1', $request->getRecipientAddressStreet1());
-        $xml->addChild('ToAddress2', $request->getRecipientAddressStreet2());
+        $xml->addChild('ToAddress1', $request->getRecipientAddressStreet2());
+        $xml->addChild('ToAddress2', $request->getRecipientAddressStreet1());
         $xml->addChild('ToCity', $request->getRecipientAddressCity());
         $xml->addChild('ToProvince', $request->getRecipientAddressStateOrProvinceCode());
         $xml->addChild('ToCountry', $this->_getCountryName($request->getRecipientAddressCountryCode()));
