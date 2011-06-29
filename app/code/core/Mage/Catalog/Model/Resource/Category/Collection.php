@@ -380,15 +380,13 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
         if (!is_array($paths)) {
             $paths = array($paths);
         }
-        $select = $this->getSelect();
-        $orWhere = false;
+        $write  = $this->getResource()->getWriteConnection();
+        $cond   = array();
         foreach ($paths as $path) {
-            if ($orWhere) {
-                $select->orWhere('e.path LIKE ?', "$path%");
-            } else {
-                $select->where('e.path LIKE ?', "$path%");
-                $orWhere = true;
-            }
+            $cond[] = $write->quoteInto('e.path LIKE ?', "$path%");
+        }
+        if ($cond) {
+            $this->getSelect()->where(join(' OR ', $cond));
         }
         return $this;
     }
