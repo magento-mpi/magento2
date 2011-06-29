@@ -1500,7 +1500,7 @@ XMLAuth;
                     }
                 }
             }
-            $invoiceLineTotalPart->addChild('MonetaryValue', $monetaryValue);
+            $invoiceLineTotalPart->addChild('MonetaryValue', ceil($monetaryValue));
         }
 
         $labelPart = $xmlRequest->addChild('LabelSpecification');
