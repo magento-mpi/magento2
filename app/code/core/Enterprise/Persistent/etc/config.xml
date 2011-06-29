@@ -67,7 +67,25 @@
                 </observers>
             </clear_expired_quotes_before>
         </events>
+        <blocks>
+            <enterprise_persistent>
+                <class>Enterprise_Persistent_Block</class>
+            </enterprise_persistent>
+        </blocks>
     </global>
+
+    <adminhtml>
+        <events>
+            <enterprise_persistent_options_shopping_cart_save_after>
+                <observers>
+                    <enterprise_persistent>
+                        <class>enterprise_persistent/observer</class>
+                        <method>updateOptionCustomerSegmentation</method>
+                    </enterprise_persistent>
+                </observers>
+            </enterprise_persistent_options_shopping_cart_save_after>
+        </events>
+    </adminhtml>
 
     <frontend>
         <events>

@@ -307,6 +307,27 @@ class Enterprise_Persistent_Model_Observer
     }
 
     /**
+     * Update Option "Persist Customer Group Membership and Segmentation"
+     * set value "Yes" if option "Persist Shopping Cart" equals "Yes"
+     *
+     * @param  $observer Enterprise_Persistent_Model_Observer
+     * @return void
+     */
+    public function updateOptionCustomerSegmentation($observer)
+    {
+        $eventDataObject = $observer->getEvent()->getDataObject();
+
+        if ($eventDataObject->getValue()) {
+            $optionCustomerSegm = Mage::getModel('core/config_data')
+                ->setScope($eventDataObject->getScope())
+                ->setScopeId($eventDataObject->getScopeId())
+                ->setPath(Enterprise_Persistent_Helper_Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)
+                ->setValue(true)
+                ->save();
+        }
+    }
+
+    /**
      * Return persistent customer id
      *
      * @return int
