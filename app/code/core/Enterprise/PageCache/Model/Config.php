@@ -91,7 +91,6 @@ class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
         if (isset($this->_placeholders[$type])) {
             $placeholderData = false;
             foreach ($this->_placeholders[$type] as $placeholderInfo) {
-                //var_dump($placeholderInfo);
                 if (!empty($placeholderInfo['name'])) {
                     if ($placeholderInfo['name'] == $block->getNameInLayout()) {
                         $placeholderData = $placeholderInfo;
