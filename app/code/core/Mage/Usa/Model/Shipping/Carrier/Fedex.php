@@ -1238,6 +1238,9 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
      */
     public function getContainerTypes(Varien_Object $params = null)
     {
+        if ($params == null) {
+            return $this->_getAllowedContainers($params);
+        }
         $method             = $params->getMethod();
         $countryShipper     = $params->getCountryShipper();
         $countryRecipient   = $params->getCountryRecipient();
