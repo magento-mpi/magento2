@@ -509,7 +509,7 @@ Packaging.prototype = {
         } else {
             for (i = 0; i < packageSize[0].length; i ++) {
                 if (packageSize[0].options[i].value == '') {
-                    packageSize[0].options.remove(i);
+                    packageSize[0].removeChild(packageSize[0].options[i]);
                 }
             }
             packageSize[0].enable();
