@@ -1635,6 +1635,20 @@ XMLAuth;
      */
     public function getContainerTypes(Varien_Object $params = null)
     {
+        $method             = $params->getMethod();
+        $countryShipper     = $params->getCountryShipper();
+        $countryRecipient   = $params->getCountryRecipient();
+
+        if (($countryShipper == self::USA_COUNTRY_ID
+            && $countryRecipient == self::CANADA_COUNTRY_ID)
+            || ($countryShipper == self::CANADA_COUNTRY_ID
+            && $countryRecipient == self::USA_COUNTRY_ID)
+            || ($countryShipper == self::MEXICO_COUNTRY_ID
+            && $countryRecipient == self::USA_COUNTRY_ID)
+            && $method == '11' // UPS Standard
+        ) {
+            return array('00' => Mage::helper('usa')->__('Customer Packaging'));
+        }
         return $this->_getAllowedContainers($params);
     }
 

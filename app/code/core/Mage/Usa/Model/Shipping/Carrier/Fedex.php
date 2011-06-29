@@ -1238,6 +1238,16 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
      */
     public function getContainerTypes(Varien_Object $params = null)
     {
+        $method             = $params->getMethod();
+        $countryShipper     = $params->getCountryShipper();
+        $countryRecipient   = $params->getCountryRecipient();
+
+        if ($countryShipper == self::USA_COUNTRY_ID
+            && $countryRecipient == self::CANADA_COUNTRY_ID
+            && $method == 'FEDEX_GROUND'
+        ) {
+            return array('YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging'));
+        }
         return $this->_getAllowedContainers($params);
     }
 
