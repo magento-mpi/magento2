@@ -87,6 +87,21 @@ class Product_Helper extends Mage_Selenium_TestCase
                     }
                     $this->fillForm($productData, 'prices');
                     break;
+                case 'websites':
+                    $valuesArray = explode(',', $productData['websites']);
+                    $valuesArray = array_map('trim', $valuesArray);
+                    foreach ($valuesArray as $value) {
+                        $this->selectWebsite($value);
+                    }
+                    break;
+                case 'related_products': case 'up_sells_products': case 'cross_sells_products':
+                    $this->pleaseWait();
+                    foreach ($productData as $key => $value) {
+                        if (preg_match('/^' . $tabName . '/', $key) and is_array($productData[$key])) {
+                            $this->assignProduct($productData[$key], $tabName);
+                        }
+                    }
+                    break;
                 case 'custom_options':
                     $this->pleaseWait();
                     foreach ($productData as $key => $value) {
@@ -145,6 +160,60 @@ class Product_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Select Website by Website name
+     *
+     * @param type $websiteName
+     */
+    public function selectWebsite($websiteName)
+    {
+        $fieldsetXpath = $this->getCurrentLocationUimapPage()->findFieldset('product_websites')->getXpath();
+        $websiteXpath = $fieldsetXpath . "//*[text()='" . $websiteName . "']";
+        $qtySite = $this->getXpathCount($websiteXpath);
+        if ($qtySite > 0) {
+            $websiteId = $this->getAttribute($websiteXpath . '/@for');
+            $this->addParameter('websiteId', $websiteId);
+            $this->getCurrentLocationUimapPage()->assignParams($this->_paramsHelper);
+            $fieldXpath = $this->_getControlXpath('checkboxe', 'websites');
+            if ($this->getValue($fieldXpath) == 'off') {
+                $this->click($fieldXpath);
+            }
+        } else {
+            $this->fail('Website with name "' . $websiteName . '" does not exist');
+        }
+    }
+
+    /**
+     * Assign product. Use for fill in 'Related Products', 'Up-sells' or 'Cross-sells' tabs
+     *
+     * @param array $data
+     * @param string $tabName
+     */
+    public function assignProduct(array $data, $tabName)
+    {
+        $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset($tabName)->getXpath();
+        $setPosition = FALSE;
+        if (isset($data[$tabName . '_position']) and $data[$tabName . '_position'] !== '%noValue%') {
+            $positionValue = $data[$tabName . '_position'];
+            unset($data[$tabName . '_position']);
+            $setPosition = True;
+        }
+        $this->clickButton('reset_filter', FALSE);
+        $this->pleaseWait();
+        $this->searchAndChoose($data, $tabName);
+        if ($setPosition) {
+            // Forming xpath for string that contains the lookup data
+            $xpathTR = $fieldSetXpath . "//tr";
+            foreach ($data as $key => $value) {
+                if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key) and $value != '%noValue%') {
+                    $xpathTR .= "[contains(.,'$value')]";
+                }
+            }
+            $productpositionXpath = $this->_getControlXpath('field', $tabName . '_position');
+            $this->type($xpathTR . $productpositionXpath, $positionValue);
+        }
+    }
+
+    /**
      * Fill Base Tabs
      *
      * @param array $productData
@@ -159,12 +228,12 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->fillTab($productData, 'design');
         $this->fillTab($productData, 'gift_options');
         $this->fillTab($productData, 'inventory');
-        $this->fillTab($productData, 'custom_options');
-        //@TODO Fill in Websites Tab
+        $this->fillTab($productData, 'websites');
         //@TODO Fill in Categories Tab
-        //@TODO Fill in Related Products Tab
-        //@TODO Fill in Up-sells Tab
-        //@TODO Fill in Cross-sells Tab
+        $this->fillTab($productData, 'related_products');
+        $this->fillTab($productData, 'up_sells_products');
+        $this->fillTab($productData, 'cross_sells_products');
+        $this->fillTab($productData, 'custom_options');
     }
 
     /**

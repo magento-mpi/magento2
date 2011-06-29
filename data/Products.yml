@@ -207,6 +207,61 @@ prices_tier_price_2: &tierPrice2
     prices_tier_price_price: 5.55
 
 #*********************************************
+#*         Related Products Data             *
+#*********************************************
+
+related_products_1: &relatedProducts
+    related_products_id: %noValue%
+    related_products_name: %noValue%
+    related_products_type: %noValue%
+    related_products_attribute_set: %noValue%
+    related_products_status: %noValue%
+    related_products_visibility: %noValue%
+    related_products_sku: %noValue%
+    related_products_price_from: %noValue%
+    related_products_price_to: %noValue%
+    related_products_position_from: %noValue%
+    related_products_position_to: %noValue%
+    related_products_position: %noValue%
+
+
+#*********************************************
+#*         Up-sells Products Data            *
+#*********************************************
+
+up_sells_products_1: &upSellsProducts
+    up_sells_products_id: %noValue%
+    up_sells_products_name: %noValue%
+    up_sells_products_type: %noValue%
+    up_sells_products_attribute_set: %noValue%
+    up_sells_products_status: %noValue%
+    up_sells_products_visibility: %noValue%
+    up_sells_products_sku: %noValue%
+    up_sells_products_price_from: %noValue%
+    up_sells_products_price_to: %noValue%
+    up_sells_products_position_from: %noValue%
+    up_sells_products_position_to: %noValue%
+    up_sells_products_position: %noValue%
+
+#*********************************************
+#*         Cross-sells Products Data         *
+#*********************************************
+
+cross_sells_products_1: &crossSellsProducts
+    cross_sells_products_id: %noValue%
+    cross_sells_products_name: %noValue%
+    cross_sells_products_type: %noValue%
+    cross_sells_products_attribute_set: %noValue%
+    cross_sells_products_status: %noValue%
+    cross_sells_products_visibility: %noValue%
+    cross_sells_products_sku: %noValue%
+    cross_sells_products_price_from: %noValue%
+    cross_sells_products_price_to: %noValue%
+    cross_sells_products_position_from: %noValue%
+    cross_sells_products_position_to: %noValue%
+    cross_sells_products_position: %noValue%
+
+#*********************************************
 #*         Simple Product Data               *
 #*********************************************
 
@@ -286,6 +341,10 @@ simple_product:
     inventory_qty_increments_default: No
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
+    websites: Main Website
+    related_products_1: %noValue%
+    up_sells_products_1: %noValue%
+    cross_sells_products_1: %noValue%
     custom_options_field: *field
     custom_options_area: *area
     custom_options_file: *file

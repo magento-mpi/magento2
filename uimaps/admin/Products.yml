@@ -94,7 +94,7 @@ new_product:
                         fieldsets:
                             -
                                 product_general:
-                                    xpath: "//div[contains(div/div/h4,'General')]"
+                                    xpath: //div[contains(div/div/h4,'General')]
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                     dropdowns:
@@ -118,7 +118,7 @@ new_product:
                         fieldsets:
                             -
                                 product_prices:
-                                    xpath: "//div[contains(div/div/h4,'Prices')]"
+                                    xpath: //div[contains(div/div/h4,'Prices')]
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                         add_tier_price: //button[span='Add Tier']
@@ -143,7 +143,7 @@ new_product:
                         fieldsets:
                             -
                                 product_meta_information:
-                                    xpath: "//div[contains(div/div/h4,'Meta Information')]"
+                                    xpath: //div[contains(div/div/h4,'Meta Information')]
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                     fields:
@@ -156,14 +156,14 @@ new_product:
                         fieldsets:
                             -
                                 product_images:
-                                    xpath: "//div[contains(div/div/h4,'Images')]"
+                                    xpath: //div[contains(div/div/h4,'Images')]
                 -
                     recurring_profile: &recurringProfileTab
                         xpath: //a[@title='Recurring Profile']/span
                         fieldsets:
                             -
                                 product_recurring_profile:
-                                    xpath: "//div[contains(div/div/h4,'Recurring Profile')]"
+                                    xpath: //div[contains(div/div/h4,'Recurring Profile')]
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                     dropdowns:
@@ -188,7 +188,7 @@ new_product:
                         fieldsets:
                             -
                                 product_design:
-                                    xpath: "//div[contains(div/div/h4,'Design')]"
+                                    xpath: //div[contains(div/div/h4,'Design')]
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                     dropdowns:
@@ -205,7 +205,7 @@ new_product:
                         fieldsets:
                             -
                                 product_gift_options:
-                                    xpath: "//div[contains(div/div/h4,'Gift Options')]"
+                                    xpath: //div[contains(div/div/h4,'Gift Options')]
                                     buttons:
                                         create_new_attribute: //button[span='Create New Attribute']
                                     checkboxes:
@@ -218,7 +218,7 @@ new_product:
                         fieldsets:
                             -
                                 product_inventory:
-                                    xpath: "//div[contains(div/div/h4,'Inventory')]"
+                                    xpath: //div[contains(div/div/h4,'Inventory')]
                                     checkboxes:
                                         inventory_manage_stock_default: //input[@id='inventory_use_config_manage_stock']
                                         inventory_qty_for_items_out_of_stock_default: //input[@id='inventory_use_config_min_qty']
@@ -247,14 +247,16 @@ new_product:
                         fieldsets:
                             -
                                 product_websites:
-                                    xpath: "//div[contains(div/div/h4,'Product In Websites')]"
+                                    xpath: //div[contains(div/div/h4,'Product In Websites')]
+                                    checkboxes:
+                                        websites: //input[@id='%websiteId%']
                 -
                     categories: &categoriesTab
                         xpath: //a[@title='Categories']/span
                         fieldsets:
                             -
                                 product_categories:
-                                    xpath: "//div[contains(div/div/h4,'Product Categories')]"
+                                    xpath: //div[contains(div/div/h4,'Product Categories')]
                 -
                     related_products: &relatedProductsTab
                         xpath: //a[@title='Related Products']/span
@@ -279,6 +281,7 @@ new_product:
                                         related_products_price_to: //input[@id='filter_price_to']
                                         related_products_position_from: //input[@id='filter_position_from']
                                         related_products_position_to: //input[@id='filter_position_to']
+                                        related_products_position: //input[@name='position']
                 -
                     up_sells_products: &upSellsProductsTab
                         xpath: //a[@title='Up-sells']/span
@@ -303,6 +306,7 @@ new_product:
                                         up_sells_products_price_to: //input[@id='filter_price_to']
                                         up_sells_products_position_from: //input[@id='filter_position_from']
                                         up_sells_products_position_to: //input[@id='filter_position_to']
+                                        up_sells_products_position: //input[@name='position']
                 -
                     cross_sells_products: &crossSellsProductsTab
                         xpath: //a[@title='Cross-sells']/span
@@ -327,13 +331,14 @@ new_product:
                                         cross_sells_products_price_to: //input[@id='filter_price_to']
                                         cross_sells_products_position_from: //input[@id='filter_position_from']
                                         cross_sells_products_position_to: //input[@id='filter_position_to']
+                                        cross_sells_products_position: //input[@name='position']
                 -
                     custom_options: &customOptionsTab
                         xpath: //a[@title='Custom Options']/span
                         fieldsets:
                             -
                                 product_custom_options:
-                                    xpath: "//div[contains(div/div/h4,'Custom Options')]"
+                                    xpath: //div[contains(div/div/h4,'Custom Options')]
                                     buttons:
                                         add_option: //button[span='Add New Option']
                                         delete_option: //div[@id='option_%optionId%']//button[span='Delete Option']
@@ -360,7 +365,7 @@ new_product:
                         fieldsets:
                             -
                                 shipment:
-                                    xpath: "//div[contains(div/h4,'Shipment')]"
+                                    xpath: //div[contains(div/h4,'Shipment')]
                                     dropdowns:
                                         ship_bundle_items: //select[@id='shipment_type']
                             -
@@ -370,8 +375,8 @@ new_product:
                                         add_new_option: //button[@id='add_new_option']
                                         delete_option: //div[@id='bundle_option_%itemID%']//button[span='Delete Option']
                                         add_selection: //button[@id='bundle_option_%itemID%_add_button']
-                                        reset_filter: //div[@id='bundle_selection_search_grid_%itemID%']//button[span='Reset Filter']
-                                        search: //div[@id='bundle_selection_search_grid_%itemID%']//button[span='Search']
+                                        bundle_reset_filter: //div[@id='bundle_selection_search_grid_%itemID%']//button[span='Reset Filter']
+                                        bundle_search: //div[@id='bundle_selection_search_grid_%itemID%']//button[span='Search']
                                     dropdowns:
                                         input_type: //select[@id='bundle_option_%itemID%_type']
                                         is_required: //select[@id='bundle_option_%itemID%_required']
@@ -391,12 +396,12 @@ new_product:
                         fieldsets:
                             -
                                 create_simple_assosiated_product:
-                                    xpath: "//div[contains(div/h4,'Create Simple Associated Product')]"
+                                    xpath: //div[contains(div/h4,'Create Simple Associated Product')]
                                     buttons:
                                         create_empty: //button[span='Create Empty']
                             -
                                 super_products_attribute_configuration:
-                                    xpath: "//div[contains(div/h4,'Super product attributes configuration')]"
+                                    xpath: //div[contains(div/h4,'Super product attributes configuration')]
                                     checkboxes:
                                         use_default_name: //input[@id='configurable__attribute_0_label_use_default']
                                     fields:
