@@ -44,13 +44,14 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_Grouped
     );
 
     /**
-     * Import behavior model
+     * Import model behavior
      *
      * @var string
      */
     protected $_behavior;
 
     /**
+     * Retrive model behavior
      *
      * @return string
      */
