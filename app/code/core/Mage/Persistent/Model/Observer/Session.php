@@ -139,7 +139,7 @@ class Mage_Persistent_Model_Observer_Session
      */
     public function setRememberMeCheckedStatus(Varien_Event_Observer $observer)
     {
-        if (!$this->_canProcess($observer)
+        if (!Mage::helper('persistent')->canProcess($observer)
             || !Mage::helper('persistent')->isEnabled() || !Mage::helper('persistent')->isRememberMeEnabled()
         ) {
             return;
@@ -165,7 +165,7 @@ class Mage_Persistent_Model_Observer_Session
      */
     public function renewCookie(Varien_Event_Observer $observer)
     {
-        if (!$this->_canProcess($observer)
+        if (!Mage::helper('persistent')->canProcess($observer)
             || !Mage::helper('persistent')->isEnabled() || !Mage::helper('persistent/session')->isPersistent()
         ) {
             return;
@@ -182,25 +182,5 @@ class Mage_Persistent_Model_Observer_Session
                 Mage::helper('persistent')->getLifeTime()
             );
         }
-    }
-
-    /**
-     * Check whether current action should be processed
-     *
-     * @param Varien_Event_Observer $observer
-     * @return bool
-     */
-    protected function _canProcess($observer)
-    {
-        $action = $observer->getEvent()->getAction();
-        $controllerAction = $observer->getEvent()->getControllerAction();
-
-        if ($action instanceof Mage_Core_Controller_Varien_Action) {
-            return !$action->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
-        }
-        if ($controllerAction instanceof Mage_Core_Controller_Varien_Action) {
-            return !$controllerAction->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
-        }
-        return true;
     }
 }
