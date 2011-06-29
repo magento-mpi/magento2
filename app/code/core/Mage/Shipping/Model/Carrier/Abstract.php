@@ -528,4 +528,15 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     {
         return $this->_code;
     }
+
+    /**
+     * Return content types of package
+     *
+     * @param Varien_Object $params
+     * @return array
+     */
+    public function getContentTypes(Varien_Object $params)
+    {
+        return array();
+    }
 }

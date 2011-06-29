@@ -1485,7 +1485,13 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
         $xml->addChild('GrossPounds', floor($packageWeight));
         $xml->addChild('GrossOunces', round(($packageWeight - floor($packageWeight)) * 16, 1));
-        $xml->addChild('ContentType', 'MERCHANDISE');
+        if ($packageParams->getContentType() == 'OTHER' && $packageParams->getContentTypeOther() != null) {
+            $xml->addChild('ContentType', $packageParams->getContentType());
+            $xml->addChild('ContentTypeOther ', $packageParams->getContentTypeOther());
+        } else {
+            $xml->addChild('ContentType', $packageParams->getContentType());
+        }
+
         $xml->addChild('Agreement', 'y');
         $xml->addChild('ImageType', 'PDF');
         $xml->addChild('ImageLayout', 'ALLINONEFILE');
@@ -1630,4 +1636,31 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     {
         return $this->_isUSCountry($countyDest) ? false : true;
     }
+
+    /**
+     * Return content types of package
+     *
+     * @param Varien_Object $params
+     * @return array
+     */
+    public function getContentTypes(Varien_Object $params)
+    {
+        $countryShipper     = $params->getCountryShipper();
+        $countryRecipient   = $params->getCountryRecipient();
+
+        if ($countryShipper == self::USA_COUNTRY_ID
+            && $countryRecipient != self::USA_COUNTRY_ID
+        ) {
+            return array(
+                'MERCHANDISE' => Mage::helper('usa')->__('Merchandise'),
+                'SAMPLE' => Mage::helper('usa')->__('Sample'),
+                'GIFT' => Mage::helper('usa')->__('Gift'),
+                'DOCUMENTS' => Mage::helper('usa')->__('Documents'),
+                'RETURN' => Mage::helper('usa')->__('Return'),
+                'OTHER' => Mage::helper('usa')->__('Other'),
+            );
+        }
+        return array();
+    }
+
 }

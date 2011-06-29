@@ -136,14 +136,14 @@ Packaging.prototype = {
                 width = parseFloat(pack.select('input[name="container_width"]')[0].value);
                 height = parseFloat(pack.select('input[name="container_height"]')[0].value);
                 packagesParams[packageId] = {
-                    container:              pack.select('select[name="package_container"]')[0].value,
-                    customs_value:          parseInt(pack.select('input[name="package_customs_value"]')[0].value, 10),
-                    weight:                 isNaN(weight) ? '' : weight,
-                    length:                 isNaN(length) ? '' : length,
-                    width:                  isNaN(width) ? '' : width,
-                    height:                 isNaN(height) ? '' : height,
-                    weight_units:           pack.select('select[name="container_weight_units"]')[0].value,
-                    dimension_units:        pack.select('select[name="container_dimension_units"]')[0].value
+                    container:                  pack.select('select[name="package_container"]')[0].value,
+                    customs_value:              parseInt(pack.select('input[name="package_customs_value"]')[0].value, 10),
+                    weight:                     isNaN(weight) ? '' : weight,
+                    length:                     isNaN(length) ? '' : length,
+                    width:                      isNaN(width) ? '' : width,
+                    height:                     isNaN(height) ? '' : height,
+                    weight_units:               pack.select('select[name="container_weight_units"]')[0].value,
+                    dimension_units:            pack.select('select[name="container_dimension_units"]')[0].value
                 };
                 if (isNaN(packagesParams[packageId]['customs_value'])) {
                     packagesParams[packageId]['customs_value'] = 0;
@@ -158,6 +158,13 @@ Packaging.prototype = {
                         packagesParams[packageId]['girth'] = pack.select('input[name="container_girth"]')[0].value;
                         packagesParams[packageId]['girth_dimension_units'] = pack.select('select[name="container_girth_dimension_units"]')[0].value;
                     }
+                }
+                if ('undefined' != typeof pack.select('select[name="content_type"]')[0] && 'undefined' != typeof pack.select('input[name="content_type_other"]')[0]) {
+                    packagesParams[packageId]['content_type'] = pack.select('select[name="content_type"]')[0].value;
+                    packagesParams[packageId]['content_type_other'] = pack.select('input[name="content_type_other"]')[0].value;
+                } else {
+                    packagesParams[packageId]['content_type'] = '';
+                    packagesParams[packageId]['content_type_other'] = '';
                 }
                 var deliveryConfirmation = pack.select('select[name="delivery_confirmation_types"]');
                 if (deliveryConfirmation.length) {
@@ -174,6 +181,8 @@ Packaging.prototype = {
                      this.paramsCreateLabelRequest['packages['+packageId+']'+'[params]'+'[height]']                 = packagesParams[packageId]['height'];
                      this.paramsCreateLabelRequest['packages['+packageId+']'+'[params]'+'[weight_units]']           = packagesParams[packageId]['weight_units'];
                      this.paramsCreateLabelRequest['packages['+packageId+']'+'[params]'+'[dimension_units]']        = packagesParams[packageId]['dimension_units'];
+                     this.paramsCreateLabelRequest['packages['+packageId+']'+'[params]'+'[content_type]']           = packagesParams[packageId]['content_type'];
+                     this.paramsCreateLabelRequest['packages['+packageId+']'+'[params]'+'[content_type_other]']     = packagesParams[packageId]['content_type_other'];
 
                      if ('undefined' != typeof packagesParams[packageId]['size']) {
                          this.paramsCreateLabelRequest['packages['+packageId+']'+'[params]'+'[size]'] = packagesParams[packageId]['size'];
@@ -549,6 +558,18 @@ Packaging.prototype = {
                 inputElement.removeClassName('disabled');
             }
         })
+    },
+
+    changeContentTypes: function(obj) {
+        var packageBlock = $(obj).up('[id^="package_block"]');
+        var contentType = packageBlock.select('[name=content_type]')[0];
+        var contentTypeOther = packageBlock.select('[name=content_type_other]')[0];
+        if (contentType.value == 'OTHER') {
+            Form.Element.enable(contentTypeOther);
+        } else {
+            Form.Element.disable(contentTypeOther);
+        }
+
     },
 
 //******************** Private functions **********************************//

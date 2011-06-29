@@ -281,4 +281,27 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
             ->getShippingCarrier()
             ->isGirthAllowed($this->getShipment()->getOrder()->getShippingAddress()->getCountryId());
     }
+
+    /**
+     * Return content types of package
+     *
+     * @return array
+     */
+    public function getContentTypes()
+    {
+        $order = $this->getShipment()->getOrder();
+        $storeId = $this->getShipment()->getStoreId();
+        $address = $order->getShippingAddress();
+        $carrier = $order->getShippingCarrier();
+        $countryShipper = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        if ($carrier) {
+            $params = new Varien_Object(array(
+                'method' => $order->getShippingMethod(true)->getMethod(),
+                'country_shipper' => $countryShipper,
+                'country_recipient' => $address->getCountryId(),
+            ));
+            return $carrier->getContentTypes($params);
+        }
+        return array();
+    }
 }
