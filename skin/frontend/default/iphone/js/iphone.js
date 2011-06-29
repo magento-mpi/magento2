@@ -27,7 +27,28 @@
 document.observe("dom:loaded", function() {
     
     Event.observe(window, 'orientationchange', function() {
+        var orientation;
+        switch(window.orientation){  
+            case 0:
+            orientation = "portrait";
+            break;
+
+            case -90:
+            orientation = "landscape";
+            break;
+
+            case 90:
+            orientation = "landscape";
+            break;
+        }
         $$("#nav-container ul").each(function(ul) { ul.style.width = document.body.offsetWidth + "px"; });
+        
+        if (orientation === 'landscape') {
+            upSellCarousel.resize(3);
+        } else {
+            upSellCarousel.resize(2);
+        }
+        
     });
     
     var sliderPosition = 0;
@@ -107,32 +128,64 @@ document.observe("dom:loaded", function() {
     //Slider
     
     var Carousel = Class.create({
-       initialize: function (carousel, options) { 
+       initialize: function (carousel, itemsContainer, options) { 
            this.options  = Object.extend({
               visibleElements: 3,
               threshold: {
                   x: 30,
-                  y: 20
+                  y: 40
               },
               preventDefaultEvents: false
            }, options || {});
            
-           this.carousel = $(carousel);
-           this.items    = this.carousel.select('.carousel-items')[0];
-           this.itemPos  = 0;
+           this.carousel = carousel;
+           this.items    = itemsContainer;
            this.itemsLength = this.items.childElements().size();
-           this.lastItemPos = (this.itemsLength-this.options.visibleElements) * 100/this.options.visibleElements;
-           this.screens  = Math.ceil(this.itemsLength/this.options.visibleElements);
            this.counter  = this.carousel.insert(new Element('div', {'class' : 'counter'})).select('.counter')[0];
            this.prevButton = carousel.select('.prev')[0];
            this.nextButton = carousel.select('.next')[0];
            this.originalCoord = { x: 0, y: 0 };
            this.finalCoord    = { x: 0, y: 0 };
+           
+           this.carousel.wrap('div', { 'class' : 'carousel-wrap' });
+
+           this.nextButton.observe('click', this.moveRight.bind(this));
+           this.prevButton.observe('click', this.moveLeft.bind(this));
+           this.items.observe('touchstart', this.touchStart.bind(this));
+           this.items.observe('touchmove', this.touchMove.bind(this));
+           this.items.observe('touchend', this.touchEnd.bind(this));
        },
        init: function () {
-           this.carousel.wrap('div', { 'class' : 'carousel-wrap' });
-           if (this.screens > 1) {
-               for (var i = 0; i < this.screens; i++) {
+           this.itemPos  = 0;
+           this.lastItemPos = (this.itemsLength-this.options.visibleElements) * 100/this.options.visibleElements;
+           this.itemWidth = 100/this.options.visibleElements + '%';
+           this.screens  = Math.ceil(this.itemsLength/this.options.visibleElements);
+           
+           this.resizeChilds();
+           this.drawCounter();
+           
+           return this;
+        },
+        resize: function(visibleElements) {
+            this.options.visibleElements = visibleElements;
+            this.counter.childElements().invoke('remove');
+            this.items.setStyle({
+                '-webkit-transform': 'translateX(' + 0 + '%)'
+            });
+            this.prevButton.addClassName('disabled');
+            this.nextButton.removeClassName('disabled');
+            this.init();
+        },
+        resizeChilds: function () {
+           this.items.childElements().each( function(n) {
+              n.setStyle({
+                  'width': this.itemWidth
+              });
+           }, this);
+        },
+        drawCounter: function () {
+            if (this.screens > 1) {
+                 for (var i = 0; i < this.screens; i++) {
                    if (i === 0) {
                        this.counter.insert(new Element('span', {'class': 'active'}));
                    } else {
@@ -140,15 +193,10 @@ document.observe("dom:loaded", function() {
                    }
                };
            };
-           this.nextButton.observe('click', this.moveRight.bind(this));
-           this.prevButton.observe('click', this.moveLeft.bind(this));
-           this.items.observe('touchstart', this.touchStart.bind(this));
-           this.items.observe('touchmove', this.touchMove.bind(this));
-           this.items.observe('touchend', this.touchEnd.bind(this));
         },
         moveRight: function () {
             if(Math.abs(this.itemPos) < this.lastItemPos) {
-                this.itemPos -= 100/this.options.visibleElements;
+                this.itemPos -= 100/this.options.visibleElements * this.options.visibleElements;
                 this.items.setStyle({
                     'position': 'relative',
                     '-webkit-transform': 'translateX(' + this.itemPos + '%)'
@@ -166,7 +214,7 @@ document.observe("dom:loaded", function() {
         },
         moveLeft: function () {
             if (this.itemPos !== 0) {
-                this.itemPos += 100/this.options.visibleElements;
+                this.itemPos += 100/this.options.visibleElements * this.options.visibleElements;
                 this.items.setStyle({
                     'position': 'relative',
                     '-webkit-transform': 'translateX(' + this.itemPos + '%)'
@@ -208,8 +256,8 @@ document.observe("dom:loaded", function() {
         }
     });
     
-    var upSellCarousel = new Carousel($$('.carousel')[0], {
-        visibleElements: 3,
+    var upSellCarousel = new Carousel($$('.carousel')[0], $$('.carousel-items')[0], {
+        visibleElements: 2,
         preventDefaultEvents: true
     }).init();
 
