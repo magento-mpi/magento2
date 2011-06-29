@@ -159,6 +159,22 @@
                     </enterprise_pagecache>
                 </observers>
             </adminhtml_cache_refresh_type>
+            <adminhtml_cache_flush_system>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>cleanCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </adminhtml_cache_flush_system>
+            <adminhtml_cache_flush_all>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>cleanCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </adminhtml_cache_flush_all>
         </events>
     </adminhtml>
     <frontend>
