@@ -25,7 +25,7 @@
  */
 
 /**
- * Catalog product MAP "Display Actual Price" attribute source
+ * Source model for 'msrp_display_actual_price_type' product attribute
  *
  * @category   Mage
  * @package    Mage_Catalog
