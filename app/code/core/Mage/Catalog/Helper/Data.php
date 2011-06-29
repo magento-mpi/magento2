@@ -86,16 +86,6 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Returns assigned or current store ID.
-     */
-    public function getStoreId() {
-        if (is_null($this->_storeId)) {
-            $this->_storeId = Mage::app()->getStore()->getId();
-        }
-        return $this->_storeId;
-    }
-
-    /**
      * Return current category path or get it from current category
      * and creating array of categories|product paths for breadcrumbs
      *
@@ -273,7 +263,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isUsingStaticUrlsAllowed()
     {
-        return Mage::getStoreConfigFlag(self::CONFIG_USE_STATIC_URLS, $this->getStoreId());
+        return Mage::getStoreConfigFlag(self::CONFIG_USE_STATIC_URLS, $this->_storeId);
     }
 
     /**
@@ -283,7 +273,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isUrlDirectivesParsingAllowed()
     {
-        return Mage::getStoreConfigFlag(self::CONFIG_PARSE_URL_DIRECTIVES, $this->getStoreId());
+        return Mage::getStoreConfigFlag(self::CONFIG_PARSE_URL_DIRECTIVES, $this->_storeId);
     }
 
     /**
@@ -317,7 +307,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isMsrpEnabled()
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_ENABLED, $this->getStoreId());
+        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_ENABLED, $this->_storeId);
     }
 
     /**
@@ -327,7 +317,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getMsrpDisplayActualPriceType()
     {
-        return Mage::getStoreConfig(self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE, $this->getStoreId());
+        return Mage::getStoreConfig(self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE, $this->_storeId);
     }
 
     /**
@@ -337,7 +327,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isMsrpApplyToAll()
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_APPLY_TO_ALL, $this->getStoreId());
+        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_APPLY_TO_ALL, $this->_storeId);
     }
 
     /**
@@ -348,7 +338,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMsrpExplanationMessage()
     {
         return $this->escapeHtml(
-            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE, $this->getStoreId())
+            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE, $this->_storeId)
         );
     }
 
@@ -360,7 +350,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMsrpExplanationMessageWhatsThis()
     {
         return $this->escapeHtml(
-            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS, $this->getStoreId())
+            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS, $this->_storeId)
         );
     }
 
