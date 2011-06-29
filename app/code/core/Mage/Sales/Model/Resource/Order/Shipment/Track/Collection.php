@@ -57,13 +57,6 @@ class Mage_Sales_Model_Resource_Order_Shipment_Track_Collection
     protected $_orderField     = 'order_id';
 
     /**
-     * Contains a names of elements, whose values should be cleared from html tags
-     *
-     * @var array
-     */
-    protected $_clearFields    = array('number', 'track_number', 'title');
-
-    /**
      * Model initialization
      *
      */
@@ -82,40 +75,5 @@ class Mage_Sales_Model_Resource_Order_Shipment_Track_Collection
     {
         $this->addFieldToFilter('parent_id', $shipmentId);
         return $this;
-    }
-
-    /**
-     * Adding item to item array
-     *
-     * @param   Varien_Object $item
-     * @return  Varien_Data_Collection
-     */
-    public function addItem(Varien_Object $item)
-    {
-        $data = $item->getData();
-        if (!is_null($data)) {
-            $this->_stripTags($data);
-            $item->unsetData();
-            $item->addData($data);
-        }
-        parent::addItem($item);
-    }
-
-    /**
-     * Strip values from HTML tags
-     *
-     * @param array $data
-     */
-    protected function _stripTags(array &$data)
-    {
-        if (count($data)) {
-            /* @var $helperCatalog Mage_Catalog_Helper_Data */
-            $helperCatalog = Mage::helper('catalog');
-            foreach ($this->_clearFields as $fild) {
-                if (isset($data[$fild])) {
-                    $data[$fild] = $helperCatalog->stripTags($data[$fild]);
-                }
-            }
-        }
     }
 }
