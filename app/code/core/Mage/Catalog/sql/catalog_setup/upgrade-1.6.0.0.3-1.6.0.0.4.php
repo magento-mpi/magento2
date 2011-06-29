@@ -35,6 +35,9 @@ $productTypes = array(
 );
 $productTypes = join(',', $productTypes);
 
+/**
+ * Updates the attribute 'msrp_enabled', source and default entity
+ */
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_enabled', array(
     'group'         => 'Prices',
     'backend'       => 'catalog/product_attribute_backend_msrp',
@@ -53,6 +56,9 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_enabled', arr
     'used_in_product_listing' => true
 ));
 
+/**
+ * Updates the attribute 'msrp_display_actual_price_type', source and default entity
+ */
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_display_actual_price_type', array(
     'group'         => 'Prices',
     'backend'       => 'catalog/product_attribute_backend_boolean',

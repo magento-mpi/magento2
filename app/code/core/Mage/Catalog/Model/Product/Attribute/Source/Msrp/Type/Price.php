@@ -31,25 +31,11 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
+    extends Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type
 {
     /**
-     * Display Product Price on gesture
-     */
-    const TYPE_ON_GESTURE = '1';
-
-    /**
-     * Display Product Price in cart
-     */
-    const TYPE_IN_CART    = '2';
-
-    /**
-     * Display Product Price before order confirmation
-     */
-    const TYPE_BEFORE_ORDER_CONFIRM = '3';
-
-    /**
-     * Display Product Price before order confirmation
+     * Get value from the store configuration settings
      */
     const TYPE_USE_CONFIG = '4';
 
@@ -61,23 +47,47 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price extends Mage_E
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = array(
-                self::TYPE_IN_CART              => Mage::helper('catalog')->__('In Cart'),
-                self::TYPE_BEFORE_ORDER_CONFIRM => Mage::helper('catalog')->__('Before Order Confirmation'),
-                self::TYPE_ON_GESTURE           => Mage::helper('catalog')->__('On Gesture'),
-                self::TYPE_USE_CONFIG           => Mage::helper('catalog')->__('Use config')
-            );
+            $this->_options = parent::getAllOptions();
+            $this->_options[self::TYPE_USE_CONFIG] =  Mage::helper('catalog')->__('Use config');
         }
         return $this->_options;
     }
 
     /**
-     * Get options as array
+     * Retrieve flat column definition
      *
      * @return array
      */
-    public function toOptionArray()
+    public function getFlatColums()
     {
-        return $this->getAllOptions();
+        $attributeType = $this->getAttribute()->getBackendType();
+        $attributeCode = $this->getAttribute()->getAttributeCode();
+        $column = array(
+            'unsigned'  => false,
+            'default'   => null,
+            'extra'     => null
+        );
+
+        if (Mage::helper('core')->useDbCompatibleMode()) {
+            $column['type']     = $attributeType;
+            $column['is_null']  = true;
+        } else {
+            $column['type']     = Mage::getResourceHelper('eav')->getDdlTypeByColumnType($attributeType);
+            $column['nullable'] = true;
+        }
+
+        return array($attributeCode => $column);
+    }
+
+    /**
+     * Retrieve select for flat attribute update
+     *
+     * @param int $store
+     * @return Varien_Db_Select|null
+     */
+    public function getFlatUpdateSelect($store)
+    {
+        return Mage::getResourceModel('eav/entity_attribute')
+            ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

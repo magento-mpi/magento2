@@ -25,7 +25,7 @@
  */
 
 /**
- * Catalog product MAP "Display Actual Price" attribute source
+ * Catalog product MAP, applier attribute source
  *
  * @category   Mage
  * @package    Mage_Catalog
@@ -34,10 +34,18 @@
 class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
-     * Constants - attribute value
+     * Enable MAP
      */
     const MSRP_ENABLE_YES = 1;
+
+    /**
+     * Disable MAP
+     */
     const MSRP_ENABLE_NO = 0;
+
+    /**
+     * Get value from the store configuration settings
+     */
     const MSRP_ENABLE_USE_CONFIG = 2;
 
     /**

@@ -85,6 +85,9 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         return $this;
     }
 
+    /**
+     * Returns assigned or current store ID.
+     */
     public function getStoreId() {
         if (is_null($this->_storeId)) {
             $this->_storeId = Mage::app()->getStore()->getId();
@@ -400,11 +403,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
             if ($productVisibility == Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG) {
                 $productVisibility = $this->getMsrpDisplayActualPriceType();
             }
-            if ($productVisibility == $visibility) {
-                $result = true;
-            } else {
-                $result = false;
-            }
+            $result = ($productVisibility == $visibility);
         }
 
         if ($product->getTypeInstance(true)->isComposite($product)
@@ -448,12 +447,12 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
         $message = "";
         if ($this->canApplyMsrp(
             $product,
-            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_IN_CART
+            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_IN_CART
         )) {
             $message = $this->__('To see product price, add this item to your cart. You can always remove it later.');
         } elseif ($this->canApplyMsrp(
             $product,
-            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_BEFORE_ORDER_CONFIRM
+            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM
         )) {
             $message = $this->__('See price before order confirmation.');
         }
@@ -470,7 +469,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->canApplyMsrp(
             $product,
-            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_ON_GESTURE
+            Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_ON_GESTURE
         );
     }
 }

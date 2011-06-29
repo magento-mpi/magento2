@@ -32,8 +32,22 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type
-    extends Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
+    extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
+    /**
+     * Display Product Price on gesture
+     */
+    const TYPE_ON_GESTURE = '1';
+
+    /**
+     * Display Product Price in cart
+     */
+    const TYPE_IN_CART    = '2';
+
+    /**
+     * Display Product Price before order confirmation
+     */
+    const TYPE_BEFORE_ORDER_CONFIRM = '3';
 
     /**
      * Get all options
@@ -43,9 +57,11 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $options = parent::getAllOptions();
-            unset($options[parent::TYPE_USE_CONFIG]);
-            $this->_options = $options;
+            $this->_options = array(
+                self::TYPE_IN_CART              => Mage::helper('catalog')->__('In Cart'),
+                self::TYPE_BEFORE_ORDER_CONFIRM => Mage::helper('catalog')->__('Before Order Confirmation'),
+                self::TYPE_ON_GESTURE           => Mage::helper('catalog')->__('On Gesture')
+            );
         }
         return $this->_options;
     }
@@ -58,43 +74,5 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type
     public function toOptionArray()
     {
         return $this->getAllOptions();
-    }
-
-    /**
-     * Retrieve flat column definition
-     *
-     * @return array
-     */
-    public function getFlatColums()
-    {
-        $attributeType = $this->getAttribute()->getBackendType();
-        $attributeCode = $this->getAttribute()->getAttributeCode();
-        $column = array(
-            'unsigned'  => false,
-            'default'   => null,
-            'extra'     => null
-        );
-
-        if (Mage::helper('core')->useDbCompatibleMode()) {
-            $column['type']     = $attributeType;
-            $column['is_null']  = true;
-        } else {
-            $column['type']     = Mage::getResourceHelper('eav')->getDdlTypeByColumnType($attributeType);
-            $column['nullable'] = true;
-        }
-
-        return array($attributeCode => $column);
-    }
-
-    /**
-     * Retrieve select for flat attribute update
-     *
-     * @param int $store
-     * @return Varien_Db_Select|null
-     */
-    public function getFlatUpdateSelect($store)
-    {
-        return Mage::getResourceModel('eav/entity_attribute')
-            ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

@@ -25,7 +25,7 @@
  */
 ?>
 <?php $_item = $this->getItem() ?>
-<?php $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_BEFORE_ORDER_CONFIRM); ?>
+<?php $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM); ?>
 <li class="item">
     <?php if ($this->hasProductUrl()): ?>
         <a href="<?php echo $this->getProductUrl()?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(50)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a>
