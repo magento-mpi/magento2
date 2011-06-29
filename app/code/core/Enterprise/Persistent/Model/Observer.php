@@ -41,7 +41,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function emulateCustomer($observer)
     {
-        if (!Mage::helper('enterprise_persistent')->isCustomerAndSegmentsPersist()) {
+        if (!$this->_canProcess($observer) || !Mage::helper('enterprise_persistent')->isCustomerAndSegmentsPersist()) {
             return $this;
         }
 
@@ -82,7 +82,9 @@ class Enterprise_Persistent_Model_Observer
      */
     public function applyPersistentData($observer)
     {
-        if (!$this->_isPersistent() || Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!$this->_canProcess($observer)
+            || !$this->_isPersistent() || Mage::getSingleton('customer/session')->isLoggedIn()
+        ) {
             return;
         }
         Mage::getModel('persistent/persistent_config')
@@ -228,7 +230,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function applyCustomerId($observer)
     {
-        if (!$this->_isCompareProductsPersist()) {
+        if (!$this->_canProcess($observer) || !$this->_isCompareProductsPersist()) {
             return;
         }
         $instance = $observer->getEvent()->getControllerAction();
@@ -243,7 +245,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function emulateWishlist($observer)
     {
-        if (!$this->_isPersistent() || !$this->_isWishlistPersist()) {
+        if (!$this->_canProcess($observer) || !$this->_isPersistent() || !$this->_isWishlistPersist()) {
             return;
         }
 
@@ -266,7 +268,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function setQuotePersistentData($observer)
     {
-        if (!$this->_isPersistent()) {
+        if (!$this->_canProcess($observer) || !$this->_isPersistent()) {
             return;
         }
 
@@ -380,5 +382,25 @@ class Enterprise_Persistent_Model_Observer
     protected function _isGuestShoppingCart()
     {
         return $this->_isLoggedOut() && !Mage::helper('persistent')->isShoppingCartPersist();
+    }
+
+    /**
+     * Check whether current action should be processed
+     *
+     * @param Varien_Event_Observer $observer
+     * @return bool
+     */
+    protected function _canProcess($observer)
+    {
+        $action = $observer->getEvent()->getAction();
+        $controllerAction = $observer->getEvent()->getControllerAction();
+
+        if ($action instanceof Mage_Core_Controller_Varien_Action) {
+            return !$action->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
+        }
+        if ($controllerAction instanceof Mage_Core_Controller_Varien_Action) {
+            return !$controllerAction->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
+        }
+        return true;
     }
 }

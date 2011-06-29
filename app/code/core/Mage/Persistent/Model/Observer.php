@@ -49,7 +49,8 @@ class Mage_Persistent_Model_Observer
      */
     public function applyPersistentData($observer)
     {
-        if (!$this->_getPersistentHelper()->isPersistent() || Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!$this->_canProcess($observer)
+            || !$this->_getPersistentHelper()->isPersistent() || Mage::getSingleton('customer/session')->isLoggedIn()) {
             return $this;
         }
         Mage::getModel('persistent/persistent_config')
@@ -167,7 +168,8 @@ class Mage_Persistent_Model_Observer
             'customer_account_createpost'
         );
 
-        if (!$this->_getPersistentHelper()->isPersistent() || Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!$this->_canProcess($observer)
+            || !$this->_getPersistentHelper()->isPersistent() || Mage::getSingleton('customer/session')->isLoggedIn()) {
             return;
         }
 
@@ -301,7 +303,7 @@ class Mage_Persistent_Model_Observer
      */
     public function removePersistentCookie($observer)
     {
-        if (!$this->_isPersistent()) {
+        if (!$this->_canProcess($observer) || !$this->_isPersistent()) {
             return;
         }
 
@@ -463,6 +465,10 @@ class Mage_Persistent_Model_Observer
      */
     public function checkExpirePersistentQuote(Varien_Event_Observer $observer)
     {
+        if (!$this->_canProcess($observer)) {
+            return;
+        }
+
         /** @var $checkoutSession Mage_Checkout_Model_Session */
         $checkoutSession = Mage::getSingleton('checkout/session');
 
@@ -517,7 +523,7 @@ class Mage_Persistent_Model_Observer
     {
         /** @var $layout Mage_Core_Model_Layout */
         $layout = $observer->getEvent()->getLayout();
-        if ($layout && Mage::helper('persistent')->isEnabled()
+        if ($this->_canProcess($observer) && $layout && Mage::helper('persistent')->isEnabled()
             && Mage::helper('persistent/session')->isPersistent()
         ) {
             $handle = (Mage::getSingleton('customer/session')->isLoggedIn())
@@ -544,5 +550,25 @@ class Mage_Persistent_Model_Observer
             $customerCookies->setCustomerId($persistentCustomer->getId());
             $customerCookies->setCustomerGroupId($persistentCustomer->getGroupId());
         }
+    }
+
+    /**
+     * Check whether current action should be processed
+     *
+     * @param Varien_Event_Observer $observer
+     * @return bool
+     */
+    protected function _canProcess($observer)
+    {
+        $action = $observer->getEvent()->getAction();
+        $controllerAction = $observer->getEvent()->getControllerAction();
+
+        if ($action instanceof Mage_Core_Controller_Varien_Action) {
+            return !$action->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
+        }
+        if ($controllerAction instanceof Mage_Core_Controller_Varien_Action) {
+            return !$controllerAction->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
+        }
+        return true;
     }
 }
