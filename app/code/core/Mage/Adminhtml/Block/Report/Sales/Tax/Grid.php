@@ -105,4 +105,20 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
 
         return parent::_prepareColumns();
     }
+
+    protected function _prepareCollection()
+    {
+        $filterData = $this->getFilterData();
+        if(!$filterData->hasData('order_statuses')) {
+            $statuses = Mage::getModel('sales/order_config')->getStatuses();
+            $statusValues = array();
+            foreach ($statuses as $code => $label) {
+                if (false === strpos($code, 'cancel')) {
+                    $statusValues[] = $code;
+                }
+            }
+            $filterData->setOrderStatuses($statusValues);
+        }
+        return parent::_prepareCollection();
+    }
 }
