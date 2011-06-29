@@ -27,52 +27,30 @@
 $installer = Mage::getResourceModel('catalog/setup', 'catalog_setup');
 /** @var $installer Mage_Catalog_Model_Resource_Setup */
 
-$productTypes = array(
-    Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-    Mage_Catalog_Model_Product_Type::TYPE_BUNDLE,
-    Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
-    Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
+$installer->updateAttribute(
+    Mage_Catalog_Model_Product::ENTITY,
+    'msrp_enabled',
+    'source_model',
+    'catalog/product_attribute_source_msrp_type_enabled'
 );
-$productTypes = join(',', $productTypes);
 
-/**
- * Updates the attribute 'msrp_enabled', source and default entity
- */
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_enabled', array(
-    'group'         => 'Prices',
-    'backend'       => 'catalog/product_attribute_backend_msrp',
-    'frontend'      => '',
-    'label'         => 'Apply MAP',
-    'input'         => 'select',
-    'source'        => 'catalog/product_attribute_source_msrp_type_enabled',
-    'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
-    'visible'       => true,
-    'required'      => false,
-    'user_defined'  => false,
-    'default'       => Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_USE_CONFIG,
-    'apply_to'      => $productTypes,
-    'input_renderer'   => 'adminhtml/catalog_product_helper_form_msrp_enabled',
-    'visible_on_front' => false,
-    'used_in_product_listing' => true
-));
+$installer->updateAttribute(
+    Mage_Catalog_Model_Product::ENTITY,
+    'msrp_enabled',
+    'default_value',
+    Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_USE_CONFIG
+);
 
-/**
- * Updates the attribute 'msrp_display_actual_price_type', source and default entity
- */
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'msrp_display_actual_price_type', array(
-    'group'         => 'Prices',
-    'backend'       => 'catalog/product_attribute_backend_boolean',
-    'frontend'      => '',
-    'label'         => 'Display Actual Price',
-    'input'         => 'select',
-    'source'        => 'catalog/product_attribute_source_msrp_type_price',
-    'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
-    'visible'       => true,
-    'required'      => false,
-    'user_defined'  => false,
-    'default'       => Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG,
-    'apply_to'      => $productTypes,
-    'input_renderer'   => 'adminhtml/catalog_product_helper_form_msrp_price',
-    'visible_on_front' => false,
-    'used_in_product_listing' => true
-));
+$installer->updateAttribute(
+    Mage_Catalog_Model_Product::ENTITY,
+    'msrp_display_actual_price_type',
+    'source_model',
+    'catalog/product_attribute_source_msrp_type_price'
+);
+
+$installer->updateAttribute(
+    Mage_Catalog_Model_Product::ENTITY,
+    'msrp_display_actual_price_type',
+    'default_value',
+    Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG
+);
