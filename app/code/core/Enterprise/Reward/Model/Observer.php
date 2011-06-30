@@ -544,8 +544,11 @@ class Enterprise_Reward_Model_Observer
      */
     protected function _revertRewardPointsForOrder(Mage_Sales_Model_Order $order)
     {
+        if (!$order->getCustomer()->getId()) {
+            return $this;
+        }
         Mage::getModel('enterprise_reward/reward')
-            ->setCustomerId($order->getCustomerId())
+            ->setCustomerId($order->getCustomer()->getId())
             ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
             ->setPointsDelta($order->getRewardPointsBalance())
             ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_REVERT)
