@@ -738,7 +738,6 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             'size'=>array(
                 'REGULAR'     => Mage::helper('usa')->__('Regular'),
                 'LARGE'       => Mage::helper('usa')->__('Large'),
-                'OVERSIZE'    => Mage::helper('usa')->__('Oversize'),
             ),
 
             'machinable'=>array(
