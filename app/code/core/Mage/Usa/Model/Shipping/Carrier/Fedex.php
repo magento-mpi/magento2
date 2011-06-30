@@ -1277,10 +1277,10 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param null $countyDest
+     * @param Varien_Object|null $params
      * @return array
      */
-    public function getDeliveryConfirmationTypes($countyDest = null)
+    public function getDeliveryConfirmationTypes(Varien_Object $params = null)
     {
         return $this->getCode('delivery_confirmation_types');
     }

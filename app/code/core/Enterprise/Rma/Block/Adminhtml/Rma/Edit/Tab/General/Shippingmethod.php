@@ -241,7 +241,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $carrierCode= $this->getShipment()->getCarrierCode();
         $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $this->getRma()->getStoreId());
         if ($carrier) {
-            $confirmationTypes = $carrier->getDeliveryConfirmationTypes($countryId);
+            $params = new Varien_Object(array('country_recipient' => $countryId));
+            $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
             $containerType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
             return $containerType;
         }

@@ -1714,13 +1714,14 @@ XMLAuth;
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param string|null $countyDest
+     * @param Varien_Object|null $params
      * @return array|bool
      */
-    public function getDeliveryConfirmationTypes($countyDest = null)
+    public function getDeliveryConfirmationTypes(Varien_Object $params = null)
     {
-        $deliveryConfirmationTypes = array();
-        switch ($this->_getDeliveryConfirmationLevel($countyDest)) {
+        $countryRecipient           = $params != null ? $params->getCountryRecipient() : null;
+        $deliveryConfirmationTypes  = array();
+        switch ($this->_getDeliveryConfirmationLevel($countryRecipient)) {
             case self::DELIVERY_CONFIRMATION_PACKAGE:
                 $deliveryConfirmationTypes = array(
                     1 => Mage::helper('usa')->__('Delivery Confirmation'),

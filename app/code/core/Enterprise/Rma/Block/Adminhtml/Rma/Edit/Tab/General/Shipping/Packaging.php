@@ -130,9 +130,10 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
             list($carrierCode, $methodCode) = explode('_', $code, 2);
             $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $storeId);
             $countryId  = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
-
-            if ($carrier && is_array($carrier->getDeliveryConfirmationTypes())) {
-                return $carrier->getDeliveryConfirmationTypes($countryId);
+            $params = new Varien_Object(array('country_recipient' => $countryId));
+            
+            if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
+                return $carrier->getDeliveryConfirmationTypes($params);
             }
         }
         return array();
