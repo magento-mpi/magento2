@@ -120,23 +120,11 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
                 function changePriceTypeMap() {
                     if ($('price_type').value == " . Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC . ") {
                         $('msrp_enabled').disable();
-                        $('use_config_msrp_enabled').disable();
                         $('msrp_display_actual_price_type').disable();
-                        $('use_config_msrp_display_actual_price_type').disable();
                         $('msrp').disable();
                     } else {
-                        $('use_config_msrp_enabled').enable();
-                        if ($('use_config_msrp_enabled').checked) {
-                            $('msrp_enabled').disable();
-                        } else {
-                            $('msrp_enabled').enable();
-                        }
-                        $('use_config_msrp_display_actual_price_type').enable();
-                        if ($('use_config_msrp_display_actual_price_type').checked) {
-                            $('msrp_display_actual_price_type').disable();
-                        } else {
-                            $('msrp_display_actual_price_type').enable();
-                        }
+                        $('msrp_enabled').enable();
+                        $('msrp_display_actual_price_type').enable();
                         $('msrp').enable();
                     }
                 }

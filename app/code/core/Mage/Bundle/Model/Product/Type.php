@@ -226,6 +226,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             $product->setData('weight', false);
         }
 
+        if ($product->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
+            $product->unsetData('msrp_enabled');
+            $product->unsetData('msrp');
+            $product->unsetData('msrp_display_actual_price_type');
+        }
+
         $product->canAffectOptions(false);
 
         if ($product->getCanSaveBundleSelections()) {
