@@ -28,6 +28,22 @@
 # Test Datasets for Add New Product for each types
 
 #*********************************************
+#*         Product Search Data               *
+#*********************************************
+
+product_search:
+    product_name: %noValue%
+    product_type: %noValue%
+    product_attribute_set: %noValue%
+    product_sku: %noValue%
+    product_price_from: %noValue%
+    product_price_to: %noValue%
+    product_qty_from: %noValue%
+    product_qty_to: %noValue%
+    product_visibility: %noValue%
+    product_status: %noValue%
+
+#*********************************************
 #*         Product Settings Data             *
 #*********************************************
 
@@ -189,6 +205,10 @@ custom_options_multipleselect: &multipleselect
         custom_options_price_type: Percent
         custom_options_sku: sku_multipleselect_row_2
         custom_options_sort_order: 2
+
+custom_options_empty:
+    custom_options_general_title: Title
+    custom_options_general_input_type: Field
 
 #*********************************************
 #*         Tier Price Data                   *

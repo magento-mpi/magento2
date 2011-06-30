@@ -123,14 +123,13 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function test_WithSkuThatAlreadyExists($productData)
     {
         //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('product_create_settings_simple');
+        $productSettings = $this->loadData('settings_simple');
         //Steps.
-        $this->productHelper()->createSimpleProduct($productSettings, $productData);
+        $this->productHelper()->createProduct($productSettings, $productData);
         //Verifying - one error message appears,
         $this->assertTrue($this->validationMessage('existing_sku'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
-
     /**
      * Steps:
      *
@@ -163,18 +162,22 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('product_create_settings_simple');
-        if ($emptyField == 'product_sku') {
-            $productData = $this->loadData('simple_product', array($emptyField => '%noValue%'));
-        } elseif ($emptyField == 'product_visibility' or $emptyField == 'product_tax_class') {
-            $productData = $this->loadData('simple_product',
-                            array($emptyField => '-- Please Select --'), 'product_sku');
+        $productSettings = $this->loadData('settings_simple');
+        if ($emptyField == 'general_sku') {
+            $productData = $this->loadData('simple_product_required',
+                            array($emptyField => '%noValue%'));
+        } elseif ($emptyField == 'general_visibility' or $emptyField == 'prices_tax_class') {
+            $productData = $this->loadData('simple_product_required',
+                            array($emptyField => '-- Please Select --'), 'general_sku');
+        } elseif ($emptyField == 'inventory_qty') {
+            $productData = $this->loadData('simple_product_required', array($emptyField => ''),
+                            'general_sku');
         } else {
-            $productData = $this->loadData('simple_product', array($emptyField => '%noValue%'),
-                            'product_sku');
+            $productData = $this->loadData('simple_product_required',
+                            array($emptyField => '%noValue%'), 'general_sku');
         }
         //Steps
-        $this->productHelper()->createSimpleProduct($productSettings, $productData);
+        $this->productHelper()->createProduct($productSettings, $productData);
         //Verifying - error message appears
         $fieldXpath = $this->_getControlXpath($fieldType, $emptyField);
         $this->addParameter('fieldXpath', $fieldXpath);
@@ -185,15 +188,16 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function data_EmptyField()
     {
         return array(
-            array('product_name', 'field'),
-            array('product_description', 'field'),
-            array('product_short_description', 'field'),
-            array('product_sku', 'field'),
-            array('product_weight', 'field'),
-            array('product_status', 'dropdown'),
-            array('product_visibility', 'dropdown'),
-            array('product_price', 'field'),
-            array('product_tax_class', 'dropdown')
+            array('general_name', 'field'),
+            array('general_description', 'field'),
+            array('general_short_description', 'field'),
+            array('general_sku', 'field'),
+            array('general_weight', 'field'),
+            array('general_status', 'dropdown'),
+            array('general_visibility', 'dropdown'),
+            array('prices_price', 'field'),
+            array('prices_tax_class', 'dropdown'),
+            array('inventory_qty', 'field')
         );
     }
 
@@ -224,18 +228,18 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function test_WithSpecialCharacters()
     {
         //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('product_create_settings_simple');
-        $productData = $this->loadData('simple_product',
+        $productSettings = $this->loadData('settings_simple');
+        $productData = $this->loadData('simple_product_required',
                         array(
-                    'product_name' => $this->generate('string', 32, ':punct:'),
-                    'product_description' => $this->generate('string', 32, ':punct:'),
-                    'product_short_description' => $this->generate('string', 32, ':punct:'),
-                    'product_sku' => $this->generate('string', 32, ':punct:'),
-                    'product_weight' => $this->generate('string', 32, ':punct:')
+                            'general_name'              => $this->generate('string', 32, ':punct:'),
+                            'general_description'       => $this->generate('string', 32, ':punct:'),
+                            'general_short_description' => $this->generate('string', 32, ':punct:'),
+                            'general_sku'               => $this->generate('string', 32, ':punct:'),
+                            'general_weight'            => $this->generate('string', 32, ':punct:')
                         )
         );
         //Steps
-        $this->productHelper()->createSimpleProduct($productSettings, $productData);
+        $this->productHelper()->createProduct($productSettings, $productData);
         //Verifying - success message appears
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
@@ -271,17 +275,18 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function test_WithInvalidValueForFields_InvalidWeight()
     {
         //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('product_create_settings_simple');
-        $productData = $this->loadData('simple_product',
-                        array('product_weight' => $this->generate('string', 9, ':punct:')),
-                        'product_sku');
+        $productSettings = $this->loadData('settings_simple');
+        $productData = $this->loadData('simple_product_required',
+                        array(
+                    'general_weight' => $this->generate('string', 9, ':punct:')
+                        ), 'general_sku');
         $productSearch = $this->loadData('product_search',
-                        array('sku' => $productData['product_sku'],
-                    'name' => $productData['product_name']
-                        )
-        );
+                        array(
+                    'general_sku' => $productData['general_sku'],
+                    'general_name' => $productData['general_name']
+                        ));
         // Steps
-        $this->productHelper()->createSimpleProduct($productSettings, $productData);
+        $this->productHelper()->createProduct($productSettings, $productData);
         // Verifying - success message appears
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
@@ -289,12 +294,13 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         // Reset filter
         $this->clickButton('reset_filter', FALSE);
         $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($productSearch), $this->messages);
+        $this->assertTrue($this->searchAndOpen($productSearch));
         // Verifying - select created product
-        $xpath = $this->_getControlXpath('field', 'product_weight');
+        $xpath = $this->_getControlXpath('field', 'general_weight');
         $weightValue = $this->getValue($xpath);
         $this->assertEquals(0.0000, $weightValue, 'The product weight should be 0.0000');
     }
+
 
     /**
      * Steps
@@ -326,10 +332,10 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function test_WithInvalidValueForFields_InvalidPrice($InvalidPrice)
     {
         //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('product_create_settings_simple');
-        $productData = $this->loadData('simple_product', $InvalidPrice, 'product_sku');
+        $productSettings = $this->loadData('settings_simple');
+        $productData = $this->loadData('simple_product_required', $InvalidPrice, 'general_sku');
         // Steps
-        $this->productHelper()->createSimpleProduct($productSettings, $productData);
+        $this->productHelper()->createProduct($productSettings, $productData);
         // Verifying - error message appears
         $this->assertTrue($this->validationMessage('invalid_price'), $this->messages);
     }
@@ -337,9 +343,9 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function data_InvalidPrice()
     {
         return array(
-            array(array('product_price' => $this->generate('string', 9, ':punct:'))),
-            array(array('product_price' => 'g3648GJHghj')),
-            array(array('product_price' => $this->generate('string', 9, ':alpha:')))
+            array(array('prices_price' => $this->generate('string', 9, ':punct:'))),
+            array(array('prices_price' => 'g3648GJHghj')),
+            array(array('prices_price' => $this->generate('string', 9, ':alpha:')))
         );
     }
 
@@ -375,10 +381,10 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function test_WithInvalidValueForFields_InvalidQty($InvalidQty)
     {
         //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('product_create_settings_simple');
-        $productData = $this->loadData('simple_product', $InvalidQty, 'product_sku');
+        $productSettings = $this->loadData('settings_simple');
+        $productData = $this->loadData('simple_product_required', $InvalidQty, 'general_sku');
         // Steps
-        $this->productHelper()->createSimpleProduct($productSettings, $productData);
+        $this->productHelper()->createProduct($productSettings, $productData);
         // Verifying - error message appears
         $this->assertTrue($this->validationMessage('invalid_qty'), $this->messages);
     }
@@ -386,9 +392,9 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function data_InvalidQty()
     {
         return array(
-            array(array('qty' => $this->generate('string', 9, ':punct:'))),
-            array(array('qty' => 'g3648GJHghj')),
-            array(array('qty' => $this->generate('string', 9, ':alpha:')))
+            array(array('inventory_qty' => $this->generate('string', 9, ':punct:'))),
+            array(array('inventory_qty' => 'g3648GJHghj')),
+            array(array('inventory_qty' => $this->generate('string', 9, ':alpha:')))
         );
     }
 
@@ -423,41 +429,35 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * Product is not created, error message appears;
      *
-     *
+     * @dataProvider data_EmptyCustomFields
      */
-    public function test_WithCustomOptions_EmptyFields()
+    public function test_WithCustomOptions_EmptyFields($emptyCustomFields)
     {
         //Loading Data
-        $productSettings = $this->loadData('product_create_settings_simple');
-        $productData = $this->loadData('simple_product', NULL, 'product_sku');
-
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
+        $productSettings = $this->loadData('settings_simple');
+        $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $productData['custom_options'] = $this->loadData('custom_options_empty',
+                        array($emptyCustomFields => "%noValue%"));
         // Fill form
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->clickControl('tab', 'custom_options', FALSE);
-        $this->pleaseWait();
-
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('custom_options');
-        $fieldSetXpath = $fieldSet->getXpath();
-        $optionCount = $this->getXpathCount($fieldSetXpath . "//*[@class='option-box']") + 1;
-        $this->addParameter('optionNumber', $optionCount);
-        $page->assignParams($this->_paramsHelper);
-
-        $this->clickButton('add_new_option', FALSE);
-        $this->saveForm('save');
-
-        $xpath = $fieldSet->findField('custom_title');
-        $this->addParameter('fieldXpath', $xpath);
-
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->validationMessage('select_type_of_option'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+        $this->productHelper()->createProduct($productSettings, $productData);
+        // Verifying - error messages appears
+        if ($emptyCustomFields == 'custom_options_general_title') {
+            $xpath = $this->_getControlXpath('field', $emptyCustomFields);
+            $this->addParameter('fieldXpath', $xpath);
+            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        } else {
+            $this->assertTrue($this->validationMessage('select_type_of_option'), $this->messages);
+        }
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
+    public function data_EmptyCustomFields()
+    {
+        return array(
+            array('custom_options_general_title'),
+            array('custom_options_general_input_type')
+        );
+    }
     /**
      * Steps
      *
@@ -493,47 +493,23 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function test_WithCustomOptions_InvalidValues($invalidData)
     {
-        //Loading Data
-        $productSettings = $this->loadData('product_create_settings_simple');
-        $productData = $this->loadData('simple_product', $invalidData, 'product_sku');
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        // Fill form
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->clickControl('tab', 'inventory', FALSE);
-        $this->fillForm($productData, 'inventory');
-        $this->clickControl('tab', 'custom_options', FALSE);
-        $this->pleaseWait();
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('custom_options');
-        $fieldSetXpath = $fieldSet->getXpath();
-        $optionCount = $this->getXpathCount($fieldSetXpath . "//*[@class='option-box']") + 1;
-        $this->addParameter('optionNumber', $optionCount);
-        $page->assignParams($this->_paramsHelper);
-
-        $this->clickButton('add_new_option', FALSE);
-        $this->fillForm($productData, 'custom_options');
-        $this->saveForm('save');
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldSet('custom_options');
-        $xpath = $fieldSet->findField('custom_price');
-        $this->addParameter('fieldXpath', $xpath);
-        $page->assignParams($this->_paramsHelper);
-
-        //$this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->validationMessage('custom_option_invalid_number'), $this->messages);
-
-        $this->assertTrue($this->verifyMessagesCount(1), $this->messages);
+        // Loading Data
+        $productSettings = $this->loadData('settings_simple');
+        $productData = $this->loadData('simple_product_required', NULL, 'general_sku');
+        $productData['custom_options'] = $this->loadData('custom_options_field', $invalidData);
+        // Steps
+        $this->productHelper()->createProduct($productSettings, $productData);
+        // Verifying  - error message appears
+        $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     public function data_invalidData()
     {
         return array(
-            array(array('custom_price' => $this->generate('string', 9, ':punct:'))),
-            array(array('custom_price' => 'g3648GJHghj')),
-            array(array('custom_price' => $this->generate('string', 9, ':alpha:')))
+            array(array('custom_options_price' => $this->generate('string', 9, ':punct:'))),
+            array(array('custom_options_price' => 'g3648GJHghj')),
+            array(array('custom_options_price' => $this->generate('string', 9, ':alpha:')))
         );
     }
 
@@ -567,10 +543,10 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function test_WithSpecialPrice_InvalidValue($InvalidValue)
     {
         //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('product_create_settings_simple');
-        $productData = $this->loadData('simple_product', $InvalidValue, 'product_sku');
+        $productSettings = $this->loadData('settings_simple');
+        $productData = $this->loadData('simple_product_required', $InvalidValue, 'general_sku');
         // Steps
-        $this->productHelper()->createSimpleProduct($productSettings, $productData);
+        $this->productHelper()->createProduct($productSettings, $productData);
         //Verifying - error message appears
         $this->assertTrue($this->validationMessage('invalid_special_price'), $this->messages);
     }
@@ -578,9 +554,9 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function data_InvalidValue()
     {
         return array(
-            array(array('product_special_price' => $this->generate('string', 9, ':punct:'))),
-            array(array('product_special_price' => 'g3648GJHghj')),
-            array(array('product_special_price' => $this->generate('string', 9, ':alpha:')))
+            array(array('prices_special_price' => $this->generate('string', 9, ':punct:'))),
+            array(array('prices_special_price' => 'g3648GJHghj')),
+            array(array('prices_special_price' => $this->generate('string', 9, ':alpha:')))
         );
     }
 
@@ -616,18 +592,12 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function test_WithTierPriceFieldsEmpty($emptyFieldTier, $fieldType)
     {
         //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('product_create_settings_simple');
-        if ($emptyFieldTier == 'product_sku') {
-            $productData = $this->loadData('simple_product', array($emptyFieldTier => '%noValue%'));
-        } elseif ($emptyFieldTier == 'product_visibility' or $emptyFieldTier == 'product_tax_class') {
-            $productData = $this->loadData('simple_product',
-                            array($emptyFieldTier => '-- Please Select --'), 'product_sku');
-        } else {
-            $productData = $this->loadData('simple_product', array($emptyFieldTier => '%noValue%'),
-                            'product_sku');
-        }
+        $productSettings = $this->loadData('settings_simple');
+        $productData = $this->loadData('simple_product_required', array($emptyFieldTier => ''),
+                            'general_sku');
+        $productData['prices_tier_price'] = $this->loadData('prices_tier_price_1', $emptyFieldTier);
         //Steps
-        $this->productHelper()->createSimpleProduct($productSettings, $productData);
+        $this->productHelper()->createProduct($productSettings, $productData);
         //Verifying - error message appears
         $fieldXpath = $this->_getControlXpath($fieldType, $emptyFieldTier);
         $this->addParameter('fieldXpath', $fieldXpath);
@@ -638,8 +608,8 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function data_EmptyFieldTier()
     {
         return array(
-            array('product_tier_price_qty', 'field'),
-            array('product_tier_price_price', 'field'),
+            array('prices_tier_price_qty', 'field'),
+            array('prices_tier_price_price', 'field'),
         );
     }
 
@@ -674,10 +644,11 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function test_WithTierPrice_InvalidValues($data_invalidDataTier)
     {
         //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('product_create_settings_simple');
-        $productData = $this->loadData('simple_product', $data_invalidDataTier, 'product_sku');
-        $this->productHelper()->createSimpleProduct($productSettings, $productData);
+        $productSettings = $this->loadData('settings_simple');
+        $productData = $this->loadData('simple_product_required', $data_invalidDataTier, 'general_sku');
+        $productData['prices_tier_price'] = $this->loadData('prices_tier_price_1', $data_invalidDataTier);
         // Steps
+        $this->productHelper()->createProduct($productSettings, $productData);
         foreach ($data_invalidDataTier as $key => $value) {
             $fieldXpath = $this->_getControlXpath('field', $key);
             $this->addParameter('fieldXpath', $fieldXpath);
@@ -690,40 +661,39 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function data_invalidDataTier()
     {
         return array(
-            array(array('product_tier_price_qty' => $this->generate('string', 9, ':punct:'),
-                    'product_tier_price_price' => $this->generate('string', 9, ':punct:'))),
-            array(array('product_tier_price_qty' => 'g3648GJHghj',
-                    'product_tier_price_price' => 'g3648GJHghj')),
-            array(array('product_tier_price_qty' => $this->generate('string', 9, ':alpha:'),
-                    'product_tier_price_price' => $this->generate('string', 9, ':alpha:'))),
+            array(array('prices_tier_price_qty' => $this->generate('string', 9, ':punct:'),
+                    'prices_tier_price_price' => $this->generate('string', 9, ':punct:'))),
+            array(array('prices_tier_price_qty' => 'g3648GJHghj',
+                    'prices_tier_price_price' => 'g3648GJHghj')),
+            array(array('prices_tier_price_qty' => $this->generate('string', 9, ':alpha:'),
+                    'prices_tier_price_price' => $this->generate('string', 9, ':alpha:'))),
         );
     }
-
-    /**
-     * @TODO
-     */
-    public function test_OnConfigurableProductPage_QuickCreate()
-    {
-        // @TODO
-        $this->markTestIncomplete();
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_OnConfigurableProductPage_CreateEmpty()
-    {
-        // @TODO
-        $this->markTestIncomplete();
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_OnConfigurableProductPage_CopyFromConfigurable()
-    {
-        // @TODO
-        $this->markTestIncomplete();
-    }
-
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_OnConfigurableProductPage_QuickCreate()
+//    {
+//        // @TODO
+//        $this->markTestIncomplete();
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_OnConfigurableProductPage_CreateEmpty()
+//    {
+//        // @TODO
+//        $this->markTestIncomplete();
+//    }
+//
+//    /**
+//     * @TODO
+//     */
+//    public function test_OnConfigurableProductPage_CopyFromConfigurable()
+//    {
+//        // @TODO
+//        $this->markTestIncomplete();
+//    }
 }

@@ -462,13 +462,14 @@ new_product:
             invalid_price: //div[@id='advice-validate-zero-or-greater-price']
             invalid_special_price: //div[@id='advice-validate-zero-or-greater-special_price']
             invalid_qty: //div[@id='advice-validate-number-inventory_qty']
-            select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionNumber%_type']
+            select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             invalid_tier_price: "%fieldXpath%/following-sibling::*[text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]"
+            enter_valid_number: //div[@id='advice-validate-number-product_option_%optionId%_price']
 
 # Edit Product page
 edit_product:
-    mca:
-    title:
+    mca: catalog_product/edit/id/%id%/
+    title: %productName% / Manage Products / Catalog / Magento Admin
     uimap:
         form:
             tabs:
