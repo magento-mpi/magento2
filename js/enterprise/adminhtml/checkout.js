@@ -412,7 +412,10 @@ AdminCheckout.prototype = {
                         itemId = confLink.readAttribute('product_id');
                     }
                     if (typeof this.productPriceBase[itemId] == 'undefined') {
-                        var priceBase = priceCol.innerHTML.match(/.*?([0-9\.,]+)/);
+                        var priceBase = 0;
+                        if( (typeof priceCol != 'undefined') && (priceCol)) {
+                            priceBase = priceCol.innerHTML.match(/.*?([0-9\.,]+)/);
+                        }
                         if (priceBase && (priceBase.length >= 1)) {
                             priceBase = priceBase[1].replace(/,/g, '');
                         } else {
@@ -432,7 +435,9 @@ AdminCheckout.prototype = {
                         }
                         // calc and set product price
                         var productPrice = parseFloat(this._calcProductPrice() + this.productPriceBase[itemId]);
-                        priceCol.innerHTML = this.currencySymbol + productPrice.toFixed(2);
+                        if(typeof priceCol != 'undefined' && priceCol) {
+                            priceCol.innerHTML = this.currencySymbol + productPrice.toFixed(2);
+                        }
                         // and set checkbox checked
                         grid.setCheckboxChecked(checkbox, true);
                     }.bind(this));
