@@ -824,7 +824,13 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                         $config = $productHelper->addParamsToBuyRequest($info, $params)
                             ->toArray();
                     }
-                    $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
+                    try {
+                        $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
+                    } catch (Mage_Core_Exception $e){
+                        Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                    } catch (Exception $e){
+                        Mage::logException($e);
+                    }
                 }
             }
         }
