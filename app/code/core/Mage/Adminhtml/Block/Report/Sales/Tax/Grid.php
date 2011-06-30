@@ -125,6 +125,9 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
                 }
             }
             $filterData->setOrderStatuses($statusValues);
+        } else {
+            $orderStatuses = $filterData->getOrderStatuses();
+            $filterData->setOrderStatuses(explode(',', $orderStatuses[0]));
         }
         return parent::_prepareCollection();
     }
