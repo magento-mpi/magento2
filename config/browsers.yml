@@ -26,36 +26,36 @@
 #
 ---
 browsers:
-  chrome: &chrome
-    browser : '*chrome'
-    host    : 127.0.0.1
-    port    : 4444
-    doNotKillBrowsers : false
-    browserTimeoutPeriod : 10000
-  firefox: &firefox
-    browser : '*firefox'
-    host    : 127.0.0.1
-    port    : 4444
-    doNotKillBrowsers : false
-    browserTimeoutPeriod : 10000
-  iexplore: &iexplore
-    browser : '*iexplore'
-    host    : 127.0.0.1
-    port    : 4444
-    doNotKillBrowsers : false
-    browserTimeoutPeriod : 10000
-  googlechrome: &googlechrome
-    browser : '*googlechrome'
-    host    : 127.0.0.1
-    port    : 4444
-    doNotKillBrowsers : false
-    browserTimeoutPeriod : 10000
-  default: *chrome
+    chrome: &chrome
+        browser: '*chrome'
+        host: 127.0.0.1
+        port: 4444
+        doNotKillBrowsers: false
+        browserTimeoutPeriod: 30000
+    firefox: &firefox
+        browser: '*firefox'
+        host: 127.0.0.1
+        port: 4444
+        doNotKillBrowsers: false
+        browserTimeoutPeriod: 30000
+    iexplore: &iexplore
+        browser: '*iexplore'
+        host: 127.0.0.1
+        port: 4444
+        doNotKillBrowsers: false
+        browserTimeoutPeriod: 30000
+    googlechrome: &googlechrome
+        browser: '*googlechrome'
+        host: 127.0.0.1
+        port: 4444
+        doNotKillBrowsers: false
+        browserTimeoutPeriod: 30000
+    default: *chrome
 applications:
-  magento: &magento
-    frontendUrl   : 'http://www.localhost.com/magento/'
-    adminUrl      : 'http://www.localhost.com/magento/admin/'
-    adminLogin    : admin
-    adminPassword : admin
-    basePath      : '/path/to/app/installation'
-  default: *magento
+    magento: &magento
+        frontendUrl: http://www.localhost.com/magento/
+        adminUrl: http://www.localhost.com/magento/admin/
+        adminLogin: admin
+        adminPassword: admin
+        basePath: /local/path/to/app/installation
+    default: *magento
