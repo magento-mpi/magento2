@@ -49,13 +49,6 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/',
         '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
-    'Mage_Authorizenet' => array(
-        'app/code/core/Mage/Authorizenet/',
-        'app/design/frontend/base/default/template/authorizenet/',
-        'app/design/frontend/base/default/layout/authorizenet.xml',
-        'app/design/adminhtml/default/default/layout/authorizenet.xml',
-        'app/design/adminhtml/default/default/template/authorizenet/'
-    ),
     'Mage_Backup' => array(
         'app/code/core/Mage/Backup/',
     ),
@@ -204,11 +197,6 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/ideal.xml',
         'app/design/adminhtml/default/default/template/ideal/',
     ),
-    'Mage_ImportExport' => array(
-        'app/code/core/Mage/ImportExport/',
-        'app/design/adminhtml/default/default/layout/importexport.xml',
-        'app/design/adminhtml/default/default/template/importexport/',
-    ),
     'Mage_Index' => array(
         'app/code/core/Mage/Index/',
         'app/design/adminhtml/default/default/layout/index.xml',
@@ -237,18 +225,19 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/ogone.xml',
         'app/design/frontend/base/default/template/ogone/',
     ),
-    'Mage_Oscommerce' => array(
-        'app/code/core/Mage/Oscommerce/',
-        'app/design/frontend/base/default/template/oscommerce/',
-        'app/design/frontend/base/default/layout/oscommerce.xml',
-        'app/design/adminhtml/default/default/template/oscommerce/',
-    ),
     'Mage_Page' => array(
         'app/code/core/Mage/Page/',
         'app/design/frontend/base/default/template/page/',
         'app/design/frontend/base/default/layout/page.xml',
         'app/design/frontend/default/modern/template/page/',
         'app/design/frontend/default/modern/layout/page.xml',
+    ),
+   'Mage_PageCache' => array(
+        'app/code/core/Mage/PageCache/',
+        'app/design/frontend/base/default/template/pagecache/',
+        'app/design/frontend/base/default/layout/pagecache.xml',
+        'app/design/adminhtml/default/default/template/pagecache/',
+        'app/design/adminhtml/default/default/layout/pagecache.xml'
     ),
     'Mage_Paybox' => array(
         'app/code/core/Mage/Paybox/',
@@ -271,6 +260,11 @@ $CONFIG['translates'] = array(
     'Mage_PaypalUk' => array(
         'app/code/core/Mage/Paypal/',
         'app/design/frontend/base/default/layout/paypaluk.xml',
+    ),
+    'Mage_Persistent' => array(
+        'app/code/core/Mage/Persistent/',
+        'app/design/frontend/base/default/layout/persistent.xml',
+        'app/design/frontend/base/default/template/persistent/'
     ),
     'Mage_Poll' => array(
         'app/code/core/Mage/Poll/',
@@ -333,7 +327,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/shipping/',
         'app/design/frontend/base/default/layout/shipping.xml',
     ),
-    'Mage_Sitemap' => array(
+   'Mage_Sitemap' => array(
         'app/code/core/Mage/Sitemap/',
     ),
     'Mage_Strikeiron' => array(
@@ -379,10 +373,6 @@ $CONFIG['translates'] = array(
         'app/code/community/Phoenix/Moneybookers/',
         'app/design/frontend/base/default/template/moneybookers/',
         'app/design/frontend/base/default/layout/moneybookers.xml',
-    ),
-    'Find_Feed' => array(
-        'app/code/community/Find/Feed/',
-        'app/design/adminhtml/default/find/'
     ),
     'Enterprise_AdminGws' => array(
         'app/code/core/Enterprise/AdminGws/',
@@ -438,6 +428,9 @@ $CONFIG['translates'] = array(
         'app/code/core/Enterprise/CustomerSegment/',
         'app/design/adminhtml/default/default/layout/enterprise/customersegment.xml',
     ),
+    'Enterprise_Eav' => array(
+        'app/code/core/Enterprise/Eav/',
+    ),
     'Enterprise_Enterprise' => array(
         'app/code/core/Enterprise/Enterprise/',
     ),
@@ -468,6 +461,11 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/enterprise/giftwrapping/',
         'app/design/frontend/enterprise/default/layout/giftwrapping.xml',
         'app/design/frontend/enterprise/default/template/giftwrapping/'
+    ),
+    'Enterprise_ImportExport' => array(
+        'app/code/core/Enterprise/ImportExport/',
+        'app/design/adminhtml/default/default/layout/enterprise/importexport.xml',
+        'app/design/adminhtml/default/default/template/enterprise/importexport/',
     ),
     'Enterprise_Invitation' => array(
         'app/code/core/Enterprise/Invitation/',
@@ -500,6 +498,16 @@ $CONFIG['translates'] = array(
         'app/code/core/Enterprise/Pci/',
         'app/design/adminhtml/default/default/layout/enterprise/pci.xml',
     ),
+    'Enterprise_Persistent' => array(
+        'app/code/core/Enterprise/Persistent/',
+        'app/design/frontend/enterprise/default/template/persistent/'
+    ),
+    'Enterprise_PricePermissions' => array(
+        'app/code/core/Enterprise/PricePermissions/',
+    ),
+    'Enterprise_PromotionPermissions' => array(
+        'app/code/core/Enterprise/PromotionPermissions/',
+    ),
     'Enterprise_Reminder' => array(
         'app/code/core/Enterprise/Reminder/',
         'app/design/adminhtml/default/default/layout/enterprise/reminder.xml'
@@ -510,6 +518,13 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/enterprise/reward/',
         'app/design/frontend/enterprise/default/layout/reward.xml',
         'app/design/frontend/enterprise/default/template/reward/'
+    ),
+    'Enterprise_Rma' => array(
+        'app/code/core/Enterprise/Rma/',
+        'app/design/adminhtml/default/default/layout/enterprise/rma.xml',
+        'app/design/adminhtml/default/default/template/enterprise/rma/',
+        'app/design/frontend/enterprise/default/layout/rma.xml',
+        'app/design/frontend/enterprise/default/template/rma/'
     ),
     'Enterprise_SalesArchive' => array(
         'app/code/core/Enterprise/SalesArchive/',
@@ -540,7 +555,6 @@ $CONFIG['helpers']  = array(
     'adminhtml'         => 'Mage_Adminhtml',
     'adminnotification' => 'Mage_AdminNotification',
     'api'               => 'Mage_Api',
-    'authorizenet'      => 'Mage_Authorizenet',
     'backup'            => 'Mage_Backup',
     'bundle'            => 'Mage_Bundle',
     'catalog'           => 'Mage_Catalog',
@@ -571,20 +585,20 @@ $CONFIG['helpers']  = array(
     'googlecheckout'    => 'Mage_GoogleCheckout',
     'googleoptimizer'   => 'Mage_GoogleOptimizer',
     'ideal'             => 'Mage_Ideal',
-    'importexport'      => 'Mage_ImportExport',
     'index'             => 'Mage_Index',
     'install'           => 'Mage_Install',
     'log'               => 'Mage_Log',
     'media'             => 'Mage_Media',
     'newsletter'        => 'Mage_Newsletter',
     'ogone'             => 'Mage_Ogone',
-    'oscommerce'        => 'Mage_Oscommerce',
     'page'              => 'Mage_Page',
+    'pagecache'         => 'Mage_PageCache',
     'paybox'            => 'Mage_Paybox',
     'paygate'           => 'Mage_Paygate',
     'payment'           => 'Mage_Payment',
     'paypal'            => 'Mage_Paypal',
     'paypaluk'          => 'Mage_PaypalUk',
+    'persistent'        => 'Mage_Persistent',
     'poll'              => 'Mage_Poll',
     'productalert'      => 'Mage_ProductAlert',
     'protx'             => 'Mage_Protx',
@@ -607,7 +621,6 @@ $CONFIG['helpers']  = array(
     'widget'            => 'Mage_Widget',
     'xmlconnect'        => 'Mage_XmlConnect',
     'moneybookers'      => 'Phoenix_Moneybookers',
-    'find_feed'         => 'Find_Feed',
     'enterprise_admingws'           => 'Enterprise_AdminGws',
     'enterprise_banner'             => 'Enterprise_Banner',
     'enterprise_catalogevent'       => 'Enterprise_CatalogEvent',
@@ -617,22 +630,29 @@ $CONFIG['helpers']  = array(
     'enterprise_customer'    => 'Enterprise_Customer',
     'enterprise_customerbalance'    => 'Enterprise_CustomerBalance',
     'enterprise_customersegment'    => 'Enterprise_CustomerSegment',
+    'enterprise_eav'         => 'Enterprise_Eav',
     'enterprise_enterprise'         => 'Enterprise_Enterprise',
     'enterprise_giftcard'           => 'Enterprise_GiftCard',
     'enterprise_giftcardaccount'    => 'Enterprise_GiftCardAccount',
     'enterprise_giftregistry'       => 'Enterprise_GiftRegistry',
     'enterprise_giftwrapping'       => 'Enterprise_GiftWrapping',
+    'enterprise_importexport'       => 'Enterprise_ImportExport',
     'enterprise_invitation'         => 'Enterprise_Invitation',
     'enterprise_license'            => 'Enterprise_License',
     'enterprise_logging'            => 'Enterprise_Logging',
     'enterprise_pagecache'          => 'Enterprise_PageCache',
     'enterprise_pbridge'            => 'Enterprise_Pbridge',
     'enterprise_pci'                => 'Enterprise_Pci',
+    'enterprise_persistent'         => 'Enterprise_Persistent',
+    'enterprise_pricepermissions'   => 'Enterprise_PricePermissions',
+    'enterprise_promotionpermissions' => 'Enterprise_PromotionPermissions',
     'enterprise_reminder'           => 'Enterprise_Reminder',
     'enterprise_reward'             => 'Enterprise_Reward',
+    'enterprise_rma'             => 'Enterprise_Rma',
     'enterprise_salesarchive'       => 'Enterprise_SalesArchive',
     'enterprise_search'             => 'Enterprise_Search',
     'enterprise_staging'            => 'Enterprise_Staging',
     'enterprise_targetrule'         => 'Enterprise_TargetRule',
     'enterprise_websiterestriction' => 'Enterprise_WebsiteRestriction',
 );
+
