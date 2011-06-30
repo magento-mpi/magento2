@@ -490,7 +490,8 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
      *
      * @see Mage_Catalog_Helper_Product::addParamsToBuyRequest()
      */
-    public function updateItem($itemId, $buyRequest, $params = null) {
+    public function updateItem($itemId, $buyRequest, $params = null)
+    {
         $item = $this->getItem((int)$itemId);
         if (!$item) {
             Mage::throwException(Mage::helper('wishlist')->__('Cannot specify wishlist item.'));
