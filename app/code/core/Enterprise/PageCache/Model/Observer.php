@@ -409,6 +409,11 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
         $this->_getCookie()->updateCustomerCookies();
+
+        $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED);
+        $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
+        $this->_getCookie()->delete(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME);
+
         return $this;
     }
 
