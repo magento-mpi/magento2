@@ -696,6 +696,8 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                     'filters'    => array(
                         'within_us' => array(
                             'method' => array(
+                                '01', // Next Day Air
+                                '13', // Next Day Air Saver
                                 '14', // Next Day Air Early AM
                                 '02', // 2nd Day Air
                             )
@@ -720,8 +722,35 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                             'method' => array(
                                 '07', // Worldwide Express
                                 '54', // Worldwide Express Plus
-                                '08', // Worldwide Expedited
                                 '65', // Worldwide Saver
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'containers' => array('01', '04'), // UPS Letter, UPS PAK
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array()
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                '07', // Worldwide Express
+                                '54', // Worldwide Express Plus
+                                '65', // Worldwide Saver
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'containers' => array('04'), // UPS PAK
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array()
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                '08', // Worldwide Expedited
                             )
                         )
                     )
