@@ -185,7 +185,10 @@ Catalog.Map = {
                     if (this.qty) {
                         productAddToCartForm.qty = this.qty;
                     }
+                    cartButton.stopObserving('click');
+                    cartButton.href = this.cartLink;
                     Event.observe(cartButton, 'click', function(event) {
+                        productAddToCartForm.action = this.href;
                         productAddToCartForm.submit(this);
                     });
                 }
