@@ -262,6 +262,95 @@ cross_sells_products_1: &crossSellsProducts
     cross_sells_products_position: %noValue%
 
 #*********************************************
+#*         Bundle Items Data                 *
+#*********************************************
+
+bundle_items_1: &itemMultipleSelect
+    bundle_items_default_title: Multiple Select
+    bundle_items_input_type: Multiple Select
+    bundle_items_is_required: Yes
+    bundle_items_position: 1
+    bundle_items_add_product_1:
+        bundle_items_id: %noValue%
+        bundle_items_name: %noValue%
+        bundle_items_attribute_set: %noValue%
+        bundle_items_sku: %noValue%
+        bundle_items_price_from: %noValue%
+        bundle_items_price_to: %noValue%
+        bundle_items_qty_to_add: %noValue%
+        selection_item_price: %noValue%
+        selection_item_price_type: %noValue%
+        selection_item_default_qty: %noValue%
+        selection_item_position: %noValue%
+        selection_item_default: %noValue%
+
+bundle_items_2: &itemDropdown
+    bundle_items_default_title: Drop-down
+    bundle_items_input_type: Drop-down
+    bundle_items_is_required: No
+    bundle_items_position: 2
+    bundle_items_add_product_1:
+        bundle_items_id: %noValue%
+        bundle_items_name: %noValue%
+        bundle_items_attribute_set: %noValue%
+        bundle_items_sku: %noValue%
+        bundle_items_price_from: %noValue%
+        bundle_items_price_to: %noValue%
+        bundle_items_qty_to_add: %noValue%
+        selection_item_price: %noValue%
+        selection_item_price_type: %noValue%
+        selection_item_default_qty: %noValue%
+        selection_item_user_defined_qty: %noValue%
+        selection_item_position: %noValue%
+        selection_item_default: %noValue%
+
+bundle_items_3: &itemRadioButtons
+    bundle_items_default_title: Radio Buttons
+    bundle_items_input_type: Radio Buttons
+    bundle_items_is_required: Yes
+    bundle_items_position: 3
+    bundle_items_add_product_1:
+        bundle_items_id: %noValue%
+        bundle_items_name: %noValue%
+        bundle_items_attribute_set: %noValue%
+        bundle_items_sku: %noValue%
+        bundle_items_price_from: %noValue%
+        bundle_items_price_to: %noValue%
+        bundle_items_qty_to_add: %noValue%
+        selection_item_price: %noValue%
+        selection_item_price_type: %noValue%
+        selection_item_default_qty: %noValue%
+        selection_item_user_defined_qty: %noValue%
+        selection_item_position: %noValue%
+        selection_item_default: %noValue%
+
+bundle_items_4: &itemCheckbox
+    bundle_items_default_title: Checkbox
+    bundle_items_input_type: Checkbox
+    bundle_items_is_required: Yes
+    bundle_items_position: 4
+    bundle_items_add_product_1:
+        bundle_items_id: %noValue%
+        bundle_items_name: %noValue%
+        bundle_items_attribute_set: %noValue%
+        bundle_items_sku: %noValue%
+        bundle_items_price_from: %noValue%
+        bundle_items_price_to: %noValue%
+        bundle_items_qty_to_add: %noValue%
+        selection_item_price: %noValue%
+        selection_item_price_type: %noValue%
+        selection_item_default_qty: %noValue%
+        selection_item_position: %noValue%
+        selection_item_default: %noValue%
+
+bundle_items_data: &bundleData
+    ship_bundle_items: Separately
+    bundle_items_1: *itemMultipleSelect
+    bundle_items_2: *itemDropdown
+    bundle_items_3: *itemRadioButtons
+    bundle_items_4: *itemCheckbox
+
+#*********************************************
 #*         Simple Product Data               *
 #*********************************************
 

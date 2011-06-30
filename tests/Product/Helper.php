@@ -66,6 +66,7 @@ class Product_Helper extends Mage_Selenium_TestCase
     public function fillTab(array $productData, $tabName = 'general')
     {
         $needFilling = FALSE;
+        $waitAjax = False;
         foreach ($productData as $key => $value) {
             if (preg_match('/^' . $tabName . '/', $key) and $value !== '%noValue%') {
                 $needFilling = TRUE;
@@ -76,7 +77,13 @@ class Product_Helper extends Mage_Selenium_TestCase
             $tabXpath = $this->getCurrentLocationUimapPage()->findTab($tabName)->getXpath();
             $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
             if (!preg_match('/active/', $isTabOpened)) {
+                if (preg_match('/ajax/', $isTabOpened)) {
+                    $waitAjax = TRUE;
+                }
                 $this->clickControl('tab', $tabName, FALSE);
+                if ($waitAjax) {
+                    $this->pleaseWait();
+                }
             }
             switch ($tabName) {
                 case 'prices':
@@ -95,7 +102,6 @@ class Product_Helper extends Mage_Selenium_TestCase
                     }
                     break;
                 case 'related_products': case 'up_sells_products': case 'cross_sells_products':
-                    $this->pleaseWait();
                     foreach ($productData as $key => $value) {
                         if (preg_match('/^' . $tabName . '/', $key) and is_array($productData[$key])) {
                             $this->assignProduct($productData[$key], $tabName);
@@ -103,10 +109,21 @@ class Product_Helper extends Mage_Selenium_TestCase
                     }
                     break;
                 case 'custom_options':
-                    $this->pleaseWait();
                     foreach ($productData as $key => $value) {
-                        if (preg_match('/^custom_options/', $key)) {
+                        if (preg_match('/^custom_options/', $key) and is_array($productData[$key])) {
                             $this->addCustomOption($productData[$key]);
+                        }
+                    }
+                    break;
+                case 'bundle_items':
+                    foreach ($productData as $key => $value) {
+                        if ($key == 'bundle_items_data' and is_array($productData[$key])) {
+                            $this->fillForm($productData[$key], 'bundle_items');
+                            foreach ($productData[$key] as $k => $v) {
+                                if (preg_match('/^bundle_items/', $k) and is_array($productData[$key][$k])) {
+                                    $this->addBundelOption($productData[$key][$k]);
+                                }
+                            }
                         }
                     }
                     break;
@@ -210,6 +227,51 @@ class Product_Helper extends Mage_Selenium_TestCase
             }
             $productpositionXpath = $this->_getControlXpath('field', $tabName . '_position');
             $this->type($xpathTR . $productpositionXpath, $positionValue);
+        }
+    }
+
+    /**
+     * Add Bundel Option
+     *
+     * @param array $bundelOptionData
+     */
+    public function addBundelOption(array $bundelOptionData)
+    {
+        $productSearch = array();
+        $selectionSettings = array();
+        $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset('bundle_items')->getXpath();
+        $optionsCount = $this->getXpathCount($fieldSetXpath . "//div[@class='option-box']");
+        $this->addParameter('optionId', $optionsCount);
+        $this->clickButton('add_new_option', FALSE);
+        $this->fillForm($bundelOptionData, 'bundle_items');
+        foreach ($bundelOptionData as $key => $value) {
+            if (preg_match('/^bundle_items_add_product/', $key) and is_array($bundelOptionData[$key])) {
+                $this->_prepareDataForSearch($bundelOptionData[$key]);
+                if (count($bundelOptionData[$key]) > 0) {
+                    $this->clickButton('add_selection', FALSE);
+                    $this->pleaseWait();
+                    $this->clickButton('reset_filter', FALSE);
+                    $this->pleaseWait();
+                    foreach ($bundelOptionData[$key] as $k => $v) {
+                        if (preg_match('/^bundle_items_/', $k)) {
+                            if ($k == 'bundle_items_sku' or $k == 'bundle_items_name') {
+                                $this->addParameter('productSku', $v);
+                            }
+                            if ($k !== 'bundle_items_qty_to_add') {
+                                $productSearch[$k] = $v;
+                            } else {
+                                $selectionSettings['selection_item_default_qty'] = $v;
+                            }
+                        }
+                        if (preg_match('/^selection_item_/', $k)) {
+                            $selectionSettings[$k] = $v;
+                        }
+                    }
+                    $this->searchAndChoose($productSearch, 'select_product_to_bundle_option');
+                    $this->clickButton('add_selected_products', FALSE);
+                    $this->fillForm($selectionSettings, 'new_bundle_option');
+                }
+            }
         }
     }
 
