@@ -761,7 +761,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         if (!$this->isElementPresent($xpath)) {
             $this->fail('Control "' . $controlName . '" is not present on the page. '
-                        . 'Type: ' . $controlType . ', xpath: ' . $xpath);
+                    . 'Type: ' . $controlType . ', xpath: ' . $xpath);
         }
 
         try {
@@ -913,11 +913,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $errorMessage = isset($formFieldName)
-                                ? 'Problem with field \''
-                                  . $formFieldName
-                                  . '\': '
-                                  .  $e->getMessage()
-                                : $e->getMessage();
+                    ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
+                    : $e->getMessage();
             $this->fail($errorMessage);
         }
 
@@ -942,10 +939,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             foreach ($fieldsets as $fieldset) {
                 $uimapFields[self::FIELD_TYPE_MULTISELECT] = $fieldset->getAllMultiselects();
-                $uimapFields[self::FIELD_TYPE_DROPDOWN]    = $fieldset->getAllDropdowns();
+                $uimapFields[self::FIELD_TYPE_DROPDOWN] = $fieldset->getAllDropdowns();
                 $uimapFields[self::FIELD_TYPE_RADIOBUTTON] = $fieldset->getAllRadiobuttons();
-                $uimapFields[self::FIELD_TYPE_CHECKBOX]    = $fieldset->getAllCheckboxes();
-                $uimapFields[self::FIELD_TYPE_INPUT]       = $fieldset->getAllFields();
+                $uimapFields[self::FIELD_TYPE_CHECKBOX] = $fieldset->getAllCheckboxes();
+                $uimapFields[self::FIELD_TYPE_INPUT] = $fieldset->getAllFields();
                 foreach ($uimapFields as $fieldsType => $fieldsData) {
                     foreach ($fieldsData as $uimapFieldName => $uimapFieldValue) {
                         if ($dataFieldName == $uimapFieldName) {
@@ -1100,9 +1097,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         $itemId = $title;
                     } else {
                         $titleArr = explode('/', $title);
-                        $idKey = array_search('id', $titleArr);
-                        if ($idKey !== false && isset($titleArr[$idKey + 1])) {
-                            $itemId = $titleArr[$idKey + 1];
+                        foreach ($titleArr as $key => $value) {
+                            if (preg_match('/id$/', $value) and isset($titleArr[$key + 1])) {
+                                $itemId = $titleArr[$key + 1];
+                                break;
+                            }
                         }
                     }
                     $this->addParameter('id', $itemId);
@@ -1306,8 +1305,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _parseMessages()
     {
-        $this->messages['success']    = $this->getElementsByXpath(self::xpathSuccessMessage);
-        $this->messages['error']      = $this->getElementsByXpath(self::xpathErrorMessage);
+        $this->messages['success'] = $this->getElementsByXpath(self::xpathSuccessMessage);
+        $this->messages['error'] = $this->getElementsByXpath(self::xpathErrorMessage);
         $this->messages['validation'] = $this->getElementsByXpath(self::xpathValidationMessage,
                         'text', self::xpathFieldNameWithValidationMessage);
     }
@@ -1412,7 +1411,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
                 if ($this->checkCurrentPage('log_in_to_admin')) {
                     $loginData = array('user_name' => $this->_applicationHelper->getDefaultAdminUsername(),
-                                        'password' => $this->_applicationHelper->getDefaultAdminPassword());
+                        'password' => $this->_applicationHelper->getDefaultAdminPassword());
                     $this->fillForm($loginData);
                     $this->clickButton('login');
                     if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
