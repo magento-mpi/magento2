@@ -57,6 +57,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
             if(!Mage::getSingleton('customer/session')->getBeforeWishlistUrl()) {
                 Mage::getSingleton('customer/session')->setBeforeWishlistUrl($this->_getRefererUrl());
             }
+            Mage::getSingleton('customer/session')->setBeforeWishlistRequest($this->getRequest()->getParams());
         }
         if (!Mage::getStoreConfigFlag('wishlist/general/active')) {
             $this->norouteAction();
@@ -156,7 +157,12 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         }
 
         try {
-            $buyRequest = new Varien_Object($this->getRequest()->getParams());
+            $requestParams = $this->getRequest()->getParams();
+            if ($session->getBeforeWishlistRequest()) {
+                $requestParams = $session->getBeforeWishlistRequest();
+                $session->unsBeforeWishlistRequest();
+            }
+            $buyRequest = new Varien_Object($requestParams);
 
             $result = $wishlist->addNewItem($product, $buyRequest);
             if (is_string($result)) {
