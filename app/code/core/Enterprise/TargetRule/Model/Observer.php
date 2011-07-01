@@ -63,7 +63,7 @@ class Enterprise_TargetRule_Model_Observer
         /* @var $product Mage_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
 
-        /* @var $indexResource Enterprise_TargetRule_Model_Mysql4_Index */
+        /* @var $indexResource Enterprise_TargetRule_Model_Resource_Index */
         $indexResource = Mage::getResourceSingleton('enterprise_targetrule/index');
 
         // remove old cache index data
@@ -72,7 +72,9 @@ class Enterprise_TargetRule_Model_Observer
         // remove old matched product index
         $indexResource->removeProductIndex($product->getId());
 
-        $ruleCollection = Mage::getResourceModel('enterprise_targetrule/rule_collection');
+        $ruleCollection = Mage::getResourceModel('enterprise_targetrule/rule_collection')
+            ->addProductFilter($product->getId())
+        ;
         foreach ($ruleCollection as $rule) {
             /* @var $rule Enterprise_TargetRule_Model_Rule */
             if ($rule->validate($product)) {
