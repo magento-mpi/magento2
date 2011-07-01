@@ -113,7 +113,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
         }
 
         $map_enabled = $this->getForm()->getElement('msrp_enabled');
-        if (Mage::helper('catalog')->isMsrpEnabled() && $map_enabled) {
+        if ($map_enabled) {
             $map_enabled->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
