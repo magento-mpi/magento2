@@ -635,10 +635,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (in_array('key', $mcaArray)) {
             $key = array_search('key', $mcaArray);
             if ($mcaArray[$key - 1] == 'index') {
-                unset($mcaArray[$key - 1]);
+                $key = $key - 1;
+//                unset($mcaArray[$key - 1]);
             }
-            unset($mcaArray[$key]);
-            unset($mcaArray[$key + 1]);
+//            unset($mcaArray[$key]);
+//            unset($mcaArray[$key + 1]);
+            $count = count($mcaArray);
+            for ($i = $count; $i >= $key; $i--) {
+                unset($mcaArray[$i]);
+            }
         }
 
         //Delete action part of mca if it's index
