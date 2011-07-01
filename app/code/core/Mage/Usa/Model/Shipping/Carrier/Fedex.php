@@ -1068,7 +1068,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                         'City' => $request->getRecipientAddressCity(),
                         'StateOrProvinceCode' => $request->getRecipientAddressStateOrProvinceCode(),
                         'PostalCode' => $request->getRecipientAddressPostalCode(),
-                        'CountryCode' => $request->getRecipientAddressCountryCode()
+                        'CountryCode' => $request->getRecipientAddressCountryCode(),
+                        'Residential' => (bool)$this->getConfigData('residence_delivery')
                     ),
                 ),
                 'ShippingChargesPayment' => array(
