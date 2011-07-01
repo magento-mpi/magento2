@@ -131,7 +131,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      * Retrieve Price
      *
      * @deprecated after 1.10.1.1
-     * @see Mage_Bundle_Model_Product_Price::getPricesTierPrice()
+     * @see Mage_Bundle_Model_Product_Price::getTotalPrices()
      *
      * @param  Mage_Catalog_Model_Product $product
      * @param  string $which
@@ -139,14 +139,14 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getPrices($product, $which = null)
     {
-        return $this->getPricesTierPrice($product, $which);
+        return $this->getTotalPrices($product, $which);
     }
 
     /**
      * Retrieve Prices depending on tax
      *
      * @deprecated after 1.10.1.1
-     * @see Mage_Bundle_Model_Product_Price::getPricesTierPrice()
+     * @see Mage_Bundle_Model_Product_Price::getTotalPrices()
      *
      * @param  Mage_Catalog_Model_Product $product
      * @param  string $which
@@ -155,20 +155,19 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getPricesDependingOnTax($product, $which = null, $includeTax = null)
     {
-        return $this->getPricesTierPrice($product, $which, $includeTax);
+        return $this->getTotalPrices($product, $which, $includeTax);
     }
 
     /**
-     * Retrieve Price
-     * with take into account tier price
+     * Retrieve Price with take into account tier price
      *
      * @param  Mage_Catalog_Model_Product $product
-     * @param  string $which
+     * @param  string|null $which
      * @param  bool|null $includeTax
      * @param  bool $takeTierPrice
      * @return decimal|array
      */
-    public function getPricesTierPrice($product, $which = null, $includeTax = null, $takeTierPrice = true)
+    public function getTotalPrices($product, $which = null, $includeTax = null, $takeTierPrice = true)
     {
         // check calculated price index
         if ($product->getData('min_price') && $product->getData('max_price')) {
@@ -213,13 +212,13 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
                             $selectionMinimalPrices[] = Mage::helper('tax')->getPrice(
                                 $selection,
-                                $this->getSelectionFinalPriceTierPrice($product, $selection, 1, $qty, $takeTierPrice),
+                                $this->getSelectionFinalTotalPrice($product, $selection, 1, $qty, $takeTierPrice),
                                 $includeTax,
                                 $takeTierPrice
                             );
                             $selectionMaximalPrices[] = Mage::helper('tax')->getPrice(
                                 $selection,
-                                $this->getSelectionFinalPriceTierPrice($product, $selection, 1, null, $takeTierPrice),
+                                $this->getSelectionFinalTotalPrice($product, $selection, 1, null, $takeTierPrice),
                                 $includeTax,
                                 $takeTierPrice
                             );
@@ -398,6 +397,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Calculate final price of selection
      *
+     * @deprecated after 1.10.1.1
+     * @see Mage_Bundle_Model_Product_Price::getSelectionFinalTotalPrice()
+     *
      * @param  Mage_Catalog_Model_Product $bundleProduct
      * @param  Mage_Catalog_Model_Product $selectionProduct
      * @param  decimal $bundleQty
@@ -408,7 +410,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     public function getSelectionFinalPrice($bundleProduct, $selectionProduct, $bundleQty, $selectionQty = null,
        $multiplyQty = true)
     {
-        return $this->getSelectionFinalPriceTierPrice($bundleProduct, $selectionProduct, $bundleQty, $selectionQty,
+        return $this->getSelectionFinalTotalPrice($bundleProduct, $selectionProduct, $bundleQty, $selectionQty,
             $multiplyQty);
     }
 
@@ -424,7 +426,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      * @param  bool $takeTierPrice
      * @return decimal
      */
-    public function getSelectionFinalPriceTierPrice($bundleProduct, $selectionProduct, $bundleQty, $selectionQty,
+    public function getSelectionFinalTotalPrice($bundleProduct, $selectionProduct, $bundleQty, $selectionQty,
         $multiplyQty = true, $takeTierPrice = true)
     {
         $selectionPrice = $this->getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty, $multiplyQty);

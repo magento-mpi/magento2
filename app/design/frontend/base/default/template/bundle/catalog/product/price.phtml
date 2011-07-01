@@ -26,8 +26,8 @@
 ?>
 <?php $_product     = $this->getProduct() ?>
 <?php $_priceModel  = $_product->getPriceModel() ?>
-<?php list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getPricesTierPrice($_product, null, null, false) ?>
-<?php list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getPricesTierPrice($_product, null, true, false) ?>
+<?php list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false) ?>
+<?php list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false) ?>
 <?php $_id = $_product->getId() ?>
 
 <?php $_weeeTaxAmount = 0; ?>
