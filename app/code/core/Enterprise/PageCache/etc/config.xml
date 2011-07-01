@@ -242,6 +242,10 @@
                         <class>enterprise_pagecache/observer</class>
                         <method>customerLogin</method>
                     </enterprise_pagecache>
+                    <enterprise_pagecache_compare_list_change>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>registerCompareListChange</method>
+                    </enterprise_pagecache_compare_list_change>
                 </observers>
             </customer_login>
             <controller_action_postdispatch_customer_account_logoutSuccess>
