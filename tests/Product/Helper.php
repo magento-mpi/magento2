@@ -127,6 +127,12 @@ class Product_Helper extends Mage_Selenium_TestCase
                         }
                     }
                     break;
+                case 'associated_products':
+                    foreach ($productData as $key => $value) {
+                        if (preg_match('/^associated_products/', $key) and is_array($productData[$key])) {
+                            $this->assignProduct($productData[$key], $tabName);
+                        }
+                    }
                 default:
                     $this->fillForm($productData, $tabName);
                     break;
@@ -207,26 +213,31 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function assignProduct(array $data, $tabName)
     {
-        $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset($tabName)->getXpath();
-        $setPosition = FALSE;
-        if (isset($data[$tabName . '_position']) and $data[$tabName . '_position'] !== '%noValue%') {
-            $positionValue = $data[$tabName . '_position'];
-            unset($data[$tabName . '_position']);
-            $setPosition = True;
+        // Prepare data for find and fill in
+        $needFilling = FALSE;
+        $fillingData = array();
+        foreach ($data as $key => $value) {
+            if ($key == $tabName . '_position' || $key == $tabName . '_default_qty') {
+                $fillingData[$key] = $value;
+                unset($data[$key]);
+                $needFilling = True;
+            }
         }
+        // Search prodcut
         $this->clickButton('reset_filter', FALSE);
         $this->pleaseWait();
         $this->searchAndChoose($data, $tabName);
-        if ($setPosition) {
+        // Fill in additional data
+        if ($needFilling) {
             // Forming xpath for string that contains the lookup data
-            $xpathTR = $fieldSetXpath . "//tr";
+            $xpathTR = '//tr';
             foreach ($data as $key => $value) {
                 if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key) and $value != '%noValue%') {
                     $xpathTR .= "[contains(.,'$value')]";
                 }
             }
-            $productpositionXpath = $this->_getControlXpath('field', $tabName . '_position');
-            $this->type($xpathTR . $productpositionXpath, $positionValue);
+            $this->addParameter('productXpath', $xpathTR);
+            $this->fillForm($fillingData, $tabName);
         }
     }
 
@@ -296,6 +307,8 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->fillTab($productData, 'up_sells_products');
         $this->fillTab($productData, 'cross_sells_products');
         $this->fillTab($productData, 'custom_options');
+//        $this->fillTab($productData, 'associated_products');
+//        $this->fillTab($productData, 'bundle_items');
     }
 
     /**

@@ -231,6 +231,7 @@ prices_tier_price_2: &tierPrice2
 #*********************************************
 
 related_products_1: &relatedProducts
+    # Data to search
     related_products_id: %noValue%
     related_products_name: %noValue%
     related_products_type: %noValue%
@@ -242,14 +243,15 @@ related_products_1: &relatedProducts
     related_products_price_to: %noValue%
     related_products_position_from: %noValue%
     related_products_position_to: %noValue%
+    # Data to fill in
     related_products_position: %noValue%
-
 
 #*********************************************
 #*         Up-sells Products Data            *
 #*********************************************
 
 up_sells_products_1: &upSellsProducts
+    # Data to search
     up_sells_products_id: %noValue%
     up_sells_products_name: %noValue%
     up_sells_products_type: %noValue%
@@ -261,6 +263,7 @@ up_sells_products_1: &upSellsProducts
     up_sells_products_price_to: %noValue%
     up_sells_products_position_from: %noValue%
     up_sells_products_position_to: %noValue%
+    # Data to fill in
     up_sells_products_position: %noValue%
 
 #*********************************************
@@ -268,6 +271,7 @@ up_sells_products_1: &upSellsProducts
 #*********************************************
 
 cross_sells_products_1: &crossSellsProducts
+    # Data to search
     cross_sells_products_id: %noValue%
     cross_sells_products_name: %noValue%
     cross_sells_products_type: %noValue%
@@ -279,7 +283,41 @@ cross_sells_products_1: &crossSellsProducts
     cross_sells_products_price_to: %noValue%
     cross_sells_products_position_from: %noValue%
     cross_sells_products_position_to: %noValue%
+    # Data to fill in
     cross_sells_products_position: %noValue%
+
+#*********************************************
+#*     Associated Products Data              *
+#*********************************************
+
+associated_products_grouped: &gropedAssociatedProduct
+    # Data to search
+    associated_products_id: %noValue%
+    associated_products_name: %noValue%
+    associated_products_sku: %noValue%
+    associated_products_price_from: %noValue%
+    associated_products_price_to: %noValue%
+    associated_products_default_qty_from: %noValue%
+    associated_products_default_qty_to: %noValue%
+    associated_products_position_from: %noValue%
+    associated_products_position_to: %noValue%
+    # Data to fill in
+    associated_products_position: %noValue%
+    associated_products_default_qty: %noValue%
+
+associated_products_configurable: &configurableAssociatedProduct
+    # Data to search
+    associated_products_id: %noValue%
+    associated_products_name: %noValue%
+    associated_products_attribute_set: %noValue%
+    associated_products_sku: %noValue%
+    associated_products_price_from: %noValue%
+    associated_products_price_to: %noValue%
+    ssociated_products_inventory: %noValue%
+    associated_products_by_attribute_value: %noValue%
+    # Data to fill in
+    associated_products_price: %noValue%
+    associated_products_price_type: %noValue%
 
 #*********************************************
 #*         Bundle Items Data                 *
@@ -291,12 +329,14 @@ bundle_items_1: &itemMultipleSelect
     bundle_items_is_required: Yes
     bundle_items_position: 1
     bundle_items_add_product_1:
+        # Data to search
         bundle_items_id: %noValue%
         bundle_items_name: %noValue%
         bundle_items_attribute_set: %noValue%
         bundle_items_sku: %noValue%
         bundle_items_price_from: %noValue%
         bundle_items_price_to: %noValue%
+        # Data to fill in
         bundle_items_qty_to_add: %noValue%
         selection_item_price: %noValue%
         selection_item_price_type: %noValue%
@@ -310,12 +350,14 @@ bundle_items_2: &itemDropdown
     bundle_items_is_required: No
     bundle_items_position: 2
     bundle_items_add_product_1:
+        # Data to search
         bundle_items_id: %noValue%
         bundle_items_name: %noValue%
         bundle_items_attribute_set: %noValue%
         bundle_items_sku: %noValue%
         bundle_items_price_from: %noValue%
         bundle_items_price_to: %noValue%
+        # Data to fill in
         bundle_items_qty_to_add: %noValue%
         selection_item_price: %noValue%
         selection_item_price_type: %noValue%
@@ -330,12 +372,14 @@ bundle_items_3: &itemRadioButtons
     bundle_items_is_required: Yes
     bundle_items_position: 3
     bundle_items_add_product_1:
+        # Data to search
         bundle_items_id: %noValue%
         bundle_items_name: %noValue%
         bundle_items_attribute_set: %noValue%
         bundle_items_sku: %noValue%
         bundle_items_price_from: %noValue%
         bundle_items_price_to: %noValue%
+        # Data to fill in
         bundle_items_qty_to_add: %noValue%
         selection_item_price: %noValue%
         selection_item_price_type: %noValue%
@@ -350,12 +394,14 @@ bundle_items_4: &itemCheckbox
     bundle_items_is_required: Yes
     bundle_items_position: 4
     bundle_items_add_product_1:
+        # Data to search
         bundle_items_id: %noValue%
         bundle_items_name: %noValue%
         bundle_items_attribute_set: %noValue%
         bundle_items_sku: %noValue%
         bundle_items_price_from: %noValue%
         bundle_items_price_to: %noValue%
+        # Data to fill in
         bundle_items_qty_to_add: %noValue%
         selection_item_price: %noValue%
         selection_item_price_type: %noValue%
@@ -384,7 +430,7 @@ simple_product_required:
     general_visibility: Catalog, Search
     prices_price: 9.99
     prices_tax_class: None
-    inventory_qty: %noValue%
+    inventory_qty: 1000
 
 simple_product:
     general_name: Simple Product
