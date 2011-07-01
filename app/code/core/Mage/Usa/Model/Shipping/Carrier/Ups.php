@@ -746,7 +746,11 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                     'containers' => array('04'), // UPS PAK
                     'filters'    => array(
                         'within_us' => array(
-                            'method' => array()
+                            'method' => array(
+                                '01', // Next Day Air
+                                '14', // Next Day Air Early AM
+                                '02', // 2nd Day Air
+                            )
                         ),
                         'from_us' => array(
                             'method' => array(
@@ -1679,7 +1683,22 @@ XMLAuth;
             && $countryRecipient == self::USA_COUNTRY_ID)
             && $method == '11' // UPS Standard
         ) {
-            return array('00' => Mage::helper('usa')->__('Customer Packaging'));
+            $containerTypes = array();
+            if ($method == '07' // Worldwide Express
+                || $method == '08' // Worldwide Expedited
+                || $method == '65' // Worldwide Saver
+
+            ) {
+                $containerTypes = array(
+                    '01'    => Mage::helper('usa')->__('UPS Letter Envelope'),
+                    '03'     => Mage::helper('usa')->__('UPS Tube'),
+                    '04'    => Mage::helper('usa')->__('PAK'),
+                    '21'    => Mage::helper('usa')->__('UPS Express Box'),
+                    '24'   => Mage::helper('usa')->__('UPS Worldwide 25 kilo'),
+                    '25'   => Mage::helper('usa')->__('UPS Worldwide 10 kilo'),
+                );
+            }
+            return array_merge(array('00' => Mage::helper('usa')->__('Customer Packaging')), $containerTypes);
         }
         return $this->_getAllowedContainers($params);
     }
