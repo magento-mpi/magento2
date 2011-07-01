@@ -41,13 +41,12 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
      */
     public function getPageIdInApp(Enterprise_PageCache_Model_Processor $processor)
     {
-        $this->_prepareCatalogSession();
-
         $queryParams = array_merge($this->_getSessionParams(), $_GET);
         ksort($queryParams);
         $queryParams = json_encode($queryParams);
 
         Enterprise_PageCache_Model_Cookie::setCategoryCookieValue($queryParams);
+        $this->_prepareCatalogSession($queryParams);
 
         return $processor->getRequestId() . '_' . md5($queryParams);
     }
@@ -114,17 +113,24 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
     }
 
     /**
-     * Update catalog session from cookies
+     * Update catalog session from GET or cookies
+     *
+     * @param string $queryParams
      */
-    protected function _prepareCatalogSession()
+    protected function _prepareCatalogSession($queryParams)
     {
-        $sessionParams = Enterprise_PageCache_Model_Cookie::getCategoryCookieValue();
-        if ($sessionParams) {
+        $queryParams = (array)json_decode($queryParams);
+        if (empty($queryParams)) {
+            $queryParams = Enterprise_PageCache_Model_Cookie::getCategoryCookieValue();
+            $queryParams = (array)json_decode($queryParams);
+        }
+
+        if (is_array($queryParams) && !empty($queryParams)) {
             $session = Mage::getSingleton('catalog/session');
-            $sessionParams = (array)json_decode($sessionParams);
-            foreach ($sessionParams as $key => $value) {
+            $flipParamsMap = array_flip($this->_paramsMap);
+            foreach ($queryParams as $key => $value) {
                 if (in_array($key, $this->_paramsMap)) {
-                    $session->setData($key, $value);
+                    $session->setData($flipParamsMap[$key], $value);
                 }
             }
         }
