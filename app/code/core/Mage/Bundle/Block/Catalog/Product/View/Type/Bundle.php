@@ -122,11 +122,14 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
 
                 //$canApplyMAP = Mage::helper('catalog')->canApplyMsrp($_selection);
                 $canApplyMAP = false;
+                $_priceInclTax = Mage::helper('tax')->getPrice($_selection, $_selection->getFinalPrice(), true);
+                $_priceExclTax = Mage::helper('tax')->getPrice($_selection, $_selection->getFinalPrice());
                 $selection = array (
                     'qty'       => $_qty,
                     'customQty' => $_selection->getSelectionCanChangeQty(),
                     'price'     => $coreHelper->currency($_selection->getFinalPrice(), false, false),
-                    'taxPercent'=> $taxPercent,
+                    'priceInclTax'  => $coreHelper->currency($_priceInclTax, false, false),
+                    'priceExclTax'  => $coreHelper->currency($_priceExclTax, false, false),
                     'priceValue' => $coreHelper->currency($_selection->getSelectionPriceValue(), false, false),
                     'priceType' => $_selection->getSelectionPriceType(),
                     'tierPrice' => $tierPrices,
