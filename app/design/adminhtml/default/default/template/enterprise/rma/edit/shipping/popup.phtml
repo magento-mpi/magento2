@@ -25,6 +25,20 @@
  */
 /** @var $this Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging */
  ?>
+<?php
+$sizeSource = $this->getShippingCarrierUspsSourceSize();
+?>
+<script type="text/javascript">
+//<![CDATA[
+document.observe("dom:loaded", function() {
+    packaging.changeContainerType($$('select[name=package_container]')[0]);
+    packaging.checkSizeAndGirthParameter(
+        $$('select[name=package_container]')[0],
+        <?php echo $this->isGirthEnabled() ?>
+    );
+});
+//]]>
+</script>
 <div id="popup-window-mask" style="display:none;"></div>
 <div id="packaging_window" class="packaging-window" style="display:none;">
     <div class="entry-edit">
@@ -41,6 +55,26 @@
                 <table class="package-options" cellspacing="0">
                     <thead>
                         <th><?php echo Mage::helper('sales')->__('Type') ?></th>
+                        <?php if ($this->isGirthEnabled()): ?>
+                            <?php
+                                list($girthEnabled, $sizeEnabled) = $this->checkSizeAndGirthParameter();
+                                $girthClass     = '';
+                                $girthDisable   = '';
+                                if (!$girthEnabled) {
+                                    $girthClass     = 'disabled';
+                                    $girthDisable   = 'disabled="disabled"';
+                                }
+                                $sizeClass      = '';
+                                $sizeDisable    = '';
+                                if (!$sizeEnabled) {
+                                    $sizeClass      = 'disabled';
+                                    $sizeDisable    = 'disabled="disabled"';
+                                }
+                            ?>
+                            <th><?php echo Mage::helper('sales')->__('Size') ?></th>
+                            <th><?php echo Mage::helper('sales')->__('Girth') ?></th>
+                            <th>&nbsp;</th>
+                        <?php endif; ?>
                         <th <?php echo $this->displayCustomsValue() ? '' : 'style="display: none;"' ?>>
                             <?php echo Mage::helper('sales')->__('Customs Value') ?>
                         </th>
@@ -57,7 +91,11 @@
                     </thead>
                     <tbody>
                         <td>
-                            <select name="package_container">
+                            <?php $this->getCustomizableContainersStatus() ?>
+                            <?php $containers = $this->getContainers(); ?>
+                            <select name="package_container" onchange="packaging.changeContainerType(this);packaging.checkSizeAndGirthParameter(this, <?php echo  $this->isGirthEnabled() ?>);"<?php if (empty($containers)):?>
+                                disabled="disabled" class="disabled"
+                            <?php endif; ?>>
                                 <?php foreach ($this->getContainers() as $key => $value): ?>
                                     <option value="<?php echo $key ?>" >
                                         <?php echo $value ?>
@@ -65,6 +103,24 @@
                                 <?php endforeach; ?>
                             </select>
                         </td>
+                        <?php if ($this->isGirthEnabled()): ?>
+                            <td>
+                                <select name="package_size" onchange="packaging.checkSizeAndGirthParameter(this, <?php echo  $this->isGirthEnabled() ?>);" class="<?php echo $sizeClass?>" <?php echo $sizeDisable?>>
+                                    <?php foreach ($sizeSource as $key => $value): ?>
+                                    <option value="<?php echo $sizeSource[$key]['value'] ?>">
+                                        <?php echo $sizeSource[$key]['label'] ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                            <td><input type="text" class="input-text validate-greater-than-zero<?php echo ' '.$girthClass?>" name="container_girth" <?php echo $girthDisable?>/></td>
+                            <td>
+                                <select name="container_girth_dimension_units" class="options-units-dimensions measures<?php echo ' '.$girthClass?>" onchange="packaging.changeMeasures(this);" <?php echo $girthDisable?>>
+                                    <option value="<?php echo Zend_Measure_Length::INCH ?>" selected="selected" ><?php echo Mage::helper('sales')->__('in') ?></option>
+                                    <option value="<?php echo Zend_Measure_Length::CENTIMETER ?>" ><?php echo Mage::helper('sales')->__('cm') ?></option>
+                                </select>
+                            </td>
+                        <?php endif; ?>
                         <td <?php echo $this->displayCustomsValue() ? '' : 'style="display: none;"' ?>>
                             <input type="text" class="customs-value input-text required-entry validate-greater-than-zero" name="package_customs_value" />
                         </td>
@@ -75,14 +131,22 @@
                                 <option value="<?php echo Zend_Measure_Weight::KILOGRAM ?>" ><?php echo Mage::helper('sales')->__('kg') ?></option>
                             </select>
                         </td>
+                        <?php
+                            $class    = '';
+                            $disable  = '';
+                            if (!$this->getCustomizableContainersStatus()) {
+                                $class    = 'disabled';
+                                $disable  = 'disabled="disabled"';
+                            }
+                        ?>
                         <td>
-                            <input type="text" class="input-text validate-greater-than-zero" name="container_length" />
+                            <input type="text" class="input-text validate-greater-than-zero <?php echo $class?>" name="container_length" <?php echo $disable?>/>
                         </td>
                         <td>
-                            <input type="text" class="input-text validate-greater-than-zero" name="container_width" />
+                            <input type="text" class="input-text validate-greater-than-zero <?php echo $class?>" name="container_width" <?php echo $disable?>/>
                         </td>
                         <td>
-                            <input type="text" class="input-text validate-greater-than-zero" name="container_height" />
+                            <input type="text" class="input-text validate-greater-than-zero <?php echo $class?>" name="container_height" <?php echo $disable?>/>
                         </td>
                         <td>
                             <select name="container_dimension_units" class="options-units-dimensions measures" onchange="packaging.changeMeasures(this);">
@@ -113,6 +177,34 @@
                         </td>
                     </tbody>
                 </table>
+
+                <?php if ($this->getContentTypes()): ?>
+                <table class="package-options package-options-contents" cellspacing="0">
+                    <colgroup>
+                        <col width="150">
+                        <col width="*">
+                    </colgroup>
+                    <thead>
+                        <th><?php echo Mage::helper('sales')->__('Contents') ?></th>
+                        <th><?php echo Mage::helper('sales')->__('Explanation') ?></th>
+                    </thead>
+                    <tbody>
+                        <td>
+                            <select name="content_type" onchange="packaging.changeContentTypes(this);">
+                                <?php foreach ($this->getContentTypes() as $key => $value): ?>
+                                    <option value="<?php echo $key ?>" >
+                                        <?php echo $value ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
+                        <td>
+                            <input name="content_type_other" type="text" disabled="disabled" />
+                        </td>
+                    </tbody>
+                </table>
+                <?php endif; ?>
+
                 <div class="package-add-products">
                     <div class="package_prapare" style="display:none">
                         <div class="entry-edit-head">

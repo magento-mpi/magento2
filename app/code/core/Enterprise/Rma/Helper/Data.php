@@ -286,8 +286,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCarrier($code, $storeId = null)
     {
-        $carrierModel   = false;
-        $data           = explode('_', $code);
+        $data           = explode('_', $code, 2);
         $carrierCode    = $data[0];
 
         if (!Mage::getStoreConfig('carriers/' . $carrierCode . '/active_rma', $storeId)) {

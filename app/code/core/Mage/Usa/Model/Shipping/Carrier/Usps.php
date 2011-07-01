@@ -38,6 +38,21 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     implements Mage_Shipping_Model_Carrier_Interface
 {
     /**
+     * USPS containers
+     */
+    const CONTAINER_VARIABLE           = 'VARIABLE';
+    const CONTAINER_FLAT_RATE_BOX      = 'FLAT RATE BOX';
+    const CONTAINER_FLAT_RATE_ENVELOPE = 'FLAT RATE ENVELOPE';
+    const CONTAINER_RECTANGULAR        = 'RECTANGULAR';
+    const CONTAINER_NONRECTANGULAR     = 'NONRECTANGULAR';
+
+    /**
+     * USPS size
+     */
+    const SIZE_REGULAR = 'REGULAR';
+    const SIZE_LARGE   = 'LARGE';
+
+    /**
      * Destination Zip Code required flag
      *
      * @var int

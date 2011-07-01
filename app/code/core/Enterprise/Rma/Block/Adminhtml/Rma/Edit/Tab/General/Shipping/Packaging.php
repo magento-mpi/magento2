@@ -79,7 +79,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $address    = $order->getShippingAddress();
         $carrier    = $this->getCarrier();
 
-        $countryRecipient = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryRecipient = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
         if ($carrier) {
             $params = new Varien_Object(array(
                 'method' => $order->getShippingMethod(true)->getMethod(),
@@ -98,7 +98,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
      */
     public function displayCustomsValue()
     {
-
         $storeId    = $this->getRma()->getStoreId();
         $order      = $this->getRma()->getOrder();
         $code       = $this->getRequest()->getParam('method');
@@ -131,11 +130,148 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
             $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $storeId);
             $countryId  = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
             $params = new Varien_Object(array('country_recipient' => $countryId));
-            
+
             if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
                 return $carrier->getDeliveryConfirmationTypes($params);
             }
         }
         return array();
+    }
+
+    /**
+     * Check whether girth is allowed for current carrier
+     *
+     * @return bool
+     */
+    public function isGirthAllowed()
+    {
+        $storeId    = $this->getRma()->getStoreId();
+        $code       = $this->getRequest()->getParam('method');
+        $girth      = false;
+        if (!empty($code)) {
+            list($carrierCode, $methodCode) = explode('_', $code, 2);
+            $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $storeId);
+            $countryId  = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
+
+            $girth = $carrier->isGirthAllowed($countryId);
+        }
+        return $girth;
+    }
+
+    /**
+     * Return girth status
+     *
+     * @return bool
+     */
+    public function isGirthEnabled()
+    {
+        $code       = $this->getRequest()->getParam('method');
+        $girth      = false;
+        if (!empty($code)) {
+            $girth = (Mage::helper('usa')->displayGirthValue($code) && $this->isGirthAllowed()) ? 1 : 0;
+        }
+
+        return $girth;
+    }
+
+    /**
+     * Return content types of package
+     *
+     * @return array
+     */
+    public function getContentTypes()
+    {
+        $storeId    = $this->getRma()->getStoreId();
+        $code       = $this->getRequest()->getParam('method');
+        if (!empty($code)) {
+            list($carrierCode, $methodCode) = explode('_', $code, 2);
+            $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $storeId);
+            $countryId  = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
+
+            $order              = Mage::getModel('sales/order')->load($this->getRma()->getOrderId());
+            $shipperAddress     = $order->getShippingAddress();
+             if ($carrier) {
+                $params = new Varien_Object(array(
+                    'method'            => $methodCode,
+                    'country_shipper'   => $shipperAddress->getCountryId(),
+                    'country_recipient' => $countryId,
+                ));
+                return $carrier->getContentTypes($params);
+            }
+        }
+
+        return array();
+    }
+
+    /**
+     * Return customizable containers status
+     *
+     * @return bool
+     */
+    public function getCustomizableContainersStatus()
+    {
+        $storeId = $this->getRma()->getStoreId();
+        $code    = $this->getRequest()->getParam('method');
+        $carrier = Mage::helper('enterprise_rma')->getCarrier($code, $storeId);
+        if ($carrier) {
+            $getCustomizableContainers =  $carrier->getCustomizableContainerTypes();
+
+            if (in_array(key($this->getContainers()),$getCustomizableContainers)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Return shipping carrier usps source sizes
+     *
+     * @return array
+     */
+    public function getShippingCarrierUspsSourceSize()
+    {
+        return Mage::getModel('usa/shipping_carrier_usps_source_size')->toOptionArray();
+    }
+
+    /**
+     * Check size and girth parameter
+     *
+     * @return array
+     */
+    public function checkSizeAndGirthParameter()
+    {
+        $storeId = $this->getRma()->getStoreId();
+        $code    = $this->getRequest()->getParam('method');
+        $carrier = Mage::helper('enterprise_rma')->getCarrier($code, $storeId);
+
+        $girthEnabled   = false;
+        $sizeEnabled    = false;
+        $regular        = $this->getShippingCarrierUspsSourceSize();
+        if ($carrier && isset($regular[0]['value'])) {
+            if ($regular[0]['value'] == 'LARGE'
+                && in_array(
+                    key($this->getContainers()),
+                    array(
+                        Mage_Usa_Model_Shipping_Carrier_Usps::CONTAINER_NONRECTANGULAR,
+                        Mage_Usa_Model_Shipping_Carrier_Usps::CONTAINER_VARIABLE,
+                    )
+                )
+            ) {
+                $girthEnabled = true;
+            }
+
+            if (in_array(
+                key($this->getContainers()),
+                array(
+                    Mage_Usa_Model_Shipping_Carrier_Usps::CONTAINER_NONRECTANGULAR,
+                    Mage_Usa_Model_Shipping_Carrier_Usps::CONTAINER_RECTANGULAR,
+                    Mage_Usa_Model_Shipping_Carrier_Usps::CONTAINER_VARIABLE,
+                )
+            )) {
+                $sizeEnabled = true;
+            }
+        }
+
+        return array($girthEnabled, $sizeEnabled);
     }
 }

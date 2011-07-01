@@ -499,9 +499,11 @@ Packaging.prototype = {
         if (!girthEnabled) {
             packageGirth[0].value='';
             packageGirth[0].disable();
+            packageGirth[0].addClassName('disabled');
             packageGirthDimensionUnits[0].disable();
         } else {
             packageGirth[0].enable();
+            packageGirth[0].removeClassName('disabled');
             packageGirthDimensionUnits[0].enable();
         }
 
@@ -515,6 +517,7 @@ Packaging.prototype = {
             packageSize[0].options.add(option);
             packageSize[0].value = '';
             packageSize[0].disable();
+            packageSize[0].addClassName('disabled');
         } else {
             for (i = 0; i < packageSize[0].length; i ++) {
                 if (packageSize[0].options[i].value == '') {
@@ -522,6 +525,7 @@ Packaging.prototype = {
                 }
             }
             packageSize[0].enable();
+            packageSize[0].removeClassName('disabled');
         }
     },
 

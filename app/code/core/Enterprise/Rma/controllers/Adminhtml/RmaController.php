@@ -901,6 +901,12 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $itemsGridUrl   = $this->getUrl('*/*/getShippingItemsGrid', $urlParams);
         $thisPage       = $this->getUrl('*/*/edit', $urlParams);
 
+        $code    = $this->getRequest()->getParam('method');
+        $carrier = Mage::helper('enterprise_rma')->getCarrier($code, $model->getStoreId());
+        if ($carrier) {
+            $getCustomizableContainers =  $carrier->getCustomizableContainerTypes();
+        }
+
         foreach ($items as $item) {
             $itemsQty[$item->getItemId()]       = $item->getQty();
             $itemsPrice[$item->getItemId()]     = $item->getPrice();
@@ -927,7 +933,8 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             'shipmentItemsProductId'=> $itemsProductId,
 
             'shippingInformation'   => $shippingInformation,
-            'thisPage'              => $thisPage
+            'thisPage'              => $thisPage,
+            'customizable'          => $getCustomizableContainers
         );
 
         return Mage::helper('core')->jsonEncode($data);
