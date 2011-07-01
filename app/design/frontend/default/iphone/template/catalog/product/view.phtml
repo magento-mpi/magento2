@@ -60,6 +60,7 @@
                             <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                             <?php echo $this->getChildHtml('product_type_data') ?>
                         </div>
+                        <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
                         <fieldset class="add-to-cart-box">
                             <?php if($_product->isSaleable()): ?>
                                 <?php echo $this->getChildHtml('addtocart') ?>
