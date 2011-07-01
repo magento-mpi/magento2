@@ -112,9 +112,9 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
             );
         }
 
-        $map_enabled = $this->getForm()->getElement('msrp_enabled');
-        if ($map_enabled) {
-            $map_enabled->setAfterElementHtml(
+        $mapEnabled = $this->getForm()->getElement('msrp_enabled');
+        if ($mapEnabled) {
+            $mapEnabled->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
                 function changePriceTypeMap() {
