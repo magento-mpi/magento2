@@ -248,7 +248,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $sizeEnabled    = false;
         $regular        = $this->getShippingCarrierUspsSourceSize();
         if ($carrier && isset($regular[0]['value'])) {
-            if ($regular[0]['value'] == 'LARGE'
+            if ($regular[0]['value'] == Mage_Usa_Model_Shipping_Carrier_Usps::SIZE_LARGE
                 && in_array(
                     key($this->getContainers()),
                     array(
