@@ -799,6 +799,7 @@ $tables = array(
             'value' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_DATETIME,
                 'nullable'  => false,
+                'default' => '0000-00-00 00:00:00',
                 'comment'   => 'Value'
             )
         ),
@@ -994,6 +995,7 @@ $tables = array(
             'value' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_DATETIME,
                 'nullable'  => false,
+                'default' => '0000-00-00 00:00:00',
                 'comment'   => 'Value'
             )
         ),
