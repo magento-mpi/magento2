@@ -159,8 +159,11 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         $type = null;
         $length = null;
         switch ($data['type']) {
-            case 'datetime':
+            case 'timestamp':
                 $type = Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
+                break;
+            case 'datetime':
+                $type = Varien_Db_Ddl_Table::TYPE_DATETIME;
                 break;
             case 'decimal':
                 $type = Varien_Db_Ddl_Table::TYPE_DECIMAL;

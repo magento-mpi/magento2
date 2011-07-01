@@ -43,6 +43,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     const DEBUG_QUERY               = 2;
 
     const TIMESTAMP_FORMAT          = 'Y-m-d H:i:s';
+    const DATETIME_FORMAT           = 'Y-m-d H:i:s';
     const DATE_FORMAT               = 'Y-m-d';
 
     const DDL_DESCRIBE              = 1;
@@ -232,6 +233,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         Varien_Db_Ddl_Table::TYPE_DECIMAL       => 'decimal',
         Varien_Db_Ddl_Table::TYPE_NUMERIC       => 'decimal',
         Varien_Db_Ddl_Table::TYPE_DATE          => 'date',
+        Varien_Db_Ddl_Table::TYPE_DATETIME      => 'datetime',
         Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'datetime',
         Varien_Db_Ddl_Table::TYPE_TEXT          => 'text',
         Varien_Db_Ddl_Table::TYPE_BLOB          => 'text',

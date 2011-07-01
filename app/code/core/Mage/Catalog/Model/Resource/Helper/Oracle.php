@@ -75,11 +75,11 @@ class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_
         $typeIntended = strtolower($this->_ddlColumnTypes[$intendedDdl['type']]);
         $typeDescribed = strtolower($this->_ddlColumnTypes[$describedInfo['type']]);
         if ($typeIntended != $typeDescribed) {
-            // Describe table mistakes and shows that 'smallint' column is really an integer
-            if (($typeIntended == 'smallint')
-                && ($typeDescribed == Varien_Db_Ddl_Table::TYPE_INTEGER)
-                ) {
-                // Types matched, do nothing
+            // Fix ambiguities - return false only when types do not match
+            if (($typeIntended == 'smallint') && ($typeDescribed == Varien_Db_Ddl_Table::TYPE_INTEGER)) {
+                /**
+                 * Describe table mistakes and shows that 'smallint' column is really an integer.
+                 */
             } else {
                 // Types not matched
                 return false;

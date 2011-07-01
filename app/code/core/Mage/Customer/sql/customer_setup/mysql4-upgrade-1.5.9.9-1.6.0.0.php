@@ -797,7 +797,7 @@ $tables = array(
                 'comment'   => 'Entity Id'
             ),
             'value' => array(
-                'type'      => Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
+                'type'      => Varien_Db_Ddl_Table::TYPE_DATETIME,
                 'nullable'  => false,
                 'comment'   => 'Value'
             )
@@ -992,7 +992,7 @@ $tables = array(
                 'comment'   => 'Entity Id'
             ),
             'value' => array(
-                'type'      => Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
+                'type'      => Varien_Db_Ddl_Table::TYPE_DATETIME,
                 'nullable'  => false,
                 'comment'   => 'Value'
             )

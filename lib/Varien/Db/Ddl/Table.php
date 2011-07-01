@@ -45,7 +45,8 @@ class Varien_Db_Ddl_Table
     const TYPE_NUMERIC          = 'numeric';
     const TYPE_DECIMAL          = 'decimal';
     const TYPE_DATE             = 'date';
-    const TYPE_TIMESTAMP        = 'timestamp';
+    const TYPE_TIMESTAMP        = 'timestamp'; // Capable to support date-time from 1970 + auto-triggers in some RDBMS
+    const TYPE_DATETIME         = 'datetime'; // Capable to support long date-time before 1970
     const TYPE_TEXT             = 'text';
     const TYPE_BLOB             = 'blob'; // Used for back compatibility, when query param can't use statement options
     const TYPE_VARBINARY        = 'varbinary'; // A real blob, stored as binary inside DB
@@ -327,6 +328,7 @@ class Varien_Db_Ddl_Table
                 }
                 break;
             case self::TYPE_DATE:
+            case self::TYPE_DATETIME:
             case self::TYPE_TIMESTAMP:
                 break;
             case self::TYPE_TEXT:

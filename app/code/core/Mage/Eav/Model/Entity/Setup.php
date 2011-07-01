@@ -1272,7 +1272,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         $types = array();
         if (!$isNoDefaultTypes) {
             $types = array(
-                'datetime'  => array(Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null),
+                'datetime'  => array(Varien_Db_Ddl_Table::TYPE_DATETIME, null),
                 'decimal'   => array(Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4'),
                 'int'       => array(Varien_Db_Ddl_Table::TYPE_INTEGER, null),
                 'text'      => array(Varien_Db_Ddl_Table::TYPE_TEXT, '64k'),

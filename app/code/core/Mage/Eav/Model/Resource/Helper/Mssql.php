@@ -47,12 +47,14 @@ class Mage_Eav_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Help
         Varien_Db_Ddl_Table::TYPE_FLOAT         => 'float',
         Varien_Db_Ddl_Table::TYPE_DECIMAL       => 'decimal',
         Varien_Db_Ddl_Table::TYPE_NUMERIC       => 'decimal',
-        Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'datetime',
         Varien_Db_Ddl_Table::TYPE_DATE          => 'datetime',
+        Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'datetime',
+        Varien_Db_Ddl_Table::TYPE_DATETIME      => 'datetime',
         Varien_Db_Ddl_Table::TYPE_TEXT          => 'text',
         Varien_Db_Ddl_Table::TYPE_BLOB          => 'text',
+        Varien_Db_Ddl_Table::TYPE_VARBINARY     => 'varbinary'
     );
-    
+
     /**
      * Returns columns for select
      *

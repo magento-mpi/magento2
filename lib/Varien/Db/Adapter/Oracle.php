@@ -187,6 +187,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         Varien_Db_Ddl_Table::TYPE_NUMERIC       => 'NUMBER',
         Varien_Db_Ddl_Table::TYPE_DATE          => 'DATE',
         Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'TIMESTAMP',
+        Varien_Db_Ddl_Table::TYPE_DATETIME      => 'TIMESTAMP',
         Varien_Db_Ddl_Table::TYPE_TEXT          => 'VARCHAR2',
         Varien_Db_Ddl_Table::TYPE_BLOB          => 'CLOB',
         Varien_Db_Ddl_Table::TYPE_VARBINARY     => 'BLOB'
