@@ -1846,4 +1846,26 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $this->_itemsById = array();
         return parent::clear();
     }
+
+    /**
+     * Apply filtering by product visibility.
+     * Unlike setVisibility, do not join aditional tables
+     * and do not add filter by store, category etc.
+     *
+     * @param array|string $filter
+     * @return Mage_Catalog_Model_Resource_Product_Collection
+     */
+    public function filterByVisibility($filter)
+    {
+        $conditions = array(
+            'cat_index_pure.product_id=e.entity_id',
+            $this->getConnection()->quoteInto('cat_index_pure.visibility IN(?)', $filter)
+        );
+        $this->getSelect()->join(
+            array('cat_index_pure' => $this->getTable('catalog/category_product_index')),
+            join(' AND ', $conditions),
+            ''
+        );
+        return $this;
+    }
 }
