@@ -73,10 +73,8 @@ class Mage_Persistent_Model_Observer
 
         /** @var $block Mage_Core_Block_Abstract */
         $block = $observer->getEvent()->getBlock();
-        /** @var $placeholder Enterprise_PageCache_Model_Container_Placeholder */
-        $placeholder = $observer->getEvent()->getPlaceholder();
 
-        if (!$block || !$placeholder) {
+        if (!$block) {
             return $this;
         }
 
