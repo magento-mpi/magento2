@@ -63,7 +63,6 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
     public function openAttribute($searchData)
     {
         $this->clickButton('reset_filter');
-        $this->navigate('manage_attributes');
         $this->assertTrue($this->searchAndOpen($searchData), 'Attribute is not found');
     }
 
@@ -92,7 +91,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
     {
         // Defining and adding %fieldSetId% for Uimap pages.
         $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('general');
+        $fieldSet = $page->findFieldset('product_general');
         $id = explode('_', $this->getAttribute($fieldSet->getXPath() . '@id'));
         foreach ($id as $value) {
             if (is_numeric($value)) {

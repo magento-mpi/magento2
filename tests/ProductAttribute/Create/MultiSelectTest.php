@@ -143,33 +143,25 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty($emptyField)
     {
         //Data
-        if (!array_key_exists('attribute_code', $emptyField)) {
-            $attrData = $this->loadData('product_attribute_multiselect', $emptyField,
-                            'attribute_code');
-        } else {
-            $attrData = $this->loadData('product_attribute_multiselect', $emptyField);
+        if ($emptyField == 'attribute_code') {
+            $attrData = $this->loadData('product_attribute_multiselect',
+                            array($emptyField => '%noValue%'));
+        } elseif ($emptyField == 'apply_to') {
+            $attrData = $this->loadData('product_attribute_multiselect',
+                            array($emptyField => 'Selected Product Types'), 'attribute_code');
+        } elseif ($emptyField == 'admin_title') {
+            $attrData = $this->loadData('product_attribute_multiselect',
+                            array($emptyField => '%noValue%'), 'attribute_code');
         }
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $page = $this->getUimapPage('admin', 'new_product_attribute');
-        foreach ($emptyField as $fieldName => $fieldXpath) {
-            switch ($fieldName) {
-                case 'attribute_code':
-                    $fieldSet = $page->findFieldset('attribute_properties');
-                    $xpath = $fieldSet->findField($fieldName);
-                    break;
-                case 'admin_title':
-                    $fieldSet = $page->findFieldset('manage_titles');
-                    $xpath = $fieldSet->findField($fieldName);
-                    break;
-                case 'apply_to':
-                    $fieldSet = $page->findFieldset('attribute_properties');
-                    $xpath = $fieldSet->findMultiselect('apply_product_types');
-                    break;
-            }
-            $this->addParameter('fieldXpath', $xpath);
+        if ($emptyField != 'apply_to') {
+            $fieldXpath = $this->_getControlXpath('field', $emptyField);
+        } else {
+            $fieldXpath = $this->_getControlXpath('multiselect', 'apply_product_types');
         }
+        $this->addParameter('fieldXpath', $fieldXpath);
         $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -177,9 +169,9 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     public function data_EmptyField()
     {
         return array(
-            array(array('attribute_code' => '%noValue%')),
-            array(array('admin_title' => '%noValue%')),
-            array(array('apply_to' => 'Selected Product Types'))
+            array('attribute_code'),
+            array('admin_title'),
+            array('apply_to')
         );
     }
 
@@ -201,26 +193,26 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
      * @dataProvider data_WrongCode
      * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithInvalidAttributeCode($wrongAttributeCode, $errorMeassage)
+    public function test_WithInvalidAttributeCode($wrongAttributeCode, $validationMessage)
     {
         //Data
-        $attrData = $this->loadData('product_attribute_multiselect', $wrongAttributeCode);
+        $attrData = $this->loadData('product_attribute_multiselect',
+                        array('attribute_code' => $wrongAttributeCode));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertTrue($this->errorMessage($errorMeassage), $this->messages);
+        $this->assertTrue($this->validationMessage($validationMessage), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     public function data_WrongCode()
     {
         return array(
-            array(array('attribute_code' => '11code_wrong'), 'invalid_attribute_code'),
-            array(array('attribute_code' => 'CODE_wrong'), 'invalid_attribute_code'),
-            array(array('attribute_code' => 'wrong code'), 'invalid_attribute_code'),
-            array(array('attribute_code' => $this->generate('string', 11, ':punct:')),
-                'invalid_attribute_code'),
-            array(array('attribute_code' => $this->generate('string', 31, ':lower:')),
-                'wrong_length_attribute_code')
+            array('11code_wrong', 'invalid_attribute_code'),
+            array('CODE_wrong', 'invalid_attribute_code'),
+            array('wrong code', 'invalid_attribute_code'),
+            array($this->generate('string', 11, ':punct:'), 'invalid_attribute_code'),
+            array($this->generate('string', 33, ':lower:'), 'wrong_length_attribute_code')
         );
     }
 
@@ -245,8 +237,8 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     public function test_WithInvalidPosition($invalidPosition)
     {
         //Data
-        $attrData = $this->loadData('product_attribute_multiselect', $invalidPosition,
-                        'attribute_code');
+        $attrData = $this->loadData('product_attribute_multiselect',
+                        array('position' => $invalidPosition), 'attribute_code');
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -257,13 +249,12 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     public function data_InvalidPosition()
     {
         return array(
-            array(array('position' => '11code')),
-            array(array('position' => 'CODE11')),
-            array(array('position' => '11 11')),
-            array(array('position' => '11 11')),
-            array(array('position' => '11.11')),
-            array(array('position' => '11,11')),
-            array(array('position' => $this->generate('string', 10, ':punct:')))
+            array('11code'),
+            array('CODE11'),
+            array('11 11'),
+            array('11.11'),
+            array('11,11'),
+            array($this->generate('string', 10, ':punct:'))
         );
     }
 
@@ -339,53 +330,6 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
         $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
-    }
-
-    /**
-     * Checking of attributes creation functionality during product createion process
-     *
-     * Steps:
-     * 1.Go to Catalog->Attributes->Manage Products
-     * 2.Click on "Add Product" button
-     * 3.Specify settings for product creation
-     * 3.1.Select "Attribute Set"
-     * 3.2.Select "Product Type"
-     * 4.Click on "Continue" button
-     * 5.Click on "Create New Attribute" button in the top of "General" fieldset under "General" tab
-     * 6.Choose "Multiple Select" in 'Catalog Input Type for Store Owner' Multiple Select
-     * 7.Fill all required fields.
-     * 8.Click on "Save Attribute" button
-     *
-     * Expected result:
-     * New attribute ["Multiple Select" type] successfully created.
-     * Success message: 'The product attribute has been saved.' is displayed.
-     * Pop-up window is closed automatically
-     *
-     * @depends test_WithRequiredFieldsOnly
-     */
-    public function test_OnProductPage_WithRequiredFieldsOnly()
-    {
-        //Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        $attrData = $this->loadData('product_attribute_multiselect', null,
-                        array('attribute_code', 'admin_title'));
-        //Steps
-        $this->navigate('manage_products');
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        $this->productAttributeHelper()->createAttributeOnGeneralTab($attrData);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-        $this->selectWindow(null);
-    }
-
-    /**
-     * @TODO : Waiting a tests for Configurable products
-     */
-    public function test_OnProductPage_WithOptions()
-    {
-        //  @TODO : Waiting a tests for Configurable products
-        $this->markTestIncomplete();
     }
 
 }
