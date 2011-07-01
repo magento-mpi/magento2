@@ -628,6 +628,7 @@ class Enterprise_Reward_Model_Observer
         return $this;
     }
 
+
     /**
      * Set invoiced reward amount to order after invoice register
      *
@@ -647,12 +648,27 @@ class Enterprise_Reward_Model_Observer
                 $order->getBaseRewardCurrencyAmountInvoiced() + $invoice->getBaseRewardCurrencyAmount()
             );
         }
-        // Update inviter balance if possible
-        if (!$invoice->getOrigData($invoice->getResource()->getIdFieldName()) ) {
-            $this->_invitationToOrder($observer);
-        }
+
         return $this;
     }
+
+    /**
+     * Update inviter balance if possible
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function invoicePay(Varien_Event_Observer $observer)
+    {
+        /* @var $invoice Mage_Sales_Model_Order_Invoice */
+        $invoice = $observer->getEvent()->getInvoice();
+        if (!$invoice->getOrigData($invoice->getResource()->getIdFieldName())) {
+            $this->_invitationToOrder($observer);
+        }
+
+        return $this;
+    }
+
     /**
      * Set reward points balance to refund before creditmemo register
      *

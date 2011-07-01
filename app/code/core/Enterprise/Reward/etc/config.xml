@@ -196,6 +196,14 @@
                     </enterprise_reward>
                 </observers>
             </sales_order_invoice_register>
+            <sales_order_invoice_pay>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>invoicePay</method>
+                    </enterprise_reward>
+                </observers>
+            </sales_order_invoice_pay>
             <sales_order_invoice_save_commit_after>
                 <observers>
                     <enterprise_reward>
