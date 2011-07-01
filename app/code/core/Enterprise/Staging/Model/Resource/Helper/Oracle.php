@@ -139,4 +139,27 @@ class Enterprise_Staging_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Res
                 . " comments LIKE '% (Prefix:" . $prefix . ")%'";
         return $this->_getReadAdapter()->fetchCol($sql);
     }
+
+    /**
+     * Modify table properties before Staging Item Data Insert
+     *
+     * @param array $tableDesc
+     * @return void
+     */
+    public function beforeIdentityItemDataInsert($tableDesc)
+    {
+        $this->_getWriteAdapter()->disableTableKeys($tableDesc['table_name']);
+    }
+
+    /**
+     * Modify table properties after Staging Item Data Insert
+     *
+     * @param array $tableDesc
+     * @return void
+     */
+    public function afterIdentityItemDataInsert($tableDesc)
+    {
+        $this->_getWriteAdapter()->enableTableKeys($tableDesc['table_name']);
+    }
+
 }

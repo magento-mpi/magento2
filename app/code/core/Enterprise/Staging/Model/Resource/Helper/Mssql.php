@@ -143,4 +143,40 @@ class Enterprise_Staging_Model_Resource_Helper_Mssql extends Mage_Eav_Model_Reso
         $sql    = "SELECT name FROM sys.Tables where name like '" . str_replace('_', '[_]', $prefix) . "%'";
         return $this->_getReadAdapter()->fetchCol($sql);
     }
+
+    /**
+     * Modify table properties before Staging Item Data Insert
+     *
+     * @param array $tableDesc
+     * @return void
+     */
+    public function beforeIdentityItemDataInsert($tableDesc)
+    {
+        $field = reset($tableDesc['fields']);
+        if ($field['IDENTITY']) {
+            $adapter = $this->_getWriteAdapter();
+            $adapter->query(
+                sprintf('SET IDENTITY_INSERT %s ON', $adapter->quoteIdentifier($tableDesc['table_name']))
+            );
+        }
+        $this->_getWriteAdapter()->disableTableKeys($tableDesc['table_name']);
+    }
+
+    /**
+     * Modify table properties after Staging Item Data Insert
+     *
+     * @param array $tableDesc
+     * @return void
+     */
+    public function afterIdentityItemDataInsert($tableDesc)
+    {
+        $field = reset($tableDesc['fields']);
+        if ($field['IDENTITY']) {
+            $adapter = $this->_getWriteAdapter();
+            $adapter->query(
+                sprintf('SET IDENTITY_INSERT %s OFF', $adapter->quoteIdentifier($tableDesc['table_name']))
+            );
+        }
+        $this->_getWriteAdapter()->enableTableKeys($tableDesc['table_name']);
+    }
 }

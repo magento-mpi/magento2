@@ -105,4 +105,26 @@ class Enterprise_Staging_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
         $sql    = "SHOW TABLES LIKE '" . str_replace('_', '\_', $prefix) . "%'";
         return $this->_getReadAdapter()->fetchCol($sql);
     }
+
+    /**
+     * Modify table properties before Staging Item Data Insert
+     *
+     * @param array $tableDesc
+     * @return void
+     */
+    public function beforeIdentityItemDataInsert($tableDesc)
+    {
+        $this->_getWriteAdapter()->disableTableKeys($tableDesc['table_name']);
+    }
+
+    /**
+     * Modify table properties after Staging Item Data Insert
+     *
+     * @param array $tableDesc
+     * @return void
+     */
+    public function afterIdentityItemDataInsert($tableDesc)
+    {
+        $this->_getWriteAdapter()->enableTableKeys($tableDesc['table_name']);
+    }
 }
