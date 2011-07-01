@@ -34,6 +34,13 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
     );
 
     /**
+     * Query params
+     *
+     * @var string
+     */
+    protected $_queryParams;
+
+    /**
      * Return cache page id with application. Depends on catalog session and GET super global array.
      *
      * @param Enterprise_PageCache_Model_Processor $processor
@@ -41,12 +48,10 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
      */
     public function getPageIdInApp(Enterprise_PageCache_Model_Processor $processor)
     {
-        $queryParams = array_merge($this->_getSessionParams(), $_GET);
-        ksort($queryParams);
-        $queryParams = json_encode($queryParams);
+        $queryParams = $this->_getQueryParams();
 
         Enterprise_PageCache_Model_Cookie::setCategoryCookieValue($queryParams);
-        $this->_prepareCatalogSession($queryParams);
+        $this->_prepareCatalogSession();
 
         return $processor->getRequestId() . '_' . md5($queryParams);
     }
@@ -117,12 +122,12 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
      *
      * @param string $queryParams
      */
-    protected function _prepareCatalogSession($queryParams)
+    protected function _prepareCatalogSession()
     {
-        $queryParams = (array)json_decode($queryParams);
+        $queryParams = json_decode($this->_getQueryParams(), true);
         if (empty($queryParams)) {
             $queryParams = Enterprise_PageCache_Model_Cookie::getCategoryCookieValue();
-            $queryParams = (array)json_decode($queryParams);
+            $queryParams = json_decode($queryParams, true);
         }
 
         if (is_array($queryParams) && !empty($queryParams)) {
@@ -134,5 +139,21 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
                 }
             }
         }
+    }
+
+    /**
+     * Return merged session and GET params
+     *
+     * @return string
+     */
+    protected function _getQueryParams()
+    {
+        if (is_null($this->_queryParams)) {
+            $queryParams = array_merge($this->_getSessionParams(), $_GET);
+            ksort($queryParams);
+            $this->_queryParams = json_encode($queryParams);
+        }
+
+        return $this->_queryParams;
     }
 }
