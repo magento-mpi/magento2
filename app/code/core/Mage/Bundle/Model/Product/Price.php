@@ -210,14 +210,16 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                                 $qty = min(1, $qty);
                             }
 
+                            $item = $product->getPriceType() ? $product : $selection;
+
                             $selectionMinimalPrices[] = Mage::helper('tax')->getPrice(
-                                $selection,
+                                $item,
                                 $this->getSelectionFinalTotalPrice($product, $selection, 1, $qty, $takeTierPrice),
                                 $includeTax,
                                 $takeTierPrice
                             );
                             $selectionMaximalPrices[] = Mage::helper('tax')->getPrice(
-                                $selection,
+                                $item,
                                 $this->getSelectionFinalTotalPrice($product, $selection, 1, null, $takeTierPrice),
                                 $includeTax,
                                 $takeTierPrice

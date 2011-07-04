@@ -120,10 +120,25 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                     );
                 }
 
+                $itemPrice = $_selection->getFinalPrice();
+                if ($_selection->getSelectionPriceValue() != 0) {
+                    $itemPrice = $_selection->getSelectionPriceValue();
+                }
+
                 //$canApplyMAP = Mage::helper('catalog')->canApplyMsrp($_selection);
                 $canApplyMAP = false;
-                $_priceInclTax = Mage::helper('tax')->getPrice($_selection, $_selection->getFinalPrice(), true);
-                $_priceExclTax = Mage::helper('tax')->getPrice($_selection, $_selection->getFinalPrice());
+
+                /* @var $taxHelper Mage_Tax_Helper_Data */
+                $taxHelper = Mage::helper('tax');
+
+                $_priceInclTax = $taxHelper->getPrice($_selection, $itemPrice, true);
+                $_priceExclTax = $taxHelper->getPrice($_selection, $itemPrice);
+
+                if ($currentProduct->getPriceType()) {
+                    $_priceInclTax = $taxHelper->getPrice($currentProduct, $itemPrice, true);
+                    $_priceExclTax = $taxHelper->getPrice($currentProduct, $itemPrice);
+                }
+
                 $selection = array (
                     'qty'       => $_qty,
                     'customQty' => $_selection->getSelectionCanChangeQty(),

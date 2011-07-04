@@ -247,7 +247,8 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
     {
         $taxHelper  = Mage::helper('tax');
         $coreHelper = $this->helper('core');
-        if ($this->getFormatProduct()) {
+        $currentProduct = $this->getProduct();
+        if (!$currentProduct->getPriceType() && $this->getFormatProduct()) {
             $product = $this->getFormatProduct();
         } else {
             $product = $this->getProduct();

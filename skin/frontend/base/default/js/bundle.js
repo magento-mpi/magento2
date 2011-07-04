@@ -112,6 +112,7 @@ Product.Bundle.prototype = {
     },
 
     selectionPrice: function(optionId, selectionId) {
+//        debugger;
         if (selectionId == '' || selectionId == 'none') {
             return 0;
         }
@@ -156,7 +157,7 @@ Product.Bundle.prototype = {
         }
 
         selection = this.config.options[optionId].selections[selectionId];
-        if (typeof(selection.priceInclTax) != 'undefined') {
+        if (this.config.includeTax == 'true' && typeof(selection.priceInclTax) != 'undefined') {
             priceInclTax = selection.priceInclTax;
             price = typeof(selection.priceExclTax) != 'undefined' ? selection.priceExclTax : selection.price;
         } else {
