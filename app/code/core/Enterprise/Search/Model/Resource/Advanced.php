@@ -85,7 +85,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
      */
     protected function _getSearchParam($collection, $attribute, $value)
     {
-        if (empty($value) 
+        if (empty($value)
             || (isset($value['from']) && empty($value['from'])
             && isset($value['to']) && empty($value['to']))
         ) {
@@ -108,22 +108,24 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
             $field = 'attr_decimal_'. $field;
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
+            $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            $invalidDateMessage = Mage::helper('enterprise_search')->__('Specified date is invalid.');
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!is_empty_date($val)) {
-                        $date = new Zend_Date(
-                            $val,
-                            Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
-                        );
+                        if (!Zend_Date::isDate($val, $dateFormat)) {
+                            Mage::throwException($invalidDateMessage);
+                        }
+                        $date = new Zend_Date($val, $dateFormat);
                         $val = $date->toString(Zend_Date::ISO_8601) . 'Z';
                     }
                 }
             } else {
                 if (!is_empty_date($value)) {
-                    $date = new Zend_Date(
-                        $value,
-                        Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
-                    );
+                    if (!Zend_Date::isDate($value, $dateFormat)) {
+                        Mage::throwException($invalidDateMessage);
+                    }
+                    $date = new Zend_Date($value, $dateFormat);
                     $value = array($date->toString(Zend_Date::ISO_8601) . 'Z');
                 }
             }
