@@ -116,20 +116,16 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
     {
         $storeId    = $this->getRma()->getStoreId();
         $order      = $this->getRma()->getOrder();
-        $code       = $this->getRequest()->getParam('method');
-        if (!empty($code)) {
-            list($carrierCode, $methodCode) = explode('_', $code, 2);
-            $address                        = $order->getShippingAddress();
-            $shipperAddressCountryCode      = $address->getCountryId();
-            $recipientAddressCountryCode    = Mage::helper('enterprise_rma')
-                ->getReturnAddressModel($storeId)->getCountryId();
+        $address                        = $order->getShippingAddress();
+        $shipperAddressCountryCode      = $address->getCountryId();
+        $recipientAddressCountryCode    = Mage::helper('enterprise_rma')
+            ->getReturnAddressModel($storeId)->getCountryId();
 
-            if (($carrierCode == 'fedex' || $carrierCode == 'dhl')
-                && $shipperAddressCountryCode != $recipientAddressCountryCode) {
-                return true;
-            }
+        if ($shipperAddressCountryCode != $recipientAddressCountryCode) {
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**

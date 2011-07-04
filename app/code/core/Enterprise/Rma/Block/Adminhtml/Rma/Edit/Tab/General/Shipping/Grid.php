@@ -51,4 +51,37 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends 
         return Mage::registry('current_rma')->getShippingMethods(true);
     }
 
+    /**
+     * Can display customs value
+     *
+     * @return bool
+     */
+    public function displayCustomsValue()
+    {
+        $storeId = Mage::registry('current_rma')->getStoreId();
+        $order = Mage::registry('current_rma')->getOrder();
+        $address = $order->getShippingAddress();
+        $shipperAddressCountryCode = Mage::getStoreConfig(
+            Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+            $storeId
+        );
+        $recipientAddressCountryCode = $address->getCountryId();
+
+        if ($shipperAddressCountryCode != $recipientAddressCountryCode) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Format price
+     *
+     * @param   decimal $value
+     * @return  double
+     */
+    public function formatPrice($value)
+    {
+        return number_format($value, 2, null, '');
+    }
+
 }
