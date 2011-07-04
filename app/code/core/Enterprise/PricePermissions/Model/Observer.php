@@ -254,6 +254,20 @@ class Enterprise_PricePermissions_Model_Observer
                 // Hide price elements if needed
                 $this->_hidePriceElements($block);
                 break;
+            // Handle quick creation of simple product in configurable product
+            case 'catalog.product.edit.tab.super.config.simple' :
+                /** @var $form Varien_Data_Form */
+                $form = $block->getForm();
+                if (!is_null($form)) {
+                    if (!$this->_canEditProductStatus) {
+                        $statusElement = $form->getElement('simple_product_status');
+                        if (!is_null($statusElement)) {
+                            $statusElement->setValue(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
+                            $statusElement->setReadonly(true, true);
+                        }
+                    }
+                }
+                break;
         }
 
         // Handle prices that are shown when admin reviews customers shopping cart
