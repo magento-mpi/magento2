@@ -518,6 +518,9 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
             }
 
             if ($resultItem->getId() != $itemId) {
+                if ($resultItem->getDescription() != $item->getDescription()) {
+                    $resultItem->setDescription($item->getDescription())->save();
+                }
                 $item->isDeleted(true);
                 $this->setDataChanges(true);
 
