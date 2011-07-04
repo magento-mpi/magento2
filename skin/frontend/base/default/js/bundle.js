@@ -112,7 +112,6 @@ Product.Bundle.prototype = {
     },
 
     selectionPrice: function(optionId, selectionId) {
-//        debugger;
         if (selectionId == '' || selectionId == 'none') {
             return 0;
         }
