@@ -79,7 +79,6 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
             ->setOrder('low_stock_date')
         ;
         $collection->addAttributeToFilter('status', array('in' => Mage::getSingleton('catalog/product_status')->getVisibleStatusIds()));
-        $collection->filterByVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds());
 
         $_globalNotifyStockQty = (float) Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
 
