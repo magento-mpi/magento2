@@ -97,6 +97,6 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Mage_Admi
      */
     public function formatPrice($value)
     {
-        return number_format($value, 2, null, '');
+        return sprintf('%.2F', $value);
     }
 }
