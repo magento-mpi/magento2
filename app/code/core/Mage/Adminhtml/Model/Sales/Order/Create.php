@@ -1632,7 +1632,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $order->setCustomerId($this->_customer->getId());
                 $billing->setCustomerId($this->_customer->getId());
                 $shipping->setCustomerId($this->_customer->getId());
-                $this->_customer->sendNewAccountEmail();
+                $this->_customer->sendNewAccountEmail('registered', '', $order->getStoreId());
             } else {
                 $saveCusstomerAddress = false;
 
@@ -1695,7 +1695,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $this->getBillingAddress()->setCustomerId($customer->getId());
             $this->getShippingAddress()->setCustomerId($customer->getId());
 
-            $customer->sendNewAccountEmail();
+            $customer->sendNewAccountEmail('registered', '', $customer->getStoreId());
         } else {
             $customer = $this->getSession()->getCustomer();
 
