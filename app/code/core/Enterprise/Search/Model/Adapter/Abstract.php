@@ -234,6 +234,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
              * Merge attributes to fulltext fields according to their search weights
              */
             $attributesWeights = array();
+            $attributesSpell = array();
             $needToReplaceSeparator = ($this->_separator != ' ');
             $currentCurrency = Mage::app()->getStore($index['store_id'])->getDefaultCurrency();
             foreach ($index as $code => $value) {
@@ -270,8 +271,10 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                     }
 
                     $attributesWeights['fulltext' . $weight][] = $value;
+                    $attributesSpell[] = $value;
                 }
             }
+            $index['fulltext_spell'] = $this->_implodeIndexData($attributesSpell);
 
             foreach ($attributesWeights as $key => $value) {
                 $index[$key] = $this->_implodeIndexData($value);
