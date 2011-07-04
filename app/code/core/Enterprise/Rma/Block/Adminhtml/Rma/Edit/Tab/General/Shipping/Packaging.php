@@ -68,6 +68,22 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
     }
 
     /**
+     * Retrieve carrier method
+     *
+     * @return null|string
+     */
+    public function getCarrierMethod()
+    {
+        $code = explode('_', $this->getRequest()->getParam('method'), 2);
+
+        if (is_array($code) && isset($code[1])) {
+            return $code[1];
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Return container types of carrier
      *
      * @return array
@@ -82,7 +98,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging ext
         $countryRecipient = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId)->getCountryId();
         if ($carrier) {
             $params = new Varien_Object(array(
-                'method' => $order->getShippingMethod(true)->getMethod(),
+                'method' => $this->getCarrierMethod(),
                 'country_shipper' => $address->getCountryId(),
                 'country_recipient' => $countryRecipient,
             ));
