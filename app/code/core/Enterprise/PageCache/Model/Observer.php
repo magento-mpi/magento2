@@ -412,7 +412,7 @@ class Enterprise_PageCache_Model_Observer
 
         $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED);
         $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
-        $this->_getCookie()->delete(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME);
+        Enterprise_PageCache_Model_Cookie::registerViewedProducts(array(), 0, false);
 
         return $this;
     }
