@@ -79,7 +79,9 @@ Packaging.prototype = {
         if (this.packagesContent.childElements().length == 0) {
             this.newPackage();
         }
-        this.window.show();
+        this.window.show().setStyle({
+            'marginLeft': -this.window.getDimensions().width/2 + 'px'
+        });
         this.windowMask.setStyle({
             height: $('html-body').getHeight() + 'px'
         }).show();
@@ -127,7 +129,7 @@ Packaging.prototype = {
             this.messages.hide();
         }
         if (this.createLabelUrl) {
-            var qty, weight, length, width, height = null;
+            var weight, length, width, height = null;
             var packagesParams = [];
             this.packagesContent.childElements().each(function(pack) {
                 var packageId = pack.id.match(/\d$/)[0];
@@ -198,12 +200,12 @@ Packaging.prototype = {
                      }
                      for (var packedItemId in this.packages[packageId]['items']) {
                          if (!isNaN(packedItemId)) {
-                             qty =  this.packages[packageId]['items'][packedItemId]['qty'];
-                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][qty]']       = qty;
-                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][price]']     = package.defaultItemsPrice[packedItemId];
-                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][name]']      = package.defaultItemsName[packedItemId];
-                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][weight]']    = package.defaultItemsWeight[packedItemId];
-                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][product_id]']= package.defaultItemsProductId[packedItemId];
+                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][qty]']           = this.packages[packageId]['items'][packedItemId]['qty'];
+                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][customs_value]'] = this.packages[packageId]['items'][packedItemId]['customs_value'];
+                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][price]']         = package.defaultItemsPrice[packedItemId];
+                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][name]']          = package.defaultItemsName[packedItemId];
+                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][weight]']        = package.defaultItemsWeight[packedItemId];
+                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][product_id]']    = package.defaultItemsProductId[packedItemId];
                          }
                      }
                  }
@@ -297,6 +299,14 @@ Packaging.prototype = {
         this.messages.hide().update();
         this._recalcContainerWeightAndCustomsValue(packItems);
         this._setAllItemsPackedState()
+    },
+
+    recalcContainerWeightAndCustomsValue: function(obj) {
+        var pack = $(obj).up('div[id^="package_block"]');
+        var packItems = pack.select('.package_items')[0];
+        if (packItems) {
+            this._recalcContainerWeightAndCustomsValue(packItems);
+        }
     },
 
     getItemsForPack: function(obj) {
@@ -691,11 +701,13 @@ Packaging.prototype = {
 
     _recalcContainerWeightAndCustomsValue: function(container) {
         var packageBlock = container.up('[id^="package_block"]');
+        var packageId = packageBlock.id.match(/\d$/)[0];
         var containerWeight = packageBlock.select('[name="container_weight"]')[0];
         var containerCustomsValue = packageBlock.select('[name="package_customs_value"]')[0];
         containerWeight.value = 0;
         containerCustomsValue.value = 0;
         container.select('.grid tbody tr').each(function(item) {
+            var itemId = item.select('[type="checkbox"]')[0].value;
             var qtyValue  = parseFloat(item.select('[name="qty"]')[0].value);
             if (isNaN(qtyValue) || qtyValue <= 0) {
                 qtyValue = 1;
@@ -703,8 +715,9 @@ Packaging.prototype = {
             }
             var itemWeight = parseFloat(this._getElementText(item.select('.weight')[0]));
             containerWeight.value = parseFloat(containerWeight.value) + (itemWeight * qtyValue);
-            var itemCustomsValue = parseFloat(item.select('[name="price"]')[0].value);
+            var itemCustomsValue = parseFloat(item.select('[name="customs_value"]')[0].value);
             containerCustomsValue.value = parseFloat(containerCustomsValue.value) + (itemCustomsValue * qtyValue);
+            this.packages[packageId]['items'][itemId]['customs_value'] = itemCustomsValue;
         }.bind(this));
         containerWeight.value = Math.round(containerWeight.value * 1000) / 1000;
     },

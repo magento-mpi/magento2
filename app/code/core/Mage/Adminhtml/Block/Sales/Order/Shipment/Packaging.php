@@ -219,18 +219,13 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
     {
         $storeId = $this->getShipment()->getStoreId();
         $order = $this->getShipment()->getOrder();
-        $carrierCode = $order->getShippingCarrier()->getCarrierCode();
         $address = $order->getShippingAddress();
         $shipperAddressCountryCode = Mage::getStoreConfig(
             Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
             $storeId
         );
         $recipientAddressCountryCode = $address->getCountryId();
-
-        if (($carrierCode == Mage_Usa_Model_Shipping_Carrier_Fedex::CODE
-            || $carrierCode == Mage_Usa_Model_Shipping_Carrier_Dhl::CODE)
-            && $shipperAddressCountryCode != $recipientAddressCountryCode
-        ) {
+        if ($shipperAddressCountryCode != $recipientAddressCountryCode) {
             return true;
         }
         return false;

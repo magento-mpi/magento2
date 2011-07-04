@@ -1525,15 +1525,7 @@ XMLAuth;
         )) {
             $invoiceLineTotalPart = $shipmentPart->addChild('InvoiceLineTotal');
             $invoiceLineTotalPart->addChild('CurrencyCode', $request->getBaseCurrencyCode());
-            $monetaryValue = 0;
-            if ($request->getPackageItems()) {
-                foreach ($request->getPackageItems() as $packageItem) {
-                    if (array_key_exists('price', $packageItem) && array_key_exists('qty', $packageItem)) {
-                        $monetaryValue += $packageItem['price'] * $packageItem['qty'];
-                    }
-                }
-            }
-            $invoiceLineTotalPart->addChild('MonetaryValue', ceil($monetaryValue));
+            $invoiceLineTotalPart->addChild('MonetaryValue', ceil($packageParams->getCustomsValue()));
         }
 
         $labelPart = $xmlRequest->addChild('LabelSpecification');

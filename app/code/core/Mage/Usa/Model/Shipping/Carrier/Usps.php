@@ -1563,7 +1563,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $itemDetail = $shippingContents->addChild('ItemDetail');
             $itemDetail->addChild('Description', $item->getName());
             $itemDetail->addChild('Quantity', $item->getQty());
-            $itemDetail->addChild('Value', $item->getPrice() * $item->getQty());
+            $itemDetail->addChild('Value', $item->getCustomsValue() * $item->getQty());
             $itemDetail->addChild('NetPounds', floor($itemWeight));
             $itemDetail->addChild('NetOunces', round(($itemWeight - floor($itemWeight)) * 16, 1));
             $itemDetail->addChild('HSTariffNumber', 0);
