@@ -81,7 +81,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends 
      */
     public function formatPrice($value)
     {
-        return number_format($value, 2, null, '');
+        return sprintf('%.2F', $value);
     }
-
 }
