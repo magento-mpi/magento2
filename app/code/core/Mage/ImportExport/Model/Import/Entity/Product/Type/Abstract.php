@@ -173,6 +173,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract
                             'for_configurable' => $attribute->getIsConfigurable(),
                             'is_global'        => $attribute->getIsGlobal(),
                             'is_required'      => $attribute->getIsRequired(),
+                            'is_unique'        => $attribute->getIsUnique(),
                             'frontend_label'   => $attribute->getFrontendLabel(),
                             'is_static'        => $attribute->isStatic(),
                             'apply_to'         => $attribute->getApplyTo(),

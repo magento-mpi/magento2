@@ -187,6 +187,13 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
     protected $_source;
 
     /**
+     * Array of unique attributes
+     *
+     * @var array
+     */
+    protected $_uniqueAttributes = array();
+
+    /**
      * Constructor.
      *
      * @return void
@@ -563,8 +570,15 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
                 $valid = true;
                 break;
         }
+
         if (!$valid) {
             $this->addRowError(Mage::helper('importexport')->__("Invalid value for '%s'"), $rowNum, $attrCode);
+        } elseif ($attrParams['is_unique']) {
+            if (isset($this->_uniqueAttributes[$attrCode][$rowData[$attrCode]])) {
+                $this->addRowError(Mage::helper('importexport')->__("Duplicate Unique Attribute for '%s'"), $rowNum, $attrCode);
+                return false;
+            }
+            $this->_uniqueAttributes[$attrCode][$rowData[$attrCode]] = true;
         }
         return (bool) $valid;
     }
