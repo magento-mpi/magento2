@@ -568,7 +568,6 @@ Enterprise.PopUpMenu = {
     hideDelay: 2000,
     hideOnClick: true,
     hideInterval: null,
-    //
     initializeDocumentHandler: function () {
         if (!this.documentHandlerInitialized) {
             this.documentHandlerInitialized = true;

@@ -125,7 +125,6 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                     $itemPrice = $_selection->getSelectionPriceValue();
                 }
 
-                //$canApplyMAP = Mage::helper('catalog')->canApplyMsrp($_selection);
                 $canApplyMAP = false;
 
                 /* @var $taxHelper Mage_Tax_Helper_Data */
