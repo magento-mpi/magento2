@@ -210,7 +210,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                                 $qty = min(1, $qty);
                             }
 
-                            $item = $product->getPriceType() ? $product : $selection;
+                            $item = $product->getPriceType() == self::PRICE_TYPE_FIXED ? $product : $selection;
 
                             $selectionMinimalPrices[] = Mage::helper('tax')->getPrice(
                                 $item,

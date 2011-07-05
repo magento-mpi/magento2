@@ -134,7 +134,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                 $_priceInclTax = $taxHelper->getPrice($_selection, $itemPrice, true);
                 $_priceExclTax = $taxHelper->getPrice($_selection, $itemPrice);
 
-                if ($currentProduct->getPriceType()) {
+                if ($currentProduct->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
                     $_priceInclTax = $taxHelper->getPrice($currentProduct, $itemPrice, true);
                     $_priceExclTax = $taxHelper->getPrice($currentProduct, $itemPrice);
                 }

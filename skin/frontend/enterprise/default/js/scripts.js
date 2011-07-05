@@ -158,7 +158,9 @@ Enterprise.Bundle = {
                 }
              }
 
-             $('bundle-summary').update(summaryHTML).childElements().last().addClassName('last');
+             if (typeof($('bundle-summary').update(summaryHTML).childElements().last()) != 'undefined') {
+                 $('bundle-summary').update(summaryHTML).childElements().last().addClassName('last');
+             }
          }
          return result;
      },
