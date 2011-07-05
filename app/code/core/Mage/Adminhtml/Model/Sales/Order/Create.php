@@ -1439,9 +1439,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $quote = $this->getQuote();
         $this->_prepareQuoteItems();
 
-        if (! $quote->getCustomer()->getId() || ! $quote->getCustomer()->isInStore($this->getSession()->getStore())) {
-            $quote->getCustomer()->sendNewAccountEmail('registered', '', $quote->getStoreId());
-        }
         $service = Mage::getModel('sales/service_quote', $quote);
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
@@ -1463,7 +1460,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $order = $service->submit();
         if (!$quote->getCustomer()->getId() || !$quote->getCustomer()->isInStore($this->getSession()->getStore())) {
             $quote->getCustomer()->setCreatedAt($order->getCreatedAt());
-            $quote->getCustomer()->save();
+            $quote->getCustomer()
+                ->save()
+                ->sendNewAccountEmail('registered', '', $quote->getStoreId());;
         }
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
