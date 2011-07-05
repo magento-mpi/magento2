@@ -36,6 +36,14 @@ class Enterprise_Persistent_Block_Adminhtml_System_Config_Customer extends Mage_
         $optionShoppingCartId = str_replace('/', '_', Mage_Persistent_Helper_Data::XML_PATH_PERSIST_SHOPPING_CART);
         $optionEnabled = str_replace('/', '_', Mage_Persistent_Helper_Data::XML_PATH_ENABLED);
 
+        $addInheritCheckbox = false;
+        if ($element->getCanUseWebsiteValue()) {
+            $addInheritCheckbox = true;
+        }
+        elseif ($element->getCanUseDefaultValue()) {
+            $addInheritCheckbox = true;
+        }
+
         $html = '<script type="text/javascript">
             PersistentCustomerSegmentation = Class.create();
             PersistentCustomerSegmentation.prototype = {
@@ -46,8 +54,10 @@ class Enterprise_Persistent_Block_Adminhtml_System_Config_Customer extends Mage_
                     $("'.$optionShoppingCartId.'").observe("change", funcTrackOnChangeShoppingCart);
                     $("'.$optionEnabled.'").observe("change", function() {
                         setTimeout(funcTrackOnChangeShoppingCart, 1);
-                    });
-                },
+                    });'
+                    .(($addInheritCheckbox)?
+                        '$("'.$elementId.'_inherit").observe("change", funcTrackOnChangeShoppingCart);' : '')
+                .'},
 
                 disable: function() {
                     this._element.disabled = true;
@@ -59,10 +69,15 @@ class Enterprise_Persistent_Block_Adminhtml_System_Config_Customer extends Mage_
                 },
 
                 trackOnChangeShoppingCart: function() {
-                    if ($("'.$optionEnabled.'").value == 1 && $("'.$optionShoppingCartId.'").value == 1) {
+                    if ($("'.$optionEnabled.'").value == 1 && $("'.$optionShoppingCartId.'").value == 1 ) {
                          this.disable();
                     } else {
-                         this.enable();
+                        '.(($addInheritCheckbox)? 'if ($("'.$elementId.'_inherit").checked) {
+                            this.disable();
+                        } else {
+                            this.enable();
+                        }' : 'this.enable();' ).'
+
                     }
                 }
             };
