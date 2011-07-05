@@ -389,7 +389,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $package->addAttribute('ID', 0);
             $package->addChild('Pounds', $r->getWeightPounds());
             $package->addChild('Ounces', $r->getWeightOunces());
-            $package->addChild('MailType', 'Package');
+            $package->addChild('MailType', 'All');
             $package->addChild('ValueOfContents', $r->getValue());
             $package->addChild('Country', $r->getDestCountryName());
             $package->addChild('Container', $r->getContainer());
