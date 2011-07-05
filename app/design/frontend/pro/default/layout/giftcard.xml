@@ -396,7 +396,7 @@ For guests
         <reference name="items">
             <action method="addItemRender">
                 <type>giftcard</type>
-                <block>enterprise_giftcard/sales_order_item_renderer</block>
+                <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
                 <template>email/order/items/order/default.phtml</template>
             </action>
         </reference>
@@ -406,7 +406,7 @@ For guests
         <reference name="items">
             <action method="addItemRender">
                 <type>giftcard</type>
-                <block>enterprise_giftcard/sales_order_item_renderer</block>
+                <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
                 <template>email/order/items/invoice/default.phtml</template>
             </action>
         </reference>
@@ -416,7 +416,7 @@ For guests
         <reference name="items">
             <action method="addItemRender">
                 <type>giftcard</type>
-                <block>enterprise_giftcard/sales_order_item_renderer</block>
+                <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
                 <template>email/order/items/shipment/default.phtml</template>
             </action>
         </reference>
@@ -426,7 +426,7 @@ For guests
         <reference name="items">
             <action method="addItemRender">
                 <type>giftcard</type>
-                <block>enterprise_giftcard/sales_order_item_renderer</block>
+                <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
                 <template>email/order/items/creditmemo/default.phtml</template>
             </action>
         </reference>
