@@ -687,6 +687,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                                 '54', // Worldwide Express Plus
                                 '08', // Worldwide Expedited
                                 '65', // Worldwide Saver
+                                '11', // Standard
                             )
                         )
                     )
