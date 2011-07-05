@@ -76,6 +76,7 @@ class Mage_Eav_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Hel
     public function getDdlTypeByColumnType($columnType)
     {
         switch ($columnType) {
+            case 'char':
             case 'varchar':
                 $columnType = 'text';
                 break;

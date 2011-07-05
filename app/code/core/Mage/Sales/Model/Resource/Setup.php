@@ -176,6 +176,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 $type = Varien_Db_Ddl_Table::TYPE_TEXT;
                 $length = 65536;
                 break;
+            case 'char':
             case 'varchar':
                 $type = Varien_Db_Ddl_Table::TYPE_TEXT;
                 $length = 255;

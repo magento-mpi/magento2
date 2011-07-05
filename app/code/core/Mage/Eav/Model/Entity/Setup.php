@@ -1276,7 +1276,8 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                 'decimal'   => array(Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4'),
                 'int'       => array(Varien_Db_Ddl_Table::TYPE_INTEGER, null),
                 'text'      => array(Varien_Db_Ddl_Table::TYPE_TEXT, '64k'),
-                'varchar'   => array(Varien_Db_Ddl_Table::TYPE_TEXT, '255')
+                'varchar'   => array(Varien_Db_Ddl_Table::TYPE_TEXT, '255'),
+                'char'   => array(Varien_Db_Ddl_Table::TYPE_TEXT, '255')
             );
         }
 
