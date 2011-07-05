@@ -355,7 +355,10 @@ class Enterprise_CustomerBalance_Model_Observer
         $invoice = $observer->getEvent()->getInvoice();
         $order = $invoice->getOrder();
 
-        if ($invoice->getBaseCustomerBalanceAmount()) {
+        /**
+         * Update customer balance only if invoice is just created
+         */
+        if ($invoice->getOrigData() === null && $invoice->getBaseCustomerBalanceAmount()) {
             $order->setBaseCustomerBalanceInvoiced($order->getBaseCustomerBalanceInvoiced() + $invoice->getBaseCustomerBalanceAmount());
             $order->setCustomerBalanceInvoiced($order->getCustomerBalanceInvoiced() + $invoice->getCustomerBalanceAmount());
         }
