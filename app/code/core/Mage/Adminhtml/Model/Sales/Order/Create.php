@@ -290,6 +290,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $this->_initBillingAddressFromOrder($order);
         $this->_initShippingAddressFromOrder($order);
 
+        if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSameAsBilling()) {
+            $this->setShippingAsBilling(1);
+        }
+
         $this->setShippingMethod($order->getShippingMethod());
         $this->getQuote()->getShippingAddress()->setShippingDescription($order->getShippingDescription());
 
