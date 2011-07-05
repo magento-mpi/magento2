@@ -99,8 +99,8 @@ class ProductAttribute_Create_CreateFromProductPage extends Mage_Selenium_TestCa
             array('product_attribute_textarea'),
             array('product_attribute_date'),
             array('product_attribute_yesno'),
-            array('product_attribute_multiselect'),
-            array('product_attribute_dropdown'),
+            array('product_attribute_multiselect_with_options'),
+            array('product_attribute_dropdown_with_options'),
             array('product_attribute_price'),
             array('product_attribute_fpt')
         );

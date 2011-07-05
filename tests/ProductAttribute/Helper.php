@@ -49,7 +49,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->fillForm($attrData, 'properties');
         $this->clickControl('tab', 'manage_lables_options', false);
         $this->fillForm($attrData, 'manage_lables_options');
-        $this->attributeTiteles($attrData);
+        $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
         $this->saveForm('save_attribute');
     }
@@ -77,7 +77,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyForm($attrData, 'properties'), $this->messages);
         $this->clickControl('tab', 'manage_lables_options', FALSE);
         $this->assertTrue($this->verifyForm($attrData, 'manage_lables_options'), $this->messages);
-        $this->attributeTiteles($attrData, 'verify');
+        $this->storeViewTitles($attrData, 'manage_titles', 'verify');
         $this->attributeOptions($attrData, 'verify');
     }
 
@@ -108,58 +108,86 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->fillForm($attrData, 'properties');
         $this->clickControl('tab', 'manage_lables_options', FALSE);
         $this->fillForm($attrData, 'manage_lables_options');
-        $this->attributeTiteles($attrData);
+        $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
         $this->saveForm('save_attribute');
     }
 
     /**
-     * Fill or verify attribute titles by store view name
+     * Fill or Verify Titles for different Store View
      *
-     * Preconditions: Attribute page is opened on tab 'Manage Label / Options'.
      * @param array $attrData
+     * @param string $fieldsetName
      * @param string $action
      */
-    public function attributeTiteles($attrData, $action = 'fill')
+    public function storeViewTitles($attrData, $fieldsetName='manage_titles', $action ='fill')
     {
-        $dataArr = array();
-        foreach ($attrData as $f_key => $d_value) {
-            if (preg_match('/title/', $f_key) and is_array($attrData[$f_key])) {
-                reset($attrData[$f_key]);
-                $key = current($attrData[$f_key]);
-                $value = next($attrData[$f_key]);
-                $dataArr[$key] = $value;
+        $name = 'store_view_titles';
+        if (array_key_exists($name, $attrData)
+                && is_array($attrData[$name])
+                && $attrData[$name] != '%noValue%') {
+            $page = $this->getCurrentLocationUimapPage();
+            $fieldSet = $page->findFieldset($fieldsetName);
+            $fieldSetXpath = $fieldSet->getXPath();
+            $qtyStore = $this->getXpathCount($fieldSetXpath . '//th');
+            foreach ($attrData[$name] as $storeViewName => $storeViewValue) {
+                $number = -1;
+                for ($i = 1; $i <= $qtyStore; $i++) {
+                    if ($this->getText($fieldSetXpath . '//th[' . $i . ']') == $storeViewName) {
+                        $number = $i;
+                        break;
+                    }
+                }
+                if ($number != -1) {
+                    $this->addParameter('storeViewNumber', $number);
+                    $page->assignParams($this->_paramsHelper);
+                    $fieldXpath = $fieldSetXpath . $fieldSet->findField('titles_by_store_name');
+
+                    switch ($action) {
+                        case 'fill':
+                            $this->type($fieldXpath, $storeViewValue);
+                            break;
+                        case 'verify':
+                            $this->assertEquals($this->getValue($fieldXpath), $storeViewValue,
+                                    'Stored data not equals to specified');
+                            break;
+                    }
+                } else {
+                    $this->fail('Cannot find specified Store View with name \'' . $storeViewName . '\'');
+                }
             }
         }
-        $this->fillOrVerifyFields($dataArr, 'title_by_store_name', $action);
     }
 
     /**
-     * Fill or verify attribute options
+     * Fill or Verify Options for Dropdown and Multiple Select Attributes
      *
-     * Preconditions: Attribute page is opened on tab 'Manage Label / Options'.
      * @param array $attrData
      * @param string $action
      */
-    public function attributeOptions($attrData, $action = 'fill')
+    public function attributeOptions($attrData, $action='fill')
     {
         $page = $this->getCurrentLocationUimapPage();
         $fieldSet = $page->findFieldset('manage_options');
         $fieldSetXpath = $fieldSet->getXPath();
+
         if ($action == 'verify') {
             $option = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
             $num = 1;
         }
+
         foreach ($attrData as $f_key => $d_value) {
-            if (preg_match('/option/', $f_key) and is_array($attrData[$f_key])) {
+            if (preg_match('/^option_/', $f_key) and is_array($attrData[$f_key])) {
                 if ($this->isElementPresent($fieldSetXpath)) {
                     $optionCount = $this->getXpathCount($fieldSetXpath .
                                     "//tr[contains(@class,'option-row')]");
+
                     switch ($action) {
                         case 'fill':
                             $this->addParameter('fieldOptionNumber', $optionCount);
                             $page->assignParams($this->_paramsHelper);
                             $this->clickButton('add_option', FALSE);
+                            $this->storeViewTitles($attrData[$f_key], 'manage_options');
                             $this->fillForm($attrData[$f_key], 'manage_lables_options');
                             break;
                         case 'verify':
@@ -171,70 +199,13 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                                 $page->assignParams($this->_paramsHelper);
                                 $this->assertTrue($this->verifyForm($attrData[$f_key],
                                                 'manage_lables_options'), $this->messages);
+                                $this->storeViewTitles($attrData[$f_key], 'manage_options', 'verify');
                                 $num++;
                                 $option--;
                             }
                             break;
                     }
-
-                    $dataArr = array();
-                    foreach ($attrData[$f_key] as $k1 => $v2) {
-                        if (is_array($attrData[$f_key][$k1])
-                                and preg_match('/store_view_option_name/', $k1)) {
-                            reset($attrData[$f_key][$k1]);
-                            $key = current($attrData[$f_key][$k1]);
-                            $value = next($attrData[$f_key][$k1]);
-                            $dataArr[$key] = $value;
-                        }
-                    }
-                    $this->fillOrVerifyFields($dataArr, 'option_name_by_store_name', $action);
                 }
-            }
-        }
-    }
-
-    /**
-     * Fill or Verify one title or option by store view name
-     *
-     * Preconditions: Attribute page is opened on tab 'Manage Label / Options'.
-     * @param array $data
-     * @param string $fieldName
-     * @param string $action
-     */
-    public function fillOrVerifyFields(array $data, $fieldName, $action)
-    {
-        $page = $this->getCurrentLocationUimapPage();
-        if ($fieldName == 'title_by_store_name') {
-            $fieldSet = $page->findFieldset('manage_titles');
-        } elseif ($fieldName == 'option_name_by_store_name') {
-            $fieldSet = $page->findFieldset('manage_options');
-        }
-
-        $fieldSetXpath = $fieldSet->getXPath();
-        $qtyStore = $this->getXpathCount($fieldSetXpath . '//th');
-        foreach ($data as $k => $v) {
-            $number = -1;
-            for ($i = 1; $i <= $qtyStore; $i++) {
-                if ($this->getText($fieldSetXpath . "//th[$i]") == $k) {
-                    $number = $i;
-                    break;
-                }
-            }
-            if ($number != -1) {
-                $this->addParameter('storeViewNumber', $number);
-                $page->assignParams($this->_paramsHelper);
-                $fieldXpath = $fieldSetXpath . $page->findField($fieldName);
-                switch ($action) {
-                    case 'fill':
-                        $this->type($fieldXpath, $v);
-                        break;
-                    case 'verify':
-                        $this->assertEquals($this->getValue($fieldXpath), $v,
-                                'Stored data not equals to specified');
-                        break;
-                }
-            } else {
-                throw new OutOfRangeException("Can't find specified store view.");
             }
         }
     }

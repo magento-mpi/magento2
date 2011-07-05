@@ -307,7 +307,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
     public function test_WithLongValues()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_dropdown',
+        $attrData = $this->loadData('product_attribute_dropdown_with_options',
                         array(
                             'attribute_code' => $this->generate('string', 30, ':lower:'),
                             'admin_title' => $this->generate('string', 255, ':alnum:'),
