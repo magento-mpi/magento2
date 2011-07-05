@@ -478,6 +478,7 @@ class Mage_Persistent_Model_Observer
             && !$customerSession->isLoggedIn()
             && $checkoutSession->getQuoteId()
         ) {
+            Mage::dispatchEvent('persistent_session_expired');
             $quote = $checkoutSession->setLoadInactive()->getQuote();
             if ($quote->getIsActive() && $quote->getCustomerId()) {
                 $checkoutSession->unsetAll();

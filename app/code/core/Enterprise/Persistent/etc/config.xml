@@ -221,6 +221,14 @@
                     </enterprise_persistent>
                 </observers>
             </render_block>
+            <persistent_session_expired>
+                <observers>
+                    <enterprise_persistent>
+                        <class>enterprise_persistent/observer</class>
+                        <method>expireSidebars</method>
+                    </enterprise_persistent>
+                </observers>
+            </persistent_session_expired>
         </events>
     </frontend>
 </config>

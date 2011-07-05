@@ -181,7 +181,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function emulateComparedProductsBlock(Mage_Reports_Block_Product_Compared $block)
     {
-        if (!Mage::helper('enterprise_persistent')->isComparedProductsPersist()) {
+        if (!$this->_isComparedProductsPersist()) {
             return;
         }
         $customerId = $this->_getCustomerId();
@@ -328,6 +328,58 @@ class Enterprise_Persistent_Model_Observer
     }
 
     /**
+     * Expire data of Sidebars
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function expireSidebars($observer)
+    {
+        $this->_expireCompareProducts();
+        $this->_expireComparedProducts();
+        $this->_expireViewedProducts();
+    }
+
+    /**
+     * Expire data of Compare products sidebar
+     *
+     */
+    public function _expireCompareProducts()
+    {
+        if (!$this->_isCompareProductsPersist()) {
+            return;
+        }
+        Mage::getSingleton('catalog/product_compare_item')->bindCustomerLogout();
+    }
+
+    /**
+     * Expire data of Compared products sidebar
+     *
+     */
+    public function _expireComparedProducts()
+    {
+        if (!$this->_isComparedProductsPersist()) {
+            return;
+        }
+        Mage::getModel('reports/product_index_compared')
+            ->purgeVisitorByCustomer()
+            ->calculate();
+    }
+
+    /**
+     * Expire data of Viewed products sidebar
+     *
+     */
+    public function _expireViewedProducts()
+    {
+        if (!$this->_isComparedProductsPersist()) {
+            return;
+        }
+        Mage::getModel('reports/product_index_viewed')
+            ->purgeVisitorByCustomer()
+            ->calculate();
+    }
+
+    /**
      * Return persistent customer id
      *
      * @return int
@@ -375,6 +427,16 @@ class Enterprise_Persistent_Model_Observer
     protected function _isCompareProductsPersist()
     {
         return Mage::helper('enterprise_persistent')->isCompareProductsPersist();
+    }
+
+    /**
+     * Check whether compared products is persist
+     *
+     * @return bool
+     */
+    protected function _isComparedProductsPersist()
+    {
+        return Mage::helper('enterprise_persistent')->isComparedProductsPersist();
     }
 
     /**
