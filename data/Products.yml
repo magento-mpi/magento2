@@ -44,34 +44,6 @@ product_search:
     product_status: %noValue%
 
 #*********************************************
-#*         Product Settings Data             *
-#*********************************************
-
-settings_simple:
-    product_attribute_set: Default
-    product_type: Simple Product
-
-settings_grouped:
-    product_attribute_set: Default
-    product_type: Grouped Product
-
-settings_configurable:
-    product_attribute_set: Default
-    product_type: Configurable Product
-
-settings_virtual:
-    product_attribute_set: Default
-    product_type: Virtual Product
-
-settings_bundle:
-    product_attribute_set: Default
-    product_type: Bundle Product
-
-settings_downloadable:
-    product_attribute_set: Default
-    product_type: Downloadable Product
-
-#*********************************************
 #*         Custom Options Data               *
 #*********************************************
 
@@ -421,6 +393,7 @@ bundle_items_data: &bundleData
 #*********************************************
 
 simple_product_required:
+    product_attribute_set: Default
     general_name: Simple Product Required
     general_description: Description for Simple Product Required
     general_short_description: Short Description for Simple Product Required
@@ -430,9 +403,10 @@ simple_product_required:
     general_visibility: Catalog, Search
     prices_price: 9.99
     prices_tax_class: None
-    inventory_qty: 1000
+    inventory_qty: %noValue%
 
 simple_product:
+    product_attribute_set: Default
     general_name: Simple Product
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product

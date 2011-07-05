@@ -46,8 +46,8 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Preconditions:
-     * Navigate to Catalog -> Manage Products
+     * <p>Preconditions:</p>
+     * <p>Navigate to Catalog -> Manage Products</p>
      */
     protected function assertPreConditions()
     {
@@ -57,36 +57,23 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps:
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add product" button;
-     *
-     * 4. Fill in "Attribute Set" and "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields;
-     *
-     * 7. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product created, confirmation message appears;
-     *
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
      */
     public function test_WithRequiredFieldsOnly()
     {
-        //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('settings_simple');
-        $productData = $this->loadData('simple_product_required', NULL,
+        //Data
+        $productData = $this->loadData('simple_product_required', null,
                         array('general_name', 'general_sku'));
         //Steps
-        $this->productHelper()->createProduct($productSettings, $productData);
-        //Verifying - success message, switch to Manage Products page
+        $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
@@ -94,42 +81,27 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps:
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add product" button;
-     *
-     * 4. Fill in "Attribute Set" and "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields on General tab - use existing SKU;
-     *
-     * 7. Fill in required fields on Prices tab;
-     *
-     * 8. Click "Save" button;
-     *
-     * 9. Verify error message;
-     *
-     * Expected result:
-     *
-     * Error message appears;
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields using exist SKU;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>6. Verify error message;</p>
+     * <p>Expected result:</p>
+     * <p>Error message appears;</p>
      *
      * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSkuThatAlreadyExists($productData)
     {
-        //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('settings_simple');
-        //Steps.
-        $this->productHelper()->createProduct($productSettings, $productData);
-        //Verifying - one error message appears,
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->validationMessage('existing_sku'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
+
     /**
      * Steps:
      *
@@ -161,12 +133,11 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty($emptyField, $fieldType)
     {
-        //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('settings_simple');
+        //Data
         if ($emptyField == 'general_sku') {
             $productData = $this->loadData('simple_product_required',
                             array($emptyField => '%noValue%'));
-        } elseif ($emptyField == 'general_visibility' or $emptyField == 'prices_tax_class') {
+        } elseif ($emptyField == 'general_visibility') {
             $productData = $this->loadData('simple_product_required',
                             array($emptyField => '-- Please Select --'), 'general_sku');
         } elseif ($emptyField == 'inventory_qty') {
@@ -177,8 +148,8 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
                             array($emptyField => '%noValue%'), 'general_sku');
         }
         //Steps
-        $this->productHelper()->createProduct($productSettings, $productData);
-        //Verifying - error message appears
+        $this->productHelper()->createProduct($productData);
+        //Verifying
         $fieldXpath = $this->_getControlXpath($fieldType, $emptyField);
         $this->addParameter('fieldXpath', $fieldXpath);
         $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
@@ -227,8 +198,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function test_WithSpecialCharacters()
     {
-        //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('settings_simple');
+        //Data
         $productData = $this->loadData('simple_product_required',
                         array(
                             'general_name'              => $this->generate('string', 32, ':punct:'),
@@ -236,11 +206,10 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
                             'general_short_description' => $this->generate('string', 32, ':punct:'),
                             'general_sku'               => $this->generate('string', 32, ':punct:'),
                             'general_weight'            => $this->generate('string', 32, ':punct:')
-                        )
-        );
+                ));
         //Steps
-        $this->productHelper()->createProduct($productSettings, $productData);
-        //Verifying - success message appears
+        $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
@@ -274,33 +243,28 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function test_WithInvalidValueForFields_InvalidWeight()
     {
-        //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('settings_simple');
+        //Data
         $productData = $this->loadData('simple_product_required',
-                        array(
-                    'general_weight' => $this->generate('string', 9, ':punct:')
-                        ), 'general_sku');
+                        array('general_weight' => $this->generate('string', 9, ':punct:')),
+                        'general_sku');
         $productSearch = $this->loadData('product_search',
                         array(
-                    'general_sku' => $productData['general_sku'],
-                    'general_name' => $productData['general_name']
-                        ));
-        // Steps
-        $this->productHelper()->createProduct($productSettings, $productData);
-        // Verifying - success message appears
+                            'general_sku'  => $productData['general_sku'],
+                            'general_name' => $productData['general_name']
+                ));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-        // Reset filter
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
-        $this->assertTrue($this->searchAndOpen($productSearch));
-        // Verifying - select created product
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
         $xpath = $this->_getControlXpath('field', 'general_weight');
         $weightValue = $this->getValue($xpath);
         $this->assertEquals(0.0000, $weightValue, 'The product weight should be 0.0000');
     }
-
 
     /**
      * Steps
@@ -327,26 +291,157 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * Product is not created, error message appears;
      *
-     * @dataProvider data_InvalidPrice
+     * @dataProvider data_invalidData_NumericField
      */
-    public function test_WithInvalidValueForFields_InvalidPrice($InvalidPrice)
+    public function test_WithInvalidValueForFields_InvalidPrice($invalidPrice)
     {
-        //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('settings_simple');
-        $productData = $this->loadData('simple_product_required', $InvalidPrice, 'general_sku');
-        // Steps
-        $this->productHelper()->createProduct($productSettings, $productData);
-        // Verifying - error message appears
+        //Data
+        $productData = $this->loadData('simple_product_required',
+                        array('prices_price' => $invalidPrice), 'general_sku');
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->validationMessage('invalid_price'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_InvalidPrice()
+    /**
+     * Steps
+     *
+     * 1. Login to Admin Page;
+     *
+     * 2. Goto Catalog -> Manage Products;
+     *
+     * 3. Click "Add Product" button;
+     *
+     * 4. Fill in "Attribute Set", "Product Type" fields;
+     *
+     * 5. Click "Continue" button;
+     *
+     * 6. Fill in required fields in "General" tab with correct data;
+     *
+     * 7. Fill in required fields in "Prices" tab with correct data;
+     *
+     * 8. Fill in field "Special Price" with invalid data;
+     *
+     * 9. Click "Save" button;
+     *
+     * Expected result:
+     *
+     * Product is not created, error message appears;
+     *
+     * @dataProvider data_invalidData_NumericField
+     */
+    public function test_WithSpecialPrice_InvalidValue($invalidValue)
+    {
+        //Data
+        $productData = $this->loadData('simple_product_required',
+                        array('prices_special_price' => $invalidValue), 'general_sku');
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertTrue($this->validationMessage('invalid_special_price'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    /**
+     * Steps
+     *
+     * 1. Login to Admin Page;
+     *
+     * 2. Goto Catalog -> Manage Products;
+     *
+     * 3. Click "Add Product" button;
+     *
+     * 4. Fill in "Attribute Set", "Product Type" fields;
+     *
+     * 5. Click "Continue" button;
+     *
+     * 6. Fill in required fields in "General" tab with correct data;
+     *
+     * 7. Fill in required fields in "Prices" tab with correct data;
+     *
+     * 8. Click "Add Tier" button and leave fields in current fieldset empty;
+     *
+     * 9. Fill in required fields in "Inventory" tab with correct data;
+     *
+     * 10. Click "Save" button;
+     *
+     * Expected result:
+     *
+     * Product is not created, error message appears;
+     *
+     * @dataProvider data_EmptyField_TierPrice
+     */
+    public function test_WithTierPriceFieldsEmpty($emptyTierPrice)
+    {
+        //Data
+        $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $productData['prices_tier_price_1'] = $this->loadData('prices_tier_price_1',
+                        array($emptyTierPrice => '%noValue%'));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $fieldXpath = $this->_getControlXpath('field', $emptyTierPrice);
+        $this->addParameter('fieldXpath', $fieldXpath);
+        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function data_EmptyField_TierPrice()
     {
         return array(
-            array(array('prices_price' => $this->generate('string', 9, ':punct:'))),
-            array(array('prices_price' => 'g3648GJHghj')),
-            array(array('prices_price' => $this->generate('string', 9, ':alpha:')))
+            array('prices_tier_price_qty'),
+            array('prices_tier_price_price'),
         );
+    }
+
+    /**
+     *
+     * 1. Login to Admin Page;
+     *
+     * 2. Goto Catalog -> Manage Products;
+     *
+     * 3. Click "Add Product" button;
+     *
+     * 4. Fill in "Attribute Set", "Product Type" fields;
+     *
+     * 5. Click "Continue" button;
+     *
+     * 6. Fill in required fields in "General" tab with correct data;
+     *
+     * 7. Fill in required fields in "Prices" tab with correct data;
+     *
+     * 8. Click "Add Tier" button and fill in fields in current fieldset with imcorrect data;
+     *
+     * 9. Fill in required fields in "Inventory" tab with correct data;
+     *
+     * 10. Click "Save" button;
+     *
+     * Expected result:
+     *
+     * Product is not created, error message appears;
+     *
+     * @dataProvider data_invalidData_NumericField
+     */
+    public function test_WithTierPrice_InvalidValues($invalidTierData)
+    {
+        //Data
+        $tierData = array(
+            'prices_tier_price_qty' => $invalidTierData,
+            'prices_tier_price_price' => $invalidTierData
+        );
+        $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $productData['prices_tier_price_1'] = $this->loadData('prices_tier_price_1', $tierData);
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        foreach ($tierData as $key => $value) {
+            $fieldXpath = $this->_getControlXpath('field', $key);
+            $this->addParameter('fieldXpath', $fieldXpath);
+            $this->assertTrue($this->validationMessage('invalid_tier_price'), $this->messages);
+        }
+        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
     }
 
     /**
@@ -376,25 +471,26 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * Product is not created, error message appears;
      *
-     * @dataProvider data_InvalidQty
+     * @dataProvider data_invalidQty
      */
-    public function test_WithInvalidValueForFields_InvalidQty($InvalidQty)
+    public function test_WithInvalidValueForFields_InvalidQty($invalidQty)
     {
-        //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('settings_simple');
-        $productData = $this->loadData('simple_product_required', $InvalidQty, 'general_sku');
-        // Steps
-        $this->productHelper()->createProduct($productSettings, $productData);
-        // Verifying - error message appears
+        //Data
+        $productData = $this->loadData('simple_product_required',
+                        array('inventory_qty' => $invalidQty), 'general_sku');
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->validationMessage('invalid_qty'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_InvalidQty()
+    public function data_invalidQty()
     {
         return array(
-            array(array('inventory_qty' => $this->generate('string', 9, ':punct:'))),
-            array(array('inventory_qty' => 'g3648GJHghj')),
-            array(array('inventory_qty' => $this->generate('string', 9, ':alpha:')))
+            array($this->generate('string', 9, ':punct:')),
+            array($this->generate('string', 9, ':alpha:')),
+            array('g3648GJHghj'),
         );
     }
 
@@ -433,14 +529,13 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function test_WithCustomOptions_EmptyFields($emptyCustomFields)
     {
-        //Loading Data
-        $productSettings = $this->loadData('settings_simple');
+        //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
-        $productData['custom_options'] = $this->loadData('custom_options_empty',
+        $productData['custom_options_empty'] = $this->loadData('custom_options_empty',
                         array($emptyCustomFields => "%noValue%"));
-        // Fill form
-        $this->productHelper()->createProduct($productSettings, $productData);
-        // Verifying - error messages appears
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
         if ($emptyCustomFields == 'custom_options_general_title') {
             $xpath = $this->_getControlXpath('field', $emptyCustomFields);
             $this->addParameter('fieldXpath', $xpath);
@@ -458,6 +553,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
             array('custom_options_general_input_type')
         );
     }
+
     /**
      * Steps
      *
@@ -489,211 +585,53 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * Product is not created, error message appears;
      *
-     * @dataProvider data_invalidData
+     * @dataProvider data_invalidData_NumericField
      */
     public function test_WithCustomOptions_InvalidValues($invalidData)
     {
-        // Loading Data
-        $productSettings = $this->loadData('settings_simple');
+        //Data
         $productData = $this->loadData('simple_product_required', NULL, 'general_sku');
-        $productData['custom_options'] = $this->loadData('custom_options_field', $invalidData);
-        // Steps
-        $this->productHelper()->createProduct($productSettings, $productData);
-        // Verifying  - error message appears
+        $productData['custom_options_field'] = $this->loadData('custom_options_field',
+                        array('custom_options_price' => $invalidData));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_invalidData()
+    public function data_invalidData_NumericField()
     {
         return array(
-            array(array('custom_options_price' => $this->generate('string', 9, ':punct:'))),
-            array(array('custom_options_price' => 'g3648GJHghj')),
-            array(array('custom_options_price' => $this->generate('string', 9, ':alpha:')))
+            array($this->generate('string', 9, ':punct:')),
+            array($this->generate('string', 9, ':alpha:')),
+            array('g3648GJHghj'),
+            array('-128')
         );
     }
 
     /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Fill in field "Special Price" with invalid data;
-     *
-     * 9. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
-     * @dataProvider data_InvalidValue
+     * @TODO
      */
-    public function test_WithSpecialPrice_InvalidValue($InvalidValue)
+    public function test_OnConfigurableProductPage_QuickCreate()
     {
-        //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('settings_simple');
-        $productData = $this->loadData('simple_product_required', $InvalidValue, 'general_sku');
-        // Steps
-        $this->productHelper()->createProduct($productSettings, $productData);
-        //Verifying - error message appears
-        $this->assertTrue($this->validationMessage('invalid_special_price'), $this->messages);
-    }
-
-    public function data_InvalidValue()
-    {
-        return array(
-            array(array('prices_special_price' => $this->generate('string', 9, ':punct:'))),
-            array(array('prices_special_price' => 'g3648GJHghj')),
-            array(array('prices_special_price' => $this->generate('string', 9, ':alpha:')))
-        );
+        $this->markTestIncomplete();
     }
 
     /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Click "Add Tier" button and leave fields in current fieldset empty;
-     *
-     * 9. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 10. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
-     * @dataProvider data_EmptyFieldTier
+     * @TODO
      */
-    public function test_WithTierPriceFieldsEmpty($emptyFieldTier, $fieldType)
+    public function test_OnConfigurableProductPage_CreateEmpty()
     {
-        //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('settings_simple');
-        $productData = $this->loadData('simple_product_required', array($emptyFieldTier => ''),
-                            'general_sku');
-        $productData['prices_tier_price'] = $this->loadData('prices_tier_price_1', $emptyFieldTier);
-        //Steps
-        $this->productHelper()->createProduct($productSettings, $productData);
-        //Verifying - error message appears
-        $fieldXpath = $this->_getControlXpath($fieldType, $emptyFieldTier);
-        $this->addParameter('fieldXpath', $fieldXpath);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-    }
-
-    public function data_EmptyFieldTier()
-    {
-        return array(
-            array('prices_tier_price_qty', 'field'),
-            array('prices_tier_price_price', 'field'),
-        );
+        $this->markTestIncomplete();
     }
 
     /**
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Click "Add Tier" button and fill in fields in current fieldset with imcorrect data;
-     *
-     * 9. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 10. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
-     * @dataProvider data_invalidDataTier
+     * @TODO
      */
-    public function test_WithTierPrice_InvalidValues($data_invalidDataTier)
+    public function test_OnConfigurableProductPage_CopyFromConfigurable()
     {
-        //Data - Loading settings for Simple product
-        $productSettings = $this->loadData('settings_simple');
-        $productData = $this->loadData('simple_product_required', $data_invalidDataTier, 'general_sku');
-        $productData['prices_tier_price'] = $this->loadData('prices_tier_price_1', $data_invalidDataTier);
-        // Steps
-        $this->productHelper()->createProduct($productSettings, $productData);
-        foreach ($data_invalidDataTier as $key => $value) {
-            $fieldXpath = $this->_getControlXpath('field', $key);
-            $this->addParameter('fieldXpath', $fieldXpath);
-            $this->assertTrue($this->validationMessage('invalid_tier_price'), $this->messages);
-        }
-        // Verifying - error message appears
-        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+        $this->markTestIncomplete();
     }
 
-    public function data_invalidDataTier()
-    {
-        return array(
-            array(array('prices_tier_price_qty' => $this->generate('string', 9, ':punct:'),
-                    'prices_tier_price_price' => $this->generate('string', 9, ':punct:'))),
-            array(array('prices_tier_price_qty' => 'g3648GJHghj',
-                    'prices_tier_price_price' => 'g3648GJHghj')),
-            array(array('prices_tier_price_qty' => $this->generate('string', 9, ':alpha:'),
-                    'prices_tier_price_price' => $this->generate('string', 9, ':alpha:'))),
-        );
-    }
-//
-//    /**
-//     * @TODO
-//     */
-//    public function test_OnConfigurableProductPage_QuickCreate()
-//    {
-//        // @TODO
-//        $this->markTestIncomplete();
-//    }
-//
-//    /**
-//     * @TODO
-//     */
-//    public function test_OnConfigurableProductPage_CreateEmpty()
-//    {
-//        // @TODO
-//        $this->markTestIncomplete();
-//    }
-//
-//    /**
-//     * @TODO
-//     */
-//    public function test_OnConfigurableProductPage_CopyFromConfigurable()
-//    {
-//        // @TODO
-//        $this->markTestIncomplete();
-//    }
 }

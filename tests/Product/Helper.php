@@ -40,25 +40,31 @@ class Product_Helper extends Mage_Selenium_TestCase
     /**
      * Fill in Product Settings tab
      *
-     * @param type $productSettings
+     * @param array $productData
+     * @param string $productType Value - simple|virtual|bundle|configurable|downloadable|grouped
      */
-    public function fillProductSettings($productSettings)
+    public function fillProductSettings($productData, $productType='simple')
     {
-        $this->assertTrue($this->checkCurrentPage('new_product_settings'), 'Wrong page is displayed');
-        $this->fillForm($productSettings);
-        // Defining and adding %attributeSetID% and %productType% for Uimap pages.
-        foreach ($productSettings as $fieldsName => $fieldValue) {
-            $xpath = $this->_getControlXpath('dropdown', $fieldsName);
-            if ($fieldsName == 'product_attribute_set') {
-                $attributeSetID = $this->getValue($xpath . "/option[text()='" . $fieldValue . "']");
-                $this->addParameter('attributeSetID', $attributeSetID);
-            }
-            if ($fieldsName == 'product_type') {
-                $productType = $this->getValue($xpath . "/option[text()='" . $fieldValue . "']");
-                $this->addParameter('productType', $productType);
-            }
-            $this->getCurrentLocationUimapPage()->assignParams($this->_paramsHelper);
+        $fieldName = 'product_attribute_set';
+        $setXpath =
+                $this->getCurrentLocationUimapPage()->findFieldset('product_settings')->getXpath()
+                . $this->_getControlXpath('dropdown', $fieldName);
+        $productTypeXpath =
+                $this->getCurrentLocationUimapPage()->findFieldset('product_settings')->getXpath()
+                . $this->_getControlXpath('dropdown', 'product_type');
+        $attributeSetID = 4;
+
+        if (isset($productData[$fieldName]) && $productData[$fieldName] != '%noValue%') {
+            $this->select($setXpath, 'label=' . $productData[$fieldName]);
+            $attributeSetID = $this->getValue($setXpath
+                            . "/option[text()='" . $productData[$fieldName] . "']");
         }
+        $this->select($productTypeXpath, 'value=' . $productType);
+
+        // Defining and adding %attributeSetID% and %productType% for Uimap pages.
+        $this->addParameter('attributeSetID', $attributeSetID);
+        $this->addParameter('productType', $productType);
+        $this->getCurrentLocationUimapPage()->assignParams($this->_paramsHelper);
         //Click 'Comtinue' button
         $this->clickButton('continue_button');
     }
@@ -287,17 +293,21 @@ class Product_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Fill Base Tabs
-     *
+     * Create Product
      * @param array $productData
+     * @param string $productType
      */
-    public function fillBaseTabs(array $productData)
+    public function createProduct(array $productData, $productType='simple')
     {
+        $this->clickButton('add_new_product');
+        $this->fillProductSettings($productData, $productType);
         $this->fillTab($productData);
         $this->fillTab($productData, 'prices');
         $this->fillTab($productData, 'meta_information');
         //@TODO Fill in Images Tab
-        $this->fillTab($productData, 'recurring_profile');
+        if ($productType == 'simple' || $productType == 'virual') {
+            $this->fillTab($productData, 'recurring_profile');
+        }
         $this->fillTab($productData, 'design');
         $this->fillTab($productData, 'gift_options');
         $this->fillTab($productData, 'inventory');
@@ -307,20 +317,24 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->fillTab($productData, 'up_sells_products');
         $this->fillTab($productData, 'cross_sells_products');
         $this->fillTab($productData, 'custom_options');
-//        $this->fillTab($productData, 'associated_products');
-//        $this->fillTab($productData, 'bundle_items');
+        if ($productType == 'grouped' || $productType == 'configurable') {
+            $this->fillTab($productData, 'associated_products');
+        }
+        if ($productType == 'bundle') {
+            $this->fillTab($productData, 'bundle_items');
+        }
+        $this->saveForm('save');
     }
 
     /**
-     * Create Product
-     * @param type $productData
+     * Open product.
+     * @param array $productSearch 
      */
-    public function createProduct(array $productSettings, array $productData)
+    public function openProduct(array $productSearch)
     {
-        $this->clickButton('add_new_product');
-        $this->fillProductSettings($productSettings);
-        $this->fillBaseTabs($productData);
-        $this->saveForm('save');
+        $this->clickButton('reset_filter', FALSE);
+        $this->pleaseWait();
+        $this->assertTrue($this->searchAndOpen($productSearch));
     }
 
 }

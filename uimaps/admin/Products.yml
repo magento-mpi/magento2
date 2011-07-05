@@ -25,7 +25,17 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-# Product creation page and related pages
+messages: &productMesssages
+    invalid_tier_price: "%fieldXpath%/following-sibling::*[text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]"
+    empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+    success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been deleted.')]
+    success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
+    select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
+    enter_valid_number: //div[@id='advice-validate-number-product_option_%optionId%_price']
+    invalid_special_price: //div[@id='advice-validate-zero-or-greater-special_price']
+    invalid_price: //div[@id='advice-validate-zero-or-greater-price']
+    invalid_qty: //div[@id='advice-validate-number-inventory_qty']
+    existing_sku: //div[@id='advice-validate-ajax-sku']
 
 # Manage Product page
 manage_products:
@@ -62,9 +72,7 @@ manage_products:
                             product_qty_to: //input[@id='product_filter_qty_to']
         buttons:
             add_new_product: //button[span='Add Product']
-        messages:
-            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
-            success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been deleted.')]
+        messages: *productMesssages
 
 # Settings for New Product creation
 new_product_settings:
@@ -485,16 +493,7 @@ new_product:
             reset: //button[span='Reset']
             save: //button[span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages:
-            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            existing_sku: //div[@id='advice-validate-ajax-sku']
-            invalid_price: //div[@id='advice-validate-zero-or-greater-price']
-            invalid_special_price: //div[@id='advice-validate-zero-or-greater-special_price']
-            invalid_qty: //div[@id='advice-validate-number-inventory_qty']
-            select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
-            invalid_tier_price: "%fieldXpath%/following-sibling::*[text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]"
-            enter_valid_number: //div[@id='advice-validate-number-product_option_%optionId%_price']
+        messages: *productMesssages
 
 # Edit Product page
 edit_product:
@@ -544,12 +543,4 @@ edit_product:
             duplicate: //button[span='Duplicate']
             save: //button[span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages:
-            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            existing_sku: //div[@id='advice-validate-ajax-sku']
-            invalid_price: //div[@id='advice-validate-zero-or-greater-price']
-            invalid_special_price: //div[@id='advice-validate-zero-or-greater-special_price']
-            invalid_qty: //div[@id='advice-validate-number-inventory_qty']
-            select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionNumber%_type']
-            invalid_tier_price: "%fieldXpath%/following-sibling::*[text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]"
+        messages: *productMesssages
