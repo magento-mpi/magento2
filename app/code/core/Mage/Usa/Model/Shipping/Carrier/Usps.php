@@ -1496,8 +1496,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         }
         $xml->addChild('ToName', $request->getRecipientContactPersonName());
         $xml->addChild('ToFirm', $request->getRecipientContactCompanyName());
-        $xml->addChild('ToAddress1', $request->getRecipientAddressStreet2());
-        $xml->addChild('ToAddress2', $request->getRecipientAddressStreet1());
+        $xml->addChild('ToAddress1', $request->getRecipientAddressStreet1());
+        $xml->addChild('ToAddress2', $request->getRecipientAddressStreet2());
         $xml->addChild('ToCity', $request->getRecipientAddressCity());
         $xml->addChild('ToProvince', $request->getRecipientAddressStateOrProvinceCode());
         $xml->addChild('ToCountry', $this->_getCountryName($request->getRecipientAddressCountryCode()));
