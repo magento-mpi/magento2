@@ -122,7 +122,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
     {
         if ($item instanceof Mage_Sales_Model_Quote_Address_Item) {
             $address = $item->getAddress();
-        } elseif ($item->getQuote()->isVirtual()) {
+        } elseif ($item->getQuote()->getItemVirtualQty() > 0) {
             $address = $item->getQuote()->getBillingAddress();
         } else {
             $address = $item->getQuote()->getShippingAddress();
