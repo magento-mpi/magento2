@@ -138,12 +138,11 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         /**
          * Build base SQL
          */
-        $select         = $this->_prepareConditionsSql($customer, $website);
-        $required       = $this->_getRequiredValidation();
-        $whereFunction  = ($this->getAggregator() == 'all') ? 'where' : 'orWhere';
-        $operator       = $required ? '=' : '<>';
-
-        $gotConditions = false;
+        $select     = $this->_prepareConditionsSql($customer, $website);
+        $required   = $this->_getRequiredValidation();
+        $aggregator = ($this->getAggregator() == 'all') ? ' AND ' : ' OR ';
+        $operator   = $required ? '=' : '<>';
+        $conditions = array();
 
         /**
          * Add children subselects conditions
@@ -156,9 +155,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
                 } else {
                     $isnull = $adapter->getCheckSql($sql, 1, 0);
                 }
-                $criteriaSql = "($isnull {$operator} 1)";
-                $select->$whereFunction($criteriaSql);
-                $gotConditions = true;
+                $conditions[] = "($isnull {$operator} 1)";
             }
         }
 
@@ -174,18 +171,16 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
                     $condition->setCombineHistory($this->_combineHistory);
                     $subfilter = $condition->getSubfilterSql($subfilterMap[$subfilterType], $required, $website);
                     if ($subfilter) {
-                        $subfilters[] = $subfilter;
-                        $gotConditions = true;
+                        $conditions[] = $subfilter;
                     }
                 }
             }
         }
 
-        if ($gotConditions && !empty($subfilters)) {
-            $select->where(implode(($this->getAggregator() == 'all') ? ' AND ' : ' OR ', $subfilters));
-        } else {
-            $select->where('1=1');
+        if (!empty($conditions)) {
+            $select->where(implode($aggregator, $conditions));
         }
+
         return $select;
     }
 
