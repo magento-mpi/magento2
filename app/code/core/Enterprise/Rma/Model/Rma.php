@@ -871,6 +871,16 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         $request->setBaseCurrency($store->getBaseCurrency());
         $request->setPackageCurrency($store->getCurrentCurrency());
 
+        /*
+         * For international shipments we must set customs value larger than zero
+         * This number is being taken from items' prices
+         * But for the case when we try to return bundle items from fixed-price bundle,
+         * we have no items' prices. We should add this customs value manually
+         */
+        if (($request->getOrigCountryId() !== $request->getDestCountryId()) && ($request->getPackageValue() < 1)) {
+            $request->setPackageCustomsValue(1);
+        }
+
         $request->setIsReturn(true);
 
         /** @var $result Mage_Shipping_Model_Shipping */
