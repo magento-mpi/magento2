@@ -46,7 +46,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
     protected $_canRefund               = true;
-    protected $_canVoid                 = true;
+    protected $_canVoid                 = false;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
@@ -496,7 +496,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
                     Mage::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
                 );
             }
-         }else{
+        }else{
             $error = Mage::helper('cybersource')->__('Invalid transaction id or token');
         }
         if ($error !== false) {
