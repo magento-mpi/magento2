@@ -340,7 +340,13 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPriceFormat($store = null)
     {
-        return Mage::helper('core')->jsonEncode(Mage::app()->getLocale()->getJsPriceFormat());
+        Mage::app()->getLocale()->emulate($store);
+        $priceFormat = Mage::app()->getLocale()->getJsPriceFormat();
+        Mage::app()->getLocale()->revert();
+        if ($store) {
+            $priceFormat['pattern'] = Mage::app()->getStore($store)->getCurrentCurrency()->getOutputFormat();
+        }
+        return Mage::helper('core')->jsonEncode($priceFormat);
     }
 
     /**
