@@ -65,7 +65,7 @@
                         </div>
                         <?php echo $this->getChildHtml('payment_methods_before') ?>
                         <!-- Payment methods forms list -->
-                        <dl class="sp-methods">
+                        <dl class="sp-methods" id="payment-methods">
                         <?php
                             $_methods       = $this->getMethods();
                             $_methodsCount  = count($_methods);
