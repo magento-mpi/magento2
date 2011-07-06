@@ -141,8 +141,6 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
             $productIds = array_diff($productIds, $object->getExcludeProductIds());
         }
 
-        shuffle($productIds);
-
         return array_slice($productIds, 0, $object->getLimit());
     }
 
