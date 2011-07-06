@@ -61,13 +61,12 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends 
         $storeId = Mage::registry('current_rma')->getStoreId();
         $order = Mage::registry('current_rma')->getOrder();
         $address = $order->getShippingAddress();
-        $shipperAddressCountryCode = Mage::getStoreConfig(
-            Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
-            $storeId
-        );
-        $recipientAddressCountryCode = $address->getCountryId();
+        $shippingSourceCountryCode = $address->getCountryId();
 
-        if ($shipperAddressCountryCode != $recipientAddressCountryCode) {
+        $shippingDestinationInfo = Mage::helper('enterprise_rma')->getReturnAddressModel($storeId);
+        $shippingDestinationCountryCode = $shippingDestinationInfo->getCountryId();
+
+        if ($shippingSourceCountryCode != $shippingDestinationCountryCode) {
             return true;
         }
         return false;
