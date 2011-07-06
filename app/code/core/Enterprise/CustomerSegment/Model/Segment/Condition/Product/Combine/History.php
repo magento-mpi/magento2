@@ -150,7 +150,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
                 );
                 $select->joinInner(
                     array('sales_order' => $this->getResource()->getTable('sales/order')),
-                    'item.order_id = order.entity_id',
+                    'item.order_id = sales_order.entity_id',
                     array()
                 );
                 $select->where($this->_createCustomerFilter($customer, 'sales_order.customer_id'));
