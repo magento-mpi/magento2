@@ -6066,3 +6066,4 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->endSetup();
+$installer->getConnection()->closeConnection();
