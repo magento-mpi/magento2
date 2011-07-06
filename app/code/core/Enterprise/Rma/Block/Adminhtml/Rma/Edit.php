@@ -66,7 +66,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
 
             $this->_addButton('close', array(
                 'label'     => Mage::helper('enterprise_rma')->__('Close'),
-                'onclick'   => 'setLocation(\''.$this->getCloseUrl().'\')'
+                'onclick'   => 'confirmSetLocation(\''
+                                . Mage::helper('enterprise_rma')->__('Are you sure you want to close this RMA request?')
+                                .'\', \'' . $this->getCloseUrl().'\')'
                 )
             );
         } else {
