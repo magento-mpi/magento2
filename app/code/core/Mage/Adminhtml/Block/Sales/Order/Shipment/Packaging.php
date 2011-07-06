@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
             $itemsGridUrl = $this->getUrl('*/sales_order_shipment/getShippingItemsGrid', $urlParams);
 
             foreach ($this->getShipment()->getAllItems() as $item) {
-                $itemsQty[$item->getOrderItemId()]      = $item->getOrderItem()->getQtyOrdered()*1;
+                $itemsQty[$item->getOrderItemId()]      = $item->getQty()*1;
                 $itemsPrice[$item->getOrderItemId()]    = $item->getPrice();
                 $itemsName[$item->getOrderItemId()]     = $item->getName();
                 $itemsWeight[$item->getOrderItemId()]   = $item->getWeight();
