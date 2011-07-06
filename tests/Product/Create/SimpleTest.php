@@ -38,7 +38,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Log in to Backend.
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -103,31 +103,16 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps:
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add product" button;
-     *
-     * 4. Fill in "Attribute Set" and "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Leave one required field empty and fill in the rest of fields on General tab;
-     *
-     * 7. Fill in required fields on Prices tab;
-     *
-     * 8. Click "Save" button;
-     *
-     * 9. Verify error message;
-     *
-     * 10. Repeat scenario for all required fields for both tabs;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Leave one required field empty and fill in the rest of fields;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>6. Verify error message;</p>
+     * <p>7. Repeat scenario for all required fields for both tabs;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider data_EmptyField
      */
@@ -173,28 +158,14 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with special characters ("General tab only");
-     *
-     * 7. Fill in required fields in "Prices" tab with normal data;
-     *
-     * 8. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product created, confirmation message appears
-     *
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with special symbols ("General" tab), rest - with normal data;
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product created, confirmation message appears</p>
      */
     public function test_WithSpecialCharacters()
     {
@@ -216,30 +187,14 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in "Weight" field with special characters;
-     *
-     * 7. Fill in required fields in "Prices" tab with normal data;
-     *
-     * 8. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product created, confirmation message appears, Weight=0;
-     *
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in "Weight" field with special characters, the rest - with normal data;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product created, confirmation message appears, Weight=0;</p>
      */
     public function test_WithInvalidValueForFields_InvalidWeight()
     {
@@ -267,30 +222,15 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with normal data;
-     *
-     * 8. Fill in "Price" field with special characters;
-     *
-     * 9. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in "Price" field with special characters, the rest fields - with normal data;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     * 
      * @dataProvider data_invalidData_NumericField
      */
     public function test_WithInvalidValueForFields_InvalidPrice($invalidPrice)
@@ -306,30 +246,15 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Fill in field "Special Price" with invalid data;
-     *
-     * 9. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in field "Special Price" with invalid data, the rest fields - with correct data;
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:<p>
+     * <p>Product is not created, error message appears;</p>
+     * 
      * @dataProvider data_invalidData_NumericField
      */
     public function test_WithSpecialPrice_InvalidValue($invalidValue)
@@ -345,32 +270,16 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Click "Add Tier" button and leave fields in current fieldset empty;
-     *
-     * 9. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 10. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
+     * <p>Steps<p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Add Tier" button and leave fields in current fieldset empty;</p>
+     * <p>6. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     * 
      * @dataProvider data_EmptyField_TierPrice
      */
     public function test_WithTierPriceFieldsEmpty($emptyTierPrice)
@@ -397,30 +306,15 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Click "Add Tier" button and fill in fields in current fieldset with imcorrect data;
-     *
-     * 9. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 10. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Add Tier" button and fill in fields in current fieldset with imcorrect data;</p>
+     * <p>6. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider data_invalidData_NumericField
      */
@@ -445,31 +339,14 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 8. Fill in "Weight" field with special characters;
-     *
-     * 9. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data, "Qty" field - with special characters;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider data_invalidQty
      */
@@ -495,35 +372,17 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 8. Goto "Custom Options" tab;
-     *
-     * 10. Click "Add New Option" button;
-     *
-     * 11. Leave fields empty;
-     *
-     * 12. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Leave fields empty;</p>
+     * <p>8. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider data_EmptyCustomFields
      */
@@ -555,35 +414,17 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 8. Goto "Custom Options" tab;
-     *
-     * 10. Click "Add New Option" button;
-     *
-     * 11. Fill in fields with incorrect data;
-     *
-     * 12. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Fill in fields with incorrect data;</p>
+     * <p>8. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider data_invalidData_NumericField
      */
