@@ -1000,7 +1000,7 @@ XMLRequest;
                         $responseCurrencyCode = (string) $shipElement->TotalCharges->CurrencyCode;
                         if ($responseCurrencyCode) {
                             if (in_array($responseCurrencyCode, $allowedCurrencies)) {
-                                $cost *= $this->_getBaseCurrencyRate($responseCurrencyCode);
+                                $cost = (float) $cost * $this->_getBaseCurrencyRate($responseCurrencyCode);
                             } else {
                                 $errorTitle = Mage::helper('directory')
                                     ->__('Can\'t convert rate from "%s-%s".',
