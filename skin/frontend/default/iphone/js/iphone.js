@@ -109,22 +109,26 @@ document.observe("dom:loaded", function() {
     });
     
     //iPhone header menu switchers
-    var curLang = $$('#language-switcher li.selected a')[0].innerHTML,
-        curStore = $$('#store-switcher li.selected a')[0].innerHTML;
+    if( $$('#language-switcher li.selected a')[0] ) {
+        var curLang = $$('#language-switcher li.selected a')[0].innerHTML;
+        $('current-language').update(curLang);
+        
+        $$('#language-switcher > a')[0].observe('click', function (e) {
+            this.next().toggle();
+            e.preventDefault();
+        });
+    }
     
-    $('current-language').update(curLang);
-    $('current-store').update(curStore);
-    
-    $$('#language-switcher > a')[0].observe('click', function (e){
-        this.next().toggle();
-        e.preventDefault();
-    });
-    
-    $$('#store-switcher > a')[0].observe('click', function (e){
-        this.next().toggle();
-        e.preventDefault();
-    });
-    
+    if( $$('#store-switcher li.selected a')[0] ) {
+        var curStore = $$('#store-switcher li.selected a')[0].innerHTML;
+        $('current-store').update(curStore);
+        
+        $$('#store-switcher > a')[0].observe('click', function (e) {
+            this.next().toggle();
+            e.preventDefault();
+        });
+     }
+
     //Slider
     
     var Carousel = Class.create({
@@ -139,7 +143,7 @@ document.observe("dom:loaded", function() {
            }, options || {});
            
            this.carousel = carousel;
-           this.items    = itemsContainer;
+           this.items    = itemsContainer.addClassName('carousel-items');
            this.itemsLength = this.items.childElements().size();
            this.counter  = this.carousel.insert(new Element('div', {'class' : 'counter'})).select('.counter')[0];
            this.prevButton = carousel.select('.prev')[0];
@@ -256,9 +260,58 @@ document.observe("dom:loaded", function() {
         }
     });
     
-    var upSellCarousel = new Carousel($$('.carousel')[0], $$('.carousel-items')[0], {
-        visibleElements: 2,
-        preventDefaultEvents: true
-    }).init();
-
+    if ( $$('.carousel')[0] ) {
+        var upSellCarousel = new Carousel($$('.carousel')[0], $$('.carousel-items')[0], {
+            visibleElements: 2,
+            preventDefaultEvents: true
+        }).init();
+    }
+    
+    if ( $$('.product-gallery')[0] ) {
+        var galleryCarousel = new Carousel($$('.product-gallery')[0], $$('.product-gallery > ul')[0], {
+            visibleElements: 1,
+            preventDefaultEvents: false
+        }).init();
+    }
+    
+     
+    // Swipe Functionality
+     
+    var Swipe = Class.create( Carousel, {
+        initialize: function (elem, swipeLeft, swipeRight, options) { 
+            this.options  = Object.extend({
+                threshold: {
+                    x: 30,
+                    y: 20
+                },
+                preventDefaultEvents: false
+            }, options || {});
+            
+            this.elem = elem;
+            this.originalCoord = { x: 0, y: 0 };
+            this.finalCoord    = { x: 0, y: 0 };
+            
+            this.elem.observe('touchstart', this.touchStart.bind(this));
+            this.elem.observe('touchmove', this.touchMove.bind(this));
+            this.elem.observe('touchend', this.touchEnd.bind(this));
+            this.moveLeft = swipeRight;
+            this.moveRight = swipeLeft;
+        }
+    });
+    
+    if ( $$('.c-list')[0] ) {
+        $$('.c-list > li').each( function (item) {
+            new Swipe(item,
+                function() {
+                    item.removeClassName('animated').addClassName('end-animation');
+                },
+                function() {
+                    if ( !item.hasClassName('animated') ) {
+                        $$('.c-list > li.animated').invoke('removeClassName', 'animated').invoke('addClassName', 'end-animation');
+                        item.addClassName('animated').removeClassName('end-animation');
+                    }
+                }
+            );
+        });
+    }
 });
