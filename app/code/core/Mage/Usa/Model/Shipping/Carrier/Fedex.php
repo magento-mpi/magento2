@@ -1246,14 +1246,13 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         $countryShipper     = $params->getCountryShipper();
         $countryRecipient   = $params->getCountryRecipient();
 
-        if ($countryShipper == self::USA_COUNTRY_ID
-            && $countryRecipient == self::CANADA_COUNTRY_ID
+        if (($countryShipper == self::USA_COUNTRY_ID && $countryRecipient == self::CANADA_COUNTRY_ID
+            || $countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID)
             && $method == 'FEDEX_GROUND'
         ) {
             return array('YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging'));
         } else if ($countryShipper == self::CANADA_COUNTRY_ID
             && $countryRecipient != self::CANADA_COUNTRY_ID
-            && $countryRecipient != self::USA_COUNTRY_ID
             && ($method == 'INTERNATIONAL_ECONOMY' || $method == 'INTERNATIONAL_FIRST')
         ) {
             $allTypes = $this->getContainerTypesAll();
@@ -1268,7 +1267,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             $params->setCountryShipper(self::USA_COUNTRY_ID);
             $params->setCountryRecipient(self::USA_COUNTRY_ID);
         }
-        
+
         return $this->_getAllowedContainers($params);
     }
 
