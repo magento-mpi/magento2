@@ -551,6 +551,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
                 $valid = (float)$val == $val;
                 break;
             case 'select':
+            case 'multiselect':
                 $valid = isset($attrParams['options'][strtolower($rowData[$attrCode])]);
                 break;
             case 'int':
