@@ -80,22 +80,37 @@ new_product_settings:
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap:
         form: &newProductSettingsForm
-            fieldsets:
+            tabs:
                 -
-                    product_settings:
-                        xpath: //div[@id='settings']
-                        buttons:
-                            continue_button: //button[span='Continue']
-                        dropdowns:
-                            product_attribute_set: //select[@id='attribute_set_id']
-                            product_type: //select[@id='product_type']
+                    settings: &settingsTab
+                        xpath: //a[@title='Settings']/span
+                        fieldsets:
+                            -
+                                product_settings:
+                                    xpath: //div[contains(div/div/h4,'Create Product Settings')]
+                                    buttons:
+                                        continue: //button[span='Continue']
+                                    dropdowns:
+                                        product_attribute_set: //select[@id='attribute_set_id']
+                                        product_type: //select[@id='product_type']
 # Add New Product page
 new_product:
-    mca: catalog_product/new/set/%attributeSetID%/type/%productType%/
+    mca: catalog_product/new/%productParameters%
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap:
         form: &newProductCreationForm
             tabs:
+                -
+                    configurable_product_settings:
+                        xpath: //a[@title='Configurable Product Settings']/span
+                        fieldsets:
+                            -
+                                select_configurable_attributes:
+                                    xpath: //div[contains(div/div/h4,'Select Configurable Attributes')]
+                                    buttons:
+                                        continue: //button[span='Continue']
+                                    checkboxes:
+                                        configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
                 -
                     general: &generalTab
                         xpath: //a[@title='General']/span
@@ -431,12 +446,12 @@ new_product:
                                 super_products_attribute_configuration:
                                     xpath: //div[contains(div/h4,'Super product attributes configuration')]
                                     checkboxes:
-                                        use_default_name: //input[@id='configurable__attribute_0_label_use_default']
+                                        associated_products_attribute_name_default: //li[contains(div/text(),'%attributeTitle%')]//input[@class='attribute-use-default-label']
                                     dropdowns:
-                                        associated_products_price_type: //li[@class='attribute-value'][contains(div/strong,'%attributeValue%')]//select[@class='attribute-price-type']
+                                        associated_products_price_type: %attributeSettings%//select[contains(@class,'price-type')]
                                     fields:
-                                        associated_products_price: //li[@class='attribute-value'][contains(div/strong,'%attributeValue%')]//div[contains(text(),'Price:')]/input
-                                        attribute_name: //input[@id='configurable__attribute_%attribute_number%_label']
+                                        associated_products_price: %attributeSettings%//input[contains(@class,'attribute-price')]
+                                        associated_products_attribute_name: //li[contains(div/text(),'%attributeTitle%')]//input[contains(@class,'attribute-label')]
                             -
                                 associated_products:
                                     xpath: //div[@id='super_product_grid' or @id='super_product_links']

@@ -115,6 +115,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider data_EmptyField
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithRequiredFieldsEmpty($emptyField, $fieldType)
     {
@@ -166,6 +167,8 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>5. Click "Save" button;</p>
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears</p>
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSpecialCharacters()
     {
@@ -195,6 +198,8 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>5. Click "Save" button;</p>
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears, Weight=0;</p>
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithInvalidValueForFields_InvalidWeight()
     {
@@ -230,8 +235,9 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>5. Click "Save" button;</p>
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
-     * 
+     *
      * @dataProvider data_invalidData_NumericField
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithInvalidValueForFields_InvalidPrice($invalidPrice)
     {
@@ -254,8 +260,9 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>5. Click "Save" button;</p>
      * <p>Expected result:<p>
      * <p>Product is not created, error message appears;</p>
-     * 
+     *
      * @dataProvider data_invalidData_NumericField
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSpecialPrice_InvalidValue($invalidValue)
     {
@@ -279,14 +286,15 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>6. Click "Save" button;</p>
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
-     * 
+     *
      * @dataProvider data_EmptyField_TierPrice
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithTierPriceFieldsEmpty($emptyTierPrice)
     {
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
-        $productData['prices_tier_price_1'] = $this->loadData('prices_tier_price_1',
+        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1',
                         array($emptyTierPrice => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData);
@@ -317,6 +325,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider data_invalidData_NumericField
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithTierPrice_InvalidValues($invalidTierData)
     {
@@ -326,7 +335,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
             'prices_tier_price_price' => $invalidTierData
         );
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
-        $productData['prices_tier_price_1'] = $this->loadData('prices_tier_price_1', $tierData);
+        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1', $tierData);
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -349,6 +358,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider data_invalidQty
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithInvalidValueForFields_InvalidQty($invalidQty)
     {
@@ -385,12 +395,13 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider data_EmptyCustomFields
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithCustomOptions_EmptyFields($emptyCustomFields)
     {
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
-        $productData['custom_options_empty'] = $this->loadData('custom_options_empty',
+        $productData['custom_options_data'][] = $this->loadData('custom_options_empty',
                         array($emptyCustomFields => "%noValue%"));
         //Steps
         $this->productHelper()->createProduct($productData);
@@ -427,12 +438,13 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider data_invalidData_NumericField
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithCustomOptions_InvalidValues($invalidData)
     {
         //Data
         $productData = $this->loadData('simple_product_required', NULL, 'general_sku');
-        $productData['custom_options_field'] = $this->loadData('custom_options_field',
+        $productData['custom_options_data'][] = $this->loadData('custom_options_field',
                         array('custom_options_price' => $invalidData));
         //Steps
         $this->productHelper()->createProduct($productData);

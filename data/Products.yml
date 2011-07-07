@@ -178,6 +178,18 @@ custom_options_multipleselect: &multipleselect
         custom_options_sku: sku_multipleselect_row_2
         custom_options_sort_order: 2
 
+custom_options_data: &customOptionsData
+    custom_options_field: *field
+    custom_options_area: *area
+    custom_options_file: *file
+    custom_options_date: *date
+    custom_options_date_time: *dateTime
+    custom_options_time: *time
+    custom_options_dropdown: *dropdown
+    custom_options_radiobutton:  *radiobutton
+    custom_options_checkbox: *checkbox
+    custom_options_multipleselect: *multipleselect
+
 custom_options_empty:
     custom_options_general_title: Title
     custom_options_general_input_type: Field
@@ -198,11 +210,15 @@ prices_tier_price_2: &tierPrice2
     prices_tier_price_qty: 50
     prices_tier_price_price: 5.55
 
+prices_tier_price_data: &tierPriceData
+    prices_tier_price_1: *tierPrice1
+    prices_tier_price_2: *tierPrice2
+
 #*********************************************
 #*         Related Products Data             *
 #*********************************************
 
-related_products_1: &relatedProducts
+related_products_1: &relatedProducts1
     # Data to search
     related_products_id: %noValue%
     related_products_name: %noValue%
@@ -218,11 +234,15 @@ related_products_1: &relatedProducts
     # Data to fill in
     related_products_position: %noValue%
 
+related_products_data: &relatedProductsData
+    related_products_1: *relatedProducts1
+    related_products_2: %noValue%
+
 #*********************************************
 #*         Up-sells Products Data            *
 #*********************************************
 
-up_sells_products_1: &upSellsProducts
+up_sells_products_1: &upSellsProducts1
     # Data to search
     up_sells_products_id: %noValue%
     up_sells_products_name: %noValue%
@@ -238,11 +258,15 @@ up_sells_products_1: &upSellsProducts
     # Data to fill in
     up_sells_products_position: %noValue%
 
+up_sells_products_data: &upSellsProductsData
+    up_sells_products_1: *upSellsProducts1
+    up_sells_products_2: %noValue%
+
 #*********************************************
 #*         Cross-sells Products Data         *
 #*********************************************
 
-cross_sells_products_1: &crossSellsProducts
+cross_sells_products_1: &crossSellsProducts1
     # Data to search
     cross_sells_products_id: %noValue%
     cross_sells_products_name: %noValue%
@@ -258,11 +282,15 @@ cross_sells_products_1: &crossSellsProducts
     # Data to fill in
     cross_sells_products_position: %noValue%
 
-#*********************************************
-#*     Associated Products Data              *
-#*********************************************
+cross_sells_products_data: &crossSellsProductsData
+    cross_sells_products_1: *crossSellsProducts1
+    cross_sells_products_2: %noValue%
 
-associated_products_grouped: &gropedAssociatedProduct
+#************************************************
+#* Associated Products Data for Grouped Product *
+#************************************************
+
+associated_products_grouped_1: &gropedAssociatedProduct1
     # Data to search
     associated_products_id: %noValue%
     associated_products_name: %noValue%
@@ -277,7 +305,15 @@ associated_products_grouped: &gropedAssociatedProduct
     associated_products_position: %noValue%
     associated_products_default_qty: %noValue%
 
-associated_products_configurable: &configurableAssociatedProduct
+associated_products_grouped_data: &associatedProductsGroupedData
+    associated_products_grouped_1: *gropedAssociatedProduct1
+    associated_products_grouped_2: %noValue%
+
+#*****************************************************
+#* Associated Products Data for Configurable Product *
+#*****************************************************
+
+associated_products_configurable_1: &configurableAssociatedProduct1
     # Data to search
     associated_products_id: %noValue%
     associated_products_name: %noValue%
@@ -285,11 +321,17 @@ associated_products_configurable: &configurableAssociatedProduct
     associated_products_sku: %noValue%
     associated_products_price_from: %noValue%
     associated_products_price_to: %noValue%
-    ssociated_products_inventory: %noValue%
+    associated_products_inventory: %noValue%
     associated_products_by_attribute_value: %noValue%
     # Data to fill in
     associated_products_price: %noValue%
     associated_products_price_type: %noValue%
+
+associated_products_configurable_data: &associatedProductsConfigurableData
+    associated_products_attribute_name_default: No
+    associated_products_attribute_name: %noValue%
+    associated_products_configurable_1: *configurableAssociatedProduct1
+    associated_products_configurable_2: %noValue%
 
 #*********************************************
 #*         Bundle Items Data                 *
@@ -422,8 +464,7 @@ simple_product:
     prices_special_price: 3.99
     prices_special_price_from: 05/05/11
     prices_special_price_to: 09/09/11
-    prices_tier_price_1: *tierPrice1
-    prices_tier_price_2: *tierPrice2
+    prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Simple Product
@@ -449,7 +490,7 @@ simple_product:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-#    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message_default: No
     gift_options_allow_gift_message: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
@@ -471,19 +512,10 @@ simple_product:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    related_products_1: %noValue%
-    up_sells_products_1: %noValue%
-    cross_sells_products_1: %noValue%
-    custom_options_field: *field
-    custom_options_area: *area
-    custom_options_file: *file
-    custom_options_date: *date
-    custom_options_date_time: *dateTime
-    custom_options_time: *time
-    custom_options_dropdown: *dropdown
-    custom_options_radiobutton: *radiobutton
-    custom_options_checkbox: *checkbox
-    custom_options_multipleselect: *multipleselect
+    related_products_data: %noValue%
+    up_sells_products_data: %noValue%
+    cross_sells_products_data: %noValue%
+    custom_options_data: *customOptionsData
 
 #*********************************************
 #*         Virtual Product Data              *

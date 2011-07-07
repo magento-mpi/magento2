@@ -45,30 +45,75 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function fillProductSettings($productData, $productType='simple')
     {
-        $fieldName = 'product_attribute_set';
-        $setXpath =
-                $this->getCurrentLocationUimapPage()->findFieldset('product_settings')->getXpath()
-                . $this->_getControlXpath('dropdown', $fieldName);
-        $productTypeXpath =
-                $this->getCurrentLocationUimapPage()->findFieldset('product_settings')->getXpath()
-                . $this->_getControlXpath('dropdown', 'product_type');
-        $attributeSetID = 4;
+        $attributeSet = (isset($productData['product_attribute_set'])
+                            && $productData['product_attribute_set'] != '%noValue%')
+                        ? $productData['product_attribute_set']
+                        : null;
 
-        if (isset($productData[$fieldName]) && $productData[$fieldName] != '%noValue%') {
-            $this->select($setXpath, 'label=' . $productData[$fieldName]);
-            $attributeSetID = $this->getValue($setXpath
-                            . "/option[text()='" . $productData[$fieldName] . "']");
+        $attributeSetXpath = $this->_getControlXpath('dropdown', 'product_attribute_set');
+        $productTypeXpath = $this->_getControlXpath('dropdown', 'product_type');
+
+        if (!empty($attributeSet)) {
+            $this->select($attributeSetXpath, 'label=' . $attributeSet);
+            $attributeSetID = $this->getValue($attributeSetXpath . "/option[text()='$attributeSet']");
+        } else {
+            $attributeSetID = $this->getValue($attributeSetXpath . "/option[@selected='selected']");
         }
         $this->select($productTypeXpath, 'value=' . $productType);
 
-        // Defining and adding %attributeSetID% and %productType% for Uimap pages.
-        $this->addParameter('attributeSetID', $attributeSetID);
-        $this->addParameter('productType', $productType);
-        $this->getCurrentLocationUimapPage()->assignParams($this->_paramsHelper);
-        //Click 'Comtinue' button
-        $this->clickButton('continue_button');
+        $productParameters = 'set/' . $attributeSetID . '/type/' . $productType . '/';
+        $this->addParameter('productParameters', $productParameters);
+
+        $this->clickButton('continue');
     }
 
+    /**
+     * Select Dropdown Attribute(s) for configurable product creation
+     *
+     * @param array $productData
+     */
+    public function fillConfigurableSettings(array $productData)
+    {
+        $productParameters = $this->_paramsHelper->getParameter('productParameters');
+
+        $attributes = (isset($productData['configurable_attribute_title'])
+                            && $productData['configurable_attribute_title'] != '%noValue%')
+                        ? explode(',', $productData['configurable_attribute_title'])
+                        : null;
+
+        if (!empty($attributes)) {
+            $attributesId = array();
+            $attributes = array_map('trim', $attributes);
+
+            foreach ($attributes as $attributeTitle) {
+                $this->addParameter('attributeTitle', $attributeTitle);
+                $xpath = $this->_getControlXpath('checkboxe', 'configurable_attribute_title');
+                if ($this->isElementPresent($xpath)) {
+                    $attributesId[] = $this->getAttribute($xpath . '/@value');
+                    $this->click($xpath);
+                } else {
+                    $this->fail("Dropdown attribute with title '$attributeTitle' is not present on the page");
+                }
+            }
+
+            $attributesUrl = urlencode(base64_encode(implode(',', $attributesId)));
+            $productParameters = 'attributes/' . $attributesUrl . '/' . $productParameters;
+            $this->addParameter('productParameters', $productParameters);
+
+            $this->clickButton('continue');
+        } else {
+            $this->fail('Dropdown attribute for configurable product creation is not set');
+        }
+    }
+
+    /**
+     * Fill Product Tab
+     *
+     * @param array $productData
+     * @param string $tabName Value - general|prices|meta_information|images|recurring_profile
+     * |design|gift_options|inventory|websites|categories|related_products|up_sells_products
+     * |cross_sells_products|custom_options|bundle_items|associated_products|downloadable_information
+     */
     public function fillTab(array $productData, $tabName = 'general')
     {
         $needFilling = FALSE;
@@ -79,8 +124,13 @@ class Product_Helper extends Mage_Selenium_TestCase
                 break;
             }
         }
+
+        $tabXpath = $this->getCurrentLocationUimapPage()->findTab($tabName)->getXpath();
+        if ($tabName == 'websites' && !$this->isElementPresent($tabXpath)) {
+            $needFilling = FALSE;
+        }
+
         if ($needFilling) {
-            $tabXpath = $this->getCurrentLocationUimapPage()->findTab($tabName)->getXpath();
             $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
             if (!preg_match('/active/', $isTabOpened)) {
                 if (preg_match('/ajax/', $isTabOpened)) {
@@ -93,9 +143,10 @@ class Product_Helper extends Mage_Selenium_TestCase
             }
             switch ($tabName) {
                 case 'prices':
-                    foreach ($productData as $key => $value) {
-                        if (preg_match('/^prices_tier_price/', $key) and is_array($productData[$key])) {
-                            $this->addTierPrice($productData[$key]);
+                    $arrayKey = 'prices_tier_price_data';
+                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
+                        foreach ($productData[$arrayKey] as $key => $value) {
+                            $this->addTierPrice($productData[$arrayKey][$key]);
                         }
                     }
                     $this->fillForm($productData, 'prices');
@@ -108,35 +159,48 @@ class Product_Helper extends Mage_Selenium_TestCase
                     }
                     break;
                 case 'related_products': case 'up_sells_products': case 'cross_sells_products':
-                    foreach ($productData as $key => $value) {
-                        if (preg_match('/^' . $tabName . '/', $key) and is_array($productData[$key])) {
-                            $this->assignProduct($productData[$key], $tabName);
+                    $arrayKey = $tabName . '_data';
+                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
+                        foreach ($productData[$arrayKey] as $key => $value) {
+                            $this->assignProduct($productData[$arrayKey][$key], $tabName);
                         }
                     }
                     break;
                 case 'custom_options':
-                    foreach ($productData as $key => $value) {
-                        if (preg_match('/^custom_options/', $key) and is_array($productData[$key])) {
-                            $this->addCustomOption($productData[$key]);
+                    $arrayKey = $tabName . '_data';
+                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
+                        foreach ($productData[$arrayKey] as $key => $value) {
+                            $this->addCustomOption($productData[$arrayKey][$key]);
                         }
                     }
                     break;
                 case 'bundle_items':
-                    foreach ($productData as $key => $value) {
-                        if ($key == 'bundle_items_data' and is_array($productData[$key])) {
-                            $this->fillForm($productData[$key], 'bundle_items');
-                            foreach ($productData[$key] as $k => $v) {
-                                if (preg_match('/^bundle_items/', $k) and is_array($productData[$key][$k])) {
-                                    $this->addBundelOption($productData[$key][$k]);
-                                }
+                    $arrayKey = $tabName . '_data';
+                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
+                        foreach ($productData[$arrayKey] as $key => $value) {
+                            if (is_array($productData[$arrayKey][$key])) {
+                                $this->addBundelOption($productData[$arrayKey][$key]);
                             }
                         }
+                        $this->fillForm($productData[$arrayKey], 'bundle_items');
                     }
                     break;
                 case 'associated_products':
-                    foreach ($productData as $key => $value) {
-                        if (preg_match('/^associated_products/', $key) and is_array($productData[$key])) {
+                    $arrayKey = $tabName . '_grouped_data';
+                    $arrayKey1 = $tabName . '_configurable_data';
+                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
+                        foreach ($productData[$arrayKey] as $key => $value) {
                             $this->assignProduct($productData[$key], $tabName);
+                        }
+                    } elseif (array_key_exists($arrayKey1, $productData) && is_array($productData[$arrayKey1])) {
+                        $attributeTitle = $productData['configurable_attribute_title'];
+                        $this->addParameter('attributeTitle', $attributeTitle);
+                        $this->fillForm($productData[$arrayKey1], $tabName);
+                        foreach ($productData[$arrayKey1] as $key => $value) {
+                            if (is_array($productData[$arrayKey1][$key])) {
+                                $this->assignProduct($productData[$arrayKey1][$key], $tabName,
+                                        $attributeTitle);
+                            }
                         }
                     }
                 default:
@@ -217,32 +281,52 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param array $data
      * @param string $tabName
      */
-    public function assignProduct(array $data, $tabName)
+    public function assignProduct(array $data, $tabName, $attributeTitle = null)
     {
         // Prepare data for find and fill in
         $needFilling = FALSE;
         $fillingData = array();
+        $arrayKey = 'associated_products_by_attribute_value';
+
         foreach ($data as $key => $value) {
-            if ($key == $tabName . '_position' || $key == $tabName . '_default_qty') {
+            if ($key == $tabName . '_position' || $key == $tabName . '_default_qty'
+                    || $key == $tabName . '_price' || $key == $tabName . '_price_type') {
                 $fillingData[$key] = $value;
                 unset($data[$key]);
                 $needFilling = True;
             }
         }
-        // Search prodcut
+
+        if ($attributeTitle != null) {
+            $this->addParameter('attributeCode', strtolower($attributeTitle));
+        }
+
+        //Search prodcut
         $this->clickButton('reset_filter', FALSE);
         $this->pleaseWait();
         $this->searchAndChoose($data, $tabName);
         // Fill in additional data
         if ($needFilling) {
-            // Forming xpath for string that contains the lookup data
-            $xpathTR = '//tr';
-            foreach ($data as $key => $value) {
-                if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key) and $value != '%noValue%') {
-                    $xpathTR .= "[contains(.,'$value')]";
+            if ($attributeTitle == null) {
+                // Forming xpath for string that contains the lookup data
+                $xpathTR = '//tr';
+                foreach ($data as $key => $value) {
+                    if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key) and $value != '%noValue%') {
+                        $xpathTR .= "[contains(.,'$value')]";
+                    }
                 }
+                $this->addParameter('productXpath', $xpathTR);
+            } else {
+                //Forming xpath
+                if (array_key_exists($arrayKey, $data) && $data[$arrayKey] != '%noValue%') {
+                    $attributeValue = $data[$arrayKey];
+                } else {
+                    $this->fail("Value for attribute '$attributeTitle' isn't set");
+                }
+                $xpathTR = "//li[contains(div/text(),'$attributeTitle')]//li[div/strong='$attributeValue']";
+
+                $this->addParameter('attributeSettings', $xpathTR);
             }
-            $this->addParameter('productXpath', $xpathTR);
             $this->fillForm($fillingData, $tabName);
         }
     }
@@ -301,6 +385,9 @@ class Product_Helper extends Mage_Selenium_TestCase
     {
         $this->clickButton('add_new_product');
         $this->fillProductSettings($productData, $productType);
+        if ($productType == 'configurable') {
+            $this->fillConfigurableSettings($productData);
+        }
         $this->fillTab($productData);
         $this->fillTab($productData, 'prices');
         $this->fillTab($productData, 'meta_information');
@@ -328,7 +415,8 @@ class Product_Helper extends Mage_Selenium_TestCase
 
     /**
      * Open product.
-     * @param array $productSearch 
+     *
+     * @param array $productSearch
      */
     public function openProduct(array $productSearch)
     {

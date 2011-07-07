@@ -290,19 +290,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function __call($command, $arguments)
     {
-        if (version_compare(phpversion(), '5.3.0', '<')===true)
-            {
-              $helper = false;
-              $pos = strpos($command, 'Helper');
-              if ($pos !== false )
-                {
-                  $helper = substr($command, 0, $pos);
-                }
-          }
-        else {
-          $helper = strstr($command, 'Helper', true);
+        if (version_compare(phpversion(), '5.3.0', '<') === true) {
+            $helper = false;
+            $pos = strpos($command, 'Helper');
+            if ($pos !== false) {
+                $helper = substr($command, 0, $pos);
+            }
+        } else {
+            $helper = strstr($command, 'Helper', true);
         }
-        
+
         if ($helper !== false) {
             $helper = $this->_loadHelper($helper);
             if ($helper) {
@@ -1176,7 +1173,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
 
             if ($this->isElementPresent($xpathTR)) {
-                $xpathTR .="//input[contains(@class,'checkbox')]";
+                $xpathTR .="//input[contains(@class,'checkbox')][not(@disabled)]";
+//                $xpathTR .="//input[contains(@class,'checkbox')]";
                 if ($this->getValue($xpathTR) == 'off') {
                     $this->click($xpathTR);
                 }
