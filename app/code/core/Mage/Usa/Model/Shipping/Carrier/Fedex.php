@@ -1251,10 +1251,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             && $method == 'FEDEX_GROUND'
         ) {
             return array('YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging'));
-        } else if ($countryShipper == self::CANADA_COUNTRY_ID
-            && $countryRecipient != self::CANADA_COUNTRY_ID
-            && ($method == 'INTERNATIONAL_ECONOMY' || $method == 'INTERNATIONAL_FIRST')
-        ) {
+        } else if ($method == 'INTERNATIONAL_ECONOMY' || $method == 'INTERNATIONAL_FIRST') {
             $allTypes = $this->getContainerTypesAll();
             $exclude = array('FEDEX_10KG_BOX' => '', 'FEDEX_25KG_BOX' => '');
             return array_diff_key($allTypes, $exclude);
