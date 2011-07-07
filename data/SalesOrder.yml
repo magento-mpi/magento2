@@ -1,0 +1,169 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+
+new_customer_order_billing_address_reqfields:
+  order_first_name: 'Steven_testdataset req'
+  order_last_name: 'Stevenson_testdataset req'
+  order_street_address_first_line: 'number 11 testdataset req'
+  order_city: 'nowhere_testdataset req'
+  order_country: 'Ukraine'
+  order_zip_postal_code: '01001 testdataset req'
+  order_phone: '091019019 testdataset req'
+  email: %noValue%
+
+new_customer_order_billing_address_allfields:
+  order_prefix: 'Mr testdataset all'
+  order_first_name: 'Steven testdataset all'
+  order_middle_name: 'Y testdataset all'
+  order_last_name: 'Stevenson testdataset all'
+  order_suffix: 'Jr testdataset all'
+  order_company: 'home testdataset all'
+  order_street_address_first_line: 'number 11 testdataset all'
+  order_street_address_second_line: 'nothing testdataset all'
+  order_city: 'nowhere testdataset all'
+  order_country: Ukraine
+  order_zip_postal_code: '01001 testdataset all'
+  order_phone: '091019019 testdataset all'
+  order_fax: '0919327869 testdataset all'
+  email: %noValue%
+
+order_billing_address:
+  order_prefix: prefix
+  order_first_name: Steven
+  order_middle_name: Y
+  order_last_name: Stevenson
+  order_suffix: %noValue%
+  order_company: test
+  order_street_address_first_line: number 11
+  order_street_address_second_line: nothing
+  order_city: nowhere
+  order_zip_postal_code: '01001'
+  order_phone: '091019019'
+  order_fax: '09191'
+
+  
+new_customer:
+  associate_to_website: Main Website
+  group: General
+  prefix: 'Mr'
+  first_name: 'Steven'
+  middle_name: %noValue%
+  last_name: 'Stevenson'
+  suffix: 'Jr'
+  email: 'test_purpose@gmail.com'
+  date_of_birth: 01/01/1976
+  tax_vat_number: '123123'
+  gender: 'Male'
+  send_welcome_email: No
+  send_from: %noValue%
+  password: 123qaz456XSW
+  auto_generated_password: No
+
+
+new_customer_address:
+  prefix: 'Mr'
+  first_name: 'Steven'
+  middle_name: %noValue%
+  last_name: 'Stevenson'
+  suffix: 'Jr'
+  company: 'test'
+  street_address_line_1: 'number 11'
+  street_address_line_2: 'nothing'
+  city: 'nowhere'
+  country: 'Ukraine'
+  state: %noValue%
+  region: %noValue%
+  zip_code: '90232'
+  telephone: '530-918-3581'
+  fax: %noValue%
+  default_billing_address: %noValue%
+  default_shipping_address: %noValue%
+
+american_express:
+  name_on_card: 'Test Account'
+  credit_card_type: 'American Express'
+  credit_card_number: '341111111111111'
+  expiration_date_month: '07 - July'
+  expiration_date_year: '2011'
+  cvv: '1234'
+  
+visa:
+  name_on_card: 'Test Account'
+  credit_card_type: 'Visa'
+  credit_card_number: '4024007127653'
+  expiration_date_month: '07 - July'
+  expiration_date_year: '2012'
+  cvv: '111'
+  
+mastercard:
+  name_on_card: 'Test Account'
+  credit_card_type: 'MasterCard'
+  credit_card_number: '5100080000000000'
+  expiration_date_month: '07 - July'
+  expiration_date_year: '2012'
+  cvv: '111'
+  
+discover:
+  name_on_card: 'Test Account'
+  credit_card_type: 'Discover'
+  credit_card_number: '6011000000000004'
+  expiration_date_month: '07 - July'
+  expiration_date_year: '2012'
+  cvv: '111'
+  
+products:
+  pandora: 'Pandoras Box'
+  my_comp: 'My Computer'
+  
+product_to_order1:
+    product_attribute_set: Default
+    general_name: Pandoras Box
+    general_description: You should try
+    general_short_description: Who knows what is inside
+    general_sku: %noValue%
+    general_weight: 1.13
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 999.99
+    prices_tax_class: None
+    inventory_qty: 100
+    inventory_stock_availability: In Stock
+    
+product_to_order2:
+    product_attribute_set: Default
+    general_name: My Computer
+    general_description: Personal Computer
+    general_short_description: Laptop
+    general_sku: %noValue%
+    general_weight: 10.15
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 1000.99
+    prices_tax_class: None
+    inventory_qty: 100
+    inventory_stock_availability: In Stock
