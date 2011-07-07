@@ -111,4 +111,13 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
         }
     }
 
+    /**
+     * Login Admin User
+     * @param type $loginData 
+     */
+    public function loginAdmin($loginData)
+    {
+        $this->fillForm($loginData);
+        $this->clickButton('login', FALSE);
+    }
 }
