@@ -50,18 +50,38 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Login to Admin
+     */
+    public function test_loginValidUser()
+    {
+        //Data
+        $loginData = array(
+            'user_name' => $this->_applicationHelper->getDefaultAdminUsername(),
+            'password' => $this->_applicationHelper->getDefaultAdminPassword()
+        );
+        //Steps
+        $this->adminUserHelper()->loginAdmin($loginData);
+        //Verifying
+        $this->assertTrue($this->checkCurrentPage('dashboard'), 'Wrong page is opened');
+        $this->logoutAdminUser();
+
+        return $loginData;
+    }
+
+    /**
      * <p>Steps</p>
      * <p>1. Leave one field empty;</p>
      * <p>2. Click "Login" button;</p>
      * <p>Expected result:</p>
      * <p>Error message appears - "This is a required field"</p>
-     * 
+     *
      * @dataProvider data_EmptyLoginUser
+     * @depends test_loginValidUser
      */
-    public function test_loginEmptyOneField($emptyField)
+    public function test_loginEmptyOneField($emptyField, $loginData)
     {
         //Data
-        $loginData = $this->loadData('login_data', array($emptyField => '%noValue%'));
+        $loginData[$emptyField] = '%noValue%';
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
@@ -83,12 +103,13 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>2. Click "Login" button;</p>
      * <p>Expected result:</p>
      * <p>Error message appears - "Invalid username or password."</p>
-     * 
+     *
+     * @depends test_loginValidUser
      */
-    public function test_loginNotExistUser()
+    public function test_loginNonExistantUser($loginData)
     {
         //Data
-        $loginData = $this->loadData('login_data');
+        $loginData['user_name'] = 'nonExistantUser';
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
@@ -101,14 +122,16 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>2. Click "Login" button;</p>
      * <p>Expected result:</p>
      * <p>Error message appears - "Invalid username or password."</p>
-     * 
+     *
+     * @depends test_loginValidUser
      */
-    public function test_loginIncorrectPassword()
+    public function test_loginIncorrectPassword($loginData)
     {
         //Data
-        $loginData = $this->loadData('login_data',
-                        array('password' => $this->generate('string', 9, ':punct:')));
+        $loginData['password'] = $this->generate('string', 9, ':punct:');
+        //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
+        //Verifying
         $this->assertTrue($this->errorMessage('wrong_credentials'), $this->messages);
     }
 
@@ -120,16 +143,17 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>2. Click "Login" button;</p>
      * <p>Expected result:</p>
      * <p>Error message appears - "This account is inactive."</p>
-     * 
+     *
+     * @depends test_loginValidUser
      */
-    public function test_loginInactiveUserAdminAccount()
+    public function test_loginInactiveAdminAccount()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', array('this_acount_is' => 'Inactive'),
+        $userData = $this->loadData('generic_admin_user',
+                        array('this_acount_is' => 'Inactive', 'role_name' => 'Administrators'),
                         array('email', 'user_name'));
-        $loginData = array('user_name' => $userData['user_name'],
-            'password' => $userData['password']);
-        //Pre-Conditions
+        $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
+        //Steps
         $this->loginAdminUser();
         $this->navigate('manage_admin_users');
         $this->adminUserHelper()->createAdminUser($userData);
@@ -150,7 +174,8 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>2. Click "Login" button;</p>
      * <p>Expected result:</p>
      * <p>Error message appears - "This account is inactive."</p>
-     * 
+     *
+     * @depends test_loginValidUser
      */
     public function test_loginWithoutPermissions()
     {

@@ -39,7 +39,7 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
 
     /**
      * Define Admin User Id.
-     * 
+     *
      * Preconditions:
      * User is opened.
      */
@@ -62,9 +62,9 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
 
     /**
      * Search Role for Admin User.
-     * 
+     *
      * @param Array $data
-     * @return type 
+     * @return type
      */
     public function searchRole($data)
     {
@@ -92,7 +92,7 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
 
     /**
      * Create Admin User.
-     * @param Array $userData 
+     * @param Array $userData
      */
     public function createAdminUser($userData)
     {
@@ -113,11 +113,15 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
 
     /**
      * Login Admin User
-     * @param type $loginData 
+     * @param type $loginData
      */
     public function loginAdmin($loginData)
     {
         $this->fillForm($loginData);
-        $this->clickButton('login', FALSE);
+        $this->clickButton('login', false);
+        $this->waitForElement(array(self::xpathAdminLogo,
+                                    self::xpathErrorMessage,
+                                    self::xpathValidationMessage));
     }
+
 }
