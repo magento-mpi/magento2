@@ -124,4 +124,19 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
                                     self::xpathValidationMessage));
     }
 
+    /**
+     * Forgot Password Admin User
+     * @param type $emailData
+     */
+    public function forgotPassword($emailData)
+    {
+        $this->clickControl('link', 'forgot_password');
+        $this->assertTrue($this->checkCurrentPage('forgot_password'));
+        $this->fillForm($emailData);
+        $this->clickButton('retrieve_password', false);
+        $this->waitForElement(array(self::xpathSuccessMessage,
+                                    self::xpathErrorMessage,
+                                    self::xpathValidationMessage));
+    }
+
 }

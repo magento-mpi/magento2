@@ -69,6 +69,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Login with empty "Username"/"Password"</p>
      * <p>Steps</p>
      * <p>1. Leave one field empty;</p>
      * <p>2. Click "Login" button;</p>
@@ -98,6 +99,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Login with not existing user</p>
      * <p>Steps</p>
      * <p>1.Fill in fields with incorrect data;</p>
      * <p>2. Click "Login" button;</p>
@@ -117,6 +119,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Login with incorrect password</p>
      * <p>Steps</p>
      * <p>1.Fill "Username" field with correct data and "Password" with incorrect data;</p>
      * <p>2. Click "Login" button;</p>
@@ -136,6 +139,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Login with inactive Admin User account</p>
      * <p>Steps</p>
      * <p>Pre-Conditions:</p>
      * <p>Inactive Admin User is created</p>
@@ -167,6 +171,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Login without any permissions</p>
      * <p>Steps</p>
      * <p>Pre-Conditions:</p>
      * <p>Inactive Admin User is created</p>
@@ -194,6 +199,120 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
         $this->assertTrue($this->errorMessage('access_denied'));
+    }
+
+    /**
+     * <p>Empty field "Forgot password"</p>
+     * <p>Steps</p>
+     * <p>1. Goto Login page;</p>
+     * <p>2. Click "Forgot Your password" link;</p>
+     * <p>3. Leave "Email Address" field empty;</p>
+     * <p>4. Click "Retrieve Password" button;</p>
+     * <p>Expected result:</p>
+     * <p>"This is a required field" message appears;</p>
+     */
+    public function test_forgotPassword_Empty()
+    {
+        //Data
+        $emailData = array('email' => '%noValue%');
+        //Steps
+        $this->adminUserHelper()->forgotPassword($emailData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('empty_email'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('forgot_password'));
+    }
+
+    /**
+     * <p>Invalid e-mail used in "Forgot password" field</p>
+     * <p>Steps</p>
+     * <p>1. Goto Login page;</p>
+     * <p>2. Click "Forgot Your password" link;</p>
+     * <p>3. Enter non-existing e-mail into "Email Address" field;</p>
+     * <p>4. "Cannot find the email address." message appears;</p>
+     * <p>Expected result:</p>
+     * <p>"This is a required field" message appears;</p>
+     */
+    public function test_forgotPassword_InvalidEmail()
+    {
+        //Data
+        $emailData = array('email' => $this->generate('email', 15));
+        //Steps
+        $this->adminUserHelper()->forgotPassword($emailData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('wrong_email'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('forgot_password'));
+    }
+
+    /**
+     * <p>Valid e-mail used in "Forgot password" field</p>
+     * <p>Steps</p>
+     * <p>Pre-Conditions:</p>
+     * <p>Admin User is created</p>
+     * <p>1.Fill in "Forgot password" field with correct data;</p>
+     * <p>2. Click "Retriewe password" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears -</p>
+     * <p>"A new password was sent to your email address.</p>
+     * <p>Please check your email and click Back to Login."</p>
+     *
+     */
+    public function test_forgotPassword_CorrectPassword()
+    {
+        //Data
+        $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
+        $emailData = array('email' => $userData['email']);
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_admin_users');
+        $this->adminUserHelper()->createAdminUser($userData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
+        //Steps
+        $this->logoutAdminUser();
+        $this->adminUserHelper()->forgotPassword($emailData);
+        //Verifying
+        $this->assertTrue($this->successMessage('password_sent'), $this->messages);
+    }
+
+    /**
+     * <p>Valid e-mail used in "Forgot password" field, login with old password</p>
+     * <p>Steps</p>
+     * <p>Pre-Conditions:</p>
+     * <p>Admin User is created</p>
+     * <p>1.Fill in "Forgot password" field with correct data;</p>
+     * <p>2. Click "Retriewe password" button;</p>
+     * <p>Expected result:</p>
+     * <p>Success message appears -</p>
+     * <p>"A new password was sent to your email address.</p>
+     * <p>Please check your email and click Back to Login."</p>
+     * <p>3. Click "Back to Login" link</p>
+     * <p>4. Try to login using old credentials</p>
+     * <p>Expected result:</p>
+     * <p>Error message "Invalid Username or Password."  appears.</p>
+     * 
+     */
+    public function test_forgotPassword_OldPassword()
+    {
+        //Data
+        $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
+        $emailData = array('email' => $userData['email']);
+        $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('manage_admin_users');
+        $this->adminUserHelper()->createAdminUser($userData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
+        //Steps
+        $this->logoutAdminUser();
+        $this->adminUserHelper()->forgotPassword($emailData);
+        //Verifying
+        $this->assertTrue($this->successMessage('password_sent'), $this->messages);
+        //Steps
+        $this->clickControl('link', 'back_to_login');
+        $this->adminUserHelper()->loginAdmin($loginData);
+        //Verifying
+        $this->assertTrue($this->errorMessage('wrong_credentials'), $this->messages);
     }
 
 }

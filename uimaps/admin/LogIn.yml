@@ -57,14 +57,14 @@ forgot_password:
         form: &forgotPassword
             fieldsets:
                 -
-                    forgor_password:
+                    forgot_password:
                         xpath: //div[@class='login-container']
                         buttons:
                             retrieve_password: //button[span="Retrieve Password"]
                         fields:
                             email: //input[@id='email']
                         links:
-                            back_to_login: //a[text()='Forgot your password?']
+                            back_to_login: //a[text()='« Back to Login']
         messages:
             empty_email: "//input[@id='email']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             wrong_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'Cannot find the email address.')]
