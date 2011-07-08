@@ -136,15 +136,15 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
                         'american_express',                
                         $emptyField
                 );
-        $this->fillForm($creditCardData, 'order_billing_method');
+        $this->fillForm($creditCardData, 'order_payment_method');
         $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
         $this->pleaseWait();
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', FALSE);
         $this->waitForAjax();
-        $page = $this->getUimapPage('admin', 'new_order');
-        $fieldSet = $page->findFieldset('order_billing_method');
+        $page = $this->getUimapPage('admin', 'new_order_for_new_customer');
+        $fieldSet = $page->findFieldset('order_payment_method');
         foreach ($emptyField as $key => $value) {
             if ($value == '%noValue%' || !$fieldSet) {
                 continue;

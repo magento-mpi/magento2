@@ -153,6 +153,7 @@ product_to_order1:
     prices_tax_class: None
     inventory_qty: 100
     inventory_stock_availability: In Stock
+    websites: Main Website
     
 product_to_order2:
     product_attribute_set: Default
@@ -167,3 +168,4 @@ product_to_order2:
     prices_tax_class: None
     inventory_qty: 100
     inventory_stock_availability: In Stock
+    websites: Main Website

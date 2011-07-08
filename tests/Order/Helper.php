@@ -53,7 +53,8 @@ class Order_Helper extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->clickButton('create_new_order', TRUE), 'Navigated to Create New Order page');
         $this->clickButton('create_new_customer', FALSE);
-        if (($this->checkCurrentPage('new_order') == TRUE) && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
+        $this->addParameter('storeName', 'Default Store View');
+        if (($this->checkCurrentPage('new_order_for_new_customer') == TRUE) && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
                 $this->clickControl('radiobutton', 'choose_main_store', FALSE);
                 $this->pleaseWait();
         }
@@ -80,7 +81,8 @@ class Order_Helper extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->clickButton('create_new_order', TRUE), 'Navigated to Create New Order page');
         $this->clickButton('create_new_customer', FALSE);
-        if (($this->checkCurrentPage('new_order') == TRUE) && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
+        $this->addParameter('storeName', 'Default Store View');
+        if (($this->checkCurrentPage('new_order_for_new_customer') == TRUE) && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
                 $this->clickControl('radiobutton', 'choose_main_store', FALSE);
                 $this->pleaseWait();
         }

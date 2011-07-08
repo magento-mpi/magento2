@@ -136,7 +136,7 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
         $this->waitForAjax();
         
         
-        $page = $this->getUimapPage('admin', 'new_order');
+        $page = $this->getUimapPage('admin', 'new_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_billing_address');
         foreach ($emptyField as $key => $value) {
             if ($value == '%noValue%' || !$fieldSet) {

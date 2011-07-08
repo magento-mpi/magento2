@@ -327,7 +327,7 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('new_order'));
+        $this->assertTrue($this->orderHelper()->defineId('new_order_for_new_customer'));
         $this->assertTrue($this->errorMessage('email_exceeds_allowed_length'), $this->messages);
     }
 
@@ -410,7 +410,7 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('new_order'));
+        $this->assertTrue($this->orderHelper()->defineId('new_order_for_new_customer'));
         $this->assertTrue($this->errorMessage('email_is_not_valid_hostname'), $this->messages);
     }
 }

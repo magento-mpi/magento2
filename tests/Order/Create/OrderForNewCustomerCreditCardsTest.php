@@ -127,7 +127,7 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'credit_card', FALSE);
         $this->pleaseWait();
         $creditCardData = $this->loadData('american_express');
-        $this->fillForm($creditCardData, 'order_billing_method');
+        $this->fillForm($creditCardData, 'order_payment_method');
         $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
         $this->pleaseWait();
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
@@ -198,7 +198,7 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'credit_card', FALSE);
         $this->pleaseWait();
         $creditCardData = $this->loadData('visa');
-        $this->fillForm($creditCardData, 'order_billing_method');
+        $this->fillForm($creditCardData, 'order_payment_method');
         $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
         $this->pleaseWait();
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
@@ -269,7 +269,7 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'credit_card', FALSE);
         $this->pleaseWait();
         $creditCardData = $this->loadData('mastercard');
-        $this->fillForm($creditCardData, 'order_billing_method');
+        $this->fillForm($creditCardData, 'order_payment_method');
         $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
         $this->pleaseWait();
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
@@ -340,7 +340,7 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'credit_card', FALSE);
         $this->pleaseWait();
         $creditCardData = $this->loadData('discover');
-        $this->fillForm($creditCardData, 'order_billing_method');
+        $this->fillForm($creditCardData, 'order_payment_method');
         $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
         $this->pleaseWait();
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
