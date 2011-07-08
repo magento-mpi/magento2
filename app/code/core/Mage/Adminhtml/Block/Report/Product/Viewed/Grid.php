@@ -55,11 +55,11 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('price', array(
-            'header'    =>Mage::helper('reports')->__('Price'),
-            'width'     =>'120px',
-            'type'      =>'currency',
+            'header'        => Mage::helper('reports')->__('Price'),
+            'width'         => '120px',
+            'type'          => 'currency',
             'currency_code' => $this->getCurrentCurrencyCode(),
-            'index'     =>'price'
+            'index'         => 'price',
         ));
 
         $this->addColumn('views', array(

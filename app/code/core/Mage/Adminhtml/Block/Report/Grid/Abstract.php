@@ -252,4 +252,15 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
         }
         return $this->_currentCurrencyCode;
     }
+    
+    /**
+     * Get currency rate (base to given currency)
+     *
+     * @param string|Mage_Directory_Model_Currency $currencyCode
+     * @return double
+     */
+    public function getRate($toCurrency)
+    {
+        return Mage::app()->getStore()->getBaseCurrency()->getRate($toCurrency);
+    }
 }

@@ -83,6 +83,7 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             $this->setStoreIds(explode(',', $this->getFilterData()->getStoreIds()));
         }
         $currencyCode = $this->getCurrentCurrencyCode();
+        $rate = $this->getRate($currencyCode);
 
         $this->addColumn('subtotal_amount', array(
             'header'        => Mage::helper('salesrule')->__('Sales Subtotal Amount'),
@@ -90,7 +91,8 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'total'         => 'sum',
-            'index'         => 'subtotal_amount'
+            'index'         => 'subtotal_amount',
+            'rate'          => $rate,
         ));
 
         $this->addColumn('discount_amount', array(
@@ -99,7 +101,8 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'total'         => 'sum',
-            'index'         => 'discount_amount'
+            'index'         => 'discount_amount',
+            'rate'          => $rate,
         ));
 
         $this->addColumn('total_amount', array(
@@ -108,7 +111,8 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'total'         => 'sum',
-            'index'         => 'total_amount'
+            'index'         => 'total_amount',
+            'rate'          => $rate,
         ));
 
         $this->addColumn('subtotal_amount_actual', array(
@@ -117,7 +121,8 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'total'         => 'sum',
-            'index'         => 'subtotal_amount_actual'
+            'index'         => 'subtotal_amount_actual',
+            'rate'          => $rate,
         ));
 
         $this->addColumn('discount_amount_actual', array(
@@ -126,7 +131,8 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'total'         => 'sum',
-            'index'         => 'discount_amount_actual'
+            'index'         => 'discount_amount_actual',
+            'rate'          => $rate,
         ));
 
         $this->addColumn('total_amount_actual', array(
@@ -135,7 +141,8 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'total'         => 'sum',
-            'index'         => 'total_amount_actual'
+            'index'         => 'total_amount_actual',
+            'rate'          => $rate,
         ));
 
         $this->addExportType('*/*/exportCouponsCsv', Mage::helper('adminhtml')->__('CSV'));
