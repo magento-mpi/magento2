@@ -951,15 +951,11 @@ section .category-title { display:none; }
 #product-review-table tbody td input { margin:0; }
 .review-product-list .buttons-set button { padding:5px 10px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; font-weight:bold; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
 
-    /*
-    @media all and (orientation:landscape) {
-        .product-essentials { margin:0 0 10px; overflow:hidden; }
-        .product-shop .product-image { border-radius:5px 5px 0 0; float:none; padding:5px; text-align:center; width:182px; }
-            .product-shop .product-image img { border:5px solid #fff; -webkit-box-shadow:0 2px 2px #333; }
-        .product-shop .product-desc { overflow:visible; }
-        .product-shop .actions-wrap { border-radius:0 0 5px 5px; }
-    }
-    */
+
+@media all and (orientation:portrait) {
+    .product-actions li a { height:45px; line-height:0.8; }
+}
+
     
     
 /* Cart
