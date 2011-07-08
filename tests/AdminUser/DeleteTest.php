@@ -46,8 +46,8 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Preconditions:
-     * Navigate to System -> Permissions -> Users.
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Permissions -> Users.</p>
      */
     protected function assertPreConditions()
     {
@@ -57,17 +57,15 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Admin User (all required fields are filled).
-     *
-     * Steps:
-     * 1.Press "Add New User" button.
-     * 2.Fill all required fields.
-     * 3.Press "Save User" button.
-     * 4.Press "Delete User" button.
-     *
-     * Expected result:
-     * User successfully deleted.
-     * Message "The user has been deleted." is displayed.
+     * <p>Create Admin User (all required fields are filled).</p>
+     * <p>Steps:</p>
+     * <p>1.Press "Add New User" button.</p>
+     * <p>2.Fill all required fields.</p>
+     * <p>3.Press "Save User" button.</p>
+     * <p>4.Press "Delete User" button.</p>
+     * <p>Expected result:</p>
+     * <p>User successfully deleted.</p>
+     * <p>Message "The user has been deleted." is displayed.</p>
      */
     public function test_DeleteAdminUser_Deletable()
     {
@@ -88,7 +86,7 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Delete logged in as Admin User
+     * <p>Delete logged in as Admin User</p>
      */
     public function test_DeleteAdminUser_Current()
     {
@@ -98,12 +96,10 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('my_account');
         $this->assertTrue($this->checkCurrentPage('my_account'), 'Wrong page is opened');
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('account_info');
         foreach ($searchData as $key => $value) {
-            if ($fieldSet->findField($key)) {
-                $v = $this->getValue($fieldSet->findField($key));
-                $searchDataCurrentUser[$key] = $v;
+            if ($value != '%noValue%') {
+                $xpath = $this->_getControlXpath('field', $key);
+                $searchDataCurrentUser[$key] = $this->getValue($xpath);
             } else {
                 $searchDataCurrentUser[$key] = $value;
             }

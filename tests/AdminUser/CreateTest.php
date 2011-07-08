@@ -38,11 +38,9 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Preconditions:
-     *
-     * Log in to Backend.
-     *
-     * Navigate to System -> Permissions -> Users.
+     * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
+     * <p>Navigate to System -> Permissions -> Users./p>
      */
     protected function assertPreConditions()
     {
@@ -53,19 +51,13 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Test navigation.
-     *
-     * Steps:
-     *
-     * 1. Verify that 'Add New User' button is present and click her.
-     *
-     * 2. Verify that the create user page is opened.
-     *
-     * 3. Verify that 'Back' button is present.
-     *
-     * 4. Verify that 'Save User' button is present.
-     *
-     * 5. Verify that 'Reset' button is present.
+     * <p>Test navigation.</p>
+     * <p>Steps:</p>
+     * <p>1. Verify that 'Add New User' button is present and click her.</p>
+     * <p>2. Verify that the create user page is opened.</p>
+     * <p>3. Verify that 'Back' button is present.</p>
+     * <p>4. Verify that 'Save User' button is present.</p>
+     * <p>5. Verify that 'Reset' button is present.</p>
      */
     public function test_Navigation()
     {
@@ -79,23 +71,15 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Admin User (all required fields are filled).
-     *
-     * Steps:
-     *
-     * 1.Go to System-Permissions-Users.
-     *
-     * 2.Press "Add New User" button.
-     *
-     * 3.Fill all required fields.
-     *
-     * 4.Press "Save User" button.
-     *
-     * Expected result:
-     *
-     * New user successfully saved.
-     *
-     * Message "The user has been saved." is displayed.
+     * <p>Create Admin User (all required fields are filled).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to System-Permissions-Users.</p>
+     * <p>2.Press "Add New User" button.</p>
+     * <p>3.Fill all required fields.</p>
+     * <p>4.Press "Save User" button.</p>
+     * <p>Expected result:</p>
+     * <p>New user successfully saved.</p>
+     * <p>Message "The user has been saved." is displayed.</p>
      *
      * @depends test_Navigation
      */
@@ -114,21 +98,15 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Admin User. Use user name that already exist
+     * <p>Create Admin User. Use user name that already exist</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New User' button.</p>
+     * <p>2. Fill in 'user name' field by using data that already exist.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save User' button.</p>
+     * <p>Expected result:</p>
+     * <p>User is not created. Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Add New User' button.
-     *
-     * 2. Fill in 'user name' field by using data that already exist.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save User' button.
-     *
-     * Expected result:
-     *
-     * User is not created. Error Message is displayed.
      * @depends test_WithRequiredFieldsOnly
      * @param array $userData
      */
@@ -143,21 +121,15 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Admin User. Use email that already exist
+     * <p>Create Admin User. Use email that already exist</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New User' button.</p>
+     * <p>2. Fill in 'email' field by using email that already exist.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save User' button.</p>
+     * <p>Expected result:</p>
+     * <p>User is not created. Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Add New User' button.
-     *
-     * 2. Fill in 'email' field by using email that already exist.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save User' button.
-     *
-     * Expected result:
-     *
-     * User is not created. Error Message is displayed.
      * @depends test_WithRequiredFieldsOnly
      * @param array $userData
      */
@@ -168,27 +140,19 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('exist_email'), $this->messages);
+        $this->assertTrue($this->errorMessage('exist_name_or_email'), $this->messages);
     }
 
     /**
-     * Create Admin User with one empty reqired field.
-     *
-     * Steps:
-     *
-     * 1.Go to System-Permissions-Users.
-     *
-     * 2.Press "Add New User" button.
-     *
-     * 3.Fill fields exept one required.
-     *
-     * 4.Press "Save User" button.
-     *
-     * Expected result:
-     *
-     * New user is not saved.
-     *
-     * Message "This is a required field." is displayed.
+     * <p>Create Admin User with one empty reqired field.</p>
+     * <p>Steps:</p>
+     * <p>1.Go to System-Permissions-Users.</p>
+     * <p>2.Press "Add New User" button.</p>
+     * <p>3.Fill fields exept one required.</p>
+     * <p>4.Press "Save User" button.</p>
+     * <p>Expected result:</p>
+     * <p>New user is not saved.</p>
+     * <p>Message "This is a required field." is displayed.</p>
      *
      * @depends test_WithRequiredFieldsOnly
      * @dataProvider data_emptyFields
@@ -196,22 +160,21 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty($emptyField, $messageCount)
     {
         //Data
-        if (array_key_exists('user_name', $emptyField)) {
-            $userData = $this->loadData('generic_admin_user', $emptyField, 'email');
-        } elseif (array_key_exists('email', $emptyField)) {
-            $userData = $this->loadData('generic_admin_user', $emptyField, 'user_name');
+        if ($emptyField == 'user_name') {
+            $userData =
+                    $this->loadData('generic_admin_user', array($emptyField => '%noValue%'), 'email');
+        } elseif ($emptyField == 'email') {
+            $userData = $this->loadData('generic_admin_user', array($emptyField => '%noValue%'),
+                            'user_name');
         } else {
-            $userData = $this->loadData('generic_admin_user', $emptyField,
+            $userData = $this->loadData('generic_admin_user', array($emptyField => '%noValue%'),
                             array('email', 'user_name'));
         }
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $page = $this->getUimapPage('admin', 'new_admin_user');
-        foreach ($emptyField as $key => $value) {
-            $xpath = $page->findField($key);
-            $this->addParameter('fieldXpath', $xpath);
-        }
+        $xpath = $this->_getControlXpath('field', $emptyField);
+        $this->addParameter('fieldXpath', $xpath);
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->messages);
     }
@@ -219,36 +182,26 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function data_emptyFields()
     {
         return array(
-            array(array('user_name' => '%noValue%'), 1),
-            array(array('first_name' => '%noValue%'), 1),
-            array(array('last_name' => '%noValue%'), 1),
-            array(array('email' => '%noValue%'), 1),
-            array(array('password' => '%noValue%'), 2),
-            array(array('password_confirmation' => '%noValue%'), 1),
+            array('user_name', 1),
+            array('first_name', 1),
+            array('last_name', 1),
+            array('email', 1),
+            array('password', 2),
+            array('password_confirmation', 1),
         );
     }
 
     /**
-     * Create Admin User (all required fields are filled by special chracters).
-     *
-     * Steps:
-     *
-     * 1.Go to System-Permissions-Users.
-     *
-     * 2.Press "Add New User" button.
-     *
-     * 3.Fill in all required fields by special chracters
-     * (exept 'email', 'password' and 'password_confirmation' fields).
-     *
-     * 4.Fill in 'email', 'password' and 'password_confirmation' fields by valid data.
-     *
-     * 5.Press "Save User" button.
-     *
-     * Expected result:
-     *
-     * New user is saved.
-     *
-     * Message "The user has been saved." is displayed.
+     * <p>Create Admin User (all required fields are filled by special chracters).</p>
+     * <p>Steps:</p>
+     * <p>1.Press "Add New User" button.</p>
+     * <p>2.Fill in all required fields by special chracters
+     * (exept 'email', 'password' and 'password_confirmation' fields).</p>
+     * <p>3.Fill in 'email', 'password' and 'password_confirmation' fields by valid data.</p>
+     * <p>4.Press "Save User" button.</p>
+     * <p>Expected result:</p>
+     * <p>New user is saved.</p>
+     * <p>Message "The user has been saved." is displayed.</p>
      *
      * @depends test_WithRequiredFieldsOnly
      */
@@ -274,23 +227,15 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Admin User (all required fields are filled by long value data).
-     *
-     * Steps:
-     *
-     * 1.Go to System-Permissions-Users.
-     *
-     * 2.Press "Add New User" button.
-     *
-     * 3.Fill all required fields by long value data (exclude 'email').
-     *
-     * 4.Press "Save User" button.
-     *
-     * Expected result:
-     *
-     * New user is not saved.
-     *
-     * Message "The user has been saved." is displayed.
+     * <p>Create Admin User (all required fields are filled by long value data).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to System-Permissions-Users.</p>
+     * <p>2.Press "Add New User" button.</p>
+     * <p>3.Fill all required fields by long value data (exclude 'email').</p>
+     * <p>4.Press "Save User" button.</p>
+     * <p>Expected result:</p>
+     * <p>New user is not saved.</p>
+     * <p>Message "The user has been saved." is displayed.</p>
      *
      * @depends test_WithRequiredFieldsOnly
      */
@@ -320,25 +265,16 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Admin User. Use wrong values for 'password' fields.
-     *
-     * Steps:
-     *
-     * 1.Go to System-Permissions-Users.
-     *
-     * 2.Press "Add New User" button.
-     *
-     * 3.Fill all required fields by regular data (exclude 'Password' and 'Password Confirmation').
-     *
-     * 4.Fill 'Password' and 'Password Confirmation' by wrong values.
-     *
-     * 5.Press "Save User" button.
-     *
-     * Expected result:
-     *
-     * New user is not saved.
-     *
-     * Error Message is displayed.
+     * <p>Create Admin User. Use wrong values for 'password' fields.</p>
+     * <p>Steps:</p>
+     * <p>1.Go to System-Permissions-Users.</p>
+     * <p>2.Press "Add New User" button.</p>
+     * <p>3.Fill all required fields by regular data (exclude 'Password' and 'Password Confirmation').</p>
+     * <p>4.Fill 'Password' and 'Password Confirmation' by wrong values.</p>
+     * <p>5.Press "Save User" button.</p>
+     * <p>Expected result:</p>
+     * <p>New user is not saved.</p>
+     * <p>Error Message is displayed.</p>
      *
      * @depends test_WithRequiredFieldsOnly
      * @dataProvider data_invalidPassword
@@ -378,26 +314,17 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Admin User (with invalid data in the 'email' field).
-     *
-     * Steps:
-     *
-     * 1.Go to System-Permissions-Users.
-     *
-     * 2.Press "Add New User" button.
-     *
-     * 3.Fill all required fields by regular data (exclude 'email').
-     *
-     * 4.Fill 'email' field by invalid data [example: me&you@domain.com / me&you@com / nothing@домен.com].
-     *
-     * 5.Press "Save User" button.
-     *
-     * Expected result:
-     *
-     * New user is not saved.
-     *
-     * Message "Please enter a valid email." OR "Please enter a valid email address.
-     * For example johndoe@domain.com." is displayed.
+     * <p>Create Admin User (with invalid data in the 'email' field).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to System-Permissions-Users.</p>
+     * <p>2.Press "Add New User" button.</p>
+     * <p>3.Fill all required fields by regular data (exclude 'email').</p>
+     * <p>4.Fill 'email' field by invalid data [example: me&you@domain.com / me&you@com / nothing@домен.com].</p>
+     * <p>5.Press "Save User" button.</p>
+     * <p>Expected result:</p>
+     * <p>New user is not saved.</p>
+     * <p>Message "Please enter a valid email." OR "Please enter a valid email address.
+     * For example johndoe@domain.com." is displayed.</p>
      *
      * @depends test_WithRequiredFieldsOnly
      * @dataProvider data_InvalidEmail
@@ -405,7 +332,8 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function test_WithInvalidEmail($invalidEmail)
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', $invalidEmail, 'user_name');
+        $userData = $this->loadData('generic_admin_user', array('email' => $invalidEmail),
+                        'user_name');
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
@@ -415,38 +343,27 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function data_InvalidEmail()
     {
         return array(
-            array(array('email' => 'invalid')),
-            array(array('email' => 'test@invalidDomain')),
-            array(array('email' => 'te@st@magento.com'))
+            array('invalid'),
+            array('test@invalidDomain'),
+            array('te@st@magento.com')
         );
     }
 
     /**
-     * Create Admin User  (as Inactive).
+     * <p>Create Admin User  (as Inactive).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to System-Permissions-Users.</p>
+     * <p>2.Press "Add New User" button.</p>
+     * <p>3.Fill all required fields.</p>
+     * <p>4.Choose in the 'This account is' dropdown - "Inactive".</p>
+     * <p>5.Press "Save User" button.</p>
+     * <p>Expected result:</p>
+     * <p>New user successfully saved. Message "The user has been saved." is displayed.</p>
+     * <p>6.Log out</p>
+     * <p>7.Log in using created user.</p>
+     * <p>Expected result:</p>
+     * <p>Error Message "This account is inactive." is displayed.</p>
      *
-     * Steps:
-     *
-     * 1.Go to System-Permissions-Users.
-     *
-     * 2.Press "Add New User" button.
-     *
-     * 3.Fill all required fields.
-     *
-     * 4.Choose in the 'This account is' dropdown - "Inactive".
-     *
-     * 5.Press "Save User" button.
-     *
-     * Expected result:
-     *
-     * New user successfully saved. Message "The user has been saved." is displayed.
-     *
-     * 6.Log out
-     *
-     * 7.Log in using created user.
-     *
-     * Expected result:
-     *
-     * Error Message "This account is inactive." is displayed.
      * @depends test_WithRequiredFieldsOnly
      */
     public function test_InactiveUser()
@@ -462,38 +379,26 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
         //Steps
         $this->logoutAdminUser();
-        $this->fillForm($userData);
-        $this->clickButton('login');
+        $this->adminUserHelper()->loginAdmin($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('inactive_aacount'), $this->messages);
+        $this->assertTrue($this->errorMessage('inactive_account'), $this->messages);
     }
 
     /**
-     * Create Admin User (with Admin User Role).
+     * <p>Create Admin User (with Admin User Role).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to System-Permissions-Users.</p>
+     * <p>2.Press "Add New User" button.</p>
+     * <p>3.Fill all required fields.</p>
+     * <p>4.Choose in the 'User Role' grid - "Administrators" role.</p>
+     * <p>5.Press "Save User" button.</p>
+     * <p>Expected result:</p>
+     * <p>New user successfully saved. Message "The user has been saved." is displayed</p>
+     * <p>6.Log out</p>
+     * <p>7.Log in using created user.</p>
+     * <p>Expected result:</p>
+     * <p>Logged in to Admin.</p>.
      *
-     * Steps:
-     *
-     * 1.Go to System-Permissions-Users.
-     *
-     * 2.Press "Add New User" button.
-     *
-     * 3.Fill all required fields.
-     *
-     * 4.Choose in the 'User Role' grid - "Administrators" role.
-     *
-     * 5.Press "Save User" button.
-     *
-     * Expected result:
-     *
-     * New user successfully saved. Message "The user has been saved." is displayed
-     *
-     * 6.Log out
-     *
-     * 7.Log in using created user.
-     *
-     * Expected result:
-     *
-     * Logged in to Admin.
      * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithRole()
@@ -507,36 +412,25 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
         //Steps
         $this->logoutAdminUser();
-        $this->fillForm($userData);
-        $this->clickButton('login');
+        $this->adminUserHelper()->loginAdmin($userData);
         //Verifying
         $this->assertTrue($this->checkCurrentPage('dashboard'), 'Wrong page is opened');
     }
 
     /**
-     * Create Admin User (with Admin User Role).
+     * <p>Create Admin User (with Admin User Role).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to System-Permissions-Users.</p>
+     * <p>2.Press "Add New User" button.</p>
+     * <p>3.Fill all required fields.</p>
+     * <p>4.Press "Save User" button.</p>
+     * <p>Expected result:</p>
+     * <p>New user successfully saved. Message "The user has been saved." is displayed</p>
+     * <p>6.Log out</p>
+     * <p>7.Log in using created user.</p>
+     * <p>Expected result:</p>
+     * <p>Error Message "Access denied." is displayed.</p>
      *
-     * Steps:
-     *
-     * 1.Go to System-Permissions-Users.
-     *
-     * 2.Press "Add New User" button.
-     *
-     * 3.Fill all required fields.
-     *
-     * 4.Press "Save User" button.
-     *
-     * Expected result:
-     *
-     * New user successfully saved. Message "The user has been saved." is displayed
-     *
-     * 6.Log out
-     *
-     * 7.Log in using created user.
-     *
-     * Expected result:
-     *
-     * Error Message "Access denied." is displayed.
      * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithoutRole()
@@ -549,8 +443,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
         //Steps
         $this->logoutAdminUser();
-        $this->fillForm($userData);
-        $this->clickButton('login');
+        $this->adminUserHelper()->loginAdmin($userData);
         //Verifying
         $this->assertTrue($this->errorMessage('access_denied'), $this->messages);
     }
