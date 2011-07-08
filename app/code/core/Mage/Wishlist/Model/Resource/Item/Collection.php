@@ -188,13 +188,13 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
             'product_collection' => $productCollection
         ));
 
+        $checkInStock = $this->_productInStock && !Mage::helper('cataloginventory')->isShowOutOfStock();
+
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());
             if ($product) {
-                if (!$this->_productInStock &&
-                    !$product->isSalable() &&
-                    !Mage::helper('cataloginventory')->isShowOutOfStock()) {
-                        $this->removeItemByKey($item->getId());
+                if ($checkInStock && !$product->isSalable()) {
+                    $this->removeItemByKey($item->getId());
                 } else {
                     $product->setCustomOptions(array());
                     $item->setProduct($product);
