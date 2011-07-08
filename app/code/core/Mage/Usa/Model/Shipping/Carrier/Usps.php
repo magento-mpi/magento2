@@ -597,6 +597,8 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                 'Express Mail'                     => 'EXPRESS',
                 'Express Mail PO to PO'            => 'EXPRESS',
                 'Express Mail Flat Rate Envelope'  => 'EXPRESS',
+                'Express Mail Flat-Rate Envelope Sunday/Holiday Guarantee'  => 'EXPRESS',
+                'Express Mail Sunday/Holiday Guarantee'            => 'EXPRESS',
                 'Express Mail Flat Rate Envelope Hold For Pickup'  => 'EXPRESS',
                 'Express Mail Hold For Pickup'                     => 'EXPRESS',
                 'Global Express Guaranteed (GXG)'                  => 'EXPRESS',
