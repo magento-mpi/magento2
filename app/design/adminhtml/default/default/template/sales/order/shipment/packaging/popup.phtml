@@ -110,7 +110,7 @@ document.observe("dom:loaded", function() {
                         <?php
                             if ($this->displayCustomsValue()) {
                                 $customsValueDisplay = '';
-                                $customsValueValidation = ' required-entry validate-greater-than-zero ';
+                                $customsValueValidation = ' validate-zero-or-greater ';
                             } else {
                                 $customsValueDisplay = ' style="display: none;" ';
                                 $customsValueValidation = '';
