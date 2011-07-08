@@ -57,11 +57,16 @@ manage_customers:
                             open_customer_by_value:
         buttons:
             add_new_customer: //button[span='Add New Customer' or span='Add New']
-        messages:
-            success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been saved.')]
+        messages: &customerMessages
+            wrong_data_of_birth: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Date Of Birth" does not fit the entered date format.')]
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.//span,'Customer with the same email already exists.')]
             success_deleted_customer: //li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been deleted.')]
+            success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been saved.')]
+            customer_invalid_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" is not a valid')]
             no_records_found: //td[normalize-space(@class)='empty-text a-center' and text()='No records found.']
-
+            password_too_short: //div[@id='advice-validate-password-_accountpassword']
+            confirmation_for_delete: Are you sure you want to do this?
 
 # 'New Customer' Page
 create_customer:
@@ -142,13 +147,7 @@ create_customer:
             reset: //button[span='Reset']
             save_customer: //button[span='Save Customer']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages:
-            success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been saved.')]
-            customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.//span,'Customer with the same email already exists.')]
-            customer_invalid_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" is not a valid')]
-            wrong_data_of_birth: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Date Of Birth" does not fit the entered date format.')]
-            password_too_short: //div[@id='advice-validate-password-_accountpassword']
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+        messages: *customerMessages
 
 # 'Edit Customer' Page
 edit_customer:
@@ -265,7 +264,4 @@ edit_customer:
             delete_customer: //button[span='Delete Customer']
             save_customer: //button[span='Save Customer']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages:
-            success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been saved.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            confirmation_for_delete: Are you sure you want to do this?
+        messages: *customerMessages

@@ -148,29 +148,30 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty($emptyField, $searchData)
     {
         //Data
-        $addressData = $this->loadData('generic_address', $emptyField);
+        if ($emptyField != 'country') {
+            $addressData = $this->loadData('generic_address', array($emptyField => ''));
+        } else {
+            $addressData = $this->loadData('generic_address',
+                            array($emptyField => '', 'state' => '%noValue%'));
+        }
+
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         // Defining and adding %fieldXpath% for customer Uimap
-        $page = $this->getUimapPage('admin', 'edit_customer');
-        $fieldSet = $page->findFieldset('edit_address');
-        foreach ($emptyField as $key => $value) {
-            if ($value == '%noValue%' || !$fieldSet) {
-                continue;
-            }
-            if ($fieldSet->findField($key) != Null) {
-                $fieldXpath = $fieldSet->findField($key);
-            } else {
-                $fieldXpath = $fieldSet->findDropdown($key);
-            }
-            if (preg_match('/street_address/', $key)) {
-                $fieldXpath .= "/ancestor::div[@class='multi-input']";
-            }
-            $this->addParameter('fieldXpath', $fieldXpath);
+        $fieldSet = $this->getUimapPage('admin', 'edit_customer')->findFieldset('edit_address');
+        if ($emptyField != 'country' and $emptyField != 'state') {
+            $fieldXpath = $fieldSet->findField($emptyField);
+        } else {
+            $fieldXpath = $fieldSet->findDropdown($emptyField);
         }
+        if ($emptyField == 'street_address_line_1') {
+            $fieldXpath .= "/ancestor::div[@class='multi-input']";
+        }
+        $this->addParameter('fieldXpath', $fieldXpath);
+
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -178,14 +179,14 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     public function data_emptyFields()
     {
         return array(
-            array(array('first_name' => '')),
-            array(array('last_name' => '')),
-            array(array('street_address_line_1' => '')),
-            array(array('city' => '')),
-            array(array('country' => '', 'state' => '%noValue%')),
-            array(array('state' => '')),
-            array(array('zip_code' => '')),
-            array(array('telephone' => ''))
+            array('first_name'),
+            array('last_name'),
+            array('street_address_line_1'),
+            array('city'),
+            array('country'),
+            array('state'),
+            array('zip_code'),
+            array('telephone')
         );
     }
 

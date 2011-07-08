@@ -25,18 +25,6 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-messages: &productMesssages
-    invalid_tier_price: "%fieldXpath%/following-sibling::*[text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]"
-    empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-    success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been deleted.')]
-    success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
-    select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
-    enter_valid_number: //div[@id='advice-validate-number-product_option_%optionId%_price']
-    invalid_special_price: //div[@id='advice-validate-zero-or-greater-special_price']
-    invalid_price: //div[@id='advice-validate-zero-or-greater-price']
-    invalid_qty: //div[@id='advice-validate-number-inventory_qty']
-    existing_sku: //div[@id='advice-validate-ajax-sku']
-
 # Manage Product page
 manage_products:
     mca: catalog_product/
@@ -72,7 +60,17 @@ manage_products:
                             product_qty_to: //input[@id='product_filter_qty_to']
         buttons:
             add_new_product: //button[span='Add Product']
-        messages: *productMesssages
+        messages: &productMesssages
+            invalid_tier_price: "%fieldXpath%/following-sibling::*[text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been deleted.')]
+            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
+            select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
+            enter_valid_number: //div[@id='advice-validate-number-product_option_%optionId%_price']
+            invalid_special_price: //div[@id='advice-validate-zero-or-greater-special_price']
+            invalid_price: //div[@id='advice-validate-zero-or-greater-price']
+            invalid_qty: //div[@id='advice-validate-number-inventory_qty']
+            existing_sku: //div[@id='advice-validate-ajax-sku']
 
 # Settings for New Product creation
 new_product_settings:

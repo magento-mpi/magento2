@@ -54,9 +54,15 @@ manage_attributes:
                             comparable: //select[@id='filter_is_comparable']
         buttons:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
-        messages:
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been saved.')]
+        messages: &productAttributeMessages
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
             success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been deleted.')]
+            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.//span,'Attribute with the same code already exists')]
+            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been saved.')]
+            wrong_length_attribute_code: //div[@id='advice-validate-length-attribute_code']
+            invalid_attribute_code: //div[@id='advice-validate-code-attribute_code']
+            error_invalid_position: //div[@id='advice-validate-digits-position']
+            delete_confirm_message: Are you sure you want to do this?
 
 # Add New Product Attribute page
 new_product_attribute:
@@ -136,13 +142,7 @@ new_product_attribute:
             reset: //button[span='Reset']
             save_attribute: //button[span='Save Attribute']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages:
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been saved.')]
-            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.//span,'Attribute with the same code already exists')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
-            invalid_attribute_code: //div[@id='advice-validate-code-attribute_code']
-            error_invalid_position: //div[@id='advice-validate-digits-position']
-            wrong_length_attribute_code: //div[@id='advice-validate-length-attribute_code']
+        messages: *productAttributeMessages
 
 # Manage Product Attributes page
 edit_product_attribute:
@@ -183,15 +183,11 @@ edit_product_attribute:
             delete_attribute: //button[span='Delete Attribute']
             save_attribute: //button[span='Save Attribute']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages:
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been saved.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
-            error_invalid_position: //div[@id='advice-validate-digits-position']
-            delete_confirm_message: Are you sure you want to do this?
+        messages: *productAttributeMessages
 
 # Add New Product Attribute page from Product page
 new_product_attribute_from_product_page:
-    mca: "catalog_product_attribute/new/group/%tabId%/tab/group_%tabId%/store/0/set/%attributeSetID%/type/%productType%/popup/1/"
+    mca: "catalog_product_attribute/new/group/%tabId%/tab/group_%tabId%/store/0/%productParameters%/popup/1/"
     title: New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
     uimap:
         form: *newProductAttributeForm
@@ -199,18 +195,13 @@ new_product_attribute_from_product_page:
             close_window: //button[span='Close Window']
             reset: //button[span='Reset']
             save_attribute: //button[span='Save Attribute']
-        messages:
-            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.//span,'Attribute with the same code already exists')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
-            invalid_attribute_code: //div[@id='advice-validate-code-attribute_code']
-            error_invalid_position: //div[@id='advice-validate-digits-position']
+        messages: *productAttributeMessages
 
 saved_product_attribute_from_product_page:
-    mca: catalog_product/addAttribute/attribute/%id%/group/%tabId%/tab/group_%tabId%/store/0/set/%attributeSetID%/type/%productType%/popup/1/
+    mca: catalog_product/addAttribute/attribute/%id%/group/%tabId%/tab/group_%tabId%/store/0/%productParameters%/popup/1/
     title: Manage Products / Catalog / Magento Admin
     uimap:
         form: &savedProductAttributeFromProductPageForm
         buttons:
             close_window: //button[span='Close Window']
-        messages:
-            success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been saved.')]
+        messages: *productAttributeMessages

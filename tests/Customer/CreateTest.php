@@ -166,25 +166,22 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider data_EmptyField
      * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithRequiredFieldsEmpty($emptyFields)
+    public function test_WithRequiredFieldsEmpty($emptyField)
     {
         //Data
-        if (!array_key_exists('email', $emptyFields)) {
-            $userData = $this->loadData('generic_customer_account', $emptyFields, 'email');
+        if ($emptyField != 'email') {
+            $userData = $this->loadData('generic_customer_account',
+                            array($emptyField => '%noValue%'), 'email');
         } else {
-            $userData = $this->loadData('generic_customer_account', $emptyFields);
+            $userData = $this->loadData('generic_customer_account',
+                            array($emptyField => '%noValue%'));
         }
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
-        $page = $this->getUimapPage('admin', 'create_customer');
-        $tab = $page->findTab('account_information');
-        foreach ($emptyFields as $key => $value) {
-            if ($value == '%noValue%') {
-                $xpath = $tab->findField($key);
-                $this->addParameter('fieldXpath', $xpath);
-            }
-        }
+        $tab = $this->getCurrentLocationUimapPage()->findTab('account_information');
+        $xpath = $tab->findField($emptyField);
+        $this->addParameter('fieldXpath', $xpath);
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -192,10 +189,10 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function data_EmptyField()
     {
         return array(
-            array(array('first_name' => '%noValue%')),
-            array(array('last_name' => '%noValue%')),
-            array(array('password' => '%noValue%')),
-            array(array('email' => '%noValue%'))
+            array('first_name'),
+            array('last_name'),
+            array('password'),
+            array('email')
         );
     }
 
@@ -221,8 +218,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithSpecialCharacters_ExeptEmail()
     {
         //Data
-        $userData = $this->loadData(
-                        'generic_customer_account',                
+        $userData = $this->loadData('generic_customer_account',
                         array(
                             'prefix'         => $this->generate('string', 32, ':punct:'),
                             'first_name'     => $this->generate('string', 32, ':punct:'),
@@ -233,12 +229,19 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
                             'password'       => $this->generate('string', 32, ':punct:')
                         ), 'email'
         );
+        $searchData = $this->loadData('search_customer',
+                        array('name' => '%noValue%', 'email' => $userData['email']));
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
+        //Steps
+        $this->CustomerHelper()->openCustomer($searchData);
+        $this->clickControl('tab', 'account_information', FALSE);
+        //Verifying
+        $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->messages);
     }
 
     /**
@@ -314,7 +317,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function test_WithInvalidEmail($wrongEmail)
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', $wrongEmail);
+        $userData = $this->loadData('generic_customer_account', array('email' => $wrongEmail));
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
@@ -324,9 +327,9 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function data_InvalidEmail()
     {
         return array(
-            array(array('email' => 'invalid')),
-            array(array('email' => 'test@invalidDomain')),
-            array(array('email' => 'te@st@magento.com'))
+            array('invalid'),
+            array('test@invalidDomain'),
+            array('te@st@magento.com')
         );
     }
 
@@ -438,7 +441,6 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_OnOrderPage_WithAddress()
     {
-        // @TODO
         $this->markTestIncomplete();
     }
 
@@ -447,7 +449,6 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_OnOrderPage_WithoutAddress()
     {
-        // @TODO
         $this->markTestIncomplete();
     }
 

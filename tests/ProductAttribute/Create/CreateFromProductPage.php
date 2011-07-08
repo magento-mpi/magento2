@@ -57,35 +57,32 @@ class ProductAttribute_Create_CreateFromProductPage extends Mage_Selenium_TestCa
     }
 
     /**
-     * Checking of attributes creation functionality during product createion process
-     *
-     * Steps:
-     * 1.Go to Catalog->Attributes->Manage Products
-     * 2.Click on "Add Product" button
-     * 3.Specify settings for product creation
-     * 3.1.Select "Attribute Set"
-     * 3.2.Select "Product Type"
-     * 4.Click on "Continue" button
-     * 5.Click on "Create New Attribute" button in the top of "General" fieldset under "General" tab
-     * 6.Choose attribute type in 'Catalog Input Type for Store Owner' dropdown
-     * 7.Fill all required fields.
-     * 8.Click on "Save Attribute" button
-     *
-     * Expected result:
-     * New attribute successfully created.
-     * Success message: 'The product attribute has been saved.' is displayed.
-     * Pop-up window is closed automatically
+     * <p>Checking of attributes creation functionality during product createion process</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Catalog->Manage Products</p>
+     * <p>2.Click on "Add Product" button</p>
+     * <p>3.Specify settings for product creation</p>
+     * <p>3.1.Select "Attribute Set"</p>
+     * <p>3.2.Select "Product Type"</p>
+     * <p>4.Click on "Continue" button</p>
+     * <p>5.Click on "Create New Attribute" button in the top of "General" fieldset under "General" tab</p>
+     * <p>6.Choose attribute type in 'Catalog Input Type for Store Owner' dropdown</p>
+     * <p>7.Fill all required fields.</p>
+     * <p>8.Click on "Save Attribute" button</p>
+     * <p>Expected result:</p>
+     * <p>New attribute successfully created.
+     * Success message: 'The product attribute has been saved.' is displayed.</p>
      *
      * @dataProvider data_attributeTypes
      */
     public function test_OnProductPage_WithRequiredFieldsOnly($attributeType)
     {
         //Data
-        $productSettings = $this->loadData('settings_simple');
+        $productData = $this->loadData('simple_product_required');
         $attrData = $this->loadData($attributeType, null, array('attribute_code', 'admin_title'));
         //Steps
         $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
+        $this->productHelper()->fillProductSettings($productData);
         $this->productAttributeHelper()->createAttributeOnGeneralTab($attrData);
         //Verifying
         $this->selectWindow(null);
