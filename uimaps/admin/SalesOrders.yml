@@ -29,79 +29,79 @@
 # 'Orders' page
 manage_sales_orders:
     mca: sales_order/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_order')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_order/')]
     title: Orders / Sales / Magento Admin
     uimap:
         form: &orderGridMassactionForm
             fieldsets:
                 -
                     sales_order_grid:
-                        xpath: //div[@id="sales_order_grid"]
+                        xpath: //div[@id='sales_order_grid']
                         buttons:
                             export: //button[span='Export']
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                             submit: //button[span='Submit']
+                        dropdowns:
+                            actions: //select[@id='sales_order_grid_massaction-select']
+                            filter_massaction: //select[@id='filter_massaction']
+                            filter_status: //select[@id='filter_status']
+                            view_per_page: //select[@name='limit']
                         fields:
                             page: //input[@name='page']
-                            filter_real_order_id: //input[@id='filter_real_order_id']
-                            filter_created_at_from: //input[@name='created_at[from]']
-                            filter_created_at_to: //input[@name='filter_created_at[to]']
+                            filter_order_id: //input[@id='filter_real_order_id']
+                            filter_purchased_from: //input[@name='store_id']
+                            filter_created_from: //input[@name='created_at[from]']
+                            filter_created_to: //input[@name='filter_created_at[to]']
                             filter_billing_name: //input[@name='billing_name']
                             filter_shipping_name: //input[@name='shipping_name']
-                            base_grand_total_from: //input[@name='base_grand_total[from]']
-                            base_grand_total_to: //input[@name='base_grand_total[to]']
+                            filter_base_grand_total_from: //input[@name='base_grand_total[from]']
+                            filter_base_grand_total_to: //input[@name='base_grand_total[to]']
                             filter_grand_total_from: //input[@name='grand_total[from]']
                             filter_grand_total_to: //input[@name='grand_total[to]']
                         links:
                             order_id: //a[@name='real_order_id']
-                            store_id: //a[@name='store_id']
+                            purchased_from: //a[@name='store_id']
                             created_at: //a[@name='created_at']
                             billing_name: //a[@name='billing_name']
                             shipping_name: //a[@name='shipping_name']
                             base_grand_total: //a[@name='base_grand_total']
                             grand_total: //a[@name='grand_total']
                             status: //a[@name='status']
-                            action: //span[contains(text(),'Action')]  
-                      
-                        dropdowns:
-                            actions: //select[@id='sales_order_grid_massaction-select']
-                            status: //select[@id='filter_status']
-                            view_per_page: //select[@name='limit']
-
         buttons:
             create_new_order: //button[span='Add New']
         messages:
+            failed_print_packingslips: //li[normalize-space(@class)='error-msg' and contains(.//span,'There are no printable documents related to selected orders.')]
+            failed_print_credit_memos: //li[normalize-space(@class)='error-msg' and contains(.//span,'There are no printable documents related to selected orders.')]
+            failed_print_invoices: //li[normalize-space(@class)='error-msg' and contains(.//span,'There are no printable documents related to selected orders.')]
+            failed_print_all: //li[normalize-space(@class)='error-msg' and contains(.//span,'There are no printable documents related to selected orders.')]
+            success_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.//span,'order(s) have been released from holding status.')]
+            failed_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.//span,'No order(s) were released from holding status.')]
             success_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.//span,'order(s) have been canceled.')]
             failed_canceled_order: //li[normalize-space(@class)='error-msg' and contains(.//span,'The order(s) cannot be canceled.')]
             success_hold_order: //li[normalize-space(@class)='success-msg' and contains(.//span,'order(s) have been put on hold.')]
             failed_hold_order: //li[normalize-space(@class)='error-msg' and contains(.//span,'No order(s) were put on hold.')]
-            success_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.//span,'order(s) have been released from holding status.')]
-            failed_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.//span,'No order(s) were released from holding status.')]
-            success_print_invoices: TODO
-            failed_print_invoices: //li[normalize-space(@class)='error-msg' and contains(.//span,'There are no printable documents related to selected orders.')]
-            success_print_packingslips: TODO
-            failed_print_packingslips: //li[normalize-space(@class)='error-msg' and contains(.//span,'There are no printable documents related to selected orders.')]
-            success_print_credit_memos: TODO
-            failed_print_credit_memos: //li[normalize-space(@class)='error-msg' and contains(.//span,'There are no printable documents related to selected orders.')]
-            success_print_all: TODO
-            failed_print_all: //li[normalize-space(@class)='error-msg' and contains(.//span,'There are no printable documents related to selected orders.')]
-            
-            
-            
-            
-            
+            success_print_packingslips: #TODO
+            success_print_credit_memos: #TODO
+            success_print_invoices: #TODO
+            success_print_all: #TODO
 
 # 'New Order' page
-new_order_for_new_customer:
+create_order_for_new_customer:
     mca: sales_order_create/
     title: New Order / Orders / Sales / Magento Admin
     uimap:
         form: &newOrderForm
             fieldsets:
                 -
-                    sales_order_create_customer_grid: &sales_order_create_customer_grid
-                        xpath: //div[@id='order-customer-selector']/div[@class='entry-edit']
+                    order_customer_grid: &sales_order_create_customer_grid
+                        xpath: //div[@id='order-customer-selector']
+                        buttons:
+                            create_new_customer: //button[span='Create New Customer']
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            country: //select[@id='filter_billing_country_id']
                         fields:
                             filter_id: //input[@id='filter_entity_id']
                             filter_name: //input[@id='filter_name']
@@ -110,62 +110,54 @@ new_order_for_new_customer:
                             filter_zip_code: //input[@id='filter_billing_postcode']
                             filter_state: //input[@id='filter_billing_regione']
                             filter_store_name: //input[@id='filter_store_name']
-                        buttons:
-                            create_new_customer: //button[span='Create New Customer']
-                            reset_filter: //button[span='Reset Filter']
-                            search: //button[span='Search']
-                        dropdowns:
-                            country: //select[@id='filter_billing_country_id']
                 -
                     order_store_selector: &order_store_selector
                         xpath: //div[@id='order-store-selector']
                         radiobuttons:
-                            choose_main_store: //label[contains(text(), '%storeName%')]/ancestor::span//input[@class='radio']
-                -  
+                            choose_main_store: //span[label/text()='%storeName%']/input
+                -
                     select_products_to_add: &select_products_to_add
                         xpath: //div[div/h4[contains(text(),'Please Select Products to Add')]]
                         buttons:
-                            add_selected_products_to_order: //button[span[contains(text(),'Add Selected Product(s) to Order')]]
-                            reset_filter: //button[span[contains(text(),'Reset Filter')]]
-                            search: //button[span[contains(text(),'Search')]]
+                            add_selected_products_to_order: //button[span='Add Selected Product(s) to Order']
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            filter_massaction: //select[@id='filter_in_products']
                         fields:
-                            qty_to_add: //input[@class='input-text qty']
                             filter_id: //input[@id='filter_entity_id']
                             filter_name: //input[@id='filter_name']
                             filter_sku: //input[@id='filter_sku']
                             filter_price_from: //input[@id='filter_price_from']
                             filter_price_to: //input[@id='filter_price_to']
-                        dropdowns:
-                            select_product: //select[@id='filter_in_products']
-                        link: 
-                            configure: //a[text()= 'Configure']                
+                            qty_to_add: %productXpath%//input[@class='input-text qty']
+                        link:
+                            configure: %productXpath%//a[text()= 'Configure']
                 -
                     order_items_ordered: &order_items_ordered
                         xpath: //div[@id='order-items']
                         buttons:
                             add_products: //button[span='Add Products']
-                            configure: //button[span='Configure']
+                            configure: %productXpath%//button[span='Configure']
                             update_items_and_quantity: //button[span[contains(text(),'Update Items and Qty')]]
-                          
                         checkboxes:
-                            custom_price: //div[input[@type='checkbox'] and label[text()='Custom Price*']]/input
-                            apply: //td[input[@type='checkbox'] and label[text()='Apply']]/input
-                        
-                        fields:
-                            qty: //input[@class='input-text item-qty']
-                            custom_price: //input[@class='input-text item-price']
+                            custom_price: %productXpath%//input[contains(@id,'item_use_custom_price_')]
+                            apply: %productXpath%//input[contains(@id,'item_use_discount_')]
                         dropdowns:
-                            action: //select[@name[contains(., 'action')]]
-                        links:
-                            gift_options: //a[contains(text(),'Gift Options')]
+                            action: %productXpath%//select[option/text()='Remove']
+                        fields:
+                            qty: %productXpath%//input[@class='input-text item-qty']
+                            custom_price: %productXpath%//input[@class='input-text item-price']
+#                        links:
+#                            gift_options: //a[contains(text(),'Gift Options')]
                 -
                     order_apply_coupon_code: &order_apply_coupon_code
                         xpath: //div[@id='order-coupons']
-                        fields:
-                            coupon_code: //input[@id='coupons:code']
                         buttons:
                             apply: //button[span='Apply']
-                -    
+                        fields:
+                            coupon_code: //input[@id='coupons:code']
+                -
                     order_account_information: &order_account_information
                         xpath: //div[@id='order-form_account']
                         dropdowns:
@@ -175,34 +167,36 @@ new_order_for_new_customer:
                 -
                     order_billing_address: &order_billing_address
                         xpath: //div[@id='order-billing_address']
-                        dropdowns:
-                            order_billing_address_choice: //select[@id='order-billing_address_customer_address_id']
-                            order_country: //select[@id='order-billing_address_country_id']
-                            order_state_province: //select[@id='order-billing_address_region_id']
-                        fields:
-                            order_prefix: //input[@id='order-billing_address_prefix']
-                            order_first_name: //input[@id='order-billing_address_firstname']
-                            order_middle_name: //input[@id='order-billing_address_middlename']
-                            order_last_name: //input[@id='order-billing_address_lastname']
-                            order_suffix: //input[@id='order-billing_address_suffix']
-                            order_company: //input[@id='order-billing_address_company']
-                            order_street_address_first_line: //input[@id='order-billing_address_street0']
-                            order_street_address_second_line: //input[@id='order-billing_address_street1']
-                            order_city: //input[@id='order-billing_address_city']
-                            order_state_province: //input[@id='order-billing_address_region']
-                            order_zip_postal_code: //input[@id='order-billing_address_postcode']
-                            order_phone: //input[@id='order-billing_address_telephone']
-                            order_fax: //input[@id='order-billing_address_fax']
-                        required: [order_first_name, order_last_name, order_street_address_first_line, order_city, order_zip_postal_code, order_phone, order_country]
                         checkboxes:
-                            order_save_in_address_book: //div[@class='order-save-in-address-book']/input[@type='checkbox']
-                -  
+                            billing_save_in_address_book: //input[@id='order-billing_address_save_in_address_book']
+                        dropdowns:
+                            billing_address_choice: //select[@id='order-billing_address_customer_address_id']
+                            billing_country: //select[@id='order-billing_address_country_id']
+                            billing_state: //select[@id='order-billing_address_region_id']
+                        fields:
+                            billing_prefix: //input[@id='order-billing_address_prefix']
+                            billing_first_name: //input[@id='order-billing_address_firstname']
+                            billing_middle_name: //input[@id='order-billing_address_middlename']
+                            billing_last_name: //input[@id='order-billing_address_lastname']
+                            billing_suffix: //input[@id='order-billing_address_suffix']
+                            billing_company: //input[@id='order-billing_address_company']
+                            billing_street_address_1: //input[@id='order-billing_address_street0']
+                            billing_street_address_2: //input[@id='order-billing_address_street1']
+                            billing_city: //input[@id='order-billing_address_city']
+                            billing_region: //input[@id='order-billing_address_region']
+                            billing_zip_code: //input[@id='order-billing_address_postcode']
+                            billing_telephone: //input[@id='order-billing_address_telephone']
+                            billing_fax: //input[@id='order-billing_address_fax']
+                -
                     order_shipping_address: &order_shipping_address
                         xpath: //div[@id='order-shipping_address']
+                        checkboxes:
+                            shipping_same_as_billing_address: //input[@id='order-shipping_same_as_billing']
+                            shipping_save_in_address_book: //input[@id='order-shipping_address_save_in_address_book']
                         dropdowns:
-                            shipping_shipping_address_choice: //select[@id='order-shipping_address_customer_address_id']
+                            shipping_address_choice: //select[@id='order-shipping_address_customer_address_id']
                             shipping_country: //select[@id='order-shipping_address_country_id']
-                            shipping_state_province: //select[@id='order-shipping_address_region_id']
+                            shipping_state: //select[@id='order-shipping_address_region_id']
                         fields:
                             shipping_prefix: //input[@id='order-shipping_address_prefix']
                             shipping_first_name: //input[@id='order-shipping_address_firstname']
@@ -210,64 +204,62 @@ new_order_for_new_customer:
                             shipping_last_name: //input[@id='order-shipping_address_lastname']
                             shipping_suffix: //input[@id='order-shipping_address_suffix']
                             shipping_company: //input[@id='order-shipping_address_company']
-                            shipping_street_address_first_line: //input[@id='order-shipping_address_street0']
-                            shipping_street_address_second_line: //input[@id='order-shipping_address_street1']
+                            shipping_street_address_1: //input[@id='order-shipping_address_street0']
+                            shipping_street_address_2: //input[@id='order-shipping_address_street1']
                             shipping_city: //input[@id='order-shipping_address_city']
-                            shipping_state_province: //input[@id='order-shipping_address_region']
-                            shipping_zip_postal_code: //input[@id='order-shipping_address_postcode']
-                            shipping_phone: //input[@id='order-shipping_address_telephone']
+                            shipping_region: //input[@id='order-shipping_address_region']
+                            shipping_zip_code: //input[@id='order-shipping_address_postcode']
+                            shipping_telephone: //input[@id='order-shipping_address_telephone']
                             shipping_fax: //input[@id='order-shipping_address_fax']
-                        checkboxes:
-                            shipping_same_as_billing_address: //div[@id='order-shipping_address_choice']/input[@type='checkbox']
-                            shipping_save_in_address_book: //div[@class='order-save-in-address-book']/input[@type='checkbox']
-                -  
-                    order_payment_method: &order_payment_method #TODO - add more methods
+                -
+                    order_payment_method: &order_payment_method
                         xpath: //div[@id='order-billing_method']
                         radiobuttons:
                             check_money_order: //input[@type='radio' and @id='p_method_checkmo']
                             credit_card: //input[@type='radio' and @id='p_method_ccsave']
+                            authorize_net_directpost: //input[@id='p_method_authorizenet_directpost']
+                            paypal_uk_direct: //input[@id='p_method_paypaluk_direct']
+                            authorize_net: //input[@id='p_method_authorizenet']
                         fields:
                             name_on_card: //div[@class='input-box']/input[@name='payment[cc_owner]']
                             credit_card_number: //div[@class='input-box']/input[@name='payment[cc_number]']
                             cvv: //div[@class='input-box']/input[@name='payment[cc_cid]']
-                            credit_card_type: //select[@name='payment[cc_type]'] #TODO - remove from fields
-                            expiration_date_month: //select[@name='payment[cc_exp_month]'] #TODO - remove from fields
-                            expiration_date_year: //select[@name='payment[cc_exp_year]'] #TODO - remove from fields
                         dropdowns:
                             credit_card_type: //select[@name='payment[cc_type]']
                             expiration_date_month: //select[@name='payment[cc_exp_month]']
                             expiration_date_year: //select[@name='payment[cc_exp_year]']
-                -  
+                    #TODO - add more methods
+                -
                     order_history: &order_history
                         xpath: //div[div/h4[contains(text(),'Order History')]]
                         fields:
                             order_comments: //textarea[@id='order-comment']
-                -  
-                    shipping_method: &shipping_method #TODO - add more methods
+                -
+                    shipping_method: &shipping_method
                         xpath: //div[@id='order-shipping_method']
                         links:
-                            get_shipping_methods_and_rates: //a[contains(text(),'Get shipping methods and rates')]
+                            get_shipping_methods_and_rates: //a[normalize-space(text())='Get shipping methods and rates']
                         radiobuttons:
                             ship_radio1: //dl[@class='shipment-methods']//li[1]/input
-                -  
+                     #TODO - add more methods
+                -
                     order_totals: &order_totals
                         xpath: //div[div/h4[contains(text(),'Order Totals')]]
-                        buttons:
-                            submit_order: //button[span[contains(text(),'Submit Order')]]
                         checkboxes:
                             append_comments: //input[@name='order[comment][customer_note_notify]']
                             email_order_confirmation: //input[@name='order[send_confirmation]']
-
-                -    
+                        buttons:
+                            submit_order: //button[span='Submit Order']
+                -
                     product_composite_configure_form: &product_composite_configure_form #TODO - redo
                         xpath: //div[div/h4[contains(text(),'Configure Product')]]
                         dropdowns:
                             case: //div[@class='product-options']//dd[position()='1']//select
                             cpu: //div[@class='product-options']//dd[position()='2']//select
-                        radiobuttons: 
+                        radiobuttons:
                             hd_radio: //input[@type='radio']/../span/label[contains(text(),'%option1%')]/../../input[@type='radio']
                             ram_radio: //input[@type='radio']/../span/label[contains(text(),'%option2%')]/../../input[@type='radio']
-                        checkboxes:  
+                        checkboxes:
                             mon_check: //input[@type='checkbox']/../span/label[contains(text(),'%option3%')]/../../input[@type='checkbox']
                         fields:
                             products_quantity: //input[@id='product_composite_configure_input_qty']
@@ -277,8 +269,7 @@ new_order_for_new_customer:
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
-          
-        messages:
+        messages: &orderMessages
             customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.//span,'This customer email already exists.')]
             email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" is not a valid hostname.')]
             email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" exceeds the allowed length.')]
@@ -289,22 +280,44 @@ new_order_for_new_customer:
             invalid_exp_date: "%fieldXpath%/following-sibling::*[text()='Incorrect credit card expiration date.' and not(contains(@style,'display: none;'))]"
 
 
-new_order_for_existing_customer:
+create_order_for_existing_customer:
     mca: sales_order_create/index/customer_id/%id%/
     title: New Order / Orders / Sales / Magento Admin
     uimap:
         form: &newOrderForm
             fieldsets:
                 -
-                    sales_order_create_customer_grid: *sales_order_create_customer_grid
-                -        
+                    order_customer_grid: *sales_order_create_customer_grid
+                -
                     order_store_selector: *order_store_selector
                 -
-                    order_sidebar: 
+                    select_products_to_add: *select_products_to_add
+                -
+                    order_items_ordered: *order_items_ordered
+                -
+                    order_apply_coupon_code: *order_apply_coupon_code
+                -
+                    order_account_information: *order_account_information
+                -
+                    order_billing_address: *order_billing_address
+                -
+                    order_shipping_address: *order_shipping_address
+                -
+                    order_payment_method: *order_payment_method
+                -
+                    order_history: *order_history
+                -
+                    shipping_method: *shipping_method
+                -
+                    order_totals: *order_totals
+                -
+                    product_composite_configure_form: *product_composite_configure_form #TODO - redo
+                -
+                    order_sidebar:
                         xpath: //div[@id='order-sidebar']
                         buttons:
                             update_changes_top: //button[span='Update Changes']
-                -      
+                -
                     sidebar_shopping_cart:
                         xpath: //div[@id='sidebar_data_cart']
                         links:
@@ -314,7 +327,7 @@ new_order_for_existing_customer:
                         xpath: //div[@id='sidebar_data_wishlist']
                         links:
                             refresh: //a[@title='Refresh']
-                - 
+                -
                     sidebar_last_ordered_items:
                         xpath: //div[@id='sidebar_data_reorder']
                         links:
@@ -323,115 +336,80 @@ new_order_for_existing_customer:
                     sidebar_products_in_comparison_list:
                         xpath: //div[@id='order-sidebar_compared']
                         links:
-                            refresh: //a[@title='Refresh']                        
-                - 
+                            refresh: //a[@title='Refresh']
+                -
                     sidebar_recently_compared_products:
                         xpath: //div[@id='sidebar_data_pcompared']
                         links:
-                            refresh: //a[@title='Refresh']   
-                - 
+                            refresh: //a[@title='Refresh']
+                -
                     sidebar_recently_viewed_products:
                         xpath: //div[@id='sidebar_data_pviewed']
                         links:
-                            refresh: //a[@title='Refresh']     
-                - 
-                    order_items_ordered: *order_items_ordered
-                        
-                -
-                    order_apply_coupon_code: *order_apply_coupon_code
-                
-                -   
-                    order_account_information: *order_account_information
-                        
-                -
-                    order_billing_address: *order_billing_address
-                -  
-                    order_shipping_address: *order_shipping_address
-                        
-                -  
-                    order_payment_method: *order_payment_method #TODO - add more methods
-                -  
-                    order_history: *order_history
-                -  
-                    shipping_method: *shipping_method #TODO - add more methods
-                -  
-                    order_totals: *order_totals
-                -  
-                    select_products_to_add: *select_products_to_add
-                -    
-                    product_composite_configure_form: *product_composite_configure_form #TODO - redo
-                        
+                            refresh: //a[@title='Refresh']
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
-          
-        messages:
-            customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.//span,'This customer email already exists.')]
-            email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" is not a valid hostname.')]
-            email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" exceeds the allowed length.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            card_type_doesnt_match: "%fieldXpath%/following-sibling::*[text()='Card type does not match credit card number.' and not(contains(@style,'display: none;'))]"
-            invalid_card_number: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card number.' and not(contains(@style,'display: none;'))]"
-            invalid_cvv: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card verification number.' and not(contains(@style,'display: none;'))]"
-            invalid_exp_date: "%fieldXpath%/following-sibling::*[text()='Incorrect credit card expiration date.' and not(contains(@style,'display: none;'))]"
+        messages: *orderMessages
 
-          
-sales_orders_view:
+view_order:
     mca: sales_order/view/order_id/%id%/
     title: %order_id% / Orders / Sales / Magento Admin
     uimap:
         form: &orderView
             tabs:
                 -
-                    information: 
-                        xpath: //a[@name='order_info']
+                    information:
+                        xpath: //a[@name='order_info']/span
                         fieldsets:
                             -
-                                order_information: 
+                                order_information:
                                     xpath: //div[@class='entry-edit'][./div/h4[contains(.,'Order #')]]
-                            -  
-                                account_information: 
+                            -
+                                account_information:
                                     xpath: //div[@class='entry-edit'][./div/h4='Account Information']
-                            -  
-                                billing_address: 
+                            -
+                                billing_address:
                                     xpath: //div[@class='entry-edit'][./div/h4='Billing Address']
-                            -  
-                                shipping_address: 
+                            -
+                                shipping_address:
                                     xpath: //div[@class='entry-edit'][./div/h4='Shipping Address']
-                            -  
-                                payment_information: 
+                            -
+                                payment_information:
                                     xpath: //div[@class='entry-edit'][./div/h4='Payment Information']
-                            -  
-                                shipping_and_handling_information: 
+                            -
+                                shipping_and_handling_information:
                                     xpath: //div[@class='entry-edit'][./div/h4='Shipping & Handling Information']
-                            -  
-                                items_ordered: 
-                                    xpath: //div[@class='entry-edit'][./div/h4='Items Ordered']/../../../div[@class='grid np']
-                            -  
-                                comments_history: 
+                            -
+                                items_ordered:
+                                    xpath: //div[@class='grid np']
+                            -
+                                comments_history:
                                     xpath: //div[@class='entry-edit'][./div/h4='Comments History']
-                                    fields: 
-                                        comment: //textarea[@name='history[comment]']
-                                    dropdowns:
-                                        status: //select[@name='history[status]']
+                                    buttons:
+                                        submit_comment: //button[span='Submit Comment']
                                     checkboxes:
                                         notify_customer_by_email: //input[@type='checkbox' and @name='history[is_customer_notified]']
                                         visible_on_frontend: //input[@type='checkbox' and @name='history[is_visible_on_front]']
-                                    buttons:
-                                        submit_comment: //button[span='Submit Comment']
-                            -  
-                                order_totals: 
+                                    dropdowns:
+                                        status: //select[@name='history[status]']
+                                    fields:
+                                        comment: //textarea[@name='history[comment]']
+                            -
+                                order_totals:
                                     xpath: //div[@class='order-totals']
-                -        
-                    invoices:  
-                        xpath: //a[@name='order_invoices']
+                -
+                    invoices:
+                        xpath: //a[@name='order_invoices']/span
                         fieldsets:
                             -
-                                sales_order_view: 
+                                sales_order_view:
                                     xpath: //div[@id='sales_order_view']
-                                    buttons: 
+                                    buttons:
                                         search: //button[span='Search']
                                         reset_filter: //button[span='Reset Filter']
+                                    dropdowns:
+                                        filter_status: //select[@id='filter_state']
                                     fields:
                                         filter_invoice_number: //input[@id='filter_increment_id']
                                         filter_billing_name: //input[@id='filter_billing_name']
@@ -439,18 +417,18 @@ sales_orders_view:
                                         filter_created_at_to: //input[@name='created_at[to]']
                                         filter_amount_from: //input[@id='filter_base_grand_total_from']
                                         filter_amount_to: //input[@id='filter_base_grand_total_to']
-                                    dropdowns:
-                                        filter_status: //select[@id='filter_state']
-                -          
+                -
                     credit_memos:
-                        xpath: //a[@name='order_creditmemos']
+                        xpath: //a[@name='order_creditmemos']/span
                         fieldsets:
                             -
-                                sales_order_view: 
+                                sales_order_view:
                                     xpath: //div[@id='sales_order_view']
-                                    buttons: 
+                                    buttons:
                                         search: //button[span='Search']
                                         reset_filter: //button[span='Reset Filter']
+                                    dropdowns:
+                                        filter_status: //select[@id='filter_state']
                                     fields:
                                         filter_credit_memo_number: //input[@id='filter_increment_id']
                                         filter_billing_name: //input[@id='filter_billing_name']
@@ -458,16 +436,14 @@ sales_orders_view:
                                         filter_created_at_to: //input[@name='created_at[to]']
                                         filter_amount_from: //input[@id='filter_base_grand_total_from']
                                         filter_amount_to: //input[@id='filter_base_grand_total_to']
-                                    dropdowns:
-                                        filter_status: //select[@id='filter_state']
-                -          
+                -
                     shipments:
-                        xpath: //a[@name='order_shipments']
+                        xpath: //a[@name='order_shipments']/span
                         fieldsets:
                             -
-                                sales_order_view: 
+                                sales_order_view:
                                     xpath: //div[@id='sales_order_view']
-                                    buttons: 
+                                    buttons:
                                         search: //button[span='Search']
                                         reset_filter: //button[span='Reset Filter']
                                     fields:
@@ -477,14 +453,16 @@ sales_orders_view:
                                         filter_created_at_to: //input[@name='created_at[to]']
                                         filter_total_qty_from: //input[@id='filter_total_qty_from']
                                         filter_total_qty_to: //input[@id='filter_total_qty_to']
-                -  
+                -
                     comments_history:
-                        xpath: //a[@name='order_history']
+                        xpath: //a[@name='order_history']/span
                         fieldsets:
-                            order_history_content: //div[@id='sales_order_view_tabs_order_history_content']
-                -        
+                            -
+                                order_history_content:
+                                    xpath: //div[@id='sales_order_view_tabs_order_history_content']
+                -
                     transactions_history:
-                        xpath: //a[@name='order_transactions']
+                        xpath: //a[@name='order_transactions']/span
                         fieldsets:
                             -
                                 sales_order_view:
@@ -492,6 +470,10 @@ sales_orders_view:
                                     buttons:
                                         search: //button[span='Search']
                                         reset_filter: //button[span='Reset Filter']
+                                    dropdowns:
+                                        filter_payment_method_name: //select[@id='filter_method']
+                                        filter_transaction_type: //select[@id='filter_txn_type']
+                                        filter_is_closed: //select[@id='filter_is_closed']
                                     fields:
                                         filter_transaction_id_from: //input[@id='filter_transaction_id_from']
                                         filter_transaction_id_to: //input[@id='filter_transaction_id_to']
@@ -500,11 +482,6 @@ sales_orders_view:
                                         filter_parent_transaction_id: //input[@id='filter_parent_txn_id']
                                         filter_created_at_from: //input[@name='created_at[from]']
                                         filter_created_at_to: //input[@name='created_at[to]']
-                                    dropdowns:
-                                        filter_payment_method_name: //select[@id='filter_method']
-                                        filter_transaction_type: //select[@id='filter_txn_type']
-                                        filter_is_closed: //select[@id='filter_is_closed']
-      
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             edit: //p[@class='form-buttons']//button[span='Edit']
@@ -517,9 +494,8 @@ sales_orders_view:
             reorder: //p[@class='form-buttons']//button[span='Reorder']
         messages:
             confirmation_for_cancel: Are you sure you want to cancel this order?
-        
-        
-sales_order_invoice:
+
+create_invoice:
     mca: sales_order_invoice/new/order_id/%id%/
     title: New invoice / Invoices / Sales / Magento Admin
     uimap:
@@ -529,27 +505,27 @@ sales_order_invoice:
                     order_number:
                         xpath: //div[@class='entry-edit'][./div/a[contains(.,'Order #')]]
                 -
-                    account_information: 
+                    account_information:
                         xpath: //div[@class='entry-edit'][./div/h4='Account Information']
-                - 
-                    billing_address: 
+                -
+                    billing_address:
                         xpath: //div[@class='entry-edit'][./div/h4='Billing Address']
-                - 
+                -
                     shipping_address:
                         xpath: //div[@class='entry-edit'][./div/h4='Shipping Address']
-                - 
+                -
                     payment_information:
                         xpath: //div[@class='entry-edit'][./div/h4='Payment Information']
                 -
                     shipping_information:
                         xpath: //div[@class='entry-edit'][./div/h4='Shipping Information']
-                -    
+                -
                     items_to_invoice:
                         xpath: //div[@class='entry-edit'][./div/h4='Items Invoiced']
                         fields:
-                            qty_to_invoice: //input[@name[contains(., 'invoice[items]')]]
+                            qty_to_invoice: %productXpath%//input[@class='input-text qty-input']
                         buttons:
-                            update_qty: //button[span[contains(.,'Update Qty')]]
+                            update_qty: //button[span[contains(text(),'Update Qty')]]
                 -
                     invoice_history:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Invoice History']
@@ -558,17 +534,16 @@ sales_order_invoice:
                 -
                     invoice_totals:
                         xpath: //div[@class='box-right entry-edit'][./div/h4='Invoice Totals']
-                        buttons:
-                            submit_invoice: //button[span='Submit Invoice']
                         checkboxes:
                             append_comments: //input[@type='checkbox' and @name='invoice[comment_customer_notify]']
                             email_copy_of_invoice: //input[@type='checkbox' and @name='invoice[send_email]']
-        buttons: 
+                        buttons:
+                            submit_invoice: //button[span='Submit Invoice']
+        buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
-      
-             
-sales_order_shipment:
+
+create_shipment:
     mca: sales_order_shipment/new/order_id/%id%/
     title: New shipment / Shipments / Sales / Magento Admin
     uimap:
@@ -578,53 +553,52 @@ sales_order_shipment:
                     order_number:
                         xpath: //div[@class='entry-edit'][./div/a[contains(.,'Order #')]]
                 -
-                    account_information: 
+                    account_information:
                         xpath: //div[@class='entry-edit'][./div/h4='Account Information']
                 -
-                    billing_address: 
+                    billing_address:
                         xpath: //div[@class='entry-edit'][./div/h4='Billing Address']
-                -    
+                -
                     shipping_address:
                         xpath: //div[@class='entry-edit'][./div/h4='Shipping Address']
-                -    
+                -
                     payment_information:
                         xpath: //div[@class='entry-edit'][./div/h4='Payment Information']
-                -    
+                -
                     shipping_information:
                         xpath: //div[@class='entry-edit'][./div/h4='Shipping Information']
                         buttons:
                             add_tracking_number: //button[span='Add Tracking Number']
                         dropdowns:
-                            carrier: //select[@class='select carrier']
+                            carrier: //select[@name='tracking[%id%][carrier_code]']
                         fields:
-                            title: //input[@class='input-text number-title']
-                            number: //input[@class='input-text required-entry']
+                            title: //input[@name='tracking[%id%][title]']
+                            number: //input[@id='trackingN%id%']
                         links:
-                            action: //a[text()='Delete']
-                -    
+                            action: //tbody[@id='track_row_container']//tr[not(@id)][%id%]//a
+                -
                     items_to_ship:
-                        xpath: //div[@class='entry-edit'][./div/h4='Items to Ship']/../div/div[@class='grid np']
+                        xpath: //div[@class='grid np']
                         fields:
-                            qty_to_ship: //input[@name[contains(.,'shipment[items]')]]
-                -    
+                            qty_to_ship: %productXpath%//input[contains(@name,'shipment[items]')]
+                -
                     shipment_comments:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Shipment Comments']
                         fields:
                             shipment_comments: //textarea[@name='shipment[comment_text]']
-                -    
+                -
                     shipment_totals:
                         xpath: //div[@class='box-right entry-edit']
-                        buttons:
-                            submit_shipment: //button[span='Submit Shipment']
                         checkboxes:
                             append_comments: //input[@type='checkbox' and @name='shipment[comment_customer_notify]']
                             email_copy_of_shipment: //input[@type='checkbox' and @name='shipment[send_email]']
-
-        buttons: 
+                        buttons:
+                            submit_shipment: //button[span='Submit Shipment']
+        buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
 
-sales_order_creditmemo: 
+create_credit_memo:
     mca: sales_order_creditmemo/new/order_id/%id%/
     title: New Memo / Credit Memos / Sales / Magento Admin
     uimap:
@@ -633,36 +607,36 @@ sales_order_creditmemo:
                 -
                     order_number:
                         xpath: //div[@class='entry-edit'][./div/a[contains(.,'Order #')]]
-                -    
-                    account_information: 
+                -
+                    account_information:
                         xpath: //div[@class='entry-edit'][./div/h4='Account Information']
-                - 
-                    billing_address: 
+                -
+                    billing_address:
                         xpath: //div[@class='entry-edit'][./div/h4='Billing Address']
-                - 
+                -
                     shipping_address:
                         xpath: //div[@class='entry-edit'][./div/h4='Shipping Address']
-                - 
+                -
                     payment_information:
                         xpath: //div[@class='entry-edit'][./div/h4='Payment Information']
-                - 
+                -
                     shipping_information:
                         xpath: //div[@class='entry-edit'][./div/h4='Shipping Information']
-                - 
+                -
                     items_to_refund:
-                        xpath: //div[@class='entry-edit'][./div/h4='Items to Refund']/../div/div[@class='grid np']
-                        checkboxes:
-                            return_to_stock: //input[@type='checkbox' and @name[contains(.,'[back_to_stock]')]]
-                        fields:
-                            qty_to_refund: //input[@type='text' and @name[contains(.,'[qty]')]]
+                        xpath: //div[@class='grid np']
                         buttons:
                             update_qty: //button[span[contains(.,'Update Qty')]]
-                - 
+                        checkboxes:
+                            return_to_stock: %productXpath%//input[contains(@name,'[back_to_stock]')]
+                        fields:
+                            qty_to_refund: %productXpath%//input[contains(@name,'[qty]')]
+                -
                     credit_memo_comments:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Credit Memo Comments']
                         fields:
                             credit_memo_comments: //textarea[@name='creditmemo[comment_text]']
-                - 
+                -
                     refund_totals:
                         xpath: //div[@class='box-right entry-edit'][./div/h4='Refund Totals']
                         buttons:
@@ -672,10 +646,8 @@ sales_order_creditmemo:
                             adjustment_refund: //input[@name='creditmemo[adjustment_positive]']
                             adjustment_fee: //input[@name='creditmemo[adjustment_negative]']
                         checkboxes:
-                            append_comments: //input[@type='checkbox' and @name='creditmemo[comment_customer_notify]']
-                            email_copy_of_credit_memo: //input[@type='checkbox' and @name='creditmemo[send_email]']
-        buttons: 
+                            append_comments: //input[@name='creditmemo[comment_customer_notify]']
+                            email_copy_of_credit_memo: //input[@name='creditmemo[send_email]']
+        buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
-            
-            
