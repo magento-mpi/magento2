@@ -693,7 +693,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                     )
                 ),
                 array(
-                    'containers' => array('21', '03'), // UPS Express Box, UPS Tube
+                    'containers' => array('2a', '2b', '2c', '03'), // Small Express Box, Medium Express Box, Large Express Box, UPS Tube
                     'filters'    => array(
                         'within_us' => array(
                             'method' => array(
@@ -701,6 +701,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                                 '13', // Next Day Air Saver
                                 '14', // Next Day Air Early AM
                                 '02', // 2nd Day Air
+                                '59', // 2nd Day Air AM
                             )
                         ),
                         'from_us' => array(
@@ -736,6 +737,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                                 '01', // Next Day Air
                                 '14', // Next Day Air Early AM
                                 '02', // 2nd Day Air
+                                '59', // 2nd Day Air AM
                             )
                         ),
                         'from_us' => array(
