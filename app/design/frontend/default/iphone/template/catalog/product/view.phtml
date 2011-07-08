@@ -46,15 +46,8 @@
                 <div class="wrap">
                     <div class="product-image-and-actions">
                         <?php echo $this->getChildHtml('media') ?>
-                        <ul class="actions">
-                                <?php if (!$this->hasOptions()):?>
-                                    <?php echo $this->getChildHtml('addto') ?>
-                                <?php endif; ?>
-                                <?php if ($this->canEmailToFriend()): ?>
-                                    <li><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></li>
-                                <?php endif; ?>
-                        </ul>
                     </div>
+                    
                     <div class="product-desc">
                         <div class="price-box">
                             <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
@@ -69,6 +62,14 @@
                     </div>
                 </div>
             </div>
+            <ul class="product-actions">
+                <?php if (!$this->hasOptions()):?>
+                    <?php echo $this->getChildHtml('addto') ?>
+                <?php endif; ?>
+                <?php if ($this->canEmailToFriend()): ?>
+                    <li><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></li>
+                <?php endif; ?>
+            </ul>
             <div class="product-collateral">
                 <?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
                         <div class="box-collateral <?php echo "box-{$alias}"?>">
