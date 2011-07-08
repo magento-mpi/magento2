@@ -191,8 +191,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var string
      */
-    const xpathErrorMessage = "//li[normalize-space(@class)='error-msg']/ul/li
-        [not(text()='Bundle with dynamic pricing cannot include custom defined options. Options will not be saved.')]";
+    const xpathErrorMessage = "//li[normalize-space(@class)='error-msg']/ul/li[not(text()='Bundle with dynamic pricing cannot include custom defined options. Options will not be saved.')]";
 
     /**
      * Error message Xpath
@@ -226,6 +225,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @var string
      */
     const xpathLogOutAdmin = "//div[@class='header-right']//a[@class='link-logout']";
+
+    /**
+     * Admin Logo Xpath
+     * @var string
+     */
+    const xpathAdminLogo = "//img[@class='logo' and contains(@src,'logo.gif')]";
 
     /**
      * @var string
@@ -1426,9 +1431,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
                 if ($this->checkCurrentPage('log_in_to_admin')) {
                     $loginData = array('user_name' => $this->_applicationHelper->getDefaultAdminUsername(),
-                        'password' => $this->_applicationHelper->getDefaultAdminPassword());
+                                       'password' => $this->_applicationHelper->getDefaultAdminPassword());
                     $this->fillForm($loginData);
-                    $this->clickButton('login');
+                    $this->clickButton('login', false);
+                    $this->waitForElement(array(self::xpathAdminLogo,
+                                                self::xpathErrorMessage,
+                                                self::xpathValidationMessage));
                     if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
                         throw new PHPUnit_Framework_Exception('Admin was not logged in');
                     }
