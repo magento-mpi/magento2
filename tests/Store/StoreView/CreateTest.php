@@ -169,19 +169,17 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty($emptyField)
     {
         //Data
-        if (array_key_exists('store_view_code', $emptyField)) {
-            $storeViewData = $this->loadData('generic_store_view', $emptyField);
+        if ($emptyField == 'store_view_code') {
+            $storeViewData = $this->loadData('generic_store_view', array($emptyField => '%noValue%'));
         } else {
-            $storeViewData = $this->loadData('generic_store_view', $emptyField, 'store_view_code');
+            $storeViewData = $this->loadData('generic_store_view',
+                            array($emptyField => '%noValue%'), 'store_view_code');
         }
         //Steps
         $this->storeHelper()->createStoreView($storeViewData);
         //Verifying
-        $page = $this->getUimapPage('admin', 'new_store_view');
-        foreach ($emptyField as $key => $value) {
-            $xpath = $page->findField($key);
-            $this->addParameter('fieldXpath', $xpath);
-        }
+        $xpath = $this->_getControlXpath('field', $emptyField);
+        $this->addParameter('fieldXpath', $xpath);
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -189,8 +187,8 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     public function data_EmptyField()
     {
         return array(
-            array(array('store_view_name' => '')),
-            array(array('store_view_code' => '')),
+            array('store_view_name'),
+            array('store_view_code'),
         );
     }
 
@@ -329,7 +327,8 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     public function test_WithInvalidCode($invalidCode)
     {
         //Data
-        $storeViewData = $this->loadData('generic_store_view', $invalidCode);
+        $storeViewData = $this->loadData('generic_store_view',
+                        array('store_view_code' => $invalidCode));
         //Steps
         $this->storeHelper()->createStoreView($storeViewData);
         //Verifying
@@ -339,9 +338,9 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     public function data_InvalidCode()
     {
         return array(
-            array(array('store_view_code' => 'invalid code')),
-            array(array('store_view_code' => 'Invalid_code2')),
-            array(array('store_view_code' => '2invalid_code2'))
+            array('invalid code'),
+            array('Invalid_code2'),
+            array('2invalid_code2')
         );
     }
 

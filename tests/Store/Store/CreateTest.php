@@ -132,18 +132,15 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider data_EmptyField
      * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithRequiredFieldsEmpty($emptyField)
+    public function test_WithRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        $storeData = $this->loadData('generic_store', $emptyField);
+        $storeData = $this->loadData('generic_store', array($emptyField => '%noValue%'));
         //Steps
         $this->storeHelper()->createStore($storeData);
         //Verifying
-        $page = $this->getCurrentLocationUimapPage();
-        foreach ($emptyField as $key => $value) {
-            $xpath = ($page->findField($key) == NULL) ? ($page->findDropdown($key)) : ($page->findField($key));
-            $this->addParameter('fieldXpath', $xpath);
-        }
+        $xpath = $this->_getControlXpath($fieldType, $emptyField);
+        $this->addParameter('fieldXpath', $xpath);
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -155,8 +152,8 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
     public function data_EmptyField()
     {
         return array(
-            array(array('store_name' => '')),
-            array(array('root_category' => '')),
+            array('store_name', 'field'),
+            array('root_category', 'dropdown'),
         );
     }
 

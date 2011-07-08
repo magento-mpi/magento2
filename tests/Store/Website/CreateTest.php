@@ -169,19 +169,17 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     public function test_WithRequiredFieldsEmpty($emptyField)
     {
         //Data
-        if (array_key_exists('website_code', $emptyField)) {
-            $websiteData = $this->loadData('generic_website', $emptyField);
+        if ($emptyField == 'website_code') {
+            $websiteData = $this->loadData('generic_website', array($emptyField => '%noValue%'));
         } else {
-            $websiteData = $this->loadData('generic_website', $emptyField, 'website_code');
+            $websiteData = $this->loadData('generic_website', array($emptyField => '%noValue%'),
+                            'website_code');
         }
         //Steps
         $this->storeHelper()->createWebsite($websiteData);
         //Verifying
-        $page = $this->getUimapPage('admin', 'new_website');
-        foreach ($emptyField as $key => $value) {
-            $xpath = $page->findField($key);
-            $this->addParameter('fieldXpath', $xpath);
-        }
+        $xpath = $this->_getControlXpath('field', $emptyField);
+        $this->addParameter('fieldXpath', $xpath);
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -189,8 +187,8 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     public function data_EmptyField()
     {
         return array(
-            array(array('website_name' => '')),
-            array(array('website_code' => '')),
+            array('website_name'),
+            array('website_code'),
         );
     }
 
@@ -297,7 +295,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     public function test_WithInvalidCode($invalidCode)
     {
         //Data
-        $websiteData = $this->loadData('generic_website', $invalidCode);
+        $websiteData = $this->loadData('generic_website', array('website_code' => $invalidCode));
         //Steps
         $this->storeHelper()->createWebsite($websiteData);
         //Verifying
@@ -307,10 +305,10 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     public function data_InvalidCode()
     {
         return array(
-            array(array('website_code' => 'invalid code')),
-            array(array('website_code' => 'Invalid_code2')),
-            array(array('website_code' => '2invalid_code2')),
-            array(array('website_code' => $this->generate('string', 32, ':punct:')))
+            array('invalid code'),
+            array('Invalid_code2'),
+            array('2invalid_code2'),
+            array($this->generate('string', 32, ':punct:'))
         );
     }
 
