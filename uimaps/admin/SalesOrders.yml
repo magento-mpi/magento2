@@ -68,7 +68,6 @@ manage_sales_orders:
                             actions: //select[@id='sales_order_grid_massaction-select']
                             status: //select[@id='filter_status']
                             view_per_page: //select[@name='limit']
-                -
 
         buttons:
             create_new_order: //button[span='Add New']
@@ -166,7 +165,7 @@ new_order_for_new_customer:
                             coupon_code: //input[@id='coupons:code']
                         buttons:
                             apply: //button[span='Apply']
-                    
+                -    
                     order_account_information: &order_account_information
                         xpath: //div[@id='order-form_account']
                         dropdowns:
@@ -275,7 +274,6 @@ new_order_for_new_customer:
                         buttons:
                             ok: //button[span[contains(text(),'OK')]]
                             cancel: //button[span[contains(text(),'Cancel')]]
-                -      
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
@@ -363,7 +361,6 @@ new_order_for_existing_customer:
                 -    
                     product_composite_configure_form: *product_composite_configure_form #TODO - redo
                         
-                -
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
@@ -425,7 +422,6 @@ sales_orders_view:
                             -  
                                 order_totals: 
                                     xpath: //div[@class='order-totals']
-                            -
                 -        
                     invoices:  
                         xpath: //a[@name='order_invoices']
@@ -508,7 +504,6 @@ sales_orders_view:
                                         filter_payment_method_name: //select[@id='filter_method']
                                         filter_transaction_type: //select[@id='filter_txn_type']
                                         filter_is_closed: //select[@id='filter_is_closed']
-                -         
       
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
@@ -568,7 +563,6 @@ sales_order_invoice:
                         checkboxes:
                             append_comments: //input[@type='checkbox' and @name='invoice[comment_customer_notify]']
                             email_copy_of_invoice: //input[@type='checkbox' and @name='invoice[send_email]']
-                -
         buttons: 
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
@@ -617,7 +611,6 @@ sales_order_shipment:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Shipment Comments']
                         fields:
                             shipment_comments: //textarea[@name='shipment[comment_text]']
-                    
                 -    
                     shipment_totals:
                         xpath: //div[@class='box-right entry-edit']
@@ -626,7 +619,6 @@ sales_order_shipment:
                         checkboxes:
                             append_comments: //input[@type='checkbox' and @name='shipment[comment_customer_notify]']
                             email_copy_of_shipment: //input[@type='checkbox' and @name='shipment[send_email]']
-                -
 
         buttons: 
             back: //p[@class='form-buttons']//button[span='Back']
@@ -682,8 +674,8 @@ sales_order_creditmemo:
                         checkboxes:
                             append_comments: //input[@type='checkbox' and @name='creditmemo[comment_customer_notify]']
                             email_copy_of_credit_memo: //input[@type='checkbox' and @name='creditmemo[send_email]']
-                -
         buttons: 
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
+            
             
