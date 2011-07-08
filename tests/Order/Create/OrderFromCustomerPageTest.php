@@ -112,7 +112,11 @@ class OrderFromCustomerPage_Test extends Mage_Selenium_TestCase
         $this->orderHelper()->defineId('edit_customer');
         $this->assertTrue($this->clickButton('create_order', TRUE), 'Navigated to Create New Order page');
         $this->orderHelper()->defineId('new_order_for_existing_customer');
-
+        $this->addParameter('storeName', 'Default Store View');
+        if (($this->checkCurrentPage('new_order_for_existing_customer') == TRUE) && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
+                $this->clickControl('radiobutton', 'choose_main_store', FALSE);
+                $this->pleaseWait();
+        }
         $customerAddress = array ('order_billing_address_choice' => 'Steven Stevenson, number 11 nothing, nowhere, 90232, Ukraine');
         $this->fillForm($customerAddress, 'order_billing_address');
         //Add products to order
