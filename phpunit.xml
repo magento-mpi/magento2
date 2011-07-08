@@ -39,9 +39,10 @@
     <testsuites>
         <testsuite name="All Tests">
             <directory suffix="Test.php">tests/AdminUser</directory>
-            <directory suffix="Test.php">tests/ProductAttribute</directory>
             <directory suffix="CreateTest.php">tests/Store</directory>
             <directory suffix="Test.php">tests/Customer</directory>
+            <directory suffix="SimpleTest.php">tests/Product/Create</directory>
+            <directory suffix="Test.php">tests/ProductAttribute</directory>
         </testsuite>
     </testsuites>
 </phpunit>
