@@ -121,8 +121,17 @@ document.observe("dom:loaded", function() {
                                 </select>
                             </td>
                         <?php endif; ?>
-                        <td <?php echo $this->displayCustomsValue() ? '' : 'style="display: none;"' ?>>
-                            <input type="text" class="customs-value input-text required-entry validate-greater-than-zero" name="package_customs_value" />
+                        <?php
+                            if ($this->displayCustomsValue()) {
+                                $customsValueDisplay = '';
+                                $customsValueValidation = ' required-entry validate-greater-than-zero ';
+                            } else {
+                                $customsValueDisplay = ' style="display: none;" ';
+                                $customsValueValidation = '';
+                            }
+                        ?>
+                        <td <?php echo $customsValueDisplay ?>>
+                            <input type="text" class="customs-value input-text <?php echo $customsValueValidation ?>" name="package_customs_value" />
                         </td>
                         <td>
                             <input type="text" class="options-weight input-text required-entry validate-greater-than-zero" name="container_weight" />
