@@ -986,8 +986,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormField($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
+        if ($this->isElementPresent($fieldData['path']) && $this->isEditable($fieldData['path'])) {
             $this->type($fieldData['path'], $fieldData['value']);
+            $this->waitForAjax();
         } else {
             throw new PHPUnit_Framework_Exception("Can't fill in the field: {$fieldData['path']}");
         }
@@ -1021,9 +1022,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormDropdown($fieldData)
     {
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
-//            $this->select($fieldData['path'], 'regexp:' . preg_quote($fieldData['value']));
-            $this->select($fieldData['path'], 'label=' . $fieldData['value']);
+        if ($this->isElementPresent($fieldData['path']) && $this->isEditable($fieldData['path'])) {
+            if ($this->isElementPresent($fieldData['path'] . "//option[text()='" . $fieldData['value'] . "']")) {
+                $this->select($fieldData['path'], 'label=' . $fieldData['value']);
+            } else {
+                $this->select($fieldData['path'], 'regexp:' . preg_quote($fieldData['value']));
+            }
             $this->waitForAjax();
         } else {
             throw new PHPUnit_Framework_Exception("Can't fill in the dropdown field: {$fieldData['path']}");
