@@ -64,7 +64,10 @@ Default layout, loads most of the pages
     <catalogsearch_advanced_result>
         <update handle="MAP_popup" />
     </catalogsearch_advanced_result>
-
+   <tag_product_list>
+        <update handle="MAP_popup" />
+    </tag_product_list>
+    
     <MAP_popup>
         <reference name="head">
             <action method="addItem" ifconfig="sales/msrp/enabled"><type>skin_js</type><name>js/msrp.js</name></action>
