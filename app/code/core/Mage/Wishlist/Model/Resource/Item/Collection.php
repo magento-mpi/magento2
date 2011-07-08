@@ -151,7 +151,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         Varien_Profiler::start('WISHLIST:'.__METHOD__);
         $productIds = array();
 
-        $isStoreAdmin = Mage::helper('core')->isStoreAdmin();
+        $isStoreAdmin = Mage::app()->getStore()->isAdmin();
 
         $storeIds = array();
         foreach ($this as $item) {
