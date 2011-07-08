@@ -64,7 +64,7 @@ Default layout, loads most of the pages
     <catalogsearch_advanced_result>
         <update handle="MAP_popup" />
     </catalogsearch_advanced_result>
-   <tag_product_list>
+    <tag_product_list>
         <update handle="MAP_popup" />
     </tag_product_list>
     

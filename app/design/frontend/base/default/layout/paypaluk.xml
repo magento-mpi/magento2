@@ -165,6 +165,19 @@
         </reference>
     </catalogsearch_advanced_result>
 
+    <tag_product_list>
+        <reference>
+            <reference name="product.tooltip">
+                <block type="page/html_wrapper" name="product.info.addtocart.paypaluk.wrapper" translate="label">
+                    <block type="paypaluk/express_shortcut" name="product.info.addtocart.paypaluk" template="paypal/express/shortcut.phtml">
+                        <action method="setIsInCatalogProduct"><value>1</value></action>
+                        <action method="setShowOrPosition"><value>after</value></action>
+                    </block>
+                </block>
+            </reference>
+        </reference>
+    </tag_product_list>
+
     <wishlist_index_index>
         <reference>
             <reference name="product.tooltip">
