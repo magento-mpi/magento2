@@ -356,17 +356,29 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             $attrInstance = $this->getEntity()->getAttribute($attribute);
             $entityField = 'e.' . $attribute;
         }
+
+        $castMap = array(
+            'validate-digits' => 'signed',
+        );
+
         if ($attrInstance) {
             if ($attrInstance->getBackend()->isStatic()) {
-                $this->getSelect()->order($entityField . ' ' . $dir);
+                $orderExpr = $entityField;
             } else {
                 $this->_addAttributeJoin($attribute, 'left');
                 if (isset($this->_joinAttributes[$attribute])||isset($this->_joinFields[$attribute])) {
-                    $this->getSelect()->order($attribute . ' ' . $dir);
+                    $orderExpr = $attribute;
                 } else {
-                    $this->getSelect()->order($this->_getAttributeTableAlias($attribute) . '.value ' . $dir);
+                    $orderExpr = $this->_getAttributeTableAlias($attribute).'.value';
                 }
             }
+            if (isset($castMap[$attrInstance->getFrontendClass()])) {
+                $castTo = $castMap[$attrInstance->getFrontendClass()];
+                $orderExpr = new Zend_Db_Expr("CAST($orderExpr AS $castTo) $dir");
+            } else {
+                $orderExpr .= ' ' . $dir;
+            }
+            $this->getSelect()->order($orderExpr);
         }
         return $this;
     }
