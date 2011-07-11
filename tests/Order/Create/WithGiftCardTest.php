@@ -51,6 +51,7 @@ class Order_Create_WithGiftCardTest extends Mage_Selenium_TestCase
     public function test_Amount_LessThanGrandTotal()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -59,6 +60,7 @@ class Order_Create_WithGiftCardTest extends Mage_Selenium_TestCase
     public function test_Amount_GreateThanGrandTotal()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -67,5 +69,6 @@ class Order_Create_WithGiftCardTest extends Mage_Selenium_TestCase
     public function test_WrongCode()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 }

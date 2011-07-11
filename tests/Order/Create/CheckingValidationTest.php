@@ -51,6 +51,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function test_Guest_Empty_BillingAddressRequiredFields()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -59,6 +60,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function test_Guest_Empty_ShippingAddressRequiredFields()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -67,6 +69,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function test_Register_Empty_BillingAddressRequiredFields()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -75,6 +78,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function test_Register_Empty_ShippingAddressRequiredFields()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -83,6 +87,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function test_Register_InvalidEmail_BillingAddressRequiredFields()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -91,6 +96,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function test_Register_DifferPassword_BillingAddressRequiredFields()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -99,6 +105,7 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function test_Exists_Empty_BillingAddressRequiredFields()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -107,5 +114,6 @@ class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
     public function test_Exists_Empty_ShippingAddressRequiredFields()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 }

@@ -51,5 +51,6 @@ class Order_Create_FromCustomerPageTest extends Mage_Selenium_TestCase
     public function test_FromCustomerPage()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 }

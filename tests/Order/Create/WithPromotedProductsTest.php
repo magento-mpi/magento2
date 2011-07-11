@@ -42,6 +42,7 @@ class Order_Create_WithPromotedProductsTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
 
@@ -51,6 +52,7 @@ class Order_Create_WithPromotedProductsTest extends Mage_Selenium_TestCase
     public function test_SpecialPrices()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -59,6 +61,7 @@ class Order_Create_WithPromotedProductsTest extends Mage_Selenium_TestCase
     public function test_MinAllowedQtyInShoppingCart()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -67,5 +70,6 @@ class Order_Create_WithPromotedProductsTest extends Mage_Selenium_TestCase
     public function test_QtyIncrement()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 }

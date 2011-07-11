@@ -51,6 +51,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
     public function test_ForOrder()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -59,6 +60,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
     public function test_ForProducts()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -67,5 +69,6 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
     public function test_WithEmptyFields()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 }

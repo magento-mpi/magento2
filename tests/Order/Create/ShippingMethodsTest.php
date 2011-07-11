@@ -51,6 +51,7 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function test_ShippingMethods_FlatRate()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -59,6 +60,7 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function test_ShippingMethods_FreeShipping()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -67,6 +69,7 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function test_ShippingMethods_UPS()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -75,6 +78,7 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function test_ShippingMethods_USPS()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -83,6 +87,7 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function test_ShippingMethods_UPSXML()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -91,6 +96,7 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function test_ShippingMethods_FedEx()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -99,5 +105,6 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function test_ShippingMethods_DHL()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 }

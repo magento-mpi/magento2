@@ -51,6 +51,7 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function test_Exists_Equal()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -59,6 +60,7 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function test_Exists_Differ()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -67,6 +69,7 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function test_New_Equal_WithOutSave()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -75,6 +78,7 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function test_New_Differ_WithOutSave()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -83,6 +87,7 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function test_New_Equal_WithSave()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -91,5 +96,6 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function test_New_Differ_WithSave()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 }

@@ -51,5 +51,6 @@ class Order_Create_WithCustomizedProductTest extends Mage_Selenium_TestCase
     public function test_WithCustomizedProduct()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 }
