@@ -240,7 +240,7 @@ create_order_for_new_customer:
                         links:
                             get_shipping_methods_and_rates: //a[normalize-space(text())='Get shipping methods and rates']
                         radiobuttons:
-                            ship_radio1: //dl[@class='shipment-methods']//li[1]/input
+                            ship_method: //input[@type='radio' and following-sibling::*[contains(text(), '%shipMethod%')]]
                      #TODO - add more methods
                 -
                     order_totals: &order_totals

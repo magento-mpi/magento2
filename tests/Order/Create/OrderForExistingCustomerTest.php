@@ -64,6 +64,7 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
         $this->navigate('manage_customers');
         $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
         $this->addParameter('id', '0');
+        $this->addParameter('shipMethod', 'Fixed');
 
     }
     
@@ -131,7 +132,7 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
         $this->pleaseWait();
         $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
         $this->pleaseWait();
-        $this->clickControl('radiobutton', 'ship_radio1', FALSE);
+        $this->clickControl('radiobutton', 'ship_method', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
         $this->assertTrue($this->orderHelper()->defineId('view_order'));
