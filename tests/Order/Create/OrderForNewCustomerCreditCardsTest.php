@@ -133,7 +133,7 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
     }
 
    /**
@@ -204,7 +204,7 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
     }
 
    /**
@@ -275,7 +275,7 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
     }
 
    /**
@@ -346,6 +346,6 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
     }
 }
