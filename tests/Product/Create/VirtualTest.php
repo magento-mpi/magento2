@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Virtual product creation tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -38,7 +38,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Log in to Backend.
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -46,8 +46,8 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Preconditions:
-     * Navigate to Catalog -> Manage Products
+     * <p>Preconditions:</p>
+     * <p>Navigate to Catalog -> Manage Products</p>
      */
     protected function assertPreConditions()
     {
@@ -57,149 +57,87 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Steps:
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add product" button;
-     *
-     * 4. Fill in "Attribute Set" and "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields on General tab;
-     *
-     * 7. Fill in required fields on Prices tab;
-     *
-     * 8. Click "Save" button;
-     *
-     * 9. Verify confirmation message;
-     *
-     * Expected result:
-     *
-     * Product created, confirmation message appears;
-     *
+     * <p>Creating product with required fields only</p>
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>6. Verify confirmation message;</p>
+     * <p>Expected result:</p>
+     * <p>Product created, confirmation message appears;</p>
      */
     public function test_WithRequiredFieldsOnly()
     {
         //Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        $productData = $this->loadData('virtual_product', NULL, 'product_sku');
-
-        //Steps. Open 'Manage Products' page, click 'Add New Product' button, fill in form.
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->saveForm('save');
+        $productData = $this->loadData('virtual_product_required', NULL,
+                        array('general_name', 'general_sku'));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-
         return $productData;
     }
 
     /**
-     * Steps:
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add product" button;
-     *
-     * 4. Fill in "Attribute Set" and "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields on General tab - use existing SKU;
-     *
-     * 7. Fill in required fields on Prices tab;
-     *
-     * 8. Click "Save" button;
-     *
-     * 9. Verify error message;
-     *
-     * Expected result:
-     *
-     * Error message appears;
+     * <p>Creating product with existing SKU</p>
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields - use existing SKU;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>6. Verify error message;</p>
+     * <p>Expected result:</p>
+     * <p>Error message appears;</p>
      *
      * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSkuThatAlreadyExists($productData)
     {
-        //Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        //Steps. Open 'Manage Products' page, click 'Add New Product' button, fill in form.
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->saveForm('save');
-        //Verifying
+        //Steps.
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying - error message appears
         $this->assertTrue($this->validationMessage('existing_sku'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     /**
-     * Steps:
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add product" button;
-     *
-     * 4. Fill in "Attribute Set" and "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Leave one required field empty and fill in the rest of fields on General tab;
-     *
-     * 7. Fill in required fields on Prices tab;
-     *
-     * 8. Click "Save" button;
-     *
-     * 9. Verify error message;
-     *
-     * 10. Repeat scenario for all required fields for both tabs;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
+     * <p>Creating product with empty required fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Leave one required field empty and fill in the rest of fields;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>6. Verify error message;</p>
+     * <p>7. Repeat scenario for all required fields for both tabs;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider data_EmptyField
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithRequiredFieldsEmpty($emptyField, $tabWithError)
+    public function test_WithRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        if (array_key_exists('product_sku', $emptyField)) {
-            $productData = $this->loadData('virtual_product', $emptyField);
+        if ($emptyField == 'general_sku') {
+            $productData = $this->loadData('virtual_product_required',
+                           array($emptyField => '%noValue%'));
+        } elseif ($emptyField == 'general_visibility') {
+            $productData = $this->loadData('virtual_product_required',
+                            array($emptyField => '-- Please Select --'), 'general_sku');
         } else {
-            $productData = $this->loadData('virtual_product', $emptyField, 'product_sku');
+            $productData = $this->loadData('virtual_product_required',
+                            array($emptyField => '%noValue%'), 'general_sku');
         }
         //Steps
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->saveForm('save');
+        $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
-        $page = $this->getUimapPage('admin', 'new_product');
-        $fieldSet = $page->findFieldset($tabWithError);
-        foreach ($emptyField as $key => $value) {
-            if ($fieldSet->findField($key) != Null) {
-                $fieldXpath = $fieldSet->findField($key);
-            } else {
-                $fieldXpath = $fieldSet->findDropdown($key);
-            }
-        }
+        $fieldXpath = $this->_getControlXpath($fieldType, $emptyField);
         $this->addParameter('fieldXpath', $fieldXpath);
         $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
@@ -208,516 +146,287 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function data_EmptyField()
     {
         return array(
-            array(array('product_name' => ''), 'general'),
-            array(array('product_description' => ''), 'general'),
-            array(array('product_short_description' => ''), 'general'),
-            array(array('product_sku' => ''), 'general'),
-            array(array('product_status' => '%noValue%'), 'general'),
-            array(array('product_visibility' => '-- Please Select --'), 'general'),
-            array(array('product_price' => '%noValue%'), 'prices'),
-            array(array('product_tax_class' => '%noValue%'), 'prices'),
+            array('general_name', 'field'),
+            array('general_description', 'field'),
+            array('general_short_description', 'field'),
+            array('general_sku', 'field'),
+            array('general_status', 'dropdown'),
+            array('general_visibility', 'dropdown'),
+            array('prices_price', 'field'),
+            array('prices_tax_class', 'dropdown')
         );
     }
 
     /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with special characters ("General tab only");
-     *
-     * 7. Fill in required fields in "Prices" tab with normal data;
-     *
-     * 8. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product created, confirmation message appears
-     *
+     * <p>Creating product with special characters into required fields</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with special symbols ("General" tab), rest - with normal data;
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product created, confirmation message appears</p>
      */
     public function test_WithSpecialCharacters()
     {
-        //Loading Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        $productData = $this->loadData('virtual_product',
+        //Data
+        $productData = $this->loadData('virtual_product_required',
                         array(
-                    'product_name' => $this->generate('string', 32, ':punct:'),
-                    'product_description' => $this->generate('string', 32, ':punct:'),
-                    'product_short_description' => $this->generate('string', 32, ':punct:'),
-                    'product_sku' => $this->generate('string', 32, ':punct:')
-                        )
-        );
-
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->saveForm('save');
-
+                            'general_name'              => $this->generate('string', 32, ':punct:'),
+                            'general_description'       => $this->generate('string', 32, ':punct:'),
+                            'general_short_description' => $this->generate('string', 32, ':punct:'),
+                            'general_sku'               => $this->generate('string', 32, ':punct:')
+                ));
+        // Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
-
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
     }
 
     /**
-     * @TODO
+     * <p>Creating product with invalid price</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in "Price" field with special characters, the rest fields - with normal data;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider data_invalidData_NumericField
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithInvalidValueForFields_InvalidWeight()
+    public function test_WithInvalidValueForFields_InvalidPrice($invalidPrice)
     {
-        // @TODO
-    }
-
-    /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with normal data;
-     *
-     * 8. Fill in "Price" field with special characters;
-     *
-     * 9. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
-     */
-    public function test_WithInvalidValueForFields_InvalidPrice()
-    {
-        //Loading Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        $productData = $this->loadData('virtual_product',
-                        array('product_price' => $this->generate('string', 9, ':punct:')),
-                        'product_sku');
-        // Steps
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        // Fill form
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->saveForm('save');
+        //Data
+        $productData = $this->loadData('virtual_product_required',
+                        array('prices_price' => $invalidPrice), 'general_sku');
+        //Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
         $this->assertTrue($this->validationMessage('invalid_price'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     /**
-     * Steps
+     * <p>Creating product with invalid Qty</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data, "Qty" field - with special characters;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
      *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 8. Fill in "Weight" field with special characters;
-     *
-     * 9. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
-     * @dataProvider data_InvalidQty
+     * @dataProvider data_invalidQty
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithInvalidValueForFields_InvalidQty($InvalidQty)
+    public function test_WithInvalidValueForFields_InvalidQty($invalidQty)
     {
-        //Loading Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        $productData = $this->loadData('virtual_product', $InvalidQty, 'product_sku');
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        // Fill form
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->clickControl('tab', 'inventory', FALSE);
-        $this->fillForm($productData, 'inventory');
-        $this->saveForm('save');
-        //
+        //Data
+        $productData = $this->loadData('virtual_product_required',
+                        array('inventory_qty' => $invalidQty), 'general_sku');
+        // Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
         $this->assertTrue($this->validationMessage('invalid_qty'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_InvalidQty()
+    public function data_invalidQty()
     {
         return array(
-            array(array('qty' => $this->generate('string', 9, ':punct:'))),
-            array(array('qty' => 'g3648GJHghj')),
-            array(array('qty' => $this->generate('string', 9, ':alpha:')))
+            array($this->generate('string', 9, ':punct:')),
+            array($this->generate('string', 9, ':alpha:')),
+            array('g3648GJHghj'),
         );
     }
 
     /**
-     * Steps
+     * <p>Creating product with empty custom options</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Leave fields empty;</p>
+     * <p>8. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
      *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 8. Goto "Custom Options" tab;
-     *
-     * 10. Click "Add New Option" button;
-     *
-     * 11. Leave fields empty;
-     *
-     * 12. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
-     *
+     * @dataProvider data_EmptyCustomFields
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithCustomOptions_EmptyFields()
+    public function test_WithCustomOptions_EmptyFields($emptyCustomFields)
     {
         //Loading Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        $productData = $this->loadData('virtual_product', NULL, 'product_sku');
+        $productData = $this->loadData('virtual_product_required', null, 'general_sku');
+        $productData['custom_options_data'] [] = $this->loadData('custom_options_empty',
+                array($emptyCustomFields => "%noValue%"));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
+        if ($emptyCustomFields == 'custom_options_general_title') {
+            $xpath = $this->_getControlXpath('field', $emptyCustomFields);
+            $this->addParameter('fieldXpath', $xpath);
+            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        } else {
+            $this->assertTrue($this->validationMessage('select_type_of_option'), $this->messages);
+        }
+            $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+     }
 
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        // Fill form
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->clickControl('tab', 'custom_options', FALSE);
-        $this->pleaseWait();
-
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('custom_options');
-        $fieldSetXpath = $fieldSet->getXpath();
-        $optionCount = $this->getXpathCount($fieldSetXpath . "//*[@class='option-box']") + 1;
-        $this->addParameter('optionNumber', $optionCount);
-        $page->assignParams($this->_paramsHelper);
-
-        $this->clickButton('add_new_option', FALSE);
-        $this->saveForm('save');
-
-        $xpath = $fieldSet->findField('custom_title');
-        $this->addParameter('fieldXpath', $xpath);
-
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->validationMessage('select_type_of_option'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
-    }
+    public function data_EmptyCustomFields()
+    {
+        return array(
+            array('custom_options_general_title'),
+            array('custom_options_general_input_type')
+        );
+}
 
     /**
-     * Steps
+     * <p>Creating product with invalid custom options</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Fill in fields with incorrect data;</p>
+     * <p>8. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
      *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 8. Goto "Custom Options" tab;
-     *
-     * 10. Click "Add New Option" button;
-     *
-     * 11. Fill in fields with incorrect data;
-     *
-     * 12. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
-     * @dataProvider data_invalidData
+     * @dataProvider data_invalidData_NumericField
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithCustomOptions_InvalidValues($invalidData)
     {
-        //Loading Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        $productData = $this->loadData('virtual_product', $invalidData, 'product_sku');
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        // Fill form
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->clickControl('tab', 'inventory', FALSE);
-        $this->fillForm($productData, 'inventory');
-        $this->clickControl('tab', 'custom_options', FALSE);
-        $this->pleaseWait();
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('custom_options');
-        $fieldSetXpath = $fieldSet->getXpath();
-        $optionCount = $this->getXpathCount($fieldSetXpath . "//*[@class='option-box']") + 1;
-        $this->addParameter('optionNumber', $optionCount);
-        $page->assignParams($this->_paramsHelper);
-
-        $this->clickButton('add_new_option', FALSE);
-        $this->fillForm($productData, 'custom_options');
-        $this->saveForm('save');
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldSet('custom_options');
-        $xpath = $fieldSet->findField('custom_price');
-        $this->addParameter('fieldXpath', $xpath);
-        $page->assignParams($this->_paramsHelper);
-
-        //$this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->validationMessage('custom_option_invalid_number'), $this->messages);
-
-        $this->assertTrue($this->verifyMessagesCount(1), $this->messages);
-    }
-
-    public function data_invalidData()
-    {
-        return array(
-            array(array('custom_price' => $this->generate('string', 9, ':punct:'))),
-            array(array('custom_price' => 'g3648GJHghj')),
-            array(array('custom_price' => $this->generate('string', 9, ':alpha:')))
-        );
+        //Data
+        $productData = $this->loadData('virtual_product_required', NULL, 'general_sku');
+        $productData['custom_options_data'][] = $this->loadData('custom_options_field',
+                        array('custom_options_price' => $invalidData));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
+        $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     /**
-     * @TODO
+     * <p>Creating product with invalid special price</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in field "Special Price" with invalid data, the rest fields - with correct data;
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:<p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider data_invalidData_NumericField
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithSpecialPrice_EmptyValue()
+    public function test_WithSpecialPrice_InvalidValue($invalidValue)
     {
-        // @TODO
-    }
-
-    /**
-     * Steps
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 8. Goto "Custom Options" tab;
-     *
-     * 10. Click "Add New Option" button;
-     *
-     * 11. Fill in required fields with incorrect data;
-     *
-     * 12. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     */
-    public function test_WithSpecialPrice_InvalidValue()
-    {
-        //Loading Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        $productData = $this->loadData('virtual_product',
-                        array('product_special_price' => $this->generate('string', 9, ':punct:')),
-                        'product_sku');
-
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        // Fill form
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->saveForm('save');
+        //Data
+        $productData = $this->loadData('virtual_product_required',
+                       array('prices_special_price' => $invalidValue), 'general_sku');
+        //Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
         $this->assertTrue($this->validationMessage('invalid_special_price'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     /**
-     * Steps
+     * <p>Creating product with empty tier price</p>
+     * <p>Steps<p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Add Tier" button and leave fields in current fieldset empty;</p>
+     * <p>6. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
      *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Click "Add Tier" button and leave fields in current fieldset empty;
-     *
-     * 9. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 10. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
-     *
+     * @dataProvider data_EmptyField_TierPrice
+     * @depends test_WithRequiredFieldsOnly
      */
-    public function test_WithTierPrice_EmptyFields()
+     public function test_WithTierPrice_FieldsEmpty($emptyTierPrice)
     {
-        //Loading Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        $productData = $this->loadData('virtual_product', NULL, 'product_sku');
-
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        // Fill form
-
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('prices');
-        $fieldSetXpath = $fieldSet->getXpath();
-        $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='tier_price_container']/tr");
-        $this->addParameter('rowNumber', $rowNumber);
-        $page->assignParams($this->_paramsHelper);
-
-        $this->clickButton('add_tier_price', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->saveForm('save');
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldSet('prices');
-
-        $emptyFields = array('product_tier_price_qty', 'product_tier_price_price');
-        foreach ($emptyFields as $value) {
-            $fieldXpath = $fieldSet->findField($value);
-            $this->addParameter('fieldXpath', $fieldXpath);
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        }
-        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+        //Data
+        $productData = $this->loadData('virtual_product_required', NULL, 'general_sku');
+        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1',
+                        array($emptyTierPrice => '%noValue%'));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
+        $fieldXpath = $this->_getControlXpath('field', $emptyTierPrice);
+        $this->addParameter('fieldXpath', $fieldXpath);
+        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    /**
-     *
-     * 1. Login to Admin Page;
-     *
-     * 2. Goto Catalog -> Manage Products;
-     *
-     * 3. Click "Add Product" button;
-     *
-     * 4. Fill in "Attribute Set", "Product Type" fields;
-     *
-     * 5. Click "Continue" button;
-     *
-     * 6. Fill in required fields in "General" tab with correct data;
-     *
-     * 7. Fill in required fields in "Prices" tab with correct data;
-     *
-     * 8. Click "Add Tier" button and fill in fields in current fieldset with imcorrect data;
-     *
-     * 9. Fill in required fields in "Inventory" tab with correct data;
-     *
-     * 10. Click "Save" button;
-     *
-     * Expected result:
-     *
-     * Product is not created, error message appears;
-     *
-     * @dataProvider data_invalidDataTier
-     */
-    public function test_WithTierPrice_InvalidValues($data_invalidDataTier)
-    {
-        //Loading Data
-        $productSettings = $this->loadData('product_create_settings_virtual');
-        $productData = $this->loadData('virtual_product', $data_invalidDataTier, 'product_sku');
-
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productSettings);
-        // Fill form
-
-        $this->fillForm($productData, 'general');
-        $this->clickControl('tab', 'prices', FALSE);
-
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldset('prices');
-        $fieldSetXpath = $fieldSet->getXpath();
-        $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='tier_price_container']/tr");
-        $this->addParameter('rowNumber', $rowNumber);
-        $page->assignParams($this->_paramsHelper);
-
-        $this->clickButton('add_tier_price', FALSE);
-        $this->fillForm($productData, 'prices');
-        $this->saveForm('save');
-
-        $page = $this->getCurrentLocationUimapPage();
-        $fieldSet = $page->findFieldSet('prices');
-
-        $fields = array('product_tier_price_qty', 'product_tier_price_price');
-        foreach ($fields as $value) {
-            $fieldXpath = $fieldSet->findField($value);
-            $this->addParameter('fieldXpath', $fieldXpath);
-            $this->assertTrue($this->validationMessage('invalid_tier_price_qty'), $this->messages);
-        }
-
-        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
-    }
-
-    public function data_invalidDataTier()
+    public function data_EmptyField_TierPrice()
     {
         return array(
-            array(array('product_tier_price_qty' => $this->generate('string', 9, ':punct:'), 'product_tier_price_price' => $this->generate('string',
-                            9, ':punct:'))),
-            array(array('product_tier_price_qty' => 'g3648GJHghj', 'product_tier_price_price' => 'g3648GJHghj')),
-            array(array('product_tier_price_qty' => $this->generate('string', 9, ':alpha:'), 'product_tier_price_price' => $this->generate('string',
-                            9, ':alpha:'))),
+            array('prices_tier_price_qty'),
+            array('prices_tier_price_price'),
         );
     }
 
+    /**
+     * <p>Creating product with invalid Tier Price Data</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Add Tier" button and fill in fields in current fieldset with imcorrect data;</p>
+     * <p>6. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider data_invalidData_NumericField
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithTierPrice_InvalidValues($invalidTierData)
+    {
+        //Data
+        $tierData = array(
+            'prices_tier_price_qty' => $invalidTierData,
+            'prices_tier_price_price' => $invalidTierData
+        );
+        $productData = $this->loadData('virtual_product_required', NULL, 'general_sku');
+        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1', $tierData);
+        // Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        foreach ($tierData as $key => $value) {
+            $fieldXpath = $this->_getControlXpath('field', $key);
+            $this->addParameter('fieldXpath', $fieldXpath);
+            $this->assertTrue($this->validationMessage('invalid_tier_price'), $this->messages);
+        }
+        // Verifying
+        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+    }
+
+    public function data_invalidData_NumericField()
+    {
+        return array(
+            array($this->generate('string', 9, ':punct:')),
+            array($this->generate('string', 9, ':alpha:')),
+            array('g3648GJHghj'),
+            array('-128')
+        );
+    }
 }

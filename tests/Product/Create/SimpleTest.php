@@ -57,6 +57,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with required fields only</p>
      * <p>Steps:</p>
      * <p>1. Click "Add product" button;</p>
      * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
@@ -81,6 +82,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with existing SKU</p>
      * <p>Steps:</p>
      * <p>1. Click "Add product" button;</p>
      * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
@@ -103,6 +105,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with empty required fields</p>
      * <p>Steps:</p>
      * <p>1. Click "Add product" button;</p>
      * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
@@ -159,6 +162,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with special characters into required fields</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -190,6 +194,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with invalid weight</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -227,6 +232,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with invalid price</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -252,6 +258,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with invalid special price</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -277,6 +284,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with empty tier price</p>
      * <p>Steps<p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -314,6 +322,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with invalid Tier Price Data</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -348,6 +357,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with invalid Qty</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -382,6 +392,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with empty custom options</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -425,6 +436,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with invalid custom options</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
