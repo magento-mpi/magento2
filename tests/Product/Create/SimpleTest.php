@@ -182,15 +182,83 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
                             'general_name'              => $this->generate('string', 32, ':punct:'),
                             'general_description'       => $this->generate('string', 32, ':punct:'),
                             'general_short_description' => $this->generate('string', 32, ':punct:'),
-                            'general_sku'               => $this->generate('string', 32, ':punct:'),
-                            'general_weight'            => $this->generate('string', 32, ':punct:')
+                            'general_sku'               => $this->generate('string', 32, ':punct:')
                 ));
+        $productSearch = $this->loadData('product_search',
+                        array('general_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with long values from required fields</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with long values ("General" tab), rest - with normal data;
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product created, confirmation message appears</p>
+     *
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithLongValues()
+    {
+        //Data
+        $productData = $this->loadData('simple_product_required',
+                        array(
+                            'general_name'              => $this->generate('string', 255, ':alnum:'),
+                            'general_description'       => $this->generate('string', 255, ':alnum:'),
+                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                            'general_sku'               => $this->generate('string', 64, ':alnum:'),
+                            'general_weight'            => 99999999.9999
+                ));
+        $productSearch = $this->loadData('product_search',
+                        array('general_sku' => $productData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with SKU length more than 64 characters.</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields, use for sku string with length more than 64 characters</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithIncorrectSkuLength()
+    {
+        //Data
+        $productData = $this->loadData('simple_product_required',
+                        array('general_sku' => $this->generate('string', 65, ':alnum:')));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertTrue($this->validationMessage('incorrect_sku_length'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     /**
@@ -211,7 +279,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required',
                         array('general_weight' => $this->generate('string', 9, ':punct:')),
-                        'general_sku');
+                        array('general_name', 'general_sku'));
         $productSearch = $this->loadData('product_search',
                         array(
                             'general_sku'  => $productData['general_sku'],

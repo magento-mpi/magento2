@@ -529,94 +529,81 @@ virtual_product_required:
     general_sku: virtual_sku.req
     general_status: Enabled
     general_visibility: Catalog, Search
-    prices_price: 9.99
+    prices_price: 99.99
     prices_tax_class: None
-    inventory_qty: 1000
+    inventory_qty: %noValue%
 
 virtual_product:
-    #general
-    product_name: Virtual Product
-    product_description: Description for Virtual Product
-    product_short_description: Short Description for Virtual Product
-    product_sku: VP-01
-    product_news_from_date: 12/12/12
-    product_news_to_date: 12/12/13
-    product_url_key: virtual_product_url_key
-    product_status: Enabled
-    product_visibility: Not Visible Individually
-    product_in_feed: Yes
-    #prices:
-    product_price: 4.95
-    product_special_price: 3.99
-    product_special_price_from: 05/05/11
-    product_special_price_to: 09/09/11
-    product_cost: 2
-    product_tier_price_website: %noValue%
-    product_tier_price_customer_group: %noValue%
-    product_tier_price_qty: %noValue%
-    product_tier_price_price: %noValue%
-    product_tax_class: None
-    google_checkout: Yes
-    #meta_information:
-    meta_title: Meta Title for Virtual Product
-    meta_keywords: Meta Keywords for Virtual Product
-    meta_description: Meta Description for Virtual Product
-    #recurring_profile_profile_tab:
-    enable_recurring_profile_profile: No
-    customer_define_start_date: No
-    schedule_description: Shedule Description
-    max_payment_failures: Max Payment Failures
-    auto_bill_next_cycle: No
-    billing_period_unit: Week
-    billing_frequency: Billing Frequency
-    max_billing_cycles: Max Billing Cycles
-    trial_billing_period_unit: Month
-    trial_billing_frequency: Trial Billing Frequency
-    max_trial_billing_cycles: Max Trial Billing Cycles
-    trial_billing_amount: Trial Billing Amount
-    initial_fee: Initial Fee
-    allow_initial_fee_failure: No
-    #design:
-    custom_design: default
-    active_from: 11/11/11
-    active_to: 2/12/12
-    custom_layout_update: Custom Layout Update
-    page_layout: 3 columns
-    display_product_options_in: Product Info Column
-    #gift_options_tab:
-    use_config_settings: %noValue%
-    #inventory:
-    use_manage_stock: No
-    manage_stock: Yes
-    qty: 120
-    use_qty_for_items_status: No
-    qty_for_items_status: 10
-    use_min_allowed_qty: No
-    min_allowed_qty: 2
-    use_max_allowed_qty: No
-    max_allowed_qty: 10
-    qty_uses_decimals: Yes
-    use_backorders: No
-    backorders: Allow Qty Below 0
-    use_notify_for_qty_below: No
-    notify_for_qty_below: 10
-    use_enable_qty_increments: No
-    enable_qty_increments: Yes
-    use_qty_increments: No
-    qty_increments: 5
-    stock_availability: In Stock
-    #custom_options:
-    custom_title: Title1
-    custom_input_type: Field
-    custom_is_required: %noValue%
-    custom_sort_order: %noValue%
-    custom_price: %noValue%
-    custom_sku: %noValue%
+    product_attribute_set: Default
+    general_name: Virtual Product
+    general_description: Description for Virtual Product
+    general_short_description: Short Description for Virtual Product
+    general_sku: virtual_sku
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: virtual_product_url_key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 14.95
+    prices_special_price: 13.99
+    prices_special_price_from: 05/05/11
+    prices_special_price_to: 09/09/11
+    prices_tier_price_data: *tierPriceData
+    prices_tax_class: None
+    prices_enable_googlecheckout: No
+    meta_information_meta_title: Meta Title for Simple Product
+    meta_information_meta_keywords: Meta Keywords for Simple Product
+    meta_information_meta_description: Meta Description for Simple Product
+    recurring_profile_enable_recurring_profile: Yes
+    recurring_profile_customer_define_start_date: No
+    recurring_profile_schedule_description: Shedule Description
+    recurring_profile_max_payment_failures: Max Payment Failures
+    recurring_profile_auto_bill_next_cycle: No
+    recurring_profile_billing_period_unit: Week
+    recurring_profile_billing_frequency: Billing Frequency
+    recurring_profile_max_billing_cycles: Max Billing Cycles
+    recurring_profile_trial_billing_period_unit: Month
+    recurring_profile_trial_billing_frequency: Trial Billing Frequency
+    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
+    recurring_profile_trial_billing_amount: Trial Billing Amount
+    recurring_profile_initial_fee: Initial Fee
+    recurring_profile_allow_initial_fee_failure: No
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_qty_for_items_out_of_stock_default: No
+    inventory_qty_for_items_out_of_stock: 10
+    inventory_min_allowed_qty_default: No
+    inventory_min_allowed_qty: 2
+    inventory_max_allowed_qty_default: No
+    inventory_max_allowed_qty: 11
+    inventory_qty_uses_decimals: Yes
+    inventory_backorders_default: No
+    inventory_backorders: Allow Qty Below 0
+    inventory_notify_for_qty_below_default: No
+    inventory_notify_for_qty_below: 12
+    inventory_enable_qty_increments_default: No
+    inventory_enable_qty_increments: Yes
+    inventory_qty_increments_default: No
+    inventory_qty_increments: 5
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    related_products_data: %noValue%
+    up_sells_products_data: %noValue%
+    cross_sells_products_data: %noValue%
+    custom_options_data: *customOptionsData
 
 #*********************************************
 #*         Bundle Dynamic Product Data       *
 #*********************************************
-
 
 bundle_dynamic_product_required:
     product_attribute_set: Default

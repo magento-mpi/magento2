@@ -64,14 +64,13 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>3. Click "Continue" button;</p>
      * <p>4. Fill in required fields;</p>
      * <p>5. Click "Save" button;</p>
-     * <p>6. Verify confirmation message;</p>
      * <p>Expected result:</p>
-     * <p>Product created, confirmation message appears;</p>
+     * <p>Product is created, confirmation message appears;</p>
      */
     public function test_WithRequiredFieldsOnly()
     {
         //Data
-        $productData = $this->loadData('virtual_product_required', NULL,
+        $productData = $this->loadData('virtual_product_required', null,
                         array('general_name', 'general_sku'));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
@@ -88,7 +87,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>1. Click "Add product" button;</p>
      * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
      * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields - use existing SKU;</p>
+     * <p>4. Fill in required fields using exist SKU;</p>
      * <p>5. Click "Save" button;</p>
      * <p>6. Verify error message;</p>
      * <p>Expected result:</p>
@@ -98,9 +97,9 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
      */
     public function test_WithSkuThatAlreadyExists($productData)
     {
-        //Steps.
+        //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
-        //Verifying - error message appears
+        //Verifying
         $this->assertTrue($this->validationMessage('existing_sku'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -126,10 +125,13 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
         //Data
         if ($emptyField == 'general_sku') {
             $productData = $this->loadData('virtual_product_required',
-                           array($emptyField => '%noValue%'));
+                            array($emptyField => '%noValue%'));
         } elseif ($emptyField == 'general_visibility') {
             $productData = $this->loadData('virtual_product_required',
                             array($emptyField => '-- Please Select --'), 'general_sku');
+        } elseif ($emptyField == 'inventory_qty') {
+            $productData = $this->loadData('virtual_product_required', array($emptyField => ''),
+                            'general_sku');
         } else {
             $productData = $this->loadData('virtual_product_required',
                             array($emptyField => '%noValue%'), 'general_sku');
@@ -153,7 +155,8 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
             array('general_status', 'dropdown'),
             array('general_visibility', 'dropdown'),
             array('prices_price', 'field'),
-            array('prices_tax_class', 'dropdown')
+            array('prices_tax_class', 'dropdown'),
+            array('inventory_qty', 'field')
         );
     }
 
@@ -167,6 +170,8 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * <p>5. Click "Save" button;</p>
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears</p>
+     *
+     * @depends test_WithRequiredFieldsOnly
      */
     public function test_WithSpecialCharacters()
     {
@@ -178,12 +183,80 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
                             'general_short_description' => $this->generate('string', 32, ':punct:'),
                             'general_sku'               => $this->generate('string', 32, ':punct:')
                 ));
-        // Steps
+        $productSearch = $this->loadData('product_search',
+                        array('general_sku' => $productData['general_sku']));
+        //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with long values from required fields</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with long values ("General" tab), rest - with normal data;
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product created, confirmation message appears</p>
+     *
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithLongValues()
+    {
+        //Data
+        $productData = $this->loadData('virtual_product_required',
+                        array(
+                            'general_name'              => $this->generate('string', 255, ':alnum:'),
+                            'general_description'       => $this->generate('string', 255, ':alnum:'),
+                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                            'general_sku'               => $this->generate('string', 64, ':alnum:')
+                ));
+        $productSearch = $this->loadData('product_search',
+                        array('general_sku' => $productData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with SKU length more than 64 characters.</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields, use for sku string with length more than 64 characters</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithIncorrectSkuLength()
+    {
+        //Data
+        $productData = $this->loadData('virtual_product_required',
+                        array('general_sku' => $this->generate('string', 65, ':alnum:')));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
+        $this->assertTrue($this->validationMessage('incorrect_sku_length'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     /**
@@ -213,115 +286,6 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with invalid Qty</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data, "Qty" field - with special characters;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
-     *
-     * @dataProvider data_invalidQty
-     * @depends test_WithRequiredFieldsOnly
-     */
-    public function test_WithInvalidValueForFields_InvalidQty($invalidQty)
-    {
-        //Data
-        $productData = $this->loadData('virtual_product_required',
-                        array('inventory_qty' => $invalidQty), 'general_sku');
-        // Steps
-        $this->productHelper()->createProduct($productData, 'virtual');
-        //Verifying
-        $this->assertTrue($this->validationMessage('invalid_qty'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-    }
-
-    public function data_invalidQty()
-    {
-        return array(
-            array($this->generate('string', 9, ':punct:')),
-            array($this->generate('string', 9, ':alpha:')),
-            array('g3648GJHghj'),
-        );
-    }
-
-    /**
-     * <p>Creating product with empty custom options</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Leave fields empty;</p>
-     * <p>8. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
-     *
-     * @dataProvider data_EmptyCustomFields
-     * @depends test_WithRequiredFieldsOnly
-     */
-    public function test_WithCustomOptions_EmptyFields($emptyCustomFields)
-    {
-        //Loading Data
-        $productData = $this->loadData('virtual_product_required', null, 'general_sku');
-        $productData['custom_options_data'] [] = $this->loadData('custom_options_empty',
-                array($emptyCustomFields => "%noValue%"));
-        //Steps
-        $this->productHelper()->createProduct($productData, 'virtual');
-        //Verifying
-        if ($emptyCustomFields == 'custom_options_general_title') {
-            $xpath = $this->_getControlXpath('field', $emptyCustomFields);
-            $this->addParameter('fieldXpath', $xpath);
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        } else {
-            $this->assertTrue($this->validationMessage('select_type_of_option'), $this->messages);
-        }
-            $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-     }
-
-    public function data_EmptyCustomFields()
-    {
-        return array(
-            array('custom_options_general_title'),
-            array('custom_options_general_input_type')
-        );
-}
-
-    /**
-     * <p>Creating product with invalid custom options</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Fill in fields with incorrect data;</p>
-     * <p>8. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
-     *
-     * @dataProvider data_invalidData_NumericField
-     * @depends test_WithRequiredFieldsOnly
-     */
-    public function test_WithCustomOptions_InvalidValues($invalidData)
-    {
-        //Data
-        $productData = $this->loadData('virtual_product_required', NULL, 'general_sku');
-        $productData['custom_options_data'][] = $this->loadData('custom_options_field',
-                        array('custom_options_price' => $invalidData));
-        //Steps
-        $this->productHelper()->createProduct($productData, 'virtual');
-        //Verifying
-        $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-    }
-
-    /**
      * <p>Creating product with invalid special price</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
@@ -339,7 +303,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('virtual_product_required',
-                       array('prices_special_price' => $invalidValue), 'general_sku');
+                        array('prices_special_price' => $invalidValue), 'general_sku');
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -362,10 +326,10 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * @dataProvider data_EmptyField_TierPrice
      * @depends test_WithRequiredFieldsOnly
      */
-     public function test_WithTierPrice_FieldsEmpty($emptyTierPrice)
+    public function test_WithTierPriceFieldsEmpty($emptyTierPrice)
     {
         //Data
-        $productData = $this->loadData('virtual_product_required', NULL, 'general_sku');
+        $productData = $this->loadData('virtual_product_required', null, 'general_sku');
         $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1',
                         array($emptyTierPrice => '%noValue%'));
         //Steps
@@ -407,17 +371,126 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
             'prices_tier_price_qty' => $invalidTierData,
             'prices_tier_price_price' => $invalidTierData
         );
-        $productData = $this->loadData('virtual_product_required', NULL, 'general_sku');
+        $productData = $this->loadData('virtual_product_required', null, 'general_sku');
         $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1', $tierData);
-        // Steps
+        //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
         foreach ($tierData as $key => $value) {
             $fieldXpath = $this->_getControlXpath('field', $key);
             $this->addParameter('fieldXpath', $fieldXpath);
             $this->assertTrue($this->validationMessage('invalid_tier_price'), $this->messages);
         }
-        // Verifying
         $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with invalid Qty</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data, "Qty" field - with special characters;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider data_invalidQty
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithInvalidValueForFields_InvalidQty($invalidQty)
+    {
+        //Data
+        $productData = $this->loadData('virtual_product_required',
+                        array('inventory_qty' => $invalidQty), 'general_sku');
+        //Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
+        $this->assertTrue($this->validationMessage('invalid_qty'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function data_invalidQty()
+    {
+        return array(
+            array($this->generate('string', 9, ':punct:')),
+            array($this->generate('string', 9, ':alpha:')),
+            array('g3648GJHghj'),
+        );
+    }
+
+    /**
+     * <p>Creating product with empty custom options</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Leave fields empty;</p>
+     * <p>8. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider data_EmptyCustomFields
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithCustomOptions_EmptyFields($emptyCustomFields)
+    {
+        //Data
+        $productData = $this->loadData('virtual_product_required', null, 'general_sku');
+        $productData['custom_options_data'][] = $this->loadData('custom_options_empty',
+                        array($emptyCustomFields => "%noValue%"));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
+        if ($emptyCustomFields == 'custom_options_general_title') {
+            $xpath = $this->_getControlXpath('field', $emptyCustomFields);
+            $this->addParameter('fieldXpath', $xpath);
+            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        } else {
+            $this->assertTrue($this->validationMessage('select_type_of_option'), $this->messages);
+        }
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function data_EmptyCustomFields()
+    {
+        return array(
+            array('custom_options_general_title'),
+            array('custom_options_general_input_type')
+        );
+    }
+
+    /**
+     * <p>Creating product with invalid custom options</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Fill in fields with incorrect data;</p>
+     * <p>8. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider data_invalidData_NumericField
+     * @depends test_WithRequiredFieldsOnly
+     */
+    public function test_WithCustomOptions_InvalidValues($invalidData)
+    {
+        //Data
+        $productData = $this->loadData('virtual_product_required', NULL, 'general_sku');
+        $productData['custom_options_data'][] = $this->loadData('custom_options_field',
+                        array('custom_options_price' => $invalidData));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'virtual');
+        //Verifying
+        $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     public function data_invalidData_NumericField()
@@ -429,4 +502,5 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
             array('-128')
         );
     }
+
 }

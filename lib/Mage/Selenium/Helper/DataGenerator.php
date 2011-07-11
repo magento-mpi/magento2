@@ -47,7 +47,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
         ':digit:' => '0123456789',
         ':lower:' => 'abcdefghijklmnopqrstuvwxyz',
         ':upper:' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-        ':punct:' => '.,!#@$%^&*()-_+={}"|\'/?<>;:',
+        ':punct:' => '!@#$%^&*()_+=-[]{}\\|";:/?.>,<',
         'invalid-email' => '()[]\\;:,<>@'
     );
 
