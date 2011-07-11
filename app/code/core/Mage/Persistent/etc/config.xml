@@ -263,6 +263,17 @@
             </modules>
         </translate>
     </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Persistent>
+                    <files>
+                        <default>Mage_Persistent.csv</default>
+                    </files>
+                </Mage_Persistent>
+            </modules>
+        </translate>
+    </adminhtml>
 
     <default>
         <persistent>
