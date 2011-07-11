@@ -253,6 +253,15 @@
                 </observers>
             </update_customer_cookies>
         </events>
+        <translate>
+            <modules>
+                <Mage_Persistent>
+                    <files>
+                        <default>Mage_Persistent.csv</default>
+                    </files>
+                </Mage_Persistent>
+            </modules>
+        </translate>
     </frontend>
 
     <default>
