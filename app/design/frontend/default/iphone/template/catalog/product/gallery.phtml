@@ -29,7 +29,7 @@
 <section role="main">
     <div class="breadcrumbs">
         <ul>
-            <li class="home"><a href="#" title="Go to Home Page"><?php echo $this->__('Back') ?></a></li>
+            <li class="home"><a href="<?php echo $_product->getProductUrl() ?>" title="Go to Home Page"><?php echo $this->__('Back') ?></a></li>
             <li class="product"><strong><?php echo $__helper->productAttribute($_product, $_product->getName(), 'name') ?></strong></li>
         </ul>
     </div>

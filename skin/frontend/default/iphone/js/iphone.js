@@ -274,7 +274,13 @@ document.observe("dom:loaded", function() {
         }).init();
     }
     
-     
+    if ( $$('.product-image li').size() > 1 ) {
+        var productGallery = new Carousel($$('.product-image')[0], $$('.product-image ul')[0], {
+            visibleElements: 1,
+            preventDefaults: false
+        }).init();
+    }
+
     // Swipe Functionality
      
     var Swipe = Class.create( Carousel, {
