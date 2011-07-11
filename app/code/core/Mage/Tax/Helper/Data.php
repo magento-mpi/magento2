@@ -549,10 +549,13 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _calculatePrice($price, $percent, $type)
     {
+        $calculator = Mage::getSingleton('tax/calculation');
         if ($type) {
-            return $price * (1+($percent/100));
+            $taxAmount = $calculator->calcTaxAmount($price, $percent, false);
+            return $price + $taxAmount;
         } else {
-            return $price/(1+$percent/100);
+            $taxAmount = $calculator->calcTaxAmount($price, $percent, true);
+            return $price - $taxAmount;
         }
     }
 
