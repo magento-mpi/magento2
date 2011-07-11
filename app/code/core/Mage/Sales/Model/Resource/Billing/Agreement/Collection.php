@@ -81,4 +81,27 @@ class Mage_Sales_Model_Resource_Billing_Agreement_Collection extends Mage_Core_M
         );
         return $this;
     }
+
+    /**
+     * Add field filter to collection
+     *
+     * @param string $field
+     * @param mixed $condition
+     * @return Mage_Sales_Model_Resource_Billing_Agreement_Collection
+     */
+    public function addFieldToFilter($field, $condition = null)
+    {
+        switch ($field) {
+            case 'customer_email':
+                $field = 'ce.email';
+                break;
+            case 'customer_firstname':
+                $field = 'firstname.value';
+                break;
+            case 'customer_lastname':
+                $field = 'lastname.value';
+                break;
+        }
+        return parent::addFieldToFilter($field, $condition);
+    }
 }

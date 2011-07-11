@@ -94,14 +94,12 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Mage_Adminhtml_B
         $this->addColumn('customer_email', array(
             'header'            => Mage::helper('sales')->__('Customer Email'),
             'index'             => 'customer_email',
-            'filter_index'      => 'ce.email',
             'type'              => 'text'
         ));
 
         $this->addColumn('customer_firstname', array(
             'header'            => Mage::helper('sales')->__('Customer Name'),
             'index'             => 'customer_firstname',
-            'filter_index'      => 'firstname.value',
             'type'              => 'text',
             'escape'            => true
         ));
@@ -109,7 +107,6 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Mage_Adminhtml_B
         $this->addColumn('customer_lastname', array(
             'header'            => Mage::helper('sales')->__('Customer Last Name'),
             'index'             => 'customer_lastname',
-            'filter_index'      => 'lastname.value',
             'type'              => 'text',
             'escape'            => true
         ));
