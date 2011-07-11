@@ -185,6 +185,18 @@ edit_product_attribute:
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *productAttributeMessages
 
+product_attribute:
+    mca: catalog_product_attribute/edit/
+    title: New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
+    uimap:
+        form: *newProductAttributeForm
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_attribute: //button[span='Save Attribute']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *productAttributeMessages
+
 # Add New Product Attribute page from Product page
 new_product_attribute_from_product_page:
     mca: "catalog_product_attribute/new/group/%tabId%/tab/group_%tabId%/store/0/%productParameters%/popup/1/"

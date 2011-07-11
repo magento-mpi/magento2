@@ -45,6 +45,10 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     {
         $this->setArea('admin');
         $this->navigate('log_in_to_admin');
+        if (!$this->checkCurrentPage('log_in_to_admin')
+                && $this->isElementPresent(self::xpathLogOutAdmin)) {
+            $this->logoutAdminUser();
+        }
         $this->assertTrue($this->checkCurrentPage('log_in_to_admin'), 'Wrong page is opened');
         $this->addParameter('id', '0');
     }
@@ -289,7 +293,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>4. Try to login using old credentials</p>
      * <p>Expected result:</p>
      * <p>Error message "Invalid Username or Password."  appears.</p>
-     * 
+     *
      */
     public function test_forgotPassword_OldPassword()
     {

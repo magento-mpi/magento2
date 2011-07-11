@@ -238,12 +238,22 @@ class ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
         $attrData = $this->loadData('product_attribute_yesno',
                         array('admin_title' => $this->generate('string', 32, ':punct:')),
                         'attribute_code');
+        $searchData = $this->loadData('attribute_search_data',
+                        array(
+                            'attribute_code'  => $attrData['attribute_code'],
+                            'attribute_lable' => $attrData['admin_title'],
+                        )
+        );
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_attributes'),
                 'After successful attribute creation should be redirected to Manage Attributes page');
+        //Steps
+        $this->productAttributeHelper()->openAttribute($searchData);
+        //Verifying
+        $this->productAttributeHelper()->verifyAttribute($attrData);
     }
 
     /**
