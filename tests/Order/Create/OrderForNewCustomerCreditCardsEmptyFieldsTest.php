@@ -185,13 +185,7 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
                     $fieldXpath = $fieldSet->findField($key);
                 }
             }
-                /**if ($fieldSet->findField($key) != Null && $key != 'credit_card_number') {
-                $fieldXpath = $fieldSet->findField($key);
-                
-            } else {
-                $fieldXpath = $fieldSet->findField('credit_card_type');
-                
-            }*/
+
             $this->addParameter('fieldXpath', $fieldXpath);
             switch ($key) {
             case 'name_on_card':
