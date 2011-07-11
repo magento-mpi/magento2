@@ -24,15 +24,10 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/** @var $installer Mage_Cybersource_Model_Resource_Setup */
+$installer = $this;
 
-/**
- * Cybersource Setup Resource class
- *
- * @category   Mage
- * @package    Mage_Cybersource
- *
- */
-class Mage_Cybersource_Model_Mysql4_Setup extends Mage_Cybersource_Model_Resource_Setup
-{
-
-}
+$installer->addAttribute('quote_payment', 'cybersource_token', array());
+$installer->addAttribute('order_payment', 'cybersource_token', array());
+$installer->addAttribute('invoice', 'cybersource_token', array());
+$installer->addAttribute('creditmemo', 'cybersource_token', array());

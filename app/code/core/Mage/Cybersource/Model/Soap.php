@@ -46,7 +46,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
     protected $_canRefund               = true;
-    protected $_canVoid                 = false;
+    protected $_canVoid                 = true;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
@@ -474,14 +474,20 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     public function void(Varien_Object $payment)
     {
         $error = false;
-        if ($payment->getParentTransactionId() && $payment->getVoidCybersourceToken()) {
+        if ($payment->getParentTransactionId() && $payment->getCybersourceToken()) {
             $soapClient = $this->getSoapApi();
             $this->iniRequest();
-            $voidService = new stdClass();
-            $voidService->run = "true";
-            $voidService->voidRequestToken = $payment->getVoidCybersourceToken();
-            $voidService->voidRequestID = $payment->getParentTransactionId();
-            $this->_request->voidService = $voidService;
+            $ccAuthReversalService = new stdClass();
+            $ccAuthReversalService->run = "true";
+            $ccAuthReversalService->authRequestID = $payment->getParentTransactionId();
+            $ccAuthReversalService->authRequestToken = $payment->getCybersourceToken();
+            $this->_request->ccAuthReversalService = $ccAuthReversalService;
+
+            $purchaseTotals = new stdClass();
+            $purchaseTotals->currency = $payment->getOrder()->getBaseCurrencyCode();
+            $purchaseTotals->grandTotalAmount = $payment->getBaseAmountAuthorized();
+            $this->_request->purchaseTotals = $purchaseTotals;
+
             try {
                 $result = $soapClient->runTransaction($this->_request);
                 if ($result->reasonCode==self::RESPONSE_CODE_SUCCESS) {
