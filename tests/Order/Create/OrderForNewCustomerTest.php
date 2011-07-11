@@ -127,13 +127,13 @@ class OrderForNewCustomer_Test extends Mage_Selenium_TestCase
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
         //$this->assertTrue($this->errorMessage('customer_email_already_exists'), $this->messages);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
         //Covering up traces. Deleting created customer
-        $searchData = $this->loadData('search_customer', array('name' => $data['order_first_name'], 
+        $searchData = $this->loadData('search_customer', array('name' => $data['billing_first_name'], 
             'email' => $data['email'] ));
         $this->orderHelper()->deleteCreatedUsers($searchData);
         //Covering up traces. Canceling order
-        $searchParam = $data['order_first_name'];
+        $searchParam = $data['billing_first_name'];
         $this->orderHelper()->cancelPendingOrders($searchParam);
         
     }
@@ -196,13 +196,13 @@ class OrderForNewCustomer_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
         //Covering up traces. Deleting created customer
-        $searchData = $this->loadData('search_customer', array('name' => $data['order_first_name'], 
+        $searchData = $this->loadData('search_customer', array('name' => $data['billing_first_name'], 
             'email' => $data['email'] ));
         $this->orderHelper()->deleteCreatedUsers($searchData);
         //Covering up traces. Canceling order
-        $searchParam = $data['order_first_name'];
+        $searchParam = $data['billing_first_name'];
         $this->orderHelper()->cancelPendingOrders($searchParam);
     }
 
@@ -266,13 +266,13 @@ class OrderForNewCustomer_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
         //Covering up traces. Deleting created customer
-        $searchData = $this->loadData('search_customer', array('name' => $data['order_first_name'], 
+        $searchData = $this->loadData('search_customer', array('name' => $data['billing_first_name'], 
             'email' => $data['email'] ));
         $this->orderHelper()->deleteCreatedUsers($searchData);
         //Covering up traces. Canceling order
-        $searchParam = $data['order_first_name'];
+        $searchParam = $data['billing_first_name'];
         $this->orderHelper()->cancelPendingOrders($searchParam);
     }
 
@@ -318,12 +318,12 @@ class OrderForNewCustomer_Test extends Mage_Selenium_TestCase
         $data = $this->loadData(
                         'new_customer_order_billing_address_reqfields',                
                         array(
-                            'order_first_name'     => $this->generate('string', 32, ':punct:'),
-                            'order_last_name'      => $this->generate('string', 32, ':punct:'),
-                            'order_street_address_first_line'   => $this->generate('string', 32, ':punct:'),
-                            'order_city'    =>  $this->generate('string', 32, ':punct:'),
-                            'order_zip_postal_code' =>  $this->generate('string', 32, ':punct:'),
-                            'order_phone'   =>  $this->generate('string', 32, ':punct:'),
+                            'billing_first_name'     => $this->generate('string', 32, ':punct:'),
+                            'billing_last_name'      => $this->generate('string', 32, ':punct:'),
+                            'billing_street_address_1'   => $this->generate('string', 32, ':punct:'),
+                            'billing_city'    =>  $this->generate('string', 32, ':punct:'),
+                            'billing_zip_code' =>  $this->generate('string', 32, ':punct:'),
+                            'billing_telephone'   =>  $this->generate('string', 32, ':punct:'),
                             'email' =>  $this->generate('email', 32, 'valid')
                             )
                 );
@@ -347,7 +347,7 @@ class OrderForNewCustomer_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
         //Covering up traces. Canceling order
         $this->assertTrue($this->deleteElement('cancel', 'confirmation_for_cancel'));
          //Covering up traces. Deleting customer
@@ -397,18 +397,18 @@ class OrderForNewCustomer_Test extends Mage_Selenium_TestCase
         $data = $this->loadData(
                         'new_customer_order_billing_address_allfields',                
                         array(
-                            'order_prefix'  => $this->generate('string', 32, ':punct:'),
-                            'order_first_name'     => $this->generate('string', 32, ':punct:'),
-                            'order_middle_name' => $this->generate('string', 32, ':punct:'),
-                            'order_last_name'      => $this->generate('string', 32, ':punct:'),
-                            'order_suffix'  => $this->generate('string', 32, ':punct:'),
-                            'order_company' =>  $this->generate('string', 32, ':punct:'),
-                            'order_street_address_first_line'   => $this->generate('string', 32, ':punct:'),
-                            'order_street_address_second_line'  => $this->generate('string', 32, ':punct:'),
-                            'order_city'    =>  $this->generate('string', 32, ':punct:'),
-                            'order_zip_postal_code' =>  $this->generate('string', 32, ':punct:'),
-                            'order_phone'   =>  $this->generate('string', 32, ':punct:'),
-                            'order_fax' =>  $this->generate('string', 32, ':punct:'),
+                            'billing_prefix'  => $this->generate('string', 32, ':punct:'),
+                            'billing_first_name'     => $this->generate('string', 32, ':punct:'),
+                            'billing_middle_name' => $this->generate('string', 32, ':punct:'),
+                            'billing_last_name'      => $this->generate('string', 32, ':punct:'),
+                            'billing_suffix'  => $this->generate('string', 32, ':punct:'),
+                            'billing_company' =>  $this->generate('string', 32, ':punct:'),
+                            'billing_street_address_1'   => $this->generate('string', 32, ':punct:'),
+                            'billing_street_address_2'  => $this->generate('string', 32, ':punct:'),
+                            'billing_city'    =>  $this->generate('string', 32, ':punct:'),
+                            'billing_zip_code' =>  $this->generate('string', 32, ':punct:'),
+                            'billing_telephone'   =>  $this->generate('string', 32, ':punct:'),
+                            'billing_fax' =>  $this->generate('string', 32, ':punct:'),
                             'email' =>  $this->generate('email', 32, 'valid')
                             )
                 );
@@ -432,7 +432,7 @@ class OrderForNewCustomer_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
         //Covering up traces. Canceling order
         $this->assertTrue($this->deleteElement('cancel', 'confirmation_for_cancel'));
         //Covering up traces. Deleting customer
