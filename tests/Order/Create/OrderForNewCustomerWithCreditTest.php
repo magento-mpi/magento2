@@ -111,18 +111,18 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $data = $this->loadData(
                         'new_customer_order_billing_address_allfields',                
                         array(
-                            'order_prefix'  => $this->generate('string', 32, ':punct:'),
-                            'order_first_name'     => $this->generate('string', 32, ':punct:'),
-                            'order_middle_name' => $this->generate('string', 32, ':punct:'),
-                            'order_last_name'      => $this->generate('string', 32, ':punct:'),
-                            'order_suffix'  => $this->generate('string', 32, ':punct:'),
-                            'order_company' =>  $this->generate('string', 32, ':punct:'),
-                            'order_street_address_first_line'   => $this->generate('string', 32, ':punct:'),
-                            'order_street_address_second_line'  => $this->generate('string', 32, ':punct:'),
-                            'order_city'    =>  $this->generate('string', 32, ':punct:'),
-                            'order_zip_postal_code' =>  $this->generate('string', 32, ':punct:'),
-                            'order_phone'   =>  $this->generate('string', 32, ':punct:'),
-                            'order_fax' =>  $this->generate('string', 32, ':punct:'),
+                            'billing_prefix'  => $this->generate('string', 32, ':punct:'),
+                            'billing_first_name'     => $this->generate('string', 32, ':punct:'),
+                            'billing_middle_name' => $this->generate('string', 32, ':punct:'),
+                            'billing_last_name'      => $this->generate('string', 32, ':punct:'),
+                            'billing_suffix'  => $this->generate('string', 32, ':punct:'),
+                            'billing_company' =>  $this->generate('string', 32, ':punct:'),
+                            'billing_street_address_1'   => $this->generate('string', 32, ':punct:'),
+                            'billing_street_address_2'  => $this->generate('string', 32, ':punct:'),
+                            'billing_city'    =>  $this->generate('string', 32, ':punct:'),
+                            'billing_zip_code' =>  $this->generate('string', 32, ':punct:'),
+                            'billing_telephone'   =>  $this->generate('string', 32, ':punct:'),
+                            'billing_fax' =>  $this->generate('string', 32, ':punct:'),
                             'email' =>  $this->generate('email', 32, 'valid')
                             )
                 );
@@ -146,15 +146,15 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
         $this->clickButton('invoice', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_order_invoice'));
+        $this->assertTrue($this->orderHelper()->defineId('create_invoice'));
         $this->clickButton('submit_invoice', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
         $this->clickButton('credit_memo', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_order_creditmemo'));
+        $this->assertTrue($this->orderHelper()->defineId('create_creditmemo'));
         $this->clickButton('refund_offline', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
     }
 
     /**
@@ -201,18 +201,18 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $data = $this->loadData(
                         'new_customer_order_billing_address_allfields',                
                         array(
-                            'order_prefix'  => $this->generate('string', 255, ':alnum:'),
-                            'order_first_name'     => $this->generate('string', 255, ':alnum:'),
-                            'order_middle_name' => $this->generate('string', 255, ':alnum:'),
-                            'order_last_name'      => $this->generate('string', 255, ':alnum:'),
-                            'order_suffix'  => $this->generate('string', 255, ':alnum:'),
-                            'order_company' =>  $this->generate('string', 255, ':alnum:'),
-                            'order_street_address_first_line'   => $this->generate('string', 255, ':alnum:'),
-                            'order_street_address_second_line'  => $this->generate('string', 255, ':alnum:'),
-                            'order_city'    =>  $this->generate('string', 255, ':alnum:'),
-                            'order_zip_postal_code' =>  $this->generate('string', 255, ':alnum:'),
-                            'order_phone'   =>  $this->generate('string', 255, ':alnum:'),
-                            'order_fax' =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_prefix'  => $this->generate('string', 255, ':alnum:'),
+                            'billing_first_name'     => $this->generate('string', 255, ':alnum:'),
+                            'billing_middle_name' => $this->generate('string', 255, ':alnum:'),
+                            'billing_last_name'      => $this->generate('string', 255, ':alnum:'),
+                            'billing_suffix'  => $this->generate('string', 255, ':alnum:'),
+                            'billing_company' =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_street_address_1'   => $this->generate('string', 255, ':alnum:'),
+                            'billing_street_address_2'  => $this->generate('string', 255, ':alnum:'),
+                            'billing_city'    =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_zip_code' =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_telephone'   =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_fax' =>  $this->generate('string', 255, ':alnum:'),
                             'email' =>  $this->generate('email', 32, 'valid')
                             )
                 );
@@ -236,15 +236,15 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
         $this->clickButton('invoice', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_order_invoice'));
+        $this->assertTrue($this->orderHelper()->defineId('create_invoice'));
         $this->clickButton('submit_invoice', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
         $this->clickButton('credit_memo', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_order_creditmemo'));
+        $this->assertTrue($this->orderHelper()->defineId('create_creditmemo'));
         $this->clickButton('refund_offline', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
     }
 
     
@@ -292,18 +292,18 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $data = $this->loadData(
                         'new_customer_order_billing_address_allfields',                
                         array(
-                            'order_prefix'  => $this->generate('string', 255, ':alnum:'),
-                            'order_first_name'     => $this->generate('string', 255, ':alnum:'),
-                            'order_middle_name' => $this->generate('string', 255, ':alnum:'),
-                            'order_last_name'      => $this->generate('string', 255, ':alnum:'),
-                            'order_suffix'  => $this->generate('string', 255, ':alnum:'),
-                            'order_company' =>  $this->generate('string', 255, ':alnum:'),
-                            'order_street_address_first_line'   => $this->generate('string', 255, ':alnum:'),
-                            'order_street_address_second_line'  => $this->generate('string', 255, ':alnum:'),
-                            'order_city'    =>  $this->generate('string', 255, ':alnum:'),
-                            'order_zip_postal_code' =>  $this->generate('string', 255, ':alnum:'),
-                            'order_phone'   =>  $this->generate('string', 255, ':alnum:'),
-                            'order_fax' =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_prefix'  => $this->generate('string', 255, ':alnum:'),
+                            'billing_first_name'     => $this->generate('string', 255, ':alnum:'),
+                            'billing_middle_name' => $this->generate('string', 255, ':alnum:'),
+                            'billing_last_name'      => $this->generate('string', 255, ':alnum:'),
+                            'billing_suffix'  => $this->generate('string', 255, ':alnum:'),
+                            'billing_company' =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_street_address_1'   => $this->generate('string', 255, ':alnum:'),
+                            'billing_street_address_2'  => $this->generate('string', 255, ':alnum:'),
+                            'billing_city'    =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_zip_code' =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_telephone'   =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_fax' =>  $this->generate('string', 255, ':alnum:'),
                             'email' =>  $this->generate('email', 255, 'valid')
                             )
                 );
@@ -327,7 +327,7 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('new_order_for_new_customer'));
+        $this->assertTrue($this->orderHelper()->defineId('create_order_for_new_customer'));
         $this->assertTrue($this->errorMessage('email_exceeds_allowed_length'), $this->messages);
     }
 
@@ -375,18 +375,18 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $data = $this->loadData(
                         'new_customer_order_billing_address_allfields',                
                         array(
-                            'order_prefix'  => $this->generate('string', 255, ':alnum:'),
-                            'order_first_name'     => $this->generate('string', 255, ':alnum:'),
-                            'order_middle_name' => $this->generate('string', 255, ':alnum:'),
-                            'order_last_name'      => $this->generate('string', 255, ':alnum:'),
-                            'order_suffix'  => $this->generate('string', 255, ':alnum:'),
-                            'order_company' =>  $this->generate('string', 255, ':alnum:'),
-                            'order_street_address_first_line'   => $this->generate('string', 255, ':alnum:'),
-                            'order_street_address_second_line'  => $this->generate('string', 255, ':alnum:'),
-                            'order_city'    =>  $this->generate('string', 255, ':alnum:'),
-                            'order_zip_postal_code' =>  $this->generate('string', 255, ':alnum:'),
-                            'order_phone'   =>  $this->generate('string', 255, ':alnum:'),
-                            'order_fax' =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_prefix'  => $this->generate('string', 255, ':alnum:'),
+                            'billing_first_name'     => $this->generate('string', 255, ':alnum:'),
+                            'billing_middle_name' => $this->generate('string', 255, ':alnum:'),
+                            'billing_last_name'      => $this->generate('string', 255, ':alnum:'),
+                            'billing_suffix'  => $this->generate('string', 255, ':alnum:'),
+                            'billing_company' =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_street_address_1'   => $this->generate('string', 255, ':alnum:'),
+                            'billing_street_address_2'  => $this->generate('string', 255, ':alnum:'),
+                            'billing_city'    =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_zip_code' =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_telephone'   =>  $this->generate('string', 255, ':alnum:'),
+                            'billing_fax' =>  $this->generate('string', 255, ':alnum:'),
                             'email' =>  $this->generate('email', 132, 'valid')
                             )
                 );
@@ -410,7 +410,7 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('new_order_for_new_customer'));
+        $this->assertTrue($this->orderHelper()->defineId('create_order_for_new_customer'));
         $this->assertTrue($this->errorMessage('email_is_not_valid_hostname'), $this->messages);
     }
 }
