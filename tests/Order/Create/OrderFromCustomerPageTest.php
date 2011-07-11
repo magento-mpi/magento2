@@ -87,10 +87,10 @@ class OrderFromCustomerPage_Test extends Mage_Selenium_TestCase
      *
      */
     
-    
-    //Creating customer.
-    public function testCreateCustomer()
+ 
+    public function testCreateNewOrderWithRequiredFieldsExistCustomer()
     {
+        //Creating customer
         $userData = $this->loadData('new_customer');
         $addressData = $this->loadData('new_customer_address');
         $this->CustomerHelper()->createCustomer($userData, $addressData);
@@ -98,26 +98,19 @@ class OrderFromCustomerPage_Test extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
-
-        return $userData;
-        
-    }
-    
-    public function testCreateNewOrderWithRequiredFieldsExistCustomer()
-    {
         $userData = $this->loadData('new_customer');
         $this->orderHelper()->defineId('manage_customers');
         $searchData = array('email' => $userData['email'], 'last_name' => $userData['last_name']);
         $this->searchAndOpen($searchData, TRUE);
         $this->orderHelper()->defineId('edit_customer');
         $this->assertTrue($this->clickButton('create_order', TRUE), 'Navigated to Create New Order page');
-        $this->orderHelper()->defineId('new_order_for_existing_customer');
+        $this->orderHelper()->defineId('create_order_for_existing_customer');
         $this->addParameter('storeName', 'Default Store View');
-        if (($this->checkCurrentPage('new_order_for_existing_customer') == TRUE) && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
+        if (($this->checkCurrentPage('create_order_for_existing_customer') == TRUE) && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
                 $this->clickControl('radiobutton', 'choose_main_store', FALSE);
                 $this->pleaseWait();
         }
-        $customerAddress = array ('order_billing_address_choice' => 'Steven Stevenson, number 11 nothing, nowhere, 90232, Ukraine');
+        $customerAddress = array ('billing_address_choice' => 'Steven Stevenson, number 11 nothing, nowhere, 90232, Ukraine');
         $this->fillForm($customerAddress, 'order_billing_address');
         //Add products to order
         $this->clickButton('add_products', FALSE);
@@ -138,26 +131,17 @@ class OrderFromCustomerPage_Test extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'ship_radio1', FALSE);
         $this->pleaseWait();
         $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('sales_orders_view'));
-        
-    }
-    
-    //Covering up traces. Canceling order
-    public function testCancelPendingOrders()
-    {
+        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        //Covering up traces. Canceling order
         $data = $this->loadData('new_customer');
         $searchParam = $data['last_name'];
         $this->orderHelper()->cancelPendingOrders($searchParam);
-    }
-    
-    //Covering up traces. Deleting Customer
-    public function testDeleteCustomer()
-    {
+        //Covering up traces. Deleting Customer
+        $this->navigate('manage_customers');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
         $searchData = array('name'=>"Stevenson", 'email'=> "test_purpose@gmail.com");
         $this->CustomerHelper()->openCustomer($searchData);
         $this->deleteElement('delete_customer', 'confirmation_for_delete');
-        
     }
-    
  
 }
