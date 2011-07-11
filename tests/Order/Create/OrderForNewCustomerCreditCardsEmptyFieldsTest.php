@@ -143,20 +143,55 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
         $this->pleaseWait();
         $this->clickButton('submit_order', FALSE);
         $this->waitForAjax();
-        $page = $this->getUimapPage('admin', 'new_order_for_new_customer');
+        $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         foreach ($emptyField as $key => $value) {
             if ($value == '%noValue%' || !$fieldSet) {
                 continue;
             }
-           if ($fieldSet->findField($key) != Null && $key != 'credit_card_number') {
+            if ($key == 'name_on_card'){
+                if ($fieldSet->findField($key) != Null)
+                {
+                    $fieldXpath = $fieldSet->findField($key);
+                }
+            }
+            if ($key == 'credit_card_type'){
+                if ($fieldSet->findDropdown($key) != Null)
+                {
+                    $fieldXpath = $fieldSet->findDropdown($key);
+                }
+            }
+            if ($key == 'credit_card_number'){
+                if ($fieldSet->findField($key) != Null)
+                {
+                    $fieldXpath = $fieldSet->findDropdown('credit_card_type');
+                }
+            }
+            if ($key == 'expiration_date_month'){
+                if ($fieldSet->findDropdown($key) != Null)
+                {
+                    $fieldXpath = $fieldSet->findDropdown($key);
+                }
+            }   
+            if ($key == 'expiration_date_year'){
+                if ($fieldSet->findDropdown($key) != Null)
+                {
+                    $fieldXpath = $fieldSet->findDropdown($key);
+                }
+            } 
+            if ($key == 'cvv'){
+                if ($fieldSet->findField($key) != Null)
+                {
+                    $fieldXpath = $fieldSet->findField($key);
+                }
+            }
+                /**if ($fieldSet->findField($key) != Null && $key != 'credit_card_number') {
                 $fieldXpath = $fieldSet->findField($key);
                 
             } else {
                 $fieldXpath = $fieldSet->findField('credit_card_type');
                 
-            }
-            
+            }*/
             $this->addParameter('fieldXpath', $fieldXpath);
             switch ($key) {
             case 'name_on_card':
