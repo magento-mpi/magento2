@@ -37,11 +37,15 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingaddress
     /**
      * Get order shipping address
      *
-     * @return string
+     * @return string|null
      */
     public function getOrderShippingAddress()
     {
-        return $this->getOrder()->getShippingAddress()->format('html');
+        $address = $this->getOrder()->getShippingAddress();
+        if ($address instanceof Mage_Sales_Model_Order_Address) {
+            return $address->format('html');
+        } else {
+            return null;
+        }
     }
-
 }
