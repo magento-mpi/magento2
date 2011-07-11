@@ -114,7 +114,7 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
         //Filling customer's information, address
         $this->orderHelper()->fillNewBillForm($data);
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $this->assertTrue($this->fillForm($email, 'order_form_account'));
+        $this->assertTrue($this->fillForm($email, 'order_account_information'));
         //Add products to order
         $this->clickButton('add_products', FALSE);
         //getting products name from dataset. Adding them to the order
@@ -136,7 +136,7 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
         $this->waitForAjax();
         
         
-        $page = $this->getUimapPage('admin', 'new_order_for_new_customer');
+        $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_billing_address');
         foreach ($emptyField as $key => $value) {
             if ($value == '%noValue%' || !$fieldSet) {
@@ -166,22 +166,22 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
     public function data_emptyFields()
     {
         return array(
-            array(array(    'order_first_name'     => ''
+            array(array(    'billing_first_name'     => ''
                             )),
             array(array(
-                            'order_last_name'      => ''
+                            'billing_last_name'      => ''
                             )),
             array(array(
-                            'order_street_address_first_line'   => ''
+                            'billing_street_address_1'   => ''
                             )),
             array(array(
-                            'order_city'    =>  ''
+                            'billing_city'    =>  ''
                             )),
             array(array(
-                            'order_zip_postal_code' =>  ''
+                            'billing_zip_code' =>  ''
                             )),
             array(array(
-                            'order_phone'   =>  ''
+                            'billing_telephone'   =>  ''
                             ))
         );
     }
