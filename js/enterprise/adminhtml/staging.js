@@ -89,7 +89,7 @@ Enterprise.Staging.Mapper.prototype = {
             element.grid = grid;
             element.mapper = this;
             element.tableContainer = this.tableContainer;
-            Event.observe(element, 'change', selectWebsiteMap);
+            Event.observe(element, 'change', function (e) { selectWebsiteMap.call(this, e);});
         }.bind(this));
     },
     addWebsiteMap : function()
