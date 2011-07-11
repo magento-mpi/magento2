@@ -51,11 +51,14 @@ class Order_Helper extends Mage_Selenium_TestCase
     */
     public function fillNewBillForm(array $userData, $shipSameAsBill = TRUE, $orderSaveInAddressBook = TRUE)
     {
-        $this->assertTrue($this->clickButton('create_new_order', TRUE), 'Navigated to Create New Order page');
-        $this->clickButton('create_new_customer', FALSE);
+        $this->assertTrue($this->clickButton('create_new_order', TRUE), 
+                'Could not press button "Add new" for creating new order');
+        $this->assertTrue($this->clickButton('create_new_customer', FALSE), 
+                'Could not press button "Create new customer" during creaton of new order');
         $this->addParameter('storeName', 'Default Store View');
         if (($this->checkCurrentPage('create_order_for_new_customer') == TRUE) && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
-                $this->clickControl('radiobutton', 'choose_main_store', FALSE);
+                $this->assertTrue($this->clickControl('radiobutton', 'choose_main_store', FALSE), 
+                        'Could not choose main store during order creation');
                 $this->pleaseWait();
         }
         
@@ -64,12 +67,14 @@ class Order_Helper extends Mage_Selenium_TestCase
         $this->assertTrue($this->defineId('create_order_for_new_customer'));
         $this->fillForm($userData, 'order_billing_address');
         if ($shipSameAsBill == TRUE){
-            $this->clickControl('checkboxe', 'shipping_same_as_billing_address', FALSE);
+            $this->assertTrue($this->clickControl('checkboxe', 'shipping_same_as_billing_address', FALSE), 
+                    'Could not set shipping address the same as billing');
             $this->pleaseWait();
         
         }
         if ($orderSaveInAddressBook == TRUE){
-            $this->clickControl('checkboxe', 'billing_save_in_address_book', FALSE);
+            $this->assertTrue($this->clickControl('checkboxe', 'billing_save_in_address_book', FALSE), 
+                    'Billing address will be saved to address book');
             $this->pleaseWait();
         }
     }
@@ -80,23 +85,17 @@ class Order_Helper extends Mage_Selenium_TestCase
     */
     public function fillNewShipForm(array $userData, $shipSameAsBill = FALSE, $orderSaveInAddressBook = TRUE)
     {
-        $this->assertTrue($this->clickButton('create_new_order', TRUE), 'Navigated to Create New Order page');
-        $this->clickButton('create_new_customer', FALSE);
-        $this->addParameter('storeName', 'Default Store View');
-        if (($this->checkCurrentPage('create_order_for_new_customer') == TRUE) && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
-                $this->clickControl('radiobutton', 'choose_main_store', FALSE);
-                $this->pleaseWait();
-        }
-        $this->refresh();
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+       
         if ($shipSameAsBill == FALSE){
-            $this->clickControl('checkboxe', 'shipping_same_as_billing_address', FALSE);
+           $this->assertTrue($this->clickControl('checkboxe', 'shipping_same_as_billing_address', FALSE), 
+                   'Shipping address could not be set the same as billing');
             $this->pleaseWait();
         
         }
         $this->fillForm($userData, 'order_shipping_address');
         if ($orderSaveInAddressBook == TRUE){
-            $this->clickControl('checkboxe', 'order_save_in_address_book', FALSE);
+            $this->assertTrue($this->clickControl('checkboxe', 'billing_save_in_address_book', FALSE), 
+                    'Shipping address could not be saved to address book');
             $this->pleaseWait();
         }
     }
@@ -114,7 +113,7 @@ class Order_Helper extends Mage_Selenium_TestCase
         $this->fillForm($userData, 'sales_order_grid');
         $this->assertTrue($this->defineId('manage_sales_orders'));
         $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-        $this->clickButton('submit');
+        $this->assertTrue($this->clickButton('submit'), 'Pending order was not canceled');
         
         
     }
