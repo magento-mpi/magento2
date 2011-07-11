@@ -51,5 +51,6 @@ class Order_ReorderTest extends Mage_Selenium_TestCase
     public function test_Reorder()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 }

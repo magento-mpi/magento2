@@ -51,6 +51,7 @@ class Order_HoldTest extends Mage_Selenium_TestCase
     public function test_Hold()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -59,5 +60,6 @@ class Order_HoldTest extends Mage_Selenium_TestCase
     public function test_Unhold()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 }

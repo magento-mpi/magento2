@@ -51,6 +51,7 @@ class Order_CancelTest extends Mage_Selenium_TestCase
     public function test_PayPalDirect()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -59,6 +60,7 @@ class Order_CancelTest extends Mage_Selenium_TestCase
     public function test_PayPalUKDirect()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -67,6 +69,7 @@ class Order_CancelTest extends Mage_Selenium_TestCase
     public function test_PayFlowProVerisign()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 
     /**
@@ -75,5 +78,6 @@ class Order_CancelTest extends Mage_Selenium_TestCase
     public function test_AuthorizeNet()
     {
         // @TODO
+        $this->markTestIncomplete();
     }
 }
