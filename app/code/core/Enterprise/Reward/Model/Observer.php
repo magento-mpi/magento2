@@ -114,7 +114,8 @@ class Enterprise_Reward_Model_Observer
         }
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getEvent()->getCustomer();
-        if ($customer->isObjectNew()) {
+        $customerOrigData = $customer->getOrigData();
+        if (empty($customerOrigData)) {
             try {
                 $subscribeByDefault = Mage::helper('enterprise_reward')
                     ->getNotificationConfig('subscribe_by_default', Mage::app()->getStore()->getWebsiteId());
