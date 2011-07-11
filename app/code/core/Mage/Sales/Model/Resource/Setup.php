@@ -155,7 +155,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     protected function _getAttributeColumnDefinition($code, $data)
     {
         // Convert attribute type to column info
-        $data['type'] = isset($data['type']) ? $data['type'] : Varien_Db_Ddl_Table::TYPE_TEXT;
+        $data['type'] = isset($data['type']) ? $data['type'] : 'varchar';
         $type = null;
         $length = null;
         switch ($data['type']) {
