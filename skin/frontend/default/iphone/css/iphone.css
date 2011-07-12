@@ -930,7 +930,7 @@ section .category-title { display:none; }
 .review-product-list { color: #636363; }
 .review-product-list label em { margin:0 5px 0 0; color: #F4641E; }
 .review-product-list .rating-box { width:75px; height:11px; margin:3px 0; }
-.review-product-list .rating-box .rating { height:11px; background:url(../images/bg_rating_star.png) repeat-x center right; }
+.review-product-list .rating-box .rating { height:11px; background:url(../images/bg_rating_star.png) repeat-x center left; }
 .review-product-list textarea { width:100%; height:100px; }
 .review-product-list .pager,
 .review-product-list .form-add h2,
