@@ -278,14 +278,14 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </checkout_cart_product_add_after>
-            <sales_quote_item_qty_set_after>
+            <checkout_cart_save_before>
                 <observers>
                     <enterprise_catalogpermissions>
                         <class>enterprise_catalogpermissions/observer</class>
-                        <method>checkQuoteItem</method>
+                        <method>checkQuotePermissions</method>
                     </enterprise_catalogpermissions>
                 </observers>
-            </sales_quote_item_qty_set_after>
+            </checkout_cart_save_before>
             <controller_action_predispatch_catalogsearch>
                 <observers>
                     <enterprise_catalogpermissions>

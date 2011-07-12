@@ -272,43 +272,55 @@ class Enterprise_CatalogPermissions_Model_Observer
     }
 
     /**
-     * Checks quote item for product permissions
+     * Checks permissions for all quote items
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_CatalogPermissions_Model_Observer
      */
-    public function checkQuoteItem(Varien_Event_Observer $observer)
+    public function checkQuotePermissions(Varien_Event_Observer $observer)
     {
         if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
-        $quoteItem = $observer->getEvent()->getItem();
+        $quote = $observer->getEvent()->getCart()->getQuote();
+        $this->_initPermissionsOnQuoteItems($quote);
 
-        $this->_initPermissionsOnQuoteItems($quoteItem->getQuote());
-
-        if ($quoteItem->getParentItem()) {
-            $parentItem = $quoteItem->getParentItem();
-        } else {
-            $parentItem = false;
-        }
-
-        /* @var $quoteItem Mage_Sales_Model_Quote_Item */
-        if ($quoteItem->getDisableAddToCart() && !$quoteItem->isDeleted()) {
-            $quoteItem->getQuote()->removeItem($quoteItem->getId());
-            if ($parentItem) {
-                $quoteItem->getQuote()->setHasError(true)
-                        ->addMessage(
-                            $this->_helper->__('The product "%s" cannot be added to cart.', $parentItem->getName())
-                        );
+        foreach ($quote->getAllItems() as $quoteItem) {
+            if ($quoteItem->getParentItem()) {
+                $parentItem = $quoteItem->getParentItem();
             } else {
-                 $quoteItem->getQuote()->setHasError(true)
-                        ->addMessage(
-                            $this->_helper->__('The product "%s" cannot be added to cart.', $quoteItem->getName())
-                        );
+                $parentItem = false;
+            }
+            /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+            if ($quoteItem->getDisableAddToCart() && !$quoteItem->isDeleted()) {
+                $quote->removeItem($quoteItem->getId());
+                if ($parentItem) {
+                    $quote->setHasError(true)
+                            ->addMessage(
+                                $this->_helper->__('The product "%s" cannot be added to cart.', $parentItem->getName())
+                            );
+                } else {
+                     $quote->setHasError(true)
+                            ->addMessage(
+                                $this->_helper->__('The product "%s" cannot be added to cart.', $quoteItem->getName())
+                            );
+                }
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * Checks quote item for product permissions
+     *
+     * @deprecated after 1.11.0.0
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
+    public function checkQuoteItem(Varien_Event_Observer $observer)
+    {
         return $this;
     }
 
