@@ -7,6 +7,12 @@
             <container>Enterprise_PageCache_Model_Container_Viewedproducts</container>
             <cache_lifetime>86400</cache_lifetime>
         </last_viewed_products>
+        <last_viewed_products_widget>
+            <block>reports/product_widget_viewed</block>
+            <placeholder>VIEWED_PRODUCTS_WIDGET</placeholder>
+            <container>Enterprise_PageCache_Model_Container_Viewedproducts</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </last_viewed_products_widget>
         <catalog_navigation>
             <block>catalog/navigation</block>
             <name>catalog.topnav</name>
