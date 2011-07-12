@@ -62,6 +62,20 @@ class Enterprise_PromotionPermissions_Model_Observer
     protected $_canEditReminderRules;
 
     /**
+     * Enterprise_Banner flag
+     *
+     * @var boolean
+     */
+    protected $_isEnterpriseBannerEnabled;
+
+    /**
+     * Enterprise_Reminder flag
+     *
+     * @var boolean
+     */
+    protected $_isEnterpriseReminderEnabled;
+
+    /**
      * Promotion Permissions Observer class constructor
      *
      * Sets necessary data
@@ -73,6 +87,11 @@ class Enterprise_PromotionPermissions_Model_Observer
         $this->_canEditCatalogRules = Mage::helper('enterprise_promotionpermissions')->getCanAdminEditCatalogRules();
         $this->_canEditSalesRules = Mage::helper('enterprise_promotionpermissions')->getCanAdminEditSalesRules();
         $this->_canEditReminderRules = Mage::helper('enterprise_promotionpermissions')->getCanAdminEditReminderRules();
+
+        $this->_isEnterpriseBannerEnabled = Mage::helper('enterprise_promotionpermissions')
+            ->isModuleEnabled('Enterprise_Banner');
+        $this->_isEnterpriseReminderEnabled = Mage::helper('enterprise_promotionpermissions')
+            ->isModuleEnabled('Enterprise_Reminder');
     }
 
     /**
@@ -180,21 +199,21 @@ class Enterprise_PromotionPermissions_Model_Observer
                 break;
             // Handle blocks related to Enterprise_Banner module
             case 'related_catalogrule_banners_grid' :
-                if (!$this->_canEditCatalogRules) {
+                if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $block->getColumn('in_banners')
                         ->setDisabledValues(Mage::getModel('enterprise_banner/banner')->getCollection()->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;
             case 'related_salesrule_banners_grid' :
-                if (!$this->_canEditSalesRules) {
+                if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
                     $block->getColumn('in_banners')
                         ->setDisabledValues(Mage::getModel('enterprise_banner/banner')->getCollection()->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;
             case 'promo_quote_edit_tabs' :
-                if (!$this->_canEditSalesRules) {
+                if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
                     $relatedBannersBlock = $block->getChild('salesrule.related.banners');
                     if (!is_null($relatedBannersBlock)) {
                         $relatedBannersBlock->unsetChild('banners_grid_serializer');
@@ -202,7 +221,7 @@ class Enterprise_PromotionPermissions_Model_Observer
                 }
                 break;
             case 'promo_catalog_edit_tabs' :
-                if (!$this->_canEditCatalogRules) {
+                if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $relatedBannersBlock = $block->getChild('catalogrule.related.banners');
                     if (!is_null($relatedBannersBlock)) {
                         $relatedBannersBlock->unsetChild('banners_grid_serializer');
@@ -229,7 +248,7 @@ class Enterprise_PromotionPermissions_Model_Observer
             && $controllerAction instanceof Mage_Adminhtml_Promo_QuoteController)
             || (!$this->_canEditCatalogRules
             && $controllerAction instanceof Mage_Adminhtml_Promo_CatalogController)
-            || (!$this->_canEditReminderRules
+            || ($this->_isEnterpriseReminderEnabled && !$this->_canEditReminderRules
             && $controllerAction instanceof Enterprise_Reminder_Adminhtml_ReminderController))
         ) {
             $this->_forward();

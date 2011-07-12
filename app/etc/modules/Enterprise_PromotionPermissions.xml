@@ -33,8 +33,6 @@
             <depends>
                 <Mage_CatalogRule/>
                 <Mage_SalesRule/>
-                <Enterprise_Banner/>
-                <Enterprise_Reminder/>
             </depends>
         </Enterprise_PromotionPermissions>
     </modules>
