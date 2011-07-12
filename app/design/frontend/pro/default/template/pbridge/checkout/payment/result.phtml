@@ -30,6 +30,9 @@
         var jsonParams = <?php echo $this->getJsonHiddenPbridgeParams() ?>;
         if (jsonParams.original_payment_method) {
             var containerElement = parent.document.getElementById('payment_form_pbridge_' + jsonParams.original_payment_method);
+            if (!containerElement) {
+                containerElement = parent.document.getElementById('payment_form_' + jsonParams.original_payment_method);
+            }
             var listElements = containerElement.getElementsByTagName('LI');
             if (listElements.length) {
                 containerElement = listElements[0];
