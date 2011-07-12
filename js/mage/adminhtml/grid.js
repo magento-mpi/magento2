@@ -175,6 +175,8 @@ varienGrid.prototype = {
                 onComplete: this.initGridAjax.bind(this),
                 onSuccess: function(transport) {
                     try {
+                        var responseText = transport.responseText.replace(/>\s+</g, '><');
+                        
                         if (transport.responseText.isJSON()) {
                             var response = transport.responseText.evalJSON()
                             if (response.error) {
@@ -193,17 +195,17 @@ varienGrid.prototype = {
                              */
                             var divId = $(this.containerId);
                             if (divId.id == this.containerId) {
-                                divId.update(transport.responseText);
+                                divId.update(responseText);
                             } else {
-                                $$('div[id="'+this.containerId+'"]')[0].update(transport.responseText);
+                                $$('div[id="'+this.containerId+'"]')[0].update(responseText);
                             }
                         }
                     } catch (e) {
                         var divId = $(this.containerId);
                         if (divId.id == this.containerId) {
-                            divId.update(transport.responseText);
+                            divId.update(responseText);
                         } else {
-                            $$('div[id="'+this.containerId+'"]')[0].update(transport.responseText);
+                            $$('div[id="'+this.containerId+'"]')[0].update(responseText);
                         }
                     }
                 }.bind(this)
