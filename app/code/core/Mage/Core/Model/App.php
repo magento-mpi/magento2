@@ -329,6 +329,7 @@ class Mage_Core_Model_App
     {
         $options = isset($params['options']) ? $params['options'] : array();
         $this->baseInit($options);
+        Mage::register('application_params', $params);
 
         if ($this->_cache->processRequest()) {
             $this->getResponse()->sendResponse();

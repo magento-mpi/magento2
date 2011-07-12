@@ -180,7 +180,23 @@ class Enterprise_PageCache_Model_Processor
      */
     public function prepareCacheId($id)
     {
-        return self::REQUEST_ID_PREFIX . md5($id);
+        $cacheId = self::REQUEST_ID_PREFIX . md5($id . $this->_getScopeCode());
+        return $cacheId;
+    }
+
+     /**
+     * Get current scope code
+     *
+     * @return string
+     */
+    protected function _getScopeCode()
+    {
+        $params = Mage::registry('application_params');
+        $scopeCode = '';
+        if(isset($params['scope_code'])) {
+            $scopeCode = $params['scope_code'];
+        }
+        return $scopeCode;
     }
 
     /**
