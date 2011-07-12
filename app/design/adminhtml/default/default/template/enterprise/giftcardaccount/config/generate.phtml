@@ -51,7 +51,9 @@ function redirectToGeneration()
 {
     var url = '<?php echo Mage::getSingleton('adminhtml/url')->getUrl('*/giftcardaccount/generate'); ?>';
     if (confirm('<?php echo Mage::helper('enterprise_giftcardaccount')->__('Do you really want to proceed? All unsaved changes will be lost.'); ?>')) {
-        window.location.href = url;
+        var generateLink = new Element('a', {href: url});
+        $$('body')[0].insert(generateLink);
+        generateLink.click();
     }
 }
 
@@ -59,7 +61,7 @@ function disableGenerateButton()
 {
     var elem = $('generateBtn<?php echo $_htmlId ?>');
     elem.disabled = true;
-    elem.addClassName('disabled');    
+    elem.addClassName('disabled');
 }
 
 Event.observe('generateBtn<?php echo $_htmlId ?>', 'click', redirectToGeneration)
