@@ -106,6 +106,22 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         return count($this->getCustomer()->getAddresses());
     }
 
+    /**
+     * Get new address for address forms
+     *
+     * @return Mage_Sales_Model_Quote_Address
+     */
+    public function getNewAddress()
+    {
+        $address = Mage::getModel('sales/quote_address');
+        if ($this->isCustomerLoggedIn()) {
+            $address->setFirstname($this->getQuote()->getCustomer()->getFirstname());
+            $address->setLastname($this->getQuote()->getCustomer()->getLastname());
+        }
+
+        return $address;
+    }
+
 /* */
     public function getAddressesHtmlSelect($type)
     {
