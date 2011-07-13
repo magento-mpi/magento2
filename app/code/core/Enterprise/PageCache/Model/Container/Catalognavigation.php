@@ -126,6 +126,7 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
         /** @var Mage_Catalog_Block_Product_Price $block */
         $block = new $block;
         $block->setTemplate($template);
+        $block->setLayout(Mage::app()->getLayout());
 
         if ($categoryPath) {
             $categoryPath = explode('/', $categoryPath);

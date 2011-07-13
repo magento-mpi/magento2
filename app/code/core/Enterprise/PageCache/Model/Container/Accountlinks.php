@@ -66,6 +66,7 @@ class Enterprise_PageCache_Model_Container_Accountlinks extends Enterprise_PageC
         $block = new $block;
         $block->setTemplate($template);
         $block->setNameInLayout($name);
+        $block->setLayout(Mage::app()->getLayout());
 
         if (!$this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER)
             || $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN)
@@ -75,7 +76,8 @@ class Enterprise_PageCache_Model_Container_Accountlinks extends Enterprise_PageC
                 $links = unserialize(base64_decode($links));
                 foreach ($links as $position => $linkInfo) {
                     $block->addLink($linkInfo['label'], $linkInfo['url'], $linkInfo['title'], false, array(), $position,
-                        $linkInfo['li_params'], $linkInfo['a_params'], $linkInfo['before_text'], $linkInfo['after_text']);
+                            $linkInfo['li_params'], $linkInfo['a_params'], $linkInfo['before_text'],
+                            $linkInfo['after_text']);
                 }
             }
         } else {
