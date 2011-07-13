@@ -54,7 +54,7 @@ function redirectToGeneration()
         if (Prototype.Browser.IE) {
             var generateLink = new Element('a', {href: url});
             $$('body')[0].insert(generateLink);
-            generateLink.click()
+            generateLink.click();
         } else {
             window.location.href = url;
         }
