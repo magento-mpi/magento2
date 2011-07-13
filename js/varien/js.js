@@ -665,3 +665,18 @@ function fireEvent(element, event){
         return !element.dispatchEvent(evt);
     }
 }
+
+/**
+ * createContextualFragment is not supported in IE9. Adding its support.
+ */
+if ((typeof Range != "undefined") && !Range.prototype.createContextualFragment)
+{
+    Range.prototype.createContextualFragment = function(html)
+    {
+        var frag = document.createDocumentFragment(),
+        div = document.createElement("div");
+        frag.appendChild(div);
+        div.outerHTML = html;
+        return frag;
+    };
+}
