@@ -96,7 +96,14 @@ AdminRma.prototype = {
                         if ((element.tagName.toLowerCase() == 'input') && (element.type == 'file')) {
                             element.name = element.name + '_' + itemId;
                         } else {
-                            element.name = 'items[' + itemId + '][' + element.name + ']';
+                            //We must provide the following transfomation
+                            //name  -> item[9][name]
+                            //name[key]  ->  item[9][name][key]
+                            var arrayDivider = element.name.indexOf('[');
+                            if (arrayDivider == -1) {
+                                arrayDivider = element.name.length;
+                            }
+                            element.name = 'items[' + itemId + '][' + element.name.slice(0,arrayDivider) + ']' + element.name.slice(arrayDivider);
                         }
                     }
                 });
@@ -146,8 +153,8 @@ AdminRma.prototype = {
     showPopup: function(divId) {
         //this.hidePopups();
         $(divId).show().setStyle({
-			'marginTop': -$(divId).getDimensions().height / 2 + 'px'
-		});
+            'marginTop': -$(divId).getDimensions().height / 2 + 'px'
+        });
         $('popup-window-mask').setStyle({
             height: $('html-body').getHeight() + 'px'
         }).show();
@@ -244,7 +251,14 @@ AdminRma.prototype = {
                     $(detailsDivId).descendants().each(function(element){
                         if ((element.tagName.toLowerCase() == 'input') || (element.tagName.toLowerCase() == 'select') || (element.tagName.toLowerCase() == 'textarea')) {
                             if (!((element.tagName.toLowerCase() == 'input') && (element.type == 'file'))) {
-                                element.name = 'items[' + itemId + '][' + element.name + ']';
+                                //We must provide the following transfomation
+                                //name  -> item[9][name]
+                                //name[key]  ->  item[9][name][key]
+                                var arrayDivider = element.name.indexOf('[');
+                                if (arrayDivider == -1) {
+                                    arrayDivider = element.name.length;
+                                }
+                                element.name = 'items[' + itemId + '][' + element.name.slice(0,arrayDivider) + ']' + element.name.slice(arrayDivider);
                             }
                         }
                     });
