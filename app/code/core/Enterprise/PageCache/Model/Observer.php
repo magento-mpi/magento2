@@ -100,7 +100,7 @@ class Enterprise_PageCache_Model_Observer
         /**
          * Check if request will be cached
          */
-        if ($this->_processor->canProcessRequest($request)) {
+        if ($this->_processor->canProcessRequest($request) && $this->_processor->getRequestProcessor($request)) {
             Mage::app()->getCacheInstance()->banUse(Mage_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
         }
         $this->_getCookie()->updateCustomerCookies();

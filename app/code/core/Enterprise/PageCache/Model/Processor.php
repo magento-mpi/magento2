@@ -83,6 +83,12 @@ class Enterprise_PageCache_Model_Processor
     protected $_designExceptionExistsInCache = false;
 
     /**
+     * Request processor model
+     * @var mixed
+     */
+    protected $_requestProcessor = null;
+
+    /**
      * Class constructor
      */
     public function __construct()
@@ -552,28 +558,30 @@ class Enterprise_PageCache_Model_Processor
      */
     public function getRequestProcessor(Zend_Controller_Request_Http $request)
     {
-        $processor = false;
-        $configuration = Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
-        if ($configuration) {
-            $configuration = $configuration->asArray();
-        }
-        $module = $request->getModuleName();
-        if (isset($configuration[$module])) {
-            $model = $configuration[$module];
-            $controller = $request->getControllerName();
-            if (is_array($configuration[$module]) && isset($configuration[$module][$controller])) {
-                $model = $configuration[$module][$controller];
-                $action = $request->getActionName();
-                if (is_array($configuration[$module][$controller])
-                        && isset($configuration[$module][$controller][$action])) {
-                    $model = $configuration[$module][$controller][$action];
+        if ($this->_requestProcessor === null) {
+            $this->_requestProcessor = false;
+            $configuration = Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
+            if ($configuration) {
+                $configuration = $configuration->asArray();
+            }
+            $module = $request->getModuleName();
+            if (isset($configuration[$module])) {
+                $model = $configuration[$module];
+                $controller = $request->getControllerName();
+                if (is_array($configuration[$module]) && isset($configuration[$module][$controller])) {
+                    $model = $configuration[$module][$controller];
+                    $action = $request->getActionName();
+                    if (is_array($configuration[$module][$controller])
+                            && isset($configuration[$module][$controller][$action])) {
+                        $model = $configuration[$module][$controller][$action];
+                    }
+                }
+                if (is_string($model)) {
+                    $this->_requestProcessor = Mage::getModel($model);
                 }
             }
-            if (is_string($model)) {
-                $processor = Mage::getModel($model);
-            }
         }
-        return $processor;
+        return $this->_requestProcessor;
     }
 
     /**
