@@ -72,6 +72,7 @@ manage_products:
             invalid_qty: //div[@id='advice-validate-number-inventory_qty']
             incorrect_sku_length: //div[@id='advice-validate-ajax-sku']
             existing_sku: //div[@id='advice-validate-ajax-sku']
+            enter_valid_sort_order: "%fieldXpath%/following-sibling::*[text()='Please enter a number 0 or greater in this field.' and not(contains(@style,'display: none;'))]"
 
 # Settings for New Product creation
 new_product_settings:

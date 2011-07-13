@@ -179,7 +179,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                     if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
                         foreach ($productData[$arrayKey] as $key => $value) {
                             if (is_array($productData[$arrayKey][$key])) {
-                                $this->addBundelOption($productData[$arrayKey][$key]);
+                                $this->addBundleOption($productData[$arrayKey][$key]);
                             }
                         }
                         $this->fillForm($productData[$arrayKey], 'bundle_items');
@@ -332,11 +332,11 @@ class Product_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Add Bundel Option
+     * Add Bundle Option
      *
-     * @param array $bundelOptionData
+     * @param array $bundleOptionData
      */
-    public function addBundelOption(array $bundelOptionData)
+    public function addBundleOption(array $bundleOptionData)
     {
         $productSearch = array();
         $selectionSettings = array();
@@ -344,16 +344,16 @@ class Product_Helper extends Mage_Selenium_TestCase
         $optionsCount = $this->getXpathCount($fieldSetXpath . "//div[@class='option-box']");
         $this->addParameter('optionId', $optionsCount);
         $this->clickButton('add_new_option', FALSE);
-        $this->fillForm($bundelOptionData, 'bundle_items');
-        foreach ($bundelOptionData as $key => $value) {
-            if (preg_match('/^bundle_items_add_product/', $key) and is_array($bundelOptionData[$key])) {
-                $this->_prepareDataForSearch($bundelOptionData[$key]);
-                if (count($bundelOptionData[$key]) > 0) {
+        $this->fillForm($bundleOptionData, 'bundle_items');
+        foreach ($bundleOptionData as $key => $value) {
+            if (preg_match('/^bundle_items_add_product/', $key) and is_array($bundleOptionData[$key])) {
+                $this->_prepareDataForSearch($bundleOptionData[$key]);
+                if (count($bundleOptionData[$key]) > 0) {
                     $this->clickButton('add_selection', FALSE);
                     $this->pleaseWait();
                     $this->clickButton('reset_filter', FALSE);
                     $this->pleaseWait();
-                    foreach ($bundelOptionData[$key] as $k => $v) {
+                    foreach ($bundleOptionData[$key] as $k => $v) {
                         if (preg_match('/^bundle_items_/', $k)) {
                             if ($k == 'bundle_items_sku' or $k == 'bundle_items_name') {
                                 $this->addParameter('productSku', $v);
@@ -392,7 +392,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->fillTab($productData, 'prices');
         $this->fillTab($productData, 'meta_information');
         //@TODO Fill in Images Tab
-        if ($productType == 'simple' || $productType == 'virual') {
+        if ($productType == 'simple' || $productType == 'virtual') {
             $this->fillTab($productData, 'recurring_profile');
         }
         $this->fillTab($productData, 'design');
