@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -26,7 +25,6 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 /**
  * Creating Order for existing customer from customers' page
  *
@@ -36,27 +34,24 @@
  */
 class OrderFromCustomerPage_Test extends Mage_Selenium_TestCase
 {
-
-    /**
-     * Preconditions:
-     *
-     * Log in to Backend.
-     * 
-     */    
-    
+   /**
+    * Preconditions:
+    *
+    * Log in to Backend.
+    *
+    */
     public function setUpBeforeTests()
     {
         $this->windowMaximize();
         $this->loginAdminUser();
     }
-    
-    /**
-     * 
-     * Create products for testing.
-     * 
-     * Navigate to Manage Customers page.
-     * 
-     */    
+   /**
+    *
+    * Create products for testing.
+    *
+    * Navigate to Manage Customers page.
+    *
+    */
     protected function assertPreConditions()
     {
         $this->orderHelper()->createProducts('product_to_order1');
@@ -66,29 +61,24 @@ class OrderFromCustomerPage_Test extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
         $this->addParameter('shipMethod', 'Fixed');
     }
-    
-    
-    
-    /**
-     * Create order(all required fields are filled) for existing customer from customer's page.
-     *
-     * Steps:
-     *
-     * 1.Create new customer.
-     * 
-     * 2.Open customer's information page.
-     * 
-     * 3.Create order for existing customer.
-     *
-     * Expected result:
-     *
-     * Order is created for existing customer.
-     *
-     * Message "The order has been created." is displayed.
-     *
-     */
-    
- 
+   /**
+    * Create order(all required fields are filled) for existing customer from customer's page.
+    *
+    * Steps:
+    *
+    * 1.Create new customer.
+    *
+    * 2.Open customer's information page.
+    *
+    * 3.Create order for existing customer.
+    *
+    * Expected result:
+    *
+    * Order is created for existing customer.
+    *
+    * Message "The order has been created." is displayed.
+    *
+    */
     public function testCreateNewOrderWithRequiredFieldsExistCustomer()
     {
         //Creating customer
@@ -107,11 +97,13 @@ class OrderFromCustomerPage_Test extends Mage_Selenium_TestCase
         $this->assertTrue($this->clickButton('create_order', TRUE), 'Navigated to Create New Order page');
         $this->orderHelper()->defineId('create_order_for_existing_customer');
         $this->addParameter('storeName', 'Default Store View');
-        if (($this->checkCurrentPage('create_order_for_existing_customer') == TRUE) && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
+        if (($this->checkCurrentPage('create_order_for_existing_customer') == TRUE)
+                && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
                 $this->clickControl('radiobutton', 'choose_main_store', FALSE);
                 $this->pleaseWait();
         }
-        $customerAddress = array ('billing_address_choice' => 'Steven Stevenson, number 11 nothing, nowhere, 90232, Ukraine');
+        $customerAddress = array (
+            'billing_address_choice' => 'Steven Stevenson, number 11 nothing, nowhere, 90232, Ukraine');
         $this->fillForm($customerAddress, 'order_billing_address');
         //Add products to order
         $this->clickButton('add_products', FALSE);
@@ -122,7 +114,6 @@ class OrderFromCustomerPage_Test extends Mage_Selenium_TestCase
             $prodToAdd = array($key => $value);
             $this->searchAndChoose($prodToAdd, $fieldsetName);
         }
-
         $this->clickButton('add_selected_products_to_order', FALSE);
         $this->pleaseWait();
         $this->clickControl('radiobutton', 'check_money_order', FALSE);
@@ -144,5 +135,4 @@ class OrderFromCustomerPage_Test extends Mage_Selenium_TestCase
         $this->CustomerHelper()->openCustomer($searchData);
         $this->deleteElement('delete_customer', 'confirmation_for_delete');
     }
- 
 }
