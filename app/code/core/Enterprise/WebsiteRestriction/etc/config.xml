@@ -106,6 +106,7 @@
                         <paypal_ipn_standard/>
                         <paypal_ipn_express/>
                         <paypal_ipn_direct/>
+                        <paypal_ipn_index/>
                         <paypaluk_ipn_express/>
                         <paypaluk_ipn_direct/>
                         <googlecheckout_api_index/>
