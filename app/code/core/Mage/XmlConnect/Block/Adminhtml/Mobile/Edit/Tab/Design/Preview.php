@@ -44,7 +44,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Preview
         if (Mage::registry('current_app')) {
             $device = Mage::helper('xmlconnect')->getDeviceType();
             if (array_key_exists($device, Mage::helper('xmlconnect')->getSupportedDevices())) {
-                $template = 'xmlconnect/edit/tab/design/preview_' . strtolower($device) . '.phtml';
+                $template = 'edit/tab/design/preview_' . strtolower($device) . '.phtml';
             } else {
                 Mage::throwException(
                     $this->__('Device doesn\'t recognized. Unable to load a template.')

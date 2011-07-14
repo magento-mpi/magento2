@@ -985,7 +985,7 @@
 
     <adminhtml_sales_recurring_profile_view>
         <reference name="content">
-            <block type="sales/adminhtml_recurring_profile_view" name="sales.recurring.profile.view" template="widget/view/container.phtml">
+            <block type="sales/adminhtml_recurring_profile_view" name="sales.recurring.profile.view" template="Mage_Adminhtml::widget/view/container.phtml">
                 <action method="setDestElementId"><value>sales_recurring_profile_view</value></action>
             </block>
         </reference>
@@ -994,38 +994,38 @@
                 <action method="setDestElementId"><value>sales_recurring_profile_view</value></action>
                 <action method="setTitle" translate="value"><value>Recurring Profile View</value></action>
                 <action method="setId"><value>sales_recurring_profile_view_tabs</value></action>
-                <block type="sales/adminhtml_recurring_profile_view_tab_info" as="info_tab" name="sales.recurring.profile.tab.info" template="sales/recurring/profile/view.phtml">
-                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.general" as="general" template="sales/recurring/profile/view/info.phtml">
+                <block type="sales/adminhtml_recurring_profile_view_tab_info" as="info_tab" name="sales.recurring.profile.tab.info" template="recurring/profile/view.phtml">
+                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.general" as="general" template="recurring/profile/view/info.phtml">
                         <action method="prepareReferenceInfo"/>
                         <action method="addToParentGroup"><value>info_blocks_row_1</value></action>
                         <action method="setViewColumn"><value>1</value></action>
                         <action method="setViewLabel" translate="value"><value>Reference</value></action>
                     </block>
-                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.item" as="item" template="sales/recurring/profile/view/info.phtml">
+                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.item" as="item" template="recurring/profile/view/info.phtml">
                         <action method="prepareItemInfo"/>
                         <action method="addToParentGroup"><value>info_blocks_row_1</value></action>
                         <action method="setViewColumn"><value>2</value></action>
                         <action method="setViewLabel" translate="value"><value>Purchased Item</value></action>
                     </block>
-                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.schedule" as="profile" template="sales/recurring/profile/view/info.phtml">
+                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.schedule" as="profile" template="recurring/profile/view/info.phtml">
                         <action method="prepareScheduleInfo"/>
                         <action method="addToParentGroup"><value>info_blocks_row_2</value></action>
                         <action method="setViewColumn"><value>1</value></action>
                         <action method="setViewLabel" translate="value"><value>Profile Schedule</value></action>
                     </block>
-                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.fees" as="fees" template="sales/recurring/profile/view/info.phtml">
+                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.fees" as="fees" template="recurring/profile/view/info.phtml">
                         <action method="prepareFeesInfo"/>
                         <action method="addToParentGroup"><value>info_blocks_row_2</value></action>
                         <action method="setViewColumn"><value>2</value></action>
                         <action method="setViewLabel" translate="value"><value>Profile Payments</value></action>
                     </block>
-                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.billing" as="billing_address" template="sales/recurring/profile/view/info.phtml">
+                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.billing" as="billing_address" template="recurring/profile/view/info.phtml">
                         <action method="prepareAddressInfo"/>
                         <action method="addToParentGroup"><value>info_blocks_row_3</value></action>
                         <action method="setViewColumn"><value>1</value></action>
                         <action method="setViewLabel" translate="value"><value>Billing Address</value></action>
                     </block>
-                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.shipping" as="shipping_address" template="sales/recurring/profile/view/info.phtml">
+                    <block type="sales/recurring_profile_view" name="sales.recurring.profile.view.shipping" as="shipping_address" template="recurring/profile/view/info.phtml">
                         <action method="setAddressType"><value>shipping</value></action>
                         <action method="prepareAddressInfo"/>
                         <action method="addToParentGroup"><value>info_blocks_row_3</value></action>

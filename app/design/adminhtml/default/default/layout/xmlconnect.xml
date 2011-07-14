@@ -120,7 +120,7 @@
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_cache" name="mobile_edit_tab_cache"/>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_social" name="mobile_edit_tab_social" />
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_notification" name="mobile_edit_tab_notification">
-                    <block type="core/template" name="mobile_edit_tab_notification_helper" as="app_notification_helper" template="xmlconnect/mobile/notification_helper.phtml" />
+                    <block type="core/template" name="mobile_edit_tab_notification_helper" as="app_notification_helper" template="Mage_XmlConnect::mobile/notification_helper.phtml" />
                 </block>
 
                 <action method="addTab"><id>general_section</id><block>mobile_edit_tab_general</block></action>
@@ -175,7 +175,7 @@
     </adminhtml_mobile_history_grid>
 
     <adminhtml_mobile_template_preview>
-        <block type="core/template" name="root" output="toHtml" template="xmlconnect/template/preview.phtml">
+        <block type="core/template" name="root" output="toHtml" template="Mage_XmlConnect::template/preview.phtml">
             <block type="xmlconnect/adminhtml_template_preview" name="content" as="content"></block>
         </block>
     </adminhtml_mobile_template_preview>
