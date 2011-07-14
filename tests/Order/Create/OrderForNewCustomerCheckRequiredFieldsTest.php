@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -26,7 +25,6 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 /**
  * Creating order for new customer with one required field empty
  *
@@ -36,80 +34,75 @@
  */
 class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
 {
-
-    /**
-     * Preconditions:
-     *
-     * Log in to Backend.
-     * 
-     */    
-    
+   /**
+    * Preconditions:
+    *
+    * Log in to Backend.
+    *
+    */
     public function setUpBeforeTests()
     {
         $this->windowMaximize();
         $this->loginAdminUser();
     }
-    
-    /**
-     * 
-     * Creating products for testing.
-     * 
-     * Navigate to Sales-Orders page.
-     * 
-     */    
+   /**
+    *
+    * Creating products for testing.
+    *
+    * Navigate to Sales-Orders page.
+    *
+    */
     protected function assertPreConditions()
     {
         $this->orderHelper()->createProducts('product_to_order1');
-        $this->orderHelper()->createProducts('product_to_order2');     
+        $this->orderHelper()->createProducts('product_to_order2');
         $this->navigate('manage_sales_orders');
         $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
         $this->addParameter('id', '0');
         $this->addParameter('shipMethod', 'Fixed');
     }
-    
-    /**
-     * Create customer via 'Create order' form (required fields are not filled).
-     * 
-     *
-     * Steps:
-     *
-     * 1.Go to Sales-Orders.
-     *
-     * 2.Press "Create New Order" button.
-     * 
-     * 3.Press "Create New Customer" button.
-     *
-     * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
-     *
-     * 5.Fill all fields except one required.
-     * 
-     * 6.Press 'Add Products' button.
-     * 
-     * 7.Add first two products.
-     * 
-     * 8.Choose shipping address the same as billing.
-     * 
-     * 9.Check payment method 'Check / Money order'
-     * 
-     * 10.Choose first from 'Get shipping methods and rates'.
-     * 
-     * 11.Submit order.
-     *
-     * Expected result:
-     *
-     * New customer is not created. Order is not created for the new customer. Message with "Empty required field" appears.
-     *
-     * @dataProvider data_emptyFields
-     *
-     * @param array $emptyField
-     *
-     */    
+   /**
+    * Create customer via 'Create order' form (required fields are not filled).
+    *
+    *
+    * Steps:
+    *
+    * 1.Go to Sales-Orders.
+    *
+    * 2.Press "Create New Order" button.
+    *
+    * 3.Press "Create New Customer" button.
+    *
+    * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
+    *
+    * 5.Fill all fields except one required.
+    *
+    * 6.Press 'Add Products' button.
+    *
+    * 7.Add first two products.
+    *
+    * 8.Choose shipping address the same as billing.
+    *
+    * 9.Check payment method 'Check / Money order'
+    *
+    * 10.Choose first from 'Get shipping methods and rates'.
+    *
+    * 11.Submit order.
+    *
+    * Expected result:
+    *
+    * New customer is not created. Order is not created for the new customer. Message with "Empty required field" appears.
+    *
+    * @dataProvider data_emptyFields
+    *
+    * @param array $emptyField
+    *
+    */
     public function testOrderWithoutRequiredFieldsFilled($emptyField)
     {
-                
         //Data
         $data = $this->loadData(
-                        'new_customer_order_billing_address_reqfields',                
+                        'new_customer_order_billing_address_reqfields',
                         $emptyField
                 );
         //Filling customer's information, address
@@ -135,8 +128,6 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
         $this->pleaseWait();
         $this->clickButton('submit_order', FALSE);
         $this->waitForAjax();
-        
-        
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_billing_address');
         foreach ($emptyField as $key => $value) {
@@ -145,25 +136,18 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
             }
             if ($fieldSet->findField($key) != Null) {
                 $fieldXpath = $fieldSet->findField($key);
-                
             } else {
                 $fieldXpath = $fieldSet->findDropdown($key);
-                
             }
             if (preg_match('/street_address/', $key)) {
                 $fieldXpath .= "/ancestor::div[@class='multi-input']";
             }
             $this->addParameter('fieldXpath', $fieldXpath);
-            
         }   $this->addParameter('fieldXpath', $fieldXpath);
-         
         //Check if message appears.
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-
-      
     }
-    
     public function data_emptyFields()
     {
         return array(
@@ -186,5 +170,4 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
                             ))
         );
     }
-    
 }
