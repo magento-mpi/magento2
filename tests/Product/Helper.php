@@ -46,16 +46,14 @@ class Product_Helper extends Mage_Selenium_TestCase
     public function fillProductSettings($productData, $productType='simple')
     {
         $attributeSet = (isset($productData['product_attribute_set'])
-                            && $productData['product_attribute_set'] != '%noValue%')
-                        ? $productData['product_attribute_set']
-                        : null;
+                && $productData['product_attribute_set'] != '%noValue%') ? $productData['product_attribute_set'] : null;
 
         $attributeSetXpath = $this->_getControlXpath('dropdown', 'product_attribute_set');
         $productTypeXpath = $this->_getControlXpath('dropdown', 'product_type');
 
         if (!empty($attributeSet)) {
             $this->select($attributeSetXpath, 'label=' . $attributeSet);
-            $attributeSetID = $this->getValue($attributeSetXpath . "/option[text()='$attributeSet']");
+            $attributeSetID = $this->getValue($attributeSetXpath . '/option[text()=\'' . $attributeSet . '\']');
         } else {
             $attributeSetID = $this->getValue($attributeSetXpath . "/option[@selected='selected']");
         }
@@ -77,9 +75,8 @@ class Product_Helper extends Mage_Selenium_TestCase
         $productParameters = $this->_paramsHelper->getParameter('productParameters');
 
         $attributes = (isset($productData['configurable_attribute_title'])
-                            && $productData['configurable_attribute_title'] != '%noValue%')
-                        ? explode(',', $productData['configurable_attribute_title'])
-                        : null;
+                && $productData['configurable_attribute_title'] != '%noValue%') ? explode(',',
+                        $productData['configurable_attribute_title']) : null;
 
         if (!empty($attributes)) {
             $attributesId = array();
@@ -177,12 +174,15 @@ class Product_Helper extends Mage_Selenium_TestCase
                 case 'bundle_items':
                     $arrayKey = $tabName . '_data';
                     if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
+                        if (array_key_exists('ship_bundle_items', $productData[$arrayKey])) {
+                            $array['ship_bundle_items'] = $productData[$arrayKey]['ship_bundle_items'];
+                            $this->fillForm($array, 'bundle_items');
+                        }
                         foreach ($productData[$arrayKey] as $key => $value) {
                             if (is_array($productData[$arrayKey][$key])) {
                                 $this->addBundleOption($productData[$arrayKey][$key]);
                             }
                         }
-                        $this->fillForm($productData[$arrayKey], 'bundle_items');
                     }
                     break;
                 case 'associated_products':
