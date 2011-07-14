@@ -159,13 +159,13 @@ class Product_Create_Bundle_DynamicTest extends Mage_Selenium_TestCase
 //            array('general_short_description', 'field'),
 //            array('general_sku_type', 'dropdown'),
 //            array('general_sku', 'field'),
-////            array('general_weight_type', 'dropdown'),
-////            array('general_weight', 'field'),
-////            array('general_status', 'dropdown'),
-////            array('general_visibility', 'dropdown'),
-////            array('prices_price_type', 'dropdown'),
-////            array('prices_price', 'field'),
-////            array('prices_tax_class', 'dropdown'),
+//            array('general_weight_type', 'dropdown'),
+//            array('general_weight', 'field'),
+//            array('general_status', 'dropdown'),
+//            array('general_visibility', 'dropdown'),
+//            array('prices_price_type', 'dropdown'),
+//            array('prices_price', 'field'),
+//            array('prices_tax_class', 'dropdown'),
 //        );
 //    }
 //
@@ -502,6 +502,37 @@ class Product_Create_Bundle_DynamicTest extends Mage_Selenium_TestCase
         $this->addParameter('fieldXpath', $xpath);
         $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
 
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with invalid Bundle Items "Position"</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Bundle Items" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Fill in field "Position" with incorrect data;</p>
+     * <p>8. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider data_invalidData_NumericField
+     */
+    public function test_WithBundleItems_InvalidPosition($invalidPosition)
+    {
+        //Data
+        $productData = $this->loadData('bundle_dynamic_product_required', NULL, 'general_sku');
+        $productData['bundle_items_data']['bundle_items_1'] = $this->loadData('bundle_items_1',
+                        array('bundle_items_position' => $invalidPosition));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'bundle');
+        //Verifying
+        $xpath = $this->_getControlXpath('field', 'bundle_items_position');
+        $this->addParameter('fieldXpath', $xpath);
+        $this->assertTrue($this->validationMessage('enter_valid_sort_order'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 

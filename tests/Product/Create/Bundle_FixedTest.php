@@ -82,6 +82,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         return $productData;
     }
+
     /**
      * <p>Creating product with existing SKU</p>
      * <p>Steps:</p>
@@ -105,74 +106,74 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    /**
-     * <p>Creating product with empty required fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click "Add product" button;</p>
-     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Leave one required field empty and fill in the rest of fields;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>6. Verify error message;</p>
-     * <p>7. Repeat scenario for all required fields for both tabs;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
-     *
-     * @dataProvider data_EmptyField
-     */
-    public function test_WithRequiredFieldsEmpty($emptyField, $fieldType)
-    {
-        //Data
-        if ($emptyField == 'general_sku') {
-            $productData = $this->loadData('bundle_fixed_product_required',
-                            array($emptyField => '%noValue%'));
-        } elseif ($emptyField == 'general_visibility') {
-            $productData = $this->loadData('bundle_fixed_product_required',
-                            array($emptyField => '-- Please Select --'), 'general_sku');
-        } elseif ($emptyField == 'general_sku_type') {
-            $productData = $this->loadData('bundle_fixed_product_required',
-                    array($emptyField => '-- Select --'), 'general_sku');
-        }
-          elseif ($emptyField == 'general_weight_type') {
-            $productData = $this->loadData('bundle_fixed_product_required',
-                    array($emptyField => '-- Select --'), 'general_sku');
-        } else {
-            $productData = $this->loadData('bundle_fixed_product_required',
-                            array($emptyField => '%noValue%'), 'general_sku');
-        }
-        //Steps
-        print_r($productData);
-        print_r($emptyField);
-        $this->productHelper()->createProduct($productData, 'bundle');
-        //Verifying
-        if ($emptyField == 'general_sku_type') {
-            $fieldXpath = $this->_getControlXpath($fieldType, $emptyField);
-            $this->addParameter('fieldXpath', $fieldXpath);
-        }
-
-        $fieldXpath = $this->_getControlXpath($fieldType, $emptyField);
-        $this->addParameter('fieldXpath', $fieldXpath);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
-
-    }
-
-    public function data_EmptyField()
-    {
-        return array(
-            array('general_name', 'field'),
-            array('general_description', 'field'),
-            array('general_short_description', 'field'),
-            array('general_sku_type', 'dropdown'),
-            array('general_sku', 'field'),
-            array('general_weight', 'field'),
-            array('general_status', 'dropdown'),
-            array('general_visibility', 'dropdown'),
-            array('prices_price', 'field'),
-            array('prices_tax_class', 'dropdown'),
-            array('inventory_qty', 'field')
-        );
-    }
+//    /**
+//     * <p>Creating product with empty required fields</p>
+//     * <p>Steps:</p>
+//     * <p>1. Click "Add product" button;</p>
+//     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+//     * <p>3. Click "Continue" button;</p>
+//     * <p>4. Leave one required field empty and fill in the rest of fields;</p>
+//     * <p>5. Click "Save" button;</p>
+//     * <p>6. Verify error message;</p>
+//     * <p>7. Repeat scenario for all required fields for both tabs;</p>
+//     * <p>Expected result:</p>
+//     * <p>Product is not created, error message appears;</p>
+//     *
+//     * @dataProvider data_EmptyField
+//     */
+//    public function test_WithRequiredFieldsEmpty($emptyField, $fieldType)
+//    {
+//        //Data
+//        if ($emptyField == 'general_sku') {
+//            $productData = $this->loadData('bundle_fixed_product_required',
+//                            array($emptyField => '%noValue%'));
+//        } elseif ($emptyField == 'general_visibility') {
+//            $productData = $this->loadData('bundle_fixed_product_required',
+//                            array($emptyField => '-- Please Select --'), 'general_sku');
+//        } elseif ($emptyField == 'general_sku_type') {
+//            $productData = $this->loadData('bundle_fixed_product_required',
+//                    array($emptyField => '-- Select --'), 'general_sku');
+//        }
+//          elseif ($emptyField == 'general_weight_type') {
+//            $productData = $this->loadData('bundle_fixed_product_required',
+//                    array($emptyField => '-- Select --'), 'general_sku');
+//        } else {
+//            $productData = $this->loadData('bundle_fixed_product_required',
+//                            array($emptyField => '%noValue%'), 'general_sku');
+//        }
+//        //Steps
+//        print_r($productData);
+//        print_r($emptyField);
+//        $this->productHelper()->createProduct($productData, 'bundle');
+//        //Verifying
+//        if ($emptyField == 'general_sku_type') {
+//            $fieldXpath = $this->_getControlXpath($fieldType, $emptyField);
+//            $this->addParameter('fieldXpath', $fieldXpath);
+//        }
+//
+//        $fieldXpath = $this->_getControlXpath($fieldType, $emptyField);
+//        $this->addParameter('fieldXpath', $fieldXpath);
+//        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+//        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+//
+//    }
+//
+//    public function data_EmptyField()
+//    {
+//        return array(
+//            array('general_name', 'field'),
+//            array('general_description', 'field'),
+//            array('general_short_description', 'field'),
+//            array('general_sku_type', 'dropdown'),
+//            array('general_sku', 'field'),
+//            array('general_weight', 'field'),
+//            array('general_status', 'dropdown'),
+//            array('general_visibility', 'dropdown'),
+//            array('prices_price', 'field'),
+//            array('prices_tax_class', 'dropdown'),
+//            array('inventory_qty', 'field')
+//        );
+//    }
 
     /**
      * <p>Creating product with special characters into required fields</p>
@@ -192,10 +193,10 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('bundle_fixed_product_required',
                         array(
-                            'general_name'              => $this->generate('string', 32, ':punct:'),
-                            'general_description'       => $this->generate('string', 32, ':punct:'),
-                            'general_short_description' => $this->generate('string', 32, ':punct:'),
-                            'general_sku'               => $this->generate('string', 32, ':punct:')
+                    'general_name' => $this->generate('string', 32, ':punct:'),
+                    'general_description' => $this->generate('string', 32, ':punct:'),
+                    'general_short_description' => $this->generate('string', 32, ':punct:'),
+                    'general_sku' => $this->generate('string', 32, ':punct:')
                 ));
         $productSearch = $this->loadData('product_search',
                         array('general_sku' => $productData['general_sku']));
@@ -210,7 +211,8 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
     }
-        /**
+
+    /**
      * <p>Creating product with long values from required fields</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
@@ -228,11 +230,11 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('bundle_fixed_product_required',
                         array(
-                            'general_name'              => $this->generate('string', 255, ':alnum:'),
-                            'general_description'       => $this->generate('string', 255, ':alnum:'),
-                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
-                            'general_sku'               => $this->generate('string', 64, ':alnum:'),
-                            'general_weight'            => 99999999.9999
+                    'general_name' => $this->generate('string', 255, ':alnum:'),
+                    'general_description' => $this->generate('string', 255, ':alnum:'),
+                    'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                    'general_sku' => $this->generate('string', 64, ':alnum:'),
+                    'general_weight' => 99999999.9999
                 ));
         $productSearch = $this->loadData('product_search',
                         array('general_sku' => $productData['general_sku']));
@@ -247,6 +249,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
     }
+
     /**
      * <p>Creating product with SKU length more than 64 characters.</p>
      * <p>Steps</p>
@@ -271,6 +274,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->validationMessage('incorrect_sku_length'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
+
     /**
      * <p>Creating product with invalid weight</p>
      * <p>Steps</p>
@@ -292,8 +296,8 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
                         array('general_name', 'general_sku'));
         $productSearch = $this->loadData('product_search',
                         array(
-                            'general_sku'  => $productData['general_sku'],
-                            'general_name' => $productData['general_name']
+                    'general_sku' => $productData['general_sku'],
+                    'general_name' => $productData['general_name']
                 ));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
@@ -308,6 +312,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         $weightValue = $this->getValue($xpath);
         $this->assertEquals(0.0000, $weightValue, 'The product weight should be 0.0000');
     }
+
     /**
      * <p>Creating product with invalid price</p>
      * <p>Steps</p>
@@ -333,6 +338,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->validationMessage('invalid_price'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
+
     /**
      * @TODO
      */
@@ -340,6 +346,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
     {
         // @TODO
     }
+
     /**
      * <p>Creating product with empty custom options</p>
      * <p>Steps</p>
@@ -383,6 +390,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
             array('custom_options_general_input_type')
         );
     }
+
     /**
      * <p>Creating product with invalid custom options</p>
      * <p>Steps</p>
@@ -412,6 +420,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
+
     /**
      * @TODO
      */
@@ -419,6 +428,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
     {
         // @TODO
     }
+
     /**
      * <p>Creating product with invalid special price</p>
      * <p>Steps</p>
@@ -444,6 +454,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->validationMessage('invalid_special_price'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
+
     /**
      * <p>Creating product with empty tier price</p>
      * <p>Steps<p>
@@ -481,6 +492,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
             array('prices_tier_price_price'),
         );
     }
+
     /**
      * <p>Creating product with invalid Tier Price Data</p>
      * <p>Steps</p>
@@ -515,6 +527,7 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         }
         $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
     }
+
     /**
      * <p>Creating product with empty Bundle Items fields</p>
      * <p>Steps</p>
@@ -547,6 +560,36 @@ class Product_Create_Bundle_FixedTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
+    /**
+     * <p>Creating product with invalid Bundle Items "Position"</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Bundle Items" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Fill in field "Position" with incorrect data;</p>
+     * <p>8. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider data_invalidData_NumericField
+     */
+    public function test_WithBundleItems_InvalidPosition($invalidPosition)
+    {
+        //Data
+        $productData = $this->loadData('bundle_fixed_product_required', NULL, 'general_sku');
+        $productData['bundle_items_data']['bundle_items_1'] = $this->loadData('bundle_items_1',
+                        array('bundle_items_position' => $invalidPosition));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'bundle');
+        //Verifying
+        $xpath = $this->_getControlXpath('field', 'bundle_items_position');
+        $this->addParameter('fieldXpath', $xpath);
+        $this->assertTrue($this->validationMessage('enter_valid_sort_order'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
 
     public function data_invalidData_NumericField()
     {
