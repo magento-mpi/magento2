@@ -324,8 +324,6 @@ class Maged_Model_Connect extends Maged_Model
     public function installPackage($id, $force=false)
     {
         $match = array();
-        //if (!preg_match('#^([^ ]+) ([^-]+)(-[^-]+)?$#', $id, $match)) {// there is bug? space not used as separator "/" must be there. Version number part (-[^-]+) may be optional?
-        //if (!preg_match('#^([^\/]+)\/([^-]+)?$#', $id, $match)&&!preg_match('#^([^ ]+)\/([^-]+)(-[^-]+)?$#', $id, $match)&&!preg_match('#^([^ ]+) ([^-]+)(-[^-]+)?$#', $id, $match)) {
         if (!preg_match('#^([^ ]+)\/([^-]+)(-[^-]+)?$#', $id, $match)) {
             $this->connect()->runHtmlConsole('Invalid package identifier provided: '.$id);
             exit;
@@ -470,7 +468,11 @@ class Maged_Model_Connect extends Maged_Model
             $configObj->global_dir_mode = octdec(intval($p['mkdir_mode']));
             $configObj->global_file_mode = octdec(intval($p['chmod_file_mode']));
         }
-        $this->controller()->session()->addMessage('success', 'Settings has been successfully saved');
+        if ($configObj->save()) {
+            $this->controller()->session()->addMessage('success', 'Settings has been successfully saved');
+        } else {
+            $this->controller()->session()->addMessage('error', 'Settings cannot be saved');
+        }
         return $this;
     }
 
