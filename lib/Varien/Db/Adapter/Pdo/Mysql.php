@@ -1089,7 +1089,9 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                     }
                 }
 
-                $this->modifyColumn($table, $column, $columnDefinition);
+                if ($this->tableColumnExists($table, $column)) {
+                    $this->modifyColumn($table, $column, $columnDefinition);
+                }
 
                 foreach ($droppedKeys as $options) {
                     unset($columnDefinition['identity'], $columnDefinition['primary'], $columnDefinition['comment']);
