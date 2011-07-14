@@ -56,7 +56,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_allowedHashKeys = array('rma_id', 'track_id');
 
     /**
-     * Checks whether RMA module is enabled in system config
+     * Checks whether RMA module is enabled for frontend in system config
      *
      * @return bool
      */
@@ -69,7 +69,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      * Checks for ability to create RMA
      *
      * @param  int|Mage_Sales_Model_Order $order
-     * @param  bool $forceCreate
+     * @param  bool $forceCreate - set yes when you don't need to check config setting (for admin side)
      * @return bool
      */
     public function canCreateRma($order, $forceCreate = false)
