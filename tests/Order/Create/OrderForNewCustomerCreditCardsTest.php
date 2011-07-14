@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -26,7 +25,6 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 /**
  * Creating order for new customer with one required field empty
  *
@@ -36,27 +34,24 @@
  */
 class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
 {
-
-    /**
-     * Preconditions:
-     *
-     * Log in to Backend.
-     * 
-     */    
-    
+   /**
+    * Preconditions:
+    *
+    * Log in to Backend.
+    *
+    */
     public function setUpBeforeTests()
     {
         $this->windowMaximize();
         $this->loginAdminUser();
     }
-    
-    /**
-     * 
-     * Create products for testing.
-     * 
-     * Navigate to Sales-Orders page.
-     * 
-     */    
+   /**
+    *
+    * Create products for testing.
+    *
+    * Navigate to Sales-Orders page.
+    *
+    */
     protected function assertPreConditions()
     {
         $this->orderHelper()->createProducts('product_to_order1');
@@ -66,46 +61,45 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
         $this->addParameter('shipMethod', 'Fixed');
     }
-    
-    /**
-     * Create customer via 'Create order' form (required fields are filled). American Express credit card.
-     * 
-     *
-     * Steps:
-     *
-     * 1.Go to Sales-Orders.
-     *
-     * 2.Press "Create New Order" button.
-     * 
-     * 3.Press "Create New Customer" button.
-     *
-     * 4.Choose 'Main Store' (First from the list of radiobuttons).
-     *
-     * 5.Fill all fields.
-     * 
-     * 6.Press 'Add Products' button.
-     * 
-     * 7.Add first two products (select third options for second product).
-     * 
-     * 8.Choose shipping address the same as billing.
-     * 
-     * 9.Check payment method 'Credit Card - American Express'
-     * 
-     * 10. Fill in all required fields.
-     * 
-     * 11.Choose first from 'Get shipping methods and rates'.
-     * 
-     * 12.Submit order.
-     * 
-     * 13.Invoice order.
-     * 
-     * 14. Ship order.
-     *
-     * Expected result:
-     *
-     * New customer is created. Order is created for the new customer.
-     *
-     */    
+   /**
+    * Create customer via 'Create order' form (required fields are filled). American Express credit card.
+    *
+    *
+    * Steps:
+    *
+    * 1.Go to Sales-Orders.
+    *
+    * 2.Press "Create New Order" button.
+    *
+    * 3.Press "Create New Customer" button.
+    *
+    * 4.Choose 'Main Store' (First from the list of radiobuttons).
+    *
+    * 5.Fill all fields.
+    *
+    * 6.Press 'Add Products' button.
+    *
+    * 7.Add first two products (select third options for second product).
+    *
+    * 8.Choose shipping address the same as billing.
+    *
+    * 9.Check payment method 'Credit Card - American Express'
+    *
+    * 10. Fill in all required fields.
+    *
+    * 11.Choose first from 'Get shipping methods and rates'.
+    *
+    * 12.Submit order.
+    *
+    * 13.Invoice order.
+    *
+    * 14. Ship order.
+    *
+    * Expected result:
+    *
+    * New customer is created. Order is created for the new customer.
+    *
+    */
     public function testOrderWithCreditCardAmericanExpress()
     {
         //Data
@@ -136,47 +130,45 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->clickButton('submit_order', TRUE);
         $this->assertTrue($this->orderHelper()->defineId('view_order'));
     }
-
-   /**
-     * Create customer via 'Create order' form (required fields are filled). Visa credit card.
-     * 
-     *
-     * Steps:
-     *
-     * 1.Go to Sales-Orders.
-     *
-     * 2.Press "Create New Order" button.
-     * 
-     * 3.Press "Create New Customer" button.
-     *
-     * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
-     *
-     * 5.Fill all fields.
-     * 
-     * 6.Press 'Add Products' button.
-     * 
-     * 7.Add first two products.
-     * 
-     * 8.Choose shipping address the same as billing.
-     * 
-     * 9.Check payment method 'Credit Card - Visa'
-     * 
-     * 10. Fill in all required fields.
-     * 
-     * 11.Choose first from 'Get shipping methods and rates'.
-     * 
-     * 12.Submit order.
-     * 
-     * 13.Invoice order.
-     * 
-     * 14. Ship order.
-     *
-     * Expected result:
-     *
-     * New customer is created. Order is created for the new customer.
-     *
-     */    
-
+  /**
+    * Create customer via 'Create order' form (required fields are filled). Visa credit card.
+    *
+    *
+    * Steps:
+    *
+    * 1.Go to Sales-Orders.
+    *
+    * 2.Press "Create New Order" button.
+    *
+    * 3.Press "Create New Customer" button.
+    *
+    * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
+    *
+    * 5.Fill all fields.
+    *
+    * 6.Press 'Add Products' button.
+    *
+    * 7.Add first two products.
+    *
+    * 8.Choose shipping address the same as billing.
+    *
+    * 9.Check payment method 'Credit Card - Visa'
+    *
+    * 10. Fill in all required fields.
+    *
+    * 11.Choose first from 'Get shipping methods and rates'.
+    *
+    * 12.Submit order.
+    *
+    * 13.Invoice order.
+    *
+    * 14. Ship order.
+    *
+    * Expected result:
+    *
+    * New customer is created. Order is created for the new customer.
+    *
+    */
     public function testOrderWithCreditCardVisa()
     {
         //Data
@@ -207,47 +199,45 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->clickButton('submit_order', TRUE);
         $this->assertTrue($this->orderHelper()->defineId('view_order'));
     }
-
-   /**
-     * Create customer via 'Create order' form (required fields are filled). MasterCard credit card.
-     * 
-     *
-     * Steps:
-     *
-     * 1.Go to Sales-Orders.
-     *
-     * 2.Press "Create New Order" button.
-     * 
-     * 3.Press "Create New Customer" button.
-     *
-     * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
-     *
-     * 5.Fill all fields.
-     * 
-     * 6.Press 'Add Products' button.
-     * 
-     * 7.Add first two products.
-     * 
-     * 8.Choose shipping address the same as billing.
-     * 
-     * 9.Check payment method 'Credit Card - MasterCard'
-     * 
-     * 10. Fill in all required fields.
-     * 
-     * 11.Choose first from 'Get shipping methods and rates'.
-     * 
-     * 12.Submit order.
-     * 
-     * 13.Invoice order.
-     * 
-     * 14. Ship order.
-     *
-     * Expected result:
-     *
-     * New customer is created. Order is created for the new customer.
-     *
-     */    
-
+  /**
+    * Create customer via 'Create order' form (required fields are filled). MasterCard credit card.
+    *
+    *
+    * Steps:
+    *
+    * 1.Go to Sales-Orders.
+    *
+    * 2.Press "Create New Order" button.
+    *
+    * 3.Press "Create New Customer" button.
+    *
+    * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
+    *
+    * 5.Fill all fields.
+    *
+    * 6.Press 'Add Products' button.
+    *
+    * 7.Add first two products.
+    *
+    * 8.Choose shipping address the same as billing.
+    *
+    * 9.Check payment method 'Credit Card - MasterCard'
+    *
+    * 10. Fill in all required fields.
+    *
+    * 11.Choose first from 'Get shipping methods and rates'.
+    *
+    * 12.Submit order.
+    *
+    * 13.Invoice order.
+    *
+    * 14. Ship order.
+    *
+    * Expected result:
+    *
+    * New customer is created. Order is created for the new customer.
+    *
+    */
     public function testOrderWithCreditCardMastercard()
     {
         //Data
@@ -278,47 +268,45 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->clickButton('submit_order', TRUE);
         $this->assertTrue($this->orderHelper()->defineId('view_order'));
     }
-
-   /**
-     * Create customer via 'Create order' form (required fields are filled). Discover credit card.
-     * 
-     *
-     * Steps:
-     *
-     * 1.Go to Sales-Orders.
-     *
-     * 2.Press "Create New Order" button.
-     * 
-     * 3.Press "Create New Customer" button.
-     *
-     * 4.Choose 'Main Store' (First from the list of radiobuttons).
-     *
-     * 5.Fill all fields.
-     * 
-     * 6.Press 'Add Products' button.
-     * 
-     * 7.Add first two products (select third options for second product).
-     * 
-     * 8.Choose shipping address the same as billing.
-     * 
-     * 9.Check payment method 'Credit Card - Discover'
-     * 
-     * 10. Fill in all required fields.
-     * 
-     * 11.Choose first from 'Get shipping methods and rates'.
-     * 
-     * 12.Submit order.
-     * 
-     * 13.Invoice order.
-     * 
-     * 14. Ship order.
-     *
-     * Expected result:
-     *
-     * New customer is created. Order is created for the new customer.
-     *
-     */    
-
+  /**
+    * Create customer via 'Create order' form (required fields are filled). Discover credit card.
+    *
+    *
+    * Steps:
+    *
+    * 1.Go to Sales-Orders.
+    *
+    * 2.Press "Create New Order" button.
+    *
+    * 3.Press "Create New Customer" button.
+    *
+    * 4.Choose 'Main Store' (First from the list of radiobuttons).
+    *
+    * 5.Fill all fields.
+    *
+    * 6.Press 'Add Products' button.
+    *
+    * 7.Add first two products (select third options for second product).
+    *
+    * 8.Choose shipping address the same as billing.
+    *
+    * 9.Check payment method 'Credit Card - Discover'
+    *
+    * 10. Fill in all required fields.
+    *
+    * 11.Choose first from 'Get shipping methods and rates'.
+    *
+    * 12.Submit order.
+    *
+    * 13.Invoice order.
+    *
+    * 14. Ship order.
+    *
+    * Expected result:
+    *
+    * New customer is created. Order is created for the new customer.
+    *
+    */
     public function testOrderWithCreditCardDiscover()
     {
         //Data
