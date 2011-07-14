@@ -204,12 +204,8 @@ manage_sales_transactions:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
-#                           export: //button[span='Export']
-#                           submit: //button[span='Submit']
                         dropdowns:
                             view_per_page: //select[@name='limit']
-#                           export_to: //select[@id='order_transactions_export']
-#                           actions: //select[@id='order_transactions_massaction-select']
                             filter_payment_method_name: //select[@id='filter_method']
                             filter_transaction_type: //select[@id='filter_txn_type']
                             filter_is_closed: //select[@id='filter_is_closed']
@@ -238,12 +234,8 @@ manage_sales_recurring_profile:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
-#                           export: //button[span='Export']
-#                           submit: //button[span='Submit']
                         dropdowns:
                             view_per_page: //select[@name='limit']
-#                           export_to: //select[@id='order_transactions_export']
-#                           actions: //select[@id='order_transactions_massaction-select']
                             filter_store: //select[@name='store_id']
                             filter_profile_state: //select[@name='state']
                             filter_payment_method: //select[@id='filter_method_code']
@@ -271,12 +263,8 @@ manage_sales_billing_agreements:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
-#                           export: //button[span='Export']
-#                           submit: //button[span='Submit']
                         dropdowns:
                             view_per_page: //select[@name='limit']
-#                           export_to: //select[@id='order_transactions_export']
-#                           actions: //select[@id='order_transactions_massaction-select']
                             filter_payment_method: //select[@id='filter_method_code']
                             filter_status: //select[@name='status']
                         fields:
@@ -306,12 +294,8 @@ manage_sales_oscommerce_orders:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
-#                           export: //button[span='Export']
-#                           submit: //button[span='Submit']
                         dropdowns:
                             view_per_page: //select[@name='limit']
-#                           export_to: //select[@id='order_transactions_export']
-#                           actions: //select[@id='order_transactions_massaction-select']
                         fields:
                             page: //input[@name='page']
                             filter_order_from: //input[@name='order_id[from]']
@@ -340,14 +324,10 @@ manage_sales_checkout_terms_conditions:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
-#                           export: //button[span='Export']
-#                           submit: //button[span='Submit']
                         dropdowns:
                             view_per_page: //select[@name='limit']
                             filter_store_view: //select[@name='store_id']
                             filter_is_active: //select[@name='is_active']
-#                           export_to: //select[@id='order_transactions_export']
-#                           actions: //select[@id='order_transactions_massaction-select']
                         fields:
                             page: //input[@name='page']
                             filter_agreement_id: //input[@name='agreement_id']
