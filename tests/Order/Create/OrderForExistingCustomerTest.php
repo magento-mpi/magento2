@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -26,7 +25,6 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 /**
  * Creating Order for existing customer
  *
@@ -36,61 +34,50 @@
  */
 class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
 {
-
-    /**
-     * Preconditions:
-     *
-     * Log in to Backend.
-     * 
-     */    
-    
+   /**
+    * Preconditions:
+    *
+    * Log in to Backend.
+    */
     public function setUpBeforeTests()
     {
         $this->windowMaximize();
         $this->loginAdminUser();
-        
     }
-    
-    /**
-     * 
-     * Create Products for testing.
-     * Navigate to Manage Customers page.
-     * 
-     */    
+   /**
+    *
+    * Create Products for testing.
+    * Navigate to Manage Customers page.
+    *
+    */
     protected function assertPreConditions()
     {
         $this->orderHelper()->createProducts('product_to_order1');
         $this->orderHelper()->createProducts('product_to_order2');
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'),
+                'Wrong page is opened');
         $this->addParameter('id', '0');
         $this->addParameter('shipMethod', 'Fixed');
-
     }
-    
-    
-    
-    /**
-     * Create order(all required fields are filled) for existing customer.
-     *
-     * Steps:
-     *
-     * 1. Create new customer.
-     * 
-     * 2. Navigate to Sales-Orders.
-     * 
-     * 3. Create order for existing customer.
-     *
-     * Expected result:
-     *
-     * Order is created for existing customer.
-     *
-     * Message "The order has been created." is displayed.
-     *
-     */
-    
-
-    
+   /**
+    * Create order(all required fields are filled) for existing customer.
+    *
+    * Steps:
+    *
+    * 1. Create new customer.
+    *
+    * 2. Navigate to Sales-Orders.
+    *
+    * 3. Create order for existing customer.
+    *
+    * Expected result:
+    *
+    * Order is created for existing customer.
+    *
+    * Message "The order has been created." is displayed.
+    *
+    */
     public function testCreateNewOrderWithRequiredFieldsExistCustomer()
     {
         $userData = $this->loadData('new_customer');
@@ -108,12 +95,14 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
         $this->searchAndOpen($searchData, FALSE);
         $this->waitForAjax();
         $this->addParameter('storeName', 'Default Store View');
-        if (($this->checkCurrentPage('create_order_for_new_customer') == TRUE) && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
+        if (($this->checkCurrentPage('create_order_for_new_customer') == TRUE)
+                && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
                 $this->clickControl('radiobutton', 'choose_main_store', FALSE);
                 $this->pleaseWait();
         }
-        
-        $customerAddress = array ('billing_address_choice' => 'Steven Stevenson, number 11 nothing, nowhere, 90232, Ukraine', 'email' => 'test_purpose@gmail.com');
+        $customerAddress = array ('billing_address_choice'
+            => 'Steven Stevenson, number 11 nothing, nowhere, 90232, Ukraine',
+            'email' => 'test_purpose@gmail.com');
         $this->fillForm($customerAddress, 'order_billing_address');
         //Add products to order
         $this->clickButton('add_products', FALSE);
@@ -147,5 +136,4 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
         $this->CustomerHelper()->openCustomer($searchData);
         $this->deleteElement('delete_customer', 'confirmation_for_delete');
     }
-     
 }
