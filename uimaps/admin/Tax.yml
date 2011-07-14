@@ -252,6 +252,30 @@ edit_tax_rate:
             error_delete_tax_rate: //div[@id='messages']//li[span='Tax rate cannot be removed. It exists in tax rule']
             # TODO
 
+#Import/Export Tax Rates
+manage_import_export_tax_rates:
+    mca: tax_rate/importExport/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rate/import')]
+    title: Import and Export Tax Rates / Manage Tax Zones and Rates / Tax / Sales / Magento Admin
+    uimap:
+        form: &salesImportExportTaxRates
+            fieldsets:
+                -
+                    sales_tax_import_tax_reates:
+                        xpath: //div[@class='entry-edit']/div[@class='box-left']
+                        buttons:
+                            import_tax_rates: //button[span='Import Tax Rates']
+                        fields:
+                            import: //input[@name='import_rates_file']
+                -
+                    sales_tax_export_tax_reates:
+                        xpath: //div[@class='entry-edit']/div[@class='box-right']
+                        buttons:
+                            export_tax_rates: //button[span='Export Tax Rates']
+        messages:
+            invalid_file_upload_attempt: //li[normalize-space(@class)='error-msg' and contains(.//span,'Invalid file upload attempt')]
+            invalid_file_format_upload_attempt: //li[normalize-space(@class)='error-msg' and contains(.//span,'Invalid file format upload attempt')]
+
 # Manage Tax Rules and related pages
 # Manage Tax Rules page
 manage_tax_rule:
@@ -268,16 +292,19 @@ manage_tax_rule:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         dropdowns:
+                            view_per_page: //select[@name='limit']
                             customer_tax_class: //select[@id='filter_customer_tax_classes']
                             product_tax_class: //select[@id='filter_product_tax_classes']
                             tax_rate: //select[@id='filter_tax_rates']
                         fields:
+                            page: //input[@name='page']
                             name: //input[@id='filter_code']
                             priority: //input[@id='filter_priority']
                             sort_order: //input[@id='filter_position']
         buttons:
             add_new_tax_rule: //button[span='Add New Tax Rule']
         messages:
+            tax_rule_saved: //li[normalize-space(@class)='success-msg' and contains(.//span,'The tax rule has been saved.')]
             # TODO
 
 # Add New Tax Rule page
@@ -305,6 +332,8 @@ create_tax_rule:
             save_rule: //button[span='Save Rule']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages:
+            code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.//span,'Code already exists.')]
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             # TODO
 
 # Edit Tax Rule page
