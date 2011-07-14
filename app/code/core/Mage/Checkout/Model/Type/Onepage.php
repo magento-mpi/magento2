@@ -266,6 +266,12 @@ class Mage_Checkout_Model_Type_Onepage
                 return array('error' => 1, 'message' => $addressErrors);
             }
             $addressForm->compactData($addressData);
+            //unset billing address attributes which were not shown in form
+            foreach ($addressForm->getAttributes() as $attribute) {
+                if (!isset($data[$attribute->getAttributeCode()])) {
+                    $address->setData($attribute->getAttributeCode(), NULL);
+                }
+            }
 
             // Additional form data, not fetched by extractData (as it fetches only attributes)
             $address->setSaveInAddressBook(empty($data['save_in_address_book']) ? 0 : 1);
@@ -512,6 +518,12 @@ class Mage_Checkout_Model_Type_Onepage
                 return array('error' => 1, 'message' => $addressErrors);
             }
             $addressForm->compactData($addressData);
+            // unset shipping address attributes which were not shown in form
+            foreach ($addressForm->getAttributes() as $attribute) {
+                if (!isset($data[$attribute->getAttributeCode()])) {
+                    $address->setData($attribute->getAttributeCode(), NULL);
+                }
+            }
 
             // Additional form data, not fetched by extractData (as it fetches only attributes)
             $address->setSaveInAddressBook(empty($data['save_in_address_book']) ? 0 : 1);
@@ -678,7 +690,8 @@ class Mage_Checkout_Model_Type_Onepage
             $customer->addAddress($customerBilling);
             $billing->setCustomerAddress($customerBilling);
         }
-        if ($shipping && !$shipping->getSameAsBilling() && (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())) {
+        if ($shipping && !$shipping->getSameAsBilling() &&
+            (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())) {
             $customerShipping = $shipping->exportCustomerAddress();
             $customer->addAddress($customerShipping);
             $shipping->setCustomerAddress($customerShipping);
@@ -755,7 +768,8 @@ class Mage_Checkout_Model_Type_Onepage
 
         $order = $service->getOrder();
         if ($order) {
-            Mage::dispatchEvent('checkout_type_onepage_save_order_after', array('order'=>$order, 'quote'=>$this->getQuote()));
+            Mage::dispatchEvent('checkout_type_onepage_save_order_after',
+                array('order'=>$order, 'quote'=>$this->getQuote()));
 
             /**
              * a flag to set that there will be redirect to third party after confirmation
@@ -968,7 +982,8 @@ class Mage_Checkout_Model_Type_Onepage
 //                $customer->setDefaultBilling($customerBilling->getId());
 //                $changed = true;
 //            }
-//            if (!$this->getQuote()->isVirtual() && isset($customerBilling) && !$customer->getDefaultShipping() && $shipping->getSameAsBilling()) {
+//            if (!$this->getQuote()->isVirtual() && isset($customerBilling) &&
+//                !$customer->getDefaultShipping() && $shipping->getSameAsBilling()) {
 //                $customer->setDefaultShipping($customerBilling->getId());
 //                $changed = true;
 //            }
@@ -1064,7 +1079,8 @@ class Mage_Checkout_Model_Type_Onepage
 //
 //        $order->save();
 //
-//        Mage::dispatchEvent('checkout_type_onepage_save_order_after', array('order'=>$order, 'quote'=>$this->getQuote()));
+//        Mage::dispatchEvent('checkout_type_onepage_save_order_after',
+//            array('order'=>$order, 'quote'=>$this->getQuote()));
 //
 //        /**
 //         * need to have somelogic to set order as new status to make sure order is not finished yet
