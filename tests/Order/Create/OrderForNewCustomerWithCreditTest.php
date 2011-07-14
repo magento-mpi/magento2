@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento
  *
@@ -26,7 +25,6 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 /**
  * Creating order for new customer with credit
  *
@@ -36,27 +34,24 @@
  */
 class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
 {
-
-    /**
-     * Preconditions:
-     *
-     * Log in to Backend.
-     * 
-     */    
-    
+   /**
+    * Preconditions:
+    *
+    * Log in to Backend.
+    *
+    */
     public function setUpBeforeTests()
     {
         $this->windowMaximize();
         $this->loginAdminUser();
     }
-    
-    /**
-     * 
-     * Create products for testing.
-     * 
-     * Navigate to Sales-Orders page.
-     * 
-     */    
+   /**
+    *
+    * Create products for testing.
+    *
+    * Navigate to Sales-Orders page.
+    *
+    */
     protected function assertPreConditions()
     {
         $this->orderHelper()->createProducts('product_to_order1');
@@ -65,52 +60,50 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
         $this->addParameter('id', '0');
         $this->addParameter('shipMethod', 'Fixed');
-
     }
-    
-    /**
-     * Create customer via 'Create order' form (all fields are filled with spec sym).
-     * Create order(all fields are filled).
-     *
-     * Steps:
-     *
-     * 1.Go to Sales-Orders.
-     *
-     * 2.Press "Create New Order" button.
-     * 
-     * 3.Press "Create New Customer" button.
-     *
-     * 4.Choose 'Main Store' (First from the list of radiobuttons).
-     *
-     * 5.Fill all fields.
-     * 
-     * 6.Press 'Add Products' button.
-     * 
-     * 7.Add first two products (select third options for second product).
-     * 
-     * 8.Choose shipping address the same as billing.
-     * 
-     * 9.Check payment method 'Check / Money order'
-     * 
-     * 10.Choose first from 'Get shipping methods and rates'.
-     * 
-     * 11.Submit order.
-     * 
-     * 12.Invoice order.
-     * 
-     * 13. Ship order.
-     *
-     * Expected result:
-     *
-     * New customer successfully created. Order is created for the new customer, invoiced and shipped.
-     *
-     *
-     */    
+   /**
+    * Create customer via 'Create order' form (all fields are filled with spec sym).
+    * Create order(all fields are filled).
+    *
+    * Steps:
+    *
+    * 1.Go to Sales-Orders.
+    *
+    * 2.Press "Create New Order" button.
+    *
+    * 3.Press "Create New Customer" button.
+    *
+    * 4.Choose 'Main Store' (First from the list of radiobuttons).
+    *
+    * 5.Fill all fields.
+    *
+    * 6.Press 'Add Products' button.
+    *
+    * 7.Add first two products (select third options for second product).
+    *
+    * 8.Choose shipping address the same as billing.
+    *
+    * 9.Check payment method 'Check / Money order'
+    *
+    * 10.Choose first from 'Get shipping methods and rates'.
+    *
+    * 11.Submit order.
+    *
+    * 12.Invoice order.
+    *
+    * 13. Ship order.
+    *
+    * Expected result:
+    *
+    * New customer successfully created. Order is created for the new customer, invoiced and shipped.
+    *
+    *
+    */
     public function testOrderCreditSpecialCharacters()
     {
         //Data
         $data = $this->loadData(
-                        'new_customer_order_billing_address_allfields',                
+                        'new_customer_order_billing_address_allfields',
                         array(
                             'billing_prefix'  => $this->generate('string', 32, ':punct:'),
                             'billing_first_name'     => $this->generate('string', 32, ':punct:'),
@@ -157,50 +150,49 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $this->clickButton('refund_offline', TRUE);
         $this->assertTrue($this->orderHelper()->defineId('view_order'));
     }
-
-    /**
-     * Create customer via 'Create order' form (all fields are filled with correct data).
-     * Create order(all fields are filled).
-     *
-     * Steps:
-     *
-     * 1.Go to Sales-Orders.
-     *
-     * 2.Press "Create New Order" button.
-     * 
-     * 3.Press "Create New Customer" button.
-     *
-     * 4.Choose 'Main Store' (First from the list of radiobuttons).
-     *
-     * 5.Fill all fields.
-     * 
-     * 6.Press 'Add Products' button.
-     * 
-     * 7.Add first two products (select third options for second product).
-     * 
-     * 8.Choose shipping address the same as billing.
-     * 
-     * 9.Check payment method 'Check / Money order'
-     * 
-     * 10.Choose first from 'Get shipping methods and rates'.
-     * 
-     * 11.Submit order.
-     * 
-     * 12.Invoice order.
-     * 
-     * 13. Ship order.
-     *
-     * Expected result:
-     *
-     * New customer successfully created. Order is created for the new customer, invoiced and credited.
-     *
-     *
-     */    
+   /**
+    * Create customer via 'Create order' form (all fields are filled with correct data).
+    * Create order(all fields are filled).
+    *
+    * Steps:
+    *
+    * 1.Go to Sales-Orders.
+    *
+    * 2.Press "Create New Order" button.
+    *
+    * 3.Press "Create New Customer" button.
+    *
+    * 4.Choose 'Main Store' (First from the list of radiobuttons).
+    *
+    * 5.Fill all fields.
+    *
+    * 6.Press 'Add Products' button.
+    *
+    * 7.Add first two products (select third options for second product).
+    *
+    * 8.Choose shipping address the same as billing.
+    *
+    * 9.Check payment method 'Check / Money order'
+    *
+    * 10.Choose first from 'Get shipping methods and rates'.
+    *
+    * 11.Submit order.
+    *
+    * 12.Invoice order.
+    *
+    * 13. Ship order.
+    *
+    * Expected result:
+    *
+    * New customer successfully created. Order is created for the new customer, invoiced and credited.
+    *
+    *
+    */
     public function testOrderCreditAllnumCharacters()
     {
         //Data
         $data = $this->loadData(
-                        'new_customer_order_billing_address_allfields',                
+                        'new_customer_order_billing_address_allfields',
                         array(
                             'billing_prefix'  => $this->generate('string', 255, ':alnum:'),
                             'billing_first_name'     => $this->generate('string', 255, ':alnum:'),
@@ -247,51 +239,49 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $this->clickButton('refund_offline', TRUE);
         $this->assertTrue($this->orderHelper()->defineId('view_order'));
     }
-
-    
-    /**
-     * Create customer via 'Create order' form (all fields are filled with correct data, email is invalid).
-     * Create order(all fields are filled).
-     *
-     * Steps:
-     *
-     * 1.Go to Sales-Orders.
-     *
-     * 2.Press "Create New Order" button.
-     * 
-     * 3.Press "Create New Customer" button.
-     *
-     * 4.Choose 'Main Store' (First from the list of radiobuttons).
-     *
-     * 5.Fill all fields.
-     * 
-     * 6.Press 'Add Products' button.
-     * 
-     * 7.Add first two products (select third options for second product).
-     * 
-     * 8.Choose shipping address the same as billing.
-     * 
-     * 9.Check payment method 'Check / Money order'
-     * 
-     * 10.Choose first from 'Get shipping methods and rates'.
-     * 
-     * 11.Submit order.
-     * 
-     * 12.Invoice order.
-     * 
-     * 13. Ship order.
-     *
-     * Expected result:
-     *
-     * New customer successfully created. Order is created for the new customer, invoiced and shipped.
-     *
-     *
-     */    
+   /**
+    * Create customer via 'Create order' form (all fields are filled with correct data, email is invalid).
+    * Create order(all fields are filled).
+    *
+    * Steps:
+    *
+    * 1.Go to Sales-Orders.
+    *
+    * 2.Press "Create New Order" button.
+    *
+    * 3.Press "Create New Customer" button.
+    *
+    * 4.Choose 'Main Store' (First from the list of radiobuttons).
+    *
+    * 5.Fill all fields.
+    *
+    * 6.Press 'Add Products' button.
+    *
+    * 7.Add first two products (select third options for second product).
+    *
+    * 8.Choose shipping address the same as billing.
+    *
+    * 9.Check payment method 'Check / Money order'
+    *
+    * 10.Choose first from 'Get shipping methods and rates'.
+    *
+    * 11.Submit order.
+    *
+    * 12.Invoice order.
+    *
+    * 13. Ship order.
+    *
+    * Expected result:
+    *
+    * New customer successfully created. Order is created for the new customer, invoiced and shipped.
+    *
+    *
+    */
     public function testOrderCreditInvalidEmailMaxLength()
     {
         //Data
         $data = $this->loadData(
-                        'new_customer_order_billing_address_allfields',                
+                        'new_customer_order_billing_address_allfields',
                         array(
                             'billing_prefix'  => $this->generate('string', 255, ':alnum:'),
                             'billing_first_name'     => $this->generate('string', 255, ':alnum:'),
@@ -331,50 +321,49 @@ class OrderForNewCustomerWithCredit_Test extends Mage_Selenium_TestCase
         $this->assertTrue($this->orderHelper()->defineId('create_order_for_new_customer'));
         $this->assertTrue($this->errorMessage('email_exceeds_allowed_length'), $this->messages);
     }
-
-    /**
-     * Create customer via 'Create order' form (all fields are filled with correct data, email's hostname is invalid).
-     * Create order(all fields are filled).
-     *
-     * Steps:
-     *
-     * 1.Go to Sales-Orders.
-     *
-     * 2.Press "Create New Order" button.
-     * 
-     * 3.Press "Create New Customer" button.
-     *
-     * 4.Choose 'Main Store' (First from the list of radiobuttons).
-     *
-     * 5.Fill all fields.
-     * 
-     * 6.Press 'Add Products' button.
-     * 
-     * 7.Add first two products (select third options for second product).
-     * 
-     * 8.Choose shipping address the same as billing.
-     * 
-     * 9.Check payment method 'Check / Money order'
-     * 
-     * 10.Choose first from 'Get shipping methods and rates'.
-     * 
-     * 11.Submit order.
-     * 
-     * 12.Invoice order.
-     * 
-     * 13. Ship order.
-     *
-     * Expected result:
-     *
-     * New customer successfully created. Order is created for the new customer, invoiced and shipped.
-     *
-     *
-     */    
+   /**
+    * Create customer via 'Create order' form (all fields are filled with correct data, email's hostname is invalid).
+    * Create order(all fields are filled).
+    *
+    * Steps:
+    *
+    * 1.Go to Sales-Orders.
+    *
+    * 2.Press "Create New Order" button.
+    *
+    * 3.Press "Create New Customer" button.
+    *
+    * 4.Choose 'Main Store' (First from the list of radiobuttons).
+    *
+    * 5.Fill all fields.
+    *
+    * 6.Press 'Add Products' button.
+    *
+    * 7.Add first two products (select third options for second product).
+    *
+    * 8.Choose shipping address the same as billing.
+    *
+    * 9.Check payment method 'Check / Money order'
+    *
+    * 10.Choose first from 'Get shipping methods and rates'.
+    *
+    * 11.Submit order.
+    *
+    * 12.Invoice order.
+    *
+    * 13. Ship order.
+    *
+    * Expected result:
+    *
+    * New customer successfully created. Order is created for the new customer, invoiced and shipped.
+    *
+    *
+    */
     public function testOrderCreditInvalidEmailHostname()
     {
         //Data
         $data = $this->loadData(
-                        'new_customer_order_billing_address_allfields',                
+                        'new_customer_order_billing_address_allfields',
                         array(
                             'billing_prefix'  => $this->generate('string', 255, ':alnum:'),
                             'billing_first_name'     => $this->generate('string', 255, ':alnum:'),
