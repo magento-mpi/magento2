@@ -42,7 +42,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     public function setTemplate($templateType)
     {
         $deviceType = Mage::helper('xmlconnect')->getDeviceType();
-        parent::setTemplate('edit/tab/design/preview/' . $templateType . '_' . $deviceType . '.phtml');
+        parent::setTemplate('Mage_XmlConnect::edit/tab/design/preview/' . $templateType . '_' . $deviceType . '.phtml');
         return $this;
     }
 }
