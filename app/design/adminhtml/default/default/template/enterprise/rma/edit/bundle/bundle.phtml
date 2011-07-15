@@ -62,10 +62,17 @@
                             <tr>
                                 <td style="padding: 0 3px 0 10px;">
                                     <?php if (!$_item->getIsOrdered()): ?>
+                                        <?php
+                                            if ($_item->getIsQtyDecimal()) {
+                                                $availableQty = sprintf("%01.4f", $_item->getAvailableQty());
+                                            } else {
+                                                $availableQty = intval($_item->getAvailableQty());
+                                            }
+                                        ?>
                                         <input id="checkbox_rma_bundle_item_id_<?php echo $this->getParentId() ?>_<?php echo $_item->getId() ?>" type="checkbox" value="<?php echo $_item->getId() ?>" class="checkbox_rma_bundle_item_<?php echo $this->getParentId() ?>" />
                                         <input id="checkbox_rma_bundle_item_name_<?php echo $this->getParentId() ?>_<?php echo $_item->getId() ?>" type="hidden" value="<?php echo $this->escapeHtml($_item->getName()) ?>"/>
                                         <input id="checkbox_rma_bundle_item_sku_<?php echo $this->getParentId() ?>_<?php echo $_item->getId() ?>" type="hidden" value="<?php echo $this->escapeHtml($_item->getSku()) ?>"/>
-                                        <input id="checkbox_rma_bundle_item_qty_<?php echo $this->getParentId() ?>_<?php echo $_item->getId() ?>" type="hidden" value="<?php echo $_item->getAvailableQty() ?>"/>
+                                        <input id="checkbox_rma_bundle_item_qty_<?php echo $this->getParentId() ?>_<?php echo $_item->getId() ?>" type="hidden" value="<?php echo $availableQty ?>"/>
                                     <?php else: ?>
                                         <input type="checkbox" disabled="disabled" />
                                     <?php endif; ?>
