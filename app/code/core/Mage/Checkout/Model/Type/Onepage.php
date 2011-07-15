@@ -310,6 +310,15 @@ class Mage_Checkout_Model_Type_Onepage
                     $billing->unsAddressId()->unsAddressType();
                     $shipping = $this->getQuote()->getShippingAddress();
                     $shippingMethod = $shipping->getShippingMethod();
+
+                    // don't reset original shipping data, if it was not changed by customer
+                    foreach ($shipping->getData() as $shippingKey => $shippingValue) {
+                        if (!is_null($shippingValue)
+                            && !is_null($billing->getData($shippingKey))
+                            && !isset($data[$shippingKey])) {
+                            $billing->unsetData($shippingKey);
+                        }
+                    }
                     $shipping->addData($billing->getData())
                         ->setSameAsBilling(1)
                         ->setSaveInAddressBook(0)
