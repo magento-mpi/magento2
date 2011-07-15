@@ -26,5 +26,4 @@
 # @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 #
 
-# @TODO
-echo 'Sorry, not implemented yet'
+phpunit --configuration $(dirname $(readlink -f $0))/phpunit.xml
