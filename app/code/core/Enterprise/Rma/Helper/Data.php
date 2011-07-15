@@ -164,6 +164,29 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get return contact name
+     *
+     * @param int|null $storeId
+     * @return Varien_Object
+     */
+    public function getReturnContactName($storeId = null)
+    {
+        $contactName = new Varien_Object();
+        if (Mage::getStoreConfigFlag(Enterprise_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
+            $admin = Mage::getSingleton('admin/session')->getUser();
+            $contactName->setFirstName($admin->getFirstname());
+            $contactName->setLastName($admin->getLastname());
+            $contactName->setName($admin->getName());
+        } else {
+            $name = Mage::getStoreConfig(Enterprise_Rma_Model_Shipping::XML_PATH_CONTACT_NAME, $storeId);
+            $contactName->setFirstName('');
+            $contactName->setLastName($name);
+            $contactName->setName($name);
+        }
+        return $contactName;
+    }
+
+    /**
      * Get return address model
      *
      * @param int|null $storeId

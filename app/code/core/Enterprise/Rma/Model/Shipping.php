@@ -42,6 +42,7 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
     const XML_PATH_REGION_ID            = 'sales/enterprise_rma/region_id';
     const XML_PATH_ZIP                  = 'sales/enterprise_rma/zip';
     const XML_PATH_COUNTRY_ID           = 'sales/enterprise_rma/country_id';
+    const XML_PATH_CONTACT_NAME         = 'sales/enterprise_rma/store_name';
 
     /**
      * Constants - value of is_admin field in table
@@ -85,7 +86,6 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
      */
     public function requestToShipment()
     {
-        $admin              = Mage::getSingleton('admin/session')->getUser();
         $shipmentStoreId    = $this->getRma()->getStoreId();
         $storeInfo          = new Varien_Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
 
@@ -107,8 +107,10 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
 
         $recipientRegionCode= $recipientAddress->getRegionId();
 
-        if (!$admin->getFirstname()
-            || !$admin->getLastname()
+        $recipientContactName = Mage::helper('enterprise_rma')->getReturnContactName($this->getRma()->getStoreId());
+
+        if (!$recipientContactName->getName()
+            || !$recipientContactName->getLastName()
             || !$recipientAddress->getCompany()
             || !$storeInfo->getPhone()
             || !$recipientAddress->getStreet(-1)
@@ -145,9 +147,9 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
         $request->setShipperAddressPostalCode($shipperAddress->getPostcode());
         $request->setShipperAddressCountryCode($shipperAddress->getCountryId());
 
-        $request->setRecipientContactPersonName($admin->getName());
-        $request->setRecipientContactPersonFirstName($admin->getFirstname());
-        $request->setRecipientContactPersonLastName($admin->getLastname());
+        $request->setRecipientContactPersonName($recipientContactName->getName());
+        $request->setRecipientContactPersonFirstName($recipientContactName->getFirstName());
+        $request->setRecipientContactPersonLastName($recipientContactName->getLastName());
         $request->setRecipientContactCompanyName($recipientAddress->getCompany());
         $request->setRecipientContactPhoneNumber($storeInfo->getPhone());
         $request->setRecipientEmail($recipientAddress->getEmail());
