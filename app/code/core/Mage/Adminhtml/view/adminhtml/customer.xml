@@ -32,7 +32,7 @@
             <block type="adminhtml/customer_edit" name="customer_edit"></block>
         </reference>
         <reference name="head">
-            <block type="adminhtml/template" name="optional_zip_countries" as="optional_zip_countries" template="directory/js/optional_zip_countries.phtml" />
+            <block type="adminhtml/template" name="optional_zip_countries" as="optional_zip_countries" template="Mage_Directory::js/optional_zip_countries.phtml" />
             <action method="addJs"><file>mage/adminhtml/product/composite/configure.js</file></action>
             <action method="addJs"><file>varien/configurable.js</file></action>
         </reference>

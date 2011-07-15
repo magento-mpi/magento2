@@ -34,15 +34,15 @@
         <reference name="left">
             <block type="connect/adminhtml_extension_custom_edit_tabs" name="connect_extension_edit_tabs">
                 <block type="connect/adminhtml_extension_custom_edit_tab_package" name="tab_package"
-                    template="connect/extension/custom/package.phtml" />
+                    template="extension/custom/package.phtml" />
                 <block type="connect/adminhtml_extension_custom_edit_tab_release" name="tab_release"
-                    template="connect/extension/custom/release.phtml" />
+                    template="extension/custom/release.phtml" />
                 <block type="connect/adminhtml_extension_custom_edit_tab_authors" name="tab_authors"
-                    template="connect/extension/custom/authors.phtml" />
+                    template="extension/custom/authors.phtml" />
                 <block type="connect/adminhtml_extension_custom_edit_tab_depends" name="tab_depends"
-                    template="connect/extension/custom/depends.phtml" />
+                    template="extension/custom/depends.phtml" />
                 <block type="connect/adminhtml_extension_custom_edit_tab_contents" name="tab_contents"
-                    template="connect/extension/custom/contents.phtml" />
+                    template="extension/custom/contents.phtml" />
                 <block type="connect/adminhtml_extension_custom_edit_tab_local" name="tab_local" />
             
                 <action method="addTab"><name>package_info</name><block>tab_package</block></action>
@@ -58,7 +58,7 @@
     <adminhtml_extension_custom_loadtab>
         <block type="core/text_list" name="root">
             <block type="connect/adminhtml_extension_custom_edit_tab_load" name="connect_extension_load_local_package_grid"
-                template="connect/extension/custom/load.phtml">
+                template="extension/custom/load.phtml">
                 <block type="connect/adminhtml_extension_custom_edit_tab_grid" name="local_package_grid" />
             </block>
         </block>

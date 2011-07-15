@@ -38,7 +38,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
      *
      * @var string
      */
-    protected $_template = 'paypal/system/config/fieldset/store.phtml';
+    protected $_template = 'system/config/fieldset/store.phtml';
 
     /**
      * Render service JavaScript code

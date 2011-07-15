@@ -44,7 +44,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Global
      *
      * @var string
      */
-    protected $_template = 'paypal/system/config/fieldset/global.phtml';
+    protected $_template = 'system/config/fieldset/global.phtml';
 
     /**
      * Render fieldset html
