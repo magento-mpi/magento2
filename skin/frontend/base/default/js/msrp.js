@@ -258,10 +258,11 @@ Catalog.Map = {
     bindProductForm: function(){
         if (('undefined' != typeof productAddToCartForm) && productAddToCartForm) {
             productAddToCartFormOld = productAddToCartForm;
+            productAddToCartForm = new VarienForm('product_addtocart_form_from_popup');
+            productAddToCartForm.submitLight = productAddToCartFormOld.submitLight;
         }else if(!$('product_addtocart_form_from_popup')) {
             return false;
         }
-        productAddToCartForm = new VarienForm('product_addtocart_form_from_popup');
         productAddToCartForm.submit = function(button, url) {
             if (('undefined' != typeof productAddToCartFormOld) && productAddToCartFormOld) {
                 if (Catalog.Map.active) {
