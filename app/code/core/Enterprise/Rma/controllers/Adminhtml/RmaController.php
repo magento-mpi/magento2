@@ -973,7 +973,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             if ($model) {
                 if ($this->_createShippingLabel($model)) {
                     $this->_getSession()
-                        ->addSuccess($this->__('The shipment has been created. The shipping label has been created.'));
+                        ->addSuccess($this->__('The shipping label has been created.'));
                     $responseAjax->setOk(true);
                 }
                 Mage::getSingleton('adminhtml/session')->getCommentText(true);
