@@ -1198,7 +1198,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 if ($this->getShouldCloseParentTransaction()) {
                     $parentTransaction = $this->_lookupTransaction($parentTransactionId);
                     if ($parentTransaction) {
-                        $parentTransaction->isFailsafe($failsafe)->close(false);
+                        if (!$parentTransaction->getIsClosed()) {
+                            $parentTransaction->isFailsafe($failsafe)->close(false);
+                        }
                         $this->getOrder()->addRelatedObject($parentTransaction);
                     }
                 }
