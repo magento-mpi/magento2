@@ -63,6 +63,7 @@ manage_products:
         messages: &productMesssages
             invalid_tier_price: "%fieldXpath%/following-sibling::*[text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]"
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            empty_required_field_by_id: //div[@id='advice-required-entry-%fieldId%']
             success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been deleted.')]
             success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
@@ -70,6 +71,7 @@ manage_products:
             invalid_special_price: //div[@id='advice-validate-zero-or-greater-special_price']
             invalid_price: //div[@id='advice-validate-zero-or-greater-price']
             invalid_qty: //div[@id='advice-validate-number-inventory_qty']
+            invalid_numeric_value: //*[@id='advice-validate-zero-or-greater-%fieldId%']
             incorrect_sku_length: //div[@id='advice-validate-ajax-sku']
             existing_sku: //div[@id='advice-validate-ajax-sku']
             enter_valid_sort_order: "%fieldXpath%/following-sibling::*[text()='Please enter a number 0 or greater in this field.' and not(contains(@style,'display: none;'))]"
