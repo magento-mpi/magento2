@@ -46,7 +46,7 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
         if ($option) {
             $value = $option->getValue();
             if ($value) {
-                return nl2br($this->escapeHtml($value));
+                return $this->escapeHtml($value);
             }
         }
         return false;
@@ -103,6 +103,9 @@ class Enterprise_GiftCard_Helper_Catalog_Product_Configuration extends Mage_Core
      */
     public function getOptions(Mage_Catalog_Model_Product_Configuration_Item_Interface $item)
     {
-        return array_merge($this->getGiftcardOptions($item), Mage::helper('catalog/product_configuration')->getCustomOptions($item));
+        return array_merge(
+            $this->getGiftcardOptions($item),
+            Mage::helper('catalog/product_configuration')->getCustomOptions($item)
+        );
     }
 }
