@@ -340,6 +340,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 $productTypeModel->saveData();
             }
         }
+        Mage::dispatchEvent('catalog_product_import_finish_before', array('adapter'=>$this));
         return true;
     }
 
@@ -1671,5 +1672,28 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             }
         }
         return !isset($this->_invalidRows[$rowNum]);
+    }
+
+    /**
+     * Get array of affected products
+     *
+     * @return array
+     */
+    public function getAffectedEntityIds()
+    {
+        $productIds = array();
+        while ($bunch = $this->_dataSourceModel->getNextBunch()) {
+            foreach ($bunch as $rowNum => $rowData) {
+                if (!$this->isRowAllowedToImport($rowData, $rowNum)) {
+                    continue;
+                }
+                $productId = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
+                if (!isset($productId)) {
+                    continue;
+                }
+                $productIds[] = $productId;
+            }
+        }
+        return $productIds;
     }
 }
