@@ -30,7 +30,7 @@
 
     <adminhtml_system_convert_gui_run>
         <remove name="root"/>
-        <block type="adminhtml/page" name="convert_root" output="toHtml" template="page.phtml">
+        <block type="adminhtml/page" name="convert_root" output="toHtml" template="admin/page.phtml">
             <block type="adminhtml/page_head" name="convert_root_head" as="head" template="page/head.phtml">
                 <action method="addJs"><script>prototype/prototype.js</script></action>
                 <action method="addJs"><script>prototype/validation.js</script></action>
