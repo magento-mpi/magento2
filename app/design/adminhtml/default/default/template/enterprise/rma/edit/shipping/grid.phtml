@@ -28,26 +28,18 @@
     <div class="grid">
         <div class="hor-scroll">
             <table cellspacing="0" class="data">
-                <colgroup>
-                    <col>
-                    <col>
-                    <col width="100">
-                    <col width="100">
-                    <col width="100">
-                    <col width="*">
-                </colgroup>
                 <thead>
                 <tr class="headings">
                     <th class=" no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Product Name') ?></span></th>
                     <th class=" no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Weight') ?></span></th>
-                    <th class=" no-link" <?php echo $this->displayCustomsValue() ? '' : 'style="display: none;"' ?>>
+                    <th class=" no-link" <?php echo $this->displayCustomsValue() ? '' : 'style="display: none;"' ?> width="100">
                         <span class="nobr"><?php echo Mage::helper('sales')->__('Customs Value') ?></span>
                     </th>
-                    <th class="a-center no-link">
+                    <th class="a-center no-link" width="100">
                         <span class="nobr"><input type="checkbox" name="" onclick="packaging.checkAllItems(this);" class="checkbox" title="<?php echo Mage::helper('sales')->__('Select All') ?>"></span>
                     </th>
-                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('sales')->__('Qty Ordered') ?></span></th>
-                    <th class=" no-link last"><span class="nobr"><?php echo Mage::helper('sales')->__('Qty') ?></span></th>
+                    <th class=" no-link" width="100"><span class="nobr"><?php echo Mage::helper('sales')->__('Qty Ordered') ?></span></th>
+                    <th class=" no-link last" width="100"><span class="nobr"><?php echo Mage::helper('sales')->__('Qty') ?></span></th>
                 </tr>
                 </thead>
 
