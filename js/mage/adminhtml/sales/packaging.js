@@ -295,6 +295,9 @@ Packaging.prototype = {
         var packageId = pack.id.match(/\d$/)[0];
 
         delete this.packages[packageId]['items'][itemId];
+        if (item.offsetParent.rows.length <= 2) { /* head + this last row */
+            $(packItems).hide();
+        }
         item.remove();
         this.messages.hide().update();
         this._recalcContainerWeightAndCustomsValue(packItems);
@@ -438,6 +441,7 @@ Packaging.prototype = {
                 }.bind(this));
                 packagePrepareGrid.update();
             }
+            $(packItems).show();
             this._recalcContainerWeightAndCustomsValue(packItems);
         } else {
             packagePrepareGrid.update();
