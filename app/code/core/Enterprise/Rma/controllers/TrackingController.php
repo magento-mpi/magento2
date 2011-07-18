@@ -123,10 +123,14 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
     public function printLabelAction()
     {
         try {
-           $data = Mage::helper('enterprise_rma')->decodeTrackingHash($this->getRequest()->getParam('hash'));
+            $data = Mage::helper('enterprise_rma')->decodeTrackingHash($this->getRequest()->getParam('hash'));
 
+            $rmaIncrementId = '';
             if ($data['key'] == 'rma_id') {
                 $this->_loadValidRma($data['id']);
+                if (Mage::registry('current_rma')) {
+                    $rmaIncrementId = Mage::registry('current_rma')->getIncrementId();
+                }
             }
             $model = Mage::getModel('enterprise_rma/shipping_info')
                 ->loadPackage($this->getRequest()->getParam('hash'));
@@ -148,7 +152,7 @@ class Enterprise_Rma_TrackingController extends Mage_Core_Controller_Front_Actio
                 }
 
                 return $this->_prepareDownloadResponse(
-                    'ShippingLabel(' . $model->getIncrementId() . ').pdf',
+                    'ShippingLabel(' . $rmaIncrementId . ').pdf',
                     $pdfContent,
                     'application/pdf'
                 );
