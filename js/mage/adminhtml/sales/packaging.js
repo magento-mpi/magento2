@@ -367,10 +367,9 @@ Packaging.prototype = {
             if (!checkExceedsQty) {
                 var checkbox = item.select('[type="checkbox"]')[0];
                 var itemId = checkbox.value;
-                var itemName = this._getElementText(item.select('.name')[0]);
                 var qtyValue  = parseFloat(item.select('[name="qty"]')[0].value);
                 if (checkbox.checked && !isNaN(qtyValue) && this._checkExceedsQty(itemId, qtyValue)) {
-                    this.messages.show().update(this.errorQtyOverLimit + ' ' + itemName);
+                    this.messages.show().update(this.errorQtyOverLimit);
                     checkExceedsQty = true;
                 }
             }

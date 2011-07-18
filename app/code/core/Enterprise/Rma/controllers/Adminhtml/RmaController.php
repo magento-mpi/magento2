@@ -923,7 +923,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $data = array(
             'createLabelUrl'        => $createLabelUrl,
             'itemsGridUrl'          => $itemsGridUrl,
-            'errorQtyOverLimit'     => Mage::helper('sales')->__('The quantity you want to add exceeds the total shipped quantity for'),
+            'errorQtyOverLimit'     => Mage::helper('sales')->__('The quantity you want to add exceeds the total shipped quantity for some of selected Product(s)'),
             'titleDisabledSaveBtn'  => Mage::helper('sales')->__('Products should be added to package(s)'),
             'validationErrorMsg'    => Mage::helper('sales')->__('The value that you entered is not valid.'),
             'shipmentItemsQty'      => $itemsQty,
