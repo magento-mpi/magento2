@@ -160,6 +160,22 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         }
         return $html;
     }
+    /**
+     * Gets values for each visible attribute depending on item id
+     *
+     * @param null|int $itemId
+     * @return array
+     */
+    public function getRealValueAttributes($itemId = null) {
+        if (empty($this->_realValueAttributes)) {
+            $this->_realValueAttributes = $this->_getAdditionalData();
+        }
+        if ($itemId && isset($this->_realValueAttributes[$itemId])) {
+            return $this->_realValueAttributes[$itemId];
+        } else {
+            return $this->_realValueAttributes;
+        }
+    }
 
     /**
      * Gets attribute label by rma item id and attribute code

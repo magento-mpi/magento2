@@ -212,8 +212,8 @@
                 <div style="display:inline; float:left;width:40%;"><?php echo $this->__('Answers') ?>:</div>
                 <div style="clear: both;"></div>
                 <?php $i = 0; ?>
-                <?php foreach($item->getData() as $code=>$attribute): ?>
-                    <?php if (!in_array($code, $this->getAttributeFilter()) && !empty($attribute) && $this->getAttributeLabel($item->getId(), $code)): $i++;?>
+                <?php foreach($this->getRealValueAttributes($item->getId()) as $code=>$attribute): ?>
+                    <?php if (!in_array($code, $this->getAttributeFilter()) && !empty($attribute['value']) && $this->getAttributeLabel($item->getId(), $code)): $i++;?>
                         <div style="display:inline; float:left;width:40%;padding-left:20px"><li><?php echo $this->getAttributeLabel($item->getId(), $code) ?></li></div>
                         <div style="display:inline; float:left;width:40%;"><li><?php echo $this->getAttributeValue($item->getId(), $code) ?></li></div>
                         <div style="clear: both;"></div>

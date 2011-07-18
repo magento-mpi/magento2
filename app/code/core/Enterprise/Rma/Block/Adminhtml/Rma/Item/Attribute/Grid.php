@@ -43,7 +43,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
     {
         parent::__construct();
         $this->setId('rmaItemAttributeGrid');
-        $this->setDefaultSort('main_table.sort_order');
+        $this->setDefaultSort('sort_order');
     }
 
     /**
