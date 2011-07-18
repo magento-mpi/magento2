@@ -256,8 +256,14 @@ class Mage_Connect_Config implements Iterator
             if (strlen($this->remote_config)>0) {
                 //save config over ftp
                 $confFile = $this->downloader_path . DIRECTORY_SEPARATOR . "connect.cfg";
-                $ftpObj = new Mage_Connect_Ftp();
-                $ftpObj->connect($this->remote_config);
+                try {
+                    $ftpObj = new Mage_Connect_Ftp();
+                    $ftpObj->connect($this->remote_config);
+                } catch (Exception $e) {
+                    $this->_configError = 'Cannot access to deployment FTP path. '
+                                          . 'Check deployment FTP Installation path settings.';
+                    return $result;
+                }
                 try {
                     $tempFile = tempnam(sys_get_temp_dir(),'config');
                     $f = fopen($tempFile, "w+");
@@ -269,8 +275,14 @@ class Mage_Connect_Config implements Iterator
                                           . 'Contact your system administrator.';
                     return $result;
                 }
-                $result = $ftpObj->upload($confFile, $tempFile);
-                $ftpObj->close();
+                try {
+                    $result = $ftpObj->upload($confFile, $tempFile);
+                    $ftpObj->close();
+                } catch (Exception $e) {
+                    $this->_configError = 'Cannot write file over FTP. '
+                                          . 'Check deployment FTP Installation path settings.';
+                    return $result;
+                }
                 if (!$result) {
                     $this->_configError = '';
                 }
