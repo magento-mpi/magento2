@@ -340,7 +340,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                     foreach ($response->RateReplyDetails as $rate) {
                         $serviceName = (string)$rate->ServiceType;
                         if (in_array($serviceName, $allowedMethods)) {
-                            $amount = (string)$rate->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount;
+                            $amount = (string)$rate->RatedShipmentDetails[0]
+                                ->ShipmentRateDetail->TotalNetCharge->Amount;
                             $costArr[$serviceName]  = $amount;
                             $priceArr[$serviceName] = $this->getMethodPrice($amount, $serviceName);
                         }
@@ -1201,8 +1202,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                     $debugData['result']['error'] .= $notification->Message . '; ';
                 }
             } else {
-                $debugData['result']['code'] = $response->Notifications->Code . '; ';
-                $debugData['result']['error'] = $response->Notifications->Message . '; ';
+                $debugData['result']['code'] = $response->Notifications->Code . ' ';
+                $debugData['result']['error'] = $response->Notifications->Message . ' ';
             }
             $this->_debug($debugData);
             $result->setErrors($debugData['result']['error']);
