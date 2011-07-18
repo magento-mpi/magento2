@@ -27,7 +27,7 @@
 <?php $_item = $this->getItem()?>
 <?php $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM); ?>
 <tr>
-    <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" class="product-image"><?php endif;?><img src="<?php echo $this->getProductThumbnail()->resize(45); ?>" width="45" height="45" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
+    <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" class="product-image"><?php endif;?><img src="<?php echo $this->getProductThumbnail()->resize(90); ?>" width="45" height="45" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
     <td>
         <h2 class="product-name">
         <?php if ($this->hasProductUrl()):?>
@@ -256,6 +256,6 @@
     </td>
     <?php endif; ?>
     <td class="a-center">
-        <a href="<?php echo $this->getDeleteUrl() ?>" class="item-remove"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" width="10" height="10" alt="<?php echo $this->__('Remove item')?>" /></a>
+        <a href="<?php echo $this->getDeleteUrl() ?>" class="item-remove"><img src="<?php echo $this->getSkinUrl('images/btn_trash.png') ?>" width="10" height="10" alt="<?php echo $this->__('Remove item')?>" /></a>
     </td>
 </tr>

@@ -27,6 +27,7 @@
  * @var Mage_Page_Block_Html_Header $this
  */
 ?>
+<?php $_cartItems = $this->helper('checkout/cart')->getSummaryCount(); ?>
 <header>
     <div class="store-logo">
         <a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
@@ -37,7 +38,10 @@
             <dd class="search-box" style="display:none;">
                <?php echo $this->getChildHtml('topSearch') ?>
             </dd>
-            <dt class="cart"><a href="<?php echo $this->getUrl('checkout/cart') ?>">Cart</a></dt>
+            <dt class="cart">
+                <a href="<?php echo $this->getUrl('checkout/cart') ?>">Cart</a>
+                <span><?php echo $_cartItems > 0 ? $_cartItems : ''; ?></span>
+            </dt>
             <dt class="menu dropdown"><a href="#">Menu</a></dt>
             <dd class="menu-box" style="display:none;">
                 <ul>

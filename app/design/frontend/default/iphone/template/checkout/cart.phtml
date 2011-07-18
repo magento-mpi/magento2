@@ -32,16 +32,25 @@
  */
 ?>
 <div class="cart">
-    <div class="page-title title-buttons">
-        <h1><?php echo $this->__('Cart') ?></h1>
-        <?php if($this->getContinueShoppingUrl()): ?>
-            <a href="<?php echo $this->getContinueShoppingUrl() ?>" title="<?php echo $this->__('Continue Shopping') ?>"><?php echo $this->__('Continue Shopping') ?></a>
-        <?php endif; ?>
+    <div class="breadcrumbs">
+        <ul>
+            <li class="home">
+                <a href="<?php echo $this->getContinueShoppingUrl() ?>" title="<?php echo $this->__('Continue Shopping') ?>"><?php echo $this->__('Continue Shopping') ?></a>
+            </li>
+            <li class="product"><strong><?php echo $this->__('Cart') ?></strong></li>
+        </ul>
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php echo $this->getChildHtml('form_before') ?>
     <form id="shopping-cart-form" action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
         <table id="shopping-cart-table" class="data-table cart-table" cellspacing="0">
+            <colgroup>
+                <col width="60" />
+                <col width="*" />
+                <col width="80" />
+                <col width="*" />
+                <col width="30" />
+            </colgroup>
         <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
             <thead>
                 <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
