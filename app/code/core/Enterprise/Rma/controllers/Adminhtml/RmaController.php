@@ -292,7 +292,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 $result = $model->saveRma();
                 if ($result && $result->getId()) {
                     $model->sendAuthorizeEmail();
-                    Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The RMA request has been submitted.'));
+                    Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The RMA request has been saved.'));
                 } else {
                     Mage::throwException($this->__('Failed to save RMA.'));
                 }
