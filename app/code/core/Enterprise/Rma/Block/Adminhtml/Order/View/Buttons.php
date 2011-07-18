@@ -50,7 +50,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Buttons extends Mage_Adminhtml_B
                 $container->addButton('create_rma', array(
                     'label' => Mage::helper('enterprise_rma')->__('Create RMA'),
                     'onclick' => "setLocation('" . $url . "')",
-                ), 0, 35);
+                ), 0, $this->_buttons[0]['send_notification']['sort_order']+5);
             }
         }
         return $this;
