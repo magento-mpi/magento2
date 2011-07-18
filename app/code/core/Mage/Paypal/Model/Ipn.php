@@ -536,18 +536,15 @@ class Mage_Paypal_Model_Ipn
     {
         $this->_importPaymentInformation();
 
-        $txnId = $this->getRequestData('txn_id');
-        $parentTxnId = $this->getRequestData('parent_txn_id') ? $this->getRequestData('parent_txn_id') : $txnId;
+        $parentTxnId = $this->getRequestData('transaction_entity') == 'auth'
+            ? $this->getRequestData('txn_id') : $this->getRequestData('parent_txn_id');
 
-        $payment = $this->_order->getPayment();
-        if (!$this->getRequestData('transaction_entity') == 'auth'
-            && !$payment->lookupTransaction($txnId, Mage_Sales_Model_Order_Payment_Transaction::TYPE_VOID)
-        ) {
-            $payment->setPreparedMessage($this->_createIpnComment(''))
-                ->setParentTransactionId($parentTxnId)
-                ->registerVoidNotification();
-            $this->_order->save();
-        }
+        $this->_order->getPayment()
+            ->setPreparedMessage($this->_createIpnComment(''))
+            ->setParentTransactionId($parentTxnId)
+            ->registerVoidNotification();
+
+        $this->_order->save();
     }
 
     /**
