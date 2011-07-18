@@ -39,7 +39,7 @@ manage_categories:
                         xpath: //*[@id='page:left']/div
                         buttons:
                             add_root_category: //button[@id='add_root_category_button']
-                            add_subcategory: //button[@id='add_subcategory_button']
+                            add_sub_category: //button[@id='add_subcategory_button']
                         links:
                             collapse_all: //a[text()='Collapse All']
                             expand_all: //a[text()='Expand All']
@@ -117,23 +117,23 @@ manage_categories:
                                 category_products:
                                     xpath: //div[@id='catalog_category_products']
                                     buttons:
-                                        reset_filter: //button[@title='Reset Filter']
-                                        search: //button[@title='Search']
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
                                     dropdowns:
-                                        filter_massaction: //select[@id='filter_in_category']
+                                        category_products_massaction: //select[@id='filter_in_category']
                                     fields:
-                                        filter_id: //input[@id='filter_entity_id']
-                                        filter_name: //input[@id='filter_name']
-                                        filter_sku: //input[@id='filter_sku']
-                                        filter_price_from: //input[@id='filter_price_from']
-                                        filter_price_to: //input[@id='filter_price_to']
-                                        filter_position_from: //input[@id='filter_position_from']
-                                        filter_position_to: //input[@id='filter_position_to']
-                                        product_position: %productXpath%//input[@name='position']
+                                        category_products_id: //input[@id='catalog_category_products_filter_entity_id']
+                                        category_products_name: //input[@id='catalog_category_products_filter_name']
+                                        category_products_sku: //input[@id='catalog_category_products_filter_sku']
+                                        category_products_price_from: //input[@id='catalog_category_products_filter_price_from']
+                                        category_products_price_to: //input[@id='catalog_category_products_filter_price_to']
+                                        category_products_position_from: //input@id='catalog_category_products_filter_position_from']
+                                        category_products_position_to: //input@id='catalog_category_products_filter_position_to']
+                                        category_products_position: %productXpath%//input[@name='position']
         buttons:
-            reset: //button[@title='Reset']
-            save_category: //button[@title='Save Category']
-            delete_category: //button[@title='Delete Category']
+            reset: //button[span='Reset']
+            save_category: //button[span='Save Category']
+            delete_category: //button[span='Delete Category']
         messages:
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
 

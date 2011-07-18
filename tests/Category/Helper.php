@@ -118,15 +118,12 @@ class Category_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * create Root Category
+     * Fill in Category information
      *
      * @param array $categotyData
      */
-    public function createRootCategory(array $categotyData)
+    public function fillCategoryInfo(array $categotyData)
     {
-        $this->clickButton('add_root_category', false);
-
-        $this->pleaseWait();
         $page = $this->getCurrentLocationUimapPage();
         $tabs = $page->getAllTabs();
         foreach ($tabs as $tab => $values) {
@@ -135,8 +132,45 @@ class Category_Helper extends Mage_Selenium_TestCase
             if (!preg_match('/active/', $isTabOpened)) {
                 $this->clickControl('tab', $tab, FALSE);
             }
-            $this->fillForm($categotyData, $tab);
+            if ($tab != 'category_products') {
+                $this->fillForm($categotyData, $tab);
+            } else {
+                $arrayKey = $tab . '_data';
+                if (array_key_exists($arrayKey, $categotyData) && is_array($categotyData[$arrayKey])) {
+                    foreach ($categotyData[$arrayKey] as $key => $value) {
+                        $this->productHelper()->assignProduct($categotyData[$arrayKey][$key], $tab);
+                    }
+                }
+            }
         }
+    }
+
+    /**
+     * Create Root category
+     *
+     * @param array $categotyData
+     */
+    public function createRootCategory(array $categotyData)
+    {
+        $this->clickButton('add_root_category', false);
+        $this->pleaseWait();
+        $this->fillCategoryInfo($categotyData);
+        $this->saveForm('save_category');
+    }
+
+    /**
+     * Create Sub category
+     *
+     * @param string $categotyPath
+     * @param array $categotyData
+     */
+    public function createSubCategory($categotyPath, array $categotyData)
+    {
+        $this->selectCategory($categotyPath);
+        $this->clickButton('add_sub_category', false);
+        $this->pleaseWait();
+        $this->fillCategoryInfo($categotyData);
+        $this->saveForm('save_category');
     }
 
 }

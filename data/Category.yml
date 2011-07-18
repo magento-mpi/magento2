@@ -25,6 +25,16 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
+product_1: &product1
+    category_products_id: %noValue%
+    category_products_name: %noValue%
+    category_products_sku: %noValue%
+    category_products_price_from: %noValue%
+    category_products_price_to: %noValue%
+    category_products_position_from: %noValue%
+    category_products_position_to: %noValue%
+    category_products_position: %noValue%
+
 root_category:
     #General Information
     name: root_category
@@ -56,3 +66,4 @@ root_category:
     page_layout: %noValue%
     custom_layout_update: %noValue%
     #Category Products
+    category_products_data: %noValue%
