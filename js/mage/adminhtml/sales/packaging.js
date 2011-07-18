@@ -386,10 +386,11 @@ Packaging.prototype = {
             var checkbox = item.select('[type="checkbox"]')[0];
             var itemId = checkbox.value;
             var itemName = this._getElementText(item.select('.name')[0]);
-            var qty  = item.select('[name="qty"]')[0];
-            var qtyValue  = parseFloat(item.select('[name="qty"]')[0].value);
+            var qty  = item.select('[name="qty"]')[0],
+                qtyValue  = parseFloat(item.select('[name="qty"]')[0].value),
+                isQtyDecimal = $(qty).hasClassName('qty-decimal');
             if (checkbox.checked) {
-                qtyValue = (isNaN(qtyValue)) ? 1 : qtyValue;
+                qtyValue = isNaN(qtyValue) || !isQtyDecimal && qtyValue != parseInt(qtyValue) ? 1 : qtyValue;
                 item.select('[name="qty"]')[0].value = qtyValue;
                 anySelected = true;
                 qty.disabled = 'disabled';
@@ -691,7 +692,8 @@ Packaging.prototype = {
                         if (qtyValue == packedQty || qtyValue <= packedQty) {
                             item.remove();
                         } else if (qtyValue > packedQty) {
-                            qty.value = qtyValue - packedQty;
+                            /* fix float number precision */
+                            qty.value = Number((qtyValue - packedQty).toFixed(4));
                         }
                     }
                 }
