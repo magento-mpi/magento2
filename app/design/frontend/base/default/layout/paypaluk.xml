@@ -38,6 +38,17 @@
                 <action method="setIsQuoteAllowed"><value>1</value></action>
             </block>
         </reference>
+
+        <reference>
+            <reference name="product.tooltip">
+                <block type="page/html_wrapper" name="product.info.addtocart.paypaluk.wrapper" translate="label">
+                    <block type="paypaluk/express_shortcut" name="product.info.addtocart.paypaluk" template="paypal/express/shortcut.phtml">
+                        <action method="setIsInCatalogProduct"><value>1</value></action>
+                        <action method="setShowOrPosition"><value>after</value></action>
+                    </block>
+                </block>
+            </reference>
+        </reference>
     </checkout_cart_index>
 
     <paypaluk_express_review translate="label">

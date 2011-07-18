@@ -34,6 +34,13 @@
 class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Mage_Catalog_Block_Product_Abstract
 {
     /**
+     * Default MAP renderer type
+     *
+     * @var string
+     */
+    protected $_mapRenderer = 'msrp_item';
+
+    /**
      * Array of cross-sell products
      *
      * @var array

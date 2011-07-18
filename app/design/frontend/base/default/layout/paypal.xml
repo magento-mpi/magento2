@@ -39,6 +39,17 @@
                 <action method="setIsQuoteAllowed"><value>1</value></action>
             </block>
         </reference>
+
+        <reference>
+            <reference name="product.tooltip">
+                <block type="page/html_wrapper" name="product.info.addtocart.paypal.wrapper" translate="label">
+                    <block type="paypal/express_shortcut" name="product.info.addtocart.paypal" template="paypal/express/shortcut.phtml">
+                        <action method="setIsInCatalogProduct"><value>1</value></action>
+                        <action method="setShowOrPosition"><value>after</value></action>
+                    </block>
+                </block>
+            </reference>
+        </reference>
     </checkout_cart_index>
 
     <paypal_express_review translate="label">

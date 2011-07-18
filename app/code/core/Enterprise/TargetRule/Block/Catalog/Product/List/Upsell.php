@@ -35,6 +35,13 @@ class Enterprise_TargetRule_Block_Catalog_Product_List_Upsell
     extends Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
 {
     /**
+     * Default MAP renderer type
+     *
+     * @var string
+     */
+    protected $_mapRenderer = 'msrp_noform';
+
+    /**
      * Retrieve Catalog Product List Type identifier
      *
      * @return int
