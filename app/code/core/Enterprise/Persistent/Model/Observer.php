@@ -41,7 +41,9 @@ class Enterprise_Persistent_Model_Observer
      */
     public function emulateCustomer($observer)
     {
-        if (!Mage::helper('persistent')->canProcess($observer) || !Mage::helper('enterprise_persistent')->isCustomerAndSegmentsPersist()) {
+        if (!Mage::helper('persistent')->canProcess($observer)
+            || !Mage::helper('enterprise_persistent')->isCustomerAndSegmentsPersist()
+        ) {
             return $this;
         }
 
@@ -467,5 +469,18 @@ class Enterprise_Persistent_Model_Observer
     protected function _isGuestShoppingCart()
     {
         return $this->_isLoggedOut() && !Mage::helper('persistent')->isShoppingCartPersist();
+    }
+
+    /**
+     * Skip website restriction and allow access for persistent customers
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function skipWebsiteRestriction(Varien_Event_Observer $observer)
+    {
+        $result = $observer->getEvent()->getResult();
+        if ($result->getShouldProceed() && $this->_isPersistent()) {
+            $result->setCustomerLoggedIn(true);
+        }
     }
 }

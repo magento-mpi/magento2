@@ -89,6 +89,14 @@
 
     <frontend>
         <events>
+            <websiterestriction_frontend>
+                <observers>
+                    <enterprise_persistent>
+                        <class>enterprise_persistent/observer</class>
+                        <method>skipWebsiteRestriction</method>
+                    </enterprise_persistent>
+                </observers>
+            </websiterestriction_frontend>
             <controller_action_layout_generate_blocks_after>
                 <observers>
                     <enterprise_persistent>

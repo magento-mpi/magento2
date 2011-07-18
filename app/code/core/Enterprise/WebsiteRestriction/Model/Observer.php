@@ -41,7 +41,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
         $controller = $observer->getEvent()->getControllerAction();
 
         if (!Mage::app()->getStore()->isAdmin()) {
-            $dispatchResult = new Varien_Object(array('should_proceed' => true));
+            $dispatchResult = new Varien_Object(array('should_proceed' => true, 'customer_logged_in' => false));
             Mage::dispatchEvent('websiterestriction_frontend', array(
                 'controller' => $controller, 'result' => $dispatchResult
             ));
@@ -78,7 +78,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
 
                 // redirect to landing page/login
                 case Enterprise_WebsiteRestriction_Model_Mode::ALLOW_LOGIN:
-                    if (!Mage::helper('customer')->isLoggedIn()) {
+                    if (!$dispatchResult->getCustomerLoggedIn() && !Mage::helper('customer')->isLoggedIn()) {
                         // see whether redirect is required and where
                         $redirectUrl = false;
                         $allowedActionNames = array_keys(Mage::getConfig()
