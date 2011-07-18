@@ -279,7 +279,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         $itemOriginalPrice      = $item->getOriginalPrice();
         $baseItemOriginalPrice  = $item->getBaseOriginalPrice();
 
-        if ($itemPrice <= 0) {
+        if ($itemPrice < 0) {
             return $this;
         }
 
