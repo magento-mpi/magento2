@@ -118,6 +118,12 @@ class Enterprise_PricePermissions_Model_Observer
                     }
                 }
                 break;
+            // Handle MAP functionality for bundle products
+            case 'adminhtml.catalog.product.edit.tab.attributes' :
+                if (!$this->_canEditProductPrice) {
+                    $block->setCanEditPrice(false);
+                }
+                break;
         }
     }
 
