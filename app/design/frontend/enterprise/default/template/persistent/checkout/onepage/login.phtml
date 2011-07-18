@@ -55,6 +55,7 @@
                 </li>
                 <?php echo $this->getChildHtml('persistent.remember.me'); ?>
             </ul>
+            <input name="context" type="hidden" value="checkout" />
         </fieldset>
         <div class="buttons-set form-buttons btn-only">
             <button type="button" class="button" onclick="loginForm.submit()"><span><span><?php echo $this->__('Login') ?></span></span></button>

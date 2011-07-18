@@ -291,6 +291,14 @@ class Mage_Persistent_Model_Observer
         $customerSession->setCustomerId(null)
             ->setCustomerGroupId(null);
 
+        $action = $observer->getEvent()->getControllerAction();
+        if (Mage::app()->getRequest()->getParam('context') != 'checkout'
+            && (!$action || $action->getFullActionName() == 'customer_account_createpost')
+        ) {
+            $this->_expirePersistentSession();
+            return;
+        }
+
         $this->_setQuoteGuest();
     }
 
@@ -467,29 +475,34 @@ class Mage_Persistent_Model_Observer
             return;
         }
 
-        /** @var $checkoutSession Mage_Checkout_Model_Session */
-        $checkoutSession = Mage::getSingleton('checkout/session');
-
         /** @var $customerSession Mage_Customer_Model_Session */
         $customerSession = Mage::getSingleton('customer/session');
 
         if (Mage::helper('persistent')->isEnabled()
             && !$this->_isPersistent()
             && !$customerSession->isLoggedIn()
-            && $checkoutSession->getQuoteId()
+            && Mage::getSingleton('checkout/session')->getQuoteId()
         ) {
             Mage::dispatchEvent('persistent_session_expired');
-            $quote = $checkoutSession->setLoadInactive()->getQuote();
-            if ($quote->getIsActive() && $quote->getCustomerId()) {
-                $checkoutSession->unsetAll();
-            } else {
-                $quote
-                    ->setIsActive(true)
-                    ->setIsPersistent(false)
-                    ->setCustomerId(null)
-                    ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
-            }
+            $this->_expirePersistentSession();
             $customerSession->setCustomerId(null)->setCustomerGroupId(null);
+        }
+    }
+
+    protected function _expirePersistentSession()
+    {
+        /** @var $checkoutSession Mage_Checkout_Model_Session */
+        $checkoutSession = Mage::getSingleton('checkout/session');
+
+        $quote = $checkoutSession->setLoadInactive()->getQuote();
+        if ($quote->getIsActive() && $quote->getCustomerId()) {
+            $checkoutSession->setCustomer(null)->unsetAll();
+        } else {
+            $quote
+                ->setIsActive(true)
+                ->setIsPersistent(false)
+                ->setCustomerId(null)
+                ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
         }
     }
 
