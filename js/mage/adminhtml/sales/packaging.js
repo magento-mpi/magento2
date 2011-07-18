@@ -514,10 +514,12 @@ Packaging.prototype = {
             packageGirth[0].disable();
             packageGirth[0].addClassName('disabled');
             packageGirthDimensionUnits[0].disable();
+            packageGirthDimensionUnits[0].addClassName('disabled');
         } else {
             packageGirth[0].enable();
             packageGirth[0].removeClassName('disabled');
             packageGirthDimensionUnits[0].enable();
+            packageGirthDimensionUnits[0].removeClassName('disabled');
         }
 
         var sizeEnabled = (packageContainer[0].value == 'NONRECTANGULAR' || packageContainer[0].value == 'RECTANGULAR'
@@ -564,12 +566,14 @@ Packaging.prototype = {
         }
 
         currentNode.select(
-            'input[name=container_length],input[name=container_width],input[name=container_height]'
+            'input[name=container_length],input[name=container_width],input[name=container_height],select[name=container_dimension_units]'
         ).each(function(inputElement) {
             if (disable) {
                 Form.Element.disable(inputElement);
                 inputElement.addClassName('disabled');
-                $(inputElement).value = ''
+                if (currentNode.nodeName == 'INPUT') {
+                    $(inputElement).value = ''
+                }
             } else {
                 Form.Element.enable(inputElement);
                 inputElement.removeClassName('disabled');
@@ -583,8 +587,10 @@ Packaging.prototype = {
         var contentTypeOther = packageBlock.select('[name=content_type_other]')[0];
         if (contentType.value == 'OTHER') {
             Form.Element.enable(contentTypeOther);
+            contentTypeOther.removeClassName('disabled');
         } else {
             Form.Element.disable(contentTypeOther);
+            contentTypeOther.addClassName('disabled');
         }
 
     },
