@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Rma>
-            <version>1.11.0.7</version>
+            <version>1.11.0.8</version>
         </Enterprise_Rma>
     </modules>
     <global>
