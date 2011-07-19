@@ -42,16 +42,16 @@ manage_attributes:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         fields:
-                            attribute_code: //input[@id='filter_attribute_code']
-                            attribute_lable: //input[@id='filter_frontend_label']
+                            attribute_code: //input[@name='attribute_code']
+                            attribute_lable: //input[@name='frontend_label']
                         dropdowns:
-                            system: //select[@id='filter_is_user_defined']
-                            required: //select[@id='filter_is_required']
-                            visible:  //select[@id='filter_is_visible']
-                            scope:  //select[@id='filter_is_global']
-                            searchable: //select[@id='filter_is_searchable']
-                            use_in_layered_navigation:  //select[@id='filter_is_filterable']
-                            comparable: //select[@id='filter_is_comparable']
+                            system: //select[@name='is_user_defined']
+                            required: //select[@name='is_required']
+                            visible:  //select[@name='is_visible']
+                            scope:  //select[@name='is_global']
+                            searchable: //select[@name='is_searchable']
+                            use_in_layered_navigation:  //select[@id='is_filterable']
+                            comparable: //select[@name='is_comparable']
         buttons:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &productAttributeMessages

@@ -41,26 +41,35 @@ manage_admin_users:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         dropdowns:
-                            status: //select[@id='filter_is_active']
+                            status: //select[@name='is_active']
                         fields:
-                            id: //input[@id='filter_user_id']
-                            user_name: //input[@id='filter_username']
-                            first_name: //input[@id='filter_firstname']
-                            last_name: //input[@id='filter_lastname']
-                            email: //input[@id='filter_email']
+                            id: //input[@name='user_id']
+                            user_name: //input[@name='username']
+                            first_name: //input[@name='firstname']
+                            last_name: //input[@name='lastname']
+                            email: //input[@name='email']
                         links:
                             select_by_user_name: //table[@id="permissionsUserGrid_table"]//td[normalize-space(text())="%userName%"]
         buttons:
             add_new_admin_user: //button[span='Add New User' or span='Add New']
-        messages:
+        messages: &adminUserMessages
+            exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'A user with the same user name or email aleady exists.')]
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            cannot_delete_account: //li[normalize-space(@class)='error-msg' and contains(.//span,'You cannot delete your own account.')]
             success_deleted_user: //li[normalize-space(@class)='success-msg' and contains(.//span,'The user has been deleted.')]
+            success_saved_user: //li[normalize-space(@class)='success-msg' and contains(.//span,'The user has been saved.')]
+            exist_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'Email already exists.')]
+            invalid_password: //div[@id='advice-validate-admin-password-user_password']
+            password_unmatch: //div[@id='advice-validate-cpassword-user_confirmation']
+            invalid_email: //div[@id='advice-validate-email-user_email']
+            confirmation_for_delete: Are you sure you want to do this?
 
 # 'New User' page
 new_admin_user:
     mca: permissions_user/new/
     title: New Users / Users / Permissions / System / Magento Admin
     uimap:
-        form: &newUserForm
+        form: &adminUserForm
             tabs:
                 -
                     user_info:
@@ -92,131 +101,40 @@ new_admin_user:
                                     checkboxes:
                                     #must be implemented
                                     dropdowns:
-                                        assigned: //input[@id='filter_assigned_user_role']
+                                        assigned: //input[@name='assigned_user_role']
                                     fields:
-                                        role_name: //input[@id='filter_role_name']
+                                        role_name: //input[@name='role_name']
                                     radiobuttons:
                                         select_by_role_name: //td[normalize-space(text())='%roleName%']/ancestor::tr//input[@class='radio']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_admin_user: //button[span='Save User']
-        messages:
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            invalid_email: //div[@id='advice-validate-email-user_email']
-            password_unmatch: //div[@id='advice-validate-cpassword-user_confirmation']
-            invalid_password: //div[@id='advice-validate-admin-password-user_password']
-            exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'A user with the same user name or email aleady exists.')]
-            exist_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'Email already exists.')]
+        messages: *adminUserMessages
 
 # 'Edit User' page
 edit_admin_user:
     mca: permissions_user/edit/user_id/%id%/
     title: %user_first_last_name% / Users / Permissions / System / Magento Admin
     uimap:
-        form: &editUserForm
-            tabs:
-                -
-                    user_info:
-                        xpath: //a[@id='page_tabs_main_section']/span
-                        fieldsets:
-                            -
-                                account_information:
-                                    xpath: //div[@id='user_base_fieldset']
-                                    dropdowns:
-                                        this_acount_is: //select[@id='user_is_active']
-                                    fields:
-                                        user_name: //input[@id='user_username']
-                                        first_name: //input[@id='user_firstname']
-                                        last_name: //input[@id='user_lastname']
-                                        email: //input[@id='user_email']
-                                        password: //input[@id='user_password']
-                                        password_confirmation: //input[@id='user_confirmation']
-                                    required: [user_name, first_name, last_name, email, password, password_confirmation]
-                -
-                    user_role:
-                        xpath: //a[@id='page_tabs_roles_section']/span
-                        fieldsets:
-                            -
-                                permissions_user_roles:
-                                    xpath: //div[@id='permissionsUserRolesGrid']
-                                    buttons:
-                                        reset_filter: //button[span="Reset Filter"]
-                                        search: //button[span="Search"]
-                                    dropdowns:
-                                        assigned: //input[@id='filter_assigned_user_role']
-                                    fields:
-                                        role_name: //input[@id='filter_role_name']
-                                    radiobuttons:
-                                        select_by_role_name: //td[normalize-space(text())='%roleName%']/ancestor::tr//input[@class='radio']
+        form: *adminUserForm
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_user: //button[span='Delete User']
             save_admin_user: //button[span='Save User']
-        messages:
-            success_saved_user: //li[normalize-space(@class)='success-msg' and contains(.//span,'The user has been saved.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            invalid_email: //div[@id='advice-validate-email-user_email']
-            password_unmatch: //div[@id='advice-validate-cpassword-user_confirmation']
-            invalid_password: //div[@id='advice-validate-admin-password-user_password']
-            exist_email: //li[normalize-space(@class)='success-msg' and contains(.//span,'Email already exists.')]
-            exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'A user with the same user name or email aleady exists.')]
-            cannot_delete_account: //li[normalize-space(@class)='error-msg' and contains(.//span,'You cannot delete your own account.')]
-            confirmation_for_delete: Are you sure you want to do this?
+        messages: *adminUserMessages
 
 new_admin_user_with_error:
     mca: permissions_user/edit/
     title: New Users / Users / Permissions / System / Magento Admin
     uimap:
-        form: &newUserForm
-            tabs:
-                -
-                    user_info:
-                        xpath: //a[@id='page_tabs_main_section']/span
-                        fieldsets:
-                            -
-                                account_information:
-                                    xpath: //div[@id='user_base_fieldset']
-                                    dropdowns:
-                                        this_acount_is: //select[@id='user_is_active']
-                                    fields:
-                                        user_name: //input[@id='user_username']
-                                        first_name: //input[@id='user_firstname']
-                                        last_name: //input[@id='user_lastname']
-                                        email: //input[@id='user_email']
-                                        password: //input[@id='user_password']
-                                        password_confirmation: //input[@id='user_confirmation']
-                                    required: [user_name, first_name, last_name, email, password, password_confirmation]
-                -
-                    user_role:
-                        xpath: //a[@id='page_tabs_roles_section']/span
-                        fieldsets:
-                            -
-                                permissions_user_roles:
-                                    xpath: //div[@id='permissionsUserRolesGrid']
-                                    buttons:
-                                        reset_filter: //button[span="Reset Filter"]
-                                        search: //button[span="Search"]
-                                    checkboxes:
-                                    #must be implemented
-                                    dropdowns:
-                                        assigned: //input[@id='filter_assigned_user_role']
-                                    fields:
-                                        role_name: //input[@id='filter_role_name']
-                                    radiobuttons:
-                                        select_by_role_name: //td[normalize-space(text())='%roleName%']/ancestor::tr//input[@class='radio']
+        form: *adminUserForm
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_admin_user: //button[span='Save User']
-        messages:
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            invalid_email: //div[@id='advice-validate-email-user_email']
-            password_unmatch: //div[@id='advice-validate-cpassword-user_confirmation']
-            invalid_password: //div[@id='advice-validate-admin-password-user_password']
-            exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'A user with the same user name or email aleady exists.')]
-            exist_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'Email already exists.')]
+        messages: *adminUserMessages
 
 # 'Roles' page
 manage_roles:
@@ -233,8 +151,8 @@ manage_roles:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         fields:
-                            id: //input[@id='filter_role_id']
-                            role_name: //input[@id='filter_role_name']
+                            id: //input[@name='role_id']
+                            role_name: //input[@name='role_name']
                         links:
                             select_by_role_name: //table[@id="roleGrid_table"]//td[normalize-space(text())="%roleName%"]
         buttons:
@@ -329,17 +247,17 @@ edit_role:
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
-                                    dropdowns:
-                                        filter_in_role_users: //select[@id='filter_in_role_users']
-                                        status: //select[@id='filter_role_user_is_active']
                                     checkboxes:
                                         select_by_user_name: //td[normalize-space(text())='%userName%']/ancestor::tr//input[@class='checkbox']
+                                    dropdowns:
+                                        filter_in_role_users: //select[@name='in_role_users']
+                                        status: //select[@name='role_user_is_active']
                                     fields:
-                                        user_id: //input[@id='filter_role_user_id']
-                                        user_name: //input[@id='filter_role_user_username']
-                                        first_name: //input[@id='filter_role_user_firstname']
-                                        last_name: //input[@id='filter_role_user_lastname']
-                                        email: //input[@id='filter_role_user_email']
+                                        user_id: //input[@name='role_user_id']
+                                        user_name: //input[@name='role_user_username']
+                                        first_name: //input[@name='role_user_firstname']
+                                        last_name: //input[@name='role_user_lastname']
+                                        email: //input[@name='role_user_email']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -370,11 +288,4 @@ my_account:
         buttons:
             save_account: //button[span='Save Account']
             reset_filter: //button[span='Reset Filter']
-        messages:
-            success_saved_user: //li[normalize-space(@class)='success-msg' and contains(.//span,'The user has been saved.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            invalid_email: //div[@id='advice-validate-email-user_email']
-            password_unmatch: //div[@id='advice-validate-cpassword-user_confirmation']
-            invalid_password: //div[@id='advice-validate-admin-password-user_password']
-            exist_email: //li[normalize-space(@class)='success-msg' and contains(.//span,'Email already exists.')]
-            exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'A user with the same user name or email aleady exists.')]
+        messages: *adminUserMessages

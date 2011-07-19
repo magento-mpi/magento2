@@ -42,17 +42,18 @@ manage_customers:
                             search: //button[span='Search']
                             submit: //button[span='Submit']
                         dropdowns:
-                            group: //select[@id='filter_group']
-                            country: //select[@id='filter_billing_country_id']
-                            website: //select[@id='filter_website_id']
+                            massaction: //select[@name='massaction']
+                            group: //select[@name='group']
+                            country: //select[@name='billing_country_id']
+                            website: //select[@name='website_id']
                         fields:
-                            id_from: //input[@id='filter_entity_id_from']
-                            id_to: //input[@id='filter_entity_id_to']
-                            name: //input[@id='filter_name']
-                            email: //input[@id='filter_email']
-                            telephone: //input[@id='filter_Telephone']
-                            zip_code: //input[@id='filter_billing_postcode']
-                            state: //input[@id='filter_billing_region']
+                            id_from: //input[@name='entity_id_from']
+                            id_to: //input[@name='entity_id_to']
+                            name: //input[@name='name']
+                            email: //input[@name='email']
+                            telephone: //input[@name='Telephone']
+                            zip_code: //input[@name='billing_postcode']
+                            state: //input[@name='billing_region']
                         links:
                             open_customer_by_value:
         buttons:

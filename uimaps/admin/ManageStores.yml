@@ -43,9 +43,9 @@ manage_stores:
                         links:
                             select_store_view: //td[normalize-space(@class)='a-left last']/a[text()='%NAME%']
                         fields:
-                            website_name: //input[@id='filter_website_title']
-                            store_name: //input[@id='filter_group_title']
-                            store_view_name: //input[@id='filter_store_title']
+                            website_name: //input[@name='website_title']
+                            store_name: //input[@name='group_title']
+                            store_view_name: //input[@name='store_title']
         buttons:
             create_website: //button[span='Create Website']
             create_store: //button[span='Create Store']
