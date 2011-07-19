@@ -88,7 +88,7 @@ manage_sales_orders:
             
 # Sales Invoices page
 manage_sales_invoices:
-    mca: sales_invoice/index/
+    mca: sales_invoice/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_invoice/')]
     title: Invoices / Sales / Magento Admin
     uimap:
@@ -123,7 +123,7 @@ manage_sales_invoices:
             
 # Sales Shipments page
 manage_sales_shipments:
-    mca: sales_shipment/index/
+    mca: sales_shipment/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_invoice/')]
     title: Shipments / Sales / Magento Admin
     uimap:
@@ -157,7 +157,7 @@ manage_sales_shipments:
 
 # Sales Credit Memos page
 manage_sales_creditmemos:
-    mca: sales_creditmemo/index/
+    mca: sales_creditmemo/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_creditmemo/')]
     title: Credit Memos / Sales / Magento Admin
     uimap:
@@ -192,7 +192,7 @@ manage_sales_creditmemos:
 
 # Sales Transactions page
 manage_sales_transactions:
-    mca: sales_transactions/index/
+    mca: sales_transactions/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_transactions/')]
     title: Transactions / Sales / Magento Admin
     uimap:
@@ -222,7 +222,7 @@ manage_sales_transactions:
 
 #Sales Recurring profile page
 manage_sales_recurring_profile:
-    mca: sales_recurring_profile/index/
+    mca: sales_recurring_profile/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_recurring_profile/')]
     title: Recurring Profiles / Sales / Magento Admin
     uimap:
@@ -251,7 +251,7 @@ manage_sales_recurring_profile:
 
 #Sales Billing agreements page
 manage_sales_billing_agreements:
-    mca: sales_billing_agreement/index/
+    mca: sales_billing_agreement/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_billing_agreement/')]
     title: Billing Agreements / Sales / Magento Admin
     uimap:
@@ -282,7 +282,7 @@ manage_sales_billing_agreements:
 
 #Sales osCommerce orders page
 manage_sales_oscommerce_orders:
-    mca: oscommerce_order/index/
+    mca: oscommerce_order/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'oscommerce_order/')]
     title: osCommerce Orders / Sales / Magento Admin
     uimap:
@@ -312,7 +312,7 @@ manage_sales_oscommerce_orders:
 
 #Sales Terms and Conditions page
 manage_sales_checkout_terms_conditions:
-    mca: checkout_agreement/index/
+    mca: checkout_agreement/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'checkout_agreement/')]
     title: Terms and Conditions / Sales / Magento Admin
     uimap:
@@ -472,13 +472,19 @@ create_order_for_new_customer:
                             paypal_uk_direct: //input[@id='p_method_paypaluk_direct']
                             authorize_net: //input[@id='p_method_authorizenet']
                         fields:
-                            name_on_card: //div[@class='input-box']/input[@name='payment[cc_owner]']
-                            credit_card_number: //div[@class='input-box']/input[@name='payment[cc_number]']
-                            cvv: //div[@class='input-box']/input[@name='payment[cc_cid]']
+                            name_on_card_saved: //ul[@id='payment_form_ccsave']//div[@class='input-box']/input[@name='payment[cc_owner]']
+                            credit_card_number_saved: //ul[@id='payment_form_ccsave']//div[@class='input-box']/input[@name='payment[cc_number]']
+                            cvv_saved: //ul[@id='payment_form_ccsave']//div[@class='input-box']/input[@name='payment[cc_cid]']
+                            name_on_card_autnet: //ul[@id='payment_form_authorizenet']//div[@class='input-box']/input[@name='payment[cc_owner]']
+                            credit_card_number_autnet: //ul[@id='payment_form_authorizenet']//div[@class='input-box']/input[@name='payment[cc_number]']
+                            cvv_autnet: //ul[@id='payment_form_authorizenet']//div[@class='input-box']/input[@name='payment[cc_cid]']
                         dropdowns:
-                            credit_card_type: //select[@name='payment[cc_type]']
-                            expiration_date_month: //select[@name='payment[cc_exp_month]']
-                            expiration_date_year: //select[@name='payment[cc_exp_year]']
+                            credit_card_type_saved: //ul[@id='payment_form_ccsave']//select[@name='payment[cc_type]']
+                            expiration_date_month_saved: //ul[@id='payment_form_ccsave']//select[@name='payment[cc_exp_month]']
+                            expiration_date_year_saved: //ul[@id='payment_form_ccsave']//select[@name='payment[cc_exp_year]']
+                            credit_card_type_autnet: //ul[@id='payment_form_authorizenet']//select[@name='payment[cc_type]']
+                            expiration_date_month_autnet: //ul[@id='payment_form_authorizenet']//select[@name='payment[cc_exp_month]']
+                            expiration_date_year_autnet: //ul[@id='payment_form_authorizenet']//select[@name='payment[cc_exp_year]']
                     #TODO - add more methods
                 -
                     order_history: &order_history
@@ -745,6 +751,7 @@ view_order:
             reorder: //p[@class='form-buttons']//button[span='Reorder']
         messages:
             confirmation_for_cancel: Are you sure you want to cancel this order?
+            success_created_order: //li[normalize-space(@class)='success-msg' and contains(.//span,'The order has been created.')]
 
 create_invoice:
     mca: sales_order_invoice/new/order_id/%id%/

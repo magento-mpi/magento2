@@ -44,6 +44,8 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
     {
         $this->windowMaximize();
         $this->loginAdminUser();
+        $this->orderHelper()->createProducts('product_to_order1');
+        $this->orderHelper()->createProducts('product_to_order2');
     }
    /**
     *
@@ -54,12 +56,7 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
     */
     protected function assertPreConditions()
     {
-        $this->orderHelper()->createProducts('product_to_order1');
-        $this->orderHelper()->createProducts('product_to_order2');
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
         $this->addParameter('id', '0');
-        $this->addParameter('shipMethod', 'Fixed');
     }
    /**
     * Create customer via 'Create order' form (required fields are not filled).
@@ -106,6 +103,7 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
     */
     public function testOrderWithEmptyFieldsForCreditCard($emptyField)
     {
+        $this->markTestIncomplete();
         //Data
         $data = $this->loadData(
                         'new_customer_order_billing_address_reqfields'

@@ -43,6 +43,8 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
     {
         $this->windowMaximize();
         $this->loginAdminUser();
+        $this->OrderHelper()->createProducts('product_to_order1', TRUE);
+        $this->OrderHelper()->createProducts('product_to_order2', TRUE);
     }
    /**
     *
@@ -51,15 +53,7 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
     *
     */
     protected function assertPreConditions()
-    {
-        $this->orderHelper()->createProducts('product_to_order1');
-        $this->orderHelper()->createProducts('product_to_order2');
-        $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'Wrong page is opened');
-        $this->addParameter('id', '0');
-        $this->addParameter('shipMethod', 'Fixed');
-    }
+    {}
    /**
     * Create order(all required fields are filled) for existing customer.
     *
@@ -82,58 +76,16 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
     {
         $userData = $this->loadData('new_customer');
         $addressData = $this->loadData('new_customer_address');
+        $this->navigate('manage_customers');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
         $this->CustomerHelper()->createCustomer($userData, $addressData);
-        //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->clickButton('create_new_order', TRUE), 'Navigated to Create New Order page');
-        $this->assertTrue($this->orderHelper()->defineId('create_order_for_new_customer'));
-        //Choosing customer for creating order.
-        $searchData = array('name'=>"Stevenson", 'email'=> "test_purpose@gmail.com");
-        $this->searchAndOpen($searchData, FALSE);
-        $this->waitForAjax();
-        $this->addParameter('storeName', 'Default Store View');
-        if (($this->checkCurrentPage('create_order_for_new_customer') == TRUE)
-                && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
-                $this->clickControl('radiobutton', 'choose_main_store', FALSE);
-                $this->pleaseWait();
-        }
-        $customerAddress = array ('billing_address_choice'
-            => 'Steven Stevenson, number 11 nothing, nowhere, 90232, Ukraine',
-            'email' => 'test_purpose@gmail.com');
-        $this->fillForm($customerAddress, 'order_billing_address');
-        //Add products to order
-        $this->clickButton('add_products', FALSE);
-        //getting products name from dataset. Adding them to the order
-        $fieldsetName = 'select_products_to_add';
-        $products = $this->loadData('products');
-        foreach ($products as $key => $value){
-            $prodToAdd = array($key => $value);
-            $this->searchAndChoose($prodToAdd, $fieldsetName);
-        }
-        $this->clickButton('add_selected_products_to_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('checkboxe', 'shipping_same_as_billing_address', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'check_money_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'ship_method', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
-        //Covering up traces. Canceling order
-        $data = $this->loadData('new_customer');
-        $searchParam = $data['last_name'];
-        $this->orderHelper()->cancelPendingOrders($searchParam);
-        //Covering up traces. Deleting Customer
-        $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
-        $searchData = array('name'=>"Stevenson", 'email'=> "test_purpose@gmail.com");
-        $this->CustomerHelper()->openCustomer($searchData);
-        $this->deleteElement('delete_customer', 'confirmation_for_delete');
+        $email = array('email'=> $userData['email']);
+        $data = array_merge($userData, $addressData);
+        $orderId = $this->OrderHelper()->createOrderForExistingCustomer(false, 'products',
+            $data, $data,'test_purpose@gmail.com', 'Default Store View', 'visa','Fixed');
+        $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
 }

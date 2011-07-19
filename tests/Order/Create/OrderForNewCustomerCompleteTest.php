@@ -44,6 +44,8 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
     {
         $this->windowMaximize();
         $this->loginAdminUser();
+        $this->OrderHelper()->createProducts('product_to_order1', TRUE);
+        $this->OrderHelper()->createProducts('product_to_order2', TRUE);
     }
    /**
     *
@@ -54,12 +56,7 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
     */
     protected function assertPreConditions()
     {
-        $this->orderHelper()->createProducts('product_to_order1');
-        $this->orderHelper()->createProducts('product_to_order2');
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
         $this->addParameter('id', '0');
-        $this->addParameter('shipMethod', 'Fixed');
     }
    /**
     * Create customer via 'Create order' form (all fields are filled with special chars).
@@ -101,54 +98,20 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
     */
     public function testOrderCompleteSpecialCharacters()
     {
-        //Data
-        $data = $this->loadData(
-                        'new_customer_order_billing_address_allfields',
-                        array(
-                            'billing_prefix'  => $this->generate('string', 32, ':punct:'),
-                            'billing_first_name'     => $this->generate('string', 32, ':punct:'),
-                            'billing_middle_name' => $this->generate('string', 32, ':punct:'),
-                            'billing_last_name'      => $this->generate('string', 32, ':punct:'),
-                            'billing_suffix'  => $this->generate('string', 32, ':punct:'),
-                            'billing_company' =>  $this->generate('string', 32, ':punct:'),
-                            'billing_street_address_1'   => $this->generate('string', 32, ':punct:'),
-                            'billing_street_address_2'  => $this->generate('string', 32, ':punct:'),
-                            'billing_city'    =>  $this->generate('string', 32, ':punct:'),
-                            'billing_zip_code' =>  $this->generate('string', 32, ':punct:'),
-                            'billing_telephone'   =>  $this->generate('string', 32, ':punct:'),
-                            'billing_fax' =>  $this->generate('string', 32, ':punct:'),
-                            'email' =>  $this->generate('email', 32, 'valid')
-                            )
-                );
-        //Filling customer's information, address
-        $this->orderHelper()->fillNewBillForm($data);
-        //Add products to order
-        $this->clickButton('add_products', FALSE);
-        //getting products id and name from dataset. Adding them to the order
-        $fieldsetName = 'select_products_to_add';
-        $products = $this->loadData('products');
-        foreach ($products as $key => $value){
-            $prodToAdd = array($key => $value);
-            $this->searchAndChoose($prodToAdd, $fieldsetName);
-        }
-        $this->clickButton('add_selected_products_to_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'check_money_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'ship_method', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $email = array('email' =>  $this->generate('email', 32, 'valid'));
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
+                $email, 'Default Store View', true, true,'visa','Fixed');
         $this->clickButton('invoice', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('create_invoice'));
+        $this->orderHelper()->defineId('create_invoice');
         $this->clickButton('submit_invoice', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $this->orderHelper()->defineId('view_order');
         $this->clickButton('ship', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('create_shipment'));
+        $this->orderHelper()->defineId('create_shipment');
         $this->clickButton('submit_shipment', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $this->orderHelper()->defineId('view_order');
+        $this->OrderHelper()->coverUpTraces(null, $email);
     }
    /**
     * Create customer via 'Create order' form (all fields are filled).
@@ -187,37 +150,20 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
     */
     public function testOrderCompleteAllFields()
     {
-        $data = $this->loadData('new_customer_order_billing_address_allfields',
-                array('email' =>  $this->generate('email', 32, 'valid')));
-        //Filling customer's information, address
-        $this->orderHelper()->fillNewBillForm($data);
-        //Add products to order
-        $this->clickButton('add_products', FALSE);
-        //getting products id and name from dataset. Adding them to the order
-        $fieldsetName = 'select_products_to_add';
-        $products = $this->loadData('products');
-        foreach ($products as $key => $value){
-            $prodToAdd = array($key => $value);
-            $this->searchAndChoose($prodToAdd, $fieldsetName);
-        }
-        $this->clickButton('add_selected_products_to_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'check_money_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'ship_method', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $email = array('email' =>  $this->generate('email', 32, 'valid'));
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+                $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, FALSE),
+                $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, FALSE),
+                $email, 'Default Store View', true, true,'visa','Fixed');
         $this->clickButton('invoice', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('create_invoice'));
+        $this->orderHelper()->defineId('create_invoice');
         $this->clickButton('submit_invoice', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $this->orderHelper()->defineId('view_order');
         $this->clickButton('ship', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('create_shipment'));
+        $this->orderHelper()->defineId('create_shipment');
         $this->clickButton('submit_shipment', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $this->orderHelper()->defineId('view_order');
+        $this->OrderHelper()->coverUpTraces(null, $email);
     }
    /**
     * Create customer via 'Create order' form (required fields are filled).
@@ -256,37 +202,19 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
     */
     public function testOrderCompleteReqFields()
     {
-        $data = $this->loadData('new_customer_order_billing_address_reqfields',
-                array('email' =>  $this->generate('email', 32, 'valid')));
-        //Filling customer's information, address
-        $this->orderHelper()->fillNewBillForm($data);
-        //Add products to order
-        $this->clickButton('add_products', FALSE);
-        //getting products id and name from dataset. Adding them to the order
-        $fieldsetName = 'select_products_to_add';
-        $products = $this->loadData('products');
-        foreach ($products as $key => $value){
-            $prodToAdd = array($key => $value);
-            $this->searchAndChoose($prodToAdd, $fieldsetName);
-        }
-        $this->clickButton('add_selected_products_to_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'check_money_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'ship_method', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('submit_order', TRUE);
-        //$this->assertTrue($this->errorMessage('customer_email_already_exists'), $this->messages);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $email = array('email' =>  $this->generate('email', 32, 'valid'));
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+                $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, TRUE),
+                $email, 'Default Store View', true, true,'visa','Fixed');
         $this->clickButton('invoice', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('create_invoice'));
+        $this->orderHelper()->defineId('create_invoice');
         $this->clickButton('submit_invoice', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $this->orderHelper()->defineId('view_order');
         $this->clickButton('ship', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('create_shipment'));
+        $this->orderHelper()->defineId('create_shipment');
         $this->clickButton('submit_shipment', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $this->orderHelper()->defineId('view_order');
+        $this->OrderHelper()->coverUpTraces(null, $email);
     }
 }

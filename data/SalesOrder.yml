@@ -35,6 +35,19 @@ new_customer_order_billing_address_reqfields:
     billing_zip_code: '01001 testdataset req'
     billing_telephone: '091019019 testdataset req'
     email: %noValue%
+    customer_group: 'General'
+    billing_save_in_address_book: no
+
+new_customer_order_shipping_address_reqfields:
+    shipping_same_as_billing_address: no
+    shipping_first_name: 'Steven_testdataset req'
+    shipping_last_name: 'Stevenson_testdataset req'
+    shipping_street_address_1: 'number 11 testdataset req'
+    shipping_city: 'nowhere_testdataset req'
+    shipping_country: 'Ukraine'
+    shipping_zip_code: '01001 testdataset req'
+    shipping_telephone: '091019019 testdataset req'
+    shipping_save_in_address_book: no
 
 new_customer_order_billing_address_allfields:
     billing_prefix: 'Mr testdataset all'
@@ -51,6 +64,26 @@ new_customer_order_billing_address_allfields:
     billing_telephone: '091019019 testdataset all'
     billing_fax: '0919327869 testdataset all'
     email: %noValue%
+    customer_group: 'General'
+    billing_save_in_address_book: no
+
+new_customer_order_shipping_address_allfields:
+    #shipping_same_as_billing_address: no Due to bug i need to set this checkbox after setting prefix
+    shipping_prefix: 'Mr testdataset all'
+    shipping_same_as_billing_address: no
+    shipping_first_name: 'Steven testdataset all'
+    shipping_middle_name: 'Y testdataset all'
+    shipping_last_name: 'Stevenson testdataset all'
+    shipping_suffix: 'Jr testdataset all'
+    shipping_company: 'home testdataset all'
+    shipping_street_address_1: 'number 11 testdataset all'
+    shipping_street_address_2: 'nothing testdataset all'
+    shipping_city: 'nowhere testdataset all'
+    shipping_country: Ukraine
+    shipping_zip_code: '01001 testdataset all'
+    shipping_telephone: '091019019 testdataset all'
+    shipping_fax: '0919327869 testdataset all'
+    shipping_save_in_address_book: no
 
 order_billing_address:
     billing_prefix: prefix
@@ -64,8 +97,26 @@ order_billing_address:
     billing_city: nowhere
     billing_zip_code: '01001'
     billing_telephone: '091019019'
-    order_fax: '09191'
+    billing_fax: '09191'
+    email: %noValue%
+    customer_group: 'General'
+    billing_save_in_address_book: no
 
+order_shipping_address:
+    shipping_same_as_billing_address: no
+    shipping_prefix: prefix
+    shipping_first_name: Steven
+    shipping_middle_name: Y
+    shipping_last_name: Stevenson
+    shipping_suffix: %noValue%
+    shipping_company: test
+    shipping_street_address_1: number 11
+    shipping_street_address_2: nothing
+    shipping_city: nowhere
+    shipping_zip_code: '01001'
+    shipping_telephone: '091019019'
+    shipping_fax: '09191'
+    shipping_save_in_address_book: no  
   
 new_customer:
     associate_to_website: Main Website
@@ -105,36 +156,36 @@ new_customer_address:
     default_shipping_address: %noValue%
 
 american_express:
-    name_on_card: 'Test Account'
-    credit_card_type: 'American Express'
-    credit_card_number: '341111111111111'
-    expiration_date_month: '07 - July'
-    expiration_date_year: '2011'
-    cvv: '1234'
+    name_on_card_saved: 'Test Account'
+    credit_card_type_saved: 'American Express'
+    credit_card_number_saved: '341111111111111'
+    expiration_date_month_saved: '07 - July'
+    expiration_date_year_saved: '2011'
+    cvv_saved: '1234'
   
 visa:
-    name_on_card: 'Test Account'
-    credit_card_type: 'Visa'
-    credit_card_number: '4024007127653'
-    expiration_date_month: '07 - July'
-    expiration_date_year: '2012'
-    cvv: '111'
+    name_on_card_saved: 'Test Account'
+    credit_card_type_saved: 'Visa'
+    credit_card_number_saved: '4024007127653'
+    expiration_date_month_saved: '07 - July'
+    expiration_date_year_saved: '2012'
+    cvv_saved: '111'
   
 mastercard:
-    name_on_card: 'Test Account'
-    credit_card_type: 'MasterCard'
-    credit_card_number: '5100080000000000'
-    expiration_date_month: '07 - July'
-    expiration_date_year: '2012'
-    cvv: '111'
+    name_on_card_saved: 'Test Account'
+    credit_card_type_saved: 'MasterCard'
+    credit_card_number_saved: '5100080000000000'
+    expiration_date_month_saved: '07 - July'
+    expiration_date_year_saved: '2012'
+    cvv_saved: '111'
   
 discover:
-    name_on_card: 'Test Account'
-    credit_card_type: 'Discover'
-    credit_card_number: '6011000000000004'
-    expiration_date_month: '07 - July'
-    expiration_date_year: '2012'
-    cvv: '111'
+    name_on_card_saved: 'Test Account'
+    credit_card_type_saved: 'Discover'
+    credit_card_number_saved: '6011000000000004'
+    expiration_date_month_saved: '07 - July'
+    expiration_date_year_saved: '2012'
+    cvv_saved: '111'
   
 products:
     pandora: 'Pandoras Box'
@@ -145,7 +196,7 @@ product_to_order1:
     general_name: Pandoras Box
     general_description: You should try
     general_short_description: Who knows what is inside
-    general_sku: %noValue%
+    general_sku: pandora_ash
     general_weight: 1.13
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -160,7 +211,7 @@ product_to_order2:
     general_name: My Computer
     general_description: Personal Computer
     general_short_description: Laptop
-    general_sku: %noValue%
+    general_sku: computer_ash
     general_weight: 10.15
     general_status: Enabled
     general_visibility: Catalog, Search

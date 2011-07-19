@@ -44,6 +44,8 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
     {
         $this->windowMaximize();
         $this->loginAdminUser();
+        $this->OrderHelper()->createProducts('product_to_order1', TRUE);
+        $this->OrderHelper()->createProducts('product_to_order2', TRUE);
     }
    /**
     *
@@ -53,14 +55,7 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
     *
     */
     protected function assertPreConditions()
-    {
-        $this->orderHelper()->createProducts('product_to_order1');
-        $this->orderHelper()->createProducts('product_to_order2');
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
-        $this->addParameter('shipMethod', 'Fixed');
-    }
+    {}
    /**
     * Create customer via 'Create order' form (required fields are not filled).
     *
@@ -100,6 +95,7 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
     */
     public function testOrderWithoutRequiredFieldsFilled($emptyField)
     {
+        $this->markTestIncomplete();
         //Data
         $data = $this->loadData(
                         'new_customer_order_billing_address_reqfields',

@@ -44,6 +44,8 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
     {
         $this->windowMaximize();
         $this->loginAdminUser();
+        $this->OrderHelper()->createProducts('product_to_order1', TRUE);
+        $this->OrderHelper()->createProducts('product_to_order2', TRUE);
     }
    /**
     *
@@ -54,12 +56,7 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
     */
     protected function assertPreConditions()
     {
-        $this->orderHelper()->createProducts('product_to_order1');
-        $this->orderHelper()->createProducts('product_to_order2');
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
         $this->addParameter('id', '0');
-        $this->addParameter('shipMethod', 'Fixed');
     }
    /**
     * Create customer via 'Create order' form (required fields are filled). American Express credit card.
@@ -102,33 +99,12 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
     */
     public function testOrderWithCreditCardAmericanExpress()
     {
-        //Data
-        $data = $this->loadData('new_customer_order_billing_address_reqfields');
-        //Filling customer's information, address
-        $this->orderHelper()->fillNewBillForm($data);
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $this->assertTrue($this->fillForm($email, 'order_form_account'));
-        //Add products to order
-        $this->clickButton('add_products', FALSE);
-        //getting products name from dataset. Adding them to the order
-        $fieldsetName = 'select_products_to_add';
-        $products = $this->loadData('products');
-        foreach ($products as $key => $value){
-            $prodToAdd = array($key => $value);
-            $this->searchAndChoose($prodToAdd, $fieldsetName);
-        }
-        $this->clickButton('add_selected_products_to_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'credit_card', FALSE);
-        $this->pleaseWait();
-        $creditCardData = $this->loadData('american_express');
-        $this->fillForm($creditCardData, 'order_payment_method');
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'ship_method', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
+                $email, 'Default Store View', true, true,'american_express','Fixed');
+        $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
   /**
     * Create customer via 'Create order' form (required fields are filled). Visa credit card.
@@ -171,33 +147,12 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
     */
     public function testOrderWithCreditCardVisa()
     {
-        //Data
-        $data = $this->loadData('new_customer_order_billing_address_reqfields');
-        //Filling customer's information, address
-        $this->orderHelper()->fillNewBillForm($data);
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $this->assertTrue($this->fillForm($email, 'order_form_account'));
-        //Add products to order
-        $this->clickButton('add_products', FALSE);
-        //getting products id and name from dataset. Adding them to the order
-        $fieldsetName = 'select_products_to_add';
-        $products = $this->loadData('products');
-        foreach ($products as $key => $value){
-            $prodToAdd = array($key => $value);
-            $this->searchAndChoose($prodToAdd, $fieldsetName);
-        }
-        $this->clickButton('add_selected_products_to_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'credit_card', FALSE);
-        $this->pleaseWait();
-        $creditCardData = $this->loadData('visa');
-        $this->fillForm($creditCardData, 'order_payment_method');
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'ship_method', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
+                $email, 'Default Store View', true, true,'visa','Fixed');
+        $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
   /**
     * Create customer via 'Create order' form (required fields are filled). MasterCard credit card.
@@ -240,33 +195,12 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
     */
     public function testOrderWithCreditCardMastercard()
     {
-        //Data
-        $data = $this->loadData('new_customer_order_billing_address_reqfields');
-        //Filling customer's information, address
-        $this->orderHelper()->fillNewBillForm($data);
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $this->assertTrue($this->fillForm($email, 'order_form_account'));
-        //Add products to order
-        $this->clickButton('add_products', FALSE);
-        //getting products id and name from dataset. Adding them to the order
-        $fieldsetName = 'select_products_to_add';
-        $products = $this->loadData('products');
-        foreach ($products as $key => $value){
-            $prodToAdd = array($key => $value);
-            $this->searchAndChoose($prodToAdd, $fieldsetName);
-        }
-        $this->clickButton('add_selected_products_to_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'credit_card', FALSE);
-        $this->pleaseWait();
-        $creditCardData = $this->loadData('mastercard');
-        $this->fillForm($creditCardData, 'order_payment_method');
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'ship_method', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
+                $email, 'Default Store View', true, true,'mastercard','Fixed');
+        $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
   /**
     * Create customer via 'Create order' form (required fields are filled). Discover credit card.
@@ -309,32 +243,11 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
     */
     public function testOrderWithCreditCardDiscover()
     {
-        //Data
-        $data = $this->loadData('new_customer_order_billing_address_reqfields');
-        //Filling customer's information, address
-        $this->orderHelper()->fillNewBillForm($data);
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $this->assertTrue($this->fillForm($email, 'order_form_account'));
-        //Add products to order
-        $this->clickButton('add_products', FALSE);
-        //getting products id and name from dataset. Adding them to the order
-        $fieldsetName = 'select_products_to_add';
-        $products = $this->loadData('products');
-        foreach ($products as $key => $value){
-            $prodToAdd = array($key => $value);
-            $this->searchAndChoose($prodToAdd, $fieldsetName);
-        }
-        $this->clickButton('add_selected_products_to_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'credit_card', FALSE);
-        $this->pleaseWait();
-        $creditCardData = $this->loadData('discover');
-        $this->fillForm($creditCardData, 'order_payment_method');
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'ship_method', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('submit_order', TRUE);
-        $this->assertTrue($this->orderHelper()->defineId('view_order'));
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
+                $email, 'Default Store View', true, true,'discover','Fixed');
+        $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
 }
