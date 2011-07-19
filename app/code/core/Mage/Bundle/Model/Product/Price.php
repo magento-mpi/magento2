@@ -366,15 +366,15 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
         if ($bundleProduct->getPriceType() == self::PRICE_TYPE_DYNAMIC) {
             if ($multiplyQty) {
-                $selectionPrice = $selectionProduct->getFinalPrice($selectionQty) * $selectionQty;
+                return $selectionProduct->getFinalPrice($selectionQty) * $selectionQty;
             } else {
-                $selectionPrice = $selectionProduct->getFinalPrice($selectionQty);
+                return $selectionProduct->getFinalPrice($selectionQty);
             }
-            return $selectionPrice;
         } else {
             if ($selectionProduct->getSelectionPriceType()) { // percent
-                return $bundleProduct->getPrice() * ($selectionProduct->getSelectionPriceValue() / 100) * $selectionQty;
-            } else {
+                return $selectionProduct->getFinalPrice() * ($selectionProduct->getSelectionPriceValue() / 100)
+                        * $selectionQty;
+            } else { // fixed
                 return $selectionProduct->getSelectionPriceValue() * $selectionQty;
             }
         }
