@@ -239,11 +239,7 @@ class ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
                         array('admin_title' => $this->generate('string', 32, ':punct:')),
                         'attribute_code');
         $searchData = $this->loadData('attribute_search_data',
-                        array(
-                            'attribute_code'  => $attrData['attribute_code'],
-                            'attribute_lable' => $attrData['admin_title'],
-                        )
-        );
+                        array('attribute_code' => $attrData['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -283,7 +279,7 @@ class ProductAttribute_Create_YesNoTest extends Mage_Selenium_TestCase
         $searchData = $this->loadData('attribute_search_data',
                         array(
                             'attribute_code'  => $attrData['attribute_code'],
-                            'attribute_lable' => $attrData['admin_title'],
+                            'attribute_lable' => '%noValue%',
                         )
         );
         //Steps
