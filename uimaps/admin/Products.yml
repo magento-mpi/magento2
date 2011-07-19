@@ -74,6 +74,7 @@ manage_products:
             invalid_numeric_value: //*[@id='advice-validate-zero-or-greater-%fieldId%']
             incorrect_sku_length: //div[@id='advice-validate-ajax-sku']
             existing_sku: //div[@id='advice-validate-ajax-sku']
+            enter_valid_number_select_type: "%fieldXpath%/following-sibling::*[text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]"
             enter_valid_sort_order: "%fieldXpath%/following-sibling::*[text()='Please enter a number 0 or greater in this field.' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure?
 

@@ -117,12 +117,6 @@ custom_options_dropdown: &dropdown
         custom_options_price_type: Percent
         custom_options_sku: sku_drop_down_row_1
         custom_options_sort_order: 1
-    custom_option_row_2:
-        custom_options_title: Title 2
-        custom_options_price: 12.56
-        custom_options_price_type: Percent
-        custom_options_sku: sku_drop_down_row_2
-        custom_options_sort_order: 2
 
 custom_options_radiobutton:  &radiobutton
     custom_options_general_title: Custom Option Radio Buttons
@@ -135,12 +129,6 @@ custom_options_radiobutton:  &radiobutton
         custom_options_price_type: Percent
         custom_options_sku: sku_radio_row_1
         custom_options_sort_order: 1
-    custom_option_row_2:
-        custom_options_title: Title 2
-        custom_options_price: 12.56
-        custom_options_price_type: Percent
-        custom_options_sku: sku_radio_row_2
-        custom_options_sort_order: 2
 
 custom_options_checkbox: &checkbox
     custom_options_general_title: Custom Option Checkbox
@@ -153,12 +141,6 @@ custom_options_checkbox: &checkbox
         custom_options_price_type: Percent
         custom_options_sku: sku_checkbox_row_1
         custom_options_sort_order: 1
-    custom_option_row_2:
-        custom_options_title: Title 2
-        custom_options_price: 12.56
-        custom_options_price_type: Percent
-        custom_options_sku: sku_checkbox_row_2
-        custom_options_sort_order: 2
 
 custom_options_multipleselect: &multipleselect
     custom_options_general_title: Custom Option Multiple Select
@@ -171,12 +153,6 @@ custom_options_multipleselect: &multipleselect
         custom_options_price_type: Percent
         custom_options_sku: sku_multipleselect_row_1
         custom_options_sort_order: 1
-    custom_option_row_2:
-        custom_options_title: Title 2
-        custom_options_price: 12.56
-        custom_options_price_type: Percent
-        custom_options_sku: sku_multipleselect_row_2
-        custom_options_sort_order: 2
 
 custom_options_data: &customOptionsData
     custom_options_field: *field
@@ -190,9 +166,11 @@ custom_options_data: &customOptionsData
     custom_options_checkbox: *checkbox
     custom_options_multipleselect: *multipleselect
 
-custom_options_empty:
+custom_options_empty_select_type:
     custom_options_general_title: Title
-    custom_options_general_input_type: Field
+    custom_options_general_input_type: Drop-down
+    custom_option_row_1: 
+        custom_options_title: %noValue%
 
 #*********************************************
 #*         Tier Price Data                   *
