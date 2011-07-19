@@ -204,14 +204,6 @@
                     </persistent>
                 </observers>
             </custom_quote_process>
-            <controller_action_postdispatch_checkout_onepage_saveMethod>
-                <observers>
-                    <persistent>
-                        <class>persistent/observer</class>
-                        <method>removePersistentCookie</method>
-                    </persistent>
-                </observers>
-            </controller_action_postdispatch_checkout_onepage_saveMethod>
             <controller_action_postdispatch_checkout_onepage_saveBilling>
                 <observers>
                     <persistent>

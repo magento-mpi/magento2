@@ -162,7 +162,7 @@ class Mage_Persistent_Model_Observer
     public function emulateQuote($observer)
     {
         $stopActions = array(
-            'checkout_onepage_saveMethod',
+            'persistent_index_saveMethod',
             'customer_account_createpost'
         );
 
@@ -255,7 +255,7 @@ class Mage_Persistent_Model_Observer
             return;
         }
 
-        $this->_setQuoteGuest(true);
+        $this->setQuoteGuest(true);
     }
 
     /**
@@ -299,7 +299,7 @@ class Mage_Persistent_Model_Observer
             return;
         }
 
-        $this->_setQuoteGuest();
+        $this->setQuoteGuest();
     }
 
     /**
@@ -321,7 +321,7 @@ class Mage_Persistent_Model_Observer
                 ->setCustomerGroupId(null);
         }
 
-        $this->_setQuoteGuest();
+        $this->setQuoteGuest();
     }
 
     /**
@@ -433,7 +433,7 @@ class Mage_Persistent_Model_Observer
      *
      * @param bool $checkQuote Check quote to be persistent (not stolen)
      */
-    protected function _setQuoteGuest($checkQuote = false)
+    public function setQuoteGuest($checkQuote = false)
     {
         /** @var $quote Mage_Sales_Model_Quote */
         $quote = Mage::getSingleton('checkout/session')->getQuote();
