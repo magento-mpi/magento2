@@ -47,11 +47,27 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
             $orderId = Mage::registry('current_order')->getId();
         }
 
+        $referer = $this->getRequest()->getServer('HTTP_REFERER');
+
+        $link = $this->getUrl('*/*/');
+        if (stristr($referer, 'customer')) {
+            $orderId    = $this->getRequest()->getParam('order_id');
+            $order      = Mage::getModel('sales/order')->load($orderId);
+            if ($order->getId()) {
+                $link = $this->getUrl('*/customer/edit/',
+                    array(
+                        'id'  => $order->getCustomerId(),
+                        'active_tab'=> 'orders'
+                    )
+                );
+            }
+        }
+
         if (Mage::helper('enterprise_rma')->canCreateRma($orderId, true)) {
-            $this->_updateButton('reset', 'onclick', "setLocation('" . $this->getUrl('*/*/') . "')");
+            $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
             $this->_updateButton('save', 'label', Mage::helper('enterprise_rma')->__('Submit RMA'));
         } else {
-            $this->_updateButton('reset', 'onclick', "setLocation('" . $this->getUrl('*/*/new') . "')");
+            $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
             $this->_removeButton('save');
         }
         $this->_removeButton('back');

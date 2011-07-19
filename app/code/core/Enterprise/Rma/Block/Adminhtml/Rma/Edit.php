@@ -87,6 +87,34 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
     }
 
     /**
+     * Get URL for back (reset) button
+     *
+     * @return string
+     */
+    public function getBackUrl()
+    {
+        $referer = $this->getRequest()->getServer('HTTP_REFERER');
+
+        if (stristr($referer, 'sales_order')) {
+            return $this->getUrl('*/sales_order/view/',
+                array(
+                    'order_id'  => $this->getRma()->getOrderId(),
+                    'active_tab'=> 'order_rma'
+                )
+            );
+        } elseif (stristr($referer, 'customer')) {
+            return $this->getUrl('*/customer/edit/',
+                array(
+                    'id'  => $this->getRma()->getCustomerId(),
+                    'active_tab'=> 'customer_edit_tab_rma'
+                )
+            );
+        } else {
+            return parent::getBackUrl();
+        }
+    }
+
+    /**
      * Declare rma instance
      *
      * @return  Enterprise_Rma_Model_Item
