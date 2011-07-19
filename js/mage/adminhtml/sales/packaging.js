@@ -126,7 +126,7 @@ Packaging.prototype = {
             this.messages.show().update(this.validationErrorMsg);
             return;
         } else {
-            this.messages.hide();
+            this.messages.hide().update();
         }
         if (this.createLabelUrl) {
             var weight, length, width, height = null;
@@ -266,6 +266,38 @@ Packaging.prototype = {
         });
     },
 
+    validateCustomsValue: function() {
+        var items = [];
+        var isValid = true;
+        var itemsPrepare = [];
+        var itemsPacked = [];
+
+        this.packagesContent.childElements().each(function(pack) {
+            itemsPrepare = pack.select('.package_prapare')[0];
+            if (itemsPrepare) {
+                items = items.concat(itemsPrepare.select('.grid tbody tr'));
+            }
+            itemsPacked = pack.select('.package_items')[0];
+            if (itemsPacked) {
+                items = items.concat(itemsPacked.select('.grid tbody tr'));
+            }
+        }.bind(this));
+
+        items.each(function(item) {
+            var itemCustomsValue = item.select('[name="customs_value"]')[0];
+            if (!this.validateElement(itemCustomsValue)) {
+                isValid = false;
+            }
+        }.bind(this));
+
+        if (isValid) {
+            this.messages.hide().update();
+        } else {
+            this.messages.show().update(this.validationErrorMsg);
+        }
+        return isValid;
+    },
+
     newPackage: function() {
         var pack = this.template.cloneNode(true);
         pack.id = 'package_block_' + ++this.packageIncrement;
@@ -308,6 +340,9 @@ Packaging.prototype = {
         var pack = $(obj).up('div[id^="package_block"]');
         var packItems = pack.select('.package_items')[0];
         if (packItems) {
+            if (!this.validateCustomsValue()) {
+                return;
+            }
             this._recalcContainerWeightAndCustomsValue(packItems);
         }
     },
@@ -378,6 +413,10 @@ Packaging.prototype = {
             }
         }.bind(this));
         if (checkExceedsQty) {
+            return;
+        }
+
+        if (!this.validateCustomsValue()) {
             return;
         }
 

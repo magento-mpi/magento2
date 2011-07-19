@@ -52,8 +52,17 @@
                         <td class="a-center weight ">
                             <?php echo $item->getWeight(); ?>
                         </td>
-                        <td <?php echo $this->displayCustomsValue() ? '' : 'style="display: none;"' ?> >
-                            <input type="text" name="customs_value" value="<?php echo $this->formatPrice($item->getPrice()); ?>" size="10" onblur="packaging.recalcContainerWeightAndCustomsValue(this);">
+                        <?php
+                            if ($this->displayCustomsValue()) {
+                                $customsValueDisplay = '';
+                                $customsValueValidation = ' validate-zero-or-greater ';
+                            } else {
+                                $customsValueDisplay = ' style="display: none;" ';
+                                $customsValueValidation = '';
+                            }
+                        ?>
+                        <td <?php echo $customsValueDisplay ?>>
+                            <input type="text" name="customs_value" class="input-text <?php echo $customsValueValidation ?>" value="<?php echo $this->formatPrice($item->getPrice()); ?>" size="10" onblur="packaging.recalcContainerWeightAndCustomsValue(this);">
                         </td>
                         <td class="a-center ">
                             <input type="checkbox" name="" value="<?php echo $item->getItemId() ?>" class="checkbox">
