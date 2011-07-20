@@ -28,7 +28,7 @@
  */
 
 /**
- * Customer registration tests
+ * <p>Customer registration tests</p>
  *
  * @package     selenium
  * @subpackage  tests
@@ -38,7 +38,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Make sure that customer is not logged in, and navigate to homepage
+     * <p>Make sure that customer is not logged in, and navigate to homepage</p>
      */
     protected function assertPreConditions()
     {
@@ -49,25 +49,19 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Сustomer registration.  Filling in only required fields
+     * <p>Сustomer registration.  Filling in only required fields</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to 'Login or Create an Account' page.</p>
+     * <p>2. Click 'Register' button.</p>
+     * <p>3. Fill in reqired fields.</p>
+     * <p>4. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is registered.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Navigate to 'Login or Create an Account' page.
-     *
-     * 2. Click 'Register' button.
-     *
-     * 3. Fill in reqired fields.
-     *
-     * 4. Click 'Submit' button.
-     *
-     * Expected result:
-     *
-     * Customer is registered.
-     *
-     * Success Message is displayed
+     * @test
      */
-    public function test_WithRequiredFieldsOnly()
+    public function withRequiredFieldsOnly()
     {
         //Data
         $userData = $this->loadData('customer_account_register',
@@ -83,29 +77,21 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Сustomer registration.  Use email that already exist.
+     * <p>Сustomer registration.  Use email that already exist.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to 'Login or Create an Account' page.</p>
+     * <p>2. Click 'Register' button.</p>
+     * <p>3. Fill in 'Email' field by using code that already exist.</p>
+     * <p>4. Fill other required fields by regular data.</p>
+     * <p>5. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is not registered.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Navigate to 'Login or Create an Account' page.
-     *
-     * 2. Click 'Register' button.
-     *
-     * 3. Fill in 'Email' field by using code that already exist.
-     *
-     * 4. Fill other required fields by regular data.
-     *
-     * 5. Click 'Submit' button.
-     *
-     * Expected result:
-     *
-     * Customer is not registered.
-     *
-     * Error Message is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithEmailThatAlreadyExists(array $userData)
+    public function withEmailThatAlreadyExists(array $userData)
     {
         //Steps
         $this->customerHelper()->registerCustomer($userData);
@@ -114,27 +100,20 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Сustomer registration. Fill in only reqired fields. Use max long values for fields.
+     * <p>Сustomer registration. Fill in only reqired fields. Use max long values for fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to 'Login or Create an Account' page.</p>
+     * <p>2. Click 'Register' button.</p>
+     * <p>3. Fill in reqired fields by long value alpha-numeric data.</p>
+     * <p>4. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is registered. Success Message is displayed.</p>
+     * <p>Length of fields are 255 characters.</p>
      *
-     * Steps:
-     *
-     * 1. Navigate to 'Login or Create an Account' page.
-     *
-     * 2. Click 'Register' button.
-     *
-     * 3. Fill in reqired fields by long value alpha-numeric data.
-     *
-     * 4. Click 'Submit' button.
-     *
-     * Expected result:
-     *
-     * Customer is registered. Success Message is displayed.
-     *
-     * Length of fields are 255 characters.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithLongValues()
+    public function withLongValues()
     {
         //Data
         $password = $this->generate('string', 255, ':alnum:');
@@ -162,28 +141,21 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Сustomer registration with empty reqired field.
+     * <p>Сustomer registration with empty reqired field.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to 'Login or Create an Account' page.</p>
+     * <p>2. Click 'Register' button.</p>
+     * <p>3. Fill in fields exept one required.</p>
+     * <p>4. Click 'Submit' button</p>
+     * <p>Expected result:</p>
+     * <p>Customer is not registered.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Navigate to 'Login or Create an Account' page.
-     *
-     * 2. Click 'Register' button.
-     *
-     * 3. Fill in fields exept one required.
-     *
-     * 4. Click 'Submit' button
-     *
-     * Expected result:
-     *
-     * Customer is not registered.
-     *
-     * Error Message is displayed.
-     *
-     * @dataProvider data_EmptyField
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider emptyField
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithRequiredFieldsEmpty($field, $messageCount)
+    public function withRequiredFieldsEmpty($field, $messageCount)
     {
         //Data
         $userData = $this->loadData('customer_account_register', $field);
@@ -200,7 +172,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->messages);
     }
 
-    public function data_EmptyField()
+    public function emptyField()
     {
         return array(
             array(array('first_name' => '%noValue%'), 1),
@@ -212,27 +184,20 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Сustomer registration. Fill in all reqired fields by using special characters(except the field "email").
+     * <p>Сustomer registration. Fill in all reqired fields by using special characters(except the field "email").</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to 'Login or Create an Account' page.</p>
+     * <p>2. Click 'Register' button.</p>
+     * <p>3. Fill in reqired fields.</p>
+     * <p>4. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is registered.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Navigate to 'Login or Create an Account' page.
-     *
-     * 2. Click 'Register' button.
-     *
-     * 3. Fill in reqired fields.
-     *
-     * 4. Click 'Submit' button.
-     *
-     * Expected result:
-     *
-     * Customer is registered.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithSpecialCharacters()
+    public function withSpecialCharacters()
     {
         //Data
         $password = $this->generate('string', 25, ':punct:');
@@ -254,30 +219,23 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
                 'After succesfull registration customer should be redirected to account dashboard');
     }
 
-    /** Сustomer registration. Fill in only reqired fields. Use value that is greater than the allowable.
+    /**
+     * <p>Сustomer registration. Fill in only reqired fields. Use value that is greater than the allowable.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to 'Login or Create an Account' page.</p>
+     * <p>2. Click 'Register' button.</p>
+     * <p>3. Fill in one field by using value that is greater than the allowable.</p>
+     * <p>4. Fill other required fields by regular data.</p>
+     * <p>5. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is not registered.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Navigate to 'Login or Create an Account' page.
-     *
-     * 2. Click 'Register' button.
-     *
-     * 3. Fill in one field by using value that is greater than the allowable.
-     *
-     * 4. Fill other required fields by regular data.
-     *
-     * 5. Click 'Submit' button.
-     *
-     * Expected result:
-     *
-     * Customer is not registered.
-     *
-     * Error Message is displayed.
-     *
-     * @dataProvider data_LongValues_NotValid
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider dataLongValuesNotValid
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithLongValues_NotValid($longValue)
+    public function withLongValuesNotValid($longValue)
     {
         //Data
         $userData = $this->loadData('customer_account_register', $longValue);
@@ -290,7 +248,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->errorMessage("not_valid_length_$fieldName"), $this->messages);
     }
 
-    public function data_LongValues_NotValid()
+    public function dataLongValuesNotValid()
     {
         return array(
             array(array('first_name' => $this->generate('string', 256, ':alnum:'))),
@@ -300,30 +258,22 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Сustomer registration with invalid value for 'Email' field
+     * <p>Сustomer registration with invalid value for 'Email' field</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to 'Login or Create an Account' page.</p>
+     * <p>2. Click 'Register' button.</p>
+     * <p>3. Fill in 'Email' field by wrong value.</p>
+     * <p>4. Fill other required fields by regular data.</p>
+     * <p>5. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is not registered.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Navigate to 'Login or Create an Account' page.
-     *
-     * 2. Click 'Register' button.
-     *
-     * 3. Fill in 'Email' field by wrong value.
-     *
-     * 4. Fill other required fields by regular data.
-     *
-     * 5. Click 'Submit' button.
-     *
-     * Expected result:
-     *
-     * Customer is not registered.
-     *
-     * Error Message is displayed.
-     *
-     * @dataProvider data_InvalidEmail
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider dataInvalidEmail
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithInvalidEmail($invalidEmail)
+    public function withInvalidEmail($invalidEmail)
     {
         //Data
         $userData = $this->loadData('customer_account_register', $invalidEmail);
@@ -333,7 +283,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->errorMessage('invalid_mail'), $this->messages);
     }
 
-    public function data_InvalidEmail()
+    public function dataInvalidEmail()
     {
         return array(
             array(array('email' => 'invalid')),
@@ -343,30 +293,22 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Сustomer registration with invalid value for 'Password' fields
+     * <p>Сustomer registration with invalid value for 'Password' fields</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to 'Login or Create an Account' page.</p>
+     * <p>2. Click 'Register' button.</p>
+     * <p>3. Fill in 'password' fields by wrong value.</p>
+     * <p>4. Fill other required fields by regular data.</p>
+     * <p>5. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is not registered.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Navigate to 'Login or Create an Account' page.
-     *
-     * 2. Click 'Register' button.
-     *
-     * 3. Fill in 'password' fields by wrong value.
-     *
-     * 4. Fill other required fields by regular data.
-     *
-     * 5. Click 'Submit' button.
-     *
-     * Expected result:
-     *
-     * Customer is not registered.
-     *
-     * Error Message is displayed.
-     *
-     * @dataProvider data_InvalidPassword
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider dataInvalidPassword
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithInvalidPassword($invalidPassword, $errorMessage)
+    public function withInvalidPassword($invalidPassword, $errorMessage)
     {
         //Data
         $userData = $this->loadData('customer_account_register', $invalidPassword);
@@ -376,7 +318,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->errorMessage($errorMessage), $this->messages);
     }
 
-    public function data_InvalidPassword()
+    public function dataInvalidPassword()
     {
         return array(
             array(array('password' => 12345, 'password_confirmation' => 12345), 'short_passwords'),
@@ -386,8 +328,9 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
 
     /**
      * @TODO
+     * @test
      */
-    public function test_FromOnePageCheckoutPage()
+    public function fromOnePageCheckoutPage()
     {
         // @TODO
         $this->markTestIncomplete();
@@ -395,8 +338,9 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
 
     /**
      * @TODO
+     * @test
      */
-    public function test_FromMultipleCheckoutPage()
+    public function fromMultipleCheckoutPage()
     {
         // @TODO
         $this->markTestIncomplete();

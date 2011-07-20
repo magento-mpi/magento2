@@ -38,7 +38,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Log in to Backend.
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -46,8 +46,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Preconditions:
-     * Navigate to System -> Manage Customers
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Manage Customers</p>
      */
     protected function assertPreConditions()
     {
@@ -57,21 +57,17 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Test navigation.
+     * <p>Test navigation.</p>
+     * <p>Steps:</p>
+     * <p>1. Verify that 'Add New Customer' button is present and click her.</p>
+     * <p>2. Verify that the create customer page is opened.</p>
+     * <p>3. Verify that 'Back' button is present.</p>
+     * <p>4. Verify that 'Save Customer' button is present.</p>
+     * <p>5. Verify that 'Reset' button is present.</p>
      *
-     * Steps:
-     *
-     * 1. Verify that 'Add New Customer' button is present and click her.
-     *
-     * 2. Verify that the create customer page is opened.
-     *
-     * 3. Verify that 'Back' button is present.
-     *
-     * 4. Verify that 'Save Customer' button is present.
-     *
-     * 5. Verify that 'Reset' button is present.
+     * @test
      */
-    public function test_Navigation()
+    public function navigation()
     {
         $this->assertTrue($this->clickButton('add_new_customer'),
                 'There is no "Add New Customer" button on the page');
@@ -85,25 +81,19 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create customer by filling in only required fields
+     * <p>Create customer by filling in only required fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New Customer' button.</p>
+     * <p>2. Fill in reqired fields.</p>
+     * <p>3. Click 'Save Customer' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is created.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Add New Customer' button.
-     *
-     * 2. Fill in reqired fields.
-     *
-     * 3. Click 'Save Customer' button.
-     *
-     * Expected result:
-     *
-     * Customer is created.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_Navigation
+     * @depends navigation
+     * @test
      */
-    public function test_WithRequiredFieldsOnly()
+    public function withRequiredFieldsOnly()
     {
         //Data
         $userData = $this->loadData('generic_customer_account', NULL, 'email');
@@ -118,27 +108,20 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create customer. Use email that already exist
+     * <p>Create customer. Use email that already exist</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New Customer' button.</p>
+     * <p>2. Fill in 'Email' field by using email that already exist.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Customer' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Add New Customer' button.
-     *
-     * 2. Fill in 'Email' field by using email that already exist.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Customer' button.
-     *
-     * Expected result:
-     *
-     * Customer is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithEmailThatAlreadyExists(array $userData)
+    public function withEmailThatAlreadyExists(array $userData)
     {
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
@@ -147,26 +130,20 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Ceate customer with one empty reqired field
+     * <p>Ceate customer with one empty reqired field</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New Customer' button.</p>
+     * <p>2. Fill in fields exept one required.</p>
+     * <p>3. Click 'Save Customer' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Add New Customer' button.
-     *
-     * 2. Fill in fields exept one required.
-     *
-     * 3. Click 'Save Customer' button.
-     *
-     * Expected result:
-     *
-     * Customer is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @dataProvider data_EmptyField
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider dataEmptyField
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithRequiredFieldsEmpty($emptyField)
+    public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
         if ($emptyField != 'email') {
@@ -186,7 +163,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_EmptyField()
+    public function dataEmptyField()
     {
         return array(
             array('first_name'),
@@ -197,25 +174,19 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create customer. Fill in all fields by using special characters(except the field "email").
+     * <p>Create customer. Fill in all fields by using special characters(except the field "email").</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New Customer' button.</p>
+     * <p>2. Fill in fields on 'Account Information' tab.</p>
+     * <p>3. Click 'Save Customer' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is created.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Add New Customer' button.
-     *
-     * 2. Fill in fields on 'Account Information' tab.
-     *
-     * 3. Click 'Save Customer' button.
-     *
-     * Expected result:
-     *
-     * Customer is created.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithSpecialCharacters_ExeptEmail()
+    public function withSpecialCharactersExeptEmail()
     {
         //Data
         $userData = $this->loadData('generic_customer_account',
@@ -245,25 +216,19 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Customer. Fill in fields. Use max long values for fields.
+     * <p>Create Customer. Fill in fields. Use max long values for fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New Customer' button.</p>
+     * <p>2. Fill in fields by long value alpha-numeric data on 'Account Information' tab.</p>
+     * <p>3. Click 'Save Customer' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is created. Success Message is displayed.</p>
+     * <p>Length of fields are 255 characters.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Add New Customer' button.
-     *
-     * 2. Fill in fields by long value alpha-numeric data on 'Account Information' tab.
-     *
-     * 3. Click 'Save Customer' button.
-     *
-     * Expected result:
-     *
-     * Customer is created. Success Message is displayed.
-     *
-     * Length of fields are 255 characters.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithLongValues()
+    public function withLongValues()
     {
         //Data
         $longValues = array(
@@ -293,28 +258,21 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create customer with invalid value for 'Email' field
+     * <p>Create customer with invalid value for 'Email' field</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New Customer' button.</p>
+     * <p>2. Fill in 'Email' field by wrong value.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Customer' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Add New Customer' button.
-     *
-     * 2. Fill in 'Email' field by wrong value.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Customer' button.
-     *
-     * Expected result:
-     *
-     * Customer is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @dataProvider data_InvalidEmail
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider dataInvalidEmail
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithInvalidEmail($wrongEmail)
+    public function withInvalidEmail($wrongEmail)
     {
         //Data
         $userData = $this->loadData('generic_customer_account', array('email' => $wrongEmail));
@@ -324,7 +282,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->errorMessage('customer_invalid_email'), $this->messages);
     }
 
-    public function data_InvalidEmail()
+    public function dataInvalidEmail()
     {
         return array(
             array('invalid'),
@@ -334,27 +292,20 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create customer. Use a value for 'Password' field the length of which less than 6 characters.
+     * <p>Create customer. Use a value for 'Password' field the length of which less than 6 characters.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New Customer' button.</p>
+     * <p>2. Fill in 'Password' field by wrong value.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Customer' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Add New Customer' button.
-     *
-     * 2. Fill in 'Password' field by wrong value.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Customer' button.
-     *
-     * Expected result:
-     *
-     * Customer is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithInvalidPassword()
+    public function withInvalidPassword()
     {
         //Data
         $userData = $this->loadData('generic_customer_account',
@@ -366,25 +317,19 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create customer with auto-generated password
+     * <p>Create customer with auto-generated password</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New Customer' button.</p>
+     * <p>2. Fill in reqired fields.</p>
+     * <p>3. Click 'Save Customer' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is created.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Add New Customer' button.
-     *
-     * 2. Fill in reqired fields.
-     *
-     * 3. Click 'Save Customer' button.
-     *
-     * Expected result:
-     *
-     * Customer is created.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithAutoGeneratedPassword()
+    public function withAutoGeneratedPassword()
     {
         //Data
         $userData = $this->loadData('generic_customer_account',
@@ -399,31 +344,22 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create customer with one address by filling all fields
+     * <p>Create customer with one address by filling all fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New Customer' button.</p>
+     * <p>2. Fill in fields on 'Account Information' tab.</p>
+     * <p>3. Open 'Addresses' tab.</p>
+     * <p>4. Click 'Add New Address' button.</p>
+     * <p>5. Fill in all fields on 'Addresses' tab.</p>
+     * <p>6. Click 'Save Customer' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer with address is created.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Add New Customer' button.
-     *
-     * 2. Fill in fields on 'Account Information' tab.
-     *
-     * 3. Open 'Addresses' tab.
-     *
-     * 4. Click 'Add New Address' button.
-     *
-     * 5. Fill in all fields on 'Addresses' tab.
-     *
-     * 6. Click 'Save Customer' button.
-     *
-     * Expected result:|
-     *
-     * Customer with address is created.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithAddress()
+    public function withAddress()
     {
         //Data
         $userData = $this->loadData('all_fields_customer_account', NULL, 'email');
@@ -438,16 +374,18 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
 
     /**
      * @TODO
+     * @test
      */
-    public function test_OnOrderPage_WithAddress()
+    public function onOrderPageWithAddress()
     {
         $this->markTestIncomplete();
     }
 
     /**
      * @TODO
+     * @test
      */
-    public function test_OnOrderPage_WithoutAddress()
+    public function onOrderPageWithoutAddress()
     {
         $this->markTestIncomplete();
     }

@@ -38,7 +38,7 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Log in to Backend.
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -46,8 +46,8 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Preconditions:
-     * Navigate to System -> Manage Customers
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Manage Customers</p>
      */
     protected function assertPreConditions()
     {
@@ -57,23 +57,18 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Delete customer.
+     * <p>Delete customer.</p>
+     * <p>Preconditions: Create Customer</p>
+     * <p>Steps:</p>
+     * <p>1. Search and open customer.</p>
+     * <p>2. Click 'Delete Customer' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customer is deleted.</p>
+     * <p>Success Message is displayed.</p>
      *
-     * Preconditions: Create Customer
-     *
-     * Steps:
-     *
-     * 1. Search and open customer.
-     *
-     * 2. Click 'Delete Customer' button.
-     *
-     * Expected result:
-     *
-     * Customer is deleted.
-     *
-     * Success Message is displayed.
+     * @test
      */
-    public function test_Single()
+    public function single()
     {
         //Data
         $userData = $this->loadData('generic_customer_account', NULL, 'email');
@@ -94,8 +89,9 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * @TODO
+     * @test
      */
-    public function test_ThroughMassAction()
+    public function throughMassAction()
     {
         // @TODO
         $this->markTestIncomplete();

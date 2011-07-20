@@ -28,7 +28,7 @@
  */
 
 /**
- * Add address tests.
+ * <p>Add address tests.</p>
  *
  * @package     selenium
  * @subpackage  tests
@@ -38,7 +38,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Log in to Backend.
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -46,8 +46,8 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Preconditions:
-     * Navigate to System -> Manage Customers
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Manage Customers</p>
      */
     protected function assertPreConditions()
     {
@@ -57,11 +57,12 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create customer for add customer address tests
+     * <p>Create customer for add customer address tests</p>
      *
      * @return array
+     * @test
      */
-    public function test_CreateCustomer()
+    public function createCustomerTest()
     {
         //Data
         $userData = $this->loadData('generic_customer_account', NULL, 'email');
@@ -76,32 +77,23 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Add address for customer. Fill in only required field.
+     * <p>Add address for customer. Fill in only required field.</p>
+     * <p>Steps:</p>
+     * <p>1. Search and open customer.</p>
+     * <p>2. Open 'Addresses' tab.</p>
+     * <p>3. Click 'Add New Address' button.</p>
+     * <p>4. Fill in required fields.</p>
+     * <p>5. Click  'Save Customer' button</p>
+     * <p>Expected result:</p>
+     * <p>Customer address is added. Customer info is saved.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Search and open customer.
-     *
-     * 2. Open 'Addresses' tab.
-     *
-     * 3. Click 'Add New Address' button.
-     *
-     * 4. Fill in required fields.
-     *
-     * 5. Click  'Save Customer' button
-     *
-     * Expected result:
-     *
-     * Customer address is added. Customer info is saved.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_CreateCustomer
-     *
+     * @depends createCustomerTest
      * @param array $userData
      * @return array
+     * @test
      */
-    public function test_WithRequiredFieldsOnly(array $userData)
+    public function withRequiredFieldsOnly(array $userData)
     {
         //Data
         $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
@@ -120,32 +112,23 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
 
     /**
      * Add Address for customer with one empty reqired field.
+     * <p>Steps:</p>
+     * <p>1. Search and open customer.</p>
+     * <p>2. Open 'Addresses' tab.</p>
+     * <p>3. Click 'Add New Address' button.</p>
+     * <p>4. Fill in fields exept one required.</p>
+     * <p>5. Click  'Save Customer' button</p>
+     * <p>Expected result:</p>
+     * <p>Customer address isn't added. Customer info is not saved.</p>
+     * <p>Error Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Search and open customer.
-     *
-     * 2. Open 'Addresses' tab.
-     *
-     * 3. Click 'Add New Address' button.
-     *
-     * 4. Fill in fields exept one required.
-     *
-     * 5. Click  'Save Customer' button
-     *
-     * Expected result:
-     *
-     * Customer address isn't added. Customer info is not saved.
-     *
-     * Error Message is displayed
-     *
-     * @depends test_WithRequiredFieldsOnly
-     * @dataProvider data_emptyFields
-     *
+     * @depends withRequiredFieldsOnly
+     * @dataProvider dataEmptyFields
      * @param array $emptyField
      * @param array $searchData
+     * @test
      */
-    public function test_WithRequiredFieldsEmpty($emptyField, $searchData)
+    public function withRequiredFieldsEmpty($emptyField, $searchData)
     {
         //Data
         if ($emptyField != 'country') {
@@ -176,7 +159,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_emptyFields()
+    public function dataEmptyFields()
     {
         return array(
             array('first_name'),
@@ -191,29 +174,21 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Add address for customer. Fill in all fields by using special characters(except the field "country").
+     * <p>Add address for customer. Fill in all fields by using special characters(except the field "country").</p>
+     * <p>Steps:</p>
+     * <p>1. Search and open customer.</p>
+     * <p>2. Open 'Addresses' tab.</p>
+     * <p>3. Click 'Add New Address' button.</p>
+     * <p>4. Fill in fields by long value alpha-numeric data exept 'country' field.</p>
+     * <p>5. Click  'Save Customer' button</p>
+     * <p>Expected result:</p>
+     * <p>Customer address is added. Customer info is saved.</p>
+     * <p>Success Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Search and open customer.
-     *
-     * 2. Open 'Addresses' tab.
-     *
-     * 3. Click 'Add New Address' button.
-     *
-     * 4. Fill in fields by long value alpha-numeric data exept 'country' field.
-     *
-     * 5. Click  'Save Customer' button
-     *
-     * Expected result:
-     *
-     * Customer address is added. Customer info is saved.
-     *
-     * Success Message is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithSpecialCharacters_ExeptCountry(array $searchData)
+    public function withSpecialCharactersExeptCountry(array $searchData)
     {
         //Data
         $specialCharacters = array(
@@ -251,29 +226,21 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Add address for customer. Fill in only required field. Use max long values for fields.
+     * <p>Add address for customer. Fill in only required field. Use max long values for fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Search and open customer.</p>
+     * <p>2. Open 'Addresses' tab.</p>
+     * <p>3. Click 'Add New Address' button.</p>
+     * <p>4. Fill in fields by long value alpha-numeric data exept 'country' field.</p>
+     * <p>5. Click  'Save Customer' button</p>
+     * <p>Expected result:</p>
+     * <p>Customer address is added. Customer info is saved.</p>
+     * <p>Success Message is displayed. Length of fields are 255 characters.</p>
      *
-     * Steps:
-     *
-     * 1. Search and open customer.
-     *
-     * 2. Open 'Addresses' tab.
-     *
-     * 3. Click 'Add New Address' button.
-     *
-     * 4. Fill in fields by long value alpha-numeric data exept 'country' field.
-     *
-     * 5. Click  'Save Customer' button
-     *
-     * Expected result:
-     *
-     * Customer address is added. Customer info is saved.
-     *
-     * Success Message is displayed. Length of fields are 255 characters.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithLongValues_ExeptCountry(array $searchData)
+    public function withLongValuesExeptCountry(array $searchData)
     {
         //Data
         $longValues = array(
@@ -311,29 +278,21 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Add address for customer. Fill in only required field. Use this address as Default Billing.
+     * <p>Add address for customer. Fill in only required field. Use this address as Default Billing.</p>
+     * <p>Steps:</p>
+     * <p>1. Search and open customer.</p>
+     * <p>2. Open 'Addresses' tab.</p>
+     * <p>3. Click 'Add New Address' button.</p>
+     * <p>4. Fill in required fields.</p>
+     * <p>5. Click  'Save Customer' button</p>
+     * <p>Expected result:</p>
+     * <p>Customer address is added. Customer info is saved.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Search and open customer.
-     *
-     * 2. Open 'Addresses' tab.
-     *
-     * 3. Click 'Add New Address' button.
-     *
-     * 4. Fill in required fields.
-     *
-     * 5. Click  'Save Customer' button
-     *
-     * Expected result:
-     *
-     * Customer address is added. Customer info is saved.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithDefaultBillingAddress(array $searchData)
+    public function withDefaultBillingAddress(array $searchData)
     {
         //Data
         $addressData = $this->loadData('all_fields_address',
@@ -356,29 +315,21 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Add address for customer. Fill in only required field. Use this address as Default Shipping.
+     * <p>Add address for customer. Fill in only required field. Use this address as Default Shipping.</p>
+     * <p>Steps:</p>
+     * <p>1. Search and open customer.</p>
+     * <p>2. Open 'Addresses' tab.</p>
+     * <p>3. Click 'Add New Address' button.</p>
+     * <p>4. Fill in required fields.</p>
+     * <p>5. Click  'Save Customer' button</p>
+     * <p>Expected result:</p>
+     * <p>Customer address is added. Customer info is saved.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Search and open customer.
-     *
-     * 2. Open 'Addresses' tab.
-     *
-     * 3. Click 'Add New Address' button.
-     *
-     * 4. Fill in required fields.
-     *
-     * 5. Click  'Save Customer' button
-     *
-     * Expected result:
-     *
-     * Customer address is added. Customer info is saved.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithDefaultShippingAddress(array $searchData)
+    public function withDefaultShippingAddress(array $searchData)
     {
         $addressData = $this->loadData('all_fields_address',
                         array('default_billing_address' => 'No'));
