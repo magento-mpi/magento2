@@ -132,20 +132,26 @@ Packaging.prototype = {
             var weight, length, width, height = null;
             var packagesParams = [];
             this.packagesContent.childElements().each(function(pack) {
-                var packageId = pack.id.match(/\d$/)[0];
+                var packageId = pack.id.match(/\d$/)[0],
+                    dims = pack.select('select[name="container_dimension_units"]')[0];
                 weight = parseFloat(pack.select('input[name="container_weight"]')[0].value);
-                length = parseFloat(pack.select('input[name="container_length"]')[0].value);
-                width = parseFloat(pack.select('input[name="container_width"]')[0].value);
-                height = parseFloat(pack.select('input[name="container_height"]')[0].value);
+                length = pack.select('input[name="container_length"]')[0];
+                width  = pack.select('input[name="container_width"]')[0];
+                height = pack.select('input[name="container_height"]')[0];
+
+                var lengthValue = parseFloat(length.value),
+                    widthValue  = parseFloat(width.value),
+                    heightValue = parseFloat(height.value);
+
                 packagesParams[packageId] = {
                     container:                  pack.select('select[name="package_container"]')[0].value,
                     customs_value:              parseInt(pack.select('input[name="package_customs_value"]')[0].value, 10),
                     weight:                     isNaN(weight) ? '' : weight,
-                    length:                     isNaN(length) ? '' : length,
-                    width:                      isNaN(width) ? '' : width,
-                    height:                     isNaN(height) ? '' : height,
+                    length:                     length.disabled || isNaN(lengthValue) ? '' : lengthValue,
+                    width:                      width.disabled  || isNaN(widthValue)  ? '' : widthValue,
+                    height:                     height.disabled || isNaN(heightValue) ? '' : heightValue,
                     weight_units:               pack.select('select[name="container_weight_units"]')[0].value,
-                    dimension_units:            pack.select('select[name="container_dimension_units"]')[0].value
+                    dimension_units:            dims.disabled ? '' : dims.value
                 };
                 if (isNaN(packagesParams[packageId]['customs_value'])) {
                     packagesParams[packageId]['customs_value'] = 0;
