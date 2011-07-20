@@ -436,17 +436,52 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Override Data
      *
-     * @param type $value
-     * @param type $key
-     * @param array $override
+     * @param string $value
+     * @param string $key
+     * @param array $overrideArray
      */
-    function overrideData(&$value, $key, $override)
+    function overrideData(&$value, $key, $overrideArray)
     {
-        foreach ($override as $k => $v) {
-            if ($k === $key) {
-                $value = $v;
+        foreach ($overrideArray as $overrideField => $fieldValue) {
+            if ($overrideField === $key) {
+                $value = $fieldValue;
             }
         }
+    }
+
+    /**
+     * Randomize Data
+     *
+     * @param string $value
+     * @param string $key
+     * @param array $randomizeArray
+     */
+    function randomizeData(&$value, $key, $randomizeArray)
+    {
+        foreach ($randomizeArray as $randomizeField) {
+            if ($randomizeField === $key) {
+                $value = $this->generate('string', 5, ':lower:') . '_' . $value;
+            }
+        }
+    }
+
+    /**
+     * Get an array of keys from Multidimensional Array
+     *
+     * @param array $arrayData
+     * @param array $arrayKeys
+     * @return array
+     */
+    function arrayKeysRecursion(array $arrayData, &$arrayKeys)
+    {
+        foreach ($arrayData as $key => $value) {
+            if (is_array($value)) {
+                $arrayKeys = $this->arrayKeysRecursion($value, $arrayKeys);
+            } else {
+                $arrayKeys[] = $key;
+            }
+        }
+        return $arrayKeys;
     }
 
     /**
@@ -465,15 +500,32 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 //            foreach ($override as $field => $value) {
 //                $data[$field] = $value;
 //            }
+            $arrayKeys = array();
+            $needAddValues = array();
+
+            $arrayKeys = $this->arrayKeysRecursion($data, $arrayKeys);
+
+            foreach ($override as $key => $value) {
+                if (!in_array($key, $arrayKeys)) {
+                    $needAddValues[$key] = $value;
+                    unset($override[$key]);
+                }
+            }
+
             array_walk_recursive($data, array($this, 'overrideData'), $override);
+
+            foreach ($needAddValues as $field => $value) {
+                $data[$field] = $value;
+            }
         }
 
         if (!empty($randomize)) {
             $randomize = (!is_array($randomize)) ? array($randomize) : $randomize;
 
-            foreach ($randomize as $field) {
-                $data[$field] = $this->generate('string', 5, ':lower:') . '_' . $data[$field];
-            }
+//            foreach ($randomize as $field) {
+//                $data[$field] = $this->generate('string', 5, ':lower:') . '_' . $data[$field];
+//            }
+            array_walk_recursive($data, array($this, 'randomizeData'), $randomize);
         }
 
         return $data;
