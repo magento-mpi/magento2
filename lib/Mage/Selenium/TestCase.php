@@ -1293,6 +1293,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
 
     /**
+     * Add field ID to Message Xpath (set %fieldId% parameter).
+     *
+     * @param srting $fieldType
+     * @param srting $fieldName
+     */
+    public function addFieldIdToMessage($fieldType, $fieldName)
+    {
+        $fieldXpath = $this->_getControlXpath($fieldType, $fieldName);
+        if ($this->isElementPresent($fieldXpath . '/@id')) {
+            $fieldId = $this->getAttribute($fieldXpath . '/@id');
+        } else {
+            $fieldId = $this->getAttribute($fieldXpath . '/@name');
+        }
+        $this->addParameter('fieldId', $fieldId);
+    }
+
+    /**
      * Check if message exists on page
      *
      * @param string $message  Message Id from UIMap
