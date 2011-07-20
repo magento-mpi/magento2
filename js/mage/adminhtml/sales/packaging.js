@@ -611,7 +611,7 @@ Packaging.prototype = {
             if (disable) {
                 Form.Element.disable(inputElement);
                 inputElement.addClassName('disabled');
-                if (currentNode.nodeName == 'INPUT') {
+                if (inputElement.nodeName == 'INPUT') {
                     $(inputElement).value = ''
                 }
             } else {
