@@ -1259,6 +1259,9 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
 
             $tmpDir     = Mage::getConfig()->getOptions()->getMediaDir() . '/import';
             $destDir    = Mage::getConfig()->getOptions()->getMediaDir() . '/catalog/product';
+            if (!is_writable($destDir)) {
+                @mkdir($destDir, 0777, true);
+            }
             if (!$this->_fileUploader->setTmpDir($tmpDir)) {
                 Mage::throwException("File directory '{$tmpDir}' is not readable.");
             }
@@ -1687,11 +1690,10 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 if (!$this->isRowAllowedToImport($rowData, $rowNum)) {
                     continue;
                 }
-                $productId = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
-                if (!isset($productId)) {
+                if (!isset($this->_newSku[$rowData[self::COL_SKU]]['entity_id'])) {
                     continue;
                 }
-                $productIds[] = $productId;
+                $productIds[] = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
             }
         }
         return $productIds;
