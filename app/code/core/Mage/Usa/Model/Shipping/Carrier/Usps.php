@@ -67,6 +67,11 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     const CODE = 'usps';
 
     /**
+     * Ounces in one pound for conversion
+     */
+    const OUNCES_POUND = 16;
+
+    /**
      * Code of the carrier
      *
      * @var string
@@ -274,7 +279,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
         $weight = $this->getTotalNumOfBoxes($request->getPackageWeight());
         $r->setWeightPounds(floor($weight));
-        $r->setWeightOunces(round(($weight-floor($weight)) * 16, 1));
+        $r->setWeightOunces(round(($weight-floor($weight)) * self::OUNCES_POUND, 1));
         if ($request->getFreeMethodWeight()!=$request->getPackageWeight()) {
             $r->setFreeMethodWeight($request->getFreeMethodWeight());
         }
@@ -319,7 +324,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
         $weight = $this->getTotalNumOfBoxes($r->getFreeMethodWeight());
         $r->setWeightPounds(floor($weight));
-        $r->setWeightOunces(round(($weight-floor($weight)) * 16, 1));
+        $r->setWeightOunces(round(($weight-floor($weight)) * self::OUNCES_POUND, 1));
         $r->setService($freeMethod);
     }
 
@@ -1543,6 +1548,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $countriesOfManufacture[$product->getId()] = $product->getCountryOfManufacture();
         }
 
+        $packagePoundsWeight = $packageOuncesWeight = 0;
         // for ItemDetail
         foreach ($packageItems as $itemShipment) {
             $item = new Varien_Object();
@@ -1567,14 +1573,25 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $itemDetail->addChild('Description', $item->getName());
             $itemDetail->addChild('Quantity', $item->getQty());
             $itemDetail->addChild('Value', $item->getCustomsValue() * $item->getQty());
-            $itemDetail->addChild('NetPounds', floor($itemWeight));
-            $itemDetail->addChild('NetOunces', round(($itemWeight - floor($itemWeight)) * 16, 1));
+            $itemPoundsWeight = floor($itemWeight);
+            $packagePoundsWeight += $itemPoundsWeight;
+            $itemDetail->addChild('NetPounds', $itemPoundsWeight);
+            $itemOuncesWeight = ceil(($itemWeight - $itemPoundsWeight) * self::OUNCES_POUND);
+            $packageOuncesWeight += $itemOuncesWeight;
+            $itemDetail->addChild('NetOunces', $itemOuncesWeight);
             $itemDetail->addChild('HSTariffNumber', 0);
             $itemDetail->addChild('CountryOfOrigin', $countryOfManufacture);
         }
+        $additionalPackagePoundsWeight = floor($packageOuncesWeight / self::OUNCES_POUND);
+        $packagePoundsWeight += $additionalPackagePoundsWeight;
+        $packageOuncesWeight -= $additionalPackagePoundsWeight * self::OUNCES_POUND;
+        if ($packagePoundsWeight + $packageOuncesWeight / self::OUNCES_POUND < $packageWeight) {
+            $packagePoundsWeight = floor($packageWeight);
+            $packageOuncesWeight = ceil(($packageWeight - $packagePoundsWeight) * self::OUNCES_POUND);
+        }
 
-        $xml->addChild('GrossPounds', floor($packageWeight));
-        $xml->addChild('GrossOunces', round(($packageWeight - floor($packageWeight)) * 16, 1));
+        $xml->addChild('GrossPounds', $packagePoundsWeight);
+        $xml->addChild('GrossOunces', $packageOuncesWeight);
         if ($packageParams->getContentType() == 'OTHER' && $packageParams->getContentTypeOther() != null) {
             $xml->addChild('ContentType', $packageParams->getContentType());
             $xml->addChild('ContentTypeOther ', $packageParams->getContentTypeOther());
