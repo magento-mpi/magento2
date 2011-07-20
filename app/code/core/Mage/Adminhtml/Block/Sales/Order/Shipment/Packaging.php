@@ -301,4 +301,14 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
         }
         return array();
     }
+
+    /**
+     * Get Currency Code for Custom Value
+     *
+     * @return string
+     */
+    public function getCustomValueCurrencyCode()
+    {
+        return Mage::app()->getStore()->getBaseCurrencyCode();
+    }
 }
