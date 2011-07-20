@@ -38,7 +38,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Log in to Backend.
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -46,8 +46,8 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Preconditions:
-     * Navigate to System -> Manage Stores
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Manage Stores</p>
      */
     protected function assertPreConditions()
     {
@@ -56,21 +56,17 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Test navigation.
+     * <p>Test navigation.</p>
+     * <p>Steps:</p>
+     * <p>1. Verify that 'Create Store View' button is present and click her.</p>
+     * <p>2. Verify that the create store view page is opened.</p>
+     * <p>3. Verify that 'Back' button is present.</p>
+     * <p>4. Verify that 'Save Store View' button is present.</p>
+     * <p>5. Verify that 'Reset' button is present.</p>
      *
-     * Steps:
-     *
-     * 1. Verify that 'Create Store View' button is present and click her.
-     *
-     * 2. Verify that the create store view page is opened.
-     *
-     * 3. Verify that 'Back' button is present.
-     *
-     * 4. Verify that 'Save Store View' button is present.
-     *
-     * 5. Verify that 'Reset' button is present.
+     * @test
      */
-    public function test_Navigation()
+    public function navigation()
     {
         $this->assertTrue($this->clickButton('create_store_view'),
                 'There is no "Create Store View" button on the page');
@@ -84,25 +80,19 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Store View. Fill in only required fields.
+     * <p>Create Store View. Fill in only required fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store View' button.</p>
+     * <p>2. Fill in required fields.</p>
+     * <p>3. Click 'Save Store View' button.</p>
+     * <p>Expected result:</p>
+     * <p>Store View is created.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Store View' button.
-     *
-     * 2. Fill in required fields.
-     *
-     * 3. Click 'Save Store View' button.
-     *
-     * Expected result:
-     *
-     * Store View is created.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_Navigation
+     * @depends navigation
+     * @test
      */
-    public function test_WithRequiredFieldsOnly()
+    public function withRequiredFieldsOnly()
     {
         //Data
         $storeViewData = $this->loadData('generic_store_view', NULL,
@@ -118,27 +108,20 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Store View.  Fill in field 'Code' by using code that already exist.
+     * <p>Create Store View.  Fill in field 'Code' by using code that already exist.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store View' button.</p>
+     * <p>2. Fill in 'Code' field by using code that already exist.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Store View' button.</p>
+     * <p>Expected result:</p>
+     * <p>Store View is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Store View' button.
-     *
-     * 2. Fill in 'Code' field by using code that already exist.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Store View' button.
-     *
-     * Expected result:
-     *
-     * Store View is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithCodeThatAlreadyExists(array $storeViewData)
+    public function withCodeThatAlreadyExists(array $storeViewData)
     {
         //Steps
         $this->storeHelper()->createStoreView($storeViewData);
@@ -147,26 +130,20 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Store View. Fill in  required fields except one field.
+     * <p>Create Store View. Fill in  required fields except one field.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store View' button.</p>
+     * <p>2. Fill in required fields except one field.</p>
+     * <p>3. Click 'Save Store View' button.</p>
+     * <p>Expected result:</p>
+     * <p>Store View is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Store View' button.
-     *
-     * 2. Fill in required fields except one field.
-     *
-     * 3. Click 'Save Store View' button.
-     *
-     * Expected result:
-     *
-     * Store View is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
-     * @dataProvider data_EmptyField
+     * @depends withRequiredFieldsOnly
+     * @dataProvider dataEmptyField
+     * @test
      */
-    public function test_WithRequiredFieldsEmpty($emptyField)
+    public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
         if ($emptyField == 'store_view_code') {
@@ -184,7 +161,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_EmptyField()
+    public function dataEmptyField()
     {
         return array(
             array('store_view_name'),
@@ -193,25 +170,19 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Store View. Fill in only required fields. Use max long values for fields 'Name' and 'Code'
+     * <p>Create Store View. Fill in only required fields. Use max long values for fields 'Name' and 'Code'</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store View' button.</p>
+     * <p>2. Fill in required fields by long value alpha-numeric data.</p>
+     * <p>3. Click 'Save Store View' button.</p>
+     * <p>Expected result:</p>
+     * <p>Store View is created. Success Message is displayed.</p>
+     * <p>Length of field "Name" is 255 characters. Length of field "Code" is 32 characters.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Store View' button.
-     *
-     * 2. Fill in required fields by long value alpha-numeric data.
-     *
-     * 3. Click 'Save Store View' button.
-     *
-     * Expected result:
-     *
-     * Store View is created. Success Message is displayed.
-     *
-     * Length of field "Name" is 255 characters. Length of field "Code" is 32 characters.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithLongValues()
+    public function withLongValues()
     {
         //Data
         $longValues = array(
@@ -236,27 +207,20 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Store View. Fill in field 'Name' by using special characters.
+     * <p>Create Store View. Fill in field 'Name' by using special characters.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store View' button.</p>
+     * <p>2. Fill in 'Name' field by special characters.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Store View' button.</p>
+     * <p>Expected result:</p>
+     * <p>Store View is created.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Store View' button.
-     *
-     * 2. Fill in 'Name' field by special characters.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Store View' button.
-     *
-     * Expected result:
-     *
-     * Store View is created.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithSpecialCharacters_InName()
+    public function withSpecialCharactersInName()
     {
         //Data
         $storeViewData = $this->loadData('generic_store_view',
@@ -271,27 +235,20 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Store View.  Fill in field 'Code' by using special characters.
+     * <p>Create Store View.  Fill in field 'Code' by using special characters.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store View' button.</p>
+     * <p>2. Fill in 'Code' field by special characters.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Store View' button.</p>
+     * <p>Expected result:</p>
+     * <p>Store View is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Store View' button.
-     *
-     * 2. Fill in 'Code' field by special characters.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Store View' button.
-     *
-     * Expected result:
-     *
-     * Store View is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithSpecialCharacters_InCode()
+    public function withSpecialCharactersInCode()
     {
         //Data
         $storeViewData = $this->loadData('generic_store_view',
@@ -303,28 +260,21 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Store View.  Fill in field 'Code' by using wrong values.
+     * <p>Create Store View.  Fill in field 'Code' by using wrong values.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store View' button.</p>
+     * <p>2. Fill in 'Code' field by wrong value.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Store View' button.</p>
+     * <p>Expected result:</p>
+     * <p>Store View is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Store View' button.
-     *
-     * 2. Fill in 'Code' field by wrong value.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Store View' button.
-     *
-     * Expected result:
-     *
-     * Store View is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @dataProvider data_InvalidCode
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider dataInvalidCode
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithInvalidCode($invalidCode)
+    public function withInvalidCode($invalidCode)
     {
         //Data
         $storeViewData = $this->loadData('generic_store_view',
@@ -335,7 +285,7 @@ class Store_StoreView_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->errorMessage('wrong_store_view_code'), $this->messages);
     }
 
-    public function data_InvalidCode()
+    public function dataInvalidCode()
     {
         return array(
             array('invalid code'),

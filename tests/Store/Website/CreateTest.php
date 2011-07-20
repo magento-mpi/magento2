@@ -38,7 +38,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Log in to Backend.
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -46,8 +46,8 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Preconditions:
-     * Navigate to System -> Manage Stores
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Manage Stores</p>
      */
     protected function assertPreConditions()
     {
@@ -56,21 +56,17 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Test navigation.
+     * <p>Test navigation.</p>
+     * <p>Steps:</p>
+     * <p>1. Verify that 'Create Website' button is present and click her.</p>
+     * <p>2. Verify that the create website page is opened.</p>
+     * <p>3. Verify that 'Back' button is present.</p>
+     * <p>4. Verify that 'Save Website' button is present.</p>
+     * <p>5. Verify that 'Reset' button is present.</p>
      *
-     * Steps:
-     *
-     * 1. Verify that 'Create Website' button is present and click her.
-     *
-     * 2. Verify that the create website page is opened.
-     *
-     * 3. Verify that 'Back' button is present.
-     *
-     * 4. Verify that 'Save Website' button is present.
-     *
-     * 5. Verify that 'Reset' button is present.
+     * @test
      */
-    public function test_Navigation()
+    public function navigation()
     {
         $this->assertTrue($this->clickButton('create_website'),
                 'There is no "Create Website" button on the page');
@@ -84,25 +80,19 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Website. Fill in only required fields.
+     * <p>Create Website. Fill in only required fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Website' button.</p>
+     * <p>2. Fill in required fields.</p>
+     * <p>3. Click 'Save Website' button.</p>
+     * <p>Expected result:</p>
+     * <p>Website is created.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Website' button.
-     *
-     * 2. Fill in required fields.
-     *
-     * 3. Click 'Save Website' button.
-     *
-     * Expected result:
-     *
-     * Website is created.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_Navigation
+     * @depends navigation
+     * @test
      */
-    public function test_WithRequiredFieldsOnly()
+    public function withRequiredFieldsOnly()
     {
         //Data
         $websiteData = $this->loadData('generic_website', NULL,
@@ -118,27 +108,20 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Website.  Fill in field 'Code' by using code that already exist.
+     * <p>Create Website.  Fill in field 'Code' by using code that already exist.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Website' button.</p>
+     * <p>2. Fill in 'Code' field by using code that already exist.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Website' button.</p>
+     * <p>Expected result:</p>
+     * <p>Website is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Website' button.
-     *
-     * 2. Fill in 'Code' field by using code that already exist.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Website' button.
-     *
-     * Expected result:
-     *
-     * Website is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithCodeThatAlreadyExists(array $websiteData)
+    public function withCodeThatAlreadyExists(array $websiteData)
     {
         //Steps
         $this->storeHelper()->createWebsite($websiteData);
@@ -147,26 +130,20 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Website. Fill in all required fields except one field.
+     * <p>Create Website. Fill in all required fields except one field.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Website' button.</p>
+     * <p>2. Fill in required fields except one field.</p>
+     * <p>3. Click 'Save Website' button.</p>
+     * <p>Expected result:</p>
+     * <p>Website is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Website' button.
-     *
-     * 2. Fill in required fields except one field.
-     *
-     * 3. Click 'Save Website' button.
-     *
-     * Expected result:
-     *
-     * Website is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
-     * @dataProvider data_EmptyField
+     * @depends withRequiredFieldsOnly
+     * @dataProvider dataEmptyField
+     * @test
      */
-    public function test_WithRequiredFieldsEmpty($emptyField)
+    public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
         if ($emptyField == 'website_code') {
@@ -184,7 +161,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_EmptyField()
+    public function dataEmptyField()
     {
         return array(
             array('website_name'),
@@ -193,25 +170,19 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Website. Fill in only required fields. Use max long values for fields 'Name' and 'Code'
+     * <p>Create Website. Fill in only required fields. Use max long values for fields 'Name' and 'Code'</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Website' button.</p>
+     * <p>2. Fill in required fields by long value alpha-numeric data.</p>
+     * <p>3. Click 'Save Website' button.</p>
+     * <p>Expected result:</p>
+     * <p>Website is created. Success Message is displayed.</p>
+     * <p>Length of field "Name" is 255 characters. Length of field "Code" is 32 characters.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Website' button.
-     *
-     * 2. Fill in required fields by long value alpha-numeric data.
-     *
-     * 3. Click 'Save Website' button.
-     *
-     * Expected result:
-     *
-     * Website is created. Success Message is displayed.
-     *
-     * Length of field "Name" is 255 characters. Length of field "Code" is 32 characters.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithLongValues()
+    public function withLongValues()
     {
         //Data
         $longValues = array(
@@ -236,27 +207,20 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Website. Fill in field 'Name' by using special characters.
+     * <p>Create Website. Fill in field 'Name' by using special characters.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Website' button.</p>
+     * <p>2. Fill in 'Name' field by special characters.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Website' button.</p>
+     * <p>Expected result:</p>
+     * <p>Website is created.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Website' button.
-     *
-     * 2. Fill in 'Name' field by special characters.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Website' button.
-     *
-     * Expected result:
-     *
-     * Website is created.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithSpecialCharacters_InName()
+    public function withSpecialCharacters_InName()
     {
         //Data
         $websiteData = $this->loadData('generic_website',
@@ -271,28 +235,21 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Website.  Fill in field 'Code' by using wrong values.
+     * <p>Create Website.  Fill in field 'Code' by using wrong values.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Website' button.</p>
+     * <p>2. Fill in 'Code' field by wrong value.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Website' button.</p>
+     * <p>Expected result:</p>
+     * <p>Website is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Website' button.
-     *
-     * 2. Fill in 'Code' field by wrong value.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Website' button.
-     *
-     * Expected result:
-     *
-     * Website is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @dataProvider data_InvalidCode
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider dataInvalidCode
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithInvalidCode($invalidCode)
+    public function withInvalidCode($invalidCode)
     {
         //Data
         $websiteData = $this->loadData('generic_website', array('website_code' => $invalidCode));
@@ -302,7 +259,7 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->errorMessage('wrong_website_code'), $this->messages);
     }
 
-    public function data_InvalidCode()
+    public function dataInvalidCode()
     {
         return array(
             array('invalid code'),
@@ -313,19 +270,16 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Website with several Stores assigned to one Root Category
+     * <p>Create Website with several Stores assigned to one Root Category</p>
+     * <p>Steps:</p>
+     * <p>1. Create website</p>
+     * <p>2. Create first store</p>
+     * <p>3. Create second store</p>
      *
-     * Steps:
-     *
-     * 1. Create website
-     *
-     * 2. Create first store
-     *
-     * 3. Create second store
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithSeveralStores_AssignedToOneRootCategory()
+    public function withSeveralStoresAssignedToOneRootCategory()
     {
         //1.1.Create website
         //Data
@@ -352,21 +306,17 @@ class Store_Website_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Website with several Store Views in one Store
+     * <p>Create Website with several Store Views in one Store</p>
+     * <p>Steps:</p>
+     * <p>1. Create website</p>
+     * <p>2. Create store</p>
+     * <p>3. Create first store view</p>
+     * <p>4. Create second store view</p>
      *
-     * Steps:
-     *
-     * 1. Create website
-     *
-     * 2. Create store
-     *
-     * 3. Create first store view
-     *
-     * 4. Create second store view
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithSeveralStoresViewsInOneStore()
+    public function withSeveralStoresViewsInOneStore()
     {
         //1.1.Create website
         //Data

@@ -38,7 +38,7 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Log in to Backend.
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -46,8 +46,8 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Preconditions:
-     * Navigate to System -> Manage Stores
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Manage Stores</p>
      */
     protected function assertPreConditions()
     {
@@ -56,21 +56,17 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Test navigation.
+     * <p>Test navigation.</p>
+     * <p>Steps:</p>
+     * <p>1. Verify that 'Create Store' button is present and click her.</p>
+     * <p>2. Verify that the create store page is opened.</p>
+     * <p>3. Verify that 'Back' button is present.</p>
+     * <p>4. Verify that 'Save Store' button is present.</p>
+     * <p>5. Verify that 'Reset' button is present.</p>
      *
-     * Steps:
-     *
-     * 1. Verify that 'Create Store' button is present and click her.
-     *
-     * 2. Verify that the create store page is opened.
-     *
-     * 3. Verify that 'Back' button is present.
-     *
-     * 4. Verify that 'Save Store' button is present.
-     *
-     * 5. Verify that 'Reset' button is present.
+     * @test
      */
-    public function test_Navigation()
+    public function navigation()
     {
         $this->assertTrue($this->clickButton('create_store'),
                 'There is no "Create Store" button on the page');
@@ -84,23 +80,18 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Store. Fill in only required fields.
+     * <p>Create Store. Fill in only required fields.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store' button.</p>
+     * <p>2. Fill in required fields.</p>
+     * <p>3. Click 'Save Store' button.</p>
+     * <p>Expected result:</p>
+     * <p>Store is created.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Store' button.
-     *
-     * 2. Fill in required fields.
-     *
-     * 3. Click 'Save Store' button.
-     *
-     * Expected result:
-     *
-     * Store is created.
-     *
-     * Success Message is displayed
+     * @test
      */
-    public function test_WithRequiredFieldsOnly()
+    public function withRequiredFieldsOnly()
     {
         //Data
         $storeData = $this->loadData('generic_store', NULL, 'store_name');
@@ -113,26 +104,20 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Store. Fill in required fields except one field.
+     * <p>Create Store. Fill in required fields except one field.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store' button.</p>
+     * <p>2. Fill in fields except one required field.</p>
+     * <p>3. Click 'Save Store' button.</p>
+     * <p>Expected result:</p>
+     * <p>Store is not created.</p>
+     * <p>Error Message is displayed.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Store' button.
-     *
-     * 2. Fill in fields except one required field.
-     *
-     * 3. Click 'Save Store' button.
-     *
-     * Expected result:
-     *
-     * Store is not created.
-     *
-     * Error Message is displayed.
-     *
-     * @dataProvider data_EmptyField
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider dataEmptyField
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithRequiredFieldsEmpty($emptyField, $fieldType)
+    public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
         $storeData = $this->loadData('generic_store', array($emptyField => '%noValue%'));
@@ -146,10 +131,10 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Data for test_WithRequiredFieldsEmpty
+     * <p>Data for withRequiredFieldsEmpty</p>
      * @return array
      */
-    public function data_EmptyField()
+    public function dataEmptyField()
     {
         return array(
             array('store_name', 'field'),
@@ -158,25 +143,19 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Store. Fill in only required fields. Use max long values for field 'Name'
+     * <p>Create Store. Fill in only required fields. Use max long values for field 'Name'</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store' button.</p>
+     * <p>2. Fill in required fields by long value alpha-numeric data.</p>
+     * <p>3. Click 'Save Store' button.</p>
+     * <p>Expected result:<p>
+     * <p>Store is created. Success Message is displayed.</p>
+     * <p>Length of field "Name" is 255 characters.</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Store' button.
-     *
-     * 2. Fill in required fields by long value alpha-numeric data.
-     *
-     * 3. Click 'Save Store' button.
-     *
-     * Expected result:
-     *
-     * Store is created. Success Message is displayed.
-     *
-     * Length of field "Name" is 255 characters.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithLongValues()
+    public function withLongValues()
     {
         //Data
         $storeData = $this->loadData('generic_store',
@@ -190,27 +169,20 @@ class Store_Store_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create Store. Fill in field 'Name' by using special characters.
+     * <p>Create Store. Fill in field 'Name' by using special characters.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Create Store' button.</p>
+     * <p>2. Fill in 'Name' field by special characters.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Store' button.</p>
+     * <p>Expected result:</p>
+     * <p>Store is created.</p>
+     * <p>Success Message is displayed</p>
      *
-     * Steps:
-     *
-     * 1. Click 'Create Store' button.
-     *
-     * 2. Fill in 'Name' field by special characters.
-     *
-     * 3. Fill other required fields by regular data.
-     *
-     * 4. Click 'Save Store' button.
-     *
-     * Expected result:
-     *
-     * Store is created.
-     *
-     * Success Message is displayed
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithSpecialCharacters_InName()
+    public function withSpecialCharactersInName()
     {
         //Data
         $storeData = $this->loadData('generic_store',

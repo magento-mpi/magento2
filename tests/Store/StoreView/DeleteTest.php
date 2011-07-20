@@ -47,16 +47,18 @@ class Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * @TODO
+     * @test
      */
-    public function test_Deletable()
+    public function deletable()
     {
         // @TODO
     }
 
     /**
      * @TODO
+     * @test
      */
-    public function test_ThatCannotBeDeleted()
+    public function thatCannotBeDeleted()
     {
         // @TODO
     }
