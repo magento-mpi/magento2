@@ -56,7 +56,6 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
     }
 
-
     /**
      * <p>Creating product with required fields only</p>
      * <p>Steps:</p>
@@ -85,6 +84,60 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Creating product with all fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add product' button;</p>
+     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
+     * <p>3. Click 'Continue' button;</p>
+     * <p>4. Fill in all fields;</p>
+     * <p>5. Click 'Save' button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @test
+     * @depends requiredFieldsForDynamicSmoke
+     */
+    public function allFieldsForDynamic()
+    {
+        //Data
+        $productData = $this->loadData('dynamic_bundle', null, array('general_name', 'general_sku'));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'bundle');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        return $productData;
+    }
+
+    /**
+     * <p>Creating product with all fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add product' button;</p>
+     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
+     * <p>3. Click 'Continue' button;</p>
+     * <p>4. Fill in all fields;</p>
+     * <p>5. Click 'Save' button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @test
+     * @depends requiredFieldsForDynamicSmoke
+     */
+    public function allFieldsForFixed()
+    {
+        //Data
+        $productData = $this->loadData('fixed_bundle', null, array('general_name', 'general_sku'));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'bundle');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        return $productData;
+    }
+
+    /**
      * <p>Creating product with required fields only</p>
      * <p>Steps:</p>
      * <p>1. Click 'Add product' button;</p>
@@ -96,6 +149,7 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
      * <p>Product is created, confirmation message appears;</p>
      *
      * @test
+     *
      */
     public function requiredFieldsForFixedSmoke()
     {
@@ -125,7 +179,7 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
-    public function skuThatAlreadyExists($productData)
+    public function existSkuInBundle($productData)
     {
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
@@ -151,7 +205,7 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
-    public function emptyRequiredFields($emptyField, $fieldType)
+    public function emptyRequiredFieldInBundle($emptyField, $fieldType)
     {
         //Data
         $field = key($emptyField);
@@ -163,11 +217,8 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
-        $fieldXpath = $this->_getControlXpath($fieldType, $field);
-        $fieldId = $this->getAttribute($fieldXpath . '/@id');
-        $this->addParameter('fieldId', $fieldId);
-
-        $this->assertTrue($this->validationMessage('empty_required_field_by_id'), $this->messages);
+        $this->addFieldIdToMessage($fieldType, $field);
+        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
@@ -280,7 +331,7 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
-    public function incorrectSkuLength()
+    public function incorrectSkuLengthInBundle()
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required',
@@ -306,7 +357,7 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
-    public function invalidValueForWeight()
+    public function invalidWeightInBundle()
     {
         //Data
         $productData = $this->loadData('fixed_bundle_required',
@@ -346,7 +397,7 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
-    public function invalidValueForPrice($invalidPrice)
+    public function invalidPriceInBundle($invalidPrice)
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required',
@@ -355,7 +406,8 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
-        $this->assertTrue($this->validationMessage('invalid_price'), $this->messages);
+        $this->addFieldIdToMessage('field', 'prices_price');
+        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
@@ -374,7 +426,7 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
-    public function invalidValueForSpecialPrice($invalidValue)
+    public function invalidSpecialPriceInBundle($invalidValue)
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required',
@@ -382,7 +434,8 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
-        $this->assertTrue($this->validationMessage('invalid_special_price'), $this->messages);
+        $this->addFieldIdToMessage('field', 'prices_special_price');
+        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
@@ -398,11 +451,11 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataEmptyFieldTierPrice
+     * @dataProvider tierPriceFields
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
-    public function emptyFieldsTierPriceFor($emptyTierPrice)
+    public function emptyTierPriceFieldsInBundle($emptyTierPrice)
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required', null, 'general_sku');
@@ -411,13 +464,12 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
-        $fieldXpath = $this->_getControlXpath('field', $emptyTierPrice);
-        $this->addParameter('fieldXpath', $fieldXpath);
+        $this->addFieldIdToMessage('field', $emptyTierPrice);
         $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function dataEmptyFieldTierPrice()
+    public function tierPriceFields()
     {
         return array(
             array('prices_tier_price_qty'),
@@ -441,7 +493,7 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
      * @depends requiredFieldsForDynamicSmoke
      * @test
      */
-    public function invalidValuesFoeTierPrice($invalidTierData)
+    public function invalidTierPriceInBundle($invalidTierData)
     {
         //Data
         $tierData = array(
@@ -454,9 +506,8 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
         foreach ($tierData as $key => $value) {
-            $fieldXpath = $this->_getControlXpath('field', $key);
-            $this->addParameter('fieldXpath', $fieldXpath);
-            $this->assertTrue($this->validationMessage('invalid_tier_price'), $this->messages);
+            $this->addFieldIdToMessage('field', $key);
+            $this->assertTrue($this->validationMessage('enter_greater_than_zero'), $this->messages);
         }
         $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
     }
@@ -487,8 +538,7 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
-        $xpath = $this->_getControlXpath('field', 'bundle_items_default_title');
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addFieldIdToMessage('field', 'bundle_items_default_title');
         $this->assertTrue($this->successMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -508,10 +558,8 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
-        $fieldXpath = $this->_getControlXpath('field', 'bundle_items_position');
-        $fieldId = $this->getAttribute($fieldXpath . '/@name');
-        $this->addParameter('fieldId', $fieldId);
-        $this->assertTrue($this->successMessage('invalid_numeric_value'), $this->messages);
+        $this->addFieldIdToMessage('field', 'bundle_items_position');
+        $this->assertTrue($this->successMessage('enter_zero_or_greater'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
@@ -524,5 +572,4 @@ class Product_Create_Bundle extends Mage_Selenium_TestCase
             array('-128')
         );
     }
-
 }

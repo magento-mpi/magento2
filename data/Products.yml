@@ -166,11 +166,9 @@ custom_options_data: &customOptionsData
     custom_options_checkbox: *checkbox
     custom_options_multipleselect: *multipleselect
 
-custom_options_empty_select_type:
-    custom_options_general_title: Title
-    custom_options_general_input_type: Drop-down
-    custom_option_row_1: 
-        custom_options_title: %noValue%
+custom_options_empty:
+    custom_options_general_title: Custom Option Title
+    custom_options_general_input_type: Area
 
 #*********************************************
 #*         Tier Price Data                   *
@@ -593,7 +591,6 @@ dynamic_bundle_required:
     general_weight_type: Dynamic
     general_status: Enabled
     general_visibility: Catalog, Search
-    prices_price_type: Dynamic
 
 fixed_bundle_required:
     product_attribute_set: Default
@@ -610,6 +607,92 @@ fixed_bundle_required:
     prices_price: 12.55
     prices_tax_class: None
 
-bundle_dynamic_product:
-
-bundle_fixed_product:
+dynamic_bundle:
+    product_attribute_set: Default
+    general_name: Bundle(Dynamic) Product
+    general_description: Description for Bundle(Dynamic) Product
+    general_short_description: Short Description for Bundle(Dynamic) Product
+    general_sku_type: Dynamic
+    general_sku: bundle_sku
+    general_weight_type: Dynamic
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: bundle_product_url_key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+#    general_in_feed: Yes
+    prices_price_type: Dynamic
+    prices_special_price: 3.99
+    prices_special_price_from: 05/05/11
+    prices_special_price_to: 09/09/11
+    prices_tier_price_data: *tierPriceData
+    prices_price_view_bundle: As Low as
+    meta_information_meta_title: Meta Title for Bundle(Dynamic) Product
+    meta_information_meta_keywords: Meta Keywords for Bundle(Dynamic) Product
+    meta_information_meta_description: Meta Description for Bundle(Dynamic) Product
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_enable_qty_increments_default: No
+    inventory_enable_qty_increments: Yes
+    inventory_qty_increments_default: No
+    inventory_qty_increments: 5
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    related_products_data: %noValue%
+    up_sells_products_data: %noValue%
+    cross_sells_products_data: %noValue%
+    bundle_items_data: *bundleData
+    
+fixed_bundle:
+    product_attribute_set: Default
+    general_name: Bundle(Fixed) Product
+    general_description: Description for Bundle(Fixed) Product
+    general_short_description: Short Description for Bundle(Fixed) Product
+    general_sku_type: Fixed
+    general_sku: bundle_sku
+    general_weight_type: Fixed
+    general_weight: 0.111
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: bundle_product_url_key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+#    general_in_feed: Yes
+    prices_price_type: Fixed
+    prices_price: 66.32
+    prices_special_price: 3.99
+    prices_special_price_from: 05/05/11
+    prices_special_price_to: 09/09/11
+    prices_tier_price_data: *tierPriceData
+    prices_price_view_bundle: As Low as
+    meta_information_meta_title: Meta Title for Bundle(Fixed) Product
+    meta_information_meta_keywords: Meta Keywords for Bundle(Fixed) Product
+    meta_information_meta_description: Meta Description for Bundle(Fixed) Product
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_enable_qty_increments_default: No
+    inventory_enable_qty_increments: Yes
+    inventory_qty_increments_default: No
+    inventory_qty_increments: 5
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    related_products_data: %noValue%
+    up_sells_products_data: %noValue%
+    cross_sells_products_data: %noValue%
+    bundle_items_data: *bundleData

@@ -34,7 +34,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Product_CreateWithCustomOptions extends Mage_Selenium_TestCase
+class Product_Create_ProductWithCustomOptions extends Mage_Selenium_TestCase
 {
 
     /**
@@ -57,7 +57,77 @@ class Product_CreateWithCustomOptions extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with empty fields for "Select" type</p>
+     * <p>Create product with custom options</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Add all types of options;</p>
+     * <p>7. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, susses message appears;</p>
+     *
+     * @test
+     */
+    public function productWithAllTypesCustomOption()
+    {
+        //Data
+        $productData = $this->loadData('simple_product_required', null,
+                        array('general_sku', 'general_name'));
+        $productData['custom_options_data'] = $this->loadData('custom_options_data');
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+    }
+
+    /**
+     * <p>Create product with empty required field in custom options</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Leave one required field empty;</p>
+     * <p>8. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider dataEmptyGeneralFields
+     * @test
+     */
+    public function emptyFieldInCustomOption($emptyCustomField)
+    {
+        //Data
+        $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $productData['custom_options_data'][] = $this->loadData('custom_options_empty',
+                        array($emptyCustomField => "%noValue%"));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        if ($emptyCustomField == 'custom_options_general_title') {
+            $this->addFieldIdToMessage('field', $emptyCustomField);
+            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        } else {
+            $this->assertTrue($this->validationMessage('select_type_of_option'), $this->messages);
+        }
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function dataEmptyGeneralFields()
+    {
+        return array(
+            array('custom_options_general_title'),
+            array('custom_options_general_input_type')
+        );
+    }
+
+    /**
+     * <p>Create product with CustomOption: Empty field 'option row Title' if 'Input Type'='Select' type</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -66,77 +136,41 @@ class Product_CreateWithCustomOptions extends Mage_Selenium_TestCase
      * <p>5. Click "Custom Options" tab;</p>
      * <p>6. Click "Add New Option" button;</p>
      * <p>7. Select "Multipleselect" (or any other from Select type) into "Input Type" field;</p>
-     * <p>7. Leave fields empty;</p>
+     * <p>7. Leave option row title empty;</p>
      * <p>8. Click "Save" button;</p>
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataemptyFields
-     * @param array $emptyField
+     * @param string $emptyField
+     * @dataProvider optionDataName
      * @test
      */
-    public function CustomOptionsEmptyFieldsSelectType($emptyField)
+    public function emptyOptionRowTitleInCustomOption($optionDataName)
     {
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
-        $productData['custom_options_data'][] = $this->loadData('custom_options_empty_select_type',
-                        $emptyField);
+        $productData['custom_options_data'][] = $this->loadData($optionDataName,
+                        array('custom_options_title' => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $fieldXpath = $this->_getControlXpath('field', 'custom_options_title');
-        $this->addParameter('fieldXpath', $fieldXpath);
+        $this->addFieldIdToMessage('field', 'custom_options_title');
         $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function dataemptyFields()
+    public function optionDataName()
     {
         return array(
-            array(array('custom_options_general_input_type' => 'Drop-down')),
-            array(array('custom_options_general_input_type' => 'Radio Buttons')),
-            array(array('custom_options_general_input_type' => 'Checkbox')),
-            array(array('custom_options_general_input_type' => 'Multiple Select'))
+            array('custom_options_dropdown'),
+            array('custom_options_radiobutton'),
+            array('custom_options_checkbox'),
+            array('custom_options_multipleselect')
         );
     }
 
     /**
-     * <p>Creating product with invalid "Price" custom options</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data;</p>
-     * <p>5. Click "Custom Options" tab;</p>
-     * <p>6. Click "Add New Option" button;</p>
-     * <p>7. Select "Multipleselect" into "Input Type" field;</p>
-     * <p>8. Fill in "Price" field with incorrect data;</p>
-     * <p>9. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
-     *
-     * @dataProvider datainvalidDataNumericField
-     * @test
-     */
-    public function invalidPriceForCustomOptions($invalidData)
-    {
-        //Data
-        $productData = $this->loadData('simple_product_required', null, 'general_sku');
-        $productData['custom_options_data'][] = $this->loadData('custom_options_multipleselect',
-                        array('custom_options_price' => $invalidData));
-
-        //Steps
-        $this->productHelper()->createProduct($productData);
-        //Verifying
-        $fieldXpath = $this->_getControlXpath('field', 'custom_options_price');
-        $this->addParameter('fieldXpath', $fieldXpath);
-        $this->assertTrue($this->validationMessage('enter_valid_number_select_type'),
-                $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-    }
-
-    /**
-     * <p>Creating product with invalid "Sort Order" into custom options</p>
+     * <p>Create product with invalid "Sort Order" into custom options</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -150,26 +184,31 @@ class Product_CreateWithCustomOptions extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider datainvalidDataNumericField
+     * @dataProvider dataInvalidNumericValue
      * @test
      */
-    public function CustomOptionsInvalidSortOrder($invalidData)
+    public function invalidSortOrderInCustomOption($invalidData)
     {
         //Data
+        $invalidSortOrder = array(
+            'custom_options_general_sort_order' => $invalidData,
+            'custom_options_sort_order' => $invalidData
+        );
         $productData = $this->loadData('simple_product_required', NULL, 'general_sku');
-        $productData['custom_options_data'][] = $this->loadData('custom_options_field',
-                        array('custom_options_general_sort_order' => $invalidData));
+        $productData['custom_options_data'][] = $this->loadData('custom_options_multipleselect',
+                        $invalidSortOrder);
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $fieldXpath = $this->_getControlXpath('field', 'custom_options_general_sort_order');
-        $this->addParameter('fieldXpath', $fieldXpath);
-        $this->assertTrue($this->validationMessage('enter_valid_sort_order'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+        foreach ($invalidSortOrder as $key => $value) {
+            $this->addFieldIdToMessage('field', $key);
+            $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
+        }
+        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
     }
 
     /**
-     * <p>Creating product with invalid custom options</p>
+     * <p>Create product custom option: use invalid value for field 'Max Characters'</p>
      * <p>Steps</p>
      * <p>1. Click "Add Product" button;</p>
      * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
@@ -183,10 +222,10 @@ class Product_CreateWithCustomOptions extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider datainvalidDataNumericField
+     * @dataProvider dataInvalidNumericValue
      * @test
      */
-    public function CustomOptionsInvalidMaxChar($invalidData)
+    public function invalidMaxCharInCustomOption($invalidData)
     {
         //Data
         $productData = $this->loadData('simple_product_required', NULL, 'general_sku');
@@ -195,18 +234,72 @@ class Product_CreateWithCustomOptions extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $fieldXpath = $this->_getControlXpath('field', 'custom_options_max_characters');
-        $this->addParameter('fieldXpath', $fieldXpath);
-        $this->assertTrue($this->validationMessage('enter_valid_sort_order'), $this->messages);
+        $this->addFieldIdToMessage('field', 'custom_options_max_characters');
+        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function datainvalidDataNumericField()
+    public function dataInvalidNumericValue()
     {
         return array(
             array($this->generate('string', 9, ':punct:')),
             array($this->generate('string', 9, ':alpha:')),
-            array('g3648GJHghj')
+            array('g3648GJHghj'),
+            array('-128')
+        );
+    }
+
+    /**
+     * <p>Create product with Custom Option: Use invalid value for field 'Price'</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Select "Multipleselect" into "Input Type" field;</p>
+     * <p>8. Fill in "Price" field with incorrect data;</p>
+     * <p>9. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider dataInvalidPrice
+     * @test
+     */
+    public function invalidPriceInCustomOptions($optionDataName, $invalidPrice)
+    {
+        //Data
+        $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $productData['custom_options_data'][] = $this->loadData($optionDataName,
+                        array('custom_options_price' => $invalidPrice));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->addFieldIdToMessage('field', 'custom_options_price');
+        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function dataInvalidPrice()
+    {
+        return array(
+//            array('custom_options_field', $this->generate('string', 9, ':punct:')),
+//            array('custom_options_field', $this->generate('string', 9, ':alpha:')),
+            array('custom_options_field', 'g3648GJHghj'),
+//            array('custom_options_field', '-128'),
+//            array('custom_options_file', $this->generate('string', 9, ':punct:')),
+//            array('custom_options_file', $this->generate('string', 9, ':alpha:')),
+            array('custom_options_file', 'g3648GJHghj'),
+//            array('custom_options_file', '-128'),
+//            array('custom_options_date', $this->generate('string', 9, ':punct:')),
+//            array('custom_options_date', $this->generate('string', 9, ':alpha:')),
+            array('custom_options_date', 'g3648GJHghj'),
+//            array('custom_options_date', '-128'),
+//            array('custom_options_dropdown', $this->generate('string', 9, ':punct:')),
+//            array('custom_options_dropdown', $this->generate('string', 9, ':alpha:')),
+            array('custom_options_dropdown', 'g3648GJHghj'),
+//            array('custom_options_dropdown', '-128')
         );
     }
 
