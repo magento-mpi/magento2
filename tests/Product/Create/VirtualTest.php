@@ -184,7 +184,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
                             'general_sku'               => $this->generate('string', 32, ':punct:')
                 ));
         $productSearch = $this->loadData('product_search',
-                        array('general_sku' => $productData['general_sku']));
+                        array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -221,7 +221,7 @@ class Product_Create_VirtualTest extends Mage_Selenium_TestCase
                             'general_sku'               => $this->generate('string', 64, ':alnum:')
                 ));
         $productSearch = $this->loadData('product_search',
-                        array('general_sku' => $productData['general_sku']));
+                        array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying

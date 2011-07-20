@@ -185,7 +185,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
                             'general_sku'               => $this->generate('string', 32, ':punct:')
                 ));
         $productSearch = $this->loadData('product_search',
-                        array('general_sku' => $productData['general_sku']));
+                        array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -223,7 +223,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
                             'general_weight'            => 99999999.9999
                 ));
         $productSearch = $this->loadData('product_search',
-                        array('general_sku' => $productData['general_sku']));
+                        array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -282,8 +282,8 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
                         array('general_name', 'general_sku'));
         $productSearch = $this->loadData('product_search',
                         array(
-                            'general_sku'  => $productData['general_sku'],
-                            'general_name' => $productData['general_name']
+                            'product_sku'  => $productData['general_sku'],
+                            'product_name' => $productData['general_name']
                 ));
         //Steps
         $this->productHelper()->createProduct($productData);
