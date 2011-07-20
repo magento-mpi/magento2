@@ -42,6 +42,9 @@
             <directory suffix="CreateTest.php">tests/Store</directory>
             <directory suffix="Test.php">tests/Customer</directory>
             <directory suffix="SimpleTest.php">tests/Product/Create</directory>
+            <directory suffix="Bundle.php">tests/Product/Create</directory>
+            <directory suffix="VirtualTest.php">tests/Product/Create</directory>
+            <directory suffix="ProductWithCustomOptions.php">tests/Product/Create</directory>
             <directory suffix="Test.php">tests/ProductAttribute</directory>
         </testsuite>
     </testsuites>
