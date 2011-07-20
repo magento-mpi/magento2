@@ -72,7 +72,7 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
     * Message "The order has been created." is displayed.
     *
     */
-    public function testCreateNewOrderWithRequiredFieldsExistCustomer()
+    public function testWithExistingAddressBillingShipping()
     {
         $userData = $this->loadData('new_customer');
         $addressData = $this->loadData('new_customer_address');
@@ -86,6 +86,41 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
         $data = array_merge($userData, $addressData);
         $orderId = $this->OrderHelper()->createOrderForExistingCustomer(false, 'products',
             $data, $data,'test_purpose@gmail.com', 'Default Store View', 'visa','Fixed');
+        $this->OrderHelper()->coverUpTraces($orderId, $email);
+    }
+   /**
+    * Create order(all required fields are filled) for existing customer.
+    *
+    * Steps:
+    *
+    * 1. Create new customer.
+    *
+    * 2. Navigate to Sales-Orders.
+    *
+    * 3. Create order for existing customer.
+    *
+    * Expected result:
+    *
+    * Order is created for existing customer.
+    *
+    * Message "The order has been created." is displayed.
+    *
+    */
+    public function testWithNewAddressBillingShipping()
+    {
+        $userData = $this->loadData('new_customer');
+        $addressData = $this->loadData('new_customer_address');
+        $this->navigate('manage_customers');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
+        $this->CustomerHelper()->createCustomer($userData, $addressData);
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_customers'),
+                'After successful customer creation should be redirected to Manage Customers page');
+        $email = array('email'=> $userData['email']);
+        $orderId = $this->OrderHelper()->createOrderForExistingCustomer(false, 'products',
+            $this->OrderHelper()->customerAddressGenerator(':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
+            $this->OrderHelper()->customerAddressGenerator(':alnum:', $addrType = 'shipping', $symNum = 32, TRUE),
+            'test_purpose@gmail.com', 'Default Store View', 'visa','Fixed');
         $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
 }

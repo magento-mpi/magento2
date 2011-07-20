@@ -109,26 +109,60 @@ class Order_Helper extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
         if ($customerEmail != null)
         {
-            $this->addParameter('storeName', $storeName);
-            $this->getToCreateOrderPage($customerEmail);
-            $customer = $billForm['first_name'].
-                ' '.$billForm['last_name'].', '
-                .$billForm['street_address_line_1'].
-                ' '.$billForm['street_address_line_2'].', '
-                .$billForm['city'].', '.$billForm['zip_code'].
-                ', '.$billForm['country'];
-            $addrToSearch = array('billing_address_choice' => $customer);
-            $this->fillForm($addrToSearch);
+            if ($billForm != null){
+                $this->addParameter('storeName', $storeName);
+                $this->getToCreateOrderPage($customerEmail);
+                if (gettype($billForm) == 'array'){
+                    if (array_key_exists('first_name', $billForm)){
+                        $customer = $billForm['first_name'].
+                            ' '.$billForm['last_name'].', '
+                            .$billForm['street_address_line_1'].
+                            ' '.$billForm['street_address_line_2'].', '
+                            .$billForm['city'].', '.$billForm['zip_code'].
+                            ', '.$billForm['country'];
+                        $addrToSearch = array('billing_address_choice' => $customer);
+                        $this->fillForm($addrToSearch);
+                    }
+                    if (array_key_exists('billing_first_name', $billForm)){
+                        $userData = $this->loadData(
+                            'new_customer_order_billing_address_reqfields');
+                        $addrToChoose = array('billing_address_choice' => 'Add New Address');
+                        $addrToFill = array_merge($userData, $addrToChoose,$billForm);
+                        $this->fillForm($addrToFill);
+                    }
+                }
+                if (gettype($billForm) == 'string'){
+                    $addrToChoose = array('billing_address_choice' => 'Add New Address');
+                    $addrToFill = $this->loadData($billForm, $addrToChoose);
+                }
+            }
             if ($shipForm != null){
-                $customer = $shipForm['first_name'].
-                    ' '.$shipForm['last_name'].', '
-                    .$shipForm['street_address_line_1'].
-                    ' '.$shipForm['street_address_line_2'].', '
-                    .$shipForm['city'].', '.$shipForm['zip_code'].
-                    ', '.$shipForm['country'];
-                $addrToSearch = array('shipping_same_as_billing_address' => 'no',
-                    'shipping_address_choice' => $customer);
-                $this->fillForm($addrToSearch);
+                if (gettype($billForm) == 'array'){
+                    if (array_key_exists('first_name', $shipForm)){
+                        $customer = $shipForm['first_name'].
+                            ' '.$shipForm['last_name'].', '
+                            .$shipForm['street_address_line_1'].
+                            ' '.$shipForm['street_address_line_2'].', '
+                            .$shipForm['city'].', '.$shipForm['zip_code'].
+                            ', '.$shipForm['country'];
+                        $addrToSearch = array('shipping_same_as_billing_address' => 'no',
+                            'shipping_address_choice' => $customer);
+                        $this->fillForm($addrToSearch);
+                    }
+                    if (array_key_exists('shipping_first_name', $shipForm)){
+                        $userData = $this->loadData(
+                            'new_customer_order_shipping_address_reqfields');
+                        $addrToChoose = array('shipping_same_as_billing_address' => 'no',
+                            'shipping_address_choice' => 'Add New Address');
+                        $addrToFill = array_merge($addrToChoose, $userData, $shipForm);
+                        $this->fillForm($addrToFill);
+                    }
+                    if (gettype($shipForm) == 'string'){
+                        $addrToChoose = array('shipping_address_choice' => 'Add New Address');
+                        $addrToFill = $this->loadData($shipForm, $addrToChoose);
+                    }
+                }
+
             } else {
                 $addrToSearch = array('shipping_same_as_billing_address' => 'yes');
                 $this->fillForm($addrToSearch);
@@ -514,10 +548,11 @@ class Order_Helper extends Mage_Selenium_TestCase
                 && gettype($paymentMethod) != 'string'){
                     throw new Exception('Incorrect type of $paymentMethod.');
         }
-            $this->clickControl('radiobutton', 'credit_card', FALSE);
-            $this->pleaseWait();
-            $this->waitForAjax();
-            $this->fillForm($paymentMethod, 'order_payment_method');
+        $this->pleaseWait();
+        $this->clickControl('radiobutton', 'credit_card', FALSE);
+        $this->pleaseWait();
+        $this->waitForAjax();
+        $this->fillForm($paymentMethod, 'order_payment_method');
     }
    /**
     * The way to ship the order

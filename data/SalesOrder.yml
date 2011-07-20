@@ -39,6 +39,8 @@ new_customer_order_billing_address_reqfields:
     billing_save_in_address_book: no
 
 new_customer_order_shipping_address_reqfields:
+    #shipping_same_as_billing_address: no Due to bug i need to set this checkbox after setting prefix
+    shipping_prefix: ''
     shipping_same_as_billing_address: no
     shipping_first_name: 'Steven_testdataset req'
     shipping_last_name: 'Stevenson_testdataset req'
@@ -116,8 +118,8 @@ order_shipping_address:
     shipping_zip_code: '01001'
     shipping_telephone: '091019019'
     shipping_fax: '09191'
-    shipping_save_in_address_book: no  
-  
+    shipping_save_in_address_book: no
+
 new_customer:
     associate_to_website: Main Website
     group: General
@@ -162,7 +164,7 @@ american_express:
     expiration_date_month_saved: '07 - July'
     expiration_date_year_saved: '2011'
     cvv_saved: '1234'
-  
+
 visa:
     name_on_card_saved: 'Test Account'
     credit_card_type_saved: 'Visa'
@@ -170,7 +172,7 @@ visa:
     expiration_date_month_saved: '07 - July'
     expiration_date_year_saved: '2012'
     cvv_saved: '111'
-  
+
 mastercard:
     name_on_card_saved: 'Test Account'
     credit_card_type_saved: 'MasterCard'
@@ -178,7 +180,7 @@ mastercard:
     expiration_date_month_saved: '07 - July'
     expiration_date_year_saved: '2012'
     cvv_saved: '111'
-  
+
 discover:
     name_on_card_saved: 'Test Account'
     credit_card_type_saved: 'Discover'
@@ -186,11 +188,11 @@ discover:
     expiration_date_month_saved: '07 - July'
     expiration_date_year_saved: '2012'
     cvv_saved: '111'
-  
+
 products:
     pandora: 'Pandoras Box'
     my_comp: 'My Computer'
-  
+
 product_to_order1:
     product_attribute_set: Default
     general_name: Pandoras Box
@@ -205,7 +207,7 @@ product_to_order1:
     inventory_qty: 100
     inventory_stock_availability: In Stock
     websites: Main Website
-    
+
 product_to_order2:
     product_attribute_set: Default
     general_name: My Computer
@@ -220,3 +222,6 @@ product_to_order2:
     inventory_qty: 100
     inventory_stock_availability: In Stock
     websites: Main Website
+
+products_to_remove:
+    action: 'Remove'

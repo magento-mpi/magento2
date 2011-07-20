@@ -85,7 +85,7 @@ manage_sales_orders:
             success_print_credit_memos: #TODO
             success_print_invoices: #TODO
             success_print_all: #TODO
-            
+
 # Sales Invoices page
 manage_sales_invoices:
     mca: sales_invoice/
@@ -120,7 +120,7 @@ manage_sales_invoices:
                             filter_amount_from: //input[@name='grand_total[from]']
                             filter_amount_to: //input[@name='grand_total[to]']
 
-            
+
 # Sales Shipments page
 manage_sales_shipments:
     mca: sales_shipment/
@@ -188,7 +188,7 @@ manage_sales_creditmemos:
                             filter_billing_name: //input[@name='shipping_name']
                             filter_refunded_from: //input[@name='grand_total[from]']
                             filter_refunded_to: //input[@name='grand_total[to]']
-            
+
 
 # Sales Transactions page
 manage_sales_transactions:
@@ -278,7 +278,7 @@ manage_sales_billing_agreements:
                             filter_created_to: //input[@name='created_at[to]']
                             filter_updated_from: //input[@name='updated_at[from]']
                             filter_updated_to: //input[@name='updated_at[to]']
-                           
+
 
 #Sales osCommerce orders page
 manage_sales_oscommerce_orders:
@@ -335,7 +335,7 @@ manage_sales_checkout_terms_conditions:
         buttons:
             create_new_checkout_agreement: //button[span='Add New']
         messages:
-            condition_saved: //li[normalize-space(@class)='success-msg' and contains(.//span,'The condition has been saved.')]    
+            condition_saved: //li[normalize-space(@class)='success-msg' and contains(.//span,'The condition has been saved.')]
 
 # 'New Order' page
 create_order_for_new_customer:
@@ -527,10 +527,12 @@ create_order_for_new_customer:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
         messages: &orderMessages
+            error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.//span,'You need to specify order items.')]
             customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.//span,'This customer email already exists.')]
             email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" is not a valid hostname.')]
             email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" exceeds the allowed length.')]
             error_invalid_exp_date: //li[normalize-space(@class)='error-msg' and contains(.//span,'Incorrect credit card expiration date.')]
+            empty_payment_method: "%fieldXpath%/following-sibling::*[text()='Please select one of the options.' and not(contains(@style,'display: none;'))]"
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             card_type_doesnt_match: "%fieldXpath%/following-sibling::*[text()='Card type does not match credit card number.' and not(contains(@style,'display: none;'))]"
             invalid_card_number: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card number.' and not(contains(@style,'display: none;'))]"
@@ -910,7 +912,7 @@ create_credit_memo:
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
-            
+
 
 # Create new condition agreement
 create_condition:
@@ -933,10 +935,10 @@ create_condition:
                         multiselect:
                             store_view: //select[@name='stores[]']
                         required: [condition_name, status, show_content_as, store_view, checkbox_text, content]
-                
+
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
-            reset: //p[@class='form-buttons']//button[span='Reset'] 
+            reset: //p[@class='form-buttons']//button[span='Reset']
             save_condition: //p[@class='form-buttons']//button[span='Save Condition']
         messages:
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
