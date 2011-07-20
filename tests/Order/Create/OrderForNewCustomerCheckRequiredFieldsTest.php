@@ -95,35 +95,11 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
     */
     public function testOrderWithoutRequiredFieldsFilled($emptyField)
     {
-        $this->markTestIncomplete();
-        //Data
-        $data = $this->loadData(
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'products',
+                $this->loadData(
                         'new_customer_order_billing_address_reqfields',
-                        $emptyField
-                );
-        //Filling customer's information, address
-        $this->orderHelper()->fillNewBillForm($data);
-        $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $this->assertTrue($this->fillForm($email, 'order_account_information'));
-        //Add products to order
-        $this->clickButton('add_products', FALSE);
-        //getting products name from dataset. Adding them to the order
-        $fieldsetName = 'select_products_to_add';
-        $products = $this->loadData('products');
-        foreach ($products as $key => $value){
-            $prodToAdd = array($key => $value);
-            $this->searchAndChoose($prodToAdd, $fieldsetName);
-        }
-        $this->clickButton('add_selected_products_to_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'check_money_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'ship_method', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('submit_order', FALSE);
-        $this->waitForAjax();
+                        $emptyField), null, null, 'Default Store View',
+                true, true,'visa','Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_billing_address');
         foreach ($emptyField as $key => $value) {

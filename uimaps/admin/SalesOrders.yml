@@ -530,6 +530,7 @@ create_order_for_new_customer:
             customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.//span,'This customer email already exists.')]
             email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" is not a valid hostname.')]
             email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" exceeds the allowed length.')]
+            error_invalid_exp_date: //li[normalize-space(@class)='error-msg' and contains(.//span,'Incorrect credit card expiration date.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             card_type_doesnt_match: "%fieldXpath%/following-sibling::*[text()='Card type does not match credit card number.' and not(contains(@style,'display: none;'))]"
             invalid_card_number: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card number.' and not(contains(@style,'display: none;'))]"

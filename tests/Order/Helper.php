@@ -111,56 +111,51 @@ class Order_Helper extends Mage_Selenium_TestCase
         {
             $this->addParameter('storeName', $storeName);
             $this->getToCreateOrderPage($customerEmail);
-            if ($validate == true){
-                $this->clickButton('submit_order', FALSE);
-                //TODO write check messages for required fields
-                //$this->assertTrue($this->errorMessage('empty_required_field'),
-                //$this->messages);
-            } else {
-                $customer = $billForm['first_name'].
+            $customer = $billForm['first_name'].
                 ' '.$billForm['last_name'].', '
                 .$billForm['street_address_line_1'].
                 ' '.$billForm['street_address_line_2'].', '
                 .$billForm['city'].', '.$billForm['zip_code'].
                 ', '.$billForm['country'];
-                $addrToSearch = array('billing_address_choice' => $customer);
-                $this->fillForm($addrToSearch);
-                if ($shipForm != null){
-                    $customer = $shipForm['first_name'].
+            $addrToSearch = array('billing_address_choice' => $customer);
+            $this->fillForm($addrToSearch);
+            if ($shipForm != null){
+                $customer = $shipForm['first_name'].
                     ' '.$shipForm['last_name'].', '
                     .$shipForm['street_address_line_1'].
                     ' '.$shipForm['street_address_line_2'].', '
                     .$shipForm['city'].', '.$shipForm['zip_code'].
                     ', '.$shipForm['country'];
-                    $addrToSearch = array('shipping_same_as_billing_address' => 'no',
-                        'shipping_address_choice' => $customer);
-                    $this->fillForm($addrToSearch);
-                } else {
-                    $addrToSearch = array('shipping_same_as_billing_address' => 'yes');
-                    $this->fillForm($addrToSearch);
+                $addrToSearch = array('shipping_same_as_billing_address' => 'no',
+                    'shipping_address_choice' => $customer);
+                $this->fillForm($addrToSearch);
+            } else {
+                $addrToSearch = array('shipping_same_as_billing_address' => 'yes');
+                $this->fillForm($addrToSearch);
+            }
+            if ($productsToBuy != null){
+                $this->orderProducts($productsToBuy);
+            }
+            if ($paymentMethod != null){
+                $this->payForOrder($paymentMethod);
+            }
+            if ($shippingMethod != null){
+                $this->shipOrder($shippingMethod);
+            }
+            if ($customerEmail != null){
+                if (gettype($customerEmail) == 'string'){
+                    $customerEmail = array('email'=> $customerEmail);
                 }
-                if ($productsToBuy != null)
-                {
-                    $this->orderProducts($productsToBuy);
-                }
-                if ($paymentMethod != null)
-                {
-                    $this->payForOrder($paymentMethod);
-                }
-                if ($shippingMethod != null){
-                    $this->shipOrder($shippingMethod);
-                }
-                if ($customerEmail != null){
-                    if (gettype($customerEmail) == 'string'){
-                        $customerEmail = array('email'=> $customerEmail);
-                    }
-                    $this->fillForm($customerEmail, 'order_account_information');
-                }
+                $this->fillForm($customerEmail, 'order_account_information');
+            }
+            if ($validate == true){
+                $this->clickButton('submit_order', FALSE);
+            } else {
                 $this->clickButton('submit_order', TRUE);
                 $this->defineId('view_order');
                 if ($this->successMessage('success_created_order') == true){
                     $this->assertTrue($this->successMessage('success_created_order'),
-                            $this->messages);
+                        $this->messages);
                     return $order_id = $this->defineOrderId('view_order');
                 } else {
                     return false;
@@ -185,7 +180,7 @@ class Order_Helper extends Mage_Selenium_TestCase
     * @return bool|integer
     */
     public function createOrderForNewCustomer($validate = false, $productsToBuy = null,
-            array $billForm = null, array $shipForm = null,
+            $billForm = null, $shipForm = null,
             $customerEmail = null, $storeName = null,
             $saveBillToAddrBook = false, $saveShipToAddrBook = false,
             $paymentMethod = null, $shippingMethod = null)
@@ -193,84 +188,97 @@ class Order_Helper extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
         $this->addParameter('storeName', $storeName);
         $this->getToCreateOrderPage();
-        if ($validate == true){
-            $this->clickButton('submit_order', FALSE);
-            //TODO write check messages for required fields
-            //$this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
+        if ($billForm == null){
+            throw new Exception('You are using method incorrectly.
+                $billForm cannot be null.');
         } else {
-            if ($billForm == null){
-                    throw new Exception('You are using method incorrectly.
-                        $billForm cannot be null.');
+            if ($saveBillToAddrBook == true){
+                $saveBillToAddrBookParam = array(
+                    'billing_save_in_address_book' => 'yes');
+                if (gettype($billForm) == 'string'){
+                    $userData = $this->loadData($billForm);
+                    $billAddr = array_merge(
+                        $userData, $saveBillToAddrBookParam);
+                }
+                if (getType($billForm) == 'array'){
+                    $userData = $this->loadData(
+                        'new_customer_order_billing_address_reqfields');
+                    $billAddr = array_merge(
+                        $userData, $saveBillToAddrBookParam, $billForm);
+                }
+                $this->fillForm($billAddr);
             } else {
-                if ($saveBillToAddrBook == true){
-                    $saveBillToAddrBookParam = array(
-                        'billing_save_in_address_book' => 'yes');
-                    if (gettype($billForm) == 'string'){
-                        $userData = $this->loadData($billForm);
-                        $billAddr = array_merge(
-                                $userData, $saveBillToAddrBookParam);
-                    }
-                    if (getType($billForm) == 'array'){
-                        $userData = $this->loadData(
-                                'new_customer_order_billing_address_allfields');
-                        $billAddr = array_merge(
-                                $userData, $saveBillToAddrBookParam, $billForm);
-                    }
-                    $this->fillForm($billAddr);
-                 } else {
-                     if (gettype($billForm) == 'string'){
-                         $billAddr = $this->loadData($billForm);
-                     }
-                     if (getType($billForm) == 'array'){
-                         $userData = $this->loadData(
-                                 'new_customer_order_billing_address_allfields');
-                         $billAddr = array_merge($userData, $billForm);
-                     }
-                     $this->fillForm($billAddr);
-                 }
-                 if ($shipForm != null){
+                if (gettype($billForm) == 'string'){
+                    $billAddr = $this->loadData($billForm);
+                }
+                if (getType($billForm) == 'array'){
+                    $userData = $this->loadData(
+                        'new_customer_order_billing_address_reqfields');
+                    $billAddr = array_merge($userData, $billForm);
+                }
+                $this->fillForm($billAddr);
+                }
+                if ($shipForm != null){
                     if ($saveShipToAddrBook == true){
                         $saveShipToAddrBookParam = array(
                             'shipping_save_in_address_book' => 'yes');
-                        $userData = $this->loadData(
-                                'new_customer_order_shipping_address_allfields');
-                        $shipForm = array_merge($userData,
-                                $saveShipToAddrBookParam, $shipForm);
-                        $this->fillForm($shipForm);
+                        if (gettype($shipForm) == 'string'){
+                            $userData = $this->loadData($shipForm);
+                            $shipAddr = array_merge(
+                                $userData, $saveShipToAddrBookParam);
+                        }
+                        if (getType($shipForm) == 'array'){
+                            $userData = $this->loadData(
+                                'new_customer_order_shipping_address_reqfields');
+                            $shipAddr = array_merge(
+                                $userData, $saveShipToAddrBookParam, $shipForm);
+                        }
+                        $this->fillForm($shipAddr);
                     } else {
-                        $this->fillForm($shipForm);
+                        if (gettype($shipForm) == 'string'){
+                            $shipAddr = $this->loadData($shipForm);
+                        }
+                        if (getType($shipForm) == 'array'){
+                            $userData = $this->loadData(
+                                'new_customer_order_shipping_address_reqfields');
+                        $shipAddr = array_merge($userData, $shipForm);
+                        }
+                        $this->fillForm($shipAddr);
                     }
-                 } else {
-                    $shipAddrSameAsBill = array('shipping_same_as_billing_address' => 'no');
+                } else {
+                    $shipAddrSameAsBill = array('shipping_same_as_billing_address' => 'yes');
                     $this->fillForm($shipAddrSameAsBill);
-                 }
-                 if ($productsToBuy != null){
+                }
+                if ($productsToBuy != null){
                     $this->orderProducts($productsToBuy);
-                 }
-                 if ($paymentMethod != null){
+                }
+                if ($paymentMethod != null){
                     $this->payForOrder($paymentMethod);
-                 }
-                 if ($shippingMethod != null)
-                 {
+                }
+                if ($shippingMethod != null)
+                {
                     $this->shipOrder($shippingMethod);
-                 }
-                 if ($customerEmail != null){
+                }
+                if ($customerEmail != null){
                     if (gettype($customerEmail) == 'string'){
                         $customerEmail = array('email'=> $customerEmail);
                     }
                     $this->fillForm($customerEmail, 'order_account_information');
-                 }
-                 $this->clickButton('submit_order', TRUE);
-                 $this->defineId('view_order');
-                 $this->assertTrue($this->checkCurrentPage('view_order'),
-                         'Wrong page is opened');
-                 if ($this->successMessage('success_created_order') == true){
+                }
+                if ($validate == true){
+                    $this->clickButton('submit_order', FALSE);
+                } else {
+                $this->clickButton('submit_order', TRUE);
+                $this->defineId('view_order');
+                $this->assertTrue($this->checkCurrentPage('view_order'),
+                    'Wrong page is opened');
+                if ($this->successMessage('success_created_order') == true){
                     $this->assertTrue($this->successMessage('success_created_order'),
-                            $this->messages);
+                        $this->messages);
                     return $order_id = $this->defineOrderId('view_order');
-                 } else {
+                } else {
                     return false;
-                 }
+                }
             }
         }
     }
@@ -335,6 +343,25 @@ class Order_Helper extends Mage_Selenium_TestCase
         if ($customerEmail != null){
             $this->assertTrue($this->deleteCreatedUsers($customerEmail),
                     'Could not delete customer');
+        }
+    }
+   /**
+    * Defines page's id
+    */
+    public function defineId()
+    {
+        // ID definition
+        $item_id = 0;
+        $title_arr = explode('/', $this->getLocation());
+        $title_arr = array_reverse($title_arr);
+        foreach ($title_arr as $key => $value) {
+            if (preg_match('/id$/', $value) && isset($title_arr[$key - 1])) {
+                $item_id = $title_arr[$key - 1];
+                break;
+            }
+        }
+        if ($item_id > 0) {
+            $this->addParameter('id', $item_id);
         }
     }
    /**
@@ -543,21 +570,5 @@ class Order_Helper extends Mage_Selenium_TestCase
                            'Could not choose main store during order creation');
                     $this->pleaseWait();
             }
-    }
-    public function defineId()
-    {
-        // ID definition
-        $item_id = 0;
-        $title_arr = explode('/', $this->getLocation());
-        $title_arr = array_reverse($title_arr);
-        foreach ($title_arr as $key => $value) {
-            if (preg_match('/id$/', $value) && isset($title_arr[$key - 1])) {
-                $item_id = $title_arr[$key - 1];
-                break;
-            }
-        }
-        if ($item_id > 0) {
-            $this->addParameter('id', $item_id);
-        }
     }
 }

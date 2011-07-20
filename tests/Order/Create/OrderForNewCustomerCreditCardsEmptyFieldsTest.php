@@ -103,76 +103,47 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
     */
     public function testOrderWithEmptyFieldsForCreditCard($emptyField)
     {
-        $this->markTestIncomplete();
-        //Data
-        $data = $this->loadData(
-                        'new_customer_order_billing_address_reqfields'
-                );
-        //Filling customer's information, address
-        $this->orderHelper()->fillNewBillForm($data);
-        $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $this->assertTrue($this->fillForm($email, 'order_form_account'));
-        //Add products to order
-        $this->clickButton('add_products', FALSE);
-        //getting products name from dataset. Adding them to the order
-        $fieldsetName = 'select_products_to_add';
-        $products = $this->loadData('products');
-        foreach ($products as $key => $value){
-            $prodToAdd = array($key => $value);
-            $this->searchAndChoose($prodToAdd, $fieldsetName);
-        }
-        $this->clickButton('add_selected_products_to_order', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'credit_card', FALSE);
-        $this->pleaseWait();
-        $creditCardData = $this->loadData(
-                        'american_express',
-                        $emptyField
-                );
-        $this->fillForm($creditCardData, 'order_payment_method');
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-        $this->pleaseWait();
-        $this->clickControl('radiobutton', 'ship_method', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('submit_order', FALSE);
-        $this->waitForAjax();
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'products',
+                'new_customer_order_billing_address_reqfields', null,
+                null, 'Default Store View', true, true,
+                $this->loadData('visa', $emptyField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         foreach ($emptyField as $key => $value) {
             if ($value == '%noValue%' || !$fieldSet) {
                 continue;
             }
-            if ($key == 'name_on_card'){
+            if ($key == 'name_on_card_saved'){
                 if ($fieldSet->findField($key) != Null)
                 {
                     $fieldXpath = $fieldSet->findField($key);
                 }
             }
-            if ($key == 'credit_card_type'){
+            if ($key == 'credit_card_type_saved'){
                 if ($fieldSet->findDropdown($key) != Null)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
-            if ($key == 'credit_card_number'){
+            if ($key == 'credit_card_number_saved'){
                 if ($fieldSet->findField($key) != Null)
                 {
-                    $fieldXpath = $fieldSet->findDropdown('credit_card_type');
+                    $fieldXpath = $fieldSet->findDropdown('credit_card_type_saved');
                 }
             }
-            if ($key == 'expiration_date_month'){
+            if ($key == 'expiration_date_month_saved'){
                 if ($fieldSet->findDropdown($key) != Null)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
-            if ($key == 'expiration_date_year'){
+            if ($key == 'expiration_date_year_saved'){
                 if ($fieldSet->findDropdown($key) != Null)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
-            if ($key == 'cvv'){
+            if ($key == 'cvv_saved'){
                 if ($fieldSet->findField($key) != Null)
                 {
                     $fieldXpath = $fieldSet->findField($key);
@@ -180,22 +151,23 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
             }
             $this->addParameter('fieldXpath', $fieldXpath);
             switch ($key) {
-            case 'name_on_card':
+            case 'name_on_card_saved':
                 $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
                 break;
-            case 'credit_card_type':
+            case 'credit_card_type_saved':
                 $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
                 break;
-            case 'credit_card_number':
+            case 'credit_card_number_saved':
                 $this->assertTrue($this->errorMessage('card_type_doesnt_match'), $this->messages);
                 break;
-            case 'expiration_date_month':
-                $this->assertTrue($this->errorMessage('invalid_exp_date'), $this->messages);
+            case 'expiration_date_month_saved':
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $this->assertTrue($this->errorMessage('error_invalid_exp_date'), $this->messages);
                 break;
-            case 'expiration_date_year':
+            case 'expiration_date_year_saved':
                 $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
                 break;
-            case 'cvv':
+            case 'cvv_saved':
                 $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
                 break;
             default:
@@ -207,12 +179,12 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
     public function data_emptyFields()
     {
         return array(
-            array(array('name_on_card'     => '')),
-            array(array('credit_card_type'      => '')),
-            array(array('credit_card_number'   => '')),
-            array(array('expiration_date_month'    =>  'Month')),
-            array(array('expiration_date_year' =>  'Year')),
-            array(array('cvv'   =>  ''))
+            array(array('name_on_card_saved'     => '')),
+            array(array('credit_card_type_saved'      => '')),
+            array(array('credit_card_number_saved'   => '')),
+            array(array('expiration_date_month_saved'    =>  'Month')),
+            array(array('expiration_date_year_saved' =>  'Year')),
+            array(array('cvv_saved'   =>  ''))
         );
     }
 }
