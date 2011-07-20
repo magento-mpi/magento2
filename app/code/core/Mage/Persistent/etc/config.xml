@@ -59,6 +59,9 @@
     </global>
 
     <frontend>
+        <secure_url>
+            <persistent_onepage_register>/persistent/index/saveMethod</persistent_onepage_register>
+        </secure_url>
         <routers>
             <persistent>
                 <use>standard</use>
