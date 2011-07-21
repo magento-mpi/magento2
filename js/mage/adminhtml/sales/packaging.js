@@ -749,7 +749,8 @@ Packaging.prototype = {
     _checkExceedsQty: function(itemId, qty) {
         var packedItemQty = this.getPackedItemsQty()[itemId] ? this.getPackedItemsQty()[itemId] : 0;
         var allItemQty = this.itemsAll[itemId];
-        return (qty > (allItemQty - packedItemQty));
+        var eps = .000001;
+        return (qty * (1 - eps) > (allItemQty *  (1 + eps)  - packedItemQty * (1 - eps)));
     },
 
     _recalcContainerWeightAndCustomsValue: function(container) {
