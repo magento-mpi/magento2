@@ -1416,7 +1416,7 @@ XMLAuth;
         $shipToPart->addChild('AttentionName', $request->getRecipientContactPersonName());
         $shipToPart->addChild('CompanyName', $request->getRecipientContactCompanyName()
             ? $request->getRecipientContactCompanyName()
-            : $request->getRecipientContactPersonName());
+            : 'N/A');
         $shipToPart->addChild('PhoneNumber', $request->getRecipientContactPhoneNumber());
 
         $addressPart = $shipToPart->addChild('Address');

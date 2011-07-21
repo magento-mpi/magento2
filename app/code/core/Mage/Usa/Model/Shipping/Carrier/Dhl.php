@@ -747,7 +747,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $receiverAddress->addChild('City', htmlspecialchars($r->getDestCity()));
         $receiverAddress->addChild('State', htmlspecialchars($r->getDestState()));
         $receiverAddress->addChild('CompanyName',
-                                   htmlspecialchars($r->getDestCompanyName() ? $r->getDestCompanyName() : 'NA')
+                                   htmlspecialchars($r->getDestCompanyName() ? $r->getDestCompanyName() : 'N/A')
         );
 
         /*
