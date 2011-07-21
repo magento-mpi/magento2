@@ -668,14 +668,6 @@
                     </catalog>
                 </observers>
             </sales_convert_quote_item_to_order_item>
-            <render_block>
-                <observers>
-                    <catalog>
-                        <class>catalog/observer</class>
-                        <method>applyBlockProductData</method>
-                    </catalog>
-                </observers>
-            </render_block>
         </events>
         <translate>
             <modules>

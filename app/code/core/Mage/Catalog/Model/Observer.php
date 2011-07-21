@@ -231,35 +231,4 @@ class Mage_Catalog_Model_Observer
         $result  = $observer->getEvent()->getData('result');
         $result->isAllowed = Mage::helper('catalog')->setStoreId($storeId)->isUsingStaticUrlsAllowed();
     }
-
-    /**
-     * Apply MAP functionality to Product prices
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Catalog_Model_Observer
-     */
-    public function applyBlockProductData(Varien_Event_Observer $observer)
-    {
-        if (!Mage::helper('catalog')->isMsrpEnabled()) {
-            return $this;
-        }
-
-        $block = $observer->getEvent()->getBlock();
-        if (!$block || !($block instanceof Mage_Wishlist_Block_Customer_Sidebar)) {
-            return $this;
-        }
-
-        $layout = $block->getLayout();
-        if (!$layout) {
-            $layout = Mage::app()->getLayout();
-        }
-
-        $blockPrice = new Mage_Catalog_Block_Product_Price_Template();
-        $blockPrice->addPriceBlockType('msrp','catalog/product_price','catalog/product/price_msrp.phtml');
-
-        $layout->addBlock($blockPrice,'catalog_product_price_template');
-        $block->setLayout($layout);
-
-        return $this;
-    }
 }
