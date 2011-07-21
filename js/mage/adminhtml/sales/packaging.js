@@ -391,6 +391,11 @@ Packaging.prototype = {
         return items;
     },
 
+    _parseQty: function(obj, itemId) {
+        var qty = $(obj).hasClassName('qty-decimal') ? parseFloat(obj.value) : parseInt(obj.value);
+        return isNaN(qty) ? this.itemsAll[itemId] : qty;
+    },
+
     packItems: function(obj) {
         var anySelected = false;
         var packageBlock = $(obj).up('[id^="package_block"]');
@@ -405,7 +410,7 @@ Packaging.prototype = {
             if (!checkExceedsQty) {
                 var checkbox = item.select('[type="checkbox"]')[0];
                 var itemId = checkbox.value;
-                var qtyValue  = parseFloat(item.select('[name="qty"]')[0].value);
+                var qtyValue  = this._parseQty(item.select('[name="qty"]')[0], checkbox.value);
                 if (checkbox.checked && !isNaN(qtyValue) && this._checkExceedsQty(itemId, qtyValue)) {
                     this.messages.show().update(this.errorQtyOverLimit);
                     checkExceedsQty = true;
@@ -424,12 +429,9 @@ Packaging.prototype = {
         packagePrepareGrid.select('.grid tbody tr').each(function(item) {
             var checkbox = item.select('[type="checkbox"]')[0];
             var itemId = checkbox.value;
-            var itemName = this._getElementText(item.select('.name')[0]);
-            var qty  = item.select('[name="qty"]')[0],
-                qtyValue  = parseFloat(item.select('[name="qty"]')[0].value),
-                isQtyDecimal = $(qty).hasClassName('qty-decimal');
+            var qty  = item.select('[name="qty"]')[0];
+            var qtyValue  = this._parseQty(qty, itemId);
             if (checkbox.checked) {
-                qtyValue = isNaN(qtyValue) || !isQtyDecimal && qtyValue != parseInt(qtyValue) ? 1 : qtyValue;
                 item.select('[name="qty"]')[0].value = qtyValue;
                 anySelected = true;
                 qty.disabled = 'disabled';
