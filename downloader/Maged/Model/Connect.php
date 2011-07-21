@@ -98,7 +98,8 @@ class Maged_Model_Connect extends Maged_Model
      */
     public function prepareToInstall($id)
     {
-        if (!preg_match('#^([^ ]+)\/([^-]+)(-[^-]+)?$#', $id, $match)) {
+        $match = array();
+        if (!$this->checkExtensionKey($id, $match)) {
             echo('Invalid package identifier provided: '.$id);
             exit;
         }
@@ -111,7 +112,7 @@ class Maged_Model_Connect extends Maged_Model
         $sconfig = $connect->getSingleConfig();
 
         $options = array();
-        $params = array($channel, $package, $version);
+        $params = array($channel, $package, $version, $version);
         $this->controller()->channelConfig()->setCommandOptions($this->controller()->session(), $options);
 
         $connect->run('package-prepare', $options, $params);
@@ -324,7 +325,7 @@ class Maged_Model_Connect extends Maged_Model
     public function installPackage($id, $force=false)
     {
         $match = array();
-        if (!preg_match('#^([^ ]+)\/([^-]+)(-[^-]+)?$#', $id, $match)) {
+        if (!$this->checkExtensionKey($id, $match)) {
             $this->connect()->runHtmlConsole('Invalid package identifier provided: '.$id);
             exit;
         }
@@ -476,4 +477,15 @@ class Maged_Model_Connect extends Maged_Model
         return $this;
     }
 
+    /**
+     * Check Extension Key
+     *
+     * @param string $id
+     * @param array $match
+     * @return int
+     */
+    public function checkExtensionKey($id, &$match)
+    {
+        return preg_match('#^([^ ]+)\/([^-]+)(-.+)?$#', $id, $match);
+    }
 }
