@@ -38,22 +38,19 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New extends Mage_Adminhtml_Block_Widget
 
         parent::__construct();
 
-        $confirm = Mage::helper('enterprise_rma')->__('Are you sure you want to cancel this RMA?');
         $this->_updateButton('reset', 'label', Mage::helper('enterprise_rma')->__('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
 
-        $orderId = false;
+        $orderId    = false;
+        $link       = $this->getUrl('*/*/');
+
         if (Mage::registry('current_order') && Mage::registry('current_order')->getId()) {
-            $orderId = Mage::registry('current_order')->getId();
-        }
+            $order      = Mage::registry('current_order');
+            $orderId    = $order->getId();
 
-        $referer = $this->getRequest()->getServer('HTTP_REFERER');
+            $referer    = $this->getRequest()->getServer('HTTP_REFERER');
 
-        $link = $this->getUrl('*/*/');
-        if (stristr($referer, 'customer')) {
-            $orderId    = $this->getRequest()->getParam('order_id');
-            $order      = Mage::getModel('sales/order')->load($orderId);
-            if ($order->getId()) {
+            if (strpos($referer, 'customer') !== false) {
                 $link = $this->getUrl('*/customer/edit/',
                     array(
                         'id'  => $order->getCustomerId(),

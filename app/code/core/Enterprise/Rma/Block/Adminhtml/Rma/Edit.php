@@ -95,14 +95,14 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
     {
         $referer = $this->getRequest()->getServer('HTTP_REFERER');
 
-        if (stristr($referer, 'sales_order')) {
+        if (strpos($referer, 'sales_order') !== false) {
             return $this->getUrl('*/sales_order/view/',
                 array(
                     'order_id'  => $this->getRma()->getOrderId(),
                     'active_tab'=> 'order_rma'
                 )
             );
-        } elseif (stristr($referer, 'customer')) {
+        } elseif (strpos($referer, 'customer') !== false) {
             return $this->getUrl('*/customer/edit/',
                 array(
                     'id'  => $this->getRma()->getCustomerId(),
