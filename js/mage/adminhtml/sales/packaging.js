@@ -391,9 +391,12 @@ Packaging.prototype = {
         return items;
     },
 
-    _parseQty: function(obj, itemId) {
+    _parseQty: function(obj) {
         var qty = $(obj).hasClassName('qty-decimal') ? parseFloat(obj.value) : parseInt(obj.value);
-        return isNaN(qty) ? this.itemsAll[itemId] : qty;
+        if (isNaN(qty) || qty <= 0) {
+            qty = 1;
+        }
+        return qty;
     },
 
     packItems: function(obj) {
@@ -407,14 +410,13 @@ Packaging.prototype = {
         var checkExceedsQty = false;
         this.messages.hide().update();
         packagePrepareGrid.select('.grid tbody tr').each(function(item) {
-            if (!checkExceedsQty) {
-                var checkbox = item.select('[type="checkbox"]')[0];
-                var itemId = checkbox.value;
-                var qtyValue  = this._parseQty(item.select('[name="qty"]')[0], checkbox.value);
-                if (checkbox.checked && !isNaN(qtyValue) && this._checkExceedsQty(itemId, qtyValue)) {
-                    this.messages.show().update(this.errorQtyOverLimit);
-                    checkExceedsQty = true;
-                }
+            var checkbox = item.select('[type="checkbox"]')[0];
+            var itemId = checkbox.value;
+            var qtyValue  = this._parseQty(item.select('[name="qty"]')[0]);
+            item.select('[name="qty"]')[0].value = qtyValue;
+            if (checkbox.checked && this._checkExceedsQty(itemId, qtyValue)) {
+                this.messages.show().update(this.errorQtyOverLimit);
+                checkExceedsQty = true;
             }
         }.bind(this));
         if (checkExceedsQty) {
@@ -428,10 +430,9 @@ Packaging.prototype = {
         // prepare items for packing
         packagePrepareGrid.select('.grid tbody tr').each(function(item) {
             var checkbox = item.select('[type="checkbox"]')[0];
-            var itemId = checkbox.value;
-            var qty  = item.select('[name="qty"]')[0];
-            var qtyValue  = this._parseQty(qty, itemId);
             if (checkbox.checked) {
+                var qty  = item.select('[name="qty"]')[0];
+                var qtyValue  = this._parseQty(qty);
                 item.select('[name="qty"]')[0].value = qtyValue;
                 anySelected = true;
                 qty.disabled = 'disabled';
