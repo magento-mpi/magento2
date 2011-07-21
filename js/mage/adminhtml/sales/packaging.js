@@ -769,12 +769,15 @@ Packaging.prototype = {
             }
             var itemWeight = parseFloat(this._getElementText(item.select('.weight')[0]));
             containerWeight.value = parseFloat(containerWeight.value) + (itemWeight * qtyValue);
-            var itemCustomsValue = parseFloat(item.select('[name="customs_value"]')[0].value);
+            var itemCustomsValue = parseFloat(item.select('[name="customs_value"]')[0].value) || 0;
             var itemCustomsValueQty = Math.round((itemCustomsValue * qtyValue) * 1000) / 1000;
             containerCustomsValue.value = parseFloat(containerCustomsValue.value) + itemCustomsValueQty;
             this.packages[packageId]['items'][itemId]['customs_value'] = itemCustomsValue;
         }.bind(this));
         containerWeight.value = Math.round(containerWeight.value * 1000) / 1000;
+        if (containerCustomsValue.value == 0) {
+            containerCustomsValue.value = '';
+        }
     },
 
     _getElementText: function(el) {
