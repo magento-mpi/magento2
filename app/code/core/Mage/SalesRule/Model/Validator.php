@@ -738,7 +738,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
      */
     protected function _getItemOriginalPrice($item)
     {
-        return $this->_getItemPrice($item) - $item->getCalculationPrice() + $item->getOriginalPrice();
+        return Mage::helper('tax')->getPrice($item, $item->getOriginalPrice(), true);
     }
 
     /**
@@ -761,7 +761,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
      */
     protected function _getItemBaseOriginalPrice($item)
     {
-        return $this->_getItemBasePrice($item) - $item->getBaseCalculationPrice() + $item->getBaseOriginalPrice();
+        return Mage::helper('tax')->getPrice($item, $item->getBaseOriginalPrice(), true);
     }
 
     /**
