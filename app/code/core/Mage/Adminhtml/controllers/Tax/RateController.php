@@ -293,9 +293,9 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             2   => Mage::helper('tax')->__('State'),
             3   => Mage::helper('tax')->__('Zip/Post Code'),
             4   => Mage::helper('tax')->__('Rate'),
-            5   => Mage::helper('tax')->__('_zip_is_range'),
-            6   => Mage::helper('tax')->__('_zip_from'),
-            7   => Mage::helper('tax')->__('_zip_to')
+            5   => Mage::helper('tax')->__('Zip/Post is Range'),
+            6   => Mage::helper('tax')->__('Range From'),
+            7   => Mage::helper('tax')->__('Range To')
         );
 
 
@@ -414,9 +414,9 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             'region_name'  => Mage::helper('tax')->__('State'),
             'tax_postcode' => Mage::helper('tax')->__('Zip/Post Code'),
             'rate'         => Mage::helper('tax')->__('Rate'),
-            'zip_is_range' => Mage::helper('tax')->__('_zip_is_range'),
-            'zip_from'     => Mage::helper('tax')->__('_zip_from'),
-            'zip_to'       => Mage::helper('tax')->__('_zip_to')
+            'zip_is_range' => Mage::helper('tax')->__('Zip/Post is Range'),
+            'zip_from'     => Mage::helper('tax')->__('Range From'),
+            'zip_to'       => Mage::helper('tax')->__('Range To')
         ));
         $template = '"{{code}}","{{country_name}}","{{region_name}}","{{tax_postcode}}","{{rate}}"'
                 . ',"{{zip_is_range}}","{{zip_from}}","{{zip_to}}"';
