@@ -598,7 +598,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             ),
             'dropoff' => array(
                 'REGULAR_PICKUP'          => Mage::helper('usa')->__('Regular Pickup'),
-                'REQUEST_COURIER '        => Mage::helper('usa')->__('Request Courier'),
+                'REQUEST_COURIER'         => Mage::helper('usa')->__('Request Courier'),
                 'DROP_BOX'                => Mage::helper('usa')->__('Drop Box'),
                 'BUSINESS_SERVICE_CENTER' => Mage::helper('usa')->__('Business Service Center'),
                 'STATION'                 => Mage::helper('usa')->__('Station')
