@@ -1382,6 +1382,20 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     }
 
     /**
+     * Convert decimal weight into pound-ounces format
+     *
+     * @param float $weightInPounds
+     * @return array
+     */
+    protected function _convertPoundOunces($weightInPounds)
+    {
+        $weightInOunces = ceil($weightInPounds * self::OUNCES_POUND);
+        $pounds = floor($weightInOunces / self::OUNCES_POUND);
+        $ounces = $weightInOunces % self::OUNCES_POUND;
+        return array($pounds, $ounces);
+    }
+
+    /**
      * Form XML for international shipment request
      * As integration guide it is important to follow appropriate sequence for tags e.g.: <FromLastName /> must be
      * after <FromFirstName />
@@ -1554,7 +1568,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $item = new Varien_Object();
             $item->setData($itemShipment);
 
-            $itemWeight = $item->getWeight();
+            $itemWeight = $item->getWeight() * $item->getQty();
             if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
                 $itemWeight = Mage::helper('usa')->convertMeasureWeight(
                     $itemWeight,
@@ -1571,23 +1585,28 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             }
             $itemDetail = $shippingContents->addChild('ItemDetail');
             $itemDetail->addChild('Description', $item->getName());
-            $itemDetail->addChild('Quantity', $item->getQty());
+            $ceiledQty = ceil($item->getQty());
+            if ($ceiledQty < 1) {
+                $ceiledQty = 1;
+            }
+            $individualItemWeight = $itemWeight / $ceiledQty;
+            $itemDetail->addChild('Quantity', $ceiledQty);
             $itemDetail->addChild('Value', $item->getCustomsValue() * $item->getQty());
-            $itemPoundsWeight = floor($itemWeight);
-            $packagePoundsWeight += $itemPoundsWeight;
-            $itemDetail->addChild('NetPounds', $itemPoundsWeight);
-            $itemOuncesWeight = ceil(($itemWeight - $itemPoundsWeight) * self::OUNCES_POUND);
-            $packageOuncesWeight += $itemOuncesWeight;
-            $itemDetail->addChild('NetOunces', $itemOuncesWeight);
+            list($individualPoundsWeight, $individualOuncesWeight) = $this->_convertPoundOunces($individualItemWeight);
+            $itemDetail->addChild('NetPounds', $individualPoundsWeight);
+            $itemDetail->addChild('NetOunces', $individualOuncesWeight);
             $itemDetail->addChild('HSTariffNumber', 0);
             $itemDetail->addChild('CountryOfOrigin', $countryOfManufacture);
+
+            list($itemPoundsWeight, $itemOuncesWeight) = $this->_convertPoundOunces($itemWeight);
+            $packagePoundsWeight += $itemPoundsWeight;
+            $packageOuncesWeight += $itemOuncesWeight;
         }
         $additionalPackagePoundsWeight = floor($packageOuncesWeight / self::OUNCES_POUND);
         $packagePoundsWeight += $additionalPackagePoundsWeight;
         $packageOuncesWeight -= $additionalPackagePoundsWeight * self::OUNCES_POUND;
         if ($packagePoundsWeight + $packageOuncesWeight / self::OUNCES_POUND < $packageWeight) {
-            $packagePoundsWeight = floor($packageWeight);
-            $packageOuncesWeight = ceil(($packageWeight - $packagePoundsWeight) * self::OUNCES_POUND);
+            list($packagePoundsWeight, $packageOuncesWeight) = $this->_convertPoundOunces($packageWeight);
         }
 
         $xml->addChild('GrossPounds', $packagePoundsWeight);
