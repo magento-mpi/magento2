@@ -149,6 +149,10 @@
                         <class>persistent/observer</class>
                         <method>checkExpirePersistentQuote</method>
                     </persistent_quote>
+                    <persistent_customer>
+                        <class>persistent/observer</class>
+                        <method>emulateCustomer</method>
+                    </persistent_customer>
                 </observers>
             </controller_action_predispatch>
             <checkout_allow_guest>

@@ -563,4 +563,30 @@ class Mage_Persistent_Model_Observer
             $customerCookies->setCustomerGroupId($persistentCustomer->getGroupId());
         }
     }
+
+    /**
+     * Set persistent data to customer session
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Persistent_Model_Observer
+     */
+    public function emulateCustomer($observer)
+    {
+        if (!Mage::helper('persistent')->canProcess($observer)
+            || !$this->_isShoppingCartPersist()
+        ) {
+            return $this;
+        }
+
+        if ($this->_isLoggedOut()) {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = Mage::getModel('customer/customer')->load(
+                $this->_getPersistentHelper()->getSession()->getCustomerId()
+            );
+            Mage::getSingleton('customer/session')
+                ->setCustomerId($customer->getId())
+                ->setCustomerGroupId($customer->getGroupId());
+        }
+        return $this;
+    }
 }

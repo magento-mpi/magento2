@@ -131,6 +131,9 @@
                         <class>enterprise_persistent/observer</class>
                         <method>emulateCustomer</method>
                     </enterprise_persistent>
+                    <persistent_customer>
+                        <type>disabled</type>
+                    </persistent_customer>
                 </observers>
             </controller_action_predispatch>
             <controller_action_predispatch_wishlist_index_index>
