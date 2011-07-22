@@ -83,6 +83,18 @@ AdminRma.prototype = {
         return this.loadAttributesUrl + 'item_id/' + itemId + '?isAjax=true';
     },
 
+    nameTransformation: function(element, itemId) {
+        //We must provide the following transformation
+        //name  -> item[9][name]
+        //name[key]  ->  item[9][name][key]
+        var arrayDivider = element.name.indexOf('[');
+        if (arrayDivider == -1) {
+            arrayDivider = element.name.length;
+        }
+
+        return 'items[' + itemId + '][' + element.name.slice(0,arrayDivider) + ']' + element.name.slice(arrayDivider);
+    },
+
     getAjaxData : function(itemId) {
         var url = this.getLoadAttributesLink(itemId);
 
@@ -91,19 +103,13 @@ AdminRma.prototype = {
                 var response = transport.responseText;
                 var divId = 'itemDiv_' + itemId;
                 this.addPopupDiv(response, divId, itemId);
+                var realThis = this;
                 $(divId).descendants().each(function(element){
                     if ((element.tagName.toLowerCase() == 'input') || (element.tagName.toLowerCase() == 'select') || (element.tagName.toLowerCase() == 'textarea')) {
                         if ((element.tagName.toLowerCase() == 'input') && (element.type == 'file')) {
                             element.name = element.name + '_' + itemId;
                         } else {
-                            //We must provide the following transfomation
-                            //name  -> item[9][name]
-                            //name[key]  ->  item[9][name][key]
-                            var arrayDivider = element.name.indexOf('[');
-                            if (arrayDivider == -1) {
-                                arrayDivider = element.name.length;
-                            }
-                            element.name = 'items[' + itemId + '][' + element.name.slice(0,arrayDivider) + ']' + element.name.slice(arrayDivider);
+                            element.name = realThis.nameTransformation(element, itemId);
                         }
                     }
                 });
@@ -248,17 +254,11 @@ AdminRma.prototype = {
                     var response = transport.responseText;
                     this.addPopupDiv(response, detailsDivId, itemId);
                     this.hidePopups();
+                    var realThis = this;
                     $(detailsDivId).descendants().each(function(element){
                         if ((element.tagName.toLowerCase() == 'input') || (element.tagName.toLowerCase() == 'select') || (element.tagName.toLowerCase() == 'textarea')) {
                             if (!((element.tagName.toLowerCase() == 'input') && (element.type == 'file'))) {
-                                //We must provide the following transfomation
-                                //name  -> item[9][name]
-                                //name[key]  ->  item[9][name][key]
-                                var arrayDivider = element.name.indexOf('[');
-                                if (arrayDivider == -1) {
-                                    arrayDivider = element.name.length;
-                                }
-                                element.name = 'items[' + itemId + '][' + element.name.slice(0,arrayDivider) + ']' + element.name.slice(arrayDivider);
+                                element.name = realThis.nameTransformation(element, itemId);
                             }
                         }
                     });
