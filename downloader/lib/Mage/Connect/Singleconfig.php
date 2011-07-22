@@ -429,12 +429,12 @@ class Mage_Connect_Singleconfig
 
     /**
      * Get package record
+     *
      * @param string $chanName
      * @param string $packageName
      * @return array
      */
-    protected function
-    fetchPackage($chanName, $packageName, $field = null)
+    protected function fetchPackage($chanName, $packageName, $field = null)
     {
         if(null === $field) {
             return $this->_data[self::K_CHAN][$chanName][self::K_PACK][$packageName];
