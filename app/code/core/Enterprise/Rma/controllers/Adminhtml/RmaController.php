@@ -908,11 +908,12 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         }
 
         foreach ($items as $item) {
-            $itemsQty[$item->getItemId()]       = $item->getQty();
-            $itemsPrice[$item->getItemId()]     = $item->getPrice();
-            $itemsName[$item->getItemId()]      = $item->getName();
-            $itemsWeight[$item->getItemId()]    = $item->getWeight();
-            $itemsProductId[$item->getItemId()] = $item->getProductId();
+            $itemsQty[$item->getItemId()]           = $item->getQty();
+            $itemsPrice[$item->getItemId()]         = $item->getPrice();
+            $itemsName[$item->getItemId()]          = $item->getName();
+            $itemsWeight[$item->getItemId()]        = $item->getWeight();
+            $itemsProductId[$item->getItemId()]     = $item->getProductId();
+            $itemsOrderItemId[$item->getItemId()]   = $item->getItemId();
         }
 
         $shippingInformation = $this->getLayout()
@@ -921,20 +922,21 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             ->toHtml();
 
         $data = array(
-            'createLabelUrl'        => $createLabelUrl,
-            'itemsGridUrl'          => $itemsGridUrl,
-            'errorQtyOverLimit'     => Mage::helper('sales')->__('The quantity you want to add exceeds the total shipped quantity for some of selected Product(s)'),
-            'titleDisabledSaveBtn'  => Mage::helper('sales')->__('Products should be added to package(s)'),
-            'validationErrorMsg'    => Mage::helper('sales')->__('The value that you entered is not valid.'),
-            'shipmentItemsQty'      => $itemsQty,
-            'shipmentItemsPrice'    => $itemsPrice,
-            'shipmentItemsName'     => $itemsName,
-            'shipmentItemsWeight'   => $itemsWeight,
-            'shipmentItemsProductId'=> $itemsProductId,
+            'createLabelUrl'            => $createLabelUrl,
+            'itemsGridUrl'              => $itemsGridUrl,
+            'errorQtyOverLimit'         => Mage::helper('sales')->__('The quantity you want to add exceeds the total shipped quantity for some of selected Product(s)'),
+            'titleDisabledSaveBtn'      => Mage::helper('sales')->__('Products should be added to package(s)'),
+            'validationErrorMsg'        => Mage::helper('sales')->__('The value that you entered is not valid.'),
+            'shipmentItemsQty'          => $itemsQty,
+            'shipmentItemsPrice'        => $itemsPrice,
+            'shipmentItemsName'         => $itemsName,
+            'shipmentItemsWeight'       => $itemsWeight,
+            'shipmentItemsProductId'    => $itemsProductId,
+            'shipmentItemsOrderItemId'  => $itemsOrderItemId,
 
-            'shippingInformation'   => $shippingInformation,
-            'thisPage'              => $thisPage,
-            'customizable'          => $getCustomizableContainers
+            'shippingInformation'       => $shippingInformation,
+            'thisPage'                  => $thisPage,
+            'customizable'              => $getCustomizableContainers
         );
 
         return Mage::helper('core')->jsonEncode($data);
@@ -1074,6 +1076,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 $shipment->setShippingLabel($outputPdf->render());
                 $shipment->setIsAdmin(Enterprise_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL);
                 $shipment->setRmaEntityId($model->getId());
+                dump($shipment->getDaya());
                 $shipment->save();
 
                 $carrierCode = $carrier->getCarrierCode();

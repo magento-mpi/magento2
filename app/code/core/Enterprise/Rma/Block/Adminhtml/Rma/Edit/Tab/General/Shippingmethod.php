@@ -248,4 +248,71 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         }
         return '';
     }
+
+    /**
+     * Display formatted price
+     *
+     * @param float $price
+     * @return string
+     */
+    public function displayPrice($price)
+    {
+        return $this->getRma()->getOrder()->formatPriceTxt($price);
+    }
+
+    /**
+     * Get ordered qty of item
+     *
+     * @param int $itemId
+     * @return int|null
+     */
+    public function getQtyOrderedItem($itemId)
+    {
+        if ($itemId) {
+            return $this->getRma()->getOrder()->getItemById($itemId)->getQtyOrdered()*1;
+        } else {
+            return;
+        }
+    }
+
+    /**
+     * Return content types of package
+     *
+     * @return array
+     */
+    public function getContentTypes()
+    {
+        $order      = $this->getRma()->getOrder();
+        $storeId    = $this->getRma()->getStoreId();
+        $address    = $order->getShippingAddress();
+
+        $carrierCode= $this->getShipment()->getCarrierCode();
+        $carrier    = Mage::helper('enterprise_rma')->getCarrier($carrierCode, $storeId);
+
+        $countryShipper = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        if ($carrier) {
+            $params = new Varien_Object(array(
+                'method'            => $carrier->getMethod(),
+                'country_shipper'   => $countryShipper,
+                'country_recipient' => $address->getCountryId(),
+            ));
+            return $carrier->getContentTypes($params);
+        }
+        return array();
+    }
+
+    /**
+     * Return name of content type by its code
+     *
+     * @param string $code
+     * @return string
+     */
+    public function getContentTypeByCode($code)
+    {
+        $contentTypes = $this->getContentTypes();
+        if (!empty($contentTypes[$code])) {
+            return $contentTypes[$code];
+        }
+        return '';
+    }
 }

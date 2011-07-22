@@ -80,7 +80,7 @@
                                 <col width="*" />
                                 <col width="60" />
                                 <col width="70" />
-                                <col width="150" />
+                                <col width="70" />
                                 <col width="*" />
                             </colgroup>
                             <tbody>
@@ -88,7 +88,13 @@
                                     <th><?php echo Mage::helper('enterprise_rma')->__('Type') ?></th>
                                     <td><?php echo $this->getContainerTypeByCode($params->getContainer()) ?></td>
                                     <th><?php echo Mage::helper('enterprise_rma')->__('Length') ?></th>
-                                    <td><?php echo $params->getLength() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                                    <td>
+                                        <?php if ($params->getLength() != null): ?>
+                                            <?php echo $params->getLength() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                        <?php else: ?>
+                                            --
+                                        <?php endif; ?>
+                                    </td>
                                     <?php if ($params->getDeliveryConfirmation() != null): ?>
                                         <th><?php echo Mage::helper('sales')->__('Signature Confirmation') ?></th>
                                         <td><?php echo $this->getDeliveryConfirmationTypeByCode($params->getDeliveryConfirmation()) ?></td>
@@ -100,13 +106,30 @@
                                 <tr>
                                     <?php if ($this->displayCustomsValue()): ?>
                                         <th><?php echo Mage::helper('enterprise_rma')->__('Customs Value') ?></th>
-                                        <td><?php echo $params->getCustomsValue() ?></td>
+                                        <td><?php echo $this->displayPrice($params->getCustomsValue()) ?></td>
                                     <?php else: ?>
                                         <th><?php echo Mage::helper('enterprise_rma')->__('Total Weight') ?></th>
                                         <td><?php echo $params->getWeight() .' '. Mage::helper('usa')->getMeasureWeightName($params->getWeightUnits()) ?></td>
                                     <?php endif; ?>
                                     <th><?php echo Mage::helper('enterprise_rma')->__('Width') ?></th>
-                                    <td><?php echo $params->getWidth() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                                    <td>
+                                        <?php if ($params->getWidth() != null): ?>
+                                            <?php echo $params->getWidth() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                        <?php else: ?>
+                                            --
+                                        <?php endif; ?>
+                                    </td>
+                                    <?php if ($params->getContentType() != null): ?>
+                                        <th><?php echo Mage::helper('enterprise_rma')->__('Contents') ?></th>
+                                        <?php if ($params->getContentType() == 'OTHER'): ?>
+                                            <td><?php echo $params->getContentTypeOther() ?></td>
+                                        <?php else: ?>
+                                            <td><?php echo $this->getContentTypeByCode($params->getContentType()) ?></td>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <th>&nbsp;</th>
+                                        <td>&nbsp;</td>
+                                    <?php endif; ?>
                                 </tr>
                                 <tr>
                                     <?php if ($this->displayCustomsValue()): ?>
@@ -117,7 +140,33 @@
                                         <td>&nbsp;</td>
                                     <?php endif; ?>
                                     <th><?php echo Mage::helper('enterprise_rma')->__('Height') ?></th>
-                                    <td><?php echo $params->getHeight() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                                    <td>
+                                        <?php if ($params->getHeight() != null): ?>
+                                            <?php echo $params->getHeight() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getDimensionUnits()) ?>
+                                        <?php else: ?>
+                                            --
+                                        <?php endif; ?>
+                                    <td>
+                                    <th>&nbsp;</th>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <?php if ($params->getSize()): ?>
+                                        <th><?php echo Mage::helper('enterprise_rma')->__('Size') ?></th>
+                                        <td><?php echo ucfirst(strtolower($params->getSize())) ?></td>
+                                    <?php else: ?>
+                                        <th>&nbsp;</th>
+                                        <td>&nbsp;</td>
+                                    <?php endif; ?>
+                                    <?php if ($params->getGirth()): ?>
+                                        <th><?php echo Mage::helper('enterprise_rma')->__('Girth') ?></th>
+                                        <td><?php echo $params->getGirth() .' '. Mage::helper('usa')->getMeasureDimensionName($params->getGirthDimensionUnits()) ?></td>
+                                    <?php else: ?>
+                                        <th>&nbsp;</th>
+                                        <td>&nbsp;</td>
+                                    <?php endif; ?>
+                                    <th>&nbsp;</th>
+                                    <td>&nbsp;</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -128,14 +177,21 @@
                             <table cellspacing="0" class="data">
                                 <colgroup>
                                     <col>
-                                    <col>
                                     <col width="100">
-                                    <col width="*">
+                                    <?php if ($this->displayCustomsValue()): ?>
+                                        <col width="100">
+                                    <?php endif; ?>
+                                    <col width="100">
+                                    <col width="100">
                                 </colgroup>
                                 <thead>
                                 <tr class="headings">
                                     <th class=" no-link"><span class="nobr"><?php echo Mage::helper('enterprise_rma')->__('Product') ?></span></th>
                                     <th class=" no-link"><span class="nobr"><?php echo Mage::helper('enterprise_rma')->__('Weight') ?></span></th>
+                                    <?php if ($this->displayCustomsValue()): ?>
+                                        <th class=" no-link"><span class="nobr"><?php echo Mage::helper('enterprise_rma')->__('Customs Value') ?></span></th>
+                                    <?php endif; ?>
+                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('enterprise_rma')->__('Qty Ordered') ?></span></th>
                                     <th class=" no-link last"><span class="nobr"><?php echo Mage::helper('enterprise_rma')->__('Qty') ?></span></th>
                                 </tr>
                                 </thead>
@@ -149,6 +205,12 @@
                                         </td>
                                         <td class="a-center weight ">
                                             <?php echo $item->getWeight(); ?>
+                                        </td>
+                                        <?php if ($this->displayCustomsValue()): ?>
+                                            <td class="a-right"><?php echo $this->displayPrice($item->getCustomsValue()) ?></td>
+                                        <?php endif; ?>
+                                        <td class="a-right">
+                                            <?php echo $this->getQtyOrderedItem($item->getOrderItemId()); ?>
                                         </td>
                                         <td class="a-right last">
                                             <?php echo $item->getQty()*1; ?>
@@ -170,10 +232,14 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
 //<![CDATA[
     function showPackedWindow() {
-        $('packed_window').show();
+        var window = $('packed_window');
+        window.show().setStyle({
+            'marginLeft': -window.getDimensions().width/2 + 'px'
+        });
         $('popup-window-mask').setStyle({
             height: $('html-body').getHeight() + 'px'
         }).show();
