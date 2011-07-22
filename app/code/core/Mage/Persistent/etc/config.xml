@@ -243,6 +243,14 @@
                     </persistent>
                 </observers>
             </controller_action_predispatch_googlecheckout_redirect_checkout>
+            <controller_action_predispatch_checkout_multishipping_index>
+                <observers>
+                    <persistent>
+                        <class>persistent/observer</class>
+                        <method>preventExpressCheckout</method>
+                    </persistent>
+                </observers>
+            </controller_action_predispatch_checkout_multishipping_index>
             <render_block>
                 <observers>
                     <persistent>

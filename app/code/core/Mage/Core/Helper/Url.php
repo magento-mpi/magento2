@@ -92,4 +92,24 @@ class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
         return $string;
     }
 
+    /**
+     * Add request parameter into url
+     *
+     * @param  $url string
+     * @param  $param array( 'key' => key, 'value' => value )
+     * @return string
+     */
+    public function addRequestParam($url, $param)
+    {
+        $delimiter = (false === strpos($url,'?'))? '?' : '&';
+        if (is_array($param) && isset($param['key']) && isset($param['value'])) {
+           if (is_array($param['value'])) {
+               $url .= $delimiter.$param['key'].'[]='.implode('&'.$param['key'].'[]=',$param['value']);
+           } else {
+               $url .= $delimiter.$param['key'].'='.$param['value'];
+           }
+        }
+
+        return $url;
+    }
 }

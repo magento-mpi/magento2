@@ -189,6 +189,9 @@
             <button type="submit" class="button" title="<?php echo $this->__('Submit') ?>"><span><span><?php echo $this->__('Submit') ?></span></span></button>
         </div>
         <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        <?php if (Mage::helper('checkout')->isContextCheckout()): ?>
+            <input name="context" type="hidden" value="checkout" />
+        <?php endif; ?>
     </form>
     <script type="text/javascript">
     //<![CDATA[

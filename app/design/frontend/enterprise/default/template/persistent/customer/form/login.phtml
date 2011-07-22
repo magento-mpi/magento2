@@ -74,12 +74,15 @@
                     <h2 class="legend"><?php echo $this->__('New Customers') ?></h2>
                     <p><?php echo $this->__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>
                     <div class="buttons-set">
-                        <button type="button" class="button" onclick="window.location='<?php echo $this->getCreateAccountUrl() ?>';"><span><span><?php echo $this->__('Register') ?></span></span></button>
+                        <button type="button" class="button" onclick="window.location='<?php echo ((Mage::helper('checkout')->isContextCheckout())? Mage::helper('persistent')->addContextParam($this->getCreateAccountUrl(), 'checkout') : $this->getCreateAccountUrl()) ?>';"><span><span><?php echo $this->__('Register') ?></span></span></button>
                     </div>
                 </div>
                 <?php endif; ?>
             </div>
         </div>
+        <?php if (Mage::helper('checkout')->isContextCheckout()): ?>
+            <input name="context" type="hidden" value="checkout" />
+        <?php endif; ?>
     </form>
     <script type="text/javascript">
     //<![CDATA[

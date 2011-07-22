@@ -166,4 +166,16 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
         }
         return true;
     }
+
+    /**
+     * Add value for param context into query string
+     *
+     * @param  $url string
+     * @param  $value string
+     * @return string
+     */
+    public function addContextParam($url, $value)
+    {
+        return Mage::helper('core/url')->addRequestParam($url, array('key'=>'context', 'value' => $value));
+    }
 }
