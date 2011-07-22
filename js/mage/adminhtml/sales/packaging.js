@@ -43,11 +43,12 @@ Packaging.prototype = {
         this.paramsCreateLabelRequest = {};
         this.validationErrorMsg = params.validationErrorMsg;
 
-        this.defaultItemsQty        = params.shipmentItemsQty ? params.shipmentItemsQty : null;
-        this.defaultItemsPrice      = params.shipmentItemsPrice ? params.shipmentItemsPrice : null;
-        this.defaultItemsName       = params.shipmentItemsName ? params.shipmentItemsName : null;
-        this.defaultItemsWeight     = params.shipmentItemsWeight ? params.shipmentItemsWeight : null;
-        this.defaultItemsProductId  = params.shipmentItemsProductId ? params.shipmentItemsProductId : null;
+        this.defaultItemsQty            = params.shipmentItemsQty ? params.shipmentItemsQty : null;
+        this.defaultItemsPrice          = params.shipmentItemsPrice ? params.shipmentItemsPrice : null;
+        this.defaultItemsName           = params.shipmentItemsName ? params.shipmentItemsName : null;
+        this.defaultItemsWeight         = params.shipmentItemsWeight ? params.shipmentItemsWeight : null;
+        this.defaultItemsProductId      = params.shipmentItemsProductId ? params.shipmentItemsProductId : null;
+        this.defaultItemsOrderItemId    = params.shipmentItemsOrderItemId ? params.shipmentItemsOrderItemId : null;
 
         this.shippingInformation= params.shippingInformation ? params.shippingInformation : null;
         this.thisPage           = params.thisPage ? params.thisPage : null;
@@ -203,6 +204,7 @@ Packaging.prototype = {
                              this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][name]']          = package.defaultItemsName[packedItemId];
                              this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][weight]']        = package.defaultItemsWeight[packedItemId];
                              this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][product_id]']    = package.defaultItemsProductId[packedItemId];
+                             this.paramsCreateLabelRequest['packages['+packageId+']'+'[items]'+'['+packedItemId+'][order_item_id]'] = package.defaultItemsOrderItemId[packedItemId];
                          }
                      }
                  }

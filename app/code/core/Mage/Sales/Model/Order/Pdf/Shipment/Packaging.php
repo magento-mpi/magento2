@@ -141,10 +141,12 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
 
             $this->y = $this->y - 10;
 
-            $weightText = Mage::helper('sales')->__('Total Weight') . ' : ' . $params->getWeight() .' '
-                . Mage::helper('usa')->getMeasureWeightName($params->getWeightUnits());
-            $page->drawText($weightText, 35, $this->y , 'UTF-8');
-
+            if ($packaging->displayCustomsValue() != null) {
+                $customsValueText = Mage::helper('sales')->__('Customs Value')
+                    . ' : '
+                    . $packaging->displayPrice($params->getCustomsValue());
+                $page->drawText($customsValueText, 35, $this->y , 'UTF-8');
+            }
             if ($params->getWidth() != null) {
                 $widthText = $params->getWidth() .' '. $dimensionUnits;
             } else {
@@ -153,7 +155,23 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
             $widthText = Mage::helper('sales')->__('Width') . ' : ' . $widthText;
             $page->drawText($widthText, 200, $this->y , 'UTF-8');
 
+            if ($params->getContentType() != null) {
+                if ($params->getContentType() == 'OTHER') {
+                    $contentsValue = $params->getContentTypeOther();
+                } else {
+                    $contentsValue = $packaging->getContentTypeByCode($params->getContentType());
+                }
+                $contentsText = Mage::helper('sales')->__('Contents')
+                    . ' : '
+                    . $contentsValue;
+                $page->drawText($contentsText, 355, $this->y , 'UTF-8');
+            }
+
             $this->y = $this->y - 10;
+
+            $weightText = Mage::helper('sales')->__('Total Weight') . ' : ' . $params->getWeight() .' '
+                . Mage::helper('usa')->getMeasureWeightName($params->getWeightUnits());
+            $page->drawText($weightText, 35, $this->y , 'UTF-8');
 
             if ($params->getHeight() != null) {
                 $heightText = $params->getHeight() .' '. $dimensionUnits;
@@ -164,8 +182,9 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
             $page->drawText($heightText, 200, $this->y , 'UTF-8');
 
             $this->y = $this->y - 10;
-            $sizeText = $this->_getSizeText($params);
-            if ($sizeText) {
+
+            if ($params->getSize()) {
+                $sizeText = Mage::helper('sales')->__('Size') . ' : ' . ucfirst(strtolower($params->getSize()));
                 $page->drawText($sizeText, 35, $this->y , 'UTF-8');
             }
             if ($params->getGirth() != null) {
@@ -183,51 +202,79 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
             $page->drawText(Mage::helper('sales')->__('Items in the Package'), 30, $this->y, 'UTF-8');
 
+            $txtIndent = 5;
+            $itemCollsNumber = $packaging->displayCustomsValue() ? 5 : 4;
+            $itemCollsX[0] = 30; //  coordinate for Product name
+            $itemCollsX[1] = 250; // coordinate for Product name
+            $itemCollsXEnd = 565;
+            $itemCollsXStep = round(($itemCollsXEnd - $itemCollsX[1]) / ($itemCollsNumber - 1));
+            // calculate coordinates for all other cells (Weight, Customs Value, Qty Ordered, Qty)
+            for ($i = 2; $i <= $itemCollsNumber; $i++) {
+                $itemCollsX[$i] = $itemCollsX[$i-1] + $itemCollsXStep;
+            }
+
+            $i = 0;
             $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
-            $page->drawRectangle(30, $this->y - 5, 300, $this->y - 15);
-            $page->drawRectangle(300, $this->y - 5, 450, $this->y - 15);
-            $page->drawRectangle(450, $this->y - 5, 565, $this->y - 15);
+            $page->drawRectangle($itemCollsX[$i], $this->y - 5, $itemCollsX[++$i], $this->y - 15);
+            $page->drawRectangle($itemCollsX[$i], $this->y - 5, $itemCollsX[++$i], $this->y - 15);
+            $page->drawRectangle($itemCollsX[$i], $this->y - 5, $itemCollsX[++$i], $this->y - 15);
+            $page->drawRectangle($itemCollsX[$i], $this->y - 5, $itemCollsX[++$i], $this->y - 15);
+            $page->drawRectangle($itemCollsX[$i], $this->y - 5, $itemCollsXEnd, $this->y - 15);
 
             $this->y = $this->y - 12;
-            $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-            $page->drawText(Mage::helper('sales')->__('Product'), 35, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Weight'), 305, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Qty'), 455, $this->y, 'UTF-8');
+            $i = 0;
 
+            $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
+            $page->drawText(Mage::helper('sales')->__('Product'), $itemCollsX[$i] + $txtIndent, $this->y, 'UTF-8');
+            $page->drawText(Mage::helper('sales')->__('Weight'), $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
+            if ($packaging->displayCustomsValue()) {
+                $page->drawText(
+                    Mage::helper('sales')->__('Customs Value'),
+                    $itemCollsX[++$i] + $txtIndent,
+                    $this->y,
+                    'UTF-8'
+                );
+            }
+            $page->drawText(
+                Mage::helper('sales')->__('Qty Ordered'), $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8'
+            );
+            $page->drawText(Mage::helper('sales')->__('Qty'), $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
+
+            $i = 0;
             foreach ($package->getItems() as $itemId => $item) {
                 $item = new Varien_Object($item);
+                $i = 0;
 
                 $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
-                $page->drawRectangle(30, $this->y - 3, 300, $this->y - 15);
-                $page->drawRectangle(300, $this->y - 3, 450, $this->y - 15);
-                $page->drawRectangle(450, $this->y - 3, 565, $this->y - 15);
+                $page->drawRectangle($itemCollsX[$i], $this->y - 3, $itemCollsX[++$i], $this->y - 15);
+                $page->drawRectangle($itemCollsX[$i], $this->y - 3, $itemCollsX[++$i], $this->y - 15);
+                $page->drawRectangle($itemCollsX[$i], $this->y - 3, $itemCollsX[++$i], $this->y - 15);
+                $page->drawRectangle($itemCollsX[$i], $this->y - 3, $itemCollsX[++$i], $this->y - 15);
+                $page->drawRectangle($itemCollsX[$i], $this->y - 3, $itemCollsXEnd, $this->y - 15);
 
                 $this->y = $this->y - 12;
+                $i = 0;
                 $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-                $page->drawText($item->getName(), 35, $this->y, 'UTF-8');
-                $page->drawText($item->getWeight(), 305, $this->y, 'UTF-8');
-                $page->drawText($item->getQty()*1, 455, $this->y, 'UTF-8');
-
+                $page->drawText($item->getName(), $itemCollsX[$i] + $txtIndent, $this->y, 'UTF-8');
+                $page->drawText($item->getWeight(), $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
+                if ($packaging->displayCustomsValue()) {
+                    $page->drawText(
+                        $packaging->displayPrice($item->getCustomsValue()),
+                        $itemCollsX[++$i] + $txtIndent,
+                        $this->y,
+                        'UTF-8'
+                    );
+                }
+                $page->drawText(
+                    $packaging->getQtyOrderedItem($item->getOrderItemId()),
+                    $itemCollsX[++$i] + $txtIndent,
+                    $this->y,
+                    'UTF-8'
+                );
+                $page->drawText($item->getQty()*1, $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
             }
             $this->y = $this->y - 30;
         }
         return $this;
     }
-
-    /**
-     * Get package size from params either from system config
-     *
-     * @param Varien_Object $params
-     * @return string
-     */
-    protected function _getSizeText($params)
-    {
-        $sizeText = '';
-        $uspsModel = Mage::getSingleton('usa/shipping_carrier_usps');
-        if ($params->getSize() != null) {
-            $sizeText = Mage::helper('sales')->__('Size') . ' : ' . $uspsModel->getCode('size', $params->getSize());
-        }
-        return $sizeText;
-    }
-
 }
