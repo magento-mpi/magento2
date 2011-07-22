@@ -372,9 +372,8 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             }
         } else {
             if ($selectionProduct->getSelectionPriceType()) { // percent
-                return $selectionProduct->getFinalPrice() * ($selectionProduct->getSelectionPriceValue() / 100)
-                        * $selectionQty;
-            } else { // fixed
+                return $bundleProduct->getPrice() * ($selectionProduct->getSelectionPriceValue() / 100) * $selectionQty;
+            } else {
                 return $selectionProduct->getSelectionPriceValue() * $selectionQty;
             }
         }
