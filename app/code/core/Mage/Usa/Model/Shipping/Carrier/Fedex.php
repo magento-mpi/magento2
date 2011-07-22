@@ -1135,7 +1135,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                         'NumberOfPieces' => 1,
                         'CountryOfManufacture' => implode(',', array_unique($countriesOfManufacture)),
                         'Description' => implode(', ', $itemsDesc),
-                        'Quantity' => $itemsQty,
+                        'Quantity' => ceil($itemsQty),
                         'QuantityUnits' => 'pcs',
                         'UnitPrice' => array(
                             'Currency' => $request->getBaseCurrencyCode(),
