@@ -924,9 +924,9 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         $data = array(
             'createLabelUrl'            => $createLabelUrl,
             'itemsGridUrl'              => $itemsGridUrl,
-            'errorQtyOverLimit'         => Mage::helper('sales')->__('The quantity you want to add exceeds the total shipped quantity for some of selected Product(s)'),
-            'titleDisabledSaveBtn'      => Mage::helper('sales')->__('Products should be added to package(s)'),
-            'validationErrorMsg'        => Mage::helper('sales')->__('The value that you entered is not valid.'),
+            'errorQtyOverLimit'         => Mage::helper('enterprise_rma')->__('The quantity you want to add exceeds the total shipped quantity for some of selected Product(s)'),
+            'titleDisabledSaveBtn'      => Mage::helper('enterprise_rma')->__('Products should be added to package(s)'),
+            'validationErrorMsg'        => Mage::helper('enterprise_rma')->__('The value that you entered is not valid.'),
             'shipmentItemsQty'          => $itemsQty,
             'shipmentItemsPrice'        => $itemsPrice,
             'shipmentItemsName'         => $itemsName,
@@ -989,7 +989,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } catch (Exception $e) {
                 Mage::logException($e);
                 $responseAjax->setError(true);
-                $responseAjax->setMessage(Mage::helper('sales')->__('An error occurred while creating shipping label.'));
+                $responseAjax->setMessage(Mage::helper('enterprise_rma')->__('An error occurred while creating shipping label.'));
         }
         $this->getResponse()->setBody($responseAjax->toJson());
     }
@@ -1006,7 +1006,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
                 $shipment->save();
-                $this->_getSession()->addSuccess(Mage::helper('sales')->__('The shipping label has been created.'));
+                $this->_getSession()->addSuccess(Mage::helper('enterprise_rma')->__('The shipping label has been created.'));
                 $response->setOk(true);
             }
         } catch (Mage_Core_Exception $e) {
@@ -1015,7 +1015,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } catch (Exception $e) {
             Mage::logException($e);
             $response->setError(true);
-            $response->setMessage(Mage::helper('sales')->__('An error occurred while creating shipping label.'));
+            $response->setMessage(Mage::helper('enterprise_rma')->__('An error occurred while creating shipping label.'));
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -1121,7 +1121,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                     $pdf = new Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(Mage::helper('sales')->__('File extension not known or unsupported type in the following shipment: %s', $model->getIncrementId()));
+                        $this->_getSession()->addError(Mage::helper('enterprise_rma')->__('File extension not known or unsupported type in the following shipment: %s', $model->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -1138,7 +1138,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()
-                ->addError(Mage::helper('sales')->__('An error occurred while creating shipping label.'));
+                ->addError(Mage::helper('enterprise_rma')->__('An error occurred while creating shipping label.'));
        }
         $this->_redirect('*/*/edit', array(
             'id' => $this->getRequest()->getParam('id')
