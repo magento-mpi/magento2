@@ -1076,7 +1076,6 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 $shipment->setShippingLabel($outputPdf->render());
                 $shipment->setIsAdmin(Enterprise_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL);
                 $shipment->setRmaEntityId($model->getId());
-                dump($shipment->getDaya());
                 $shipment->save();
 
                 $carrierCode = $carrier->getCarrierCode();
