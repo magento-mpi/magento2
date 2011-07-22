@@ -38,7 +38,7 @@ class ProductAttribute_Create_CreateFromProductPage extends Mage_Selenium_TestCa
 {
 
     /**
-     * Log in to Backend.
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -46,8 +46,8 @@ class ProductAttribute_Create_CreateFromProductPage extends Mage_Selenium_TestCa
     }
 
     /**
-     * Preconditions:
-     * Navigate to System -> Manage Attributes.
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Manage Attributes.</p>
      */
     protected function assertPreConditions()
     {
@@ -73,9 +73,10 @@ class ProductAttribute_Create_CreateFromProductPage extends Mage_Selenium_TestCa
      * <p>New attribute successfully created.
      * Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * @dataProvider data_attributeTypes
+     * @dataProvider dataAttributeTypes
+     * @test
      */
-    public function test_OnProductPage_WithRequiredFieldsOnly($attributeType)
+    public function onProductPage_WithRequiredFieldsOnly($attributeType)
     {
         //Data
         $productData = $this->loadData('simple_product_required');
@@ -89,7 +90,7 @@ class ProductAttribute_Create_CreateFromProductPage extends Mage_Selenium_TestCa
         $this->assertElementPresent("//*[contains(@id,'" . $attrData['attribute_code'] . "')]");
     }
 
-    public function data_attributeTypes()
+    public function dataAttributeTypes()
     {
         return array(
             array('product_attribute_textfield'),

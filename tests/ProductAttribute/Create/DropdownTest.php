@@ -38,7 +38,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Log in to Backend.
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -46,8 +46,8 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Preconditions:
-     * Navigate to System -> Manage Attributes.
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Manage Attributes.</p>
      */
     protected function assertPreConditions()
     {
@@ -56,7 +56,10 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
         $this->addParameter('id', 0);
     }
 
-    public function test_Navigation()
+    /**
+     * @test
+     */
+    public function navigation()
     {
         $this->assertTrue($this->clickButton('add_new_attribute'),
                 'There is no "Add New Attribute" button on the page');
@@ -70,21 +73,20 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create "Dropdown" type Product Attribute (required fields only)
+     * <p>Create "Dropdown" type Product Attribute (required fields only)</p>
+     * <p>Steps:</p>
+     * <p>1.Click on "Add New Attribute" button</p>
+     * <p>2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown</p>
+     * <p>3.Fill all required fields</p>
+     * <p>4.Click on "Save Attribute" button</p>
+     * <p>Expected result:</p>
+     * <p>New attribute ["Dropdown" type] successfully created.</p>
+     * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * Steps:
-     * 1.Click on "Add New Attribute" button
-     * 2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown
-     * 3.Fill all required fields
-     * 4.Click on "Save Attribute" button
-     *
-     * Expected result:
-     * New attribute ["Dropdown" type] successfully created.
-     * Success message: 'The product attribute has been saved.' is displayed.
-     *
-     * @depends test_Navigation
+     * @depends navigation
+     * @test
      */
-    public function test_WithRequiredFieldsOnly()
+    public function withRequiredFieldsOnly()
     {
         //Data
         $attrData = $this->loadData('product_attribute_dropdown', null,
@@ -100,23 +102,22 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Checking of verification for duplicate of Product Attributes with similar code
-     * Creation of new attribute with existing code.
+     * <p>Checking of verification for duplicate of Product Attributes with similar code</p>
+     * <p>Creation of new attribute with existing code.</p>
+     * <p>Steps:</p>
+     * <p>1.Click on "Add New Attribute" button</p>
+     * <p>2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown</p>
+     * <p>3.Fill 'Attribute Code' field by code used in test before.</p>
+     * <p>4.Fill other required fields by regular data.</p>
+     * <p>5.Click on "Save Attribute" button</p>
+     * <p>Expected result:</p>
+     * <p>New attribute ["Dropdown" type] shouldn't be created.</p>
+     * <p>Error message: 'Attribute with the same code already exists' is displayed.</p>
      *
-     * Steps:
-     * 1.Click on "Add New Attribute" button
-     * 2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown
-     * 3.Fill 'Attribute Code' field by code used in test before.
-     * 4.Fill other required fields by regular data.
-     * 5.Click on "Save Attribute" button
-     *
-     * Expected result:
-     * New attribute ["Dropdown" type] shouldn't be created.
-     * Error message: 'Attribute with the same code already exists' is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithAttributeCodeThatAlreadyExists(array $attrData)
+    public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -125,22 +126,21 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Checking validation for required fields are EMPTY
+     * <p>Checking validation for required fields are EMPTY</p>
+     * <p>Steps:</p>
+     * <p>1.Click on "Add New Attribute" button</p>
+     * <p>2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown</p>
+     * <p>3.Skip filling of one field required and fill other required fields.</p>
+     * <p>4.Click on "Save Attribute" button</p>
+     * <p>Expected result:</p>
+     * <p>New attribute ["Dropdown" type] shouldn't be created.</p>
+     * <p>Error JS message: 'This is a required field.' is displayed.</p>
      *
-     * Steps:
-     * 1.Click on "Add New Attribute" button
-     * 2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown
-     * 3.Skip filling of one field required and fill other required fields.
-     * 4.Click on "Save Attribute" button
-     *
-     * Expected result:
-     * New attribute ["Dropdown" type] shouldn't be created.
-     * Error JS message: 'This is a required field.' is displayed.
-     *
-     * @dataProvider data_EmptyField
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider dataEmptyField
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithRequiredFieldsEmpty($emptyField)
+    public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
         if ($emptyField == 'attribute_code') {
@@ -166,7 +166,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_EmptyField()
+    public function dataEmptyField()
     {
         return array(
             array('attribute_code'),
@@ -176,24 +176,23 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Checking validation for valid data in the 'Attribute Code' field
+     * <p>Checking validation for valid data in the 'Attribute Code' field</p>
+     * <p>Steps:</p>
+     * <p>1.Click on "Add New Attribute" button</p>
+     * <p>2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown</p>
+     * <p>3.Fill 'Attribute Code' field by invalid data [Examples: '0xxx'/'_xxx'/'111']</p>
+     * <p>4.Fill other required fields by regular data.</p>
+     * <p>5.Click on "Save Attribute" button</p>
+     * <p>Expected result:</p>
+     * <p>New attribute ["Dropdown" type] shouldn't be created.</p>
+     * <p>Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
+     * this field, first character should be a letter.' is displayed.</p>
      *
-     * Steps:
-     * 1.Click on "Add New Attribute" button
-     * 2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown
-     * 3.Fill 'Attribute Code' field by invalid data [Examples: '0xxx'/'_xxx'/'111']
-     * 4.Fill other required fields by regular data.
-     * 5.Click on "Save Attribute" button
-     *
-     * Expected result:
-     * New attribute ["Dropdown" type] shouldn't be created.
-     * Error JS message: 'Please use only letters (a-z), numbers (0-9) or underscore(_) in
-     * this field, first character should be a letter.' is displayed.
-     *
-     * @dataProvider data_WrongCode
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider dataWrongCode
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithInvalidAttributeCode($wrongAttributeCode, $validationMessage)
+    public function withInvalidAttributeCode($wrongAttributeCode, $validationMessage)
     {
         //Data
         $attrData = $this->loadData('product_attribute_dropdown',
@@ -205,7 +204,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_WrongCode()
+    public function dataWrongCode()
     {
         return array(
             array('11code_wrong', 'invalid_attribute_code'),
@@ -217,24 +216,23 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Checking validation for notvalid data in the 'Position' field
+     * <p>Checking validation for notvalid data in the 'Position' field</p>
+     * <p>Steps:</p>
+     * <p>1.Click on "Add New Attribute" button.</p>
+     * <p>2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown.</p>
+     * <p>3.Fill 'Position' field by invalid data.</p>
+     * <p>4.Fill other required fields by regular data.</p>
+     * <p>5.Click on "Save Attribute" button</p>
+     * <p>Expected result:</p>
+     * <p>New attribute ["Dropdown" type] shouldn't be created.</p>
+     * <p>Error JS message: 'Please use numbers only in this field.</p>
+     * <p>Please avoid spaces or other characters such as dots or commas.' is displayed.</p>
      *
-     * Steps:
-     * 1.Click on "Add New Attribute" button.
-     * 2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown.
-     * 3.Fill 'Position' field by invalid data.
-     * 4.Fill other required fields by regular data.
-     * 5.Click on "Save Attribute" button
-     *
-     * Expected result:
-     * New attribute ["Dropdown" type] shouldn't be created.
-     * Error JS message: 'Please use numbers only in this field.
-     * Please avoid spaces or other characters such as dots or commas.' is displayed.
-     *
-     * @dataProvider data_InvalidPosition
-     * @depends test_WithRequiredFieldsOnly
+     * @dataProvider dataInvalidPosition
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithInvalidPosition($invalidPosition)
+    public function withInvalidPosition($invalidPosition)
     {
         //Data
         $attrData = $this->loadData('product_attribute_dropdown',
@@ -246,7 +244,7 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_InvalidPosition()
+    public function dataInvalidPosition()
     {
         return array(
             array('11code'),
@@ -259,23 +257,22 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Checking of correct validate of submitting form by using special
-     * characters for all fields exclude 'Attribute Code' field.
+     * <p>Checking of correct validate of submitting form by using special
+     * characters for all fields exclude 'Attribute Code' field.</p>
+     * <p>Steps:</p>
+     * <p>1.Click on "Add New Attribute" button</p>
+     * <p>2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown</p>
+     * <p>3.Fill 'Attribute Code' field by regular data.</p>
+     * <p>4.Fill other required fields by special characters.</p>
+     * <p>5.Click on "Save Attribute" button</p>
+     * <p>Expected result:</p>
+     * <p>New attribute ["Dropdown" type] successfully created.</p>
+     * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * Steps:
-     * 1.Click on "Add New Attribute" button
-     * 2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown
-     * 3.Fill 'Attribute Code' field by regular data.
-     * 4.Fill other required fields by special characters.
-     * 5.Click on "Save Attribute" button
-     *
-     * Expected result:
-     * New attribute ["Dropdown" type] successfully created.
-     * Success message: 'The product attribute has been saved.' is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithSpecialCharacters_InTitle()
+    public function withSpecialCharactersInTitle()
     {
         //Data
         $attrData = $this->loadData('product_attribute_dropdown',
@@ -296,21 +293,20 @@ class ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Checking of correct work of submitting form by using long values for fields filling
+     * <p>Checking of correct work of submitting form by using long values for fields filling</p>
+     * <p>Steps:</p>
+     * <p>1.Click on "Add New Attribute" button</p>
+     * <p>2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown</p>
+     * <p>3.Fill all required fields by long value alpha-numeric data.</p>
+     * <p>4.Click on "Save Attribute" button</p>
+     * <p>Expected result:</p>
+     * <p>New attribute ["Dropdown" type] successfully created.</p>
+     * <p>Success message: 'The product attribute has been saved.' is displayed.</p>
      *
-     * Steps:
-     * 1.Click on "Add New Attribute" button
-     * 2.Choose "Dropdown" in 'Catalog Input Type for Store Owner' dropdown
-     * 3.Fill all required fields by long value alpha-numeric data.
-     * 4.Click on "Save Attribute" button
-     *
-     * Expected result:
-     * New attribute ["Dropdown" type] successfully created.
-     * Success message: 'The product attribute has been saved.' is displayed.
-     *
-     * @depends test_WithRequiredFieldsOnly
+     * @depends withRequiredFieldsOnly
+     * @test
      */
-    public function test_WithLongValues()
+    public function withLongValues()
     {
         //Data
         $attrData = $this->loadData('product_attribute_dropdown_with_options',

@@ -38,7 +38,7 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * Log in to Backend.
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -46,8 +46,8 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Preconditions:
-     * Navigate to System -> Manage Attributes.
+     * <p>Preconditions:</p>
+     * <p>Navigate to System -> Manage Attributes.</p>
      */
     protected function assertPreConditions()
     {
@@ -57,22 +57,21 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Delete Product Attributes
+     * <p>Delete Product Attributes</p>
+     * <p>Steps:</p>
+     * <p>1.Click on "Add New Attribute" button</p>
+     * <p>2.Fill all required fields</p>
+     * <p>3.Click on "Save Attribute" button</p>
+     * <p>4.Search and open attribute</p>
+     * <p>5.Click on "Delete Attribute" button</p>
+     * <p>Expected result:</p>
+     * <p>Attribute successfully deleted.</p>
+     * <p>Success message: 'The product attribute has been deleted.' is displayed.</p>
      *
-     * Steps:
-     * 1.Click on "Add New Attribute" button
-     * 2.Fill all required fields
-     * 3.Click on "Save Attribute" button
-     * 4.Search and open attribute
-     * 5.Click on "Delete Attribute" button
-     *
-     * Expected result:
-     * Attribute successfully deleted.
-     * Success message: 'The product attribute has been deleted.' is displayed.
-     *
-     * @dataProvider data_DataName
+     * @dataProvider dataDataName
+     * @test
      */
-    public function test_DeleteProductAttribute_Deletable($dataName)
+    public function deleteProductAttributeDeletable($dataName)
     {
         //Data
         $attrData = $this->loadData($dataName, null, array('attribute_code', 'admin_title'));
@@ -95,7 +94,7 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_deleted_attribute'), $this->messages);
     }
 
-    public function data_DataName()
+    public function dataDataName()
     {
         return array(
             array('product_attribute_textfield'),
@@ -111,15 +110,14 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Delete system Product Attributes
-     *
-     * Steps:
-     * 1.Search and open system attribute.
-     *
-     * Expected result:
-     * "Delete Attribute" button isn't present.
+     * <p>Delete system Product Attributes</p>
+     * <p>Steps:</p>
+     * <p>1.Search and open system attribute.</p>
+     * <p>Expected result:</p>
+     * <p>"Delete Attribute" button isn't present.</p>
+     * @test
      */
-    public function test_ThatCannotBeDeleted_SystemAttribute()
+    public function thatCannotBeDeletedSystemAttribute()
     {
         $searchData = $this->loadData('attribute_search_data',
                         array(
@@ -137,8 +135,9 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * @TODO Waiting a tests for Configurable products
+     * @test
      */
-    public function test_ThatCannotBeDeleted_DropdownAttributeUsedInConfigurableProduct()
+    public function thatCannotBeDeletedDropdownAttributeUsedInConfigurableProduct()
     {
         $this->markTestIncomplete();
     }
