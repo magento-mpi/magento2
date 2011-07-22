@@ -102,12 +102,9 @@ Packaging.prototype = {
     },
 
     checkAllItems: function(headCheckbox) {
-        $(headCheckbox).up('.grid_prepare').select('[type="checkbox"]').each(function(checkbox){
-            if (headCheckbox.checked) {
-                checkbox.checked = true;
-            } else {
-                checkbox.checked = false;
-            }
+        $(headCheckbox).up('table').select('tbody input[type="checkbox"]').each(function(checkbox){
+            checkbox.checked = headCheckbox.checked;
+            this._observeQty.call(checkbox);
         }.bind(this));
     },
 
@@ -743,6 +740,23 @@ Packaging.prototype = {
         }.bind(this));
         if (!this.itemsAll.length) {
             this.itemsAll = itemsAll;
+        }
+
+        packagePrapare.select('tbody input[type="checkbox"]').each(function(item){
+            $(item).observe('change', this._observeQty);
+            this._observeQty.call(item);
+        }.bind(this))
+    },
+
+    _observeQty: function() {
+        /** this = input[type="checkbox"] */
+        var tr  = this.parentNode.parentNode,
+            qty = $(tr.cells[tr.cells.length - 1]).select('input[name="qty"]')[0];
+
+        if (qty.disabled = !this.checked) {
+            $(qty).addClassName('disabled');
+        } else {
+            $(qty).removeClassName('disabled');
         }
     },
 
