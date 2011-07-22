@@ -459,14 +459,21 @@ EOT;
 
             foreach ($shipments[$mageCode] as $rate) {
                 $mageRateCode = $rate->getMethod();
+                $googleRateCode = isset($map['methods'][$mageRateCode]) ? $map['methods'][$mageRateCode] : false;
+                $methodName = $map['googleCarrierCompany'] . '/'.  $googleRateCode;
+
+                if (!empty($shippingMethodsList[$methodName]) && $rate->getPrice() != 0) {
+                    $shippingMethodsList[$methodName]['price'] = $rate->getPrice();
+                }
+
                 if ($mageRateCode != $freeMethod) {
                     continue;
                 }
-                $googleRateCode = isset($map['methods'][$mageRateCode]) ? $map['methods'][$mageRateCode] : false;
+
                 if (false == $googleRateCode || $rate->getPrice() != 0) {
                     continue;
                 }
-                $methodName = $map['googleCarrierCompany'] . '/'.  $googleRateCode;
+
                 if (empty($shippingMethodsList[$methodName])) {
                     continue;
                 }
@@ -501,11 +508,12 @@ EOT;
             $xml .= '<carrier-calculated-shipping-options>';
 
             foreach ($shippingMethodsList as $method) {
+                $currentPrice = (isset($method['price'])) ? $method['price'] : $defPrice;
                 $xml .= <<<EOT
                         <carrier-calculated-shipping-option>
                             <shipping-company>{$method['company']}</shipping-company>
                             <shipping-type>{$method['type']}</shipping-type>
-                            <price currency="{$this->getCurrency()}">{$defPrice}</price>
+                            <price currency="{$this->getCurrency()}">{$currentPrice}</price>
                         </carrier-calculated-shipping-option>
 EOT;
             }
@@ -1121,13 +1129,13 @@ EOT;
             'fedex' => array(
                 'googleCarrierCompany' => 'FedEx',
                 'methods' => array(
-                    'FEDEXGROUND'        => Mage::helper('usa')->__('Ground'),
-                    'GROUNDHOMEDELIVERY' => Mage::helper('usa')->__('Home Delivery'),
-                    'FEDEXEXPRESSSAVER'  => Mage::helper('usa')->__('Express Saver'),
-                    'FIRSTOVERNIGHT'     => Mage::helper('usa')->__('First Overnight'),
-                    'PRIORITYOVERNIGHT'  => Mage::helper('usa')->__('Priority Overnight'),
-                    'STANDARDOVERNIGHT'  => Mage::helper('usa')->__('Standard Overnight'),
-                    'FEDEX2DAY'          => Mage::helper('usa')->__('2Day')
+                    'FEDEX_GROUND'        => Mage::helper('usa')->__('Ground'),
+                    'GROUND_HOME_DELIVERY' => Mage::helper('usa')->__('Home Delivery'),
+                    'FEDEX_EXPRESS_SAVER'  => Mage::helper('usa')->__('Express Saver'),
+                    'FIRST_OVERNIGHT'     => Mage::helper('usa')->__('First Overnight'),
+                    'PRIORITY_OVERNIGHT'  => Mage::helper('usa')->__('Priority Overnight'),
+                    'STANDARD_OVERNIGHT'  => Mage::helper('usa')->__('Standard Overnight'),
+                    'FEDEX_2_DAY'          => Mage::helper('usa')->__('2Day')
                 )
             )
         );
