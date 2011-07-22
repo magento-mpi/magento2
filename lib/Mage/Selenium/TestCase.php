@@ -227,6 +227,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const xpathAdminLogo = "//img[@class='logo' and contains(@src,'logo.gif')]";
 
     /**
+     * Qty elements in Table
+     * @var string
+     */
+    const qtyElementsInTable = "//table[@class='actions']//td[@class='pager']//span[@id]";
+
+    /**
      * @var string
      */
     const FIELD_TYPE_MULTISELECT = 'multiselect';
@@ -1140,10 +1146,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Perform search and open first result
+     * Perform search and open result
      *
      * @param array $data
-     * @return Mage_Selenium_TestCase
+     * @param boolean $willChangePage
+     * @param string|null $fieldSetName
+     * @return boolean
      */
     public function searchAndOpen(array $data, $willChangePage = true, $fieldSetName = null)
     {
@@ -1157,10 +1165,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             //Forming xpath that contains string 'Total $number records found'
             // where $number - number of items in table
-            $totalCount = intval($this->getText($xpath
-                            . "//table[@class='actions']//td[@class='pager']//span[@id]"));
-            $xpathPager = $xpath
-                    . "//table[@class='actions']//td[@class='pager']//span[@id and not(text()='" . $totalCount . "')]";
+            $totalCount = intval($this->getText($xpath . self::qtyElementsInTable));
+            $xpathPager = $xpath . self::qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
 
             // Forming xpath for string that contains the lookup data
             $xpathTR = $xpath . "//table[@class='data']//tr";
@@ -1175,8 +1181,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->fillForm($data);
                 $this->clickButton('search', false);
                 $this->waitForElement($xpathPager);
-            } else if ($totalCount == 0) {
-                $this->fail('There is no items in the grid!');
+            } elseif ($totalCount == 0) {
+                return false;
             }
 
             if ($this->isElementPresent($xpathTR)) {
@@ -1202,14 +1208,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->click($xpathTR . "/td[contains(text(),'" . $data[array_rand($data)] . "')]");
                     $this->waitForAjax($this->_browserTimeoutPeriod);
                 }
-            } else {
-                $this->fail('Cant\'t find item in grig for data: ' . print_r($data, true));
+                return true;
             }
-        } else {
-            $this->fail('Data for search in grid is empty!');
+            return false;
         }
-
-        return true;
+        return false;
     }
 
     /**
@@ -1230,8 +1233,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             //Forming xpath that contains string 'Total $number records found'
             // where $number - number of items in table
-            $totalCount = intval($this->getText($xpath
-                            . "//table[@class='actions']//td[@class='pager']//span[@id]"));
+            $totalCount = intval($this->getText($xpath . self::qtyElementsInTable));
 
             // Forming xpath for string that contains the lookup data
             $xpathTR = $xpath . "//table[@class='data']//tr";
@@ -1252,7 +1254,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
             if ($this->isElementPresent($xpathTR)) {
                 $xpathTR .="//input[contains(@class,'checkbox')][not(@disabled)]";
-//                $xpathTR .="//input[contains(@class,'checkbox')]";
                 if ($this->getValue($xpathTR) == 'off') {
                     $this->click($xpathTR);
                 }
