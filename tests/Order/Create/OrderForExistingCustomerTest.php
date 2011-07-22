@@ -84,8 +84,8 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
                 'After successful customer creation should be redirected to Manage Customers page');
         $email = array('email'=> $userData['email']);
         $data = array_merge($userData, $addressData);
-        $orderId = $this->OrderHelper()->createOrderForExistingCustomer(false, 'products',
-            $data, $data,'test_purpose@gmail.com', 'Default Store View', 'visa','Fixed');
+        $orderId = $this->OrderHelper()->createOrderForExistingCustomer(false, 'Default Store View', 'products',
+                'test_purpose@gmail.com', $data, $data, 'visa','Fixed');
         $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
    /**
@@ -117,10 +117,11 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
         $email = array('email'=> $userData['email']);
-        $orderId = $this->OrderHelper()->createOrderForExistingCustomer(false, 'products',
+        $orderId = $this->OrderHelper()->createOrderForExistingCustomer(false, 'Default Store View',
+            'products', 'test_purpose@gmail.com',
             $this->OrderHelper()->customerAddressGenerator(':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
             $this->OrderHelper()->customerAddressGenerator(':alnum:', $addrType = 'shipping', $symNum = 32, TRUE),
-            'test_purpose@gmail.com', 'Default Store View', 'visa','Fixed');
+            'visa','Fixed');
         $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
 }

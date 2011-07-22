@@ -103,9 +103,8 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
     */
     public function testOrderWithEmptyFieldsForCreditCardVisa($emptyVisaField)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'products',
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
                 'new_customer_order_billing_address_reqfields', null,
-                null, 'Default Store View', true, true,
                 $this->loadData('visa', $emptyVisaField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
@@ -232,9 +231,8 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
     */
     public function testOrderWithEmptyFieldsForCreditCardAmericanExpress($emptyAmericanExpressField)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'products',
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
                 'new_customer_order_billing_address_reqfields', null,
-                null, 'Default Store View', true, true,
                 $this->loadData('visa', $emptyAmericanExpressField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
@@ -361,9 +359,8 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
     */
     public function testOrderWithEmptyFieldsForCreditCardMasterCard($emptyMasterCardField)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'products',
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
                 'new_customer_order_billing_address_reqfields', null,
-                null, 'Default Store View', true, true,
                 $this->loadData('visa', $emptyMasterCardField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
@@ -490,9 +487,8 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
     */
     public function testOrderWithEmptyFieldsForCreditCardDiscover($emptyDiscoverField)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'products',
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
                 'new_customer_order_billing_address_reqfields', null,
-                null, 'Default Store View', true, true,
                 $this->loadData('visa', $emptyDiscoverField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');

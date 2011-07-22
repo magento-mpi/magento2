@@ -99,18 +99,18 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
     public function testOrderCompleteSpecialCharacters()
     {
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products', $email,
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
-                $email, 'Default Store View', true, true,'visa','Fixed');
+                'visa','Fixed');
         $this->clickButton('invoice', TRUE);
-        $this->orderHelper()->defineId('create_invoice');
+        $this->AdminUserHelper()->defineId('create_invoice');
         $this->clickButton('submit_invoice', TRUE);
-        $this->orderHelper()->defineId('view_order');
+        $this->AdminUserHelper()->defineId('view_order');
         $this->clickButton('ship', TRUE);
-        $this->orderHelper()->defineId('create_shipment');
+        $this->AdminUserHelper()->defineId('create_shipment');
         $this->clickButton('submit_shipment', TRUE);
-        $this->orderHelper()->defineId('view_order');
+        $this->AdminUserHelper()->defineId('view_order');
         $this->OrderHelper()->coverUpTraces(null, $email);
     }
    /**
@@ -151,18 +151,18 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
     public function testOrderCompleteAllFields()
     {
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products', $email,
                 $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, FALSE),
                 $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, FALSE),
-                $email, 'Default Store View', true, true,'visa','Fixed');
+                'visa','Fixed');
         $this->clickButton('invoice', TRUE);
-        $this->orderHelper()->defineId('create_invoice');
+        $this->AdminUserHelper()->defineId('create_invoice');
         $this->clickButton('submit_invoice', TRUE);
-        $this->orderHelper()->defineId('view_order');
+        $this->AdminUserHelper()->defineId('view_order');
         $this->clickButton('ship', TRUE);
-        $this->orderHelper()->defineId('create_shipment');
+        $this->AdminUserHelper()->defineId('create_shipment');
         $this->clickButton('submit_shipment', TRUE);
-        $this->orderHelper()->defineId('view_order');
+        $this->AdminUserHelper()->defineId('view_order');
         $this->OrderHelper()->coverUpTraces(null, $email);
     }
    /**
@@ -203,18 +203,18 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
     public function testOrderCompleteReqFields()
     {
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products', $email,
                 $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, TRUE),
-                $email, 'Default Store View', true, true,'visa','Fixed');
+                'visa','Fixed');
         $this->clickButton('invoice', TRUE);
-        $this->orderHelper()->defineId('create_invoice');
+        $this->AdminUserHelper()->defineId('create_invoice');
         $this->clickButton('submit_invoice', TRUE);
-        $this->orderHelper()->defineId('view_order');
+        $this->AdminUserHelper()->defineId('view_order');
         $this->clickButton('ship', TRUE);
-        $this->orderHelper()->defineId('create_shipment');
+        $this->AdminUserHelper()->defineId('create_shipment');
         $this->clickButton('submit_shipment', TRUE);
-        $this->orderHelper()->defineId('view_order');
+        $this->AdminUserHelper()->defineId('view_order');
         $this->OrderHelper()->coverUpTraces(null, $email);
     }
 }

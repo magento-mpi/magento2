@@ -100,10 +100,10 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
     public function testOrderWithCreditCardAmericanExpress()
     {
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products', $email,
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
-                $email, 'Default Store View', true, true,'american_express','Fixed');
+                'american_express','Fixed');
         $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
   /**
@@ -148,10 +148,10 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
     public function testOrderWithCreditCardVisa()
     {
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products', $email,
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
-                $email, 'Default Store View', true, true,'visa','Fixed');
+                'visa','Fixed');
         $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
   /**
@@ -196,10 +196,10 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
     public function testOrderWithCreditCardMastercard()
     {
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products', $email,
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
-                $email, 'Default Store View', true, true,'mastercard','Fixed');
+                'mastercard','Fixed');
         $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
   /**
@@ -244,10 +244,10 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
     public function testOrderWithCreditCardDiscover()
     {
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'products',
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products', $email,
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
-                $email, 'Default Store View', true, true,'discover','Fixed');
+                'discover','Fixed');
         $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
 }

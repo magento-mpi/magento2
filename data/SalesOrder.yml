@@ -36,20 +36,19 @@ new_customer_order_billing_address_reqfields:
     billing_telephone: '091019019 testdataset req'
     email: %noValue%
     customer_group: 'General'
-    billing_save_in_address_book: no
+    billing_save_in_address_book: yes
 
 new_customer_order_shipping_address_reqfields:
     #shipping_same_as_billing_address: no Due to bug i need to set this checkbox after setting prefix
-    shipping_prefix: ''
-    shipping_same_as_billing_address: no
     shipping_first_name: 'Steven_testdataset req'
+    shipping_same_as_billing_address: no
     shipping_last_name: 'Stevenson_testdataset req'
     shipping_street_address_1: 'number 11 testdataset req'
     shipping_city: 'nowhere_testdataset req'
     shipping_country: 'Ukraine'
     shipping_zip_code: '01001 testdataset req'
     shipping_telephone: '091019019 testdataset req'
-    shipping_save_in_address_book: no
+    shipping_save_in_address_book: yes
 
 new_customer_order_billing_address_allfields:
     billing_prefix: 'Mr testdataset all'
@@ -67,7 +66,7 @@ new_customer_order_billing_address_allfields:
     billing_fax: '0919327869 testdataset all'
     email: %noValue%
     customer_group: 'General'
-    billing_save_in_address_book: no
+    billing_save_in_address_book: yes
 
 new_customer_order_shipping_address_allfields:
     #shipping_same_as_billing_address: no Due to bug i need to set this checkbox after setting prefix
@@ -85,7 +84,7 @@ new_customer_order_shipping_address_allfields:
     shipping_zip_code: '01001 testdataset all'
     shipping_telephone: '091019019 testdataset all'
     shipping_fax: '0919327869 testdataset all'
-    shipping_save_in_address_book: no
+    shipping_save_in_address_book: yes
 
 order_billing_address:
     billing_prefix: prefix
@@ -102,7 +101,7 @@ order_billing_address:
     billing_fax: '09191'
     email: %noValue%
     customer_group: 'General'
-    billing_save_in_address_book: no
+    billing_save_in_address_book: yes
 
 order_shipping_address:
     shipping_same_as_billing_address: no
@@ -118,7 +117,7 @@ order_shipping_address:
     shipping_zip_code: '01001'
     shipping_telephone: '091019019'
     shipping_fax: '09191'
-    shipping_save_in_address_book: no
+    shipping_save_in_address_book: yes
 
 new_customer:
     associate_to_website: Main Website

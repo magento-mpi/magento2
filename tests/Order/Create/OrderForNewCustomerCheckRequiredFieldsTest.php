@@ -95,11 +95,11 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
     */
     public function testOrderWithoutRequiredFieldsFilledBillingAddress($emptyBillingField)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'products',
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields',
-                        $emptyBillingField), null, null, 'Default Store View',
-                true, true,'visa','Fixed');
+                        $emptyBillingField),
+                null, 'visa','Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_billing_address');
         foreach ($emptyBillingField as $key => $value) {
@@ -181,13 +181,13 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
     */
     public function testOrderWithoutRequiredFieldsFilledShippingAddress($emptyShippingField)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'products',
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
                 $this->loadData(
                         'new_customer_order_shipping_address_reqfields',
-                        $emptyShippingField), null, 'Default Store View',
-                true, true,'visa','Fixed');
+                        $emptyShippingField),
+                'visa','Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_shipping_address');
         foreach ($emptyShippingField as $key => $value) {
@@ -246,10 +246,10 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
     */
     public function testNoShippingMethodChosen()
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, null,
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', null, null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
-                null, null, 'Default Store View', true, true, null, null);
+                null, null);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('shipping_method');
         $fieldXpath = $fieldSet->findLink('get_shipping_methods_and_rates');
@@ -274,10 +274,10 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
     */
     public function testNoProductsChosen()
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'products',
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
-                null, null, 'Default Store View', true, true, 'visa', null);
+                null, 'visa', null);
         $this->clickControl('link', 'get_shipping_methods_and_rates', false);
         $this->waitForAjax();
         $this->addParameter('shipMethod', 'Fixed');
@@ -319,11 +319,10 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
     */
     public function testNoPaymentMethodChosen()
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'products',
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
-                null, null, 'Default Store View', true, true, null, 'Fixed');
-
+                null, null, 'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         $fieldXpath = $fieldSet->findRadiobutton('credit_card');
