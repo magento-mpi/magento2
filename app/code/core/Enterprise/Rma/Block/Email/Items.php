@@ -50,25 +50,4 @@ class Enterprise_Rma_Block_Email_Items extends Enterprise_Rma_Block_Form
             return '';
         }
     }
-
-    /**
-     * Gets item options
-     *
-     * @param  $item Enterprise_Rma_Model_Item
-     * @return int | double
-     */
-    public function getItemQtyRequested($item)
-    {
-        $qtyRequested = $item->getQtyRequested();
-        if (is_null($qtyRequested)) {
-            $qtyRequested = $item->getOrigData('qty_requested');
-        }
-        if ($item->getIsQtyDecimal()) {
-            $qtyRequested = sprintf("%01.4f", $qtyRequested);
-        } else {
-            $qtyRequested = intval($qtyRequested);
-        }
-
-        return $qtyRequested;
-    }
 }

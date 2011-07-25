@@ -258,6 +258,12 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
             'UTF-8'
         );
         $page->drawText(
+            Mage::helper('enterprise_rma')->__('Qty'),
+            $this->getQtyX(),
+            $this->y,
+            'UTF-8'
+        );
+        $page->drawText(
             Mage::helper('enterprise_rma')->__('Status'),
             $this->getStatusX(),
             $this->y,
@@ -304,6 +310,13 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
             'UTF-8'
         );
 
+        $page->drawText(
+            $this->_getQty($item),
+            $this->getQtyX(),
+            $this->y,
+            'UTF-8'
+        );
+
         $status = Mage::helper('core/string')->str_split($item->getStatusLabel(), 25);
         $page->drawText($status[0], $this->getStatusX(),$this->y, 'UTF-8');
 
@@ -340,7 +353,7 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
      *
      * @param float $quantity
      * @param Enterprise_Rma_Model_Item $item
-     * @return int|string
+     * @return int|float
      */
     protected function _parseQuantity($quantity, $item)
     {
@@ -350,6 +363,35 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
             return intval($quantity);
         }
     }
+
+    /**
+     * Get Qty by status
+     *
+     * @param $item Enterprise_Rma_Model_Item
+     * @return int|float
+     */
+    protected function _getQty($item)
+    {
+        $qty = $item->getQtyRequested();
+
+        if ($item->getQtyApproved()
+            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_APPROVED)
+        ) {
+            $qty = $item->getQtyApproved();
+        } elseif ($item->getQtyReturned()
+            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED)
+        ) {
+            $qty = $item->getQtyReturned();
+        } elseif ($item->getQtyAuthorized()
+            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED)
+        ) {
+            $qty = $item->getQtyAuthorized();
+        }
+
+        return $this->_parseQuantity($qty, $item);
+    }
+
+
 
     /**
      * Get string label of option-type item attributes
@@ -376,10 +418,11 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
     protected function _setColumnXs()
     {
         $this->setProductNameX(35);
-        $this->setProductSkuX(225);
-        $this->setConditionX(300);
-        $this->setResolutionX(385);
-        $this->setQtyRequestedX(460);
+        $this->setProductSkuX(200);
+        $this->setConditionX(280);
+        $this->setResolutionX(360);
+        $this->setQtyRequestedX(425);
+        $this->setQtyX(490);
         $this->setStatusX(520);
     }
 }

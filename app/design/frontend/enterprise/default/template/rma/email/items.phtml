@@ -33,6 +33,7 @@
         <th align="left" width="95" bgcolor="#EAEAEA" style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">Condition</th>
         <th align="left" width="95" bgcolor="#EAEAEA" style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">Resolution</th>
         <th align="left" width="75" bgcolor="#EAEAEA" style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">Requested Qty</th>
+        <th align="left" width="75" bgcolor="#EAEAEA" style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">Qty</th>
         <th align="left" width="85" bgcolor="#EAEAEA" style="font-size:13px; padding:5px 9px 6px 9px; line-height:1em;">Status</th>
     </tr>
     </thead>
@@ -69,7 +70,10 @@
             <?php echo $this->escapeHtml($this->getOptionAttributeStringValue($item->getResolution())) ?>
         </td>
         <td valign="top" align="center" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted <?php echo $color?>">
-            <?php echo $this->getItemQtyRequested($item) ?>
+            <?php echo $this->parseQuantity($item->getQtyRequested(), $item) ?>
+        </td>
+        <td valign="top" align="center" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted <?php echo $color?>">
+            <?php echo $this->getQty($item) ?>
         </td>
         <td valign="top" align="left" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted <?php echo $color?>">
             <?php echo $this->escapeHtml($item->getStatusLabel()) ?>

@@ -162,6 +162,7 @@
     <col />
     <col />
     <col />
+    <col />
     <col width="200" />
     <thead>
         <tr>
@@ -170,6 +171,7 @@
             <th><?php echo $this->__('Condition') ?></th>
             <th><?php echo $this->__('Resolution') ?></th>
             <th><span class="nobr"><?php echo $this->__('Request Qty') ?></span></th>
+            <th><?php echo $this->__('Qty') ?></th>
             <th><?php echo $this->__('Status') ?></th>
             <th></th>
         </tr>
@@ -191,16 +193,9 @@
             <td><?php echo $this->escapeHtml($item->getProductSku()) ?></span></td>
             <td><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'condition')) ?></td>
             <td><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'resolution')) ?></td>
-            <td>
-                <?php
-                    $qtyRequested = $item->getQtyRequested();
-                    if (!$item->getIsQtyDecimal()) {
-                        $qtyRequested = intval($qtyRequested);
-                    }
-                    echo $this->escapeHtml($qtyRequested);
-                ?>
-            </td>
-            <td><?php echo $this->escapeHtml($item->getStatusLabel()) ?></td>
+            <td><?php echo $this->escapeHtml($this->parseQuantity($item->getQtyRequested(), $item)); ?></td>
+            <td><?php echo $this->escapeHtml($this->getQty($item));?></td>
+            <td><span class="nobr"><?php echo $this->escapeHtml($item->getStatusLabel()) ?></span></td>
             <td>
                 <a id="as_<?php echo $key ?>" href="javascript:void(0)" onclick="showHiddenForm(<?php echo $key ?>)"><?php echo $this->escapeHtml($this->__('Show Details')) ?></a>
                 <a id="ah_<?php echo $key ?>" style="display:none" href="javascript:void(0)" onclick="hideHiddenForm(<?php echo $key ?>)"><?php echo $this->escapeHtml($this->__('Hide Details')) ?></a>
