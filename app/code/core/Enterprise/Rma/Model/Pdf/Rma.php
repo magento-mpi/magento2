@@ -304,14 +304,14 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
         );
         $page->drawText($resolution[0], $this->getResolutionX(),$this->y, 'UTF-8');
         $page->drawText(
-            $this->_parseQuantity($item->getQtyRequested(), $item),
+            Mage::helper('enterprise_rma')->parseQuantity($item->getQtyRequested(), $item),
             $this->getQtyRequestedX(),
             $this->y,
             'UTF-8'
         );
 
         $page->drawText(
-            $this->_getQty($item),
+            Mage::helper('enterprise_rma')->getQty($item),
             $this->getQtyX(),
             $this->y,
             'UTF-8'
@@ -347,53 +347,6 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
         }
         $this->_setFontRegular($page);
     }
-
-    /**
-     * Parses quantity depending on isQtyDecimal flag
-     *
-     * @param float $quantity
-     * @param Enterprise_Rma_Model_Item $item
-     * @return int|float
-     */
-    protected function _parseQuantity($quantity, $item)
-    {
-        if ($item->getIsQtyDecimal()) {
-            return sprintf("%01.4f", $quantity);
-        } else {
-            return intval($quantity);
-        }
-    }
-
-    /**
-     * Get Qty by status
-     *
-     * @param $item Enterprise_Rma_Model_Item
-     * @return int|float
-     */
-    protected function _getQty($item)
-    {
-        $qty = $item->getQtyRequested();
-
-        if ($item->getQtyApproved()
-            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_APPROVED)
-        ) {
-            $qty = $item->getQtyApproved();
-        } elseif ($item->getQtyReturned()
-            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED
-                || $item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_REJECTED
-            )
-        ) {
-            $qty = $item->getQtyReturned();
-        } elseif ($item->getQtyAuthorized()
-            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED)
-        ) {
-            $qty = $item->getQtyAuthorized();
-        }
-
-        return $this->_parseQuantity($qty, $item);
-    }
-
-
 
     /**
      * Get string label of option-type item attributes

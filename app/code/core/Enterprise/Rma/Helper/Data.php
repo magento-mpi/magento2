@@ -491,4 +491,52 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $name;
     }
+
+    /**
+     * Parses quantity depending on isQtyDecimal flag
+     *
+     * @param float $quantity
+     * @param Enterprise_Rma_Model_Item $item
+     * @return int|float
+     */
+    public function parseQuantity($quantity, $item)
+    {
+        if (is_null($quantity)) {
+             $quantity = $item->getOrigData('qty_requested');
+        }
+        if ($item->getIsQtyDecimal()) {
+            return sprintf("%01.4f", $quantity);
+        } else {
+            return intval($quantity);
+        }
+    }
+
+    /**
+     * Get Qty by status
+     *
+     * @param Enterprise_Rma_Model_Item $item
+     * @return int|float
+     */
+    public function getQty($item)
+    {
+        $qty = $item->getQtyRequested();
+
+        if ($item->getQtyApproved()
+            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_APPROVED)
+        ) {
+            $qty = $item->getQtyApproved();
+        } elseif ($item->getQtyReturned()
+            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED
+                || $item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_REJECTED
+            )
+        ) {
+            $qty = $item->getQtyReturned();
+        } elseif ($item->getQtyAuthorized()
+            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED)
+        ) {
+            $qty = $item->getQtyAuthorized();
+        }
+
+        return $this->parseQuantity($qty, $item);
+    }
 }

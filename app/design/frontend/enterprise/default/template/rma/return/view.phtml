@@ -193,8 +193,8 @@
             <td><?php echo $this->escapeHtml($item->getProductSku()) ?></span></td>
             <td><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'condition')) ?></td>
             <td><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'resolution')) ?></td>
-            <td><?php echo $this->escapeHtml($this->parseQuantity($item->getQtyRequested(), $item)); ?></td>
-            <td><?php echo $this->escapeHtml($this->getQty($item));?></td>
+            <td><?php echo $this->escapeHtml($this->helper('enterprise_rma')->parseQuantity($item->getQtyRequested(), $item)); ?></td>
+            <td><?php echo $this->escapeHtml($this->helper('enterprise_rma')->getQty($item));?></td>
             <td><span class="nobr"><?php echo $this->escapeHtml($item->getStatusLabel()) ?></span></td>
             <td>
                 <a id="as_<?php echo $key ?>" href="javascript:void(0)" onclick="showHiddenForm(<?php echo $key ?>)"><?php echo $this->escapeHtml($this->__('Show Details')) ?></a>
