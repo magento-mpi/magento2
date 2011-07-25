@@ -104,8 +104,6 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Create rate soap client
      *
-     * @param string $serviceWsdl
-     * @param array $options
      * @return SoapClient
      */
     protected function _createRateSoapClient()
@@ -121,8 +119,6 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Create ship soap client
      *
-     * @param string $serviceWsdl
-     * @param array $options
      * @return SoapClient
      */
     protected function _createShipSoapClient()
