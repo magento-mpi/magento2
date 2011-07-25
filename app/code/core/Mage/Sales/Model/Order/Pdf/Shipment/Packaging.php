@@ -101,7 +101,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
         }
         $packages = $packaging->getPackages();
 
-        $i = 1;
+        $packageNum = 1;
         foreach ($packages as $packageId => $package) {
             $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
             $page->drawRectangle(25, $this->y + 15, 190, $this->y - 35);
@@ -112,9 +112,9 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
             $page->drawRectangle(520, $this->y + 15, 570, $this->y - 5);
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-            $packageText = Mage::helper('sales')->__('Package') . ' ' . $i;
+            $packageText = Mage::helper('sales')->__('Package') . ' ' . $packageNum;
             $page->drawText($packageText, 525, $this->y , 'UTF-8');
-            $i ++;
+            $packageNum++;
 
             $package = new Varien_Object($package);
             $params = new Varien_Object($package->getParams());
