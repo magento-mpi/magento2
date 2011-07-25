@@ -558,7 +558,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
         $this->getResponse()->setRedirect(
             Mage::helper('core/url')->addRequestParam(
                 $this->_getHelper()->getMSLoginUrl(),
-                array('key' => 'context', 'value' => 'checkout')
+                array('context' => 'checkout')
             )
         );
 

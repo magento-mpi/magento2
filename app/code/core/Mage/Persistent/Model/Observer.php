@@ -291,10 +291,7 @@ class Mage_Persistent_Model_Observer
         $customerSession->setCustomerId(null)
             ->setCustomerGroupId(null);
 
-        $action = $observer->getEvent()->getControllerAction();
-        if (Mage::app()->getRequest()->getParam('context') != 'checkout'
-            && (!$action || $action->getFullActionName() == 'customer_account_createpost')
-        ) {
+        if (Mage::app()->getRequest()->getParam('context') != 'checkout') {
             $this->_expirePersistentSession();
             return;
         }

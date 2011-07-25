@@ -61,7 +61,7 @@ class Mage_Paypal_ExpressController extends Mage_Paypal_Controller_Express_Abstr
         $this->getResponse()->setRedirect(
             Mage::helper('core/url')->addRequestParam(
                 Mage::helper('customer')->getLoginUrl(),
-                array('key' => 'context', 'value' => 'checkout')
+                array('context' => 'checkout')
             )
         );
     }
