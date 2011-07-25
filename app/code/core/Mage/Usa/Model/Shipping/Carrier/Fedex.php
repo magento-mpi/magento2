@@ -102,6 +102,40 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     }
 
     /**
+     * Create rate soap client
+     *
+     * @param string $serviceWsdl
+     * @param array $options
+     * @return SoapClient
+     */
+    protected function _createRateSoapClient()
+    {
+        $client = new SoapClient($this->_rateServiceWsdl);
+        $client->__setLocation($this->getConfigFlag('sandbox_mode')
+            ? 'https://wsbeta.fedex.com:443/web-services/rate'
+            : 'https://ws.fedex.com:443/web-services/rate'
+        );
+        return $client;
+    }
+
+    /**
+     * Create ship soap client
+     *
+     * @param string $serviceWsdl
+     * @param array $options
+     * @return SoapClient
+     */
+    protected function _createShipSoapClient()
+    {
+        $client = new SoapClient($this->_shipServiceWsdl, array('trace' => 1));
+        $client->__setLocation($this->getConfigFlag('sandbox_mode')
+            ? 'https://wsbeta.fedex.com:443/web-services/ship'
+            : 'https://ws.fedex.com:443/web-services/ship'
+        );
+        return $client;
+    }
+
+    /**
      * Collect and get rates
      *
      * @param Mage_Shipping_Model_Rate_Request $request
@@ -302,7 +336,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         $debugData = array('request' => $ratesRequest);
         if ($response === null) {
             try {
-                $client = new SoapClient($this->_rateServiceWsdl);
+                $client = $this->_createRateSoapClient();
                 $response = $client->getRates($ratesRequest);
                 $this->_setCachedQuotes($requestString, serialize($response));
                 $debugData['result'] = $response;
@@ -1176,7 +1210,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     {
         $this->_prepareShipmentRequest($request);
         $result = new Varien_Object();
-        $client = new SoapClient($this->_shipServiceWsdl, array('trace' => 1));
+        $client = $this->_createShipSoapClient();
         $requestClient = $this->_formShipmentRequest($request);
         $response = $client->processShipment($requestClient);
 
@@ -1226,8 +1260,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         $requestData['DeletionControl'] = 'DELETE_ONE_PACKAGE';
         foreach ($data as &$item) {
             $requestData['TrackingId'] = $item['tracking_number'];
-            $client = new SoapClient($this->_shipServiceWsdl, array('trace' => 1));
-            $response = $client->deleteShipment($requestData);
+            $client = $this->_createShipSoapClient();
+            $client->deleteShipment($requestData);
         }
         return true;
     }
