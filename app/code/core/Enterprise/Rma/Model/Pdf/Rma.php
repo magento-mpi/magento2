@@ -379,7 +379,9 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
         ) {
             $qty = $item->getQtyApproved();
         } elseif ($item->getQtyReturned()
-            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED)
+            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED
+                || $item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_REJECTED
+            )
         ) {
             $qty = $item->getQtyReturned();
         } elseif ($item->getQtyAuthorized()

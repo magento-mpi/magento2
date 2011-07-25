@@ -82,7 +82,9 @@ class Enterprise_Rma_Block_Form extends Enterprise_Eav_Block_Form
         ) {
             $qty = $item->getQtyApproved();
         } elseif ($item->getQtyReturned()
-            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED)
+            && ($item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED
+                || $item->getStatus() == Enterprise_Rma_Model_Rma_Source_Status::STATE_REJECTED
+            )
         ) {
             $qty = $item->getQtyReturned();
         } elseif ($item->getQtyAuthorized()
