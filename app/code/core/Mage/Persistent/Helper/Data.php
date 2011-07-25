@@ -176,6 +176,21 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
      */
     public function addContextParam($url, $value)
     {
-        return Mage::helper('core/url')->addRequestParam($url, array('key'=>'context', 'value' => $value));
+        return Mage::helper('core/url')->addRequestParam($url, array('context' => $value));
     }
+
+    /**
+     * Get create account url depends on checkout
+     *
+     * @param  $url string
+     * @return string
+     */
+    public function getCreateAccountUrl($url)
+    {
+        if (Mage::helper('checkout')->isContextCheckout()) {
+            $url = Mage::helper('persistent')->addContextParam($url, 'checkout');
+        }
+        return $url;
+    }
+
 }
