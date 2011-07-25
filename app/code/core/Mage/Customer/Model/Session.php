@@ -284,7 +284,8 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     protected function _setAuthUrl($key, $url)
     {
-        $url = Mage::helper('core/url')->removeRequestParam($url, 'SID');
+        $url = Mage::helper('core/url')
+            ->removeRequestParam($url, Mage::getSingleton('core/session')->getSessionIdQueryParam());
         return $this->setData($key, $url);
     }
 
