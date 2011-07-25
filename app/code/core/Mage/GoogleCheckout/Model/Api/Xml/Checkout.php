@@ -459,21 +459,16 @@ EOT;
 
             foreach ($shipments[$mageCode] as $rate) {
                 $mageRateCode = $rate->getMethod();
-                $googleRateCode = isset($map['methods'][$mageRateCode]) ? $map['methods'][$mageRateCode] : false;
-                $methodName = $map['googleCarrierCompany'] . '/'.  $googleRateCode;
-
-                if (!empty($shippingMethodsList[$methodName]) && $rate->getPrice() != 0) {
-                    $shippingMethodsList[$methodName]['price'] = $rate->getPrice();
-                }
-
                 if ($mageRateCode != $freeMethod) {
                     continue;
                 }
 
+                $googleRateCode = isset($map['methods'][$mageRateCode]) ? $map['methods'][$mageRateCode] : false;
                 if (false == $googleRateCode || $rate->getPrice() != 0) {
                     continue;
                 }
 
+                $methodName = $map['googleCarrierCompany'] . '/'.  $googleRateCode;
                 if (empty($shippingMethodsList[$methodName])) {
                     continue;
                 }
@@ -508,12 +503,11 @@ EOT;
             $xml .= '<carrier-calculated-shipping-options>';
 
             foreach ($shippingMethodsList as $method) {
-                $currentPrice = (isset($method['price'])) ? $method['price'] : $defPrice;
                 $xml .= <<<EOT
                         <carrier-calculated-shipping-option>
                             <shipping-company>{$method['company']}</shipping-company>
                             <shipping-type>{$method['type']}</shipping-type>
-                            <price currency="{$this->getCurrency()}">{$currentPrice}</price>
+                            <price currency="{$this->getCurrency()}">{$defPrice}</price>
                         </carrier-calculated-shipping-option>
 EOT;
             }
