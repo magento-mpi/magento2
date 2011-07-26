@@ -150,7 +150,7 @@ class Mage_Core_Model_Cache
                         $options = $cacheOptions['memcached'];
                     }
                     $enable2levels = true;
-                    $backendType = 'Memcached';
+                    $backendType = 'Varien_Cache_Backend_Memcached';
                 }
                 break;
             case 'apc':
@@ -281,7 +281,11 @@ class Mage_Core_Model_Cache
             $options['caching'] = true;
         }
         if (!array_key_exists('lifetime', $options)) {
-            $options['lifetime'] = isset($cacheOptions['lifetime']) ? $cacheOptions['lifetime'] : self::DEFAULT_LIFETIME;
+            if (isset($cacheOptions['lifetime'])) {
+                $options['lifetime'] = $cacheOptions['lifetime'];
+            } else {
+                $options['lifetime'] = self::DEFAULT_LIFETIME;
+            }
         }
         if (!array_key_exists('automatic_cleaning_factor', $options)) {
             $options['automatic_cleaning_factor'] = 0;
