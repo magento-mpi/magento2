@@ -24,12 +24,26 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Varien_Cache_Backend_Memcached extends Zend_Cache_Backend_Memcached implements Zend_Cache_Backend_ExtendedInterface
+class Varien_Cache_Backend_Memcached 
+    extends Zend_Cache_Backend_Memcached
+    implements Zend_Cache_Backend_ExtendedInterface
 {
-    // Maximum chunk of data that could be saved in one memcache cell
-    const DEFAULT_SLAB_SIZE = 1048576; // 1 MiB
+    /**
+     * Maximum chunk of data that could be saved in one memcache cell (1 MiB)
+     */
+    const DEFAULT_SLAB_SIZE = 1048576;
+
+    /**
+     * Used to tell chunked data from ordinary
+     */
     const CODE_WORD = '{splitted}';
 
+    /**
+     * Constructor
+     *
+     * @throws Varien_Exception
+     * @param array $options @see Zend_Cache_Backend_Memcached::__construct()
+     */
     public function __construct(array $options = array())
     {
         parent::__construct($options);
@@ -62,7 +76,7 @@ class Varien_Cache_Backend_Memcached extends Zend_Cache_Backend_Memcached implem
      *
      * @param string $id     ID of data's info cell
      * @param int    $chunks Number of chunks to remove (basically, the number after '{splitted}|')
-     * @return void
+     * @return null
      */
     protected function _cleanTheMess($id, $chunks)
     {
