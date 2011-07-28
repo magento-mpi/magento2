@@ -55,6 +55,31 @@ class Mage_Paypal_Model_Observer
     }
 
     /**
+     * Clean unfinished transaction
+     *
+     * @return Mage_Paypal_Model_Observer
+     */
+    public function cleanTransactions()
+    {
+        /** @var $date Mage_Core_Model_Date */
+        $date = Mage::getModel('core/date');
+        $createdBefore = strtotime('-1 hour', $date->timestamp());
+
+        try {
+            /** @var $collection Mage_Paypal_Model_Resource_Payment_Transaction_Collection */
+            $collection = Mage::getModel('paypal/payment_transaction')->getCollection();
+            $collection->addCreatedBeforeFilter($date->gmtDate(null, $createdBefore));
+
+            /** @var $item Mage_Paypal_Model_Payment_Transaction */
+            foreach ($collection as $item) {
+                $item->delete();
+            }
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
+    }
+
+    /**
      * Save order into registry to use it in the overloaded controller.
      *
      * @param Varien_Event_Observer $observer
