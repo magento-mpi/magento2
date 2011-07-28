@@ -214,10 +214,12 @@ class Mage_Sales_Model_Order_Creditmemo_Item extends Mage_Core_Model_Abstract
      */
     public function register()
     {
-        $taxAmount = ($this->getOrderItem()->getPriceInclTax() - $this->getOrderItem()->getPrice()) * $this->getQty();
-        $this->getOrderItem()->setTaxRefunded($this->getOrderItem()->getTaxRefunded() + $taxAmount);
         $this->getOrderItem()->setQtyRefunded(
             $this->getOrderItem()->getQtyRefunded() + $this->getQty()
+        );
+        $this->getOrderItem()->setTaxRefunded(
+            $this->getOrderItem()->getTaxRefunded()
+                + $this->getOrderItem()->getBaseTaxAmount() * $this->getQty() / $this->getOrderItem()->getQtyOrdered()
         );
         $this->getOrderItem()->setHiddenTaxRefunded(
             $this->getOrderItem()->getHiddenTaxRefunded()
@@ -258,15 +260,8 @@ class Mage_Sales_Model_Order_Creditmemo_Item extends Mage_Core_Model_Abstract
         $rowTotalInclTax    = $orderItem->getRowTotalInclTax();
         $baseRowTotalInclTax= $orderItem->getBaseRowTotalInclTax();
 
-        if ($this->isLast()) {
-            $rowTotal       = (($rowTotal - $orderItem->getPrice() * $orderItem->getQtyRefunded())
-                    / ($orderItemQty - $orderItem->getQtyRefunded())) * $this->getQty();
-            $baseRowTotal   = (($baseRowTotal - $orderItem->getBasePrice() * $orderItem->getQtyRefunded())
-                    / ($orderItemQty - $orderItem->getQtyRefunded())) * $this->getQty();
-        } else {
-            $rowTotal       = $orderItem->getPrice()*$this->getQty();
-            $baseRowTotal   = $orderItem->getBasePrice()*$this->getQty();
-        }
+        $rowTotal       = $rowTotal/$orderItemQty*$this->getQty();
+        $baseRowTotal   = $baseRowTotal/$orderItemQty*$this->getQty();
 
         $this->setRowTotal($store->roundPrice($rowTotal));
         $this->setBaseRowTotal($store->roundPrice($baseRowTotal));
