@@ -92,13 +92,51 @@ class Enterprise_Search_Model_Observer
      */
     public function customerGroupSaveAfter(Varien_Event_Observer $observer)
     {
-        $helper = Mage::helper('enterprise_search');
-        if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
+        if (Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
             $object = $observer->getEvent()->getDataObject();
 
             if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
                 Mage::getSingleton('index/indexer')->getProcessByCode('catalogsearch_fulltext')
                     ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            }
+        }
+    }
+
+    /**
+     * Hold commit at indexation start if needed
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function holdCommit(Varien_Event_Observer $observer)
+    {
+        if (Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
+            $engine = Mage::helper('catalogsearch')->getEngine();
+            if ($engine->holdCommit()) {
+                $productIds = $observer->getEvent()->getProductIds();
+                if (is_null($productIds)) {
+                    $engine->setIndexNeedsOptimization();
+                }
+            }
+        }
+    }
+
+    /**
+     * Apply changes in search engine index.
+     * Make index optimization if documents were added to index.
+     * Allow commit if it was held.
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function applyIndexChanges(Varien_Event_Observer $observer)
+    {
+        if (Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
+            $engine = Mage::helper('catalogsearch')->getEngine();
+            if ($engine->allowCommit()) {
+                if ($engine->getIndexNeedsOptimization()) {
+                    $engine->optimizeIndex();
+                } else {
+                    $engine->commitChanges();
+                }
             }
         }
     }
@@ -122,8 +160,7 @@ class Enterprise_Search_Model_Observer
      */
     public function clearIndexForStores(Varien_Event_Observer $observer)
     {
-        $helper = Mage::helper('enterprise_search');
-        if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
+        if (Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
             $object = $observer->getEvent()->getDataObject();
 
             if ($object instanceof Mage_Core_Model_Website

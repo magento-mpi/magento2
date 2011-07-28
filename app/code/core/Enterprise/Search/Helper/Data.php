@@ -37,30 +37,37 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Define if search engine is used for layered navigation
      *
-     * @var bool
+     * @var bool|null
      */
-    protected $_useEngineInLayeredNavigation = null;
+    protected $_useEngineInLayeredNavigation    = null;
 
     /**
      * Store languag codes for local codes
      *
      * @var array
      */
-    protected $_languageCode = array();
+    protected $_languageCode                    = array();
+
+    /**
+     * Store result of third party search engine availability check
+     *
+     * @var bool|null
+     */
+    protected $_isThirdPartyEngineAvailable     = null;
 
     /**
      * Show if taxes have influence on price
      *
-     * @var bool
+     * @var bool|null
      */
-    protected $_taxInfluence = null;
+    protected $_taxInfluence                    = null;
 
     /**
      * Define if engine is available for layered navigation
      *
-     * @var bool
+     * @var bool|null
      */
-    protected $_isEngineAvailableForNavigation = null;
+    protected $_isEngineAvailableForNavigation  = null;
 
     /**
      * Define text type fields
@@ -351,6 +358,20 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return false;
+    }
+
+    /**
+     * Check if third party engine is selected and active
+     *
+     * @return bool
+     */
+    public function isThirdPartyEngineAvailable()
+    {
+        if ($this->_isThirdPartyEngineAvailable === null) {
+            $this->_isThirdPartyEngineAvailable = ($this->isThirdPartSearchEngine() && $this->isActiveEngine());
+        }
+
+        return $this->_isThirdPartyEngineAvailable;
     }
 
     /**

@@ -147,11 +147,39 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected $_indexableAttributeParams;
 
+    /**
+     * Define if automatic commit on changes for adapter is allowed
+     *
+     * @var bool
+     */
+    protected $_holdCommit = false;
+
+    /**
+     * Define if search engine index needs optimization
+     *
+     * @var bool
+     */
+    protected $_indexNeedsOptimization = false;
+
+
+
+
+
+    /**
+     * Before commit action
+     *
+     * @return Enterprise_Search_Model_Adapter_Abstract
+     */
     protected function _beforeCommit()
     {
-
+        return $this;
     }
 
+    /**
+     * After commit action
+     *
+     * @return Enterprise_Search_Model_Adapter_Abstract
+     */
     protected function _afterCommit()
     {
         /**
@@ -159,6 +187,38 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
          */
         $cacheTag = Mage::getSingleton('enterprise_search/catalog_layer_filter_price')->getCacheTag();
         Mage::app()->cleanCache(array($cacheTag));
+
+        $this->_indexNeedsOptimization = true;
+
+        return $this;
+    }
+
+    /**
+     * Before optimize action.
+     * _beforeCommit method is called because optimize includes commit in itself
+     *
+     * @return Enterprise_Search_Model_Adapter_Abstract
+     */
+    protected function _beforeOptimize()
+    {
+        $this->_beforeCommit();
+
+        return $this;
+    }
+
+    /**
+     * After commit action
+     * _afterCommit method is called because optimize includes commit in itself
+     *
+     * @return Enterprise_Search_Model_Adapter_Abstract
+     */
+    protected function _afterOptimize()
+    {
+        $this->_afterCommit();
+
+        $this->_indexNeedsOptimization = false;
+
+        return $this;
     }
 
     /**
@@ -343,14 +403,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         }
 
         try {
-            $this->_client->ping();
             $this->_client->addDocuments($_docs);
         } catch (Exception $e) {
             $this->rollback();
             Mage::logException($e);
         }
 
-        $this->optimize();
+        $this->commit();
 
         return $this;
     }
@@ -386,14 +445,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $deleteMethod = sprintf('deleteBy%s', $_deleteBySuffix);
 
             try {
-                $this->_client->ping();
                 $this->_client->$deleteMethod($params);
             } catch (Exception $e) {
                 $this->rollback();
                 Mage::logException($e);
             }
 
-            $this->optimize();
+            $this->commit();
         }
 
         return $this;
@@ -471,10 +529,14 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     /**
      * Finalizes all add/deletes made to the index
      *
-     * @return object
+     * @return object|bool
      */
     public function commit()
     {
+        if ($this->_holdCommit) {
+            return false;
+        }
+
         $this->_beforeCommit();
         $result = $this->_client->commit();
         $this->_afterCommit();
@@ -486,13 +548,17 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * Perform optimize operation
      * Same as commit operation, but also defragment the index for faster search performance
      *
-     * @return object
+     * @return object|bool
      */
     public function optimize()
     {
-        $this->_beforeCommit();
+        if ($this->_holdCommit) {
+            return false;
+        }
+
+        $this->_beforeOptimize();
         $result = $this->_client->optimize();
-        $this->_afterCommit();
+        $this->_afterOptimize();
 
         return $result;
     }
@@ -873,5 +939,49 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         }
 
         return $res;
+    }
+
+    /**
+     * Hold commit of changes for adapter
+     *
+     * @return Enterprise_Search_Model_Adapter_Abstract
+     */
+    public function holdCommit()
+    {
+        $this->_holdCommit = true;
+        return $this;
+    }
+
+    /**
+     * Allow changes commit for adapter
+     *
+     * @return Enterprise_Search_Model_Adapter_Abstract
+     */
+    public function allowCommit()
+    {
+        $this->_holdCommit = false;
+        return $this;
+    }
+
+    /**
+     * Define if third party search engine index needs optimization
+     *
+     * @param  bool $state
+     * @return Enterprise_Search_Model_Adapter_Abstract
+     */
+    public function setIndexNeedsOptimization($state = true)
+    {
+        $this->_indexNeedsOptimization = (bool) $state;
+        return $this;
+    }
+
+    /**
+     * Check if third party search engine index needs optimization
+     *
+     * @return bool
+     */
+    public function getIndexNeedsOptimization()
+    {
+        return $this->_indexNeedsOptimization;
     }
 }
