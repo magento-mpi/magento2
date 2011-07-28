@@ -41,7 +41,6 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
     */
     public function setUpBeforeTests()
     {
-        $this->windowMaximize();
         $this->loginAdminUser();
         $this->OrderHelper()->createProducts('product_to_order1', TRUE);
         $this->OrderHelper()->createProducts('product_to_order2', TRUE);

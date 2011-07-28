@@ -42,7 +42,6 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
     */
     public function setUpBeforeTests()
     {
-        $this->windowMaximize();
         $this->loginAdminUser();
         $this->orderHelper()->createProducts('product_to_order1');
         $this->orderHelper()->createProducts('product_to_order2');
