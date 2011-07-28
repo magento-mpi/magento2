@@ -214,14 +214,8 @@ class Mage_Sales_Model_Order_Creditmemo_Item extends Mage_Core_Model_Abstract
      */
     public function register()
     {
-        $creditmemoObjForTax = clone $this->getCreditmemo();
-        /* @var $salesOrderCreditmemoTotalTaxModel Mage_Sales_Model_Order_Creditmemo_Total_Tax */
-        $salesOrderCreditmemoTotalTaxModel = Mage::getModel('sales/order_creditmemo_total_tax');
-        $salesOrderCreditmemoTotalTaxModel->collect($creditmemoObjForTax);
-        $this->getOrderItem()
-                ->setTaxRefunded($this->getOrderItem()->getTaxRefunded() + $creditmemoObjForTax->getBaseTaxAmount());
-        unset($creditmemoObjForTax);
-
+        $taxAmount = ($this->getOrderItem()->getPriceInclTax() - $this->getOrderItem()->getPrice()) * $this->getQty();
+        $this->getOrderItem()->setTaxRefunded($this->getOrderItem()->getTaxRefunded() + $taxAmount);
         $this->getOrderItem()->setQtyRefunded(
             $this->getOrderItem()->getQtyRefunded() + $this->getQty()
         );
