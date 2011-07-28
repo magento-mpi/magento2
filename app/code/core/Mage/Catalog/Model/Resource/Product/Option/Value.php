@@ -175,7 +175,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
 
         if (!$object->getData('scope', 'title')) {
             $select = $this->_getReadAdapter()->select()
-                ->from($titleTable)
+                ->from($titleTable, array('option_type_id'))
                 ->where('option_type_id = ?', (int)$object->getId())
                 ->where('store_id = ?', 0);
             $optionTypeId = $this->_getReadAdapter()->fetchOne($select);
@@ -203,7 +203,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
 
         if ($object->getStoreId() != '0' && !$object->getData('scope', 'title')) {
             $select = $this->_getReadAdapter()->select()
-                ->from($titleTable)
+                ->from($titleTable, array('option_type_id'))
                 ->where('option_type_id = ?', (int)$object->getId())
                 ->where('store_id = ?', (int)$object->getStoreId());
             $optionTypeId = $this->_getReadAdapter()->fetchOne($select);
