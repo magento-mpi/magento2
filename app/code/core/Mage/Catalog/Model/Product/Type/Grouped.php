@@ -322,7 +322,6 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
             }
 
             if (!$isStrictProcessMode || count($associatedProductsInfo)) {
-                $product->addCustomOption('product_type', self::TYPE_CODE, $product);
                 $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
 
                 $products[] = $product;
