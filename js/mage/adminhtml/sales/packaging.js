@@ -53,6 +53,8 @@ Packaging.prototype = {
         this.shippingInformation= params.shippingInformation ? params.shippingInformation : null;
         this.thisPage           = params.thisPage ? params.thisPage : null;
         this.customizableContainers = params.customizable ? params.customizable : [];
+
+        this.eps = .000001;
     },
 
 //******************** Setters **********************************//
@@ -655,8 +657,7 @@ Packaging.prototype = {
         var addPackageBtn = this.window.select('.AddPackageBtn')[0];
         var savePackagesBtn = this.window.select('.SavePackagesBtn')[0];
         if (this._getItemsCount(this.itemsAll) > 0
-            && (this._getItemsCount(this.getPackedItemsQty()) === this._getItemsCount(this.itemsAll)
-            || this._getItemsCount(this.getPackedItemsQty()) >= this._getItemsCount(this.itemsAll))
+                && (this._checkExceedsQtyFinal(this._getItemsCount(this.getPackedItemsQty()),this._getItemsCount(this.itemsAll)))
         ) {
             this.packagesContent.select('.AddItemsBtn').each(function(button){
                 button.disabled = 'disabled';
@@ -765,8 +766,11 @@ Packaging.prototype = {
     _checkExceedsQty: function(itemId, qty) {
         var packedItemQty = this.getPackedItemsQty()[itemId] ? this.getPackedItemsQty()[itemId] : 0;
         var allItemQty = this.itemsAll[itemId];
-        var eps = .000001;
-        return (qty * (1 - eps) > (allItemQty *  (1 + eps)  - packedItemQty * (1 - eps)));
+        return (qty * (1 - this.eps) > (allItemQty *  (1 + this.eps)  - packedItemQty * (1 - this.eps)));
+    },
+
+    _checkExceedsQtyFinal: function(checkOne, defQty) {
+        return checkOne * (1 + this.eps) >= defQty * (1 - this.eps);
     },
 
     _recalcContainerWeightAndCustomsValue: function(container) {
