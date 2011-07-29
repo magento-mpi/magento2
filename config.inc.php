@@ -33,21 +33,8 @@ $CONFIG['paths'] = array(
 
 $CONFIG['translates'] = array(
 
-    'Mage_Adminhtml' => array(
-        'app/code/core/Mage/Admin/',
-        'app/code/core/Mage/Adminhtml/',
-        'app/design/adminhtml/default/default/layout/',
-        'app/design/adminhtml/default/default/template/',
-        '!app/design/adminhtml/default/default/layout/enterprise/', // ! = exclude
-        '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
-    ),
     'Mage_AdminNotification' => array(
         'app/code/core/Mage/AdminNotification/',
-    ),
-    'Mage_Api' => array(
-        'app/code/core/Mage/Api/',
-        'app/design/adminhtml/default/default/template/',
-        '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
     'Mage_Backup' => array(
         'app/code/core/Mage/Backup/',
@@ -548,6 +535,19 @@ $CONFIG['translates'] = array(
     'Enterprise_WebsiteRestriction' => array(
         'app/code/core/Enterprise/WebsiteRestriction/',
         'app/design/frontend/enterprise/default/layout/websiterestriction.xml'
+    ),
+    'Mage_Adminhtml' => array(
+        'app/code/core/Mage/Admin/',
+        'app/code/core/Mage/Adminhtml/',
+        'app/design/adminhtml/default/default/layout/',
+        'app/design/adminhtml/default/default/template/',
+        '!app/design/adminhtml/default/default/layout/enterprise/', // ! = exclude
+        '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
+    ),
+    'Mage_Api' => array(
+        'app/code/core/Mage/Api/',
+        'app/design/adminhtml/default/default/template/',
+        '!app/design/adminhtml/default/default/template/enterprise/', // ! = exclude
     ),
 );
 

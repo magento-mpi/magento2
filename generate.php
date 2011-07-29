@@ -84,7 +84,7 @@ $CONFIG['generate'] = array(
     'base_dir'      => '../../',
     'allow_ext'     => '(php|phtml)',
     'xml_ext'       => '(xml)',
-    'xml_ignore'    => array('wsdl.xml', 'wsdl2.xml'),
+    'xml_ignore'    => array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
     'exclude_dirs'  => '(\.svn|sql)',
     'print_dir'     => false,
     'print_file'    => false,
@@ -138,7 +138,7 @@ function multiSort (&$array)
 function parseDir($path, $basicModuleName, $exclude = array(), $_isRecursion = false)
 {
     global $CONFIG;
-    static $skipDirs;
+    static $skipDirs = array();
 
     if (is_file($path)) {
         if ($CONFIG['generate']['print_file']) {
@@ -160,7 +160,6 @@ function parseDir($path, $basicModuleName, $exclude = array(), $_isRecursion = f
 
     // skip excluded dirs
     if (!$_isRecursion) {
-        $skipDirs = array();
         foreach ($exclude as $dir) {
             $skipDirs[] = realpath($dir);
         }
@@ -182,7 +181,8 @@ function parseDir($path, $basicModuleName, $exclude = array(), $_isRecursion = f
                 parseXmlFile($path.$dir_element, $basicModuleName);
             }
             elseif (is_dir($path.$dir_element) && $dir_element != '.svn' && $dir_element != 'sql') {
-                parseDir($path.$dir_element.chr(47), $basicModuleName, $exclude, true);
+                $skipDirs[] = realpath($path);
+                parseDir($path.$dir_element.DIRECTORY_SEPARATOR, $basicModuleName, $exclude, true);
             }
         }
         unset($dir_element);
