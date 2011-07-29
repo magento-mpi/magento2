@@ -19,25 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Tax
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Tax report collection
- *
- * @category    Mage
- * @package     Mage_Tax
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Create aggregation tables for updated_at fields
  */
-class Mage_Tax_Model_Resource_Report_Updatedat_Collection extends Mage_Tax_Model_Resource_Report_Collection
-{
-    /**
-     * Aggregated Data Recourse
-     *
-     * @var string
-     */
-    protected $_aggregationRecourse = 'tax/tax_order_aggregated_updated';
-}
+
+/** @var $installer Mage_Sales_Model_Entity_Setup */
+$installer = $this;
+$connection = $installer->getConnection();
+$connection->createTable($connection->createTableByDdl(
+    $installer->getTable('sales/order_aggregated_created'),
+    $installer->getTable('sales/order_aggregated_updated')
+));
