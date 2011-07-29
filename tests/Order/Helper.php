@@ -184,6 +184,8 @@ class Order_Helper extends Mage_Selenium_TestCase
                 if ($validate == true) {
                     $this->clickButton('submit_order', FALSE);
                 } else {
+                    $errors = $this->getErrorMessages();
+                    $this->assertTrue(empty($errors), $this->messages);
                     $this->clickButton('submit_order', TRUE);
                     $this->AdminUserHelper()->defineId('view_order');
                     if ($this->successMessage('success_created_order') == true) {
@@ -262,6 +264,8 @@ class Order_Helper extends Mage_Selenium_TestCase
             if ($validate == true) {
                 $this->clickButton('submit_order', FALSE);
             } else {
+                $errors = $this->getErrorMessages();
+                $this->assertTrue(empty($errors), $this->messages);
                 $this->clickButton('submit_order', TRUE);
                 $this->AdminUserHelper()->defineId('view_order');
                 $this->assertTrue($this->checkCurrentPage('view_order'), 'Wrong page is opened');
