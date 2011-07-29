@@ -97,6 +97,10 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
         return $this;
     }
 
+
+
+
+
     /**
      * Apply category filter to product collection
      *
