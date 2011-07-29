@@ -151,7 +151,7 @@ class Enterprise_Search_Model_Resource_Engine
      * Retrieve found document ids search index sorted by relevance
      *
      * @param string $query
-     * @param array $params see description in appropriate search adapter
+     * @param array  $params see description in appropriate search adapter
      * @param string $entityType 'product'|'cms'
      * @return array
      */
@@ -161,11 +161,24 @@ class Enterprise_Search_Model_Resource_Engine
     }
 
     /**
-     * Retrieve found document statuses
+     * Retrieve results for search request
      *
-     * @param string $query
-     * @param array $params
-     * @param string $entityType
+     * @param  string $query
+     * @param  array  $params
+     * @param  string $entityType 'product'|'cms'
+     * @return array
+     */
+    public function getResultForRequest($query, $params = array(), $entityType = 'product')
+    {
+        return $this->_adapter->search($query, $params);
+    }
+
+    /**
+     * Get stat info using engine search stats component
+     *
+     * @param  string $query
+     * @param  array  $params
+     * @param  string $entityType 'product'|'cms'
      * @return array
      */
     public function getStats($query, $params = array(), $entityType = 'product')

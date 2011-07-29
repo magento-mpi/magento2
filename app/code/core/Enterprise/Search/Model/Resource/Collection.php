@@ -93,6 +93,13 @@ class Enterprise_Search_Model_Resource_Collection
     protected $_generalDefaultQuery = array('*' => '*');
 
     /**
+     * Flag that defines if faceted data needs to be loaded
+     *
+     * @var bool
+     */
+    protected $_facetedDataIsLoaded = false;
+
+    /**
      * Faceted search result data
      *
      * @var array
@@ -113,6 +120,33 @@ class Enterprise_Search_Model_Resource_Collection
      */
     protected $_facetedConditions = array();
 
+
+
+
+
+    /**
+     * Load faceted data if not loaded
+     *
+     * @return Enterprise_Search_Model_Resource_Collection
+     */
+    public function loadFacetedData()
+    {
+        if (empty($this->_facetedConditions)) {
+            $this->_facetedData = array();
+            return $this;
+        }
+
+        list($query, $params) = $this->_prepareBaseParams();
+        $params['solr_params']['facet'] = 'on';
+        $params['facet'] = $this->_facetedConditions;
+
+        $result = $this->_engine->getResultForRequest($query, $params);
+        $this->_facetedData = $result['faceted_data'];
+        $this->_facetedDataIsLoaded = true;
+
+        return $this;
+    }
+
     /**
      * Return field faceted data from faceted search result
      *
@@ -122,9 +156,14 @@ class Enterprise_Search_Model_Resource_Collection
      */
     public function getFacetedData($field)
     {
+        if (!$this->_facetedDataIsLoaded) {
+            $this->loadFacetedData();
+        }
+
         if (isset($this->_facetedData[$field])) {
             return $this->_facetedData[$field];
         }
+
         return array();
     }
 
@@ -156,6 +195,8 @@ class Enterprise_Search_Model_Resource_Collection
         } else {
             $this->_facetedConditions[$field] = $condition;
         }
+
+        $this->_facetedDataIsLoaded = false;
 
         return $this;
     }
@@ -346,12 +387,18 @@ class Enterprise_Search_Model_Resource_Collection
                 $params['limit']   = $rowCount;
             }
 
-            $params['solr_params']['facet'] = 'on';
-            $params['facet'] = $this->_facetedConditions;
+            $needToLoadFacetedData = (!$this->_facetedDataIsLoaded && !empty($this->_facetedConditions));
+            if ($needToLoadFacetedData) {
+                $params['solr_params']['facet'] = 'on';
+                $params['facet'] = $this->_facetedConditions;
+            }
 
             $result = $this->_engine->getIdsByQuery($query, $params);
             $ids    = (array) $result['ids'];
-            $this->_facetedData = $result['facetedData'];
+
+            if ($needToLoadFacetedData) {
+                $this->_facetedData = $result['faceted_data'];
+            }
         }
 
         $this->_searchedEntityIds = &$ids;
@@ -395,24 +442,26 @@ class Enterprise_Search_Model_Resource_Collection
             list($query, $params) = $this->_prepareBaseParams();
             $params['limit'] = 1;
 
-            if ($this->_searchQueryParams != $this->_generalDefaultQuery) {
-                $helper = Mage::helper('enterprise_search');
-                $searchSuggestionsEnabled = $helper->getSolrConfigData('server_suggestion_enabled');
-                if ($searchSuggestionsEnabled) {
-                    $params['solr_params']['spellcheck'] = 'true';
-                    $searchSuggestionsCount = (int) $helper->getSolrConfigData('server_suggestion_count');
-                    if ($searchSuggestionsCount < 1) {
-                        $searchSuggestionsCount = 1;
-                    }
-                    $params['solr_params']['spellcheck.count'] = $searchSuggestionsCount;
-                    $params['spellcheck_result_counts'] = (bool) $helper->getSolrConfigData(
-                        'server_suggestion_count_results_enabled');
+            $helper = Mage::helper('enterprise_search');
+            $searchSuggestionsEnabled = ($this->_searchQueryParams != $this->_generalDefaultQuery
+                    && $helper->getSolrConfigData('server_suggestion_enabled'));
+            if ($searchSuggestionsEnabled) {
+                $params['solr_params']['spellcheck'] = 'true';
+                $searchSuggestionsCount = (int) $helper->getSolrConfigData('server_suggestion_count');
+                if ($searchSuggestionsCount < 1) {
+                    $searchSuggestionsCount = 1;
                 }
+                $params['solr_params']['spellcheck.count']  = $searchSuggestionsCount;
+                $params['spellcheck_result_counts']         = (bool) $helper->getSolrConfigData(
+                    'server_suggestion_count_results_enabled');
             }
 
             $result = $this->_engine->getIdsByQuery($query, $params);
-            $this->_suggestionsData = $result['suggestionsData'];
-            $this->_totalRecords    = $this->_engine->getLastNumFound();
+            if ($searchSuggestionsEnabled) {
+                $this->_suggestionsData = $result['suggestions_data'];
+            }
+
+            $this->_totalRecords = $this->_engine->getLastNumFound();
         }
 
         return $this->_totalRecords;

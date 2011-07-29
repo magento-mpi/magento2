@@ -193,11 +193,21 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         /**
          * Suggestions search
          */
-        $useSpellcheckSearch = (isset($params['solr_params']['spellcheck']) && $params['solr_params']['spellcheck'] == 'true');
+        $useSpellcheckSearch = (
+            isset($params['solr_params']['spellcheck'])
+            && $params['solr_params']['spellcheck'] == 'true'
+        );
+
+
         if ($useSpellcheckSearch) {
-            $spellcheckCount = (isset($params['solr_params']['spellcheck.count']) && $params['solr_params']['spellcheck.count'])
-                ? $params['solr_params']['spellcheck.count']
-                : self::DEFAULT_SPELLCHECK_COUNT;
+            if (isset($params['solr_params']['spellcheck.count'])
+                && (int) $params['solr_params']['spellcheck.count'] > 0
+            ) {
+                $spellcheckCount = (int) $params['solr_params']['spellcheck.count'];
+            } else {
+                $spellcheckCount = self::DEFAULT_SPELLCHECK_COUNT;
+            }
+
             $_params['solr_params'] += array(
                 'spellcheck.collate'         => 'true',
                 'spellcheck.dictionary'      => 'magento_spell' . $languageSuffix,
@@ -243,13 +253,15 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             $data = $response->getResponse();
 
             if (!isset($params['solr_params']['stats']) || $params['solr_params']['stats'] != 'true') {
-                $result = array('ids' => $this->_prepareQueryResponse($data));
+                if ($limit > 0) {
+                    $result = array('ids' => $this->_prepareQueryResponse($data));
+                }
 
                 /**
                  * Extract facet search results
                  */
                 if ($useFacetSearch) {
-                    $result['facets'] = $this->_prepareFacetsQueryResponse($data);
+                    $result['faceted_data'] = $this->_prepareFacetsQueryResponse($data);
                 }
 
                 /**
@@ -282,12 +294,13 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                                 break;
                             }
                         }
+
                         /* Return store value for main search query */
                         $this->_lastNumFound = $tmpLastNumFound;
                     } else {
                         $suggestions = array_slice($resultSuggestions, 0, $spellcheckCount);
                     }
-                    $result['suggestions'] = $suggestions;
+                    $result['suggestions_data'] = $suggestions;
                 }
             } else {
                 $result = $this->_prepateStatsQueryResponce($data);
@@ -332,12 +345,6 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         $solrQuery = new SolrQuery($query);
-
-        /**
-         * Now supported search only in fulltext and name fields based on dismax requestHandler (named as magento_lng).
-         * Using dismax requestHandler for each language make matches in name field
-         * are much more significant than matches in fulltext field.
-         */
 
         $_params['solr_params'] = array (
             'spellcheck'                 => 'true',

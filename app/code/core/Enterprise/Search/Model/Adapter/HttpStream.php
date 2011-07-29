@@ -148,7 +148,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         }
 
         /**
-         * Now supported search only in fulltext and name fields based on dismax requestHandler.
+         * Now supported search only in fulltext and name fields based on dismax requestHandler (named as magento_lng).
          * Using dismax requestHandler for each language make matches in name field
          * are much more significant than matches in fulltext field.
          */
@@ -218,13 +218,15 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             $data = json_decode($response->getRawResponse());
 
             if (!isset($params['solr_params']['stats']) || $params['solr_params']['stats'] != 'true') {
-                $result = array('ids' => $this->_prepareQueryResponse($data));
+                if ($limit > 0) {
+                    $result = array('ids' => $this->_prepareQueryResponse($data));
+                }
 
                 /**
                  * Extract facet search results
                  */
                 if ($useFacetSearch) {
-                    $result['facets'] = $this->_prepareFacetsQueryResponse($data);
+                    $result['faceted_data'] = $this->_prepareFacetsQueryResponse($data);
                 }
 
                 /**
@@ -257,12 +259,13 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                                 break;
                             }
                         }
+
                         /* Return store value for main search query */
                         $this->_lastNumFound = $tmpLastNumFound;
                     } else {
                         $suggestions = array_slice($resultSuggestions, 0, $spellcheckCount);
                     }
-                    $result['suggestions'] = $suggestions;
+                    $result['suggestions_data'] = $suggestions;
                 }
             } else {
                 $result = $this->_prepateStatsQueryResponce($data);
@@ -308,7 +311,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         try {
             $this->ping();
             $response = $this->_client->searchSuggestions($query, $_params['solr_params']);
-            $result = $this->_prepareSuggestionsQueryResponse( json_decode($response->getRawResponse()) );
+            $result = $this->_prepareSuggestionsQueryResponse(json_decode($response->getRawResponse()));
             $resultLimit = array();
             // Calc results count for each suggestion
             if ($withResultsCounts && $limit) {

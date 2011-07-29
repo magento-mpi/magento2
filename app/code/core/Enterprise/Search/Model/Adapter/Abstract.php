@@ -466,22 +466,19 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     public function getIdsByQuery($query, $params = array())
     {
-        $ids = array();
         $params['fields'] = array('id');
 
-        $_result = $this->_search($query, $params);
+        $result = $this->_search($query, $params);
 
-        if(!empty($_result['ids'])) {
-            foreach ($_result['ids'] as $_id) {
-                $ids[] = $_id['id'];
-            }
+        if (!isset($result['ids'])) {
+            $result['ids'] = array();
         }
 
-        $result = array(
-            'ids' => $ids,
-            'facetedData' => (isset($_result['facets'])) ? $_result['facets'] : array(),
-            'suggestionsData' => (isset($_result['suggestions'])) ? $_result['suggestions'] : array()
-        );
+        if (!empty($result['ids'])) {
+            foreach ($result['ids'] as &$id) {
+                $id = $id['id'];
+            }
+        }
 
         return $result;
     }
