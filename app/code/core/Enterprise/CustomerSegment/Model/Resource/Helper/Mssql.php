@@ -59,6 +59,10 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Mssql extends Mage_Core_M
                 return 'LIKE';
             case '!{}':
                 return 'NOT LIKE';
+            case '()':
+                return 'IN';
+            case '!()':
+                return 'NOT IN';
             case '[]':
                 return 'dbo.FIND_IN_SET(%s, %s) = 1';
             case '![]':
