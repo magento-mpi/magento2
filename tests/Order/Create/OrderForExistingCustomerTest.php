@@ -77,8 +77,11 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
         $addressData = $this->loadData('new_customer_address');
         $this->navigate('manage_customers');
         $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
-        $this->CustomerHelper()->createCustomer($userData, $addressData);
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $searchData = array ('email' => $userData['email']);
+        if ($this->OrderHelper()->search($searchData) == false){
+            $this->CustomerHelper()->createCustomer($userData, $addressData);
+            $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        }
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
         $email = array('email'=> $userData['email']);
@@ -111,8 +114,11 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
         $addressData = $this->loadData('new_customer_address');
         $this->navigate('manage_customers');
         $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
-        $this->CustomerHelper()->createCustomer($userData, $addressData);
-        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        $searchData = array ('email' => $userData['email']);
+        if ($this->OrderHelper()->search($searchData) == false){
+            $this->CustomerHelper()->createCustomer($userData, $addressData);
+            $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+        }
         $this->assertTrue($this->checkCurrentPage('manage_customers'),
                 'After successful customer creation should be redirected to Manage Customers page');
         $email = array('email'=> $userData['email']);

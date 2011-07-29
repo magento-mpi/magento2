@@ -292,17 +292,17 @@ class Order_Helper extends Mage_Selenium_TestCase
         $this->pleaseWait();
         $productData = $this->loadData($dataSetName);
         if ($createNewIfLowQty == false) {
-            if ($this->_searchProduct(array('product_sku' => $productData['general_sku'])) == false) {
+            if ($this->search(array('product_sku' => $productData['general_sku'])) == false) {
                 $this->productHelper()->createProduct($productData);
                 $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
             }
         } else {
-            if ($this->_searchProduct(array('product_sku' => $productData['general_sku']),
+            if ($this->search(array('product_sku' => $productData['general_sku']),
                             'product_grid') == false) {
                 $this->productHelper()->createProduct($productData);
                 $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
             } else {
-                if ($this->_searchProduct(array('product_sku'    => $productData['general_sku'],
+                if ($this->search(array('product_sku'    => $productData['general_sku'],
                                                'product_qty_to' => '10')) == true) {
                     $this->searchAndOpen(array('product_sku' => $productData['general_sku']), TRUE);
                     $this->assertTrue($this->checkCurrentPage('edit_product'),
@@ -407,7 +407,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      * @param string $fieldSetName
      * @return bool
      */
-    protected function _searchProduct(array $data, $fieldSetName = null)
+    public function search(array $data, $fieldSetName = null)
     {
         $this->_prepareDataForSearch($data);
         if (count($data) > 0) {
@@ -425,7 +425,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                     $xpathTR .= "[contains(.,'$value')]";
                 }
             }
-            if ($this->isElementPresent($xpathTR) && $totalCount > 0) {
+            if ($totalCount > 0) {
                 $this->fillForm($data);
                 $this->clickButton('search', false);
                 $this->pleaseWait();

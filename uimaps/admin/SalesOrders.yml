@@ -69,7 +69,7 @@ manage_sales_orders:
                             grand_total: //a[@name='grand_total']
                             status: //a[@name='status']
         buttons:
-            create_new_order: //button[span='Add New']
+            create_new_order: //button[span='Create New Order']
         messages:
             failed_print_packingslips: //li[normalize-space(@class)='error-msg' and contains(.//span,'There are no printable documents related to selected orders.')]
             failed_print_credit_memos: //li[normalize-space(@class)='error-msg' and contains(.//span,'There are no printable documents related to selected orders.')]
