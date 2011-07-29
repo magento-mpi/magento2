@@ -241,7 +241,10 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         }
         $this->_storeIds = $store;
 
-        $this->addFieldToFilter('store_id', $store);
+        /* @var $wishlist Mage_Wishlist_Model_Wishlist */
+        $wishlist = Mage::getSingleton('wishlist/wishlist');
+        $this->addFieldToFilter('store_id', array('in' => $wishlist->getSharedStoreIds()));
+
         return $this;
     }
 
