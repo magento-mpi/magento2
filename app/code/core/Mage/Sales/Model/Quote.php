@@ -892,9 +892,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $stickWithinParent = $candidate->getParentProductId() ? $parentItem : null;
             $candidate->setStickWithinParent($stickWithinParent);
             $item = $this->_addCatalogProduct($candidate, $candidate->getCartQty());
-            if($request->getResetCount() && !$stickWithinParent) {
-                $item->setData('qty', 0);
-            }
             $items[] = $item;
 
             /**
@@ -1028,7 +1025,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $params->setCurrentConfig($item->getBuyRequest());
         $buyRequest = Mage::helper('catalog/product')->addParamsToBuyRequest($buyRequest, $params);
 
-        $buyRequest->setResetCount(true);
         $resultItem = $this->addProduct($product, $buyRequest);
 
         if (is_string($resultItem)) {
