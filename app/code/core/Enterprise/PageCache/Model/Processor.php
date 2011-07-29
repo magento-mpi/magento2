@@ -244,6 +244,9 @@ class Enterprise_PageCache_Model_Processor
         if (isset($_GET['no_cache'])) {
             return false;
         }
+        if (!Mage::app()->useCache('full_page')) {
+            return false;
+        }
 
         return true;
     }
