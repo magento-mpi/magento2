@@ -27,10 +27,11 @@
 class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache_Model_Processor_Default
 {
     protected $_paramsMap = array(
-        'display_mode'  => 'mode',
-        'limit_page'    => 'limit',
-        'sort_order'    => 'order',
-        'sort_direction'=> 'dir',
+        'display_mode'              => 'mode',
+        'limit_page'                => 'limit',
+        'sort_order'                => 'order',
+        'sort_direction'            => 'dir',
+        'last_visited_category_id'  => 'lastcatid'
     );
 
     /**

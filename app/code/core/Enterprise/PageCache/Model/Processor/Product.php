@@ -56,4 +56,22 @@ class Enterprise_PageCache_Model_Processor_Product extends Enterprise_PageCache_
         }
         return parent::prepareContent($response);
     }
+
+    /**
+     * Return cache page id without application. Depends on GET super global array.
+     *
+     * @param Enterprise_PageCache_Model_Processor $processor
+     * @return string
+     */
+    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Processor $processor)
+    {
+        $sessionParams = Enterprise_PageCache_Model_Cookie::getCategoryCookieValue();
+        if ($sessionParams) {
+            $sessionParams = (array)json_decode($sessionParams);
+            if (isset($sessionParams['lastcatid'])) {
+                $_GET['lastcatid'] = $sessionParams['lastcatid'];
+            }
+        }
+        return parent::getPageIdWithoutApp($processor);
+    }
 }
