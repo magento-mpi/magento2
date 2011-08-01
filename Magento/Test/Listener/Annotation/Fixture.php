@@ -124,6 +124,11 @@ class Magento_Test_Listener_Annotation_Fixture
     {
         /** @var $adapter Varien_Db_Adapter_Interface */
         $adapter = Mage::getSingleton('core/resource')->getConnection('write');
+
+        //TODO: validate
+        $transactionLevel = $adapter->getTransactionLevel();
+        if($transactionLevel != 0) $adapter->commit();
+
         $adapter->beginTransaction();
     }
 
