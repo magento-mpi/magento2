@@ -103,7 +103,8 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
         if ($product->getUseConfigIsRedeemable()) {
             $isRedeemable = Mage::getStoreConfigFlag(
                 Enterprise_GiftCard_Model_Giftcard::XML_PATH_IS_REDEEMABLE,
-                $orderItem->getStore());
+                $orderItem->getStore()
+            );
         } else {
             $isRedeemable = (int) $product->getIsRedeemable();
         }
@@ -114,7 +115,8 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
         if ($product->getUseConfigEmailTemplate()) {
             $emailTemplate = Mage::getStoreConfig(
                 Enterprise_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE,
-                $orderItem->getStore());
+                $orderItem->getStore()
+            );
         } else {
             $emailTemplate = $product->getEmailTemplate();
         }
@@ -149,8 +151,9 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
 
                 switch ($requiredStatus) {
                     case Mage_Sales_Model_Order_Item::STATUS_INVOICED:
-                        $paidInvoiceItems = (isset($options['giftcard_paid_invoice_items']) ?
-                            $options['giftcard_paid_invoice_items'] : array());
+                        $paidInvoiceItems = (isset($options['giftcard_paid_invoice_items'])
+                            ? $options['giftcard_paid_invoice_items']
+                            : array());
                         // find invoice for this order item
                         $invoiceItemCollection = Mage::getResourceModel('sales/order_invoice_item_collection')
                             ->addFieldToFilter('order_item_id', $item->getId());
@@ -166,7 +169,8 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             }
                             // check, if this order item has been paid
                             if ($invoice->getState() == Mage_Sales_Model_Order_Invoice::STATE_PAID &&
-                                !in_array($invoiceItem->getId(), $paidInvoiceItems)) {
+                                !in_array($invoiceItem->getId(), $paidInvoiceItems)
+                            ) {
                                     $qty += $invoiceItem->getQty();
                                     $paidInvoiceItems[] = $invoiceItem->getId();
                             }
