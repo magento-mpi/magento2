@@ -340,8 +340,8 @@ class Magento_Test_Bootstrap
     protected function _instantiateDb()
     {
         $suffix = ucfirst($this->_dbVendorName);
-        require_once __DIR__ . '/Db/DbAbstract.php';
-        require_once __DIR__ . "/Db/{$suffix}.php";
+        require_once dirname(__FILE__) . '/Db/DbAbstract.php';
+        require_once dirname(__FILE__) . "/Db/{$suffix}.php";
         $class = "Magento_Test_Db_{$suffix}";
         $dbConfig = $this->_localXml->global->resources->default_setup->connection;
         $this->_ensureDirExists($this->_installDir);

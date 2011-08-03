@@ -72,7 +72,7 @@ class Magento_Test_Db_Oracle extends Magento_Test_Db_DbAbstract
             escapeshellarg($this->_password),
             escapeshellarg($this->_host),
             escapeshellarg($this->_sid),
-            escapeshellarg(__DIR__ . '/cleanup_database.oracle.sql')
+            escapeshellarg(dirname(__FILE__) . '/cleanup_database.oracle.sql')
         );
         return $this->_exec($cmd);
     }

@@ -25,9 +25,9 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-require __DIR__ . '/Magento/Test/Bootstrap.php';
+require dirname(__FILE__) . '/Magento/Test/Bootstrap.php';
 
-$baseDir = dirname(__DIR__);
+$baseDir = dirname(dirname(__FILE__));
 
 /*
  * Setup include path for autoload purpose.
