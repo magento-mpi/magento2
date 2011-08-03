@@ -53,14 +53,14 @@ if (defined('TESTS_SHUTDOWN_METHOD') && TESTS_SHUTDOWN_METHOD) {
 
 /* Enable profiler if necessary */
 if (defined('TESTS_PROFILER_FILE') && TESTS_PROFILER_FILE) {
-    Magento_Profiler::registerOutput(
-        new Magento_Profiler_Output_Csvfile($baseDir . TESTS_PROFILER_FILE)
+    Magento_Test_Profiler::registerOutput(
+        new Magento_Test_Profiler_Output_Csvfile($baseDir . TESTS_PROFILER_FILE)
     );
 }
 
 /* Enable profiler with bamboo friendly output format */
 if (defined('TESTS_BAMBOO_PROFILER_FILE') && defined('TESTS_BAMBOO_PROFILER_METRICS_FILE')) {
-    Magento_Profiler::registerOutput(new Magento_Test_Profiler_OutputBamboo(
+    Magento_Test_Profiler::registerOutput(new Magento_Test_Profiler_Output_Bamboo(
         $baseDir . TESTS_BAMBOO_PROFILER_FILE,
         require($baseDir . TESTS_BAMBOO_PROFILER_METRICS_FILE)
     ));

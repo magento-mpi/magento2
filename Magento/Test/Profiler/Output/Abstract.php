@@ -19,7 +19,7 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Magento_Profiler
+ * @package     Magento_Test_Profiler
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,7 +27,7 @@
 /**
  * Abstract class that represents profiler output
  */
-abstract class Magento_Profiler_OutputAbstract
+abstract class Magento_Test_Profiler_Output_Abstract
 {
     /**
      * PCRE Regular Expression for filter
@@ -42,9 +42,9 @@ abstract class Magento_Profiler_OutputAbstract
      * @var array
      */
     private $_thresholds = array(
-        Magento_Profiler::FETCH_TIME    => 0.001,
-        Magento_Profiler::FETCH_COUNT   => 10,
-        Magento_Profiler::FETCH_EMALLOC => 10000,
+        Magento_Test_Profiler::FETCH_TIME    => 0.001,
+        Magento_Test_Profiler::FETCH_COUNT   => 10,
+        Magento_Test_Profiler::FETCH_EMALLOC => 10000,
     );
 
     /**
@@ -74,11 +74,11 @@ abstract class Magento_Profiler_OutputAbstract
     {
         return array(
             'Timer Id' => 'timer_id',
-            'Time'     => Magento_Profiler::FETCH_TIME,
-            'Avg'      => Magento_Profiler::FETCH_AVG,
-            'Cnt'      => Magento_Profiler::FETCH_COUNT,
-            'Emalloc'  => Magento_Profiler::FETCH_EMALLOC,
-            'RealMem'  => Magento_Profiler::FETCH_REALMEM,
+            'Time'     => Magento_Test_Profiler::FETCH_TIME,
+            'Avg'      => Magento_Test_Profiler::FETCH_AVG,
+            'Cnt'      => Magento_Test_Profiler::FETCH_COUNT,
+            'Emalloc'  => Magento_Test_Profiler::FETCH_EMALLOC,
+            'RealMem'  => Magento_Test_Profiler::FETCH_REALMEM,
         );
     }
 
@@ -87,14 +87,15 @@ abstract class Magento_Profiler_OutputAbstract
      *
      * @param string $timerId
      * @param string $columnId
+     * @return string
      */
     protected function _renderColumnValue($timerId, $columnId)
     {
         if ($columnId == 'timer_id') {
             return $this->_renderTimerId($timerId);
         }
-        $value = (string)Magento_Profiler::fetch($timerId, $columnId);
-        if (in_array($columnId, array(Magento_Profiler::FETCH_TIME, Magento_Profiler::FETCH_AVG))) {
+        $value = (string) Magento_Test_Profiler::fetch($timerId, $columnId);
+        if (in_array($columnId, array(Magento_Test_Profiler::FETCH_TIME, Magento_Test_Profiler::FETCH_AVG))) {
             $value = number_format($value, 6);
         } else {
             $value = number_format($value);
@@ -120,14 +121,14 @@ abstract class Magento_Profiler_OutputAbstract
      */
     private function _getSortedTimers()
     {
-        $timerIds = Magento_Profiler::getTimers();
+        $timerIds = Magento_Test_Profiler::getTimers();
         if (count($timerIds) <= 2) {
             /* No sorting needed */
             return $timerIds;
         }
 
         /* Prepare PCRE once to use it inside the loop body */
-        $nestingSep = preg_quote(Magento_Profiler::NESTING_SEPARATOR, '/');
+        $nestingSep = preg_quote(Magento_Test_Profiler::NESTING_SEPARATOR, '/');
         $patternLastTimerName = '/' . $nestingSep . '(?:.(?!' . $nestingSep . '))+$/';
 
         $prevTimerId = $timerIds[0];
@@ -139,10 +140,10 @@ abstract class Magento_Profiler_OutputAbstract
                 continue;
             }
             /* Loop over all timers that need to be closed under previous timer */
-            while (strpos($timerId, $prevTimerId . Magento_Profiler::NESTING_SEPARATOR) !== 0) {
+            while (strpos($timerId, $prevTimerId . Magento_Test_Profiler::NESTING_SEPARATOR) !== 0) {
                 /* Add to result all timers nested in the previous timer */
                 for ($j = $i + 1; $j < count($timerIds); $j++) {
-                    if (strpos($timerIds[$j], $prevTimerId . Magento_Profiler::NESTING_SEPARATOR) === 0) {
+                    if (strpos($timerIds[$j], $prevTimerId . Magento_Test_Profiler::NESTING_SEPARATOR) === 0) {
                         $result[] = $timerIds[$j];
                         /* Mark timer as already added */
                         $timerIds[$j] = null;
@@ -182,7 +183,7 @@ abstract class Magento_Profiler_OutputAbstract
             /* Filter by column value thresholds */
             $skip = false;
             foreach ($this->_thresholds as $fetchKey => $minAllowedValue) {
-                $skip = (Magento_Profiler::fetch($timerId, $fetchKey) < $minAllowedValue);
+                $skip = (Magento_Test_Profiler::fetch($timerId, $fetchKey) < $minAllowedValue);
                 /* First value not less than the allowed one forces to include timer to the result */
                 if (!$skip) {
                     break;

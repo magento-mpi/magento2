@@ -19,7 +19,7 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Magento_Profiler
+ * @package     Magento_Test_Profiler
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,7 +27,7 @@
 /**
  * Static class that represents profiling tool
  */
-class Magento_Profiler
+class Magento_Test_Profiler
 {
     /**
      * Separator literal to assemble timer identifier from timer names
@@ -265,9 +265,9 @@ class Magento_Profiler
     /**
      * Register profiler output instance to display profiling result at the end of execution
      *
-     * @param Magento_Profiler_OutputAbstract $output
+     * @param Magento_Test_Profiler_Output_Abstract $output
      */
-    public static function registerOutput(Magento_Profiler_OutputAbstract $output)
+    public static function registerOutput(Magento_Test_Profiler_Output_Abstract $output)
     {
         self::enable();
         self::$_outputs[] = $output;
@@ -281,7 +281,7 @@ class Magento_Profiler
         if (!self::$_enabled) {
             return;
         }
-        /** @var $output Magento_Profiler_OutputAbstract */
+        /** @var $output Magento_Test_Profiler_Output_Abstract */
         foreach (self::$_outputs as $output) {
             $output->display();
         }

@@ -19,7 +19,7 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Magento_Profiler
+ * @package     Magento_Test_Profiler
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,7 +27,7 @@
 /**
  * Class that represents profiler output in Html format
  */
-class Magento_Profiler_Output_Csvfile extends Magento_Profiler_OutputAbstract
+class Magento_Test_Profiler_Output_Csvfile extends Magento_Test_Profiler_Output_Abstract
 {
     /**
      * @var string

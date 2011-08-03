@@ -19,7 +19,7 @@
  * needs please refer to http://www.magento.com for more information.
  *
  * @category    Magento
- * @package     Magento_Profiler
+ * @package     Magento_Test_Profiler
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,7 +27,7 @@
 /**
  * Class that represents profiler output in Html format
  */
-class Magento_Profiler_Output_Html extends Magento_Profiler_OutputAbstract
+class Magento_Test_Profiler_Output_Html extends Magento_Test_Profiler_Output_Abstract
 {
     /**
      * Display profiling results
@@ -61,7 +61,7 @@ class Magento_Profiler_Output_Html extends Magento_Profiler_OutputAbstract
      */
     protected function _renderTimerId($timerId)
     {
-        $nestingSep = preg_quote(Magento_Profiler::NESTING_SEPARATOR, '/');
+        $nestingSep = preg_quote(Magento_Test_Profiler::NESTING_SEPARATOR, '/');
         return preg_replace('/.+?' . $nestingSep . '/', '&middot;&nbsp;&nbsp;', $timerId);
     }
 }

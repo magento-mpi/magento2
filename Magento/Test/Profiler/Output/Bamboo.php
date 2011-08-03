@@ -25,7 +25,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Magento_Test_Profiler_OutputBamboo extends Magento_Profiler_Output_Csvfile
+class Magento_Test_Profiler_Output_Bamboo extends Magento_Test_Profiler_Output_Csvfile
 {
     /**
      * @var array
@@ -58,10 +58,10 @@ class Magento_Test_Profiler_OutputBamboo extends Magento_Profiler_Output_Csvfile
      * @param string $fetchKey
      * @return int
      */
-    protected function _aggregateTimerValues(array $timerNames, $fetchKey = Magento_Profiler::FETCH_AVG)
+    protected function _aggregateTimerValues(array $timerNames, $fetchKey = Magento_Test_Profiler::FETCH_AVG)
     {
         /* Prepare pattern that matches timers with deepest nesting level only */
-        $nestingSep = preg_quote(Magento_Profiler::NESTING_SEPARATOR, '/');
+        $nestingSep = preg_quote(Magento_Test_Profiler::NESTING_SEPARATOR, '/');
         array_map('preg_quote', $timerNames, array('/'));
         $pattern = '/(?<=' . $nestingSep . '|^)(?:' . implode('|', $timerNames) . ')$/';
 
@@ -69,7 +69,7 @@ class Magento_Test_Profiler_OutputBamboo extends Magento_Profiler_Output_Csvfile
         $result = 0;
         foreach ($this->_getTimers() as $timerId) {
             if (preg_match($pattern, $timerId)) {
-                $result += Magento_Profiler::fetch($timerId, $fetchKey);
+                $result += Magento_Test_Profiler::fetch($timerId, $fetchKey);
             }
         }
 
