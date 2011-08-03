@@ -2522,7 +2522,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 }
             }
         } else {
-            $hasBlobs = ($bind instanceof Varien_Db_Statement_Parameter) && $param->getIsBlob();
+            $hasBlobs = ($bind instanceof Varien_Db_Statement_Parameter) && $bind->getIsBlob();
         }
         if (!$hasBlobs) {
             return $this;
@@ -2560,11 +2560,17 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _prepareQuery(&$sql, &$bind = array())
     {
-        if ($sql instanceof Zend_Db_Select) {
-            $sql = $sql->assemble();
-        }
+        // Maybe nothing to bind
         if (!is_array($bind)) {
             $bind = array($bind);
+        }
+        if (!$bind) {
+            return $this;
+        }
+
+        // Process query
+        if ($sql instanceof Zend_Db_Select) {
+            $sql = $sql->assemble();
         }
 
         /**
@@ -4579,5 +4585,20 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $value = new Zend_Db_Expr('NULL');
         }
         return parent::quoteInto($text, $value, $type, $count);
+    }
+
+    /**
+     * Returns date that fits into TYPE_DATETIME range and is suggested to act as default 'zero' value
+     * for a column for current RDBMS. Deprecated and left for compatibility only.
+     * In Magento at MySQL there was zero date used for datetime columns. However, zero date it is not supported across
+     * different RDBMS. Thus now it is recommended to use same default value equal for all RDBMS - either NULL
+     * or specific date supported by all RDBMS.
+     *
+     * @deprecated after 1.5.1.0
+     * @return string
+     */
+    public function getSuggestedZeroDate()
+    {
+        return '1800-01-01 00:00:00';
     }
 }
