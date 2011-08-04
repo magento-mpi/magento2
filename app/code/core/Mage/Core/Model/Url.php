@@ -853,7 +853,8 @@ class Mage_Core_Model_Url extends Varien_Object
         }
 
         if ($query = $this->getQuery($escapeQuery)) {
-            $url .= '?'.$query;
+            $mark = (strpos($url, '?') === false) ? '?' : ($escapeQuery ? '&amp;' : '&');
+            $url .= $mark . $query;
         }
 
         if ($this->getFragment()) {
