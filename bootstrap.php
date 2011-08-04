@@ -64,7 +64,7 @@ class Magento_Tests_Bootstrap
     /**
      * Initialize testing environment
      *
-     * @throws Magento_Exception
+     * @throws Varien_Exception
      */
     public function __construct()
     {
@@ -81,7 +81,7 @@ class Magento_Tests_Bootstrap
         spl_autoload_register(array($this, 'loadClass'));
         /* Check whether temporary directory is writable */
         if (!is_writable(TESTS_TEMP_DIR)) {
-            throw new Magento_Exception(
+            throw new Varien_Exception(
                 sprintf('Tests temporary directory "%s" must exist and be writable.', TESTS_TEMP_DIR)
             );
         }
