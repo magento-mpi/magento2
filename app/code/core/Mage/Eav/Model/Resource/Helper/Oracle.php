@@ -81,10 +81,16 @@ class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Hel
      */
     public function getDdlTypeByColumnType($columnType)
     {
-        if ($columnType == 'int') {
-            $columnType = 'INTEGER';
+        switch ($columnType) {
+            case 'int':
+                $columnType = 'INTEGER';
+                break;
+            case 'varchar':
+                $columnType = 'VARCHAR2';
+                break;
         }
-        if($result = array_search($columnType, $this->_ddlColumnTypes)) {
+
+        if ($result = array_search($columnType, $this->_ddlColumnTypes)) {
             return $result;
         } else {
             return Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
