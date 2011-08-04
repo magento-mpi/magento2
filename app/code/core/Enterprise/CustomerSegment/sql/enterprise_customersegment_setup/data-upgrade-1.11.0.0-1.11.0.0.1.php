@@ -25,6 +25,6 @@
  */
 
 /**
- * Resave all segments for segment conditions regeneration
+ * Resave all segments for conditions regeneration
  */
 require_once 'mysql4-data-upgrade-0.0.8-1.6.0.0.php';
