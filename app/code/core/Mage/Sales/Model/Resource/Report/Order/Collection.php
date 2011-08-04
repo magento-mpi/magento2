@@ -42,11 +42,11 @@ class Mage_Sales_Model_Resource_Report_Order_Collection extends Mage_Sales_Model
     protected $_periodFormat;
 
     /**
-     * Aggregated Data Recourse
+     * Aggregated Data Table
      *
      * @var string
      */
-    protected $_aggregationRecourse = 'sales/order_aggregated_created';
+    protected $_aggregationTable = 'sales/order_aggregated_created';
 
     /**
      * Selected columns
@@ -63,7 +63,7 @@ class Mage_Sales_Model_Resource_Report_Order_Collection extends Mage_Sales_Model
     {
         parent::_construct();
         $this->setModel('adminhtml/report_item');
-        $this->_resource = Mage::getResourceModel('sales/report')->init($this->_aggregationRecourse);
+        $this->_resource = Mage::getResourceModel('sales/report')->init($this->_aggregationTable);
         $this->setConnection($this->getResource()->getReadConnection());
     }
 

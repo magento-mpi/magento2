@@ -19,42 +19,39 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Tax
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Tax report resource model
+ * Order entity resource model with aggregation by updated at
  *
  * @category    Mage
- * @package     Mage_Tax
+ * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Report_Abstract
+class Mage_Sales_Model_Resource_Report_Order_Updatedat extends Mage_Sales_Model_Resource_Report_Order_Createdat
 {
     /**
-     * Resource initialization
+     * Model initialization
+     *
      */
     protected function _construct()
     {
-        $this->_init('tax/tax_order_aggregated_created', 'id');
+        $this->_init('sales/order_aggregated_updated', 'id');
     }
 
     /**
-     * Aggregate Tax data
+     * Aggregate Orders data by order updated at
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_Tax_Model_Resource_Report_Tax
+     * @return Mage_Sales_Model_Resource_Report_Order_Updatedat
      */
     public function aggregate($from = null, $to = null)
     {
-        Mage::getResourceModel('tax/report_tax_createdat')->aggregate($from, $to);
-        Mage::getResourceModel('tax/report_tax_updatedat')->aggregate($from, $to);
-        $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
-
-        return $this;
+        return $this->_aggregateByField('updated_at', $from, $to);
     }
 }

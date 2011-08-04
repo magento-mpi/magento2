@@ -26,35 +26,31 @@
 
 
 /**
- * Tax report resource model
+ * Tax report resource model with aggregation by updated at
  *
  * @category    Mage
  * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Report_Abstract
+class Mage_Tax_Model_Resource_Report_Tax_Updatedat extends Mage_Tax_Model_Resource_Report_Tax_Createdat
 {
     /**
      * Resource initialization
      */
     protected function _construct()
     {
-        $this->_init('tax/tax_order_aggregated_created', 'id');
+        $this->_init('tax/tax_order_aggregated_updated', 'id');
     }
 
     /**
-     * Aggregate Tax data
+     * Aggregate Tax data by order updated at
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_Tax_Model_Resource_Report_Tax
+     * @return Mage_Tax_Model_Resource_Report_Tax_Updatedat
      */
     public function aggregate($from = null, $to = null)
     {
-        Mage::getResourceModel('tax/report_tax_createdat')->aggregate($from, $to);
-        Mage::getResourceModel('tax/report_tax_updatedat')->aggregate($from, $to);
-        $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
-
-        return $this;
+        return $this->_aggregateByOrder('updated_at', $from, $to);
     }
 }

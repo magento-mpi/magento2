@@ -19,42 +19,39 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Tax
+ * @package     Mage_SalesRule
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Tax report resource model
+ * Rule report resource model with aggregation by updated at
  *
  * @category    Mage
- * @package     Mage_Tax
+ * @package     Mage_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Report_Abstract
+class Mage_SalesRule_Model_Resource_Report_Rule_Updatedat extends Mage_SalesRule_Model_Resource_Report_Rule_Createdat
 {
     /**
-     * Resource initialization
+     * Resource Report Rule constructor
+     *
      */
     protected function _construct()
     {
-        $this->_init('tax/tax_order_aggregated_created', 'id');
+        $this->_init('salesrule/coupon_aggregated_updated', 'id');
     }
 
     /**
-     * Aggregate Tax data
+     * Aggregate Coupons data by order updated at
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_Tax_Model_Resource_Report_Tax
+     * @return Mage_SalesRule_Model_Resource_Report_Rule_Updatedat
      */
     public function aggregate($from = null, $to = null)
     {
-        Mage::getResourceModel('tax/report_tax_createdat')->aggregate($from, $to);
-        Mage::getResourceModel('tax/report_tax_updatedat')->aggregate($from, $to);
-        $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
-
-        return $this;
+        return $this->_aggregateByOrder('updated_at', $from, $to);
     }
 }

@@ -26,13 +26,13 @@
 
 
 /**
- * Rule report resource model
+ * Rule report resource model with aggregation by created at
  *
  * @category    Mage
  * @package     Mage_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resource_Report_Abstract
+class Mage_SalesRule_Model_Resource_Report_Rule_Createdat extends Mage_Reports_Model_Resource_Report_Abstract
 {
     /**
      * Resource Report Rule constructor
@@ -40,40 +40,36 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
      */
     protected function _construct()
     {
-        $this->_setResource('salesrule');
+        $this->_init('salesrule/coupon_aggregated', 'id');
     }
 
     /**
-     * Aggregate Coupons data
+     * Aggregate Coupons data by order created at
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_SalesRule_Model_Resource_Report_Rule
+     * @return Mage_SalesRule_Model_Resource_Report_Rule_Createdat
      */
     public function aggregate($from = null, $to = null)
     {
-        Mage::getResourceModel('salesrule/report_rule_createdat')->aggregate($from, $to);
-        Mage::getResourceModel('salesrule/report_rule_updatedat')->aggregate($from, $to);
-        $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE);
-
-        return $this;
+        return $this->_aggregateByOrder('created_at', $from, $to);
     }
 
     /**
-     * Aggregate coupons reports by order created at as range
+     * Aggregate coupons reports by orders
      *
-     * @deprecated after 1.6.0.0-rc2
-     *
+     * @throws Exception
+     * @param string $aggregationField
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_SalesRule_Model_Resource_Report_Rule
+     * @return Mage_SalesRule_Model_Resource_Report_Rule_Createdat
      */
-    protected function _aggregateByOrderCreatedAt($from, $to)
+    protected function _aggregateByOrder($aggregationField, $from, $to)
     {
-        $table = $this->getTable('salesrule/coupon_aggregated');
+        $table = $this->getMainTable();
         $sourceTable = $this->getTable('sales/order');
-        $this->_getWriteAdapter()->beginTransaction();
         $adapter = $this->_getWriteAdapter();
+        $adapter->beginTransaction();
 
         try {
             if ($from !== null || $to !== null) {
@@ -86,7 +82,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
 
             // convert dates from UTC to current admin timezone
             $periodExpr = $adapter->getDatePartSql(
-                $this->getStoreTZOffsetQuery($sourceTable, 'created_at', $from, $to)
+                $this->getStoreTZOffsetQuery($sourceTable, $aggregationField, $from, $to)
             );
 
             $columns = array(
@@ -128,7 +124,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
                         ') * base_to_global_rate)', 0),
             );
 
-            $select = $this->_getWriteAdapter()->select();
+            $select = $adapter->select();
             $select->from(array('source_table' => $sourceTable), $columns)
                  ->where('coupon_code IS NOT NULL');
 
@@ -146,7 +142,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
             $select->having('COUNT(entity_id) > 0');
             $select->insertFromSelect($table, array_keys($columns));
 
-            $this->_getWriteAdapter()->query($select->insertFromSelect($table, array_keys($columns)));
+            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
 
             $select->reset();
 
@@ -178,13 +174,13 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
                 'coupon_code'
             ));
 
-            $this->_getWriteAdapter()->query($select->insertFromSelect($table, array_keys($columns)));
+            $adapter->query($select->insertFromSelect($table, array_keys($columns)));
+            $adapter->commit();
         } catch (Exception $e) {
-            $this->_getWriteAdapter()->rollBack();
+            $adapter->rollBack();
             throw $e;
         }
 
-        $this->_getWriteAdapter()->commit();
         return $this;
     }
 }

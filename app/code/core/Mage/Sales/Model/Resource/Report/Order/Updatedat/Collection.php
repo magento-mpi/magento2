@@ -36,9 +36,9 @@ class Mage_Sales_Model_Resource_Report_Order_Updatedat_Collection
     extends Mage_Sales_Model_Resource_Report_Order_Collection
 {
     /**
-     * Aggregated Data Recourse
+     * Aggregated Data Table
      *
      * @var string
      */
-    protected $_aggregationRecourse = 'sales/order_aggregated_updated';
+    protected $_aggregationTable = 'sales/order_aggregated_updated';
 }

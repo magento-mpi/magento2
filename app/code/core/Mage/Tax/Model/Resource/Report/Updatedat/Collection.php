@@ -35,9 +35,9 @@
 class Mage_Tax_Model_Resource_Report_Updatedat_Collection extends Mage_Tax_Model_Resource_Report_Collection
 {
     /**
-     * Aggregated Data Recourse
+     * Aggregated Data Table
      *
      * @var string
      */
-    protected $_aggregationRecourse = 'tax/tax_order_aggregated_updated';
+    protected $_aggregationTable = 'tax/tax_order_aggregated_updated';
 }
