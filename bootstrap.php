@@ -70,7 +70,7 @@ class Magento_Tests_Bootstrap
     {
         /* Setup autoload */
         $this->_includePaths = array(
-            dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tests',
+            dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'tests',
             DEV_APP . DIRECTORY_SEPARATOR . 'code' . DIRECTORY_SEPARATOR . 'local',
             DEV_APP . DIRECTORY_SEPARATOR . 'code' . DIRECTORY_SEPARATOR . 'community',
             DEV_APP . DIRECTORY_SEPARATOR . 'code' . DIRECTORY_SEPARATOR . 'core',
