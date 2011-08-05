@@ -30,6 +30,11 @@
 abstract class Enterprise_PageCache_Model_Container_Abstract
 {
     /**
+     * @var null|Enterprise_PageCache_Model_Processor
+     */
+    protected $_processor = null;
+
+    /**
      * Placeholder instance
      *
      * @var Enterprise_PageCache_Model_Container_Placeholder
@@ -183,5 +188,55 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
     protected function _getCookieValue($cookieName, $defaultValue = null)
     {
         return (array_key_exists($cookieName, $_COOKIE) ? $_COOKIE[$cookieName] : $defaultValue);
+    }
+
+    /**
+     * Set processor for container needs
+     *
+     * @param Enterprise_PageCache_Model_Processor $processor
+     * @return Enterprise_PageCache_Model_Container_Abstract
+     */
+    public function setProcessor(Enterprise_PageCache_Model_Processor $processor)
+    {
+        $this->_processor = $processor;
+        return $this;
+    }
+
+    /**
+     * Get last visited category id
+     *
+     * @return string|null
+     */
+    protected function _getCategoryId()
+    {
+        if ($this->_processor) {
+            $categoryId = $this->_processor
+                ->getMetadata(Enterprise_PageCache_Model_Processor_Category::METADATA_CATEGORY_ID);
+            if ($categoryId) {
+                return $categoryId;
+            }
+        }
+
+        //If it is not product page and not category page - we have no any category (not using last visited)
+        if (!$this->_getProductId()) {
+            return null;
+        }
+
+        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CATEGORY_ID, null);
+    }
+
+    /**
+     * Get current product id
+     *
+     * @return string|null
+     */
+    protected function _getProductId()
+    {
+        if (!$this->_processor) {
+            return null;
+        }
+
+        return $this->_processor
+            ->getMetadata(Enterprise_PageCache_Model_Processor_Product::METADATA_PRODUCT_ID);
     }
 }

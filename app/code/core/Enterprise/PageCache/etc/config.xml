@@ -344,6 +344,14 @@
                     </enterprise_pagecache>
                 </observers>
             </poll_vote_add>
+            <catalog_controller_product_init_before>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>updateProductInfo</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_controller_product_init_before>
         </events>
         <cache>
             <requests>

@@ -535,4 +535,21 @@ class Enterprise_PageCache_Model_Observer
             Mage::getSingleton('core/cookie')->delete($varName);
         }
     }
+
+    /**
+     * Update info about product on product page
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_PageCache_Model_Observer
+     */
+    public function updateProductInfo(Varien_Event_Observer $observer)
+    {
+        $paramsObject = $observer->getEvent()->getParams();
+        if ($paramsObject instanceof Varien_Object) {
+            if (array_key_exists(Enterprise_PageCache_Model_Cookie::COOKIE_CATEGORY_ID, $_COOKIE)) {
+                $paramsObject->setCategoryId($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CATEGORY_ID]);
+            }
+        }
+        return $this;
+    }
 }

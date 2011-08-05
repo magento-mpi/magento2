@@ -26,12 +26,16 @@
 
 class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache_Model_Processor_Default
 {
+    /**
+     * Key for saving category id in metadata
+     */
+    const METADATA_CATEGORY_ID = 'catalog_category_id';
+
     protected $_paramsMap = array(
-        'display_mode'              => 'mode',
-        'limit_page'                => 'limit',
-        'sort_order'                => 'order',
-        'sort_direction'            => 'dir',
-        'last_visited_category_id'  => 'lastcatid'
+        'display_mode'  => 'mode',
+        'limit_page'    => 'limit',
+        'sort_order'    => 'order',
+        'sort_direction'=> 'dir',
     );
 
     /**
@@ -54,6 +58,12 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
         Enterprise_PageCache_Model_Cookie::setCategoryCookieValue($queryParams);
         $this->_prepareCatalogSession();
 
+        $category = Mage::helper('catalog')->getCategory();
+        if ($category) {
+            $processor->setMetadata(self::METADATA_CATEGORY_ID, $category->getId());
+            $this->_updateCategoryViewedCookie($processor);
+        }
+
         return $processor->getRequestId() . '_' . md5($queryParams);
     }
 
@@ -65,6 +75,7 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
      */
     public function getPageIdWithoutApp(Enterprise_PageCache_Model_Processor $processor)
     {
+        $this->_updateCategoryViewedCookie($processor);
         $queryParams = $_GET;
 
         $sessionParams = Enterprise_PageCache_Model_Cookie::getCategoryCookieValue();
@@ -156,5 +167,19 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
         }
 
         return $this->_queryParams;
+    }
+
+    /**
+     * Update last visited category id cookie
+     *
+     * @param Enterprise_PageCache_Model_Processor $processor
+     * @return Enterprise_PageCache_Model_Processor_Category
+     */
+    protected function _updateCategoryViewedCookie(Enterprise_PageCache_Model_Processor $processor)
+    {
+        Enterprise_PageCache_Model_Cookie::setCategoryViewedCookieValue(
+            $processor->getMetadata(self::METADATA_CATEGORY_ID)
+        );
+        return $this;
     }
 }

@@ -20,6 +20,13 @@
             <container>Enterprise_PageCache_Model_Container_Catalognavigation</container>
             <cache_lifetime>86400</cache_lifetime>
         </catalog_navigation>
+        <catalog_breadcrumbs>
+            <block>page/html_breadcrumbs</block>
+            <name>breadcrumbs</name>
+            <placeholder>PAGE_BREADCRUMBS</placeholder>
+            <container>Enterprise_PageCache_Model_Container_Breadcrumbs</container>
+            <cache_lifetime>86400</cache_lifetime>
+        </catalog_breadcrumbs>
         <cart_sidebar>
             <block>checkout/cart_sidebar</block>
             <placeholder>CART_SIDEBAR</placeholder>

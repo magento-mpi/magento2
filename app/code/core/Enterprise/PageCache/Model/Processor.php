@@ -364,6 +364,7 @@ class Enterprise_PageCache_Model_Processor
                 continue;
             }
             $container  = new $container($placeholder);
+            $container->setProcessor($this);
             if (!$container->applyWithoutApp($content)) {
                 $containers[] = $container;
             }
