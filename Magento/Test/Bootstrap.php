@@ -417,7 +417,7 @@ class Magento_Test_Bootstrap
             $this->_ensureDirExists($targetEtcDir);
             foreach (glob("$sourceEtcDir/*.xml") as $sourceXmlFile) {
                 /* Skip "local.xml" files */
-                if (preg_match('#[\\/].*?local.*?$#', $sourceXmlFile)) {
+                if (preg_match('#[\\/].*?local\..*?$#', $sourceXmlFile)) {
                     continue;
                 }
                 $targetXmlFile = str_replace($sourceEtcDir, $targetEtcDir, $sourceXmlFile);
