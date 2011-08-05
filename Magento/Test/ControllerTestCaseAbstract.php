@@ -25,7 +25,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-abstract class Magento_Test_ControllerTestCaseAbstract extends PHPUnit_Framework_TestCase
+abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
 {
     protected $_runCode     = '';
     protected $_runScope    = 'store';
