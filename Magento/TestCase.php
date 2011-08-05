@@ -63,7 +63,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
         $class = get_class(Mage::getSingleton($name));
         $mock = $this->getMock($class, $methods);
 
-        $this->replaceSingleton($name, $mock);
+        $this->_replaceSingleton($name, $mock);
 
         return $mock;
     }
@@ -112,7 +112,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
         $class = get_class(Mage::helper($name));
         $mock = $this->getMock($class, $methods);
 
-        $this->replaceHelper($name, $mock);
+        $this->_replaceHelper($name, $mock);
 
         return $mock;
     }
