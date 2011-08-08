@@ -442,7 +442,7 @@ class Mage_Paypal_Model_Express_Checkout
                     $quoteAddress->setDataUsingMethod($key, $address->getData($key));
                 }
                 $quoteAddress->setCollectShippingRates(true)->collectTotals();
-                $options = $this->_prepareShippingOptions($quoteAddress, false);
+                $options = $this->_prepareShippingOptions($quoteAddress, false, true);
             }
             $response = $this->_api->setShippingOptions($options)->formatShippingOptionsCallback();
 
@@ -624,8 +624,10 @@ class Mage_Paypal_Model_Express_Checkout
      * @param bool $mayReturnEmpty
      * @return array|false
      */
-    protected function _prepareShippingOptions(Mage_Sales_Model_Quote_Address $address, $mayReturnEmpty = false)
-    {
+    protected function _prepareShippingOptions(
+        Mage_Sales_Model_Quote_Address $address,
+        $mayReturnEmpty = false, $calculateTax = false
+    ) {
         $options = array(); $i = 0; $iMin = false; $min = false;
         $userSelectedOption = null;
 
@@ -636,18 +638,27 @@ class Mage_Paypal_Model_Express_Checkout
                     continue;
                 }
                 $isDefault = $address->getShippingMethod() === $rate->getCode();
+                $amountExclTax = Mage::helper('tax')->getShippingPrice($amount, false, $address);
+                $amountInclTax = Mage::helper('tax')->getShippingPrice($amount, true, $address);
 
                 $options[$i] = new Varien_Object(array(
                     'is_default' => $isDefault,
                     'name'       => trim("{$rate->getCarrierTitle()} - {$rate->getMethodTitle()}", ' -'),
                     'code'       => $rate->getCode(),
-                    'amount'     => $amount,
+                    'amount'     => $amountExclTax,
                 ));
+                if ($calculateTax) {
+                    $options[$i]->setTaxAmount(
+                        $amountInclTax - $amountExclTax
+                            + $address->getTaxAmount() - $address->getShippingTaxAmount()
+                    );
+                }
                 if ($isDefault) {
                     $userSelectedOption = $options[$i];
                 }
-                if (false === $min || $amount < $min) {
-                    $min = $amount; $iMin = $i;
+                if (false === $min || $amountInclTax < $min) {
+                    $min = $amountInclTax;
+                    $iMin = $i;
                 }
                 $i++;
             }
@@ -660,6 +671,9 @@ class Mage_Paypal_Model_Express_Checkout
                 'code'       => 'no_rate',
                 'amount'     => 0.00,
             ));
+            if ($calculateTax) {
+                $options[$i]->setTaxAmount($address->getTaxAmount());
+            }
         } elseif (is_null($userSelectedOption) && isset($options[$iMin])) {
             $options[$iMin]->setIsDefault(true);
         }
