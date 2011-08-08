@@ -558,7 +558,10 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                         if (!empty($this->_attributeValues[$attrCode])) {
                         if ($this->_attributeTypes[$attrCode] == 'multiselect') {
                                 $attrValue = explode(',', $attrValue);
-                                $attrValue = array_intersect_key($this->_attributeValues[$attrCode], array_flip($attrValue));
+                                $attrValue = array_intersect_key(
+                                    $this->_attributeValues[$attrCode],
+                                    array_flip($attrValue)
+                                );
                                 $rowMultiselects[$itemId][$attrCode] = $attrValue;
                             } else if (isset($this->_attributeValues[$attrCode][$attrValue])) {
                                 $attrValue = $this->_attributeValues[$attrCode][$attrValue];
@@ -853,8 +856,10 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 if (!empty($configurableData[$productId])) {
                     $additionalRowsCount = max($additionalRowsCount, count($configurableData[$productId]));
                 }
-                foreach($rowMultiselects[$productId] as $attributes) {
-                    $additionalRowsCount = max($additionalRowsCount, count($attributes));
+                if (!empty($rowMultiselects[$productId])) {
+                    foreach($rowMultiselects[$productId] as $attributes) {
+                        $additionalRowsCount = max($additionalRowsCount, count($attributes));
+                    }
                 }
 
                 if ($additionalRowsCount) {
