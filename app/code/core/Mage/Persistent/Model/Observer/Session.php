@@ -153,6 +153,7 @@ class Mage_Persistent_Model_Observer_Session
             Mage::helper('persistent/session')->setRememberMeChecked((bool)$rememberMeCheckbox);
             if (
                 $controllerAction->getFullActionName() == 'checkout_onepage_saveBilling'
+                    || $controllerAction->getFullActionName() == 'customer_account_createpost'
             ) {
                 Mage::getSingleton('checkout/session')->setRememberMeChecked((bool)$rememberMeCheckbox);
             }
