@@ -28,8 +28,9 @@
 class Magento_TestCase extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param $name
-     * @param $mock
+     * Replace object which will be returned on Mage::getSingleton() call
+     * @param string $name
+     * @param object $mock
      * @return Magento_TestCase
      */
     protected function _replaceSingleton($name, $mock)
@@ -42,7 +43,8 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $name
+     * Restore original object which will be returned on Mage::getSingleton() call
+     * @param string $name
      * @return Magento_TestCase
      */
     protected function _restoreSingleton($name)
@@ -54,7 +56,8 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $name
+     * Replace object which will be returned on Mage::getSingleton() call with mock
+     * @param string $name 
      * @param array $methods
      * @return PHPUnit_Framework_MockObject_MockObject
      */
@@ -69,8 +72,9 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $name
-     * @param $mock
+     * Replace object which will be returned on Mage::helper() call
+     * @param string $name
+     * @param object $mock
      * @return Magento_TestCase
      */
     protected function _replaceHelper($name, $mock)
@@ -87,7 +91,8 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $name
+     * Restore original object which will be returned on Mage::helper() call
+     * @param string $name
      * @return Magento_TestCase
      */
     protected function _restoreHelper($name)
@@ -103,7 +108,8 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $name
+     * Replace object which will be returned on Mage::helper() call with mock
+     * @param string $name
      * @param array $methods
      * @return PHPUnit_Framework_MockObject_MockObject
      */
