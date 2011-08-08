@@ -112,17 +112,29 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
      * Assert that there is a redirect to expected URL.
      * Omit expected URL to check that redirect to wherever has been occurred.
      *
-     * @param string|null $expectedUrl
+     * @param string|null $expectedUrl      Expected URL on redirect
+     * @param string $message               Custom error message
      */
-    public function assertRedirect($expectedUrl = null)
+    public function assertRedirect($expectedUrl = null, $message = '')
     {
-        $this->assertTrue($this->getResponse()->isRedirect());
+        $messageAssert = $message ? $message : 'Response is not contain redirect header.';
+        $this->assertTrue($this->getResponse()->isRedirect(), $messageAssert);
         if ($expectedUrl) {
-            $this->assertContains(array(
-                'name'    => 'Location',
-                'value'   => $expectedUrl,
-                'replace' => true,
-            ), $this->getResponse()->getHeaders());
+            $redirectedUrl = null;
+            foreach ($this->getResponse()->getHeaders() as $header) {
+                if ('Location' == $header['name'] && true == $header['replace']) {
+                    $redirectedUrl = $header['value'];
+
+                    if ($redirectedUrl != $expectedUrl) {
+                        $messageAssert = $message ? $message :
+                            sprintf('Expected redirecting to URL "%s", but redirected to "%s"',
+                                    $expectedUrl, $redirectedUrl);
+
+                        $this->assertEquals($redirectedUrl, $expectedUrl, $messageAssert);
+                    }
+                }
+            }
+
         }
     }
 }

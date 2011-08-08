@@ -28,6 +28,17 @@
 class Magento_TestCase extends PHPUnit_Framework_TestCase
 {
     /**
+     * Run garbage collector for cleaning memory
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        gc_collect_cycles();
+        parent::tearDown();
+    }
+
+    /**
      * Replace object which will be returned on Mage::getSingleton() call
      * @param string $name
      * @param object $mock
@@ -57,7 +68,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Replace object which will be returned on Mage::getSingleton() call with mock
-     * @param string $name 
+     * @param string $name
      * @param array $methods
      * @return PHPUnit_Framework_MockObject_MockObject
      */
