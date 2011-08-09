@@ -26,29 +26,30 @@
 
 
 /**
- * Adminhtml backend model for "Use Custom Admin URL" option
+ * Adminhtml backend model for "Custom Admin Path" option
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustom extends Mage_Core_Model_Config_Data
+class Mage_Adminhtml_Model_System_Config_Backend_Admin_Custompath extends Mage_Core_Model_Config_Data
 {
+    const CONFIG_SCOPE                      = 'default';
+    const CONFIG_SCOPE_ID                   = 0;
+
+    const XML_PATH_UNSECURE_BASE_LINK_URL        = 'web/unsecure/base_link_url';
+    const XML_PATH_SECURE_BASE_LINK_URL          = 'web/secure/base_link_url';
+
     /**
-     * Validate custom url
+     * Check whether redirect should be set
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Admin_Usecustom
+     * @return Mage_Adminhtml_Model_System_Config_Backend_Admin_Custom
      */
     protected function _beforeSave()
     {
-        $value = $this->getValue();
-        if ($value == 1) {
-            $customUrl = $this->getData('groups/url/fields/custom/value');
-            if (empty($customUrl)) {
-                Mage::throwException(Mage::helper('adminhtml')->__('Please specify the admin custom URL.'));
-            }
+        if ($this->getOldValue() != $this->getValue()) {
+            Mage::register('custom_admin_path_redirect', true, true);
         }
-
         return $this;
     }
 }

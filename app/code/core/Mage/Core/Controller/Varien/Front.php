@@ -299,6 +299,9 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         if (!Mage::getStoreConfig('web/url/redirect_to_base')) {
             return;
         }
+        if ((string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_URL)) {
+            return;
+        }
 
         $baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB, Mage::app()->getStore()->isCurrentlySecure());
 
