@@ -105,6 +105,15 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     protected $_useAnalyticFunction         = false;
 
     /**
+     * Cast map for attribute order
+     *
+     * @var array
+     */
+    protected $_castMap = array(
+        'validate-digits' => 'signed',
+    );
+
+    /**
      * Collection constructor
      *
      * @param Mage_Core_Model_Resource_Abstract $resource
@@ -357,10 +366,6 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             $entityField = 'e.' . $attribute;
         }
 
-        $castMap = array(
-            'validate-digits' => 'signed',
-        );
-
         if ($attrInstance) {
             if ($attrInstance->getBackend()->isStatic()) {
                 $orderExpr = $entityField;
@@ -372,8 +377,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
                     $orderExpr = $this->_getAttributeTableAlias($attribute).'.value';
                 }
             }
-            if (isset($castMap[$attrInstance->getFrontendClass()])) {
-                $castTo = $castMap[$attrInstance->getFrontendClass()];
+            if (isset($this->_castMap[$attrInstance->getFrontendClass()])) {
+                $castTo = $this->_castMap[$attrInstance->getFrontendClass()];
                 $orderExpr = new Zend_Db_Expr("CAST($orderExpr AS $castTo) $dir");
             } else {
                 $orderExpr .= ' ' . $dir;
@@ -1069,7 +1074,11 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         $selects = array();
         foreach ($tableAttributes as $table=>$attributes) {
             $select = $this->_getLoadAttributesSelect($table, $attributes);
-            $selects[$attributeTypes[$table]][] = $this->_addLoadAttributesSelectValues($select, $table, $attributeTypes[$table]);
+            $selects[$attributeTypes[$table]][] = $this->_addLoadAttributesSelectValues(
+                $select,
+                $table,
+                $attributeTypes[$table]
+            );
         }
         $selectGroups = Mage::getResourceHelper('eav')->getLoadAttributesSelectGroups($selects);
         foreach ($selectGroups as $selects) {
@@ -1345,7 +1354,10 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         }
 
         if ($entity->isAttributeStatic($attribute)) {
-            $conditionSql = $this->_getConditionSql($this->getConnection()->quoteIdentifier('e.' . $attribute), $condition);
+            $conditionSql = $this->_getConditionSql(
+                $this->getConnection()->quoteIdentifier('e.' . $attribute),
+                $condition
+            );
         } else {
             $this->_addAttributeJoin($attribute, $joinType);
             if (isset($this->_joinAttributes[$attribute]['condition_alias'])) {
