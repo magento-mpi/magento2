@@ -73,7 +73,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
         if ($cacheId !== false) {
             $block = $this->_loadCache($cacheId);
             if ($block !== false) {
-                 $block = Enterprise_PageCache_Helper_Url::replaceUenc($block);
+                $block = Enterprise_PageCache_Helper_Url::replaceUenc($block);
                 $this->_applyToContent($content, $block);
             } else {
                 return false;
