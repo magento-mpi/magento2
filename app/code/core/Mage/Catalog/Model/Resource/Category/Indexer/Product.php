@@ -512,7 +512,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
     }
 
     /**
-     * Rebuild index for anchor categories and associated t child categories products
+     * Rebuild index for anchor categories and associated to child categories products
      *
      * @param null | array $categoryIds
      * @param null | array $productIds
@@ -542,15 +542,16 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
         $select = $adapter->select()
             ->distinct(true)
             ->from(array('ce' => $this->_categoryTable), array('entity_id'))
-            ->joinLeft(
+            ->joinInner(
                 array('cc' => $this->_categoryTable),
                 $adapter->quoteIdentifier('cc.path') .
                 ' LIKE ('.$adapter->getConcatSql(array($adapter->quoteIdentifier('ce.path'),$adapter->quote('/%'))).')'
+                . ' OR cc.entity_id=ce.entity_id'
                 , array()
             )
             ->joinInner(
                 array('cp' => $this->_categoryProductTable),
-                'cp.category_id=cc.entity_id OR cp.category_id=ce.entity_id',
+                'cp.category_id=cc.entity_id',
                 array('cp.product_id', 'position' => $position, 'is_parent' => $isParent)
             )
             ->joinInner(array('pw' => $this->_productWebsiteTable), 'pw.product_id=cp.product_id', array())
