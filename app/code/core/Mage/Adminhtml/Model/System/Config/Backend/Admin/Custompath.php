@@ -34,12 +34,6 @@
  */
 class Mage_Adminhtml_Model_System_Config_Backend_Admin_Custompath extends Mage_Core_Model_Config_Data
 {
-    const CONFIG_SCOPE                      = 'default';
-    const CONFIG_SCOPE_ID                   = 0;
-
-    const XML_PATH_UNSECURE_BASE_LINK_URL        = 'web/unsecure/base_link_url';
-    const XML_PATH_SECURE_BASE_LINK_URL          = 'web/secure/base_link_url';
-
     /**
      * Check whether redirect should be set
      *
