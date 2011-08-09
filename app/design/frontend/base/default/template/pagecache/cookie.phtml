@@ -26,5 +26,13 @@
 ?>
 
 <script type="text/javascript">
-    Mage.Cookies.set('<?php echo Mage_PageCache_Helper_Data::NO_CACHE_COOKIE; ?>', 1);
+    var lifetime = <?php echo Mage::helper('pagecache')->getNoCacheCookieLifetime(); ?>;
+    if (lifetime > 0) {
+        lifetime = lifetime * 1000;
+        var expireAt = new Date();
+        expireAt.setTime(expireAt.getTime() + lifetime);
+        Mage.Cookies.set('<?php echo Mage_PageCache_Helper_Data::NO_CACHE_COOKIE; ?>', 1, expireAt);
+    } else {
+        Mage.Cookies.set('<?php echo Mage_PageCache_Helper_Data::NO_CACHE_COOKIE; ?>', 1);
+    }
 </script>
