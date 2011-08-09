@@ -405,7 +405,7 @@ class Order_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Search for product
+     * Search
      *
      * @param array $data
      * @param string $fieldSetName
