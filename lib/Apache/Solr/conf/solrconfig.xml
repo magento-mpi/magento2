@@ -563,17 +563,15 @@
          <int name="ps">100</int>
          <str name="q.alt">*:*</str>
         </lst>
-
     </requestHandler>
 
     <!--
     Dismax Request Handlers that used in Magento EE Search module
     -->
-
-    <requestHandler name="magento" class="solr.SearchHandler">
+    <requestHandler name="magento_def" class="solr.SearchHandler">
         <lst name="defaults">
-            <str name="qf">fulltext1^1.0 fulltext2^2.0 fulltext3^3.0 fulltext4^4.0 fulltext5^5.0</str>
-            <str name="pf">fulltext^2.2 name</str>
+            <str name="qf">fulltext1_def^1.0 fulltext2_def^2.0 fulltext3_def^3.0 fulltext4_def^4.0 fulltext5_def^5.0</str>
+            <str name="pf">fulltext1_def^1.0 fulltext2_def^2.0 fulltext3_def^3.0 fulltext4_def^4.0 fulltext5_def^5.0</str>
             <int name="ps">1</int>
             <str name="mm">1</str>
             <str name="defType">dismax</str>
@@ -586,7 +584,6 @@
             <str>spellcheck</str>
         </arr>
     </requestHandler>
-
     <requestHandler name="magento_en" class="solr.SearchHandler">
         <lst name="defaults">
             <str name="qf">fulltext1_en^1.0 fulltext2_en^2.0 fulltext3_en^3.0 fulltext4_en^4.0 fulltext5_en^5.0</str>
@@ -1060,8 +1057,8 @@
     <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
         <str name="queryAnalyzerFieldType">textSpell</str>
         <lst name="spellchecker">
-            <str name="name">magento_spell</str>
-            <str name="field">fulltext_spell</str>
+            <str name="name">magento_spell_def</str>
+            <str name="field">fulltext_spell_def</str>
             <str name="buildOnOptimize">true</str>
             <str name="spellcheckIndexDir">./spellchecker</str>
         </lst>

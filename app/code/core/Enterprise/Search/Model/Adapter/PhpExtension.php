@@ -104,7 +104,6 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      *                              by which will be performed search request and sorting
      *        'ignore_handler'    - Flag that allows to ignore handler (qt) and make multifield search
      *
-     * @see Enterprise_Search_Model_Adapter_HttpStream::_getLanguageCodeByLocaleCode()
      * @return array
      */
     protected function _search($query, $params = array())
@@ -139,8 +138,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
          * By default in Solr  set <defaultSearchField> is "fulltext"
          * When language fields need to be used, then perform search in appropriate field
          */
-        $languageCode   = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
-        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+        $languageSuffix = $this->_getLanguageSuffix($params['locale_code']);
 
         $solrQuery = new SolrQuery();
         $solrQuery->setStart($offset)->setRows($limit);
@@ -341,8 +339,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         $_params = array();
 
 
-        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
-        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+        $languageSuffix = $this->_getLanguageSuffix($params['locale_code']);
 
         $solrQuery = new SolrQuery($query);
 

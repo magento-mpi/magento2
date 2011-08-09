@@ -217,9 +217,8 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve language code by specified locale code if this locale is supported
      *
-     * @param string $localeCode
-     *
-     * @return false | string
+     * @param  string $localeCode
+     * @return string|false
      */
     public function getLanguageCodeByLocaleCode($localeCode)
     {
@@ -247,6 +246,24 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Prepare language suffix for text fields.
+     * For not supported languages prefix _def will be returned.
+     *
+     * @param  string $localeCode
+     * @return string
+     */
+    public function getLanguageSuffix($localeCode)
+    {
+        $languageCode = $this->getLanguageCodeByLocaleCode($localeCode);
+        if (!$languageCode) {
+            $languageCode = 'def';
+        }
+        $languageSuffix = '_' . $languageCode;
+
+        return $languageSuffix;
+    }
+
+    /**
      * Retrieve filter array
      *
      * @param Enterprise_Search_Model_Resource_Collection $collection
@@ -265,8 +282,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $locale = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-        $languageCode = $this->getLanguageCodeByLocaleCode($locale);
-        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+        $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();
         $backendType = $attribute->getBackendType();
@@ -333,8 +349,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
             $field = 'attr_datetime_'. $field;
         } elseif (in_array($backendType, $this->_textFieldTypes)) {
             $locale = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-            $languageCode = $this->getLanguageCodeByLocaleCode($locale);
-            $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+            $languageSuffix = $this->getLanguageSuffix($locale);
             $field .= $languageSuffix;
         }
 

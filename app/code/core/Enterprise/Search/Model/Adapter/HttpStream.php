@@ -100,7 +100,6 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
      *        'locale_code' - Locale code, it used to define what suffix is needed for text fields,
      *                        by which will be performed search request and sorting
      *
-     * @see Enterprise_Search_Model_Adapter_HttpStream::_getLanguageCodeByLocaleCode()
      * @return array
      */
     protected function _search($query, $params = array())
@@ -120,8 +119,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             ? (int) $_params['limit']
             : Enterprise_Search_Model_Adapter_Solr_Abstract::DEFAULT_ROWS_LIMIT;
 
-        $languageCode   = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
-        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+        $languageSuffix = $this->_getLanguageSuffix($params['locale_code']);
         $searchParams   = array();
 
         if (!is_array($_params['fields'])) {
@@ -297,8 +295,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
 
         $_params = array();
 
-        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
-        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+        $languageSuffix = $this->_getLanguageSuffix($params['locale_code']);
 
         $_params['solr_params'] = array (
             'spellcheck'                 => 'true',
