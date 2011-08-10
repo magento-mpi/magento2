@@ -570,3 +570,407 @@ system_configuration:
                                         select_email_template: //select[@name='groups[email][fields][template][value]']
                                         allow_for_guests: //select[@name='groups[email][fields][allow_guest][value]']
                                         limit_sending_by: //select[@name='groups[email][fields][check_by][value]']
+                -
+                    the_find_feed_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/feed/')]
+                        fieldsets:
+                            -
+                                settings:
+                                    xpath: //div/fieldset[legend='Settings']
+                                    fields:
+                                        ftp_server: //input[@name='groups[settings][fields][ftp_server][value]']
+                                        ftp_path: //input[@name='groups[settings][fields][ftp_path][value]']
+                                        ftp_user: //input[@name='groups[settings][fields][ftp_user][value]']
+                                        thefind_feed_filename: //input[@name='groups[settings][fields][findfeed_filename][value]']
+                                        ftp_password: //input[@name='groups[settings][fields][ftp_password][value]']
+                                    dropdowns:
+                                        update_thefind_item_when_product_is_updated: //select[@name='groups[settings][fields][findfeed_update][value]']
+                                        cron_frequency: //select[@name='groups[settings][fields][cron_frequency][value]']
+                                        cron_hour: //select[@name='groups[settings][fields][cron_hours][value]']
+                -
+                    customers_newsletter_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/newsletter/')]
+                        fieldsets:
+                            -
+                                subscription_options:
+                                    xpath: //div/fieldset[legend='Subscription Options']
+                                    dropdowns:
+                                        success_email_template: //select[@name='groups[subscription][fields][success_email_template][value]']
+                                        unsubscription_email_sender: //select[@name='groups[subscription][fields][un_email_identity][value]']
+                                        unsubscription_email_template: //select[@name='groups[subscription][fields][un_email_template][value]']
+                                        succcess_email_sender: //select[@name='groups[subscription][fields][success_email_identity][value]']
+                                        confirmation_email_template: //select[@name='groups[subscription][fields][confirm_email_template][value]']
+                                        need_to_confirm: //select[@name='groups[subscription][fields][confirm][value]']
+                                        confirmation_email_sender: //select[@name='groups[subscription][fields][confirm_email_identity][value]']
+                                        allow_guest_subscription: //select[@name='groups[subscription][fields][allow_guest_subscribe][value]']
+                -
+                    customers_customer_configuration_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/customer/')]
+                        fieldsets:
+                            -
+                                account_sharing_options:
+                                    xpath: //div/fieldset[legend='Account Sharing Options']
+                                    dropdowns:
+                                        share_customer_accounts: //select[@name='groups[account_share][fields][scope][value]']
+                            -
+                                online_customer_options:
+                                    xpath: //div/fieldset[legend='Online Customers Options']
+                                    fields:
+                                        online_minutes_interval: //input[@name='groups[online_customers][fields][online_minutes_interval][value]']
+                            -
+                                create_new_account_options:
+                                    xpath: //div/fieldset[legend='Create New Account Options']
+                                    fields:
+                                        default_email_domain: //input[@name='groups[create_account][fields][email_domain][value]']
+                                    dropdowns:
+                                        default_group: //select[@name='groups[create_account][fields][default_group][value]']
+                                        default_welcome_email: //select[@name='groups[create_account][fields][email_template][value]']
+                                        email_sender: //select[@name='groups[create_account][fields][email_identity][value]']
+                                        require_emails_confirmation: //select[@name='groups[create_account][fields][confirm][value]']
+                                        confirmation_link_email: //select[@name='groups[create_account][fields][email_confirmation_template][value]']
+                                        welcome_email: //select[@name='groups[create_account][fields][email_confirmed_template][value]']
+                                        generate_human_friendly_customer_id: //select[@name='groups[create_account][fields][generate_human_friendly_id][value]']
+                            -
+                                password_options:
+                                    xpath: //div/fieldset[legend='Password Options']
+                                    dropdowns:
+                                        forgot_email_template: //select[@name='groups[password][fields][forgot_email_template][value]']
+                                        forgot_email_sender: //select[@name='groups[password][fields][forgot_email_identity][value]']
+                            -
+                                name_and_address_options:
+                                    xpath: //div/fieldset[legend='Name and Address Options']
+                                    fields:
+                                        number_of_lines_in_a_street_address: //input[@name='groups[address][fields][street_lines][value]']
+                                        prefix_dropdown_options: //input[@name='groups[address][fields][prefix_options][value]']
+                                        suffix_dropdown_options: //input[@name='groups[address][fields][suffix_options][value]']
+                                    dropdowns:
+                                        show_prefix: //select[@name='groups[address][fields][prefix_show][value]']
+                                        show_middle_name_initial: //select[@name='groups[address][fields][middlename_show][value]']
+                                        show_suffix: //select[@name='groups[address][fields][suffix_show][value]']
+                                        show_date_of_birth: //select[@name='groups[address][fields][dob_show][value]']
+                                        show_tax_vat_number: //select[@name='groups[address][fields][taxvat_show][value]']
+                                        show_gender: //select[@name='groups[address][fields][gender_show][value]']
+                            -
+                                login_options:
+                                    xpath: //div/fieldset[legend='Login Options']
+                                    dropdowns:
+                                        redirect_customer_to_account_dashboard_after_logging_in: //select[@name='groups[startup][fields][redirect_dashboard][value]']
+                            -
+                                address_templates:
+                                    xpath: //div/fieldset[legend='Address Templates']
+                                    fields:
+                                        text: //textarea[@name='groups[address_templates][fields][text][value]']
+                                        text_one_line: //textarea[@name='groups[address_templates][fields][oneline][value]']
+                                        html: //textarea[@name='groups[address_templates][fields][html][value]']
+                                        pdf: //textarea[@name='groups[address_templates][fields][pdf][value]']
+                                        javascript_template: //textarea[@name='groups[address_templates][fields][js_template][value]']
+                -
+                    customers_wishlist_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/wishlist/')]
+                        fieldsets:
+                            -
+                                general_options:
+                                    xpath: //div/fieldset[legend='General Options']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[general][fields][active][value]']
+                            -
+                                share_options:
+                                    xpath: //div/fieldset[legend='Share Options']
+                                    dropdowns:
+                                        email_template: //select[@name='groups[email][fields][email_template][value]']
+                                        email_sender: //select[@name='groups[email][fields][email_identity][value]']
+                            -
+                                my_wishlist_link:
+                                    xpath: //div/fieldset[legend='My Wishlist Link']
+                                    dropdowns:
+                                        display_wishlist_summary: //select[@name='groups[wishlist_link][fields][use_qty][value]']
+                -
+                    sales_sales_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/sales/')]
+                        fieldsets:
+                            -
+                                checkout_totals_sort_order:
+                                    xpath: //div/fieldset[legend='Checkout Totals Sort Order']
+                                    fields:
+                                        subtotal: //input[@name='groups[totals_sort][fields][subtotal][value]']
+                                        discount: //input[@name='groups[totals_sort][fields][discount][value]']
+                                        shipping: //input[@name='groups[totals_sort][fields][shipping][value]']
+                                        fixed_product_tax: //input[@name='groups[totals_sort][fields][weee][value]']
+                                        tax: //input[@name='groups[totals_sort][fields][tax][value]']
+                                        grand_total: //input[@name='groups[totals_sort][fields][grand_total][value]']
+                            -
+                                reorder:
+                                    xpath: //div/fieldset[legend='Reorder']
+                                    dropdowns:
+                                        allow_reorder: //select[@name='groups[reorder][fields][allow][value]']
+                            -
+                                invoice_and_packing_slip_design:
+                                    xpath: //div/fieldset[legend='Invoice and Packing Slip Design']
+                                    fields:
+                                        logo_for_pdf_print_outs: //input[@name='groups[identity][fields][logo][value]']
+                                        logo_for_html_print_view: //input[@name='groups[identity][fields][logo_html][value]']
+                                        address: //textarea[@name='groups[identity][fields][address][value]']
+                            -
+                                minimum_order_amount:
+                                    xpath: //div/fieldset[legend='Minimum Order Amount']
+                                    fields:
+                                        minimum_amount: //input[@name='groups[minimum_order][fields][amount][value]']
+                                        description_message: //textarea[@name='groups[minimum_order][fields][description][value]']
+                                        error_to_show_in_shopping_cart: //textarea[@name='groups[minimum_order][fields][error_message][value]']
+                                        multi_address_description_message: //textarea[@name='groups[minimum_order][fields][multi_address_description][value]']
+                                        multi_address_error_to_show_in_shopping_cart: //textarea[@name='groups[minimum_order][fields][multi_address_error_message][value]']
+                                    dropdowns:
+                                        enable: //select[@name='groups[minimum_order][fields][active][value]']
+                                        validate_each_address_separately_in_multi_address_checkout: //select[@name='groups[minimum_order][fields][multi_address][value]']
+                            -
+                                dashboard:
+                                    xpath: //div/fieldset[legend='Dashboard']
+                                    dropdowns:
+                                        use_aggregated_data: //select[@name='groups[dashboard][fields][use_aggregated_data][value]']
+                            -
+                                gift_options:
+                                    xpath: //div/fieldset[legend='Gift Options']
+                                    dropdowns:
+                                        allow_gift_messages_on_order_level: //select[@name='groups[gift_options][fields][allow_order][value]']
+                                        allow_gift_messages_for_order_items: //select[@name='groups[gift_options][fields][allow_items][value]']
+                -
+                    sales_sales_emails_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/sales_email/')]
+                        fieldsets:
+                            -
+                                order:
+                                    xpath: //div/fieldset[legend='Order']
+                                    fields:
+                                        send_order_email_copy_to: //input[@name='groups[order][fields][copy_to][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[order][fields][enabled][value]']
+                                        new_order_confirmation_email_sender: //select[@name='groups[order][fields][identity][value]']
+                                        new_order_confirmation_template: //select[@name='groups[order][fields][template][value]']
+                                        new_order_confirmation_template_for_guest: //select[@name='groups[order][fields][guest_template][value]']
+                                        send_order_email_copy_method: //select[@name='groups[order][fields][copy_method][value]']
+                            -
+                                order_comments:
+                                    xpath: //div/fieldset[legend='Order Comments']
+                                    fields:
+                                        send_order_comment_email_copy_to: //input[@name='groups[order_comment][fields][copy_to][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[order_comment][fields][enabled][value]']
+                                        order_comment_email_sender: //select[@name='groups[order_comment][fields][identity][value]']
+                                        order_comment_email_template: //select[@name='groups[order_comment][fields][template][value]']
+                                        order_comment_email_template_for_guest: //select[@name='groups[order_comment][fields][guest_template][value]']
+                                        send_order_comments_email_copy_method: //select[@name='groups[order_comment][fields][copy_method][value]']
+                            -
+                                invoice:
+                                    xpath: //div/fieldset[legend='Invoice']
+                                    fields:
+                                        send_invoice_email_copy_to: //input[@name='groups[invoice][fields][copy_to][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[invoice][fields][enabled][value]']
+                                        invoice_email_sender: //select[@name='groups[invoice][fields][identity][value]']
+                                        invoice_email_template: //select[@name='groups[invoice][fields][template][value]']
+                                        invoice_email_template_for_guest: //select[@name='groups[invoice][fields][guest_template][value]']
+                                        send_invoice_email_copy_method: //select[@name='groups[invoice][fields][copy_method][value]']
+                            -
+                                invoice_comments:
+                                    xpath: //div/fieldset[legend='Invoice Comments']
+                                    fields:
+                                        send_invoice_comment_email_copy_to: //input[@name='groups[invoice_comment][fields][copy_to][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[invoice_comment][fields][enabled][value]']
+                                        invoice_comment_email_sender: //select[@name='groups[invoice_comment][fields][identity][value]']
+                                        invoice_comment_email_template: //select[@name='groups[invoice_comment][fields][template][value]']
+                                        invoice_comment_email_template_for_guest: //select[@name='groups[invoice_comment][fields][guest_template][value]']
+                                        send_invoice_comment_email_copy_method: //select[@name='groups[invoice_comment][fields][copy_method][value]']
+                            -
+                                shipment:
+                                    xpath: //div/fieldset[legend='Shipment']
+                                    fields:
+                                        send_shipment_email_copy_to: //input[@name='groups[shipment][fields][copy_to][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[shipment][fields][enabled][value]']
+                                        shipment_email_sender: //select[@name='groups[shipment][fields][identity][value]']
+                                        shipment_email_template: //select[@name='groups[shipment][fields][template][value]']
+                                        shipment_email_template_for_guest: //select[@name='groups[shipment][fields][guest_template][value]']
+                                        send_shipment_email_copy_method: //select[@name='groups[shipment][fields][copy_method][value]']
+                            -
+                                shipment_comments:
+                                    xpath: //div/fieldset[legend='Shipment Comments']
+                                    fields:
+                                        send_shipment_comment_email_copy_to: //input[@name='groups[shipment_comment][fields][copy_to][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[shipment_comment][fields][enabled][value]']
+                                        shipment_comment_email_sender: //select[@name='groups[shipment_comment][fields][identity][value]']
+                                        shipment_comment_email_template: //select[@name='groups[shipment_comment][fields][template][value]']
+                                        shipment_comment_email_template_for_guest: //select[@name='groups[shipment_comment][fields][guest_template][value]']
+                                        send_shipment_comment_email_copy_method: //select[@name='groups[shipment_comment][fields][copy_method][value]']
+                            -
+                                credit_memo:
+                                    xpath: //div/fieldset[legend='Credit Memo']
+                                    fields:
+                                        send_credit_memo_email_copy_to: //input[@name='groups[creditmemo][fields][copy_to][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[creditmemo][fields][enabled][value]']
+                                        credit_memo_email_sender: //select[@name='groups[creditmemo][fields][identity][value]']
+                                        credit_memo_email_template: //select[@name='groups[creditmemo][fields][template][value]']
+                                        credit_memo_email_template_for_guest: //select[@name='groups[creditmemo][fields][guest_template][value]']
+                                        send_credit_memo_email_copy_method: //select[@name='groups[creditmemo][fields][copy_method][value]']
+                            -
+                                credit_memo_comments:
+                                    xpath: //div/fieldset[legend='Credit Memo Comments']
+                                    fields:
+                                        send_credit_memo_comment_email_copy_to: //input[@name='groups[creditmemo_comment][fields][copy_to][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[creditmemo_comment][fields][enabled][value]']
+                                        credit_memo_comment_email_sender: //select[@name='groups[creditmemo_comment][fields][identity][value]']
+                                        credit_memo_comment_email_template: //select[@name='groups[creditmemo_comment][fields][template][value]']
+                                        credit_memo_comment_email_template_for_guest: //select[@name='groups[creditmemo_comment][fields][guest_template][value]']
+                                        send_credit_memo_comment_email_copy_method: //select[@name='groups[creditmemo_comment][fields][copy_method][value]']
+                -
+                    sales_pdf_print_outs_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/sales_pdf/')]
+                        fieldsets:
+                            -
+                                invoice:
+                                    xpath: //div/fieldset[legend='Invoice']
+                                    dropdowns:
+                                        invoice_display_order_id_in_header: //select[@name='groups[invoice][fields][put_order_id][value]']
+                            -
+                                shipment:
+                                    xpath: //div/fieldset[legend='Shipment']
+                                    dropdowns:
+                                        shipment_display_order_id_in_header: //select[@name='groups[shipment][fields][put_order_id][value]']
+                            -
+                                credit_memo:
+                                    xpath: //div/fieldset[legend='Credit Memo']
+                                    dropdowns:
+                                        credit_memo_display_order_id_in_header: //select[@name='groups[creditmemo][fields][put_order_id][value]']
+                -
+                    sales_tax_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/tax/')]
+                        fieldsets:
+                            -
+                                tax_classes:
+                                    xpath: //div/fieldset[legend='Tax Classes']
+                                    dropdowns:
+                                        tax_class_for_shipping: //select[@name='groups[classes][fields][shipping_tax_class][value]']
+                            -
+                                calculation_settings:
+                                    xpath: //div/fieldset[legend='Calculation Settings']
+                                    dropdowns:
+                                        tax_calculation_method_based_on: //select[@name='groups[calculation][fields][algorithm][value]']
+                                        tax_calculation_based_on: //select[@name='groups[calculation][fields][based_on][value]']
+                                        catalog_prices: //select[@name='groups[calculation][fields][price_includes_tax][value]']
+                                        shipping_prices: //select[@name='groups[calculation][fields][shipping_includes_tax][value]']
+                                        apply_customer_tax: //select[@name='groups[calculation][fields][apply_after_discount][value]']
+                                        apply_discount_on_prices: //select[@name='groups[calculation][fields][discount_tax][value]']
+                                        apply_tax_on: //select[@name='groups[calculation][fields][apply_tax_on][value]']
+                            -
+                                default_tax_destination_calculation:
+                                    xpath: //div/fieldset[legend='Default Tax Destination Calculation']
+                                    fields:
+                                        default_post_code: //input[@name='groups[defaults][fields][postcode][value]']
+                                    dropdowns:
+                                        default_country: //select[@name='groups[defaults][fields][country][value]']
+                                        default_state: //select[@name='groups[defaults][fields][region][value]']
+                            -
+                                price_display_settings:
+                                    xpath: //div/fieldset[legend='Price Display Settings']
+                                    dropdowns:
+                                        display_product_prices_in_catalog: //select[@name='groups[display][fields][type][value]']
+                                        display_shipping_prices: //select[@name='groups[display][fields][shipping][value]']
+                            -
+                                shopping_cart_display_settings:
+                                    xpath: //div/fieldset[legend='Shopping Cart Display Settings']
+                                    dropdowns:
+                                        display_prices: //select[@name='groups[cart_display][fields][price][value]']
+                                        display_subtotal: //select[@name='groups[cart_display][fields][shipping][value]']
+                                        display_shipping_amount: //select[@name='groups[cart_display][fields][shipping][value]']
+                                        include_tax_in_grand_total: //select[@name='groups[cart_display][fields][grandtotal][value]']
+                                        display_full_tax_summary: //select[@name='groups[cart_display][fields][full_summary][value]']
+                                        display_zero_tax_subtotal: //select[@name='groups[cart_display][fields][zero_tax][value]']
+                            -
+                                orders_invoices_creditmemos_display_settings:
+                                    xpath: //div/fieldset[legend='Orders, Invoices, Creditmemos Display Settings']
+                                    dropdowns:
+                                        display_prices: //select[@name='groups[sales_display][fields][price][value]']
+                                        display_subtotal: //select[@name='groups[sales_display][fields][subtotal][value]']
+                                        display_shipping_amount: //select[@name='groups[sales_display][fields][shipping][value]']
+                                        include_tax_in_grand_total: //select[@name='groups[sales_display][fields][grandtotal][value]']
+                                        display_full_tax_summary: //select[@name='groups[sales_display][fields][full_summary][value]']
+                                        display_zero_tax_subtotal: //select[@name='groups[sales_display][fields][zero_tax][value]']
+                            -
+                                fixed_product_taxes:
+                                    xpath: //div/fieldset[legend='Fixed Product Taxes']
+                                    dropdowns:
+                                        enable_fpt: //select[@name='groups[weee][fields][enable][value]']
+                                        display_prices_in_product_lists: //select[@name='groups[weee][fields][display_list][value]']
+                                        display_prices_on_product_view_page: //select[@name='groups[weee][fields][display][value]']
+                                        display_prices_in_sales_modules: //select[@name='groups[weee][fields][display_sales][value]']
+                                        display_prices_in_emails: //select[@name='groups[weee][fields][display_email][value]']
+                                        apply_discounts_to_fpt: //select[@name='groups[weee][fields][discount][value]']
+                                        apply_tax_to_fpt: //select[@name='groups[weee][fields][apply_vat][value]']
+                                        include_fpt_in_subtotal: //select[@name='groups[weee][fields][include_in_subtotal][value]']
+                -
+                    sales_checkout_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/checkout/')]
+                        fieldsets:
+                            -
+                                checkout_options:
+                                    xpath: //div/fieldset[legend='Checkout Options']
+                                    dropdowns:
+                                        enable_onepage_checkout: //select[@name='groups[options][fields][onepage_checkout_enabled][value]']
+                                        allow_guest_checkout: //select[@name='groups[options][fields][guest_checkout][value]']
+                                        enable_terms_and_conditions: //select[@name='groups[options][fields][enable_agreements][value]']
+                            -
+                                shopping_cart:
+                                    xpath: //div/fieldset[legend='Shopping Cart']
+                                    fields:
+                                        quote_lifetime: //input[@name='groups[cart][fields][delete_quote_after][value]']
+                                    dropdowns:
+                                        after_adding_a_product_redirect_to_shopping_cart: //select[@name='groups[cart][fields][redirect_to_cart][value]']
+                                        grouped_product_image: //select[@name='groups[cart][fields][grouped_product_image][value]']
+                                        configurable_product_image: //select[@name='groups[cart][fields][configurable_product_image][value]']
+                            -
+                                my_cart_link:
+                                    xpath: //div/fieldset[legend='My Cart Link']
+                                    dropdowns:
+                                        display_cart_summary: //select[@name='groups[cart_link][fields][use_qty][value]']
+
+                            -
+                                shopping_cart_sidebar:
+                                    xpath: //div/fieldset[legend='Shopping Cart Sidebar']
+                                    fields:
+                                        maximum_display_recently_added_items: //input[@name='groups[sidebar][fields][count][value]']
+                                    dropdowns:
+                                        display_shopping_cart_sidebar: //select[@name='groups[sidebar][fields][display][value]']
+                            -
+                                payment_failed_emails:
+                                    xpath: //div/fieldset[legend='Payment Failed Emails']
+                                    fields:
+                                        send_payment_failed_email_copy_to: //input[@name='groups[payment_failed][fields][copy_to][value]']
+                                    dropdowns:
+                                        payment_failed_email_receiver: //select[@name='groups[payment_failed][fields][reciever][value]']
+                                        payment_failed_email_sender: //select[@name='groups[payment_failed][fields][identity][value]']
+                                        payment_failed_template: //select[@name='groups[payment_failed][fields][template][value]']
+                                        send_payment_failed_email_copy_method: //select[@name='groups[payment_failed][fields][copy_method][value]']
+                -
+                    sales_shipping_methods_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/shipping/')]
+                        fieldsets:
+                            -
+                                origin:
+                                    xpath: //div/fieldset[legend='Origin']
+                                    fields:
+                                        zip_postal_code: //input[@name='groups[origin][fields][postcode][value]']
+                                        city: //input[@name='groups[origin][fields][city][value]']
+                                        region_state: //input[@name='groups[origin][fields][region_id][value]']
+                                    dropdowns:
+                                        country: //select[@name='groups[origin][fields][country_id][value]']
+                                        region_state: //select[@name='groups[origin][fields][region_id][value]']
+                            -
+                                options:
+                                    xpath: //div/fieldset[legend='Options']
+                                    fields:
+                                        maximum_qty_allowed_for_shipping_to_multiple_addresses: //input[@name='groups[option][fields][checkout_multiple_maximum_qty][value]']
+                                    dropdowns:
+                                        allow_shipping_to_multiple_addresses: //select[@name='groups[option][fields][checkout_multiple][value]']
