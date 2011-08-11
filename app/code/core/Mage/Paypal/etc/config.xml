@@ -136,24 +136,6 @@
         <secure_url>
             <paypal_express_callbackshippingoptions>paypal/express/callbackshippingoptions</paypal_express_callbackshippingoptions>
         </secure_url>
-        <events>
-            <checkout_submit_all_after>
-                <observers>
-                    <payflowlink_save_order_after_submit>
-                        <class>paypal/observer</class>
-                        <method>saveOrderAfterSubmit</method>
-                    </payflowlink_save_order_after_submit>
-                </observers>
-            </checkout_submit_all_after>
-            <controller_action_postdispatch_checkout_onepage_saveOrder>
-                <observers>
-                    <payflowlink_save_order_onepage>
-                        <class>paypal/observer</class>
-                        <method>setResponseAfterSaveOrder</method>
-                    </payflowlink_save_order_onepage>
-                </observers>
-            </controller_action_postdispatch_checkout_onepage_saveOrder>
-        </events>
     </frontend>
     <adminhtml>
         <translate>

@@ -65,71 +65,21 @@ class Mage_Paypal_Model_Observer
         $date = Mage::getModel('core/date');
         $createdBefore = strtotime('-1 hour', $date->timestamp());
 
-        try {
-            /** @var $collection Mage_Paypal_Model_Resource_Payment_Transaction_Collection */
-            $collection = Mage::getModel('paypal/payment_transaction')->getCollection();
-            $collection->addCreatedBeforeFilter($date->gmtDate(null, $createdBefore));
+        /** @var $collection Mage_Paypal_Model_Resource_Payment_Transaction_Collection */
+        $collection = Mage::getModel('paypal/payment_transaction')->getCollection();
+        $collection->addCreatedBeforeFilter($date->gmtDate(null, $createdBefore));
 
-            /** @var $item Mage_Paypal_Model_Payment_Transaction */
-            foreach ($collection as $item) {
+        /** @var $method Mage_Paypal_Model_Payflowlink */
+        $method = Mage::helper('payment')->getMethodInstance(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
+
+        /** @var $item Mage_Paypal_Model_Payment_Transaction */
+        foreach ($collection as $item) {
+            try {
+                $method->void(new Varien_Object(array('transaction_id' => $item->getTxnId())));
                 $item->delete();
-            }
-        } catch (Exception $e) {
-            Mage::logException($e);
-        }
-    }
-
-    /**
-     * Save order into registry to use it in the overloaded controller.
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Paypal_Model_Observer
-     */
-    public function saveOrderAfterSubmit(Varien_Event_Observer $observer)
-    {
-        /* @var $order Mage_Sales_Model_Order */
-        $order = $observer->getEvent()->getData('order');
-        Mage::register('payflowlink_order', $order, true);
-
-        return $this;
-    }
-
-    /**
-     * Set data for response of frontend saveOrder action
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Paypal_Model_Observer
-     */
-    public function setResponseAfterSaveOrder(Varien_Event_Observer $observer)
-    {
-        /* @var $order Mage_Sales_Model_Order */
-        $order = Mage::registry('payflowlink_order');
-
-        if ($order && $order->getId()) {
-            $payment = $order->getPayment();
-            if ($payment && in_array($payment->getMethod(), Mage::helper('paypal/hss')->getHssMethods())) {
-                /* @var $controller Mage_Core_Controller_Varien_Action */
-                $controller = $observer->getEvent()->getData('controller_action');
-                $result = Mage::helper('core')->jsonDecode(
-                    $controller->getResponse()->getBody('default'),
-                    Zend_Json::TYPE_ARRAY
-                );
-
-                if (empty($result['error'])) {
-                    $controller->loadLayout('checkout_onepage_review');
-                    $html = $controller->getLayout()->getBlock('paypal.iframe')->toHtml();
-                    $result['update_section'] = array(
-                        'name' => 'paypaliframe',
-                        'html' => $html
-                    );
-                    $result['redirect'] = false;
-                    $result['success'] = false;
-                    $controller->getResponse()->clearHeader('Location');
-                    $controller->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
-                }
+            } catch (Exception $e) {
+                Mage::logException($e);
             }
         }
-
-        return $this;
     }
 }
