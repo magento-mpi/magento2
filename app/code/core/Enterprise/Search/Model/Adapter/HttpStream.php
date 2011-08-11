@@ -165,10 +165,8 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         /**
          * Suggestions search
          */
-        $useSpellcheckSearch = (
-            isset($params['solr_params']['spellcheck'])
-            && $params['solr_params']['spellcheck'] == 'true'
-        );
+        $useSpellcheckSearch = isset($params['solr_params']['spellcheck'])
+            && $params['solr_params']['spellcheck'] == 'true';
 
         if ($useSpellcheckSearch) {
             if (isset($params['solr_params']['spellcheck.count'])

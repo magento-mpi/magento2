@@ -191,10 +191,8 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         /**
          * Suggestions search
          */
-        $useSpellcheckSearch = (
-            isset($params['solr_params']['spellcheck'])
-            && $params['solr_params']['spellcheck'] == 'true'
-        );
+        $useSpellcheckSearch = isset($params['solr_params']['spellcheck'])
+            && $params['solr_params']['spellcheck'] == 'true';
 
 
         if ($useSpellcheckSearch) {
