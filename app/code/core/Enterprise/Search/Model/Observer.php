@@ -111,11 +111,13 @@ class Enterprise_Search_Model_Observer
     {
         if (Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
             $engine = Mage::helper('catalogsearch')->getEngine();
-            if ($engine->holdCommit()) {
-                $productIds = $observer->getEvent()->getProductIds();
-                if (is_null($productIds)) {
-                    $engine->setIndexNeedsOptimization();
-                }
+            if (!$engine->holdCommit()) {
+                return;
+            }
+
+            $productIds = $observer->getEvent()->getProductIds();
+            if (is_null($productIds)) {
+                $engine->setIndexNeedsOptimization();
             }
         }
     }
@@ -131,12 +133,14 @@ class Enterprise_Search_Model_Observer
     {
         if (Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
             $engine = Mage::helper('catalogsearch')->getEngine();
-            if ($engine->allowCommit()) {
-                if ($engine->getIndexNeedsOptimization()) {
-                    $engine->optimizeIndex();
-                } else {
-                    $engine->commitChanges();
-                }
+            if (!$engine->allowCommit()) {
+                return;
+            }
+
+            if ($engine->getIndexNeedsOptimization()) {
+                $engine->optimizeIndex();
+            } else {
+                $engine->commitChanges();
             }
         }
     }
