@@ -86,9 +86,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         // check if customer is not confirmed
         if ($customer->isConfirmationRequired()) {
             if ($customer->getConfirmation()) {
-                throw new Exception('This customer is not confirmed and cannot log in.',
-                    Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED
-                );
+                return $this->_logout();
             }
         }
         $this->_customer = $customer;
@@ -170,7 +168,9 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         if ($this->getData('customer_group_id')) {
             return $this->getData('customer_group_id');
         }
-        return ($this->isLoggedIn()) ? $this->getCustomer()->getGroupId() : Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+        return $this->isLoggedIn() && $this->getCustomer()
+            ? $this->getCustomer()->getGroupId()
+            : Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
     }
 
     /**
@@ -250,8 +250,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         if ($this->isLoggedIn()) {
             Mage::dispatchEvent('customer_logout', array('customer' => $this->getCustomer()) );
-            $this->setId(null);
-            $this->getCookie()->delete($this->getSessionName());
+            $this->_logout();
         }
         return $this;
     }
@@ -287,6 +286,19 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
         $url = Mage::helper('core/url')
             ->removeRequestParam($url, Mage::getSingleton('core/session')->getSessionIdQueryParam());
         return $this->setData($key, $url);
+    }
+
+    /**
+     * Logout without dispatching event
+     *
+     * @return Mage_Customer_Model_Session
+     */
+    protected function _logout()
+    {
+        $this->setId(null);
+        $this->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
+        $this->getCookie()->delete($this->getSessionName());
+        return $this;
     }
 
     /**
