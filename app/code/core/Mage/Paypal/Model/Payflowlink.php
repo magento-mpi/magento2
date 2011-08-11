@@ -67,6 +67,12 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     const RESPONSE_ERROR_MSG = 'Payment error. %s was not found.';
 
     /**
+     * Quote Changed Error message
+     * @var string
+     */
+    const SHOPPING_CART_CHANGED_ERROR_MSG = 'Shopping cart contents has been changed.';
+
+    /**
      * Key for storing secure hash in additional information of payment model
      *
      * @var string
@@ -129,13 +135,13 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $transaction =  Mage::getModel('paypal/payment_transaction');
         $transaction->loadByTxnId($txnId);
         if (!$transaction->getId()) {
-            Mage::throwException(Mage::helper('paypal')->__('Shopping cart contents has been changed.'));
+            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
         }
 
         $amt = $transaction->getAdditionalInformation('amt');
 
         if (!$amt || $amt != $amount) {
-            Mage::throwException(Mage::helper('paypal')->__('Shopping cart contents has been changed.'));
+            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
         }
 
         $payment->setTransactionId($txnId)->setIsTransactionClosed(0);
@@ -162,13 +168,13 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $transaction =  Mage::getModel('paypal/payment_transaction');
         $transaction->loadByTxnId($txnId);
         if (!$transaction->getId()) {
-            Mage::throwException(Mage::helper('paypal')->__('Shopping cart contents has been changed.'));
+            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
         }
 
         $amt = $transaction->getAdditionalInformation('amt');
 
         if (!$amt || $amt != $amount) {
-            Mage::throwException(Mage::helper('paypal')->__('Shopping cart contents has been changed.'));
+            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
         }
 
         $payment->setTransactionId($txnId);
