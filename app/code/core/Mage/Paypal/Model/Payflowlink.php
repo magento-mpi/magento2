@@ -134,15 +134,8 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         /** @var $transaction Mage_Paypal_Model_Payment_Transaction */
         $transaction =  Mage::getModel('paypal/payment_transaction');
         $transaction->loadByTxnId($txnId);
-        if (!$transaction->getId()) {
-            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
-        }
 
-        $amt = $transaction->getAdditionalInformation('amt');
-
-        if (!$amt || $amt != $amount) {
-            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
-        }
+        $this->_checkTransaction($transaction, $amount);
 
         $payment->setTransactionId($txnId)->setIsTransactionClosed(0);
         if ($payment->getAdditionalInformation('paypal_fraud_filters') !== null) {
@@ -167,18 +160,11 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         /** @var $transaction Mage_Paypal_Model_Payment_Transaction */
         $transaction =  Mage::getModel('paypal/payment_transaction');
         $transaction->loadByTxnId($txnId);
-        if (!$transaction->getId()) {
-            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
-        }
 
-        $amt = $transaction->getAdditionalInformation('amt');
-
-        if (!$amt || $amt != $amount) {
-            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
-        }
+        $this->_checkTransaction($transaction, $amount);
 
         $payment->setTransactionId($txnId);
-        $payment->authorize(false, $amt);
+        $payment->authorize(false, $amount);
         $payment->unsTransactionId();
 
         $payment->setParentTransactionId($txnId);
@@ -312,6 +298,25 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         }
 
         return false;
+    }
+
+    /**
+     * @param Mage_Paypal_Model_Payment_Transaction $transaction
+     * @param mixed $amount
+     * @return Mage_Paypal_Model_Payflowlink
+     */
+    protected function _checkTransaction($transaction, $amount)
+    {
+        if (!$transaction->getId()) {
+            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
+        }
+
+        $amt = $transaction->getAdditionalInformation('amt');
+
+        if (!$amt || $amt != $amount) {
+            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
+        }
+        return $this;
     }
 
     /**
