@@ -1687,7 +1687,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .item-options p { font-size:11px; font-weight:bold; text-transform:uppercase; padding:10px 12px 0 12px; }
 .item-options dt { font-weight:bold; padding:7px 0 7px ; }
 .item-options dd { padding-bottom:5px; }
-.truncated { cursor:help; margin:5px 0 0; position:relative; z-index:1; }
+.truncated { cursor:help; margin:5px 0 0; position:relative; z-index:1; width:110px; }
 .truncated a.dots { cursor:help; }
 .truncated a.details { cursor:help; text-decoration:none; background:url(../images/bkg_dots.gif) repeat-x 0 100%; color:#514f4f; }
 .truncated .truncated_full_value {}
