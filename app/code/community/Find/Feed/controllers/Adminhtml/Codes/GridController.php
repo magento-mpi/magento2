@@ -18,8 +18,8 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    
- * @package     _home
+ * @category    Find
+ * @package     Find_Feed
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -79,7 +79,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
             $model->setEavCode($this->getRequest()->getParam('eav_code'));
             $model->setIsImported(intval($this->getRequest()->getParam('is_imported')));
             $model->save();
-            $response->setError(0); 
+            $response->setError(0);
         } catch(Exception $e) {
             $response->setError(1);
             $response->setMessage('Save error');
@@ -157,5 +157,14 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
             $this->_getSession()->addSuccess(Mage::helper('find_feed')->__("%s codes deleted", $updatedCodes));
         }
         $this->_redirect('*/*/index');
+    }
+
+    /**
+     * Check admin permissions for this controller
+     *
+     * @return boolean
+     */
+    protected function _isAllowed() {
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/feed/import_products');
     }
 }

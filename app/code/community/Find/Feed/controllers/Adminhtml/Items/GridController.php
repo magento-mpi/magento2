@@ -18,8 +18,8 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    
- * @package     _home
+ * @category    Find
+ * @package     Find_Feed
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -46,10 +46,10 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
      */
     public function gridAction()
     {
-        $this->loadLayout();    
+        $this->loadLayout();
         $this->getResponse()->setBody($this->getLayout()->createBlock('find_feed/adminhtml_list_items_grid')->toHtml());
     }
-    
+
     /**
      * Product list for mass action
      *
@@ -58,7 +58,7 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
     protected function _getMassActionProducts()
     {
         $idList = $this->getRequest()->getParam('item_id');
-        if (!empty($idList)) {   
+        if (!empty($idList)) {
             $products = array();
             foreach ($idList as $id) {
                 $model = Mage::getModel('catalog/product');
@@ -90,7 +90,7 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
                 $this->_getSession()->addSuccess(Mage::helper('find_feed')->__("%s product in feed.", $updatedProducts));
             } catch (Exception $e) {
                 $this->_getSession()->addError(Mage::helper('find_feed')->__("Unable to process an import. ") . $e->getMessage());
-            } 
+            }
         }
         $this->_redirect('*/*/index');
     }
@@ -109,7 +109,16 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
         if ($updatedProducts) {
             Mage::getModel('find_feed/import')->processImport();
             $this->_getSession()->addSuccess(Mage::helper('find_feed')->__("%s product not in feed.", $updatedProducts));
-        } 
+        }
         $this->_redirect('*/*/index');
+    }
+
+    /**
+     * Check admin permissions for this controller
+     *
+     * @return boolean
+     */
+    protected function _isAllowed() {
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/feed/import_items');
     }
 }
