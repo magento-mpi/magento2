@@ -75,7 +75,10 @@ class Mage_Paypal_Model_Observer
         /** @var $item Mage_Paypal_Model_Payment_Transaction */
         foreach ($collection as $item) {
             try {
-                $method->void(new Varien_Object(array('transaction_id' => $item->getTxnId())));
+                $method->void(new Varien_Object(array(
+                    'transaction_id' => $item->getTxnId(),
+                    'store' => $item->getAdditionalInformation('store_id')
+                )));
                 $item->delete();
             } catch (Exception $e) {
                 Mage::logException($e);

@@ -182,18 +182,25 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      */
     public function void(Varien_Object $payment)
     {
+        /** @var $payment Mage_Sales_Model_Quote_Payment */
         if ($payment instanceof Mage_Sales_Model_Order_Payment) {
             parent::void($payment);
             return $this;
+        } elseif ($payment instanceof Mage_Sales_Model_Quote_Payment) {
+            $this->setStore($payment->getQuote()->getStoreId());
+        } else {
+            if ($payment->getStore()) {
+                $this->setStore($payment->getStore());
+            }
         }
+
         $request = $this->_buildBasicRequest($payment);
         $request->setTrxtype(self::TRXTYPE_DELAYED_VOID);
-
-
 
         $request->setOrigid($payment->getTransactionId());
         $response = $this->_postRequest($request);
         $this->_processErrors($response);
+
         return $this;
     }
 
@@ -278,6 +285,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $transaction->setTxnId($response->getPnref());
 
         $transaction->setAdditionalInformation('amt', $response->getAmt());
+        $transaction->setAdditionalInformation('store_id', $document->getStoreId());
 
         $document->setIsChanged(1);
         $document->save();
