@@ -77,7 +77,7 @@ class Mage_Core_Model_Resource_Email_Template extends Mage_Core_Model_Resource_D
                 ->where('template_code = :template_code');
 
             $bind = array(
-                'template_id'   => $template->getId(),
+                'template_id'   => (string)$template->getId(),
                 'template_code' => $template->getTemplateCode()
             );
             $result = $this->_getReadAdapter()->fetchOne($select, $bind);
