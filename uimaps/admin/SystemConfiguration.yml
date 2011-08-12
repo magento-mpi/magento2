@@ -954,7 +954,7 @@ system_configuration:
                                         payment_failed_template: //select[@name='groups[payment_failed][fields][template][value]']
                                         send_payment_failed_email_copy_method: //select[@name='groups[payment_failed][fields][copy_method][value]']
                 -
-                    sales_shipping_methods_tab:
+                    sales_shipping_settings_tab:
                         xpath: //a[contains(@href, 'system_config/edit/section/shipping/')]
                         fieldsets:
                             -
@@ -974,3 +974,495 @@ system_configuration:
                                         maximum_qty_allowed_for_shipping_to_multiple_addresses: //input[@name='groups[option][fields][checkout_multiple_maximum_qty][value]']
                                     dropdowns:
                                         allow_shipping_to_multiple_addresses: //select[@name='groups[option][fields][checkout_multiple][value]']
+                -
+                    sales_shipping_methods_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/carriers/')]
+                        fieldsets:
+                            -
+                                flat_rate:
+                                    xpath: //div/fieldset[legend='Flat Rate']
+                                    fields:
+                                        title: //input[@name='groups[flatrate][fields][title][value]']
+                                        method_name: //input[@name='groups[flatrate][fields][name][value]']
+                                        price: //input[@name='groups[flatrate][fields][price][value]']
+                                        handling_fee: //input[@name='groups[flatrate][fields][handling_fee][value]']
+                                        display_error_message: //textarea[@name='groups[flatrate][fields][specificerrmsg][value]']
+                                        sort_order: //input[@name='groups[flatrate][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[flatrate][fields][active][value]']
+                                        type: //select[@name='groups[flatrate][fields][type][value]']
+                                        calculate_handling_fee: //select[@name='groups[flatrate][fields][handling_type][value]']
+                                        ship_to_applicable_countries: //select[@name='groups[flatrate][fields][sallowspecific][value]']
+                                        show_method_if_not_applicable: //select[@name='groups[flatrate][fields][sallowspecific][value]']
+                                    multiselects:
+                                        ship_to_specific_countries: //select[@name='groups[flatrate][fields][specificcountry][value][]']
+                            -
+                                flat_rate:
+                                    xpath: //div/fieldset[legend='Table Rates']
+                                    fields:
+                                        title: //input[@name='groups[tablerate][fields][title][value]']
+                                        method_name: //input[@name='groups[tablerate][fields][name][value]']
+                                        handling_fee: //input[@name='groups[tablerate][fields][handling_fee][value]']
+                                        displayed_error_message: //textarea[@name='groups[tablerate][fields][specificerrmsg][value]']
+                                        sort_order: //input[@name='groups[tablerate][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[tablerate][fields][active][value]']
+                                        condition: //select[@name='groups[tablerate][fields][condition_name][value]']
+                                        include_virtual_products_in_price_calculation: //select[@name='groups[tablerate][fields][include_virtual_price][value]']
+                                        calculate_handling_fee: //select[@name='groups[tablerate][fields][handling_type][value]']
+                                        ship_to_applicable_countries: //select[@name='groups[tablerate][fields][sallowspecific][value]']
+                                        show_method_if_not_applicable: //select[@name='groups[tablerate][fields][showmethod][value]']
+                                    multiselects:
+                                        ship_to_specific_countries: //select[@name='groups[tablerate][fields][specificcountry][value][]']
+                            -
+                                free_shipping:
+                                    xpath: //div/fieldset[legend='Free Shipping']
+                                    fields:
+                                        title: //input[@name='groups[freeshipping][fields][title][value]']
+                                        method_name: //input[@name='groups[freeshipping][fields][name][value]']
+                                        minimum_order_amount: //input[@name='groups[freeshipping][fields][free_shipping_subtotal][value]']
+                                        displayed_error_message: //textarea[@name='groups[freeshipping][fields][specificerrmsg][value]']
+                                        sort_order: //input[@name='groups[freeshipping][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[freeshipping][fields][active][value]']
+                                        ship_to_applicable_countries: //select[@name='groups[freeshipping][fields][sallowspecific][value]']
+                                        show_method_if_not_applicable: //select[@name='groups[freeshipping][fields][showmethod][value]']
+                                    multiselects:
+                                        ship_to_specific_countries: //select[@name='groups[freeshipping][fields][specificcountry][value][]']
+                            -
+                                ups:
+                                    xpath: //div/fieldset[legend='UPS']
+                                    fields:
+                                        gateway_url: //input[@name='groups[ups][fields][gateway_url][value]']
+                                        title: //input[@name='groups[ups][fields][title][value]']
+                                        maximum_package_weight: //input[@name='groups[ups][fields][max_package_weight][value]']
+                                        minimum_package_weight: //input[@name='groups[ups][fields][min_package_weight][value]']
+                                        handling_fee: //input[@name='groups[ups][fields][handling_fee][value]']
+                                        minimum_order_amount_for_free_shipping: //input[@name='groups[ups][fields][free_shipping_subtotal][value]']
+                                        displayed_error_message: //textarea[@name='groups[ups][fields][specificerrmsg][value]']
+                                        sort_order: //input[@name='groups[ups][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[ups][fields][active][value]']
+                                        ups_type: //select[@name='groups[ups][fields][type][value]']
+                                        container: //select[@name='groups[ups][fields][container][value]']
+                                        destination_type: //select[@name='groups[ups][fields][dest_type][value]']
+                                        weight_unit: //select[@name='groups[ups][fields][unit_of_measure][value]']
+                                        pickup_method: //select[@name='groups[ups][fields][pickup][value]']
+                                        calculate_handling_fee: //select[@name='groups[ups][fields][handling_type][value]']
+                                        handling_applied: //select[@name='groups[ups][fields][handling_action][value]']
+                                        free_method: //select[@name='groups[ups][fields][free_method][value]']
+                                        free_shipping_with_minimum_order_amount: //select[@name='groups[ups][fields][free_shipping_enable][value]']
+                                        ship_to_applicable_countries: //select[@name='groups[ups][fields][sallowspecific][value]']
+                                        debug: //select[@name='groups[ups][fields][debug][value]']
+                                        show_method_if_not_applicable: //select[@name='groups[ups][fields][showmethod][value]']
+                                    multiselects:
+                                        allowed_methods: //select[@name='groups[ups][fields][allowed_methods][value][]']
+                                        ship_to_specific_countries: //select[@name='groups[ups][fields][specificcountry][value][]']
+                            -
+                                usps:
+                                    xpath: //div/fieldset[legend='USPS']
+                                    fields:
+                                        gateway_url: //input[@name='groups[usps][fields][gateway_url][value]']
+                                        title: //input[@name='groups[usps][fields][title][value]']
+                                        user_id: //input[@name='groups[usps][fields][userid][value]']
+                                        maximum_package_weight: //input[@name='groups[usps][fields][max_package_weight][value]']
+                                        handling_fee: //input[@name='groups[usps][fields][handling_fee][value]']
+                                        minimum_order_amount_for_free_shipping: //input[@name='groups[usps][fields][free_shipping_subtotal][value]']
+                                        displayed_error_message: //textarea[@name='groups[usps][fields][specificerrmsg][value]']
+                                        sort_order: //input[@name='groups[usps][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[usps][fields][active][value]']
+                                        container: //select[@name='groups[usps][fields][container][value]']
+                                        size: //select[@name='groups[usps][fields][size][value]']
+                                        machinable: //select[@name='groups[usps][fields][machinable][value]']
+                                        calculate_handling_fee: //select[@name='groups[usps][fields][handling_type][value]']
+                                        handling_applied: //select[@name='groups[usps][fields][handling_action][value]']
+                                        free_method: //select[@name='groups[usps][fields][free_method][value]']
+                                        free_shipping_with_minimum_order_amount: //select[@name='groups[usps][fields][free_shipping_enable][value]']
+                                        ship_to_applicable_countries: //select[@name='groups[usps][fields][sallowspecific][value]']
+                                        show_method_if_not_applicable: //select[@name='groups[usps][fields][showmethod][value]']
+                                        debug: //select[@name='groups[usps][fields][debug][value]']
+                                    multiselects:
+                                        allowed_methods: //select[@name='groups[usps][fields][allowed_methods][value][]']
+                                        ship_to_specific_countries: //select[@name='groups[usps][fields][specificcountry][value][]']
+                            -
+                                fedex:
+                                    xpath: //div/fieldset[legend='FedEx']
+                                    fields:
+                                        title: //input[@name='groups[fedex][fields][title][value]']
+                                        gateway_url: //input[@name='groups[fedex][fields][gateway_url][value]']
+                                        account_id: //input[@name='groups[fedex][fields][account][value]']
+                                        maximum_package_weight: //input[@name='groups[fedex][fields][max_package_weight][value]']
+                                        handling_fee: //input[@name='groups[fedex][fields][handling_fee][value]']
+                                        minimum_order_amount_for_free_shipping: //input[@name='groups[fedex][fields][free_shipping_subtotal][value]']
+                                        displayed_error_message: //textarea[@name='groups[fedex][fields][specificerrmsg][value]']
+                                        sort_order: //input[@name='groups[fedex][fields][sort_order][value]']
+                                    dropdowns:
+                                        enable: //select[@name='groups[fedex][fields][active][value]']
+                                        packaging: //select[@name='groups[fedex][fields][packaging][value]']
+                                        dropoff: //select[@name='groups[fedex][fields][dropoff][value]']
+                                        calculate_handling_fee: //select[@name='groups[fedex][fields][handling_type][value]']
+                                        handling_applied: //select[@name='groups[fedex][fields][handling_action][value]']
+                                        residential_delivery: //select[@name='groups[fedex][fields][residence_delivery][value]']
+                                        free_method: //select[@name='groups[fedex][fields][free_method][value]']
+                                        free_shipping_with_minimum_order_amount: //select[@name='groups[fedex][fields][free_shipping_enable][value]']
+                                        ship_to_applicable_countries: //select[@name='groups[fedex][fields][sallowspecific][value]']
+                                        debug: //select[@name='groups[fedex][fields][debug][value]']
+                                        show_method_if_not_applicable: //select[@name='groups[fedex][fields][showmethod][value]']
+                                    multiselects:
+                                        allowed_methods: //select[@name='groups[fedex][fields][allowed_methods][value][]']
+                                        ship_to_specific_countries: //select[@name='groups[fedex][fields][specificcountry][value][]']
+                            -
+                                dhl:
+                                    xpath: //div/fieldset[legend='DHL']
+                                    fields:
+                                        gateway_url: //input[@name='groups[dhl][fields][gateway_url][value]']
+                                        title: //input[@name='groups[dhl][fields][title][value]']
+                                        access_id: //input[@name='groups[dhl][fields][id][value]']
+                                        password: //input[@name='groups[dhl][fields][password][value]']
+                                        account_number: //input[@name='groups[dhl][fields][account][value]']
+                                        shipping_key_international: //input[@name='groups[dhl][fields][shipping_intlkey][value]']
+                                        shipping_key: //input[@name='groups[dhl][fields][shipping_key][value]']
+                                        package_description: //input[@name='groups[dhl][fields][contentdesc][value]']
+                                        handling_fee: //input[@name='groups[dhl][fields][handling_fee][value]']
+                                        maximum_package_weight: //input[@name='groups[dhl][fields][max_package_weight][value]']
+                                        displayed_error_message: //textarea[@name='groups[dhl][fields][specificerrmsg][value]']
+                                        minimum_order_amount_for_free_shipping: //input[@name='groups[dhl][fields][free_shipping_subtotal][value]']
+                                        additional_protection_min_subtotal: //input[@name='groups[dhl][fields][additional_protection_min_value][value]']
+                                        additional_protection_configuration_value: //input[@name='groups[dhl][fields][additional_protection_value][value]']
+                                        default_package_length: //input[@name='groups[dhl][fields][default_length][value]']
+                                        default_package_width: //input[@name='groups[dhl][fields][default_width][value]']
+                                        default_package_height: //input[@name='groups[dhl][fields][default_height][value]']
+                                        sort_order: //input[@name='groups[dhl][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[dhl][fields][active][value]']
+                                        shipment_type: //select[@name='groups[dhl][fields][shipment_type][value]']
+                                        calculate_handling_fee: //select[@name='groups[dhl][fields][handling_type][value]']
+                                        handling_applied: //select[@name='groups[dhl][fields][handling_action][value]']
+                                        shipment_dutiable: //select[@name='groups[dhl][fields][dutiable][value]']
+                                        shipment_duty_payment_type: //select[@name='groups[dhl][fields][dutypaymenttype][value]']
+                                        free_method: //select[@name='groups[dhl][fields][free_method][value]']
+                                        free_shipping_with_minimum_order_amount: //select[@name='groups[dhl][fields][free_shipping_enable][value]']
+                                        additional_protection_enabled: //select[@name='groups[dhl][fields][additional_protection_enabled][value]']
+                                        additional_protection_value: //select[@name='groups[dhl][fields][additional_protection_use_subtotal][value]']
+                                        additional_protection_value_rounding_method: //select[@name='groups[dhl][fields][additional_protection_rounding][value]']
+                                        shipment_contains_hazardous_materials: //select[@name='groups[dhl][fields][hazardous_materials][value]']
+                                        ship_to_applicable_countries: //select[@name='groups[dhl][fields][sallowspecific][value]']
+                                        show_method_if_not_applicable: //select[@name='groups[dhl][fields][showmethod][value]']
+                                        debug: //select[@name='groups[dhl][fields][debug][value]']
+                                    multiselects:
+                                        allowed_methods: //select[@name='groups[dhl][fields][allowed_methods][value][]']
+                                        domestic_shipment_days: //select[@name='groups[dhl][fields][shipment_days][value][]']
+                                        international_shipment_days: //select[@name='groups[dhl][fields][intl_shipment_days][value][]']
+                                        ship_to_specific_countries: //select[@name='groups[dhl][fields][specificcountry][value][]']
+                -
+                    sales_google_api_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/google/')]
+                        fieldsets:
+                            -
+                                google_analytics:
+                                    xpath: //div/fieldset[legend='Google Analytics']
+                                    fields:
+                                        account_number: //input[@name='groups[analytics][fields][account][value]']
+                                    dropdowns:
+                                        enable: //select[@name='groups[analytics][fields][active][value]']
+                            -
+                                google_website_optimizer:
+                                    xpath: //div/fieldset[legend='Google Website Optimizer']
+                                    dropdowns:
+                                        enable: //select[@name='groups[optimizer][fields][active][value]']
+                            -
+                                google_checkout:
+                                    xpath: //div/fieldset[legend='Google Checkout']
+                                    fields:
+                                        title: //input[@name='groups[checkout][fields][title][value]']
+                                        merchant_id: //input[@name='groups[checkout][fields][merchant_id][value]']
+                                        merchant_key: //input[@name='groups[checkout][fields][merchant_key][value]']
+                                        continue_shopping_url: //input[@name='groups[checkout][fields][continue_shopping_url][value]']
+                                    dropdowns:
+                                        enable: //select[@name='groups[checkout][fields][active][value]']
+                                        sandbox: //select[@name='groups[checkout][fields][sandbox][value]']
+                                        secure_callback_url: //select[@name='groups[checkout][fields][use_secure_callback_url][value]']
+                                        debug: //select[@name='groups[checkout][fields][debug][value]']
+                                        checkout_image_style: //select[@name='groups[checkout][fields][checkout_image][value]']
+                                        location: //select[@name='groups[checkout][fields][locale][value]']
+                                        new_order_status: //select[@name='groups[checkout][fields][order_status][value]']
+                                        hide_cart_contents: //select[@name='groups[checkout][fields][hide_cart_contents][value]']
+                                        disable_default_tax_tables: //select[@name='groups[checkout][fields][disable_default_tax_tables][value]']
+                            -
+                                google_checkout_shipping_merchant_calculated:
+                                    xpath: //div/fieldset[legend='Google Checkout Shipping - Merchant Calculated']
+                                    fields:
+                                        default_price: //ul[@id='merchant_allowed_methods_container']/li[%id%]/div/input[@name='groups[checkout_shipping_merchant][fields][allowed_methods][value][price][]']
+                                    dropdowns:
+                                        enable_merchant_calculated: //select[@name='groups[checkout_shipping_merchant][fields][active][value]']
+                                        allowed_methods: //ul[@id='merchant_allowed_methods_container']/li[%id%]/select[@name='groups[checkout_shipping_merchant][fields][allowed_methods][value][method][]']
+                                    buttons:
+                                        add_shipping_method: //button[span='Add Shipping Method']
+                                        remove: //ul[@id='merchant_allowed_methods_container']/li[%id%]/div/button[span='Remove']
+                            -
+                                google_checkout_shipping_carrier_calculated:
+                                    xpath: //div/fieldset[legend='Google Checkout Shipping - Carrier Calculated']
+                                    fields:
+                                        default_price_for_methods: //input[@name='groups[checkout_shipping_carrier][fields][default_price][value]']
+                                        default_package_width: //input[@name='groups[checkout_shipping_carrier][fields][default_width][value]']
+                                        default_package_height: //input[@name='groups[checkout_shipping_carrier][fields][default_height][value]']
+                                        default_package_length: //input[@name='groups[checkout_shipping_carrier][fields][default_length][value]']
+                                    dropdowns:
+                                        enable_carrier_calculated: //select[@name='groups[checkout_shipping_carrier][fields][active][value]']
+                                        delivery_address_category: //select[@name='groups[checkout_shipping_carrier][fields][address_category][value]']
+                                    multiselects:
+                                        carrier_calculated_methods: //select[@name='groups[checkout_shipping_carrier][fields][methods][value][]']
+                            -
+                                google_checkout_shipping_flat_rate:
+                                    xpath: //div/fieldset[legend='Google Checkout Shipping - Flat Rate']
+                                    fields:
+                                        rate_1_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_1][value]']
+                                        rate_1_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_1][value]']
+                                        rate_2_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_2][value]']
+                                        rate_2_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_2][value]']
+                                        rate_3_title: //input[@name='groups[checkout_shipping_flatrate][fields][title_3][value]']
+                                        rate_3_amount: //input[@name='groups[checkout_shipping_flatrate][fields][price_3][value]']
+                                    dropdowns:
+                                        enable_flat_rate: //select[@name='groups[checkout_shipping_flatrate][fields][active][value]']
+                                        rate_1_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_1][value]']
+                                        rate_2_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_2][value]']
+                                        rate_3_ship_to_applicable_countries: //select[@name='groups[checkout_shipping_flatrate][fields][sallowspecific_3][value]']
+                                    multiselects:
+                                        rate_1_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_1][value][]']
+                                        rate_2_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_2][value][]']
+                                        rate_3_ship_to_specific_countries: //select[@name='groups[checkout_shipping_flatrate][fields][specificcountry_3][value][]']
+                            -
+                                google_checkout_shipping_digital_delivery:
+                                    xpath: //div/fieldset[legend='Google Checkout Shipping - Digital Delivery']
+                                    dropdowns:
+                                        enable_digital_delivery: //select[@name='groups[checkout_shipping_virtual][fields][active][value]']
+                                        delivery_schedule: //select[@name='groups[checkout_shipping_virtual][fields][schedule][value]']
+                                        method: //select[@name='groups[checkout_shipping_virtual][fields][method][value]']
+                -
+                    sales_paypal_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/paypal/')]
+                        fieldsets:
+                            -
+                                merchant_account:
+                                    xpath: //div/fieldset[legend='Merchant Account']
+                                    fields:
+                                        email_associated_with_paypal_merchant_account: //input[@name='groups[account][fields][business_account][value]']
+                                    dropdowns:
+                                        merchant_country: //select[@name='groups[account][fields][merchant_country][value]']
+                            -
+                                select_a_paypal_solution:
+                                    xpath: //table[@id='paypal_checkout']
+                                    checkboxes:
+                                        express_checkout: //input[@name='groups[global][fields][express][value]']
+                                        website_payments_standard: //input[@name='groups[global][fields][wps][value]']
+                                        website_payments_pro: //input[@name='groups[global][fields][wpp][value]']
+                                        website_payments_pro_payflow_edition: //input[@name='groups[global][fields][wpp_pe][value]']
+                                        payflow_pro_gateway: //input[@name='groups[global][fields][verisign][value]']
+                                        payflow_pro_gateway_express_checkout: //input[@name='groups[global][fields][express_pe][value]']
+                                        payflow_link: //input[@name='groups[global][fields][payflow_link][value]']
+                                    links:
+                                        help: //a[text()='Help']
+                                        express_checkout_view_demo: //a[contains(@href, 'demo_express_checkout')]
+                                        express_checkout_learn_more: //a[contains(@href, 'product_id=ECA')]
+                                        website_payments_standard_view_demo: //a[contains(@href, 'demo_WPS')]
+                                        website_payments_standard_learn_more: //a[contains(@href, 'product_id=WPSA')]
+                                        website_payments_pro_view_demo: //a[contains(@href, 'demo_wpp')]
+                                        website_payments_pro_learn_more: //a[contains(@href, 'product_id=WPPROA')]
+                                        payflow_pro_gateway_learn_more: //a[contains(@href, 'product_id=payflow_pro')]
+                                        payflow_link_learn_more: //a[contains(@href, '_payflow-link-overview-outside')]
+                            -
+                                api_integration_settings:
+                                    xpath: //div/fieldset[legend='API/Integration Settings']
+                                    fields:
+                                        api_username: //input[@name='groups[api][fields][api_username][value]']
+                                        api_password: //input[@name='groups[api][fields][api_password][value]']
+                                        api_certificate: //input[@name='groups[api][fields][api_cert][value]']
+                                        api_signature: //input[@name='groups[api][fields][api_signature][value]']
+                                    checkboxes:
+                                        delete_file: //input[@name='groups[api][fields][api_cert][value][delete]']
+                                    dropdowns:
+                                        api_authentication_methods: //select[@name='groups[api][fields][api_authentication][value]']
+                                        sandbox_mode: //select[@name='groups[api][fields][sandbox_flag][value]']
+                                        api_uses_proxy: //select[@name='groups[api][fields][use_proxy][value]']
+                                    buttons:
+                                        get_credentials_from_paypal: //button[span='Get Credentials from PayPal']
+                                        sandbox_credentials: //button[span='Sandbox Credentials']
+                            -
+                                express_checkout_settings:
+                                    xpath: //div/fieldset[legend='Express Checkout Settings']
+                                    fields:
+                                        title: //input[@name='groups[express][fields][title][value]']
+                                        sort_order: //input[@name='groups[express][fields][sort_order][value]']
+                                    dropdowns:
+                                        payment_action: //select[@name='groups[express][fields][payment_action][value]']
+                                        payment_applicable_from: //select[@name='groups[express][fields][allowspecific][value]']
+                                        debug_mode: //select[@name='groups[express][fields][debug][value]']
+                                        transfer_cart_line_items: //select[@name='groups[express][fields][line_items_enabled][value]']
+                                        transfer_shipping_options: //select[@name='groups[express][fields][transfer_shipping_options][value]']
+                                        shortcut_on_shopping_cart: //select[@name='groups[express][fields][visible_on_cart][value]']
+                                        shortcut_on_product_view: //select[@name='groups[express][fields][visible_on_product][value]']
+                                        shortcut_buttons_flavor: //select[@name='groups[express][fields][button_flavor][value]']
+                                        enable_paypal_guest_checkout: //select[@name='groups[express][fields][solution_type][value]']
+                                        billing_agreement_signup: //select[@name='groups[express][fields][allow_ba_signup][value]']
+                                    multiselects:
+                                        countries_payment_applicable_from: //select[@name='groups[express][fields][specificcountry][value][]']
+                            -
+                                website_payments_standard_settings:
+                                    xpath: //div/fieldset[legend='Website Payments Standard Settings']
+                                    fields:
+                                        title: //input[@name='groups[wps][fields][title][value]']
+                                        sort_order: //input[@name='groups[wps][fields][sort_order][value]']
+                                    dropdowns:
+                                        payment_action: //select[@name='groups[wps][fields][payment_action][value]']
+                                        payment_applicable_from: //select[@name='groups[wps][fields][allowspecific][value]']
+                                        sandbox_mode: //select[@name='groups[wps][fields][sandbox_flag][value]']
+                                        transfer_cart_line_items: //select[@name='groups[wps][fields][line_items_enabled][value]']
+                                        debug_mode: //select[@name='groups[wps][fields][debug][value]']
+                                    multiselects:
+                                        countries_payment_applicable_from: //select[@name='groups[wps][fields][specificcountry][value][]']
+                            -
+                                website_payments_pro_settings:
+                                    xpath: //div/fieldset[legend='Website Payments Pro Settings']
+                                    fields:
+                                        title: //input[@name='groups[wpp][fields][title][value]']
+                                        sort_order: //input[@name='groups[wpp][fields][sort_order][value]']
+                                        centinel_custom_api_url: //input[@name='groups[wpp][fields][centinel_api_url][value]']
+                                    dropdowns:
+                                        payment_action: //select[@name='groups[wpp][fields][payment_action][value]']
+                                        payment_applicable_from: //select[@name='groups[wpp][fields][allowspecific][value]']
+                                        debug_mode: //select[@name='groups[wpp][fields][debug][value]']
+                                        transfer_cart_line_items: //select[@name='groups[wpp][fields][line_items_enabled][value]']
+                                        require_cvv_entry: //select[@name='groups[wpp][fields][useccv][value]']
+                                        3d_secure_card_validation: //select[@name='groups[wpp][fields][centinel][value]']
+                                        severe_3d_secure_card_validation: //select[@name='groups[wpp][fields][centinel_is_mode_strict][value]']
+                                    multiselects:
+                                        countries_payment_applicable_from: //select[@name='groups[wpp][fields][specificcountry][value][]']
+                                        allowed_credit_card_types: //select[@name='groups[wpp][fields][cctypes][value][]']
+                            -
+                                paypal_billing_agreement_settings:
+                                    xpath: //div/fieldset[legend='Paypal Billing Agreement Settings']
+                                    fields:
+                                        title: //input[@name='groups[paypal_billing_agreement][fields][title][value]']
+                                        sort_order: //input[@name='groups[paypal_billing_agreement][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[paypal_billing_agreement][fields][active][value]']
+                                        payment_action: //select[@name='groups[paypal_billing_agreement][fields][payment_action][value]']
+                                        payment_applicable_from: //select[@name='groups[paypal_billing_agreement][fields][allowspecific][value]']
+                                        debug_mode: //select[@name='groups[paypal_billing_agreement][fields][debug][value]']
+                                        transfer_cart_line_items: //select[@name='groups[paypal_billing_agreement][fields][line_items_enabled][value]']
+                                        allow_in_billing_agreement_wizard: //select[@name='groups[paypal_billing_agreement][fields][allow_billing_agreement_wizard][value]']
+                                    multiselects:
+                                        countries_payment_applicable_from: //select[@name='groups[paypal_billing_agreement][fields][specificcountry][value][]']
+                            -
+                                website_payments_pro_payflow_edition_settings:
+                                    xpath: //div/fieldset[legend='Website Payments Pro (Payflow Edition) Settings']
+                                    fields:
+                                        title: //input[@name='groups[wpp_pe][fields][title][value]']
+                                        sort_order: //input[@name='groups[wpp_pe][fields][sort_order][value]']
+                                        partner: //input[@name='groups[wpp_pe][fields][partner][value]']
+                                        user: //input[@name='groups[wpp_pe][fields][user][value]']
+                                        vendor: //input[@name='groups[wpp_pe][fields][vendor][value]']
+                                        password: //input[@name='groups[wpp_pe][fields][pwd][value]']
+                                        proxy_host: //input[@name='groups[wpp_pe][fields][proxy_host][value]']
+                                        proxy_port: //input[@name='groups[wpp_pe][fields][proxy_port][value]']
+                                        centinel_api_url: //input[@name='groups[wpp_pe][fields][centinel_api_url][value]']
+                                    dropdowns:
+                                        payment_action: //select[@name='groups[wpp_pe][fields][payment_action][value]']
+                                        payment_applicable_from: //select[@name='groups[wpp_pe][fields][allowspecific][value]']
+                                        debug_mode: //select[@name='groups[wpp_pe][fields][debug][value]']
+                                        transfer_cart_line_items: //select[@name='groups[wpp_pe][fields][line_items_enabled][value]']
+                                        sandbox_mode: //select[@name='groups[wpp_pe][fields][sandbox_flag][value]']
+                                        api_uses_proxy: //select[@name='groups[wpp_pe][fields][use_proxy][value]']
+                                        require_cvv_entry: //select[@name='groups[wpp_pe][fields][useccv][value]']
+                                        3d_secure_card_validation: //select[@name='groups[wpp_pe][fields][centinel][value]']
+                                        severe_3d_secure_card_validation: //select[@name='groups[wpp_pe][fields][centinel_is_mode_strict][value]']
+                                    multiselects:
+                                        countries_payment_applicable_from: //select[@name='groups[wpp_pe][fields][specificcountry][value][]']
+                                        allowed_credit_card_types: //select[@name='groups[wpp_pe][fields][cctypes][value][]']
+                            -
+                                payflow_pro_settings:
+                                    xpath: //div/fieldset[legend='Payflow Pro Settings']
+                                    fields:
+                                        title: //input[@name='groups[verisign][fields][title][value]']
+                                        sort_order: //input[@name='groups[verisign][fields][sort_order][value]']
+                                        partner: //input[@name='groups[verisign][fields][partner][value]']
+                                        user: //input[@name='groups[verisign][fields][user][value]']
+                                        vendor: //input[@name='groups[verisign][fields][vendor][value]']
+                                        password: //input[@name='groups[verisign][fields][pwd][value]']
+                                        proxy_host: //input[@name='groups[verisign][fields][proxy_host][value]']
+                                        proxy_port: //input[@name='groups[verisign][fields][proxy_port][value]']
+                                        centinel_api_url: //input[@name='groups[verisign][fields][centinel_api_url][value]']
+                                    dropdowns:
+                                        payment_action: //select[@name='groups[verisign][fields][payment_action][value]']
+                                        payment_applicable_from: //select[@name='groups[verisign][fields][allowspecific][value]']
+                                        debug_mode: //select[@name='groups[verisign][fields][debug][value]']
+                                        test_mode: //select[@name='groups[verisign][fields][sandbox_flag][value]']
+                                        use_proxy: //select[@name='groups[verisign][fields][use_proxy][value]']
+                                        require_cvv_entry: //select[@name='groups[verisign][fields][useccv][value]']
+                                        3d_secure_card_validation: //select[@name='groups[verisign][fields][centinel][value]']
+                                        severe_3d_secure_card_validation: //select[@name='groups[verisign][fields][centinel_is_mode_strict][value]']
+                                    multiselects:
+                                        countries_payment_applicable_from: //select[@name='groups[verisign][fields][specificcountry][value][]']
+                                        allowed_credit_card_types: //select[@name='groups[verisign][fields][cctypes][value][]']
+                            -
+                                express_checkout_payflow_edition_settings:
+                                    xpath: //div/fieldset[legend='Express Checkout (Payflow Edition) Settings']
+                                    fields:
+                                        title: //input[@name='groups[express_pe][fields][title][value]']
+                                        sort_order: //input[@name='groups[express_pe][fields][sort_order][value]']
+                                    dropdowns:
+                                        payment_action: //select[@name='groups[express_pe][fields][payment_action][value]']
+                                        payment_applicable_from: //select[@name='groups[express_pe][fields][allowspecific][value]']
+                                        debug_mode: //select[@name='groups[express_pe][fields][debug][value]']
+                                        transfer_cart_line_items: //select[@name='groups[express_pe][fields][line_items_enabled][value]']
+                                        shortcut_on_shopping_cart: //select[@name='groups[express_pe][fields][visible_on_cart][value]']
+                                        shortcut_on_product_view: //select[@name='groups[express_pe][fields][visible_on_product][value]']
+                                    multiselects:
+                                        countries_payment_applicable_from: //select[@name='groups[express_pe][fields][specificcountry][value][]']
+                            -
+                                settlement_report_settings:
+                                    xpath: //div/fieldset[legend='Settlement Report Settings']
+                                    fields:
+                                        login: //input[@name='groups[settlement_reports][fields][settlement_reports_ftp_login][value]']
+                                        password: //input[@name='groups[settlement_reports][fields][settlement_reports_ftp_password][value]']
+                                        custom_endpoint_hostname_or_ip_address: //input[@name='groups[settlement_reports][fields][settlement_reports_ftp_ip][value]']
+                                        custom_path: //input[@name='groups[settlement_reports][fields][settlement_reports_ftp_path][value]']
+                                    dropdowns:
+                                        sandbox_mode: //select[@name='groups[settlement_reports][fields][settlement_reports_ftp_sandbox][value]']
+                                        enable_automatic_fetching: //select[@name='groups[settlement_reports][fields][settlement_reports_active][value]']
+                                        schedule: //select[@name='groups[settlement_reports][fields][settlement_reports_schedule][value]']
+                                        time_of_day_hours: //select[@name='groups[settlement_reports][fields][settlement_reports_time][value][]'][1]
+                                        time_of_day_minutes: //select[@name='groups[settlement_reports][fields][settlement_reports_time][value][]'][2]
+                                        time_of_day_seconds: //select[@name='groups[settlement_reports][fields][settlement_reports_time][value][]'][3]
+                            -
+                                frontend_experience_settings:
+                                    xpath: //div/fieldset[legend='Frontend Experience Settings']
+                                    fields:
+                                        page_style: //input[@name='groups[style][fields][page_style][value]']
+                                        header_image_url: //input[@name='groups[style][fields][paypal_hdrimg][value]']
+                                        header_background_color: //input[@name='groups[style][fields][paypal_hdrbackcolor][value]']
+                                        header_border_color: //input[@name='groups[style][fields][paypal_hdrbordercolor][value]']
+                                        page_background_color: //input[@name='groups[style][fields][paypal_payflowcolor][value]']
+                                    dropdowns:
+                                        paypal_product_logo: //select[@name='groups[style][fields][logo][value]']
+                            -
+                                payflow_link_settings:
+                                    xpath: //div/fieldset[legend='Payflow Link Settings']
+                                    fields:
+                                        title: //input[@name='groups[payflow_link][fields][title][value]']
+                                        sort_order: //input[@name='groups[payflow_link][fields][sort_order][value]']
+                                        partner: //input[@name='groups[payflow_link][fields][partner][value]']
+                                        user: //input[@name='groups[payflow_link][fields][user][value]']
+                                        vendor: //input[@name='groups[payflow_link][fields][vendor][value]']
+                                        password: //input[@name='groups[payflow_link][fields][pwd][value]']
+                                        proxy_host: //input[@name='groups[payflow_link][fields][proxy_host][value]']
+                                        proxy_port: //input[@name='groups[payflow_link][fields][proxy_port][value]']
+                                    dropdowns:
+                                        payment_action: //select[@name='groups[payflow_link][fields][payment_action][value]']
+                                        payment_applicable_from: //select[@name='groups[payflow_link][fields][allowspecific][value]']
+                                        debug_mode: //select[@name='groups[payflow_link][fields][debug][value]']
+                                        test_mode: //select[@name='groups[payflow_link][fields][sandbox_flag][value]']
+                                        use_proxy: //select[@name='groups[payflow_link][fields][use_proxy][value]']
+                                    multiselects:
+                                        countries_payment_applicable_from: //select[@name='groups[payflow_link][fields][specificcountry][value][]']
