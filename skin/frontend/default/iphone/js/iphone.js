@@ -114,7 +114,9 @@ document.observe("dom:loaded", function() {
         $('current-language').update(curLang);
         
         $$('#language-switcher > a')[0].observe('click', function (e) {
-            this.next().toggle();
+            if ( !this.next().visible() )
+                $$('.switcher-options').invoke('hide');
+            this.next().toggle().toggleClassName('visible');
             e.preventDefault();
         });
     }
@@ -124,7 +126,9 @@ document.observe("dom:loaded", function() {
         $('current-store').update(curStore);
         
         $$('#store-switcher > a')[0].observe('click', function (e) {
-            this.next().toggle();
+            if ( !ithis.next().visible() )
+                $$('.switcher-options').invoke('hide');
+            this.next().toggle().toggleClassName('visible');
             e.preventDefault();
         });
      }

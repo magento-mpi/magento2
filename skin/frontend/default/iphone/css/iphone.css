@@ -120,7 +120,7 @@ body > header dd.search-box input {
     border-radius:14px;
     -webkit-border-radius:14px;
     -webkit-appearance:none;
-    -webkit-box-shadow:inset 0 0 3px #000;
+    -webkit-box-shadow:inset 0 1px 3px #000;
 }
 
 body > header dt a {
@@ -444,25 +444,44 @@ input[type="text"] {
     -webkit-box-shadow:inset 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
+/* Account Create
+-----------------------------*/
+.account-create h2 {
+    font-size:16px;
+    font-weight:bold;
+    margin:0 0 4px;
+}
+.account-create .form-list label {
+    font-weight:bold;
+}
+.account-create .form-list label em {
+    display:none;
+}
+.account-create .form-list .control .input-box {
+    display:inline-block;
+    vertical-align:middle;
+}
 
 /* Account
 -----------------------------*/
-.login-box { margin:-10px; padding:10px; }
+.login-box { margin:0 -10px -10px; padding:10px; }
 .login-box form h2,
-.login-box .new-users h2 { font-size:16px; line-height:16px; font-weight:bold; margin:0 0 7px 5px; color:#333; }
+.login-box .new-users h2 { font-size:16px; line-height:16px; font-weight:bold; margin:0 0 10px; color:#333; }
 .login-box form { display:block; border:1px solid #D1D1D1; margin:-6px -7px -7px; padding:9px; border-radius:2px 2px 5px 5px; background:-webkit-gradient(linear, 0 0, 0 100%,color-stop(0, #FCFDFD), color-stop(0.8, #EEEEEE), color-stop(1, #E8E9E9)); }
 .login-box form:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
-.login-box form label { display:block; padding:0 0 3px 5px; font-weight:bold; color:#5E5E5E; }
+.login-box form label { display:block; padding:0 0 3px; font-weight:bold; color:#5E5E5E; }
 .login-box form > a { font-weight:bold; color:#F4641E; }
 .login-box form .login-button { margin:7px 0 0; }
-.login-box form .login-button input { padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
-.login-box .required { font-size:14px; line-height:16px; margin:8px 0 0; }
+.login-box form .login-button input { padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; -webkit-background-clip:padding-box; }
+.login-box .required { font-size:12px; line-height:16px; margin:8px 0 0; }
 .login-box .registered-users { margin:0 0 10px; }
 .login-box .registered-users input[type="submit"] + a { text-decoration:underline; vertical-align:middle; }
-.login-box .registered-users h1 { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; text-shadow:0 1px 0 #fff; margin:0 -10px 10px; padding:10px; -webkit-box-shadow:0 3px 3px #eee; }
+.login-box .registered-users h1 { display:none; background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; text-shadow:0 1px 0 #fff; margin:0 -10px 10px; padding:10px; -webkit-box-shadow:0 3px 3px #eee; }
 .login-box .new-users { display:block; border:1px solid #D1D1D1; margin:-6px -7px -7px; padding:9px; border-radius:2px 2px 5px 5px; background:-webkit-gradient(linear, 0 0, 0 100%,color-stop(0, #FCFDFD), color-stop(0.8, #EEEEEE), color-stop(1, #E8E9E9)); }
-.login-box .new-users p { padding:0 0 7px 5px; }
-.login-box .new-users input[type="submit"] { padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
+.login-box .new-users p { padding:0 0 7px; }
+.login-box .new-users input[type="submit"] { padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; -webkit-background-clip:padding-box; }
+.customer-account-login .messages { margin:-11px -10px 10px; }
+.customer-account-login .messages .error-msg { background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#f85032), color-stop(50%,#f16f5c), color-stop(51%,#f6290c), color-stop(71%,#f02f17), color-stop(100%,#e73827)); color:#fff; padding:10px; font-size:16px; font-weight:bold; text-align:center; text-shadow:0 1px #222; }
 .customer-account-logoutsuccess .page-title { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; margin:0 -10px 10px; padding:10px; }
 
 
@@ -501,22 +520,34 @@ input[type="text"] {
 
 /* New Customer
 -----------------------------*/
-.new-customer { margin:-10px; padding:10px 10px 17px; color:#333 }
+.new-customer { margin:0 -10px -10px; padding:10px; color:#333; }
 .new-customer h1 { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; text-shadow:0 1px 0 #fff; margin:0 -10px 10px; padding:10px; -webkit-box-shadow:0 3px 3px #eee; }
-.new-customer h2 { font-size:16px; line-height:16px; font-weight:bold; margin:0 0 7px 5px; color:#333; }
+.new-customer h2 { font-size:16px; line-height:16px; font-weight:bold; margin:0 0 7px 0; color:#333; }
 .new-customer form { display:block; border:1px solid #D1D1D1; margin:-6px -7px -7px; padding:9px; border-radius:2px 2px 5px 5px; background:-webkit-gradient(linear, 0 0, 0 100%,color-stop(0, #FCFDFD), color-stop(0.8, #EEEEEE), color-stop(1, #E8E9E9)); }
 .new-customer form:after { content: "."; display:block; clear:both; visibility:hidden; line-height:0; height:0; }
-.new-customer form label { padding:0 0 0 5px; font-weight:bold; }
-.new-customer .required { font-size:14px; line-height:16px; margin:8px 0; }
-.new-customer .personal-information { border-bottom:1px solid #eee; padding:0 0 5px; }
-.new-customer .login-information { padding-top:10px; }
-.new-customer .login-information input[type="submit"] { float:right; margin:0; padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
+.new-customer form label { font-weight:bold; }
+.new-customer form label em { display:none; }
+.new-customer .personal-information { border-bottom:1px solid #ccc; padding:0 0 10px; }
+.new-customer .personal-information .field { margin-bottom:8px; }
+.new-customer .login-information { border-top:1px solid #fff; padding-top:10px; }
+.new-customer .login-information input[type="submit"] { margin:0; padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
 .new-customer .login-information > a { float:left; display:block; padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
 
+/* Edit Account Settings
+-----------------------------*/
+.account-edit {
+    display:block;
+    padding:9px;
+    border-radius:2px 2px 5px 5px;
+    background:-webkit-gradient(linear, 0 0, 0 100%,color-stop(0, #FCFDFD), color-stop(0.8, #EEEEEE), color-stop(1, #E8E9E9));
+    margin:0 -10px -10px;
+    padding:10px 10px 16px;
+    -webkit-box-shadow:inset 0 -3px 3px #ccc;
+}
 
 /* Breadcrumbs
 -----------------------------*/
-.breadcrumbs { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#e5e5e5)); border-bottom:1px solid #ccc; margin:0 -10px 0;  }
+.breadcrumbs { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#e5e5e5)); border-bottom:1px solid #ccc; height:40px; margin:0 -10px 0;  }
 .breadcrumbs ul { padding:10px; line-height:20px; position:relative; }
 .breadcrumbs ul a { color:#666; }
 .breadcrumbs ul span,
@@ -559,6 +590,7 @@ input[type="text"] {
 }
 
 .catalogsearch-result-index .page-title { display:none; }
+.catalogsearch-result-index .breadcrumbs:first-child { display:none; }
 .catalogsearch-result-index .note-msg { padding:10px 0 0; }
 
 
@@ -696,8 +728,17 @@ section .category-title { display:none; }
 .product-shop .product-image .more-views { padding:3px 0 0 0; }
 .product-shop .product-desc .wrap { float:left; margin-right:5px; }
 .product-actions { clear:both; padding:10px 0; }
-.product-actions li { display:inline-block; width:29%; margin:0 3% 0 0; }
+.product-actions li { display:block; width:150px; margin:5px 0; }
 .product-actions li a { display:block; text-align:center; width:100%; padding:4px 0; background:-webkit-gradient(linear, 0 0, 0 100%, from(#FFF), to(#C1C3C4)); font-size:12px; font-weight:bold; color:#636363; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 0 3px 0 #9F9F9F; text-shadow:0 1px 0 #eee; }
+@media (orientation: landscape) {
+    .product-actions li a {
+        line-height:1.2;
+        padding:3px 15px 5px;
+        vertical-align:middle;
+        -webkit-box-sizing:border-box;
+        -webkit-background-clip:padding-box;
+    }
+}
 .product-essential p.required { color:#F9721F; }
 .product-essential h1 { font-size:16px; text-align:left; font-weight:bold; margin-bottom:0; line-height:1.3; }
 .product-essential .availability { color:#3b3b3b; font-size:13px; font-weight:bold; margin:0 0 5px; }
@@ -744,9 +785,9 @@ section .category-title { display:none; }
 
 .product-shop .price-box { overflow:hidden; margin:8px 0 0; }
     .product-shop .price-box .price-label { vertical-align:baseline; }
-    .product-shop .price-box .old-price { color:#ccc; font-size:14px; }
+    .product-shop .price-box .old-price { color:#ccc; }
     .product-shop .price-box .special-price .price-label { color:#222; }
-    .product-shop .price-box .special-price .price { font-size:18px; vertical-align:baseline; }
+    .product-shop .price-box .special-price .price { font-weight:bold; }
 
 .product-shop .product-desc .ratings { overflow:hidden; }
 .product-shop .product-desc .ratings,
@@ -1084,6 +1125,7 @@ section > .cart .cart-footer:after { content:"."; display:block; clear:both; vis
 /* User account
 -----------------------------*/
 .my-account { margin:0 -10px; }
+.my-account .messages { padding:10px; }
 
 .my-account .box-account { background:#fff; padding:0 0 10px; }
 .my-account .box-info { padding-bottom:0; }
@@ -1414,7 +1456,7 @@ section > .cart .cart-footer:after { content:"."; display:block; clear:both; vis
     border-radius:2px;
     background:-webkit-gradient(linear, 0 0, 0 100%, from(#FBFBFB), to(#D1D3D4));
 }
-#checkoutSteps li.active .step-title { background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa84c), color-stop(100%,#ff7b0d)); color:#fff; }
+#checkoutSteps li.active .step-title { background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa84c), color-stop(100%,#ff7b0d)); color:#fff; text-shadow:0 -1px 0 #ff7b0d; }
 #checkoutSteps li .step-title a { display:none; }
 #checkoutSteps li .step {
     margin:-1px 0 10px;
@@ -1458,9 +1500,10 @@ section > .cart .cart-footer:after { content:"."; display:block; clear:both; vis
 #checkoutSteps li.allow .step-title h2 { background:url(../images/bg_checkout_step_passed.png) no-repeat center right; }
 #checkoutSteps li.active .step-title h2 { background:none !important; }
 #checkoutSteps li .step-title .number { display:none; }
-#checkoutSteps .form-list .field label { padding:0 0 0 5px; font-weight:bold; }
-#checkoutSteps li .step .buttons-set button { float:right; padding:5px 10px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; font-weight:bold; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
+#checkoutSteps .form-list .field label { padding:0; font-weight:bold; }
+#checkoutSteps li .step .buttons-set button { float:right; padding:5px 10px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; font-weight:bold; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; -webkit-background-clip:padding-box; }
 #checkoutSteps .validation-advice { color:#F4641E; }
+#checkoutSteps .back-link small { display:none; }
 #co-payment-form dd,
 #checkoutSteps li .step dd { margin:0; padding:0; }
 #opc-billing .step .required em { display:none; }
@@ -1480,19 +1523,55 @@ section > .cart .cart-footer:after { content:"."; display:block; clear:both; vis
 }
 #checkout-review-submit .buttons-set button { float:right; }
 
-#checkout-review-submit .buttons-set .f-left { float:left; font-size:12px; }
-    #checkout-review-submit .buttons-set .f-left a {
-        display:inline-block;
-        background:-webkit-gradient(linear, 0 0, 0 100%, from(#333), to(#111));
-        border:none;
-        color:white;
-        font-size:13px;
-        font-weight:bold;
-        padding:8px 10px;
-        text-shadow:0 1px 0 black;
-        -webkit-border-radius:5px;
-    }
-
+#checkout-review-submit .buttons-set .f-left {
+    float:left;
+    font-size:12px;
+    position:absolute;
+    margin:-16px 0 0;
+}
+#checkout-review-submit .buttons-set .f-left a {
+    display:block;
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#333), to(#111));
+    border:none;
+    color:white;
+    font-size:13px;
+    line-height:1;
+    font-weight:bold;
+    margin:2px 0 0;
+    padding:8px 10px;
+    text-shadow:0 1px 0 black;
+    -webkit-border-radius:5px;
+}
+#checkout-step-login .checkout-login {
+    border-bottom:1px solid #ccc;
+    padding:0 0 12px;
+}
+#checkout-step-login .checkout-register {
+    border-top:1px solid #fff;
+    padding:10px 0 0;
+}
+#checkoutSteps #checkout-step-login .checkout-login h4,
+#checkoutSteps #checkout-step-login .checkout-register h3 {
+    font-size:16px;
+    text-shadow:0 1px 0 #fff;
+    margin:0;
+}
+#checkoutSteps #checkout-step-login .checkout-login p,
+#checkoutSteps #checkout-step-login .checkout-register p {
+    margin:0 0 4px;
+}
+#checkoutSteps #checkout-step-login .checkout-login label {
+    font-weight:bold;
+}
+#checkoutSteps #checkout-step-login .checkout-login .buttons-set button {
+    float:none;
+    margin:6px 10px 2px 0;
+}
+#checkoutSteps #checkout-step-login .checkout-register .control input[type=radio] {
+    height:20px;
+    width:20px;
+    vertical-align:middle;
+}
 
 /* Sitemap
 -----------------------------*/
@@ -1595,15 +1674,4 @@ section > .cart .cart-footer:after { content:"."; display:block; clear:both; vis
 .front-banner {
     padding:20px 0;
     text-align:center;
-}
-
-
-@media (orientation: portrait) {
-    .product-actions li a {
-        line-height:1.2;
-        padding:3px 15px 5px;
-        vertical-align:middle;
-        -webkit-box-sizing:border-box;
-        -webkit-background-clip:padding-box;
-    }
 }
