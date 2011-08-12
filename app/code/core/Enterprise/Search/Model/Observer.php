@@ -41,7 +41,7 @@ class Enterprise_Search_Model_Observer
      */
     public function eavAttributeEditFormInit(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_search')->isThirdPartSearchEngine()) {
+        if (!Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
             return;
         }
 
@@ -94,7 +94,7 @@ class Enterprise_Search_Model_Observer
      */
     public function customerGroupSaveAfter(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_search')->isThirdPartSearchEngine()) {
+        if (!Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
             return;
         }
 
@@ -112,7 +112,7 @@ class Enterprise_Search_Model_Observer
      */
     public function holdCommit(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_search')->isThirdPartSearchEngine()) {
+        if (!Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
             return;
         }
 
@@ -136,7 +136,7 @@ class Enterprise_Search_Model_Observer
      */
     public function applyIndexChanges(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_search')->isThirdPartSearchEngine()) {
+        if (!Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
             return;
         }
 
@@ -171,7 +171,7 @@ class Enterprise_Search_Model_Observer
      */
     public function clearIndexForStores(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_search')->isThirdPartSearchEngine()) {
+        if (!Mage::helper('enterprise_search')->isThirdPartyEngineAvailable()) {
             return;
         }
 
