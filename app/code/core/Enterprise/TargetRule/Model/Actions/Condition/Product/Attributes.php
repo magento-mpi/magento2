@@ -107,8 +107,6 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         $attributeCode = $this->getAttribute();
         if ($attributeCode == 'type_id') {
             return 'select';
-        } else if ($attributeCode == 'category_ids') {
-            return 'grid';
         }
         return parent::getInputType();
     }
@@ -297,8 +295,8 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
                         array('bindArrayOfIds')));
                 $select->where('category_id IN(?)', $subSelect);
             } else { //self::VALUE_TYPE_CONSTANT
+                $operator = $this->getOperatorForValidate();
                 $value = $resource->bindArrayOfIds($this->getValue());
-                $operator = ('!{}' == $operator) ? 'NOT' : '';
                 $where = "category_id {$operator} IN(".implode(',', $value).")";
                 $select->where($where);
             }
@@ -346,7 +344,11 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
             $select = $resource->getReadConnection()->getIfNullSql($select);
             $where = sprintf('(%s) > 0', $select);
         } else { //scope store and website
-            $valueExpr = $resource->getReadConnection()->getCheckSql('attr_s.value_id > 0', 'attr_s.value', 'attr_d.value');
+            $valueExpr = $resource->getReadConnection()->getCheckSql(
+                'attr_s.value_id > 0',
+                'attr_s.value',
+                'attr_d.value'
+            );
             $table  = $attribute->getBackendTable();
             $select = $object->select()
                 ->from(array('attr_d' => $table), 'COUNT(*)')

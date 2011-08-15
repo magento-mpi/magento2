@@ -207,7 +207,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
                 break;
             case '()':
             case '!()':
-                if (!empty($value)) {
+                if (is_array($value) && !empty($value)) {
                     $condition = $this->_getReadAdapter()->quoteInto(
                         $field.' '.$sqlOperator.' (?)', $value
                     );

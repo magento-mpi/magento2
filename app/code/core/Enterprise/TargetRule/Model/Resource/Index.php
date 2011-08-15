@@ -316,13 +316,16 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
                 $selectOperator = sprintf('%s?', $operator);
                 break;
             case '{}':
-                $selectOperator = ' LIKE ?';
-                $value          = '%' . $value . '%';
-                break;
-
             case '!{}':
-                $selectOperator = ' NOT LIKE ?';
-                $value          = '%' . $value . '%';
+                if ($field == 'category_id' && is_array($value)) {
+                    $selectOperator = ' IN (?)';
+                } else {
+                    $selectOperator = ' LIKE ?';
+                    $value          = '%' . $value . '%';
+                }
+                if (substr($operator, 0, 1) == '!') {
+                    $selectOperator = ' NOT' . $selectOperator;
+                }
                 break;
 
             case '()':
