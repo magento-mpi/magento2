@@ -1466,3 +1466,762 @@ system_configuration:
                                         use_proxy: //select[@name='groups[payflow_link][fields][use_proxy][value]']
                                     multiselects:
                                         countries_payment_applicable_from: //select[@name='groups[payflow_link][fields][specificcountry][value][]']
+                -
+                    sales_payment_methods_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/payment/')]
+                        fieldsets:
+                            -
+                                saved_cc:
+                                    xpath: //div/fieldset[legend='Saved CC']
+                                    fields:
+                                        title: //input[@name='groups[ccsave][fields][title][value]']
+                                        centinel_api_url: //input[@name='groups[ccsave][fields][centinel_api_url][value]']
+                                        minimum_order_total: //input[@name='groups[ccsave][fields][min_order_total][value]']
+                                        maximum_order_total: //input[@name='groups[ccsave][fields][max_order_total][value]']
+                                        sort_order: //input[@name='groups[ccsave][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[ccsave][fields][active][value]']
+                                        new_order_status: //select[@name='groups[ccsave][fields][order_status][value]']
+                                        request_card_security_code: //select[@name='groups[ccsave][fields][useccv][value]']
+                                        3d_secure_card_validation: //select[@name='groups[ccsave][fields][centinel][value]']
+                                        severe_3d_secure_card_validation: //select[@name='groups[ccsave][fields][centinel_is_mode_strict][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[ccsave][fields][allowspecific][value]']
+                                    multiselects:
+                                        credit_card_type: //select[@name='groups[ccsave][fields][cctypes][value][]']
+                                        payment_from_specific_countries: //select[@name='groups[ccsave][fields][specificcountry][value][]']
+                            -
+                                check_money_order:
+                                    xpath: //div/fieldset[legend='Check / Money Order']
+                                    fields:
+                                        title: //input[@name='groups[checkmo][fields][title][value]']
+                                        make_check_payable_to: //input[@name='groups[checkmo][fields][payable_to][value]']
+                                        send_check_to: //textarea[@name='groups[checkmo][fields][mailing_address][value]']
+                                        minimum_order_total: //input[@name='groups[checkmo][fields][min_order_total][value]']
+                                        maximum_order_total: //input[@name='groups[checkmo][fields][max_order_total][value]']
+                                        sort_order: //input[@name='groups[checkmo][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[checkmo][fields][active][value]']
+                                        new_order_status: //select[@name='groups[checkmo][fields][order_status][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[checkmo][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[checkmo][fields][specificcountry][value][]']
+                            -
+                                zero_subtotal_checkout:
+                                    xpath: //div/fieldset[legend='Zero Subtotal Checkout']
+                                    fields:
+                                        title: //input[@name='groups[free][fields][title][value]']
+                                        sort_order: //input[@name='groups[free][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[free][fields][active][value]']
+                                        new_order_status: //select[@name='groups[free][fields][order_status][value]']
+                                        automatically_invoice_all_items: //select[@name='groups[free][fields][payment_action][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[free][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[free][fields][specificcountry][value][]']
+                            -
+                                purchase_order:
+                                    xpath: //div/fieldset[legend='Purchase Order']
+                                    fields:
+                                        title: //input[@name='groups[purchaseorder][fields][title][value]']
+                                        minimum_order_total: //input[@name='groups[purchaseorder][fields][min_order_total][value]']
+                                        maximum_order_total: //input[@name='groups[purchaseorder][fields][max_order_total][value]']
+                                        sort_order: //input[@name='groups[purchaseorder][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[purchaseorder][fields][active][value]']
+                                        new_order_status: //select[@name='groups[purchaseorder][fields][order_status][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[purchaseorder][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[purchaseorder][fields][specificcountry][value][]']
+                            -
+                                authorize_net:
+                                    xpath: //div/fieldset[legend='Authorize.net']
+                                    fields:
+                                        title: //input[@name='groups[authorizenet][fields][title][value]']
+                                        api_login_id: //input[@name='groups[authorizenet][fields][login][value]']
+                                        transaction_key: //input[@name='groups[authorizenet][fields][trans_key][value]']
+                                        gateway_url: //input[@name='groups[authorizenet][fields][cgi_url][value]']
+                                        merchants_email: //input[@name='groups[authorizenet][fields][merchant_email][value]']
+                                        minimum_order_total: //input[@name='groups[authorizenet][fields][min_order_total][value]']
+                                        maximum_order_total: //input[@name='groups[authorizenet][fields][max_order_total][value]']
+                                        sort_order: //input[@name='groups[authorizenet][fields][sort_order][value]']
+                                        centinel_api_url: //input[@name='groups[authorizenet][fields][centinel_api_url][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[authorizenet][fields][active][value]']
+                                        payment_action: //select[@name='groups[authorizenet][fields][payment_action][value]']
+                                        new_order_status: //select[@name='groups[authorizenet][fields][order_status][value]']
+                                        test_mode: //select[@name='groups[authorizenet][fields][test][value]']
+                                        accepted_currency: //select[@name='groups[authorizenet][fields][currency][value]']
+                                        debug: //select[@name='groups[authorizenet][fields][debug][value]']
+                                        email_customer: //select[@name='groups[authorizenet][fields][email_customer][value]']
+                                        credit_card_verification: //select[@name='groups[authorizenet][fields][useccv][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[authorizenet][fields][allowspecific][value]']
+                                        allow_partial_authorization: //select[@name='groups[authorizenet][fields][allow_partial_authorization][value]']
+                                        3d_secure_card_validation: //select[@name='groups[authorizenet][fields][centinel][value]']
+                                        severe_3d_secure_card_validation: //select[@name='groups[authorizenet][fields][centinel_is_mode_strict][value]']
+                                    multiselects:
+                                        credit_card_types: //select[@name='groups[authorizenet][fields][cctypes][value][]']
+                                        payment_from_specific_coutries: //select[@name='groups[authorizenet][fields][specificcountry][value][]']
+                            -
+                                authorize_net_direct_post:
+                                    xpath: //div/fieldset[legend='Authorize.net Direct Post']
+                                    fields:
+                                        title: //input[@name='groups[authorizenet_directpost][fields][title][value]']
+                                        api_login_id: //input[@name='groups[authorizenet_directpost][fields][login][value]']
+                                        transaction_key: //input[@name='groups[authorizenet_directpost][fields][trans_key][value]']
+                                        merchant_md5: //input[@name='groups[authorizenet_directpost][fields][trans_md5][value]']
+                                        gateway_url: //input[@name='groups[authorizenet_directpost][fields][cgi_url][value]']
+                                        merchants_email: //input[@name='groups[authorizenet_directpost][fields][merchant_email][value]']
+                                        minimum_order_total: //input[@name='groups[authorizenet_directpost][fields][min_order_total][value]']
+                                        maximum_order_total: //input[@name='groups[authorizenet_directpost][fields][max_order_total][value]']
+                                        sort_order: //input[@name='groups[authorizenet_directpost][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[authorizenet_directpost][fields][active][value]']
+                                        payment_action: //select[@name='groups[authorizenet_directpost][fields][payment_action][value]']
+                                        new_order_status: //select[@name='groups[authorizenet_directpost][fields][order_status][value]']
+                                        test_mode: //select[@name='groups[authorizenet_directpost][fields][test][value]']
+                                        accepted_currency: //select[@name='groups[authorizenet_directpost][fields][currency][value]']
+                                        debug: //select[@name='groups[authorizenet_directpost][fields][debug][value]']
+                                        email_customer: //select[@name='groups[authorizenet_directpost][fields][email_customer][value]']
+                                        credit_card_verification: //select[@name='groups[authorizenet_directpost][fields][useccv][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[authorizenet_directpost][fields][allowspecific][value]']
+                                    multiselects:
+                                        credit_card_types: //select[@name='groups[authorizenet_directpost][fields][cctypes][value][]']
+                                        payment_from_specific_countries: //select[@name='groups[authorizenet_directpost][fields][specificcountry][value][]']
+                            -
+                                paybox_system:
+                                    xpath: //div/fieldset[legend='Paybox System']
+                                    fields:
+                                        paybox_cgi_file: //input[@name='groups[paybox_system][fields][pbx_file][value]']
+                                        site_number_tpe: //input[@name='groups[paybox_system][fields][pbx_site][value]']
+                                        rank_number: //input[@name='groups[paybox_system][fields][pbx_rang][value]']
+                                        paybox_identifier: //input[@name='groups[paybox_system][fields][pbx_identifiant][value]']
+                                        text_on_the_intermediary_page: //input[@name='groups[paybox_system][fields][pbx_txt][value]']
+                                        name_of_the_button_on_the_intermediary_page: //input[@name='groups[paybox_system][fields][pbx_boutpi][value]']
+                                        screen_background_of_the_intermediary_page: //input[@name='groups[paybox_system][fields][pbx_bkgd][value]']
+                                        delay_in_the_displaying_the_intermediary_page_in_msec: //input[@name='groups[paybox_system][fields][pbx_wait][value]']
+                                        the_url_of_the_primary_payment_server: //input[@name='groups[paybox_system][fields][pbx_paybox][value]']
+                                        timeout_for_checking: //input[@name='groups[paybox_system][fields][pbx_timeout][value]']
+                                        the_url_of_the_primary_backup_payment_server: //input[@name='groups[paybox_system][fields][pbx_backup1][value]']
+                                        timeout_for_checking_1: //input[@name='groups[paybox_system][fields][pbx_timeout1][value]']
+                                        the_url_of_the_second_backup_payment_server: //input[@name='groups[paybox_system][fields][pbx_backup2][value]']
+                                        timeout_for_checking_2: //input[@name='groups[paybox_system][fields][pbx_timeout2][value]']
+                                        the_url_of_the_third_backup_payment_server: //input[@name='groups[paybox_system][fields][pbx_backup3][value]']
+                                        timeout_for_checking_3: //input[@name='groups[paybox_system][fields][pbx_timeout3][value]']
+                                        tcp_port: //input[@name='groups[paybox_system][fields][pbx_port][value]']
+                                        title: //input[@name='groups[paybox_system][fields][title][value]']
+                                        sort_order: //input[@name='groups[paybox_system][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[paybox_system][fields][active][value]']
+                                        mode_of_retrieval_of_information: //select[@name='groups[paybox_system][fields][pbx_mode][value]']
+                                        payment_action: //select[@name='groups[paybox_system][fields][pbx_autoseule][value]']
+                                        management_mode_of_the_intermediary_page: //select[@name='groups[paybox_system][fields][pbx_output][value]']
+                                        language_of_the_payment_page: //select[@name='groups[paybox_system][fields][pbx_langue][value]']
+                                        payment_type: //select[@name='groups[paybox_system][fields][pbx_typepaiement][value]']
+                                        cart_type: //select[@name='groups[paybox_system][fields][pbx_typecarte][value]']
+                                        ping_flag: //select[@name='groups[paybox_system][fields][pbx_ping][value]']
+                                        debug_flag: //select[@name='groups[paybox_system][fields][debug_flag][value]']
+                                        new_order_status: //select[@name='groups[paybox_system][fields][order_status][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[paybox_system][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[paybox_system][fields][specificcountry][value][]']
+                            -
+                                paybox_direct:
+                                    xpath: //div/fieldset[legend='Paybox Direct']
+                                    fields:
+                                        site_number_tpe: //input[@name='groups[paybox_direct][fields][pbx_site][value]']
+                                        rank_number: //input[@name='groups[paybox_direct][fields][pbx_rang][value]']
+                                        activated_key: //input[@name='groups[paybox_direct][fields][pbx_cle][value]']
+                                        the_url_of_the_primary_payment_server: //input[@name='groups[paybox_direct][fields][pbx_url][value]']
+                                        the_url_of_the_backup_payment_server: //input[@name='groups[paybox_direct][fields][pbx_backupurl][value]']
+                                        title: //input[@name='groups[paybox_direct][fields][title][value]']
+                                        sort_order: //input[@name='groups[paybox_direct][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[paybox_direct][fields][active][value]']
+                                        debug_flag: //select[@name='groups[paybox_direct][fields][debug_flag][value]']
+                                        new_order_status: //select[@name='groups[paybox_direct][fields][order_status][value]']
+                                        payment_action: //select[@name='groups[paybox_direct][fields][payment_action][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[paybox_direct][fields][allowspecific][value]']
+                                    multiselects:
+                                        credit_card_types: //select[@name='groups[paybox_direct][fields][cctypes][value][]']
+                                        payment_from_specific_countries: //select[@name='groups[paybox_direct][fields][specificcountry][value][]']
+                            -
+                                protx_standard:
+                                    xpath: //div/fieldset[legend='Protx Standard']
+                                    fields:
+                                        transaction_description: //input[@name='groups[protx_standard][fields][description][value]']
+                                        title: //input[@name='groups[protx_standard][fields][title][value]']
+                                        vendor_name: //input[@name='groups[protx_standard][fields][vendor_name][value]']
+                                        vendor_encrypted_password: //input[@name='groups[protx_standard][fields][vendor_password][value]']
+                                        vendor_email: //input[@name='groups[protx_standard][fields][vendor_email][value]']
+                                        sort_order: //input[@name='groups[protx_standard][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[protx_standard][fields][active][value]']
+                                        payment_action: //select[@name='groups[protx_standard][fields][payment_action][value]']
+                                        new_order_status: //select[@name='groups[protx_standard][fields][order_status][value]']
+                                        vendor_email_notification: //select[@name='groups[protx_standard][fields][vendor_notification][value]']
+                                        mode: //select[@name='groups[protx_standard][fields][mode][value]']
+                                        debug: //select[@name='groups[protx_standard][fields][debug_flag][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[protx_standard][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[protx_standard][fields][specificcountry][value][]']
+                            -
+                                eway_direct:
+                                    xpath: //div/fieldset[legend='eWAY Direct']
+                                    fields:
+                                        title: //input[@name='groups[eway_direct][fields][title][value]']
+                                        customer_id: //input[@name='groups[eway_direct][fields][customer_id][value]']
+                                        api_gateway_url: //input[@name='groups[eway_direct][fields][api_url][value]']
+                                        sort_order: //input[@name='groups[eway_direct][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[eway_direct][fields][active][value]']
+                                        accepted_currency: //select[@name='groups[eway_direct][fields][currency][value]']
+                                        use_beagle_anti_fraud: //select[@name='groups[eway_direct][fields][use_anti_fraud][value]']
+                                        debug_flag: //select[@name='groups[eway_direct][fields][debug_flag][value]']
+                                        new_order_status: //select[@name='groups[eway_direct][fields][order_status][value]']
+                                        credit_card_verification: //select[@name='groups[eway_direct][fields][useccv][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[eway_direct][fields][allowspecific][value]']
+                                    multiselects:
+                                        credit_card_types: //select[@name='groups[eway_direct][fields][cctypes][value][]']
+                                        payment_from_specific_countries: //select[@name='groups[eway_direct][fields][specificcountry][value][]']
+                            -
+                                eway_shared:
+                                    xpath: //div/fieldset[legend='eWAY Shared']
+                                    fields:
+                                        title: //input[@name='groups[eway_shared][fields][title][value]']
+                                        customer_id: //input[@name='groups[eway_shared][fields][customer_id][value]']
+                                        api_gateway_url: //input[@name='groups[eway_shared][fields][api_url][value]']
+                                        sort_order: //input[@name='groups[eway_shared][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[eway_shared][fields][active][value]']
+                                        accepted_currency: //select[@name='groups[eway_shared][fields][currency][value]']
+                                        debug_flag: //select[@name='groups[eway_shared][fields][debug_flag][value]']
+                                        new_order_status: //select[@name='groups[eway_shared][fields][order_status][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[eway_shared][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[eway_shared][fields][specificcountry][value][]']
+                            -
+                                eway_3d_secure:
+                                    xpath: //div/fieldset[legend='eWAY 3D-Secure']
+                                    fields:
+                                        title: //input[@name='groups[eway_secure][fields][title][value]']
+                                        customer_id: //input[@name='groups[eway_secure][fields][customer_id][value]']
+                                        api_gateway_url: //input[@name='groups[eway_secure][fields][api_url][value]']
+                                        sort_order: //input[@name='groups[eway_secure][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[eway_secure][fields][active][value]']
+                                        accepted_currency: //select[@name='groups[eway_secure][fields][currency][value]']
+                                        debug_flag: //select[@name='groups[eway_secure][fields][debug_flag][value]']
+                                        new_order_status: //select[@name='groups[eway_secure][fields][order_status][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[eway_secure][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[eway_secure][fields][specificcountry][value][]']
+                            -
+                                chronopay_gateway:
+                                    xpath: //div/fieldset[legend='ChronoPay Gateway']
+                                    fields:
+                                        title: //input[@name='groups[chronopay_gateway][fields][title][value]']
+                                        cgi_url: //input[@name='groups[chronopay_gateway][fields][title][value]']
+                                        product_id: //input[@name='groups[chronopay_gateway][fields][product_id][value]']
+                                        shared_secret: //input[@name='groups[chronopay_gateway][fields][shared_secret][value]']
+                                        sort_order: //input[@name='groups[chronopay_gateway][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[chronopay_gateway][fields][active][value]']
+                                        payment_action: //select[@name='groups[chronopay_gateway][fields][payment_action][value]']
+                                        accepted_currency: //select[@name='groups[chronopay_gateway][fields][currency][value]']
+                                        debug: //select[@name='groups[chronopay_gateway][fields][debug_flag][value]']
+                                        new_order_status: //select[@name='groups[chronopay_gateway][fields][order_status][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[chronopay_gateway][fields][allowspecific][value]']
+                                    multiselects:
+                                        credit_card_types: //select[@name='groups[chronopay_gateway][fields][cctypes][value][]']
+                                        payment_from_specific_countries: //select[@name='groups[chronopay_gateway][fields][specificcountry][value][]']
+                            -
+                                chronopay_standard:
+                                    xpath: //div/fieldset[legend='ChronoPay Standard']
+                                    fields:
+                                        title: //input[@name='groups[chronopay_standard][fields][title][value]']
+                                        site_id: //input[@name='groups[chronopay_standard][fields][site_id][value]']
+                                        product_id: //input[@name='groups[chronopay_standard][fields][product_id][value]']
+                                        transaction_description: //input[@name='groups[chronopay_standard][fields][description][value]']
+                                        sort_order: //input[@name='groups[chronopay_standard][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[chronopay_standard][fields][active][value]']
+                                        accepted_currency: //select[@name='groups[chronopay_standard][fields][currency][value]']
+                                        customer_interface_language: //select[@name='groups[chronopay_standard][fields][language][value]']
+                                        debug: //select[@name='groups[chronopay_standard][fields][debug_flag][value]']
+                                        new_order_status: //select[@name='groups[chronopay_standard][fields][order_status][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[chronopay_standard][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[chronopay_standard][fields][specificcountry][value][]']
+                            -
+                                cybermut_payment:
+                                    xpath: //div/fieldset[legend='Cybermut Payment']
+                                    fields:
+                                        title: //input[@name='groups[cybermut_payment][fields][title][value]']
+                                        tpe_number: //input[@name='groups[cybermut_payment][fields][tpe_no][value]']
+                                        site_code: //input[@name='groups[cybermut_payment][fields][site_code][value]']
+                                        sha_key: //input[@name='groups[cybermut_payment][fields][sha_key][value]']
+                                        key: //input[@name='groups[cybermut_payment][fields][sha_key][value]']
+                                        transaction_description: //input[@name='groups[cybermut_payment][fields][key][value]']
+                                        sort_order: //input[@name='groups[cybermut_payment][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[cybermut_payment][fields][active][value]']
+                                        bank: //select[@name='groups[cybermut_payment][fields][bank][value]']
+                                        customer_interface_language: //select[@name='groups[cybermut_payment][fields][language][value]']
+                                        test_mode: //select[@name='groups[cybermut_payment][fields][test_mode][value]']
+                                        debug: //select[@name='groups[cybermut_payment][fields][debug_flag][value]']
+                                        new_order_status: //select[@name='groups[cybermut_payment][fields][order_status][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[cybermut_payment][fields][order_status][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[cybermut_payment][fields][specificcountry][value][]']
+                            -
+                                ideal_basic:
+                                    xpath: //div/fieldset[legend='iDEAL Basic']
+                                    fields:
+                                        title: //input[@name='groups[ideal_basic][fields][title][value]']
+                                        merchant_id: //input[@name='groups[ideal_basic][fields][merchant_id][value]']
+                                        secure_url_test_mode: //input[@name='groups[ideal_basic][fields][api_test_url][value]']
+                                        secure_url_production: //input[@name='groups[ideal_basic][fields][api_url][value]']
+                                        merchant_key: //input[@name='groups[ideal_basic][fields][merchant_key][value]']
+                                        transaction_description: //input[@name='groups[ideal_basic][fields][description][value]']
+                                        sort_order: //input[@name='groups[ideal_basic][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[ideal_basic][fields][active][value]']
+                                        test_mode: //select[@name='groups[ideal_basic][fields][test_flag][value]']
+                                        language: //select[@name='groups[ideal_basic][fields][language][value]']
+                                        debug: //select[@name='groups[ideal_basic][fields][language][value]']
+                                        new_order_status: //select[@name='groups[ideal_basic][fields][debug_flag][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[ideal_basic][fields][order_status][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[ideal_basic][fields][specificcountry][value][]']
+                            -
+                                ideal_advanced:
+                                    xpath: //div/fieldset[legend='iDEAL Advanced']
+                                    fields:
+                                        title: //input[@name='groups[ideal_advanced][fields][title][value]']
+                                        merchant_id: //input[@name='groups[ideal_advanced][fields][merchant_id][value]']
+                                        private_certificate: //input[@name='groups[ideal_advanced][fields][private_cert][value]']
+                                        private_key: //select[@name='groups[ideal_advanced][fields][private_key][value]']
+                                        private_key_password: //input[@name='groups[ideal_advanced][fields][private_keypass][value]']
+                                        ideal_certificate: //input[@name='groups[ideal_advanced][fields][certificate][value]']
+                                        transaction_description: //input[@name='groups[ideal_advanced][fields][description][value]']
+                                        transaction_expire_period: //input[@name='groups[ideal_advanced][fields][expire_period][value]']
+                                        check_begin: //input[@name='groups[ideal_advanced][fields][cron_start][value]']
+                                        check_end: //input[@name='groups[ideal_advanced][fields][cron_end][value]']
+                                        sort_order: //input[@name='groups[ideal_advanced][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[ideal_advanced][fields][active][value]']
+                                        test_mode: //select[@name='groups[ideal_advanced][fields][test_flag][value]']
+                                        debug: //select[@name='groups[ideal_advanced][fields][debug_flag][value]']
+                                        new_order_status: //select[@name='groups[ideal_advanced][fields][order_status][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[ideal_advanced][fields][order_status][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[ideal_advanced][fields][specificcountry][value][]']
+                            -
+                                cybersource_soap_toolkit:
+                                    xpath: //div/fieldset[legend='Cybersource (SOAP Toolkit)']
+                                    fields:
+                                        title: //input[@name='groups[cybersource_soap][fields][title][value]']
+                                        merchant_id: //input[@name='groups[cybersource_soap][fields][title][value]']
+                                        security_key: //input[@name='groups[cybersource_soap][fields][security_key][value]']
+                                        sort_order: //input[@name='groups[cybersource_soap][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[cybersource_soap][fields][active][value]']
+                                        payment_action: //select[@name='groups[cybersource_soap][fields][payment_action][value]']
+                                        new_order_status: //select[@name='groups[cybersource_soap][fields][order_status][value]']
+                                        credit_card_verification: //select[@name='groups[cybersource_soap][fields][useccv][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[cybersource_soap][fields][allowspecific][value]']
+                                        test_mode: //select[@name='groups[cybersource_soap][fields][test][value]']
+                                        debug: //select[@name='groups[cybersource_soap][fields][debug][value]']
+                                    multiselects:
+                                        credit_card_types: //select[@name='groups[cybersource_soap][fields][cctypes][value][]']
+                                        payment_from_specific_countries: //select[@name='groups[cybersource_soap][fields][specificcountry][value][]']
+                            -
+                                flo2cash_payment_web_service:
+                                    xpath: //div/fieldset[legend='Flo2Cash Payment Web Service']
+                                    fields:
+                                        title: //input[@name='groups[flo2cash_web][fields][title][value]']
+                                        username: //input[@name='groups[flo2cash_web][fields][username][value]']
+                                        password: //input[@name='groups[flo2cash_web][fields][password][value]']
+                                        account_number_authorize_capture: //input[@name='groups[flo2cash_web][fields][payzn_account_id][value]']
+                                        account_number_purchase: //input[@name='groups[flo2cash_web][fields][payzn_purchase_account_id][value]']
+                                        sort_order: //input[@name='groups[flo2cash_web][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[flo2cash_web][fields][active][value]']
+                                        demo_mode: //select[@name='groups[flo2cash_web][fields][demo_mode][value]']
+                                        payment_action: //select[@name='groups[flo2cash_web][fields][demo_mode][value]']
+                                        new_order_status: //select[@name='groups[flo2cash_web][fields][order_status][value]']
+                                        credit_card_verification: //select[@name='groups[flo2cash_web][fields][useccv][value]']
+                                        debug_flag: //select[@name='groups[flo2cash_web][fields][debug_flag][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[flo2cash_web][fields][allowspecific][value]']
+                                    multiselects:
+                                        credit_card_types: //select[@name='groups[flo2cash_web][fields][cctypes][value][]']
+                                        payment_from_specific_countries: //select[@name='groups[flo2cash_web][fields][specificcountry][value][]']
+                            -
+                                amazon_simple_pay:
+                                    xpath: //div/fieldset[legend='Amazon Simple Pay']
+                                    fields:
+                                        title: //input[@name='groups[amazonpayments_asp][fields][title][value]']
+                                        access_key: //input[@name='groups[amazonpayments_asp][fields][access_key][value]']
+                                        secret_key: //input[@name='groups[amazonpayments_asp][fields][secret_key][value]']
+                                        method_choice_checkout_message: //input[@name='groups[amazonpayments_asp][fields][choice_method_description][value]']
+                                        redirect_message: //input[@name='groups[amazonpayments_asp][fields][redirect_message][value]']
+                                        refund_description: //input[@name='groups[amazonpayments_asp][fields][refund_description][value]']
+                                        payment_description: //input[@name='groups[amazonpayments_asp][fields][pay_description][value]']
+                                        cancel_description: //input[@name='groups[amazonpayments_asp][fields][cancel_description][value]']
+                                        report_email: //input[@name='groups[amazonpayments_asp][fields][report_email][value]']
+                                    dropdowns:
+                                        enable: //select[@name='groups[amazonpayments_asp][fields][active][value]']
+                                        sandbox: //select[@name='groups[amazonpayments_asp][fields][is_sandbox][value]']
+                                        payment_action: //select[@name='groups[amazonpayments_asp][fields][pay_process_immediate][value]']
+                                        immediate_return: //select[@name='groups[amazonpayments_asp][fields][pay_immediate_return][value]']
+                                        email_sender: //select[@name='groups[amazonpayments_asp][fields][email_sender_identity][value]']
+                                        notification_error_transactional_email: //select[@name='groups[amazonpayments_asp][fields][email_template_notification_error][value]']
+                                        report_error_to_email: //select[@name='groups[amazonpayments_asp][fields][report_error_to_email][value]']
+                                        error_log: //select[@name='groups[amazonpayments_asp][fields][error_log][value]']
+                                        debug_log: //select[@name='groups[amazonpayments_asp][fields][debug_log][value]']
+                            -
+                                checkout_by_amazon:
+                                    xpath: //div/fieldset[legend='Checkout by Amazon']
+                                    fields:
+                                        title: //input[@name='groups[amazonpayments_cba][fields][title][value]']
+                                        merchant_id: //input[@name='groups[amazonpayments_cba][fields][merchant_id][value]']
+                                        merchant_name: //input[@name='groups[amazonpayments_cba][fields][merchant_name][value]']
+                                        access_key_id: //input[@name='groups[amazonpayments_cba][fields][accesskey_id][value]']
+                                        secret_key_id: //input[@name='groups[amazonpayments_cba][fields][secretkey_id][value]']
+                                        merchant_token: //input[@name='groups[amazonpayments_cba][fields][merchant_tocken][value]']
+                                        merchant_login: //input[@name='groups[amazonpayments_cba][fields][merchant_login][value]']
+                                        merchant_password: //input[@name='groups[amazonpayments_cba][fields][merchant_pass][value]']
+                                    dropdowns:
+                                        enable: //select[@name='groups[amazonpayments_cba][fields][active][value]']
+                                        sandbox: //select[@name='groups[amazonpayments_cba][fields][sandbox_flag][value]']
+                                        debug: //select[@name='groups[amazonpayments_cba][fields][debug_flag][value]']
+                                        new_order_status: //select[@name='groups[amazonpayments_cba][fields][order_status][value]']
+                                        standard_rate: //select[@name='groups[amazonpayments_cba][fields][standard_rate][value][method]']
+                                        expedited_rate: //select[@name='groups[amazonpayments_cba][fields][expedited_rate][value][method]']
+                                        oneday_rate: //select[@name='groups[amazonpayments_cba][fields][oneday_rate][value][method]']
+                                        twoday_rate: //select[@name='groups[amazonpayments_cba][fields][twoday_rate][value][method]']
+                            -
+                                ogone:
+                                    xpath: //div/fieldset[legend='Ogone']
+                                    fields:
+                                        title: //input[@name='groups[ogone][fields][title][value]']
+                                        pspid: //input[@name='groups[ogone][fields][pspid][value]']
+                                        sha_in_pass_phrase: //input[@name='groups[ogone][fields][secret_key_out][value]']
+                                        sha_out_pass_phrase: //input[@name='groups[ogone][fields][secret_key_in][value]']
+                                        gateway_url: //input[@name='groups[ogone][fields][ogone_gateway][value]']
+                                        title_of_the_ogone_template: //input[@name='groups[ogone][fields][html_title][value]']
+                                        background_color_of_ogone_template: //input[@name='groups[ogone][fields][bgcolor][value]']
+                                        text_color_of_the_ogone_template: //input[@name='groups[ogone][fields][txtcolor][value]']
+                                        table_background_color_of_the_ogone_template: //input[@name='groups[ogone][fields][tblbgcolor][value]']
+                                        table_text_color_of_the_ogone_teamplate: //input[@name='groups[ogone][fields][tbltxtcolor][value]']
+                                        button_background_color_of_the_ogone_template: //input[@name='groups[ogone][fields][buttonbgcolor][value]']
+                                        button_text_color_of_the_ogone_template: //input[@name='groups[ogone][fields][buttontxtcolor][value]']
+                                        font_family_of_the_ogone_template: //input[@name='groups[ogone][fields][fonttype][value]']
+                                        logo_of_the_ogone_template: //input[@name='groups[ogone][fields][fonttype][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[ogone][fields][active][value]']
+                                        debug: //select[@name='groups[ogone][fields][debug_flag][value]']
+                                        hash_all_parameters: //select[@name='groups[ogone][fields][shamode][value]']
+                                        hashing_algorithm: //select[@name='groups[ogone][fields][hashing_algorithm][value]']
+                                        payment_action: //select[@name='groups[ogone][fields][payment_action][value]']
+                                        payment_template: //select[@name='groups[ogone][fields][template][value]']
+                                        layout_of_payment_methods: //select[@name='groups[ogone][fields][pmlist][value]']
+                -
+                    sales_payment_services_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/payment_services/')]
+                        fieldsets:
+                            -
+                                3d_secure_credit_card_validation:
+                                    xpath: //div/fieldset[legend='3D Secure Credit Card Validation']
+                                    fields:
+                                        processor_id: //input[@name='groups[centinel][fields][processor_id][value]']
+                                        merchant_id: //input[@name='groups[centinel][fields][merchant_id][value]']
+                                        password: //input[@name='groups[centinel][fields][password][value]']
+                                    dropdowns:
+                                        test_mode: //select[@name='groups[centinel][fields][test_mode][value]']
+                                        debug_mode: //select[@name='groups[centinel][fields][debug][value]']
+                -
+                    sales_moneybookers_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/moneybookers/')]
+                        fieldsets:
+                            -
+                                moneybookers_settings:
+                                    xpath: //div/fieldset[legend='Moneybookers Settings']
+                                    fields:
+                                        email_address_of_your_moneybookers_account: //input[@name='groups[settings][fields][moneybookers_email][value]']
+                                        customer_id: //input[@name='groups[settings][fields][customer_id][value]']
+                                        secret_word: //input[@name='groups[settings][fields][secret_key][value]']
+                                    buttons:
+                                        validate_email: //button[span='Validate Email']
+                            -
+                                all_credit_cards_visa_mastercard_amex_jcb_diners_powered_by_moneybookers_international:
+                                    xpath: //div/fieldset[legend='All Credit Cards / Visa, Mastercard, AMEX, JCB, Diners (powered by Moneybookers) - International']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_acc][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_acc][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_acc][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_acc][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_acc][fields][specificcountry][value][]']
+                            -
+                                lastschrift_elv_powered_by_moneybookers_germany:
+                                    xpath: //div/fieldset[legend='Lastschrift (ELV) (powered by Moneybookers) - Germany']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_did][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_did][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_did][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_did][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_did][fields][specificcountry][value][]']
+                            -
+                                giropay_powered_by_moneybookers_germany:
+                                    xpath: //div/fieldset[legend='Giropay (powered by Moneybookers) - Germany']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_gir][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_gir][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_gir][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_gir][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_gir][fields][specificcountry][value][]']
+                            -
+                                sofortüberweisung_powered_by_moneybookers_germany:
+                                    xpath: //div/fieldset[legend='Sofortüberweisung (powered by Moneybookers) - Germany']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_sft][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_sft][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_sft][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_sft][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_sft][fields][specificcountry][value][]']
+                            -
+                                laser_powered_by_moneybookers_ireland:
+                                    xpath: //div/fieldset[legend='Laser (powered by Moneybookers) - Ireland']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_lsr][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_lsr][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_lsr][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_lsr][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_lsr][fields][specificcountry][value][]']
+                            -
+                                maestro_powered_by_moneybookers_united_kingdom_austria_spain:
+                                    xpath: //div/fieldset[legend='Maestro (powered by Moneybookers) - United Kingdom, Austria, Spain']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_mae][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_mae][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_mae][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_mae][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_mae][fields][specificcountry][value][]']
+                            -
+                                carte_bleue_powered_by_moneybookers_france:
+                                    xpath: //div/fieldset[legend='Carte Bleue (powered by Moneybookers) - France']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_gcb][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_gcb][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_gcb][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_gcb][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_gcb][fields][specificcountry][value][]']
+                            -
+                                dankort_powered_by_moneybookers_denmark:
+                                    xpath: //div/fieldset[legend='Dankort (powered by Moneybookers) - Denmark']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_dnk][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_dnk][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_dnk][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_dnk][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_dnk][fields][specificcountry][value][]']
+                            -
+                                postepay_powered_by_moneybookers_italy:
+                                    xpath: //div/fieldset[legend='Postepay (powered by Moneybookers) - Italy']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_psp][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_psp][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_psp][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_psp][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_psp][fields][specificcountry][value][]']
+                            -
+                                cartasi_powered_by_moneybookers_italy:
+                                    xpath: //div/fieldset[legend='CartaSi (powered by Moneybookers) - Italy']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_csi][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_csi][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_csi][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_csi][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_csi][fields][specificcountry][value][]']
+                            -
+                                enets_powered_by_moneybookers_singapore:
+                                    xpath: //div/fieldset[legend='eNETS (powered by Moneybookers) - Singapore']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_ent][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_ent][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_ent][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_ent][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_ent][fields][specificcountry][value][]']
+                            -
+                                nordea_solo_powered_by_moneybookers_sweden:
+                                    xpath: //div/fieldset[legend='Nordea Solo (powered by Moneybookers) - Sweden']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_ebt][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_ebt][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_ebt][fields][title][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_ebt][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_ebt][fields][specificcountry][value][]']
+                            -
+                                nordea_solo_powered_by_moneybookers_finland:
+                                    xpath: //div/fieldset[legend='Nordea Solo (powered by Moneybookers) - Finland']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_so2][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_so2][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_so2][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_so2][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_so2][fields][allowspecific][value]']
+                            -
+                                ideal_powered_by_moneybookers_netherlands:
+                                    xpath: //div/fieldset[legend='iDeal (powered by Moneybookers) - Netherlands']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_idl][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_idl][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_idl][fields][title][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_idl][fields][active][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_idl][fields][specificcountry][value][]']
+                            -
+                                eps_online_überweisung_powered_by_moneybookers_austria:
+                                    xpath: //div/fieldset[legend='EPS Online-Überweisung (powered by Moneybookers) - Austria']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_idl][fields][specificcountry][value][]']
+                                        title: //input[@name='groups[moneybookers_npy][fields][sort_order][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_npy][fields][title][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_npy][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_npy][fields][specificcountry][value][]']
+                            -
+                                poli_powered_by_moneybookers_australia:
+                                    xpath: //div/fieldset[legend='POLi (powered by Moneybookers) - Australia']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_pli][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_pli][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_pli][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_pli][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_pli][fields][specificcountry][value][]']
+                            -
+                                przelewy24_powered_by_moneybookers_poland:
+                                    xpath: //div/fieldset[legend='Przelewy24 (powered by Moneybookers) - Poland']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_pwy][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_pwy][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_pwy][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_pwy][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_pwy][fields][specificcountry][value][]']
+                            -
+                                moneybookers_ewallet:
+                                    xpath: //div/fieldset[legend='Moneybookers eWallet']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_wlt][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_wlt][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_wlt][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_wlt][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_wlt][fields][specificcountry][value][]']
+                            -
+                                online_bank_transfer_powered_by_moneybookers:
+                                    xpath: //div/fieldset[legend='Online Bank Transfer (powered by Moneybookers)']
+                                    fields:
+                                        sort_order: //input[@name='groups[moneybookers_obt][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_obt][fields][title][value]']
+                                    dropdowns:
+                                        enabled: //select[@name='groups[moneybookers_obt][fields][active][value]']
+                                        payment_from_applicable_countries: //select[@name='groups[moneybookers_obt][fields][allowspecific][value]']
+                                    multiselects:
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_obt][fields][allowspecific][value]']
+                -
+                    services_strikeiron_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/strikeiron/')]
+                        fieldsets:
+                            -
+                                strikeiron_config:
+                                    xpath: //div/fieldset[legend='Strikeiron Config']
+                                    fields:
+                                        user_id: //input[@name='groups[config][fields][user][value]']
+                                        password: //input[@name='groups[config][fields][password][value]']
+                            -
+                                email_verification:
+                                    xpath: //div/fieldset[legend='Email Verification']
+                                    fields:
+                                        error_email_recipient: //input[@name='groups[email_verification][fields][error_email][value]']
+                                    dropdowns:
+                                        enable_email_verification: //select[@name='groups[email_verification][fields][active][value]']
+                                        verify_email_in_admin: //select[@name='groups[email_verification][fields][check_admin][value]']
+                                        check_all_email_servers: //select[@name='groups[email_verification][fields][check_allservers][value]']
+                                        undetermined_email_action: //select[@name='groups[email_verification][fields][undetermined_action][value]']
+                                        error_email_sender: //select[@name='groups[email_verification][fields][error_email_identity][value]']
+                                        error_email_template: //select[@name='groups[email_verification][fields][error_email_template][value]']
+                            -
+                                foreign_exchange_rates:
+                                    xpath: //div/fieldset[legend='Foreign Exchange Rates']
+                                    dropdowns:
+                                        enable_foreign_exchange_rate: //select[@name='groups[currency][fields][foreigh_xrate][value]']
+                            -
+                                us_address_verification:
+                                    xpath: //div/fieldset[legend='US Address Verification']
+                                    dropdowns:
+                                        enable_us_address_verification: //select[@name='groups[us_address_verification][fields][active][value]']
+                                        verify_address_in_admin: //select[@name='groups[us_address_verification][fields][check_admin][value]']
+                                        error_address_action: //select[@name='groups[us_address_verification][fields][undetermined_action][value]']
+                            -
+                                global_address_verification:
+                                    xpath: //div/fieldset[legend='Global Address Verification']
+                                    dropdowns:
+                                        enable_global_address_verification: //select[@name='groups[global_address_verification][fields][active][value]']
+                                        verify_address_in_admin: //select[@name='groups[global_address_verification][fields][check_admin][value]']
+                                        error_address_action: //select[@name='groups[global_address_verification][fields][undetermined_action][value]']
+                            -
+                                sales_and_use_tax:
+                                    xpath: //div/fieldset[legend='Sales and Use Tax']
+                                    dropdowns:
+                                        enable_sales_and_use_tax: //select[@name='groups[sales_tax][fields][active][value]']
+                                        sales_and_use_tax_type: //select[@name='groups[sales_tax][fields][type][value]']
+                                        use: //select[@name='groups[sales_tax][fields][min_max][value]']
+                                    multiselects:
+                                        customer_tax_class: //select[@name='groups[sales_tax][fields][customer_tax_class][value][]']
+                                        product_tax_class: //select[@name='groups[sales_tax][fields][product_tax_class][value][]']
+                -
+                    services_magento_core_api_tab:
+                        xpath: //a[contains(@href, 'system_config/edit/section/api/')]
+                        fieldsets:
+                            -
+                                general_settings:
+                                    xpath: //div/fieldset[legend='General Settings']
+                                    fields:
+                                        default_response_charset: //input[@name='groups[config][fields][charset][value]']
+                                        client_session_timeout_sec: //input[@name='groups[config][fields][session_timeout][value]']
+                                    dropdowns:
+                                        ws_i_compliance: //select[@name='groups[config][fields][compliance_wsi][value]']
