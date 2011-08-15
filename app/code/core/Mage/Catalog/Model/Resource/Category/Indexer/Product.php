@@ -533,12 +533,14 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
          */
         $adapter = $this->_getReadAdapter();
         $isParent = $adapter->getCheckSql('MIN(cp.category_id)=ce.entity_id', 1, 0);
-        $position = $adapter->getCheckSql(
-            'MIN(cp.category_id)=ce.entity_id',
-            'MIN(cp.position)',
-            'ROUND((MIN(cc.position) + 1) * (MIN(' . $adapter->quoteIdentifier('cc.level') . ') + 1) * 10000, 0)'.
-            ' + MIN(cp.position)'
-        );
+        $position = 'MIN('.
+            $adapter->getCheckSql(
+                'cp.category_id = ce.entity_id',
+                'cp.position',
+                '(cc.position + 1) * ('.$adapter->quoteIdentifier('cc.level').' + 1) * 10000 + cp.position'
+            )
+        .')';
+
         $select = $adapter->select()
             ->distinct(true)
             ->from(array('ce' => $this->_categoryTable), array('entity_id'))
@@ -838,12 +840,16 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             $anchorProductsTable = $this->_getAnchorCategoriesProductsTemporaryTable();
             $idxAdapter->delete($anchorProductsTable);
 
-            $position = $idxAdapter->getCheckSql('ca.category_id=MIN(ce.entity_id)',
-                'MIN(' . $idxAdapter->quoteIdentifier('cp.position') . ')',
-                'ROUND((MIN(' . $idxAdapter->quoteIdentifier('ce.position') . ') + 1) * ' .
-                '(MIN(' . $idxAdapter->quoteIdentifier('ce.level') . ') + 1) * 10000, 0) + ' .
-                'MIN(' . $idxAdapter->quoteIdentifier('cp.position') . ')'
-                );
+            $position = 'MIN('.
+                $idxAdapter->getCheckSql(
+                    'ca.category_id = ce.entity_id',
+                    $idxAdapter->quoteIdentifier('cp.position'),
+                    '('.$idxAdapter->quoteIdentifier('ce.position').' + 1) * '
+                    .'('.$idxAdapter->quoteIdentifier('ce.level').' + 1 * 10000)'
+                    .' + '.$idxAdapter->quoteIdentifier('cp.position')
+                )
+            .')';
+
 
             $select = $idxAdapter->select()
             ->useStraightJoin(true)
@@ -918,7 +924,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
             );
 
             $idxAdapter->query($query, array('store_id' => $storeId, 'category_id' => $rootId));
-    }
+        }
 
         $this->syncData();
 
