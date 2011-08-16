@@ -189,6 +189,16 @@ class Magento_Test_Bootstrap
     }
 
     /**
+     * Get Magento dir
+     *
+     * @return string
+     */
+    public function getMagentoDir()
+    {
+        return $this->_magentoDir;
+    }
+
+    /**
      * Initialize an already installed Magento application
      *
      * @param string $scopeCode
