@@ -217,7 +217,9 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
         $origSlash = (substr($pathInfo, -1) == '/') ? '/' : '';
         $requestPath = trim($pathInfo, '/');
 
-        $altSlash = $origSlash ? '' : '/'; // If there were final slash - add nothing to less priority paths. And vice versa.
+        // If there were final slash - add nothing to less priority paths. And vice versa.
+        $altSlash = $origSlash ? '' : '/';
+
         $queryString = $this->_getQueryString(); // Query params in request, matching "path + query" has more priority
         if ($queryString) {
             $requestCases[] = $requestPath . $origSlash . '?' . $queryString;
@@ -243,7 +245,14 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
             if (!$this->getId()) {
                 return false;
             }
-            $this->setStoreId(Mage::app()->getStore()->getId())->loadByIdPath($this->getIdPath());
+            $currentStore = Mage::app()->getStore();
+            $this->setStoreId($currentStore->getId())->loadByIdPath($this->getIdPath());
+
+            Mage::app()->getCookie()->set(Mage_Core_Model_Store::COOKIE_NAME, $currentStore->getCode(), true);
+            header('HTTP/1.1 301 Moved Permanently');
+            $targetUrl = $request->getBaseUrl(). '/' . $this->getRequestPath();
+            $this->_addRedirectHeader($targetUrl);
+            exit;
         }
 
         if (!$this->getId()) {
@@ -258,7 +267,9 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
             if ($isPermanentRedirectOption) {
                 header('HTTP/1.1 301 Moved Permanently');
             }
-            header("Location: ".$this->getTargetPath());
+            $this->_addRedirectHeader($this->getTargetPath());
+            $destinationStoreCode = Mage::app()->getStore($this->getStoreId())->getCode();
+            Mage::app()->getCookie()->set(Mage_Core_Model_Store::COOKIE_NAME, $destinationStoreCode, true);
             exit;
         } else {
             $targetUrl = $request->getBaseUrl(). '/' . $this->getTargetPath();
@@ -271,7 +282,7 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
             if ($isPermanentRedirectOption) {
                 header('HTTP/1.1 301 Moved Permanently');
             }
-            header('Location: '.$targetUrl);
+            $this->_addRedirectHeader($targetUrl);
             exit;
         }
 
@@ -317,4 +328,13 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
         return $this->_getData('store_id');
     }
 
+    /**
+     * Add location header and disable browser page caching
+     */
+    protected function _addRedirectHeader($url)
+    {
+        header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: no-cache');
+        header('Location: ' . $url);
+    }
 }
