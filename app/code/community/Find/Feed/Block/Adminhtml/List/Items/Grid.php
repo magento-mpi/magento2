@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    
+ * @category
  * @package     _home
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -130,7 +130,9 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
             'align'             => 'center',
             'type'              => 'currency',
             'currency_code'     => $this->_getStore()->getCurrentCurrencyCode(),
-            'rate'              => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
+            'rate'              => $this->_getStore()->getBaseCurrency()->getRate(
+                $this->_getStore()->getCurrentCurrencyCode()
+            ),
             'index'             => 'price'
         ));
 
@@ -138,7 +140,7 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
         $isImportedOptions = $source->getOptionArray();
 
         $this->addColumn('is_imported', array(
-            'header'    => Mage::helper('find_feed')->__('In feed'),
+            'header'    => Mage::helper('find_feed')->__('In Feed'),
             'width'     => '100px',
             'index'     => 'is_imported',
             'type'      => 'options',

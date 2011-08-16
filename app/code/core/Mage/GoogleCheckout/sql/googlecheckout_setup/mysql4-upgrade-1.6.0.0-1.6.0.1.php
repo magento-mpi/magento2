@@ -24,23 +24,12 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/* @var $installer Mage_GoogleCheckout_Model_Resource_Setup */
 $installer = $this;
-/* @var $installer Mage_GoogleCheckout_Model_Mysql4_Setup */
 
-$installer->startSetup();
-
-$installer->updateAttribute('catalog_product', 'disable_googlecheckout', array(
-    'attribute_code'    => 'enable_googlecheckout',
-    'frontend_label'    => 'Is Product Available for Purchase with Google Checkout',
-));
-
-$attribute = $installer->getAttribute('catalog_product', 'enable_googlecheckout');
-if (!empty($attribute['attribute_id'])) {
-    $installer->run("
-        UPDATE `{$installer->getAttributeTable('catalog_product', 'enable_googlecheckout')}`
-        SET `value` = ! `value`
-        WHERE `attribute_id` = {$attribute['attribute_id']}
-    ");
-}
-
-$installer->endSetup();
+$installer->updateAttribute(
+    Mage_Catalog_Model_Product::ENTITY,
+    'enable_googlecheckout',
+    'frontend_label',
+    'Is Product Available for Purchase with Google Checkout'
+);
