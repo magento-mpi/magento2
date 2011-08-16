@@ -276,7 +276,7 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
             }
 
-            $this->_sendRedirectHeaders($targetUrl, $isRedirectOption);
+            $this->_sendRedirectHeaders($targetUrl, $isPermanentRedirectOption);
         }
 
         if (Mage::getStoreConfig('web/url/use_store') && $storeCode = Mage::app()->getStore()->getCode()) {
