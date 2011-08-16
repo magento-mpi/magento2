@@ -249,10 +249,9 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
             $this->setStoreId($currentStore->getId())->loadByIdPath($this->getIdPath());
 
             Mage::app()->getCookie()->set(Mage_Core_Model_Store::COOKIE_NAME, $currentStore->getCode(), true);
-            header('HTTP/1.1 301 Moved Permanently');
             $targetUrl = $request->getBaseUrl(). '/' . $this->getRequestPath();
-            $this->_addRedirectHeader($targetUrl);
-            exit;
+
+            $this->_sendRedirectHeaders($targetUrl, true);
         }
 
         if (!$this->getId()) {
@@ -264,13 +263,10 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
         $external = substr($this->getTargetPath(), 0, 6);
         $isPermanentRedirectOption = $this->hasOption('RP');
         if ($external === 'http:/' || $external === 'https:') {
-            if ($isPermanentRedirectOption) {
-                header('HTTP/1.1 301 Moved Permanently');
-            }
-            $this->_addRedirectHeader($this->getTargetPath());
             $destinationStoreCode = Mage::app()->getStore($this->getStoreId())->getCode();
             Mage::app()->getCookie()->set(Mage_Core_Model_Store::COOKIE_NAME, $destinationStoreCode, true);
-            exit;
+
+            $this->_sendRedirectHeaders($this->getTargetPath(), $isPermanentRedirectOption);
         } else {
             $targetUrl = $request->getBaseUrl(). '/' . $this->getTargetPath();
         }
@@ -279,11 +275,8 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
             if (Mage::getStoreConfig('web/url/use_store') && $storeCode = Mage::app()->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
             }
-            if ($isPermanentRedirectOption) {
-                header('HTTP/1.1 301 Moved Permanently');
-            }
-            $this->_addRedirectHeader($targetUrl);
-            exit;
+
+            $this->_sendRedirectHeaders($targetUrl, $isRedirectOption);
         }
 
         if (Mage::getStoreConfig('web/url/use_store') && $storeCode = Mage::app()->getStore()->getCode()) {
@@ -330,11 +323,19 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
 
     /**
      * Add location header and disable browser page caching
+     *
+     * @param string $url
+     * @param bool $isPermanent
      */
-    protected function _addRedirectHeader($url)
+    protected function _sendRedirectHeaders($url, $isPermanent = false)
     {
+        if ($isPermanent) {
+            header('HTTP/1.1 301 Moved Permanently');
+        }
+
         header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
         header('Pragma: no-cache');
         header('Location: ' . $url);
+        exit;
     }
 }
