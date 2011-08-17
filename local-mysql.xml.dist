@@ -53,6 +53,16 @@
                     <active>1</active>
                 </connection>
             </default_setup>
+            <ee_knowledgebase_write>
+                <connection>
+                    <host><![CDATA[localhost]]></host>
+                    <username><![CDATA[root]]></username>
+                    <password><![CDATA[]]></password>
+                    <dbname><![CDATA[magentoc_live_integration_tests]]></dbname>
+                    <active>1</active>
+                    <type>pdo_mysql</type>
+                </connection>
+            </ee_knowledgebase_write>
         </resources>
         <session_save><![CDATA[files]]></session_save>
     </global>
