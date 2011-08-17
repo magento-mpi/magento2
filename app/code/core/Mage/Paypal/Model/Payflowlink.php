@@ -170,24 +170,12 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             $payment->setTransactionId($txnId);
             $payment->authorize(false, $authorizedAmt);
             $payment->unsTransactionId();
-        } else {
-            $authorizedAmt = $payment->getAdditionalInformation('authorized_amt');
         }
 
         $payment->setParentTransactionId($txnId);
 
         $payment->setAmountOrdered($amount);
         parent::capture($payment, $amount);
-
-        if ($amount < $authorizedAmt) {
-            // TODO: void difference between Authorized Amount and Captured Amount
-            /*
-            $payment->unsAmountOrdered();
-            $payment->setAmountOrdered($authorizedAmt - $amount);
-            $this->void($payment);
-            $payment->setAmountOrdered($amount);
-             */
-        }
 
         if ($removePaypalTransaction) {
             $transaction->delete();
@@ -344,7 +332,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $authorizedAmt = $transaction->getAdditionalInformation('amt');
 
         if (!$authorizedAmt || $amount > $authorizedAmt) {
-            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG . ' qq2'));
+            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
         }
         return $this;
     }
