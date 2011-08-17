@@ -137,6 +137,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
 
         $this->_checkTransaction($transaction, $amount);
 
+        $payment->setAdditionalInformation('authorized_amt', $transaction->getAdditionalInformation('amt'));
         $payment->setTransactionId($txnId)->setIsTransactionClosed(0);
         if ($payment->getAdditionalInformation('paypal_fraud_filters') !== null) {
             $payment->setIsTransactionPending(true);
@@ -156,21 +157,42 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      */
     public function capture(Varien_Object $payment, $amount)
     {
-        $txnId = $payment->getAdditionalInformation('authorization_id');
+        $removePaypalTransaction = false;
         /** @var $transaction Mage_Paypal_Model_Payment_Transaction */
         $transaction =  Mage::getModel('paypal/payment_transaction');
+        $txnId = $payment->getAdditionalInformation('authorization_id');
         $transaction->loadByTxnId($txnId);
+        if ($transaction->getId()) {
+            $removePaypalTransaction = true;
+            $authorizedAmt = $transaction->getAdditionalInformation('amt');
+            $this->_checkTransaction($transaction, $amount);
 
-        $this->_checkTransaction($transaction, $amount);
-
-        $payment->setTransactionId($txnId);
-        $payment->authorize(false, $amount);
-        $payment->unsTransactionId();
+            $payment->setTransactionId($txnId);
+            $payment->authorize(false, $authorizedAmt);
+            $payment->unsTransactionId();
+        } else {
+            $authorizedAmt = $payment->getAdditionalInformation('authorized_amt');
+        }
 
         $payment->setParentTransactionId($txnId);
+
+        $payment->setAmountOrdered($amount);
         parent::capture($payment, $amount);
 
-        $transaction->delete();
+        if ($amount < $authorizedAmt) {
+            // TODO: void difference between Authorized Amount and Captured Amount
+            /*
+            $payment->unsAmountOrdered();
+            $payment->setAmountOrdered($authorizedAmt - $amount);
+            $this->void($payment);
+            $payment->setAmountOrdered($amount);
+             */
+        }
+
+        if ($removePaypalTransaction) {
+            $transaction->delete();
+        }
+
         return $this;
     }
 
@@ -319,10 +341,10 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
         }
 
-        $amt = $transaction->getAdditionalInformation('amt');
+        $authorizedAmt = $transaction->getAdditionalInformation('amt');
 
-        if (!$amt || $amt != $amount) {
-            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG));
+        if (!$authorizedAmt || $amount > $authorizedAmt) {
+            Mage::throwException(Mage::helper('paypal')->__(self::SHOPPING_CART_CHANGED_ERROR_MSG . ' qq2'));
         }
         return $this;
     }
@@ -462,6 +484,9 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             ->setPwd($this->getConfigData('pwd', $this->_getStoreId()))
             ->setVerbosity($this->getConfigData('verbosity', $this->_getStoreId()))
             ->setTender(self::TENDER_CC);
+        if ($payment->getAmountOrdered() > 0) {
+            $request->setAmt($payment->getAmountOrdered());
+        }
         return $request;
     }
 
