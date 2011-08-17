@@ -33,15 +33,16 @@
 //<![CDATA[
     function allowCheckoutSteps(allow)
     {
-        for (var s = 0; s < window.top.checkout.steps.length; s++) {
-            if (window.top.checkout.steps[s] == '<?php echo $this->getGotoSection() ?>') {
+        var window_top = window.top;
+        for (var s = 0; s < window_top.checkout.steps.length; s++) {
+            if (window_top.checkout.steps[s] == '<?php echo $this->getGotoSection() ?>') {
                 break;
             }
-            if (window.top.document.getElementById('opc-' + window.top.checkout.steps[s])) {
+            if (window_top.document.getElementById('opc-' + window_top.checkout.steps[s])) {
                 if (allow) {
-                    window.top.document.getElementById('opc-' + window.top.checkout.steps[s]).addClassName('allow');
+                    window_top.document.getElementById('opc-' + window_top.checkout.steps[s]).addClassName('allow');
                 } else {
-                    window.top.document.getElementById('opc-' + window.top.checkout.steps[s]).removeClassName('allow');
+                    window_top.document.getElementById('opc-' + window_top.checkout.steps[s]).removeClassName('allow');
                 }
             }
         }
@@ -50,17 +51,19 @@
     alert('<?php echo $this->getErrorMsg() ?>');
 <?php endif; ?>
 var window_name = '<?php echo Mage::getBaseUrl(); ?>';
-if (window_name == window.top.name) {
-<?php if ($this->getGotoSection()): ?>
-    allowCheckoutSteps(true);
-    window.top.checkout.gotoSection("<?php echo $this->getGotoSection() ?>");
-    <?php if ($this->getGotoSection() == 'review'): ?>
-        allowCheckoutSteps(false);
-        window.top.payment.save();
+var window_top = window.top;
+if (window_name == window_top.name) {
+    <?php if ($this->getGotoSection()): ?>
+        allowCheckoutSteps(true);
+        <?php if ($this->getGotoSection() == 'review'): ?>
+            allowCheckoutSteps(false);
+            window_top.payment.save();
+        <?php else : ?>
+            window_top.checkout.gotoSection("<?php echo $this->getGotoSection() ?>");
+        <?php endif; ?>
+    <?php else : ?>
+        window_top.location="<?php echo $this->getUrl('checkout/cart') ?>";
     <?php endif; ?>
-<?php else : ?>
-    window.top.location="<?php echo $this->getUrl('checkout/cart') ?>";
-<?php endif; ?>
 } else {
     alert('<?php echo $this->__('Wrong configuration of Payment Method');?>');
 }

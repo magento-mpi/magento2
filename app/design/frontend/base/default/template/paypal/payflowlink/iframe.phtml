@@ -40,12 +40,13 @@ Event.observe($('payment_form_<?php echo $_code ?>'), 'payment-method:switched',
                 + 'src="<?php echo $this->getFrameActionUrl() ?>" height="610" width="570"></iframe>';
         $('payment_form_<?php echo $_code ?>').insert({bottom:payflowLinkIframe});
         $('payflow-link-iframe').observe('load', function(){
-            $('payflow-link-iframe').show();
-            $('iframe-warning').show();
-            checkout.setLoadWaiting(false, true);
+            if (!$('payflow-link-iframe').visible()) {
+                $('payflow-link-iframe').show();
+                $('iframe-warning').show();
+                checkout.setLoadWaiting(false, true);
+            }
             window.name = '<?php echo Mage::getBaseUrl(); ?>';
         });
-        $('checkout-review-submit').hide();
     } else {
         checkout.setLoadWaiting('payment');
         checkout.setLoadWaiting(false, true);
