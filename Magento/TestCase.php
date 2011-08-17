@@ -32,9 +32,11 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    protected function tearDown()
     {
-        gc_collect_cycles();
+        if (version_compare(PHP_VERSION, '5.3', '>=')) {
+            gc_collect_cycles();
+        }
         parent::tearDown();
     }
 
