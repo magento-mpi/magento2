@@ -32,16 +32,17 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function tearDown()
+    public static function tearDownAfterClass()
     {
         if (version_compare(PHP_VERSION, '5.3', '>=')) {
             gc_collect_cycles();
         }
-        parent::tearDown();
+        parent::tearDownAfterClass();
     }
 
     /**
      * Replace object which will be returned on Mage::getSingleton() call
+     *
      * @param string $name
      * @param object $mock
      * @return Magento_TestCase
@@ -57,6 +58,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Restore original object which will be returned on Mage::getSingleton() call
+     *
      * @param string $name
      * @return Magento_TestCase
      */
@@ -70,6 +72,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Replace object which will be returned on Mage::getSingleton() call with mock
+     *
      * @param string $name
      * @param array $methods
      * @return PHPUnit_Framework_MockObject_MockObject
@@ -86,6 +89,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Replace object which will be returned on Mage::helper() call
+     *
      * @param string $name
      * @param object $mock
      * @return Magento_TestCase
@@ -105,6 +109,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Restore original object which will be returned on Mage::helper() call
+     *
      * @param string $name
      * @return Magento_TestCase
      */
@@ -122,6 +127,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Replace object which will be returned on Mage::helper() call with mock
+     *
      * @param string $name
      * @param array $methods
      * @return PHPUnit_Framework_MockObject_MockObject
