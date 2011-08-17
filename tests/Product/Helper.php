@@ -190,7 +190,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                     $arrayKey1 = $tabName . '_configurable_data';
                     if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
                         foreach ($productData[$arrayKey] as $key => $value) {
-                            $this->assignProduct($productData[$key], $tabName);
+                            $this->assignProduct($productData[$arrayKey][$key], $tabName);
                         }
                     } elseif (array_key_exists($arrayKey1, $productData) && is_array($productData[$arrayKey1])) {
                         $attributeTitle = $productData['configurable_attribute_title'];
@@ -200,6 +200,34 @@ class Product_Helper extends Mage_Selenium_TestCase
                             if (is_array($productData[$arrayKey1][$key])) {
                                 $this->assignProduct($productData[$arrayKey1][$key], $tabName,
                                         $attributeTitle);
+                            }
+                        }
+                    }
+                    break;
+                case 'downloadable_information':
+                    $arrayKey = $tabName . '_data';
+                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
+                        $page = $this->getCurrentLocationUimapPage();
+//                        $this->clickControl('link', 'downloadable_samples', FALSE);
+//                        $this->clickControl('link', 'downloadable_links', FALSE);
+                        foreach ($productData[$arrayKey] as $key => $value) {
+                            if (preg_match('/sample/', $key)) {
+                                $fieldSetXpath = $page->findFieldset('downloadable_samples')->getXpath();
+                                $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='sample_items_body']/tr");
+                                $this->addParameter('rowId', $rowNumber);
+                                $page->assignParams($this->_paramsHelper);
+                                $this->clickButton('downloadable_samples_add_new_row', FALSE);
+                                $this->fillForm($productData[$arrayKey][$key],
+                                        'downloadable_information');
+                            }
+                            if (preg_match('/link/', $key)) {
+                                $fieldSetXpath = $page->findFieldset('downloadable_links')->getXpath();
+                                $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='link_items_body']/tr");
+                                $this->addParameter('rowId', $rowNumber);
+                                $page->assignParams($this->_paramsHelper);
+                                $this->clickButton('downloadable_links_add_new_row', FALSE);
+                                $this->fillForm($productData[$arrayKey][$key],
+                                        'downloadable_information');
                             }
                         }
                     }
@@ -243,7 +271,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         foreach ($customOptionData as $row_key => $row_value) {
             if (preg_match('/^custom_option_row/', $row_key) and is_array($customOptionData[$row_key])) {
                 $rowId = $this->getXpathCount($fieldSetXpath .
-                                "//tr[contains(@id,'product_option_') and not(@style)]");
+                        "//tr[contains(@id,'product_option_') and not(@style)]");
                 $this->addParameter('rowId', $rowId);
                 $page->assignParams($this->_paramsHelper);
                 $this->clickButton('add_row', FALSE);
@@ -409,6 +437,9 @@ class Product_Helper extends Mage_Selenium_TestCase
         }
         if ($productType == 'bundle') {
             $this->fillTab($productData, 'bundle_items');
+        }
+        if ($productType == 'downloadable') {
+            $this->fillTab($productData, 'downloadable_information');
         }
         $this->saveForm('save');
     }

@@ -124,6 +124,7 @@ new_product:
                                         general_status: //select[@id='status']
                                         general_visibility: //select[@id='visibility']
                                         general_in_feed: //select[@id='is_imported']
+                                        general_country_manufacture: //select[@id='country_of_manufacture']
                                     fields:
                                         general_name: //input[@id='name']
                                         general_description: //textarea[@id='description']
@@ -151,6 +152,8 @@ new_product:
                                         prices_tax_class: //select[@id='tax_class_id']
                                         prices_enable_googlecheckout: //select[@id='enable_googlecheckout']
                                         prices_price_view_bundle: //select[@id='price_view']
+                                        prices_apply_map: //select[@id='msrp_enabled']
+                                        prices_display_actual_price: //select[@id='msrp_display_actual_price_type']
                                     fields:
                                         prices_price: //input[@id='price' and not(@disabled)]
                                         prices_special_price: //input[@id='special_price']
@@ -158,6 +161,7 @@ new_product:
                                         prices_special_price_to: //input[@id='special_to_date']
                                         prices_tier_price_qty: //input[@id='tier_price_row_%tierPriceId%_qty']
                                         prices_tier_price_price: //input[@id='tier_price_row_%tierPriceId%_price']
+                                        prices_manu_suggested_retail_price: //input[@id='msrp']
                 -
                     meta_information: &metaInformationTab
                         xpath: //a[@title='Meta Information']/span
@@ -487,20 +491,38 @@ new_product:
                                 downloadable_samples:
                                     xpath: //*[@id='dd-samples']/div
                                     buttons:
-                                        add_new_row: //button[span='Add New Row']
-                                        upload_files: //button[span='Upload Files']
+                                        downloadable_samples_add_new_row: //*[@id='dd-samples']/div//button[span='Add New Row']
+                                        downloadable_samples_upload_files: //*[@id='dd-samples']/div//button[span='Upload Files']
+                                        # clickButton() - cannot define the fieldset
                                     fields:
                                         downloadable_samples_title: //input[@name='product[samples_title]']
+                                        downloadable_samples_row_title: //input[@name='downloadable[sample][%rowId%][title]']
+                                        downloadable_samples_row_url: //input[@name='downloadable[sample][%rowId%][sample_url]']
+                                        downloadable_samples_row_sort_order: //input[@name='downloadable[sample][%rowId%][sort_order]']
+                                    radiobuttons:
+                                        downloadable_samples_row_url_radiobutton: //input[@id='downloadable_sample_%rowId%_url_type']
+                                        downloadable_samples_row_file_radiobutton: //input[@id='downloadable_sample_%rowId%_file_type']
                             -
                                 downloadable_links:
                                     xpath: //*[@id='dd-links']/div
                                     buttons:
-                                        add_new_row: //button[span='Add New Row']
-                                        upload_files: //button[span='Upload Files']
+                                        downloadable_links_add_new_row: //*[@id='dd-links']/div//button[span='Add New Row']
+                                        downloadable_links_upload_files: //*[@id='dd-links']/div//button[span='Upload Files']
+                                        # clickButton() - cannot define the fieldset
                                     dropdowns:
                                         downloadable_links_purchased_separately: //select[@id='downloadable_link_purchase_type']
+                                        downloadable_links_shareable: //select[@id='downloadable_link _%rowId%_shareable']
                                     fields:
                                         downloadable_links_title: //input[@name='product[links_title]']
+                                        downloadable_links_row_title: //input[@name='downloadable[link][%rowId%][title]']
+                                        downloadable_links_row_sample_url: //input[@name='downloadable[link][%rowId%][sample][url]']
+                                        downloadable_links_row_file_url: //input[@name='downloadable[link][%rowId%][link_url]']
+                                        downloadable_links_row_sort_order: //input[@name='downloadable[link][%rowId%][sort_order]']
+                                        downloadable_links_row_price: //input[@id='downloadable_link_%rowId%_price_value']
+                                        downloadable_links_max_downloads: //input[@id='downloadable_link_%rowId%_downloads']
+                                    radiobuttons:
+                                        downloadable_links_row_sample_url_radiobutton: //input[@id='downloadable_link_%rowId%_sample_url_type']
+                                        downloadable_links_row_url_radiobutton: //input[@id='downloadable_link_%rowId%_url_type']                                        
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

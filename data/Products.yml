@@ -266,7 +266,22 @@ cross_sells_products_data: &crossSellsProductsData
 #* Associated Products Data for Grouped Product *
 #************************************************
 
-associated_products_grouped_1: &gropedAssociatedProduct1
+associated_products_grouped_1: &groupedAssociatedProduct1
+    # Data to search
+    associated_products_id: %noValue%
+    associated_products_name: %noValue%
+    associated_products_sku: %noValue%
+    associated_products_price_from: %noValue%
+    associated_products_price_to: %noValue%
+    associated_products_default_qty_from: %noValue%
+    associated_products_default_qty_to: %noValue%
+    associated_products_position_from: %noValue%
+    associated_products_position_to: %noValue%
+    # Data to fill in
+    associated_products_position: %noValue%
+    associated_products_default_qty: %noValue%
+
+associated_products_grouped_2: &groupedAssociatedProduct2
     # Data to search
     associated_products_id: %noValue%
     associated_products_name: %noValue%
@@ -282,8 +297,8 @@ associated_products_grouped_1: &gropedAssociatedProduct1
     associated_products_default_qty: %noValue%
 
 associated_products_grouped_data: &associatedProductsGroupedData
-    associated_products_grouped_1: *gropedAssociatedProduct1
-    associated_products_grouped_2: %noValue%
+    associated_products_grouped_1: *groupedAssociatedProduct1
+    associated_products_grouped_2: *groupedAssociatedProduct2
 
 #*****************************************************
 #* Associated Products Data for Configurable Product *
@@ -298,16 +313,16 @@ associated_products_configurable_1: &configurableAssociatedProduct1
     associated_products_price_from: %noValue%
     associated_products_price_to: %noValue%
     associated_products_inventory: %noValue%
-    associated_products_by_attribute_value: %noValue%
+    associated_products_by_attribute_value: 0xxx
     # Data to fill in
     associated_products_price: %noValue%
     associated_products_price_type: %noValue%
 
 associated_products_configurable_data: &associatedProductsConfigurableData
-    associated_products_attribute_name_default: No
+    associated_products_attribute_name_default: dd1ef
     associated_products_attribute_name: %noValue%
     associated_products_configurable_1: *configurableAssociatedProduct1
-    associated_products_configurable_2: %noValue%
+    #associated_products_configurable_2: %noValue%
 
 #*********************************************
 #*         Bundle Items Data                 *
@@ -405,6 +420,34 @@ bundle_items_data: &bundleData
     bundle_items_2: *itemDropdown
     bundle_items_3: *itemRadioButtons
     bundle_items_4: *itemCheckbox
+
+#*********************************************
+#*         Dowloadable Information Data      *
+#*********************************************
+
+downloadable_samples: &samplesDownloadable
+    downloadable_samples_row_title: 123123
+    downloadable_samples_row_url_radiobutton: Yes
+    downloadable_samples_row_url: www.yandex.ru
+    downloadable_samples_row_sort_order: 1
+
+downloadable_links: &linksDownloadable
+    downloadable_links_row_title: 123123
+    downloadable_links_row_price: 12
+    downloadable_links_shareable: Yes
+    downloadable_links_max_downloads: 100
+    downloadable_links_row_sample_url_radiobutton: Yes
+    downloadable_links_row_url_radiobutton: Yes
+    downloadable_links_row_sample_url: www.yandex.ru
+    downloadable_links_row_file_url: www.ya.ru
+    downloadable_links_row_sort_order: 1
+
+
+downloadable_information_data: &downloadableData
+    downloadable_samples_1: *samplesDownloadable
+    downloadable_samples_2: *samplesDownloadable
+    downloadable_links_1: *linksDownloadable
+    downloadable_links_2: *linksDownloadable
 
 #*********************************************
 #*         Simple Product Data               *
@@ -696,3 +739,206 @@ fixed_bundle:
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
     bundle_items_data: *bundleData
+    
+#*********************************************
+#*         Grouped Product Data              *
+#*********************************************
+
+grouped_product_required:
+    product_attribute_set: Default
+    general_name: Grouped Product Required
+    general_description: Description for Grouped Product Required
+    general_short_description: Short Description for Grouped Product Required
+    general_sku: grouped_sku.req
+    general_status: Enabled
+    general_visibility: Catalog, Search
+
+grouped_product:
+    product_attribute_set: Default
+    general_name: Grouped Product
+    general_description: Description for Grouped Product
+    general_short_description: Short Description for Grouped Product
+    general_sku: grouped_sku
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: grouped_product_url_key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    general_country_manufacture: Albania
+#    general_in_feed: Yes
+    prices_enable_googlecheckout: No
+    meta_information_meta_title: Meta Title for Simple Product
+    meta_information_meta_keywords: Meta Keywords for Simple Product
+    meta_information_meta_description: Meta Description for Simple Product
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_enable_qty_increments_default: No
+    inventory_enable_qty_increments: Yes
+    inventory_qty_increments_default: No
+    inventory_qty_increments: 5
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    related_products_data: %noValue%
+    up_sells_products_data: %noValue%
+    cross_sells_products_data: %noValue%
+    associated_products_grouped_data: *associatedProductsGroupedData
+    
+#*********************************************
+#*         Configurable Product Data         *
+#*********************************************
+
+configurable_product_required:
+    product_attribute_set: 3434
+    configurable_attribute_title: dd1ef
+    general_name: Configurable Product Required
+    general_description: Description for Configurable Product Required
+    general_short_description: Short Description for Configurable Product Required
+    general_sku: configurable_sku.req
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 14.95
+    prices_tax_class: None
+
+configurable_product:
+    product_attribute_set: 3434
+    configurable_attribute_title: dd1ef
+    general_name: Configurable Product
+    general_description: Description for Configurable Product
+    general_short_description: Short Description for Configurable Product
+    general_sku: configurable_sku
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: configurable_product_url_key
+    general_status: Enabled
+    general_url_key: configurable_product_url_key
+    general_visibility: Catalog, Search
+    general_country_manufacture: Albania
+#    general_in_feed: Yes
+    prices_price: 4.95
+    prices_special_price: 3.99
+    prices_special_price_from: 05/05/11
+    prices_special_price_to: 09/09/11
+    prices_tier_price_data: *tierPriceData
+    prices_apply_map: Yes
+    prices_display_actual_price: In Cart
+    prices_manu_suggested_retail_price: 3.90
+    prices_tax_class: None
+    prices_enable_googlecheckout: No
+    meta_information_meta_title: Meta Title for Simple Product
+    meta_information_meta_keywords: Meta Keywords for Simple Product
+    meta_information_meta_description: Meta Description for Simple Product
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_enable_qty_increments_default: No
+    inventory_enable_qty_increments: Yes
+    inventory_qty_increments_default: No
+    inventory_qty_increments: 5
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    related_products_data: %noValue%
+    up_sells_products_data: %noValue%
+    cross_sells_products_data: %noValue%
+    associated_products_configurable_data: *associatedProductsConfigurableData
+    
+#*********************************************
+#*         Downloadable Product Data         *
+#*********************************************
+
+downloadable_product_required:
+    product_attribute_set: Default
+    general_name: Downloadable Product Required
+    general_description: Description for Downloadable Product Required
+    general_short_description: Short Description for Downloadable Product Required
+    general_sku: downloadable_sku.req
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 99.99
+    prices_tax_class: None
+    inventory_qty: %noValue%
+
+downloadable_product:
+    product_attribute_set: Default
+    general_name: Downloadable Product
+    general_description: Description for Downloadable Product
+    general_short_description: Short Description for Downloadable Product
+    general_sku: downloadable_sku
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: downloadable_product_url_key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 14.95
+    prices_special_price: 13.99
+    prices_special_price_from: 05/05/11
+    prices_special_price_to: 09/09/11
+    prices_tier_price_data: *tierPriceData
+    prices_tax_class: None
+    prices_enable_googlecheckout: No
+    meta_information_meta_title: Meta Title for Downloadable Product
+    meta_information_meta_keywords: Meta Keywords for Downloadable Product
+    meta_information_meta_description: Meta Description for Downloadable Product
+    recurring_profile_enable_recurring_profile: Yes
+    recurring_profile_customer_define_start_date: No
+    recurring_profile_schedule_description: Shedule Description
+    recurring_profile_max_payment_failures: Max Payment Failures
+    recurring_profile_auto_bill_next_cycle: No
+    recurring_profile_billing_period_unit: Week
+    recurring_profile_billing_frequency: Billing Frequency
+    recurring_profile_max_billing_cycles: Max Billing Cycles
+    recurring_profile_trial_billing_period_unit: Month
+    recurring_profile_trial_billing_frequency: Trial Billing Frequency
+    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
+    recurring_profile_trial_billing_amount: Trial Billing Amount
+    recurring_profile_initial_fee: Initial Fee
+    recurring_profile_allow_initial_fee_failure: No
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_qty_for_items_out_of_stock_default: No
+    inventory_qty_for_items_out_of_stock: 10
+    inventory_min_allowed_qty_default: No
+    inventory_min_allowed_qty: 2
+    inventory_max_allowed_qty_default: No
+    inventory_max_allowed_qty: 11
+    inventory_backorders_default: No
+    inventory_backorders: Allow Qty Below 0
+    inventory_notify_for_qty_below_default: No
+    inventory_notify_for_qty_below: 12
+    inventory_enable_qty_increments_default: No
+    inventory_enable_qty_increments: Yes
+    inventory_qty_increments_default: No
+    inventory_qty_increments: 5
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    related_products_data: %noValue%
+    up_sells_products_data: %noValue%
+    cross_sells_products_data: %noValue%
+    custom_options_data: *customOptionsData
+    downloadable_samples_title: 123
+    downloadable_links_title: 123
+    downloadable_links_purchased_separately: No
+    downloadable_information_data: *downloadableData
