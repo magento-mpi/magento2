@@ -28,17 +28,17 @@
  */
 
 /**
- * @TODO
+ * Downloadable product creation tests
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
+class Product_Create_Downloadable extends Mage_Selenium_TestCase
 {
 
     /**
-     * <p>Login to backend</p>
+     * <p>Log in to Backend.</p>
      */
     public function setUpBeforeTests()
     {
@@ -59,21 +59,21 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
     /**
      * <p>Creating product with required fields only</p>
      * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
      * <p>4. Fill in required fields;</p>
-     * <p>5. Click 'Save' button;</p>
+     * <p>5. Click "Save" button;</p>
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
      * @test
      */
-    public function requiredFieldsForDownloadableSmoke()
+    public function requiredFieldsInDownloadable()
     {
         //Data
         $productData = $this->loadData('downloadable_product_required', null,
-                array('general_name', 'general_sku'));
+                        array('general_name', 'general_sku'));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -94,6 +94,7 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
+     * @depends requiredFieldsInDownloadable
      * @test
      */
     public function allFieldsInDownloadable()
@@ -122,7 +123,7 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears;</p>
      *
-     * @depends requiredFieldsForDownloadableSmoke
+     * @depends requiredFieldsInDownloadable
      * @test
      */
     public function existSkuInDownloadable($productData)
@@ -148,23 +149,21 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider dataEmptyField
+     * @depends requiredFieldsInDownloadable
      * @test
      */
     public function emptyRequiredFieldInDownloadable($emptyField, $fieldType)
     {
         //Data
-        if ($emptyField == 'general_sku') {
+        if ($emptyField == 'general_visibility') {
             $productData = $this->loadData('downloadable_product_required',
-                    array($emptyField => '%noValue%'));
-        } elseif ($emptyField == 'general_visibility') {
-            $productData = $this->loadData('downloadable_product_required',
-                    array($emptyField => '-- Please Select --'), 'general_sku');
+                            array($emptyField => '-- Please Select --'), 'general_sku');
         } elseif ($emptyField == 'inventory_qty') {
             $productData = $this->loadData('downloadable_product_required',
-                    array($emptyField => ''), 'general_sku');
+                            array($emptyField => ''), 'general_sku');
         } else {
             $productData = $this->loadData('downloadable_product_required',
-                    array($emptyField => '%noValue%'), 'general_sku');
+                            array($emptyField => '%noValue%'), 'general_sku');
         }
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
@@ -200,20 +199,21 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears</p>
      *
+     * @depends requiredFieldsInDownloadable
      * @test
      */
     public function specialCharactersInRequiredFields()
     {
         //Data
         $productData = $this->loadData('downloadable_product_required',
-                array(
-            'general_name' => $this->generate('string', 32, ':punct:'),
-            'general_description' => $this->generate('string', 32, ':punct:'),
-            'general_short_description' => $this->generate('string', 32, ':punct:'),
-            'general_sku' => $this->generate('string', 32, ':punct:')
+                        array(
+                            'general_name'              => $this->generate('string', 32, ':punct:'),
+                            'general_description'       => $this->generate('string', 32, ':punct:'),
+                            'general_short_description' => $this->generate('string', 32, ':punct:'),
+                            'general_sku'               => $this->generate('string', 32, ':punct:')
                 ));
         $productSearch = $this->loadData('product_search',
-                array('product_sku' => $productData['general_sku']));
+                        array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -237,20 +237,21 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product created, confirmation message appears</p>
      *
+     * @depends requiredFieldsInDownloadable
      * @test
      */
     public function longValuesInRequiredFields()
     {
         //Data
         $productData = $this->loadData('downloadable_product_required',
-                array(
-            'general_name' => $this->generate('string', 255, ':alnum:'),
-            'general_description' => $this->generate('string', 255, ':alnum:'),
-            'general_short_description' => $this->generate('string', 255, ':alnum:'),
-            'general_sku' => $this->generate('string', 64, ':alnum:')
+                        array(
+                            'general_name'              => $this->generate('string', 255, ':alnum:'),
+                            'general_description'       => $this->generate('string', 255, ':alnum:'),
+                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                            'general_sku'               => $this->generate('string', 64, ':alnum:'),
                 ));
         $productSearch = $this->loadData('product_search',
-                array('product_sku' => $productData['general_sku']));
+                        array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -274,13 +275,14 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
+     * @depends requiredFieldsInDownloadable
      * @test
      */
     public function incorrectSkuLengthInDownloadable()
     {
         //Data
         $productData = $this->loadData('downloadable_product_required',
-                array('general_sku' => $this->generate('string', 65, ':alnum:')));
+                        array('general_sku' => $this->generate('string', 65, ':alnum:')));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -300,45 +302,19 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider dataInvalidNumericField
+     * @depends requiredFieldsInDownloadable
      * @test
      */
     public function invalidPriceInDownloadable($invalidPrice)
     {
         //Data
-        $productData = $this->loadData('simple_product_required',
-                array('prices_price' => $invalidPrice), 'general_sku');
-        //Steps
-        $this->productHelper()->createProduct($productData);
-        //Verifying
-        $this->addFieldIdToMessage('field', 'prices_price');
-        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-    }
-
-    /**
-     * <p>Creating product with invalid Qty</p>
-     * <p>Steps</p>
-     * <p>1. Click "Add Product" button;</p>
-     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>3. Click "Continue" button;</p>
-     * <p>4. Fill in required fields with correct data, "Qty" field - with special characters;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, error message appears;</p>
-     *
-     * @dataProvider dataInvalidQty
-     * @test
-     */
-    public function invalidQtyInDownloadable($invalidQty)
-    {
-        //Data
         $productData = $this->loadData('downloadable_product_required',
-                array('inventory_qty' => $invalidQty), 'general_sku');
+                        array('prices_price' => $invalidPrice), 'general_sku');
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
-        $this->addFieldIdToMessage('field', 'inventory_qty');
-        $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
+        $this->addFieldIdToMessage('field', 'prices_price');
+        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
@@ -354,13 +330,14 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider dataInvalidNumericField
+     * @depends requiredFieldsInDownloadable
      * @test
      */
     public function invalidSpecialPriceInDownloadable($invalidValue)
     {
         //Data
         $productData = $this->loadData('downloadable_product_required',
-                array('prices_special_price' => $invalidValue), 'general_sku');
+                        array('prices_special_price' => $invalidValue), 'general_sku');
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -382,6 +359,7 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider tierPriceFields
+     * @depends requiredFieldsInDownloadable
      * @test
      */
     public function emptyTierPriceFieldsInDownloadable($emptyTierPrice)
@@ -389,7 +367,7 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
         $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1',
-                array($emptyTierPrice => '%noValue%'));
+                        array($emptyTierPrice => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -419,6 +397,7 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
      * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider dataInvalidNumericField
+     * @depends requiredFieldsInDownloadable
      * @test
      */
     public function invalidTierPriceInDownloadable($invalidTierData)
@@ -438,6 +417,34 @@ class Product_Create_Downloadable_SingleTest extends Mage_Selenium_TestCase
             $this->assertTrue($this->validationMessage('enter_greater_than_zero'), $this->messages);
         }
         $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with invalid Qty</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data, "Qty" field - with special characters;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider dataInvalidQty
+     * @depends requiredFieldsInDownloadable
+     * @test
+     */
+    public function invalidQtyInDownloadable($invalidQty)
+    {
+        //Data
+        $productData = $this->loadData('downloadable_product_required',
+                        array('inventory_qty' => $invalidQty), 'general_sku');
+        //Steps
+        $this->productHelper()->createProduct($productData, 'downloadable');
+        //Verifying
+        $this->addFieldIdToMessage('field', 'inventory_qty');
+        $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     public function dataInvalidQty()
