@@ -502,6 +502,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $data = $this->_getData($dataSource);
 
+        if (!empty($randomize)) {
+            $randomize = (!is_array($randomize)) ? array($randomize) : $randomize;
+//            foreach ($randomize as $field) {
+//                $data[$field] = $this->generate('string', 5, ':lower:') . '_' . $data[$field];
+//            }
+            array_walk_recursive($data, array($this, 'randomizeData'), $randomize);
+        }
+
         if (!empty($override) && is_array($override)) {
 //            foreach ($override as $field => $value) {
 //                $data[$field] = $value;
@@ -523,15 +531,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             foreach ($needAddValues as $field => $value) {
                 $data[$field] = $value;
             }
-        }
-
-        if (!empty($randomize)) {
-            $randomize = (!is_array($randomize)) ? array($randomize) : $randomize;
-
-//            foreach ($randomize as $field) {
-//                $data[$field] = $this->generate('string', 5, ':lower:') . '_' . $data[$field];
-//            }
-            array_walk_recursive($data, array($this, 'randomizeData'), $randomize);
         }
 
         return $data;
