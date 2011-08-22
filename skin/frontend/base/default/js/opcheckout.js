@@ -669,6 +669,9 @@ Payment.prototype = {
             //Event fix for payment methods without form like "Check / Money order"
             document.body.fire('payment-method:switched', {method_code : method});
         }
+        if (method) {
+            this.lastUsedMethod = method;
+        }
         this.currentMethod = method;
     },
 

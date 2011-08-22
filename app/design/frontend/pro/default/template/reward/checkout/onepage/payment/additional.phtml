@@ -71,6 +71,10 @@
             }
             if ($('use_reward_points').checked) {
                 $('checkout-payment-method-load').hide();
+                if (payment.currentMethod) {
+                    payment.lastUsedMethod = payment.currentMethod;
+                }
+                payment.switchMethod();
             }
         } else {
             var elements = Form.getElements(this.form);
@@ -80,6 +84,7 @@
                 }
             }
             $('checkout-payment-method-load').show();
+            payment.switchMethod(payment.lastUsedMethod);
         }
     }
     if (payment) {
