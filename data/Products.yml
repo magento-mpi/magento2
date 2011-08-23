@@ -281,40 +281,8 @@ associated_products_grouped_1: &groupedAssociatedProduct1
     associated_products_position: %noValue%
     associated_products_default_qty: %noValue%
 
-associated_products_grouped_2: &groupedAssociatedProduct2
-    # Data to search
-    associated_products_id: %noValue%
-    associated_products_name: %noValue%
-    associated_products_sku: %noValue%
-    associated_products_price_from: %noValue%
-    associated_products_price_to: %noValue%
-    associated_products_default_qty_from: %noValue%
-    associated_products_default_qty_to: %noValue%
-    associated_products_position_from: %noValue%
-    associated_products_position_to: %noValue%
-    # Data to fill in
-    associated_products_position: %noValue%
-    associated_products_default_qty: %noValue%
-
-associated_products_grouped_3: &groupedAssociatedProduct3
-    # Data to search
-    associated_products_id: %noValue%
-    associated_products_name: %noValue%
-    associated_products_sku: %noValue%
-    associated_products_price_from: %noValue%
-    associated_products_price_to: %noValue%
-    associated_products_default_qty_from: %noValue%
-    associated_products_default_qty_to: %noValue%
-    associated_products_position_from: %noValue%
-    associated_products_position_to: %noValue%
-    # Data to fill in
-    associated_products_position: %noValue%
-    associated_products_default_qty: %noValue%
-
 associated_products_grouped_data: &associatedProductsGroupedData
     associated_products_grouped_1: *groupedAssociatedProduct1
-    associated_products_grouped_2: *groupedAssociatedProduct2
-    associated_products_grouped_2: *groupedAssociatedProduct3
 
 #*****************************************************
 #* Associated Products Data for Configurable Product *
@@ -455,7 +423,7 @@ downloadable_links: &linksDownloadable
     downloadable_link_row_price: 12
     downloadable_link_row_unlimited_downloads: No
     downloadable_link_max_downloads: 100  
-    downloadable_link_shareable: Yes
+    downloadable_link_shareable: No
     downloadable_link_row_sample_url_radiobutton: Yes    
     downloadable_link_row_sample_url: www.sample.com
     downloadable_link_row_url_radiobutton: Yes
@@ -465,7 +433,7 @@ downloadable_links: &linksDownloadable
 downloadable_information_data: &downloadableData
     downloadable_samples_title: Samples Title
     downloadable_links_title: Links Title
-    downloadable_links_purchased_separately: No
+    downloadable_links_purchased_separately: Yes
     downloadable_sample_1: *samplesDownloadable
     downloadable_sample_2: %noValue%
     downloadable_link_1: *linksDownloadable

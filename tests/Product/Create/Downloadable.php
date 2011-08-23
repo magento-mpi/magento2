@@ -518,6 +518,35 @@ class Product_Create_Downloadable extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
+    /**
+     * <p>Creating product with invalid price for Links</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in field "Special Price" with invalid data, the rest fields - with correct data;
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:<p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider dataInvalidNumericField
+     * @depends requiredFieldsInDownloadable
+     * @test
+     */
+    public function invalidLinksPriceInDownloadable($invalidValue)
+    {
+        //Data
+        $productData = $this->loadData('downloadable_product', null, 'general_sku');
+        $productData['downloadable_information_data']['downloadable_link_1'] =
+                $this->loadData('downloadable_links', array('downloadable_link_row_price' => $invalidValue));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'downloadable');
+        //Verifying
+        $this->addFieldIdToMessage('field', 'downloadable_link_row_price');
+        $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
     public function dataEmptyFieldforSample()
     {
         return array(
@@ -548,8 +577,7 @@ class Product_Create_Downloadable extends Mage_Selenium_TestCase
         return array(
             array($this->generate('string', 9, ':punct:')),
             array($this->generate('string', 9, ':alpha:')),
-            array('g3648GJHghj'),
-            array('-128')
+            array('g3648GJHghj')
         );
     }
 
