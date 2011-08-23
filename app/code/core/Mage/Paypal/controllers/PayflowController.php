@@ -112,14 +112,26 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
         $quote = $this->_getCheckout()->getQuote();
         $payment = $quote->getPayment();
 
-        $method = Mage::helper('payment')->getMethodInstance(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
-        $method->setData('info_instance', $payment);
-        $method->initialize($method->getConfigData('payment_action'), new Varien_Object());
+        try {
+            $method = Mage::helper('payment')->getMethodInstance(Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK);
+            $method->setData('info_instance', $payment);
+            $method->initialize($method->getConfigData('payment_action'), new Varien_Object());
 
-        $quote->save();
+            $quote->save();
 
-        $this->getResponse()
-            ->setBody($this->_getIframeBlock()->toHtml());
+            $this->getResponse()
+                ->setBody($this->_getIframeBlock()->toHtml());
+        } catch (Exception $e) {
+            Mage::logException($e);
+            $this->loadLayout('paypal_payflow_link_iframe');
+
+            $block = $this->getLayout()->getBlock('payflow.link.info');
+            $block->setErrorMessage($e->getMessage());
+
+            $this->getResponse()->setBody(
+                $block->toHtml()
+            );
+        }
     }
 
     /**
