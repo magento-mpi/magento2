@@ -58,7 +58,9 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
             array(
                 'name'  => 'conversion_page',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
-                'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
+                'values'=>
+                    Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')
+                        ->toOptionArray(),
                 'class' => 'select googleoptimizer validate-googleoptimizer',
                 'required' => false,
                 'onchange' => 'googleOptimizerConversionPageAction(this)',
@@ -68,13 +70,13 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
 
         if (!Mage::app()->isSingleStoreMode()) {
             $form->getElement('conversion_page')->setOnchange('googleOptimizerConversionCmsPageAction(this)');
-            $fieldset->addField('conversion_page_url', 'note',
-                array(
+            $fieldset->addField('conversion_page_url', 'note', array(
                     'name'  => 'conversion_page_url',
                     'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
                     'disabled'  => $isElementDisabled
-                )
-            )->setRenderer($this->getLayout()->createBlock('googleoptimizer/adminhtml_cms_page_edit_renderer_conversion'));
+            ))->setRenderer(
+                $this->getLayout()->createBlock('googleoptimizer/adminhtml_cms_page_edit_renderer_conversion')
+            );
         } else {
             $fieldset->addField('conversion_page_url', 'text',
                 array(
@@ -155,14 +157,15 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
                 );
         }
 
-        $renderer = $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_googleoptimizer_import');
+        $renderer = $this->getLayout()->createBlock('googleoptimizer/adminhtml_catalog_form_renderer_import');
         $form->getElement('export_controls')->setRenderer($renderer);
 
         $values = array();
         if ($this->getGoogleOptimizer() && $this->getGoogleOptimizer()->getData()) {
             $values = $this->getGoogleOptimizer()->getData();
             $fieldset->addField('code_id', 'hidden', array('name' => 'code_id'));
-            if ($this->getGoogleOptimizer()->getData('page_type') == Mage_GoogleOptimizer_Model_Code_Page::PAGE_TYPE_VARIANT) {
+            $pageType = $this->getGoogleOptimizer()->getData('page_type');
+            if ($pageType == Mage_GoogleOptimizer_Model_Code_Page::PAGE_TYPE_VARIANT) {
                 foreach ($fieldset->getElements() as $element) {
                     if (($element->getId() != 'tracking_script' && $element->getId() != 'page_type')
                         && ($element->getType() == 'textarea' || $element->getType() == 'select'))

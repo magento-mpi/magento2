@@ -281,4 +281,25 @@ class Mage_GoogleOptimizer_Model_Observer
         return $this;
     }
 
+    /**
+     * Add Optimization tab to the Catalog Category edit page
+     *
+     * @param Varien_Object $observer
+     * @return Mage_GoogleOptimizer_Model_Observer
+     */
+    public function addCategoryGoogleOptimizerTab($observer)
+    {
+        $tabs = $observer->getEvent()->getTabs();
+        if (Mage::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true)
+            && Mage::helper('googleoptimizer')->isOptimizerActive($tabs->getCategory()->getStoreId())) {
+            $tabs->addTab('googleoptimizer', array(
+                'label'     => Mage::helper('googleoptimizer')->__('Category View Optimization'),
+                'content'   => $tabs->getLayout()->createBlock(
+                    'googleoptimizer/adminhtml_catalog_category_edit_tab_googleoptimizer'
+                )->toHtml(),
+            ));
+        }
+        return $this;
+    }
+
 }

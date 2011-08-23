@@ -31,7 +31,8 @@
  * @package     Mage_GoogleOptimizer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptimizer extends Mage_Adminhtml_Block_Catalog_Form
+class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptimizer
+    extends Mage_Adminhtml_Block_Catalog_Form
 {
     public function __construct()
     {
@@ -96,7 +97,9 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             array(
                 'name'  => 'conversion_page',
                 'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
-                'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
+                'values'=>
+                    Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')
+                        ->toOptionArray(),
                 'class' => 'select googleoptimizer validate-googleoptimizer',
                 'required' => false,
                 'onchange' => 'googleOptimizerConversionPageAction(this)'
@@ -182,7 +185,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
         }
 
         $form->getElement('export_controls')->setRenderer(
-            $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_googleoptimizer_import')
+            $this->getLayout()->createBlock('googleoptimizer/adminhtml_catalog_form_renderer_import')
         );
 
         $form->addValues($values);

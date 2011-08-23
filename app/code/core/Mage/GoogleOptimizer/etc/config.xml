@@ -211,6 +211,14 @@
                     </googleoptimizer_observer>
                 </observers>
             </catalog_category_delete_after>
+            <adminhtml_catalog_category_tabs>
+                <observers>
+                    <googleoptimizer_observer>
+                        <class>googleoptimizer/observer</class>
+                        <method>addCategoryGoogleOptimizerTab</method>
+                    </googleoptimizer_observer>
+                </observers>
+            </adminhtml_catalog_category_tabs>
             <cms_page_load_after>
                 <observers>
                     <googleoptimizer_observer>

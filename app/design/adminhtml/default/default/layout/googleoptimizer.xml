@@ -52,6 +52,12 @@ Layout handle for products
         </reference>
     </adminhtml_catalog_product_new>
 
+    <adminhtml_catalog_category_edit>
+        <reference name="js">
+            <block type="googleoptimizer/js" template="googleoptimizer/js.phtml" name="googleoptimizer_js"></block>
+        </reference>
+    </adminhtml_catalog_category_edit>
+
 <!--
 Layout handle for cms page
 -->

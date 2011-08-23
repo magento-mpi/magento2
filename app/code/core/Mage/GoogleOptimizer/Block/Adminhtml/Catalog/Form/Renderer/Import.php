@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_GoogleOptimizer
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,14 +28,15 @@
  * GoogleOptimizer import controls renderer
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_GoogleOptimizer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Form_Renderer_Googleoptimizer_Import extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Form_Renderer_Import
+    extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
     public function __construct()
     {
-        $this->setTemplate('catalog/form/renderer/googleoptimizer/import.phtml');
+        $this->setTemplate('googleoptimizer/catalog/form/renderer/import.phtml');
     }
 
     public function render(Varien_Data_Form_Element_Abstract $element)
