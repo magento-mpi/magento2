@@ -281,9 +281,40 @@ associated_products_grouped_1: &groupedAssociatedProduct1
     associated_products_position: %noValue%
     associated_products_default_qty: %noValue%
 
+associated_products_grouped_2: &groupedAssociatedProduct2
+    # Data to search
+    associated_products_id: %noValue%
+    associated_products_name: %noValue%
+    associated_products_sku: %noValue%
+    associated_products_price_from: %noValue%
+    associated_products_price_to: %noValue%
+    associated_products_default_qty_from: %noValue%
+    associated_products_default_qty_to: %noValue%
+    associated_products_position_from: %noValue%
+    associated_products_position_to: %noValue%
+    # Data to fill in
+    associated_products_position: %noValue%
+    associated_products_default_qty: %noValue%
+
+associated_products_grouped_3: &groupedAssociatedProduct3
+    # Data to search
+    associated_products_id: %noValue%
+    associated_products_name: %noValue%
+    associated_products_sku: %noValue%
+    associated_products_price_from: %noValue%
+    associated_products_price_to: %noValue%
+    associated_products_default_qty_from: %noValue%
+    associated_products_default_qty_to: %noValue%
+    associated_products_position_from: %noValue%
+    associated_products_position_to: %noValue%
+    # Data to fill in
+    associated_products_position: %noValue%
+    associated_products_default_qty: %noValue%
+
 associated_products_grouped_data: &associatedProductsGroupedData
     associated_products_grouped_1: *groupedAssociatedProduct1
-    associated_products_grouped_2: %noValue%
+    associated_products_grouped_2: *groupedAssociatedProduct2
+    associated_products_grouped_2: *groupedAssociatedProduct3
 
 #*****************************************************
 #* Associated Products Data for Configurable Product *

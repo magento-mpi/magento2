@@ -101,6 +101,7 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('grouped_product', null, array('general_name', 'general_sku'));
+        unset($productData['associated_products_grouped_data']);
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
@@ -282,23 +283,204 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
+   /**
+     * <p>Creating Grouped product with physical Simple type</p>
+     * <p>Preconditions</p>
+     * <p>Physical Simple product created</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add product' button;</p>
+     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
+     * <p>3. Click 'Continue' button;</p>
+     * <p>4. Fill in all fields;</p>
+     * <p>5. Goto "Associated products" tab;</p>
+     * <p>6. Select created Simple product;</p>
+     * <p>5. Click 'Save' button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @depends onlyRequiredFieldsInGrouped
+     * @test
+     */
+
     public function groupedWithSimpleProduct()
     {
+        // Data
+        $productDataSimple = $this->loadData('simple_product_required', null,
+                array('general_name', 'general_sku'));
+        $productData = $this->loadData('grouped_product', null,
+                array('general_name', 'general_sku'));
+        unset($productData['associated_products_grouped_data']['associated_products_grouped_2']);
+        unset($productData['associated_products_grouped_data']['associated_products_grouped_3']);
+        $productData['associated_products_grouped_data']['associated_products_grouped_1']
+                ['associated_products_sku'] = $productDataSimple['general_sku'];
+        // Creating Simple Product
+        $this->productHelper()->createProduct($productDataSimple);
+        // Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        // Creating Grouped Product with phisical Simple
+        $productData['associated_products_grouped_data']['associated_products_grouped_1']
+                ['associated_products_sku'] = $productDataSimple['general_sku'];
+        $this->productHelper()->createProduct($productData, 'grouped');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
 
     }
+
+   /**
+     * <p>Creating Grouped product with Virtual type</p>
+     * <p>Preconditions</p>
+     * <p>Physical Simple product created</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add product' button;</p>
+     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
+     * <p>3. Click 'Continue' button;</p>
+     * <p>4. Fill in all fields;</p>
+     * <p>5. Goto "Associated products" tab;</p>
+     * <p>6. Select created Virtual product;</p>
+     * <p>5. Click 'Save' button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @depends onlyRequiredFieldsInGrouped
+     * @test
+     */
 
     public function groupedWithVirtualProduct()
     {
-
+        // Data
+        $productDataVirtual = $this->loadData('virtual_product_required', null,
+                array('general_name', 'general_sku'));
+        $productData = $this->loadData('grouped_product', null,
+                array('general_name', 'general_sku'));
+        unset($productData['associated_products_grouped_data']['associated_products_grouped_2']);
+        unset($productData['associated_products_grouped_data']['associated_products_grouped_3']);
+        $productData['associated_products_grouped_data']['associated_products_grouped_1']
+                ['associated_products_sku'] = $productDataVirtual['general_sku'];
+        // Creating Simple Product
+        $this->productHelper()->createProduct($productDataVirtual, 'virtual');
+        // Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        // Creating Grouped Product with phisical Simple
+        $productData['associated_products_grouped_data']['associated_products_grouped_1']
+                ['associated_products_sku'] = $productDataVirtual['general_sku'];
+        $this->productHelper()->createProduct($productData, 'grouped');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
     }
+
+   /**
+     * <p>Creating Grouped product with Downloadable type</p>
+     * <p>Preconditions</p>
+     * <p>Physical Simple product created</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add product' button;</p>
+     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
+     * <p>3. Click 'Continue' button;</p>
+     * <p>4. Fill in all fields;</p>
+     * <p>5. Goto "Associated products" tab;</p>
+     * <p>6. Select created Downloadable product;</p>
+     * <p>5. Click 'Save' button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @depends onlyRequiredFieldsInGrouped
+     * @test
+     */
 
     public function groupedWithDownloadableProduct()
     {
-
+        // Data
+        $productDataDownloadable = $this->loadData('downloadable_product_required', null,
+                array('general_name', 'general_sku'));
+        $productData = $this->loadData('grouped_product', null,
+                array('general_name', 'general_sku'));
+        unset($productData['associated_products_grouped_data']['associated_products_grouped_2']);
+        unset($productData['associated_products_grouped_data']['associated_products_grouped_3']);
+        $productData['associated_products_grouped_data']['associated_products_grouped_1']
+                ['associated_products_sku'] = $productDataDownloadable['general_sku'];
+        // Creating Simple Product
+        $this->productHelper()->createProduct($productDataDownloadable, 'downloadable');
+        // Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        // Creating Grouped Product with phisical Simple
+        $productData['associated_products_grouped_data']['associated_products_grouped_1']
+                ['associated_products_sku'] = $productDataDownloadable['general_sku'];
+        $this->productHelper()->createProduct($productData, 'grouped');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
     }
+
+   /**
+     * <p>Creating Grouped product with All types of products type</p>
+     * <p>Preconditions</p>
+     * <p>Physical Simple, Virtual, Downloadable products created</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add product' button;</p>
+     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
+     * <p>3. Click 'Continue' button;</p>
+     * <p>4. Fill in all fields;</p>
+     * <p>5. Goto "Associated products" tab;</p>
+     * <p>6. Select created products;</p>
+     * <p>5. Click 'Save' button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @depends onlyRequiredFieldsInGrouped
+     * @test
+     */
 
     public function groupedWithAllTypesProduct()
     {
-
+        // Data
+        $productDataSimple = $this->loadData('simple_product_required', null,
+                array('general_name', 'general_sku'));
+        $productDataVirtual = $this->loadData('virtual_product_required', null,
+                array('general_name', 'general_sku'));
+        $productDataDownloadable = $this->loadData('downloadable_product_required', null,
+                array('general_name', 'general_sku'));
+        $productData = $this->loadData('grouped_product', null,
+                array('general_name', 'general_sku'));
+        $productData['associated_products_grouped_data']['associated_products_grouped_1']
+                ['associated_products_sku'] = $productDataSimple['general_sku'];
+        $productData['associated_products_grouped_data']['associated_products_grouped_2']
+                ['associated_products_sku'] = $productDataVirtual['general_sku'];
+        $productData['associated_products_grouped_data']['associated_products_grouped_3']
+                ['associated_products_sku'] = $productDataDownloadable['general_sku'];
+        // Creating Simple Product
+        $this->productHelper()->createProduct($productDataSimple);
+        // Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        // Creating Virtual Product
+        $this->productHelper()->createProduct($productDataVirtual, 'virtual');
+        // Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        // Creating Downloadable Product
+        $this->productHelper()->createProduct($productDataDownloadable, 'downloadable');
+        // Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        // Creating Grouped Product with phisical Simple
+        $this->productHelper()->createProduct($productData, 'grouped');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
     }
 }
