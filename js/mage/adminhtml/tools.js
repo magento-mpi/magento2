@@ -111,6 +111,12 @@ function checkByProductPriceType(elem) {
     }
 }
 
+Event.observe(window, 'load', function() {
+    if ($('price_default') && $('price_default').checked) {
+        $('price').disabled = 'disabled';
+    }
+});
+
 function toggleValueElements(checkbox, container, excludedElements, checked){
     if(container && checkbox){
         var ignoredElements = [checkbox];
