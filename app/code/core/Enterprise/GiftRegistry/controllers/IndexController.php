@@ -306,7 +306,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         }
 
         $error  = false;
-        $senderMessage = nl2br(htmlspecialchars($this->getRequest()->getPost('sender_message')));
+        $senderMessage = htmlspecialchars($this->getRequest()->getPost('sender_message'));
         $senderName = htmlspecialchars($this->getRequest()->getPost('sender_name'));
         $senderEmail = htmlspecialchars($this->getRequest()->getPost('sender_email'));
 
@@ -318,7 +318,8 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     foreach ($recipients as $recipient) {
                         $recipientEmail = trim($recipient['email']);
                         if (!Zend_Validate::is($recipientEmail, 'EmailAddress')) {
-                            $error = Mage::helper('enterprise_giftregistry/data')->__('Please input a valid recipient email address.');
+                            $error = Mage::helper('enterprise_giftregistry/data')
+                                ->__('Please input a valid recipient email address.');
                             break;
                         }
 
@@ -341,7 +342,8 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                         }
                         if ($count > 0) {
                             $this->_getSession()->addSuccess(
-                                Mage::helper('enterprise_giftregistry')->__('The gift registry has been shared for %d emails.', $count)
+                                Mage::helper('enterprise_giftregistry')
+                                    ->__('The gift registry has been shared for %d emails.', $count)
                             );
                         } else {
                             $this->_getSession()->addError(
@@ -350,7 +352,8 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                         }
                     }
                 } else {
-                    $error = Mage::helper('enterprise_giftregistry/data')->__('Please input a valid sender email address.');
+                    $error = Mage::helper('enterprise_giftregistry/data')
+                        ->__('Please input a valid sender email address.');
                 }
             } else {
                 $error = Mage::helper('enterprise_giftregistry/data')->__('Sender data can\'t be empty.');
