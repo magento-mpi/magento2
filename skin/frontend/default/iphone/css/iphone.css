@@ -444,6 +444,113 @@ input[type="text"] {
     -webkit-box-shadow:inset 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
+.send-friend {
+    display:block;
+    border:1px solid #D1D1D1;
+    margin:3px -7px -7px;
+    padding:9px;
+    border-radius:2px 2px 5px 5px;
+    background:-webkit-gradient(linear, 0 0, 0 100%,color-stop(0, #FCFDFD), color-stop(0.8, #EEEEEE), color-stop(1, #E8E9E9));
+}
+
+.send-friend h2 {
+    font-size:16px; line-height:16px; font-weight:bold; margin:0 0 5px; color:#333;
+}
+
+.send-friend label {
+    display:block;
+    font-size:14px;
+    padding:0 0 3px;
+    font-weight:bold;
+    color:#5E5E5E;
+}
+
+.send-friend label em {
+    display:none;
+}
+
+.send-friend textarea {
+    border:1px solid;
+    border-color:#8e8e8e #e1e1e1 #e1e1e1 #8e8e8e;
+    border-radius:5px;
+    padding:5px;
+    font-size:18px;
+    height:100px;
+    width:100%;
+    -webkit-appearance:none;
+    -webkit-box-sizing:border-box;
+    -webkit-box-shadow:inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.send-friend .field {
+    margin:0 0 6px;
+}
+
+.send-friend .additional-row {
+    border-top:1px solid #ccc;
+    position:relative;
+    margin:16px 0 0;
+    padding:10px 0 0;
+}
+
+.send-friend .sender-fieldset {
+    padding-top:10px;
+}
+
+#add_recipient_button {
+    float:right;
+}
+
+.send-friend .btn-remove {
+    position:absolute;
+    top:31px;
+    right:0;
+}
+
+#add_recipient_button button,
+.send-friend .btn-remove {
+    margin:0;
+    padding:2px 8px 4px;
+    border:1px solid #CECECE;
+    border-radius:2px;
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#FEFEFE), to(#EEE));
+    text-transform: small-caps;
+    color:#333;
+    font-size:24px;
+    line-height:18px;
+    padding:0 5px 6px;
+    text-shadow:0 1px 0 #fff;
+    -webkit-box-shadow:0 0 5px #ccc;
+}
+
+.send-friend .btn-remove {
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#e4776f), to(#d83a2e));
+    color:#fff;
+    border:none;
+    border-left:1px solid #ccc;
+    border-radius:0 5px 5px 0;
+    padding:6px 8px 10px;
+    text-shadow:0 1px 0 #333;
+    -webkit-box-shadow:none;
+}
+
+.send-friend button[type="submit"] {
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221));
+    padding:5px 20px;
+    font-size:14px;
+    color:#FFF;
+    border:1px solid #FFF;
+    border-radius:5px;
+    -webkit-box-shadow:0 3px 3px 0 #9F9F9F;
+    -webkit-background-clip:padding-box;
+}
+
+#max_recipient_message {
+    padding:10px 0;
+    font-size:16px;
+    font-weight:bold;
+}
+
 /* Account Create
 -----------------------------*/
 .account-create h2 {
@@ -478,7 +585,7 @@ input[type="text"] {
 .login-box .registered-users input[type="submit"] + a { text-decoration:underline; vertical-align:middle; }
 .login-box .registered-users h1 { display:none; background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; text-shadow:0 1px 0 #fff; margin:0 -10px 10px; padding:10px; -webkit-box-shadow:0 3px 3px #eee; }
 .login-box .new-users { display:block; border:1px solid #D1D1D1; margin:-6px -7px -7px; padding:9px; border-radius:2px 2px 5px 5px; background:-webkit-gradient(linear, 0 0, 0 100%,color-stop(0, #FCFDFD), color-stop(0.8, #EEEEEE), color-stop(1, #E8E9E9)); }
-.login-box .new-users p { padding:0 0 7px; }
+.login-box .new-users p { padding:9px 0 0; }
 .login-box .new-users input[type="submit"] { padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; -webkit-background-clip:padding-box; }
 .customer-account-login .messages { margin:-11px -10px 10px; }
 .customer-account-login .messages .error-msg { background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#f85032), color-stop(50%,#f16f5c), color-stop(51%,#f6290c), color-stop(71%,#f02f17), color-stop(100%,#e73827)); color:#fff; padding:10px; font-size:16px; font-weight:bold; text-align:center; text-shadow:0 1px #222; }
@@ -708,7 +815,7 @@ section .category-title { display:none; }
 /* Product Info Box
 -----------------------------*/
 .product-view { padding:0 0 0; }
-.product-shop .product-image-and-actions { float:left; margin-right:10px; }
+.product-shop .product-image-and-actions { float:left; margin:8px 10px 0 0; }
 .product-shop .product-image { max-width:150px; position:relative; }
 .product-shop .product-image:before {
     content:'';
@@ -727,7 +834,7 @@ section .category-title { display:none; }
 .product-shop .product-image .carousel-items li { padding:2px 2px 0; }
 .product-shop .product-image .more-views { padding:3px 0 0 0; }
 .product-shop .product-desc .wrap { float:left; margin-right:5px; }
-.product-actions { clear:both; padding:10px 0; }
+.product-actions { clear:both; padding:5px 0; }
 .product-actions li { display:block; width:150px; margin:5px 0; }
 .product-actions li a { display:block; text-align:center; width:100%; padding:4px 0; background:-webkit-gradient(linear, 0 0, 0 100%, from(#FFF), to(#C1C3C4)); font-size:12px; font-weight:bold; color:#636363; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 0 3px 0 #9F9F9F; text-shadow:0 1px 0 #eee; }
 @media (orientation: landscape) {
@@ -761,34 +868,25 @@ section .category-title { display:none; }
 .product-essential .product-options-bottom .add-to-cart button { display:block; float:right; margin:50px -100% 0 0; padding:5px 20px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F39823), to(#F37221)); font-size:14px; color:#FFF; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 3px 3px 0 #9F9F9F; }
 .product-essential .product-options-bottom li { display:none; }
 
-#product-options-wrapper { margin:10px 0; padding:5px 10px; border:1px solid #FFF; border-radius:5px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F6F6F6), to(#C5C5C5)); -webkit-box-shadow:0 0 3px 0 #9F9F9F; }
-
-#product-attribute-specs-table,
-.product-shop .grouped-items-table { width:100%; border-collapse:collapse }
-#product-attribute-specs-table td,
-.product-shop .grouped-items-table td { padding:1px 5px; }
-#product-attribute-specs-table tr:nth-child(odd) td,
-#product-attribute-specs-table tr:nth-child(odd) th,
-.product-shop .grouped-items-table tr:nth-child(odd) td { background:#E3E3E3; }
-.product-shop .grouped-items-table th:first-child { text-align:left; }
 .product-shop .grouped-items-table input.qty {
-    background:url(../images/bg_qty.png) no-repeat right white;
-    border:2px solid #F60;
-    border-radius:5px;
-    font-size:16px;
-    padding:5px 19px 5px 5px;
+    border:1px solid #ccc;
+    border-radius:3px;
+    font-size:12px;
+    font-weight:bold;
+    padding:4px 5px;
     -webkit-appearance:none;
     -webkit-background-clip:padding-box;
+    width:10px;
     -webkit-box-sizing:content-box;
-    width:25px;
+    vertical-align:middle;
 }
-
 .product-shop .price-box { overflow:hidden; margin:8px 0 0; }
     .product-shop .price-box .price-label { vertical-align:baseline; }
     .product-shop .price-box .old-price { color:#ccc; }
     .product-shop .price-box .special-price .price-label { color:#222; }
     .product-shop .price-box .special-price .price { font-weight:bold; }
 
+.product-shop .product-desc { display:table; }
 .product-shop .product-desc .ratings { overflow:hidden; }
 .product-shop .product-desc .ratings,
 .product-shop .product-desc .ratings a { color:#FB6B36; }
@@ -818,6 +916,30 @@ section .category-title { display:none; }
 .product-shop .product-image-and-actions .actions { margin:15px 0 0; }
 .product-shop .product-image-and-actions .actions a { display:block; text-align:center; width:100px; margin:5px 0 0; padding:4px 10px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#FFF), to(#C1C3C4)); font-size:12px; font-weight:bold; color:#636363; border:1px solid #FFF; border-radius:5px; -webkit-box-shadow:0 0 3px 0 #9F9F9F; }
 .product-shop .product-image-and-actions .actions a:last-child { margin:5px 0 10px; }
+
+#product-options-wrapper { margin:10px 0; padding:5px 10px; border:1px solid #FFF; border-radius:5px; background:-webkit-gradient(linear, 0 0, 0 100%, from(#F6F6F6), to(#C5C5C5)); -webkit-box-shadow:0 0 3px 0 #9F9F9F; }
+
+#product-attribute-specs-table,
+.product-shop .grouped-items-table { width:100%; border-collapse:collapse }
+#product-attribute-specs-table th,
+#product-attribute-specs-table td,
+.product-shop .grouped-items-table th,
+.product-shop .grouped-items-table td { padding:2px; vertical-align:middle; text-align:left !important; }
+#product-attribute-specs-table tr:nth-child(odd) td,
+#product-attribute-specs-table tr:nth-child(odd) th,
+.product-shop .grouped-items-table tr:nth-child(odd) td { background:#f6f6f6; }
+
+.grouped-items-table { border:1px solid #ccc; font-size:11px; line-height:13px; margin:0 0 5px; -webkit-border-radius:5px; }
+.grouped-items-table th {
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#ccc));
+    border-bottom:1px solid #bbb;
+    padding:2px 2px 3px;
+}
+.grouped-items-table td { border-bottom:1px solid #ccc; vertical-align:top; }
+.grouped-items-table input { width:20px; }
+.grouped-items-table .price-box { margin:0; }
+.grouped-items-table .price-excluding-tax,
+.grouped-items-table .price-including-tax { display:block; }
 
 .catalog-product-gallery .product-gallery { padding:10px 0 0; position:relative; }
 .catalog-product-gallery .product-gallery .carousel-items li {
@@ -982,20 +1104,11 @@ section .category-title { display:none; }
     .collateral-box .tags-list { font-size:12px; padding:10px; }
         .collateral-box .tags-list a { font-weight:bold; color:#F4641E; }
 
-.grouped-items-table { border:1px solid #eee; font-size:11px; line-height:13px; }
-.grouped-items-table th { padding:2px 0; }
-.grouped-items-table td { vertical-align:top; }
-.grouped-items-table th:nth-child(2) { text-align:center !important; }
-.grouped-items-table td:nth-child(2) { text-align:left !important; }
-.grouped-items-table input { width:20px; }
-.grouped-items-table .price-box { margin:0; }
-.grouped-items-table .price-excluding-tax,
-.grouped-items-table .price-including-tax { display:block; }
-
 
 /* Product review
 -----------------------------*/
 .review-product-list { color: #636363; }
+.review-product-list .breadcrumbs .product { display:none; }
 .review-product-list label em { margin:0 5px 0 0; color: #F4641E; }
 .review-product-list .rating-box { width:75px; height:11px; margin:3px 0; }
 .review-product-list .rating-box .rating { height:11px; background:url(../images/bg_rating_star.png) repeat-x center left; }
@@ -1605,7 +1718,8 @@ section > .cart .cart-footer:after { content:"."; display:block; clear:both; vis
 
 /* Advanced search
 -----------------------------*/
-.catalogsearch-advanced-index .page-title { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; margin:0 -10px 10px; padding:10px; }
+.catalogsearch-advanced-index .breadcrumbs { margin-bottom:10px; }
+.catalogsearch-advanced-index .page-title { display:none; }
 .catalogsearch-advanced-index .advanced-search h2.legend { display:none; }
 .catalogsearch-advanced-index .input-range { font-size:16px; }
 .catalogsearch-advanced-index .input-range input { width:40%; }
@@ -1620,13 +1734,16 @@ section > .cart .cart-footer:after { content:"."; display:block; clear:both; vis
     display:inline-block;
     width:32%;
 }
-    #advanced-search-list li:nth-last-child(-n+3) select {
-        width:100%;
-    }
+#advanced-search-list li:nth-last-child(-n+3) select {
+    width:100%;
+}
 
 
 /* Contact us
 -----------------------------*/
+
+/*
+
 .sendfriend-product-send .page-title { background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#ccc)); border:solid #999; border-width:1px 0; border-top-color:#ccc; margin:0 -10px 10px; padding:10px; }
 .sendfriend-product-send .fieldset h2.legend { font-size:18px; margin:0 0 5px; }
 .sendfriend-product-send textarea { width:99%; height:200px; }
@@ -1667,6 +1784,8 @@ section > .cart .cart-footer:after { content:"."; display:block; clear:both; vis
     text-transform: small-caps;
 }
 #add_recipient_button button { position:absolute; top:0px; right:0; }
+
+*/
 
 .cms-home .std { display:none; }
 .cms-home section { padding-bottom:0; }

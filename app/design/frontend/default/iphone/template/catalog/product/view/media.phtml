@@ -40,7 +40,7 @@
     <ul><!--
         --><li>
             <?php
-                $_img = '<a href="'.$this->getGalleryUrl($_image).'"><img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(300).'" alt="'.$this->htmlEscape($this->getImageLabel()).'" title="'.$this->htmlEscape($this->getImageLabel()).'" /></a>';
+                $_img = '<a href="'.$this->getGalleryUrl($_image).'"><img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(480).'" width="240" alt="'.$this->htmlEscape($this->getImageLabel()).'" title="'.$this->htmlEscape($this->getImageLabel()).'" /></a>';
                 echo $_helper->productAttribute($_product, $_img, 'image');
             ?>
         </li><!--
