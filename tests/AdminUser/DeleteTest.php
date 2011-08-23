@@ -105,8 +105,6 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
             }
         }
         $this->navigate('manage_admin_users');
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
         $this->assertTrue($this->searchAndOpen($searchDataCurrentUser), 'Admin User is not found');
         //Verifying
         $this->deleteElement('delete_user', 'confirmation_for_delete');

@@ -508,9 +508,11 @@ new_product:
                                     buttons:
                                         downloadable_links_add_new_row: //*[@id='dd-links']/div//button[span='Add New Row']
                                         downloadable_links_upload_files: //*[@id='dd-links']/div//button[span='Upload Files']
+                                    checkboxes:
+                                        downloadable_link_row_unlimited_downloads: //*[@id='downloadable_link_0_is_unlimited']                                       
                                     dropdowns:
                                         downloadable_links_purchased_separately: //select[@id='downloadable_link_purchase_type']
-                                        downloadable_links_shareable: //select[@id='downloadable_link _%rowId%_shareable']
+                                        downloadable_link_shareable: //select[@id='downloadable_link _%rowId%_shareable']
                                     fields:
                                         downloadable_links_title: //input[@name='product[links_title]']
                                         downloadable_link_row_title: //input[@name='downloadable[link][%rowId%][title]']

@@ -46,7 +46,9 @@ class Product_Helper extends Mage_Selenium_TestCase
     public function fillProductSettings($productData, $productType='simple')
     {
         $attributeSet = (isset($productData['product_attribute_set'])
-                && $productData['product_attribute_set'] != '%noValue%') ? $productData['product_attribute_set'] : null;
+                               && $productData['product_attribute_set'] != '%noValue%')
+                            ? $productData['product_attribute_set']
+                            : null;
 
         $attributeSetXpath = $this->_getControlXpath('dropdown', 'product_attribute_set');
         $productTypeXpath = $this->_getControlXpath('dropdown', 'product_type');
@@ -75,8 +77,9 @@ class Product_Helper extends Mage_Selenium_TestCase
         $productParameters = $this->_paramsHelper->getParameter('productParameters');
 
         $attributes = (isset($productData['configurable_attribute_title'])
-                && $productData['configurable_attribute_title'] != '%noValue%') ? explode(',',
-                        $productData['configurable_attribute_title']) : null;
+                            && $productData['configurable_attribute_title'] != '%noValue%')
+                        ? explode(',', $productData['configurable_attribute_title'])
+                        : null;
 
         if (!empty($attributes)) {
             $attributesId = array();
@@ -159,7 +162,9 @@ class Product_Helper extends Mage_Selenium_TestCase
                     $arrayKey = $tabName . '_data';
                     if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
                         foreach ($productData[$arrayKey] as $key => $value) {
-                            $this->assignProduct($productData[$arrayKey][$key], $tabName);
+                            if ($key != '%noValue%' && is_array($productData[$arrayKey][$key])) {
+                                $this->assignProduct($productData[$arrayKey][$key], $tabName);
+                            }
                         }
                     }
                     break;
@@ -198,8 +203,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                         $this->fillForm($productData[$arrayKey1], $tabName);
                         foreach ($productData[$arrayKey1] as $key => $value) {
                             if (is_array($productData[$arrayKey1][$key])) {
-                                $this->assignProduct($productData[$arrayKey1][$key], $tabName,
-                                        $attributeTitle);
+                                $this->assignProduct($productData[$arrayKey1][$key], $tabName, $attributeTitle);
                             }
                         }
                     }
@@ -208,61 +212,21 @@ class Product_Helper extends Mage_Selenium_TestCase
                     $arrayKey = $tabName . '_data';
                     if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
                         foreach ($productData[$arrayKey] as $key => $value) {
-                            if (preg_match('/downloadable_sample_/', $key)&& is_array($productData[$arrayKey][$key])) {
-                                $this->addDownloadSample($productData[$arrayKey][$key]);
+                            if (preg_match('/^downloadable_sample_/', $key)&& is_array($productData[$arrayKey][$key])) {
+                                $this->addDownloadableOption($productData[$arrayKey][$key], 'samples');
                             }
-                            if (preg_match('/downloadable_link_/', $key)&& is_array($productData[$arrayKey][$key])) {
-                                $this->addDownloadLink($productData[$arrayKey][$key]);
+                            if (preg_match('/^downloadable_link_/', $key) && is_array($productData[$arrayKey][$key])) {
+                                $this->addDownloadableOption($productData[$arrayKey][$key], 'links');
                             }
                         }
                     }
+                    $this->fillForm($productData[$arrayKey], $tabName);
+                    break;
                 default:
                     $this->fillForm($productData, $tabName);
                     break;
             }
         }
-    }
-
-
-
-    /**
-     * Add Samples
-     *
-     * @param array $sampleData
-     */
-
-    public function addDownloadSample(array $sampleData)
-    {
-        if (!$this->isElementPresent("//*[@id='dt-samples'][normalize-space(@class)='open']")) {
-            $this->clickControl('link', 'downloadable_samples', FALSE);
-       }
-
-       $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset('downloadable_samples')->getXpath();
-       $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='sample_items_body']/tr");
-       $this->addParameter('rowId', $rowNumber);
-       $this->clickButton('downloadable_samples_add_new_row', FALSE);
-       $this->fillForm($sampleData, 'downloadable_information');
-    }
-
-    /**
-     * Add Links
-     *
-     * @param array $linkData
-     */
-
-    public function addDownloadLink(array $linkData)
-    {
-
-        $fieldSetStatusLinks = $this->_getControlXpath('link', 'downloadable_links');
-       if (!$this->isElementPresent("//*[@id='dt-links'][normalize-space(@class)='open']")) {
-            $this->clickControl('link', 'downloadable_links', FALSE);
-       }
-
-       $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset('downloadable_links')->getXpath();
-       $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='link_items_body']/tr");
-       $this->addParameter('rowId', $rowNumber);
-       $this->clickButton('downloadable_links_add_new_row', FALSE);
-       $this->fillForm($linkData, 'downloadable_information');
     }
 
     /**
@@ -339,6 +303,10 @@ class Product_Helper extends Mage_Selenium_TestCase
     public function assignProduct(array $data, $tabName, $attributeTitle = null)
     {
         // Prepare data for find and fill in
+        $this->_prepareDataForSearch($data);
+        if (empty($data)) {
+            return true;
+        }
         $needFilling = FALSE;
         $fillingData = array();
         $arrayKey = 'associated_products_by_attribute_value';
@@ -357,8 +325,6 @@ class Product_Helper extends Mage_Selenium_TestCase
         }
 
         //Search prodcut
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
         $this->searchAndChoose($data, $tabName);
         // Fill in additional data
         if ($needFilling) {
@@ -432,6 +398,30 @@ class Product_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Add Sample for Downloadable product
+     *
+     * @param array $optionData
+     * @param string $type
+     */
+    public function addDownloadableOption(array $optionData, $type)
+    {
+        $sampleFieldSet = $this->_getControlXpath('link', 'downloadable_' . $type);
+        $this->_prepareDataForSearch($optionData);
+        if (empty($optionData)) {
+            return true;
+        }
+        if (!$this->isElementPresent($sampleFieldSet . "/parent::*[normalize-space(@class)='open']")) {
+            $this->clickControl('link', 'downloadable_' . $type, FALSE);
+        }
+
+        $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset('downloadable_' . $type)->getXpath();
+        $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='sample_items_body']/tr");
+        $this->addParameter('rowId', $rowNumber);
+        $this->clickButton('downloadable_' . $type . '_add_new_row', FALSE);
+        $this->fillForm($optionData, 'downloadable_information');
+    }
+
+    /**
      * Create Product
      * @param array $productData
      * @param string $productType
@@ -478,8 +468,6 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function openProduct(array $productSearch)
     {
-        $this->clickButton('reset_filter', FALSE);
-        $this->pleaseWait();
         $this->assertTrue($this->searchAndOpen($productSearch));
     }
 

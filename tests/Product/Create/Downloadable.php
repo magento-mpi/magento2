@@ -108,7 +108,6 @@ class Product_Create_Downloadable extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-        return $productData;
     }
 
     /**
@@ -465,26 +464,21 @@ class Product_Create_Downloadable extends Mage_Selenium_TestCase
      */
 
 
-    public function emptyFieldsForSamples($emptyField)
+    public function emptyFieldForSamples($emptyField)
     {
         // Data
-        $productData = $this->loadData('downloadable_product', array($emptyField => '%noValue%'),
-                array('general_sku'));
-        unset($productData['downloadable_information_data']['downloadable_sample_2']);
-        unset($productData['downloadable_information_data']['downloadable_link_1']);
-        unset($productData['downloadable_information_data']['downloadable_link_2']);
+        $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
+        $productData['downloadable_information_data']['downloadable_sample_1'] =
+                $this->loadData('downloadable_samples', array($emptyField => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
 
         //Verifying
         $this->addFieldIdToMessage('field', $emptyField);
-        switch ($emptyField) {
-            case 'downloadable_sample_row_title':
-                $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-                break;
-            case 'downloadable_link_row_file_url':
-                $this->assertTrue($this->validationMessage('specify_url'), $this->messages);
-                break;
+        if ($emptyField == 'downloadable_sample_row_title') {
+            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        } else {
+            $this->assertTrue($this->validationMessage('specify_url'), $this->messages);
         }
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -506,25 +500,20 @@ class Product_Create_Downloadable extends Mage_Selenium_TestCase
      * @dataProvider dataEmptyFieldforLinks
      */
 
-    public function emptyFieldsForLinks($emptyField)
+    public function emptyFieldForLinks($emptyField)
     {
         // Data
-        $productData = $this->loadData('downloadable_product', array($emptyField => '%noValue%'),
-                array('general_sku'));
-        unset($productData['downloadable_information_data']['downloadable_sample_1']);
-        unset($productData['downloadable_information_data']['downloadable_sample_2']);
-        unset($productData['downloadable_information_data']['downloadable_link_2']);
+        $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
+        $productData['downloadable_information_data']['downloadable_link_1'] =
+                $this->loadData('downloadable_links', array($emptyField => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
         $this->addFieldIdToMessage('field', $emptyField);
-        switch ($emptyField) {
-            case 'downloadable_link_row_title':
-                $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-                break;
-            case 'downloadable_link_row_file_url':
-                $this->assertTrue($this->validationMessage('specify_url'), $this->messages);
-                break;
+        if ($emptyField == 'downloadable_link_row_title') {
+            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        } else {
+            $this->assertTrue($this->validationMessage('specify_url'), $this->messages);
         }
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }

@@ -62,7 +62,6 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
      */
     public function openAttribute($searchData)
     {
-        $this->clickButton('reset_filter');
         $this->assertTrue($this->searchAndOpen($searchData), 'Attribute is not found');
     }
 

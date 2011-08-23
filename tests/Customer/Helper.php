@@ -139,8 +139,6 @@ class Customer_Helper extends Mage_Selenium_TestCase
      */
     public function openCustomer(array $searchData)
     {
-        $this->clickButton('reset_filter', FALSE);
-        $this->waitForAjax();
         $this->assertTrue($this->searchAndOpen($searchData), 'Customer is not found');
     }
 

@@ -281,24 +281,9 @@ associated_products_grouped_1: &groupedAssociatedProduct1
     associated_products_position: %noValue%
     associated_products_default_qty: %noValue%
 
-associated_products_grouped_2: &groupedAssociatedProduct2
-    # Data to search
-    associated_products_id: %noValue%
-    associated_products_name: %noValue%
-    associated_products_sku: %noValue%
-    associated_products_price_from: %noValue%
-    associated_products_price_to: %noValue%
-    associated_products_default_qty_from: %noValue%
-    associated_products_default_qty_to: %noValue%
-    associated_products_position_from: %noValue%
-    associated_products_position_to: %noValue%
-    # Data to fill in
-    associated_products_position: %noValue%
-    associated_products_default_qty: %noValue%
-
 associated_products_grouped_data: &associatedProductsGroupedData
     associated_products_grouped_1: *groupedAssociatedProduct1
-    associated_products_grouped_2: *groupedAssociatedProduct2
+    associated_products_grouped_2: %noValue%
 
 #*****************************************************
 #* Associated Products Data for Configurable Product *
@@ -313,16 +298,16 @@ associated_products_configurable_1: &configurableAssociatedProduct1
     associated_products_price_from: %noValue%
     associated_products_price_to: %noValue%
     associated_products_inventory: %noValue%
-    associated_products_by_attribute_value: 0xxx
+    associated_products_by_attribute_value: %noValue%
     # Data to fill in
     associated_products_price: %noValue%
     associated_products_price_type: %noValue%
 
 associated_products_configurable_data: &associatedProductsConfigurableData
-    associated_products_attribute_name_default: dd1ef
+    associated_products_attribute_name_default: %noValue%
     associated_products_attribute_name: %noValue%
     associated_products_configurable_1: *configurableAssociatedProduct1
-    #associated_products_configurable_2: %noValue%
+    associated_products_configurable_2: %noValue%
 
 #*********************************************
 #*         Bundle Items Data                 *
@@ -348,6 +333,7 @@ bundle_items_1: &itemMultipleSelect
         selection_item_default_qty: %noValue%
         selection_item_position: %noValue%
         selection_item_default: %noValue%
+    bundle_items_add_product_2: %noValue%      
 
 bundle_items_2: &itemDropdown
     bundle_items_default_title: Drop-down
@@ -370,6 +356,7 @@ bundle_items_2: &itemDropdown
         selection_item_user_defined_qty: %noValue%
         selection_item_position: %noValue%
         selection_item_default: %noValue%
+    bundle_items_add_product_2: %noValue%            
 
 bundle_items_3: &itemRadioButtons
     bundle_items_default_title: Radio Buttons
@@ -392,6 +379,7 @@ bundle_items_3: &itemRadioButtons
         selection_item_user_defined_qty: %noValue%
         selection_item_position: %noValue%
         selection_item_default: %noValue%
+    bundle_items_add_product_2: %noValue%            
 
 bundle_items_4: &itemCheckbox
     bundle_items_default_title: Checkbox
@@ -434,23 +422,23 @@ downloadable_samples: &samplesDownloadable
 downloadable_links: &linksDownloadable
     downloadable_link_row_title: Link Row Title
     downloadable_link_row_price: 12
+    downloadable_link_row_unlimited_downloads: No
+    downloadable_link_max_downloads: 100  
     downloadable_link_shareable: Yes
-    downloadable_link_max_downloads: 100
-    downloadable_link_row_sample_url_radiobutton: Yes
+    downloadable_link_row_sample_url_radiobutton: Yes    
+    downloadable_link_row_sample_url: www.sample.com
     downloadable_link_row_url_radiobutton: Yes
-    downloadable_link_row_sample_url: www.localhost.com
-    downloadable_link_row_file_url: www.localhost.com
+    downloadable_link_row_file_url: www.file.com
     downloadable_link_row_sort_order: 1
-
 
 downloadable_information_data: &downloadableData
     downloadable_samples_title: Samples Title
     downloadable_links_title: Links Title
     downloadable_links_purchased_separately: No
     downloadable_sample_1: *samplesDownloadable
-    downloadable_sample_2: *samplesDownloadable
+    downloadable_sample_2: %noValue%
     downloadable_link_1: *linksDownloadable
-    downloadable_link_2: *linksDownloadable
+    downloadable_link_2: %noValue%
 
 #*********************************************
 #*         Simple Product Data               *
