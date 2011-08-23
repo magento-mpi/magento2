@@ -207,27 +207,12 @@ class Product_Helper extends Mage_Selenium_TestCase
                 case 'downloadable_information':
                     $arrayKey = $tabName . '_data';
                     if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
-                        $page = $this->getCurrentLocationUimapPage();
-//                        $this->clickControl('link', 'downloadable_samples', FALSE);
-//                        $this->clickControl('link', 'downloadable_links', FALSE);
                         foreach ($productData[$arrayKey] as $key => $value) {
-                            if (preg_match('/sample/', $key)) {
-                                $fieldSetXpath = $page->findFieldset('downloadable_samples')->getXpath();
-                                $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='sample_items_body']/tr");
-                                $this->addParameter('rowId', $rowNumber);
-                                $page->assignParams($this->_paramsHelper);
-                                $this->clickButton('downloadable_samples_add_new_row', FALSE);
-                                $this->fillForm($productData[$arrayKey][$key],
-                                        'downloadable_information');
+                            if (preg_match('/downloadable_sample_/', $key)&& is_array($productData[$arrayKey][$key])) {
+                                $this->addDownloadSample($productData[$arrayKey][$key]);
                             }
-                            if (preg_match('/link/', $key)) {
-                                $fieldSetXpath = $page->findFieldset('downloadable_links')->getXpath();
-                                $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='link_items_body']/tr");
-                                $this->addParameter('rowId', $rowNumber);
-                                $page->assignParams($this->_paramsHelper);
-                                $this->clickButton('downloadable_links_add_new_row', FALSE);
-                                $this->fillForm($productData[$arrayKey][$key],
-                                        'downloadable_information');
+                            if (preg_match('/downloadable_link_/', $key)&& is_array($productData[$arrayKey][$key])) {
+                                $this->addDownloadLink($productData[$arrayKey][$key]);
                             }
                         }
                     }
@@ -236,6 +221,48 @@ class Product_Helper extends Mage_Selenium_TestCase
                     break;
             }
         }
+    }
+
+
+
+    /**
+     * Add Samples
+     *
+     * @param array $sampleData
+     */
+
+    public function addDownloadSample(array $sampleData)
+    {
+        if (!$this->isElementPresent("//*[@id='dt-samples'][normalize-space(@class)='open']")) {
+            $this->clickControl('link', 'downloadable_samples', FALSE);
+       }
+
+       $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset('downloadable_samples')->getXpath();
+       $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='sample_items_body']/tr");
+       $this->addParameter('rowId', $rowNumber);
+       $this->clickButton('downloadable_samples_add_new_row', FALSE);
+       $this->fillForm($sampleData, 'downloadable_information');
+    }
+
+    /**
+     * Add Links
+     *
+     * @param array $linkData
+     */
+
+    public function addDownloadLink(array $linkData)
+    {
+
+        $fieldSetStatusLinks = $this->_getControlXpath('link', 'downloadable_links');
+       if (!$this->isElementPresent("//*[@id='dt-links'][normalize-space(@class)='open']")) {
+            $this->clickControl('link', 'downloadable_links', FALSE);
+       }
+
+       $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset('downloadable_links')->getXpath();
+       $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='link_items_body']/tr");
+       $this->addParameter('rowId', $rowNumber);
+       $this->clickButton('downloadable_links_add_new_row', FALSE);
+       $this->fillForm($linkData, 'downloadable_information');
     }
 
     /**

@@ -426,28 +426,31 @@ bundle_items_data: &bundleData
 #*********************************************
 
 downloadable_samples: &samplesDownloadable
-    downloadable_samples_row_title: 123123
-    downloadable_samples_row_url_radiobutton: Yes
-    downloadable_samples_row_url: www.yandex.ru
-    downloadable_samples_row_sort_order: 1
+    downloadable_sample_row_title: Sample Row Title
+    downloadable_sample_row_url_radiobutton: Yes
+    downloadable_sample_row_url: www.localhost.com
+    downloadable_sample_row_sort_order: 1
 
 downloadable_links: &linksDownloadable
-    downloadable_links_row_title: 123123
-    downloadable_links_row_price: 12
-    downloadable_links_shareable: Yes
-    downloadable_links_max_downloads: 100
-    downloadable_links_row_sample_url_radiobutton: Yes
-    downloadable_links_row_url_radiobutton: Yes
-    downloadable_links_row_sample_url: www.yandex.ru
-    downloadable_links_row_file_url: www.ya.ru
-    downloadable_links_row_sort_order: 1
+    downloadable_link_row_title: Link Row Title
+    downloadable_link_row_price: 12
+    downloadable_link_shareable: Yes
+    downloadable_link_max_downloads: 100
+    downloadable_link_row_sample_url_radiobutton: Yes
+    downloadable_link_row_url_radiobutton: Yes
+    downloadable_link_row_sample_url: www.localhost.com
+    downloadable_link_row_file_url: www.localhost.com
+    downloadable_link_row_sort_order: 1
 
 
 downloadable_information_data: &downloadableData
-    downloadable_samples_1: *samplesDownloadable
-    downloadable_samples_2: *samplesDownloadable
-    downloadable_links_1: *linksDownloadable
-    downloadable_links_2: *linksDownloadable
+    downloadable_samples_title: Samples Title
+    downloadable_links_title: Links Title
+    downloadable_links_purchased_separately: No
+    downloadable_sample_1: *samplesDownloadable
+    downloadable_sample_2: *samplesDownloadable
+    downloadable_link_1: *linksDownloadable
+    downloadable_link_2: *linksDownloadable
 
 #*********************************************
 #*         Simple Product Data               *
@@ -693,7 +696,7 @@ dynamic_bundle:
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
     bundle_items_data: *bundleData
-    
+
 fixed_bundle:
     product_attribute_set: Default
     general_name: Bundle(Fixed) Product
@@ -739,7 +742,7 @@ fixed_bundle:
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
     bundle_items_data: *bundleData
-    
+
 #*********************************************
 #*         Grouped Product Data              *
 #*********************************************
@@ -790,7 +793,7 @@ grouped_product:
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
     associated_products_grouped_data: *associatedProductsGroupedData
-    
+
 #*********************************************
 #*         Configurable Product Data         *
 #*********************************************
@@ -855,7 +858,7 @@ configurable_product:
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
     associated_products_configurable_data: *associatedProductsConfigurableData
-    
+
 #*********************************************
 #*         Downloadable Product Data         *
 #*********************************************
@@ -938,7 +941,4 @@ downloadable_product:
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
     custom_options_data: *customOptionsData
-    downloadable_samples_title: 123
-    downloadable_links_title: 123
-    downloadable_links_purchased_separately: No
     downloadable_information_data: *downloadableData

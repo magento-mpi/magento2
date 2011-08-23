@@ -71,6 +71,7 @@ manage_products:
             incorrect_sku_length: //div[@class='validation-advice' and text()='SKU length should be 64 characters maximum.']
             existing_sku: //div[@class='validation-advice' and text()='The value of attribute "SKU" must be unique']
             confirmation_for_delete: Are you sure?
+            specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
 
 # Settings for New Product creation
 new_product_settings:
@@ -493,36 +494,34 @@ new_product:
                                     buttons:
                                         downloadable_samples_add_new_row: //*[@id='dd-samples']/div//button[span='Add New Row']
                                         downloadable_samples_upload_files: //*[@id='dd-samples']/div//button[span='Upload Files']
-                                        # clickButton() - cannot define the fieldset
                                     fields:
                                         downloadable_samples_title: //input[@name='product[samples_title]']
-                                        downloadable_samples_row_title: //input[@name='downloadable[sample][%rowId%][title]']
-                                        downloadable_samples_row_url: //input[@name='downloadable[sample][%rowId%][sample_url]']
-                                        downloadable_samples_row_sort_order: //input[@name='downloadable[sample][%rowId%][sort_order]']
+                                        downloadable_sample_row_title: //input[@name='downloadable[sample][%rowId%][title]']
+                                        downloadable_sample_row_url: //input[@name='downloadable[sample][%rowId%][sample_url]']
+                                        downloadable_sample_row_sort_order: //input[@name='downloadable[sample][%rowId%][sort_order]']
                                     radiobuttons:
-                                        downloadable_samples_row_url_radiobutton: //input[@id='downloadable_sample_%rowId%_url_type']
-                                        downloadable_samples_row_file_radiobutton: //input[@id='downloadable_sample_%rowId%_file_type']
+                                        downloadable_sample_row_url_radiobutton: //input[@id='downloadable_sample_%rowId%_url_type']
+                                        downloadable_sample_row_file_radiobutton: //input[@id='downloadable_sample_%rowId%_file_type']
                             -
                                 downloadable_links:
                                     xpath: //*[@id='dd-links']/div
                                     buttons:
                                         downloadable_links_add_new_row: //*[@id='dd-links']/div//button[span='Add New Row']
                                         downloadable_links_upload_files: //*[@id='dd-links']/div//button[span='Upload Files']
-                                        # clickButton() - cannot define the fieldset
                                     dropdowns:
                                         downloadable_links_purchased_separately: //select[@id='downloadable_link_purchase_type']
                                         downloadable_links_shareable: //select[@id='downloadable_link _%rowId%_shareable']
                                     fields:
                                         downloadable_links_title: //input[@name='product[links_title]']
-                                        downloadable_links_row_title: //input[@name='downloadable[link][%rowId%][title]']
-                                        downloadable_links_row_sample_url: //input[@name='downloadable[link][%rowId%][sample][url]']
-                                        downloadable_links_row_file_url: //input[@name='downloadable[link][%rowId%][link_url]']
-                                        downloadable_links_row_sort_order: //input[@name='downloadable[link][%rowId%][sort_order]']
-                                        downloadable_links_row_price: //input[@id='downloadable_link_%rowId%_price_value']
-                                        downloadable_links_max_downloads: //input[@id='downloadable_link_%rowId%_downloads']
+                                        downloadable_link_row_title: //input[@name='downloadable[link][%rowId%][title]']
+                                        downloadable_link_row_sample_url: //input[@name='downloadable[link][%rowId%][sample][url]']
+                                        downloadable_link_row_file_url: //input[@name='downloadable[link][%rowId%][link_url]']
+                                        downloadable_link_row_sort_order: //input[@name='downloadable[link][%rowId%][sort_order]']
+                                        downloadable_link_row_price: //input[@id='downloadable_link_%rowId%_price_value']
+                                        downloadable_link_max_downloads: //input[@id='downloadable_link_%rowId%_downloads']
                                     radiobuttons:
-                                        downloadable_links_row_sample_url_radiobutton: //input[@id='downloadable_link_%rowId%_sample_url_type']
-                                        downloadable_links_row_url_radiobutton: //input[@id='downloadable_link_%rowId%_url_type']                                        
+                                        downloadable_link_row_sample_url_radiobutton: //input[@id='downloadable_link_%rowId%_sample_url_type']
+                                        downloadable_link_row_url_radiobutton: //input[@id='downloadable_link_%rowId%_url_type']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

@@ -148,8 +148,8 @@ class Product_Create_Downloadable extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is not created, error message appears;</p>
      *
-     * @dataProvider dataEmptyField
      * @depends requiredFieldsInDownloadable
+     * @dataProvider dataEmptyField
      * @test
      */
     public function emptyRequiredFieldInDownloadable($emptyField, $fieldType)
@@ -445,6 +445,104 @@ class Product_Create_Downloadable extends Mage_Selenium_TestCase
         $this->addFieldIdToMessage('field', 'inventory_qty');
         $this->assertTrue($this->validationMessage('enter_valid_number'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with empty fields - Samples</p>
+     * <p>Steps<p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Downloadable Information" tab and leave fields in "Samples" fieldset empty;</p>
+     * <p>6. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+
+     * @test
+     * @depends requiredFieldsInDownloadable
+     * @dataProvider dataEmptyFieldforSample
+     */
+
+
+    public function emptyFieldsForSamples($emptyField)
+    {
+        // Data
+        $productData = $this->loadData('downloadable_product', array($emptyField => '%noValue%'),
+                array('general_sku'));
+        unset($productData['downloadable_information_data']['downloadable_sample_2']);
+        unset($productData['downloadable_information_data']['downloadable_link_1']);
+        unset($productData['downloadable_information_data']['downloadable_link_2']);
+        //Steps
+        $this->productHelper()->createProduct($productData, 'downloadable');
+
+        //Verifying
+        $this->addFieldIdToMessage('field', $emptyField);
+        switch ($emptyField) {
+            case 'downloadable_sample_row_title':
+                $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+                break;
+            case 'downloadable_link_row_file_url':
+                $this->assertTrue($this->validationMessage('specify_url'), $this->messages);
+                break;
+        }
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with empty fields - Links</p>
+     * <p>Steps<p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Downloadable Information" tab and leave fields in "Links" fieldset empty;</p>
+     * <p>6. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @test
+     * @depends requiredFieldsInDownloadable
+     * @dataProvider dataEmptyFieldforLinks
+     */
+
+    public function emptyFieldsForLinks($emptyField)
+    {
+        // Data
+        $productData = $this->loadData('downloadable_product', array($emptyField => '%noValue%'),
+                array('general_sku'));
+        unset($productData['downloadable_information_data']['downloadable_sample_1']);
+        unset($productData['downloadable_information_data']['downloadable_sample_2']);
+        unset($productData['downloadable_information_data']['downloadable_link_2']);
+        //Steps
+        $this->productHelper()->createProduct($productData, 'downloadable');
+        //Verifying
+        $this->addFieldIdToMessage('field', $emptyField);
+        switch ($emptyField) {
+            case 'downloadable_link_row_title':
+                $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+                break;
+            case 'downloadable_link_row_file_url':
+                $this->assertTrue($this->validationMessage('specify_url'), $this->messages);
+                break;
+        }
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function dataEmptyFieldforSample()
+    {
+        return array(
+            array('downloadable_sample_row_title'),
+            array('downloadable_sample_row_url')
+        );
+    }
+
+    public function dataEmptyFieldforLinks()
+    {
+        return array(
+            array('downloadable_link_row_title'),
+            array('downloadable_link_row_file_url')
+        );
     }
 
     public function dataInvalidQty()
