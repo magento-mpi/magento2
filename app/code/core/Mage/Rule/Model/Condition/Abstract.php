@@ -562,7 +562,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
             case '<=': case '>':
                 if (!is_scalar($validatedValue)) {
-                    $result = false;
+                    return false;
                 } else {
                     $result = $validatedValue <= $value;
                 }
@@ -570,7 +570,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
             case '>=': case '<':
                 if (!is_scalar($validatedValue)) {
-                    $result = false;
+                    return false;
                 } else {
                     $result = $validatedValue >= $value;
                 }
