@@ -266,7 +266,7 @@ cross_sells_products_data: &crossSellsProductsData
 #* Associated Products Data for Grouped Product *
 #************************************************
 
-associated_products_grouped_1: &groupedAssociatedProduct1
+associated_products_grouped: &groupedAssociatedProduct1
     # Data to search
     associated_products_id: %noValue%
     associated_products_name: %noValue%
@@ -283,6 +283,7 @@ associated_products_grouped_1: &groupedAssociatedProduct1
 
 associated_products_grouped_data: &associatedProductsGroupedData
     associated_products_grouped_1: *groupedAssociatedProduct1
+    associated_products_grouped_2: %noValue%
 
 #*****************************************************
 #* Associated Products Data for Configurable Product *
@@ -332,7 +333,7 @@ bundle_items_1: &itemMultipleSelect
         selection_item_default_qty: %noValue%
         selection_item_position: %noValue%
         selection_item_default: %noValue%
-    bundle_items_add_product_2: %noValue%      
+    bundle_items_add_product_2: %noValue%
 
 bundle_items_2: &itemDropdown
     bundle_items_default_title: Drop-down
@@ -355,7 +356,7 @@ bundle_items_2: &itemDropdown
         selection_item_user_defined_qty: %noValue%
         selection_item_position: %noValue%
         selection_item_default: %noValue%
-    bundle_items_add_product_2: %noValue%            
+    bundle_items_add_product_2: %noValue%
 
 bundle_items_3: &itemRadioButtons
     bundle_items_default_title: Radio Buttons
@@ -378,7 +379,7 @@ bundle_items_3: &itemRadioButtons
         selection_item_user_defined_qty: %noValue%
         selection_item_position: %noValue%
         selection_item_default: %noValue%
-    bundle_items_add_product_2: %noValue%            
+    bundle_items_add_product_2: %noValue%
 
 bundle_items_4: &itemCheckbox
     bundle_items_default_title: Checkbox
@@ -422,9 +423,9 @@ downloadable_links: &linksDownloadable
     downloadable_link_row_title: Link Row Title
     downloadable_link_row_price: 12
     downloadable_link_row_unlimited_downloads: No
-    downloadable_link_max_downloads: 100  
+    downloadable_link_max_downloads: 100
     downloadable_link_shareable: No
-    downloadable_link_row_sample_url_radiobutton: Yes    
+    downloadable_link_row_sample_url_radiobutton: Yes
     downloadable_link_row_sample_url: www.sample.com
     downloadable_link_row_url_radiobutton: Yes
     downloadable_link_row_file_url: www.file.com
@@ -742,6 +743,7 @@ grouped_product_required:
     general_sku: grouped_sku.req
     general_status: Enabled
     general_visibility: Catalog, Search
+    associated_products_grouped_data: *associatedProductsGroupedData
 
 grouped_product:
     product_attribute_set: Default

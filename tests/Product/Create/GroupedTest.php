@@ -34,7 +34,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Product_Create_Grouped extends Mage_Selenium_TestCase
+class Product_Create_GroupedTest extends Mage_Selenium_TestCase
 {
 
     /**
@@ -72,8 +72,7 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
     public function onlyRequiredFieldsInGrouped()
     {
         //Data
-        $productData = $this->loadData('grouped_product_required', null,
-                array('general_name', 'general_sku'));
+        $productData = $this->loadData('grouped_product_required', null, array('general_name', 'general_sku'));
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
@@ -101,7 +100,6 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('grouped_product', null, array('general_name', 'general_sku'));
-        unset($productData['associated_products_grouped_data']);
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
@@ -155,12 +153,11 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
     {
         //Data
         if ($emptyField == 'general_visibility') {
-            $productData = $this->loadData('grouped_product_required',
-                    array($emptyField => '-- Please Select --'), 'general_sku');
+            $overrideData = array($emptyField => '-- Please Select --');
         } else {
-            $productData = $this->loadData('grouped_product_required',
-                    array($emptyField => '%noValue%'), 'general_sku');
+            $overrideData = array($emptyField => '%noValue%');
         }
+        $productData = $this->loadData('grouped_product_required', $overrideData, 'general_sku');
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
@@ -205,8 +202,7 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
                     'general_short_description' => $this->generate('string', 32, ':punct:'),
                     'general_sku'               => $this->generate('string', 32, ':punct:')
                 ));
-        $productSearch = $this->loadData('product_search',
-                array('product_sku' => $productData['general_sku']));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
@@ -243,8 +239,7 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
                     'general_short_description' => $this->generate('string', 255, ':alnum:'),
                     'general_sku'               => $this->generate('string', 64, ':alnum:')
                 ));
-        $productSearch = $this->loadData('product_search',
-                array('product_sku' => $productData['general_sku']));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
@@ -283,8 +278,8 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-   /**
-     * <p>Creating Grouped product with physical Simple type</p>
+    /**
+     * <p>Creating Grouped product with Simple product</p>
      * <p>Preconditions</p>
      * <p>Physical Simple product created</p>
      * <p>Steps:</p>
@@ -301,37 +296,30 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
      * @depends onlyRequiredFieldsInGrouped
      * @test
      */
-
     public function groupedWithSimpleProduct()
     {
-        // Data
-        $productDataSimple = $this->loadData('simple_product_required', null,
-                array('general_name', 'general_sku'));
-        $productData = $this->loadData('grouped_product', null,
-                array('general_name', 'general_sku'));
-        unset($productData['associated_products_grouped_data']['associated_products_grouped_2']);
-        unset($productData['associated_products_grouped_data']['associated_products_grouped_3']);
-        $productData['associated_products_grouped_data']['associated_products_grouped_1']
-                ['associated_products_sku'] = $productDataSimple['general_sku'];
-        // Creating Simple Product
-        $this->productHelper()->createProduct($productDataSimple);
-        // Verifying
+        //Data
+        $simpleData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
+        $groupedData = $this->loadData('grouped_product_required',
+                array('associated_products_sku' => $simpleData['general_sku']), array('general_name', 'general_sku'));
+        //Steps
+        $this->productHelper()->createProduct($simpleData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-        // Creating Grouped Product with phisical Simple
-        $productData['associated_products_grouped_data']['associated_products_grouped_1']
-                ['associated_products_sku'] = $productDataSimple['general_sku'];
-        $this->productHelper()->createProduct($productData, 'grouped');
+        //Steps
+        $this->productHelper()->createProduct($groupedData, 'grouped');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
 
+        return $simpleData['general_sku'];
     }
 
-   /**
-     * <p>Creating Grouped product with Virtual type</p>
+    /**
+     * <p>Creating Grouped product with Virtual product</p>
      * <p>Preconditions</p>
      * <p>Physical Simple product created</p>
      * <p>Steps:</p>
@@ -348,36 +336,30 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
      * @depends onlyRequiredFieldsInGrouped
      * @test
      */
-
     public function groupedWithVirtualProduct()
     {
-        // Data
-        $productDataVirtual = $this->loadData('virtual_product_required', null,
-                array('general_name', 'general_sku'));
-        $productData = $this->loadData('grouped_product', null,
-                array('general_name', 'general_sku'));
-        unset($productData['associated_products_grouped_data']['associated_products_grouped_2']);
-        unset($productData['associated_products_grouped_data']['associated_products_grouped_3']);
-        $productData['associated_products_grouped_data']['associated_products_grouped_1']
-                ['associated_products_sku'] = $productDataVirtual['general_sku'];
-        // Creating Simple Product
-        $this->productHelper()->createProduct($productDataVirtual, 'virtual');
-        // Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        // Creating Grouped Product with phisical Simple
-        $productData['associated_products_grouped_data']['associated_products_grouped_1']
-                ['associated_products_sku'] = $productDataVirtual['general_sku'];
-        $this->productHelper()->createProduct($productData, 'grouped');
+        //Data
+        $virtualData = $this->loadData('virtual_product_required', null, array('general_name', 'general_sku'));
+        $groupedData = $this->loadData('grouped_product_required',
+                array('associated_products_sku' => $virtualData['general_sku']), array('general_name', 'general_sku'));
+        //Steps
+        $this->productHelper()->createProduct($virtualData, 'virtual');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->createProduct($groupedData, 'grouped');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+
+        return $virtualData['general_sku'];
     }
 
-   /**
-     * <p>Creating Grouped product with Downloadable type</p>
+    /**
+     * <p>Creating Grouped product with Downloadable product</p>
      * <p>Preconditions</p>
      * <p>Physical Simple product created</p>
      * <p>Steps:</p>
@@ -394,35 +376,31 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
      * @depends onlyRequiredFieldsInGrouped
      * @test
      */
-
     public function groupedWithDownloadableProduct()
     {
-        // Data
-        $productDataDownloadable = $this->loadData('downloadable_product_required', null,
+        //Data
+        $downloadableData = $this->loadData('downloadable_product_required', null,
                 array('general_name', 'general_sku'));
-        $productData = $this->loadData('grouped_product', null,
+        $groupedData = $this->loadData('grouped_product_required',
+                array('associated_products_sku' => $downloadableData['general_sku']),
                 array('general_name', 'general_sku'));
-        unset($productData['associated_products_grouped_data']['associated_products_grouped_2']);
-        unset($productData['associated_products_grouped_data']['associated_products_grouped_3']);
-        $productData['associated_products_grouped_data']['associated_products_grouped_1']
-                ['associated_products_sku'] = $productDataDownloadable['general_sku'];
-        // Creating Simple Product
-        $this->productHelper()->createProduct($productDataDownloadable, 'downloadable');
-        // Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        // Creating Grouped Product with phisical Simple
-        $productData['associated_products_grouped_data']['associated_products_grouped_1']
-                ['associated_products_sku'] = $productDataDownloadable['general_sku'];
-        $this->productHelper()->createProduct($productData, 'grouped');
+        //Steps
+        $this->productHelper()->createProduct($downloadableData, 'downloadable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->createProduct($groupedData, 'grouped');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+
+        return $downloadableData['general_sku'];
     }
 
-   /**
+    /**
      * <p>Creating Grouped product with All types of products type</p>
      * <p>Preconditions</p>
      * <p>Physical Simple, Virtual, Downloadable products created</p>
@@ -437,50 +415,26 @@ class Product_Create_Grouped extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @depends onlyRequiredFieldsInGrouped
+     * @depends groupedWithSimpleProduct
+     * @depends groupedWithVirtualProduct
+     * @depends groupedWithDownloadableProduct
      * @test
      */
-
-    public function groupedWithAllTypesProduct()
+    public function groupedWithAllTypesProduct($simpleSku, $virtualSku, $downloadableSku)
     {
-        // Data
-        $productDataSimple = $this->loadData('simple_product_required', null,
+        //Data
+        $groupedData = $this->loadData('grouped_product_required', array('associated_products_sku' => $simpleSku),
                 array('general_name', 'general_sku'));
-        $productDataVirtual = $this->loadData('virtual_product_required', null,
-                array('general_name', 'general_sku'));
-        $productDataDownloadable = $this->loadData('downloadable_product_required', null,
-                array('general_name', 'general_sku'));
-        $productData = $this->loadData('grouped_product', null,
-                array('general_name', 'general_sku'));
-        $productData['associated_products_grouped_data']['associated_products_grouped_1']
-                ['associated_products_sku'] = $productDataSimple['general_sku'];
-        $productData['associated_products_grouped_data']['associated_products_grouped_2']
-                ['associated_products_sku'] = $productDataVirtual['general_sku'];
-        $productData['associated_products_grouped_data']['associated_products_grouped_3']
-                ['associated_products_sku'] = $productDataDownloadable['general_sku'];
-        // Creating Simple Product
-        $this->productHelper()->createProduct($productDataSimple);
-        // Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        // Creating Virtual Product
-        $this->productHelper()->createProduct($productDataVirtual, 'virtual');
-        // Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        // Creating Downloadable Product
-        $this->productHelper()->createProduct($productDataDownloadable, 'downloadable');
-        // Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        // Creating Grouped Product with phisical Simple
-        $this->productHelper()->createProduct($productData, 'grouped');
+        $groupedData['associated_products_grouped_data']['associated_products_grouped_2'] =
+                $this->loadData('associated_products_grouped', array('associated_products_sku' => $virtualSku));
+        $groupedData['associated_products_grouped_data']['associated_products_grouped_3'] =
+                $this->loadData('associated_products_grouped', array('associated_products_sku' => $downloadableSku));
+        //Steps
+        $this->productHelper()->createProduct($groupedData, 'grouped');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
     }
+
 }
