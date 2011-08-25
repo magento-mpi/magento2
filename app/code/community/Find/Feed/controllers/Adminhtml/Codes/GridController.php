@@ -33,12 +33,28 @@
 class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Point active menu item and set title
+     *
+     * @return Find_Feed_Adminhtml_Codes_GridController
+     */
+    protected function _init()
+    {
+        $this->_setActiveMenu('catalog/feed');
+        $this
+            ->_title($this->__('Catalog'))
+            ->_title($this->__('TheFind'));
+
+        return $this;
+    }
+
+    /**
      * Main index action
      *
      */
     public function indexAction()
     {
         $this->loadLayout();
+        $this->_init()->_title($this->__('Attributes'), false);
         $this->renderLayout();
     }
 
