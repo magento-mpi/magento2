@@ -491,6 +491,32 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Remove array elements with a value of '%noValue%'
+     *
+     * @param array $array
+     * @return array
+     */
+    public function arrayEmptyClear($array)
+    {
+        if (!is_array($array))
+            return false;
+
+        foreach ($array as $k => $v) {
+            if (is_array($v)) {
+                $array[$k] = $this->arrayEmptyClear($v);
+                if (count($array[$k]) == false)
+                    unset($array[$k]);
+            } else {
+                if ($v === '%noValue%') {
+                    unset($array[$k]);
+                }
+            }
+        }
+
+        return $array;
+    }
+
+    /**
      * Load test data
      *
      * @param string|array $dataSource Data source (e.g. filename in ../data without .yml extension)
@@ -1166,6 +1192,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->clickButton('reset_filter', false);
         }
         $this->waitForAjax();
+        sleep(1);
 
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
         $totalCount = intval($this->getText($xpath . self::qtyElementsInTable));
