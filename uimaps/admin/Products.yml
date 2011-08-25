@@ -283,6 +283,10 @@ new_product:
                             -
                                 product_categories:
                                     xpath: //div[contains(div/div/h4,'Product Categories')]
+                                    links:
+                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
                 -
                     related_products: &relatedProductsTab
                         xpath: //a[@title='Related Products']/span
@@ -509,7 +513,7 @@ new_product:
                                         downloadable_links_add_new_row: //*[@id='dd-links']/div//button[span='Add New Row']
                                         downloadable_links_upload_files: //*[@id='dd-links']/div//button[span='Upload Files']
                                     checkboxes:
-                                        downloadable_link_row_unlimited_downloads: //*[@id='downloadable_link_0_is_unlimited']                                       
+                                        downloadable_link_row_unlimited_downloads: //*[@id='downloadable_link_0_is_unlimited']
                                     dropdowns:
                                         downloadable_links_purchased_separately: //select[@id='downloadable_link_purchase_type']
                                         downloadable_link_shareable: //select[@id='downloadable_link _%rowId%_shareable']

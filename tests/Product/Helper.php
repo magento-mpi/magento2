@@ -156,6 +156,13 @@ class Product_Helper extends Mage_Selenium_TestCase
                         $this->selectWebsite($value);
                     }
                     break;
+                case 'categories':
+                    $categories = explode(',', $productData['categories']);
+                    $categories = array_map('trim', $categories);
+                    foreach ($categories as $value) {
+                        $this->categoryHelper()->selectCategory($value);
+                    }
+                    break;
                 case 'related_products': case 'up_sells_products': case 'cross_sells_products':
                     $arrayKey = $tabName . '_data';
                     if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
@@ -442,7 +449,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->fillTab($productData, 'gift_options');
         $this->fillTab($productData, 'inventory');
         $this->fillTab($productData, 'websites');
-        //@TODO Fill in Categories Tab
+        $this->fillTab($productData, 'categories');
         $this->fillTab($productData, 'related_products');
         $this->fillTab($productData, 'up_sells_products');
         $this->fillTab($productData, 'cross_sells_products');

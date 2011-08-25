@@ -522,6 +522,7 @@ simple_product:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
+    categories: Default Category
     related_products_data: %noValue%
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
@@ -606,6 +607,7 @@ virtual_product:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
+    categories: Default Category
     related_products_data: %noValue%
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
@@ -680,6 +682,7 @@ dynamic_bundle:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
+    categories: Default Category
     related_products_data: %noValue%
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
@@ -726,6 +729,7 @@ fixed_bundle:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
+    categories: Default Category
     related_products_data: %noValue%
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
@@ -778,6 +782,7 @@ grouped_product:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
+    categories: Default Category
     related_products_data: %noValue%
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
@@ -843,6 +848,7 @@ configurable_product:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
+    categories: Default Category
     related_products_data: %noValue%
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
@@ -926,6 +932,7 @@ downloadable_product:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
+    categories: Default Category
     related_products_data: %noValue%
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%

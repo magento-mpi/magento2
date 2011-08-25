@@ -70,7 +70,8 @@ class Category_Helper extends Mage_Selenium_TestCase
             $text = $this->getText($catXpath . '[' . $i . ']' . $categoryText);
             $text = preg_replace('/ \([0-9]+\)/', '', $text);
             if ($catName === $text) {
-                $isCorrectName[] = $this->getAttribute($catXpath . '[' . $i . ']' . $categoryText . '@id');
+                $isCorrectName[] = $this->getAttribute($catXpath . '[' . $i . ']' .
+                        /* $categoryText . '@id' */'/div/a/@id');
             }
         }
 
@@ -93,8 +94,7 @@ class Category_Helper extends Mage_Selenium_TestCase
             $correctSubCat = array();
 
             for ($i = 0; $i < count($correctRoot); $i++) {
-                $correctSubCat = array_merge($correctSubCat,
-                        $this->defineCorrectCategory($value, $correctRoot[$i]));
+                $correctSubCat = array_merge($correctSubCat, $this->defineCorrectCategory($value, $correctRoot[$i]));
             }
             $correctRoot = $correctSubCat;
         }
@@ -107,10 +107,12 @@ class Category_Helper extends Mage_Selenium_TestCase
             } else {
                 $pageName = $rootCat;
             }
-            $openedPageName = $this->getText("//*[@id='category-edit-container']//h3");
-            $openedPageName = preg_replace('/ \(ID\: [0-9]+\)/', '', $openedPageName);
-            if ($pageName != $openedPageName) {
-                $this->fail("Opened category with name '$openedPageName' but must be '$pageName'");
+            if ($this->isElementPresent("//*[@id='category-edit-container']//h3")) {
+                $openedPageName = $this->getText("//*[@id='category-edit-container']//h3");
+                $openedPageName = preg_replace('/ \(ID\: [0-9]+\)/', '', $openedPageName);
+                if ($pageName != $openedPageName) {
+                    $this->fail("Opened category with name '$openedPageName' but must be '$pageName'");
+                }
             }
         } else {
             $this->fail("Category with path='$categotyPath' could not be selected");
