@@ -396,6 +396,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Prepare configurable product data
      *
+     * @deprecated - use Mage_Catalog_Model_Resource_Product_Type_Configurable::getConfigurableOptions instead
      * @param  array $productIds
      * @return array
      */
@@ -428,6 +429,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Prepare configurable product price
      *
+     * @deprecated - use Mage_Catalog_Model_Resource_Product_Type_Configurable::getConfigurableOptions instead
      * @param  array $productIds
      * @return array
      */
@@ -620,29 +622,33 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 Mage_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL => '_links_crosssell_',
                 Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED   => '_associated_'
             );
+            $configurableProductsCollection = Mage::getResourceModel('catalog/product_collection');
+            $configurableProductsCollection->addAttributeToFilter(
+                'entity_id',
+                array(
+                    'in'    => $productIds
+                )
+            )->addAttributeToFilter(
+                'type_id',
+                array(
+                    'eq'    => Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE
+                )
+            );
+            $configurableData = array();
+            while ($product = $configurableProductsCollection->fetchItem()) {
+                $productAttributesOptions = $product->getTypeInstance(true)->getConfigurableOptions($product);
 
-            // prepare configurable products data
-            $configurableData  = $this->_prepareConfigurableProductData($productIds);
-            if ($configurableData) {
-                $configurablePrice = $this->_prepareConfigurableProductPrice($productIds);
-                foreach ($configurableData as $productId => &$rows) {
-                    if (isset($configurablePrice[$productId])) {
-                        $largest = max(count($rows), count($configurablePrice[$productId]));
-
-                        for ($i = 0; $i < $largest; $i++) {
-                            if (!isset($configurableData[$productId][$i])) {
-                                $configurableData[$productId][$i] = array();
-                            }
-                            if (isset($configurablePrice[$productId][$i])) {
-                                $configurableData[$productId][$i] = array_merge(
-                                    $configurableData[$productId][$i],
-                                    $configurablePrice[$productId][$i]
-                                );
-                            }
-                        }
+                foreach ($productAttributesOptions as $productAttributeOption) {
+                    $configurableData[$product->getId()] = array();
+                    foreach ($productAttributeOption as $optionValues) {
+                        $configurableData[$product->getId()][] = array(
+                            '_super_products_sku'           => $optionValues['sku'],
+                            '_super_attribute_code'         => $optionValues['attribute_code'],
+                            '_super_attribute_option'       => $optionValues['option_title'],
+                            '_super_attribute_price_corr'   => $optionValues['pricing_value']
+                        );
                     }
                 }
-                unset($configurablePrice);
             }
 
             // prepare custom options information
