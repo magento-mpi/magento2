@@ -400,9 +400,8 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function invalidPriceInBundle($invalidPrice)
     {
         //Data
-        $productData = $this->loadData('dynamic_bundle_required',
-                        array('prices_price' => $invalidPrice, 'prices_price_type' => 'Fixed'),
-                        'general_sku');
+        $productData = $this->loadData('fixed_bundle_required',
+                        array('prices_price' => $invalidPrice), 'general_sku');
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying

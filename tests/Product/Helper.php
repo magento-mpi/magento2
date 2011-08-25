@@ -45,8 +45,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function fillProductSettings($productData, $productType='simple')
     {
-        $attributeSet = (isset($productData['product_attribute_set'])
-                               && $productData['product_attribute_set'] != '%noValue%')
+        $attributeSet = (isset($productData['product_attribute_set']))
                             ? $productData['product_attribute_set']
                             : null;
 
@@ -76,8 +75,7 @@ class Product_Helper extends Mage_Selenium_TestCase
     {
         $productParameters = $this->_paramsHelper->getParameter('productParameters');
 
-        $attributes = (isset($productData['configurable_attribute_title'])
-                            && $productData['configurable_attribute_title'] != '%noValue%')
+        $attributes = (isset($productData['configurable_attribute_title']))
                         ? explode(',', $productData['configurable_attribute_title'])
                         : null;
 
@@ -119,7 +117,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         $needFilling = FALSE;
         $waitAjax = False;
         foreach ($productData as $key => $value) {
-            if (preg_match('/^' . $tabName . '/', $key) and $value !== '%noValue%') {
+            if (preg_match('/^' . $tabName . '/', $key)) {
                 $needFilling = TRUE;
                 break;
             }
@@ -162,9 +160,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                     $arrayKey = $tabName . '_data';
                     if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
                         foreach ($productData[$arrayKey] as $key => $value) {
-                            if ($key != '%noValue%' && is_array($productData[$arrayKey][$key])) {
-                                $this->assignProduct($productData[$arrayKey][$key], $tabName);
-                            }
+                            $this->assignProduct($productData[$arrayKey][$key], $tabName);
                         }
                     }
                     break;
@@ -212,7 +208,8 @@ class Product_Helper extends Mage_Selenium_TestCase
                     $arrayKey = $tabName . '_data';
                     if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
                         foreach ($productData[$arrayKey] as $key => $value) {
-                            if (preg_match('/^downloadable_sample_/', $key)&& is_array($productData[$arrayKey][$key])) {
+                            if (preg_match('/^downloadable_sample_/', $key)
+                                    && is_array($productData[$arrayKey][$key])) {
                                 $this->addDownloadableOption($productData[$arrayKey][$key], 'samples');
                             }
                             if (preg_match('/^downloadable_link_/', $key) && is_array($productData[$arrayKey][$key])) {
@@ -332,14 +329,14 @@ class Product_Helper extends Mage_Selenium_TestCase
                 // Forming xpath for string that contains the lookup data
                 $xpathTR = '//tr';
                 foreach ($data as $key => $value) {
-                    if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key) and $value != '%noValue%') {
+                    if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
                         $xpathTR .= "[contains(.,'$value')]";
                     }
                 }
                 $this->addParameter('productXpath', $xpathTR);
             } else {
                 //Forming xpath
-                if (array_key_exists($arrayKey, $data) && $data[$arrayKey] != '%noValue%') {
+                if (array_key_exists($arrayKey, $data)) {
                     $attributeValue = $data[$arrayKey];
                 } else {
                     $this->fail("Value for attribute '$attributeTitle' isn't set");
@@ -428,6 +425,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function createProduct(array $productData, $productType='simple')
     {
+        $productData = $this->arrayEmptyClear($productData);
         $this->clickButton('add_new_product');
         $this->fillProductSettings($productData, $productType);
         if ($productType == 'configurable') {
@@ -468,7 +466,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function openProduct(array $productSearch)
     {
-        $this->assertTrue($this->searchAndOpen($productSearch));
+        $this->assertTrue($this->searchAndOpen($productSearch), 'Product is not found');
     }
 
 }
