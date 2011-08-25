@@ -355,7 +355,9 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE, '1');
+        Enterprise_PageCache_Model_Cache::getCacheInstance()
+            ->save('1', Enterprise_PageCache_Model_Container_Messages::CACHE_ID);
+
         return $this;
     }
 
@@ -487,7 +489,9 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
+        Enterprise_PageCache_Model_Cache::getCacheInstance()
+            ->save('0', Enterprise_PageCache_Model_Container_Messages::CACHE_ID);
+
         return $this;
     }
 

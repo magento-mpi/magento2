@@ -39,7 +39,9 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     const COOKIE_CUSTOMER           = 'CUSTOMER';
     const COOKIE_CUSTOMER_GROUP     = 'CUSTOMER_INFO';
 
+    /** @deprecated */
     const COOKIE_MESSAGE            = 'NEWMESSAGE';
+
     const COOKIE_CART               = 'CART';
     const COOKIE_COMPARE_LIST       = 'COMPARE';
     const COOKIE_POLL               = 'POLL';
