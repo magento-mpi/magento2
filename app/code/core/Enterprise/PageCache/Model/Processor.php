@@ -543,6 +543,7 @@ class Enterprise_PageCache_Model_Processor
         if ($res) {
             $maxDepth = Mage::getStoreConfig(self::XML_PATH_ALLOWED_DEPTH);
             $queryParams = $request->getQuery();
+            unset($queryParams[Enterprise_PageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM]);
             $res = count($queryParams)<=$maxDepth;
         }
         if ($res) {

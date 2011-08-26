@@ -355,9 +355,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        Enterprise_PageCache_Model_Cache::getCacheInstance()
-            ->save('1', Enterprise_PageCache_Model_Container_Messages::CACHE_ID);
-
+        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE, '1');
         return $this;
     }
 
@@ -489,9 +487,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        Enterprise_PageCache_Model_Cache::getCacheInstance()
-            ->save('0', Enterprise_PageCache_Model_Container_Messages::CACHE_ID);
-
+        $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
         return $this;
     }
 
@@ -553,6 +549,30 @@ class Enterprise_PageCache_Model_Observer
             if (array_key_exists(Enterprise_PageCache_Model_Cookie::COOKIE_CATEGORY_ID, $_COOKIE)) {
                 $paramsObject->setCategoryId($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CATEGORY_ID]);
             }
+        }
+        return $this;
+    }
+
+    /**
+     * Check cross-domain session messages
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_PageCache_Model_Observer
+     */
+    public function checkMessages(Varien_Event_Observer $observer)
+    {
+        $transport = $observer->getEvent()->getTransport();
+        if (!$transport || !$transport->getUrl()) {
+            return $this;
+        }
+        $url = $transport->getUrl();
+        $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
+        $urlHost = parse_url($url, PHP_URL_HOST);
+        if ($httpHost != $urlHost && Mage::getSingleton('core/session')->getMessages()->count() > 0) {
+            $transport->setUrl(Mage::helper('core/url')->addRequestParam(
+                $url,
+                array(Enterprise_PageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM => null)
+            ));
         }
         return $this;
     }

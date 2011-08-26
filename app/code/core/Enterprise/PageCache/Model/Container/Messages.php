@@ -30,11 +30,6 @@
 class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache_Model_Container_Abstract
 {
     /**
-     * Cache id for messages container
-     */
-    const CACHE_ID = 'CONTAINER_MESSAGES';
-
-    /**
      * Message store factory names
      *
      * @var array
@@ -54,7 +49,8 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
      */
     protected function _isNewMessageRecived()
     {
-        return ($this->_loadCache(self::CACHE_ID) ? true : false);
+        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE)
+            || array_key_exists(Enterprise_PageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM, $_GET);
     }
 
     /**
@@ -78,7 +74,7 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
      */
     protected function _renderBlock()
     {
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->save('0', self::CACHE_ID);
+        Mage::getSingleton('core/cookie')->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
 
         $block = $this->_placeholder->getAttribute('block');
         $block = new $block;
