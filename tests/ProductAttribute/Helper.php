@@ -75,7 +75,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->verifyForm($attrData, 'properties'), $this->messages);
         $this->clickControl('tab', 'manage_lables_options', FALSE);
-        $this->assertTrue($this->verifyForm($attrData, 'manage_lables_options'), $this->messages);
+//        $this->assertTrue($this->verifyForm($attrData, 'manage_lables_options'), $this->messages);
         $this->storeViewTitles($attrData, 'manage_titles', 'verify');
         $this->attributeOptions($attrData, 'verify');
     }
@@ -122,6 +122,9 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
     public function storeViewTitles($attrData, $fieldsetName='manage_titles', $action ='fill')
     {
         $name = 'store_view_titles';
+        if (isset($attrData['admin_title'])) {
+            $attrData[$name]['Admin'] = $attrData['admin_title'];
+        }
         if (array_key_exists($name, $attrData)
                 && is_array($attrData[$name])
                 && $attrData[$name] != '%noValue%') {
@@ -147,8 +150,10 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                             $this->type($fieldXpath, $storeViewValue);
                             break;
                         case 'verify':
-                            $this->assertEquals($this->getValue($fieldXpath), $storeViewValue,
-                                    'Stored data not equals to specified');
+                            $actualText = $this->getValue($fieldXpath);
+                            $var = array_flip(get_html_translation_table());
+                            $actualText = strtr($actualText, $var);
+                            $this->assertEquals($actualText, $storeViewValue, 'Stored data not equals to specified');
                             break;
                     }
                 } else {
@@ -179,7 +184,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
             if (preg_match('/^option_/', $f_key) and is_array($attrData[$f_key])) {
                 if ($this->isElementPresent($fieldSetXpath)) {
                     $optionCount = $this->getXpathCount($fieldSetXpath .
-                                    "//tr[contains(@class,'option-row')]");
+                            "//tr[contains(@class,'option-row')]");
 
                     switch ($action) {
                         case 'fill':
@@ -192,12 +197,12 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                         case 'verify':
                             if ($option > 0) {
                                 $fieldOptionNumber = $this->getAttribute($fieldSetXpath .
-                                                "//tr[contains(@class,'option-row')][" .
-                                                $num . "]//input[@class='input-radio']/@value");
+                                        "//tr[contains(@class,'option-row')][" .
+                                        $num . "]//input[@class='input-radio']/@value");
                                 $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
                                 $page->assignParams($this->_paramsHelper);
-                                $this->assertTrue($this->verifyForm($attrData[$f_key],
-                                                'manage_lables_options'), $this->messages);
+                                $this->assertTrue($this->verifyForm($attrData[$f_key], 'manage_lables_options'),
+                                                                    $this->messages);
                                 $this->storeViewTitles($attrData[$f_key], 'manage_options', 'verify');
                                 $num++;
                                 $option--;
