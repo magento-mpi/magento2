@@ -279,7 +279,8 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
-        $this->assertTrue($this->errorMessage('customer_invalid_email'), $this->messages);
+//        $this->assertTrue($this->errorMessage('customer_invalid_email'), $this->messages);
+        $this->assertTrue($this->errorMessage('invalid_email'), $this->messages);
     }
 
     public function dataInvalidEmail()

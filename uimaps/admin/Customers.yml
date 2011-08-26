@@ -65,6 +65,7 @@ manage_customers:
             success_deleted_customer: //li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been deleted.')]
             success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been saved.')]
             customer_invalid_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" is not a valid')]
+            invalid_email: //div[@id='advice-validate-email-_accountemail']
             no_records_found: //td[normalize-space(@class)='empty-text a-center' and text()='No records found.']
             password_too_short: //div[@id='advice-validate-password-_accountpassword']
             confirmation_for_delete: Are you sure you want to do this?

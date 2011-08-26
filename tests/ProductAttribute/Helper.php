@@ -147,7 +147,9 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
 
                     switch ($action) {
                         case 'fill':
-                            $this->type($fieldXpath, $storeViewValue);
+                            if ($storeViewValue != '%noValue%') {
+                              $this->type($fieldXpath, $storeViewValue);
+                            }
                             break;
                         case 'verify':
                             $actualText = $this->getValue($fieldXpath);
