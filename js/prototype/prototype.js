@@ -5830,7 +5830,7 @@ Form.EventObserver = Class.create(Abstract.EventObserver, {
   function pollDoScroll() {
     try { document.documentElement.doScroll('left'); }
     catch(e) {
-      timer = pollDoScroll.defer();
+      timer = this.defer();
       return;
     }
     fireContentLoadedEvent();
