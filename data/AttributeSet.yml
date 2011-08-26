@@ -27,10 +27,22 @@
 ---
 #Test data for Attribute Set
 
+group_1: &group1
+    folder: General
+    attributes:
+        attribute_1: %noValue%
+
+group_2: &group2
+    folder: some
+    attributes:
+        attribute_1: %noValue%
+        attribute_2: %noValue%
+
+
 attribute_set:
     name: test_attr
     based_on: Default
     attribute_group:
-        folder: folder
-        attributes:
-            attribute_1: %noValue%
+        group_1: *group1
+
+

@@ -44,44 +44,72 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
      */
     public function createAttributeSet(array $attrSet)
     {
-        $this->navigate('manage_attribute_sets');
         $this->clickButton('add_new_set');
         $this->fillForm($attrSet, 'attribute_sets_grid');
         $this->addParameter('id', '0');
         $this->addParameter('attributeName', $attrSet['name']);
         $this->clickButton('save_attribute_set', TRUE);
         $this->AdminUserHelper()->defineId('edit_attribute_set');
-        $this->answerOnNextPrompt($attrSet['attribute_group']['folder']);
-        $this->clickButton('add_new', FALSE);
-        foreach($attrSet['attribute_group']['attributes'] as $key => $value)
-        {
-            $this->addParameter('attributeName', $value);
-            $this->addParameter('folderName', $attrSet['attribute_group']['folder']);
-            $elFrom = $this->_getControlXpath('link', 'unassigned_attribute');
-            $elTo = $this->_getControlXpath('link', 'group_folder');
-            $this->pleaseWait('5', '5');
-            $this->clickAt($elFrom, '1,1');
-            $this->pleaseWait('5', '5');
-            $this->clickAt($elTo, '1,1');
-            $this->pleaseWait('5', '5');
-            $this->mouseDownAt($elFrom, '1,1');
-            $this->pleaseWait('5', '5');
-            $this->mouseMoveAt($elTo, '1,-700');
-            $this->pleaseWait('5', '5');
-            $this->mouseUpAt($elTo, '1,-700');
-        }
+        $this->addNewGroup($attrSet['attribute_group']);
+        $this->addAttributeToSet($attrSet['attribute_group']);
         $this->saveForm('save_attribute_set');
     }
 
     /**
-     * Action_helper method for Delete Attribute Set
+     * Action_helper method for Create Attribute Set
      *
-     * @param array $attrSet Array which contains DataSet for searching attribute set
+     * @param mixed $attrGroup Array or String (data divided by comma)
+     *                         which contains DataSet for creating folder of attributes
      */
-    public function openAttributeSet($setName)
+    public function addNewGroup($attrGroup)
     {
-        $this->navigate('manage_attribute_sets');
-        $this->searchAndOpen($setName, TRUE);
+        if (is_string($attrGroup))
+        {
+            $folders = explode(',', $attrGroup);
+            foreach($folders as $key => $value)
+            {
+                $this->addParameter('folderName', $value);
+                $this->answerOnNextPrompt($value);
+                $this->clickButton('add_new', FALSE);
+            }
+        }
+        if (is_array($attrGroup))
+        {
+            foreach($attrGroup as $key => $value)
+            {
+                $this->addParameter('folderName', $value['folder']);
+                $this->answerOnNextPrompt($value['folder']);
+                $this->clickButton('add_new', FALSE);
+            }
+        }
+    }
 
+    /**
+     * Action_helper method for Create Attribute Set
+     *
+     * @param array $attributes Array which contains DataSet for filling folder of attribute set
+     */
+    public function addAttributeToSet(array $attributes)
+    {
+        foreach($attributes as $key => $group)
+        {
+            foreach($group['attributes'] as $key => $value)
+            {
+                $this->addParameter('attributeName', $value);
+                $this->addParameter('folderName', $group['folder']);
+                $elFrom = $this->_getControlXpath('link', 'unassigned_attribute');
+                $elTo = $this->_getControlXpath('link', 'group_folder');
+                $this->pleaseWait('5', '5');
+                $this->clickAt($elFrom, '1,1');
+                $this->pleaseWait('5', '5');
+                $this->clickAt($elTo, '1,1');
+                $this->pleaseWait('5', '5');
+                $this->mouseDownAt($elFrom, '1,1');
+                $this->pleaseWait('5', '5');
+                $this->mouseMoveAt($elTo, '1,1');
+                $this->pleaseWait('5', '5');
+                $this->mouseUpAt($elTo, '10,10');
+            }
+        }
     }
 }
