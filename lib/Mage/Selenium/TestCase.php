@@ -192,7 +192,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @var string
      */
     const xpathErrorMessage = "//li[normalize-space(@class)='error-msg']/ul/li
-        [not(text()='Bundle with dynamic pricing cannot include custom defined options. Options will not be saved.')]";
+        [not(text()='Bundle with dynamic pricing cannot include custom defined options. Options will not be saved.')]
+        [not(text()='Links with associated products will retain only after saving current product.')]";
 
     /**
      * Error message Xpath
