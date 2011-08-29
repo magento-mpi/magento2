@@ -148,6 +148,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                         }
                     }
                     $this->fillForm($productData, 'prices');
+                    $this->fillUserAttributesOnTab($productData, $tabName);
                     break;
                 case 'websites':
                     $valuesArray = explode(',', $productData['websites']);
@@ -228,6 +229,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                     break;
                 default:
                     $this->fillForm($productData, $tabName);
+                    $this->fillUserAttributesOnTab($productData, $tabName);
                     break;
             }
         }
@@ -423,6 +425,43 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->addParameter('rowId', $rowNumber);
         $this->clickButton('downloadable_' . $type . '_add_new_row', FALSE);
         $this->fillForm($optionData, 'downloadable_information');
+    }
+
+    /**
+     * Fill user product attribute
+     *
+     * @param array $productData
+     * @param type $tabName
+     */
+    public function fillUserAttributesOnTab(array $productData, $tabName)
+    {
+        $userFieldData = $tabName . '_user_attr';
+        if (array_key_exists($userFieldData, $productData) && is_array($productData[$userFieldData])) {
+            foreach ($productData[$userFieldData] as $fieldType => $dataArray) {
+                if (is_array($dataArray)) {
+                    foreach ($dataArray as $fieldKey => $fieldValue) {
+                        $this->addParameter('attibuteCode' . ucfirst(strtolower($fieldType)), $fieldKey);
+                        $xpath = $this->_getControlXpath($fieldType, $tabName . '_user_attr_' . $fieldType);
+                        switch ($fieldType) {
+                            case 'dropdown':
+                                $this->select($xpath, $fieldValue);
+                                break;
+                            case 'field':
+                                $this->type($xpath, $fieldValue);
+                                break;
+                            case 'multiselect':
+                                $this->removeAllSelections($xpath);
+                                $values = explode(',', $fieldValue);
+                                $values = array_map('trim', $values);
+                                foreach ($values as $v) {
+                                    $this->addSelection($xpath, $v);
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
