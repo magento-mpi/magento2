@@ -27,22 +27,21 @@
 ---
 #Test data for Attribute Set
 
-group_1: &group1
-    folder: General
-    attributes:
-        attribute_1: %noValue%
-
-group_2: &group2
-    folder: some
-    attributes:
-        attribute_1: %noValue%
-        attribute_2: %noValue%
-
+associated_attributes: &associatedAttributes
+    #group_name: attribute_code
+    General: %noValue%
+    Prices: %noValue%
+    Meta Information: %noValue%
+    Images: %noValue%
+    Recurring Profile: %noValue%
+    Design: %noValue%
+    Gift Options: %noValue%
 
 attribute_set:
-    name: test_attr
+    set_name: test_attribute_set
     based_on: Default
-    attribute_group:
-        group_1: *group1
+    new_groups: new_group
+    associated_attributes: *associatedAttributes
 
-
+search_attribute_set:
+    set_name: Default

@@ -48,464 +48,156 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->navigate('manage_attributes');
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'), 'Wrong page is opened');
-        $this->addParameter('id', 0);
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
     }
+
     /**
      * Test Realizing precondition for creating configurable product.
      *
      * @test
      */
-    public function createAttribute()
+    public function createConfigurableAttribute()
     {
-        $attrData = $this->loadData('product_attribute_dropdown_with_options',
-                        array('admin_title' => $this->generate('string', 5, ':alnum:'),
-                            'scope' => 'Global'
-                        ),
-                        'attribute_code');
+        //Data
+        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
+                array('admin_title', 'attribute_code'));
+        $associatedAttributes = $this->loadData('associated_attributes',
+                array('General' => $attrData['attribute_code']));
+        //Steps
+        $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
-
-        $attrSet = $this->loadData('attribute_set',
-                        array('attribute_1' => $attrData['attribute_code']
-                        ));
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        //Steps
         $this->navigate('manage_attribute_sets');
-        $this->searchAndOpen(array('set_name' => 'Default'), TRUE, 'attribute_sets_grid');
-        $this->AttributeSetHelper()->addAttributeToSet($attrSet['attribute_group']);
+        $this->attributeSetHelper()->openAttributeSet();
+        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
         $this->saveForm('save_attribute_set');
-        $generalArray = array('attrData' => $attrData, 'attrSet' => $attrSet );
-        return $generalArray;
+        //Verifying
+        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+
+        return $attrData;
     }
 
     /**
-     * <p>Create configurable product with required fields</p>
-     * <p>Steps</p>
-     * <p>1. Navigate to "Manage Products" page;</p>
-     * <p>2. Click "Add Product" button;</p>
-     * <p>3. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. Fill in required fields with correct data;</p>
-     * <p>6. Click "Save" button;</p>
+     * <p>Creating product with required fields only</p>
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields;</p>
+     * <p>5. Click "Save" button;</p>
      * <p>Expected result:</p>
-     * <p>Product is created;</p>
+     * <p>Product is created, confirmation message appears;</p>
      *
-     * @depends createAttribute
+     * @depends createConfigurableAttribute
      * @test
      */
-    public function withRequiredFieldsOnly($generalArray)
+    public function onlyRequiredFieldsInConfigurable($attrData)
     {
-        //Steps
+        //Data
         $productData = $this->loadData('configurable_product_required',
-                        array(
-                            'product_attribute_set' => 'Default',
-                            'configurable_attribute_title' => $generalArray['attrData']['admin_title']
-                        ),
-                        'general_sku');
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->ProductHelper()->createProduct($productData, 'configurable');
-        $this->waitForPageToLoad();
-        //Verification
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                        'After successful product creation should be redirected to Manage Products page');
+                array('configurable_attribute_title' => $attrData['admin_title']),
+                array('general_sku', 'general_name'));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-    }
-
-    /**
-     * <p>Create configurable product with sku that already exists</p>
-     * <p>Steps</p>
-     * <p>1. Navigate to "Manage Products" page;</p>
-     * <p>2. Click "Add Product" button;</p>
-     * <p>3. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. Fill in required fields with correct data;</p>
-     * <p>6. Click "Save" button;</p>
-     * <p>7. Click "Add Product" button;</p>
-     * <p>8. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>9. Click "Continue" button;</p>
-     * <p>10. Fill in required fields with correct data, but with sku that already exists;</p>
-     * <p>11. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, 'sku fields should be unique' message appears;</p>
-     *
-     * @depends createAttribute
-     * @test
-     */
-    public function withSkuThatAlreadyExists($generalArray)
-    {
-        //Steps
-        $productData = $this->loadData('configurable_product_required',
-                        array(
-                            'product_attribute_set' => 'Default',
-                            'configurable_attribute_title' => $generalArray['attrData']['admin_title']
-                        ),
-                        'general_sku');
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->ProductHelper()->createProduct($productData, 'configurable');
-        $this->waitForPageToLoad();
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->ProductHelper()->createProduct($productData, 'configurable');
-        $this->pleaseWait(10,10);
-        //Verification
-        $this->assertTrue($this->validationMessage('existing_sku'), $this->messages);
+        return $productData;
     }
 
     /**
-     * <p>Create configurable product with empty required fields</p>
-     * <p>Steps</p>
-     * <p>1. Navigate to "Manage Products" page;</p>
-     * <p>2. Click "Add Product" button;</p>
-     * <p>3. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. Fill in required fields with correct data, but leave one field empty;</p>
-     * <p>6. Click "Save" button;</p>
+     * <p>Creating product with all fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill all fields;</p>
+     * <p>5. Click "Save" button;</p>
      * <p>Expected result:</p>
-     * <p>Product is not created, message appears with warning for each empty field;</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @depends createConfigurableAttribute
+     * @test
+     */
+    public function allFieldsInConfigurable($attrData)
+    {
+        //Data
+        $productData = $this->loadData('configurable_product',
+                array('configurable_attribute_title' => $attrData['admin_title']),
+                array('general_name', 'general_sku'));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+    }
+
+    /**
+     * <p>Creating product with existing SKU</p>
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields using exist SKU;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>6. Verify error message;</p>
+     * <p>Expected result:</p>
+     * <p>Error message appears;</p>
+     *
+     * @depends onlyRequiredFieldsInConfigurable
+     * @test
+     */
+    public function existSkuInConfigurable($productData)
+    {
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
+        $this->assertTrue($this->validationMessage('existing_sku'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with empty required fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Leave one required field empty and fill in the rest of fields;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>6. Verify error message;</p>
+     * <p>7. Repeat scenario for all required fields for both tabs;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
      *
      * @dataProvider dataEmptyField
-     * @depends createAttribute
+     * @depends createConfigurableAttribute
      * @test
      */
-    public function withRequiredFieldsEmpty($emptyField, $fieldType, $generalArray)
+    public function emptyRequiredFieldInConfigurable($emptyField, $fieldType, $attrData)
     {
-        //Steps
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        if ($emptyField == 'general_sku') {
-            $productData = $this->loadData('configurable_product_required',
-                            array(
-                                $emptyField => '%noValue%', 'product_attribute_set' => 'Default',
-                                'configurable_attribute_title' => $generalArray['attrData']['admin_title'])
-                            );
-        } elseif ($emptyField == 'general_visibility') {
-            $productData = $this->loadData('configurable_product_required',
-                            array(
-                                $emptyField => '-- Please Select --', 'product_attribute_set' => 'Default',
-                                'configurable_attribute_title' => $generalArray['attrData']['admin_title']
-                            ),
-                            'general_sku');
+        //Data
+        $overrideData = array('configurable_attribute_title' => $attrData['admin_title']);
+        if ($emptyField == 'general_visibility') {
+            $overrideData[$emptyField] = '-- Please Select --';
         } elseif ($emptyField == 'inventory_qty') {
-            $productData = $this->loadData('configurable_product_required',
-                            array(
-                                $emptyField => '', 'product_attribute_set' => 'Default',
-                                'configurable_attribute_title' => $generalArray['attrData']['admin_title']
-                            ),
-                            'general_sku');
+            $overrideData[$emptyField] = '';
         } else {
-            $productData = $this->loadData('configurable_product_required',
-                            array(
-                                $emptyField => '%noValue%', 'product_attribute_set' => 'Default',
-                                'configurable_attribute_title' => $generalArray['attrData']['admin_title']
-                            ),
-                            'general_sku');
+            $overrideData[$emptyField] = '%noValue%';
         }
-        $this->ProductHelper()->createProduct($productData, 'configurable');
+        $productData = $this->loadData('configurable_product_required', $overrideData,
+                array('general_name', 'general_sku'));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyField);
-        //Verification
         $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-    }
-
-    /**
-     * <p>Create configurable product with special chars in required fields</p>
-     * <p>Steps</p>
-     * <p>1. Navigate to "Manage Products" page;</p>
-     * <p>2. Click "Add Product" button;</p>
-     * <p>3. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. Fill in required fields with correct data (special chars);</p>
-     * <p>6. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created;</p>
-     *
-     * @depends createAttribute
-     * @test
-     */
-    public function withSpecialCharacters($generalArray)
-    {
-        //Steps
-        $productData = $this->loadData('configurable_product_required',
-                        array(
-                            'product_attribute_set' => 'Default',
-                            'configurable_attribute_title' => $generalArray['attrData']['admin_title'],
-                            'general_name'              => $this->generate('string', 32, ':punct:'),
-                            'general_description'       => $this->generate('string', 32, ':punct:'),
-                            'general_short_description' => $this->generate('string', 32, ':punct:'),
-                            'general_sku'               => $this->generate('string', 32, ':punct:')
-                        ));
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->ProductHelper()->createProduct($productData, 'configurable');
-        $this->waitForPageToLoad();
-        //Verification
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $productSearch = $this->loadData('product_search',
-                        array(
-                            'product_sku' => $productData['general_sku']
-                        ));
-        $this->productHelper()->openProduct($productSearch);
-        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
-    }
-
-    /**
-     * <p>Create configurable product with invalid price</p>
-     * <p>Steps</p>
-     * <p>1. Navigate to "Manage Products" page;</p>
-     * <p>2. Click "Add Product" button;</p>
-     * <p>3. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. Fill in all fields with correct data, and set incorrect value to price;</p>
-     * <p>6. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, warning message appears;</p>
-     *
-     * @dataProvider dataInvalidNumericField
-     * @depends createAttribute
-     * @test
-     */
-    public function withInvalidValueForFieldsInvalidPrice($invalidPrice, $generalArray)
-    {
-        //Steps
-        $productData = $this->loadData('configurable_product',
-                        array(
-                            'product_attribute_set' => 'Default',
-                            'configurable_attribute_title' => $generalArray['attrData']['admin_title'],
-                            'prices_price' => $invalidPrice
-                        ),
-                        'general_sku');
-        unset($productData['associated_products_configurable_data']);
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->ProductHelper()->createProduct($productData, 'configurable');
-        $this->pleaseWait(10,10);
-        //Verification
-        $this->addFieldIdToMessage('field', 'prices_price');
-        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-    }
-
-    /**
-     * <p>Create configurable product with empty fields in custom options</p>
-     * <p>Steps</p>
-     * <p>1. Navigate to "Manage Products" page;</p>
-     * <p>2. Click "Add Product" button;</p>
-     * <p>3. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. Fill in all fields with correct data, and leave empty field in custom options;</p>
-     * <p>6. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, warning message appears;</p>
-     *
-     * @dataProvider dataEmptyGeneralFields
-     * @depends createAttribute
-     * @test
-     */
-    public function withCustomOptionsEmptyFields($emptyCustomField, $generalArray)
-    {
-        //Steps
-        $productData = $this->loadData('configurable_product',
-                        array(
-                            'product_attribute_set' => 'Default',
-                            'configurable_attribute_title' => $generalArray['attrData']['admin_title']
-                        ),
-                        'general_sku');
-        $productData['custom_options_data'][] = $this->loadData('custom_options_empty',
-                        array($emptyCustomField => "%noValue%"));
-        unset($productData['associated_products_configurable_data']);
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->ProductHelper()->createProduct($productData, 'configurable');
-        $this->pleaseWait(10,10);
-        //Verification
-        if ($emptyCustomField == 'custom_options_general_title') {
-            $this->addFieldIdToMessage('field', $emptyCustomField);
-            $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-        } else {
-            $this->assertTrue($this->validationMessage('select_type_of_option'), $this->messages);
-        }
-    }
-    /**
-     * <p>Create configurable product with invalid value in special price</p>
-     * <p>Steps</p>
-     * <p>1. Navigate to "Manage Products" page;</p>
-     * <p>2. Click "Add Product" button;</p>
-     * <p>3. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. Fill in all fields with correct data, but put to special price field incorrect value;</p>
-     * <p>6. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, warning message appears;</p>
-     *
-     * @dataProvider dataInvalidNumericField
-     * @depends createAttribute
-     * @test
-     */
-    public function withSpecialPriceInvalidValue($invalidValue, $generalArray)
-    {
-        //Steps
-        $productData = $this->loadData('configurable_product',
-                        array(
-                            'product_attribute_set' => 'Default',
-                            'configurable_attribute_title' => $generalArray['attrData']['admin_title'],
-                            'prices_special_price' => $invalidValue
-                        ),
-                        'general_sku');
-        unset($productData['associated_products_configurable_data']);
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->ProductHelper()->createProduct($productData, 'configurable');
-        $this->pleaseWait(10,10);
-        //Verification
-        $this->addFieldIdToMessage('field', 'prices_special_price');
-        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
-        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-    }
-
-    /**
-     * <p>Create configurable product with empty value in special price</p>
-     * <p>Steps</p>
-     * <p>1. Navigate to "Manage Products" page;</p>
-     * <p>2. Click "Add Product" button;</p>
-     * <p>3. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. Fill in all fields with correct data, but leave special price field empty;</p>
-     * <p>6. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created;</p>
-     *
-     * @depends createAttribute
-     * @test
-     */
-    public function withSpecialPriceEmptyValue($generalArray)
-    {
-        //Steps
-        $productData = $this->loadData('configurable_product',
-                        array(
-                            'product_attribute_set' => 'Default',
-                            'configurable_attribute_title' => $generalArray['attrData']['admin_title'],
-                            'prices_special_price' => '%noValue%'
-                        ),
-                        'general_sku');
-        unset($productData['associated_products_configurable_data']);
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->ProductHelper()->createProduct($productData, 'configurable');
-        $this->waitForPageToLoad();
-        //Verification
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-    }
-    /**
-     * <p>Create configurable product with empty value in tier price</p>
-     * <p>Steps</p>
-     * <p>1. Navigate to "Manage Products" page;</p>
-     * <p>2. Click "Add Product" button;</p>
-     * <p>3. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. Fill in all fields with correct data, but leave tier price field empty;</p>
-     * <p>6. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, appropriate message appears;</p>
-     *
-     * @dataProvider tierPriceFields
-     * @depends createAttribute
-     * @test
-     */
-    public function withTierPriceEmptyFields($emptyTierPrice, $generalArray)
-    {
-        //Steps
-        $productData = $this->loadData('configurable_product',
-                        array(
-                            'product_attribute_set' => 'Default',
-                            'configurable_attribute_title' => $generalArray['attrData']['admin_title'],
-                            $emptyTierPrice => '%noValue%'
-                        ),
-                        'general_sku');
-        unset($productData['associated_products_configurable_data']);
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->ProductHelper()->createProduct($productData, 'configurable');
-        $this->pleaseWait(10,10);
-        //Verification
-        $this->addFieldIdToMessage('field', $emptyTierPrice);
-        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
-    }
-
-    /**
-     * <p>Create configurable product with invalid value in tier price</p>
-     * <p>Steps</p>
-     * <p>1. Navigate to "Manage Products" page;</p>
-     * <p>2. Click "Add Product" button;</p>
-     * <p>3. Fill in "Attribute Set", "Product Type" fields;</p>
-     * <p>4. Click "Continue" button;</p>
-     * <p>5. Fill in all fields with correct data, but put invalid value to tier price field;</p>
-     * <p>6. Click "Save" button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is not created, appropriate message appears;</p>
-     *
-     * @dataProvider dataInvalidNumericField
-     * @depends createAttribute
-     * @test
-     */
-    public function withTierPriceInvalidValues($invalidTierData, $generalArray)
-    {
-        //Steps
-        $productData = $this->loadData('configurable_product',
-                        array(
-                            'product_attribute_set' => 'Default',
-                            'configurable_attribute_title' => $generalArray['attrData']['admin_title']
-                        ),
-                        'general_sku');
-        unset($productData['associated_products_configurable_data']);
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $tierData = array(
-                        'prices_tier_price_qty' => $invalidTierData,
-                        'prices_tier_price_price' => $invalidTierData
-        );
-        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1', $tierData);
-
-        $this->ProductHelper()->createProduct($productData, 'configurable');
-        $this->pleaseWait(10,10);
-        //Verification
-        foreach ($tierData as $key => $value) {
-            $this->addFieldIdToMessage('field', $key);
-            $this->assertTrue($this->validationMessage('enter_greater_than_zero'), $this->messages);
-        }
-    }
-
-    public function dataInvalidNumericField()
-    {
-        return array(
-            array($this->generate('string', 9, ':punct:')),
-            array($this->generate('string', 9, ':alpha:')),
-            array('g3648GJHghj'),
-            array('-128')
-        );
-    }
-
-    public function tierPriceFields()
-    {
-        return array(
-            array('prices_tier_price_qty'),
-            array('prices_tier_price_price'),
-        );
-    }
-
-    public function dataEmptyGeneralFields()
-    {
-        return array(
-            array('custom_options_general_title'),
-            array('custom_options_general_input_type')
-        );
     }
 
     public function dataEmptyField()
@@ -518,7 +210,387 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
             array('general_status', 'dropdown'),
             array('general_visibility', 'dropdown'),
             array('prices_price', 'field'),
-            array('prices_tax_class', 'dropdown')
+            array('prices_tax_class', 'dropdown'),
         );
     }
+
+    /**
+     * <p>Creating product with special characters into required fields</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with special symbols ("General" tab), rest - with normal data;
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product created, confirmation message appears</p>
+     *
+     * @depends createConfigurableAttribute
+     * @test
+     */
+    public function specialCharactersInRequiredFields($attrData)
+    {
+        //Data
+        $productData = $this->loadData('configurable_product_required',
+                array(
+                    'configurable_attribute_title' => $attrData['admin_title'],
+                    'general_name'                 => $this->generate('string', 32, ':punct:'),
+                    'general_description'          => $this->generate('string', 32, ':punct:'),
+                    'general_short_description'    => $this->generate('string', 32, ':punct:'),
+                    'general_sku'                  => $this->generate('string', 32, ':punct:')
+                ));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with long values from required fields</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with long values ("General" tab), rest - with normal data;
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product created, confirmation message appears</p>
+     *
+     * @depends createConfigurableAttribute
+     * @test
+     */
+    public function longValuesInRequiredFields($attrData)
+    {
+        //Data
+        $productData = $this->loadData('configurable_product_required',
+                array(
+                    'configurable_attribute_title' => $attrData['admin_title'],
+                    'general_name'                 => $this->generate('string', 255, ':alnum:'),
+                    'general_description'          => $this->generate('string', 255, ':alnum:'),
+                    'general_short_description'    => $this->generate('string', 255, ':alnum:'),
+                    'general_sku'                  => $this->generate('string', 64, ':alnum:')
+                ));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with SKU length more than 64 characters.</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields, use for sku string with length more than 64 characters</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @depends createConfigurableAttribute
+     * @test
+     */
+    public function incorrectSkuLengthInConfigurable($attrData)
+    {
+        //Data
+        $productData = $this->loadData('configurable_product_required',
+                array('configurable_attribute_title' => $attrData['admin_title'],
+                      'general_sku' => $this->generate('string', 65, ':alnum:')));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
+        $this->assertTrue($this->validationMessage('incorrect_sku_length'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with invalid price</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in "Price" field with special characters, the rest fields - with normal data;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider dataInvalidNumericField
+     * @depends createConfigurableAttribute
+     * @test
+     */
+    public function invalidPriceInConfigurable($invalidPrice, $attrData)
+    {
+        //Data
+        $productData = $this->loadData('configurable_product_required',
+                array('configurable_attribute_title' => $attrData['admin_title'], 'prices_price' => $invalidPrice),
+                'general_sku');
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
+        $this->addFieldIdToMessage('field', 'prices_price');
+        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with invalid special price</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in field "Special Price" with invalid data, the rest fields - with correct data;
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:<p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider dataInvalidNumericField
+     * @depends createConfigurableAttribute
+     * @test
+     */
+    public function invalidSpecialPriceInConfigurable($invalidValue, $attrData)
+    {
+        //Data
+        $productData = $this->loadData('configurable_product_required',
+                array('configurable_attribute_title' => $attrData['admin_title'],
+                      'prices_special_price' => $invalidValue),
+                'general_sku');
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
+        $this->addFieldIdToMessage('field', 'prices_special_price');
+        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with empty tier price</p>
+     * <p>Steps<p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Add Tier" button and leave fields in current fieldset empty;</p>
+     * <p>6. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider tierPriceFields
+     * @depends createConfigurableAttribute
+     * @test
+     */
+    public function emptyTierPriceFieldsInConfigurable($emptyTierPrice, $attrData)
+    {
+        //Data
+        $productData = $this->loadData('configurable_product_required',
+                array('configurable_attribute_title' => $attrData['admin_title']), 'general_sku');
+        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1',
+                array($emptyTierPrice => '%noValue%'));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
+        $this->addFieldIdToMessage('field', $emptyTierPrice);
+        $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+    }
+
+    public function tierPriceFields()
+    {
+        return array(
+            array('prices_tier_price_qty'),
+            array('prices_tier_price_price'),
+        );
+    }
+
+    /**
+     * <p>Creating product with invalid Tier Price Data</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Add Tier" button and fill in fields in current fieldset with imcorrect data;</p>
+     * <p>6. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is not created, error message appears;</p>
+     *
+     * @dataProvider dataInvalidNumericField
+     * @depends createConfigurableAttribute
+     * @test
+     */
+    public function invalidTierPriceInConfigurable($invalidTierData, $attrData)
+    {
+        //Data
+        $tierData = array(
+            'prices_tier_price_qty'   => $invalidTierData,
+            'prices_tier_price_price' => $invalidTierData
+        );
+        $productData = $this->loadData('configurable_product_required',
+                array('configurable_attribute_title' => $attrData['admin_title']), 'general_sku');
+        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1', $tierData);
+        //Steps
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
+        foreach ($tierData as $key => $value) {
+            $this->addFieldIdToMessage('field', $key);
+            $this->assertTrue($this->validationMessage('enter_greater_than_zero'), $this->messages);
+        }
+        $this->assertTrue($this->verifyMessagesCount(2), $this->messages);
+    }
+
+    public function dataInvalidNumericField()
+    {
+        return array(
+            array($this->generate('string', 9, ':punct:')),
+            array($this->generate('string', 9, ':alpha:')),
+            array('g3648GJHghj'),
+            array('-128')
+        );
+    }
+
+    /**
+     * <p>Creating Configurable product with Simple product</p>
+     * <p>Preconditions</p>
+     * <p> Simple product created</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add product' button;</p>
+     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
+     * <p>3. Click 'Continue' button;</p>
+     * <p>4. Fill in all required fields;</p>
+     * <p>5. Goto "Associated products" tab;</p>
+     * <p>6. Select created Simple product;</p>
+     * <p>5. Click 'Save' button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @test
+     * @depends createConfigurableAttribute
+     */
+    public function configurableWithSimpleProduct($attrData)
+    {
+        //Data
+        $simple = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
+        $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+                $attrData['option_1']['admin_option_name'];
+        $configurable = $this->loadData('configurable_product_required',
+                array('configurable_attribute_title' => $attrData['admin_title']),
+                array('general_name', 'general_sku'));
+        $configurable['associated_products_configurable_data'] =
+                $this->loadData('associated_products_configurable_data',
+                        array('associated_products_sku' => $simple['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($simple);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->createProduct($configurable, 'configurable');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+    }
+
+    /**
+     * <p>Creating Configurable product with Virtual product</p>
+     * <p>Preconditions</p>
+     * <p>Virtual product created</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add product' button;</p>
+     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
+     * <p>3. Click 'Continue' button;</p>
+     * <p>4. Fill in all required fields;</p>
+     * <p>5. Goto "Associated products" tab;</p>
+     * <p>6. Select created Virtual product;</p>
+     * <p>5. Click 'Save' button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @test
+     * @depends createConfigurableAttribute
+     */
+    public function configurableWithVirtualProduct($attrData)
+    {
+        //Data
+        $virtual = $this->loadData('virtual_product_required', null, array('general_name', 'general_sku'));
+        $virtual['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+                $attrData['option_2']['admin_option_name'];
+        $configurable = $this->loadData('configurable_product_required',
+                array('configurable_attribute_title' => $attrData['admin_title']),
+                array('general_name', 'general_sku'));
+        $configurable['associated_products_configurable_data'] =
+                $this->loadData('associated_products_configurable_data',
+                        array('associated_products_sku' => $virtual['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($virtual, 'virtual');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->createProduct($configurable, 'configurable');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+    }
+
+    /**
+     * <p>Creating Configurable product with Downloadable product</p>
+     * <p>Preconditions</p>
+     * <p>Downloadable product created</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add product' button;</p>
+     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
+     * <p>3. Click 'Continue' button;</p>
+     * <p>4. Fill in all required fields;</p>
+     * <p>5. Goto "Associated products" tab;</p>
+     * <p>6. Select created Downloadable product;</p>
+     * <p>5. Click 'Save' button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @test
+     * @depends createConfigurableAttribute
+     */
+    public function configurableWithDownloadableProduct($attrData)
+    {
+        //Data
+        $download = $this->loadData('downloadable_product_required', null, array('general_name', 'general_sku'));
+        $download['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+                $attrData['option_3']['admin_option_name'];
+        $configurable = $this->loadData('configurable_product_required',
+                array('configurable_attribute_title' => $attrData['admin_title']),
+                array('general_name', 'general_sku'));
+        $configurable['associated_products_configurable_data'] =
+                $this->loadData('associated_products_configurable_data',
+                        array('associated_products_sku' => $download['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($download, 'downloadable');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->createProduct($configurable, 'configurable');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+    }
+
 }

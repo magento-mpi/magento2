@@ -126,6 +126,7 @@ new_product:
                                         general_visibility: //select[@id='visibility']
                                         general_in_feed: //select[@id='is_imported']
                                         general_country_manufacture: //select[@id='country_of_manufacture']
+                                        general_user_attr_dropdown: //select[@id='%attibuteCodeDropdown%']
                                     fields:
                                         general_name: //input[@id='name']
                                         general_description: //textarea[@id='description']
@@ -135,6 +136,9 @@ new_product:
                                         general_news_from: //input[@id='news_from_date']
                                         general_news_to: //input[@id='news_to_date']
                                         general_url_key: //input[@id='url_key']
+                                        general_user_attr_field: //input[@id='%attibuteCodeField%']
+                                    multiselects:
+                                        general_user_attr_multiselect: //input[@id='%attibuteCodeMultiselect%']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']/span

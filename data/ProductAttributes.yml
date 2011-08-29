@@ -247,8 +247,8 @@ product_attribute_dropdown_with_options:
     store_view_titles:
         Default Store View: Dropdown_StoreView
     option_1:
-        is_default: Yes
-        admin_option_name: Dropdown_Admin_1
+        is_default: No
+        admin_option_name: Dropdown_Option_Admin_1
         option_position: 1
         store_view_titles:
             Default Store View: Dropdown_StoreView_1

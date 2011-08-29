@@ -289,7 +289,7 @@ associated_products_grouped_data: &associatedProductsGroupedData
 #* Associated Products Data for Configurable Product *
 #*****************************************************
 
-associated_products_configurable_1: &configurableAssociatedProduct1
+associated_products_configurable: &configurableAssociatedProduct1
     # Data to search
     associated_products_id: %noValue%
     associated_products_name: %noValue%
@@ -799,8 +799,8 @@ grouped_product:
 #*********************************************
 
 configurable_product_required:
-    product_attribute_set: 3434
-    configurable_attribute_title: dd1ef
+    product_attribute_set: Default
+    configurable_attribute_title: %noValue%
     general_name: Configurable Product Required
     general_description: Description for Configurable Product Required
     general_short_description: Short Description for Configurable Product Required
@@ -811,8 +811,8 @@ configurable_product_required:
     prices_tax_class: None
 
 configurable_product:
-    product_attribute_set: 3434
-    configurable_attribute_title: dd1ef
+    product_attribute_set: Default
+    configurable_attribute_title: %noValue%
     general_name: Configurable Product
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product

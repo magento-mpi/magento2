@@ -59,13 +59,12 @@ add_new_attribute_set:
                     edit_set_name:
                         xpath:  //div[@id='set_name']
                         fields:
-                            name: //input[@name='attribute_set_name']
+                            set_name: //input[@name='attribute_set_name']
                         dropdowns:
                             based_on: //select[@name='skeleton_set']
-
         buttons:
             save_attribute_set: //button[span='Save Attribute Set']
-
+            back: //button[span='Back']
 
 edit_attribute_set:
     mca: catalog_product_set/edit/id/%id%/
@@ -77,22 +76,21 @@ edit_attribute_set:
                     edit_set_name:
                         xpath:  //div[@id='set_name']
                         fields:
-                            name: //input[@name='attribute_set_name']
+                            set_name: //input[@name='attribute_set_name']
                 -
                     groups:
                         xpath:  //div[@id='tree-div1']
                         buttons:
-                            add_new: //button[span='Add New']
-                            delete_selected_group: //button[span='Delete Selected Group']
+                            add_group: //button[span='Add New']
+                            delete_group: //button[span='Delete Selected Group']
                         links:
-                            group_folder: //span[text()='%folderName%']
-                            group_attribute: //span[text()='%attributeName%']
+                            group_folder: //div[contains(@class,'x-tree-node-el folder')]//span[text()='%folderName%']
+                            group_attribute: //ul[contains(@class,'x-tree-node-ct')]//span[text()='%attributeName%']
                 -
                     unassigned_attributes:
                         xpath:  //div[@id='tree-div2']
                         links:
-                            unassigned_attribute: //span[text()='%attributeName%']
-
+                            unassigned_attribute: //div[@id='tree-div2']//span[text()='%attributeName%']
         buttons:
             save_attribute_set: //button[span='Save Attribute Set']
             delete_attribute_set: //button[span='Delete Attribute Set']

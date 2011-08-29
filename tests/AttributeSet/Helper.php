@@ -38,7 +38,7 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
 {
 
     /**
-     * Action_helper method for Create Attribute Set
+     * Create Attribute Set
      *
      * @param array $attrSet Array which contains DataSet for filling of the current form
      */
@@ -48,68 +48,81 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
         $this->fillForm($attrSet, 'attribute_sets_grid');
         $this->addParameter('id', '0');
         $this->addParameter('attributeName', $attrSet['name']);
-        $this->clickButton('save_attribute_set', TRUE);
-        $this->AdminUserHelper()->defineId('edit_attribute_set');
-        $this->addNewGroup($attrSet['attribute_group']);
-        $this->addAttributeToSet($attrSet['attribute_group']);
+        $this->clickButton('save_attribute_set');
+        $this->adminUserHelper()->defineId('edit_attribute_set');
+        if (isset($attrSet['new_groups']) && $attrSet['new_groups'] != '%noValue%') {
+            $this->addNewGroup($attrSet['new_groups']);
+        }
+        if (isset($attrSet['associated_attributes']) && $attrSet['associated_attributes'] != '%noValue%') {
+            $this->addAttributeToSet($attrSet['associated_attributes']);
+        }
         $this->saveForm('save_attribute_set');
     }
 
     /**
-     * Action_helper method for Create Attribute Set
+     * Add new group to attribute set
      *
      * @param mixed $attrGroup Array or String (data divided by comma)
      *                         which contains DataSet for creating folder of attributes
      */
     public function addNewGroup($attrGroup)
     {
-        if (is_string($attrGroup))
-        {
-            $folders = explode(',', $attrGroup);
-            foreach($folders as $key => $value)
-            {
-                $this->addParameter('folderName', $value);
-                $this->answerOnNextPrompt($value);
-                $this->clickButton('add_new', FALSE);
-            }
+        if (is_string($attrGroup)) {
+            $attrGroup = explode(',', $attrGroup);
+            $attrGroup = array_map('trim', $attrGroup);
         }
-        if (is_array($attrGroup))
-        {
-            foreach($attrGroup as $key => $value)
-            {
-                $this->addParameter('folderName', $value['folder']);
-                $this->answerOnNextPrompt($value['folder']);
-                $this->clickButton('add_new', FALSE);
+        foreach ($attrGroup as $value) {
+            $this->addParameter('folderName', $value);
+            $groupXpath = $this->_getControlXpath('link', 'group_folder');
+            if (!$this->isElementPresent($groupXpath)) {
+                $this->answerOnNextPrompt($value);
+                $this->clickButton('add_group', FALSE);
+                $this->getPrompt();
             }
         }
     }
 
     /**
-     * Action_helper method for Create Attribute Set
+     * Add attribute to attribute Set
      *
      * @param array $attributes Array which contains DataSet for filling folder of attribute set
      */
     public function addAttributeToSet(array $attributes)
     {
-        foreach($attributes as $key => $group)
-        {
-            foreach($group['attributes'] as $key => $value)
-            {
-                $this->addParameter('attributeName', $value);
-                $this->addParameter('folderName', $group['folder']);
-                $elFrom = $this->_getControlXpath('link', 'unassigned_attribute');
-                $elTo = $this->_getControlXpath('link', 'group_folder');
-                $this->pleaseWait('5', '5');
-                $this->clickAt($elFrom, '1,1');
-                $this->pleaseWait('5', '5');
-                $this->clickAt($elTo, '1,1');
-                $this->pleaseWait('5', '5');
-                $this->mouseDownAt($elFrom, '1,1');
-                $this->pleaseWait('5', '5');
-                $this->mouseMoveAt($elTo, '1,1');
-                $this->pleaseWait('5', '5');
-                $this->mouseUpAt($elTo, '10,10');
+        foreach ($attributes as $groupName => $attributeTitle) {
+            if ($attributeTitle == '%noValue%') {
+                continue;
             }
+            $this->addParameter('attributeName', $attributeTitle);
+            $this->addParameter('folderName', $groupName);
+            $elFrom = $this->_getControlXpath('link', 'unassigned_attribute');
+            $elTo = $this->_getControlXpath('link', 'group_folder');
+            if (!$this->isElementPresent($elFrom)) {
+                $this->addNewGroup($groupName);
+            }
+            if (!$this->isElementPresent($elTo)) {
+                $this->fail("Attribute with title '$attributeTitle' does not exist");
+            }
+            $this->clickAt($elFrom, '1,1');
+            $this->clickAt($elTo, '1,1');
+            $this->mouseDownAt($elFrom, '1,1');
+            $this->mouseMoveAt($elTo, '1,1');
+            $this->mouseUpAt($elTo, '10,10');
         }
     }
+
+    /**
+     * Open Attribute Set
+     *
+     * @param string|array $setName
+     */
+    public function openAttributeSet($setName = 'Default')
+    {
+        if (is_array($setName) and isset($setName['set_name'])) {
+            $setName = $setName['set_name'];
+        }
+        $searchData = $this->loadData('search_attribute_set', array('set_name' => $setName));
+        $this->assertTrue($this->searchAndOpen($searchData), 'Attribute Set is not found');
+    }
+
 }
