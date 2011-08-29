@@ -656,7 +656,8 @@ varienGridMassaction.prototype = {
     },
     massSelect: function(evt) {
         if(this.lastChecked.left !== false && this.lastChecked.top !== false) {
-            if(evt.isLeftClick() && evt.shiftKey == true) {
+            // Left mouse button and "Shift" key was pressed together
+            if(evt.button === 0 && evt.shiftKey === true) {
                 var clickedOffset = Event.element(evt).viewportOffset();
 
                 this.grid.rows.each(
