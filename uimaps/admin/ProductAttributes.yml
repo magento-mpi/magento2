@@ -56,6 +56,7 @@ manage_attributes:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &productAttributeMessages
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
+            attribute_used_in_configurable: //li[normalize-space(@class)='error-msg' and contains(.//span,'This attribute is used in configurable products.')]
             success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been deleted.')]
             exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.//span,'Attribute with the same code already exists')]
             success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product attribute has been saved.')]

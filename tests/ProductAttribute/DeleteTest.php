@@ -76,18 +76,17 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadData($dataName, null, array('attribute_code', 'admin_title'));
         $searchData = $this->loadData('attribute_search_data',
-                        array(
-                            'attribute_code'  => $attrData['attribute_code'],
-                            'attribute_lable' => $attrData['admin_title'],
-                        )
-        );
-        //Step 1. Create attribute
+                array(
+                    'attribute_code'  => $attrData['attribute_code'],
+                    'attribute_lable' => $attrData['admin_title']
+                ));
+        //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_attributes'),
                 'After successful customer creation should be redirected to Manage Attributes page');
-        //Step 2. Open attribute and delete.
+        //Steps
         $this->productAttributeHelper()->openAttribute($searchData);
         $this->deleteElement('delete_attribute', 'delete_confirm_message');
         //Verifying
@@ -117,16 +116,15 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
      * <p>"Delete Attribute" button isn't present.</p>
      * @test
      */
-    public function thatCannotBeDeletedSystemAttribute()
+    public function deletedSystemAttribute()
     {
         $searchData = $this->loadData('attribute_search_data',
-                        array(
-                            'attribute_code'  => 'price',
-                            'attribute_lable' => 'Price',
-                            'system'          => 'Yes'
-                        )
-        );
-        //Step.
+                array(
+                    'attribute_code'  => 'price',
+                    'attribute_lable' => 'Price',
+                    'system'          => 'Yes'
+                ));
+        //Steps
         $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying
         $this->assertFalse($this->buttonIsPresent('delete_attribute'),
@@ -134,12 +132,47 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO Waiting a tests for Configurable products
+     * Delete attribute that used in Configurable Product
+     *
      * @test
      */
-    public function thatCannotBeDeletedDropdownAttributeUsedInConfigurableProduct()
+    public function deletedDropdownAttributeUsedInConfigurableProduct()
     {
-        $this->markTestIncomplete();
+        //Data
+        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
+                array('admin_title', 'attribute_code'));
+        $associatedAttributes = $this->loadData('associated_attributes',
+                array('General' => $attrData['attribute_code']));
+        $productData = $this->loadData('configurable_product_required',
+                array('configurable_attribute_title' => $attrData['admin_title']),
+                array('general_sku', 'general_name'));
+        $searchData = $this->loadData('attribute_search_data',
+                array(
+                    'attribute_code'  => $attrData['attribute_code'],
+                    'attribute_lable' => $attrData['admin_title'],
+                ));
+        //Steps
+        $this->productAttributeHelper()->createAttribute($attrData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        //Steps
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->openAttributeSet();
+        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
+        $this->saveForm('save_attribute_set');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        //Steps
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->openAttribute($searchData);
+        $this->deleteElement('delete_attribute', 'delete_confirm_message');
+        //Verifying
+        $this->assertTrue($this->errorMessage('attribute_used_in_configurable'), $this->messages);
     }
 
 }
