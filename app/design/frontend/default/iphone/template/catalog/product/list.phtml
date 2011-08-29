@@ -60,11 +60,13 @@
                     </a>
                     <div class="actions">
                         <ul>
-                            <li><a href="#"><img src="<?php echo $this->getSkinUrl('images/i_gallery.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('View Gallery') ?></a></li>
+                            <li><a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/i_view_details.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('View Details') ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('*/product/gallery', array('id'=>$_product->getId())) ?>"><img src="<?php echo $this->getSkinUrl('images/i_gallery.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('View Gallery') ?></a></li>
                             <li><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><img src="<?php echo $this->getSkinUrl('images/i_tell_a_friend.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('Tell a Friend') ?></a></li>
-                            <li><a href="#"><img src="<?php echo $this->getSkinUrl('images/i_add_to_wishlist.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('Add to Wishlist') ?></a></li>
-                            <li><a href="#"><img src="<?php echo $this->getSkinUrl('images/i_add_to_cart.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('Add to Cart') ?></a></li>
-                            <li><a href="#"><img src="<?php echo $this->getSkinUrl('images/i_view_details.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('View Details') ?></a></li>
+                            <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                                <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><img src="<?php echo $this->getSkinUrl('images/i_add_to_wishlist.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('Add to Wishlist') ?></a></li>
+                            <?php endif; ?>
+                            <li><a href="#" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;"><img src="<?php echo $this->getSkinUrl('images/i_add_to_cart.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('Add to Cart') ?></a></li>
                         </ul>
                         </div>
                 </li>
