@@ -160,7 +160,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
             return $this->getResponse()->setRedirect($this->getUrl($this->getRequest()->getParam('ret') == 'pending' ? '*/*/pending' : '*/*/'));
         }
-        $this->_redirectReferer();
+        $this->_redirect('*/*/');
     }
 
     public function deleteAction()
@@ -183,7 +183,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
 
-        $this->_redirectReferer();
+        $this->_redirect('*/*/edit/',array('id'=>$reviewId));
     }
 
     public function massDeleteAction()
@@ -347,7 +347,9 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function ratingItemsAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/review_rating_detailed')->setIndependentMode()->toHtml());
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/review_rating_detailed')->setIndependentMode()->toHtml()
+        );
     }
 
     protected function _isAllowed()

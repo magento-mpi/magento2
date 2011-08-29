@@ -130,7 +130,7 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
                 $session->addException($e, Mage::helper('adminnotification')->__('An error occurred while removing the message.'));
             }
 
-            $this->_redirectReferer();
+            $this->_redirect('*/*/');
             return;
         }
         $this->_redirect('*/*/');

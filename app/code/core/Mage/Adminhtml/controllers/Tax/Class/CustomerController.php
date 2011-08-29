@@ -45,7 +45,11 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
              ->_title($this->__('Customer Tax Classes'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tax_class')->setClassType(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER))
+            ->_addContent(
+                $this->getLayout()
+                    ->createBlock('adminhtml/tax_class')
+                    ->setClassType(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
+            )
             ->renderLayout();
     }
 
@@ -89,8 +93,16 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
         Mage::register('tax_class', $model);
 
         $this->_initAction()
-            ->_addBreadcrumb($classId ? Mage::helper('tax')->__('Edit Class') :  Mage::helper('tax')->__('New Class'), $classId ?  Mage::helper('tax')->__('Edit Class') :  Mage::helper('tax')->__('New Class'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_edit')->setData('action', $this->getUrl('*/tax_class/save'))->setClassType(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER))
+            ->_addBreadcrumb(
+                $classId ? Mage::helper('tax')->__('Edit Class') :  Mage::helper('tax')->__('New Class'),
+                $classId ?  Mage::helper('tax')->__('Edit Class') :  Mage::helper('tax')->__('New Class')
+            )
+            ->_addContent(
+                $this->getLayout()
+                    ->createBlock('adminhtml/tax_class_edit')
+                    ->setData('action', $this->getUrl('*/tax_class/save'))
+                    ->setClassType(Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
+            )
             ->renderLayout();
     }
 
@@ -116,7 +128,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
 
         if ($ruleCollection->getSize() > 0) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.'));
-            $this->_redirectReferer();
+            $this->_redirect('*/*/edit/',array('id'=>$classId));
             return;
         }
 
@@ -127,7 +139,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
 
         if ($groupCount > 0) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('You cannot delete this tax class as it is used for %d customer groups.', $groupCount));
-            $this->_redirectReferer();
+            $this->_redirect('*/*/edit/',array('id'=>$classId));
             return;
         }
 
@@ -145,7 +157,7 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('An error occurred while deleting this tax class.'));
         }
 
-        $this->_redirectReferer();
+        $this->_redirect('*/*/edit/',array('id'=>$classId));
     }
 
     /**
