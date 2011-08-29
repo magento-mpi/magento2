@@ -74,8 +74,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     public function productWithAllTypesCustomOption()
     {
         //Data
-        $productData = $this->loadData('simple_product_required', null,
-                        array('general_sku', 'general_name'));
+        $productData = $this->loadData('simple_product_required', null, array('general_sku', 'general_name'));
         $productData['custom_options_data'] = $this->loadData('custom_options_data');
         //Steps
         $this->productHelper()->createProduct($productData);
@@ -105,7 +104,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData('custom_options_empty',
-                        array($emptyCustomField => "%noValue%"));
+                array($emptyCustomField => "%noValue%"));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -150,7 +149,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData($optionDataName,
-                        array('custom_options_title' => '%noValue%'));
+                array('custom_options_title' => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -195,8 +194,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
             'custom_options_sort_order' => $invalidData
         );
         $productData = $this->loadData('simple_product_required', NULL, 'general_sku');
-        $productData['custom_options_data'][] = $this->loadData('custom_options_multipleselect',
-                        $invalidSortOrder);
+        $productData['custom_options_data'][] = $this->loadData('custom_options_multipleselect', $invalidSortOrder);
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -230,7 +228,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required', NULL, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData('custom_options_field',
-                        array('custom_options_max_characters' => $invalidData));
+                array('custom_options_max_characters' => $invalidData));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -272,34 +270,35 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required', null, 'general_sku');
         $productData['custom_options_data'][] = $this->loadData($optionDataName,
-                        array('custom_options_price' => $invalidPrice));
+                array('custom_options_price' => $invalidPrice));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->addFieldIdToMessage('field', 'custom_options_price');
-        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
+//        $this->addFieldIdToMessage('field', 'custom_options_price');
+//        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
+        $this->assertTrue($this->validationMessage('invalid_custom_option_price'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     public function dataInvalidPrice()
     {
         return array(
-//            array('custom_options_field', $this->generate('string', 9, ':punct:')),
+            array('custom_options_field', $this->generate('string', 9, ':punct:')),
 //            array('custom_options_field', $this->generate('string', 9, ':alpha:')),
-            array('custom_options_field', 'g3648GJHghj'),
+//            array('custom_options_field', 'g3648GJHghj'),
 //            array('custom_options_field', '-128'),
 //            array('custom_options_file', $this->generate('string', 9, ':punct:')),
-//            array('custom_options_file', $this->generate('string', 9, ':alpha:')),
-            array('custom_options_file', 'g3648GJHghj'),
+            array('custom_options_file', $this->generate('string', 9, ':alpha:')),
+//            array('custom_options_file', 'g3648GJHghj'),
 //            array('custom_options_file', '-128'),
-//            array('custom_options_date', $this->generate('string', 9, ':punct:')),
-//            array('custom_options_date', $this->generate('string', 9, ':alpha:')),
-            array('custom_options_date', 'g3648GJHghj'),
-//            array('custom_options_date', '-128'),
 //            array('custom_options_dropdown', $this->generate('string', 9, ':punct:')),
 //            array('custom_options_dropdown', $this->generate('string', 9, ':alpha:')),
             array('custom_options_dropdown', 'g3648GJHghj'),
-//            array('custom_options_dropdown', '-128')
+//            array('custom_options_dropdown', '-128'),
+//            array('custom_options_date', $this->generate('string', 9, ':punct:')),
+//            array('custom_options_date', $this->generate('string', 9, ':alpha:')),
+//            array('custom_options_date', 'g3648GJHghj'),
+            array('custom_options_date', '-128')
         );
     }
 

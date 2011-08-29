@@ -72,6 +72,7 @@ manage_products:
             existing_sku: //div[@class='validation-advice' and text()='The value of attribute "SKU" must be unique']
             confirmation_for_delete: Are you sure?
             specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
+            invalid_custom_option_price: //div[contains(@id,'product_option_%optionId%_type_')][@class='grid tier form-list']//div[text()='Please enter a number 0 or greater in this field.']
 
 # Settings for New Product creation
 new_product_settings:
