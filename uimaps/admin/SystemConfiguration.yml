@@ -220,8 +220,8 @@ system_configuration:
                                         design_package_link: //a[text()='Package']
                                     fields:
                                         current_package_name: //input[@name='groups[package][fields][name][value]']
-                                        matched_expression: //input[@name[contains(text(), '[%rowId%][regexp]')]]
-                                        value: //input[@name[contains(text(), '[%rowId%][value]')]]
+                                        matched_expression: //input[@name[contains(., '[%rowId%][regexp]')]]
+                                        value: //input[@name[contains(., '[%rowId%][value]')]]
                                     buttons:
                                         current_package_add_exception: //tr[@id='row_design_package_ua_regexp']//button[span='Add Exception']
                                         delete: //tr[@id='%rowId%']//button[span='Delete']
@@ -239,8 +239,8 @@ system_configuration:
                                         skin: //input[@name='groups[theme][fields][skin][value]']
                                         layout: //input[@name='groups[theme][fields][layout][value]']
                                         default: //input[@name='groups[theme][fields][default][value]']
-                                        matched_expression: //input[@name[contains(text(), '[%rowId%][regexp]')]]
-                                        value: //input[@name[contains(text(), '[%rowId%][value]')]]
+                                        matched_expression: //input[@name[., '[%rowId%][regexp]')]]
+                                        value: //input[@name[., '[%rowId%][value]')]]
                                     buttons:
                                         delete: //tr[@id='%rowId%']//button[span='Delete']
                                         templates_add_exception: //tr[@id='row_design_theme_template_ua_regexp']//button[span='Add Exception']
