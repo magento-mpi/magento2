@@ -164,6 +164,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
      */
     public function saveAction()
     {
+        /** @var $typeModel Mage_GoogleShopping_Model_Type */
         $typeModel = Mage::getModel('googleshopping/type');
         $id = $this->getRequest()->getParam('type_id');
         if (!is_null($id)) {
@@ -178,11 +179,11 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
                 foreach ($collection as $attribute) {
                     $attribute->delete();
                 }
+            } else {
+                $typeModel->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
+                    ->setTargetCountry($this->getRequest()->getParam('target_country'))
+                    ->save();
             }
-            $typeModel->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
-                ->setTargetCountry($this->getRequest()->getParam('target_country'))
-                ->save();
-
 
             $attributes = $this->getRequest()->getParam('attributes');
             if (is_array($attributes)) {

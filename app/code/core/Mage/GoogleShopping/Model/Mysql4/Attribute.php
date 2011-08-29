@@ -31,10 +31,6 @@
  * @package    Mage_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleShopping_Model_Mysql4_Attribute extends Mage_Core_Model_Mysql4_Abstract
+class Mage_GoogleShopping_Model_Mysql4_Attribute extends Mage_GoogleShopping_Model_Resource_Attribute
 {
-    protected function _construct()
-    {
-        $this->_init('googleshopping/attributes', 'id');
-    }
 }
