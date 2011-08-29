@@ -88,13 +88,40 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @TODO
+     * <p>Delete customers.</p>
+     * <p>Preconditions: Create several customers</p>
+     * <p>Steps:</p>
+     * <p>1. Search and choose several customers.</p>
+     * <p>3. Select 'Actions' to 'Delete'.</p>
+     * <p>2. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Customers are deleted.</p>
+     * <p>Success Message is displayed.</p>
+     *
      * @test
      */
     public function throughMassAction()
     {
-        // @TODO
-        $this->markTestIncomplete();
+        $customerQty = 2;
+        for ($i = 1; $i <= $customerQty; $i++) {
+            //Data
+            $userData = $this->loadData('generic_customer_account', NULL, 'email');
+            ${'searchData' . $i} = $this->loadData('search_customer', array('email' => $userData['email']));
+            //Steps
+            $this->CustomerHelper()->createCustomer($userData);
+            $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+            $this->assertTrue($this->checkCurrentPage('manage_customers'),
+                    'After successful customer creation should be redirected to Manage Customers page');
+        }
+        for ($i = 1; $i <= $customerQty; $i++) {
+            $this->searchAndChoose(${'searchData' . $i});
+        }
+        $this->addParameter('qtyDeletedCustomers', $customerQty);
+        $xpath = $this->_getControlXpath('dropdown', 'grid_massaction_select');
+        $this->select($xpath, 'Delete');
+        $this->deleteElement('submit', 'confirmation_for_massaction_delete');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_deleted_customer_massaction'), $this->messages);
     }
 
 }
