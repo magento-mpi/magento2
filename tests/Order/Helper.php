@@ -405,46 +405,6 @@ class Order_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Search
-     *
-     * @param array $data
-     * @param string $fieldSetName
-     * @return bool
-     */
-    public function search(array $data, $fieldSetName = null)
-    {
-        $this->_prepareDataForSearch($data);
-        if (count($data) > 0) {
-            if (isset($fieldSetName)) {
-                $xpath = $this->getCurrentLocationUimapPage()->
-                                findFieldset($fieldSetName)->getXpath();
-            } else {
-                $xpath = '';
-            }
-            $totalCount = intval($this->getText($xpath .
-                    "//table[@class='actions']//td[@class='pager']//span[@id]"));
-            $xpathTR = $xpath . "//table[@class='data']//tr";
-            foreach ($data as $key => $value) {
-                if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
-                    $xpathTR .= "[contains(.,'$value')]";
-                }
-            }
-            if ($totalCount > 0) {
-                $this->fillForm($data);
-                $this->clickButton('search', false);
-                $this->pleaseWait();
-            } elseif ($totalCount == 0) {
-                return false;
-            }
-            if ($this->isElementPresent($xpathTR)) {
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-
-    /**
      * Orders products during forming order
      * @param array|string $products Products in array or in dataset(string) to buy.
      */
