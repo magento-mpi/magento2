@@ -444,6 +444,18 @@ downloadable_information_data: &downloadableData
 #*         Simple Product Data               *
 #*********************************************
 
+quick_simple_product:
+    quick_simple_product_name_use_default: No
+    quick_simple_product_name: Quick_Simple
+    quick_simple_product_sku_use_default: No
+    quick_simple_product_sku: quick_simple_sku
+    quick_simple_product_weight: 6.31
+    quick_simple_product_status: Enabled
+    quick_simple_product_visibility: Catalog, Search
+    quick_simple_product_attribute_value: %noValue%
+    quick_simple_product_qty: 100
+    quick_simple_product_stock_availability: In Stock
+
 simple_product_required:
     product_attribute_set: Default
     general_name: Simple Product Required

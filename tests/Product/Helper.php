@@ -465,7 +465,33 @@ class Product_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Find Column Number in table by Name
+     *
+     * @param type $columnName
+     * @param type $fieldSetName
+     * @return int
+     */
+    public function findColumnNumberByName($columnName, $fieldSetName = null)
+    {
+        if ($fieldSetName != null) {
+            $fieldSetXpath = $this->getCurrentUimapPage()->getMainForm()->findFieldset($fieldSetName)->getXpath();
+        } else {
+            $fieldSetXpath = '';
+        }
+        $columnXpath = $fieldSetXpath . "//table[@class='data']//tr[@class='headings']/th";
+        $columnQty = $this->getXpathCount($columnXpath);
+        for ($i = 1; $i <= $columnQty; $i++) {
+            $text = $this->getText($columnXpath . "[$i]");
+            if ($text == $columnName) {
+                return $i;
+            }
+        }
+        return 0;
+    }
+
+    /**
      * Create Product
+     *
      * @param array $productData
      * @param string $productType
      */
@@ -477,6 +503,18 @@ class Product_Helper extends Mage_Selenium_TestCase
         if ($productType == 'configurable') {
             $this->fillConfigurableSettings($productData);
         }
+        $this->fillProductInfo($productData, $productType);
+        $this->saveForm('save');
+    }
+
+    /**
+     * Fill Product info
+     *
+     * @param array $productData
+     * @param string $productType
+     */
+    public function fillProductInfo(array $productData, $productType='simple')
+    {
         $this->fillTab($productData);
         $this->fillTab($productData, 'prices');
         $this->fillTab($productData, 'meta_information');
@@ -502,7 +540,6 @@ class Product_Helper extends Mage_Selenium_TestCase
         if ($productType == 'downloadable') {
             $this->fillTab($productData, 'downloadable_information');
         }
-        $this->saveForm('save');
     }
 
     /**

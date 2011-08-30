@@ -148,7 +148,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                     switch ($action) {
                         case 'fill':
                             if ($storeViewValue != '%noValue%') {
-                              $this->type($fieldXpath, $storeViewValue);
+                                $this->type($fieldXpath, $storeViewValue);
                             }
                             break;
                         case 'verify':
@@ -204,7 +204,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                                 $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
                                 $page->assignParams($this->_paramsHelper);
                                 $this->assertTrue($this->verifyForm($attrData[$f_key], 'manage_lables_options'),
-                                                                    $this->messages);
+                                        $this->messages);
                                 $this->storeViewTitles($attrData[$f_key], 'manage_options', 'verify');
                                 $num++;
                                 $option--;
@@ -214,6 +214,21 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
+    }
+
+    /**
+     * Define Attribute Id
+     *
+     * @param array $searchData
+     * @return numeric
+     */
+    public function defineAttributeId(array $searchData)
+    {
+        $this->navigate('manage_attributes');
+        $attrXpath = $this->search($searchData);
+        $this->assertNotEquals(null, $attrXpath);
+
+        return $this->defineIdFromTitle($attrXpath);
     }
 
 }

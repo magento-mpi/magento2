@@ -63,6 +63,7 @@ manage_products:
         messages: &productMesssages
             success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been deleted.')]
             success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
+            success_created_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been created.')]
             enter_greater_than_zero: "//div[@id='advice-validate-greater-than-zero-%fieldId%' and not(contains(@style,'display: none;'))]"
             enter_zero_or_greater: "//div[@id='advice-validate-zero-or-greater-%fieldId%' and not(contains(@style,'display: none;'))]"
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
@@ -455,7 +456,7 @@ new_product:
                                     buttons:
                                         create_empty: //button[span='Create Empty']
                             -
-                                super_products_attribute_configuration:
+                                super_products_attribute_configuration: &superProductsAttributeconfiguration
                                     xpath: //div[contains(div/h4,'Super product attributes configuration')]
                                     checkboxes:
                                         associated_products_attribute_name_default: //li[contains(div/text(),'%attributeTitle%')]//input[@class='attribute-use-default-label']
@@ -465,7 +466,7 @@ new_product:
                                         associated_products_price: %attributeSettings%//input[contains(@class,'attribute-price')]
                                         associated_products_attribute_name: //li[contains(div/text(),'%attributeTitle%')]//input[contains(@class,'attribute-label')]
                             -
-                                associated_products:
+                                associated_products: &associatedProductsFieldSet
                                     xpath: //div[@id='super_product_grid' or @id='super_product_links']
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
@@ -578,7 +579,37 @@ edit_product:
                 -
                     bundle_items: *bundleItemsTab
                 -
-                    associated_products: *associatedProductsTab
+                    associated_products:
+                        xpath: //a[@title='Associated Products']/span
+                        fieldsets:
+                            -
+                                create_simple_assosiated_product:
+                                    xpath: //div[contains(div/h4,'Create Simple Associated Product')]
+                                    buttons:
+                                        create_empty: //button[span='Create Empty']
+                                        create_copy_from_configurable: //button[span='Copy From Configurable']
+                            -
+                                quick_simple_product_creation:
+                                    xpath: //div[contains(div/h4,'Quick simple product creation')]
+                                    buttons:
+                                        quick_create: //button[span='Quick Create']
+                                    checkboxes:
+                                        quick_simple_product_name_use_default: //input[@id='simple_product_name_autogenerate']
+                                        quick_simple_product_sku_use_default: //input[@id='simple_product_sku_autogenerate']
+                                    dropdowns:
+                                        quick_simple_product_status: //select[@id='simple_product_status']
+                                        quick_simple_product_visibility: //select[@id='simple_product_visibility']
+                                        quick_simple_product_attribute_value: //select[@id='simple_product_%attributeCode%']
+                                        quick_simple_product_stock_availability: //select[@id='simple_product_inventory_is_in_stock']
+                                    fields:
+                                        quick_simple_product_name: //input[@id='simple_product_name']
+                                        quick_simple_product_sku: //input[@id='simple_product_sku']
+                                        quick_simple_product_weight: //input[@id='simple_product_weight']
+                                        quick_simple_product_qty: //input[@id='simple_product_inventory_qty']
+                            -
+                                super_products_attribute_configuration: *superProductsAttributeconfiguration
+                            -
+                                associated_products: *associatedProductsFieldSet
                 -
                     downloadable_information: *downloadableInformationTab
         buttons:
@@ -588,4 +619,13 @@ edit_product:
             duplicate: //button[span='Duplicate']
             save: //button[span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *productMesssages
+
+created_simple_from_configurable:
+    mca: catalog_product/created/id/%id%/edit/0/%productParameters%
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap:
+        form: *newProductCreationForm
+        buttons:
+            close_window: //button[span='Close Window']
         messages: *productMesssages

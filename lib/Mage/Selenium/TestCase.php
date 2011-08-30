@@ -1717,7 +1717,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string|array $locator xPath locator or array of locators
      * @param integer $timeout Timeout period
      */
-    public function waitForElement($locator, $timeout = 30)
+    public function waitForElement($locator, $timeout = 40)
     {
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {

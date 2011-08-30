@@ -38,29 +38,6 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
 {
 
     /**
-     * Define Admin User Id.
-     *
-     * Preconditions:
-     * User is opened.
-     */
-    public function defineId()
-    {
-        // ID definition
-        $item_id = 0;
-        $title_arr = explode('/', $this->getLocation());
-        $title_arr = array_reverse($title_arr);
-        foreach ($title_arr as $key => $value) {
-            if (preg_match('/id$/', $value) && isset($title_arr[$key - 1])) {
-                $item_id = $title_arr[$key - 1];
-                break;
-            }
-        }
-        if ($item_id > 0) {
-            $this->addParameter('id', $item_id);
-        }
-    }
-
-    /**
      * Search Role for Admin User.
      *
      * @param Array $data
@@ -106,9 +83,6 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
             $this->assertTrue($this->searchRole($role), 'Role is not found');
         }
         $this->saveForm('save_admin_user');
-        if ($this->checkCurrentPage('edit_admin_user')) {
-            $this->defineId();
-        }
     }
 
     /**

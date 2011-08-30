@@ -49,7 +49,6 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
         $this->addParameter('attributeName', $attrSet['name']);
         $this->clickButton('save_attribute_set');
-        $this->adminUserHelper()->defineId('edit_attribute_set');
         if (isset($attrSet['new_groups']) && $attrSet['new_groups'] != '%noValue%') {
             $this->addNewGroup($attrSet['new_groups']);
         }

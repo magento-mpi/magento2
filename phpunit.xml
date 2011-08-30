@@ -41,8 +41,8 @@
             <directory suffix="Test.php">tests/AdminUser</directory>
             <directory suffix="CreateTest.php">tests/Store</directory>
             <directory suffix="Test.php">tests/Customer</directory>
+            <directory suffix="Test.php">tests/Product/Create</directory>
             <directory suffix="Test.php">tests/ProductAttribute</directory>
-            <directory suffix="Test.php">tests/Product/Create</directory>            
         </testsuite>
     </testsuites>
 </phpunit>
