@@ -726,9 +726,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $mca = '';
 
         $currentUrl = preg_replace('|^http([s]{0,1})://|', '',
-                                   str_replace('/index.php', '/', str_replace('index.php/', '', $currentUrl)));
+                str_replace('/index.php', '/', str_replace('index.php/', '', $currentUrl)));
         $baseUrl = preg_replace('|^http([s]{0,1})://|', '',
-                                str_replace('/index.php', '/', str_replace('index.php/', '', $baseUrl)));
+                str_replace('/index.php', '/', str_replace('index.php/', '', $baseUrl)));
 
         if (strpos($currentUrl, $baseUrl) !== false) {
             $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\");
@@ -884,6 +884,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
             if ($willChangePage) {
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $this->addParameter('id', $this->defineIdFromUrl());
                 $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
             }
         } catch (PHPUnit_Framework_Exception $e) {
@@ -1293,7 +1294,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Define Id From Title usinf xpath
+     * Define parameter %Id% from xpath Title
      *
      * @param string $xpathTR
      */
@@ -1314,6 +1315,26 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
         }
         return $itemId;
+    }
+
+    /**
+     * Define parameter %Id% from Url
+     *
+     * @return int
+     */
+    public function defineIdFromUrl()
+    {
+        // ID definition
+        $item_id = 0;
+        $title_arr = explode('/', $this->getLocation());
+        $title_arr = array_reverse($title_arr);
+        foreach ($title_arr as $key => $value) {
+            if (preg_match('/id$/', $value) && isset($title_arr[$key - 1])) {
+                $item_id = $title_arr[$key - 1];
+                break;
+            }
+        }
+        return $item_id;
     }
 
     /**
@@ -1744,6 +1765,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->waitForElement(array(self::xpathErrorMessage,
             self::xpathValidationMessage,
             self::xpathSuccessMessage));
+        $this->addParameter('id', $this->defineIdFromUrl());
         $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
 
         return $this;
@@ -1995,7 +2017,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 is_dir($staticProperties['seleneseDirectory'])) {
             $files = array_merge(
                     self::getSeleneseFiles($staticProperties['seleneseDirectory'], '.htm'),
-                                           self::getSeleneseFiles($staticProperties['seleneseDirectory'], '.html')
+                    self::getSeleneseFiles($staticProperties['seleneseDirectory'], '.html')
             );
 
             // Create tests from Selenese/HTML files for multiple browsers.
@@ -2047,7 +2069,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                                         //new $className($name, $_data, $_dataName, $browser),
                                         self::addTestDependencies(
                                                 new $className($name, $_data, $_dataName, $browser), $className, $name),
-                                                $groups
+                                        $groups
                                 );
                             }
 
