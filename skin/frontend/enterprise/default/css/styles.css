@@ -2155,7 +2155,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 /* Footer ================================================================================ */
 .footer-before-container { margin:0 0 3px; text-align:center; }
 
-.form-subscribe { float:left; width:183px; padding:12px 17px 0 0; background:url(../images/bkg_newsletter.gif) no-repeat 0 3px; }
+.form-subscribe { float:left; width:183px; padding: 0 17px 0 0; }
+.form-subscribe-header { color:#d12c01; font-size:11px; font-weight:bold; text-decoration:none; text-transform:uppercase; }
 .form-subscribe label { display:block; margin:6px 0; }
 .form-subscribe input.input-text { width:177px; display:block; }
 .form-subscribe button.button { margin:6px 0 0; float:right; }

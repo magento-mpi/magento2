@@ -1,4 +1,4 @@
-" or ","或"
+" or "," 或 "
 "'%value%' appears to be a DNS hostname but cannot extract TLD part","“%value%” 似乎是一个 DNS 主机名，但无法提取 TLD 部分"
 "'%value%' appears to be a DNS hostname but cannot match TLD against known list","“%value%” 似乎是一个 DNS 主机名，但无法与已知列表匹配 TLD"
 "'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'","“%value%” 似乎是一个 DNS 主机名，但无法与 TLD “%tld%” 的主机名模式相匹配。"
@@ -289,6 +289,7 @@
 "Group Name","群组名称"
 "HTML","HTML"
 "Hello, %s!","您好， %s！"
+"If you have an account with us, log in using your email address.","如果您在我们这里有帐户，那么请使用您的电子邮件地址登录。"
 "ID","ID"
 "If you have an account with us, please log in.","如果您拥有账户，请登录。"
 "Invalid attribute option specified for attribute %s (%s), skipping the record.","为属性 %s (%s) 指定的属性选项无效，正在跳过该记录。"
