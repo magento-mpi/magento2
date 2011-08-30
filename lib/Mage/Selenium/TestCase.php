@@ -1143,7 +1143,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 if ($this->getValue($fieldData['path']) == 'off') {
                     $this->click($fieldData['path']);
                 }
-            } else {
+            } elseif (strtolower($fieldData['value']) == 'no') {
                 if ($this->getValue($fieldData['path']) == 'on') {
                     $this->click($fieldData['path']);
                 }
@@ -1180,6 +1180,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function search(array $data, $fieldSetName = null)
     {
+        $this->_prepareDataForSearch($data);
         if (count($data) == 0) {
             return null;
         }
@@ -1230,26 +1231,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function searchAndOpen(array $data, $willChangePage = true, $fieldSetName = null)
     {
-        $this->_prepareDataForSearch($data);
-
+        $data = $this->arrayEmptyClear($data);
         $xpathTR = $this->search($data, $fieldSetName);
 
         if (!empty($xpathTR)) {
             if ($willChangePage) {
-                // ID definition
-                $itemId = 0;
-                $title = $this->getValue($xpathTR . '/@title');
-                if (is_numeric($title)) {
-                    $itemId = $title;
-                } else {
-                    $titleArr = explode('/', $title);
-                    foreach ($titleArr as $key => $value) {
-                        if (preg_match('/id$/', $value) and isset($titleArr[$key + 1])) {
-                            $itemId = $titleArr[$key + 1];
-                            break;
-                        }
-                    }
-                }
+                $itemId = $this->defineIdFromTitle($xpathTR);
                 $this->addParameter('id', $itemId);
                 $this->click($xpathTR . "/td[contains(text(),'" . $data[array_rand($data)] . "')]");
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
@@ -1271,8 +1258,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function searchAndChoose(array $data, $fieldSetName = null)
     {
-        $this->_prepareDataForSearch($data);
-
         $xpathTR = $this->search($data, $fieldSetName);
 
         if (!empty($xpathTR)) {
@@ -1305,6 +1290,30 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         return $data;
+    }
+
+    /**
+     * Define Id From Title usinf xpath
+     *
+     * @param string $xpathTR
+     */
+    public function defineIdFromTitle($xpathTR)
+    {
+        // ID definition
+        $itemId = 0;
+        $title = $this->getValue($xpathTR . '/@title');
+        if (is_numeric($title)) {
+            $itemId = $title;
+        } else {
+            $titleArr = explode('/', $title);
+            foreach ($titleArr as $key => $value) {
+                if (preg_match('/id$/', $value) and isset($titleArr[$key + 1])) {
+                    $itemId = $titleArr[$key + 1];
+                    break;
+                }
+            }
+        }
+        return $itemId;
     }
 
     /**
