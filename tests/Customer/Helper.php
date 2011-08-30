@@ -94,9 +94,14 @@ class Customer_Helper extends Mage_Selenium_TestCase
     public function addAddress(array $addressData)
     {
         //Open 'Addresses' tab
-        $this->clickControl('tab', 'addresses', FALSE);
         $this->addAddressNumber();
+        $this->clickControl('tab', 'addresses', FALSE);
         $this->clickButton('add_new_address', FALSE);
+        $addressNumber = $this->_paramsHelper->getParameter('address_number');
+        $page = $this->getCurrentUimapPage();
+        $xpath = $page->findFieldset('list_customer_addresses')->getXPath();
+        $addressCount = $this->getXpathCount($xpath . '//li');
+        $this->assertEquals($addressCount, $addressNumber);
         //Fill in 'Customer's Address' tab
         $this->fillForm($addressData, 'addresses');
     }

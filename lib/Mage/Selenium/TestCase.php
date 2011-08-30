@@ -1232,7 +1232,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function searchAndOpen(array $data, $willChangePage = true, $fieldSetName = null)
     {
-        $data = $this->arrayEmptyClear($data);
+        $this->_prepareDataForSearch($data);
         $xpathTR = $this->search($data, $fieldSetName);
 
         if (!empty($xpathTR)) {

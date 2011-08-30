@@ -373,22 +373,22 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
                 'After successful customer creation should be redirected to Manage Customers page');
     }
 
-    /**
-     * @TODO
-     * @test
-     */
-    public function onOrderPageWithAddress()
-    {
-        $this->markTestIncomplete();
-    }
-
-    /**
-     * @TODO
-     * @test
-     */
-    public function onOrderPageWithoutAddress()
-    {
-        $this->markTestIncomplete();
-    }
+//    /**
+//     * @TODO
+//     * @test
+//     */
+//    public function onOrderPageWithAddress()
+//    {
+//        $this->markTestIncomplete();
+//    }
+//
+//    /**
+//     * @TODO
+//     * @test
+//     */
+//    public function onOrderPageWithoutAddress()
+//    {
+//        $this->markTestIncomplete();
+//    }
 
 }

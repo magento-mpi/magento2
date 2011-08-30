@@ -326,24 +326,22 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         );
     }
 
-    /**
-     * @TODO
-     * @test
-     */
-    public function fromOnePageCheckoutPage()
-    {
-        // @TODO
-        $this->markTestIncomplete();
-    }
-
-    /**
-     * @TODO
-     * @test
-     */
-    public function fromMultipleCheckoutPage()
-    {
-        // @TODO
-        $this->markTestIncomplete();
-    }
+//    /**
+//     * @TODO
+//     * @test
+//     */
+//    public function fromOnePageCheckoutPage()
+//    {
+//        $this->markTestIncomplete();
+//    }
+//
+//    /**
+//     * @TODO
+//     * @test
+//     */
+//    public function fromMultipleCheckoutPage()
+//    {
+//        $this->markTestIncomplete();
+//    }
 
 }
