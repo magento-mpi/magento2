@@ -132,8 +132,8 @@ class Order_Helper extends Mage_Selenium_TestCase
                                         $billForm['country'];
                             $addrToSearch = array('billing_address_choice' => $customer);
                             $this->fillForm($addrToSearch);
-                            }
-                            if (array_key_exists('billing_first_name', $billForm)) {
+                        }
+                        if (array_key_exists('billing_first_name', $billForm)) {
                             $userData = $this->loadData('new_customer_order_billing_address_reqfields');
                             $addrToChoose = array('billing_address_choice' => 'Add New Address');
                             $addrToFill = array_merge($userData, $addrToChoose, $billForm);
@@ -527,7 +527,7 @@ class Order_Helper extends Mage_Selenium_TestCase
             if (is_array($customerEmail)){
                 $email = $customerEmail;
             }
-            $this->searchAndOpen($email, FALSE);
+            $this->searchAndOpen($email, FALSE, 'order_customer_grid');
         }
         if (($this->checkCurrentPage('create_order_for_new_customer') == TRUE)
                 && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {

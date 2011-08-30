@@ -45,12 +45,6 @@ class OrderForExisitingCustomer_Test extends Mage_Selenium_TestCase
         $this->OrderHelper()->createProducts('product_to_order1', TRUE);
         $this->OrderHelper()->createProducts('product_to_order2', TRUE);
     }
-   /**
-    *
-    * Create Products for testing.
-    * Navigate to Manage Customers page.
-    *
-    */
     protected function assertPreConditions()
     {}
    /**

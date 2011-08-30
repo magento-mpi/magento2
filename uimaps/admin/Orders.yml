@@ -101,15 +101,15 @@ create_order_for_new_customer:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         dropdowns:
-                            country: //select[@id='filter_billing_country_id']
+                            country: //select[@name='billing_country_id']
                         fields:
-                            filter_id: //input[@id='filter_entity_id']
-                            filter_name: //input[@id='filter_name']
-                            filter_email: //input[@id='filter_email']
-                            filter_phone: //input[@id='filter_Telephone']
-                            filter_zip_code: //input[@id='filter_billing_postcode']
-                            filter_state: //input[@id='filter_billing_regione']
-                            filter_store_name: //input[@id='filter_store_name']
+                            id: //input[@name='entity_id']
+                            name: //input[@name='name']
+                            email: //input[@name='email']
+                            phone: //input[@name='Telephone']
+                            zip_code: //input[@name='billing_postcode']
+                            state: //input[@name='billing_regione']
+                            store_name: //input[@name='store_name']
                 -
                     order_store_selector: &order_store_selector
                         xpath: //div[@id='order-store-selector']
