@@ -292,7 +292,8 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
                 ->where('rate.tax_country_id = ?', $countryId)
                 ->where("rate.tax_region_id IN(?)", array(0, (int)$regionId));
             $postcodeIsNumeric = is_numeric($postcode);
-            if ($postcodeIsRange = is_string($postcode) && preg_match('/^(.+)-(.+)$/', $postcode, $matches)) {
+            $postcodeIsRange = is_string($postcode) && preg_match('/^(.+)-(.+)$/', $postcode, $matches);
+            if ($postcodeIsRange) {
                 $zipFrom = $matches[1];
                 $zipTo = $matches[2];
             }
