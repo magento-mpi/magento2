@@ -316,20 +316,19 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
             return;
         }
 
-        $redirectUrl  = $baseUrl . ltrim($request->getRequestUri(), '/');
         $redirectCode = 302;
         if (Mage::getStoreConfig('web/url/redirect_to_base') == 301) {
             $redirectCode = 301;
         }
 
-        $uri  = @parse_url($redirectUrl);
+        $uri  = @parse_url($baseUrl);
         $host = isset($uri['host']) ? $uri['host'] : '';
         $path = isset($uri['path']) ? $uri['path'] : '';
 
         $requestUri = $request->getRequestUri() ? $request->getRequestUri() : '/';
         if ($host && $host != $request->getHttpHost() || $path && strpos($requestUri, $path) === false) {
             Mage::app()->getFrontController()->getResponse()
-                ->setRedirect($redirectUrl, $redirectCode)
+                ->setRedirect($baseUrl, $redirectCode)
                 ->sendResponse();
             exit;
         }
