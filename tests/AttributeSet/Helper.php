@@ -102,6 +102,9 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
             if (!$this->isElementPresent($elTo)) {
                 $this->fail("Attribute with title '$attributeTitle' does not exist");
             }
+
+            $this->moveElementOverTree('link', 'unassigned_attribute', 'fieldset', 'unassigned_attributes');
+
             $this->clickAt($elFrom, '1,1');
             $this->clickAt($elTo, '1,1');
             $this->mouseDownAt($elFrom, '1,1');

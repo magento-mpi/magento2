@@ -2320,4 +2320,80 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $testResult;
     }
 
+    /**
+     * Doing scrolling to specific element in the specified list(block) with specified name
+     *
+     * @param string $elementType - Type of the element what should be visible after scrolling
+     * @param string $elementName - Name of the element what should be visible after scrolling
+     * @param string $blockType - Type of the block where scroll is using
+     * @param string $blockName - Name of the block where scroll is using
+     * 
+     * @return none
+     */
+    public function moveScrollToElement($elementType, $elementName, $blockType, $blockName)
+    {
+        // getting XPath of the element what should be visible after scrolling
+        $specElemantXpath = $this->_getControlXpath($elementType, $elementName);
+        // getting @ID of the element what should be visible after scrolling
+        $specElementId = $this->getAttribute($specElemantXpath."/@id");
+        
+        // getting XPath of the block where scroll is using
+        $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
+        // getting @ID of the block where scroll is using
+        $specFieldsetId = $this->getAttribute($specFieldsetXpath."/@id");
+
+        // getting offset position of the element what should be visible after scrolling
+        $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=". $specElementId ."').offsetTop");
+        // moving scroll bar to previously defined offest 
+        // position (to the element what should be visible after scrolling)
+        $this->getEval("this.browserbot.findElement('id=". $specFieldsetId ."').scrollTop = ".$destinationOffsetTop);
+    }    
+    
+    /**
+     * <p>Moving specific element (with type = $elementType and name = $elementName)</p>
+     * <p>over the specified JS tree (with type = $blockType and name = $blockName)</p>
+     * <p>to position = $moveToPosition</p>
+     *
+     * @param string $elementType Type of the element to move
+     * @param string $elementName Name of the element to move
+     * @param string $blockType Type of the block what is a JS tree
+     * @param string $blockName Name of the block what is a JS tree
+     * @param integer $moveToPosition Index of position where element should be after moving (default = 1)
+     * 
+     * @return none
+     */
+    public function moveElementOverTree($elementType, $elementName, $blockType, $blockName, $moveToPosition = 1)
+    {
+        // getting XPath of the element to move
+        $specElemantXpath = $this->_getControlXpath($elementType, $elementName);
+        // getting @ID of the element to move
+        $specElementId = $this->getAttribute($specElemantXpath."/@id");
+        
+        // getting XPath of the block what is a JS tree
+        $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
+        // getting @ID of the block what is a JS tree
+        $specFieldsetId = $this->getAttribute($specFieldsetXpath."/@id");
+        
+        // getting offset position of the element to move
+        $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=". $specElementId ."').offsetTop");
+        
+        // storing of current height of the block with JS tree
+        $tmpBlockHeight =  (integer) $this->getEval("this.browserbot.findElement('id="
+                                                        . $specFieldsetId ."').style.height");
+        
+        // if element to move situated abroad of the current height, it will be increased
+        if ($destinationOffsetTop >= $tmpBlockHeight)
+            {
+                $destinationOffsetTop = $destinationOffsetTop + 50;
+                $this->getEval("this.browserbot.findElement('id=". $specFieldsetId 
+                                                ."').style.height='".$destinationOffsetTop."px'");
+            }
+            
+        $this->clickAt($specElemantXpath, '1,1');
+        $blockTo = $specFieldsetXpath.'//li['.$moveToPosition.']//a//span';
+        $this->mouseDownAt($specElemantXpath, '1,1');
+        $this->mouseMoveAt($blockTo, '1,1');
+        $this->mouseUpAt($blockTo, '1,1');
+        $this->clickAt($specElemantXpath, '1,1');
+    }
 }
