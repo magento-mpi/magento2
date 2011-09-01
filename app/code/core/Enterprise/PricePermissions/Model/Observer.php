@@ -75,13 +75,33 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function __construct()
     {
-        $this->_request = Mage::app()->getRequest();
         // Set all necessary flags
-        $this->_canEditProductPrice = Mage::helper('enterprise_pricepermissions')->getCanAdminEditProductPrice();
-        $this->_canReadProductPrice = Mage::helper('enterprise_pricepermissions')->getCanAdminReadProductPrice();
-        $this->_canEditProductStatus = Mage::helper('enterprise_pricepermissions')->getCanAdminEditProductStatus();
-        // Retrieve value of the default product price
-        $this->_defaultProductPriceString = Mage::helper('enterprise_pricepermissions')->getDefaultProductPriceString();
+        $this->_canEditProductPrice = true;
+        $this->_canReadProductPrice = true;
+        $this->_canEditProductStatus = true;
+    }
+
+    /**
+     * Reinit stores only with allowed scopes
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function adminControllerPredispatch($observer)
+    {
+        /* @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton('admin/session');
+
+        // load role with true websites and store groups
+        if ($session->isLoggedIn() && $session->getUser()->getRole()) {
+            $this->_request = Mage::app()->getRequest();
+            // Set all necessary flags
+            $this->_canEditProductPrice = Mage::helper('enterprise_pricepermissions')->getCanAdminEditProductPrice();
+            $this->_canReadProductPrice = Mage::helper('enterprise_pricepermissions')->getCanAdminReadProductPrice();
+            $this->_canEditProductStatus = Mage::helper('enterprise_pricepermissions')->getCanAdminEditProductStatus();
+            // Retrieve value of the default product price
+            $this->_defaultProductPriceString = Mage::helper('enterprise_pricepermissions')
+                    ->getDefaultProductPriceString();
+        }
     }
 
     /**
