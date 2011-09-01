@@ -52,7 +52,13 @@
 <?php endif; ?>
 var window_name = '<?php echo Mage::getBaseUrl(); ?>';
 var window_top = window.top;
-if (window_name == window_top.name) {
+var allowed_domain = false;
+try{
+    allowed_domain = window_name == window_top.name
+}catch(e){
+    allowed_domain = false;
+}
+if (allowed_domain) {
     <?php if ($this->getGotoSection()): ?>
         allowCheckoutSteps(true);
         <?php if ($this->getGotoSection() == 'review'): ?>

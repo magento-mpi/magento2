@@ -115,10 +115,54 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     {
         $payment = $this->getInfoInstance();
 
+        $salesDocument = $payment->getOrder();
+        if (!$salesDocument) {
+            $salesDocument = $payment->getQuote();
+            $amount = $salesDocument->getBaseGrandTotal();
+        } else {
+            $amount = $salesDocument->getBaseTotalDue();
+        }
+        //create reference transaction if Verification Authorization Amount set to $0 or $1
+        $authorizationAmount = $this->getConfigData('authorization_amount', $salesDocument->getStoreId());
+        switch ($authorizationAmount) {
+            case Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_FULL:
+                $this->_initialize($payment, $amount);
+                break;
+            case Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_ONE:
+                $this->_initialize($payment, 1);
+                break;
+            case Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_ZERO:
+                $amountError = false;
+                try {
+                    $this->_initialize($payment, 0);
+                } catch (Mage_Paypal_Exception $e) {
+                    $amountError = true;
+                }
+                if ($amountError) {
+                    $authorizationAmount = Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_ONE;
+                    $this->_initialize($payment, 1);
+                }
+                break;
+        }
+        $payment->setAdditionalInformation('authorization_amount',$authorizationAmount);
+
+        return $this;
+    }
+
+    /**
+     * Initialize request
+     *
+     * @param Varien_Object $payment
+     * @param  $amount
+     * @return Mage_Paypal_Model_Payflowlink
+     */
+    protected function _initialize(Varien_Object $payment, $amount)
+    {
         $this->_generateSecureSilentPostHash($payment);
-        $request = $this->_buildTokenRequest($payment);
+        $request = $this->_buildTokenRequest($payment, $amount);
         $response = $this->_postRequest($request);
         $this->_processTokenErrors($response, $payment);
+        return $this;
     }
 
     /**
@@ -135,16 +179,35 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $transaction =  Mage::getModel('paypal/payment_transaction');
         $transaction->loadByTxnId($txnId);
 
-        $this->_checkTransaction($transaction, $amount);
-
-        $payment->setAdditionalInformation('authorized_amt', $transaction->getAdditionalInformation('amt'));
         $payment->setTransactionId($txnId)->setIsTransactionClosed(0);
         if ($payment->getAdditionalInformation('paypal_fraud_filters') !== null) {
             $payment->setIsTransactionPending(true);
             $payment->setIsFraudDetected(true);
         }
 
+        $this->_authorize($payment, $amount, $transaction, $txnId);
         $transaction->delete();
+        return $this;
+    }
+
+    /**
+     * Additional authorization logic for Account Verification
+     *
+     * @param Varien_Object $payment
+     * @param  $amount
+     * @param  $transaction
+     * @param  $txnId
+     * @return Mage_Paypal_Model_Payflowlink
+     */
+    protected function _authorize(Varien_Object $payment, $amount, $transaction, $txnId)
+    {
+        $authorizationAmount = $payment->getAdditionalInformation('authorization_amount');
+        if ($authorizationAmount == Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_ONE) {
+            $payment->setParentTransactionId($txnId);
+            $this->void($payment);
+        } elseif ($authorizationAmount == Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_FULL) {
+            $this->_checkTransaction($transaction, $amount);
+        }
         return $this;
     }
 
@@ -164,12 +227,10 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $transaction->loadByTxnId($txnId);
         if ($transaction->getId()) {
             $removePaypalTransaction = true;
-            $authorizedAmt = $transaction->getAdditionalInformation('amt');
-            $this->_checkTransaction($transaction, $amount);
-
             $payment->setTransactionId($txnId);
-            $payment->authorize(false, $authorizedAmt);
-            $payment->unsTransactionId();
+            $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+            $this->_authorize($payment, $amount, $transaction, $txnId);
+            $payment->setReferenceTransactionId($payment->getAdditionalInformation('authorization_id'));
         }
 
         $payment->setParentTransactionId($txnId);
@@ -376,10 +437,10 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Varien_Object
      */
-    protected function _buildTokenRequest(Varien_Object $payment)
+    protected function _buildTokenRequest(Varien_Object $payment, $amount)
     {
         $orderId = null;
-        $amount = 0;
+        $fullAmount = $payment->getAdditionalInformation('authorization_amount');
 
         $salesDocument = $payment->getOrder();
         if (!$salesDocument) {
@@ -388,10 +449,8 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
                 $salesDocument->reserveOrderId();
             }
             $orderId = $salesDocument->getReservedOrderId();
-            $amount = $salesDocument->getBaseGrandTotal();
         } else {
             $orderId = $salesDocument->getIncrementId();
-            $amount = $salesDocument->getBaseTotalDue();
         }
 
         $request = $this->_buildBasicRequest($payment);
@@ -406,10 +465,12 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             ->setCurrency($salesDocument->getBaseCurrencyCode())
             ->setInvnum($orderId)
             ->setCustref($orderId)
-            ->setPonum($salesDocument->getId())
-            ->setSubtotal($salesDocument->getBaseSubtotal())
-            ->setTaxamt($this->_formatStr('%.2F', $salesDocument->getBaseTaxAmount()))
-            ->setFreightamt($this->_formatStr('%.2F', $salesDocument->getBaseShippingAmount()));
+            ->setPonum($salesDocument->getId());
+        if ($fullAmount != Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_FULL) {
+            $request->setSubtotal($salesDocument->getBaseSubtotal())
+                ->setTaxamt($this->_formatStr('%.2F', $salesDocument->getBaseTaxAmount()))
+                ->setFreightamt($this->_formatStr('%.2F', $salesDocument->getBaseShippingAmount()));
+        }
 
         $billing = $salesDocument->getBillingAddress();
         if (!empty($billing)) {
@@ -479,6 +540,22 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     }
 
     /**
+     * Return request object with information for 'authorization' or 'sale' action
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param float $amount
+     * @return Varien_Object
+     */
+    protected function _buildPlaceRequest(Varien_Object $payment, $amount)
+    {
+        $request = $this->_buildBasicRequest($payment);
+        $request->setAmt(round($amount,2));
+        $request->setCurrency($payment->getOrder()->getBaseCurrencyCode());
+
+        return $request;
+    }
+
+    /**
       * Get payment action code
       *
       * @return string
@@ -520,7 +597,9 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
       */
     protected function _processTokenErrors($response, $payment)
     {
-        if (!$response->getSecuretoken() &&
+        if ($response->getResult() == self::RESPONSE_CODE_INVALID_AMOUNT) {
+            throw new Mage_Paypal_Exception(Mage::helper('paypal')->__('Invalid Amount'));
+        } elseif (!$response->getSecuretoken() &&
             $response->getResult() != self::RESPONSE_CODE_APPROVED
             && $response->getResult() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER) {
             Mage::throwException($response->getRespmsg());
@@ -552,5 +631,24 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $secureHash = md5(Mage::helper('core')->getRandomString(10));
         $payment->setAdditionalInformation($this->_secureSilentPostHashKey, $secureHash);
         return $secureHash;
+    }
+
+    /**
+     * Set reference transaction data into request
+     *
+     * @param Varien_Object $payment
+     * @param Varien_Object $request
+     * @return Mage_Paypal_Model_Payflowlink
+     */
+    protected function _setReferenceTransaction(Varien_Object $payment, $request)
+    {
+        if ($payment->getParentTransactionId()) {
+            $request->setOrigid($payment->getParentTransactionId());
+
+            $request->unsAcct();
+            $request->unsExpdate();
+            $request->unsCvv2();
+        }
+        return $this;
     }
 }

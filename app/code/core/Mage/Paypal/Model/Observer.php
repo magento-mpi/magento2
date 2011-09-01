@@ -80,6 +80,8 @@ class Mage_Paypal_Model_Observer
                     'store' => $item->getAdditionalInformation('store_id')
                 )));
                 $item->delete();
+            } catch (Mage_Paypal_Exception $e) {
+                $item->delete();
             } catch (Exception $e) {
                 Mage::logException($e);
             }
