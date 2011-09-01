@@ -239,8 +239,8 @@ system_configuration:
                                         skin: //input[@name='groups[theme][fields][skin][value]']
                                         layout: //input[@name='groups[theme][fields][layout][value]']
                                         default: //input[@name='groups[theme][fields][default][value]']
-                                        matched_expression: //input[@name[., '[%rowId%][regexp]')]]
-                                        value: //input[@name[., '[%rowId%][value]')]]
+                                        matched_expression: //input[@name[contains(., '[%rowId%][regexp]')]]
+                                        value: //input[@name[contains(., '[%rowId%][value]')]]
                                     buttons:
                                         delete: //tr[@id='%rowId%']//button[span='Delete']
                                         templates_add_exception: //tr[@id='row_design_theme_template_ua_regexp']//button[span='Add Exception']
@@ -527,7 +527,7 @@ system_configuration:
                                         product_listing_sort_by: //select[@name='groups[frontend][fields][default_sort_by][value]']
                                         use_flat_catalog_category: //select[@name='groups[frontend][fields][flat_catalog_category][value]']
                                         use_flat_catalog_product: //select[@name='groups[frontend][fields][flat_catalog_product][value]']
-                                        allow_dynamic_media_urls_in_products_and_categories: //select[@name='|groups[frontend][fields][parse_url_directives][value]']
+                                        allow_dynamic_media_urls_in_products_and_categories: //select[@name='groups[frontend][fields][parse_url_directives][value]']
                                     checkboxes:
                                         list_mode_use_default: //input[@name='groups[frontend][fields][list_mode][inherit]']
                                         products_per_page_on_grid_allowed_values_use_default: //input[@name='groups[frontend][fields][grid_per_page_values][inherit]']
@@ -631,10 +631,13 @@ system_configuration:
                                     xpath: //div/fieldset[legend='Layered Navigation']
                                     links:
                                         layered_navigation_link: //a[text()='Layered Navigation']
+                                    fields:
+                                        default_price_navigation_step: //input[@name='groups[layered_navigation][fields][price_range_step][value]']
                                     dropdowns:
                                         price_navigation_step_calculation: //select[@name='groups[layered_navigation][fields][price_range_calculation][value]']
                                     checkboxes:
                                         price_navigation_step_calculation_use_default: //input[@name='groups[layered_navigation][fields][price_range_calculation][inherit]']
+                                        default_price_navigation_step_use_default: //input[@name='groups[layered_navigation][fields][price_range_step][inherit]']
                             -
                                 category_top_navigation:
                                     xpath: //div/fieldset[legend='Category Top Navigation']
@@ -1085,10 +1088,21 @@ system_configuration:
                                     xpath: //div/fieldset[legend='General Options']
                                     links:
                                         general_options_link: //a[text()='General Options']
+                                    fields:
+                                        persistence_lifetime_seconds: //input[@name='groups[options][fields][lifetime][value]']
                                     dropdowns:
                                         enable_persistence: //select[@name='groups[options][fields][enabled][value]']
+                                        enable_remember_me: //select[@name='groups[options][fields][remember_enabled][value]']
+                                        remember_me_default_value: //select[@name='groups[options][fields][remember_default][value]']
+                                        clear_persistence_on_log_out: //select[@name='groups[options][fields][logout_clear][value]']
+                                        persist_shopping_cart: //select[@name='groups[options][fields][shopping_cart][value]']
                                     checkboxes:
+                                        persistence_lifetime_seconds_use_default: //input[@name='groups[options][fields][lifetime][inherit]']
                                         enable_persistence_use_default: //input[@name='groups[options][fields][enabled][inherit]']
+                                        enable_remember_me_use_default: //input[@name='groups[options][fields][remember_enabled][inherit]']
+                                        remember_me_default_value_use_default: //input[@name='groups[options][fields][remember_default][inherit]']
+                                        clear_persistence_on_log_out_use_default: //input[@name='groups[options][fields][logout_clear][inherit]']
+                                        persist_shopping_cart_use_default: //input[@name='groups[options][fields][shopping_cart][inherit]']
                 -
                     sales_sales:
                         xpath: //a[contains(@href, 'edit/section/sales/')]
@@ -1638,7 +1652,7 @@ system_configuration:
                                         flat_rate_type: //select[@name='groups[flatrate][fields][type][value]']
                                         flat_rate_calculate_handling_fee: //select[@name='groups[flatrate][fields][handling_type][value]']
                                         flat_rate_ship_to_applicable_countries: //select[@name='groups[flatrate][fields][sallowspecific][value]']
-                                        flat_rate_show_method_if_not_applicable: //select[@name='groups[flatrate][fields][sallowspecific][value]']
+                                        flat_rate_show_method_if_not_applicable: //select[@name='groups[flatrate][fields][showmethod][value]']
                                     multiselects:
                                         flat_rate_ship_to_specific_countries: //select[@name='groups[flatrate][fields][specificcountry][value][]']
                                     checkboxes:
@@ -1653,6 +1667,7 @@ system_configuration:
                                         flat_rate_calculate_handling_fee_use_default: //input[@name='groups[flatrate][fields][handling_type][inherit]']
                                         flat_rate_ship_to_applicable_countries_use_default: //input[@name='groups[flatrate][fields][sallowspecific][inherit]']
                                         flat_rate_ship_to_specific_countries_use_default: //input[@name='groups[flatrate][fields][specificcountry][inherit]']
+                                        flat_rate_show_method_if_not_applicable_use_default: //input[@name='groups[flatrate][fields][showmethod][inherit]']
                             -
                                 table_rates:
                                     xpath: //div/fieldset[legend='Table Rates']
@@ -1834,7 +1849,7 @@ system_configuration:
                                         fedex_account_id: //input[@name='groups[fedex][fields][account][value]']
                                         fedex_meter_number: //input[@name='groups[fedex][fields][meter_number][value]']
                                         fedex_key: //input[@name='groups[fedex][fields][key][value]']
-                                        fedex_password: input[@name='groups[fedex][fields][password][value]']
+                                        fedex_password: //input[@name='groups[fedex][fields][password][value]']
                                         fedex_maximum_package_weight: //input[@name='groups[fedex][fields][max_package_weight][value]']
                                         fedex_handling_fee: //input[@name='groups[fedex][fields][handling_fee][value]']
                                         fedex_minimum_order_amount_for_free_shipping: //input[@name='groups[fedex][fields][free_shipping_subtotal][value]']
@@ -1861,14 +1876,14 @@ system_configuration:
                                         fedex_account_id_use_default: //input[@name='groups[fedex][fields][account][inherit]']
                                         fedex_meter_number_use_default: //input[@name='groups[fedex][fields][meter_number][inherit]']
                                         fedex_key_use_default: //input[@name='groups[fedex][fields][key][inherit]']
-                                        fedex_password_use_default: input[@name='groups[fedex][fields][password][inherit]']
+                                        fedex_password_use_default: //input[@name='groups[fedex][fields][password][inherit]']
                                         fedex_maximum_package_weight_use_default: //input[@name='groups[fedex][fields][max_package_weight][inherit]']
                                         fedex_handling_fee_use_default: //input[@name='groups[fedex][fields][handling_fee][inherit]']
                                         fedex_minimum_order_amount_for_free_shipping_use_default: //input[@name='groups[fedex][fields][free_shipping_subtotal][inherit]']
                                         fedex_displayed_error_message_use_default: //input[@name='groups[fedex][fields][specificerrmsg][inherit]']
                                         fedex_sort_order_use_default: //input[@name='groups[fedex][fields][sort_order][inherit]']
                                         fedex_enabled_for_checkout_use_default: //input[@name='groups[fedex][fields][active][inherit]']
-                                        fedex_sandbox_mode_use_default: //select[@name='groups[fedex][fields][sandbox_mode][inherit]']
+                                        fedex_sandbox_mode_use_default: //input[@name='groups[fedex][fields][sandbox_mode][inherit]']
                                         fedex_packaging_use_default: //input[@name='groups[fedex][fields][packaging][inherit]']
                                         fedex_dropoff_use_default: //input[@name='groups[fedex][fields][dropoff][inherit]']
                                         fedex_calculate_handling_fee_use_default: //input[@name='groups[fedex][fields][handling_type][inherit]']
@@ -1994,6 +2009,7 @@ system_configuration:
                                     xpath: //div/fieldset[legend='Google Checkout']
                                     links:
                                         google_checkout_link: //a[text()='Google Checkout']
+                                        signup_for_google_checkout: //a[text()='Signup for Google Checkout']
                                     fields:
                                         title: //input[@name='groups[checkout][fields][title][value]']
                                         merchant_id: //input[@name='groups[checkout][fields][merchant_id][value]']
@@ -3050,8 +3066,8 @@ system_configuration:
                                         cp_tpe_number: //input[@name='groups[cybermut_payment][fields][tpe_no][value]']
                                         cp_site_code: //input[@name='groups[cybermut_payment][fields][site_code][value]']
                                         cp_sha_key: //input[@name='groups[cybermut_payment][fields][sha_key][value]']
-                                        cp_key: //input[@name='groups[cybermut_payment][fields][sha_key][value]']
-                                        cp_transaction_description: //input[@name='groups[cybermut_payment][fields][key][value]']
+                                        cp_key: //input[@name='groups[cybermut_payment][fields][key][value]']
+                                        cp_transaction_description: //input[@name='groups[cybermut_payment][fields][description][value]']
                                         cp_sort_order: //input[@name='groups[cybermut_payment][fields][sort_order][value]']
                                     dropdowns:
                                         cp_enabled: //select[@name='groups[cybermut_payment][fields][active][value]']
@@ -3060,7 +3076,7 @@ system_configuration:
                                         cp_test_mode: //select[@name='groups[cybermut_payment][fields][test_mode][value]']
                                         cp_debug: //select[@name='groups[cybermut_payment][fields][debug_flag][value]']
                                         cp_new_order_status: //select[@name='groups[cybermut_payment][fields][order_status][value]']
-                                        cp_payment_from_applicable_countries: //select[@name='groups[cybermut_payment][fields][order_status][value]']
+                                        cp_payment_from_applicable_countries: //select[@name='groups[cybermut_payment][fields][allowspecific][value]']
                                     multiselects:
                                         cp_payment_from_specific_countries: //select[@name='groups[cybermut_payment][fields][specificcountry][value][]']
                                     checkboxes:
@@ -3096,9 +3112,9 @@ system_configuration:
                                         ib_enabled: //select[@name='groups[ideal_basic][fields][active][value]']
                                         ib_test_mode: //select[@name='groups[ideal_basic][fields][test_flag][value]']
                                         ib_language: //select[@name='groups[ideal_basic][fields][language][value]']
-                                        ib_debug: //select[@name='groups[ideal_basic][fields][language][value]']
-                                        ib_new_order_status: //select[@name='groups[ideal_basic][fields][debug_flag][value]']
-                                        ib_payment_from_applicable_countries: //select[@name='groups[ideal_basic][fields][order_status][value]']
+                                        ib_debug: //select[@name='groups[ideal_basic][fields][debug_flag][value]']
+                                        ib_new_order_status: //select[@name='groups[ideal_basic][fields][order_status][value]']
+                                        ib_payment_from_applicable_countries: //select[@name='groups[ideal_basic][fields][allowspecific][value]']
                                     multiselects:
                                         ib_payment_from_specific_countries: //select[@name='groups[ideal_basic][fields][specificcountry][value][]']
                                     checkboxes:
@@ -3125,7 +3141,7 @@ system_configuration:
                                         ia_title: //input[@name='groups[ideal_advanced][fields][title][value]']
                                         ia_merchant_id: //input[@name='groups[ideal_advanced][fields][merchant_id][value]']
                                         ia_private_certificate: //input[@name='groups[ideal_advanced][fields][private_cert][value]']
-                                        ia_private_key: //select[@name='groups[ideal_advanced][fields][private_key][value]']
+                                        ia_private_key: //input[@name='groups[ideal_advanced][fields][private_key][value]']
                                         ia_private_key_password: //input[@name='groups[ideal_advanced][fields][private_keypass][value]']
                                         ia_ideal_certificate: //input[@name='groups[ideal_advanced][fields][certificate][value]']
                                         ia_transaction_description: //input[@name='groups[ideal_advanced][fields][description][value]']
@@ -3166,7 +3182,7 @@ system_configuration:
                                         cybersource_soap_toolkit_link: //a[text()='Cybersource (SOAP Toolkit)']
                                     fields:
                                         css_title: //input[@name='groups[cybersource_soap][fields][title][value]']
-                                        css_merchant_id: //input[@name='groups[cybersource_soap][fields][title][value]']
+                                        css_merchant_id: //input[@name='groups[cybersource_soap][fields][merchant_id][value]']
                                         css_security_key: //input[@name='groups[cybersource_soap][fields][security_key][value]']
                                         css_sort_order: //input[@name='groups[cybersource_soap][fields][sort_order][value]']
                                     dropdowns:
@@ -3209,7 +3225,7 @@ system_configuration:
                                     dropdowns:
                                         f2cpws_enabled: //select[@name='groups[flo2cash_web][fields][active][value]']
                                         f2cpws_demo_mode: //select[@name='groups[flo2cash_web][fields][demo_mode][value]']
-                                        f2cpws_payment_action: //select[@name='groups[flo2cash_web][fields][demo_mode][value]']
+                                        f2cpws_payment_action: //select[@name='groups[flo2cash_web][fields][payment_action][value]']
                                         f2cpws_new_order_status: //select[@name='groups[flo2cash_web][fields][order_status][value]']
                                         f2cpws_credit_card_verification: //select[@name='groups[flo2cash_web][fields][useccv][value]']
                                         f2cpws_debug_flag: //select[@name='groups[flo2cash_web][fields][debug_flag][value]']
@@ -3336,7 +3352,7 @@ system_configuration:
                                         o_button_background_color_of_the_ogone_template: //input[@name='groups[ogone][fields][buttonbgcolor][value]']
                                         o_button_text_color_of_the_ogone_template: //input[@name='groups[ogone][fields][buttontxtcolor][value]']
                                         o_font_family_of_the_ogone_template: //input[@name='groups[ogone][fields][fonttype][value]']
-                                        o_logo_of_the_ogone_template: //input[@name='groups[ogone][fields][fonttype][value]']
+                                        o_logo_of_the_ogone_template: //input[@name='groups[ogone][fields][logo][value]']
                                     dropdowns:
                                         o_enabled: //select[@name='groups[ogone][fields][active][value]']
                                         o_debug: //select[@name='groups[ogone][fields][debug_flag][value]']
@@ -3624,7 +3640,7 @@ system_configuration:
                                         sort_order: //input[@name='groups[moneybookers_ebt][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_ebt][fields][title][value]']
                                     dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_ebt][fields][title][value]']
+                                        enabled: //select[@name='groups[moneybookers_ebt][fields][active][value]']
                                         payment_from_applicable_countries: //select[@name='groups[moneybookers_ebt][fields][allowspecific][value]']
                                     multiselects:
                                         payment_from_specific_countries: //select[@name='groups[moneybookers_ebt][fields][specificcountry][value][]']
@@ -3646,7 +3662,7 @@ system_configuration:
                                         enabled: //select[@name='groups[moneybookers_so2][fields][active][value]']
                                         payment_from_applicable_countries: //select[@name='groups[moneybookers_so2][fields][allowspecific][value]']
                                     multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_so2][fields][allowspecific][value]']
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_so2][fields][specificcountry][value][]']
                                     checkboxes:
                                         sort_order_use_default: //input[@name='groups[moneybookers_so2][fields][sort_order][inherit]']
                                         title_use_default: //input[@name='groups[moneybookers_so2][fields][title][inherit]']
@@ -3660,9 +3676,9 @@ system_configuration:
                                         ideal_powered_by_moneybookers_netherlands_link: //a[text()='iDeal (powered by Moneybookers) - Netherlands']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_idl][fields][sort_order][value]']
-                                        title: //input[@name='groups[moneybookers_idl][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_idl][fields][title][value]']
                                     dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_idl][fields][title][value]']
+                                        enabled: //select[@name='groups[moneybookers_idl][fields][active][value]']
                                         payment_from_applicable_countries: //select[@name='groups[moneybookers_idl][fields][active][value]']
                                     multiselects:
                                         payment_from_specific_countries: //select[@name='groups[moneybookers_idl][fields][specificcountry][value][]']
@@ -3678,10 +3694,10 @@ system_configuration:
                                     links:
                                         eps_online_überweisung_powered_by_moneybookers_austria_link: //a[text()='EPS Online-Überweisung (powered by Moneybookers) - Austria']
                                     fields:
-                                        sort_order: //input[@name='groups[moneybookers_idl][fields][specificcountry][value][]']
-                                        title: //input[@name='groups[moneybookers_npy][fields][sort_order][value]']
+                                        sort_order: //input[@name='groups[moneybookers_npy][fields][sort_order][value]']
+                                        title: //input[@name='groups[moneybookers_npy][fields][title][value]']
                                     dropdowns:
-                                        enabled: //select[@name='groups[moneybookers_npy][fields][title][value]']
+                                        enabled: //select[@name='groups[moneybookers_npy][fields][active][value]']
                                         payment_from_applicable_countries: //select[@name='groups[moneybookers_npy][fields][allowspecific][value]']
                                     multiselects:
                                         payment_from_specific_countries: //select[@name='groups[moneybookers_npy][fields][specificcountry][value][]']
@@ -3760,7 +3776,7 @@ system_configuration:
                                         enabled: //select[@name='groups[moneybookers_obt][fields][active][value]']
                                         payment_from_applicable_countries: //select[@name='groups[moneybookers_obt][fields][allowspecific][value]']
                                     multiselects:
-                                        payment_from_specific_countries: //select[@name='groups[moneybookers_obt][fields][allowspecific][value]']
+                                        payment_from_specific_countries: //select[@name='groups[moneybookers_obt][fields][specificcountry][value][]']
                                     checkboxes:
                                         sort_order_use_default: //input[@name='groups[moneybookers_obt][fields][sort_order][inherit]']
                                         title_use_default: //input[@name='groups[moneybookers_obt][fields][title][inherit]']
@@ -3901,8 +3917,10 @@ system_configuration:
                                         admin_base_url_link: //a[text()='Admin Base URL']
                                     fields:
                                         custom_admin_url: //input[@name='groups[url][fields][custom][value]']
+                                        custom_admin_path: //input[@name='groups[url][fields][custom_path][value]']
                                     dropdowns:
                                         use_custom_admin_url: //select[@name='groups[url][fields][use_custom][value]']
+                                        use_custom_admin_path: //select[@name='groups[url][fields][use_custom_path][value]']
                             -
                                 security:
                                     xpath: //div/fieldset[legend='Security']
