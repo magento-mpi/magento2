@@ -109,8 +109,8 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
      *
      * @var array
      */
-    protected $_castMap = array(
-        'validate-digits' => 'signed',
+    protected $_castToIntMap = array(
+        'validate-digits'
     );
 
     /**
@@ -377,15 +377,36 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
                     $orderExpr = $this->_getAttributeTableAlias($attribute).'.value';
                 }
             }
-            if (isset($this->_castMap[$attrInstance->getFrontendClass()])) {
-                $castTo = $this->_castMap[$attrInstance->getFrontendClass()];
-                $orderExpr = new Zend_Db_Expr("CAST($orderExpr AS $castTo) $dir");
-            } else {
-                $orderExpr .= ' ' . $dir;
+
+            if (in_array($attrInstance->getFrontendClass(), $this->_castToIntMap)) {
+                $orderExpr = Mage::getResourceHelper('eav')->getCastToIntExpression(
+                    $this->_prepareOrderExpression($orderExpr)
+                );
             }
+
+            $orderExpr .= ' ' . $dir;
             $this->getSelect()->order($orderExpr);
         }
         return $this;
+    }
+
+    /**
+     * Retrieve attribute expression by specified column
+     *
+     * @param $field
+     * @return string|Zend_Db_Expr
+     */
+    protected function _prepareOrderExpression($field)
+    {
+        foreach ($this->getSelect()->getPart(Zend_Db_Select::COLUMNS) as $columnEntry) {
+            if ($columnEntry[2] != $field) {
+                continue;
+            }
+            if($columnEntry[1] instanceof Zend_Db_Expr) {
+                return $columnEntry[1];
+            }
+        }
+        return $field;
     }
 
     /**
