@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -27,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Products deletion tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -37,139 +38,265 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * @TODO
+     * <p>Log in to Backend.</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to Catalog -> Manage Products</p>
      */
     protected function assertPreConditions()
     {
-        // @TODO
-    }
-
-
-    /**
-     * @TODO
-     */
-    public function test_Simple()
-    {
-        // @TODO
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
     }
 
     /**
-     * @TODO
+     * <p>Delete product.</p>
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     * <p>6. Open product;</p>
+     * <p>7. Click "Delete" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is deleted, confirmation message appears;</p>
+     *
+     * @dataProvider dataProductTypes
+     * @test
+     *
+     * @param string $type
      */
-    public function test_Virtual()
+    public function deleteSingleProduct($type)
     {
-        // @TODO
+        //Data
+        $productData = $this->loadData($type . '_product_required', null, array('general_name', 'general_sku'));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($productData, $type);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        $this->deleteElement('delete', 'confirmation_for_delete');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
+    }
+
+    public function dataProductTypes()
+    {
+        return array(
+            array('simple'),
+            array('virtual'),
+            array('downloadable'),
+            array('grouped'),
+            array('bundle')
+        );
     }
 
     /**
-     * @TODO
+     * <p>Delete configurable product</p>
+     * <p>Steps:</p>
+     * <p>1. Click "Add product" button;</p>
+     * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields;</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     * <p>6. Open product;</p>
+     * <p>7. Click "Delete" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is deleted, confirmation message appears;</p>
+     * @test
      */
-    public function test_Downloadable_Single()
+    public function deleteSingleConfigurableProduct()
     {
-        // @TODO
+        //Data
+        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
+                array('admin_title', 'attribute_code'));
+        $associatedAttributes = $this->loadData('associated_attributes',
+                array('General' => $attrData['attribute_code']));
+        $productData = $this->loadData('configurable_product_required',
+                array('configurable_attribute_title' => $attrData['admin_title']),
+                array('general_name', 'general_sku'));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->createAttribute($attrData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+        //Steps
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->openAttributeSet();
+        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
+        $this->saveForm('save_attribute_set');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'configurable');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        $this->deleteElement('delete', 'confirmation_for_delete');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
+
+        return $attrData;
     }
 
     /**
-     * @TODO
+     * Delete product that used in configurable
+     *
+     * @depends deleteSingleConfigurableProduct
+     * @dataProvider dataAssociatedType
+     * @test
+     *
+     * @param string $type
+     * @param array $attrData
      */
-    public function test_Downloadable_Multilink()
+    public function deleteAssociatedToCinfigurable($type, $attrData)
     {
-        // @TODO
+        //Data
+        $associated = $this->loadData($type . '_product_required', null, array('general_name', 'general_sku'));
+        $associated['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+                $attrData['option_1']['admin_option_name'];
+        $configPr = $this->loadData('configurable_product_required',
+                array('configurable_attribute_title' => $attrData['admin_title']),
+                array('general_name', 'general_sku'));
+        $configPr['associated_products_configurable_data'] = $this->loadData('associated_products_configurable_data',
+                array('associated_products_sku' => $associated['general_sku']));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $associated['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($associated, $type);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->createProduct($configPr, 'configurable');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->assertTrue($this->searchAndOpen($productSearch), 'Cant\'t find item in grig');
+        $this->deleteElement('delete', 'confirmation_for_delete');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
+    }
+
+    public function dataAssociatedType()
+    {
+        return array(
+            array('simple'),
+            array('virtual')
+        );
     }
 
     /**
-     * @TODO
+     * Delete product that used in Grouped or bundle
+     *
+     * @test
+     * @dataProvider dataProducts
+     *
+     * @param string $associatedType
+     * @param string $type
      */
-    public function test_Grouped_Virtual()
+    public function deleteAssociatedProduct($associatedType, $type)
     {
-        // @TODO
+        //Data
+        $associatedData = $this->loadData($associatedType . '_product_required', null,
+                array('general_name', 'general_sku'));
+        if ($type == 'grouped') {
+            $productData = $this->loadData($type . '_product_required',
+                    array('associated_products_sku' => $associatedData['general_sku']),
+                    array('general_name', 'general_sku'));
+        } else {
+            $productData = $this->loadData($type . '_product_required', null, array('general_name', 'general_sku'));
+            $productData['bundle_items_data']['bundle_items_1'] = $this->loadData('bundle_items_1',
+                    array('bundle_items_sku' => $associatedData['general_sku']));
+        }
+        $productSearch = $this->loadData('product_search', array('product_sku' => $associatedData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($associatedData, $associatedType);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->productHelper()->createProduct($productData, $type);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        //Steps
+        $this->assertTrue($this->searchAndOpen($productSearch), 'Cant\'t find item in grig');
+        $this->deleteElement('delete', 'confirmation_for_delete');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
+    }
+
+    public function dataProducts()
+    {
+        return array(
+            array('simple', 'grouped'),
+            array('virtual', 'grouped'),
+            array('downloadable', 'grouped'),
+            array('simple', 'bundle'),
+            array('virtual', 'bundle')
+        );
     }
 
     /**
-     * @TODO
+     * <p>Delete several products.</p>
+     * <p>Preconditions: Create several products</p>
+     * <p>Steps:</p>
+     * <p>1. Search and choose several products.</p>
+     * <p>3. Select 'Actions' to 'Delete'.</p>
+     * <p>2. Click 'Submit' button.</p>
+     * <p>Expected result:</p>
+     * <p>Products are deleted.</p>
+     * <p>Success Message is displayed.</p>
      */
-    public function test_Grouped_Physical()
+    public function throughMassAction()
     {
-        // @TODO
+        $productQty = 2;
+        for ($i = 1; $i <= $productQty; $i++) {
+            //Data
+            $productData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
+            ${'searchData' . $i} = $this->loadData('product_search', array('email' => $productData['general_sku']));
+            //Steps
+            $this->productHelper()->createProduct($productData);
+            //Verifying
+            $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+            $this->assertTrue($this->checkCurrentPage('manage_products'),
+                    'After successful product creation should be redirected to Manage Products page');
+        }
+        for ($i = 1; $i <= $productQty; $i++) {
+            $this->searchAndChoose(${'searchData' . $i});
+        }
+        $this->addParameter('qtyDeletedProducts', $productQty);
+        $xpath = $this->_getControlXpath('dropdown', 'product_massaction');
+        $this->select($xpath, 'Delete');
+        $this->deleteElement('submit', 'confirmation_for_delete');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_deleted_products_massaction'), $this->messages);
     }
 
-    /**
-     * @TODO
-     */
-    public function test_Grouped_Combined()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_Configurable_Virtual()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_Configurable_Physical()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_Configurable_Combined()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_Bundle_Fixed()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_Bundle_Dynamic()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_ThroughMassAction()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_UsedIn_Bundle()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_UsedIn_Configurable()
-    {
-        // @TODO
-    }
-
-    /**
-     * @TODO
-     */
-    public function test_UsedIn_Grouped()
-    {
-        // @TODO
-    }
 }

@@ -61,19 +61,20 @@ manage_products:
         buttons:
             add_new_product: //button[span='Add Product']
         messages: &productMesssages
-            success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been deleted.')]
-            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
-            success_created_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been created.')]
+            invalid_custom_option_price: //div[contains(@id,'product_option_%optionId%_type_')][@class='grid tier form-list']//div[text()='Please enter a number 0 or greater in this field.']
+            success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.//span,'Total of %qtyDeletedProducts% record(s) have been deleted.')]
             enter_greater_than_zero: "//div[@id='advice-validate-greater-than-zero-%fieldId%' and not(contains(@style,'display: none;'))]"
+            success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been deleted.')]
+            success_created_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been created.')]
             enter_zero_or_greater: "//div[@id='advice-validate-zero-or-greater-%fieldId%' and not(contains(@style,'display: none;'))]"
+            success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
+            specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
+            incorrect_sku_length: //div[@class='validation-advice' and text()='SKU length should be 64 characters maximum.']
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             enter_valid_number: "//div[@id='advice-validate-number-%fieldId%' and not(contains(@style,'display: none;'))]"
-            select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
-            incorrect_sku_length: //div[@class='validation-advice' and text()='SKU length should be 64 characters maximum.']
             existing_sku: //div[@class='validation-advice' and text()='The value of attribute "SKU" must be unique']
+            select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
-            specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
-            invalid_custom_option_price: //div[contains(@id,'product_option_%optionId%_type_')][@class='grid tier form-list']//div[text()='Please enter a number 0 or greater in this field.']
 
 # Settings for New Product creation
 new_product_settings:

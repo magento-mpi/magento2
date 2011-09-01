@@ -643,7 +643,7 @@ dynamic_bundle_required:
         ship_bundle_items: %noValue%
         bundle_items_1: %noValue%
 
-fixed_bundle_required:
+fixed_bundle_required: &bundle
     product_attribute_set: Default
     general_name: Bundle(Fixed) Product Required
     general_description: Description for Bundle(Fixed) Product Required
@@ -660,6 +660,8 @@ fixed_bundle_required:
     bundle_items_data:
         ship_bundle_items: %noValue%
         bundle_items_1: %noValue%
+
+bundle_product_required: *bundle
 
 dynamic_bundle:
     product_attribute_set: Default
