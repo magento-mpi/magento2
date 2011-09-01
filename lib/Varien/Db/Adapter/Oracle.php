@@ -452,6 +452,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         if ($schemaName !== null) {
             $table->setSchema($schemaName);
         }
+
         return $table;
     }
 
@@ -554,7 +555,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function limit($sql, $count, $offset = 0)
     {
-        $query = '';
         $count = intval($count);
         if ($count <= 0) {
             throw new Zend_Db_Adapter_Oracle_Exception("LIMIT argument count={$count} is not valid");
@@ -576,7 +576,8 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
                     WHERE ROWNUM <= %d) m2
                 WHERE m2.analytic_clmn >= %d', $sql, $offset + $count, $offset + 1);
         }
-            return $query;
+
+        return $query;
     }
 
     /**
@@ -584,6 +585,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      *
      * @param string $tableName
      * @param string $schemaName
+     * @return string
      */
     protected function _getTableName($tableName, $schemaName = null)
     {
@@ -594,7 +596,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      * Returns the column descriptions for a table.
      *
      * @param string $tableName
-     * @param string $schemaName OPTIONAL
+     * @param string $schemaName
      * @return array
      */
     public function _describeTable($tableName, $schemaName = null)
@@ -1740,19 +1742,6 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $this->raw_query($sql);
 
         return $this;
-    }
-
-    /**
-     * Retrieve Foreign Key name
-     * @param string $fkName
-     * @return string
-     */
-    protected function _getForeignKeyName($fkName)
-    {
-        if (substr($fkName, 0, 3) != 'FK_') {
-            $fkName = 'FK_' . $fkName;
-        }
-        return $fkName;
     }
 
     /**
@@ -3291,6 +3280,19 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
         $this->_debugIoAdapter->streamWrite($str);
         $this->_debugIoAdapter->streamUnlock();
         $this->_debugIoAdapter->streamClose();
+    }
+
+    /**
+     * Get column definition from description
+     *
+     * @param  array $options
+     * @param  null|string $ddlType
+     * @return string
+     */
+    public function getColumnDefinitionFromDescribe($options, $ddlType = null)
+    {
+        $columnInfo = $this->getColumnCreateByDescribe($options);
+        return $this->_getColumnDefinition($columnInfo, $ddlType);
     }
 
     /**
@@ -4862,5 +4864,26 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
     public function getSuggestedZeroDate()
     {
         return '1800-01-01 00:00:00';
+    }
+
+
+
+
+
+    /**
+     * Retrieve Foreign Key name
+     *
+     * @deprecated after 1.6.0.0
+     *
+     * @param  string $fkName
+     * @return string
+     */
+    protected function _getForeignKeyName($fkName)
+    {
+        if (substr($fkName, 0, 3) != 'FK_') {
+            $fkName = 'FK_' . $fkName;
+        }
+
+        return $fkName;
     }
 }

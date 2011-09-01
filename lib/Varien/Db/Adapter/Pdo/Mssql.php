@@ -477,6 +477,19 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
+     * Get column definition from description
+     *
+     * @param  array $options
+     * @param  null|string $ddlType
+     * @return string
+     */
+    public function getColumnDefinitionFromDescribe($options, $ddlType = null)
+    {
+        $columnInfo = $this->getColumnCreateByDescribe($options);
+        return $this->_getColumnDefinition($columnInfo, $ddlType);
+    }
+
+    /**
      * Retrieve column definition fragment
      *
      * @param array $options
@@ -1020,6 +1033,57 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
+     * Format described column to definition, ready to be added to ddl table.
+     * Return array with keys: name, type, length, options, comment
+     *
+     * @param  array $columnData
+     * @return array
+     */
+    public function getColumnCreateByDescribe($columnData)
+    {
+        $type = $this->_getColumnTypeByDdl($columnData);
+        $options = array();
+
+        if ($columnData['IDENTITY'] === true) {
+            $options['identity'] = true;
+        }
+        if ($columnData['UNSIGNED'] === true) {
+            $options['unsigned'] = true;
+        }
+        if ($columnData['NULLABLE'] === false
+            && !($type == Varien_Db_Ddl_Table::TYPE_TEXT && strlen($columnData['DEFAULT']) != 0)
+        ) {
+            $options['nullable'] = false;
+        }
+        if ($columnData['PRIMARY'] === true) {
+            $options['primary'] = true;
+        }
+        if (($columnData['DEFAULT'] !== null)
+            && $type != Varien_Db_Ddl_Table::TYPE_TEXT
+        ) {
+            $options['default'] = $this->quote($columnData['DEFAULT']);
+        }
+        if (strlen($columnData['SCALE']) > 0) {
+            $options['scale'] = $columnData['SCALE'];
+        }
+        if (strlen($columnData['PRECISION']) > 0) {
+            $options['precision'] = $columnData['PRECISION'];
+        }
+
+        $comment = uc_words($columnData['COLUMN_NAME'], ' ');
+
+        $result = array(
+            'name'      => $columnData['COLUMN_NAME'],
+            'type'      => $type,
+            'length'    => $columnData['LENGTH'],
+            'options'   => $options,
+            'comment'   => $comment
+        );
+
+        return $result;
+    }
+
+    /**
      * Create Varien_Db_Ddl_Table object by data from describe table
      *
      * @param $tableName
@@ -1030,38 +1094,17 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     {
         $describe = $this->describeTable($tableName);
         $table = $this->newTable($newTableName)
-            ->setComment(ucwords(str_replace('_', ' ', $newTableName)));
+            ->setComment(uc_words($newTableName, ' '));
         foreach ($describe as $columnData) {
-            $type = $this->_getColumnTypeByDdl($columnData);
-            $options = array();
-            if ($columnData['IDENTITY'] === true) {
-                $options['identity']  = true;
-            }
-            if ($columnData['UNSIGNED'] === true) {
-                $options['unsigned']  = true;
-            }
-            if ($columnData['NULLABLE'] === false
-                && !($type == Varien_Db_Ddl_Table::TYPE_TEXT
-                && strlen($columnData['DEFAULT']) != 0)
-            ) {
-                $options['nullable'] = false;
-            }
-            if ($columnData['PRIMARY'] === true) {
-                $options['primary'] = true;
-            }
-            if (($columnData['DEFAULT'] !== null)
-                && $type != Varien_Db_Ddl_Table::TYPE_TEXT
-                ) {
-                $options['default'] = $this->quote($columnData['DEFAULT']);
-            }
-            if (strlen($columnData['SCALE']) > 0) {
-                $options['scale'] = $columnData['SCALE'];
-            }
-            if (strlen($columnData['PRECISION']) > 0) {
-                $options['precision'] = $columnData['PRECISION'];
-            }
-            $comment = ucwords(str_replace('_', ' ', $columnData['COLUMN_NAME']));
-            $table->addColumn($columnData['COLUMN_NAME'], $type, $columnData['LENGTH'], $options, $comment);
+            $columnInfo = $this->getColumnCreateByDescribe($columnData);
+
+            $table->addColumn(
+                $columnInfo['name'],
+                $columnInfo['type'],
+                $columnInfo['length'],
+                $columnInfo['options'],
+                $columnInfo['comment']
+            );
         }
 
         $indexes = $this->getIndexList($tableName);
@@ -1085,6 +1128,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $fkName = $this->getForeignKeyName(
                 $newTableName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'], $keyData['REF_COLUMN_NAME']
             );
+
             $onDelete = '';
             if ($keyData['ON_DELETE'] == 'CASCADE') {
                 $onDelete = Varien_Db_Ddl_Table::ACTION_CASCADE;
@@ -1095,6 +1139,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             } else {
                 $onDelete = Varien_Db_Ddl_Table::ACTION_NO_ACTION;
             }
+
             $onUpdate = '';
             if ($keyData['ON_UPDATE'] == 'CASCADE') {
                $onUpdate = Varien_Db_Ddl_Table::ACTION_CASCADE;
@@ -1105,6 +1150,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             } else {
                $onUpdate = Varien_Db_Ddl_Table::ACTION_NO_ACTION;
             }
+
             $table->addForeignKey(
                 $fkName, $keyData['COLUMN_NAME'], $keyData['REF_TABLE_NAME'],
                 $keyData['REF_COLUMN_NAME'], $onDelete, $onUpdate
