@@ -73,7 +73,7 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
      * Original charset of report files
      * @var string
      */
-    const FILES_IN_CHARSET = "UTF-16";
+    const FILES_IN_CHARSET = "UTF-8";
 
     /**
      * Target charset of report files to be parsed
