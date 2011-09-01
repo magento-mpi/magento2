@@ -75,6 +75,7 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function __construct()
     {
+        $this->_request = Mage::app()->getRequest();
         // Set all necessary flags
         $this->_canEditProductPrice = true;
         $this->_canReadProductPrice = true;
@@ -93,7 +94,6 @@ class Enterprise_PricePermissions_Model_Observer
 
         // load role with true websites and store groups
         if ($session->isLoggedIn() && $session->getUser()->getRole()) {
-            $this->_request = Mage::app()->getRequest();
             // Set all necessary flags
             $this->_canEditProductPrice = Mage::helper('enterprise_pricepermissions')->getCanAdminEditProductPrice();
             $this->_canReadProductPrice = Mage::helper('enterprise_pricepermissions')->getCanAdminReadProductPrice();
