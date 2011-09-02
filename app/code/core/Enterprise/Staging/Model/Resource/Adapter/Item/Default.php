@@ -1101,7 +1101,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Default extends Enterprise_
      *
      * @return Enterprise_Staging_Model_Resource_Adapter_Item_Default
      */
-    protected function _collectTablesFlat()
+    protected function _getBackupTablesFlat()
     {
         return $this;
     }
