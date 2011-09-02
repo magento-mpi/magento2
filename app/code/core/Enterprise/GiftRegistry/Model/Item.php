@@ -379,7 +379,9 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
                ->setCode($option->getCode())
                ->setValue($option->getValue())
                ->setItem($this);
-        } elseif (($option instanceof Varien_Object) && !($option instanceof Enterprise_GiftRegistry_Model_Item_Option)) {
+        } elseif (($option instanceof Varien_Object)
+            && !($option instanceof Enterprise_GiftRegistry_Model_Item_Option)
+        ) {
             $option = Mage::getModel('enterprise_giftregistry/item_option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
@@ -471,5 +473,36 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     public function getFileDownloadParams()
     {
         return null;
+    }
+
+    /**
+     * Validates and sets quantity for the related product
+     *
+     * @param int|float $quantity New item quantity
+     * @throws Mage_Core_Exception
+     * @return Enterprise_GiftRegistry_Model_Item
+     */
+    public function setQty($quantity)
+    {
+        $isQtyValid = (is_numeric($quantity) && $quantity > 0);
+        // Check whether we've received float or int value and cast to be able to use is_float()
+        $quantity = ((float)$quantity == (int)$quantity) ? (int)$quantity : (float)$quantity;
+
+        if ($isQtyValid && is_float($quantity)) {
+            /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+            $stockItem = $this->_getProduct()->getStockItem();
+
+            if ($stockItem) {
+                $isQtyValid = (bool)$stockItem->getIsQtyDecimal();
+            } else {
+                $isQtyValid = (bool)$this->_getProduct()->getTypeInstance()->canUseQtyDecimals();
+            }
+        }
+
+        if (!$isQtyValid) {
+            Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Invalid quantity specified'));
+        }
+
+        return $this->setData('qty', $quantity);
     }
 }
