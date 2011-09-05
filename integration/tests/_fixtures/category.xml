@@ -1,0 +1,11 @@
+<root>
+    <parentCategory>6</parentCategory>
+    <categoryData>
+        <id>12</id>
+        <name>Category 2.2</name>
+        <is_active>1</is_active>
+        <include_in_menu>1</include_in_menu>
+        <default_sort_by>use_config</default_sort_by>
+        <available_sort_by>use_config</available_sort_by>
+    </categoryData>
+</root>

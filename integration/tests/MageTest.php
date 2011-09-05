@@ -30,24 +30,34 @@
  */
 class MageTest extends Magento_Test_Webservice
 {
-//
-//    public function testLogin()
-//    {
-//        $this->assertNotEmpty($this->getWebService(SOAP)->login('api', 'apiapi'), 'SOAP');
-//        $this->assertNotEmpty($this->getWebService(SOAPV2)->login('api', 'apiapi'), 'SOAPV2');
-//        $this->assertNotEmpty($this->getWebService(XMLRPC)->login('api', 'apiapi'), 'XMLPRC');
-//
-//    }
+
+    public function testLogin()
+    {
+        $this->assertNotEmpty($this->getWebService()->login('api', 'apiapi'));
+    }
 
     public function testProductInfo()
     {
-      $categories = $this->call('catalog_category.info', array(3));
+        $category = $this->call('catalog_category.info', array(3));
+        $this->assertEquals('Category 1', $category['name']);
+        $this->assertEquals('1/2/3', $category['path']);
+    }
+
+    public function testProductCreate()
+    {
+      $categoryFixture = simplexml_load_file(__DIR__.'/_fixtures/category.xml');
+      $data = self::simpleXmlToArray($categoryFixture);
+
+      $categories = $this->call('category.create', $data);
+
+      $categoryLoaded = new Mage_Catalog_Model_Category();
+      $categoryLoaded->load(9);
 
       foreach($categories as $server => $result)
       {
-        $this->assertEquals('Category 12', $result['name'], $server);
+        $this->assertEquals('Category 2.1', $result['name'], $server);
         $this->assertEquals('1/2/3', $result['path'], $server);
       }
-        
+
     }
 }
