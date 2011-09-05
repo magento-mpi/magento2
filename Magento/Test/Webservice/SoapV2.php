@@ -35,8 +35,8 @@ class Magento_Test_Webservice_SoapV2
 
     public function init()
     {
-        $this->_client = new Zend_Soap_Client('http://api.ll/api/v2_soap/?wsdl=1');
-        $this->_session=  $this->_client->login('api', 'apiapi');
+        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL.'/api/v2_soap/?wsdl=1');
+        $this->_session=  $this->_client->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
         $this->_configFunction = Mage::getSingleton('api/config')->getNode('v2/resources_function_prefix')->children();
         $this->_configAlias = Mage::getSingleton('api/config')->getNode('resources_alias')->children();
 

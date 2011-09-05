@@ -129,7 +129,11 @@ class Magento_Test_Listener_Annotation_Fixture
         $transactionLevel = $adapter->getTransactionLevel();
         if($transactionLevel != 0) $adapter->commit();
 
-        $adapter->beginTransaction();
+        // check if transaction disabled
+        if(TESTS_FIXTURE_TRANSACTION !== 'off'){
+            $adapter->beginTransaction();
+        }
+
     }
 
     /**
@@ -139,7 +143,10 @@ class Magento_Test_Listener_Annotation_Fixture
     {
         /** @var $adapter Varien_Db_Adapter_Interface */
         $adapter = Mage::getSingleton('core/resource')->getConnection('write');
-        $adapter->rollBack();
+        if(TESTS_FIXTURE_TRANSACTION !== 'off'){
+            $adapter->rollBack();
+        }
+
     }
 
     /**

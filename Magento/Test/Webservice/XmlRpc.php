@@ -33,8 +33,8 @@ class Magento_Test_Webservice_XmlRpc
 
     public function init()
     {
-        $this->_client = new Zend_XmlRpc_Client('http://api.ll/api/xmlrpc/');
-        $this->_session = $this->_client->call('login',array('api', 'apiapi'));
+        $this->_client = new Zend_XmlRpc_Client(TESTS_WEBSERVICE_URL.'/api/xmlrpc/');
+        $this->_session = $this->_client->call('login',array(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
     }
 
     public function login($api, $key)

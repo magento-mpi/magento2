@@ -33,8 +33,8 @@ class Magento_Test_Webservice_SoapV1
 
     public function init()
     {
-        $this->_client = new Zend_Soap_Client('http://api.ll/api/soap/?wsdl=1');
-        $this->_session =  $this->login('api', 'apiapi');
+        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL.'/api/soap/?wsdl=1');
+        $this->_session =  $this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
     }
 
     public function login($api, $key)

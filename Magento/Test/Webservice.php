@@ -28,42 +28,86 @@
 class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
 {
 
-    protected static $_webServices = array();
+    protected static $_ws = null;
 
-    const SOAP = 'soap';
-    const SOAPV2 = 'soapv2';
-    const XMLRPC = 'xmlrpc';
-
-    private $_webServiceMap = array('soap'=>'Magento_Test_Webservice_SoapV1',
+    private $_webServiceMap = array(
                                     'soapv1'=>'Magento_Test_Webservice_SoapV1',
                                     'soapv2'=>'Magento_Test_Webservice_SoapV2',
                                     'xmlrpc'=>'Magento_Test_Webservice_XmlRpc'
                              );
 
 
-    public function getWebService($type = SOAP)
+    public function getWebService()
     {
-        if (!array_key_exists($type, self::$_webServices)) {
-            $class = $this->_webServiceMap[strtolower($type)];
-            self::$_webServices[$type] = new $class();
-            self::$_webServices[$type]->init();
+        if (is_null(self::$_ws)) {
+            $class = $this->_webServiceMap[strtolower(TESTS_WEBSERVICE_TYPE)];
+            self::$_ws = new $class();
+            self::$_ws->init();
         }
 
-        return self::$_webServices[$type];
+        return self::$_ws;
     }
 
     public function call($path, $params = array())
     {
-      //  $this->getWebService(SOAP);
-        $this->getWebService(XMLRPC);
-     //   $this->getWebService(SOAPV2);
-        
+        if(is_null(self::$_ws)) $this->getWebService();
+
+        return self::$_ws->call($path,$params);;
+    }
+
+    /**
+     * @param SimpleXMLObject $xml
+     * @param String $keyTrimmer
+     * @return array
+     *
+     * In XML notation we can't have nodes with digital names in other words fallowing XML will be not valid:
+     * &lt;24&gt;
+     *      Default category
+     * &lt;/24&gt;
+     *
+     * But this one will not cause any problems:
+     * &lt;qwe_24&gt;
+     *      Default category
+     * &lt;/qwe_24&gt;
+     *
+     * So when we want to obtain an array with key 24 we will pass the correct XML from above and $keyTrimmer = 'qwe_';
+     * As a result we will obtain an array with digital key node.
+     *
+     * In the other case just don't pass the $keyTrimmer.
+     */
+    public static function simpleXmlToArray($xml, $keyTrimmer = null)
+    {
         $result = array();
-        foreach(self::$_webServices as $type => $ws)
-        {
-            $result[$type] = $ws->call($path,$params);
+
+        $isTrimmed = false;
+        if (!is_null($keyTrimmer)){
+            $isTrimmed = true;
         }
 
+        if(is_object($xml)){
+            foreach (get_object_vars($xml->children()) as $key => $node)
+            {
+                $arrKey = $key;
+                if ($isTrimmed){
+                    $arrKey = str_replace($keyTrimmer, '', $key);//, &$isTrimmed);
+                }
+                if (is_numeric($arrKey)){
+                    $arrKey = 'Obj' . $arrKey;
+                }
+                if (is_object($node)){
+                    $result[$arrKey] = Magento_Test_Webservice::simpleXmlToArray($node, $keyTrimmer);
+                } elseif(is_array($node)){
+                    $result[$arrKey] = array();
+                    foreach($node as $node_key => $node_value){
+                        $result[$arrKey][] = Magento_Test_Webservice::simpleXmlToArray($node_value, $keyTrimmer);
+                    }
+                } else {
+                    $result[$arrKey] = (string)$node;
+                }
+            }
+        } else {
+            $result = (string) $xml;
+        }
         return $result;
     }
 }
