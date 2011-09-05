@@ -204,7 +204,7 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
         $products = $this->loadData('simple_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
+        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 'new_customer_order_billing_address_reqfields', null,
                 $this->loadData('visa', $emptyAmericanExpressField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
@@ -317,7 +317,7 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
         $products = $this->loadData('simple_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
+        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 'new_customer_order_billing_address_reqfields', null,
                 $this->loadData('visa', $emptyMasterCardField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
@@ -430,7 +430,7 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
         $products = $this->loadData('simple_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
+        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 'new_customer_order_billing_address_reqfields', null,
                 $this->loadData('visa', $emptyDiscoverField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');

@@ -90,9 +90,9 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
+                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'visa','Fixed');
         $this->clickButton('invoice', TRUE);
         $this->defineIdFromUrl();
@@ -131,9 +131,9 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, FALSE),
-                $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, FALSE),
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
+                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, FALSE),
+                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, FALSE),
                 'visa','Fixed');
         $this->clickButton('invoice', TRUE);
         $this->defineIdFromUrl();
@@ -172,9 +172,9 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->OrderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, TRUE),
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
+                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'visa','Fixed');
         $this->clickButton('invoice', TRUE);
         $this->defineIdFromUrl();

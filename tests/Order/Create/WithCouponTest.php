@@ -149,7 +149,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         $reconfigProduct = $this->loadData('products_to_reconfig_1',
                 array('general_sku' => $productData['general_sku']));
         $this->navigate('manage_sales_orders');
-        $orderId = $this->OrderHelper()->createOrderForExistingCustomer(false, 'Default Store View',
+        $orderId = $this->orderHelper()->createOrderForExistingCustomer(false, 'Default Store View',
                 $products, $data['data']['email'],
                 $data['data'], $data['data'], 'visa','Fixed',
                 null, null, $couponCode);
@@ -176,7 +176,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
                 array(
-                    $this->OrderHelper()->customerAddressGenerator(
+                    $this->orderHelper()->customerAddressGenerator(
                     ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
                     'billing_save_in_address_book' => 'yes' ));
         $billingAddress['email'] = $this->generate('email', 32, 'valid');
@@ -191,7 +191,7 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         $products = $this->loadData('simple_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View',
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View',
                 $products, $billingAddress['email'],
                 $billingAddress, $shippingAddress, 'visa','Fixed',
                 null, null, $couponCode);

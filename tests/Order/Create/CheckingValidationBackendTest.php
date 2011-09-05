@@ -99,11 +99,12 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
         $products = $this->loadData('simple_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
+        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields',
                         $emptyBillingField),
                 null, 'visa','Fixed');
+        $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_billing_address');
         foreach ($emptyBillingField as $key => $value) {
@@ -173,13 +174,14 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
         $products = $this->loadData('simple_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
+        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
                 $this->loadData(
                         'new_customer_order_shipping_address_reqfields',
                         $emptyShippingField),
                 'visa','Fixed');
+        $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_shipping_address');
         foreach ($emptyShippingField as $key => $value) {
@@ -241,10 +243,11 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
         $products = $this->loadData('simple_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', null, null,
+        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', null, null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
                 null, null);
+        $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('shipping_method');
         $fieldXpath = $fieldSet->findLink('get_shipping_methods_and_rates');
@@ -272,20 +275,13 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
         $products = $this->loadData('simple_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
+        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
-                null, 'visa', null);
-        $this->clickControl('link', 'get_shipping_methods_and_rates', false);
-        $this->waitForAjax();
-        $this->addParameter('shipMethod', 'Fixed');
-        $this->clickControl('radiobutton', 'ship_method', false);
+                null, 'visa', 'Fixed');
         $productToRemove = $this->loadData('products_to_reconfig_2');
-        print_r($productToRemove);
-        $this->addParameter('sku', $productData['general_sku']);
-        $this->fillForm($productToRemove['product_1']['options']);
-        $this->clickButton('update_items_and_quantity', FALSE);
-        $this->pleaseWait();
+        $productToRemove['product_1']['general_sku'] = $productData['general_sku'];
+        $this->orderHelper()->reconfigProduct($productToRemove);
         $this->clickControl('link', 'get_shipping_methods_and_rates', false);
         $this->waitForAjax();
         $this->clickButton('submit_order', FALSE);
@@ -316,10 +312,11 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
         $products = $this->loadData('simple_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
+        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
                 null, null, null);
+        $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         $fieldXpath = $fieldSet->findRadiobutton('credit_card');

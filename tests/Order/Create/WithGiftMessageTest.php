@@ -85,7 +85,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
                 array(
-                    $this->OrderHelper()->customerAddressGenerator(
+                    $this->orderHelper()->customerAddressGenerator(
                     ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
                     'billing_save_in_address_book' => 'yes' ));
         $billingAddress['email'] = $this->generate('email', 32, 'valid');
@@ -102,7 +102,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $giftMessages = $this->loadData('messages_for_products_1',
                 array('general_sku' => $productData['general_sku']));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View',
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View',
                 $products, $billingAddress['email'],
                 $billingAddress, $shippingAddress, 'visa','Fixed',
                 null, $giftMessages);
@@ -131,7 +131,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
                 array(
-                    $this->OrderHelper()->customerAddressGenerator(
+                    $this->orderHelper()->customerAddressGenerator(
                     ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
                     'billing_save_in_address_book' => 'yes' ));
         $billingAddress['email'] = $this->generate('email', 32, 'valid');
@@ -148,7 +148,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $giftMessages = $this->loadData('empty_message_for_products_1',
                 array('general_sku' => $productData['general_sku']));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View',
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View',
                 $products, $billingAddress['email'],
                 $billingAddress, $shippingAddress, 'visa','Fixed',
                 null, $giftMessages);

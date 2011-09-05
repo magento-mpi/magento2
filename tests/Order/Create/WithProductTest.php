@@ -74,7 +74,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
                 array(
-                    $this->OrderHelper()->customerAddressGenerator(
+                    $this->orderHelper()->customerAddressGenerator(
                     ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
                     'billing_save_in_address_book' => 'yes' ));
         $billingAddress['email'] = $this->generate('email', 32, 'valid');
@@ -89,10 +89,10 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         $products = $this->loadData('simple_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View',
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View',
                 $products, $billingAddress['email'],
                 $billingAddress, $shippingAddress, 'visa','Fixed');
-        $this->OrderHelper()->coverUpTraces($orderId, array('email' => $billingAddress['email']));
+        $this->orderHelper()->coverUpTraces($orderId, array('email' => $billingAddress['email']));
     }
 
     /**
@@ -123,7 +123,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
                 array(
-                    $this->OrderHelper()->customerAddressGenerator(
+                    $this->orderHelper()->customerAddressGenerator(
                     ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
                     'billing_save_in_address_book' => 'yes' ));
         $billingAddress['email'] = $this->generate('email', 32, 'valid');
@@ -193,7 +193,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
                 array(
-                    $this->OrderHelper()->customerAddressGenerator(
+                    $this->orderHelper()->customerAddressGenerator(
                    ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
                     'billing_save_in_address_book' => 'yes' ));
         $billingAddress['email'] = $this->generate('email', 32, 'valid');
@@ -209,7 +209,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         $products['product_1']['general_sku'] = $configurable['general_sku'];
         $products['product_1']['options']['optionDropdown']['value_1'] = $attrData['admin_title'];
         $this->navigate('manage_sales_orders');
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View',
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View',
                 $products, $billingAddress['email'],
                 $billingAddress, $shippingAddress, 'visa', 'Fixed');
         $this->orderHelper()->coverUpTraces($orderId, array('email' => $billingAddress['email']));
@@ -239,14 +239,14 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         //Steps
         $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
                 array(
-                    $this->OrderHelper()->customerAddressGenerator(
+                    $this->orderHelper()->customerAddressGenerator(
                     ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
                     'billing_save_in_address_book' => 'yes' ));
         $billingAddress['email'] = $this->generate('email', 32, 'valid');
         $products = $this->loadData('virtual_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View',
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View',
                 array('general_sku' => $productData['general_sku']), $billingAddress['email'],
                 $billingAddress, null, 'visa', null);
         $this->orderHelper()->coverUpTraces($orderId, array('email' => $billingAddress['email']));
@@ -282,7 +282,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
                 array(
-                    $this->OrderHelper()->customerAddressGenerator(
+                    $this->orderHelper()->customerAddressGenerator(
                    ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
                     'billing_save_in_address_book' => 'yes' ));
         $billingAddress['email'] = $this->generate('email', 32, 'valid');
@@ -297,7 +297,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         $products = $this->loadData('bundle_products_to_add');
         $products['product_1']['general_sku'] = $bundleData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View',
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View',
                 $products, $billingAddress['email'],
                 $billingAddress, $shippingAddress, 'visa', 'Fixed');
     }
@@ -324,14 +324,14 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
                 array(
-                    $this->OrderHelper()->customerAddressGenerator(
+                    $this->orderHelper()->customerAddressGenerator(
                     ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
                     'billing_save_in_address_book' => 'yes' ));
         $billingAddress['email'] = $this->generate('email', 32, 'valid');
         $products = $this->loadData('downloadable_products_to_add');
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View',
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View',
                 $products, $billingAddress['email'],
                 $billingAddress, null, 'visa', null);
         $this->orderHelper()->coverUpTraces($orderId, array('email' => $billingAddress['email']));

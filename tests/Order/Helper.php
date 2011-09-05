@@ -120,21 +120,21 @@ class Order_Helper extends Mage_Selenium_TestCase
         if ($customerEmail != null) {
                 if ($billForm != null) {
                     $this->addParameter('storeName', $storeName);
-                    $this->_navigateToCreateOrderPage($customerEmail);
+                    $this->navigateToCreateOrderPage($customerEmail);
                     if ($productsToBuy != null) {
-                        $this->_addProductsToOrder($productsToBuy);
+                        $this->addProductsToOrder($productsToBuy);
                     }
                     if ($reconfigProduct != null)
                     {
-                        $this->_reconfigProduct($reconfigProduct);
+                        $this->reconfigProduct($reconfigProduct);
                     }
                     if ($giftMessages != null)
                     {
-                        $this->_addGiftMessage($giftMessages);
+                        $this->addGiftMessage($giftMessages);
                     }
                     if ($couponCode != null)
                     {
-                        $rcode = $this->_applyCoupon($couponCode);
+                        $rcode = $this->applyCoupon($couponCode);
                         if ($rcode == false)
                         {
                             return false;
@@ -197,13 +197,13 @@ class Order_Helper extends Mage_Selenium_TestCase
                     $this->fillForm($addrToSearch);
                 }
                 if ($paymentMethod != null) {
-                    $this->_selectPaymentMethod($paymentMethod);
+                    $this->selectPaymentMethod($paymentMethod);
                 }
                 if ($shippingMethod != null) {
-                    $this->_selectShippingMethod($shippingMethod);
+                    $this->selectShippingMethod($shippingMethod);
                 }
                 if ($validate == true) {
-                    $this->clickButton('submit_order', FALSE);
+                    return false;
                 } else {
                     $errors = $this->getErrorMessages();
                     $this->assertTrue(empty($errors), $this->messages);
@@ -249,24 +249,24 @@ class Order_Helper extends Mage_Selenium_TestCase
     {
         $this->addParameter('id', '0');
         $this->addParameter('storeName', $storeName);
-        $this->_navigateToCreateOrderPage();
+        $this->navigateToCreateOrderPage();
         if ($billForm == null) {
             throw new Exception('You are using method incorrectly. $billForm cannot be null.');
         } else {
             if ($productsToBuy != null) {
-                $this->_addProductsToOrder($productsToBuy);
+                $this->addProductsToOrder($productsToBuy);
             }
             if ($reconfigProduct != null)
             {
-                $this->_reconfigProduct($reconfigProduct);
+                $this->reconfigProduct($reconfigProduct);
             }
             if ($giftMessages != null)
             {
-                $this->_addGiftMessage($giftMessages);
+                $this->addGiftMessage($giftMessages);
             }
             if ($couponCode != null)
             {
-                $rcode = $this->_applyCoupon($couponCode);
+                $rcode = $this->applyCoupon($couponCode);
                 if ($rcode == false)
                 {
                     return false;
@@ -300,13 +300,13 @@ class Order_Helper extends Mage_Selenium_TestCase
                 $this->fillForm($shipAddrSameAsBill);
             }
             if ($paymentMethod != null) {
-                $this->_selectPaymentMethod($paymentMethod);
+                $this->selectPaymentMethod($paymentMethod);
             }
             if ($shippingMethod != null) {
-                $this->_selectShippingMethod($shippingMethod);
+                $this->selectShippingMethod($shippingMethod);
             }
             if ($validate == true) {
-                $this->clickButton('submit_order', FALSE);
+                return false;
             } else {
                 $errors = $this->getErrorMessages();
                 $this->assertTrue(empty($errors), $this->messages);
@@ -323,6 +323,17 @@ class Order_Helper extends Mage_Selenium_TestCase
         }
     }
 
+    /**
+     * Fills customer's addresses at the order page.
+     *
+     * @param string $address - 'billing' or 'shipping'
+     * @param string $addressType - 'new', 'exist', 'editExist', 'sameAsBilling'
+     * @param array $addressData
+     */
+    public function fillOrderAddress()
+    {
+
+    }
     /**
      * Creates product needed for creating order.
      *
@@ -492,7 +503,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      * Orders products during forming order
      * @param array $productData Products in array to add to order.
      */
-    protected function _addProductsToOrder($productData)
+    public function addProductsToOrder($productData)
     {
         $this->clickButton('add_products', FALSE);
         $this->pleaseWait();
@@ -534,7 +545,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array|string $paymentMethod What type of credit card and credit cards' data to fill.
      */
-    protected function _selectPaymentMethod($paymentMethod)
+    public function selectPaymentMethod($paymentMethod)
     {
         if (is_string($paymentMethod)) {
             $paymentMethod = $this->loadData($paymentMethod);
@@ -554,7 +565,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param string $shippingMethod
      */
-    protected function _selectShippingMethod($shippingMethod)
+    public function selectShippingMethod($shippingMethod)
     {
         if (!is_string($shippingMethod)) {
             throw new Exception('Incorrect type of $shippingMethod.');
@@ -572,7 +583,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array|string $customerData
      */
-    protected function _navigateToCreateOrderPage($customerData = null)
+    public function navigateToCreateOrderPage($customerData = null)
     {
         $this->clickButton('create_new_order', TRUE);
         if ($customerData == null) {
@@ -596,7 +607,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array $reconfigProduct Array with the products and data to reconfigure
      */
-    protected function _reconfigProduct($reconfigProduct)
+    public function reconfigProduct($reconfigProduct)
     {
         if (!is_array($reconfigProduct)) {
             throw new Exception('$reconfigProduct should be an array.');
@@ -618,7 +629,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array $giftMessages Array with the gift messages for the products
      */
-    protected function _addGiftMessage($giftMessages)
+    public function addGiftMessage($giftMessages)
     {
         if (!is_array($giftMessages)) {
             throw new Exception('$giftMessages should be an array.');
@@ -642,7 +653,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array $couponCode
      */
-    protected function _applyCoupon($couponCode)
+    public function applyCoupon($couponCode)
     {
         if (!is_array($couponCode)) {
             throw new Exception('$couponCode should be an array.');

@@ -89,9 +89,9 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
+                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'american_express','Fixed');
     }
     /**
@@ -123,9 +123,9 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
+                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'visa','Fixed');
     }
     /**
@@ -157,9 +157,9 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
+                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'mastercard','Fixed');
     }
     /**
@@ -191,9 +191,9 @@ class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
+        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
+                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
+                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'discover','Fixed');
     }
 }
