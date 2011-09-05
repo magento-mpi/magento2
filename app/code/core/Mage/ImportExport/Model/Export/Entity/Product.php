@@ -396,7 +396,8 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Prepare configurable product data
      *
-     * @deprecated - use Mage_Catalog_Model_Resource_Product_Type_Configurable::getConfigurableOptions instead
+     * @deprecated since 1.6.1.0
+     *     use Mage_Catalog_Model_Resource_Product_Type_Configurable::getConfigurableOptions instead
      * @param  array $productIds
      * @return array
      */
@@ -429,7 +430,8 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Prepare configurable product price
      *
-     * @deprecated - use Mage_Catalog_Model_Resource_Product_Type_Configurable::getConfigurableOptions instead
+     * @deprecated since 1.6.1.0
+     *     use Mage_Catalog_Model_Resource_Product_Type_Configurable::getConfigurableOptions instead
      * @param  array $productIds
      * @return array
      */
@@ -558,7 +560,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                         $attrValue = $item->getData($attrCode);
 
                         if (!empty($this->_attributeValues[$attrCode])) {
-                        if ($this->_attributeTypes[$attrCode] == 'multiselect') {
+                            if ($this->_attributeTypes[$attrCode] == 'multiselect') {
                                 $attrValue = explode(',', $attrValue);
                                 $attrValue = array_intersect_key(
                                     $this->_attributeValues[$attrCode],
@@ -692,7 +694,8 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                     } elseif ($option['title'] != $customOptions[0]['_custom_option_title']) {
                         $row['_custom_option_title'] = $option['title'];
                     }
-                    if ($values = $option->getValues()) {
+                    $values = $option->getValues();
+                    if ($values) {
                         $firstValue = array_shift($values);
                         $priceType  = $firstValue['price_type'] == 'percent' ? '%' : '';
 
@@ -827,8 +830,8 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                         $dataRow = array_merge($dataRow, array_shift($configurableData[$productId]));
                     }
                     if(!empty($rowMultiselects[$productId])) {
-                        foreach($rowMultiselects[$productId] as $attrKey=>$attrVal) {
-                            if(!empty($rowMultiselects[$productId][$attrKey])) {
+                        foreach ($rowMultiselects[$productId] as $attrKey => $attrVal) {
+                            if (!empty($rowMultiselects[$productId][$attrKey])) {
                                 $dataRow[$attrKey] = array_shift($rowMultiselects[$productId][$attrKey]);
                             }
                         }

@@ -160,7 +160,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
             $select = $this->_getReadAdapter()->select()
                 ->from(
                     array(
-                        'super_attribute'   => $this->getTable('catalog/product_super_attribute')
+                        'super_attribute'       => $this->getTable('catalog/product_super_attribute')
                     ),
                     array(
                         'sku'                   => 'entity.sku',
