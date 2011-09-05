@@ -90,8 +90,8 @@ $category->setId(8)
     ->save();
 
 
-$product = new Mage_Catalog_Model_Product();
-$product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+$productTEST1 = new Mage_Catalog_Model_Product();
+$productTEST1->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
     ->setStoreId(1)

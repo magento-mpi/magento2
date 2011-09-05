@@ -30,7 +30,6 @@
  */
 class MageTest extends Magento_Test_Webservice
 {
-
     public function testLogin()
     {
         $this->assertNotEmpty($this->getWebService()->login('api', 'apiapi'));
@@ -48,16 +47,13 @@ class MageTest extends Magento_Test_Webservice
       $categoryFixture = simplexml_load_file(__DIR__.'/_fixtures/category.xml');
       $data = self::simpleXmlToArray($categoryFixture);
 
-      $categories = $this->call('category.create', $data);
+      $result = $this->call('category.create', $data);
 
       $categoryLoaded = new Mage_Catalog_Model_Category();
-      $categoryLoaded->load(9);
+      $categoryLoaded->load($result);
 
-      foreach($categories as $server => $result)
-      {
-        $this->assertEquals('Category 2.1', $result['name'], $server);
-        $this->assertEquals('1/2/3', $result['path'], $server);
-      }
-
+      $this->assertEquals($result,$categoryLoaded->getId());
+      $this->assertEquals('Category 2.2', $categoryLoaded['name']);
+      
     }
 }
