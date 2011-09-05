@@ -138,18 +138,18 @@ create_order_for_new_customer:
                         xpath: //div[@id='order-items']
                         buttons:
                             add_products: //button[span='Add Products']
-                            configure: //tr[contains(.,'%sku%')]//button[span='Configure']
+                            configure: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//button[span='Configure']
                             update_items_and_quantity: //button[span[contains(text(),'Update Items and Qty')]]
                         checkboxes:
-                            custom_price: //tr[contains(.,'%sku%')]//input[contains(@id,'item_use_custom_price_')]
-                            apply: //tr[contains(.,'%sku%')]//input[contains(@id,'item_use_discount_')]
+                            custom_price: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@id,'item_use_custom_price_')]
+                            apply: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@id,'item_use_discount_')]
                         dropdowns:
-                            action: //tr[contains(.,'%sku%')]//select
+                            action: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//select
                         fields:
-                            qty: //tr[contains(.,'%sku%')]//input[@class='input-text item-qty']
-                            custom_price: //tr[contains(.,'%sku%')]//input[@class='input-text item-price']
+                            qty: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[@class='input-text item-qty']
+                            custom_price: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[@class='input-text item-price']
                         links:
-                            gift_options: //tr[contains(.,'%sku%')]//a[contains(text(),'Gift Options')]
+                            gift_options: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//a[contains(text(),'Gift Options')]
                 -
                     order_apply_coupon_code: &orderApplyCouponCode
                         xpath: //div[@id='order-coupons']
