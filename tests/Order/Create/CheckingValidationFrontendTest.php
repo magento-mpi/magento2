@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Order_Create_CheckingValidationTest extends Mage_Selenium_TestCase
+class Order_Create_CheckingValidationFrontendTest extends Mage_Selenium_TestCase
 {
 
     /**

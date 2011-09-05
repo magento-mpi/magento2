@@ -94,21 +94,27 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * Creates order for existing cutomer
      *
-     * @param array|string $productsToBuy Use array or dataset name
+     * @param array        $productsToBuy
      * @param array|string $billForm
      * @param array|string $shipForm
      * @param array|string $customerEmail
-     * @param string $storeName
+     * @param string       $storeName
      * @param array|string $paymentMethod
-     * @param string $shippingMethod
-     * @param bool $validate No need to put any parameters except this one and $storeName for messages validation
+     * @param string       $shippingMethod
+     * @param bool         $validate         No need to put any parameters except this one and $storeName for messages validation
+     * @param array        $reconfigProduct
+     * @param array        $giftMessages
+     * @param array        $couponCode       Consist of the code and bool for validation
+     *                                       (true - should be applied successfully, false - error message should appear)
      *
      * @return bool|integer
      */
     public function createOrderForExistingCustomer($validate = false, $storeName = null,
                                                    $productsToBuy = null, $customerEmail = null,
                                                    $billForm = null, $shipForm = null,
-                                                   $paymentMethod = null, $shippingMethod = null)
+                                                   $paymentMethod = null, $shippingMethod = null,
+                                                   $reconfigProduct = null, $giftMessages = null,
+                                                   $couponCode = null)
     {
         $this->addParameter('id', '0');
         if ($customerEmail != null) {
@@ -117,6 +123,22 @@ class Order_Helper extends Mage_Selenium_TestCase
                     $this->_navigateToCreateOrderPage($customerEmail);
                     if ($productsToBuy != null) {
                         $this->_addProductsToOrder($productsToBuy);
+                    }
+                    if ($reconfigProduct != null)
+                    {
+                        $this->_reconfigProduct($reconfigProduct);
+                    }
+                    if ($giftMessages != null)
+                    {
+                        $this->_addGiftMessage($giftMessages);
+                    }
+                    if ($couponCode != null)
+                    {
+                        $rcode = $this->_applyCoupon($couponCode);
+                        if ($rcode == false)
+                        {
+                            return false;
+                        }
                     }
                     if (is_string($customerEmail)) {
                         $customerEmail = array('email' => $customerEmail);
@@ -180,14 +202,13 @@ class Order_Helper extends Mage_Selenium_TestCase
                 if ($shippingMethod != null) {
                     $this->_selectShippingMethod($shippingMethod);
                 }
-
                 if ($validate == true) {
                     $this->clickButton('submit_order', FALSE);
                 } else {
                     $errors = $this->getErrorMessages();
                     $this->assertTrue(empty($errors), $this->messages);
                     $this->clickButton('submit_order', TRUE);
-                    $this->AdminUserHelper()->defineId('view_order');
+                    $this->defineIdFromUrl();
                     if ($this->successMessage('success_created_order') == true) {
                         $this->assertTrue($this->successMessage('success_created_order'),
                                 $this->messages);
@@ -201,23 +222,30 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * Creates order for new cutomer
      *
-     * @param array|string $productsToBuy Use array or dataset name
+     * @param array        $productsToBuy
      * @param array|string $billForm
      * @param array|string $shipForm
      * @param array|string $customerEmail
-     * @param string $storeName
-     * @param bool $saveBillToAddrBook
-     * @param bool $saveShipToAddrBook
+     * @param string       $storeName
+     * @param bool         $saveBillToAddrBook
+     * @param bool         $saveShipToAddrBook
      * @param array|string $paymentMethod
-     * @param string $shippingMethod
-     * @param bool $validate No need to put any parameters except this one and $storeName for messages validation
+     * @param string       $shippingMethod
+     * @param bool         $validate No need to put any parameters except this one and $storeName for messages validation
+     * @param array        $reconfigProduct
+     * @param array        $giftMessages
+     * @param array        $couponCode       Consist of the code and bool for validation
+     *                                       ('success' = true - should be applied successfully,
+     *                                        'success' = false - error message should appear)
      *
      * @return bool|integer
      */
     public function createOrderForNewCustomer($validate = false, $storeName = null,
                                               $productsToBuy = null, $customerEmail = null,
                                               $billForm = null, $shipForm = null,
-                                              $paymentMethod = null, $shippingMethod = null)
+                                              $paymentMethod = null, $shippingMethod = null,
+                                              $reconfigProduct = null, $giftMessages = null,
+                                              $couponCode = null)
     {
         $this->addParameter('id', '0');
         $this->addParameter('storeName', $storeName);
@@ -228,11 +256,27 @@ class Order_Helper extends Mage_Selenium_TestCase
             if ($productsToBuy != null) {
                 $this->_addProductsToOrder($productsToBuy);
             }
+            if ($reconfigProduct != null)
+            {
+                $this->_reconfigProduct($reconfigProduct);
+            }
+            if ($giftMessages != null)
+            {
+                $this->_addGiftMessage($giftMessages);
+            }
+            if ($couponCode != null)
+            {
+                $rcode = $this->_applyCoupon($couponCode);
+                if ($rcode == false)
+                {
+                    return false;
+                }
+            }
             if ($customerEmail != null) {
                 if (is_string($customerEmail)) {
-                    $customerEmail = array('email' => $customerEmail);
+                    $customerEmail = array('acc_email' => $customerEmail);
                 }
-                $this->fillForm($customerEmail, 'order_account_information');
+                $this->fillForm($customerEmail);
             }
             if (is_string($billForm)) {
                 $billAddr = $this->loadData($billForm);
@@ -267,7 +311,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                 $errors = $this->getErrorMessages();
                 $this->assertTrue(empty($errors), $this->messages);
                 $this->clickButton('submit_order', TRUE);
-                $this->AdminUserHelper()->defineId('view_order');
+                $this->defineIdFromUrl();
                 $this->assertTrue($this->checkCurrentPage('view_order'), 'Wrong page is opened');
                 if ($this->successMessage('success_created_order') == true) {
                     $this->assertTrue($this->successMessage('success_created_order'),
@@ -296,22 +340,22 @@ class Order_Helper extends Mage_Selenium_TestCase
         $this->pleaseWait();
         $productData = $this->loadData($dataSetName);
         if ($createNewIfLowQty == false) {
-            if ($this->search(array('product_sku' => $productData['general_sku'])) == false) {
+            if ($this->internalSearch(array('product_sku' => $productData['general_sku'])) == false) {
                 $this->productHelper()->createProduct($productData);
                 $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
             }
         } else {
-            if ($this->search(array('product_sku' => $productData['general_sku']),
+            if ($this->internalSearch(array('product_sku' => $productData['general_sku']),
                             'product_grid') == false) {
                 $this->productHelper()->createProduct($productData);
                 $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
             } else {
-                if ($this->search(array('product_sku'    => $productData['general_sku'],
+                if ($this->internalSearch(array('product_sku'    => $productData['general_sku'],
                                                'product_qty_to' => '10')) == true) {
                     $this->searchAndOpen(array('product_sku' => $productData['general_sku']), TRUE);
                     $this->assertTrue($this->checkCurrentPage('edit_product'),
                             'Wrong page is opened');
-                    $this->AdminUserHelper()->defineId('edit_product');
+                    $this->defineIdFromUrl();
                     $this->deleteElement('delete', 'confirmation_for_delete');
                     $this->productHelper()->createProduct($productData);
                     $this->assertTrue($this->successMessage('success_saved_product'),
@@ -405,24 +449,81 @@ class Order_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Orders products during forming order
-     * @param array|string $products Products in array or in dataset(string) to buy.
+     * Search
+     *
+     * @param array $data
+     * @param string $fieldSetName
+     * @return bool
      */
-    protected function _addProductsToOrder($productsToBuy)
+    public function internalSearch(array $data, $fieldSetName = null)
+    {
+        $this->_prepareDataForSearch($data);
+        if (count($data) > 0) {
+            if (isset($fieldSetName)) {
+                $xpath = $this->getCurrentLocationUimapPage()->
+                                findFieldset($fieldSetName)->getXpath();
+            } else {
+                $xpath = '';
+            }
+            $totalCount = intval($this->getText($xpath .
+                    "//table[@class='actions']//td[@class='pager']//span[@id]"));
+            $xpathTR = $xpath . "//table[@class='data']//tr";
+            foreach ($data as $key => $value) {
+                if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
+                    $xpathTR .= "[contains(.,'$value')]";
+                }
+            }
+            if ($totalCount > 0) {
+                $this->fillForm($data);
+                $this->clickButton('search', false);
+                $this->pleaseWait();
+            } elseif ($totalCount == 0) {
+                return false;
+            }
+            if ($this->isElementPresent($xpathTR)) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * Orders products during forming order
+     * @param array $productData Products in array to add to order.
+     */
+    protected function _addProductsToOrder($productData)
     {
         $this->clickButton('add_products', FALSE);
-        $fieldsetName = 'select_products_to_add';
-        if (is_array($productsToBuy)) {
-            $products = $productsToBuy;
+        $this->pleaseWait();
+        if (!is_array($productData)) {
+            throw new Exception('$productData should be an array.');
         }
-        if (is_string($productsToBuy)) {
-            $products = $this->loadData($productsToBuy);
-        } else {
-            throw new Exception('Incorrect type of $productsToBuy.');
-        }
-        foreach ($products as $key => $value) {
-            $prodToAdd = array($key => $value);
-            $this->searchAndChoose($prodToAdd, $fieldsetName);
+        foreach ($productData as $product => $data)
+        {
+            $xpathProduct = $this->search(array('general_sku' => $productData[$product]['general_sku']));
+            $this->assertNotEquals(null, $xpathProduct);
+            if (!($this->isElementPresent($xpathProduct . "//a[text()='Configure'][@disabled]"))) {
+                $this->searchAndChoose(array('general_sku' => $productData[$product]['general_sku']));
+                $this->pleaseWait();
+                if (array_key_exists('options', $data))
+                {
+                    foreach ($data['options'] as $option => $value)
+                    {
+                        foreach ($value as $clue => $dataset)
+                        {
+                            if (preg_match('/value/', $clue))
+                            {
+                                $this->addParameter($option, $dataset);
+                            } else {
+                                $this->fillForm($dataset);
+                            }
+                        }
+                    }
+                }
+                $this->clickButton('ok', FALSE);
+            }
+            $this->searchAndChoose(array('general_sku' => $productData[$product]['general_sku']));
         }
         $this->clickButton('add_selected_products_to_order', FALSE);
         $this->pleaseWait();
@@ -469,31 +570,94 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * Gets to 'Create new Order page'
      *
-     * @param array|string $customerEmail Creates new order for new customer if the email is null.
+     * @param array|string $customerData
      */
-    protected function _navigateToCreateOrderPage($customerEmail = null)
+    protected function _navigateToCreateOrderPage($customerData = null)
     {
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
-        $this->assertTrue($this->clickButton('create_new_order', TRUE),
-                'Could not press button "Add new" for creating new order');
-        if ($customerEmail == null) {
-            $this->assertTrue($this->clickButton('create_new_customer', FALSE),
-                    'Could not press button "Create new customer" during creation of new order');
+        $this->clickButton('create_new_order', TRUE);
+        if ($customerData == null) {
+            $this->clickButton('create_new_customer', FALSE);
         } else {
-            if (is_string($customerEmail)) {
-                $email = array('email' => $customerEmail);
+            if (is_string($customerData)) {
+                $customerData = array('email' => $customerData);
             }
-            if (is_array($customerEmail)){
-                $email = $customerEmail;
-            }
-            $this->searchAndOpen($email, FALSE, 'order_customer_grid');
+            $this->assertNotEquals(null, $this->searchAndOpen($customerData['email'], false, 'order_customer_grid'));
         }
-        if (($this->checkCurrentPage('create_order_for_new_customer') == TRUE)
-                && ($this->controlIsPresent('radiobutton', 'choose_main_store'))) {
+        $page = $this->getCurrentLocationUimapPage();
+        $storeSelectorXpath = $page->findFieldset('order_store_selector')->getXpath();
+        if ($this->isElementPresent($storeSelectorXpath . "[not(normalize-space(@style)='display:none')]")) {
             $this->clickControl('radiobutton', 'choose_main_store', FALSE);
             $this->pleaseWait();
         }
     }
 
+    /**
+     * Reconfigure already added to order products (change quantity, add discount, etc)
+     *
+     * @param array $reconfigProduct Array with the products and data to reconfigure
+     */
+    protected function _reconfigProduct($reconfigProduct)
+    {
+        if (!is_array($reconfigProduct)) {
+            throw new Exception('$reconfigProduct should be an array.');
+        } else {
+            foreach($reconfigProduct as $product => $options)
+            {
+                $this->addParameter('sku', $options['general_sku']);
+                if (array_key_exists('options', $options))
+                {
+                    $this->fillForm($options['options']);
+                }
+            }
+            $this->clickButton('update_items_and_quantity', FALSE);
+            $this->pleaseWait();
+        }
+    }
+    /**
+     * Adding gift messaged to products during creating order at the backend.
+     *
+     * @param array $giftMessages Array with the gift messages for the products
+     */
+    protected function _addGiftMessage($giftMessages)
+    {
+        if (!is_array($giftMessages)) {
+            throw new Exception('$giftMessages should be an array.');
+        } else {
+            foreach($giftMessages as $product => $message)
+            {
+                $this->addParameter('sku', $message['general_sku']);
+                if (array_key_exists('message', $message))
+                {
+                    $this->clickControl('link', 'gift_options', FALSE);
+                    $this->waitForAjax();
+                    $this->fillForm($message['message']);
+                }
+            }
+            $this->clickButton('ok', FALSE);
+            $this->pleaseWait();
+        }
+    }
+    /**
+     * Applying coupon for the products in order
+     *
+     * @param array $couponCode
+     */
+    protected function _applyCoupon($couponCode)
+    {
+        if (!is_array($couponCode)) {
+            throw new Exception('$couponCode should be an array.');
+        } else {
+            $this->fillForm(array('coupon_code' => $couponCode['coupon_code']));
+            $this->clickButton('apply', FALSE);
+            $this->pleaseWait();
+            if ($couponCode['success'] == 'true')
+            {
+                $this->assertTrue($this->successMessage('success_applying_coupon'), $this->messages);
+                return true;
+            } else {
+                $this->assertTrue($this->errorMessage('invalid_coupon_code'), $this->messages);
+                return false;
+            }
+        }
+    }
 }

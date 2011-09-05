@@ -34,75 +34,64 @@
  */
 class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
 {
-   /**
-    * Preconditions:
-    *
-    * Log in to Backend.
-    *
-    */
+    /**
+     * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
+     */
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->orderHelper()->createProducts('product_to_order1');
-        $this->orderHelper()->createProducts('product_to_order2');
-    }
-   /**
-    *
-    * Create products for testing.
-    *
-    * Navigate to Sales-Orders page.
-    *
-    */
-    protected function assertPreConditions()
-    {
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
         $this->addParameter('id', '0');
     }
-   /**
-    * Create customer via 'Create order' form (required fields are not filled).
-    *
-    *
-    * Steps:
-    *
-    * 1.Go to Sales-Orders.
-    *
-    * 2.Press "Create New Order" button.
-    *
-    * 3.Press "Create New Customer" button.
-    *
-    * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
-    *
-    * 5.Fill all fields.
-    *
-    * 6.Press 'Add Products' button.
-    *
-    * 7.Add first two products.
-    *
-    * 8.Choose shipping address the same as billing.
-    *
-    * 9.Check payment method 'Credit Card - Visa'
-    *
-    * 10. Fill in all required fields, except one.
-    *
-    * 11.Choose first from 'Get shipping methods and rates'.
-    *
-    * 12.Submit order.
-    *
-    * 13.Invoice order.
-    *
-    * 14. Ship order.
-    *
-    * Expected result:
-    *
-    * New customer is not created. Order is not created for the new customer. Messages for credit card fieldset appear.
-    *
-    * @dataProvider data_emptyVisaFields
-    *
-    * @param array $emptyVisaField
-    *
-    */
-    public function testOrderWithEmptyFieldsForCreditCardVisa($emptyVisaField)
+    protected function assertPreConditions()
+    {}
+
+    /**
+     * @test
+     */
+    public function createProducts()
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
+        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($productData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+
+        return $productData;
+    }
+    /**
+     * <p>Create customer via 'Create order' form (required fields are not filled).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders;</p>
+     * <p>2.Press "Create New Order" button;</p>
+     * <p>3.Press "Create New Customer" button;</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
+     * <p>5.Fill all fields;</p>
+     * <p>6.Press 'Add Products' button;</p>
+     * <p>7.Add first two products;</p>
+     * <p>8.Choose shipping address the same as billing;</p>
+     * <p>9.Check payment method 'Credit Card - Visa';</p>
+     * <p>10. Fill in all required fields, except one;</p>
+     * <p>11.Choose first from 'Get shipping methods and rates';</p>
+     * <p>12.Submit order;</p>
+     * <p>13.Invoice order;</p>
+     * <p>14. Ship order;</p>
+     * <p>Expected result:</p>
+     * <p>New customer is not created. Order is not created for the new customer. Messages for credit card fieldset appear.</p>
+     *
+     * @test
+     * @depends createProducts
+     * @dataProvider data_emptyVisaFields
+     * @param array $emptyVisaField
+     */
+    public function orderWithEmptyFieldsForCreditCardVisa($emptyVisaField, $productData)
+    {
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 'new_customer_order_billing_address_reqfields', null,
                 $this->loadData('visa', $emptyVisaField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
@@ -185,52 +174,37 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
             array(array('cvv_saved'   =>  ''))
         );
     }
-       /**
-    * Create customer via 'Create order' form (required fields are not filled).
-    *
-    *
-    * Steps:
-    *
-    * 1.Go to Sales-Orders.
-    *
-    * 2.Press "Create New Order" button.
-    *
-    * 3.Press "Create New Customer" button.
-    *
-    * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
-    *
-    * 5.Fill all fields.
-    *
-    * 6.Press 'Add Products' button.
-    *
-    * 7.Add first two products.
-    *
-    * 8.Choose shipping address the same as billing.
-    *
-    * 9.Check payment method 'Credit Card - AmericanExpress'
-    *
-    * 10. Fill in all required fields, except one.
-    *
-    * 11.Choose first from 'Get shipping methods and rates'.
-    *
-    * 12.Submit order.
-    *
-    * 13.Invoice order.
-    *
-    * 14. Ship order.
-    *
-    * Expected result:
-    *
-    * New customer is not created. Order is not created for the new customer. Messages for credit card fieldset appear.
-    *
-    * @dataProvider data_emptyAmericanExpressFields
-    *
-    * @param array $emptyAmericanExpressField
-    *
-    */
-    public function testOrderWithEmptyFieldsForCreditCardAmericanExpress($emptyAmericanExpressField)
+    /**
+     * <p>Create customer via 'Create order' form (required fields are not filled).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders;</p>
+     * <p>2.Press "Create New Order" button;</p>
+     * <p>3.Press "Create New Customer" button;</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
+     * <p>5.Fill all fields;</p>
+     * <p>6.Press 'Add Products' button;</p>
+     * <p>7.Add first two products;</p>
+     * <p>8.Choose shipping address the same as billing;</p>
+     * <p>9.Check payment method 'Credit Card - AmericanExpress';</p>
+     * <p>10. Fill in all required fields, except one;</p>
+     * <p>11.Choose first from 'Get shipping methods and rates';</p>
+     * <p>12.Submit order;</p>
+     * <p>13.Invoice order;</p>
+     * <p>14. Ship order;</p>
+     * <p>Expected result:</p>
+     * <p>New customer is not created. Order is not created for the new customer. Messages for credit card fieldset appear.</p>
+     *
+     * @test
+     * @depends createProducts
+     * @dataProvider data_emptyAmericanExpressFields
+     * @param array $emptyAmericanExpressField
+     */
+    public function orderWithEmptyFieldsForCreditCardAmericanExpress($emptyAmericanExpressField, $productData)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 'new_customer_order_billing_address_reqfields', null,
                 $this->loadData('visa', $emptyAmericanExpressField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
@@ -313,52 +287,37 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
             array(array('cvv_saved'   =>  ''))
         );
     }
-       /**
-    * Create customer via 'Create order' form (required fields are not filled).
-    *
-    *
-    * Steps:
-    *
-    * 1.Go to Sales-Orders.
-    *
-    * 2.Press "Create New Order" button.
-    *
-    * 3.Press "Create New Customer" button.
-    *
-    * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
-    *
-    * 5.Fill all fields.
-    *
-    * 6.Press 'Add Products' button.
-    *
-    * 7.Add first two products.
-    *
-    * 8.Choose shipping address the same as billing.
-    *
-    * 9.Check payment method 'Credit Card - MasterCard'
-    *
-    * 10. Fill in all required fields, except one.
-    *
-    * 11.Choose first from 'Get shipping methods and rates'.
-    *
-    * 12.Submit order.
-    *
-    * 13.Invoice order.
-    *
-    * 14. Ship order.
-    *
-    * Expected result:
-    *
-    * New customer is not created. Order is not created for the new customer. Messages for credit card fieldset appear.
-    *
-    * @dataProvider data_emptyMasterCardFields
-    *
-    * @param array $emptyMasterCardField
-    *
-    */
-    public function testOrderWithEmptyFieldsForCreditCardMasterCard($emptyMasterCardField)
+    /**
+     * <p>Create customer via 'Create order' form (required fields are not filled).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders;</p>
+     * <p>2.Press "Create New Order" button;</p>
+     * <p>3.Press "Create New Customer" button;</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
+     * <p>5.Fill all fields;</p>
+     * <p>6.Press 'Add Products' button;</p>
+     * <p>7.Add first two products;</p>
+     * <p>8.Choose shipping address the same as billing;</p>
+     * <p>9.Check payment method 'Credit Card - MasterCard';</p>
+     * <p>10. Fill in all required fields, except one;</p>
+     * <p>11.Choose first from 'Get shipping methods and rates';</p>
+     * <p>12.Submit order;</p>
+     * <p>13.Invoice order;</p>
+     * <p>14. Ship order;</p>
+     * <p>Expected result:</p>
+     * <p>New customer is not created. Order is not created for the new customer. Messages for credit card fieldset appear.</p>
+     *
+     * @test
+     * @depends createProducts
+     * @dataProvider data_emptyMasterCardFields
+     * @param array $emptyMasterCardField
+     */
+    public function orderWithEmptyFieldsForCreditCardMasterCard($emptyMasterCardField, $productData)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 'new_customer_order_billing_address_reqfields', null,
                 $this->loadData('visa', $emptyMasterCardField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
@@ -441,52 +400,37 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
             array(array('cvv_saved'   =>  ''))
         );
     }
-       /**
-    * Create customer via 'Create order' form (required fields are not filled).
-    *
-    *
-    * Steps:
-    *
-    * 1.Go to Sales-Orders.
-    *
-    * 2.Press "Create New Order" button.
-    *
-    * 3.Press "Create New Customer" button.
-    *
-    * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
-    *
-    * 5.Fill all fields.
-    *
-    * 6.Press 'Add Products' button.
-    *
-    * 7.Add first two products.
-    *
-    * 8.Choose shipping address the same as billing.
-    *
-    * 9.Check payment method 'Credit Card - Discover'
-    *
-    * 10. Fill in all required fields, except one.
-    *
-    * 11.Choose first from 'Get shipping methods and rates'.
-    *
-    * 12.Submit order.
-    *
-    * 13.Invoice order.
-    *
-    * 14. Ship order.
-    *
-    * Expected result:
-    *
-    * New customer is not created. Order is not created for the new customer. Messages for credit card fieldset appear.
-    *
-    * @dataProvider data_emptyDiscoverFields
-    *
-    * @param array $emptyDiscoverField
-    *
-    */
-    public function testOrderWithEmptyFieldsForCreditCardDiscover($emptyDiscoverField)
+    /**
+     * <p>Create customer via 'Create order' form (required fields are not filled).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders;</p>
+     * <p>2.Press "Create New Order" button;</p>
+     * <p>3.Press "Create New Customer" button;</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
+     * <p>5.Fill all fields;</p>
+     * <p>6.Press 'Add Products' button;</p>
+     * <p>7.Add first two products;</p>
+     * <p>8.Choose shipping address the same as billing;</p>
+     * <p>9.Check payment method 'Credit Card - Discover';</p>
+     * <p>10. Fill in all required fields, except one;</p>
+     * <p>11.Choose first from 'Get shipping methods and rates';</p>
+     * <p>12.Submit order;</p>
+     * <p>13.Invoice order;</p>
+     * <p>14. Ship order;</p>
+     * <p>Expected result:</p>
+     * <p>New customer is not created. Order is not created for the new customer. Messages for credit card fieldset appear;</p>
+     *
+     * @test
+     * @depends createProducts
+     * @dataProvider data_emptyDiscoverFields
+     * @param array $emptyDiscoverField
+     */
+    public function testOrderWithEmptyFieldsForCreditCardDiscover($emptyDiscoverField, $productData)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 'new_customer_order_billing_address_reqfields', null,
                 $this->loadData('visa', $emptyDiscoverField),'Fixed');
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');

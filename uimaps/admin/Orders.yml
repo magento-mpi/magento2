@@ -94,7 +94,7 @@ create_order_for_new_customer:
         form: &newOrderForm
             fieldsets:
                 -
-                    order_customer_grid: &sales_order_create_customer_grid
+                    order_customer_grid: &salesOrderCreateCustomerGrid
                         xpath: //div[@id='order-customer-selector']
                         buttons:
                             create_new_customer: //button[span='Create New Customer']
@@ -111,12 +111,12 @@ create_order_for_new_customer:
                             state: //input[@name='billing_regione']
                             store_name: //input[@name='store_name']
                 -
-                    order_store_selector: &order_store_selector
+                    order_store_selector: &orderStoreSelector
                         xpath: //div[@id='order-store-selector']
                         radiobuttons:
                             choose_main_store: //span[label/text()='%storeName%']/input
                 -
-                    select_products_to_add: &select_products_to_add
+                    select_products_to_add: &selectProductsToAdd
                         xpath: //div[div/h4[contains(text(),'Please Select Products to Add')]]
                         buttons:
                             add_selected_products_to_order: //button[span='Add Selected Product(s) to Order']
@@ -131,41 +131,41 @@ create_order_for_new_customer:
                             filter_price_from: //input[@id='filter_price_from']
                             filter_price_to: //input[@id='filter_price_to']
                             qty_to_add: %productXpath%//input[@class='input-text qty']
-                        link:
+                        links:
                             configure: %productXpath%//a[text()= 'Configure']
                 -
-                    order_items_ordered: &order_items_ordered
+                    order_items_ordered: &orderItemsOrdered
                         xpath: //div[@id='order-items']
                         buttons:
                             add_products: //button[span='Add Products']
-                            configure: %productXpath%//button[span='Configure']
+                            configure: //tr[contains(.,'%sku%')]//button[span='Configure']
                             update_items_and_quantity: //button[span[contains(text(),'Update Items and Qty')]]
                         checkboxes:
-                            custom_price: %productXpath%//input[contains(@id,'item_use_custom_price_')]
-                            apply: %productXpath%//input[contains(@id,'item_use_discount_')]
+                            custom_price: //tr[contains(.,'%sku%')]//input[contains(@id,'item_use_custom_price_')]
+                            apply: //tr[contains(.,'%sku%')]//input[contains(@id,'item_use_discount_')]
                         dropdowns:
-                            action: %productXpath%//select[option/text()='Remove']
+                            action: //tr[contains(.,'%sku%')]//select
                         fields:
-                            qty: %productXpath%//input[@class='input-text item-qty']
-                            custom_price: %productXpath%//input[@class='input-text item-price']
-#                        links:
-#                            gift_options: //a[contains(text(),'Gift Options')]
+                            qty: //tr[contains(.,'%sku%')]//input[@class='input-text item-qty']
+                            custom_price: //tr[contains(.,'%sku%')]//input[@class='input-text item-price']
+                        links:
+                            gift_options: //tr[contains(.,'%sku%')]//a[contains(text(),'Gift Options')]
                 -
-                    order_apply_coupon_code: &order_apply_coupon_code
+                    order_apply_coupon_code: &orderApplyCouponCode
                         xpath: //div[@id='order-coupons']
                         buttons:
                             apply: //button[span='Apply']
                         fields:
                             coupon_code: //input[@id='coupons:code']
                 -
-                    order_account_information: &order_account_information
+                    order_account_information: &orderAccountInformation
                         xpath: //div[@id='order-form_account']
                         dropdowns:
                             customer_group: //select[@id='group_id']
                         fields:
-                            email: //input[@id='email']
+                            acc_email: //input[@id='email']
                 -
-                    order_billing_address: &order_billing_address
+                    order_billing_address: &orderBillingAddress
                         xpath: //div[@id='order-billing_address']
                         checkboxes:
                             billing_save_in_address_book: //input[@id='order-billing_address_save_in_address_book']
@@ -188,7 +188,7 @@ create_order_for_new_customer:
                             billing_telephone: //input[@id='order-billing_address_telephone']
                             billing_fax: //input[@id='order-billing_address_fax']
                 -
-                    order_shipping_address: &order_shipping_address
+                    order_shipping_address: &orderShippingAddress
                         xpath: //div[@id='order-shipping_address']
                         checkboxes:
                             shipping_same_as_billing_address: //input[@id='order-shipping_same_as_billing']
@@ -212,7 +212,7 @@ create_order_for_new_customer:
                             shipping_telephone: //input[@id='order-shipping_address_telephone']
                             shipping_fax: //input[@id='order-shipping_address_fax']
                 -
-                    order_payment_method: &order_payment_method
+                    order_payment_method: &orderPaymentMethod
                         xpath: //div[@id='order-billing_method']
                         radiobuttons:
                             check_money_order: //input[@type='radio' and @id='p_method_checkmo']
@@ -236,12 +236,12 @@ create_order_for_new_customer:
                             expiration_date_year_autnet: //ul[@id='payment_form_authorizenet']//select[@name='payment[cc_exp_year]']
                     #TODO - add more methods
                 -
-                    order_history: &order_history
+                    order_history: &orderHistory
                         xpath: //div[div/h4[contains(text(),'Order History')]]
                         fields:
                             order_comments: //textarea[@id='order-comment']
                 -
-                    shipping_method: &shipping_method
+                    shipping_method: &shippingMethod
                         xpath: //div[@id='order-shipping_method']
                         links:
                             get_shipping_methods_and_rates: //a[normalize-space(text())='Get shipping methods and rates']
@@ -249,7 +249,7 @@ create_order_for_new_customer:
                             ship_method: //input[@type='radio' and following-sibling::*[contains(text(), '%shipMethod%')]]
                      #TODO - add more methods
                 -
-                    order_totals: &order_totals
+                    order_totals: &orderTotals
                         xpath: //div[div/h4[contains(text(),'Order Totals')]]
                         checkboxes:
                             append_comments: //input[@name='order[comment][customer_note_notify]']
@@ -257,21 +257,30 @@ create_order_for_new_customer:
                         buttons:
                             submit_order: //button[span='Submit Order']
                 -
-                    product_composite_configure_form: &product_composite_configure_form #TODO - redo
+                    product_composite_configure_form: &productCompositeConfigureForm
                         xpath: //div[div/h4[contains(text(),'Configure Product')]]
                         dropdowns:
-                            case: //div[@class='product-options']//dd[position()='1']//select
-                            cpu: //div[@class='product-options']//dd[position()='2']//select
+                            drop: //div/dl[./dt/label[contains(text(),'%optionDropdown%')]]//select
                         radiobuttons:
-                            hd_radio: //input[@type='radio']/../span/label[contains(text(),'%option1%')]/../../input[@type='radio']
-                            ram_radio: //input[@type='radio']/../span/label[contains(text(),'%option2%')]/../../input[@type='radio']
+                            radio: //input[@type='radio']/../span/label[contains(text(),'%optionRadio%')]/../../input[@type='radio']
                         checkboxes:
-                            mon_check: //input[@type='checkbox']/../span/label[contains(text(),'%option3%')]/../../input[@type='checkbox']
+                            check: //input[@type='checkbox']/../span/label[contains(text(),'%optionCheck%')]/../../input[@type='checkbox']
                         fields:
-                            products_quantity: //input[@id='product_composite_configure_input_qty']
+                            text: //input[@type='text']/../label[contains(text(),'%optionText%')]/following-sibling::*[@type='text']
+                            config_qty_text: //tr[td[contains(.,'%optionText%')]]/td/input[@title='Qty']
                         buttons:
                             ok: //button[span[contains(text(),'OK')]]
                             cancel: //button[span[contains(text(),'Cancel')]]
+                -
+                    gift_options: &giftMessage
+                        xpath: //div[div/h4[contains(text(),'Gift Options for')]]
+                        fields:
+                            from: //input[@name='current_item_giftmessage_sender']
+                            to: //input[@name='current_item_giftmessage_recipient']
+                            message: //textarea[@name='current_item_giftmessage_message']
+                        buttons:
+                            ok: //button[span='OK']
+                            cancel: //button[span='Cancel']
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
@@ -287,6 +296,8 @@ create_order_for_new_customer:
             invalid_card_number: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card number.' and not(contains(@style,'display: none;'))]"
             invalid_cvv: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card verification number.' and not(contains(@style,'display: none;'))]"
             invalid_exp_date: "%fieldXpath%/following-sibling::*[text()='Incorrect credit card expiration date.' and not(contains(@style,'display: none;'))]"
+            invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.//span,'coupon code is not valid.')]
+            success_applying_coupon: //li[normalize-space(@class)='success-msg' and contains(.//span,'The coupon code has been accepted.')]
 
 
 create_order_for_existing_customer:
@@ -296,31 +307,33 @@ create_order_for_existing_customer:
         form: &newOrderForm
             fieldsets:
                 -
-                    order_customer_grid: *sales_order_create_customer_grid
+                    order_customer_grid: *salesOrderCreateCustomerGrid
                 -
-                    order_store_selector: *order_store_selector
+                    order_store_selector: *orderStoreSelector
                 -
-                    select_products_to_add: *select_products_to_add
+                    select_products_to_add: *selectProductsToAdd
                 -
-                    order_items_ordered: *order_items_ordered
+                    order_items_ordered: *orderItemsOrdered
                 -
-                    order_apply_coupon_code: *order_apply_coupon_code
+                    order_apply_coupon_code: *orderApplyCouponCode
                 -
-                    order_account_information: *order_account_information
+                    order_account_information: *orderAccountInformation
                 -
-                    order_billing_address: *order_billing_address
+                    order_billing_address: *orderBillingAddress
                 -
-                    order_shipping_address: *order_shipping_address
+                    order_shipping_address: *orderShippingAddress
                 -
-                    order_payment_method: *order_payment_method
+                    order_payment_method: *orderPaymentMethod
                 -
-                    order_history: *order_history
+                    order_history: *orderHistory
                 -
-                    shipping_method: *shipping_method
+                    shipping_method: *shippingMethod
                 -
-                    order_totals: *order_totals
+                    order_totals: *orderTotals
                 -
-                    product_composite_configure_form: *product_composite_configure_form #TODO - redo
+                    product_composite_configure_form: *productCompositeConfigureForm
+                -
+                    gift_options: *giftMessage
                 -
                     order_sidebar:
                         xpath: //div[@id='order-sidebar']
@@ -497,6 +510,7 @@ view_order:
             cancel: //p[@class='form-buttons']//button[span='Cancel']
             send_email: //p[@class='form-buttons']//button[span='Send Email']
             hold: //p[@class='form-buttons']//button[span='Hold']
+            unhold: //p[@class='form-buttons']//button[span='Unhold']
             credit_memo: //p[@class='form-buttons']//button[span='Credit Memo']
             invoice: //p[@class='form-buttons']//button[span='Invoice']
             ship: //p[@class='form-buttons']//button[span='Ship']
@@ -504,3 +518,9 @@ view_order:
         messages:
             confirmation_for_cancel: Are you sure you want to cancel this order?
             success_created_order: //li[normalize-space(@class)='success-msg' and contains(.//span,'The order has been created.')]
+            success_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.//span,'The order has been released from holding status.')]
+            failed_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.//span,'Order was not released from holding status.')]
+            success_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.//span,'Order has been canceled.')]
+            failed_canceled_order: //li[normalize-space(@class)='error-msg' and contains(.//span,'The order cannot be canceled.')]
+            success_hold_order: //li[normalize-space(@class)='success-msg' and contains(.//span,'The order has been put on hold')]
+            failed_hold_order: //li[normalize-space(@class)='error-msg' and contains(.//span,'Order were not put on hold.')]

@@ -32,69 +32,74 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
+class CheckingValidationBackendTest extends Mage_Selenium_TestCase
 {
    /**
-    * Preconditions:
+    * <p>Preconditions:</p>
     *
-    * Log in to Backend.
+    * <p>Log in to Backend.</p>
     *
     */
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->OrderHelper()->createProducts('product_to_order1', TRUE);
-        $this->OrderHelper()->createProducts('product_to_order2', TRUE);
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
     }
-   /**
-    *
-    * Creating products for testing.
-    *
-    * Navigate to Sales-Orders page.
-    *
-    */
+    /**
+     *
+     * <p>Creating products for testing.</p>
+     *
+     * <p>Navigate to Sales-Orders page.</p>
+     *
+     */
     protected function assertPreConditions()
     {}
+
+    /**
+     * @test
+     */
+    public function createProducts()
+    {
+        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($productData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+
+        return $productData;
+    }
+
    /**
-    * Create customer via 'Create order' form (required fields are not filled).
+    * <p>Create customer via 'Create order' form (required fields are not filled).</p>
+    * <p>Steps:</p>
+    * <p>1.Go to Sales-Orders;</p>
+    * <p>2.Press "Create New Order" button;</p>
+    * <p>3.Press "Create New Customer" button;</p>
+    * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
+    * <p>5.Fill all fields except one required;</p>
+    * <p>6.Press 'Add Products' button;</p>
+    * <p>7.Add first two products;</p>
+    * <p>8.Choose shipping address the same as billing;</p>
+    * <p>9.Check payment method 'Check / Money order';</p>
+    * <p>10.Choose first from 'Get shipping methods and rates';</p>
+    * <p>11.Submit order;</p>
+    * <p>Expected result:</p>
+    * <p>New customer is not created. Order is not created for the new customer. Message with "Empty required field" appears.</p>
     *
-    *
-    * Steps:
-    *
-    * 1.Go to Sales-Orders.
-    *
-    * 2.Press "Create New Order" button.
-    *
-    * 3.Press "Create New Customer" button.
-    *
-    * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
-    *
-    * 5.Fill all fields except one required.
-    *
-    * 6.Press 'Add Products' button.
-    *
-    * 7.Add first two products.
-    *
-    * 8.Choose shipping address the same as billing.
-    *
-    * 9.Check payment method 'Check / Money order'
-    *
-    * 10.Choose first from 'Get shipping methods and rates'.
-    *
-    * 11.Submit order.
-    *
-    * Expected result:
-    *
-    * New customer is not created. Order is not created for the new customer. Message with "Empty required field" appears.
-    *
+    * @depends createProducts
     * @dataProvider data_emptyBillingFields
-    *
     * @param array $emptyBillingField
+    * @test
     *
     */
-    public function testOrderWithoutRequiredFieldsFilledBillingAddress($emptyBillingField)
+    public function orderWithoutRequiredFieldsFilledBillingAddress($emptyBillingField, $productData)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields',
                         $emptyBillingField),
@@ -142,45 +147,33 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
         );
     }
    /**
-    * Create customer via 'Create order' form (required fields are not filled).
+    * <p>Create customer via 'Create order' form (required fields are not filled).</p>
+    * <p>Steps:</p>
+    * <p>1.Go to Sales-Orders;</p>
+    * <p>2.Press "Create New Order" button;</p>
+    * <p>3.Press "Create New Customer" button;</p>
+    * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
+    * <p>5.Fill all fields except one required;</p>
+    * <p>6.Press 'Add Products' button;</p>
+    * <p>7.Fill in billing address with required fields;</p>
+    * <p>8.Check each shipping required fields (message with error should appear near the field);</p>
+    * <p>9.Check payment method 'visa'. Fill its fields with correct information;</p>
+    * <p>10.Choose first from 'Get shipping methods and rates';</p>
+    * <p>11.Submit order;</p>
+    * <p>Expected result:</p>
+    * <p>New customer is not created. Order is not created for the new customer. Message with "Empty required field" appears.</p>
     *
-    *
-    * Steps:
-    *
-    * 1.Go to Sales-Orders.
-    *
-    * 2.Press "Create New Order" button.
-    *
-    * 3.Press "Create New Customer" button.
-    *
-    * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
-    *
-    * 5.Fill all fields except one required.
-    *
-    * 6.Press 'Add Products' button.
-    *
-    * 7.Fill in billing address with required fields
-    *
-    * 8.Check each shipping required fields (message with error should appear near the field)
-    *
-    * 9.Check payment method 'visa'. Fill its fields with correct information
-    *
-    * 10.Choose first from 'Get shipping methods and rates'.
-    *
-    * 11.Submit order.
-    *
-    * Expected result:
-    *
-    * New customer is not created. Order is not created for the new customer. Message with "Empty required field" appears.
-    *
+    * @depends createProducts
     * @dataProvider data_emptyShippingFields
-    *
     * @param array $emptyShippingField
-    *
+    * @test
     */
-    public function testOrderWithoutRequiredFieldsFilledShippingAddress($emptyShippingField)
+    public function orderWithoutRequiredFieldsFilledShippingAddress($emptyShippingField, $productData)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
                 $this->loadData(
@@ -230,21 +223,24 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
         );
     }
    /**
-    * Create order without shipping method
+    * <p>Create order without shipping method</p>
+    * <p>Steps:</p>
+    * <p>1. Create new order for new customer;</p>
+    * <p>2. Fill in the required fields with billing and shipping address;</p>
+    * <p>3. Do not add any products to order;</p>
+    * <p>4. Do not choose any shipping method;</p>
+    * <p>5. Submit order;</p>
+    * <p>Expected result:</p>
+    * <p>Order cannot be created by the reason of empty required fields in shipping method.</p>
     *
-    * Steps:
-    *
-    * 1. Create new order for new customer
-    * 2. Fill in the required fields with billing and shipping address
-    * 3. Do not add any products to order
-    * 4. Do not choose any shipping method.
-    * 5. Submit order
-    *
-    * Expected result:
-    * Order cannot be created by the reason of empty required fields in shipping method
+    * @depends createProducts
+    * @test
     */
-    public function testNoShippingMethodChosen()
+    public function noShippingMethodChosen($productData)
     {
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
         $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', null, null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
@@ -257,23 +253,26 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
    /**
-    * Create order without products
+    * <p>Create order without products.</p>
+    * <p>Steps:</p>
+    * <p>1. Create new order for new customer;</p>
+    * <p>2. Fill in the required fields with billing and shipping address;</p>
+    * <p>3. Add products to order;</p>
+    * <p>4. Choose any shipping method;</p>
+    * <p>5. Remove products from order;</p>
+    * <p>6. Submit order;</p>
+    * <p>Expected result:</p>
+    * <p>Order cannot be created. Message 'You need to specify order items.' appears.</p>
     *
-    * Steps:
-    *
-    * 1. Create new order for new customer
-    * 2. Fill in the required fields with billing and shipping address
-    * 3. Add products to order
-    * 4. Choose any shipping method.
-    * 5. Remove products from order.
-    * 6. Submit order
-    *
-    * Expected result:
-    * Order cannot be created. Message 'You need to specify order items.' appears.
+    * @depends createProducts
+    * @test
     */
-    public function testNoProductsChosen()
+    public function noProductsChosen($productData)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
                 null, 'visa', null);
@@ -281,16 +280,12 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
         $this->waitForAjax();
         $this->addParameter('shipMethod', 'Fixed');
         $this->clickControl('radiobutton', 'ship_method', false);
-        $prod1 = $this->loadData('product_to_order1');
-        $prod2 = $this->loadData('product_to_order2');
-        $productXpath = '//tbody/tr[./td/div[contains(.,'.$prod1['general_sku'].')]]/td[@class="last"]';
-        $this->addParameter('productXpath', $productXpath);
-        $this->fillForm('products_to_remove');
-        $this->clickButton('update_items_and_quantity');
-        $productXpath = '//tbody/tr[./td/div[contains(.,'.$prod2['general_sku'].')]]/td[@class="last"]';
-        $this->addParameter('productXpath', $productXpath);
-        $this->fillForm('products_to_remove');
-        $this->clickButton('update_items_and_quantity');
+        $productToRemove = $this->loadData('products_to_reconfig_2');
+        print_r($productToRemove);
+        $this->addParameter('sku', $productData['general_sku']);
+        $this->fillForm($productToRemove['product_1']['options']);
+        $this->clickButton('update_items_and_quantity', FALSE);
+        $this->pleaseWait();
         $this->clickControl('link', 'get_shipping_methods_and_rates', false);
         $this->waitForAjax();
         $this->clickButton('submit_order', FALSE);
@@ -302,26 +297,29 @@ class OrderForNewCustomerCheckRequiredFields_Test extends Mage_Selenium_TestCase
         $this->assertTrue($this->errorMessage('error_specify_order_items'), $this->messages);
     }
    /**
-    * Create order without payment method
+    * <p>Create order without payment method.</p>
+    * <p>Steps:</p>
+    * <p>1. Create new order for new customer;</p>
+    * <p>2. Fill in the required fields with billing and shipping address;</p>
+    * <p>3. Add products to order;</p>
+    * <p>4. Choose any shipping method;</p>
+    * <p>5. Do not choose payment method;</p>
+    * <p>6. Submit order;</p>
+    * <p>Expected result:</p>
+    * <p>Order cannot be created. Message 'Please select one of the options.' appears.</p>
     *
-    * Steps:
-    *
-    * 1. Create new order for new customer
-    * 2. Fill in the required fields with billing and shipping address
-    * 3. Add products to order
-    * 4. Choose any shipping method.
-    * 5. Do not choose payment method.
-    * 6. Submit order
-    *
-    * Expected result:
-    * Order cannot be created. Message 'Please select one of the options.' appears.
+    * @depends createProducts
+    * @test
     */
-    public function testNoPaymentMethodChosen()
+    public function noPaymentMethodChosen($productData)
     {
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', 'products', null,
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
+        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 $this->loadData(
                         'new_customer_order_billing_address_reqfields'),
-                null, null, 'Fixed');
+                null, null, null);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         $fieldXpath = $fieldSet->findRadiobutton('credit_card');

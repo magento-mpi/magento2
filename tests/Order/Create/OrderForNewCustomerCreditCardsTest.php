@@ -34,219 +34,166 @@
  */
 class OrderForNewCustomerCreditCards_Test extends Mage_Selenium_TestCase
 {
-   /**
-    * Preconditions:
-    *
-    * Log in to Backend.
-    *
-    */
+    /**
+     * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
+     */
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->OrderHelper()->createProducts('product_to_order1', TRUE);
-        $this->OrderHelper()->createProducts('product_to_order2', TRUE);
-    }
-   /**
-    *
-    * Create products for testing.
-    *
-    * Navigate to Sales-Orders page.
-    *
-    */
-    protected function assertPreConditions()
-    {
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
         $this->addParameter('id', '0');
     }
-   /**
-    * Create customer via 'Create order' form (required fields are filled). American Express credit card.
-    *
-    *
-    * Steps:
-    *
-    * 1.Go to Sales-Orders.
-    *
-    * 2.Press "Create New Order" button.
-    *
-    * 3.Press "Create New Customer" button.
-    *
-    * 4.Choose 'Main Store' (First from the list of radiobuttons).
-    *
-    * 5.Fill all fields.
-    *
-    * 6.Press 'Add Products' button.
-    *
-    * 7.Add first two products (select third options for second product).
-    *
-    * 8.Choose shipping address the same as billing.
-    *
-    * 9.Check payment method 'Credit Card - American Express'
-    *
-    * 10. Fill in all required fields.
-    *
-    * 11.Choose first from 'Get shipping methods and rates'.
-    *
-    * 12.Submit order.
-    *
-    * 13.Invoice order.
-    *
-    * 14. Ship order.
-    *
-    * Expected result:
-    *
-    * New customer is created. Order is created for the new customer.
-    *
-    */
-    public function testOrderWithCreditCardAmericanExpress()
+    /**
+     * @test
+     */
+    public function createProducts()
     {
+        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($productData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+
+        return $productData;
+    }
+    protected function assertPreConditions()
+    {}
+    /**
+     * <p>Create customer via 'Create order' form (required fields are filled). American Express credit card.</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons).</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add first two products (select third options for second product).</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check payment method 'Credit Card - American Express'</p>
+     * <p>10. Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>13.Invoice order.</p>
+     * <p>14. Ship order.</p>
+     * <p>Expected result:</p>
+     * <p>New customer is created. Order is created for the new customer.</p>
+     *
+     * @depends createProducts
+     * @test
+     */
+    public function orderWithCreditCardAmericanExpress($productData)
+    {
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products', $email,
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'american_express','Fixed');
-        $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
-  /**
-    * Create customer via 'Create order' form (required fields are filled). Visa credit card.
-    *
-    *
-    * Steps:
-    *
-    * 1.Go to Sales-Orders.
-    *
-    * 2.Press "Create New Order" button.
-    *
-    * 3.Press "Create New Customer" button.
-    *
-    * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
-    *
-    * 5.Fill all fields.
-    *
-    * 6.Press 'Add Products' button.
-    *
-    * 7.Add first two products.
-    *
-    * 8.Choose shipping address the same as billing.
-    *
-    * 9.Check payment method 'Credit Card - Visa'
-    *
-    * 10. Fill in all required fields.
-    *
-    * 11.Choose first from 'Get shipping methods and rates'.
-    *
-    * 12.Submit order.
-    *
-    * 13.Invoice order.
-    *
-    * 14. Ship order.
-    *
-    * Expected result:
-    *
-    * New customer is created. Order is created for the new customer.
-    *
-    */
-    public function testOrderWithCreditCardVisa()
+    /**
+     * <p>Create customer via 'Create order' form (required fields are filled). Visa credit card.</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add first two products.</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check payment method 'Credit Card - Visa'</p>
+     * <p>10. Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>13.Invoice order.</p>
+     * <p>14. Ship order.</p>
+     * <p>Expected result:</p>
+     * <p>New customer is created. Order is created for the new customer.</p>
+     *
+     * @depends createProducts
+     * @test
+     */
+    public function orderWithCreditCardVisa($productData)
     {
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products', $email,
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'visa','Fixed');
-        $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
-  /**
-    * Create customer via 'Create order' form (required fields are filled). MasterCard credit card.
-    *
-    *
-    * Steps:
-    *
-    * 1.Go to Sales-Orders.
-    *
-    * 2.Press "Create New Order" button.
-    *
-    * 3.Press "Create New Customer" button.
-    *
-    * 4.Choose 'Main Store' (First from the list of radiobuttons) if exists.
-    *
-    * 5.Fill all fields.
-    *
-    * 6.Press 'Add Products' button.
-    *
-    * 7.Add first two products.
-    *
-    * 8.Choose shipping address the same as billing.
-    *
-    * 9.Check payment method 'Credit Card - MasterCard'
-    *
-    * 10. Fill in all required fields.
-    *
-    * 11.Choose first from 'Get shipping methods and rates'.
-    *
-    * 12.Submit order.
-    *
-    * 13.Invoice order.
-    *
-    * 14. Ship order.
-    *
-    * Expected result:
-    *
-    * New customer is created. Order is created for the new customer.
-    *
-    */
-    public function testOrderWithCreditCardMastercard()
+    /**
+     * <p>Create customer via 'Create order' form (required fields are filled). MasterCard credit card.</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add first two products.</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check payment method 'Credit Card - MasterCard'</p>
+     * <p>10. Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>13.Invoice order.</p>
+     * <p>14. Ship order.</p>
+     * <p>Expected result:</p>
+     * <p>New customer is created. Order is created for the new customer.</p>
+     *
+     * @depends createProducts
+     * @test
+     */
+    public function orderWithCreditCardMastercard($productData)
     {
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products', $email,
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'mastercard','Fixed');
-        $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
-  /**
-    * Create customer via 'Create order' form (required fields are filled). Discover credit card.
-    *
-    *
-    * Steps:
-    *
-    * 1.Go to Sales-Orders.
-    *
-    * 2.Press "Create New Order" button.
-    *
-    * 3.Press "Create New Customer" button.
-    *
-    * 4.Choose 'Main Store' (First from the list of radiobuttons).
-    *
-    * 5.Fill all fields.
-    *
-    * 6.Press 'Add Products' button.
-    *
-    * 7.Add first two products (select third options for second product).
-    *
-    * 8.Choose shipping address the same as billing.
-    *
-    * 9.Check payment method 'Credit Card - Discover'
-    *
-    * 10. Fill in all required fields.
-    *
-    * 11.Choose first from 'Get shipping methods and rates'.
-    *
-    * 12.Submit order.
-    *
-    * 13.Invoice order.
-    *
-    * 14. Ship order.
-    *
-    * Expected result:
-    *
-    * New customer is created. Order is created for the new customer.
-    *
-    */
-    public function testOrderWithCreditCardDiscover()
+    /**
+     * <p>Create customer via 'Create order' form (required fields are filled). Discover credit card.</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons).</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add first two products (select third options for second product).</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check payment method 'Credit Card - Discover'</p>
+     * <p>10. Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>13.Invoice order.</p>
+     * <p>14. Ship order.</p>
+     * <p>Expected result:</p>
+     * <p>New customer is created. Order is created for the new customer.</p>
+     *
+     * @depends createProducts
+     * @test
+     */
+    public function orderWithCreditCardDiscover($productData)
     {
+        $products = $this->loadData('simple_products_to_add');
+        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $this->navigate('manage_sales_orders');
         $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products', $email,
+        $orderId = $this->OrderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->OrderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'discover','Fixed');
-        $this->OrderHelper()->coverUpTraces($orderId, $email);
     }
 }
