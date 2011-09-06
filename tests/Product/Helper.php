@@ -271,20 +271,17 @@ class Product_Helper extends Mage_Selenium_TestCase
     public function addCustomOption(array $customOptionData)
     {
         $page = $this->getCurrentLocationUimapPage();
-        $fieldSetXpath = $page->findFieldset('product_custom_options')->getXpath();
-        $optionId = $this->getXpathCount($fieldSetXpath . "//*[@class='option-box']") + 1;
+        $fieldSetXpath = $page->findFieldset('custom_option_set')->getXpath();
+        $optionId = $this->getXpathCount($fieldSetXpath) + 1;
         $this->addParameter('optionId', $optionId);
-        $page->assignParams($this->_paramsHelper);
         $this->clickButton('add_option', FALSE);
         $this->fillForm($customOptionData, 'custom_options');
         foreach ($customOptionData as $row_key => $row_value) {
-            if (preg_match('/^custom_option_row/', $row_key) and is_array($customOptionData[$row_key])) {
-                $rowId = $this->getXpathCount($fieldSetXpath .
-                        "//tr[contains(@id,'product_option_') and not(@style)]");
+            if (preg_match('/^custom_option_row/', $row_key) && is_array($row_value)) {
+                $rowId = $this->getXpathCount($fieldSetXpath . "//tr[contains(@id,'product_option_')][not(@style)]");
                 $this->addParameter('rowId', $rowId);
-                $page->assignParams($this->_paramsHelper);
                 $this->clickButton('add_row', FALSE);
-                $this->fillForm($customOptionData[$row_key], 'custom_options');
+                $this->fillForm($row_value, 'custom_options');
             }
         }
     }
@@ -614,9 +611,10 @@ class Product_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
-
-        //@TODO verify 'Custom Options', 'Bundle Items', 'Downloadable Information' tabs
-
+        if (array_key_exists('custom_options_data', $nestedArrays)) {
+            $this->verifyCustomOption($nestedArrays['custom_options_data']);
+        }
+        //@TODO verify 'Bundle Items', 'Downloadable Information' tabs
         // Error Output
         if (!empty($this->messages['error'])) {
             $this->fail(implode("\n", $this->messages['error']));
@@ -718,6 +716,40 @@ class Product_Helper extends Mage_Selenium_TestCase
                     $this->addParameter('productXpath', $xpathTr);
                 }
                 $this->verifyForm($fillingData, $fieldSetName);
+            }
+        }
+    }
+
+    /**
+     * Verify Custom Options
+     *
+     * @param array $customOptionData
+     */
+    public function verifyCustomOption(array $customOptionData)
+    {
+        $this->clickControl('tab', 'custom_options', false);
+        $this->pleaseWait();
+        $page = $this->getCurrentLocationUimapPage();
+        $fieldSetXpath = $page->findFieldset('custom_option_set')->getXpath();
+        $optionsQty = $this->getXpathCount($fieldSetXpath);
+        if ($optionsQty == 0) {
+            $this->fail('111');
+        }
+        $this->assertEquals(count($customOptionData), $optionsQty,
+                'Product must be contains ' . count($customOptionData) . ' Tier Price, but contains ' . $optionsQty);
+        $id = $this->getAttribute($fieldSetXpath . "[1]/@id");
+        $id = explode('_', $id);
+        foreach ($id as $value) {
+            if (is_numeric($value)) {
+                $optionId = $value;
+            }
+        }
+        // @TODO Need implement full verification for custom options with type = select (not tested rows)
+        foreach ($customOptionData as $value) {
+            if (is_array($value)) {
+                $this->addParameter('optionId', $optionId);
+                $this->verifyForm($value, 'custom_options');
+                $optionId--;
             }
         }
     }

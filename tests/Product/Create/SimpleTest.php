@@ -625,7 +625,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->productHelper()->fillProductInfo($simple);
         $this->saveForm('save');
         $this->selectWindow(null);
-        sleep(1);
+        sleep(2);
         $this->assertElementPresent("//table[@class='data']//td[normalize-space(text())='"
                 . $simple['general_sku'] . "']");
     }

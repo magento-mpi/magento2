@@ -379,10 +379,14 @@ new_product:
                         xpath: //a[@title='Custom Options']/span
                         fieldsets:
                             -
-                                product_custom_options:
+                                custom_options:
                                     xpath: //div[contains(div/div/h4,'Custom Options')]
                                     buttons:
                                         add_option: //button[span='Add New Option']
+                            -
+                                custom_option_set:
+                                    xpath: //div[@class='option-box']
+                                    buttons:
                                         delete_option: //div[@id='option_%optionId%']//button[span='Delete Option']
                                         add_row: //button[span='Add New Row']
                                         delete_row: //tr[@id='product_option_%optionId%_select_%rowId%']//button[span='Delete Row']
