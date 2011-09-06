@@ -397,7 +397,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      * Prepare configurable product data
      *
      * @deprecated since 1.6.1.0
-     *     use Mage_Catalog_Model_Resource_Product_Type_Configurable::getConfigurableOptions instead
+     * @see Mage_Catalog_Model_Resource_Product_Type_Configurable::getConfigurableOptions()
      * @param  array $productIds
      * @return array
      */
@@ -431,7 +431,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      * Prepare configurable product price
      *
      * @deprecated since 1.6.1.0
-     *     use Mage_Catalog_Model_Resource_Product_Type_Configurable::getConfigurableOptions instead
+     * @see Mage_Catalog_Model_Resource_Product_Type_Configurable::getConfigurableOptions()
      * @param  array $productIds
      * @return array
      */
