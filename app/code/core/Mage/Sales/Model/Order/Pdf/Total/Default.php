@@ -72,12 +72,18 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Varien_Object
        $tax_info  = array();
 
        if ($fullInfo) {
+            $taxClassAmount = Mage::helper('tax')->getCalculatedTaxes($this->getOrder());
+
+            $i = 0;
           foreach ($fullInfo as $info) {
              if (isset($info['hidden']) && $info['hidden']) {
                 continue;
              }
 
              $_amount   = $info['amount'];
+                if (isset($taxClassAmount[$i])) {
+                    $_amount = $taxClassAmount[$i]['tax_amount'];
+                }
 
              foreach ($info['rates'] as $rate) {
                 $percent = $rate['percent'] ? ' (' . $rate['percent']. '%)' : '';
@@ -88,6 +94,7 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Varien_Object
                    'font_size' => $fontSize
                 );
              }
+                $i++;
           }
        }
 

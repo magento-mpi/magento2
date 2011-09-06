@@ -44,28 +44,19 @@ class Mage_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Tax_Block_Sales_O
         $source = $this->getOrder();
         $info = array();
         if ($source instanceof Mage_Sales_Model_Order) {
-
             $rates = Mage::getModel('sales/order_tax')->getCollection()->loadByOrder($source)->toArray();
             $info  = Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
 
-            /**
-             * Set right tax amount from invoice
-             * (In $info tax invalid when invoice is partial)
-             */
-            /** @var $blockInvoice Mage_Adminhtml_Block_Sales_Order_Invoice_Totals */
-//            $blockInvoice = $this->getLayout()->getBlock('tax');
-            /** @var $invoice Mage_Sales_Model_Order_Invoice */
-//            $invoice = $blockInvoice->getSource();
-//            $items = $invoice->getItemsCollection();
-            $i = 0;
-            /** @var $item Mage_Sales_Model_Order_Invoice_Item */
-//            foreach ($items as $item) {
-//                $info[$i]['hidden']           = $item->getHiddenTaxAmount();
-//                $info[$i]['amount']           = $item->getTaxAmount();
-//                $info[$i]['base_amount']      = $item->getBaseTaxAmount();
-//                $info[$i]['base_real_amount'] = $item->getBaseTaxAmount();
-//                $i++;
-//            }
+            $taxClassAmount = Mage::helper('tax')->getCalculatedTaxes($source);
+            if ($taxClassAmount) {
+                $i = 0;
+                foreach ($taxClassAmount as $tax) {
+                    $info[$i]['hidden']           = $tax['hidden_tax_amount'];
+                    $info[$i]['amount']           = $tax['tax_amount'];
+                    $info[$i]['base_amount']      = $tax['base_tax_amount'];
+                    $i++;
+                }
+            }
         }
 
         return $info;

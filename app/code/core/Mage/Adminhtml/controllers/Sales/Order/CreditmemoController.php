@@ -442,4 +442,13 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             return false;
         }
     }
+
+    /**
+     * Create pdf for current creditmemo
+     */
+    public function printAction()
+    {
+        $this->_initCreditmemo();
+        parent::printAction();
+    }
 }
