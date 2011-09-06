@@ -1,10 +1,21 @@
 <root>
-    <parentCategory>6</parentCategory>
-    <categoryData>
-        <name>Category 2.2</name>
-        <is_active>1</is_active>
-        <include_in_menu>1</include_in_menu>
-        <default_sort_by>use_config</default_sort_by>
-        <available_sort_by>use_config</available_sort_by>
-    </categoryData>
+    <create>
+        <parentCategory>2</parentCategory>
+        <categoryData>
+            <name>Category 1.1</name>
+            <is_active>1</is_active>
+            <include_in_menu>1</include_in_menu>
+            <default_sort_by>name</default_sort_by>
+            <available_sort_by>name</available_sort_by>
+        </categoryData>
+    </create>
+    <update>
+        <categoryId>X</categoryId>
+        <categoryData>
+            <name>Category 1.1 Updated</name>
+            <default_sort_by>name</default_sort_by>
+            <available_sort_by>name</available_sort_by>
+            <is_active>1</is_active>
+        </categoryData>
+    </update>
 </root>

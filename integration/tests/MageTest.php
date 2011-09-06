@@ -37,23 +37,48 @@ class MageTest extends Magento_Test_Webservice
 
     public function testProductInfo()
     {
-        $category = $this->call('catalog_category.info', array(3));
-        $this->assertEquals('Category 1', $category['name']);
-        $this->assertEquals('1/2/3', $category['path']);
+        $category = $this->call('catalog_category.info', array(31));
+        $this->assertEquals('Category 31', $category['name']);
+        $this->assertEquals('1/2/31', $category['path']);
     }
 
-    public function testProductCreate()
+    public function testProductCRUD()
     {
       $categoryFixture = simplexml_load_file(__DIR__.'/_fixtures/category.xml');
-      $data = self::simpleXmlToArray($categoryFixture);
+      $data = self::simpleXmlToArray($categoryFixture->create);
 
-      $result = $this->call('category.create', $data);
+      $categoryId = $this->call('category.create', $data);
 
-      $categoryLoaded = new Mage_Catalog_Model_Category();
-      $categoryLoaded->load($result);
+      //create
+      $categoryCreated = new Mage_Catalog_Model_Category();
+      $categoryCreated->load($categoryId);
 
-      $this->assertEquals($result,$categoryLoaded->getId());
-      $this->assertEquals('Category 2.2', $categoryLoaded['name']);
+      $this->assertEquals($categoryId,$categoryCreated->getId());
+      $this->assertEquals('Category 1.1', $categoryCreated['name']);
+
+      //update
+      $categoryFixture->update->categoryId = $categoryId;
+      $data = self::simpleXmlToArray($categoryFixture->update);
+
+      $resultUpdated = $this->call('category.update', $data);
+        
+      $this->assertTrue($resultUpdated);
+      $categoryUpdated = new Mage_Catalog_Model_Category();
+      $categoryUpdated->load($categoryId);
+
+      $this->assertEquals('Category 1.1 Updated', $categoryUpdated['name']);
+
+      //read
+      $categoryRead = $this->call('catalog_category.info', array($categoryId));
+      $this->assertEquals('Category 1.1 Updated', $categoryRead['name']);
+
+      //delete
+      $categoryDelete = $this->call('category.delete', array($categoryId));
+
+      $this->assertTrue($categoryDelete);
+      $categoryCreated = new Mage_Catalog_Model_Category();
+      $categoryCreated->load($categoryId);
+      $this->assertEmpty($categoryCreated->getData());
       
     }
 }
