@@ -130,10 +130,10 @@ class Magento_Test_Listener_Annotation_Fixture
         if($transactionLevel != 0) $adapter->commit();
 
         // check if transaction disabled
-        if(TESTS_FIXTURE_TRANSACTION !== 'off'){
-            $adapter->beginTransaction();
+        if(TESTS_TRANSACTION_ISOLATION_LEVEL === 'READ UNCOMMITTED'){
+            $adapter->query('SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;');
         }
-
+        $adapter->beginTransaction();
     }
 
     /**
@@ -143,10 +143,7 @@ class Magento_Test_Listener_Annotation_Fixture
     {
         /** @var $adapter Varien_Db_Adapter_Interface */
         $adapter = Mage::getSingleton('core/resource')->getConnection('write');
-        if(TESTS_FIXTURE_TRANSACTION !== 'off'){
-            $adapter->rollBack();
-        }
-
+        $adapter->rollBack();
     }
 
     /**
