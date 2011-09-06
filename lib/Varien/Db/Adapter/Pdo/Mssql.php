@@ -486,6 +486,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function getColumnDefinitionFromDescribe($options, $ddlType = null)
     {
         $columnInfo = $this->getColumnCreateByDescribe($options);
+        foreach ($columnInfo['options'] as $key => $value) {
+            $columnInfo[$key] = $value;
+        }
         return $this->_getColumnDefinition($columnInfo, $ddlType);
     }
 
