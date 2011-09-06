@@ -290,8 +290,9 @@ class Mage_GoogleOptimizer_Model_Observer
     public function addCategoryGoogleOptimizerTab($observer)
     {
         $tabs = $observer->getEvent()->getTabs();
-        if (Mage::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true)
-            && Mage::helper('googleoptimizer')->isOptimizerActive($tabs->getCategory()->getStoreId())) {
+        if (Mage::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true) &&
+            Mage::helper('googleoptimizer')->isOptimizerActive($tabs->getCategory()->getStoreId())
+        ) {
             $tabs->addTab('googleoptimizer', array(
                 'label'     => Mage::helper('googleoptimizer')->__('Category View Optimization'),
                 'content'   => $tabs->getLayout()->createBlock(

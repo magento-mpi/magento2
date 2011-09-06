@@ -34,29 +34,45 @@
 class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Form_Renderer_Import
     extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
+    /**
+     * Set form template
+     */
     public function __construct()
     {
         $this->setTemplate('googleoptimizer/catalog/form/renderer/import.phtml');
     }
 
+    /**
+     * Render form
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         return $this->toHtml();
     }
 
+    /**
+     * Element setter
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Form_Renderer_Import
+     */
     public function setElement(Varien_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
         return $this;
     }
 
+    /**
+     * Element getter
+     *
+     * @return Varien_Data_Form_Element_Abstract
+     */
     public function getElement()
     {
         return $this->_element;
-    }
-
-    protected function _prepareLayout()
-    {
     }
 }
