@@ -1182,11 +1182,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function search(array $data, $fieldSetName = null)
     {
         $this->_prepareDataForSearch($data);
-        if (count($data) == 0) {
+        if (!$data) {
             return null;
         }
 
-        if (!empty($fieldSetName)) {
+        if ($fieldSetName) {
             $fieldSet = $this->getCurrentLocationUimapPage()->findFieldset($fieldSetName);
             $xpath = $fieldSet->getXpath();
             $this->click($xpath . $fieldSet->findButton('reset_filter'));
@@ -1201,25 +1201,36 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $totalCount = intval($this->getText($xpath . self::qtyElementsInTable));
         $xpathPager = $xpath . self::qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
 
-        // Forming xpath for string that contains the lookup data
-        $xpathTR = $xpath . "//table[@class='data']//tr";
-        foreach ($data as $key => $value) {
-            if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
-                $xpathTR .= "[contains(.,'$value')]";
-            }
-        }
+        $xpathTR = $this->formSearchXpath($data);
 
-        if (!$this->isElementPresent($xpathTR) && $totalCount > 20) {
+        if (!$this->isElementPresent($xpath . $xpathTR) && $totalCount > 20) {
             // Fill in search form and click 'Search' button
             $this->fillForm($data);
             $this->clickButton('search', false);
             $this->waitForElement($xpathPager);
         }
 
-        if ($this->isElementPresent($xpathTR)) {
-            return $xpathTR;
+        if ($this->isElementPresent($xpath . $xpathTR)) {
+            return $xpath . $xpathTR;
         }
         return null;
+    }
+
+    /**
+     * Forming xpath that contains the lookup data
+     *
+     * @param array $data
+     * @return string
+     */
+    public function formSearchXpath(array $data)
+    {
+        $xpathTR = "//table[@class='data']//tr";
+        foreach ($data as $key => $value) {
+            if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
+                $xpathTR .= "[td[normalize-space(text())='$value']]";
+            }
+        }
+        return $xpathTR;
     }
 
     /**
@@ -1235,7 +1246,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_prepareDataForSearch($data);
         $xpathTR = $this->search($data, $fieldSetName);
 
-        if (!empty($xpathTR)) {
+        if ($xpathTR) {
             if ($willChangePage) {
                 $itemId = $this->defineIdFromTitle($xpathTR);
                 $this->addParameter('id', $itemId);
@@ -1255,13 +1266,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Perform search and choose first element
      *
      * @param array $data
-     * @return Mage_Selenium_TestCase
+     * @param string $fieldSetName
+     * @return string
      */
     public function searchAndChoose(array $data, $fieldSetName = null)
     {
         $xpathTR = $this->search($data, $fieldSetName);
-
-        if (!empty($xpathTR)) {
+        if ($xpathTR) {
             $xpathTR .="//input[contains(@class,'checkbox')][not(@disabled)]";
             if ($this->getValue($xpathTR) == 'off') {
                 $this->click($xpathTR);
@@ -2327,7 +2338,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $elementName - Name of the element what should be visible after scrolling
      * @param string $blockType - Type of the block where scroll is using
      * @param string $blockName - Name of the block where scroll is using
-     * 
+     *
      * @return none
      */
     public function moveScrollToElement($elementType, $elementName, $blockType, $blockName)
@@ -2335,20 +2346,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         // getting XPath of the element what should be visible after scrolling
         $specElemantXpath = $this->_getControlXpath($elementType, $elementName);
         // getting @ID of the element what should be visible after scrolling
-        $specElementId = $this->getAttribute($specElemantXpath."/@id");
-        
+        $specElementId = $this->getAttribute($specElemantXpath . "/@id");
+
         // getting XPath of the block where scroll is using
         $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
         // getting @ID of the block where scroll is using
-        $specFieldsetId = $this->getAttribute($specFieldsetXpath."/@id");
+        $specFieldsetId = $this->getAttribute($specFieldsetXpath . "/@id");
 
         // getting offset position of the element what should be visible after scrolling
-        $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=". $specElementId ."').offsetTop");
-        // moving scroll bar to previously defined offest 
+        $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
+        // moving scroll bar to previously defined offest
         // position (to the element what should be visible after scrolling)
-        $this->getEval("this.browserbot.findElement('id=". $specFieldsetId ."').scrollTop = ".$destinationOffsetTop);
-    }    
-    
+        $this->getEval("this.browserbot.findElement('id=" . $specFieldsetId
+                . "').scrollTop = " . $destinationOffsetTop);
+    }
+
     /**
      * <p>Moving specific element (with type = $elementType and name = $elementName)</p>
      * <p>over the specified JS tree (with type = $blockType and name = $blockName)</p>
@@ -2359,7 +2371,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $blockType Type of the block what is a JS tree
      * @param string $blockName Name of the block what is a JS tree
      * @param integer $moveToPosition Index of position where element should be after moving (default = 1)
-     * 
+     *
      * @return none
      */
     public function moveElementOverTree($elementType, $elementName, $blockType, $blockName, $moveToPosition = 1)
@@ -2367,33 +2379,33 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         // getting XPath of the element to move
         $specElemantXpath = $this->_getControlXpath($elementType, $elementName);
         // getting @ID of the element to move
-        $specElementId = $this->getAttribute($specElemantXpath."/@id");
-        
+        $specElementId = $this->getAttribute($specElemantXpath . "/@id");
+
         // getting XPath of the block what is a JS tree
         $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
         // getting @ID of the block what is a JS tree
-        $specFieldsetId = $this->getAttribute($specFieldsetXpath."/@id");
-        
+        $specFieldsetId = $this->getAttribute($specFieldsetXpath . "/@id");
+
         // getting offset position of the element to move
-        $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=". $specElementId ."').offsetTop");
-        
+        $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
+
         // storing of current height of the block with JS tree
-        $tmpBlockHeight =  (integer) $this->getEval("this.browserbot.findElement('id="
-                                                        . $specFieldsetId ."').style.height");
-        
+        $tmpBlockHeight = (integer) $this->getEval("this.browserbot.findElement('id="
+                        . $specFieldsetId . "').style.height");
+
         // if element to move situated abroad of the current height, it will be increased
-        if ($destinationOffsetTop >= $tmpBlockHeight)
-            {
-                $destinationOffsetTop = $destinationOffsetTop + 50;
-                $this->getEval("this.browserbot.findElement('id=". $specFieldsetId 
-                                                ."').style.height='".$destinationOffsetTop."px'");
-            }
-            
+        if ($destinationOffsetTop >= $tmpBlockHeight) {
+            $destinationOffsetTop = $destinationOffsetTop + 50;
+            $this->getEval("this.browserbot.findElement('id=" . $specFieldsetId
+                    . "').style.height='" . $destinationOffsetTop . "px'");
+        }
+
         $this->clickAt($specElemantXpath, '1,1');
-        $blockTo = $specFieldsetXpath.'//li['.$moveToPosition.']//a//span';
+        $blockTo = $specFieldsetXpath . '//li[' . $moveToPosition . ']//a//span';
         $this->mouseDownAt($specElemantXpath, '1,1');
         $this->mouseMoveAt($blockTo, '1,1');
         $this->mouseUpAt($blockTo, '1,1');
         $this->clickAt($specElemantXpath, '1,1');
     }
+
 }
