@@ -109,129 +109,141 @@ class Product_Helper extends Mage_Selenium_TestCase
      *
      * @param array $productData
      * @param string $tabName Value - general|prices|meta_information|images|recurring_profile
-     * |design|gift_options|inventory|websites|categories|related_products|up_sells_products
-     * |cross_sells_products|custom_options|bundle_items|associated_products|downloadable_information
+     * |design|gift_options|inventory|websites|categories|related|up_sells
+     * |cross_sells|custom_options|bundle_items|associated|downloadable_information
      */
     public function fillTab(array $productData, $tabName = 'general')
     {
-        $needFilling = FALSE;
-        $waitAjax = False;
+        $tabData = array();
+        $needFilling = false;
+        $waitAjax = false;
+
         foreach ($productData as $key => $value) {
             if (preg_match('/^' . $tabName . '/', $key)) {
-                $needFilling = TRUE;
-                break;
+                $tabData[$key] = $value;
             }
+        }
+
+        if ($tabData) {
+            $needFilling = true;
         }
 
         $tabXpath = $this->getCurrentLocationUimapPage()->findTab($tabName)->getXpath();
         if ($tabName == 'websites' && !$this->isElementPresent($tabXpath)) {
-            $needFilling = FALSE;
+            $needFilling = false;
         }
 
-        if ($needFilling) {
-            $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
-            if (!preg_match('/active/', $isTabOpened)) {
-                if (preg_match('/ajax/', $isTabOpened)) {
-                    $waitAjax = TRUE;
-                }
-                $this->clickControl('tab', $tabName, FALSE);
-                if ($waitAjax) {
-                    $this->pleaseWait();
-                }
+        if (!$needFilling) {
+            return true;
+        }
+
+        $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
+        if (!preg_match('/active/', $isTabOpened)) {
+            if (preg_match('/ajax/', $isTabOpened)) {
+                $waitAjax = true;
             }
-            switch ($tabName) {
-                case 'prices':
-                    $arrayKey = 'prices_tier_price_data';
-                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
-                        foreach ($productData[$arrayKey] as $key => $value) {
-                            $this->addTierPrice($productData[$arrayKey][$key]);
-                        }
-                    }
-                    $this->fillForm($productData, 'prices');
-                    $this->fillUserAttributesOnTab($productData, $tabName);
-                    break;
-                case 'websites':
-                    $valuesArray = explode(',', $productData['websites']);
-                    $valuesArray = array_map('trim', $valuesArray);
-                    foreach ($valuesArray as $value) {
-                        $this->selectWebsite($value);
-                    }
-                    break;
-                case 'categories':
-                    $categories = explode(',', $productData['categories']);
-                    $categories = array_map('trim', $categories);
-                    foreach ($categories as $value) {
-                        $this->categoryHelper()->selectCategory($value);
-                    }
-                    break;
-                case 'related_products': case 'up_sells_products': case 'cross_sells_products':
-                    $arrayKey = $tabName . '_data';
-                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
-                        foreach ($productData[$arrayKey] as $key => $value) {
-                            $this->assignProduct($productData[$arrayKey][$key], $tabName);
-                        }
-                    }
-                    break;
-                case 'custom_options':
-                    $arrayKey = $tabName . '_data';
-                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
-                        foreach ($productData[$arrayKey] as $key => $value) {
-                            $this->addCustomOption($productData[$arrayKey][$key]);
-                        }
-                    }
-                    break;
-                case 'bundle_items':
-                    $arrayKey = $tabName . '_data';
-                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
-                        if (array_key_exists('ship_bundle_items', $productData[$arrayKey])) {
-                            $array['ship_bundle_items'] = $productData[$arrayKey]['ship_bundle_items'];
-                            $this->fillForm($array, 'bundle_items');
-                        }
-                        foreach ($productData[$arrayKey] as $key => $value) {
-                            if (is_array($productData[$arrayKey][$key])) {
-                                $this->addBundleOption($productData[$arrayKey][$key]);
-                            }
-                        }
-                    }
-                    break;
-                case 'associated_products':
-                    $arrayKey = $tabName . '_grouped_data';
-                    $arrayKey1 = $tabName . '_configurable_data';
-                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
-                        foreach ($productData[$arrayKey] as $key => $value) {
-                            $this->assignProduct($productData[$arrayKey][$key], $tabName);
-                        }
-                    } elseif (array_key_exists($arrayKey1, $productData) && is_array($productData[$arrayKey1])) {
-                        $attributeTitle = $productData['configurable_attribute_title'];
-                        $this->addParameter('attributeTitle', $attributeTitle);
-                        $this->fillForm($productData[$arrayKey1], $tabName);
-                        foreach ($productData[$arrayKey1] as $key => $value) {
-                            if (is_array($productData[$arrayKey1][$key])) {
-                                $this->assignProduct($productData[$arrayKey1][$key], $tabName, $attributeTitle);
-                            }
-                        }
-                    }
-                    break;
-                case 'downloadable_information':
-                    $arrayKey = $tabName . '_data';
-                    if (array_key_exists($arrayKey, $productData) && is_array($productData[$arrayKey])) {
-                        foreach ($productData[$arrayKey] as $key => $value) {
-                            if (preg_match('/^downloadable_sample_/', $key)
-                                    && is_array($productData[$arrayKey][$key])) {
-                                $this->addDownloadableOption($productData[$arrayKey][$key], 'samples');
-                            }
-                            if (preg_match('/^downloadable_link_/', $key) && is_array($productData[$arrayKey][$key])) {
-                                $this->addDownloadableOption($productData[$arrayKey][$key], 'links');
-                            }
-                        }
-                    }
-                    $this->fillForm($productData[$arrayKey], $tabName);
-                    break;
-                default:
-                    $this->fillForm($productData, $tabName);
-                    $this->fillUserAttributesOnTab($productData, $tabName);
-                    break;
+            $this->clickControl('tab', $tabName, false);
+            if ($waitAjax) {
+                $this->pleaseWait();
             }
+        }
+
+        switch ($tabName) {
+            case 'prices':
+                $arrayKey = 'prices_tier_price_data';
+                if (array_key_exists($arrayKey, $tabData) && is_array($tabData[$arrayKey])) {
+                    foreach ($tabData[$arrayKey] as $key => $value) {
+                        $this->addTierPrice($value);
+                    }
+                }
+                $this->fillForm($tabData, 'prices');
+                $this->fillUserAttributesOnTab($tabData, $tabName);
+                break;
+            case 'websites':
+                $websites = explode(',', $tabData[$tabName]);
+                $websites = array_map('trim', $websites);
+                foreach ($websites as $value) {
+                    $this->selectWebsite($value);
+                }
+                break;
+            case 'categories':
+                $categories = explode(',', $tabData[$tabName]);
+                $categories = array_map('trim', $categories);
+                foreach ($categories as $value) {
+                    $this->categoryHelper()->selectCategory($value);
+                }
+                break;
+            case 'related': case 'up_sells': case 'cross_sells':
+                $arrayKey = $tabName . '_data';
+                if (array_key_exists($arrayKey, $tabData) && is_array($tabData[$arrayKey])) {
+                    foreach ($tabData[$arrayKey] as $key => $value) {
+                        $this->assignProduct($value, $tabName);
+                    }
+                }
+                break;
+            case 'custom_options':
+                $arrayKey = $tabName . '_data';
+                if (array_key_exists($arrayKey, $tabData) && is_array($tabData[$arrayKey])) {
+                    foreach ($tabData[$arrayKey] as $key => $value) {
+                        $this->addCustomOption($value);
+                    }
+                }
+                break;
+            case 'bundle_items':
+                $arrayKey = $tabName . '_data';
+                if (array_key_exists($arrayKey, $tabData) && is_array($tabData[$arrayKey])) {
+                    if (array_key_exists('ship_bundle_items', $tabData[$arrayKey])) {
+                        $array['ship_bundle_items'] = $tabData[$arrayKey]['ship_bundle_items'];
+                        $this->fillForm($array, 'bundle_items');
+                    }
+                    foreach ($tabData[$arrayKey] as $key => $value) {
+                        if (is_array($value)) {
+                            $this->addBundleOption($value);
+                        }
+                    }
+                }
+                break;
+            case 'associated':
+                $arrayKey = $tabName . '_grouped_data';
+                $arrayKey1 = $tabName . '_configurable_data';
+                if (array_key_exists($arrayKey, $tabData) && is_array($tabData[$arrayKey])) {
+                    foreach ($tabData[$arrayKey] as $key => $value) {
+                        $this->assignProduct($value, $tabName);
+                    }
+                } elseif (array_key_exists($arrayKey1, $tabData) && is_array($tabData[$arrayKey1])) {
+                    $attributeTitle = (isset($productData['configurable_attribute_title']))
+                                        ? $productData['configurable_attribute_title']
+                                        : null;
+                    if (!$attributeTitle) {
+                        $this->fail('Attribute Title for configurable product is not set');
+                    }
+                    $this->addParameter('attributeTitle', $attributeTitle);
+                    $this->fillForm($tabData[$arrayKey1], $tabName);
+                    foreach ($tabData[$arrayKey1] as $key => $value) {
+                        if (is_array($value)) {
+                            $this->assignProduct($value, $tabName, $attributeTitle);
+                        }
+                    }
+                }
+                break;
+            case 'downloadable_information':
+                $arrayKey = $tabName . '_data';
+                if (array_key_exists($arrayKey, $tabData) && is_array($tabData[$arrayKey])) {
+                    foreach ($tabData[$arrayKey] as $key => $value) {
+                        if (preg_match('/^downloadable_sample_/', $key) && is_array($value)) {
+                            $this->addDownloadableOption($value, 'samples');
+                        }
+                        if (preg_match('/^downloadable_link_/', $key) && is_array($value)) {
+                            $this->addDownloadableOption($value, 'links');
+                        }
+                    }
+                }
+                $this->fillForm($tabData[$arrayKey], $tabName);
+                break;
+            default:
+                $this->fillForm($tabData, $tabName);
+                $this->fillUserAttributesOnTab($tabData, $tabName);
+                break;
         }
     }
 
@@ -243,8 +255,8 @@ class Product_Helper extends Mage_Selenium_TestCase
     public function addTierPrice(array $tierPriceData)
     {
         $page = $this->getCurrentLocationUimapPage();
-        $fieldSetXpath = $page->findFieldset('product_prices')->getXpath();
-        $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='tier_price_container']/tr");
+        $tierRowXpath = $page->findFieldset('tier_price_row')->getXpath();
+        $rowNumber = $this->getXpathCount($tierRowXpath);
         $this->addParameter('tierPriceId', $rowNumber);
         $page->assignParams($this->_paramsHelper);
         $this->clickButton('add_tier_price', FALSE);
@@ -282,18 +294,21 @@ class Product_Helper extends Mage_Selenium_TestCase
      *
      * @param type $websiteName
      */
-    public function selectWebsite($websiteName)
+    public function selectWebsite($websiteName, $action='select')
     {
         $fieldsetXpath = $this->getCurrentLocationUimapPage()->findFieldset('product_websites')->getXpath();
-        $websiteXpath = $fieldsetXpath . "//*[text()='" . $websiteName . "']";
-        $qtySite = $this->getXpathCount($websiteXpath);
-        if ($qtySite > 0) {
-            $websiteId = $this->getAttribute($websiteXpath . '/@for');
-            $this->addParameter('websiteId', $websiteId);
-            $this->getCurrentLocationUimapPage()->assignParams($this->_paramsHelper);
-            $fieldXpath = $this->_getControlXpath('checkboxe', 'websites');
-            if ($this->getValue($fieldXpath) == 'off') {
-                $this->click($fieldXpath);
+        $this->addParameter('websiteName', $websiteName);
+        $websiteXpath = $fieldsetXpath . $this->_getControlXpath('checkboxe', 'websites');
+        if ($this->isElementPresent($websiteXpath)) {
+            if ($this->getValue($websiteXpath) == 'off') {
+                switch ($action) {
+                    case 'select':
+                        $this->click($websiteXpath);
+                        break;
+                    case 'verify':
+                        $this->messages['error'][] = 'Website with name "' . $websiteName . '" is not selected';
+                        break;
+                }
             }
         } else {
             $this->fail('Website with name "' . $websiteName . '" does not exist');
@@ -305,54 +320,34 @@ class Product_Helper extends Mage_Selenium_TestCase
      *
      * @param array $data
      * @param string $tabName
+     * @param string $attributeTitle
      */
     public function assignProduct(array $data, $tabName, $attributeTitle = null)
     {
-        // Prepare data for find and fill in
-        $this->_prepareDataForSearch($data);
-        if (empty($data)) {
-            return true;
-        }
-        $needFilling = FALSE;
         $fillingData = array();
-        $arrayKey = 'associated_products_by_attribute_value';
 
         foreach ($data as $key => $value) {
-            if ($key == $tabName . '_position' || $key == $tabName . '_default_qty'
-                    || $key == $tabName . '_price' || $key == $tabName . '_price_type') {
+            if (!preg_match('/^' . $tabName . '_search_/', $key)) {
                 $fillingData[$key] = $value;
                 unset($data[$key]);
-                $needFilling = True;
             }
         }
 
-        if ($attributeTitle != null) {
-            $this->addParameter('attributeCode', strtolower($attributeTitle));
+        if ($attributeTitle) {
+            $attributeCode = $this->getAttribute("//a[span[text()='$attributeTitle']]/@name");
+            $this->addParameter('attributeCode', $attributeCode);
+            $this->addParameter('attributeTitle', $attributeTitle);
         }
-
-        //Search prodcut
         $this->searchAndChoose($data, $tabName);
-        // Fill in additional data
-        if ($needFilling) {
-            if ($attributeTitle == null) {
-                // Forming xpath for string that contains the lookup data
-                $xpathTR = '//tr';
-                foreach ($data as $key => $value) {
-                    if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
-                        $xpathTR .= "[contains(.,'$value')]";
-                    }
-                }
-                $this->addParameter('productXpath', $xpathTR);
+        //Fill in additional data
+        if ($fillingData) {
+            $xpathTR = $this->formSearchXpath($data);
+            if ($attributeTitle) {
+                $number = $this->findColumnNumberByName($attributeTitle, 'associated');
+                $attributeValue = $this->getText($xpathTR . "//td[$number]");
+                $this->addParameter('attributeValue', $attributeValue);
             } else {
-                //Forming xpath
-                if (array_key_exists($arrayKey, $data)) {
-                    $attributeValue = $data[$arrayKey];
-                } else {
-                    $this->fail("Value for attribute '$attributeTitle' isn't set");
-                }
-                $xpathTR = "//li[contains(div/text(),'$attributeTitle')]//li[div/strong='$attributeValue']";
-
-                $this->addParameter('attributeSettings', $xpathTR);
+                $this->addParameter('productXpath', $xpathTR);
             }
             $this->fillForm($fillingData, $tabName);
         }
@@ -373,27 +368,19 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->clickButton('add_new_option', FALSE);
         $this->fillForm($bundleOptionData, 'bundle_items');
         foreach ($bundleOptionData as $key => $value) {
-            if (preg_match('/^bundle_items_add_product/', $key) and is_array($bundleOptionData[$key])) {
-                $this->_prepareDataForSearch($bundleOptionData[$key]);
-                if (count($bundleOptionData[$key]) > 0) {
-                    $this->clickButton('add_selection', FALSE);
-                    $this->pleaseWait();
-                    $this->clickButton('reset_filter', FALSE);
-                    $this->pleaseWait();
-                    foreach ($bundleOptionData[$key] as $k => $v) {
-                        if (preg_match('/^bundle_items_/', $k)) {
-                            if ($k == 'bundle_items_sku' or $k == 'bundle_items_name') {
-                                $this->addParameter('productSku', $v);
-                            }
-                            if ($k !== 'bundle_items_qty_to_add') {
-                                $productSearch[$k] = $v;
-                            } else {
-                                $selectionSettings['selection_item_default_qty'] = $v;
-                            }
-                        }
-                        if (preg_match('/^selection_item_/', $k)) {
-                            $selectionSettings[$k] = $v;
-                        }
+            if (is_array($value)) {
+                $this->clickButton('add_selection', FALSE);
+                $this->pleaseWait();
+                foreach ($value as $k => $v) {
+                    if ($k == 'bundle_items_search_name' or $k == 'bundle_items_search_sku') {
+                        $this->addParameter('productSku', $v);
+                    }
+                    if (preg_match('/^bundle_items_search_/', $k)) {
+                        $productSearch[$k] = $v;
+                    } elseif ($k == 'bundle_items_qty_to_add') {
+                        $selectionSettings['selection_item_default_qty'] = $v;
+                    } elseif (preg_match('/^selection_item_/', $k)) {
+                        $selectionSettings[$k] = $v;
                     }
                     $this->searchAndChoose($productSearch, 'select_product_to_bundle_option');
                     $this->clickButton('add_selected_products', FALSE);
@@ -412,10 +399,6 @@ class Product_Helper extends Mage_Selenium_TestCase
     public function addDownloadableOption(array $optionData, $type)
     {
         $sampleFieldSet = $this->_getControlXpath('link', 'downloadable_' . $type);
-        $this->_prepareDataForSearch($optionData);
-        if (empty($optionData)) {
-            return true;
-        }
         if (!$this->isElementPresent($sampleFieldSet . "/parent::*[normalize-space(@class)='open']")) {
             $this->clickControl('link', 'downloadable_' . $type, FALSE);
         }
@@ -527,12 +510,12 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->fillTab($productData, 'inventory');
         $this->fillTab($productData, 'websites');
         $this->fillTab($productData, 'categories');
-        $this->fillTab($productData, 'related_products');
-        $this->fillTab($productData, 'up_sells_products');
-        $this->fillTab($productData, 'cross_sells_products');
+        $this->fillTab($productData, 'related');
+        $this->fillTab($productData, 'up_sells');
+        $this->fillTab($productData, 'cross_sells');
         $this->fillTab($productData, 'custom_options');
         if ($productType == 'grouped' || $productType == 'configurable') {
-            $this->fillTab($productData, 'associated_products');
+            $this->fillTab($productData, 'associated');
         }
         if ($productType == 'bundle') {
             $this->fillTab($productData, 'bundle_items');
@@ -550,6 +533,193 @@ class Product_Helper extends Mage_Selenium_TestCase
     public function openProduct(array $productSearch)
     {
         $this->assertTrue($this->searchAndOpen($productSearch), 'Product is not found');
+    }
+
+    /**
+     * Verify product info
+     *
+     * @param array $productData
+     */
+    public function verifyProductInfo(array $productData)
+    {
+        $productData = $this->arrayEmptyClear($productData);
+        $nestedArrays = array();
+        foreach ($productData as $key => $value) {
+            if (is_array($value)) {
+                $nestedArrays[$key] = $value;
+                unset($productData[$key]);
+            }
+            if ($key == 'websites' or $key == 'categories') {
+                $nestedArrays[$key] = $value;
+                unset($productData[$key]);
+            }
+        }
+        $this->verifyForm($productData);
+        // Verify tier prices
+        if (array_key_exists('prices_tier_price_data', $nestedArrays)) {
+            $this->verifyTierPrices($nestedArrays['prices_tier_price_data']);
+        }
+        //Verify selected websites
+        if (array_key_exists('websites', $nestedArrays)) {
+            $websites = explode(',', $nestedArrays['websites']);
+            $websites = array_map('trim', $websites);
+            foreach ($websites as $value) {
+                $this->selectWebsite($value, 'verify');
+            }
+        }
+        //Verify selected categories
+        if (array_key_exists('categories', $nestedArrays)) {
+            $categories = explode(',', $nestedArrays['categories']);
+            $categories = array_map('trim', $categories);
+            $this->clickControl('tab', 'categories', false);
+            $this->pleaseWait();
+            foreach ($categories as $value) {
+                $this->isSelectedCategory($value);
+            }
+        }
+        //Verify assigned products for 'Related Products', 'Up-sells', 'Cross-sells' tabs
+        if (array_key_exists('related_data', $nestedArrays)) {
+            foreach ($nestedArrays['related_data'] as $key => $value) {
+                $this->isAssignedProduct($value, 'related');
+            }
+        }
+        if (array_key_exists('up_sells_data', $nestedArrays)) {
+            foreach ($nestedArrays['up_sells_data'] as $key => $value) {
+                $this->isAssignedProduct($value, 'up_sells');
+            }
+        }
+        if (array_key_exists('cross_sells_data', $nestedArrays)) {
+            foreach ($nestedArrays['cross_sells_data'] as $key => $value) {
+                $this->isAssignedProduct($value, 'cross_sells');
+            }
+        }
+        // Verify Associated Products tab
+        if (array_key_exists('associated_grouped_data', $nestedArrays)) {
+            foreach ($nestedArrays['associated_grouped_data'] as $key => $value) {
+                $this->isAssignedProduct($value, 'associated');
+            }
+        }
+        if (array_key_exists('associated_configurable_data', $nestedArrays)) {
+            $attributeTitle = (isset($productData['configurable_attribute_title']))
+                                ? $productData['configurable_attribute_title']
+                                : null;
+            if (!$attributeTitle) {
+                $this->fail('Attribute Title for configurable product is not set');
+            }
+            $this->addParameter('attributeTitle', $attributeTitle);
+            $this->verifyForm($nestedArrays['associated_configurable_data'], 'associated');
+            foreach ($nestedArrays['associated_configurable_data'] as $key => $value) {
+                if (is_array($value)) {
+                    $this->isAssignedProduct($value, 'associated', $attributeTitle);
+                }
+            }
+        }
+
+        //@TODO verify 'Custom Options', 'Bundle Items', 'Downloadable Information' tabs
+
+        // Error Output
+        if (!empty($this->messages['error'])) {
+            $this->fail(implode("\n", $this->messages['error']));
+        }
+    }
+
+    /**
+     * Verify Tier Prices
+     *
+     * @param array $tierPriceData
+     */
+    public function verifyTierPrices(array $tierPriceData)
+    {
+        $page = $this->getCurrentLocationUimapPage();
+        $fieldSetXpath = $page->findFieldset('tier_price_row')->getXpath();
+        $rowQty = $this->getXpathCount($fieldSetXpath);
+        $this->assertEquals(count($tierPriceData), $rowQty,
+                'Product must be contains ' . count($tierPriceData) . ' Tier Price, but contains ' . $rowQty);
+        $i = 0;
+        foreach ($tierPriceData as $key => $value) {
+            $this->addParameter('tierPriceId', $i);
+            $page->assignParams($this->_paramsHelper);
+            $this->verifyForm($value, 'prices');
+            $i++;
+        }
+    }
+
+    /**
+     * Verify that category is selected
+     *
+     * @param string $categotyPath
+     */
+    public function isSelectedCategory($categotyPath)
+    {
+        $nodes = explode('/', $categotyPath);
+        $rootCat = array_shift($nodes);
+
+        $correctRoot = $this->categoryHelper()->defineCorrectCategory($rootCat);
+
+        foreach ($nodes as $value) {
+            $correctSubCat = array();
+
+            for ($i = 0; $i < count($correctRoot); $i++) {
+                $correctSubCat = array_merge($correctSubCat,
+                        $this->categoryHelper()->defineCorrectCategory($value, $correctRoot[$i]));
+            }
+            $correctRoot = $correctSubCat;
+        }
+
+        if ($correctRoot) {
+            $catXpath = '//*[@id=\'' . array_shift($correctRoot) . '\']/parent::*/input';
+            if ($this->getValue($catXpath) == 'off') {
+                $this->messages['error'][] = 'Category with path: "' . $categotyPath . '" is not selected';
+            }
+        } else {
+            $this->fail("Category with path='$categotyPath' not found");
+        }
+    }
+
+    /**
+     * Verify that product is assigned
+     *
+     * @param array $data
+     * @param string $fieldSetName
+     * @param string $attributeTitle
+     */
+    public function isAssignedProduct(array $data, $fieldSetName, $attributeTitle=null)
+    {
+        $this->clickControl('tab', $fieldSetName, false);
+        $this->pleaseWait();
+
+        $fillingData = array();
+
+        foreach ($data as $key => $value) {
+            if (!preg_match('/^' . $fieldSetName . '_search_/', $key)) {
+                $fillingData[$key] = $value;
+                unset($data[$key]);
+            }
+        }
+
+        if ($attributeTitle) {
+            $attributeCode = $this->getAttribute("//a[span[text()='$attributeTitle']]/@name");
+            $this->addParameter('attributeCode', $attributeCode);
+            $this->addParameter('attributeTitle', $attributeTitle);
+        }
+        $xpathTR = $this->formSearchXpath($data);
+        $fieldSetXpath = $this->getCurrentLocationUimapPage()->getMainForm()->findFieldset($fieldSetName)->getXpath();
+
+        if (!$this->isElementPresent($fieldSetXpath . $xpathTR)) {
+            $this->messages['error'][] = $fieldSetName . " tab: Product is not assigned with data: \n"
+                    . print_r($data, true);
+        } else {
+            if ($fillingData) {
+                if ($attributeTitle) {
+                    $number = $this->findColumnNumberByName($attributeTitle, 'associated');
+                    $attributeValue = $this->getText($xpathTR . "//td[$number]");
+                    $this->addParameter('attributeValue', $attributeValue);
+                } else {
+                    $this->addParameter('productXpath', $xpathTr);
+                }
+                $this->verifyForm($fillingData, $fieldSetName);
+            }
+        }
     }
 
 }

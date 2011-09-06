@@ -301,7 +301,7 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Data
         $simpleData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
         $groupedData = $this->loadData('grouped_product_required',
-                array('associated_products_sku' => $simpleData['general_sku']), array('general_name', 'general_sku'));
+                array('associated_search_sku' => $simpleData['general_sku']), array('general_name', 'general_sku'));
         //Steps
         $this->productHelper()->createProduct($simpleData);
         //Verifying
@@ -341,7 +341,7 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Data
         $virtualData = $this->loadData('virtual_product_required', null, array('general_name', 'general_sku'));
         $groupedData = $this->loadData('grouped_product_required',
-                array('associated_products_sku' => $virtualData['general_sku']), array('general_name', 'general_sku'));
+                array('associated_search_sku' => $virtualData['general_sku']), array('general_name', 'general_sku'));
         //Steps
         $this->productHelper()->createProduct($virtualData, 'virtual');
         //Verifying
@@ -382,7 +382,7 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $downloadableData = $this->loadData('downloadable_product_required', null,
                 array('general_name', 'general_sku'));
         $groupedData = $this->loadData('grouped_product_required',
-                array('associated_products_sku' => $downloadableData['general_sku']),
+                array('associated_search_sku' => $downloadableData['general_sku']),
                 array('general_name', 'general_sku'));
         //Steps
         $this->productHelper()->createProduct($downloadableData, 'downloadable');
@@ -423,12 +423,12 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function groupedWithAllTypesProduct($simpleSku, $virtualSku, $downloadableSku)
     {
         //Data
-        $groupedData = $this->loadData('grouped_product_required', array('associated_products_sku' => $simpleSku),
+        $groupedData = $this->loadData('grouped_product_required', array('associated_search_sku' => $simpleSku),
                 array('general_name', 'general_sku'));
-        $groupedData['associated_products_grouped_data']['associated_products_grouped_2'] =
-                $this->loadData('associated_products_grouped', array('associated_products_sku' => $virtualSku));
-        $groupedData['associated_products_grouped_data']['associated_products_grouped_3'] =
-                $this->loadData('associated_products_grouped', array('associated_products_sku' => $downloadableSku));
+        $groupedData['associated_grouped_data']['associated_grouped_2'] =
+                $this->loadData('associated_grouped', array('associated_search_sku' => $virtualSku));
+        $groupedData['associated_grouped_data']['associated_grouped_3'] =
+                $this->loadData('associated_grouped', array('associated_search_sku' => $downloadableSku));
         //Steps
         $this->productHelper()->createProduct($groupedData, 'grouped');
         //Verifying

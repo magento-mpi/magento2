@@ -488,9 +488,8 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $configurable = $this->loadData('configurable_product_required',
                 array('configurable_attribute_title' => $attrData['admin_title']),
                 array('general_name', 'general_sku'));
-        $configurable['associated_products_configurable_data'] =
-                $this->loadData('associated_products_configurable_data',
-                        array('associated_products_sku' => $simple['general_sku']));
+        $configurable['associated_configurable_data'] = $this->loadData('associated_configurable_data',
+                array('associated_search_sku' => $simple['general_sku']));
         //Steps
         $this->productHelper()->createProduct($simple);
         //Verifying
@@ -532,9 +531,8 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $configurable = $this->loadData('configurable_product_required',
                 array('configurable_attribute_title' => $attrData['admin_title']),
                 array('general_name', 'general_sku'));
-        $configurable['associated_products_configurable_data'] =
-                $this->loadData('associated_products_configurable_data',
-                        array('associated_products_sku' => $virtual['general_sku']));
+        $configurable['associated_configurable_data'] = $this->loadData('associated_configurable_data',
+                array('associated_search_sku' => $virtual['general_sku']));
         //Steps
         $this->productHelper()->createProduct($virtual, 'virtual');
         //Verifying
@@ -576,9 +574,8 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $configurable = $this->loadData('configurable_product_required',
                 array('configurable_attribute_title' => $attrData['admin_title']),
                 array('general_name', 'general_sku'));
-        $configurable['associated_products_configurable_data'] =
-                $this->loadData('associated_products_configurable_data',
-                        array('associated_products_sku' => $download['general_sku']));
+        $configurable['associated_configurable_data'] = $this->loadData('associated_configurable_data',
+                array('associated_search_sku' => $download['general_sku']));
         //Steps
         $this->productHelper()->createProduct($download, 'downloadable');
         //Verifying

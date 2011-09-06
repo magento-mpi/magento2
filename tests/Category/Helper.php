@@ -49,7 +49,7 @@ class Category_Helper extends Mage_Selenium_TestCase
         $isCorrectName = array();
         $categoryText = '/div/a/span';
 
-        if ($parentCategoryId == null) {
+        if (!$parentCategoryId) {
             $this->addParameter('rootName', $catName);
             $catXpath = $this->_getControlXpath('link', 'root_category');
         } else {
@@ -70,8 +70,7 @@ class Category_Helper extends Mage_Selenium_TestCase
             $text = $this->getText($catXpath . '[' . $i . ']' . $categoryText);
             $text = preg_replace('/ \([0-9]+\)/', '', $text);
             if ($catName === $text) {
-                $isCorrectName[] = $this->getAttribute($catXpath . '[' . $i . ']' .
-                        /* $categoryText . '@id' */'/div/a/@id');
+                $isCorrectName[] = $this->getAttribute($catXpath . '[' . $i . ']' . '/div/a/@id');
             }
         }
 
@@ -87,6 +86,7 @@ class Category_Helper extends Mage_Selenium_TestCase
     {
         $nodes = explode('/', $categotyPath);
         $rootCat = array_shift($nodes);
+        $categoryContainer = "//*[@id='category-edit-container']//h3";
 
         $correctRoot = $this->defineCorrectCategory($rootCat);
 
@@ -99,16 +99,18 @@ class Category_Helper extends Mage_Selenium_TestCase
             $correctRoot = $correctSubCat;
         }
 
-        if (count($correctRoot) > 0) {
+        if ($correctRoot) {
             $this->click('//*[@id=\'' . array_shift($correctRoot) . '\']');
-            $this->pleaseWait();
-            if (count($nodes) > 0) {
+            if ($this->isElementPresent($categoryContainer)) {
+                $this->pleaseWait();
+            }
+            if ($nodes) {
                 $pageName = end($nodes);
             } else {
                 $pageName = $rootCat;
             }
-            if ($this->isElementPresent("//*[@id='category-edit-container']//h3")) {
-                $openedPageName = $this->getText("//*[@id='category-edit-container']//h3");
+            if ($this->isElementPresent($categoryContainer)) {
+                $openedPageName = $this->getText($categoryContainer);
                 $openedPageName = preg_replace('/ \(ID\: [0-9]+\)/', '', $openedPageName);
                 if ($pageName != $openedPageName) {
                     $this->fail("Opened category with name '$openedPageName' but must be '$pageName'");

@@ -194,120 +194,120 @@ prices_tier_price_data: &tierPriceData
 #*         Related Products Data             *
 #*********************************************
 
-related_products_1: &relatedProducts1
+related_1: &relatedProducts1
     # Data to search
-    related_products_id: %noValue%
-    related_products_name: %noValue%
-    related_products_type: %noValue%
-    related_products_attribute_set: %noValue%
-    related_products_status: %noValue%
-    related_products_visibility: %noValue%
-    related_products_sku: %noValue%
-    related_products_price_from: %noValue%
-    related_products_price_to: %noValue%
-    related_products_position_from: %noValue%
-    related_products_position_to: %noValue%
+    related_search_id: %noValue%
+    related_search_name: %noValue%
+    related_search_type: %noValue%
+    related_search_attribute_set: %noValue%
+    related_search_status: %noValue%
+    related_search_visibility: %noValue%
+    related_search_sku: %noValue%
+    related_search_price_from: %noValue%
+    related_search_price_to: %noValue%
+    related_search_position_from: %noValue%
+    related_search_position_to: %noValue%
     # Data to fill in
-    related_products_position: %noValue%
+    related_product_position: %noValue%
 
-related_products_data: &relatedProductsData
-    related_products_1: *relatedProducts1
-    related_products_2: %noValue%
+related_data: &relatedProductsData
+    related_1: *relatedProducts1
+    related_2: %noValue%
 
 #*********************************************
 #*         Up-sells Products Data            *
 #*********************************************
 
-up_sells_products_1: &upSellsProducts1
+up_sells_1: &upSellsProducts1
     # Data to search
-    up_sells_products_id: %noValue%
-    up_sells_products_name: %noValue%
-    up_sells_products_type: %noValue%
-    up_sells_products_attribute_set: %noValue%
-    up_sells_products_status: %noValue%
-    up_sells_products_visibility: %noValue%
-    up_sells_products_sku: %noValue%
-    up_sells_products_price_from: %noValue%
-    up_sells_products_price_to: %noValue%
-    up_sells_products_position_from: %noValue%
-    up_sells_products_position_to: %noValue%
+    up_sells_search_id: %noValue%
+    up_sells_search_name: %noValue%
+    up_sells_search_type: %noValue%
+    up_sells_search_attribute_set: %noValue%
+    up_sells_search_status: %noValue%
+    up_sells_search_visibility: %noValue%
+    up_sells_search_sku: %noValue%
+    up_sells_search_price_from: %noValue%
+    up_sells_search_price_to: %noValue%
+    up_sells_search_position_from: %noValue%
+    up_sells_search_position_to: %noValue%
     # Data to fill in
-    up_sells_products_position: %noValue%
+    up_sells_product_position: %noValue%
 
-up_sells_products_data: &upSellsProductsData
-    up_sells_products_1: *upSellsProducts1
-    up_sells_products_2: %noValue%
+up_sells_data: &upSellsProductsData
+    up_sells_1: *upSellsProducts1
+    up_sells_2: %noValue%
 
 #*********************************************
 #*         Cross-sells Products Data         *
 #*********************************************
 
-cross_sells_products_1: &crossSellsProducts1
+cross_sells_1: &crossSellsProducts1
     # Data to search
-    cross_sells_products_id: %noValue%
-    cross_sells_products_name: %noValue%
-    cross_sells_products_type: %noValue%
-    cross_sells_products_attribute_set: %noValue%
-    cross_sells_products_status: %noValue%
-    cross_sells_products_visibility: %noValue%
-    cross_sells_products_sku: %noValue%
-    cross_sells_products_price_from: %noValue%
-    cross_sells_products_price_to: %noValue%
-    cross_sells_products_position_from: %noValue%
-    cross_sells_products_position_to: %noValue%
+    cross_sells_search_id: %noValue%
+    cross_sells_search_name: %noValue%
+    cross_sells_search_type: %noValue%
+    cross_sells_search_attribute_set: %noValue%
+    cross_sells_search_status: %noValue%
+    cross_sells_search_visibility: %noValue%
+    cross_sells_search_sku: %noValue%
+    cross_sells_search_price_from: %noValue%
+    cross_sells_search_price_to: %noValue%
+    cross_sells_search_position_from: %noValue%
+    cross_sells_search_position_to: %noValue%
     # Data to fill in
-    cross_sells_products_position: %noValue%
+    cross_sells_product_position: %noValue%
 
-cross_sells_products_data: &crossSellsProductsData
-    cross_sells_products_1: *crossSellsProducts1
-    cross_sells_products_2: %noValue%
+cross_sells_data: &crossSellsProductsData
+    cross_sells_1: *crossSellsProducts1
+    cross_sells_2: %noValue%
 
 #************************************************
 #* Associated Products Data for Grouped Product *
 #************************************************
 
-associated_products_grouped: &groupedAssociatedProduct1
+associated_grouped: &groupedAssociatedProduct1
     # Data to search
-    associated_products_id: %noValue%
-    associated_products_name: %noValue%
-    associated_products_sku: %noValue%
-    associated_products_price_from: %noValue%
-    associated_products_price_to: %noValue%
-    associated_products_default_qty_from: %noValue%
-    associated_products_default_qty_to: %noValue%
-    associated_products_position_from: %noValue%
-    associated_products_position_to: %noValue%
+    associated_search_id: %noValue%
+    associated_search_name: %noValue%
+    associated_search_sku: %noValue%
+    associated_search_price_from: %noValue%
+    associated_search_price_to: %noValue%
+    associated_search_default_qty_from: %noValue%
+    associated_search_default_qty_to: %noValue%
+    associated_search_position_from: %noValue%
+    associated_search_position_to: %noValue%
     # Data to fill in
-    associated_products_position: %noValue%
-    associated_products_default_qty: %noValue%
+    associated_product_position: %noValue%
+    associated_product_default_qty: %noValue%
 
-associated_products_grouped_data: &associatedProductsGroupedData
-    associated_products_grouped_1: *groupedAssociatedProduct1
-    associated_products_grouped_2: %noValue%
+associated_grouped_data: &associatedProductsGroupedData
+    associated_grouped_1: *groupedAssociatedProduct1
+    associated_grouped_2: %noValue%
 
 #*****************************************************
 #* Associated Products Data for Configurable Product *
 #*****************************************************
 
-associated_products_configurable: &configurableAssociatedProduct1
+associated_configurable: &configurableAssociatedProduct1
     # Data to search
-    associated_products_id: %noValue%
-    associated_products_name: %noValue%
-    associated_products_attribute_set: %noValue%
-    associated_products_sku: %noValue%
-    associated_products_price_from: %noValue%
-    associated_products_price_to: %noValue%
-    associated_products_inventory: %noValue%
-    associated_products_by_attribute_value: %noValue%
+    associated_search_id: %noValue%
+    associated_search_name: %noValue%
+    associated_search_attribute_set: %noValue%
+    associated_search_sku: %noValue%
+    associated_search_price_from: %noValue%
+    associated_search_price_to: %noValue%
+    associated_search_inventory: %noValue%
+    associated_search_by_attribute_value: %noValue%
     # Data to fill in
-    associated_products_price: %noValue%
-    associated_products_price_type: %noValue%
+    associated_product_price: %noValue%
+    associated_product_price_type: %noValue%
 
-associated_products_configurable_data: &associatedProductsConfigurableData
+associated_configurable_data: &associatedProductsConfigurableData
     associated_products_attribute_name_default: %noValue%
     associated_products_attribute_name: %noValue%
-    associated_products_configurable_1: *configurableAssociatedProduct1
-    associated_products_configurable_2: %noValue%
+    associated_configurable_1: *configurableAssociatedProduct1
+    associated_configurable_2: %noValue%
 
 #*********************************************
 #*         Bundle Items Data                 *
@@ -318,14 +318,14 @@ bundle_items_1: &itemMultipleSelect
     bundle_items_input_type: Multiple Select
     bundle_items_is_required: Yes
     bundle_items_position: 1
-    bundle_items_add_product_1:
+    bundle_items_add_product_1: &bundleProduct
         # Data to search
-        bundle_items_id: %noValue%
-        bundle_items_name: %noValue%
-        bundle_items_attribute_set: %noValue%
-        bundle_items_sku: %noValue%
-        bundle_items_price_from: %noValue%
-        bundle_items_price_to: %noValue%
+        bundle_items_search_id: %noValue%
+        bundle_items_search_name: %noValue%
+        bundle_items_search_attribute_set: %noValue%
+        bundle_items_search_sku: %noValue%
+        bundle_items_search_price_from: %noValue%
+        bundle_items_search_price_to: %noValue%
         # Data to fill in
         bundle_items_qty_to_add: %noValue%
         selection_item_price: %noValue%
@@ -340,22 +340,7 @@ bundle_items_2: &itemDropdown
     bundle_items_input_type: Drop-down
     bundle_items_is_required: No
     bundle_items_position: 2
-    bundle_items_add_product_1:
-        # Data to search
-        bundle_items_id: %noValue%
-        bundle_items_name: %noValue%
-        bundle_items_attribute_set: %noValue%
-        bundle_items_sku: %noValue%
-        bundle_items_price_from: %noValue%
-        bundle_items_price_to: %noValue%
-        # Data to fill in
-        bundle_items_qty_to_add: %noValue%
-        selection_item_price: %noValue%
-        selection_item_price_type: %noValue%
-        selection_item_default_qty: %noValue%
-        selection_item_user_defined_qty: %noValue%
-        selection_item_position: %noValue%
-        selection_item_default: %noValue%
+    bundle_items_add_product_1: *bundleProduct
     bundle_items_add_product_2: %noValue%
 
 bundle_items_3: &itemRadioButtons
@@ -363,22 +348,7 @@ bundle_items_3: &itemRadioButtons
     bundle_items_input_type: Radio Buttons
     bundle_items_is_required: Yes
     bundle_items_position: 3
-    bundle_items_add_product_1:
-        # Data to search
-        bundle_items_id: %noValue%
-        bundle_items_name: %noValue%
-        bundle_items_attribute_set: %noValue%
-        bundle_items_sku: %noValue%
-        bundle_items_price_from: %noValue%
-        bundle_items_price_to: %noValue%
-        # Data to fill in
-        bundle_items_qty_to_add: %noValue%
-        selection_item_price: %noValue%
-        selection_item_price_type: %noValue%
-        selection_item_default_qty: %noValue%
-        selection_item_user_defined_qty: %noValue%
-        selection_item_position: %noValue%
-        selection_item_default: %noValue%
+    bundle_items_add_product_1: *bundleProduct
     bundle_items_add_product_2: %noValue%
 
 bundle_items_4: &itemCheckbox
@@ -386,21 +356,8 @@ bundle_items_4: &itemCheckbox
     bundle_items_input_type: Checkbox
     bundle_items_is_required: Yes
     bundle_items_position: 4
-    bundle_items_add_product_1:
-        # Data to search
-        bundle_items_id: %noValue%
-        bundle_items_name: %noValue%
-        bundle_items_attribute_set: %noValue%
-        bundle_items_sku: %noValue%
-        bundle_items_price_from: %noValue%
-        bundle_items_price_to: %noValue%
-        # Data to fill in
-        bundle_items_qty_to_add: %noValue%
-        selection_item_price: %noValue%
-        selection_item_price_type: %noValue%
-        selection_item_default_qty: %noValue%
-        selection_item_position: %noValue%
-        selection_item_default: %noValue%
+    bundle_items_add_product_1: *bundleProduct
+    bundle_items_add_product_2: %noValue%
 
 bundle_items_data: &bundleData
     ship_bundle_items: Separately
@@ -478,14 +435,14 @@ simple_product:
     general_weight: 2.56
     general_news_from: 12/12/12
     general_news_to: 12/12/13
-    general_url_key: simple_product_url_key
+    general_url_key: simple-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
 #    general_in_feed: Yes
     prices_price: 4.95
     prices_special_price: 3.99
-    prices_special_price_from: 05/05/11
-    prices_special_price_to: 09/09/11
+    prices_special_price_from: 5/25/11
+    prices_special_price_to: 9/29/11
     prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     prices_enable_googlecheckout: No
@@ -535,9 +492,9 @@ simple_product:
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData
     custom_options_data: *customOptionsData
 
 #*********************************************
@@ -564,19 +521,19 @@ virtual_product:
     general_sku: virtual_sku
     general_news_from: 12/12/12
     general_news_to: 12/12/13
-    general_url_key: virtual_product_url_key
+    general_url_key: virtual-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_special_price: 13.99
-    prices_special_price_from: 05/05/11
-    prices_special_price_to: 09/09/11
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 9/9/11
     prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     prices_enable_googlecheckout: No
-    meta_information_meta_title: Meta Title for Simple Product
-    meta_information_meta_keywords: Meta Keywords for Simple Product
-    meta_information_meta_description: Meta Description for Simple Product
+    meta_information_meta_title: Meta Title for Virtual Product
+    meta_information_meta_keywords: Meta Keywords for Virtual Product
+    meta_information_meta_description: Meta Description for Virtual Product
     recurring_profile_enable_recurring_profile: Yes
     recurring_profile_customer_define_start_date: No
     recurring_profile_schedule_description: Shedule Description
@@ -620,9 +577,9 @@ virtual_product:
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData
     custom_options_data: *customOptionsData
 
 #*********************************************
@@ -673,14 +630,14 @@ dynamic_bundle:
     general_weight_type: Dynamic
     general_news_from: 12/12/12
     general_news_to: 12/12/13
-    general_url_key: bundle_product_url_key
+    general_url_key: dynamic-bundle-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
 #    general_in_feed: Yes
     prices_price_type: Dynamic
     prices_special_price: 3.99
-    prices_special_price_from: 05/05/11
-    prices_special_price_to: 09/09/11
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 9/9/11
     prices_tier_price_data: *tierPriceData
     prices_price_view_bundle: As Low as
     meta_information_meta_title: Meta Title for Bundle(Dynamic) Product
@@ -703,9 +660,9 @@ dynamic_bundle:
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData
     bundle_items_data: *bundleData
 
 fixed_bundle:
@@ -719,15 +676,15 @@ fixed_bundle:
     general_weight: 0.111
     general_news_from: 12/12/12
     general_news_to: 12/12/13
-    general_url_key: bundle_product_url_key
+    general_url_key: fixed-bundle-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
 #    general_in_feed: Yes
     prices_price_type: Fixed
     prices_price: 66.32
     prices_special_price: 3.99
-    prices_special_price_from: 05/05/11
-    prices_special_price_to: 09/09/11
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 9/9/11
     prices_tier_price_data: *tierPriceData
     prices_price_view_bundle: As Low as
     meta_information_meta_title: Meta Title for Bundle(Fixed) Product
@@ -750,9 +707,9 @@ fixed_bundle:
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData
     bundle_items_data: *bundleData
 
 #*********************************************
@@ -767,7 +724,7 @@ grouped_product_required:
     general_sku: grouped_sku.req
     general_status: Enabled
     general_visibility: Catalog, Search
-    associated_products_grouped_data: *associatedProductsGroupedData
+    associated_grouped_data: *associatedProductsGroupedData
 
 grouped_product:
     product_attribute_set: Default
@@ -777,15 +734,15 @@ grouped_product:
     general_sku: grouped_sku
     general_news_from: 12/12/12
     general_news_to: 12/12/13
-    general_url_key: grouped_product_url_key
+    general_url_key: grouped-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
     general_country_manufacture: Albania
 #    general_in_feed: Yes
     prices_enable_googlecheckout: No
-    meta_information_meta_title: Meta Title for Simple Product
-    meta_information_meta_keywords: Meta Keywords for Simple Product
-    meta_information_meta_description: Meta Description for Simple Product
+    meta_information_meta_title: Meta Title for Grouped Product
+    meta_information_meta_keywords: Meta Keywords for Grouped Product
+    meta_information_meta_description: Meta Description for Grouped Product
     design_custom_design: default
     design_active_from: 11/11/11
     design_active_to: 2/12/12
@@ -803,10 +760,10 @@ grouped_product:
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
-    associated_products_grouped_data: *associatedProductsGroupedData
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData
+    associated_grouped_data: *associatedProductsGroupedData
 
 #*********************************************
 #*         Configurable Product Data         *
@@ -833,25 +790,24 @@ configurable_product:
     general_sku: configurable_sku
     general_news_from: 12/12/12
     general_news_to: 12/12/13
-    general_url_key: configurable_product_url_key
+    general_url_key: configurable-product-url-key
     general_status: Enabled
-    general_url_key: configurable_product_url_key
     general_visibility: Catalog, Search
     general_country_manufacture: Albania
 #    general_in_feed: Yes
     prices_price: 4.95
     prices_special_price: 3.99
-    prices_special_price_from: 05/05/11
-    prices_special_price_to: 09/09/11
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 9/9/11
     prices_tier_price_data: *tierPriceData
     prices_apply_map: Yes
     prices_display_actual_price: In Cart
     prices_manu_suggested_retail_price: 3.90
     prices_tax_class: None
     prices_enable_googlecheckout: No
-    meta_information_meta_title: Meta Title for Simple Product
-    meta_information_meta_keywords: Meta Keywords for Simple Product
-    meta_information_meta_description: Meta Description for Simple Product
+    meta_information_meta_title: Meta Title for Configurable Product
+    meta_information_meta_keywords: Meta Keywords for Configurable Product
+    meta_information_meta_description: Meta Description for Configurable Product
     design_custom_design: default
     design_active_from: 11/11/11
     design_active_to: 2/12/12
@@ -869,10 +825,10 @@ configurable_product:
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
-    associated_products_configurable_data: *associatedProductsConfigurableData
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData
+    associated_configurable_data: *associatedProductsConfigurableData
 
 #*********************************************
 #*         Downloadable Product Data         *
@@ -898,13 +854,13 @@ downloadable_product:
     general_sku: downloadable_sku
     general_news_from: 12/12/12
     general_news_to: 12/12/13
-    general_url_key: downloadable_product_url_key
+    general_url_key: downloadable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_special_price: 13.99
-    prices_special_price_from: 05/05/11
-    prices_special_price_to: 09/09/11
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 9/9/11
     prices_tier_price_data: *tierPriceData
     prices_tax_class: None
     prices_enable_googlecheckout: No
@@ -953,8 +909,8 @@ downloadable_product:
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData
     custom_options_data: *customOptionsData
     downloadable_information_data: *downloadableData

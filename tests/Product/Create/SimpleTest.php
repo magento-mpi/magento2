@@ -472,8 +472,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function invalidQtyInSimple($invalidQty)
     {
         //Data
-        $productData = $this->loadData('simple_product_required', array('inventory_qty' => $invalidQty),
-                'general_sku');
+        $productData = $this->loadData('simple_product_required', array('inventory_qty' => $invalidQty), 'general_sku');
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -538,10 +537,10 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
-        $this->clickControl('tab', 'associated_products', false);
+        $this->clickControl('tab', 'associated', false);
         $this->pleaseWait();
         $this->addParameter('attributeCode', $attrData['attribute_code']);
-        $this->fillForm($quickSimple, 'associated_products');
+        $this->fillForm($quickSimple, 'associated');
         $this->clickButton('quick_create', false);
         $this->pleaseWait();
         //Verifying
@@ -574,7 +573,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
-        $this->clickControl('tab', 'associated_products', false);
+        $this->clickControl('tab', 'associated', false);
         $this->pleaseWait();
         $productParameters = "set/$setId/type/simple/required/$attrId/popup/1/";
         $this->addParameter('productParameters', $productParameters);
@@ -614,7 +613,7 @@ class Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
-        $this->clickControl('tab', 'associated_products', false);
+        $this->clickControl('tab', 'associated', false);
         $this->pleaseWait();
         $id = $this->_paramsHelper->getParameter('id');
         $productParameters = "set/$setId/type/simple/required/$attrId/popup/1/product/$id/";
