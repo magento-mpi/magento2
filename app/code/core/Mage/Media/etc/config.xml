@@ -39,7 +39,7 @@
             </media>
             <media_resource>
                 <class>Mage_Media_Model_Resource</class>
-                <deprecatedNode>media_mysql4</deprecatedNode>
+                <deprecatedNode>media_file</deprecatedNode>
             </media_resource>
         </models>
     </global>
