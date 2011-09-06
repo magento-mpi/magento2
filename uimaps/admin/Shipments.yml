@@ -97,7 +97,7 @@ create_shipment:
                     items_to_ship:
                         xpath: //div[@class='grid np']
                         fields:
-                            qty_to_ship: %productXpath%//input[contains(@name,'shipment[items]')]
+                            qty_to_ship: //tbody[tr/td/div[contains(.,'%sku%')]]//input[contains(@name,'shipment[items]')]
                 -
                     shipment_comments:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Shipment Comments']

@@ -93,15 +93,14 @@ class Order_Helper extends Mage_Selenium_TestCase
 
     /**
      * Creates order for existing cutomer
-     *
-     * @param array        $productsToBuy
-     * @param array|string $billForm
-     * @param array|string $shipForm
-     * @param array|string $customerEmail
+     * @param bool         $validate         'Submit Order' button will not be pressed
      * @param string       $storeName
+     * @param array        $productsToBuy
+     * @param array|string $customerEmail
+     * @param array        $billForm
+     * @param array        $shipForm
      * @param array|string $paymentMethod
      * @param string       $shippingMethod
-     * @param bool         $validate         No need to put any parameters except this one and $storeName for messages validation
      * @param array        $reconfigProduct
      * @param array        $giftMessages
      * @param array        $couponCode       Consist of the code and bool for validation
@@ -145,56 +144,13 @@ class Order_Helper extends Mage_Selenium_TestCase
                     }
                     $this->fillForm($customerEmail, 'order_account_information');
                     if (is_array($billForm)) {
-                        if (array_key_exists('first_name', $billForm)) {
-                            $customer = $billForm['first_name'] . ' ' .
-                                        $billForm['last_name'] . ', ' .
-                                        $billForm['street_address_line_1'] . ' ' .
-                                        $billForm['street_address_line_2'] . ', ' .
-                                        $billForm['city'] . ', ' . $billForm['zip_code'] . ', ' .
-                                        $billForm['country'];
-                            $addrToSearch = array('billing_address_choice' => $customer);
-                            $this->fillForm($addrToSearch);
-                        }
-                        if (array_key_exists('billing_first_name', $billForm)) {
-                            $userData = $this->loadData('new_customer_order_billing_address_reqfields');
-                            $addrToChoose = array('billing_address_choice' => 'Add New Address');
-                            $addrToFill = array_merge($userData, $addrToChoose, $billForm);
-                            $this->fillForm($addrToFill);
-                        }
-                    }
-                    if (is_string($billForm)) {
-                        $addrToChoose = array('billing_address_choice' => 'Add New Address');
-                        $addrToFill = $this->loadData($billForm, $addrToChoose);
+                        $this->fillOrderAddress('exist', 'billing',  $billForm);
                     }
                 }
                 if ($shipForm != null) {
-                    if (is_array($billForm)) {
-                        if (array_key_exists('first_name', $shipForm)) {
-                            $customer = $shipForm['first_name'] . ' ' .
-                                        $shipForm['last_name'] . ', ' .
-                                        $shipForm['street_address_line_1'] . ' ' .
-                                        $shipForm['street_address_line_2'] . ', ' .
-                                        $shipForm['city'] . ', ' . $shipForm['zip_code'] . ', ' .
-                                        $shipForm['country'];
-                            $addrToSearch = array('shipping_same_as_billing_address' => 'no',
-                                                  'shipping_address_choice'          => $customer);
-                            $this->fillForm($addrToSearch);
-                        }
-                        if (array_key_exists('shipping_first_name', $shipForm)) {
-                            $userData = $this->loadData('new_customer_order_shipping_address_reqfields');
-                            $addrToChoose = array('shipping_same_as_billing_address' => 'no',
-                                                  'shipping_address_choice'          => 'Add New Address');
-                            $addrToFill = array_merge($addrToChoose, $userData, $shipForm);
-                            $this->fillForm($addrToFill);
-                        }
-                        if (is_string($shipForm)) {
-                            $addrToChoose = array('shipping_address_choice' => 'Add New Address');
-                            $addrToFill = $this->loadData($shipForm, $addrToChoose);
-                        }
-                    }
+                    $this->fillOrderAddress('exist', 'shipping', $shipForm);
                 } else {
-                    $addrToSearch = array('shipping_same_as_billing_address' => 'yes');
-                    $this->fillForm($addrToSearch);
+                    $this->fillOrderAddress('sameAsBilling');
                 }
                 if ($paymentMethod != null) {
                     $this->selectPaymentMethod($paymentMethod);
@@ -208,7 +164,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                     $errors = $this->getErrorMessages();
                     $this->assertTrue(empty($errors), $this->messages);
                     $this->clickButton('submit_order', TRUE);
-                    $this->defineIdFromUrl();
+                    $this->addParameter('id', $this->defineIdFromUrl());
                     if ($this->successMessage('success_created_order') == true) {
                         $this->assertTrue($this->successMessage('success_created_order'),
                                 $this->messages);
@@ -222,16 +178,14 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * Creates order for new cutomer
      *
-     * @param array        $productsToBuy
-     * @param array|string $billForm
-     * @param array|string $shipForm
-     * @param array|string $customerEmail
+     * @param bool         $validate 'Submit Order' button will not be pressed
      * @param string       $storeName
-     * @param bool         $saveBillToAddrBook
-     * @param bool         $saveShipToAddrBook
+     * @param array        $productsToBuy
+     * @param array|string $customerEmail
+     * @param array        $billForm
+     * @param array        $shipForm
      * @param array|string $paymentMethod
      * @param string       $shippingMethod
-     * @param bool         $validate No need to put any parameters except this one and $storeName for messages validation
      * @param array        $reconfigProduct
      * @param array        $giftMessages
      * @param array        $couponCode       Consist of the code and bool for validation
@@ -278,26 +232,13 @@ class Order_Helper extends Mage_Selenium_TestCase
                 }
                 $this->fillForm($customerEmail);
             }
-            if (is_string($billForm)) {
-                $billAddr = $this->loadData($billForm);
-            }
             if (is_array($billForm)) {
-                $userData = $this->loadData('new_customer_order_billing_address_reqfields');
-                $billAddr = array_merge($userData, $billForm);
+                $this->fillOrderAddress('new', 'billing', $billForm);
             }
-            $this->fillForm($billAddr);
             if ($shipForm != null) {
-                if (is_string($shipForm)) {
-                    $shipAddr = $this->loadData($shipForm);
-                }
-                if (is_array($shipForm)) {
-                    $userData = $this->loadData('new_customer_order_shipping_address_reqfields');
-                    $shipAddr = array_merge($userData, $shipForm);
-                }
-                $this->fillForm($shipAddr);
+                $this->fillOrderAddress('new', 'shipping', $shipForm);
             } else {
-                $shipAddrSameAsBill = array('shipping_same_as_billing_address' => 'yes');
-                $this->fillForm($shipAddrSameAsBill);
+                $this->fillOrderAddress('sameAsBilling');
             }
             if ($paymentMethod != null) {
                 $this->selectPaymentMethod($paymentMethod);
@@ -311,7 +252,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                 $errors = $this->getErrorMessages();
                 $this->assertTrue(empty($errors), $this->messages);
                 $this->clickButton('submit_order', TRUE);
-                $this->defineIdFromUrl();
+                $this->addParameter('id', $this->defineIdFromUrl());
                 $this->assertTrue($this->checkCurrentPage('view_order'), 'Wrong page is opened');
                 if ($this->successMessage('success_created_order') == true) {
                     $this->assertTrue($this->successMessage('success_created_order'),
@@ -326,13 +267,47 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * Fills customer's addresses at the order page.
      *
-     * @param string $address - 'billing' or 'shipping'
-     * @param string $addressType - 'new', 'exist', 'editExist', 'sameAsBilling'
-     * @param array $addressData
+     * @param string $addressType   'new', 'exist', 'editExist', 'sameAsBilling'
+     * @param string $address       'billing' or 'shipping'
+     * @param array  $addressData
      */
-    public function fillOrderAddress()
+    public function fillOrderAddress($addressType, $address = null, $addressData = null)
     {
-
+        if (($addressType == 'new') && ($address != null) && ($addressData != null)) {
+            $userData = $this->loadData('new_customer_order_' . $address . '_address_reqfields');
+            $addrToFill = array_merge($userData, $addressData);
+            $this->fillForm($addrToFill);
+        }
+        if (($addressType == 'exist') && ($address != null) && ($addressData != null))
+        {
+            if (array_key_exists($address . '_address_choice', $addressData))
+            {
+                $this->fillForm($addressData);
+            } elseif (array_key_exists('first_name', $addressData)) {
+                $customer = $addressData['first_name'] . ' ' .
+                            $addressData['last_name'] . ', ' .
+                            $addressData['street_address_line_1'] . ' ' .
+                            $addressData['street_address_line_2'] . ', ' .
+                            $addressData['city'] . ', ' .
+                            $addressData['zip_code'] . ', ' .
+                            $addressData['country'];
+                $addrToSearch = array('shipping_same_as_billing_address' => 'no',
+                                      'shipping_address_choice'          => $customer);
+                $this->fillForm($addrToSearch);
+            }
+        }
+        if (($addressType == 'editExist') && ($address != null) && ($addressData != null))
+        {
+            if ((array_key_exists($address . '_address_choice', $addressData))
+                    && (array_key_exists($address . '_first_name', $addressData)))
+            {
+                $this->fillForm($addressData);
+            }
+        }
+        if ($addressType == 'sameAsBilling')
+        {
+            $this->fillForm(array('shipping_same_as_billing_address' => 'yes'));
+        }
     }
     /**
      * Creates product needed for creating order.
@@ -366,7 +341,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                     $this->searchAndOpen(array('product_sku' => $productData['general_sku']), TRUE);
                     $this->assertTrue($this->checkCurrentPage('edit_product'),
                             'Wrong page is opened');
-                    $this->defineIdFromUrl();
+                    $this->addParameter('id', $this->defineIdFromUrl());
                     $this->deleteElement('delete', 'confirmation_for_delete');
                     $this->productHelper()->createProduct($productData);
                     $this->assertTrue($this->successMessage('success_saved_product'),
@@ -543,21 +518,22 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      * The way customer will pay for the order
      *
-     * @param array|string $paymentMethod What type of credit card and credit cards' data to fill.
+     * @param array|string $paymentMethodInfo Credit Cards Info (ccn. exp. date, cvv, etc)
+     * @param string       $paymentMethod     Payment Method to choose (credit_card is default)
      */
-    public function selectPaymentMethod($paymentMethod)
+    public function selectPaymentMethod($paymentMethodInfo, $paymentMethod = 'credit_card')
     {
-        if (is_string($paymentMethod)) {
-            $paymentMethod = $this->loadData($paymentMethod);
+        if (is_string($paymentMethodInfo)) {
+            $paymentMethodInfo = $this->loadData($paymentMethodInfo);
         }
-        if (!is_array($paymentMethod) && !is_string($paymentMethod)) {
+        if (!is_array($paymentMethodInfo) && !is_string($paymentMethodInfo)) {
             throw new Exception('Incorrect type of $paymentMethod.');
         }
         $this->pleaseWait();
-        $this->clickControl('radiobutton', 'credit_card', FALSE);
+        $this->clickControl('radiobutton', $paymentMethod, FALSE);
         $this->pleaseWait();
         $this->waitForAjax();
-        $this->fillForm($paymentMethod, 'order_payment_method');
+        $this->fillForm($paymentMethodInfo, 'order_payment_method');
     }
 
     /**

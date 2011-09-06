@@ -89,9 +89,9 @@ create_credit_memo:
                         buttons:
                             update_qty: //button[span[contains(.,'Update Qty')]]
                         checkboxes:
-                            return_to_stock: %productXpath%//input[contains(@name,'[back_to_stock]')]
+                            return_to_stock: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@name,'[back_to_stock]')]
                         fields:
-                            qty_to_refund: %productXpath%//input[contains(@name,'[qty]')]
+                            qty_to_refund: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@name,'[qty]')]
                 -
                     credit_memo_comments:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Credit Memo Comments']
@@ -112,4 +112,3 @@ create_credit_memo:
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
-            

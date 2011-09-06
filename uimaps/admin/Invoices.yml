@@ -86,9 +86,9 @@ create_invoice:
                         xpath: //div[@class='entry-edit'][./div/h4='Shipping Information']
                 -
                     items_to_invoice:
-                        xpath: //div[@class='entry-edit'][./div/h4='Items Invoiced']
+                        xpath: //div[@id='invoice_item_container']/div[@class='grid np']
                         fields:
-                            qty_to_invoice: %productXpath%//input[@class='input-text qty-input']
+                            qty_to_invoice: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[@class='input-text qty-input']
                         buttons:
                             update_qty: //button[span[contains(text(),'Update Qty')]]
                 -

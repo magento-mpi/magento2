@@ -30,9 +30,10 @@ new_customer_order_billing_address_reqfields:
     billing_first_name: 'Steven_testdataset req'
     billing_last_name: 'Stevenson_testdataset req'
     billing_street_address_1: 'number 11 testdataset req'
-    billing_city: 'nowhere_testdataset req'
-    billing_country: 'Ukraine'
-    billing_zip_code: '01001 testdataset req'
+    billing_city: 'Palo Alto'
+    billing_country: 'United States'
+    billing_state: California
+    billing_zip_code: '94306'
     billing_telephone: '091019019 testdataset req'
     acc_email: %noValue%
     customer_group: 'General'
@@ -44,9 +45,10 @@ new_customer_order_shipping_address_reqfields:
     shipping_same_as_billing_address: no
     shipping_last_name: 'Stevenson_testdataset req'
     shipping_street_address_1: 'number 11 testdataset req'
-    shipping_city: 'nowhere_testdataset req'
-    shipping_country: 'Ukraine'
-    shipping_zip_code: '01001 testdataset req'
+    shipping_city: 'Palo Alto'
+    shipping_country: 'United States'
+    shipping_state: California
+    shipping_zip_code: '94306'
     shipping_telephone: '091019019 testdataset req'
     shipping_save_in_address_book: yes
 
@@ -59,9 +61,10 @@ new_customer_order_billing_address_allfields:
     billing_company: 'home testdataset all'
     billing_street_address_1: 'number 11 testdataset all'
     billing_street_address_2: 'nothing testdataset all'
-    billing_city: 'nowhere testdataset all'
-    billing_country: Ukraine
-    billing_zip_code: '01001 testdataset all'
+    billing_city: 'Palo Alto'
+    billing_country: 'United States'
+    billing_state: California
+    billing_zip_code: '94306'
     billing_telephone: '091019019 testdataset all'
     billing_fax: '0919327869 testdataset all'
     acc_email: %noValue%
@@ -79,9 +82,10 @@ new_customer_order_shipping_address_allfields:
     shipping_company: 'home testdataset all'
     shipping_street_address_1: 'number 11 testdataset all'
     shipping_street_address_2: 'nothing testdataset all'
-    shipping_city: 'nowhere testdataset all'
-    shipping_country: Ukraine
-    shipping_zip_code: '01001 testdataset all'
+    shipping_city: 'Palo Alto'
+    shipping_country: 'United States'
+    shipping_state: California
+    shipping_zip_code: '94306'
     shipping_telephone: '091019019 testdataset all'
     shipping_fax: '0919327869 testdataset all'
     shipping_save_in_address_book: yes
@@ -95,8 +99,9 @@ order_billing_address:
     billing_company: test
     billing_street_address_1: number 11
     billing_street_address_2: nothing
-    billing_city: nowhere
-    billing_zip_code: '01001'
+    billing_city: 'Palo Alto'
+    billing_state: California
+    billing_zip_code: '94306'
     billing_telephone: '091019019'
     billing_fax: '09191'
     acc_email: %noValue%
@@ -113,7 +118,8 @@ order_shipping_address:
     shipping_company: test
     shipping_street_address_1: number 11
     shipping_street_address_2: nothing
-    shipping_city: nowhere
+    shipping_city: Palo Alto
+    shipping_state: California
     shipping_zip_code: '01001'
     shipping_telephone: '091019019'
     shipping_fax: '09191'
@@ -146,9 +152,9 @@ new_customer_address:
     company: 'test'
     street_address_line_1: 'number 11'
     street_address_line_2: 'nothing'
-    city: 'nowhere'
-    country: 'Ukraine'
-    state: %noValue%
+    city: 'Palo Alto'
+    country: 'United States'
+    state: California
     region: %noValue%
     zip_code: '90232'
     telephone: '530-918-3581'
@@ -546,6 +552,31 @@ products_to_reconfig_2:
         general_sku: %noValue%
         options:
             action: Remove
+
+products_to_reconfig_3:
+    product_1:
+        general_sku: %noValue%
+        options:
+            qty: 10
+
+products_to_refund_1:
+    product_1:
+        general_sku: %noValue%
+        options:
+            return_to_stock: Yes
+            qty_to_refund: 5
+
+products_to_invoice_1:
+    product_1:
+        general_sku: %noValue%
+        options:
+            qty_to_invoice: 5
+
+products_to_ship_1:
+    product_1:
+        general_sku: %noValue%
+        options:
+            qty_to_ship: 5
 
 messages_for_products_1:
     product_1:

@@ -91,7 +91,7 @@ create_order_for_new_customer:
     mca: sales_order_create/
     title: New Order / Orders / Sales / Magento Admin
     uimap:
-        form: &newOrderForm
+        form: &newOrderForNewCustomerForm
             fieldsets:
                 -
                     order_customer_grid: &salesOrderCreateCustomerGrid
@@ -304,7 +304,7 @@ create_order_for_existing_customer:
     mca: sales_order_create/index/customer_id/%id%/
     title: New Order / Orders / Sales / Magento Admin
     uimap:
-        form: &newOrderForm
+        form: &newOrderForExistCustomerForm
             fieldsets:
                 -
                     order_customer_grid: *salesOrderCreateCustomerGrid
@@ -524,3 +524,13 @@ view_order:
             failed_canceled_order: //li[normalize-space(@class)='error-msg' and contains(.//span,'The order cannot be canceled.')]
             success_hold_order: //li[normalize-space(@class)='success-msg' and contains(.//span,'The order has been put on hold')]
             failed_hold_order: //li[normalize-space(@class)='error-msg' and contains(.//span,'Order were not put on hold.')]
+            success_creating_invoice: //li[normalize-space(@class)='success-msg' and contains(.//span,'The invoice has been created.')]
+            success_creating_shipment: //li[normalize-space(@class)='success-msg' and contains(.//span,'The shipment has been created.')]
+            success_creating_creditmemo: //li[normalize-space(@class)='success-msg' and contains(.//span,'The credit memo has been created.')]
+            confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
+
+edit_order:
+    mca: sales_order_edit/
+    title: Edit Order / Orders / Sales / Magento Admin
+    uimap:
+        form: *newOrderForExistCustomerForm

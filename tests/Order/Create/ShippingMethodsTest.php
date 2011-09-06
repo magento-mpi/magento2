@@ -27,7 +27,7 @@
  */
 
 /**
- * @TODO
+ * Creating Order with specific shipment
  *
  * @package     selenium
  * @subpackage  tests
@@ -35,76 +35,180 @@
  */
 class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
 {
-
     /**
-     * @TODO
+     * <p>Preconditions:</p>
+     *
+     * <p>Log in to Backend.</p>
+     * <p>Navigate to 'System Configuration' page</p>
+     * <p>Enable all shipping methods</p>
      */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/carriers/');
+        $this->clickControl('tab', 'sales_shipping_methods', TRUE);
+        $shipment = $this->loadData('shipping_methods');
+        $this->fillForm($shipment, 'sales_shipping_methods');
+        $this->saveForm('save_config');
+    }
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
     }
-
-
     /**
-     * @TODO
+     * @test
      */
-    public function test_ShippingMethods_FlatRate()
+    public function createProducts()
     {
-        // @TODO
-        $this->markTestIncomplete();
-    }
+        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($productData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
 
-    /**
-     * @TODO
-     */
-    public function test_ShippingMethods_FreeShipping()
-    {
-        // @TODO
-        $this->markTestIncomplete();
+        return $productData;
     }
 
     /**
-     * @TODO
+     * <p>Creating order with Flat Rate shipment method</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Select simple product and add it to the order;</p>
+     * <p>4. Fill in all required information;</p>
+     * <p>5. Choose Flat Rate (Fixed) for shipping method;</p>
+     * <p>6. Click "Submit Order" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created;</p>
+     *
+     * @depends createProducts
+     * @test
      */
-    public function test_ShippingMethods_UPS()
+    public function shippingMethodsFlatRate($productData)
     {
-        // @TODO
-        $this->markTestIncomplete();
+
     }
 
     /**
-     * @TODO
+     * <p>Creating order with Free shipment method</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Select simple product and add it to the order;</p>
+     * <p>4. Fill in all required information;</p>
+     * <p>5. Choose Free shipping method;</p>
+     * <p>6. Click "Submit Order" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created;</p>
+     *
+     * @depends createProducts
+     * @test
      */
-    public function test_ShippingMethods_USPS()
+    public function shippingMethodsFreeShipping($productData)
     {
-        // @TODO
-        $this->markTestIncomplete();
+
     }
 
     /**
-     * @TODO
+     * <p>Creating order with UPS shipment method</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Select simple product and add it to the order;</p>
+     * <p>4. Fill in all required information;</p>
+     * <p>5. Choose UPS shipping method;</p>
+     * <p>6. Click "Submit Order" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created;</p>
+     *
+     * @depends createProducts
+     * @test
      */
-    public function test_ShippingMethods_UPSXML()
+    public function shippingMethodsUPS($productData)
     {
-        // @TODO
-        $this->markTestIncomplete();
+
     }
 
     /**
-     * @TODO
+     * <p>Creating order with USPS shipment method</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Select simple product and add it to the order;</p>
+     * <p>4. Fill in all required information;</p>
+     * <p>5. Choose USPS shipping method;</p>
+     * <p>6. Click "Submit Order" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created;</p>
+     *
+     * @depends createProducts
+     * @test
      */
-    public function test_ShippingMethods_FedEx()
+    public function shippingMethodsUSPS($productData)
     {
-        // @TODO
-        $this->markTestIncomplete();
+
     }
 
     /**
-     * @TODO
+     * <p>Creating order with UPS (xml is set in system configuration) shipment method</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Select simple product and add it to the order;</p>
+     * <p>4. Fill in all required information;</p>
+     * <p>5. Choose UPS shipping method;</p>
+     * <p>6. Click "Submit Order" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created;</p>
+     *
+     * @depends createProducts
+     * @test
      */
-    public function test_ShippingMethods_DHL()
+    public function shippingMethodsUPSXML($productData)
     {
-        // @TODO
-        $this->markTestIncomplete();
+
+    }
+
+    /**
+     * <p>Creating order with FedEx shipment method</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Select simple product and add it to the order;</p>
+     * <p>4. Fill in all required information;</p>
+     * <p>5. Choose FedEx shipping method;</p>
+     * <p>6. Click "Submit Order" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created;</p>
+     *
+     * @depends createProducts
+     * @test
+     */
+    public function shippingMethodsFedEx($productData)
+    {
+
+    }
+
+    /**
+     * <p>Creating order with DHL shipment method</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Select simple product and add it to the order;</p>
+     * <p>4. Fill in all required information;</p>
+     * <p>5. Choose DHL shipping method;</p>
+     * <p>6. Click "Submit Order" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created;</p>
+     *
+     * @depends createProducts
+     * @test
+     */
+    public function shippingMethodsDHL($productData)
+    {
+
     }
 }

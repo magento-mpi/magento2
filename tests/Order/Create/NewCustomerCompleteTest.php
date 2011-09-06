@@ -32,7 +32,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
+class NewCustomerComplete_Test extends Mage_Selenium_TestCase
 {
    /**
     * <p>Preconditions:</p>
@@ -94,14 +94,14 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
                 $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'visa','Fixed');
+        $this->addParameter('order_id', $orderId);
+        $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice', TRUE);
-        $this->defineIdFromUrl();
         $this->clickButton('submit_invoice', TRUE);
-        $this->defineIdFromUrl();
+        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
         $this->clickButton('ship', TRUE);
-        $this->defineIdFromUrl();
         $this->clickButton('submit_shipment', TRUE);
-        $this->defineIdFromUrl();
+        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
     }
     /**
      * <p>Create customer via 'Create order' form (all fields are filled).</p>
@@ -135,14 +135,14 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
                 $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, FALSE),
                 $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, FALSE),
                 'visa','Fixed');
+        $this->addParameter('order_id', $orderId);
+        $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice', TRUE);
-        $this->defineIdFromUrl();
         $this->clickButton('submit_invoice', TRUE);
-        $this->defineIdFromUrl();
+        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
         $this->clickButton('ship', TRUE);
-        $this->defineIdFromUrl();
         $this->clickButton('submit_shipment', TRUE);
-        $this->defineIdFromUrl();
+        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
     }
     /**
      * <p>Create customer via 'Create order' form (required fields are filled).</p>
@@ -176,13 +176,13 @@ class OrderForNewCustomerComplete_Test extends Mage_Selenium_TestCase
                 $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, TRUE),
                 $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, TRUE),
                 'visa','Fixed');
+        $this->addParameter('order_id', $orderId);
+        $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice', TRUE);
-        $this->defineIdFromUrl();
         $this->clickButton('submit_invoice', TRUE);
-        $this->defineIdFromUrl();
+        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
         $this->clickButton('ship', TRUE);
-        $this->defineIdFromUrl();
         $this->clickButton('submit_shipment', TRUE);
-        $this->defineIdFromUrl();
+        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
     }
 }

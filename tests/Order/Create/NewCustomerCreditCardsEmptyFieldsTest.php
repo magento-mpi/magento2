@@ -32,7 +32,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
+class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -94,6 +94,7 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
         $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 'new_customer_order_billing_address_reqfields', null,
                 $this->loadData('visa', $emptyVisaField),'Fixed');
+        $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         foreach ($emptyVisaField as $key => $value) {
@@ -207,6 +208,7 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
         $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 'new_customer_order_billing_address_reqfields', null,
                 $this->loadData('visa', $emptyAmericanExpressField),'Fixed');
+        $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         foreach ($emptyAmericanExpressField as $key => $value) {
@@ -320,6 +322,7 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
         $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 'new_customer_order_billing_address_reqfields', null,
                 $this->loadData('visa', $emptyMasterCardField),'Fixed');
+        $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         foreach ($emptyMasterCardField as $key => $value) {
@@ -433,6 +436,7 @@ class OrderForNewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestC
         $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
                 'new_customer_order_billing_address_reqfields', null,
                 $this->loadData('visa', $emptyDiscoverField),'Fixed');
+        $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         foreach ($emptyDiscoverField as $key => $value) {
