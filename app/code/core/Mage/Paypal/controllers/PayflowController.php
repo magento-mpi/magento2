@@ -118,11 +118,7 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
             $method->initialize($method->getConfigData('payment_action'), new Varien_Object());
 
             $quote->save();
-
-            $this->getResponse()
-                ->setBody($this->_getIframeBlock()->toHtml());
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (Mage_Core_Exception $e) {
             $this->loadLayout('paypal_payflow_link_iframe');
 
             $block = $this->getLayout()->getBlock('payflow.link.info');
@@ -131,7 +127,12 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setBody(
                 $block->toHtml()
             );
+            return;
+        } catch (Exception $e) {
+            Mage::logException($e);
         }
+        $this->getResponse()
+            ->setBody($this->_getIframeBlock()->toHtml());
     }
 
     /**
