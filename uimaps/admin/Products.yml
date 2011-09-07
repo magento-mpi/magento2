@@ -506,14 +506,14 @@ new_product:
                                 downloadable_info:
                                     xpath: //dl[@id='downloadableInfo']
                                     links:
-                                        downloadable_samples: //*[@id='dt-samples']/a
-                                        downloadable_links: //*[@id='dt-links']/a
+                                        downloadable_sample: //*[@id='dt-samples']/a
+                                        downloadable_link: //*[@id='dt-links']/a
                             -
-                                downloadable_samples:
+                                downloadable_sample:
                                     xpath: //*[@id='dd-samples']/div
                                     buttons:
-                                        downloadable_samples_add_new_row: //*[@id='dd-samples']/div//button[span='Add New Row']
-                                        downloadable_samples_upload_files: //*[@id='dd-samples']/div//button[span='Upload Files']
+                                        downloadable_sample_add_new_row: //*[@id='dd-samples']/div//button[span='Add New Row']
+                                        downloadable_sample_upload_files: //*[@id='dd-samples']/div//button[span='Upload Files']
                                     fields:
                                         downloadable_samples_title: //input[@name='product[samples_title]']
                                         downloadable_sample_row_title: //input[@name='downloadable[sample][%rowId%][title]']
@@ -523,11 +523,11 @@ new_product:
                                         downloadable_sample_row_url_radiobutton: //input[@id='downloadable_sample_%rowId%_url_type']
                                         downloadable_sample_row_file_radiobutton: //input[@id='downloadable_sample_%rowId%_file_type']
                             -
-                                downloadable_links:
+                                downloadable_link:
                                     xpath: //*[@id='dd-links']/div
                                     buttons:
-                                        downloadable_links_add_new_row: //*[@id='dd-links']/div//button[span='Add New Row']
-                                        downloadable_links_upload_files: //*[@id='dd-links']/div//button[span='Upload Files']
+                                        downloadable_link_add_new_row: //*[@id='dd-links']/div//button[span='Add New Row']
+                                        downloadable_link_upload_files: //*[@id='dd-links']/div//button[span='Upload Files']
                                     checkboxes:
                                         downloadable_link_row_unlimited_downloads: //*[@id='downloadable_link_0_is_unlimited']
                                     dropdowns:

@@ -231,10 +231,10 @@ class Product_Helper extends Mage_Selenium_TestCase
                 if (array_key_exists($arrayKey, $tabData) && is_array($tabData[$arrayKey])) {
                     foreach ($tabData[$arrayKey] as $key => $value) {
                         if (preg_match('/^downloadable_sample_/', $key) && is_array($value)) {
-                            $this->addDownloadableOption($value, 'samples');
+                            $this->addDownloadableOption($value, 'sample');
                         }
                         if (preg_match('/^downloadable_link_/', $key) && is_array($value)) {
-                            $this->addDownloadableOption($value, 'links');
+                            $this->addDownloadableOption($value, 'link');
                         }
                     }
                 }
@@ -399,13 +399,13 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function addDownloadableOption(array $optionData, $type)
     {
-        $sampleFieldSet = $this->_getControlXpath('link', 'downloadable_' . $type);
-        if (!$this->isElementPresent($sampleFieldSet . "/parent::*[normalize-space(@class)='open']")) {
+        $fieldSet = $this->_getControlXpath('link', 'downloadable_' . $type);
+        if (!$this->isElementPresent($fieldSet . "/parent::*[normalize-space(@class)='open']")) {
             $this->clickControl('link', 'downloadable_' . $type, FALSE);
         }
 
         $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset('downloadable_' . $type)->getXpath();
-        $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='sample_items_body']/tr");
+        $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='" . $type . "_items_body']/tr");
         $this->addParameter('rowId', $rowNumber);
         $this->clickButton('downloadable_' . $type . '_add_new_row', FALSE);
         $this->fillForm($optionData, 'downloadable_information');
@@ -621,7 +621,25 @@ class Product_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('bundle_items_data', $nestedArrays)) {
             $this->verifyBundleOptions($nestedArrays['bundle_items_data']);
         }
-        //@TODO verify 'Downloadable Information' tab
+        if (array_key_exists('downloadable_information_data', $nestedArrays)) {
+            $samples = array();
+            $links = array();
+            foreach ($nestedArrays['downloadable_information_data'] as $key => $value) {
+                if (preg_match('/^downloadable_sample_/', $key) && is_array($value)) {
+                    $samples[$key] = $value;
+                }
+                if (preg_match('/^downloadable_link_/', $key) && is_array($value)) {
+                    $links[$key] = $value;
+                }
+            }
+            if ($samples) {
+                $this->verifyDownloadableOptions($samples, 'sample');
+            }
+            if ($links) {
+                $this->verifyDownloadableOptions($links, 'link');
+            }
+            $this->verifyForm($nestedArrays['downloadable_information_data'], 'downloadable_information');
+        }
         // Error Output
         if (!empty($this->messages['error'])) {
             $this->fail(implode("\n", $this->messages['error']));
@@ -638,8 +656,12 @@ class Product_Helper extends Mage_Selenium_TestCase
         $page = $this->getCurrentLocationUimapPage();
         $fieldSetXpath = $page->findFieldset('tier_price_row')->getXpath();
         $rowQty = $this->getXpathCount($fieldSetXpath);
-        $this->assertEquals(count($tierPriceData), $rowQty,
-                'Product must be contains ' . count($tierPriceData) . ' Tier Price, but contains ' . $rowQty);
+        $needCount = count($tierPriceData);
+        if ($needCount != $rowQty) {
+            $this->messages['error'][] = 'Product must be contains ' . $needCount
+                    . 'Tier Price(s), but contains ' . $rowQty;
+            return false;
+        }
         $i = 0;
         foreach ($tierPriceData as $key => $value) {
             $this->addParameter('tierPriceId', $i);
@@ -647,6 +669,7 @@ class Product_Helper extends Mage_Selenium_TestCase
             $this->verifyForm($value, 'prices');
             $i++;
         }
+        return true;
     }
 
     /**
@@ -739,9 +762,12 @@ class Product_Helper extends Mage_Selenium_TestCase
         $page = $this->getCurrentLocationUimapPage();
         $fieldSetXpath = $page->findFieldset('custom_option_set')->getXpath();
         $optionsQty = $this->getXpathCount($fieldSetXpath);
-        $this->assertEquals(count($customOptionData), $optionsQty,
-                'Product must be contains ' . count($customOptionData) . ' Custom Option(s), but contains '
-                . $optionsQty);
+        $needCount = count($customOptionData);
+        if ($needCount != $optionsQty) {
+            $this->messages['error'][] = 'Product must be contains ' . $needCount
+                    . 'Custom Option(s), but contains ' . $optionsQty;
+            return false;
+        }
         $id = $this->getAttribute($fieldSetXpath . "[1]/@id");
         $id = explode('_', $id);
         foreach ($id as $value) {
@@ -757,6 +783,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                 $optionId--;
             }
         }
+        return true;
     }
 
     /**
@@ -775,8 +802,12 @@ class Product_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('ship_bundle_items', $bundleData)) {
             $needCount = $needCount - 1;
         }
-        $this->assertEquals($needCount, $optionsCount,
-                'Product must be contains ' . $needCount . ' Bundle Items, but contains ' . $optionsCount);
+        if ($needCount != $optionsCount) {
+            $this->messages['error'][] = 'Product must be contains ' . $needCount
+                    . 'Bundle Item(s), but contains ' . $optionsCount;
+            return false;
+        }
+
         $i = 0;
         foreach ($bundleData as $option => $values) {
             if (is_string($values)) {
@@ -816,6 +847,33 @@ class Product_Helper extends Mage_Selenium_TestCase
                 $i++;
             }
         }
+        return true;
+    }
+
+    /**
+     * Verify Downloadable Options
+     *
+     * @param array $optionsData
+     * @param string $type
+     * @return type
+     */
+    public function verifyDownloadableOptions(array $optionsData, $type)
+    {
+        $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset('downloadable_' . $type)->getXpath();
+        $rowQty = $this->getXpathCount($fieldSetXpath . "//*[@id='" . $type . "_items_body']/tr");
+        $needCount = count($optionsData);
+        if ($needCount != $rowQty) {
+            $this->messages['error'][] = 'Product must be contains ' . $needCount
+                    . ' Downloadable ' . $type . '(s), but contains ' . $rowQty;
+            return false;
+        }
+        $i = 0;
+        foreach ($optionsData as $value) {
+            $this->addParameter('rowId', $i);
+            $this->verifyForm($value, 'downloadable_information');
+            $i++;
+        }
+        return true;
     }
 
 }
