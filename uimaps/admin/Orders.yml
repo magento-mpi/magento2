@@ -163,7 +163,7 @@ create_order_for_new_customer:
                         dropdowns:
                             customer_group: //select[@id='group_id']
                         fields:
-                            acc_email: //input[@id='email']
+                            customer_email: //input[@id='email']
                 -
                     order_billing_address: &orderBillingAddress
                         xpath: //div[@id='order-billing_address']

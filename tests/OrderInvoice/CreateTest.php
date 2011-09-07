@@ -60,13 +60,11 @@ class OrderInvoice_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-
         return $productData;
     }
 
     /**
-     * <p>Create customer via 'Create order' form (all fields are filled).</p>
-     * <p>Create order(all fields are filled).</p>
+     * <p>TL-MAGE-312:Invoice for full order</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -90,14 +88,11 @@ class OrderInvoice_CreateTest extends Mage_Selenium_TestCase
      */
     public function full($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $orderData = $this->loadData('order_req_1',
+                array('filter_sku' => $productData['general_sku']));
+        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
         $this->navigate('manage_sales_orders');
-        $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, FALSE),
-                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, FALSE),
-                'visa','Fixed');
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice', TRUE);
@@ -106,8 +101,7 @@ class OrderInvoice_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create customer via 'Create order' form (all fields are filled).</p>
-     * <p>Create order(all fields are filled).</p>
+     * <p>TL-MAGE-313:Invoice for part of order</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders;</p>
      * <p>2.Press "Create New Order" button;</p>
@@ -131,16 +125,11 @@ class OrderInvoice_CreateTest extends Mage_Selenium_TestCase
      */
     public function partial($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $orderData = $this->loadData('order_req_partial_invoice',
+                array('filter_sku' => $productData['general_sku']));
+        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
         $this->navigate('manage_sales_orders');
-        $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $reconfigProduct = $this->loadData('products_to_reconfig_3',
-                array('general_sku' => $productData['general_sku']));
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, FALSE),
-                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, FALSE),
-                'visa','Fixed', $reconfigProduct);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice', TRUE);

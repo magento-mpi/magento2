@@ -45,7 +45,9 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
     protected function assertPreConditions()
-    {}
+    {
+        $this->addParameter('id', '0');
+    }
 
     /**
      * <p>Create customer for testing</p>
@@ -72,7 +74,20 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
         $data = array_merge($userData, $addressData);
         return $data;
     }
-
+    /**
+     * @test
+     */
+    public function createProducts()
+    {
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($productData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        return $productData;
+    }
     /**
      * <p>Creating order for existing customer with same billing and shipping addresses.</p>
      * <p>Steps:</p>
@@ -85,13 +100,17 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
      * <p>Order is created, no error messages appear;</p>
      *
      * @depends createCustomer
+     * @depends createProducts
      * @test
      */
-    public function existingCustomerBillingEqualsShipping($data)
+    public function existingCustomerBillingEqualsShipping($data, $productData)
     {
-        $orderId = $this->orderHelper()->createOrderForExistingCustomer(false, 'Default Store View',
-                'products', $data['email'], $data, $data, 'visa','Fixed');
-        $this->orderHelper()->coverUpTraces($orderId);
+        $this->navigate('manage_sales_orders');
+        $orderData = $this->loadData('order_req_1');
+        $orderData['shipping_addr_data']['shipping_same_as_billing_address'] = 'yes';
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderData['customer_data']['email'] = $data['email'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
 
     /**
@@ -106,15 +125,20 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
      * <p>Order is created, no error messages appear;</p>
      *
      * @depends createCustomer
+     * @depends createProducts
      * @test
      */
-    public function existingCustomerBillingDiffersFromShipping($data)
+    public function existingCustomerBillingDiffersFromShipping($data, $productData)
     {
-        $orderId = $this->orderHelper()->createOrderForExistingCustomer(false, 'Default Store View',
-                'products', $data['email'], $data,
-                $this->orderHelper()->customerAddressGenerator(':alnum:', $addrType = 'shipping', $symNum = 32, TRUE),
-                'visa','Fixed');
-        $this->orderHelper()->coverUpTraces($orderId);
+        $shippingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':alnum:', $addrType = 'shipping', $symNum = 32, TRUE);
+        $this->navigate('manage_sales_orders');
+        $orderData = $this->loadData('order_req_1');
+        $orderData['shipping_addr_data']['shipping_same_as_billing_address'] = 'no';
+        $orderData['shipping_addr_data']+$shippingAddress;
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderData['customer_data']['email'] = $data['email'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
 
     /**
@@ -128,16 +152,17 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created, no error messages appear;</p>
      *
+     * @depends createProducts
      * @test
      */
-    public function newCustomerBillingEqualsShippingWithoutSave()
+    public function newCustomerBillingEqualsShippingWithoutSave($productData)
     {
-        $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
-                $this->orderHelper()->customerAddressGenerator(
-                ':alnum:', $addrType = 'billing', $symNum = 32, TRUE));
+        $this->navigate('manage_sales_orders');
+        $billingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':alnum:', $addrType = 'billing', $symNum = 32, TRUE);
         $billingAddress['billing_save_in_address_book'] = 'no';
-        $billingAddress['email'] = $this->generate('email', 32, 'valid');
         $shippingAddress = array(
+                'shipping_address_choice'       => $billingAddress['billing_address_choice'],
                 'shipping_first_name'           => $billingAddress['billing_first_name'],
                 'shipping_last_name'            => $billingAddress['billing_last_name'],
                 'shipping_street_address_1'     => $billingAddress['billing_street_address_1'],
@@ -145,9 +170,13 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
                 'shipping_zip_code'             => $billingAddress['billing_zip_code'],
                 'shipping_telephone'            => $billingAddress['billing_telephone'],
                 'shipping_save_in_address_book' => 'no');
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products',
-                $billingAddress['email'], $billingAddress, $shippingAddress, 'visa','Fixed');
-        $this->orderHelper()->coverUpTraces($orderId, array('email' => $billingAddress['email']));
+        $orderData = $this->loadData('order_req_1');
+        $orderData['billing_addr_data'] = $billingAddress;
+        $orderData['shipping_addr_data'] = $shippingAddress;
+        $orderData['shipping_addr_data']['shipping_same_as_billing_address'] = 'no';
+        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
 
     /**
@@ -161,24 +190,25 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created, no error messages appear;</p>
      *
+     * @depends createProducts
      * @test
      */
-    public function newCustomerBillingDiffersFromShippingWithoutSave()
+    public function newCustomerBillingDiffersFromShippingWithoutSave($productData)
     {
-        $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
-                array(
-                    $this->orderHelper()->customerAddressGenerator(
-                    ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
-                    'billing_save_in_address_book' => 'no' ));
-        $billingAddress['email'] = $this->generate('email', 32, 'valid');
-        $shippingAddress = $this->loadData('new_customer_order_shipping_address_reqfields',
-                array(
-                    $this->orderHelper()->customerAddressGenerator(
-                    ':alnum:', $addrType = 'shipping', $symNum = 32, TRUE),
-                    'shipping_save_in_address_book' => 'no' ));
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products',
-                $billingAddress['email'], $billingAddress, $shippingAddress, 'visa','Fixed');
-        $this->orderHelper()->coverUpTraces($orderId, array('email' => $billingAddress['email']));
+        $this->navigate('manage_sales_orders');
+        $billingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':alnum:', $addrType = 'billing', $symNum = 32, TRUE);
+        $billingAddress['billing_save_in_address_book'] = 'no';
+        $shippingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':alnum:', $addrType = 'shipping', $symNum = 32, TRUE);
+        $shippingAddress['shipping_save_in_address_book'] = 'no';
+        $shippingAddress['shipping_same_as_billing_address'] = 'no';
+        $orderData = $this->loadData('order_req_1');
+        $orderData['billing_addr_data'] = $billingAddress;
+        $orderData['shipping_addr_data'] = $shippingAddress;
+        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
 
     /**
@@ -192,27 +222,31 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created, no error messages appear;</p>
      *
+     * @depends createProducts
      * @test
      */
-    public function newCustomerBillingEqualsShippingWithSave()
+    public function newCustomerBillingEqualsShippingWithSave($productData)
     {
-        $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
-                array(
-                    $this->orderHelper()->customerAddressGenerator(
-                    ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
-                    'billing_save_in_address_book' => 'yes' ));
-        $billingAddress['email'] = $this->generate('email', 32, 'valid');
+        $this->navigate('manage_sales_orders');
+        $billingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':alnum:', $addrType = 'billing', $symNum = 32, TRUE);
+        $billingAddress['billing_save_in_address_book'] = 'yes';
         $shippingAddress = array(
+                'shipping_address_choice'       => $billingAddress['billing_address_choice'],
                 'shipping_first_name'           => $billingAddress['billing_first_name'],
                 'shipping_last_name'            => $billingAddress['billing_last_name'],
                 'shipping_street_address_1'     => $billingAddress['billing_street_address_1'],
                 'shipping_city'                 => $billingAddress['billing_city'],
                 'shipping_zip_code'             => $billingAddress['billing_zip_code'],
                 'shipping_telephone'            => $billingAddress['billing_telephone'],
-                'shipping_save_in_address_book' => 'yes');
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products',
-                $billingAddress['email'], $billingAddress, $shippingAddress, 'visa','Fixed');
-        $this->orderHelper()->coverUpTraces($orderId, array('email' => $billingAddress['email']));
+                'shipping_save_in_address_book' => 'yes',
+                'shipping_same_as_billing_address' => 'no');
+        $orderData = $this->loadData('order_req_1');
+        $orderData['billing_addr_data'] = $billingAddress;
+        $orderData['shipping_addr_data'] = $shippingAddress;
+        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
 
     /**
@@ -226,23 +260,24 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created, no error messages appear;</p>
      *
+     * @depends createProducts
      * @test
      */
-    public function newCustomerBillingDiffersFromShippingWithSave()
+    public function newCustomerBillingDiffersFromShippingWithSave($productData)
     {
-        $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
-                array(
-                    $this->orderHelper()->customerAddressGenerator(
-                    ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
-                    'billing_save_in_address_book' => 'yes' ));
-        $billingAddress['email'] = $this->generate('email', 32, 'valid');
-        $shippingAddress = $this->loadData('new_customer_order_shipping_address_reqfields',
-                array(
-                    $this->orderHelper()->customerAddressGenerator(
-                    ':alnum:', $addrType = 'shipping', $symNum = 32, TRUE),
-                    'shipping_save_in_address_book' => 'yes' ));
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', 'products',
-                $billingAddress['email'], $billingAddress, $shippingAddress, 'visa','Fixed');
-        $this->orderHelper()->coverUpTraces($orderId, array('email' => $billingAddress['email']));
+        $this->navigate('manage_sales_orders');
+        $billingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':alnum:', $addrType = 'billing', $symNum = 32, TRUE);
+        $billingAddress['billing_save_in_address_book'] = 'yes';
+        $shippingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':alnum:', $addrType = 'shipping', $symNum = 32, TRUE);
+        $shippingAddress['shipping_save_in_address_book'] = 'yes';
+        $shippingAddress['shipping_same_as_billing_address'] = 'no';
+        $orderData = $this->loadData('order_req_1');
+        $orderData['billing_addr_data'] = $billingAddress;
+        $orderData['shipping_addr_data'] = $shippingAddress;
+        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
 }

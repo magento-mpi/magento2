@@ -67,7 +67,6 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-
         return $productData;
     }
 
@@ -96,14 +95,10 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
     */
     public function orderWithoutRequiredFieldsFilledBillingAddress($emptyBillingField, $productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
-                $this->loadData(
-                        'new_customer_order_billing_address_reqfields',
-                        $emptyBillingField),
-                null, 'visa','Fixed');
+        $orderData = $this->loadData('order_req_1', $emptyBillingField);
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $this->orderHelper()->createOrder($orderData, true);
         $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_billing_address');
@@ -121,30 +116,18 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
             }
             $this->addParameter('fieldXpath', $fieldXpath);
         }   $this->addParameter('fieldXpath', $fieldXpath);
-        //Check if message appears.
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
     public function data_emptyBillingFields()
     {
         return array(
-            array(array(    'billing_first_name'     => ''
-                            )),
-            array(array(
-                            'billing_last_name'      => ''
-                            )),
-            array(array(
-                            'billing_street_address_1'   => ''
-                            )),
-            array(array(
-                            'billing_city'    =>  ''
-                            )),
-            array(array(
-                            'billing_zip_code' =>  ''
-                            )),
-            array(array(
-                            'billing_telephone'   =>  ''
-                            ))
+            array(array('billing_first_name'     => '')),
+            array(array('billing_last_name'      => '')),
+            array(array('billing_street_address_1'   => '')),
+            array(array('billing_city'    =>  '')),
+            array(array('billing_zip_code' =>  '')),
+            array(array('billing_telephone'   =>  ''))
         );
     }
    /**
@@ -171,16 +154,10 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
     */
     public function orderWithoutRequiredFieldsFilledShippingAddress($emptyShippingField, $productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
-                $this->loadData(
-                        'new_customer_order_billing_address_reqfields'),
-                $this->loadData(
-                        'new_customer_order_shipping_address_reqfields',
-                        $emptyShippingField),
-                'visa','Fixed');
+        $orderData = $this->loadData('order_req_1', $emptyShippingField);
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $this->orderHelper()->createOrder($orderData, true);
         $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_shipping_address');
@@ -198,7 +175,6 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
             }
             $this->addParameter('fieldXpath', $fieldXpath);
         }   $this->addParameter('fieldXpath', $fieldXpath);
-        //Check if message appears.
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -240,13 +216,10 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
     */
     public function noShippingMethodChosen($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', null, null,
-                $this->loadData(
-                        'new_customer_order_billing_address_reqfields'),
-                null, null);
+        $orderData = $this->loadData('order_no_shipping_method');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $this->orderHelper()->createOrder($orderData, true);
         $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('shipping_method');
@@ -272,15 +245,12 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
     */
     public function noProductsChosen($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
-                $this->loadData(
-                        'new_customer_order_billing_address_reqfields'),
-                null, 'visa', 'Fixed');
+        $orderData = $this->loadData('order_no_shipping_method');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $this->orderHelper()->createOrder($orderData, true);
         $productToRemove = $this->loadData('products_to_reconfig_2');
-        $productToRemove['product_1']['general_sku'] = $productData['general_sku'];
+        $productToRemove['product_1']['filter_sku'] = $productData['general_sku'];
         $this->orderHelper()->reconfigProduct($productToRemove);
         $this->clickControl('link', 'get_shipping_methods_and_rates', false);
         $this->waitForAjax();
@@ -309,13 +279,10 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
     */
     public function noPaymentMethodChosen($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
-                $this->loadData(
-                        'new_customer_order_billing_address_reqfields'),
-                null, null, null);
+        $orderData = $this->loadData('order_no_payment_method');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $this->orderHelper()->createOrder($orderData, true);
         $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');

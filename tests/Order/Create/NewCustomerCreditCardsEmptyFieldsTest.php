@@ -58,7 +58,6 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-
         return $productData;
     }
     /**
@@ -88,12 +87,10 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
      */
     public function orderWithEmptyFieldsForCreditCardVisa($emptyVisaField, $productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->OrderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
-                'new_customer_order_billing_address_reqfields', null,
-                $this->loadData('visa', $emptyVisaField),'Fixed');
+        $orderData = $this->loadData('order_data_visa_1', $emptyVisaField);
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData, true);
         $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
@@ -202,12 +199,10 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
      */
     public function orderWithEmptyFieldsForCreditCardAmericanExpress($emptyAmericanExpressField, $productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
-                'new_customer_order_billing_address_reqfields', null,
-                $this->loadData('visa', $emptyAmericanExpressField),'Fixed');
+        $orderData = $this->loadData('order_data_american_express_1', $emptyAmericanExpressField);
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData, true);
         $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
@@ -316,12 +311,10 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
      */
     public function orderWithEmptyFieldsForCreditCardMasterCard($emptyMasterCardField, $productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
-                'new_customer_order_billing_address_reqfields', null,
-                $this->loadData('visa', $emptyMasterCardField),'Fixed');
+        $orderData = $this->loadData('order_data_mastercard_1', $emptyMasterCardField);
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData, true);
         $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
@@ -430,12 +423,10 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
      */
     public function testOrderWithEmptyFieldsForCreditCardDiscover($emptyDiscoverField, $productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrderForNewCustomer(true, 'Default Store View', $products, null,
-                'new_customer_order_billing_address_reqfields', null,
-                $this->loadData('visa', $emptyDiscoverField),'Fixed');
+        $orderData = $this->loadData('order_data_discover_1', $emptyDiscoverField);
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData, true);
         $this->clickButton('submit_order', FALSE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');

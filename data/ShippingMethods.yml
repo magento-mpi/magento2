@@ -25,51 +25,60 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-shipping_methods:
+flat_rate:
     flat_rate_enabled: Yes
     flat_rate_title: Flat Rate
     flat_rate_method_name: Fixed
     flat_rate_type: Per Item
     flat_rate_price: 5.00
     flat_rate_calculate_handling_fee: Fixed
-    flat_rate_ship_to_applicable_countries: Specific Countries
-    flat_rate_ship_to_specific_countries: Ukraine, United States
-    flat_rate_show_method_if_not_applicable: Yes
+    flat_rate_ship_to_applicable_countries: All Allowed Countries
+
+table_rate:
     table_rates_enabled: Yes
-    table_rates_ship_to_applicable_countries: Specific Countries
-    table_rates_ship_to_specific_countries: Ukraine, United States
-    table_rates_show_method_if_not_applicable: Yes
+    table_rates_ship_to_applicable_countries: All Allowed Countries
+
+free_shipping:
     free_shipping_enabled: Yes
-    free_shipping_ship_to_applicable_countries: Specific Countries
-    free_shipping_ship_to_specific_countries: Ukraine, United States
-    free_shipping_show_method_if_not_applicable: Yes
+    free_shipping_ship_to_applicable_countries: All Allowed Countries
+
+ups:
     ups_enabled: Yes
+    ups_ups_type: United Parcel Service XML
+    ups_password: magento200
+    ups_access_license_number: 8C7A97595F3B8818
+    ups_userid: magento
+    ups_mode: Development
+    ups_gateway_xml_url: https://onlinetools.ups.com/ups.app/xml/Rate
+    ups_origin_of_the_shipment: United States Domestic Shipments
+    ups_enable_negotiated_rates: Yes
+    ups_shipper_number: 207W88
+    ups_allowed_methods: UPS Next Day Air, UPS Second Day Air, UPS Ground, UPS Worldwide Express, UPS Worldwide Expedited, UPS Standard
     ups_free_shipping_with_minimum_order_amount: Enable
     ups_minimum_order_amount_for_free_shipping: 50
-    ups_ship_to_applicable_countries: Specific Countries
-    ups_ship_to_specific_countries: Ukraine, United States
-    ups_show_method_if_not_applicable: Yes
+    ups_ship_to_applicable_countries: All Allowed Countries
+
+usps:
     usps_enabled_for_checkout: Yes
-    usps_user_id: %noValue%
-    usps_password: %noValue%
-    usps_ship_to_applicable_countries: Specific Countries
-    usps_ship_to_specific_countries: Ukraine, United States
-    usps_show_method_if_not_applicable: Yes
+    usps_user_id: 213MAGEN6752
+    usps_password: 326ZL84XF990
+    usps_ship_to_applicable_countries: All Allowed Countries
+
+fedex:
     fedex_enabled_for_checkout: Yes
-    fedex_account_id: %noValue%
-    fedex_meter_number: %noValue%
-    fedex_key: %noValue%
-    fedex_password: %noValue%
+    fedex_account_id: 510087801
+    fedex_meter_number: 100047915
+    fedex_key: INdxa6ug7qZ2KD7y
+    fedex_password: 4vaGsDBmeBCzvpl1S1DT1jXAB
     fedex_sandbox_mode: Yes
-    fedex_ship_to_applicable_countries: Specific Countries
-    fedex_ship_to_specific_countries: Ukraine, United States
-    fedex_show_method_if_not_applicable: Yes
+    fedex_residential_delivery: Yes
+    fedex_ship_to_applicable_countries: All Allowed Countries
+
+dhl:
     dhl_enabled_for_checkout: Yes
-    dhl_access_id: %noValue%
-    dhl_password: %noValue%
-    dhl_account_number: %noValue%
-    dhl_shipping_key_international: %noValue%
-    dhl_shipping_key: %noValue%
-    dhl_ship_to_applicable_countries: Specific Countries
-    dhl_ship_to_specific_countries: Ukraine, United States
-    dhl_show_method_if_not_applicable: Yes
+    dhl_access_id: VENDR_7626
+    dhl_password: 5Q479265S0
+    dhl_account_number: 799909537
+    dhl_shipping_key_international: 54233F2B2C4E5C4B4C5E5A595655305A46485447445C5658
+    dhl_shipping_key: 54233F2B2C4E5C4B4C5E5A595655304F424B5D44415D5A5A5C5A
+    dhl_ship_to_applicable_countries: All Allowed Countries

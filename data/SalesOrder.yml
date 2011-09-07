@@ -26,7 +26,8 @@
 #
 ---
 
-new_customer_order_billing_address_reqfields:
+new_customer_order_billing_address_reqfields: &billingReqFields
+    billing_address_choice: Add New Address
     billing_first_name: 'Steven_testdataset req'
     billing_last_name: 'Stevenson_testdataset req'
     billing_street_address_1: 'number 11 testdataset req'
@@ -39,10 +40,10 @@ new_customer_order_billing_address_reqfields:
     customer_group: 'General'
     billing_save_in_address_book: yes
 
-new_customer_order_shipping_address_reqfields:
-    #shipping_same_as_billing_address: no Due to bug i need to set this checkbox after setting prefix
-    shipping_first_name: 'Steven_testdataset req'
+new_customer_order_shipping_address_reqfields: &shippingReqFields
     shipping_same_as_billing_address: no
+    shipping_address_choice: Add New Address
+    shipping_first_name: 'Steven_testdataset req'
     shipping_last_name: 'Stevenson_testdataset req'
     shipping_street_address_1: 'number 11 testdataset req'
     shipping_city: 'Palo Alto'
@@ -52,7 +53,8 @@ new_customer_order_shipping_address_reqfields:
     shipping_telephone: '091019019 testdataset req'
     shipping_save_in_address_book: yes
 
-new_customer_order_billing_address_allfields:
+new_customer_order_billing_address_allfields: &billingAllFields
+    billing_address_choice: Add New Address
     billing_prefix: 'Mr testdataset all'
     billing_first_name: 'Steven testdataset all'
     billing_middle_name: 'Y testdataset all'
@@ -71,10 +73,10 @@ new_customer_order_billing_address_allfields:
     customer_group: 'General'
     billing_save_in_address_book: yes
 
-new_customer_order_shipping_address_allfields:
-    #shipping_same_as_billing_address: no Due to bug i need to set this checkbox after setting prefix
-    shipping_prefix: 'Mr testdataset all'
+new_customer_order_shipping_address_allfields: &shippingAllFields
     shipping_same_as_billing_address: no
+    shipping_address_choice: Add New Address
+    shipping_prefix: 'Mr testdataset all'
     shipping_first_name: 'Steven testdataset all'
     shipping_middle_name: 'Y testdataset all'
     shipping_last_name: 'Stevenson testdataset all'
@@ -88,41 +90,6 @@ new_customer_order_shipping_address_allfields:
     shipping_zip_code: '94306'
     shipping_telephone: '091019019 testdataset all'
     shipping_fax: '0919327869 testdataset all'
-    shipping_save_in_address_book: yes
-
-order_billing_address:
-    billing_prefix: prefix
-    billing_first_name: Steven
-    billing_middle_name: Y
-    billing_last_name: Stevenson
-    billing_suffix: %noValue%
-    billing_company: test
-    billing_street_address_1: number 11
-    billing_street_address_2: nothing
-    billing_city: 'Palo Alto'
-    billing_state: California
-    billing_zip_code: '94306'
-    billing_telephone: '091019019'
-    billing_fax: '09191'
-    acc_email: %noValue%
-    customer_group: 'General'
-    billing_save_in_address_book: yes
-
-order_shipping_address:
-    shipping_same_as_billing_address: no
-    shipping_prefix: prefix
-    shipping_first_name: Steven
-    shipping_middle_name: Y
-    shipping_last_name: Stevenson
-    shipping_suffix: %noValue%
-    shipping_company: test
-    shipping_street_address_1: number 11
-    shipping_street_address_2: nothing
-    shipping_city: Palo Alto
-    shipping_state: California
-    shipping_zip_code: '01001'
-    shipping_telephone: '091019019'
-    shipping_fax: '09191'
     shipping_save_in_address_book: yes
 
 new_customer:
@@ -162,7 +129,7 @@ new_customer_address:
     default_billing_address: %noValue%
     default_shipping_address: %noValue%
 
-american_express:
+american_express: &americanExpress
     name_on_card_saved: 'Test Account'
     credit_card_type_saved: 'American Express'
     credit_card_number_saved: '341111111111111'
@@ -170,7 +137,7 @@ american_express:
     expiration_date_year_saved: '2020'
     cvv_saved: '1234'
 
-visa:
+visa: &visa
     name_on_card_saved: 'Test Account'
     credit_card_type_saved: 'Visa'
     credit_card_number_saved: '4024007127653'
@@ -178,7 +145,7 @@ visa:
     expiration_date_year_saved: '2020'
     cvv_saved: '111'
 
-mastercard:
+mastercard: &mastercard
     name_on_card_saved: 'Test Account'
     credit_card_type_saved: 'MasterCard'
     credit_card_number_saved: '5100080000000000'
@@ -186,50 +153,13 @@ mastercard:
     expiration_date_year_saved: '2020'
     cvv_saved: '111'
 
-discover:
+discover: &discover
     name_on_card_saved: 'Test Account'
     credit_card_type_saved: 'Discover'
     credit_card_number_saved: '6011000000000004'
     expiration_date_month_saved: '07 - July'
     expiration_date_year_saved: '2020'
     cvv_saved: '111'
-
-products:
-    pandora: 'Pandoras Box'
-    my_comp: 'My Computer'
-
-product_to_order1:
-    product_attribute_set: Default
-    general_name: Pandoras Box
-    general_description: You should try
-    general_short_description: Who knows what is inside
-    general_sku: pandora_ash
-    general_weight: 1.13
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 999.99
-    prices_tax_class: None
-    inventory_qty: 100
-    inventory_stock_availability: In Stock
-    websites: Main Website
-
-product_to_order2:
-    product_attribute_set: Default
-    general_name: My Computer
-    general_description: Personal Computer
-    general_short_description: Laptop
-    general_sku: computer_ash
-    general_weight: 10.15
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 1000.99
-    prices_tax_class: None
-    inventory_qty: 100
-    inventory_stock_availability: In Stock
-    websites: Main Website
-
-products_to_remove:
-    action: 'Remove'
 
 simple_product_for_order:
     product_attribute_set: Default
@@ -471,53 +401,6 @@ fixed_bundle_for_order:
         ship_bundle_items: %noValue%
         bundle_items_1: %noValue%
 
-downloadable_products_to_add:
-    product_1:
-        general_sku: %noValue%
-        options:
-            optionCheck:
-                value_1: Link Row Title
-                data_1:
-                    check: yes
-            optionText:
-                value_1: Quantity
-                data_1:
-                    text: 1
-
-simple_products_to_add:
-    product_1:
-        general_sku: %noValue%
-
-grouped_products_to_add:
-    product_1:
-        general_sku: %noValue%
-        options:
-            optionText:
-                value_1: %noValue%
-                data_1:
-                    config_qty_text: 1
-
-virtual_products_to_add:
-    product_1:
-        general_sku: %noValue%
-
-configurable_products_to_add:
-    product_1:
-        general_sku: %noValue%
-        options:
-            optionDropdown:
-                value_1:  %noValue%
-                data_1:
-                    drop: Dropdown_Option_Admin_1
-            optionText:
-                value_1: Quantity
-                data_1:
-                    text: 1
-
-bundle_products_to_add:
-    product_1:
-        general_sku: %noValue%
-
 coupon_percent:
     rule_name: 123
     description: some_desc
@@ -543,58 +426,58 @@ coupon_percent:
 
 products_to_reconfig_1:
     product_1:
-        general_sku: %noValue%
-        options:
+        filter_sku: %noValue%
+        configurable_options:
             qty: 50
 
 products_to_reconfig_2:
     product_1:
-        general_sku: %noValue%
-        options:
+        filter_sku: %noValue%
+        configurable_options:
             action: Remove
 
 products_to_reconfig_3:
     product_1:
-        general_sku: %noValue%
-        options:
+        filter_sku: %noValue%
+        configurable_options:
             qty: 10
 
 products_to_refund_1:
     product_1:
-        general_sku: %noValue%
-        options:
+        filter_sku: %noValue%
+        configurable_options:
             return_to_stock: Yes
             qty_to_refund: 5
 
 products_to_invoice_1:
     product_1:
-        general_sku: %noValue%
-        options:
+        filter_sku: %noValue%
+        configurable_options:
             qty_to_invoice: 5
 
 products_to_ship_1:
     product_1:
-        general_sku: %noValue%
-        options:
+        filter_sku: %noValue%
+        configurable_options:
             qty_to_ship: 5
 
 messages_for_products_1:
     product_1:
-        general_sku: %noValue%
-        message:
+        filter_sku: %noValue%
+        message_options:
             to: friend
             from: me
             message: 'hi there'
 
 empty_message_for_products_1:
     product_1:
-        general_sku: %noValue%
-        message:
+        filter_sku: %noValue%
+        message_options:
             to: %noValue%
             from: %noValue%
             message: %noValue%
 
-coupon:
+coupon: &coupon_1
     coupon_code: %noValue%
     success: true
 
@@ -620,3 +503,537 @@ coupon_fixed_amount:
     stop_further_rules_processing: No
     default_rule_label_for_all_store_views: 123
     default_store_view: 123
+
+order_template:
+    customer_data:
+        id: %noValue%
+        name: %noValue%
+        email: %noValue%
+        phone: %noValue%
+        zip_code: %noValue%
+        country: %noValue%
+        state: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_id: %noValue%
+            filter_name: %noValue%
+            filter_sku: %noValue%
+            filter_price_from: %noValue%
+            filter_price_to: %noValue%
+            configurable_options: %noValue%
+    products_to_reconfigure:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                qty: 1
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+    gift_messages:
+        product_1:
+            general_sku: %noValue
+            message_option:
+                to: %noValue%
+                from: %noValue%
+                message: %noValue%
+    coupons:
+        coupon_1: %noValue%
+
+order_req_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+    gift_messages:
+        product_1:
+            general_sku: %noValue
+            message_option:
+                to: %noValue%
+                from: %noValue%
+                message: %noValue%
+    coupons:
+        coupon_1: %noValue%
+
+order_no_shipping_method:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+
+order_no_payment_method:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+
+order_data_visa_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+
+order_data_american_express_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *americanExpress
+    shipping_data:
+        shipping_method: Fixed
+
+order_data_mastercard_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *mastercard
+    shipping_data:
+        shipping_method: Fixed
+
+order_data_discover_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *discover
+    shipping_data:
+        shipping_method: Fixed
+
+order_ship_flat_rate:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+
+order_ship_free:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Free
+
+order_ship_ups:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: UPS Ground
+
+order_ship_fedex:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: UPS Ground
+
+order_ship_usps:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Express Mail
+
+order_ship_dhl:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: DHL
+
+order_with_message_for_product:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+    gift_messages:
+        product_1:
+            general_sku: %noValue
+            message_option:
+                to: me
+                from: guess_who
+                message: How you doing?
+
+order_with_message_empty_fields_for_product:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+    gift_messages:
+        product_1:
+            general_sku: %noValue
+            message_option:
+                to: ' '
+                from: ' '
+                message: ' '
+
+order_req_grouped_product:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                optionText:
+                    value_1: %noValue%
+                    data_1:
+                        config_qty_text: 1
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+
+order_req_configurable_product:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                optionDropdown:
+                    value_1:  %noValue%
+                    data_1:
+                        drop: Dropdown_Option_Admin_1
+                optionText:
+                    value_1: Quantity
+                    data_1:
+                        text: 1
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+
+order_req_virtual_product:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data: %noValue%
+
+order_req_bundle_product:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+
+order_req_downloadable_product:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                optionCheck:
+                    value_1: Link Row Title
+                    data_1:
+                        check: yes
+                optionText:
+                    value_1: Quantity
+                    data_1:
+                        text: 1
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+
+order_req_partial_creditmemo:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    products_to_reconfigure:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                qty: 10
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+
+order_req_partial_invoice:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    products_to_reconfigure:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                qty: 10
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+
+order_req_partial_shipment:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    products_to_reconfigure:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                qty: 10
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed

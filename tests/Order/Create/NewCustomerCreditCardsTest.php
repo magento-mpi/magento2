@@ -55,7 +55,6 @@ class NewCustomerCreditCards_Test extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-
         return $productData;
     }
     protected function assertPreConditions()
@@ -85,14 +84,10 @@ class NewCustomerCreditCards_Test extends Mage_Selenium_TestCase
      */
     public function orderWithCreditCardAmericanExpress($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
-                'american_express','Fixed');
+        $orderData = $this->loadData('order_data_american_express_1');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
     /**
      * <p>Create customer via 'Create order' form (required fields are filled). Visa credit card.</p>
@@ -119,14 +114,10 @@ class NewCustomerCreditCards_Test extends Mage_Selenium_TestCase
      */
     public function orderWithCreditCardVisa($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
-                'visa','Fixed');
+        $orderData = $this->loadData('order_data_visa_1');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
     /**
      * <p>Create customer via 'Create order' form (required fields are filled). MasterCard credit card.</p>
@@ -153,14 +144,10 @@ class NewCustomerCreditCards_Test extends Mage_Selenium_TestCase
      */
     public function orderWithCreditCardMastercard($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
-                'mastercard','Fixed');
+        $orderData = $this->loadData('order_data_mastercard_1');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
     /**
      * <p>Create customer via 'Create order' form (required fields are filled). Discover credit card.</p>
@@ -187,13 +174,9 @@ class NewCustomerCreditCards_Test extends Mage_Selenium_TestCase
      */
     public function orderWithCreditCardDiscover($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
-                'discover','Fixed');
+        $orderData = $this->loadData('order_data_discover_1');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
 }

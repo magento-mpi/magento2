@@ -57,7 +57,6 @@ class NewCustomerComplete_Test extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-
         return $productData;
     }
 
@@ -86,14 +85,18 @@ class NewCustomerComplete_Test extends Mage_Selenium_TestCase
      */
     public function orderCompleteSpecialCharacters($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->orderHelper()->customerAddressGenerator(':punct:', $addrType = 'shipping', $symNum = 32, TRUE),
-                'visa','Fixed');
+        $billingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':punct:', $addrType = 'billing', $symNum = 32, TRUE);
+        $shippingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':punct:', $addrType = 'shipping', $symNum = 32, TRUE);
+        $shippingAddress['shipping_same_as_billing_address'] = 'no';
+        $orderData = $this->loadData('order_req_1', array(
+                'billing_addr_data' => $billingAddress,
+                'shipping_addr_data' => $shippingAddress,
+                'customer_email' => $this->generate('email', 32, 'valid')));
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice', TRUE);
@@ -127,14 +130,18 @@ class NewCustomerComplete_Test extends Mage_Selenium_TestCase
      */
     public function orderCompleteAllFields($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, FALSE),
-                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, FALSE),
-                'visa','Fixed');
+        $billingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':alpha:', $addrType = 'billing', $symNum = 32, FALSE);
+        $shippingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':alpha:', $addrType = 'shipping', $symNum = 32, FALSE);
+        $shippingAddress['shipping_same_as_billing_address'] = 'no';
+        $orderData = $this->loadData('order_req_1', array(
+                'billing_addr_data' => $billingAddress,
+                'shipping_addr_data' => $shippingAddress,
+                'customer_email' => $this->generate('email', 32, 'valid')));
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice', TRUE);
@@ -168,14 +175,18 @@ class NewCustomerComplete_Test extends Mage_Selenium_TestCase
      */
     public function orderCompleteReqFields($productData)
     {
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $email = array('email' =>  $this->generate('email', 32, 'valid'));
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View', $products, $email,
-                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, TRUE),
-                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'shipping', $symNum = 32, TRUE),
-                'visa','Fixed');
+        $billingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':alpha:', $addrType = 'billing', $symNum = 32, TRUE);
+        $shippingAddress = $this->orderHelper()->customerAddressGenerator(
+                ':alpha:', $addrType = 'shipping', $symNum = 32, TRUE);
+        $shippingAddress['shipping_same_as_billing_address'] = 'no';
+        $orderData = $this->loadData('order_req_1', array(
+                'billing_addr_data' => $billingAddress,
+                'shipping_addr_data' => $shippingAddress,
+                'customer_email' => $this->generate('email', 32, 'valid')));
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice', TRUE);

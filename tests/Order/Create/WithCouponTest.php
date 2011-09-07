@@ -103,21 +103,22 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      */
     public function amountLessThanGrandTotal($data)
     {
+        $this->navigate('manage_products');
         $couponCode = $this->loadData('coupon', array('coupon_code' => $data['coupon'], 'success' => true));
         $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-        $products = $this->loadData('simple_products_to_add', array());
-        $products['product_1']['general_sku'] = $productData['general_sku'];
         $reconfigProduct = $this->loadData('products_to_reconfig_1',
-                array('general_sku' => $productData['general_sku']));
+                array('filter_sku' => $productData['general_sku']));
+        $orderData = $this->loadData('order_req_1', array('shipping_same_as_billing_address' => 'yes'));
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderData['coupons']['coupon_1'] = $couponCode;
+        $orderData['products_to_reconfigure'] = $reconfigProduct;
+        $orderData['customer_data']['email'] = $data['data']['email'];
         $this->navigate('manage_sales_orders');
-        $orderId = $this->OrderHelper()->createOrderForExistingCustomer(false, 'Default Store View',
-                $products, $data['data']['email'],
-                $data['data'], $data['data'], 'visa','Fixed',
-                $reconfigProduct, null, $couponCode);
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
 
     /**
@@ -137,22 +138,19 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      */
     public function amountGreaterThanGrandTotal($data)
     {
+        $this->navigate('manage_products');
         $couponCode = $this->loadData('coupon', array('coupon_code' => $data['coupon'], 'success' => true));
-        //Precondtions
         $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-        $products = $this->loadData('simple_products_to_add', array());
-        $products['product_1']['general_sku'] = $productData['general_sku'];
-        $reconfigProduct = $this->loadData('products_to_reconfig_1',
-                array('general_sku' => $productData['general_sku']));
+        $orderData = $this->loadData('order_req_1', array('shipping_same_as_billing_address' => 'yes'));
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderData['coupons']['coupon_1'] = $couponCode;
+        $orderData['customer_data']['email'] = $data['data']['email'];
         $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrderForExistingCustomer(false, 'Default Store View',
-                $products, $data['data']['email'],
-                $data['data'], $data['data'], 'visa','Fixed',
-                null, null, $couponCode);
+        $orderId = $this->orderHelper()->createOrder($orderData);
     }
 
     /**
@@ -164,36 +162,24 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      * <p>4. Apply invalid coupon code;</p>
      * <p>Expected result:</p>
      * <p>Message with error appears;</p>
+     *
+     * @depends createCouponAndCustomer
      * @test
      */
-    public function wrongCode()
+    public function wrongCode($data)
     {
+        $this->navigate('manage_products');
         $couponCode = $this->loadData('coupon', array('coupon_code' => 'wrong_code', 'success' => false));
         $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-        $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
-                array(
-                    $this->orderHelper()->customerAddressGenerator(
-                    ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
-                    'billing_save_in_address_book' => 'yes' ));
-        $billingAddress['email'] = $this->generate('email', 32, 'valid');
-        $shippingAddress = array(
-                'shipping_first_name'           => $billingAddress['billing_first_name'],
-                'shipping_last_name'            => $billingAddress['billing_last_name'],
-                'shipping_street_address_1'     => $billingAddress['billing_street_address_1'],
-                'shipping_city'                 => $billingAddress['billing_city'],
-                'shipping_zip_code'             => $billingAddress['billing_zip_code'],
-                'shipping_telephone'            => $billingAddress['billing_telephone'],
-                'shipping_save_in_address_book' => 'yes');
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $orderData = $this->loadData('order_req_1', array('shipping_same_as_billing_address' => 'yes'));
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderData['coupons']['coupon_1'] = $couponCode;
+        $orderData['customer_data']['email'] = $data['data']['email'];
         $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View',
-                $products, $billingAddress['email'],
-                $billingAddress, $shippingAddress, 'visa','Fixed',
-                null, null, $couponCode);
+        $orderId = $this->orderHelper()->createOrder($orderData, true);
     }
 }

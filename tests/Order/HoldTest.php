@@ -69,26 +69,11 @@ class Order_HoldTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-        $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
-                array(
-                    $this->orderHelper()->customerAddressGenerator(
-                    ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
-                    'billing_save_in_address_book' => 'yes' ));
-        $billingAddress['email'] = $this->generate('email', 32, 'valid');
-        $shippingAddress = array(
-                'shipping_first_name'           => $billingAddress['billing_first_name'],
-                'shipping_last_name'            => $billingAddress['billing_last_name'],
-                'shipping_street_address_1'     => $billingAddress['billing_street_address_1'],
-                'shipping_city'                 => $billingAddress['billing_city'],
-                'shipping_zip_code'             => $billingAddress['billing_zip_code'],
-                'shipping_telephone'            => $billingAddress['billing_telephone'],
-                'shipping_save_in_address_book' => 'yes');
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $orderData = $this->loadData('order_req_1',
+                array('filter_sku' => $productData['general_sku']));
+        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
         $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View',
-                $products, $billingAddress['email'],
-                $billingAddress, $shippingAddress, 'visa','Fixed');
+        $orderId = $this->orderHelper()->createOrder($orderData);
 
         $this->assertTrue($this->navigate('manage_sales_orders'),
                 'Could not get to Manage Sales Orders page');
@@ -144,27 +129,11 @@ class Order_HoldTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
-        $billingAddress = $this->loadData('new_customer_order_billing_address_reqfields',
-                array(
-                    $this->orderHelper()->customerAddressGenerator(
-                    ':alnum:', $addrType = 'billing', $symNum = 32, TRUE),
-                    'billing_save_in_address_book' => 'yes' ));
-        $billingAddress['email'] = $this->generate('email', 32, 'valid');
-        $shippingAddress = array(
-                'shipping_first_name'           => $billingAddress['billing_first_name'],
-                'shipping_last_name'            => $billingAddress['billing_last_name'],
-                'shipping_street_address_1'     => $billingAddress['billing_street_address_1'],
-                'shipping_city'                 => $billingAddress['billing_city'],
-                'shipping_zip_code'             => $billingAddress['billing_zip_code'],
-                'shipping_telephone'            => $billingAddress['billing_telephone'],
-                'shipping_save_in_address_book' => 'yes');
-        $products = $this->loadData('simple_products_to_add');
-        $products['product_1']['general_sku'] = $productData['general_sku'];
+        $orderData = $this->loadData('order_req_1',
+                array('filter_sku' => $productData['general_sku']));
+        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
         $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrderForNewCustomer(false, 'Default Store View',
-                $products, $billingAddress['email'],
-                $billingAddress, $shippingAddress, 'visa','Fixed');
-
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->navigate('manage_sales_orders'),
                 'Could not get to Manage Sales Orders page');
         $this->searchAndOpen(array('1' => $orderId), TRUE, 'sales_order_grid');
