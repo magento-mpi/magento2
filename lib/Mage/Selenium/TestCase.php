@@ -1844,7 +1844,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                                 $labels = $this->getSelectedLabels($elemXPath);
                                 if (!in_array($d_val, $labels)) {
                                     $this->messages['error'][] = "The stored value for '"
-                                            . $d_key . "' field is not equal to specified";
+                                            . $d_key . "' field is not equal to specified: ('$d_val' != '$labels')";
                                     $resultFlag = false;
                                 }
                             } else {
@@ -1872,7 +1872,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                                 $labels = $this->getSelectedLabels($elemXPath);
                                 if (!in_array($d_val, $labels)) {
                                     $this->messages['error'][] = "The stored value for '"
-                                            . $d_key . "' field is not equal to specified";
+                                            . $d_key . "' field is not equal to specified: ('$d_val' != '"
+                                            . array_shift($labels) . "')";
                                     $resultFlag = false;
                                 }
                             } else {
@@ -1900,8 +1901,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                                 $f_val = $this->getValue($elemXPath);
                                 if (($f_val == 'on' && strtolower($d_val) != 'yes') ||
                                         ($f_val == 'off' && !(strtolower($d_val) == 'no' || $d_val == ''))) {
+                                    $printVal = ($f_val == 'on') ? 'yes' : 'no';
                                     $this->messages['error'][] = "The stored value for '"
-                                            . $d_key . "' field is not equal to specified";
+                                            . $d_key . "' field is not equal to specified: ('$d_val' != '$printVal')";
                                     $resultFlag = false;
                                 }
                             } else {
@@ -1929,8 +1931,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                                 $f_val = $this->getValue($elemXPath);
                                 if (($f_val == 'on' && strtolower($d_val) != 'yes') ||
                                         ($f_val == 'off' && !(strtolower($d_val) == 'no' || $d_val == ''))) {
+                                    $printVal = ($f_val == 'on') ? 'yes' : 'no';
                                     $this->messages['error'][] = "The stored value for '"
-                                            . $d_key . "' field is not equal to specified";
+                                            . $d_key . "' field is not equal to specified: ('$d_val' != '$printVal')";
                                     $resultFlag = false;
                                 }
                             } else {
@@ -1956,7 +1959,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             if ($this->isElementPresent($elemXPath)) {
                                 if ($this->getValue($elemXPath) != $d_val) {
                                     $this->messages['error'][] = "The stored value for '"
-                                            . $d_key . "' field is not equal to specified";
+                                            . $d_key . "' field is not equal to specified: ('$d_val' != '"
+                                            . $this->getValue($elemXPath) . "')";
                                     $resultFlag = false;
                                 }
                             } else {
