@@ -357,17 +357,15 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function addBundleOption(array $bundleOptionData)
     {
-        $productSearch = array();
-        $selectionSettings = array();
         $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset('bundle_items')->getXpath();
         $optionsCount = $this->getXpathCount($fieldSetXpath . "//div[@class='option-box']");
         $this->addParameter('optionId', $optionsCount);
         $this->clickButton('add_new_option', FALSE);
         $this->fillForm($bundleOptionData, 'bundle_items');
         foreach ($bundleOptionData as $key => $value) {
+            $productSearch = array();
+            $selectionSettings = array();
             if (is_array($value)) {
-                $this->clickButton('add_selection', FALSE);
-                $this->pleaseWait();
                 foreach ($value as $k => $v) {
                     if ($k == 'bundle_items_search_name' or $k == 'bundle_items_search_sku') {
                         $this->addParameter('productSku', $v);
@@ -379,9 +377,15 @@ class Product_Helper extends Mage_Selenium_TestCase
                     } elseif (preg_match('/^selection_item_/', $k)) {
                         $selectionSettings[$k] = $v;
                     }
+                }
+                if ($productSearch) {
+                    $this->clickButton('add_selection', FALSE);
+                    $this->pleaseWait();
                     $this->searchAndChoose($productSearch, 'select_product_to_bundle_option');
                     $this->clickButton('add_selected_products', FALSE);
-                    $this->fillForm($selectionSettings, 'new_bundle_option');
+                    if ($selectionSettings) {
+                        $this->fillForm($selectionSettings, 'new_bundle_option');
+                    }
                 }
             }
         }
@@ -614,7 +618,10 @@ class Product_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('custom_options_data', $nestedArrays)) {
             $this->verifyCustomOption($nestedArrays['custom_options_data']);
         }
-        //@TODO verify 'Bundle Items', 'Downloadable Information' tabs
+        if (array_key_exists('bundle_items_data', $nestedArrays)) {
+            $this->verifyBundleOptions($nestedArrays['bundle_items_data']);
+        }
+        //@TODO verify 'Downloadable Information' tab
         // Error Output
         if (!empty($this->messages['error'])) {
             $this->fail(implode("\n", $this->messages['error']));
@@ -732,11 +739,9 @@ class Product_Helper extends Mage_Selenium_TestCase
         $page = $this->getCurrentLocationUimapPage();
         $fieldSetXpath = $page->findFieldset('custom_option_set')->getXpath();
         $optionsQty = $this->getXpathCount($fieldSetXpath);
-        if ($optionsQty == 0) {
-            $this->fail('111');
-        }
         $this->assertEquals(count($customOptionData), $optionsQty,
-                'Product must be contains ' . count($customOptionData) . ' Tier Price, but contains ' . $optionsQty);
+                'Product must be contains ' . count($customOptionData) . ' Custom Option(s), but contains '
+                . $optionsQty);
         $id = $this->getAttribute($fieldSetXpath . "[1]/@id");
         $id = explode('_', $id);
         foreach ($id as $value) {
@@ -750,6 +755,65 @@ class Product_Helper extends Mage_Selenium_TestCase
                 $this->addParameter('optionId', $optionId);
                 $this->verifyForm($value, 'custom_options');
                 $optionId--;
+            }
+        }
+    }
+
+    /**
+     * verify Bundle Options
+     *
+     * @param array $bundleData
+     */
+    public function verifyBundleOptions(array $bundleData)
+    {
+        $this->clickControl('tab', 'bundle_items', false);
+        $this->pleaseWait();
+        $fieldSetXpath = $this->getCurrentLocationUimapPage()->findFieldset('bundle_items')->getXpath();
+        $optionSet = $fieldSetXpath . "//div[@class='option-box']";
+        $optionsCount = $this->getXpathCount($optionSet);
+        $needCount = count($bundleData);
+        if (array_key_exists('ship_bundle_items', $bundleData)) {
+            $needCount = $needCount - 1;
+        }
+        $this->assertEquals($needCount, $optionsCount,
+                'Product must be contains ' . $needCount . ' Bundle Items, but contains ' . $optionsCount);
+        $i = 0;
+        foreach ($bundleData as $option => $values) {
+            if (is_string($values)) {
+                $this->verifyForm(array($option => $values), 'bundle_items');
+            }
+            if (is_array($values)) {
+                $this->addParameter('optionId', $i);
+                $this->verifyForm($values, 'bundle_items');
+                foreach ($values as $k => $v) {
+                    if (preg_match('/^bundle_items_add_product/', $k) && is_array($v)) {
+                        $selectionSettings = array();
+                        foreach ($v as $field => $data) {
+                            if ($field == 'bundle_items_search_name' or $field == 'bundle_items_search_sku') {
+                                $productSku = $data;
+                            }
+                            if (!preg_match('/^bundle_items_search/', $field)) {
+                                if ($field == 'bundle_items_qty_to_add') {
+                                    $selectionSettings['selection_item_default_qty'] = $data;
+                                } else {
+                                    $selectionSettings[$field] = $data;
+                                }
+                            }
+                        }
+                        $k = $i + 1;
+                        if (!$this->isElementPresent($optionSet . "[$k]"
+                                        . "//tr[@class='selection' and contains(.,'$productSku')]")) {
+                            $this->messages['error'][] = "Product with sku(name)'" . $productSku
+                                    . "' is not assigned to bundle item $i";
+                        } else {
+                            if ($selectionSettings) {
+                                $this->addParameter('productSku', $productSku);
+                                $this->verifyForm($selectionSettings, 'bundle_items');
+                            }
+                        }
+                    }
+                }
+                $i++;
             }
         }
     }

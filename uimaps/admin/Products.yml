@@ -416,7 +416,7 @@ new_product:
                                         ship_bundle_items: //select[@id='shipment_type']
                             -
                                 bundle_items:
-                                    xpath: //div[@id='product_bundle_container']
+                                    xpath: //div[contains(div/h4,'Bundle Items')]
                                     buttons:
                                         add_new_option: //button[@id='add_new_option']
                             -
