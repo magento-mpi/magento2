@@ -1141,11 +1141,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
             if (strtolower($fieldData['value']) == 'yes') {
-                if ($this->getValue($fieldData['path']) == 'off') {
+                if (($this->getValue($fieldData['path']) == 'off') || ($this->getValue($fieldData['path']) == '0')) {
                     $this->click($fieldData['path']);
                 }
             } elseif (strtolower($fieldData['value']) == 'no') {
-                if ($this->getValue($fieldData['path']) == 'on') {
+                if (($this->getValue($fieldData['path']) == 'on') || ($this->getValue($fieldData['path']) == '1')) {
                     $this->click($fieldData['path']);
                 }
             }
