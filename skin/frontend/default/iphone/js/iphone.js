@@ -51,16 +51,40 @@ document.observe("dom:loaded", function() {
         
     });
     
-    var sliderPosition = 0;
+    var sliderPosition = 0,
+        last,
+        diff;
     
     $$("#nav-container ul").each(function(ul) { ul.style.width = document.body.offsetWidth + "px"; });
+    
+    if ($$('body')[0].hasClassName('cms-home')) {
+        $('home-link').addClassName('disabled');
+    }
+    
+    var homeLink = $('home-link');
+
+    homeLink.observe('click', function (e) {
+        if (homeLink.hasClassName('disabled')) {
+            e.preventDefault();
+        }
+    });
     
     $$("#nav a").each(function(sliderLink) {
         if (sliderLink.next(0) !== undefined) {
             sliderLink.href = "#";
             sliderLink.clonedSubmenuList = sliderLink.next(0);
             
-            sliderLink.observe('click', function() {
+            sliderLink.observe('click', function(e) {
+                
+                homeLink.hasClassName('disabled') ? homeLink.removeClassName('disabled') : '';
+                
+                if (last) {
+                    diff = e.timeStamp - last
+                }
+                last = e.timeStamp;
+                if (diff && diff < 300) {
+                    return
+                }
                 if (!this.clonedSubmenuList.firstDescendant().hasClassName('subcategory-header')) {
                     var subcategoryHeader = new Element('li', {'class': 'subcategory-header'});
                     subcategoryHeader.insert({
@@ -71,21 +95,80 @@ document.observe("dom:loaded", function() {
                         top: subcategoryHeader
                     });
                     
-                    this.clonedSubmenuList.firstDescendant().firstDescendant().observe('click', function() {
+                    this.clonedSubmenuList.firstDescendant().firstDescendant().observe('click', function(e) {
+                        if (last) {
+                            diff = e.timeStamp - last
+                        }
+                        last = e.timeStamp;
+                        if (diff && diff < 300) {
+                            return
+                        }
                         $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + (document.body.offsetWidth + sliderPosition) + "px, 0, 0)"});
                         sliderPosition = sliderPosition + document.body.offsetWidth;
                         setTimeout(function() { $$("#nav-container > ul:last-child")[0].remove(); }, 250)
                     });
+                    new NoClickDelay(this.clonedSubmenuList);
                 };
                 
                 $("nav-container").insert(this.clonedSubmenuList);
                 $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + (sliderPosition - document.body.offsetWidth) + "px, 0, 0)"});
                 
                 sliderPosition = sliderPosition - document.body.offsetWidth;
-                event.preventDefault();
+                e.preventDefault();
             });
         };
     });
+    
+    function NoClickDelay(el) {
+        this.element = typeof el == 'object' ? el : document.getElementById(el);
+        if( window.Touch ) this.element.addEventListener('touchstart', this, false);
+    }
+
+    NoClickDelay.prototype = {
+        handleEvent: function(e) {
+            switch(e.type) {
+                case 'touchstart': this.onTouchStart(e); break;
+                case 'touchmove': this.onTouchMove(e); break;
+                case 'touchend': this.onTouchEnd(e); break;
+            }
+        },
+
+        onTouchStart: function(e) {
+            this.moved = false;
+
+            this.theTarget = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+            if(this.theTarget.nodeType == 3) this.theTarget = theTarget.parentNode;
+            this.theTarget.className+= ' pressed';
+
+            this.element.addEventListener('touchmove', this, false);
+            this.element.addEventListener('touchend', this, false);
+        },
+
+        onTouchMove: function(e) {
+            this.moved = true;
+            this.theTarget.className = this.theTarget.className.replace(/ ?pressed/gi, '');
+        },
+
+        onTouchEnd: function(e) {
+            e.preventDefault();
+            
+            this.element.removeEventListener('touchmove', this, false);
+            this.element.removeEventListener('touchend', this, false);
+
+            if( !this.moved && this.theTarget ) {
+                this.theTarget.className = this.theTarget.className.replace(/ ?pressed/gi, '');
+                var theEvent = document.createEvent('MouseEvents');
+                theEvent.initEvent('click', true, true);
+                this.theTarget.dispatchEvent(theEvent);
+            }
+
+            this.theTarget = undefined;
+        }
+    };
+    
+    if (document.getElementById('nav')) {
+        new NoClickDelay(document.getElementById('nav'));
+    }
 
 
     //iPhone header menu
@@ -150,6 +233,7 @@ document.observe("dom:loaded", function() {
            this.items    = itemsContainer.addClassName('carousel-items');
            this.itemsLength = this.items.childElements().size();
            this.counter  = this.carousel.insert(new Element('div', {'class' : 'counter'})).select('.counter')[0];
+           this.controls = carousel.select('.controls')[0];
            this.prevButton = carousel.select('.prev')[0];
            this.nextButton = carousel.select('.next')[0];
            this.originalCoord = { x: 0, y: 0 };
@@ -193,6 +277,8 @@ document.observe("dom:loaded", function() {
         },
         drawCounter: function () {
             if (this.screens > 1) {
+                 if (this.controls)
+                     this.controls.show()
                  for (var i = 0; i < this.screens; i++) {
                    if (i === 0) {
                        this.counter.insert(new Element('span', {'class': 'active'}));
@@ -200,7 +286,10 @@ document.observe("dom:loaded", function() {
                        this.counter.insert(new Element('span'));
                    }
                };
-           };
+           } else {
+               if (this.controls)
+                   this.controls.hide();
+           }
         },
         moveRight: function () {
             if(Math.abs(this.itemPos) < this.lastItemPos) {
@@ -248,6 +337,13 @@ document.observe("dom:loaded", function() {
             }
             this.finalCoord.x = e.targetTouches[0].pageX;
             this.finalCoord.y = e.targetTouches[0].pageY;
+            if (Math.abs(this.finalCoord.y - this.originalCoord.y) > 100) {
+            }
+            /*
+            if (this.controls) {
+                this.controls.update(Math.abs(this.finalCoord.y - this.originalCoord.y))
+            }
+            */
         },
         touchEnd: function (e) {
             var changeY = this.originalCoord.y - this.finalCoord.y,
