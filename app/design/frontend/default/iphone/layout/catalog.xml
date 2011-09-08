@@ -302,6 +302,8 @@ Additional block dependant on product type
                     <label>Product Extra Info</label>
                 </block>
             </block>
+            <block type="catalog/product_view_type_grouped" name="product.info.grouped.grid" as="product_type_data_grid" template="catalog/product/view/type/grouped_grid.phtml">
+            </block>
         </reference>
     </PRODUCT_TYPE_grouped>
     <PRODUCT_TYPE_virtual translate="label" module="catalog">
