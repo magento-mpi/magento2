@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -24,18 +23,20 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+?>
+<?php $accountId = Mage::getStoreConfig(Mage_GoogleAnalytics_Helper_Data::XML_PATH_ACCOUNT) ?>
+<!-- BEGIN GOOGLE ANALYTICS CODEs -->
+<script type="text/javascript">
+//<![CDATA[
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+    })();
 
--->
-<layout version="0.1.0">
-
-<!--
-Default layout, loads most of the pages
--->
-
-    <default>
-        <!-- Mage_GoogleAnalytics -->
-        <reference name="after_body_start">
-            <block type="googleanalytics/ga" name="google_analytics" as="google_analytics" template="googleanalytics/ga.phtml" />
-        </reference>
-    </default>
-</layout>
+    var _gaq = _gaq || [];
+<?php echo $this->_getPageTrackingCode($accountId) ?>
+<?php echo $this->_getOrdersTrackingCode() ?>
+//]]>
+</script>
+<!-- END GOOGLE ANALYTICS CODE -->
