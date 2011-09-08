@@ -19,29 +19,23 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Sales
+ * @package     Mage_Tax
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$installer = $this;
-
-$tableName = $installer->getTable('sales/quote_item');
-$columnOptions = array(
-    'TYPE'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
-    'UNSIGNED'  => true,
-    'NULLABLE'  => false,
-    'DEFAULT'   => 0,
-    'COMMENT'   => 'Product Tax Class Id',
-);
-$installer->getConnection()->addColumn($tableName, 'tax_class_id', $columnOptions);
-
-$tableName = $installer->getTable('sales/order_item');
-$columnOptions = array(
-    'TYPE'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
-    'UNSIGNED'  => true,
-    'NULLABLE'  => false,
-    'DEFAULT'   => 0,
-    'COMMENT'   => 'Product Tax Class Id',
-);
-$installer->getConnection()->addColumn($tableName, 'tax_class_id', $columnOptions);
+/**
+ * @category    Mage
+ * @package     Mage_Tax
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Tax_Model_Sales_Order_Tax_Item extends Mage_Core_Model_Abstract
+{
+    /**
+     * Initialization
+     */
+    protected function _construct()
+    {
+        $this->_init('tax/sales_order_tax_item');
+    }
+}

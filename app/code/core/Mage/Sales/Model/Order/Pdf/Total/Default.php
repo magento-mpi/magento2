@@ -66,39 +66,23 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Varien_Object
      */
     public function getFullTaxInfo()
     {
-       $rates     = Mage::getResourceModel('sales/order_tax_collection')->loadByOrder($this->getOrder())->toArray();
-       $fullInfo  = Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
-       $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
-       $tax_info  = array();
+        $rates     = Mage::getResourceModel('sales/order_tax_collection')->loadByOrder($this->getOrder())->toArray();
+        $fullInfo  = Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
+        $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
+        $tax_info  = array();
 
-       if ($fullInfo) {
+        if ($fullInfo) {
             $taxClassAmount = Mage::helper('tax')->getCalculatedTaxes($this->getOrder());
 
-            $i = 0;
-          foreach ($fullInfo as $info) {
-             if (isset($info['hidden']) && $info['hidden']) {
-                continue;
-             }
-
-             $_amount   = $info['amount'];
-                if (isset($taxClassAmount[$i])) {
-                    $_amount = $taxClassAmount[$i]['tax_amount'];
-                }
-
-             foreach ($info['rates'] as $rate) {
-                $percent = $rate['percent'] ? ' (' . $rate['percent']. '%)' : '';
-
-                $tax_info[] = array(
-                   'amount' => $this->getAmountPrefix().$this->getOrder()->formatPriceTxt($_amount),
-                   'label'  => Mage::helper('tax')->__($rate['title']) . $percent . ':',
-                   'font_size' => $fontSize
-                );
-             }
-                $i++;
-          }
+            foreach ($taxClassAmount as &$tax) {
+                $percent = $tax['percent'] ? ' (' . $tax['percent']. '%)' : '';
+                $tax['amount']      = $this->getAmountPrefix().$this->getOrder()->formatPriceTxt($tax['tax_amount']);
+                $tax['label']       = Mage::helper('tax')->__($tax['title']) . $percent . ':';
+                $tax['font_size']   = $fontSize;
+            }
        }
 
-       return $tax_info;
+       return $taxClassAmount;
     }
 
     /**
