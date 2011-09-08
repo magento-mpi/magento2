@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -89,8 +90,9 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
      */
     public function getBaseUrl()
     {
-        $url = $this->isAdmin() ? $this->_appInfo['adminUrl']
-                 : $this->_appInfo['frontendUrl'];
+        $url = $this->isAdmin()
+                ? $this->_appInfo['adminUrl']
+                : $this->_appInfo['frontendUrl'];
         return $url;
     }
 
@@ -105,13 +107,24 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
     }
 
     /**
+     * Change Application information
+     *
+     * @param string $configName
+     */
+    public function changeAppInfo($configName)
+    {
+        $applications = $this->_config->getConfigValue('applications');
+        $this->_appInfo = $applications[$configName];
+    }
+
+    /**
      * Initializes Application information
      *
      * @return Mage_Selenium_Helper_Application
      */
     protected function _init()
     {
-        $applications   = $this->_config->getConfigValue('applications');
+        $applications = $this->_config->getConfigValue('applications');
         $this->_appInfo = $applications['default'];
         return parent::_init();
     }
