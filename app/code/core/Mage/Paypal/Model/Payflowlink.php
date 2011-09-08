@@ -132,19 +132,15 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
                 $this->_initialize($payment, 1);
                 break;
             case Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_ZERO:
-                $amountError = false;
                 try {
                     $this->_initialize($payment, 0);
                 } catch (Mage_Paypal_Exception $e) {
-                    $amountError = true;
-                }
-                if ($amountError) {
                     $authorizationAmount = Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_ONE;
                     $this->_initialize($payment, 1);
                 }
                 break;
         }
-        $payment->setAdditionalInformation('authorization_amount',$authorizationAmount);
+        $payment->setAdditionalInformation('authorization_amount', $authorizationAmount);
 
         return $this;
     }
@@ -194,9 +190,9 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      * Additional authorization logic for Account Verification
      *
      * @param Varien_Object $payment
-     * @param  $amount
-     * @param  $transaction
-     * @param  $txnId
+     * @param mixed $amount
+     * @param Mage_Paypal_Model_Payment_Transaction $transaction
+     * @param string $txnId
      * @return Mage_Paypal_Model_Payflowlink
      */
     protected function _authorize(Varien_Object $payment, $amount, $transaction, $txnId)
@@ -380,6 +376,8 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     }
 
     /**
+     * Check Transaction
+     *
      * @param Mage_Paypal_Model_Payment_Transaction $transaction
      * @param mixed $amount
      * @return Mage_Paypal_Model_Payflowlink
