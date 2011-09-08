@@ -19,57 +19,47 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Tax
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Adminhtml order tax totals block
+ * Sales order tax resource model
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Tax_Block_Sales_Order_Tax
+class Mage_Tax_Model_Resource_Sales_Order_Tax_Item extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Get full information about taxes applied to order
+     * Resource initialization
+     */
+    protected function _construct()
+    {
+        $this->_init('tax/sales_order_tax_item', 'tax_item_id');
+    }
+
+    /**
+     * Load Tax Item Collection with order tax information
      *
+     * @param int $item_id
      * @return array
      */
-    public function getFullTaxInfo()
+    public function loadTaxCollectionByItem($item_id)
     {
-        /** @var $source Mage_Sales_Model_Order */
-        $source = $this->getOrder();
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from(array('item' => $this->getTable('tax/sales_order_tax_item')), array('tax_id'))
+            ->join(
+                array('tax' => $this->getTable('tax/sales_order_tax')),
+                'item.tax_id = tax.tax_id',
+                array('percent', 'title', 'percent')
+            )
+            ->where('item_id = ?', $item_id);
 
-        $taxClassAmount = array();
-        if ($source instanceof Mage_Sales_Model_Order) {
-            $taxClassAmount = Mage::helper('tax')->getCalculatedTaxes($source);
-        }
-
-        return $taxClassAmount;
-    }
-
-    /**
-     * Display tax amount
-     *
-     * @return string
-     */
-    public function displayAmount($amount, $baseAmount)
-    {
-        return Mage::helper('adminhtml/sales')->displayPrices(
-            $this->getSource(), $baseAmount, $amount, false, '<br />'
-        );
-    }
-
-    /**
-     * Get store object for process configuration settings
-     *
-     * @return Mage_Core_Model_Store
-     */
-    public function getStore()
-    {
-        return Mage::app()->getStore();
+        return $adapter->fetchAll($select);
     }
 }

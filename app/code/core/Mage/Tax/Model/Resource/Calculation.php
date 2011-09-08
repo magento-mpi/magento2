@@ -143,6 +143,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
                             'percent'=>$value,
                             'position'=>$rate['position'],
                             'priority'=>$rate['priority'],
+                            'rule_id'=>$rate['tax_calculation_rule_id']
                             );
 
 

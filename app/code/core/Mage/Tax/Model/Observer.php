@@ -59,13 +59,18 @@ class Mage_Tax_Model_Observer
     public function salesEventOrderAfterSave(Varien_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
+
         if (!$order->getConvertingFromQuote() || $order->getAppliedTaxIsSaved()) {
             return;
         }
 
+        $taxItems = array();
+        $getTaxesForItems = $order->getQuote()->getTaxesForItems();
+
         $taxes = $order->getAppliedTaxes();
-        foreach ($taxes as $row) {
-            foreach ($row['rates'] as $tax) {
+
+        foreach ($taxes as $id=>$row) {
+            foreach ($row['rates'] as $key=>$tax) {
                 if (is_null($row['percent'])) {
                     $baseRealAmount = $row['base_amount'];
                 } else {
@@ -89,9 +94,23 @@ class Mage_Tax_Model_Observer
                             'base_real_amount'  => $baseRealAmount,
                             );
 
-                Mage::getModel('tax/sales_order_tax')->setData($data)->save();
+                $result = Mage::getModel('tax/sales_order_tax')->setData($data)->save();
+                foreach ($getTaxesForItems as $quoteItemId=>$taxesArray) {
+                    foreach ($taxesArray as $rates) {
+                        if ($rates['id'] == $id) {
+                            $data = array(
+                                'item_id'   => $order->getItemByQuoteItemId($quoteItemId)->getId(),
+                                'tax_id'    => $result->getTaxId()
+                            );
+                            Mage::getModel('tax/sales_order_tax_item')->setData($data)->save();
+                            continue;
+                        }
+                    }
+                }
             }
         }
+
+
         $order->setAppliedTaxIsSaved(true);
     }
 
