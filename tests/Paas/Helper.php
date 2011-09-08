@@ -37,6 +37,13 @@
 class Paas_Helper extends Mage_Selenium_TestCase
 {
 
+     public function syncOrders($orderId)
+    {
+        $export=$this->loadData('paas_export_setting');
+        $this->open($export['script_url']);
+        return $orderId;
+    }
+
     public function sync()
     {
         set_time_limit(0);

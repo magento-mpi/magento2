@@ -51,7 +51,7 @@ class Paas_AdminGeneralTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
 
         //Data
-        $productData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
+        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -100,39 +100,75 @@ class Paas_AdminGeneralTest extends Mage_Selenium_TestCase
      */
     public function createOrder($userDataAddress, $productData)
     {
-        (array) $prodToAdd = array('product_name' => $productData["general_name"]);
-
-        $orderId = $this->OrderHelper()->createOrderForExistingCustomer(true, 'Default Store View', $prodToAdd,
-                $userDataAddress["email"], $userDataAddress, $userDataAddress, 'visa', 'Fixed');
-
+//        (array) $prodToAdd = array('product_name' => $productData["general_name"]);
+        //Navigate
+         $this->loginAdminUser();
+       $this->navigate('manage_sales_orders');
+       //Load data
+        $this->navigate('manage_sales_orders');
+        $orderData = $this->loadData('order_req_1');
+        $orderData['shipping_addr_data']['shipping_same_as_billing_address'] = 'yes';
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderData['customer_data']['email'] = $userDataAddress['email'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
         return $orderId;
     }
 
     /**
-     * Sync orders test
+     * TC-1: Order number transferring
      *
      * @depends createOrder
      *
      * @test
      */
-    public function syncOrders($orderId)
+    public function TC_1($orderId)
     {
-        // @TODO
-        // $this->PaasHelper()->sync();
+
+        $this->paasHelper()->syncOrders($orderId);
+        $this->_applicationHelper->changeAppInfo("magento_go");
+        $this->loginAdminUser();
+        $this->navigate('manage_sales_orders');
+        $this->waitForElement("sales_order_grid");
+        $this->assertFalse($this->search(array("filter_order_id" =>$orderId))==null);
         return $orderId;
     }
 
     /**
-     * Search sync order
+     * TC-2: Order number transferring - order number collision case
      *
-     * @depends syncOrders
+     * @depends TC_1
      *
      * @test
      */
-    public function searchSyncOrders($orderId)
+    public function TC_2($orderId)
     {
-        $this->_applicationHelper->changeAppInfo($configName);
+        $export=$this->loadData('paas_export_setting');
+        $this->paasHelper()->syncOrders($orderId);
+        $this->_applicationHelper->changeAppInfo("magento_go");
         $this->loginAdminUser();
+        $this->navigate('manage_sales_orders');
+        $this->assertFalse($this->search(array("filter_order_id"=>$export["exported_prefix"].$orderId))==null);
+        return $orderId;
     }
 
+     /**
+     * TC-3: Order number transferring - order number collision with prefix case
+     *
+     * @depends TC_2
+     *
+     * @test
+     */
+    public function TC_3($orderId)
+    {
+        $export=$this->loadData('paas_export_setting');
+        $this->paasHelper()->syncOrders($orderId);
+        //Expecting error during import
+        $this->assertTextPresent($export["import_fail_message"]." #".$orderId);
+        $this->_applicationHelper->changeAppInfo("magento_go");
+        $this->loginAdminUser();
+        $this->navigate('manage_sales_orders');
+        $this->assertFalse($this->search(array("filter_order_id"=>$orderId))==null);
+        $this->assertFalse($this->search(array("filter_order_id"=>$export["exported_prefix"].$orderId))==null);
+        return $orderId;
+    }
 }
