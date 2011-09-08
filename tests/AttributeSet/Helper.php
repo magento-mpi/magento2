@@ -46,9 +46,8 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
     {
         $this->clickButton('add_new_set');
         $this->fillForm($attrSet, 'attribute_sets_grid');
-        $this->addParameter('id', '0');
-        $this->addParameter('attributeName', $attrSet['name']);
-        $this->clickButton('save_attribute_set');
+        $this->addParameter('attributeName', $attrSet['set_name']);
+        $this->saveForm('save_attribute_set');
         if (isset($attrSet['new_groups']) && $attrSet['new_groups'] != '%noValue%') {
             $this->addNewGroup($attrSet['new_groups']);
         }
@@ -102,9 +101,8 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
             if (!$this->isElementPresent($elTo)) {
                 $this->fail("Attribute with title '$attributeTitle' does not exist");
             }
-
             $this->moveElementOverTree('link', 'unassigned_attribute', 'fieldset', 'unassigned_attributes');
-
+            $this->moveElementOverTree('link', 'group_folder', 'fieldset', 'groups');
             $this->clickAt($elFrom, '1,1');
             $this->clickAt($elTo, '1,1');
             $this->mouseDownAt($elFrom, '1,1');

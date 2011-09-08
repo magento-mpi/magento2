@@ -40,7 +40,7 @@ attribute_search_data:
     comparable: %noValue%
 
 # Test Datasets for Add New TextField type Product Attribute
-product_attribute_textfield:
+product_attribute_textfield: &productAttributeTextfield
 # properties:
     catalog_input_type_for_store_owner: Text Field
     attribute_code: attr_textfield_code
@@ -65,7 +65,7 @@ product_attribute_textfield:
         Default Store View: Text_Field_StoreView
 
 # Test Datasets for Add New TextArea type Product Attribute
-product_attribute_textarea:
+product_attribute_textarea: &productAttributeTextarea
 # properties:
     catalog_input_type_for_store_owner: Text Area
     attribute_code: attr_textarea_code
@@ -89,7 +89,7 @@ product_attribute_textarea:
         Default Store View: Text_Area_StoreView
 
 # Test Datasets for Add New Date type Product Attribute
-product_attribute_date:
+product_attribute_date: &productAttributeDate
 # properties:
     catalog_input_type_for_store_owner: Date
     attribute_code: attr_date_code
@@ -112,7 +112,7 @@ product_attribute_date:
         Default Store View: Date_Store_View
 
 # Test Datasets for Add New Yes/No type Product Attribute
-product_attribute_yesno:
+product_attribute_yesno: &productAttributeYesno
 # properties:
     catalog_input_type_for_store_owner: Yes/No
     attribute_code: attr_yesno_code
@@ -135,7 +135,7 @@ product_attribute_yesno:
         Default Store View: Yes/No_StoreView
 
 # Test Datasets for Add New MultipleSelect type Product Attribute
-product_attribute_multiselect:
+product_attribute_multiselect: &productAttributeMultiselect
     # properties:
     catalog_input_type_for_store_owner: Multiple Select
     attribute_code: attr_multiselect_code
@@ -156,7 +156,7 @@ product_attribute_multiselect:
     # manage_lables_options:
     admin_title: Multiple_Select_Admin
 
-product_attribute_multiselect_with_options:
+product_attribute_multiselect_with_options: &productAttributeMultiselectWithOptions
     # properties:
     catalog_input_type_for_store_owner: Multiple Select
     attribute_code: attr_multiselect_code
@@ -201,7 +201,7 @@ product_attribute_multiselect_with_options:
         delete_option: %noValue%
 
 # Test Datasets for Add New Dropdown type Product Attribute
-product_attribute_dropdown:
+product_attribute_dropdown: &productAttributeDropdown
     catalog_input_type_for_store_owner: Dropdown
     attribute_code: attr_dropdown_code
     scope: %noValue%
@@ -222,7 +222,7 @@ product_attribute_dropdown:
     used_for_sorting_in_product_listing: %noValue%
     admin_title: Dropdown_Admin
 
-product_attribute_dropdown_with_options:
+product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
     # Properties Tab:
     catalog_input_type_for_store_owner: Dropdown
     attribute_code: attr_dropdown_code
@@ -269,7 +269,7 @@ product_attribute_dropdown_with_options:
         delete_option: %noValue%
 
 # Test Datasets for Add New Price type Product Attribute
-product_attribute_price:
+product_attribute_price: &productAttributePrice
 # properties:
     catalog_input_type_for_store_owner: Price
     attribute_code: attr_price_code
@@ -294,7 +294,7 @@ product_attribute_price:
         Default Store View: Price_StoreView
 
 # Test Datasets for Add New MediaImage type Product Attribute
-product_attribute_mediaimage:
+product_attribute_mediaimage: &productAttributeMediaimage
 # properties:
     catalog_input_type_for_store_owner: Media Image
     attribute_code: attr_mediaimage_code
@@ -317,3 +317,17 @@ product_attribute_fpt:
     admin_title: Fixed_Product_Tax_Admin
     store_view_titles:
         Default Store View: Fixed_Product_Tax_Storeview
+
+# Test Dataset for Add New Product Attribute for ALL types
+product_attributes:
+    product_attribute_textfield: *productAttributeTextfield
+    product_attribute_textarea: *productAttributeTextarea
+    product_attribute_date: *productAttributeDate
+    product_attribute_yesno: *productAttributeYesno
+    product_attribute_multiselect: *productAttributeMultiselect
+    product_attribute_multiselect_with_options: *productAttributeMultiselectWithOptions
+    product_attribute_dropdown: *productAttributeDropdown
+    product_attribute_dropdown_with_options: *productAttributeDropdownWithOptions
+    product_attribute_price: *productAttributePrice
+    product_attribute_mediaimage: *productAttributeMediaimage
+    
