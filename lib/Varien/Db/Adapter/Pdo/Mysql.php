@@ -2748,8 +2748,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         switch ($column['DATA_TYPE']) {
             case 'smallint':
             case 'int':
-            case 'bigint':
                 $value = (int)$value;
+                break;
+            case 'bigint':
+                // Can't cast to int on 32 bit systems here: BIGINT is larger than such systems' MAX_INT
                 break;
 
             case 'decimal':
