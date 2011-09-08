@@ -32,7 +32,7 @@
  * @package    Mage_GoogleAnalytics
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
+class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Template
 {
     /**
      * @deprecated after 1.4.1.1
@@ -119,8 +119,11 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
                 $address = $order->getShippingAddress();
             }
             $result[] = sprintf("_gaq.push(['_addTrans', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s']);",
-                $order->getIncrementId(), Mage::app()->getStore()->getFrontendName(), $order->getBaseGrandTotal(),
-                $order->getBaseTaxAmount(), $order->getBaseShippingAmount(),
+                $order->getIncrementId(),
+                $this->jsQuoteEscape(Mage::app()->getStore()->getFrontendName()),
+                $order->getBaseGrandTotal(),
+                $order->getBaseTaxAmount(),
+                $order->getBaseShippingAmount(),
                 $this->jsQuoteEscape($address->getCity()),
                 $this->jsQuoteEscape($address->getRegion()),
                 $this->jsQuoteEscape($address->getCountry())
@@ -148,22 +151,7 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
         if (!Mage::helper('googleanalytics')->isGoogleAnalyticsAvailable()) {
             return '';
         }
-        $accountId = Mage::getStoreConfig(Mage_GoogleAnalytics_Helper_Data::XML_PATH_ACCOUNT);
-        return '
-<!-- BEGIN GOOGLE ANALYTICS CODE -->
-<script type="text/javascript">
-//<![CDATA[
-    (function() {
-        var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.async = true;
-        ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';
-        (document.getElementsByTagName(\'head\')[0] || document.getElementsByTagName(\'body\')[0]).appendChild(ga);
-    })();
 
-    var _gaq = _gaq || [];
-' . $this->_getPageTrackingCode($accountId) . '
-' . $this->_getOrdersTrackingCode() . '
-//]]>
-</script>
-<!-- END GOOGLE ANALYTICS CODE -->';
+        return parent::_toHtml();
     }
 }
