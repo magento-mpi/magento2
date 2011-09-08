@@ -101,11 +101,11 @@ $table = $connection->newTable($this->getTable('googleshopping/items'))
     ->addColumn('published', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(
         'nullable'  => false,
         'default' => $installer->getConnection()->getSuggestedZeroDate()
-        ))
+        ), 'Published date')
     ->addColumn('expires', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(
         'nullable'  => false,
         'default' => $installer->getConnection()->getSuggestedZeroDate()
-        ))
+        ), 'Expires date')
     ->addForeignKey(
         $installer->getFkName(
             'googleshopping/items',
@@ -148,11 +148,11 @@ $table = $connection->newTable($this->getTable('googleshopping/attributes'))
         ), 'Attribute Id')
     ->addColumn('gcontent_attribute', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable' => false
-        ), '')
+        ), 'Google Content Attribute')
     ->addColumn('type_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable' => false,
         'unsigned' => true
-        ), 'Google Content Attribute')
+        ), 'Type Id')
     ->addForeignKey(
         $installer->getFkName(
             'googleshopping/attributes',
