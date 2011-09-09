@@ -182,6 +182,17 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         }
 
         $this->_authorize($payment, $amount, $transaction, $txnId);
+        if ($payment->getAdditionalInformation('authorization_amount') !=
+            Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_FULL
+        ) {
+            $payment->setParentTransactionId($txnId);
+            parent::authorize($payment, $amount);
+            if ($payment->getTransactionId()) {
+                $payment->setAdditionalInformation('authorization_id', $payment->getTransactionId());
+            }
+
+        }
+
         $transaction->delete();
         return $this;
     }
