@@ -148,6 +148,7 @@ create_order_for_new_customer:
                         fields:
                             qty: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[@class='input-text item-qty']
                             custom_price: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[@class='input-text item-price']
+                            price_value: //td[@class='price'][1]/span[text()='%value%']
                         links:
                             gift_options: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//a[contains(text(),'Gift Options')]
                 -
@@ -323,6 +324,7 @@ create_order_for_new_customer:
             invalid_cvv: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card verification number.' and not(contains(@style,'display: none;'))]"
             invalid_exp_date: "%fieldXpath%/following-sibling::*[text()='Incorrect credit card expiration date.' and not(contains(@style,'display: none;'))]"
             invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.//span,'coupon code is not valid.')]
+            invalid_qty_of_product: //div[@class='error']/div[contains(.,'The minimum quantity allowed for purchase is')]
             success_applying_coupon: //li[normalize-space(@class)='success-msg' and contains(.//span,'The coupon code has been accepted.')]
 
 
@@ -541,6 +543,7 @@ view_order:
             invoice: //p[@class='form-buttons']//button[span='Invoice']
             ship: //p[@class='form-buttons']//button[span='Ship']
             reorder: //p[@class='form-buttons']//button[span='Reorder']
+            void: //p[@class='form-buttons']//button[span='Void']
         messages:
             confirmation_for_cancel: Are you sure you want to cancel this order?
             success_created_order: //li[normalize-space(@class)='success-msg' and contains(.//span,'The order has been created.')]
@@ -554,7 +557,9 @@ view_order:
             success_creating_shipment: //li[normalize-space(@class)='success-msg' and contains(.//span,'The shipment has been created.')]
             success_creating_creditmemo: //li[normalize-space(@class)='success-msg' and contains(.//span,'The credit memo has been created.')]
             confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
+            success_void: //li[normalize-space(@class)='success-msg' and contains(.//span,'The payment has been voided.')]
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
+            confirmation_to_void: Are you sure you want to void the payment?
 
 edit_order:
     mca: sales_order_edit/

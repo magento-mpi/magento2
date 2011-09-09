@@ -1187,3 +1187,174 @@ order_data_authorize_net_3D_1:
         3d_secure_validation_code: 1234
     shipping_data:
         shipping_method: Fixed
+
+promoted_product_special_price_for_order:
+    product_attribute_set: Default
+    general_name: Simple Product
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku
+    general_weight: 2.56
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 4.95
+    prices_special_price: 3.99
+    prices_special_price_from: 5/25/10
+    prices_special_price_to: 9/29/15
+    prices_tax_class: None
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_qty_for_items_out_of_stock_default: No
+    inventory_qty_for_items_out_of_stock: 10
+    inventory_min_allowed_qty_default: No
+    inventory_min_allowed_qty: 4
+    inventory_max_allowed_qty_default: No
+    inventory_max_allowed_qty: 0
+    inventory_qty_uses_decimals: Yes
+    inventory_backorders_default: No
+    inventory_backorders: Allow Qty Below 0
+    inventory_notify_for_qty_below_default: No
+    inventory_notify_for_qty_below: 12
+    inventory_enable_qty_increments_default: No
+    inventory_enable_qty_increments: Yes
+    inventory_qty_increments_default: No
+    inventory_qty_increments: 2
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    related_products_data: %noValue%
+    up_sells_products_data: %noValue%
+    cross_sells_products_data: %noValue%
+    custom_options_data: %noValue%
+
+order_for_promoted_products_special_price:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    products_to_reconfigure:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                qty: 4
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+
+order_for_promoted_products_min_qty:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    products_to_reconfigure:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                qty: 2
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+
+custom_options_dropdown: &dropdown
+    custom_options_general_title: Custom Option Drop-down
+    custom_options_general_input_type: Drop-down
+    custom_options_general_is_required: Yes
+    custom_options_general_sort_order: 1
+    custom_option_row_1:
+        custom_options_title: Title 1
+        custom_options_price: 2.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_drop_down_row_1
+        custom_options_sort_order: 1
+
+customized_product_for_order:
+    product_attribute_set: Default
+    general_name: Simple Product
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku
+    general_weight: 2.56
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 4.95
+    prices_special_price: 3.99
+    prices_special_price_from: 5/25/10
+    prices_special_price_to: 9/29/15
+    prices_tax_class: None
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_qty_for_items_out_of_stock_default: No
+    inventory_qty_for_items_out_of_stock: 10
+    inventory_min_allowed_qty_default: No
+    inventory_min_allowed_qty: 4
+    inventory_max_allowed_qty_default: No
+    inventory_max_allowed_qty: 0
+    inventory_qty_uses_decimals: Yes
+    inventory_backorders_default: No
+    inventory_backorders: Allow Qty Below 0
+    inventory_notify_for_qty_below_default: No
+    inventory_notify_for_qty_below: 12
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    related_products_data: %noValue%
+    up_sells_products_data: %noValue%
+    cross_sells_products_data: %noValue%
+    custom_options_data:
+        custom_options_field: *dropdown
+
+order_for_customized_product:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                optionDropdown:
+                    value_1: Custom Option
+                    data_1:
+                        drop: 'Title 1 +$0.10'
+                optionText:
+                    value_1: Quantity
+                    data_1:
+                        text: 1
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed

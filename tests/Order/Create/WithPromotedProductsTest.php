@@ -27,7 +27,7 @@
  */
 
 /**
- * @TODO
+ * Creting Order with promoted product
  *
  * @package     selenium
  * @subpackage  tests
@@ -37,39 +37,111 @@ class Order_Create_WithPromotedProductsTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * @TODO
+     * <p>Preconditions:</p>
+     *
+     * <p>Log in to Backend.</p>
+     * <p>Navigate to 'System Configuration' page</p>
+     * <p>Enable all shipping methods</p>
      */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
     protected function assertPreConditions()
     {
-        // @TODO
-        $this->markTestIncomplete();
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
+    }
+
+    /**
+     * @test
+     */
+    public function createProducts()
+    {
+        $productData = $this->loadData('promoted_product_special_price_for_order',
+                null, array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($productData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        return $productData;
     }
 
 
     /**
-     * @TODO
+     * <p>Order with promoted products. Special Price</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add product with special price.</p>
+     * <p>8.Fill in all required fields.</p>
+     * <p>9.Check payment method 'PayPal Direct - Visa'</p>
+     * <p>10.Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>Expected result:</p>
+     * <p>New customer is created. Order is created for the new customer.</p>
+     *
+     * @depends createProducts
+     * @test
      */
-    public function test_SpecialPrices()
+    public function specialPrices($productData)
     {
-        // @TODO
-        $this->markTestIncomplete();
+        $this->navigate('manage_sales_orders');
+        $orderData = $this->loadData('order_for_promoted_products_special_price');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderData['products_to_reconfigure']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData, TRUE);
+        $value = '$'.$productData['prices_special_price'];
+        $this->addParameter('value', $value);
+        $xpath = $this->_getControlXpath('field', 'price_value');
+        $this->assertTrue($this->isElementPresent($xpath));
     }
 
     /**
-     * @TODO
+     * <p>Order with promoted products. Minimum allowed quantity</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add product with min allowed quantity less then needed.</p>
+     * <p>8.Fill in all required fields.</p>
+     * <p>9.Check payment method 'PayPal Direct - Visa'</p>
+     * <p>10.Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>Expected result:</p>
+     * <p>Warning message appears before submitting order.</p>
+     *
+     * @depends createProducts
+     * @test
      */
-    public function test_MinAllowedQtyInShoppingCart()
+    public function minAllowedQtyInShoppingCart($productData)
     {
-        // @TODO
-        $this->markTestIncomplete();
+        $this->navigate('manage_sales_orders');
+        $orderData = $this->loadData('order_for_promoted_products_min_qty');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderData['products_to_reconfigure']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData, TRUE);
+        $xpath = $this->_getControlXpath('message', 'invalid_qty_of_product');
+        $this->assertTrue($this->isElementPresent($xpath), 'Warning message did not appear');
     }
 
-    /**
-     * @TODO
-     */
-    public function test_QtyIncrement()
-    {
-        // @TODO
-        $this->markTestIncomplete();
-    }
+//    /**
+//     * @TODO
+//     * It makes sense only for frontend
+//     */
+//    public function qtyIncrement()
+//    {
+//
+//    }
 }
