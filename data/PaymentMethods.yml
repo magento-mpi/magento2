@@ -1,0 +1,112 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+authorize_net_without_3d_enable:
+    an_enabled: Yes
+    an_api_login_id: 36sCtGS8w
+    an_transaction_key: 33YvD5r6mm9B47e2
+    an_test_mode: Yes
+    an_gateway_url: https://test.authorize.net/gateway/transact.dll
+    an_credit_card_verification: Yes
+    an_3d_secure_card_validation: No
+
+authorize_net_without_3d_disable:
+    an_3d_secure_card_validation: No
+    an_credit_card_verification: No
+    an_enabled: No
+
+paypal_enable:
+    email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
+    api_authentication_methods: API Signature
+    sandbox_mode: Yes
+    api_username: artem__1312450055_biz_api1.magento.com
+    api_password: 1312450088
+    api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
+
+paypal_uk_direct_wo_3d_enable:
+    website_payments_pro_payflow_edition: Yes
+    wpppe_partner: PayPalUK
+    wpppe_user: ukpromerchant2g
+    wpppe_vendor: ukpromerchant2g
+    wpppe_password: testing678
+    wpppe_sandbox_mode: Yes
+    wpppe_require_cvv_entry: Yes
+    wpppe_3d_secure_card_validation: No
+
+paypal_uk_direct_wo_3d_disable:
+    website_payments_pro_payflow_edition: No
+    wpppe_sandbox_mode: No
+    wpppe_require_cvv_entry: Yes
+    wpppe_3d_secure_card_validation: No
+    website_payments_pro_payflow_edition: Yes
+
+payflow_pro_wo_3d_enable:
+    payflow_pro_gateway: Yes
+    pp_partner: PayPal
+    pp_user: petervarienpayflowpro
+    pp_vendor: petervarienpayflowpro
+    pp_password: paypal123456
+    pp_test_mode: Yes
+    pp_require_cvv_entry: Yes
+    pp_3d_secure_card_validation: No
+
+payflow_pro_wo_3d_disable:
+    pp_test_mode: No
+    pp_require_cvv_entry: Yes
+    pp_3d_secure_card_validation: No
+    payflow_pro_gateway: No
+
+website_payments_pro_wo_3d_enable:
+    website_payments_pro: Yes
+    wpp_require_cvv_entry: Yes
+    wpp_3d_secure_card_validation: No
+
+website_payments_pro_wo_3d_disable:
+    wpp_require_cvv_entry: Yes
+    wpp_3d_secure_card_validation: No
+    website_payments_pro: No
+
+3d_secure_enable:
+    processor_id: 134-01
+    merchant_id: magentoTEST
+    password: mag3nt0T3ST
+    test_mode: Yes
+
+authorize_net_with_3d_enable:
+    an_enabled: Yes
+    an_api_login_id: 36sCtGS8w
+    an_transaction_key: 33YvD5r6mm9B47e2
+    an_test_mode: Yes
+    an_gateway_url: https://test.authorize.net/gateway/transact.dll
+    an_credit_card_verification: Yes
+    an_3d_secure_card_validation: Yes
+    an_severe_3d_secure_card_validation: No
+
+authorize_net_with_3d_disable:
+    an_3d_secure_card_validation: No
+    an_credit_card_verification: No
+    an_enabled: No

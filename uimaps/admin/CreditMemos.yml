@@ -112,3 +112,5 @@ create_credit_memo:
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
+        messages:
+            confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?

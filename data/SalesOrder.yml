@@ -145,6 +145,41 @@ visa: &visa
     expiration_date_year_saved: '2020'
     cvv_saved: '111'
 
+authorize_net_visa_w_cvv: &authorizeNetVisaWCvv
+    credit_card_type_autnet: 'Visa'
+    credit_card_number_autnet: '4024007127653'
+    expiration_date_month_autnet: '07 - July'
+    expiration_date_year_autnet: '2020'
+    cvv_autnet: 123
+
+paypal_direct_payment_payflow_edition_mastercard_w_cvv: &paypalDirectPaymentPayflowEditionMastercardWCvv
+    credit_card_type_paypal_direct_payment_payflow_edition: 'MasterCard'
+    credit_card_number_paypal_direct_payment_payflow_edition: '5214600357288164'
+    expiration_date_month_paypal_direct_payment_payflow_edition: '11 - November'
+    expiration_date_year_paypal_direct_payment_payflow_edition: '2015'
+    cvv_paypal_direct_payment_payflow_edition: '123'
+
+payflow_pro_visa_w_cvv: &payflowProVisaWCvv
+    credit_card_type_payflow_pro: 'Visa'
+    credit_card_number_payflow_pro: '4111111111111111'
+    expiration_date_month_payflow_pro: '12 - December'
+    expiration_date_year_payflow_pro: '2015'
+    cvv_payflow_pro: '123'
+
+paypal_direct_payment_visa_w_cvv: &paypalDirectPaymentVisaWCvv
+    credit_card_type_paypal_direct_payment: 'Visa'
+    credit_card_number_paypal_direct_payment: '4556543150206778'
+    expiration_date_month_paypal_direct_payment: '04 - April'
+    expiration_date_year_paypal_direct_payment: '2013'
+    cvv_paypal_direct_payment: '123'
+
+authorize_net_3d_mastercard_w_cvv: &authorizeNet3DMasterCardWCvv
+    credit_card_type_autnet: 'MasterCard'
+    credit_card_number_autnet: '5200000000000007'
+    expiration_date_month_autnet: '07 - July'
+    expiration_date_year_autnet: '2020'
+    cvv_autnet: 123
+
 mastercard: &mastercard
     name_on_card_saved: 'Test Account'
     credit_card_type_saved: 'MasterCard'
@@ -1035,5 +1070,120 @@ order_req_partial_shipment:
     payment_data:
         payment_method: credit_card
         payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+
+order_data_check_money_order_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: check_money_order
+        payment_info: %noValue%
+    shipping_data:
+        shipping_method: Fixed
+
+order_data_authorize_net_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: authorize_net
+        payment_info: *authorizeNetVisaWCvv
+    shipping_data:
+        shipping_method: Fixed
+
+order_data_paypal_direct_payment_payflow_edition_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: paypal_direct_payment_payflow_edition
+        payment_info: *paypalDirectPaymentPayflowEditionMastercardWCvv
+    shipping_data:
+        shipping_method: Fixed
+
+order_data_payflow_pro_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: payflow_pro
+        payment_info: *payflowProVisaWCvv
+    shipping_data:
+        shipping_method: Fixed
+
+order_data_website_payments_pro_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: paypal_direct_payment
+        payment_info: *paypalDirectPaymentVisaWCvv
+    shipping_data:
+        shipping_method: Fixed
+
+order_data_authorize_net_3D_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: authorize_net
+        payment_info: *authorizeNet3DMasterCardWCvv
+        3d_secure_validation_code: 1234
     shipping_data:
         shipping_method: Fixed

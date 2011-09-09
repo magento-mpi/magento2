@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Tests for PayPal Direct Invoices
  *
  * @package     selenium
  * @subpackage  tests
@@ -38,35 +38,208 @@ class OrderInvoice_CreateWithPayPalDirectTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * @TODO
+     * <p>Preconditions:</p>
+     *
+     * <p>Log in to Backend.</p>
+     * <p>Navigate to 'System Configuration' page</p>
+     * <p>Enable all shipping methods</p>
      */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+    }
+
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
     }
 
     /**
-     * @TODO
+     * @test
      */
-    public function test_Full_CaptureOnline()
+    public function createProducts()
     {
-        // @TODO
+        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->productHelper()->createProduct($productData);
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'),
+                'After successful product creation should be redirected to Manage Products page');
+        return $productData;
     }
 
     /**
-     * @TODO
+     * <p>Website payments pro. Capture Online</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add first two products.</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check payment method 'paypal direct'</p>
+     * <p>10.Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>13.Capture online.</p>
+     * <p>Expected result:</p>
+     * <p>New customer is created. Order is created for the new customer. Invoice is created</p>
+     *
+     * @depends createProducts
+     * @test
      */
-    public function test_Full_CaptureOffline()
+    public function fullCaptureOnline($productData)
     {
-        // @TODO
+        //Preconditions: Enabling PayPal
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $payflowpro = $this->loadData('paypal_enable');
+        $this->fillForm($payflowpro, 'sales_paypal');
+        $this->saveForm('save_config');
+        //Preconditions: Enabling Website payments pro
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $payflowpro = $this->loadData('website_payments_pro_wo_3d_enable');
+        $this->fillForm($payflowpro, 'sales_paypal');
+        $this->saveForm('save_config');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $orderData = $this->loadData('order_data_website_payments_pro_1');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->clickButton('invoice', TRUE);
+        $this->fillForm(array('amount' => 'Capture Online'));
+        $this->clickButton('submit_invoice', TRUE);
+        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
+        //Postconditions
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $payflowpro = $this->loadData('website_payments_pro_wo_3d_disable');
+        $this->fillForm($payflowpro, 'sales_paypal');
+        $this->saveForm('save_config');
     }
 
     /**
-     * @TODO
+     * <p>Website payments pro. Capture Offline</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add first two products.</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check payment method 'paypal direct'</p>
+     * <p>10.Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>13.Capture offline.</p>
+     * <p>Expected result:</p>
+     * <p>New customer is created. Order is created for the new customer. Invoice is created</p>
+     *
+     * @depends createProducts
+     * @test
      */
-    public function test_Full_NotCapture()
+    public function fullCaptureOffline($productData)
     {
-        // @TODO
+        //Preconditions: Enabling PayPal
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $payflowpro = $this->loadData('paypal_enable');
+        $this->fillForm($payflowpro, 'sales_paypal');
+        $this->saveForm('save_config');
+        //Preconditions: Enabling Website payments pro
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $payflowpro = $this->loadData('website_payments_pro_wo_3d_enable');
+        $this->fillForm($payflowpro, 'sales_paypal');
+        $this->saveForm('save_config');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $orderData = $this->loadData('order_data_website_payments_pro_1');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->addParameter('order_id', $orderId);
+        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->clickButton('invoice', TRUE);
+        $this->fillForm(array('amount' => 'Capture Offline'));
+        $this->clickButton('submit_invoice', TRUE);
+        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
+        //Postconditions
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $payflowpro = $this->loadData('website_payments_pro_wo_3d_disable');
+        $this->fillForm($payflowpro, 'sales_paypal');
+        $this->saveForm('save_config');
+    }
+
+    /**
+     * <p>Website payments pro. Not Capture</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add first two products.</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check payment method 'paypal direct'</p>
+     * <p>10.Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>13.Not Capture.</p>
+     * <p>Expected result:</p>
+     * <p>New customer is created. Order is created for the new customer. Invoice is created.</p>
+     *
+     * @depends createProducts
+     * @test
+     */
+    public function fullNotCapture($productData)
+    {
+        //Preconditions: Enabling PayPal
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $payflowpro = $this->loadData('paypal_enable');
+        $this->fillForm($payflowpro, 'sales_paypal');
+        $this->saveForm('save_config');
+        //Preconditions: Enabling Website payments pro
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $payflowpro = $this->loadData('website_payments_pro_wo_3d_enable');
+        $this->fillForm($payflowpro, 'sales_paypal');
+        $this->saveForm('save_config');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $orderData = $this->loadData('order_data_website_payments_pro_1');
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->addParameter('order_id', $orderId);
+        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->clickButton('invoice', TRUE);
+        $this->fillForm(array('amount' => 'Not Capture'));
+        $this->clickButton('submit_invoice', TRUE);
+        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
+        //Postconditions
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $payflowpro = $this->loadData('website_payments_pro_wo_3d_disable');
+        $this->fillForm($payflowpro, 'sales_paypal');
+        $this->saveForm('save_config');
     }
 
 }

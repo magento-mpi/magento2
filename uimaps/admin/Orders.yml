@@ -220,6 +220,9 @@ create_order_for_new_customer:
                             authorize_net_directpost: //input[@id='p_method_authorizenet_directpost']
                             paypal_uk_direct: //input[@id='p_method_paypaluk_direct']
                             authorize_net: //input[@id='p_method_authorizenet']
+                            paypal_direct_payment_payflow_edition: //input[@id='p_method_paypaluk_direct']
+                            payflow_pro: //input[@id='p_method_verisign']
+                            paypal_direct_payment: //input[@id='p_method_paypal_direct']
                         fields:
                             name_on_card_saved: //ul[@id='payment_form_ccsave']//div[@class='input-box']/input[@name='payment[cc_owner]']
                             credit_card_number_saved: //ul[@id='payment_form_ccsave']//div[@class='input-box']/input[@name='payment[cc_number]']
@@ -227,6 +230,12 @@ create_order_for_new_customer:
                             name_on_card_autnet: //ul[@id='payment_form_authorizenet']//div[@class='input-box']/input[@name='payment[cc_owner]']
                             credit_card_number_autnet: //ul[@id='payment_form_authorizenet']//div[@class='input-box']/input[@name='payment[cc_number]']
                             cvv_autnet: //ul[@id='payment_form_authorizenet']//div[@class='input-box']/input[@name='payment[cc_cid]']
+                            credit_card_number_paypal_direct_payment_payflow_edition: //ul[@id='payment_form_paypaluk_direct']//input[@name='payment[cc_number]']
+                            cvv_paypal_direct_payment_payflow_edition: //ul[@id='payment_form_paypaluk_direct']//input[@name='payment[cc_cid]']
+                            credit_card_number_payflow_pro: //ul[@id='payment_form_verisign']//input[@name='payment[cc_number]']
+                            cvv_payflow_pro: //ul[@id='payment_form_verisign']//input[@name='payment[cc_cid]']
+                            credit_card_number_paypal_direct_payment: //ul[@id='payment_form_paypal_direct']//input[@name='payment[cc_number]']
+                            cvv_paypal_direct_payment: //ul[@id='payment_form_paypal_direct']//input[@name='payment[cc_cid]']
                         dropdowns:
                             credit_card_type_saved: //ul[@id='payment_form_ccsave']//select[@name='payment[cc_type]']
                             expiration_date_month_saved: //ul[@id='payment_form_ccsave']//select[@name='payment[cc_exp_month]']
@@ -234,7 +243,24 @@ create_order_for_new_customer:
                             credit_card_type_autnet: //ul[@id='payment_form_authorizenet']//select[@name='payment[cc_type]']
                             expiration_date_month_autnet: //ul[@id='payment_form_authorizenet']//select[@name='payment[cc_exp_month]']
                             expiration_date_year_autnet: //ul[@id='payment_form_authorizenet']//select[@name='payment[cc_exp_year]']
+                            credit_card_type_paypal_direct_payment_payflow_edition: //ul[@id='payment_form_paypaluk_direct']//select[@name='payment[cc_type]']
+                            expiration_date_month_paypal_direct_payment_payflow_edition: //ul[@id='payment_form_paypaluk_direct']//select[@name='payment[cc_exp_month]']
+                            expiration_date_year_paypal_direct_payment_payflow_edition: //ul[@id='payment_form_paypaluk_direct']//select[@name='payment[cc_exp_year]']
+                            credit_card_type_payflow_pro: //ul[@id='payment_form_verisign']//select[@name='payment[cc_type]']
+                            expiration_date_month_payflow_pro: //ul[@id='payment_form_verisign']//select[@name='payment[cc_exp_month]']
+                            expiration_date_year_payflow_pro: //ul[@id='payment_form_verisign']//select[@name='payment[cc_exp_year]']
+                            credit_card_type_paypal_direct_payment: //ul[@id='payment_form_paypal_direct']//select[@name='payment[cc_type]']
+                            expiration_date_month_paypal_direct_payment: //ul[@id='payment_form_paypal_direct']//select[@name='payment[cc_exp_month]']
+                            expiration_date_year_paypal_direct_payment: //ul[@id='payment_form_paypal_direct']//select[@name='payment[cc_exp_year]']
                     #TODO - add more methods
+                -
+                    3d_secure_card_validation: &3DSecureCardValidation
+                        xpath: //div[div/h4[contains(text(),'3D Secure Card Validation')]]
+                        fields:
+                            3d_password: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[2]/td[2]/b/input[1]
+                        buttons:
+                            3d_submit: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[4]/td[2]/b/input
+                            start_reset_validation: //button[span='Start/Reset Validation...']
                 -
                     order_history: &orderHistory
                         xpath: //div[div/h4[contains(text(),'Order History')]]
@@ -528,6 +554,7 @@ view_order:
             success_creating_shipment: //li[normalize-space(@class)='success-msg' and contains(.//span,'The shipment has been created.')]
             success_creating_creditmemo: //li[normalize-space(@class)='success-msg' and contains(.//span,'The credit memo has been created.')]
             confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
+            confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
 
 edit_order:
     mca: sales_order_edit/

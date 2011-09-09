@@ -99,6 +99,8 @@ create_invoice:
                 -
                     invoice_totals:
                         xpath: //div[@class='box-right entry-edit'][./div/h4='Invoice Totals']
+                        dropdowns:
+                            amount: //select[@name='invoice[capture_case]']
                         checkboxes:
                             append_comments: //input[@type='checkbox' and @name='invoice[comment_customer_notify]']
                             email_copy_of_invoice: //input[@type='checkbox' and @name='invoice[send_email]']
@@ -107,3 +109,5 @@ create_invoice:
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
+        messages:
+            confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
