@@ -660,7 +660,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function checkCurrentPage($page)
     {
-        return $this->_findCurrentPageFromUrl($this->getLocation()) == $page;
+        $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+        if ($currentPage != $page) {
+            $this->messages['error'][] = "Opened the wrong page: '" . $currentPage . "' (should be: '" . $page . "')";
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -822,7 +827,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function getCurrentLocationUimapPage()
     {
         $mca = Mage_Selenium_TestCase::_getMcaFromCurrentUrl($this->_applicationHelper->getBaseUrl(),
-                                                             $this->getLocation());
+                        $this->getLocation());
         $page = $this->_uimapHelper->getUimapPageByMca($this->getArea(), $mca, $this->_paramsHelper);
 
         if (!$page) {
@@ -998,7 +1003,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         } else {
             $fieldsets = $formData->getAllFieldsets();
         }
-
+        $fieldsets->assignParams($this->_paramsHelper);
         // if we have got empty uimap but not empty dataset
         if (empty($fieldsets) && !empty($data)) {
             return false;
@@ -1063,9 +1068,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 foreach ($uimapFields as $fieldsType => $fieldsData) {
                     foreach ($fieldsData as $uimapFieldName => $uimapFieldValue) {
                         if ($dataFieldName == $uimapFieldName) {
-                            $dataMap[$dataFieldName] = array('type'  => $fieldsType,
-                                                             'path'  => $fieldset->getXpath() . $uimapFieldValue,
-                                                             'value' => $dataFieldValue);
+                            $dataMap[$dataFieldName] = array(
+                                'type'  => $fieldsType,
+                                'path'  => $fieldset->getXpath() . $uimapFieldValue,
+                                'value' => $dataFieldValue
+                            );
                             break 3;
                         }
                     }
@@ -1273,7 +1280,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $xpathTR = $this->search($data, $fieldSetName);
         if ($xpathTR) {
-            $xpathTR .="//input[contains(@class,'checkbox')][not(@disabled)]";
+            $xpathTR .="//input[contains(@class,'checkbox') or contains(@class,'radio')][not(@disabled)]";
             if ($this->getValue($xpathTR) == 'off') {
                 $this->click($xpathTR);
             }
@@ -1478,7 +1485,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->messages['success'] = $this->getElementsByXpath(self::xpathSuccessMessage);
         $this->messages['error'] = $this->getElementsByXpath(self::xpathErrorMessage);
         $this->messages['validation'] = $this->getElementsByXpath(self::xpathValidationMessage, 'text',
-                                                                  self::xpathFieldNameWithValidationMessage);
+                self::xpathFieldNameWithValidationMessage);
     }
 
     /**
@@ -1578,10 +1585,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         try {
             $this->admin('log_in_to_admin');
 
-            if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
-                if ($this->checkCurrentPage('log_in_to_admin')) {
-                    $loginData = array('user_name' => $this->_applicationHelper->getDefaultAdminUsername(),
-                                       'password'  => $this->_applicationHelper->getDefaultAdminPassword());
+            $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+            if ($currentPage != $this->_firstPageAfterAdminLogin) {
+                if ($currentPage == 'log_in_to_admin') {
+                    $loginData = array(
+                        'user_name' => $this->_applicationHelper->getDefaultAdminUsername(),
+                        'password' => $this->_applicationHelper->getDefaultAdminPassword()
+                    );
                     $this->fillForm($loginData);
                     $this->clickButton('login', false);
                     $this->waitForElement(array(self::xpathAdminLogo,
