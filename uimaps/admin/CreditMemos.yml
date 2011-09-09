@@ -63,7 +63,7 @@ create_credit_memo:
     mca: sales_order_creditmemo/new/order_id/%id%/
     title: New Memo / Credit Memos / Sales / Magento Admin
     uimap:
-        form: &orderShipment
+        form: &orderCreditmemo
             fieldsets:
                 -
                     order_number:
@@ -102,6 +102,7 @@ create_credit_memo:
                         xpath: //div[@class='box-right entry-edit'][./div/h4='Refund Totals']
                         buttons:
                             refund_offline: //button[span='Refund Offline']
+                            refund: //button[span='Refund']
                         fields:
                             refund_shipping: //input[@name='creditmemo[shipping_amount]']
                             adjustment_refund: //input[@name='creditmemo[adjustment_positive]']
@@ -114,3 +115,9 @@ create_credit_memo:
             reset: //p[@class='form-buttons']//button[span='Reset']
         messages:
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
+
+create_credit_memo_for_invoice:
+    mca: sales_order_creditmemo/new/order_id/%id%/invoice_id/%invoice_id%/
+    title: New Memo for %invoiceId% / Credit Memos / Sales / Magento Admin
+    uimap:
+        form: *orderCreditmemo

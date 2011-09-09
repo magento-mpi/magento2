@@ -111,3 +111,45 @@ create_invoice:
             reset: //p[@class='form-buttons']//button[span='Reset']
         messages:
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
+            failure: //li[normalize-space(@class)='error-msg' and contains(.//span,'PayPal gateway rejected the request.')]
+
+view_invoice:
+    mca: sales_invoice/view/invoice_id/%invoice_id%/
+    title: %invoiceId% / Invoices / Sales / Magento Admin
+    uimap:
+        form: &viewInvoice
+            fieldsets:
+                -
+                    order_number:
+                        xpath: //div[@class='entry-edit'][./div/a[contains(.,'Order #')]]
+                -
+                    account_information:
+                        xpath: //div[@class='entry-edit'][./div/h4='Account Information']
+                -
+                    billing_address:
+                        xpath: //div[@class='entry-edit'][./div/h4='Billing Address']
+                -
+                    shipping_address:
+                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Address']
+                -
+                    payment_information:
+                        xpath: //div[@class='entry-edit'][./div/h4='Payment Information']
+                -
+                    shipping_information:
+                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Information']
+                -
+                    items_invoiced:
+                        xpath: //div[@id='invoice_item_container']/div[@class='grid np']
+                -
+                    invoice_history:
+                        xpath: //div[@class='box-left entry-edit'][./div/h4='Invoice History']
+                        fields:
+                            invoice_comments: //textarea[@name='invoice[comment_text]']
+                -
+                    invoice_totals:
+                        xpath: //div[@class='box-right entry-edit'][./div/h4='Invoice Totals']
+        buttons:
+            back: //p[@class='form-buttons']//button[span='Back']
+            send_email: //p[@class='form-buttons']//button[span='Send Email']
+            credit_memo: //p[@class='form-buttons']//button[span='Credit Memo']
+            print: //p[@class='form-buttons']//button[span='Print']
