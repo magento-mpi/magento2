@@ -2803,19 +2803,25 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     /**
      * Generate fragment of SQL, that check condition and return true or false value
      *
-     * @param string $condition     expression
-     * @param string $true          true value
-     * @param string $false         false value
+     * @param Zend_Db_Expr|Zend_Db_Select|string $expression
+     * @param string $true  true value
+     * @param string $false false value
      */
-    public function getCheckSql($condition, $true, $false)
+    public function getCheckSql($expression, $true, $false)
     {
-        return new Zend_Db_Expr("IF({$condition}, {$true}, {$false})");
+        if ($expression instanceof Zend_Db_Expr || $expression instanceof Zend_Db_Select) {
+            $expression = sprintf("IF((%s), %s, %s)", $expression, $true, $false);
+        } else {
+            $expression = sprintf("IF(%s, %s, %s)", $expression, $true, $false);
+        }
+
+        return new Zend_Db_Expr($expression);
     }
 
     /**
      * Returns valid IFNULL expression
      *
-     * @param string $column
+     * @param Zend_Db_Expr|Zend_Db_Select|string $expression
      * @param string $value OPTIONAL. Applies when $expression is NULL
      * @return Zend_Db_Expr
      */
