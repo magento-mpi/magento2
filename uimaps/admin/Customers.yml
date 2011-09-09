@@ -60,16 +60,16 @@ manage_customers:
         buttons:
             add_new_customer: //button[span='Add New Customer' or span='Add New']
         messages: &customerMessages
+            success_deleted_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.//span,'Total of %qtyDeletedCustomers% record(s) were deleted.')]
             wrong_data_of_birth: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Date Of Birth" does not fit the entered date format.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.//span,'Customer with the same email already exists.')]
             success_deleted_customer: //li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been deleted.')]
-            success_deleted_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.//span,'Total of %qtyDeletedCustomers% record(s) were deleted.')]
             success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.//span,'The customer has been saved.')]
             customer_invalid_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'"Email" is not a valid')]
-            invalid_email: //div[@id='advice-validate-email-_accountemail']
             no_records_found: //td[normalize-space(@class)='empty-text a-center' and text()='No records found.']
             password_too_short: //div[@id='advice-validate-password-_accountpassword']
+            invalid_email: //div[@id='advice-validate-email-_accountemail']
             confirmation_for_delete: Are you sure you want to do this?
             confirmation_for_massaction_delete: Are you sure?
 

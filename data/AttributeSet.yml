@@ -43,9 +43,5 @@ attribute_set:
     new_groups: %noValue%
     associated_attributes: *associatedAttributes
 
-attribute_set_default:
-    set_name: test_attribute_set
-    based_on: Default
-
 search_attribute_set:
     set_name: Default
