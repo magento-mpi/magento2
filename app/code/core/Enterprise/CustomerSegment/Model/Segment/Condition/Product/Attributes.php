@@ -179,8 +179,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
         $select->where($condition);
         $select->where('main.entity_id = '.$fieldName);
         $inOperator = ($requireValid ? 'EXISTS' : 'NOT EXISTS');
-        if ($this->getCombineHistory()) {
-            // when used as a child of History condition - "EXISTS" always set to "EXISTS"
+        if ($this->getCombineProductCondition()) {
+            // when used as a child of History or List condition - "EXISTS" always set to "EXISTS"
             $inOperator = 'EXISTS';
         }
         return sprintf("%s (%s)", $inOperator, $select);
