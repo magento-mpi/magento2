@@ -80,12 +80,14 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
     {
         $model = Mage::registry('current_promo_catalog_rule');
 
-        //$form = new Varien_Data_Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
         $form = new Varien_Data_Form();
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>Mage::helper('salesrule')->__('Update Prices Using the Following Information')));
+        $fieldset = $form->addFieldset('action_fieldset', array(
+                'legend' => Mage::helper('salesrule')->__('Update Prices Using the Following Information')
+            )
+        );
 
         $fieldset->addField('simple_action', 'select', array(
             'label'     => Mage::helper('salesrule')->__('Apply'),
@@ -100,6 +102,35 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
 
         $fieldset->addField('discount_amount', 'text', array(
             'name' => 'discount_amount',
+            'required' => true,
+            'class' => 'validate-not-negative-number',
+            'label' => Mage::helper('salesrule')->__('Discount Amount'),
+        ));
+
+        $fieldset->addField('sub_is_enable', 'select', array(
+            'name' => 'sub_is_enable',
+            'label' => Mage::helper('catalog')->__('Enable Discount to Subproducts'),
+            'title' => Mage::helper('catalog')->__('Enable Discount to Subproducts'),
+            'onchange' => 'hideShowSubproductOptions(this);',
+            'values' => array(
+                0 => Mage::helper('salesrule')->__('No'),
+                1 => Mage::helper('salesrule')->__('Yes')
+            )
+        ));
+
+        $fieldset->addField('sub_simple_action', 'select', array(
+            'label'     => Mage::helper('salesrule')->__('Apply'),
+            'name'      => 'sub_simple_action',
+            'options'    => array(
+                'by_percent' => Mage::helper('salesrule')->__('By Percentage of the Original Price'),
+                'by_fixed' => Mage::helper('salesrule')->__('By Fixed Amount'),
+                'to_percent' => Mage::helper('salesrule')->__('To Percentage of the Original Price'),
+                'to_fixed' => Mage::helper('salesrule')->__('To Fixed Amount'),
+            ),
+        ));
+
+        $fieldset->addField('sub_discount_amount', 'text', array(
+            'name' => 'sub_discount_amount',
             'required' => true,
             'class' => 'validate-not-negative-number',
             'label' => Mage::helper('salesrule')->__('Discount Amount'),
