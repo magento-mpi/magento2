@@ -52,7 +52,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -70,8 +70,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->customerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
 
         return $userData;
     }
@@ -104,8 +103,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
 
         return $searchData;
     }
@@ -134,10 +132,8 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         if ($emptyField != 'country') {
             $addressData = $this->loadData('generic_address', array($emptyField => ''));
         } else {
-            $addressData = $this->loadData('generic_address',
-                            array($emptyField => '', 'state' => '%noValue%'));
+            $addressData = $this->loadData('generic_address', array($emptyField => '', 'state' => '%noValue%'));
         }
-
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
@@ -215,11 +211,10 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->saveForm('save_customer');
         //Verifying #–1
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->customerHelper()->openCustomer($searchData);
-        $this->clickControl('tab', 'addresses', FALSE);
+        $this->clickControl('tab', 'addresses', false);
         //Verifying #–2 - Check saved values
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
@@ -267,11 +262,10 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->saveForm('save_customer');
         //Verifying #–1
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->customerHelper()->openCustomer($searchData);
-        $this->clickControl('tab', 'addresses', FALSE);
+        $this->clickControl('tab', 'addresses', false);
         //Verifying #–2 - Check saved values
         $addressNumber = $this->customerHelper()->isAddressPresent($addressData);
         $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
@@ -295,8 +289,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     public function withDefaultBillingAddress(array $searchData)
     {
         //Data
-        $addressData = $this->loadData('all_fields_address',
-                        array('default_shipping_address' => 'No'));
+        $addressData = $this->loadData('all_fields_address', array('default_shipping_address' => 'No'));
         //Steps
         // 1.Open customer
         $this->customerHelper()->openCustomer($searchData);
@@ -304,8 +297,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);
@@ -331,16 +323,14 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
      */
     public function withDefaultShippingAddress(array $searchData)
     {
-        $addressData = $this->loadData('all_fields_address',
-                        array('default_billing_address' => 'No'));
+        $addressData = $this->loadData('all_fields_address', array('default_billing_address' => 'No'));
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->customerHelper()->openCustomer($searchData);
         $this->clickControl('tab', 'addresses', FALSE);

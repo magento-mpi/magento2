@@ -52,7 +52,7 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_attribute_sets');
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -64,46 +64,19 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
      * <p>3. Click button "Save Attribute Set"</p>
      * <p>Expected result</p>
      * <p>Received the message on successful completion of the attribute set creation</p>
+     *
      * @test
      */
     public function basedOnDefault()
     {
         //Data
-        $attributeSetData = $this->loadData('attribute_set_default', null, 'set_name');
+        $setData = $this->loadData('attribute_set', null, 'set_name');
         //Steps
-        $this->attributeSetHelper()->createAttributeSet($attributeSetData);
+        $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
         $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'),
-                'After successful attribute set creation should be redirected to Edit Attribute Set page');
-        return $attributeSetData;
-    }
-
-    /**
-     * <p>Attribute Set creation - based on Custom</p>
-     * <p>Preconditions:</p>
-     * <p>Attribute set created based on default</p>
-     * <p>Steps</p>
-     * <p>1. Click button "Add New Set"</p>
-     * <p>2. Fill in fields - choose existing Attribute Set in "Based On" field</p>
-     * <p>3. Click button "Save Attribute Set"</p>
-     * <p>Expected result</p>
-     * <p>Received the message on successful completion of the attribute set creation</p>
-     *
-     * @depends basedOnDefault
-     * @test
-     */
-    public function basedOnCustom($attributeSetData)
-    {
-        //Data
-        $attributeSetDataCustom = $this->loadData('attribute_set_default',
-                array('based_on' => $attributeSetData['set_name']), 'set_name');
-        //Steps
-        $this->attributeSetHelper()->createAttributeSet($attributeSetDataCustom);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'),
-                'After successful attribute set creation should be redirected to Edit Attribute Set page');
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
+        return $setData['set_name'];
     }
 
     /**
@@ -120,15 +93,14 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
      * @depends basedOnDefault
      * @test
      */
-    public function withNameThatAlreadyExists($attributeSetData)
+    public function withNameThatAlreadyExists($attributeSetName)
     {
         //Data
-        $attributeSetDataCustom = $this->loadData('attribute_set_default',
-                array('set_name' => $attributeSetData['set_name']));
+        $setData = $this->loadData('attribute_set', array('set_name' => $attributeSetName));
         //Steps
-        $this->attributeSetHelper()->createAttributeSet($attributeSetData);
+        $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
-        $this->addParameter('attributeSetName', $attributeSetData['set_name']);
+        $this->addParameter('attributeSetName', $setData['set_name']);
         $this->assertTrue($this->errorMessage('error_attribute_set_exist'), $this->messages);
     }
 
@@ -146,10 +118,9 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
     public function withEmptyName()
     {
         //Data
-        $attributeSetData = $this->loadData('attribute_set_default',
-                array('set_name' => '%noValue%'));
+        $setData = $this->loadData('attribute_set', array('set_name' => ''));
         //Steps
-        $this->attributeSetHelper()->createAttributeSet($attributeSetData);
+        $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
         $this->addFieldIdToMessage('field', 'set_name');
         $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
@@ -171,21 +142,43 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
     public function withLongValues()
     {
         //Data
-        $attributeSetData = $this->loadData('attribute_set_default',
-                array('set_name' => $this->generate('string', 255, ':alnum:')));
-        $attributeSetSearch = $this->loadData('search_attribute_set',
-                array('set_name' => $attributeSetData['set_name']));
+        $setData = $this->loadData('attribute_set', array('set_name' => $this->generate('string', 255, ':alnum:')));
+        $attributeSetSearch['set_name'] = $setData['set_name'];
         //Steps
-        $this->attributeSetHelper()->createAttributeSet($attributeSetData);
+        $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
         $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'),
-                'After successful attribute set creation should be redirected to Manage Attribute Set page');
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
         //Steps
         $this->attributeSetHelper()->openAttributeSet($attributeSetSearch);
-        $xpath = $this->_getControlXpath('field', 'set_name');
-        $setValue = $this->getValue($xpath);
-        $this->assertEquals($setValue, $attributeSetData['set_name'], 'Attribute name should be equal');
+        $this->assertTrue($this->verifyForm($attributeSetSearch), $this->messages);
+    }
+
+    /**
+     * <p>Creating Attribute Set using special characters for set name</p>
+     * <p>Steps</p>
+     * <p>1. Click button "Add New Set"</p>
+     * <p>2. Fill in "Name" field using special characters;</p>
+     * <p>3. Click button "Save Attribute Set"</p>
+     * <p>Expected result:</p>
+     * <p>Received the message on successful completion of the attribute set creation</p>
+     *
+     * @depends basedOnDefault
+     * @test
+     */
+    public function withSpecialCharacters()
+    {
+        //Data
+        $setData = $this->loadData('attribute_set', array('set_name' => $this->generate('string', 32, ':punct:')));
+        $attributeSetSearch['set_name'] = $setData['set_name'];
+        //Steps
+        $this->attributeSetHelper()->createAttributeSet($setData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
+        //Steps
+        $this->attributeSetHelper()->openAttributeSet($attributeSetSearch);
+        $this->assertTrue($this->verifyForm($attributeSetSearch), $this->messages);
     }
 
     /**
@@ -202,39 +195,64 @@ class AttributeSet_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Received the message on successful completion of the attribute set creation</p>
      *
+     * @depends basedOnDefault
      * @test
      */
-    public function addUserProductAttributes()
+    public function addUserProductAttributesToNewGroup()
     {
-        //Create Attributes
+        //Data
+        $groupName = $this->generate('string', 5, ':lower:') . '_test_group';
+        $attrData = $this->loadData('product_attributes', null, array('attribute_code', 'admin_title'));
+        $setData = $this->loadData('attribute_set', null, 'set_name');
+        $attrCodes = array();
+        foreach ($attrData as $key => $value) {
+            if (is_array($value) && array_key_exists('attribute_code', $value)) {
+                $attrCodes[] = $value['attribute_code'];
+            }
+        }
+        $setData['associated_attributes'][$groupName] = $attrCodes;
+        //Steps
         $this->navigate('manage_attributes');
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'), 'Wrong page is opened');
-        //Attributes Data
-        $attrData = $this->loadData('product_attributes', NULL,
-                        array('attribute_code', 'admin_title'));
-        $attributeSetData = $this->loadData('attribute_set_default', null, 'set_name');
-        //Steps
-        foreach ($attrData as $key => $value) {
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
+        foreach ($attrData as $value) {
             $this->productAttributeHelper()->createAttribute($value);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'),
-                'After successful attribute creation should be redirected to Manage Attributes page');
+            //Verifying
+            $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+            $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
         }
-        $this->assertPreConditions();
         //Steps
-        $this->clickButton('add_new_set');
-        $this->fillForm($attributeSetData, 'attribute_sets_grid');
-        $this->addParameter('attributeName', $attributeSetData['set_name']);
-        $this->clickButton('save_attribute_set');
-        $this->attributeSetHelper()->addNewGroup(array('new_groups' => 'test_group'));
-        foreach ($attrData as $key => $value) {
-            $this->attributeSetHelper()->addAttributeToSet(array('test_group' => $value['attribute_code']));
-        }
-        $this->saveForm('save_attribute_set');
+        $this->assertPreConditions();
+        $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
         $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'),
-                'After successful attribute set creation should be redirected to Manage Attribute Set page');
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
+
+        return $setData;
     }
+
+    /**
+     * <p>Attribute Set creation - based on Custom</p>
+     * <p>Preconditions:</p>
+     * <p>Attribute set created based on default</p>
+     * <p>Steps</p>
+     * <p>1. Click button "Add New Set"</p>
+     * <p>2. Fill in fields - choose existing Attribute Set in "Based On" field</p>
+     * <p>3. Click button "Save Attribute Set"</p>
+     * <p>Expected result</p>
+     * <p>Received the message on successful completion of the attribute set creation</p>
+     *
+     * @depends addUserProductAttributesToNewGroup
+     * @test
+     */
+    public function basedOnCustom($setData)
+    {
+        //Data
+        $setDataCustom = $this->loadData('attribute_set', array('based_on' => $setData['set_name']), 'set_name');
+        //Steps
+        $this->attributeSetHelper()->createAttributeSet($setDataCustom);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
+    }
+
 }

@@ -52,7 +52,7 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -71,20 +71,18 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
     public function single()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', NULL, 'email');
+        $userData = $this->loadData('generic_customer_account', null, 'email');
         $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
         //Preconditions
         $this->CustomerHelper()->createCustomer($userData);
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->CustomerHelper()->openCustomer($searchData);
         $this->deleteElement('delete_customer', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
     }
 
     /**
@@ -105,13 +103,12 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
         $customerQty = 2;
         for ($i = 1; $i <= $customerQty; $i++) {
             //Data
-            $userData = $this->loadData('generic_customer_account', NULL, 'email');
+            $userData = $this->loadData('generic_customer_account', null, 'email');
             ${'searchData' . $i} = $this->loadData('search_customer', array('email' => $userData['email']));
             //Steps
             $this->CustomerHelper()->createCustomer($userData);
             $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-            $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                    'After successful customer creation should be redirected to Manage Customers page');
+            $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         }
         for ($i = 1; $i <= $customerQty; $i++) {
             $this->searchAndChoose(${'searchData' . $i});

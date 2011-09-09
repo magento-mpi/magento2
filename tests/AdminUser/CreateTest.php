@@ -46,7 +46,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_admin_users');
-        $this->assertTrue($this->checkCurrentPage('manage_admin_users'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_admin_users'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -61,12 +61,12 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_Navigation()
     {
-        $this->assertTrue($this->clickButton('add_new_admin_user'),
+        $this->assertTrue($this->buttonIsPresent('add_new_admin_user'),
                 'There is no "Add New Customer" button on the page');
-        $this->assertTrue($this->checkCurrentPage('new_admin_user'), 'Wrong page is opened');
+        $this->clickButton('add_new_admin_user');
+        $this->assertTrue($this->checkCurrentPage('new_admin_user'), $this->messages);
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
-        $this->assertTrue($this->buttonIsPresent('save_admin_user'),
-                'There is no "Save User" button on the page');
+        $this->assertTrue($this->buttonIsPresent('save_admin_user'), 'There is no "Save User" button on the page');
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
     }
 
@@ -91,8 +91,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('edit_admin_user'),
-                'After successful user creation should be redirected to Edit User page');
+        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->messages);
 
         return $userData;
     }
@@ -159,17 +158,9 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
      */
     public function test_WithRequiredFieldsEmpty($emptyField, $messageCount)
     {
-        //Data
-        if ($emptyField == 'user_name') {
-            $userData =
-                    $this->loadData('generic_admin_user', array($emptyField => '%noValue%'), 'email');
-        } elseif ($emptyField == 'email') {
-            $userData = $this->loadData('generic_admin_user', array($emptyField => '%noValue%'),
-                            'user_name');
-        } else {
-            $userData = $this->loadData('generic_admin_user', array($emptyField => '%noValue%'),
-                            array('email', 'user_name'));
-        }
+
+        $userData = $this->loadData('generic_admin_user', array($emptyField => '%noValue%'),
+                array('email', 'user_name'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
@@ -209,17 +200,16 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $specialCharacters = array(
-            'user_name' => $this->generate('string', 32, ':punct:'),
+            'user_name'  => $this->generate('string', 32, ':punct:'),
             'first_name' => $this->generate('string', 32, ':punct:'),
-            'last_name' => $this->generate('string', 32, ':punct:'),
+            'last_name'  => $this->generate('string', 32, ':punct:'),
         );
         $userData = $this->loadData('generic_admin_user', $specialCharacters, 'email');
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('edit_admin_user'),
-                'After successful user creation should be redirected to Edit User page');
+        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->messages);
         $this->assertTrue(
                 $this->verifyForm(
                         $userData, 'user_info', array('password', 'password_confirmation')
@@ -244,11 +234,11 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         //Data
         $password = $this->generate('string', 255, ':alnum:');
         $longValues = array(
-            'user_name' => $this->generate('string', 40, ':alnum:'),
-            'first_name' => $this->generate('string', 32, ':alnum:'),
-            'last_name' => $this->generate('string', 32, ':alnum:'),
-            'email' => $this->generate('email', 128, 'valid'),
-            'password' => $password,
+            'user_name'             => $this->generate('string', 40, ':alnum:'),
+            'first_name'            => $this->generate('string', 32, ':alnum:'),
+            'last_name'             => $this->generate('string', 32, ':alnum:'),
+            'email'                 => $this->generate('email', 128, 'valid'),
+            'password'              => $password,
             'password_confirmation' => $password
         );
         $userData = $this->loadData('generic_admin_user', $longValues);
@@ -256,8 +246,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('edit_admin_user'),
-                'After successful user creation should be redirected to Edit User page');
+        $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->messages);
         $this->assertTrue(
                 $this->verifyForm(
                         $userData, 'user_info', array('password', 'password_confirmation')
@@ -282,8 +271,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function test_WithInvalidPassword($wrongPasswords, $errorMessage)
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', $wrongPasswords,
-                        array('email', 'user_name'));
+        $userData = $this->loadData('generic_admin_user', $wrongPasswords, array('email', 'user_name'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
@@ -332,8 +320,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function test_WithInvalidEmail($invalidEmail)
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', array('email' => $invalidEmail),
-                        'user_name');
+        $userData = $this->loadData('generic_admin_user', array('email' => $invalidEmail), 'user_name');
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
@@ -370,8 +357,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_admin_user',
-                        array('this_acount_is' => 'Inactive', 'role_name' => 'Administrators'),
-                        array('email', 'user_name')
+                array('this_acount_is' => 'Inactive', 'role_name' => 'Administrators'), array('email', 'user_name')
         );
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
@@ -405,7 +391,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_admin_user', array('role_name' => 'Administrators'),
-                        array('email', 'user_name'));
+                array('email', 'user_name'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
@@ -414,7 +400,7 @@ class AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($userData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('dashboard'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->messages);
     }
 
     /**

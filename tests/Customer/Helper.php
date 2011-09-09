@@ -82,7 +82,7 @@ class Customer_Helper extends Mage_Selenium_TestCase
         $xpath = $fieldSet->getXPath();
         $addressCount = $this->getXpathCount($xpath . '//li') + 1;
         $this->addParameter('address_number', $addressCount);
-        $page->assignParams($this->_paramsHelper);
+        return $addressCount;
     }
 
     /**
@@ -94,14 +94,11 @@ class Customer_Helper extends Mage_Selenium_TestCase
     public function addAddress(array $addressData)
     {
         //Open 'Addresses' tab
-        $this->addAddressNumber();
         $this->clickControl('tab', 'addresses', FALSE);
+        $addressNumber = $this->addAddressNumber();
         $this->clickButton('add_new_address', FALSE);
-        $addressNumber = $this->_paramsHelper->getParameter('address_number');
-        $page = $this->getCurrentUimapPage();
-        $xpath = $page->findFieldset('list_customer_addresses')->getXPath();
-        $addressCount = $this->getXpathCount($xpath . '//li');
-        $this->assertEquals($addressCount, $addressNumber);
+        $this->click("//*[@id='new_item$addressNumber']");
+        sleep(1);
         //Fill in 'Customer's Address' tab
         $this->fillForm($addressData, 'addresses');
     }

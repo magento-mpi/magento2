@@ -44,14 +44,16 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
      */
     public function createAttributeSet(array $attrSet)
     {
+        $attrSet = $this->arrayEmptyClear($attrSet);
         $this->clickButton('add_new_set');
         $this->fillForm($attrSet, 'attribute_sets_grid');
         $this->addParameter('attributeName', $attrSet['set_name']);
         $this->saveForm('save_attribute_set');
-        if (isset($attrSet['new_groups']) && $attrSet['new_groups'] != '%noValue%') {
+        sleep(1);
+        if (array_key_exists('new_groups', $attrSet)) {
             $this->addNewGroup($attrSet['new_groups']);
         }
-        if (isset($attrSet['associated_attributes']) && $attrSet['associated_attributes'] != '%noValue%') {
+        if (array_key_exists('associated_attributes', $attrSet)) {
             $this->addAttributeToSet($attrSet['associated_attributes']);
         }
         $this->saveForm('save_attribute_set');
@@ -87,27 +89,33 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
      */
     public function addAttributeToSet(array $attributes)
     {
-        foreach ($attributes as $groupName => $attributeTitle) {
-            if ($attributeTitle == '%noValue%') {
+        foreach ($attributes as $groupName => $attributeCode) {
+            if ($attributeCode == '%noValue%') {
                 continue;
             }
-            $this->addParameter('attributeName', $attributeTitle);
+            if (is_string($attributeCode)) {
+                $attributeCode = explode(',', $attributeCode);
+                $attributeCode = array_map('trim', $attributeCode);
+            }
             $this->addParameter('folderName', $groupName);
-            $elFrom = $this->_getControlXpath('link', 'unassigned_attribute');
-            $elTo = $this->_getControlXpath('link', 'group_folder');
-            if (!$this->isElementPresent($elFrom)) {
-                $this->addNewGroup($groupName);
+            foreach ($attributeCode as $value) {
+                $this->addParameter('attributeName', $value);
+                $elFrom = $this->_getControlXpath('link', 'unassigned_attribute');
+                $elTo = $this->_getControlXpath('link', 'group_folder');
+                if (!$this->isElementPresent($elTo)) {
+                    $this->addNewGroup($groupName);
+                }
+                if (!$this->isElementPresent($elFrom)) {
+                    $this->fail("Attribute with title '$value' does not exist");
+                }
+                $this->moveElementOverTree('link', 'unassigned_attribute', 'fieldset', 'unassigned_attributes');
+                $this->moveElementOverTree('link', 'group_folder', 'fieldset', 'groups');
+                $this->clickAt($elFrom, '1,1');
+                $this->clickAt($elTo, '1,1');
+                $this->mouseDownAt($elFrom, '1,1');
+                $this->mouseMoveAt($elTo, '1,1');
+                $this->mouseUpAt($elTo, '10,10');
             }
-            if (!$this->isElementPresent($elTo)) {
-                $this->fail("Attribute with title '$attributeTitle' does not exist");
-            }
-            $this->moveElementOverTree('link', 'unassigned_attribute', 'fieldset', 'unassigned_attributes');
-            $this->moveElementOverTree('link', 'group_folder', 'fieldset', 'groups');
-            $this->clickAt($elFrom, '1,1');
-            $this->clickAt($elTo, '1,1');
-            $this->mouseDownAt($elFrom, '1,1');
-            $this->mouseMoveAt($elTo, '1,1');
-            $this->mouseUpAt($elTo, '10,10');
         }
     }
 

@@ -52,7 +52,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -69,12 +69,12 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
      */
     public function navigation()
     {
-        $this->assertTrue($this->clickButton('add_new_customer'),
+        $this->assertTrue($this->buttonIsPresent('add_new_customer'),
                 'There is no "Add New Customer" button on the page');
-        $this->assertTrue($this->checkCurrentPage('create_customer'), 'Wrong page is opened');
+        $this->clickButton('add_new_customer');
+        $this->assertTrue($this->checkCurrentPage('create_customer'), $this->messages);
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
-        $this->assertTrue($this->buttonIsPresent('save_customer'),
-                'There is no "Save" button on the page');
+        $this->assertTrue($this->buttonIsPresent('save_customer'), 'There is no "Save" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_and_continue_edit'),
                 'There is no "Save and Continue Edit" button on the page');
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
@@ -96,13 +96,12 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $userData = $this->loadData('generic_customer_account', NULL, 'email');
+        $userData = $this->loadData('generic_customer_account', null, 'email');
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
 
         return $userData;
     }
@@ -146,13 +145,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
-        if ($emptyField != 'email') {
-            $userData = $this->loadData('generic_customer_account',
-                            array($emptyField => '%noValue%'), 'email');
-        } else {
-            $userData = $this->loadData('generic_customer_account',
-                            array($emptyField => '%noValue%'));
-        }
+        $userData = $this->loadData('generic_customer_account', array($emptyField => '%noValue%'), 'email');
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
@@ -190,7 +183,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_customer_account',
-                        array(
+                array(
                             'prefix'         => $this->generate('string', 32, ':punct:'),
                             'first_name'     => $this->generate('string', 32, ':punct:'),
                             'middle_name'    => $this->generate('string', 32, ':punct:'),
@@ -198,16 +191,14 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
                             'suffix'         => $this->generate('string', 32, ':punct:'),
                             'tax_vat_number' => $this->generate('string', 32, ':punct:'),
                             'password'       => $this->generate('string', 32, ':punct:')
-                        ), 'email'
+                ), 'email'
         );
-        $searchData = $this->loadData('search_customer',
-                        array('name' => '%noValue%', 'email' => $userData['email']));
+        $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->CustomerHelper()->openCustomer($searchData);
         $this->clickControl('tab', 'account_information', FALSE);
@@ -242,14 +233,12 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
             'password'       => $this->generate('string', 255, ':alnum:')
         );
         $userData = $this->loadData('generic_customer_account', $longValues);
-        $searchData = $this->loadData('search_customer',
-                        array('name' => '%noValue%', 'email' => $userData['email']));
+        $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->CustomerHelper()->openCustomer($searchData);
         $this->clickControl('tab', 'account_information', FALSE);
@@ -310,7 +299,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_customer_account',
-                        array('password' => $this->generate('string', 5, ':alnum:')), 'email');
+                array('password' => $this->generate('string', 5, ':alnum:')), 'email');
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
@@ -334,14 +323,12 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_customer_account',
-                        array('password' => '%noValue%', 'auto_generated_password' => 'Yes'),
-                        'email');
+                array('password' => '%noValue%', 'auto_generated_password' => 'Yes'), 'email');
         //Steps
         $this->CustomerHelper()->createCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
     }
 
     /**
@@ -369,8 +356,7 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
         $this->CustomerHelper()->createCustomer($userData, $addressData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
     }
 
 //    /**
@@ -390,5 +376,4 @@ class Customer_CreateTest extends Mage_Selenium_TestCase
 //    {
 //        $this->markTestIncomplete();
 //    }
-
 }

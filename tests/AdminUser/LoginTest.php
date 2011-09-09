@@ -45,11 +45,10 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     {
         $this->setArea('admin');
         $this->navigate('log_in_to_admin');
-        if (!$this->checkCurrentPage('log_in_to_admin')
-                && $this->isElementPresent(self::xpathLogOutAdmin)) {
+        if (!$this->checkCurrentPage('log_in_to_admin') && $this->isElementPresent(self::xpathLogOutAdmin)) {
             $this->logoutAdminUser();
         }
-        $this->assertTrue($this->checkCurrentPage('log_in_to_admin'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('log_in_to_admin'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -61,12 +60,12 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Data
         $loginData = array(
             'user_name' => $this->_applicationHelper->getDefaultAdminUsername(),
-            'password' => $this->_applicationHelper->getDefaultAdminPassword()
+            'password'  => $this->_applicationHelper->getDefaultAdminPassword()
         );
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('dashboard'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->messages);
         $this->logoutAdminUser();
 
         return $loginData;
@@ -158,8 +157,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_admin_user',
-                        array('this_acount_is' => 'Inactive', 'role_name' => 'Administrators'),
-                        array('email', 'user_name'));
+                array('this_acount_is' => 'Inactive', 'role_name' => 'Administrators'), array('email', 'user_name'));
         $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
         //Steps
         $this->loginAdminUser();
@@ -190,8 +188,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
-        $loginData = array('user_name' => $userData['user_name'],
-            'password' => $userData['password']);
+        $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
         //Pre-Conditions
         $this->loginAdminUser();
         $this->navigate('manage_admin_users');
@@ -223,7 +220,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
         $this->assertTrue($this->errorMessage('empty_email'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('forgot_password'));
+        $this->assertTrue($this->checkCurrentPage('forgot_password'), $this->messages);
     }
 
     /**
@@ -244,7 +241,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
         $this->assertTrue($this->errorMessage('wrong_email'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('forgot_password'));
+        $this->assertTrue($this->checkCurrentPage('forgot_password'), $this->messages);
     }
 
     /**
@@ -298,7 +295,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function test_forgotPassword_OldPassword()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
+        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
         $emailData = array('email' => $userData['email']);
         $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
         //Steps

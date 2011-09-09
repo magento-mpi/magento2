@@ -45,7 +45,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
         $this->navigate('customer_login');
-        $this->assertTrue($this->checkCurrentPage('customer_login'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->messages);
     }
 
     /**
@@ -65,13 +65,12 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('customer_account_register',
-                        array('email' => $this->generate('email', 20, 'valid')));
+                array('email' => $this->generate('email', 20, 'valid')));
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_registration'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('customer_account'),
-                'After succesfull registration customer should be redirected to account dashboard');
+        $this->assertTrue($this->checkCurrentPage('customer_account'), $this->messages);
 
         return $userData;
     }
@@ -118,26 +117,25 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Data
         $password = $this->generate('string', 255, ':alnum:');
         $userData = $this->loadData(
-                        'customer_account_register',
-                        array(
-                    'first_name' => $this->generate('string', 255, ':alnum:'),
-                    'last_name' => $this->generate('string', 255, ':alnum:'),
-                    'email' => $this->generate('email', 128, 'valid'),
-                    'password' => $password,
+                'customer_account_register',
+                array(
+                    'first_name'            => $this->generate('string', 255, ':alnum:'),
+                    'last_name'             => $this->generate('string', 255, ':alnum:'),
+                    'email'                 => $this->generate('email', 128, 'valid'),
+                    'password'              => $password,
                     'password_confirmation' => $password,
-                        )
+                )
         );
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_registration'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('customer_account'),
-                'After succesfull registration customer should be redirected to account dashboard');
+        $this->assertTrue($this->checkCurrentPage('customer_account'), $this->messages);
         //Steps
         $this->clickControl('tab', 'account_information');
         //Verifying
-        $this->assertTrue($this->verifyForm($userData, NULL,
-                        array('password', 'password_confirmation')), $this->messages);
+        $this->assertTrue($this->verifyForm($userData, null, array('password', 'password_confirmation')),
+                $this->messages);
     }
 
     /**
@@ -202,21 +200,20 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         //Data
         $password = $this->generate('string', 25, ':punct:');
         $userData = $this->loadData(
-                        'customer_account_register',
-                        array(
-                            'first_name'            => $this->generate('string', 25, ':punct:'),
-                            'last_name'             => $this->generate('string', 25, ':punct:'),
-                            'email'                 => $this->generate('email', 20, 'valid'),
-                            'password'              => $password,
-                            'password_confirmation' => $password,
-                        )
+                'customer_account_register',
+                array(
+                    'first_name'            => $this->generate('string', 25, ':punct:'),
+                    'last_name'             => $this->generate('string', 25, ':punct:'),
+                    'email'                 => $this->generate('email', 20, 'valid'),
+                    'password'              => $password,
+                    'password_confirmation' => $password,
+                )
         );
         //Steps
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertTrue($this->successMessage('success_registration'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('customer_account'),
-                'After succesfull registration customer should be redirected to account dashboard');
+        $this->assertTrue($this->checkCurrentPage('customer_account'), $this->messages);
     }
 
     /**
@@ -343,5 +340,4 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
 //    {
 //        $this->markTestIncomplete();
 //    }
-
 }
