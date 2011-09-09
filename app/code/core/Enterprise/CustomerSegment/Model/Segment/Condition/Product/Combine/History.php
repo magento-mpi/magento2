@@ -37,7 +37,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      *
      * @var bool
      */
-    protected $_combineHistory = false;
+    protected $_combineHistory = true;
 
     /**
      * Flag of using condition combine (for conditions of Product_Attribute)
