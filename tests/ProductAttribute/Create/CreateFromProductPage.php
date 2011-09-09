@@ -52,7 +52,7 @@ class ProductAttribute_Create_CreateFromProductPage extends Mage_Selenium_TestCa
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', 0);
     }
 

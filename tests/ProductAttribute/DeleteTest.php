@@ -52,7 +52,7 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_attributes');
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
         $this->addParameter('id', 0);
     }
 
@@ -84,8 +84,7 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'),
-                'After successful customer creation should be redirected to Manage Attributes page');
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
         //Steps
         $this->productAttributeHelper()->openAttribute($searchData);
         $this->deleteElement('delete_attribute', 'delete_confirm_message');
@@ -149,7 +148,7 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         $searchData = $this->loadData('attribute_search_data',
                 array(
                     'attribute_code'  => $attrData['attribute_code'],
-                    'attribute_lable' => $attrData['admin_title'],
+                    'attribute_lable' => $attrData['admin_title']
                 ));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);

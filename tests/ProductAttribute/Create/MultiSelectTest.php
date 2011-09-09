@@ -52,21 +52,22 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_attributes');
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
         $this->addParameter('id', 0);
     }
+
     /**
      * @test
      */
     public function navigation()
     {
-        $this->assertTrue($this->clickButton('add_new_attribute'),
+        $this->assertTrue($this->buttonIsPresent('add_new_attribute'),
                 'There is no "Add New Attribute" button on the page');
-        $this->assertTrue($this->checkCurrentPage('new_product_attribute'), 'Wrong page is opened');
+        $this->clickButton('add_new_attribute');
+        $this->assertTrue($this->checkCurrentPage('new_product_attribute'), $this->messages);
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
-        $this->assertTrue($this->buttonIsPresent('save_attribute'),
-                'There is no "Save" button on the page');
+        $this->assertTrue($this->buttonIsPresent('save_attribute'), 'There is no "Save" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_and_continue_edit'),
                 'There is no "Save and Continue Edit" button on the page');
     }
@@ -88,14 +89,12 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_multiselect', null,
-                        array('attribute_code', 'admin_title'));
+        $attrData = $this->loadData('product_attribute_multiselect', null, array('attribute_code', 'admin_title'));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'),
-                'After successful attribute creation should be redirected to Manage Attributes page');
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
 
         return $attrData;
     }
@@ -142,15 +141,12 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
-        if ($emptyField == 'attribute_code') {
-            $attrData = $this->loadData('product_attribute_multiselect',
-                            array($emptyField => '%noValue%'));
-        } elseif ($emptyField == 'apply_to') {
-            $attrData = $this->loadData('product_attribute_multiselect',
-                            array($emptyField => 'Selected Product Types'), 'attribute_code');
-        } elseif ($emptyField == 'admin_title') {
-            $attrData = $this->loadData('product_attribute_multiselect',
-                            array($emptyField => '%noValue%'), 'attribute_code');
+        if ($emptyField == 'apply_to') {
+            $attrData = $this->loadData('product_attribute_multiselect', array($emptyField => 'Selected Product Types'),
+                    'attribute_code');
+        } else {
+            $attrData = $this->loadData('product_attribute_multiselect', array($emptyField => '%noValue%'),
+                    'attribute_code');
         }
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -194,8 +190,7 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     public function withInvalidAttributeCode($wrongAttributeCode, $validationMessage)
     {
         //Data
-        $attrData = $this->loadData('product_attribute_multiselect',
-                        array('attribute_code' => $wrongAttributeCode));
+        $attrData = $this->loadData('product_attribute_multiselect', array('attribute_code' => $wrongAttributeCode));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -234,8 +229,8 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     public function withInvalidPosition($invalidPosition)
     {
         //Data
-        $attrData = $this->loadData('product_attribute_multiselect',
-                        array('position' => $invalidPosition), 'attribute_code');
+        $attrData = $this->loadData('product_attribute_multiselect', array('position' => $invalidPosition),
+                'attribute_code');
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -275,16 +270,13 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     {
         //Data
         $attrData = $this->loadData('product_attribute_multiselect',
-                        array('admin_title' => $this->generate('string', 32, ':punct:')),
-                        'attribute_code');
-        $searchData = $this->loadData('attribute_search_data',
-                        array('attribute_code' => $attrData['attribute_code']));
+                array('admin_title' => $this->generate('string', 32, ':punct:')), 'attribute_code');
+        $searchData = $this->loadData('attribute_search_data', array('attribute_code' => $attrData['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'),
-                'After successful attribute creation should be redirected to Manage Attributes page');
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
         //Steps
         $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying
@@ -310,24 +302,23 @@ class ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_TestCase
     {
         //Data
         $attrData = $this->loadData('product_attribute_multiselect_with_options',
-                        array(
-                            'attribute_code' => $this->generate('string', 30, ':lower:'),
-                            'admin_title'    => $this->generate('string', 255, ':alnum:'),
-                            'position'       => 2147483647
-                        )
+                array(
+                    'attribute_code' => $this->generate('string', 30, ':lower:'),
+                    'admin_title'    => $this->generate('string', 255, ':alnum:'),
+                    'position'       => 2147483647
+                )
         );
         $searchData = $this->loadData('attribute_search_data',
-                        array(
-                            'attribute_code'  => $attrData['attribute_code'],
-                            'attribute_lable' => $attrData['admin_title']
-                        )
+                array(
+                    'attribute_code'  => $attrData['attribute_code'],
+                    'attribute_lable' => $attrData['admin_title']
+                )
         );
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_attributes'),
-                'After successful attribute creation should be redirected to Manage Attributes page');
+        $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
         //Steps
         $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying
