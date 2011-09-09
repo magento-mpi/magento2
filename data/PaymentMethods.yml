@@ -110,3 +110,11 @@ authorize_net_with_3d_disable:
     an_3d_secure_card_validation: No
     an_credit_card_verification: No
     an_enabled: No
+
+gift_message_for_order_enable:
+    allow_gift_messages_on_order_level: Yes
+    allow_gift_messages_for_order_items: Yes
+
+gift_message_for_order_disable:
+    allow_gift_messages_on_order_level: No
+    allow_gift_messages_for_order_items: No

@@ -308,6 +308,13 @@ create_order_for_new_customer:
                         buttons:
                             ok: //button[span='OK']
                             cancel: //button[span='Cancel']
+                -
+                    gift_options_for_order:
+                        xpath: //div[@class='entry-edit' and contains(.,'Gift Message for the Entire Order')]
+                        fields:
+                            from_order_level: //input[contains(@name, '[sender]')]
+                            to_order_level: //input[contains(@name, '[recipient]')]
+                            message_order_level: //textarea[contains(@name, '[message]')]
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']

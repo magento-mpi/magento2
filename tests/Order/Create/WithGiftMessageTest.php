@@ -54,16 +54,7 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
 
 
     /**
-     * @TODO
-     */
-//    public function test_ForOrder()
-//    {
-//        // @TODO need to enable gift options in system config - > sales -> sales -> gift options
-//        $this->markTestIncomplete();
-//    }
-
-    /**
-     * <p>Creating order with gift messages for products</p>
+     * <p>Creating order with gift messages for order</p>
      * <p>Steps:</p>
      * <p>1. Navigate to "Manage Orders" page;</p>
      * <p>2. Create new order for new customer;</p>
@@ -72,12 +63,22 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      * <p>5. Fill in all required information</p>
      * <p>6. Click "Submit Order" button;</p>
      * <p>Expected result:</p>
-     * <p>Order is created, no error messages appear, gift message added for the products;</p>
+     * <p>Order is created, no error messages appear, gift message added for the order;</p>
      *
      * @test
      */
-    public function forProducts()
+    public function forOrder()
     {
+        //Precondtions
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/sales/');
+        $this->clickControl('tab', 'sales_sales', TRUE);
+        $gift = $this->loadData('gift_message_for_order_enable');
+        $this->fillForm($gift, 'sales_sales');
+        $this->saveForm('save_config');
+        //Steps
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
         $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
@@ -88,35 +89,76 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData, TRUE);
+        $message = array('from_order_level' => 'from_test', 'to_order_level' => 'to_test',
+            'message_order_level' => 'some message');
+        $this->fillForm($message);
+        $this->clickButton('submit_order', TRUE);
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        //Postconditions
+        $this->navigate('system_configuration');
+        $this->addParameter('tabName', 'edit/section/sales/');
+        $this->clickControl('tab', 'sales_sales', TRUE);
+        $gift = $this->loadData('gift_message_for_order_disable');
+        $this->fillForm($gift, 'sales_sales');
+        $this->saveForm('save_config');
     }
 
-    /**
-     * <p>Creating order with gift messages for products, but with empty fields in message</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select products and add them to the order;</p>
-     * <p>4. Add gift message for the products. Do not fill in any fields in message;</p>
-     * <p>5. Fill in all required information</p>
-     * <p>6. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created, no error messages appear;</p>
-     *
-     * @test
-     */
-    public function withEmptyFields()
-    {
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($productData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        $orderData = $this->loadData('order_with_message_empty_fields_for_product',
-                array('general_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-    }
+//    /**
+//     * <p>Creating order with gift messages for products</p>
+//     * <p>Steps:</p>
+//     * <p>1. Navigate to "Manage Orders" page;</p>
+//     * <p>2. Create new order for new customer;</p>
+//     * <p>3. Select products and add them to the order;</p>
+//     * <p>4. Add gift message for the products;</p>
+//     * <p>5. Fill in all required information</p>
+//     * <p>6. Click "Submit Order" button;</p>
+//     * <p>Expected result:</p>
+//     * <p>Order is created, no error messages appear, gift message added for the products;</p>
+//     *
+//     * @test
+//     */
+//    public function forProducts()
+//    {
+//        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+//        $this->productHelper()->createProduct($productData);
+//        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+//        $this->assertTrue($this->checkCurrentPage('manage_products'),
+//                'After successful product creation should be redirected to Manage Products page');
+//        $orderData = $this->loadData('order_with_message_for_product',
+//                array('general_sku' => $productData['general_sku']));
+//        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+//        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+//        $this->navigate('manage_sales_orders');
+//        $orderId = $this->orderHelper()->createOrder($orderData);
+//    }
+//
+//    /**
+//     * <p>Creating order with gift messages for products, but with empty fields in message</p>
+//     * <p>Steps:</p>
+//     * <p>1. Navigate to "Manage Orders" page;</p>
+//     * <p>2. Create new order for new customer;</p>
+//     * <p>3. Select products and add them to the order;</p>
+//     * <p>4. Add gift message for the products. Do not fill in any fields in message;</p>
+//     * <p>5. Fill in all required information</p>
+//     * <p>6. Click "Submit Order" button;</p>
+//     * <p>Expected result:</p>
+//     * <p>Order is created, no error messages appear;</p>
+//     *
+//     * @test
+//     */
+//    public function withEmptyFields()
+//    {
+//        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+//        $this->productHelper()->createProduct($productData);
+//        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+//        $this->assertTrue($this->checkCurrentPage('manage_products'),
+//                'After successful product creation should be redirected to Manage Products page');
+//        $orderData = $this->loadData('order_with_message_empty_fields_for_product',
+//                array('general_sku' => $productData['general_sku']));
+//        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+//        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+//        $this->navigate('manage_sales_orders');
+//        $orderId = $this->orderHelper()->createOrder($orderData);
+//    }
 }
