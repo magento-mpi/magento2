@@ -127,7 +127,7 @@ class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Hel
     /**
      * Retrieve 'cast to int' expression
      *
-     * @param string $expression
+     * @param string|Zend_Db_Expr $expression
      * @return Zend_Db_Expr
      */
     public function getCastToIntExpression($expression)
