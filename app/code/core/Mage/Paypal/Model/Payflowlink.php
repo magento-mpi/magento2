@@ -242,7 +242,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
 
         $payment->setParentTransactionId($txnId);
 
-        $payment->setAmountOrdered($amount);
+        $payment->setAmountOrdered(round($amount,2));
         parent::capture($payment, $amount);
 
         if ($removePaypalTransaction) {
@@ -476,7 +476,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             ->setCustref($orderId)
             ->setPonum($salesDocument->getId());
         if ($fullAmount != Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_FULL) {
-            $request->setSubtotal($salesDocument->getBaseSubtotal())
+            $request->setSubtotal($this->_formatStr('%.2F', $salesDocument->getBaseSubtotal()))
                 ->setTaxamt($this->_formatStr('%.2F', $salesDocument->getBaseTaxAmount()))
                 ->setFreightamt($this->_formatStr('%.2F', $salesDocument->getBaseShippingAmount()));
         }
