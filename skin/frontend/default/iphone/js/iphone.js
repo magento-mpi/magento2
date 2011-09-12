@@ -105,12 +105,13 @@ document.observe("dom:loaded", function() {
                         }
                         $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + (document.body.offsetWidth + sliderPosition) + "px, 0, 0)"});
                         sliderPosition = sliderPosition + document.body.offsetWidth;
-                        setTimeout(function() { $$("#nav-container > ul:last-child")[0].remove(); }, 250)
+                        setTimeout(function() { $$("#nav-container > ul:last-child")[0].remove(); $("nav-container").setStyle({'height' : 'auto'})  }, 250)
                     });
                     new NoClickDelay(this.clonedSubmenuList);
                 };
                 
                 $("nav-container").insert(this.clonedSubmenuList);
+				$('nav-container').setStyle({'height' : this.clonedSubmenuList.getHeight() + 'px'});
                 $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + (sliderPosition - document.body.offsetWidth) + "px, 0, 0)"});
                 
                 sliderPosition = sliderPosition - document.body.offsetWidth;
@@ -332,9 +333,11 @@ document.observe("dom:loaded", function() {
             this.originalCoord.y = event.targetTouches[0].pageY;
         },
         touchMove: function (e) {
-            if (this.options.preventDefaultEvents) {
-                e.preventDefault();
-            }
+			var changeX;
+			changeX = this.originalCoord.x - this.finalCoord.x;
+			if(Math.abs(changeX) > this.options.threshold.x) {
+				e.preventDefault();
+			}
             this.finalCoord.x = e.targetTouches[0].pageX;
             this.finalCoord.y = e.targetTouches[0].pageY;
             if (Math.abs(this.finalCoord.y - this.originalCoord.y) > 100) {
@@ -346,17 +349,14 @@ document.observe("dom:loaded", function() {
             */
         },
         touchEnd: function (e) {
-            var changeY = this.originalCoord.y - this.finalCoord.y,
-                changeX;
-            if (changeY < this.options.threshold.y && changeY > (this.options.threshold.y * -1)) {
-                changeX = this.originalCoord.x - this.finalCoord.x;
-                if(changeX > this.options.threshold.x) {
-                    this.moveRight();
-                }
-                if(changeX < this.options.threshold.x * -1) {
-                    this.moveLeft();
-                }
-            }
+            var changeX;
+			changeX = this.originalCoord.x - this.finalCoord.x;
+			if(changeX > this.options.threshold.x) {
+				this.moveRight();
+			}
+			if(changeX < this.options.threshold.x * -1) {
+				this.moveLeft();
+			}
         }
     });
     
