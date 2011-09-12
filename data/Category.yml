@@ -78,3 +78,11 @@ sub_category_required:
     available_product_listing: Name
     default_product_listing_config: No
     default_product_listing: Name
+
+root_category_rename:
+    #General Information
+    name: root_category
+
+sub_category_required_rename:
+    #General Information
+    name: sub_category_required
