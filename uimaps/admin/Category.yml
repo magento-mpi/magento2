@@ -135,7 +135,8 @@ manage_categories:
             save_category: //button[span='Save Category']
             delete_category: //button[span='Delete Category']
         messages:
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            success_saved_category: //li[normalize-space(@class)='success-msg' and contains(.//span,'The category has been saved.')]
 
 edit_manage_categories:
     mca: catalog_category/edit/store/0/

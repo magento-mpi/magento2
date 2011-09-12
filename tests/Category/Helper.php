@@ -80,11 +80,11 @@ class Category_Helper extends Mage_Selenium_TestCase
     /**
      * Select category by path
      *
-     * @param string $categotyPath
+     * @param string $categoryPath
      */
-    public function selectCategory($categotyPath)
+    public function selectCategory($categoryPath)
     {
-        $nodes = explode('/', $categotyPath);
+        $nodes = explode('/', $categoryPath);
         $rootCat = array_shift($nodes);
         $categoryContainer = "//*[@id='category-edit-container']//h3";
 
@@ -117,16 +117,16 @@ class Category_Helper extends Mage_Selenium_TestCase
                 }
             }
         } else {
-            $this->fail("Category with path='$categotyPath' could not be selected");
+            $this->fail("Category with path='$categoryPath' could not be selected");
         }
     }
 
     /**
      * Fill in Category information
      *
-     * @param array $categotyData
+     * @param array $categoryData
      */
-    public function fillCategoryInfo(array $categotyData)
+    public function fillCategoryInfo(array $categoryData)
     {
         $page = $this->getCurrentLocationUimapPage();
         $tabs = $page->getAllTabs();
@@ -137,12 +137,12 @@ class Category_Helper extends Mage_Selenium_TestCase
                 $this->clickControl('tab', $tab, FALSE);
             }
             if ($tab != 'category_products') {
-                $this->fillForm($categotyData, $tab);
+                $this->fillForm($categoryData, $tab);
             } else {
                 $arrayKey = $tab . '_data';
-                if (array_key_exists($arrayKey, $categotyData) && is_array($categotyData[$arrayKey])) {
-                    foreach ($categotyData[$arrayKey] as $key => $value) {
-                        $this->productHelper()->assignProduct($categotyData[$arrayKey][$key], $tab);
+                if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
+                    foreach ($categoryData[$arrayKey] as $key => $value) {
+                        $this->productHelper()->assignProduct($categoryData[$arrayKey][$key], $tab);
                     }
                 }
             }
@@ -165,15 +165,15 @@ class Category_Helper extends Mage_Selenium_TestCase
     /**
      * Create Sub category
      *
-     * @param string $categotyPath
-     * @param array $categotyData
+     * @param string $categoryPath
+     * @param array $categoryData
      */
-    public function createSubCategory($categotyPath, array $categotyData)
+    public function createSubCategory($categoryPath, array $categoryData)
     {
-        $this->selectCategory($categotyPath);
+        $this->selectCategory($categoryPath);
         $this->clickButton('add_sub_category', false);
         $this->pleaseWait();
-        $this->fillCategoryInfo($categotyData);
+        $this->fillCategoryInfo($categoryData);
         $this->saveForm('save_category');
     }
 

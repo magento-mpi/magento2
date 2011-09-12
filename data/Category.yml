@@ -39,13 +39,13 @@ root_category:
     #General Information
     name: root_category
     is_active: Yes
-    url_key: url_key_root_category
+    url_key: %noValue%
     thumbnail_image: #local/path/to/image.jpg
-    description: root_category_description
+    description: %noValue%
     image: #local/path/to/image.jpg
-    page_title: Root Category Page Title
-    meta_keywords: root_category_meta_keywords
-    meta_description: root_category_meta_description
+    page_title: %noValue%
+    meta_keywords: %noValue%
+    meta_description: %noValue%
     include_in_navigation_menu: Yes
     #Display Settings
     display_mode: %noValue%
@@ -67,3 +67,14 @@ root_category:
     custom_layout_update: %noValue%
     #Category Products
     category_products_data: %noValue%
+
+sub_category_required:
+    #General Information
+    name: sub_category_required
+    is_active: Yes
+    include_in_navigation_menu: Yes
+    #Display Settings
+    available_product_listing_config: No
+    available_product_listing: Name
+    default_product_listing_config: No
+    default_product_listing: Name
