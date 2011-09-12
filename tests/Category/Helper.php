@@ -142,6 +142,8 @@ class Category_Helper extends Mage_Selenium_TestCase
                 $arrayKey = $tab . '_data';
                 if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
                     foreach ($categoryData[$arrayKey] as $key => $value) {
+                        $this->clickButton('reset_filter', FALSE);
+                        $this->pleaseWait();
                         $this->productHelper()->assignProduct($categoryData[$arrayKey][$key], $tab);
                     }
                 }
