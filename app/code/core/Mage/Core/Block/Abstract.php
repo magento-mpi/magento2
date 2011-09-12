@@ -419,11 +419,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function unsetChild($alias)
     {
         if (isset($this->_children[$alias])) {
+            /** @var Mage_Core_Block_Abstract $block */
+            $block = $this->_children[$alias];
+            $name = $block->getNameInLayout();
             unset($this->_children[$alias]);
-        }
-
-        if (!empty($this->_sortedChildren)) {
-            $key = array_search($alias, $this->_sortedChildren);
+            $key = array_search($name, $this->_sortedChildren);
             if ($key !== false) {
                 unset($this->_sortedChildren[$key]);
             }

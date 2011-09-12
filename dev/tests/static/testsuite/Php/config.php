@@ -20,7 +20,7 @@ return array(
         "{$baseDir}/dev/tests/integration/framework/Magento/Test/Profiler",
         "{$baseDir}/dev/tests/integration/framework/Magento/Test/TestSuite",
         "{$baseDir}/dev/tests/integration/framework/Magento/Test/TestCase",
-        "{$baseDir}/dev/tests/integration/testsuite/AllRelevantTests.php",
+        "{$baseDir}/dev/tests/integration/testsuite/",
         "{$baseDir}/dev/tests/static"
     ),
     'black_list' => array(
