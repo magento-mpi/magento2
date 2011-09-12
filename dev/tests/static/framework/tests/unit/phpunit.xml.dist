@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit bootstrap="../../bootstrap.php">
+    <testsuites>
+        <testsuite name="Magento 2 Unit Tests for Static Code Analysis Framework">
+            <directory suffix="Test.php">testsuite</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="date.timezone" value="America/Los_Angeles"/>
+    </php>
+</phpunit>
