@@ -257,10 +257,7 @@ create_order_for_new_customer:
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
                         xpath: //div[div/h4[contains(text(),'3D Secure Card Validation')]]
-                        fields:
-                            3d_password: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[2]/td[2]/b/input[1]
                         buttons:
-                            3d_submit: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[4]/td[2]/b/input
                             start_reset_validation: //button[span='Start/Reset Validation...']
                 -
                     order_history: &orderHistory
@@ -318,6 +315,8 @@ create_order_for_new_customer:
         buttons:
             back: //button[span='Back']
             cancel: //button[span='Cancel']
+            3d_submit: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[4]/td[2]/b/input
+            3d_password: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[2]/td[2]/b/input[1]
         messages: &orderMessages
             error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.//span,'You need to specify order items.')]
             customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.//span,'This customer email already exists.')]

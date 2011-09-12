@@ -369,6 +369,17 @@ class Order_Helper extends Mage_Selenium_TestCase
         {
             $this->fillForm($paymentMethod['payment_info'], 'order_payment_method');
         }
+        if (array_key_exists('3d_secure_validation_code', $paymentMethod))
+        {
+            $this->clickButton('start_reset_validation', FALSE);
+            $this->pleaseWait();
+            $this->pleaseWait();
+            $xpath = $this->_getControlXpath('button', '3d_password');
+            $this->type($xpath, $paymentMethod['3d_secure_validation_code']);
+            $this->clickButton('3d_submit', FALSE);
+            $this->pleaseWait();
+            $this->pleaseWait();
+        }
     }
 
     /**

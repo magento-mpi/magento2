@@ -57,12 +57,22 @@ paypal_uk_direct_wo_3d_enable:
     wpppe_require_cvv_entry: Yes
     wpppe_3d_secure_card_validation: No
 
+paypal_uk_direct_w_3d_enable:
+    website_payments_pro_payflow_edition: Yes
+    wpppe_partner: PayPalUK
+    wpppe_user: ukpromerchant2g
+    wpppe_vendor: ukpromerchant2g
+    wpppe_password: testing678
+    wpppe_sandbox_mode: Yes
+    wpppe_require_cvv_entry: Yes
+    wpppe_3d_secure_card_validation: Yes
+    wpppe_severe_3d_secure_card_validation: No
+
 paypal_uk_direct_wo_3d_disable:
-    website_payments_pro_payflow_edition: No
-    wpppe_sandbox_mode: No
+    wpppe_sandbox_mode: Yes
     wpppe_require_cvv_entry: Yes
     wpppe_3d_secure_card_validation: No
-    website_payments_pro_payflow_edition: Yes
+    website_payments_pro_payflow_edition: No
 
 payflow_pro_wo_3d_enable:
     payflow_pro_gateway: Yes
@@ -74,8 +84,18 @@ payflow_pro_wo_3d_enable:
     pp_require_cvv_entry: Yes
     pp_3d_secure_card_validation: No
 
+payflow_pro_w_3d_enable:
+    payflow_pro_gateway: Yes
+    pp_partner: PayPal
+    pp_user: petervarienpayflowpro
+    pp_vendor: petervarienpayflowpro
+    pp_password: paypal123456
+    pp_test_mode: Yes
+    pp_require_cvv_entry: Yes
+    pp_3d_secure_card_validation: Yes
+
 payflow_pro_wo_3d_disable:
-    pp_test_mode: No
+    pp_test_mode: Yes
     pp_require_cvv_entry: Yes
     pp_3d_secure_card_validation: No
     payflow_pro_gateway: No
@@ -84,6 +104,11 @@ website_payments_pro_wo_3d_enable:
     website_payments_pro: Yes
     wpp_require_cvv_entry: Yes
     wpp_3d_secure_card_validation: No
+
+website_payments_pro_w_3d_enable:
+    website_payments_pro: Yes
+    wpp_require_cvv_entry: Yes
+    wpp_3d_secure_card_validation: Yes
 
 website_payments_pro_wo_3d_disable:
     wpp_require_cvv_entry: Yes
@@ -118,3 +143,13 @@ gift_message_for_order_enable:
 gift_message_for_order_disable:
     allow_gift_messages_on_order_level: No
     allow_gift_messages_for_order_items: No
+
+saved_cc_w3d_enable:
+    scc_enabled: Yes
+    scc_request_card_security_code: Yes
+    scc_3d_secure_card_validation: Yes
+
+saved_cc_w3d_disable:
+    scc_request_card_security_code: Yes
+    scc_3d_secure_card_validation: No
+    scc_enabled: Yes

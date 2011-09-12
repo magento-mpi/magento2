@@ -174,8 +174,8 @@ paypal_direct_payment_visa_w_cvv: &paypalDirectPaymentVisaWCvv
     cvv_paypal_direct_payment: '123'
 
 authorize_net_3d_mastercard_w_cvv: &authorizeNet3DMasterCardWCvv
-    credit_card_type_autnet: 'MasterCard'
-    credit_card_number_autnet: '5200000000000007'
+    credit_card_type_autnet: 'Visa'
+    credit_card_number_autnet: '4000000000000002'
     expiration_date_month_autnet: '07 - July'
     expiration_date_year_autnet: '2020'
     cvv_autnet: 123
@@ -1353,5 +1353,114 @@ order_for_customized_product:
     payment_data:
         payment_method: credit_card
         payment_info: *visa
+    shipping_data:
+        shipping_method: Fixed
+
+paypal_direct_payment_payflow_edition_mastercard_w_cvv: &paypalDirectPaymentPayflowEditionMastercardWCvv3D
+    credit_card_type_paypal_direct_payment_payflow_edition: 'MasterCard'
+    credit_card_number_paypal_direct_payment_payflow_edition: '5157 6445 3773 3037'
+    expiration_date_month_paypal_direct_payment_payflow_edition: '11 - November'
+    expiration_date_year_paypal_direct_payment_payflow_edition: '2015'
+    cvv_paypal_direct_payment_payflow_edition: '123'
+
+order_data_paypal_direct_payment_payflow_edition_w3d_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: paypal_direct_payment_payflow_edition
+        payment_info: *paypalDirectPaymentPayflowEditionMastercardWCvv3D
+        3d_secure_validation_code: 1234
+    shipping_data:
+        shipping_method: Fixed
+
+paypal_direct_payment_visa_w_cvv: &paypalDirectPaymentVisaWCvv3D
+    credit_card_type_paypal_direct_payment: 'Visa'
+    credit_card_number_paypal_direct_payment: '4539 1773 6220 5799'
+    expiration_date_month_paypal_direct_payment: '02 - February'
+    expiration_date_year_paypal_direct_payment: '2012'
+    cvv_paypal_direct_payment: '123'
+
+order_data_website_payments_pro_w3d_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: paypal_direct_payment
+        payment_info: *paypalDirectPaymentVisaWCvv3D
+        3d_secure_validation_code: 1234
+    shipping_data:
+        shipping_method: Fixed
+
+payflow_pro_visa_w_cvv: &payflowProVisaWCvv3D
+    credit_card_type_payflow_pro: 'Visa'
+    credit_card_number_payflow_pro: '4539 1773 6220 5799'
+    expiration_date_month_payflow_pro: '02 - February'
+    expiration_date_year_payflow_pro: '2012'
+    cvv_payflow_pro: '123'
+
+order_data_payflow_pro_w3d_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: payflow_pro
+        payment_info: *payflowProVisaWCvv3D
+        3d_secure_validation_code: 1234
+    shipping_data:
+        shipping_method: Fixed
+
+
+visa: &visa_3d
+    credit_card_type_saved: 'Visa'
+    credit_card_number_saved: '4000000000000002'
+    expiration_date_month_saved: '07 - July'
+    expiration_date_year_saved: '2020'
+    cvv_saved: '123'
+
+order_data_visa_w3d_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingAllFields
+    shipping_addr_data: *shippingAllFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa_3d
+        3d_secure_validation_code: 1234
     shipping_data:
         shipping_method: Fixed
