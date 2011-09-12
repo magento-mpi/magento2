@@ -341,7 +341,8 @@ class Product_Helper extends Mage_Selenium_TestCase
             $xpathTR = $this->formSearchXpath($data);
             if ($attributeTitle) {
                 $number = $this->findColumnNumberByName($attributeTitle, 'associated');
-                $attributeValue = $this->getText($xpathTR . "//td[$number]");
+                $setXpath = $this->_getControlXpath('fieldset', 'associated');
+                $attributeValue = $this->getText($setXpath . $xpathTR . "//td[$number]");
                 $this->addParameter('attributeValue', $attributeValue);
             } else {
                 $this->addParameter('productXpath', $xpathTR);
@@ -541,7 +542,7 @@ class Product_Helper extends Mage_Selenium_TestCase
      *
      * @param array $productData
      */
-    public function verifyProductInfo(array $productData)
+    public function verifyProductInfo(array $productData, $skipElements = null)
     {
         $productData = $this->arrayEmptyClear($productData);
         $nestedArrays = array();
@@ -555,17 +556,20 @@ class Product_Helper extends Mage_Selenium_TestCase
                 unset($productData[$key]);
             }
         }
-        $this->verifyForm($productData);
+        $this->verifyForm($productData, null, $skipElements);
         // Verify tier prices
         if (array_key_exists('prices_tier_price_data', $nestedArrays)) {
             $this->verifyTierPrices($nestedArrays['prices_tier_price_data']);
         }
         //Verify selected websites
         if (array_key_exists('websites', $nestedArrays)) {
-            $websites = explode(',', $nestedArrays['websites']);
-            $websites = array_map('trim', $websites);
-            foreach ($websites as $value) {
-                $this->selectWebsite($value, 'verify');
+            $tabXpath = $this->getCurrentLocationUimapPage()->findTab('websites')->getXpath();
+            if ($this->isElementPresent($tabXpath)) {
+                $websites = explode(',', $nestedArrays['websites']);
+                $websites = array_map('trim', $websites);
+                foreach ($websites as $value) {
+                    $this->selectWebsite($value, 'verify');
+                }
             }
         }
         //Verify selected categories
@@ -580,27 +584,37 @@ class Product_Helper extends Mage_Selenium_TestCase
         }
         //Verify assigned products for 'Related Products', 'Up-sells', 'Cross-sells' tabs
         if (array_key_exists('related_data', $nestedArrays)) {
+            $this->clickControl('tab', 'related', false);
+            $this->pleaseWait();
             foreach ($nestedArrays['related_data'] as $key => $value) {
                 $this->isAssignedProduct($value, 'related');
             }
         }
         if (array_key_exists('up_sells_data', $nestedArrays)) {
+            $this->clickControl('tab', 'up_sells', false);
+            $this->pleaseWait();
             foreach ($nestedArrays['up_sells_data'] as $key => $value) {
                 $this->isAssignedProduct($value, 'up_sells');
             }
         }
         if (array_key_exists('cross_sells_data', $nestedArrays)) {
+            $this->clickControl('tab', 'cross_sells', false);
+            $this->pleaseWait();
             foreach ($nestedArrays['cross_sells_data'] as $key => $value) {
                 $this->isAssignedProduct($value, 'cross_sells');
             }
         }
         // Verify Associated Products tab
         if (array_key_exists('associated_grouped_data', $nestedArrays)) {
+            $this->clickControl('tab', 'associated', false);
+            $this->pleaseWait();
             foreach ($nestedArrays['associated_grouped_data'] as $key => $value) {
                 $this->isAssignedProduct($value, 'associated');
             }
         }
         if (array_key_exists('associated_configurable_data', $nestedArrays)) {
+            $this->clickControl('tab', 'associated', false);
+            $this->pleaseWait();
             $attributeTitle = (isset($productData['configurable_attribute_title']))
                                 ? $productData['configurable_attribute_title']
                                 : null;
@@ -713,9 +727,6 @@ class Product_Helper extends Mage_Selenium_TestCase
      */
     public function isAssignedProduct(array $data, $fieldSetName, $attributeTitle=null)
     {
-        $this->clickControl('tab', $fieldSetName, false);
-        $this->pleaseWait();
-
         $fillingData = array();
 
         foreach ($data as $key => $value) {
@@ -743,7 +754,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                     $attributeValue = $this->getText($xpathTR . "//td[$number]");
                     $this->addParameter('attributeValue', $attributeValue);
                 } else {
-                    $this->addParameter('productXpath', $xpathTr);
+                    $this->addParameter('productXpath', $xpathTR);
                 }
                 $this->verifyForm($fillingData, $fieldSetName);
             }
@@ -765,7 +776,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         $needCount = count($customOptionData);
         if ($needCount != $optionsQty) {
             $this->messages['error'][] = 'Product must be contains ' . $needCount
-                    . 'Custom Option(s), but contains ' . $optionsQty;
+                    . ' Custom Option(s), but contains ' . $optionsQty;
             return false;
         }
         $id = $this->getAttribute($fieldSetXpath . "[1]/@id");

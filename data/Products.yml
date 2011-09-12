@@ -497,6 +497,55 @@ simple_product:
     cross_sells_data: *crossSellsProductsData
     custom_options_data: *customOptionsData
 
+duplicate_simple:
+    product_attribute_set: Default
+    general_name: Simple Product
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku
+    general_weight: 2.56
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: simple-product-url-key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+#    general_in_feed: Yes
+    prices_price: 4.95
+    prices_special_price: 3.99
+    prices_special_price_from: 5/25/11
+    prices_special_price_to: 9/29/11
+    prices_tier_price_data: *tierPriceData
+    prices_tax_class: None
+    prices_enable_googlecheckout: No
+    meta_information_meta_title: Meta Title for Simple Product
+    meta_information_meta_keywords: Meta Keywords for Simple Product
+    meta_information_meta_description: Meta Description for Simple Product
+    recurring_profile_enable_recurring_profile: Yes
+    recurring_profile_customer_define_start_date: No
+    recurring_profile_schedule_description: Shedule Description
+    recurring_profile_max_payment_failures: Max Payment Failures
+    recurring_profile_auto_bill_next_cycle: No
+    recurring_profile_billing_period_unit: Week
+    recurring_profile_billing_frequency: Billing Frequency
+    recurring_profile_max_billing_cycles: Max Billing Cycles
+    recurring_profile_trial_billing_period_unit: Month
+    recurring_profile_trial_billing_frequency: Trial Billing Frequency
+    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
+    recurring_profile_trial_billing_amount: Trial Billing Amount
+    recurring_profile_initial_fee: Initial Fee
+    recurring_profile_allow_initial_fee_failure: No
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    websites: Main Website
+    categories: Default Category
+    custom_options_data: *customOptionsData
+
 #*********************************************
 #*         Virtual Product Data              *
 #*********************************************
@@ -580,6 +629,53 @@ virtual_product:
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
+    custom_options_data: *customOptionsData
+
+duplicate_virtual:
+    product_attribute_set: Default
+    general_name: Virtual Product
+    general_description: Description for Virtual Product
+    general_short_description: Short Description for Virtual Product
+    general_sku: virtual_sku
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: virtual-product-url-key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 14.95
+    prices_special_price: 13.99
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 9/9/11
+    prices_tier_price_data: *tierPriceData
+    prices_tax_class: None
+    prices_enable_googlecheckout: No
+    meta_information_meta_title: Meta Title for Virtual Product
+    meta_information_meta_keywords: Meta Keywords for Virtual Product
+    meta_information_meta_description: Meta Description for Virtual Product
+    recurring_profile_enable_recurring_profile: Yes
+    recurring_profile_customer_define_start_date: No
+    recurring_profile_schedule_description: Shedule Description
+    recurring_profile_max_payment_failures: Max Payment Failures
+    recurring_profile_auto_bill_next_cycle: No
+    recurring_profile_billing_period_unit: Week
+    recurring_profile_billing_frequency: Billing Frequency
+    recurring_profile_max_billing_cycles: Max Billing Cycles
+    recurring_profile_trial_billing_period_unit: Month
+    recurring_profile_trial_billing_frequency: Trial Billing Frequency
+    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
+    recurring_profile_trial_billing_amount: Trial Billing Amount
+    recurring_profile_initial_fee: Initial Fee
+    recurring_profile_allow_initial_fee_failure: No
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    websites: Main Website
+    categories: Default Category
     custom_options_data: *customOptionsData
 
 #*********************************************
@@ -710,7 +806,135 @@ fixed_bundle:
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
+    custom_options_data: *customOptionsData
     bundle_items_data: *bundleData
+
+duplicate_fixed_bundle:
+    product_attribute_set: Default
+    general_name: Bundle(Fixed) Product
+    general_description: Description for Bundle(Fixed) Product
+    general_short_description: Short Description for Bundle(Fixed) Product
+    general_sku_type: Fixed
+    general_sku: bundle_sku
+    general_weight_type: Fixed
+    general_weight: 0.111
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: fixed-bundle-product-url-key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+#    general_in_feed: Yes
+    prices_price_type: Fixed
+    prices_price: 66.32
+    prices_special_price: 3.99
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 9/9/11
+    prices_tier_price_data: *tierPriceData
+    prices_price_view_bundle: As Low as
+    meta_information_meta_title: Meta Title for Bundle(Fixed) Product
+    meta_information_meta_keywords: Meta Keywords for Bundle(Fixed) Product
+    meta_information_meta_description: Meta Description for Bundle(Fixed) Product
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    websites: Main Website
+    categories: Default Category
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData
+    custom_options_data: *customOptionsData
+    bundle_items_data:
+        ship_bundle_items: Separately
+        bundle_items_1:
+            bundle_items_default_title: Multiple Select
+            bundle_items_input_type: Multiple Select
+            bundle_items_is_required: Yes
+            bundle_items_position: 1
+            bundle_items_add_product_1: &bundleProduct
+                bundle_items_search_sku: %noValue%
+                selection_item_price: 10
+                selection_item_price_type: Fixed
+                selection_item_default_qty: 10
+                selection_item_position: 10
+                selection_item_default: Yes
+        bundle_items_2:
+            bundle_items_default_title: Drop-down
+            bundle_items_input_type: Drop-down
+            bundle_items_is_required: No
+            bundle_items_position: 2
+            bundle_items_add_product_1: &bundleProduct
+                bundle_items_search_sku: %noValue%
+                selection_item_price: 20
+                selection_item_price_type: Percent
+                selection_item_default_qty: 20
+                selection_item_user_defined_qty: No
+                selection_item_position: 20
+                selection_item_default: Yes
+
+duplicate_dynamic_bundle:
+    product_attribute_set: Default
+    general_name: Bundle(Dynamic) Product
+    general_description: Description for Bundle(Dynamic) Product
+    general_short_description: Short Description for Bundle(Dynamic) Product
+    general_sku_type: Dynamic
+    general_sku: bundle_sku
+    general_weight_type: Dynamic
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: dynamic-bundle-product-url-key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+#    general_in_feed: Yes
+    prices_price_type: Dynamic
+    prices_special_price: 3.99
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 9/9/11
+    prices_tier_price_data: *tierPriceData
+    prices_price_view_bundle: As Low as
+    meta_information_meta_title: Meta Title for Bundle(Dynamic) Product
+    meta_information_meta_keywords: Meta Keywords for Bundle(Dynamic) Product
+    meta_information_meta_description: Meta Description for Bundle(Dynamic) Product
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    websites: Main Website
+    categories: Default Category
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData
+    bundle_items_data:
+        ship_bundle_items: Separately
+        bundle_items_1:
+            bundle_items_default_title: Checkbox
+            bundle_items_input_type: Checkbox
+            bundle_items_is_required: Yes
+            bundle_items_position: 1
+            bundle_items_add_product_1: &bundleProduct
+                bundle_items_search_sku: %noValue%
+                selection_item_default_qty: 10
+                selection_item_position: 10
+                selection_item_default: Yes
+        bundle_items_2:
+            bundle_items_default_title: Radio Buttons
+            bundle_items_input_type: Radio Buttons
+            bundle_items_is_required: No
+            bundle_items_position: 2
+            bundle_items_add_product_1: &bundleProduct
+                bundle_items_search_sku: %noValue%
+                selection_item_default_qty: 20
+                selection_item_user_defined_qty: No
+                selection_item_position: 20
+                selection_item_default: Yes
 
 #*********************************************
 #*         Grouped Product Data              *
@@ -764,6 +988,50 @@ grouped_product:
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
     associated_grouped_data: *associatedProductsGroupedData
+
+duplicate_grouped:
+    product_attribute_set: Default
+    general_name: Grouped Product
+    general_description: Description for Grouped Product
+    general_short_description: Short Description for Grouped Product
+    general_sku: grouped_sku
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: grouped-product-url-key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    general_country_manufacture: Albania
+#    general_in_feed: Yes
+    prices_enable_googlecheckout: No
+    meta_information_meta_title: Meta Title for Grouped Product
+    meta_information_meta_keywords: Meta Keywords for Grouped Product
+    meta_information_meta_description: Meta Description for Grouped Product
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    websites: Main Website
+    categories: Default Category
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData
+    associated_grouped_data:
+        associated_grouped_1:
+            associated_search_sku: %noValue%
+            associated_product_position: 3
+            associated_product_default_qty: 30
+        associated_grouped_2:
+            associated_search_sku: %noValue%
+            associated_product_position: 2
+            associated_product_default_qty: 20
+        associated_grouped_3:
+            associated_search_sku: %noValue%
+            associated_product_position: 1
+            associated_product_default_qty: 10
 
 #*********************************************
 #*         Configurable Product Data         *
@@ -830,6 +1098,62 @@ configurable_product:
     cross_sells_data: *crossSellsProductsData
     associated_configurable_data: *associatedProductsConfigurableData
 
+duplicate_configurable:
+    product_attribute_set: Default
+    configurable_attribute_title: %noValue%
+    general_name: Configurable Product
+    general_description: Description for Configurable Product
+    general_short_description: Short Description for Configurable Product
+    general_sku: configurable_sku
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: configurable-product-url-key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    general_country_manufacture: Albania
+#    general_in_feed: Yes
+    prices_price: 4.95
+    prices_special_price: 3.99
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 9/9/11
+    prices_tier_price_data: *tierPriceData
+    prices_apply_map: Yes
+    prices_display_actual_price: In Cart
+    prices_manu_suggested_retail_price: 3.90
+    prices_tax_class: None
+    prices_enable_googlecheckout: No
+    meta_information_meta_title: Meta Title for Configurable Product
+    meta_information_meta_keywords: Meta Keywords for Configurable Product
+    meta_information_meta_description: Meta Description for Configurable Product
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    websites: Main Website
+    categories: Default Category
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData
+    associated_configurable_data:
+        associated_products_attribute_name_default: No
+        associated_products_attribute_name: New Value
+        associated_configurable_1:
+            associated_search_sku: %noValue%
+            associated_product_price: 10
+            associated_product_price_type: Fixed
+        associated_configurable_2:
+            associated_search_sku: %noValue%
+            associated_product_price: 20
+            associated_product_price_type: Percentage
+        associated_configurable_3:
+            associated_search_sku: %noValue%
+            associated_product_price: 30
+            associated_product_price_type: Percentage
+
 #*********************************************
 #*         Downloadable Product Data         *
 #*********************************************
@@ -867,20 +1191,6 @@ downloadable_product:
     meta_information_meta_title: Meta Title for Downloadable Product
     meta_information_meta_keywords: Meta Keywords for Downloadable Product
     meta_information_meta_description: Meta Description for Downloadable Product
-    recurring_profile_enable_recurring_profile: Yes
-    recurring_profile_customer_define_start_date: No
-    recurring_profile_schedule_description: Shedule Description
-    recurring_profile_max_payment_failures: Max Payment Failures
-    recurring_profile_auto_bill_next_cycle: No
-    recurring_profile_billing_period_unit: Week
-    recurring_profile_billing_frequency: Billing Frequency
-    recurring_profile_max_billing_cycles: Max Billing Cycles
-    recurring_profile_trial_billing_period_unit: Month
-    recurring_profile_trial_billing_frequency: Trial Billing Frequency
-    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
-    recurring_profile_trial_billing_amount: Trial Billing Amount
-    recurring_profile_initial_fee: Initial Fee
-    recurring_profile_allow_initial_fee_failure: No
     design_custom_design: default
     design_active_from: 11/11/11
     design_active_to: 2/12/12
@@ -914,3 +1224,44 @@ downloadable_product:
     cross_sells_data: *crossSellsProductsData
     custom_options_data: *customOptionsData
     downloadable_information_data: *downloadableData
+
+duplicate_downloadable:
+    product_attribute_set: Default
+    general_name: Downloadable Product
+    general_description: Description for Downloadable Product
+    general_short_description: Short Description for Downloadable Product
+    general_sku: downloadable_sku
+    general_news_from: 12/12/12
+    general_news_to: 12/12/13
+    general_url_key: downloadable-product-url-key
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 14.95
+    prices_special_price: 13.99
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 9/9/11
+    prices_tier_price_data: *tierPriceData
+    prices_tax_class: None
+    prices_enable_googlecheckout: No
+    meta_information_meta_title: Meta Title for Downloadable Product
+    meta_information_meta_keywords: Meta Keywords for Downloadable Product
+    meta_information_meta_description: Meta Description for Downloadable Product
+    design_custom_design: default
+    design_active_from: 11/11/11
+    design_active_to: 2/12/12
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    gift_options_allow_gift_message_default: No
+    gift_options_allow_gift_message: Yes
+    websites: Main Website
+    categories: Default Category
+    custom_options_data: *customOptionsData
+    downloadable_information_data:
+        downloadable_samples_title: Samples Title
+        downloadable_links_title: Links Title
+        downloadable_links_purchased_separately: No
+        downloadable_sample_1: *samplesDownloadable
+        downloadable_sample_2: *samplesDownloadable
+        downloadable_link_1: *linksDownloadable
+        downloadable_link_2: *linksDownloadable

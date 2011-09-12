@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Attribute Set deletion Tests
  *
  * @package     selenium
  * @subpackage  tests

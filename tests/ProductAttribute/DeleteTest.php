@@ -76,10 +76,7 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadData($dataName, null, array('attribute_code', 'admin_title'));
         $searchData = $this->loadData('attribute_search_data',
-                array(
-                    'attribute_code'  => $attrData['attribute_code'],
-                    'attribute_lable' => $attrData['admin_title']
-                ));
+                array('attribute_code' => $attrData['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying

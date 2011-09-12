@@ -65,6 +65,7 @@ manage_products:
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.//span,'Total of %qtyDeletedProducts% record(s) have been deleted.')]
             enter_greater_than_zero: "//div[@id='advice-validate-greater-than-zero-%fieldId%' and not(contains(@style,'display: none;'))]"
             success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been deleted.')]
+            success_duplicated_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been duplicated.')]
             success_created_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been created.')]
             enter_zero_or_greater: "//div[@id='advice-validate-zero-or-greater-%fieldId%' and not(contains(@style,'display: none;'))]"
             success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product has been saved.')]
@@ -103,7 +104,7 @@ new_product:
         form: &newProductCreationForm
             tabs:
                 -
-                    configurable_product_settings:
+                    configurable_product_settings: &configurableProductsettings
                         xpath: //a[@title='Configurable Product Settings']/span
                         fieldsets:
                             -
@@ -558,6 +559,8 @@ edit_product:
     uimap:
         form:
             tabs:
+                -
+                    configurable_product_settings: *configurableProductsettings              
                 -
                     general: *generalTab
                 -
