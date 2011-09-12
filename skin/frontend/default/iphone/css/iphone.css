@@ -364,7 +364,16 @@ body > section > .category-image img { min-width:100%; }
 
 /* Categories
 -----------------------------*/
-#nav-container { width:9000px; overflow:hidden; margin:0 0 -1px -10px; background:url(../images/nav_bg.png) repeat 0 0; -webkit-transform:translate3d(0, 0, 0); -webkit-transition:250ms linear; -webkit-backface-visibility:hidden; -webkit-perspective:1000; }
+#nav-container {
+	background:url(../images/nav_bg.png) repeat 0 0;
+	overflow:hidden;
+	margin:0 0 -1px -10px;
+	width:9000px;
+	-webkit-transform:translate3d(0, 0, 0);
+	-webkit-transition:-webkit-transform 250ms linear;
+	-webkit-backface-visibility:hidden;
+	-webkit-perspective:1000;
+}
 #nav-container ul > li > ul { display:none; }
 #nav-container:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
 #nav-container ul { font-size:16px; margin:0; width:100%; float:left; }
