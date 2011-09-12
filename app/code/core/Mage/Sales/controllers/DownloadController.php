@@ -134,8 +134,9 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
         $quoteItemOptionId = $this->getRequest()->getParam('id');
         $option = Mage::getModel('sales/quote_item_option')->load($quoteItemOptionId);
 
-        if (!$option->getId()) {
+        if (!$option->getId() || $option->getCode() == 'info_buyRequest') {
             $this->_forward('noRoute');
+            return;
         }
         try {
             $info = unserialize($option->getValue());
