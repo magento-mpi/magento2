@@ -166,12 +166,14 @@ final class Mage
     public static function reset()
     {
         self::$_registry        = array();
+        self::$_appRoot         = null;
         self::$_app             = null;
         self::$_config          = null;
         self::$_events          = null;
         self::$_objects         = null;
         self::$_isDownloader    = false;
         self::$_isDeveloperMode = false;
+        self::$_isInstalled     = null;
         // do not reset $headersSentThrowsException
     }
 
