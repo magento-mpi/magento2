@@ -73,14 +73,12 @@ class Magento_Test_Db_MssqlTest extends PHPUnit_Framework_TestCase
 
     public function testCreateBackup()
     {
+        $query = "BACKUP DATABASE [schema] TO DISK=N'schema_test.bak' WITH NOFORMAT, NOINIT, SKIP, NOREWIND, NOUNLOAD"
+            . "\nGO\nexit\n";
+
         $this->_model->expects($this->once())
             ->method('_createScript')
-            ->with(
-                $this->_varDir . '/mssql_backup_script.sql',
-                'BACKUP DATABASE [schema] TO DISK=N\'schema_test.bak\' WITH NOFORMAT, NOINIT, SKIP, NOREWIND, NOUNLOAD
-GO
-exit
-');
+            ->with($this->_varDir . '/mssql_backup_script.sql', $query);
         $this->_model->expects($this->once())
             ->method('_exec')
             ->with($this->_commandPrefix . ' < ' . escapeshellarg($this->_varDir . '/mssql_backup_script.sql'));
