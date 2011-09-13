@@ -25,6 +25,16 @@
 
  // Homepage categories and subcategories slider
 document.observe("dom:loaded", function() {
+
+    $$('input[name=qty], input[name*=super_group], input[name*=qty]').each(function (el) {
+        var defaultValue = el.value;
+        el.observe('focus', function () {
+            if (this.value == defaultValue) this.value = '';
+        });
+        el.observe('blur', function () {
+            if (this.value == "") this.value = defaultValue;
+        });
+    });
     
     Event.observe(window, 'orientationchange', function() {
         var orientation;
