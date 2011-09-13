@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Magento2" basedir="../../" default="clean">
+    <property name="dir.build_base" location="${basedir}/dev/build"/>
+    <property name="dir.build_report" location="${basedir}/dev/build/report"/>
+
+    <target name="clean">
+        <delete dir="${dir.build_report}" />
+
+        <mkdir dir="${dir.build_report}/code_browser"/>
+        <mkdir dir="${dir.build_report}/integration"/>
+        <mkdir dir="${dir.build_report}/integration/coverage"/>
+    </target>
+
+    <!-- Configurations for different Magento editions -->
+    <target name="prepare-ce">
+        <exec dir="${basedir}" executable="${dir.build_base}/extruder/extruder.php" failonerror="true">
+            <arg line="-w ${basedir} -l ${dir.build_base}/extruder/common_tests.txt -l ${dir.build_base}/extruder/ce.txt -v" />
+        </exec>
+    </target>
+
+    <!-- Unit tests with coverage statistic -->
+    <target name="phpunit">
+        <exec executable="chmod" failonerror="true">
+            <arg line="u+x ${dir.build_base}/bin/phpunit-with-xdebug.sh" />
+        </exec>
+        <!-- coverage html report coverage-html ${dir.build_report}/code_coverage -->
+        <exec dir="${basedir}/dev/tests/unit" executable="${dir.build_base}/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--stderr
+                --log-junit ${dir.build_report}/phpunit.xml
+                --coverage-clover ${dir.build_report}/clover.xml" />
+        </exec>
+    </target>
+
+    <!-- Integration tests -->
+    <target name="phpunit-integration">
+        <exec executable="chmod" failonerror="true">
+            <arg line="u+x ${dir.build_base}/bin/phpunit-with-xdebug.sh" />
+        </exec>
+        <exec dir="${basedir}/dev/tests/integration" executable="${dir.build_base}/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--stderr
+                --log-junit ${dir.build_report}/integration/phpunit.xml
+                --coverage-clover ${dir.build_report}/integration/clover.xml
+                --coverage-html ${dir.build_report}/integration/coverage
+                " />
+        </exec>
+    </target>
+
+    <!-- Running all integration tests without xdebug and code coverage report generation -->
+    <target name="integration-tests">
+        <exec dir="${basedir}/dev/tests/integration" executable="phpunit" failonerror="true">
+            <arg line="--stderr --log-junit ${dir.build_report}/integration-phpunit.xml" />
+        </exec>
+    </target>
+
+
+    <!-- The fastest way of all tests execution without any additional processing -->
+    <target name="phpunit-all">
+        <exec executable="chmod" failonerror="true">
+            <arg line="u+x ${dir.build_base}/bin/phpunit-with-xdebug.sh" />
+        </exec>
+        <exec dir="${basedir}/dev/tests/unit" executable="${dir.build_base}/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--stderr
+                --log-junit ${dir.build_report}/unit-tests-with-xdebug.xml" />
+        </exec>
+        <exec dir="${basedir}/dev/tests/integration" executable="${dir.build_base}/bin/phpunit-with-xdebug.sh" failonerror="true">
+            <arg line="--stderr --log-junit ${dir.build_report}/integration-tests-with-xdebug.xml" />
+        </exec>
+        <exec dir="${basedir}/dev/tests/unit" executable="phpunit" failonerror="true">
+            <arg line="--stderr
+                --log-junit ${dir.build_report}/unit-tests.xml" />
+        </exec>
+        <exec dir="${basedir}/dev/tests/integration" executable="phpunit" failonerror="true">
+            <arg line="--stderr --log-junit ${dir.build_report}/integration-testst.xml" />
+        </exec>
+        <exec dir="${basedir}/dev/tests/integration/framework/tests/unit" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${dir.build_report}/unit-tests-for-integration-test-framework.xml" />
+        </exec>
+        <exec dir="${basedir}/dev/tests/static/framework/tests/unit" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${dir.build_report}/unit-tests-for-static-tests-framework.xml" />
+        </exec>
+    </target>
+
+    <target name="phpunit-selenium" description="Functional tests with selenium">
+        <exec dir="${basedir}/dev/tests/functional/selenium" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${dir.build_report}/phpunit-selenium.xml
+                --configuration phpunit.xml" />
+        </exec>
+    </target>
+
+    <target name="load" description="JMeter load tests">
+        <exec dir="${basedir}" executable="jmeter" failonerror="true">
+            <arg line="-n -t ${dir.build_base}/jmeter/testplan.jmx -l ${dir.build_report}/loadtest.jtl" />
+        </exec>
+    </target>
+
+    <target name="integration" depends="clean,phpunit-integration" />
+
+    <target name="integration-ce" depends="clean,prepare-ce,integration-tests" />
+
+    <target name="static_code_analysis" description="Static Source Code Analysis Tests" depends="clean">
+        <exec dir="${basedir}/dev/tests/static" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${dir.build_report}/static-tests.xml" />
+        </exec>
+    </target>
+</project>
