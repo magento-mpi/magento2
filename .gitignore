@@ -20,8 +20,6 @@
 /app/etc/local.xml.*
 /app/etc/modules/XEnterprise_Enabler.xml
 /app/locale/en_US_org
-/dev/tests/static/report
-/dev/tests/static/tmp
 /downloader/.cache
 /js/tiny_mce
 /lib/flex/uploader/.actionScriptProperties

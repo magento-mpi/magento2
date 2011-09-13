@@ -1,0 +1,3 @@
+*.xml
+/dev/tests/static/report
+/dev/tests/static/tmp
