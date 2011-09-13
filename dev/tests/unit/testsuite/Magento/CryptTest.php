@@ -1,4 +1,13 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Crypt
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 /**
  * Test case for Magento_Crypt
