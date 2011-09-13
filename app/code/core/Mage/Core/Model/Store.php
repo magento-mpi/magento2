@@ -657,7 +657,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**
      * Check if backend URLs should be secure
      *
-     * @return void
+     * @return boolean
      */
     public function isAdminUrlSecure()
     {
@@ -671,7 +671,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**
      * Check if forntend URLs should be secure
      *
-     * @return void
+     * @return boolean
      */
     public function isFrontUrlSecure()
     {
