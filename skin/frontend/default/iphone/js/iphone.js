@@ -333,20 +333,15 @@ document.observe("dom:loaded", function() {
             this.originalCoord.y = event.targetTouches[0].pageY;
         },
         touchMove: function (e) {
-			var changeX;
+            this.finalCoord.x = e.targetTouches[0].pageX;
+            this.finalCoord.y = e.targetTouches[0].pageY;
+			
+			var changeX = 0;
 			changeX = this.originalCoord.x - this.finalCoord.x;
+			
 			if(Math.abs(changeX) > this.options.threshold.x) {
 				e.preventDefault();
 			}
-            this.finalCoord.x = e.targetTouches[0].pageX;
-            this.finalCoord.y = e.targetTouches[0].pageY;
-            if (Math.abs(this.finalCoord.y - this.originalCoord.y) > 100) {
-            }
-            /*
-            if (this.controls) {
-                this.controls.update(Math.abs(this.finalCoord.y - this.originalCoord.y))
-            }
-            */
         },
         touchEnd: function (e) {
             var changeX;
