@@ -374,6 +374,8 @@
                     <enterprise_customersegment__segment_collection>limitCustomerSegments</enterprise_customersegment__segment_collection>
                     <enterprise_reward__reward_history_collection>limitRewardHistoryWebsites</enterprise_reward__reward_history_collection>
                     <enterprise_reward__reward_collection>limitRewardBalanceWebsites</enterprise_reward__reward_collection>
+                    <enterprise_customerbalance__balance_history_collection>limitStoreCreditsHistory</enterprise_customerbalance__balance_history_collection>
+                    <enterprise_customerbalance__balance_collection>limitStoreCredits</enterprise_customerbalance__balance_collection>
                     <enterprise_giftregistry__entity_collection>limitGiftRegistryEntityWebsites</enterprise_giftregistry__entity_collection>
                     <review__review_product_collection>limitProductReviews</review__review_product_collection>
                     <enterprise_rma__rma_grid_collection>addStoreAttributeToFilter</enterprise_rma__rma_grid_collection>
