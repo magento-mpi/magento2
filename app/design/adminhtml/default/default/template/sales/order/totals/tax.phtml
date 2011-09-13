@@ -38,11 +38,11 @@ $_fullInfo  = $this->getFullTaxInfo();
         <?php foreach ($_fullInfo as $info): ?>
             <?php if (isset($info['hidden']) && $info['hidden']) continue; ?>
             <?php
-                $percent      = $info['percent'];
-                $amount       = $info['amount'];
-                $baseAmount   = $info['base_amount'];
-                $rates        = $info['rates'];
-                $isFirst      = 1;
+                $percent    = $info['percent'];
+                $amount     = $info['amount'];
+                $baseAmount = $info['base_amount'];
+                $rates      = $info['rates'];
+                $isFirst    = 1;
             ?>
 
             <?php foreach ($rates as $rate): ?>
@@ -66,10 +66,10 @@ $_fullInfo  = $this->getFullTaxInfo();
         <?php foreach ($_fullInfo as $info): ?>
             <?php if (isset($info['hidden_tax_amount']) && $info['hidden_tax_amount']) continue; ?>
             <?php
-                $percent      = $info['percent'];
-                $amount       = $info['tax_amount'];
-                $baseAmount   = $info['base_tax_amount'];
-                $isFirst      = 1;
+                $percent    = $info['percent'];
+                $amount     = $info['tax_amount'];
+                $baseAmount = $info['base_tax_amount'];
+                $isFirst    = 1;
             ?>
 
             <tr class="summary-details<?php if ($isTop): echo ' summary-details-first'; endif; ?>" style="display:none;">
