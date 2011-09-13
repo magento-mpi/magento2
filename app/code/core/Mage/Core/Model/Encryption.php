@@ -34,7 +34,7 @@
 class Mage_Core_Model_Encryption
 {
     /**
-     * @var Varien_Crypt_Mcrypt
+     * @var Magento_Crypt
      */
     protected $_crypt;
     /**
@@ -109,7 +109,7 @@ class Mage_Core_Model_Encryption
      * Instantiate crypt model
      *
      * @param string $key
-     * @return Varien_Crypt_Mcrypt
+     * @return Magento_Crypt
      */
     protected function _getCrypt($key = null)
     {
@@ -117,7 +117,7 @@ class Mage_Core_Model_Encryption
             if (null === $key) {
                 $key = (string)Mage::getConfig()->getNode('global/crypt/key');
             }
-            $this->_crypt = Varien_Crypt::factory()->init($key);
+            $this->_crypt = new Magento_Crypt($key);
         }
         return $this->_crypt;
     }
@@ -141,14 +141,14 @@ class Mage_Core_Model_Encryption
      */
     public function decrypt($data)
     {
-        return str_replace("\x0", '', trim($this->_getCrypt()->decrypt(base64_decode((string)$data))));
+        return trim($this->_getCrypt()->decrypt(base64_decode((string)$data)));
     }
 
     /**
      * Return crypt model, instantiate if it is empty
      *
      * @param string $key
-     * @return Varien_Crypt_Mcrypt
+     * @return Magento_Crypt
      */
     public function validateKey($key)
     {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit bootstrap="./framework/bootstrap.php" clors="true">
+    <testsuite name="Magento 2 Unit Tests">
+        <file>testsuite/AllTests.php</file>
+    </testsuite>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../../../lib/Magento</directory>
+            <directory suffix=".php">../../../lib/Varien</directory>
+            <directory suffix=".php">../../../app/code</directory>
+            <exclude>
+                <directory suffix=".php">../../../app/code/*/*/*/sql</directory>
+                <directory suffix=".php">../../../app/code/*/*/*/data</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
