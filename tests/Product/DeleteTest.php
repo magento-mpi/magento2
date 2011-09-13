@@ -179,8 +179,8 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $configPr = $this->loadData('configurable_product_required',
                 array('configurable_attribute_title' => $attrData['admin_title']),
                 array('general_name', 'general_sku'));
-        $configPr['associated_products_configurable_data'] = $this->loadData('associated_products_configurable_data',
-                array('associated_products_sku' => $associated['general_sku']));
+        $configPr['associated_configurable_data'] = $this->loadData('associated_configurable_data',
+                array('associated_search_sku' => $associated['general_sku']));
         $productSearch = $this->loadData('product_search', array('product_sku' => $associated['general_sku']));
         //Steps
         $this->productHelper()->createProduct($associated, $type);
@@ -225,7 +225,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
                 array('general_name', 'general_sku'));
         if ($type == 'grouped') {
             $productData = $this->loadData($type . '_product_required',
-                    array('associated_products_sku' => $associatedData['general_sku']),
+                    array('associated_search_sku' => $associatedData['general_sku']),
                     array('general_name', 'general_sku'));
         } else {
             $productData = $this->loadData($type . '_product_required', null, array('general_name', 'general_sku'));

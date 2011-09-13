@@ -130,7 +130,7 @@ class AttributeSet_Helper extends Mage_Selenium_TestCase
             $setName = $setName['set_name'];
         }
         $searchData = $this->loadData('search_attribute_set', array('set_name' => $setName));
-        $this->assertTrue($this->searchAndOpen($searchData), 'Attribute Set is not found');
+        $this->assertTrue($this->searchAndOpen($searchData), "Attribute Set with name '$setName' is not found");
     }
 
 }

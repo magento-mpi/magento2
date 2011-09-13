@@ -100,7 +100,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_products'),
                 'After successful product creation should be redirected to Manage Products page');
         $groupedData = $this->loadData('grouped_product_for_order',
-                array('associated_products_sku' => $simpleData['general_sku']), array('general_name', 'general_sku'));
+                array('associated_search_sku' => $simpleData['general_sku']), array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($groupedData, 'grouped');
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
@@ -148,9 +148,9 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         $configurable = $this->loadData('configurable_product_for_order',
                 array('configurable_attribute_title' => $attrData['admin_title']),
                 array('general_name', 'general_sku'));
-        $configurable['associated_products_configurable_data'] =
-                $this->loadData('associated_products_configurable_data',
-                        array('associated_products_sku' => $simple['general_sku']));
+        $configurable['associated_configurable_data'] =
+                $this->loadData('associated_configurable_data',
+                        array('associated_search_sku' => $simple['general_sku']));
         $this->productHelper()->createProduct($simple);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),

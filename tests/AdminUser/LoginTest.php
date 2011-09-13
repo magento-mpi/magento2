@@ -54,8 +54,10 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
 
     /**
      * Login to Admin
+     *
+     * @test
      */
-    public function test_loginValidUser()
+    public function loginValidUser()
     {
         //Data
         $loginData = array(
@@ -79,10 +81,11 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "This is a required field"</p>
      *
-     * @dataProvider data_EmptyLoginUser
-     * @depends test_loginValidUser
+     * @dataProvider dataEmptyLoginUser
+     * @depends loginValidUser
+     * @test
      */
-    public function test_loginEmptyOneField($emptyField, $loginData)
+    public function loginEmptyOneField($emptyField, $loginData)
     {
         //Data
         $loginData[$emptyField] = '%noValue%';
@@ -93,7 +96,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function data_EmptyLoginUser()
+    public function dataEmptyLoginUser()
     {
         return array(
             array('user_name'),
@@ -109,9 +112,10 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "Invalid username or password."</p>
      *
-     * @depends test_loginValidUser
+     * @depends loginValidUser
+     * @test
      */
-    public function test_loginNonExistantUser($loginData)
+    public function loginNonExistantUser($loginData)
     {
         //Data
         $loginData['user_name'] = 'nonExistantUser';
@@ -129,9 +133,10 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "Invalid username or password."</p>
      *
-     * @depends test_loginValidUser
+     * @depends loginValidUser
+     * @test
      */
-    public function test_loginIncorrectPassword($loginData)
+    public function loginIncorrectPassword($loginData)
     {
         //Data
         $loginData['password'] = $this->generate('string', 9, ':punct:');
@@ -151,9 +156,10 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "This account is inactive."</p>
      *
-     * @depends test_loginValidUser
+     * @depends loginValidUser
+     * @test
      */
-    public function test_loginInactiveAdminAccount()
+    public function loginInactiveAdminAccount()
     {
         //Data
         $userData = $this->loadData('generic_admin_user',
@@ -182,9 +188,10 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message appears - "This account is inactive."</p>
      *
-     * @depends test_loginValidUser
+     * @depends loginValidUser
+     * @test
      */
-    public function test_loginWithoutPermissions()
+    public function loginWithoutPermissions()
     {
         //Data
         $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
@@ -211,8 +218,10 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>4. Click "Retrieve Password" button;</p>
      * <p>Expected result:</p>
      * <p>"This is a required field" message appears;</p>
+     *
+     * @test
      */
-    public function test_forgotPassword_Empty()
+    public function forgotEmptyPassword()
     {
         //Data
         $emailData = array('email' => '%noValue%');
@@ -232,16 +241,18 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>4. "Cannot find the email address." message appears;</p>
      * <p>Expected result:</p>
      * <p>"This is a required field" message appears;</p>
+     *
+     * @test
      */
-    public function test_forgotPassword_InvalidEmail()
+    public function forgotPasswordInvalidEmail()
     {
         //Data
         $emailData = array('email' => $this->generate('email', 15));
         //Steps
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
-        $this->assertTrue($this->errorMessage('wrong_email'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('forgot_password'), $this->messages);
+        $this->addParameter('adminEmail', $emailData['email']);
+        $this->assertTrue($this->successMessage('retrieve_password'), $this->messages);
     }
 
     /**
@@ -256,8 +267,9 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>"A new password was sent to your email address.</p>
      * <p>Please check your email and click Back to Login."</p>
      *
+     * @test
      */
-    public function test_forgotPassword_CorrectPassword()
+    public function forgotPasswordCorrectEmail()
     {
         //Data
         $userData = $this->loadData('generic_admin_user', NULL, array('email', 'user_name'));
@@ -272,7 +284,8 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
-        $this->assertTrue($this->successMessage('password_sent'), $this->messages);
+        $this->addParameter('adminEmail', $emailData['email']);
+        $this->assertTrue($this->successMessage('retrieve_password'), $this->messages);
     }
 
     /**
@@ -291,11 +304,13 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Error message "Invalid Username or Password."  appears.</p>
      *
+     * @test
      */
-    public function test_forgotPassword_OldPassword()
+    public function forgotPasswordOldPassword()
     {
         //Data
-        $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
+        $userData = $this->loadData('generic_admin_user', array('role_name' => 'Administrators'),
+                array('email', 'user_name'));
         $emailData = array('email' => $userData['email']);
         $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
         //Steps
@@ -308,12 +323,13 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $this->adminUserHelper()->forgotPassword($emailData);
         //Verifying
-        $this->assertTrue($this->successMessage('password_sent'), $this->messages);
+        $this->addParameter('adminEmail', $emailData['email']);
+        $this->assertTrue($this->successMessage('retrieve_password'), $this->messages);
         //Steps
         $this->clickControl('link', 'back_to_login');
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->errorMessage('wrong_credentials'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->messages);
     }
 
 }

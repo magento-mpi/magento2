@@ -69,3 +69,4 @@ forgot_password:
             empty_email: "//input[@id='email']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             wrong_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'Cannot find the email address.')]
             password_sent: //li[normalize-space(@class)='success-msg' and contains(.//span,'A new password was sent to your email address. Please check your email and click Back to Login.')]
+            retrieve_password: //li[normalize-space(@class)='success-msg' and contains(.//span,'If there is an account associated with %adminEmail% you will receive an email with a link to reset your password.')]
