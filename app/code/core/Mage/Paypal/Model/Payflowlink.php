@@ -208,6 +208,10 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      */
     protected function _authorize(Varien_Object $payment, $amount, $transaction, $txnId)
     {
+        $_id = $payment->getTransactionId();
+        $payment->setTransactionId($txnId);
+        $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+        $payment->setTransactionId($_id);
         $authorizationAmount = $payment->getAdditionalInformation('authorization_amount');
         if ($authorizationAmount == Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_ONE) {
             $payment->setParentTransactionId($txnId);
@@ -234,15 +238,13 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $transaction->loadByTxnId($txnId);
         if ($transaction->getId()) {
             $removePaypalTransaction = true;
-            $payment->setTransactionId($txnId);
-            $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
             $this->_authorize($payment, $amount, $transaction, $txnId);
             $payment->setReferenceTransactionId($payment->getAdditionalInformation('authorization_id'));
         }
 
         $payment->setParentTransactionId($txnId);
 
-        $payment->setAmountOrdered(round($amount,2));
+        $payment->setRequestAmount(round($amount,2));
         parent::capture($payment, $amount);
 
         if ($removePaypalTransaction) {
@@ -263,6 +265,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         /** @var $payment Mage_Sales_Model_Quote_Payment */
         if ($payment instanceof Mage_Sales_Model_Order_Payment) {
             parent::void($payment);
+            $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_VOID);
             return $this;
         } elseif ($payment instanceof Mage_Sales_Model_Quote_Payment) {
             $this->setStore($payment->getQuote()->getStoreId());
@@ -542,8 +545,8 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             ->setPwd($this->getConfigData('pwd', $this->_getStoreId()))
             ->setVerbosity($this->getConfigData('verbosity', $this->_getStoreId()))
             ->setTender(self::TENDER_CC);
-        if ($payment->getAmountOrdered() > 0) {
-            $request->setAmt(round($payment->getAmountOrdered(),2));
+        if ($payment->getRequestAmount() > 0) {
+            $request->setAmt(round($payment->getRequestAmount(),2));
         }
         return $request;
     }
