@@ -1214,8 +1214,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $xpath = '';
             $this->clickButton('reset_filter', false);
         }
-        $this->waitForAjax();
-        sleep(2);
+        $this->pleaseWait(3, 10);
 
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
         $totalCount = intval($this->getText($xpath . self::qtyElementsInTable));
@@ -1514,9 +1513,30 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         if (!empty($xpath)) {
             $totalElements = $this->getXpathCount($xpath);
-
+            $extraXpath = '';
+            if ($totalElements > 1 && $xpath != self::xpathValidationMessage) {
+                if (substr($xpath, 0, 2) == '//') {
+                    $middle = substr($xpath, 2);
+                } else {
+                    $middle = $xpath;
+                }
+                $xpathAdditional = $xpath;
+                $begin = '//*[';
+                $end = ']';
+                $additional = '';
+                while ($this->isElementPresent($xpathAdditional . '[2]') == FALSE) {
+                    $additional .= '*/';
+                    $needXpath = $begin . $additional . $middle . $end;
+                    $xpathAdditional = $needXpath;
+                }
+                $extraXpath = $xpathAdditional;
+            }
             for ($i = 1; $i < $totalElements + 1; $i++) {
-                $x = $xpath . '[' . $i . ']';
+                if (!$extraXpath || $extraXpath == $xpath) {
+                    $x = $xpath . '[' . $i . ']';
+                } else {
+                    $x = $extraXpath . '[' . $i . ']' . $xpath;
+                }
 
                 switch ($get) {
                     case 'value' :
@@ -1529,9 +1549,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         $this->fail('Possible values of the variable $get only "text" and "value"');
                         break;
                 }
-                if ($element === self::excludedBundleMessage or $element === self::excludedConfigurableMessage) {
-                    continue;
-                }
+
                 if (!empty($element)) {
                     if ($additionalXPath) {
                         if ($this->isElementPresent($x . $additionalXPath)) {
