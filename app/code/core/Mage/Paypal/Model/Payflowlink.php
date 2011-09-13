@@ -543,7 +543,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             ->setVerbosity($this->getConfigData('verbosity', $this->_getStoreId()))
             ->setTender(self::TENDER_CC);
         if ($payment->getAmountOrdered() > 0) {
-            $request->setAmt($payment->getAmountOrdered());
+            $request->setAmt(round($payment->getAmountOrdered(),2));
         }
         return $request;
     }
