@@ -103,7 +103,7 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testValidateKey()
     {
         $validKey = md5(uniqid());
-        $this->assertInstanceOf('Varien_Crypt_Mcrypt', $this->_helper->validateKey($validKey));
+        $this->assertInstanceOf('Magento_Crypt', $this->_helper->validateKey($validKey));
     }
 
     public function testGetRandomString()
