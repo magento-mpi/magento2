@@ -33,7 +33,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     /**
      * Flag of using History condition (for conditions of Product_Attribute)
      *
-     * @deprecated
+     * @deprecated after 1.11.1.0
      *
      * @var bool
      */
