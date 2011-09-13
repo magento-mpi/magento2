@@ -12,8 +12,16 @@
     <rule ref="rulesets/codesize.xml/ExcessiveParameterList" />
     <rule ref="rulesets/codesize.xml/ExcessivePublicCount" />
     <rule ref="rulesets/codesize.xml/TooManyFields" />
-    <rule ref="rulesets/codesize.xml/TooManyMethods" />
-    <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity" />
+    <rule ref="rulesets/codesize.xml/TooManyMethods">
+        <properties>
+            <property name="maxmethods" value="50" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity">
+        <properties>
+            <property name="maximum" value="100" />
+        </properties>
+    </rule>
 
     <!-- Unused code rules -->
     <rule ref="rulesets/unusedcode.xml" />
