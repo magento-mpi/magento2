@@ -181,9 +181,7 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
 
         $content = $block->toHtml();
 
-        if (is_null($this->_activePollId)
-            && array_key_exists('poll', $templates) && $block->getTemplate() === $templates['poll']
-        ) {
+        if (is_null($this->_activePollId)) {
             $this->_activePollId = $block->getPollToShow();
         }
 
