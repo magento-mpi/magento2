@@ -1,0 +1,316 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# 'Checkout' page
+
+checkout_cart:
+    mca: checkout/onepage/
+    click_xpath: //ul[@class='links']//a[contains(., 'Checkout')]
+    title: Checkout
+    uimap:
+        form: &checkoutForm
+            fieldsets:
+                -
+                    billing_information:
+                        xpath: //ol[@id='checkoutSteps']//li[@id='opc-billing']
+                        buttons:
+                            continue: //button[span='Continue']
+                        dropdowns:
+                            billing_address_select: //select[@id='billing-address-select']
+                            billing_region: //select[@id='billing:region_id']
+                            billing_country: //select[@id='billing:country_id']
+                        fields:
+                            billing_first_name: //input[@id='billing:firstname']
+                            billing_last_name: //input[@id='billing:lastname']
+                            billing_company: //input[@id='billing:company']
+                            billing_street_address_1: //input[@id='billing:street1']
+                            billing_street_address_2: //input[@id='billing:street2']
+                            billing_city: //input[@id='billing:city']
+                            billing_region: //input[@id='billing:region']
+                            billing_zip_code: //input[@id='billing:postcode']
+                            billing_telephone: //input[@id='billing:telephone']
+                            billing_fax: //input[@id='billing:fax']
+                        checkboxes:
+                            billing_save_in_address_book: //input[@id='billing:save_in_address_book']
+                        radiobuttons:
+                            billing_same_as_shipping: //input[@id='billing:use_for_shipping_yes']
+                            billing_differs_from_shipping: //input[@id='billing:use_for_shipping_no']
+                        required: [billing_first_name, billing_last_name, billing_street_address_1, billing_city, billing_region, billing_country, billing_zip_code, billing_telephone]
+                -
+                    shipping_information:
+                        xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping']
+                        buttons:
+                            continue: //button[span='Continue']
+                        dropdowns:
+                            shipping_address_select: //select[@id='shipping-address-select']
+                            shipping_state: //select[@id='shipping:region_id']
+                            shipping_country: //select[@id='shipping:country_id']
+                        fields:
+                            shipping_first_name: //input[@id='shipping:firstname']
+                            shipping_last_name: //input[@id='shipping:lastname']
+                            shipping_company: //input[@id='shipping:company']
+                            shipping_street_address_1: //input[@id='shipping:street1']
+                            shipping_street_address_2: //input[@id='shipping:street2']
+                            shipping_city: //input[@id='shipping:city']
+                            shipping_region: //input[@id='shipping:region']
+                            shipping_zip_code: //input[@id='shipping:postcode']
+                            shipping_telephone: //input[@id='shipping:telephone']
+                            shipping_fax: //input[@id='shipping:fax']
+                        checkboxes:
+                            shipping_save_in_address_book: //input[@id='shipping:save_in_address_book']
+                            shipping_same_as_billing: //input[@id='shipping:same_as_billing']
+                        links:
+                            back: //p[@class='back-link']/a[@href]
+                        required: [shipping_first_name, shipping_last_name, shipping_street_address_1, shipping_city, shipping_region, shipping_country, shipping_zip_code, shipping_telephone]
+                -
+                    shipping_method:
+                        xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping_method']
+                        buttons:
+                            continue: //button[span='Continue']
+                        radiobuttons:
+                            ship_method: //input[@type='radio' and following-sibling::*[contains(text(), '%shipMethod%')]]
+                        checkboxes:
+                            add_gift_options: //input[@id='allow_gift_messages']
+                        links:
+                            back: //p[@class='back-link']/a[@href]
+                -
+                    payment_method:
+                        xpath: //ol[@id='checkoutSteps']//li[@id='opc-payment']
+                        radiobuttons:
+                            pay_method: //input[@type='radio' and following-sibling::*[contains(text(), '%payMethod%')]]
+                        dropdowns:
+                            credit_card_type: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Credit Card Type')]/following-sibling::div/select
+                            expiration_date_month: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Expiration Date')]/following-sibling::div/div[contains(.,'Month')]/select
+                            expiration_date_year: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Expiration Date')]/following-sibling::div/div[contains(.,'Year')]/select
+                        fields:
+                            name_on_card: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Name on Card')]/following-sibling::div/input
+                            credit_card_number: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Credit Card Number')]/following-sibling::div/input
+                            cvv: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Card Verification Number')]/following-sibling::div/div/input
+                        links:
+                            back: //p[@class='back-link']/a[@href]
+                        required: [credit_card_type, expiration_date_month, expiration_date_year, name_on_card, credit_card_number, cvv]
+                -
+                    order_review:
+                        xpath: //ol[@id='checkoutSteps']//li[@id='opc-review']
+                        buttons:
+                            place_order: //button[span='Place Order']
+                        links:
+                            edit_cart: //a[contains(.,'Edit Your Cart')]
+
+checkout_multishipping:
+    mca: checkout/multishipping/addresses/
+    title: Ship to Multiple Addresses
+    uimap:
+        form: &checkoutMultishipping
+            fieldsets:
+                -
+                    checkout_multishipping_form:
+                        xpath: //form[@id='checkout_multishipping_form']
+                        buttons:
+                            add_new_address: //button[span='Enter a New Address']
+                            update_qty_and_addresses: //button[span='Update Qty & Addresses']
+                            continue_to_shipping_information: //button[span='Continue to Shipping Information']
+                        links:
+                            product: //a[contains(.,'%product%')]
+                            back_to_shopping_cart: //a[contains(.,'Back to Shopping Cart')]
+                            remove_address: //a[contains(@href, 'removeItem')]
+                        dropdowns:
+                            send_to: //select[contains(@id,'ship')]
+                        fields:
+                            qty: //input[@class='input-text qty']
+
+
+checkout_multishipping_add_new_address:
+    mca: checkout/multishipping_address/newShipping/
+    title: Create Shipping Address
+    uimap:
+        form: &createNewAddress
+            fieldsets:
+                -
+                    create_shipping_address:
+                        xpath: //div[div/h1[contains(text(),'Create Shipping Address')]]
+                        buttons:
+                            save_address: //button[span='Save Address']
+                        fields:
+                            first_name: //input[@id='firstname']
+                            last_name: //input[@id='lastname']
+                            company: //input[@id='company']
+                            telephone: //input[@id='telephone']
+                            fax: //input[@id='fax']
+                            street_address_1: //input[@id='street_1']
+                            street_address_2: //input[@id='street_2']
+                            city: //input[@id='city']
+                            zip_code: //input[@id='zip']
+                            reqion: //input[@id='region']
+                        dropdowns:
+                            region: //select[@id='region_id']
+                            country: //select[@id='country']
+                        checkboxes:
+                            set_default_billing_address: //input[@id='primary_billing']
+                            set_default_shipping_address: //input[@id='primary_shipping']
+                        links:
+                            back: //p[@class='back-link']/a[@href]
+                        required: [first_name, last_name, telephone, street_address_1, city, zip_code, region, country]
+
+
+checkout_multishipping_shipping_methods:
+    mca: checkout/multishipping/shipping/
+    title: Create Shipping Address
+    uimap:
+        form: &createNewShipping
+            fieldsets:
+                -
+                    shipping_method:
+                        xpath: //div[div/h1[contains(text(),'Select Shipping Method')]]/form/div[h2[contains(.,'%addressHeaderId%')]]
+                        links:
+                            change_shipping_address: //a[contains(@href,'editShipping/id/%id%')]
+                            edit_items: //a[contains(@href, 'backToAddresses/')]
+                            product: //a[contains(.,'%product%')]
+                        checkboxes:
+                            add_gift_options: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options']]
+                            gift_option_for_the entire_order: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]
+                            gift_option_for_individual_items: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]
+                        radiobuttons:
+                            shipping_method: //input[@type='radio' and following-sibling::*[contains(text(), '%shipMethod%')]]
+                        fields:
+                            gift_option_entire_order_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='From']
+                            gift_option_entire_order_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='To']
+                            gift_option_entire_order_message: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//textarea[@title='Message']
+                            gift_option_for_individual_items_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//input[@title='From']
+                            gift_option_for_individual_items_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//input[@title='To']
+                            gift_option_for_individual_items_message: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//textarea[@title='Message']
+        buttons:
+            continue_to_billing_information: //button[span='Continue to Billing Information']
+        links:
+            back_to_select_addresses: //a[contains(.,'Back to Select Addresses')]
+
+
+checkout_multishipping_edit_shipment_address:
+    mca: checkout/multishipping_address/editShipping/id/%id%/
+    title: Edit Shipping Address
+    uimap:
+        form: *createNewAddress
+
+
+checkout_multishipping_payment_methods:
+    mca: checkout/multishipping/billing/
+    title: Billing Information
+    uimap:
+        form: &paymentForOrder
+            fieldsets:
+                -
+                    payment_method:
+                        xpath: //div[div/h1[contains(text(),'Billing Information')]]/form[@id='multishipping-billing-form']/div[@class='col2-set']
+                        links:
+                            change_billing_address: //a[contains(@href,'selectBilling/')]
+                        radiobuttons:
+                            pay_method: //input[@type='radio' and following-sibling::*[contains(text(), '%payMethod%')]]
+                        dropdowns:
+                            credit_card_type: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Credit Card Type')]/following-sibling::div/select
+                            expiration_date_month: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Expiration Date')]/following-sibling::div/div[contains(.,'Month')]/select
+                            expiration_date_year: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Expiration Date')]/following-sibling::div/div[contains(.,'Year')]/select
+                            paypal_billing_agreement: //select[@name='payment[ba_agreement_id]']
+                        fields:
+                            name_on_card: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Name on Card')]/following-sibling::div/input
+                            credit_card_number: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Credit Card Number')]/following-sibling::div/input
+                            cvv: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Card Verification Number')]/following-sibling::div/div/input
+        buttons:
+            continue_to_review_order: //button[span='Continue to Review Your Order']
+        links:
+            back_to_select_addresses: //a[contains(.,'Back to Select Addresses')]
+
+
+checkout_multishipping_edit_billing_address:
+    mca: checkout/multishipping_address/selectBilling/
+    title: Change Billing Address
+    uimap:
+        form: &selectBillingAddress
+            fieldsets:
+                -
+                    choose_billing_address:
+                        xpath: //div[div/h1[contains(text(),'Change Billing Address')]]
+                        buttons:
+                            add_new_address: //button[span='Add New Address']
+                        links:
+                            edit_address: //a[contains(@href, 'multishipping_address/editAddress/id/%addressId%/')]
+                            select_address: //a[contains(@href, 'multishipping_address/setBilling/id/%addressId%/')]
+
+checkout_multishipping_create_billing_address:
+    mca: checkout/multishipping_address/newBilling/
+    title: Create Billing Address
+    uimap:
+        form: &createBillingAddress
+            fieldsets:
+                -
+                    billing_address:
+                        xpath: //div[div/h1[contains(text(),'Create Billing Address')]]
+                        fields:
+                            first_name: //input[@name='firstname']
+                            last_name: //input[@name='lastname']
+                            company: //input[@name='company']
+                            telephone: //input[@name='telephone']
+                            fax: //input[@name='fax']
+                            street_address_1: //input[@id='street_1']
+                            street_address_2: //input[@id='street_2']
+                            city: //input[@name='city']
+                            zip_postal_code: //input[@name='postcode']
+                            state_province: //input[@name='region']
+                        dropdowns:
+                            country: //select[@name='country_id']
+                            state_province: //select[@name='region_id']
+                        checkboxes:
+                            use_as_my_default_billing_address: //input[@name='default_billing']
+                            use_as_my_default_shipping_address: //input[@name='default_shipping']
+                        buttons:
+                            save_address: //button[span='Save Address']
+                        links:
+                            back: //a[contains(@href, 'multishipping_address/selectBilling/')]
+
+
+checkout_multishipping_edit_billing_address:
+    mca: checkout/multishipping_address/editAddress/id/%id%/
+    title: Edit Address
+    uimap:
+        form: *createBillingAddress
+
+checkout_multishipping_review_order:
+    mca: checkout/multishipping/overview/
+    title: Review Order
+    uimap:
+        form: &reviewOrder
+            fieldsets:
+                -
+                    review_order:
+                        xpath: //div[div/h1[contains(text(),'Review Order')]]
+                        links:
+                            billing_address_change: //a[contains(@href, 'editBilling/id/%addressId%/')]
+                            payment_method_change: //a[contains(@href, 'backtobilling/')]
+                            shipping_to_change: //a[contains(@href, 'editShipping/id/%addressId%/')]
+                            shipping_method_change: //div[div/div[h4[contains(text(), 'Shipping To')][a[contains(@href, 'editShipping/id/%addressId%/')]]]]//a[contains(@href, 'backtoshipping/')]
+                            back_to_billing_information: //a[contains(@href, 'backtobilling/')]
+                        buttons:
+                            place_order: //button[span='Place Order']
