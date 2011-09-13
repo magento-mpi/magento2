@@ -180,6 +180,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected $_firstPageAfterAdminLogin = 'dashboard';
 
     /**
+     * Excluded message about Bundle product
+     *
+     * @var string
+     */
+    const excludedBundleMessage =
+        'Bundle with dynamic pricing cannot include custom defined options. Options will not be saved.';
+
+    /**
+     * Excluded message about Configurable product
+     *
+     * @var string
+     */
+    const excludedConfigurableMessage = 'Links with associated products will retain only after saving current product.';
+
+    /**
      * Success message Xpath
      *
      * @var string
@@ -191,9 +206,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var string
      */
-    const xpathErrorMessage = "//li[normalize-space(@class)='error-msg']/ul/li
-        [not(text()='Bundle with dynamic pricing cannot include custom defined options. Options will not be saved.')]
-        [not(text()='Links with associated products will retain only after saving current product.')]";
+    const xpathErrorMessage = "//li[normalize-space(@class)='error-msg']/ul/li";
 
     /**
      * Error message Xpath
@@ -1202,7 +1215,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->clickButton('reset_filter', false);
         }
         $this->waitForAjax();
-        sleep(1);
+        sleep(2);
 
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
         $totalCount = intval($this->getText($xpath . self::qtyElementsInTable));
@@ -1398,7 +1411,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function checkMessageByXpath($xpath)
     {
         $this->_parseMessages();
-        if ($xpath && $this->getXpathCount($xpath) > 0) {
+        if ($xpath && $this->isElementPresent($xpath)) {
             return true;
         }
 
@@ -1500,10 +1513,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $elements = array();
 
         if (!empty($xpath)) {
-            if ('/' !== substr($xpath, 0, 1)) {
-                $xpath = $xpath;
-            }
-
             $totalElements = $this->getXpathCount($xpath);
 
             for ($i = 1; $i < $totalElements + 1; $i++) {
@@ -1514,11 +1523,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         $element = $this->getValue($x);
                         break;
                     case 'text' :
-                    default :
                         $element = $this->getText($x);
                         break;
+                    default :
+                        $this->fail('Possible values of the variable $get only "text" and "value"');
+                        break;
                 }
-
+                if ($element === self::excludedBundleMessage or $element === self::excludedConfigurableMessage) {
+                    continue;
+                }
                 if (!empty($element)) {
                     if ($additionalXPath) {
                         if ($this->isElementPresent($x . $additionalXPath)) {
@@ -1595,8 +1608,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->fillForm($loginData);
                     $this->clickButton('login', false);
                     $this->waitForElement(array(self::xpathAdminLogo,
-                        self::xpathErrorMessage,
-                        self::xpathValidationMessage));
+                                                self::xpathErrorMessage,
+                                                self::xpathValidationMessage));
                     if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
                         throw new PHPUnit_Framework_Exception('Admin was not logged in');
                     }
@@ -1783,9 +1796,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function saveForm($buttonName)
     {
         $this->clickButton($buttonName, false);
-        $this->waitForElement(array(self::xpathErrorMessage,
-            self::xpathValidationMessage,
-            self::xpathSuccessMessage));
+        $this->waitForElement(array(self::xpathErrorMessage
+                                        . '[not(text()="' . self::excludedBundleMessage . '")]'
+                                        . '[not(text()="' . self::excludedConfigurableMessage . '")]',
+                                    self::xpathValidationMessage,
+                                    self::xpathSuccessMessage));
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
 
@@ -2000,9 +2015,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function verifyMessagesCount($count = 1, $xpath = Mage_Selenium_TestCase::xpathValidationMessage)
     {
-        if (!preg_match('/^\/\//', $xpath)) {
-            $xpath = '//' . $xpath;
-        }
         return $this->getXpathCount($xpath) == $count;
     }
 
