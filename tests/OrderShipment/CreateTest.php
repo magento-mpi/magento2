@@ -88,6 +88,15 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
      */
     public function full($productData)
     {
+        //Preconditions
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->addParameter('tabName', 'edit/section/payment/');
+        $this->clickControl('tab', 'sales_payment_methods', TRUE);
+        $payment = $this->loadData('saved_cc_wo3d_enable');
+        $this->fillForm($payment, 'sales_payment_methods');
+        $this->saveForm('save_config');
+        //Steps
         $orderData = $this->loadData('order_req_1',
                 array('filter_sku' => $productData['general_sku']));
         $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
@@ -134,6 +143,15 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
      */
     public function partial($productData)
     {
+        //Preconditions
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->addParameter('tabName', 'edit/section/payment/');
+        $this->clickControl('tab', 'sales_payment_methods', TRUE);
+        $payment = $this->loadData('saved_cc_wo3d_enable');
+        $this->fillForm($payment, 'sales_payment_methods');
+        $this->saveForm('save_config');
+        //Steps
         $orderData = $this->loadData('order_req_partial_shipment',
                 array('filter_sku' => $productData['general_sku']));
         $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
