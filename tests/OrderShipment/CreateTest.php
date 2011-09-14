@@ -96,8 +96,7 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
      */
     public function full($productData)
     {
-        $orderData = $this->loadData('order_req_1',
-                array('filter_sku' => $productData['general_sku']));
+        $orderData = $this->loadData('order_req_1', array('filter_sku' => $productData['general_sku']));
         $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -106,14 +105,10 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
         $this->clickButton('invoice', TRUE);
         $this->clickButton('submit_invoice', TRUE);
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->clickButton('ship', TRUE);
-        $this->clickButton('submit_shipment', TRUE);
-        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
-        $this->addParameter('sku', $productData['general_sku']);
-        $this->addParameter('shippedQty', '1');
-        $xpathShipped = $this->_getControlXpath('field', 'qty_shipped');
-        $this->assertTrue($this->isElementPresent($xpathShipped),
-                'Qty of shipped products is incorrect at the orders form');
+        $productsToShip = $this->loadData('products_to_ship_1');
+        $productsToShip['product_1']['filter_sku'] = $productData['general_sku'];
+        $productsToShip['product_1']['qty_to_ship'] = '1';
+        $this->orderShipmentHelper()->createShipment($productsToShip);
     }
 
     /**
@@ -142,8 +137,7 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
      */
     public function partial($productData)
     {
-        $orderData = $this->loadData('order_req_partial_shipment',
-                array('filter_sku' => $productData['general_sku']));
+        $orderData = $this->loadData('order_req_partial_shipment', array('filter_sku' => $productData['general_sku']));
         $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -152,25 +146,8 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
         $this->clickButton('invoice', TRUE);
         $this->clickButton('submit_invoice', TRUE);
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->clickButton('ship', TRUE);
         $productsToShip = $this->loadData('products_to_ship_1');
-        $productsToShip['product_1']['general_sku'] = $productData['general_sku'];
-        foreach($productsToShip as $product => $options) {
-            $this->addParameter('sku', $options['general_sku']);
-            if (array_key_exists('configurable_options', $options)) {
-                $this->fillForm($options['configurable_options']);
-            }
-        }
-        $this->clickButton('submit_shipment', TRUE);
-        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
-        foreach($productsToShip as $product => $options) {
-            if (array_key_exists('configurable_options', $options)) {
-                $this->addParameter('sku', $options['general_sku']);
-                $this->addParameter('shippedQty', $options['configurable_options']['qty_to_ship']);
-                $xpathShipped = $this->_getControlXpath('field', 'qty_shipped');
-                $this->assertTrue($this->isElementPresent($xpathShipped),
-                        'Qty of shipped products is incorrect at the orders form');
-            }
-        }
+        $productsToShip['product_1']['filter_sku'] = $productData['general_sku'];
+        $this->orderShipmentHelper()->createShipment($productsToShip);
     }
 }

@@ -476,21 +476,18 @@ products_to_reconfig_3:
 products_to_refund_1:
     product_1:
         filter_sku: %noValue%
-        configurable_options:
-            return_to_stock: Yes
-            qty_to_refund: 5
+        return_to_stock: Yes
+        qty_to_refund: 5
 
 products_to_invoice_1:
     product_1:
         filter_sku: %noValue%
-        configurable_options:
-            qty_to_invoice: 5
+        qty_to_invoice: 5
 
 products_to_ship_1:
     product_1:
         filter_sku: %noValue%
-        configurable_options:
-            qty_to_ship: 5
+        qty_to_ship: 5
 
 messages_for_products_1:
     product_1:
@@ -1018,6 +1015,7 @@ order_req_partial_creditmemo:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_req_partial_invoice:
@@ -1464,4 +1462,83 @@ order_data_visa_w3d_1:
         payment_info: *visa_3d
         3d_secure_validation_code: 1234
     shipping_data:
+        shipping_method: Fixed
+
+order_req_check_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: check_money_order
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    gift_messages:
+        product_1:
+            general_sku: %noValue
+            message_option:
+                to: %noValue%
+                from: %noValue%
+                message: %noValue%
+    coupons:
+        coupon_1: %noValue%
+
+order_req_partial_invoice_check:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    products_to_reconfigure:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                qty: 10
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: check_money_order
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+
+order_req_partial_creditmemo_check:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    products_to_reconfigure:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options:
+                qty: 10
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: check_money_order
+    shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed

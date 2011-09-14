@@ -442,6 +442,7 @@ view_order:
                                         qty_ordered: //tbody[tr/td/div[contains(.,'%sku%')]]//table[@class='qty-table']//tr[contains(.,'Ordered')]//strong[text()='%orderedQty%']
                                         qty_invoiced: //tbody[tr/td/div[contains(.,'%sku%')]]//table[@class='qty-table']//tr[contains(.,'Invoiced')]//strong[text()='%invoicedQty%']
                                         qty_shipped: //tbody[tr/td/div[contains(.,'%sku%')]]//table[@class='qty-table']//tr[contains(.,'Shipped')]//strong[text()='%shippedQty%']
+                                        qty_refunded: //tbody[tr/td/div[contains(.,'%sku%')]]//table[@class='qty-table']//tr[contains(.,'Refunded')]//strong[text()='%refundedQty%']
                             -
                                 comments_history:
                                     xpath: //div[@class='entry-edit'][./div/h4='Comments History']
