@@ -27,9 +27,9 @@
 /**
  * Customer address form xml renderer for onepage checkout
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Template
 {
@@ -45,9 +45,8 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
         $xmlModel->addAttribute('name', 'address_form');
         $xmlModel->addAttribute('method', 'post');
 
-        if ($this->getType() == 'shipping' || $this->getType() == 'billing') {
-            $addressType = $this->getType();
-        } else {
+        $addressType = $this->getType();
+        if (!$addressType) {
             $addressType = 'billing';
         }
 
@@ -57,21 +56,21 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
 
         $countries = $this->_getCountryOptions();
 
-        $xmlModel->addField($addressType.'[firstname]', 'text', array(
+        $xmlModel->addField($addressType . '[firstname]', 'text', array(
                 'label'     => $this->__('First Name'),
                 'required'  => 'true',
                 'value'     => ''
             )
         );
 
-        $xmlModel->addField($addressType.'[lastname]', 'text', array(
+        $xmlModel->addField($addressType . '[lastname]', 'text', array(
                 'label'     => $this->__('Last Name'),
                 'required'  => 'true',
                 'value'     => ''
             )
         );
 
-        $xmlModel->addField($addressType.'[company]', 'text', array(
+        $xmlModel->addField($addressType . '[company]', 'text', array(
                 'label'     => $this->__('Company'),
                 'required'  => 'true',
                 'value'     => ''
@@ -82,7 +81,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
             && !Mage::getSingleton('customer/session')->isLoggedIn()
             && $addressType == 'billing'
         ) {
-            $emailField = $xmlModel->addField($addressType.'[email]', 'text', array(
+            $emailField = $xmlModel->addField($addressType . '[email]', 'text', array(
                     'label'     => $this->__('Email Address'),
                     'required'  => 'true',
                     'value'     => ''
@@ -93,27 +92,27 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
             $emailValidator->addAttribute('message', $this->__('Wrong email format'));
         }
 
-        $xmlModel->addField($addressType.'[street][]', 'text', array(
+        $xmlModel->addField($addressType . '[street][]', 'text', array(
                 'label'     => $this->__('Address'),
                 'required'  => 'true',
                 'value'     => ''
             )
         );
 
-        $xmlModel->addField($addressType.'[street][]', 'text', array(
+        $xmlModel->addField($addressType . '[street][]', 'text', array(
                  'label'     => $this->__('Address 2'),
                  'value'     => ''
             )
         );
 
-        $xmlModel->addField($addressType.'[city]', 'text', array(
+        $xmlModel->addField($addressType . '[city]', 'text', array(
                 'label'     => $this->__('City'),
                 'required'  => 'true',
                 'value'     => ''
             )
         );
 
-        $countryOptionsXml = $xmlModel->addField($addressType.'[country_id]', 'select', array(
+        $countryOptionsXml = $xmlModel->addField($addressType . '[country_id]', 'select', array(
                 'label'     => $this->__('Country'),
                 'required'  => 'true',
                 'value'     => ''
@@ -147,40 +146,40 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
             }
         }
 
-        $xmlModel->addField($addressType.'[region]', 'text', array(
+        $xmlModel->addField($addressType . '[region]', 'text', array(
                 'label' => $this->__('State/Province'),
                 'value' => ''
             )
         );
 
-        $xmlModel->addField($addressType.'[region_id]', 'select', array(
+        $xmlModel->addField($addressType . '[region_id]', 'select', array(
                 'label'     => $this->__('State/Province'),
                 'required'  => 'true',
                 'value'     => ''
             )
         );
 
-        $xmlModel->addField($addressType.'[postcode]', 'text', array(
+        $xmlModel->addField($addressType . '[postcode]', 'text', array(
                 'label'     => $this->__('Zip/Postal Code'),
                 'required'  => 'true',
                 'value'     => ''
             )
         );
 
-        $xmlModel->addField($addressType.'[telephone]', 'text', array(
+        $xmlModel->addField($addressType . '[telephone]', 'text', array(
                 'label'     => $this->__('Telephone'),
                 'required'  => 'true',
                 'value'     => ''
             )
         );
 
-        $xmlModel->addField($addressType.'[fax]', 'text', array(
+        $xmlModel->addField($addressType . '[fax]', 'text', array(
                 'label' => $this->__('Fax'),
                 'value' => ''
             )
         );
 
-        $xmlModel->addField($addressType.'[save_in_address_book]', 'checkbox', array(
+        $xmlModel->addField($addressType . '[save_in_address_book]', 'checkbox', array(
                 'label' => $this->__('Save in address book'),
             )
         );
@@ -196,7 +195,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
      */
     protected function _getRegionOptions($countryId)
     {
-        $cacheKey = 'DIRECTORY_REGION_SELECT_STORE'.Mage::app()->getStore()->getId().$countryId;
+        $cacheKey = 'DIRECTORY_REGION_SELECT_STORE' . Mage::app()->getStore()->getId() . $countryId;
         if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
             $options = unserialize($cache);
         } else {
@@ -218,7 +217,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
      */
     protected function _getCountryOptions()
     {
-        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_'.Mage::app()->getStore()->getCode();
+        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
         if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
             $options = unserialize($cache);
         } else {

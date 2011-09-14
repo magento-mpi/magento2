@@ -27,9 +27,9 @@
 /**
  * One page checkout shipping methods xml renderer
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Block_Checkout_Shipping_Method_Available
     extends Mage_Checkout_Block_Onepage_Shipping_Method_Available
@@ -42,7 +42,10 @@ class Mage_XmlConnect_Block_Checkout_Shipping_Method_Available
     protected function _toHtml()
     {
         /** @var $methodsXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $methodsXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<shipping_methods></shipping_methods>');
+        $methodsXmlObj = Mage::getModel(
+            'xmlconnect/simplexml_element',
+            '<shipping_methods></shipping_methods>'
+        );
         $_shippingRateGroups = $this->getShippingRates();
         if ($_shippingRateGroups) {
             $store = $this->getQuote()->getStore();

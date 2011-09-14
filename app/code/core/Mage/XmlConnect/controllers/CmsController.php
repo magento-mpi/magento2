@@ -27,7 +27,9 @@
 /**
  * XmlConnect cms page controller
  *
- * @author  Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_Xmlconnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_CmsController extends Mage_XmlConnect_Controller_Action
 {

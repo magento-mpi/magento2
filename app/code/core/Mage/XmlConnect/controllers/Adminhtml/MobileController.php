@@ -325,28 +325,27 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $params = $app->getSubmitParams();
 
             $appConnectorUrl = Mage::getStoreConfig('xmlconnect/mobile_application/magentocommerce_url');
-            $ch = curl_init($appConnectorUrl . $params['key']);
+            $curlHandler = curl_init($appConnectorUrl . $params['key']);
 
             // set URL and other appropriate options
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+            curl_setopt($curlHandler, CURLOPT_POST, 1);
+            curl_setopt($curlHandler, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($curlHandler, CURLOPT_SSL_VERIFYHOST, 2);
+            curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curlHandler, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($curlHandler, CURLOPT_TIMEOUT, 60);
 
             // Execute the request.
-            $result = curl_exec($ch);
-            $succeeded  = curl_errno($ch) == 0 ? true : false;
+            $result = curl_exec($curlHandler);
 
             // close cURL resource, and free up system resources
-            curl_close($ch);
+            curl_close($curlHandler);
 
             // Assert that we received an expected message in reponse.
             $resultArray = json_decode($result, true);
 
             $app->setResult($result);
-            $success = (isset($resultArray['success'])) && ($resultArray['success'] === true);
+            $success = isset($resultArray['success']) && $resultArray['success'] === true;
 
             $app->setSuccess($success);
             if (!$app->getSuccess()) {
@@ -470,8 +469,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                                 'selectedTheme' => $themeName
                             );
                         }
-                    } elseif ($newThemeName) {
-                        $response = array('error' => true, 'message' => $this->__('Cannot load theme "%s".', $themeName));
                     } else {
                         $response = array('error' => true, 'message' => $this->__('Cannot load theme "%s".', $themeName));
                     }
@@ -479,8 +476,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     $convertedConf = $this->_convertPost($data);
                     $newTheme = $themesHelper->createNewTheme($themeName, $convertedConf);
                     $response = array(
-                        'message'   => $this->__('Theme has been created.'),
-                        'themes'    => $themesHelper->getAllThemesArray(true),
+                        'message'       => $this->__('Theme has been created.'),
+                        'themes'        => $themesHelper->getAllThemesArray(true),
                         'themeSelector' => $themesHelper->getThemesSelector($newTheme->getName()),
                         'selectedTheme' => $newTheme->getName()
                     );
@@ -519,15 +516,15 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         foreach ($data as $key => $val) {
             $parts = explode('_', $key);
             // "4" - is number of expected params conf_native_bar_tintcolor in correct data
-            if (is_array($parts) && (count($parts) == 4)) {
-                @list($key0, $key1, $key2, $key3) = $parts;
+            if (is_array($parts) && count($parts) == 4) {
+                @list(, $key1, $key2, $key3) = $parts;
                 if (!isset($conf[$key1])) {
                     $conf[$key1] = array();
                 }
                 if (!isset($conf[$key1][$key2])) {
                     $conf[$key1][$key2] = array();
                 }
-            $conf[$key1][$key2][$key3] = $val;
+                $conf[$key1][$key2][$key3] = $val;
             }
         }
         return $conf;
@@ -844,13 +841,14 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if (!empty($_FILES)) {
             foreach ($_FILES as $field => $file) {
                 if (!empty($file['name']) && is_scalar($file['name'])) {
-                    $uploadedFileName = Mage::helper('xmlconnect/image')->handleUpload($field, $data);
+                    $uploadedFileName = Mage::helper('xmlconnect/image')->handleUpload($field);
                     if (!empty($uploadedFileName)) {
                         $this->_uploadedFiles[$field] = $uploadedFileName;
                     }
                 }
             }
         }
+
         foreach ($this->_uploadedFiles as $fieldPath => $fileName) {
             Mage::helper('xmlconnect')->_injectFieldToArray($data, $fieldPath, $fileName);
         }
@@ -1000,7 +998,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     /**
      * Filtering posted data. Converting localized data if needed
      *
-     * @param array
+     * @param array $data
      * @return array
      */
     protected function _filterPostData($data)
@@ -1149,6 +1147,23 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     $this->_redirect('*/*/queue');
                     return;
                 }
+
+                /** @var $app Mage_XmlConnect_Model_Application */
+                $app = Mage::getModel('xmlconnect/application')->loadByCode($template->getAppCode());
+                $deviceType = Mage::helper('xmlconnect')->getDeviceType($app);
+
+                if ($deviceType == Mage_XmlConnect_Helper_Data::DEVICE_TYPE_ANDROID
+                    && $data['type'] == Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_AIRMAIL
+                ) {
+                    $this->_getSession()->addError(
+                        $this->__('Android doesn\'t support AirMail message type.')
+                    );
+                    $redirectParams = $this->_getQueueMessageParams($message);
+                    $action = $message->getId() ? 'editQueue' : 'queueMessage';
+                    $this->_redirect('*/*/' . $action, $redirectParams);
+                    return;
+                }
+
                 $temporaryObject = new Varien_Object();
                 $temporaryObject->setData($data);
 
@@ -1163,7 +1178,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     $message->setStatus(Mage_XmlConnect_Model_Queue::STATUS_IN_QUEUE);
                 } elseif ($message->getStatus() != Mage_XmlConnect_Model_Queue::STATUS_IN_QUEUE) {
                     $this->_getSession()->addError(
-                        $this->__('Message can be edited when status of the message is "IN QUEUE" only.')
+                        $this->__('Message can be edited when status of the message is "In Queue" only.')
                     );
                     $this->_redirect('*/*/queue');
                     return;
@@ -1207,16 +1222,28 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             if ($isError) {
                 Mage::getSingleton('adminhtml/session')->setLoadSessionFlag(true);
             }
-            $redirectParams = array();
-            if ($message && $message->getId()) {
-                $redirectParams['id'] = $message->getId();
-            } else {
-                $redirectParams['template_id'] = (int) $this->getRequest()->getParam('template_id');
-            }
+            $redirectParams = $this->_getQueueMessageParams($message);
             $this->_redirect('*/*/queueMessage', $redirectParams);
         } else {
             $this->_redirect('*/*/queue');
         }
+    }
+
+    /**
+     * Get queue message action params
+     *
+     * @param Mage_XmlConnect_Model_Queue $message
+     * @return array
+     */
+    protected function _getQueueMessageParams(Mage_XmlConnect_Model_Queue $message)
+    {
+        $redirectParams = array();
+        if ($message && $message->getId()) {
+            $redirectParams['id'] = $message->getId();
+        } else {
+            $redirectParams['template_id'] = (int) $this->getRequest()->getParam('template_id');
+        }
+        return $redirectParams;
     }
 
     /**
@@ -1253,7 +1280,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $applicationsFound = Mage::helper('xmlconnect')->getApplicationOptions();
         if (!$template->getId() && empty($applicationsFound)) {
             $this->_getSession()->addError(
-                $this->__('Template creation is allowed only for applications which have device type iPhone, but this kind of applications has not been found.')
+                $this->__('At last one application has to be created.')
             );
             $this->_redirect('*/*/template');
             return;
@@ -1276,7 +1303,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $isError = false;
         if ($data) {
             $data = Mage::getModel('core/input_filter_maliciousCode')->filter($data);
-            Mage::getSingleton('adminhtml/session')->setFormData($data);
+            Mage::getSingleton('adminhtml/session')->setTemplateFormData($data);
             try {
                 $id = $this->getRequest()->getParam('id');
                 $template = $this->_initTemplate();
@@ -1321,6 +1348,26 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 );
                 $this->_redirect('*/*/template');
             }
+        }
+
+        if (isset($template)) {
+            $appCode = $template->getAppCode();
+        } else {
+            $appCode = Mage::getModel('xmlconnect/template')
+                ->load($message->getTemplateId())
+                ->getAppCode();
+        }
+
+        /** @var $app Mage_XmlConnect_Model_Application */
+        $app = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
+
+        if(!$app->isNotificationsActive()) {
+            $this->_getSession()->addError(
+                $this->__('Queue is allowed only for applications with enabled Push Notification.')
+            );
+            $action = $message->getId() ? 'queue' : 'template';
+            $this->_redirect('*/*/' . $action);
+            return;
         }
 
         $this->loadLayout();

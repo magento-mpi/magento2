@@ -35,6 +35,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order
 {
     /**
      * Add order totals rendered to XML object
+     * (get from template: sales/order/totals.phtml)
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $orderXmlObj
      * @return void
@@ -139,7 +140,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals extends Mage_Sales_Block_Order
     protected function _formatPrice($total)
     {
         if (!$total->getIsFormated()) {
-            return $this->getOrder()->getOrderCurrency()->formatPrecision($total->getValue(), 2, array(), false);
+            return Mage::helper('xmlconnect/customer_order')->formatPrice($this, $total->getValue());
         }
         return $total->getValue();
     }

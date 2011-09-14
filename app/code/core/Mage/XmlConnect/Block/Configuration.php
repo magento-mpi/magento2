@@ -31,7 +31,6 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
 {
     /**
@@ -114,7 +113,13 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
     protected function _toHtml()
     {
         $xml = Mage::getModel('xmlconnect/simplexml_element', '<configuration></configuration>');
-        $this->_buildRecursive($xml, Mage::helper('xmlconnect')->excludeXmlConfigKeys($this->_app->getRenderConf()));
+        $this->_buildRecursive(
+            $xml,
+            Mage::helper('xmlconnect')
+                ->excludeXmlConfigKeys(
+                    $this->_app->getRenderConf()
+            )
+        );
         return $xml->asNiceXml();
     }
 }

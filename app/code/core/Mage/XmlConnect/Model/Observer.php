@@ -25,10 +25,10 @@
  */
 
 /**
- * XmlConnect Model Observer
+ * XmlConnect module observer
  *
  * @category    Mage
- * @package     Mage_XmlConnect
+ * @package     Mage_Xmlconnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Model_Observer
@@ -73,8 +73,7 @@ class Mage_XmlConnect_Model_Observer
         if ($configData
             && (int)$configData->isValueChanged()
             && in_array($configData->getPath(), $this->_appDependOnConfigFieldPathes)
-        )
-        {
+        ) {
             Mage::getModel('xmlconnect/application')->updateAllAppsUpdatedAtParameter();
         }
     }
@@ -83,6 +82,7 @@ class Mage_XmlConnect_Model_Observer
      * Send a message if Start Date (Queue Date) is empty
      *
      * @param Varien_Event_Observer $observer
+     * @return bool
      */
     public function sendMessageImmediately($observer)
     {
@@ -91,8 +91,7 @@ class Mage_XmlConnect_Model_Observer
             && (strtolower($message->getExecTime()) == 'null'
                 || !$message->getExecTime()
             )
-        )
-        {
+        ) {
             $message->setExecTime(Mage::getSingleton('core/date')->gmtDate());
             Mage::helper('xmlconnect')->sendBroadcastMessage($message);
             return true;
@@ -102,13 +101,15 @@ class Mage_XmlConnect_Model_Observer
     }
 
     /**
-     * Send sheduled messages
+     * Send scheduled messages
      *
-     * @param mixed $schedule
+     * @return void
      */
-    public function scheduledSend($schedule = null)
+    public function scheduledSend()
     {
-        $countOfQueue = Mage::getStoreConfig(Mage_XmlConnect_Model_Queue::XML_PATH_CRON_MESSAGES_COUNT);
+        $countOfQueue = Mage::getStoreConfig(
+            Mage_XmlConnect_Model_Queue::XML_PATH_CRON_MESSAGES_COUNT
+        );
 
         $collection = Mage::getModel('xmlconnect/queue')->getCollection()
             ->addOnlyForSendingFilter()

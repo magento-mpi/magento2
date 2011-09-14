@@ -43,13 +43,21 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
     public function productToXmlObject(Mage_Catalog_Model_Product $product, $itemNodeName = 'item')
     {
         /** @var $item Mage_XmlConnect_Model_Simplexml_Element */
-        $item = Mage::getModel('xmlconnect/simplexml_element', '<' . $itemNodeName . '></' . $itemNodeName . '>');
+        $item = Mage::getModel(
+            'xmlconnect/simplexml_element',
+            '<' . $itemNodeName . '></' . $itemNodeName . '>'
+        );
         if ($product && $product->getId()) {
             $item->addChild('entity_id', $product->getId());
-            $item->addChild('name', $item->xmlentities(strip_tags($product->getName())));
+            $item->addChild('name', $item->xmlentities($product->getName()));
             $item->addChild('entity_type', $product->getTypeId());
-            $item->addChild('short_description', $item->xmlentities(strip_tags($product->getShortDescription())));
-            $description = Mage::helper('xmlconnect')->htmlize($item->xmlentities($product->getDescription()));
+            $item->addChild(
+                'short_description',
+                $item->xmlentities($product->getShortDescription())
+            );
+            $description = Mage::helper('xmlconnect')->htmlize(
+                $item->xmlentities($product->getDescription())
+            );
             $item->addChild('description', $description);
             $item->addChild('link', $product->getProductUrl());
 
@@ -61,7 +69,8 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
                 $propertyToResizeName = 'image';
             }
 
-            $icon = clone Mage::helper('catalog/image')->init($product, $propertyToResizeName)
+            $icon = clone Mage::helper('catalog/image')
+                ->init($product, $propertyToResizeName)
                 ->resize($imageToResize);
 
             $iconXml = $item->addChild('icon', $icon);
@@ -69,7 +78,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             $file = Mage::helper('xmlconnect')->urlToPath($icon);
             $iconXml->addAttribute('modification_time', filemtime($file));
 
-            $item->addChild('in_stock', (int)$product->isInStock());
+            $item->addChild('in_stock', (int)$product->getIsInStock());
             $item->addChild('is_salable', (int)$product->isSalable());
             /**
              * By default all products has gallery (because of collection not load gallery attribute)
@@ -93,16 +102,23 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
 
             if (!$product->getRatingSummary()) {
                 Mage::getModel('review/review')
-                   ->getEntitySummary($product, Mage::app()->getStore()->getId());
+                    ->getEntitySummary($product, Mage::app()->getStore()->getId());
             }
 
-            $item->addChild('rating_summary', round((int)$product->getRatingSummary()->getRatingSummary() / 10));
-            $item->addChild('reviews_count', $product->getRatingSummary()->getReviewsCount());
+            $item->addChild(
+                'rating_summary',
+                round((int)$product->getRatingSummary()->getRatingSummary() / 10)
+            );
+            $item->addChild(
+                'reviews_count',
+                $product->getRatingSummary()->getReviewsCount()
+            );
 
             if ($this->getChild('product_price')) {
-                $this->getChild('product_price')->setProduct($product)
-                   ->setProductXmlObj($item)
-                   ->collectProductPrices();
+                $this->getChild('product_price')
+                    ->setProduct($product)
+                    ->setProductXmlObj($item)
+                    ->collectProductPrices();
             }
 
             if ($this->getChild('additional_info')) {

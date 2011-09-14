@@ -31,7 +31,8 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Catalog_Product_Attributes extends Mage_Catalog_Block_Product_View_Attributes
+class Mage_XmlConnect_Block_Catalog_Product_Attributes
+    extends Mage_Catalog_Block_Product_View_Attributes
 {
     /**
      * Add additional information (attributes) to current product xml object
