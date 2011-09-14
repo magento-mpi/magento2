@@ -36,6 +36,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Giftcards
 {
     /**
      * Add order total rendered to XML object
+     * (get from template: )
      *
      * @param $totalsXml Mage_XmlConnect_Model_Simplexml_Element
      * @return void
@@ -72,6 +73,6 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Giftcards
      */
     protected function _formatPrice($amount)
     {
-        return $this->getOrder()->getOrderCurrency()->formatPrecision($amount, 2, array(), false);
+        return Mage::helper('xmlconnect/customer_order')->formatPrice($this, $amount);
     }
 }

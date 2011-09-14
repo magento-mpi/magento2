@@ -41,6 +41,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Grouped
 
     /**
      * Add item to XML object
+     * (get from template: sales/order/items/renderer/default.phtml)
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj
      * @return void

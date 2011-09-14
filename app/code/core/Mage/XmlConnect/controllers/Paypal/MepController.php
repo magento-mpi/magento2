@@ -59,8 +59,12 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
         ) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            $this->_message($this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR);
-            return ;
+            $this->_message(
+                $this->__('Customer not logged in.'),
+                self::MESSAGE_STATUS_ERROR,
+                array('logged_in' => '0')
+            );
+            return;
         }
     }
 
@@ -72,6 +76,21 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
     public function indexAction()
     {
         try {
+            if (is_object(Mage::getConfig()->getNode('modules/Enterprise_GiftCardAccount'))) {
+                $giftcardInfoBlock = $this->getLayout()->addBlock(
+                    'enterprise_giftcardaccount/checkout_onepage_payment_additional',
+                    'giftcard_info'
+                );
+
+                if (intval($giftcardInfoBlock->getAppliedGiftCardAmount())) {
+                    $this->_message(
+                        $this->__('Paypal MEP doesn\'t support checkout with any discount.'),
+                        self::MESSAGE_STATUS_ERROR
+                    );
+                    return;
+                }
+            }
+
             $this->_initCheckout();
             $this->_checkout->initCheckout();
             $this->_message(
@@ -176,7 +195,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         try {
             $this->_initCheckout();
             $data = $this->getRequest()->getPost('shipping_method', '');
-            $this->_quote->getShippingAddress()
+            $this->_getQuote()->getShippingAddress()
                 ->setShippingMethod($data)
                 ->setCollectShippingRates(true)
                 ->save();

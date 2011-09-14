@@ -25,10 +25,10 @@
  */
 
 /**
- * XmlConnect Model Theme
+ * XmlConnect Theme model
  *
  * @category    Mage
- * @package     Mage_XmlConnect
+ * @package     Mage_Xmlconnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Model_Theme
@@ -193,13 +193,13 @@ class Mage_XmlConnect_Model_Theme
     {
         $currentThemeFileName = $this->_getThemeFile();
 
-        $io = new Varien_Io_File();
-        if (!$io->cp($currentThemeFileName, $filePath)) {
+        $ioFile = new Varien_Io_File();
+        if (!$ioFile->cp($currentThemeFileName, $filePath)) {
             Mage::throwException(
                 Mage::helper('xmlconnect')->__('Can\'t copy file "%s" to "%s".', $currentThemeFileName, $filePath)
             );
         } else {
-            $io->chmod($filePath, 0755);
+            $ioFile->chmod($filePath, 0755);
         }
 
         return $filePath;
@@ -221,7 +221,7 @@ class Mage_XmlConnect_Model_Theme
         $themeFileName = Mage::getModel('xmlconnect/theme', $filePath);
         $themeFileName->setLabel($themeName);
         $fileName = basename($filePath);
-        $themeFileName->setName(substr($fileName, 0, strlen($fileName)-4));
+        $themeFileName->setName(substr($fileName, 0, -4));
         $themeFileName->importAndSaveData($data);
         return $themeFileName;
     }
@@ -243,7 +243,7 @@ class Mage_XmlConnect_Model_Theme
      * @param string $prefix
      * @return array
      */
-    protected function _flatArray($subtree, $prefix=null)
+    protected function _flatArray($subtree, $prefix = null)
     {
         $result = array();
         foreach ($subtree as $key => $value) {
@@ -269,7 +269,7 @@ class Mage_XmlConnect_Model_Theme
      * @param array $xml
      * @return array
      */
-    protected function _validateFormInput($data, $xml=NULL)
+    protected function _validateFormInput($data, $xml = null)
     {
         $root = false;
         $result = array();

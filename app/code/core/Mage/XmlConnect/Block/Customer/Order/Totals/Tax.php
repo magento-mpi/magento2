@@ -35,6 +35,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Tax extends Mage_Tax_Block_Sal
 {
     /**
      * Add order taxes rendered to XML object
+     * (get from template: )
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $totalsXmlObj
      * @return void
@@ -58,7 +59,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Tax extends Mage_Tax_Block_Sal
                             'label' => $rate['title']
                         );
                         if (!is_null($rate['percent'])) {
-                            $config['percent'] = '(' . (float)$rate['percent'] . '%)';
+                            $config['percent'] = sprintf('(%0.2f%%)', $rate['percent']);
                         }
                         $taxesXmlObj->addCustomChild(
                             'item',
@@ -87,6 +88,6 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Tax extends Mage_Tax_Block_Sal
      */
     protected function _formatPrice($amount)
     {
-        return $this->getOrder()->getOrderCurrency()->formatPrecision($amount, 2, array(), false);
+        return Mage::helper('xmlconnect/customer_order')->formatPrice($this, $amount);
     }
 }

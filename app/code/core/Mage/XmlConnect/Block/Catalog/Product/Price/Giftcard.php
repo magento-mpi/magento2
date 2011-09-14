@@ -27,11 +27,12 @@
 /**
  * Giftcard product price xml renderer
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Catalog_Product_Price_Giftcard extends Mage_Bundle_Block_Catalog_Product_Price
+class Mage_XmlConnect_Block_Catalog_Product_Price_Giftcard
+    extends Mage_Bundle_Block_Catalog_Product_Price
 {
     /**
      * Return minimal amount for Giftcard product using price model

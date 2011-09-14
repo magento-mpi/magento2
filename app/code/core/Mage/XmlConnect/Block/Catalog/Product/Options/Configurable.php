@@ -27,12 +27,12 @@
 /**
  * Configurable product options xml renderer
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_XmlConnect_Block_Catalog_Product_Options
+class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable
+    extends Mage_XmlConnect_Block_Catalog_Product_Options
 {
     /**
      * Generate bundle product options xml
@@ -132,19 +132,24 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
             $optionNode = $optionsXmlObj->addChild('option');
             $optionNode->addAttribute('code', 'super_attribute[' . $id . ']');
             $optionNode->addAttribute('type', 'select');
-            $optionNode->addAttribute('label', strip_tags($attribute['label']));
+            $optionNode->addAttribute('label', $optionsXmlObj->xmlentities($attribute['label']));
             $optionNode->addAttribute('is_required', 1);
             if ($isFirst) {
                 foreach ($attribute['options'] as $option) {
                     $valueNode = $optionNode->addChild('value');
                     $valueNode->addAttribute('code', $option['id']);
-                    $valueNode->addAttribute('label', $optionsXmlObj->xmlentities(strip_tags($option['label'])));
+                    $valueNode->addAttribute('label', $optionsXmlObj->xmlentities($option['label']));
                     if ((float)$option['price'] != 0.00) {
                         $valueNode->addAttribute('price', $option['price']);
                         $valueNode->addAttribute('formated_price', $option['formated_price']);
                     }
                     if (sizeof($_attributes) > 1) {
-                        $this->_prepareRecursivelyRelatedValues($valueNode, $_attributes, $option['products'], 1);
+                        $this->_prepareRecursivelyRelatedValues(
+                            $valueNode,
+                            $_attributes,
+                            $option['products'],
+                            1
+                        );
                     }
                 }
                 $isFirst = false;
@@ -157,7 +162,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
     /**
      * Add recursively relations on each option
      *
-     * @param &Mage_XmlConnect_Model_Simplexml_Element &$valueNode value node object
+     * @param Mage_XmlConnect_Model_Simplexml_Element &$valueNode value node object
      * @param array $attributes all products attributes (options)
      * @param array $productIds prodcuts to search in next levels attributes
      * @param int $cycle
@@ -188,7 +193,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
 
             $_valueNode = $relatedNode->addChild('value');
             $_valueNode->addAttribute('code', $option['id']);
-            $_valueNode->addAttribute('label', $_valueNode->xmlentities(strip_tags($option['label'])));
+            $_valueNode->addAttribute('label', $_valueNode->xmlentities($option['label']));
             if ((float)$option['price'] != 0.00) {
                 $_valueNode->addAttribute('price', $option['price']);
                 $_valueNode->addAttribute('formated_price', $option['formated_price']);
@@ -200,7 +205,12 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
             $_attrClone = $attributes;
             if (next($_attrClone) != false) {
                 reset($_attrClone);
-                $this->_prepareRecursivelyRelatedValues($_valueNode, $_attrClone, $intersect, $cycle + 1);
+                $this->_prepareRecursivelyRelatedValues(
+                    $_valueNode,
+                    $_attrClone,
+                    $intersect,
+                    $cycle + 1
+                );
             }
         }
     }
@@ -210,7 +220,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
      *
      * @param Mage_Catalog_Model_Product $product
      * @param float|int|string $price
-     * @param unknown_type $isPercent
+     * @param bool $isPercent
      * @return float
      */
     protected function _preparePrice($product, $price, $isPercent = false)

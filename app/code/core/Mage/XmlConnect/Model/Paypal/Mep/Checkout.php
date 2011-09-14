@@ -74,7 +74,6 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
      *
      * @throws Mage_Core_Exception
      * @param array $params
-     * @return void
      */
     public function __construct($params = array())
     {
@@ -82,7 +81,9 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         if (isset($params['quote']) && $params['quote'] instanceof Mage_Sales_Model_Quote) {
             $this->_quote = $params['quote'];
         } else {
-            Mage::throwException(Mage::helper('xmlconnect')->__('Quote instance is required.'));
+            Mage::throwException(
+                Mage::helper('xmlconnect')->__('Quote instance is required.')
+            );
         }
     }
 
@@ -113,7 +114,8 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
             $this->_quote->assignCustomer($customer);
         }
         if (!Mage::getSingleton('customer/session')->isLoggedIn()
-            && Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()) {
+            && Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
+        ) {
             $this->_prepareGuestQuote();
         }
         return $this->_quote->getReservedOrderId();
@@ -257,6 +259,8 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
 
         $order = Mage::getModel('sales/service_quote', $this->_quote)->submit();
         $this->_quote->save();
+
+        $this->_getCheckoutSession()->clear();
 
         /**
          * Prepare session to success or cancellation page

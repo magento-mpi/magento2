@@ -50,13 +50,13 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
 
         $categoryCollection = array();
         $helper = Mage::helper('catalog/category');
-        $i = 0;
+        $categoryCount = 0;
         foreach ($helper->getStoreCategories() as $child) {
             if ($child->getIsActive()) {
                 $categoryCollection[] = $child;
-                $i++;
+                $categoryCount++;
             }
-            if ($i == self::HOME_PAGE_CATEGORIES_COUNT) {
+            if ($categoryCount == self::HOME_PAGE_CATEGORIES_COUNT) {
                 break;
             }
         }
@@ -69,7 +69,7 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
             /** @var $item Mage_Catalog_Model_Category */
             $item = Mage::getModel('catalog/category')->load($item->getId());
             $itemXmlObj = $itemsXmlObj->addChild('item');
-            $itemXmlObj->addChild('label', $homeXmlObj->xmlentities(strip_tags($item->getName())));
+            $itemXmlObj->addChild('label', $homeXmlObj->xmlentities($item->getName()));
             $itemXmlObj->addChild('entity_id', $item->getId());
             $itemXmlObj->addChild('content_type', $item->hasChildren() ? 'categories' : 'products');
             $icon = Mage::helper('xmlconnect/catalog_category_image')->initialize($item, 'thumbnail')

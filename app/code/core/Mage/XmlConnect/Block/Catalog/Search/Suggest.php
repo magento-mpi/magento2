@@ -31,8 +31,12 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Catalog_Search_Suggest extends Mage_CatalogSearch_Block_Autocomplete
+class Mage_XmlConnect_Block_Catalog_Search_Suggest
+    extends Mage_CatalogSearch_Block_Autocomplete
 {
+    /**
+     * Suggest item separator
+     */
     const SUGGEST_ITEM_SEPARATOR = '::sep::';
 
     /**
@@ -49,7 +53,7 @@ class Mage_XmlConnect_Block_Catalog_Search_Suggest extends Mage_CatalogSearch_Bl
         }
 
         $suggestData = $this->getSuggestData();
-        if (!($count = count($suggestData))) {
+        if (!count($suggestData)) {
             return $suggestXmlObj->asNiceXml();
         }
 
@@ -61,7 +65,10 @@ class Mage_XmlConnect_Block_Catalog_Search_Suggest extends Mage_CatalogSearch_Bl
                 . self::SUGGEST_ITEM_SEPARATOR;
         }
 
-        $suggestXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<suggestions>' . $items . '</suggestions>');
+        $suggestXmlObj = Mage::getModel(
+            'xmlconnect/simplexml_element',
+            '<suggestions>' . $items . '</suggestions>'
+        );
 
         return $suggestXmlObj->asNiceXml();
     }
