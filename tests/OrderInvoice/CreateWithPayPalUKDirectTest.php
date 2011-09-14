@@ -41,8 +41,6 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
      * <p>Preconditions:</p>
      *
      * <p>Log in to Backend.</p>
-     * <p>Navigate to 'System Configuration' page</p>
-     * <p>Enable all shipping methods</p>
      */
     public function setUpBeforeTests()
     {
@@ -51,9 +49,22 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
+        //Preconditions: Enabling PayPal
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $paypal = $this->loadData('paypal_enable');
+        $this->fillForm($paypal, 'sales_paypal');
+        $this->saveForm('save_config');
+        //Preconditions: Enabling PayPalUKDirect
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_enable');
+        $this->fillForm($paypalukdirect, 'sales_paypal');
+        $this->saveForm('save_config');
     }
 
     /**
@@ -61,6 +72,9 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
      */
     public function createProducts()
     {
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
         $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
@@ -93,22 +107,9 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
      */
     public function fullCaptureOnline($productData)
     {
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypal = $this->loadData('paypal_enable');
-        $this->fillForm($paypal, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayPalUKDirect
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_enable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Steps
+
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
         $orderData = $this->loadData('order_data_paypal_direct_payment_payflow_edition_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -117,13 +118,7 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
         $this->fillForm(array('amount' => 'Capture Online'));
         $this->clickButton('submit_invoice', TRUE);
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_disable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
+
     }
 
     /**
@@ -150,22 +145,8 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
      */
     public function fullCaptureOffline($productData)
     {
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypal = $this->loadData('paypal_enable');
-        $this->fillForm($paypal, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayPalUKDirect
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_enable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Steps
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
         $orderData = $this->loadData('order_data_paypal_direct_payment_payflow_edition_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -174,13 +155,6 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
         $this->fillForm(array('amount' => 'Capture Offline'));
         $this->clickButton('submit_invoice', TRUE);
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_disable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
     }
 
     /**
@@ -207,22 +181,8 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
      */
     public function fullNotCapture($productData)
     {
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypal = $this->loadData('paypal_enable');
-        $this->fillForm($paypal, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayPalUKDirect
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_enable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Steps
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
         $orderData = $this->loadData('order_data_paypal_direct_payment_payflow_edition_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -231,13 +191,16 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
         $this->fillForm(array('amount' => 'Not Capture'));
         $this->clickButton('submit_invoice', TRUE);
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        //Postconditions
+    }
+
+    protected function assertPostConditions()
+    {
         $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal', TRUE);
         $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_disable');
         $this->fillForm($paypalukdirect, 'sales_paypal');
         $this->saveForm('save_config');
     }
-
 }

@@ -149,6 +149,11 @@ saved_cc_w3d_enable:
     scc_request_card_security_code: Yes
     scc_3d_secure_card_validation: Yes
 
+saved_cc_wo3d_enable:
+    scc_enabled: Yes
+    scc_request_card_security_code: Yes
+    scc_3d_secure_card_validation: No
+
 saved_cc_w3d_disable:
     scc_request_card_security_code: Yes
     scc_3d_secure_card_validation: No

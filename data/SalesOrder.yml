@@ -1043,6 +1043,7 @@ order_req_partial_invoice:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_req_partial_shipment:
@@ -1107,6 +1108,7 @@ order_data_authorize_net_1:
         payment_method: authorize_net
         payment_info: *authorizeNetVisaWCvv
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_data_paypal_direct_payment_payflow_edition_1:
@@ -1126,6 +1128,7 @@ order_data_paypal_direct_payment_payflow_edition_1:
         payment_method: paypal_direct_payment_payflow_edition
         payment_info: *paypalDirectPaymentPayflowEditionMastercardWCvv
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_data_payflow_pro_1:
@@ -1145,6 +1148,7 @@ order_data_payflow_pro_1:
         payment_method: payflow_pro
         payment_info: *payflowProVisaWCvv
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_data_website_payments_pro_1:
@@ -1164,6 +1168,7 @@ order_data_website_payments_pro_1:
         payment_method: paypal_direct_payment
         payment_info: *paypalDirectPaymentVisaWCvv
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_data_authorize_net_3D_1:
