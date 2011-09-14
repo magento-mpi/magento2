@@ -179,6 +179,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected $_firstPageAfterAdminLogin = 'dashboard';
 
+    protected $captureScreenshotOnFailure = TRUE;
+
+    protected $screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
+
+    protected $screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
+
     /**
      * Excluded message about Bundle product
      *
@@ -893,7 +899,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         if (!$this->isElementPresent($xpath)) {
-            $this->fail('Control "' . $controlName . '" is not present on the page. '
+            $this->fail('Control "' . $controlName . '" is not present on the page "' . $this->_currentPage . '". '
                     . 'Type: ' . $controlType . ', xpath: ' . $xpath);
         }
 

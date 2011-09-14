@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -25,14 +26,15 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__)));
+define('SELENIUM_TESTS_SCREENSHOTDIR',
+        realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'screenshots'));
 
 set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'lib'),
-    realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tests'), //To allow load tests helper files
-    get_include_path(),
-)));
+            realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'lib'),
+            realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'tests'), //To allow load tests helper files
+            get_include_path(),
+        )));
 
 require_once 'Mage/Selenium/Autoloader.php';
 Mage_Selenium_Autoloader::register();
