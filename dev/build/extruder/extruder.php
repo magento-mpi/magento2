@@ -24,15 +24,15 @@ require dirname(__FILE__) . '/Routine.php';
 define('USAGE', <<<USAGE
 $>./extruder.php -l common.txt [[-l extra.txt] parameters]
     additional parameters:
-    -s       use "svn rm" command instead of "rm -rf"
-    -w dir   use specified working dir instead of current
-    -v       verbose output
-    -i       ignore errors from remove command
+    -s vcs_name use "svn rm" command instead of "rm -rf" if the value is "svn" and "git rm" if the value is "git"
+    -w dir      use specified working dir instead of current
+    -v          verbose output
+    -i          ignore errors from remove command
 
 USAGE
 );
 
-$shortOpts = 'l:sw:vi';
+$shortOpts = 'l:s:w:vi';
 $options = getopt($shortOpts);
 
 if (!isset($options['l'])) {
@@ -70,7 +70,15 @@ if (!is_dir($workingDir)) {
 
 $rmCommand = 'rm -rf';
 if (isset($options['s'])) {
-    $rmCommand = 'svn rm --force';
+    $vcsName = $options['s'];
+    if ($vcsName == 'svn') {
+        $rmCommand = 'svn rm --force';
+    } elseif ($vcsName == 'git') {
+        $rmCommand = 'git rm -r --ignore-unmatch';
+    } else {
+        print USAGE;
+        exit(1);
+    }
 }
 
 $verbose = false;

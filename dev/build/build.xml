@@ -14,7 +14,7 @@
     <!-- Configurations for different Magento editions -->
     <target name="prepare-ce">
         <exec dir="${basedir}" executable="${dir.build_base}/extruder/extruder.php" failonerror="true">
-            <arg line="-w ${basedir} -l ${dir.build_base}/extruder/common_tests.txt -l ${dir.build_base}/extruder/ce.txt -v" />
+            <arg line="-w ${basedir} -l ${dir.build_base}/extruder/common_tests.txt -l ${dir.build_base}/extruder/ce.txt -v -s git" />
         </exec>
     </target>
 
