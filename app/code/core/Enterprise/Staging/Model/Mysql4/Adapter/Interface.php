@@ -32,6 +32,6 @@
  * @package     Enterprise_Staging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Model_Mysql4_Adapter_Interface extends Enterprise_Staging_Model_Resource_Adapter_Interface
+interface Enterprise_Staging_Model_Mysql4_Adapter_Interface extends Enterprise_Staging_Model_Resource_Adapter_Interface
 {
 }
