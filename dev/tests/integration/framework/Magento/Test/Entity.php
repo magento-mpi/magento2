@@ -72,7 +72,9 @@ class Magento_Test_Entity
         $model = $this->_getEmptyModel();
         $model->load($this->_model->getId());
         foreach ($this->_updateData as $key => $value) {
-            PHPUnit_Framework_Assert::assertEquals($value, $model->getDataUsingMethod($key), 'CRUD Update "'.$key.'" error');
+            PHPUnit_Framework_Assert::assertEquals(
+                $value, $model->getDataUsingMethod($key), 'CRUD Update "'.$key.'" error'
+            );
         }
     }
 

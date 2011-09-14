@@ -27,7 +27,7 @@ class Magento_Test_Profiler_OutputBambooTestFilter extends php_user_filter
      * @param bool $closing
      * @return int
      */
-    function filter($in, $out, &$consumed, $closing)
+    public function filter($in, $out, &$consumed, $closing)
     {
         while ($bucket = stream_bucket_make_writeable($in)) {
             self::$_collectedData .= $bucket->data;
