@@ -43,9 +43,6 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
     }
     protected function assertPreConditions()
     {}
@@ -54,7 +51,10 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
      */
     public function createProducts()
     {
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
@@ -101,6 +101,11 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
         $this->clickButton('ship', TRUE);
         $this->clickButton('submit_shipment', TRUE);
         $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
+        $this->addParameter('sku', $productData['general_sku']);
+        $this->addParameter('shippedQty', '1');
+        $xpathShipped = $this->_getControlXpath('field', 'qty_shipped');
+        $this->assertTrue($this->isElementPresent($xpathShipped),
+                'Qty of shipped products is incorrect at the orders form');
     }
 
     /**
@@ -142,15 +147,22 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
         $this->clickButton('ship', TRUE);
         $productsToShip = $this->loadData('products_to_ship_1');
         $productsToShip['product_1']['general_sku'] = $productData['general_sku'];
-        foreach($productsToShip as $product => $options)
-        {
+        foreach($productsToShip as $product => $options) {
             $this->addParameter('sku', $options['general_sku']);
-            if (array_key_exists('options', $options))
-            {
-                $this->fillForm($options['options']);
+            if (array_key_exists('configurable_options', $options)) {
+                $this->fillForm($options['configurable_options']);
             }
         }
         $this->clickButton('submit_shipment', TRUE);
         $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
+        foreach($productsToShip as $product => $options) {
+            if (array_key_exists('configurable_options', $options)) {
+                $this->addParameter('sku', $options['general_sku']);
+                $this->addParameter('shippedQty', $options['configurable_options']['qty_to_ship']);
+                $xpathShipped = $this->_getControlXpath('field', 'qty_shipped');
+                $this->assertTrue($this->isElementPresent($xpathShipped),
+                        'Qty of shipped products is incorrect at the orders form');
+            }
+        }
     }
 }

@@ -207,8 +207,7 @@ simple_product_for_order:
     general_visibility: Catalog, Search
     prices_price: 4.95
     prices_tax_class: None
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    gift_options_allow_gift_message_default: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 120
@@ -263,8 +262,7 @@ grouped_product_for_order:
     general_status: Enabled
     general_visibility: Catalog, Search
     general_country_manufacture: Albania
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    gift_options_allow_gift_message_default: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_enable_qty_increments_default: No
@@ -289,8 +287,7 @@ virtual_product_for_order:
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_tax_class: None
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    gift_options_allow_gift_message_default: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 120
@@ -346,8 +343,7 @@ downloadable_product_for_order:
     general_visibility: Catalog, Search
     prices_price: 14.95
     prices_tax_class: None
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    gift_options_allow_gift_message_default: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 120
@@ -601,6 +597,7 @@ order_req_1:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
     gift_messages:
         product_1:
@@ -1071,6 +1068,7 @@ order_req_partial_shipment:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_data_check_money_order_1:
@@ -1202,8 +1200,7 @@ promoted_product_special_price_for_order:
     prices_special_price_from: 5/25/10
     prices_special_price_to: 9/29/15
     prices_tax_class: None
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    gift_options_allow_gift_message_default: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 120
@@ -1303,8 +1300,7 @@ customized_product_for_order:
     general_visibility: Catalog, Search
     prices_price: 4.95
     prices_tax_class: None
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    gift_options_allow_gift_message_default: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 120

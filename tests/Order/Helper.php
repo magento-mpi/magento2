@@ -159,16 +159,15 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->selectShippingMethod($orderData['shipping_data']);
         }
         if ($validate == TRUE) {
+            $this->clickButton('submit_order', FALSE);
+            $this->pleaseWait();
             return FALSE;
         } else {
             $errors = $this->getErrorMessages();
             $this->assertTrue(empty($errors), $this->messages);
-            $this->clickButton('submit_order', TRUE);
-            $this->addParameter('id', $this->defineIdFromUrl());
+            $this->saveForm('submit_order');
             if ($this->successMessage('success_created_order') == TRUE) {
-                $this->assertTrue($this->successMessage('success_created_order'),
-                    $this->messages);
-                    return $this->_defineOrderId('view_order');
+                return $this->_defineOrderId('view_order');
             }
             return FALSE;
         }
@@ -261,7 +260,6 @@ class Order_Helper extends Mage_Selenium_TestCase
     public function addProductsToOrder(array $productData) #TODO make possibility to search not only by SKU
     {
         $this->clickButton('add_products', FALSE);
-        $this->pleaseWait();
         $configurable = FALSE;
         foreach ($productData as $product => $data) {
             $xpathProduct = $this->search($productData[$product]);

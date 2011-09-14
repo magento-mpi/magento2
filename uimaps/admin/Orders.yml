@@ -270,8 +270,7 @@ create_order_for_new_customer:
                         links:
                             get_shipping_methods_and_rates: //a[normalize-space(text())='Get shipping methods and rates']
                         radiobuttons:
-                            ship_method: //input[@type='radio' and following-sibling::*[contains(text(), '%shipMethod%')]]
-                     #TODO - add more methods
+                            ship_method: //dt[contains(.,'%shipService%')]//following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(), '%shipMethod%')]]
                 -
                     order_totals: &orderTotals
                         xpath: //div[div/h4[contains(text(),'Order Totals')]]
@@ -439,6 +438,10 @@ view_order:
                             -
                                 items_ordered:
                                     xpath: //div[@class='grid np']
+                                    fields:
+                                        qty_ordered: //tbody[tr/td/div[contains(.,'%sku%')]]//table[@class='qty-table']//tr[contains(.,'Ordered')]//strong[text()='%orderedQty%']
+                                        qty_invoiced: //tbody[tr/td/div[contains(.,'%sku%')]]//table[@class='qty-table']//tr[contains(.,'Invoiced')]//strong[text()='%invoicedQty%']
+                                        qty_shipped: //tbody[tr/td/div[contains(.,'%sku%')]]//table[@class='qty-table']//tr[contains(.,'Shipped')]//strong[text()='%shippedQty%']
                             -
                                 comments_history:
                                     xpath: //div[@class='entry-edit'][./div/h4='Comments History']
