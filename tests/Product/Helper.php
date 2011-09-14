@@ -887,4 +887,69 @@ class Product_Helper extends Mage_Selenium_TestCase
         return true;
     }
 
+    #*******************************************
+    #*         Frontend Helper Methods         *
+    #*******************************************
+
+    /**
+     * Open product on FrontEnd
+     * 
+     * @param array $productName
+     */
+    public function frontOpenProduct($productName)
+    {
+        if (is_array($productName)) {
+            if (array_key_exists('general_name', $productName)) {
+                $productName = $productName['general_name'];
+            } else {
+                $this->fail('Insufficient data to open a product');
+            }
+        }
+        $productUrl = preg_replace('#[^0-9a-z]+#i', '-', $productName);
+        $productUrl = strtolower($productUrl);
+        $productUrl = trim($productUrl, '-');
+
+        $this->addParameter('productUrl', $productUrl);
+        $this->getUimapPage('frontend', 'product_page')->assignParams($this->_paramsHelper);
+
+        $this->frontend('product_page');
+        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement('produc_name');
+        $openedProductName = $this->getText($xpathName);
+        $this->assertEquals($productName, $openedProductName,
+                "Product with name '$openedProductName' is opened, but should be '$productName'");
+    }
+
+    /**
+     * Add product to shopping cart
+     * 
+     * @param array|null $dataForBuy
+     */
+    public function frontAddProductToCart($dataForBuy = null)
+    {
+        $productType = $this->frontDetectProductType();
+        if ($dataForBuy) {
+            $this->frontFillBuyInfo($dataForBuy, $productType);
+        }
+        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement('produc_name');
+        $openedProductName = $this->getText($xpathName);
+        $this->addParameter('productName', $openedProductName);
+        $this->clickButton('add_to_cart');
+    }
+
+    /**
+     * @TODO
+     */
+    public function frontDetectProductType()
+    {
+
+    }
+
+    /**
+     * @TODO
+     */
+    public function frontFillBuyInfo()
+    {
+
+    }
+
 }
