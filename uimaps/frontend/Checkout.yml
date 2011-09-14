@@ -47,6 +47,7 @@ checkout_cart:
                             billing_first_name: //input[@id='billing:firstname']
                             billing_last_name: //input[@id='billing:lastname']
                             billing_company: //input[@id='billing:company']
+                            billing_email: //input[@id='billing:email']
                             billing_street_address_1: //input[@id='billing:street1']
                             billing_street_address_2: //input[@id='billing:street2']
                             billing_city: //input[@id='billing:city']
@@ -59,7 +60,7 @@ checkout_cart:
                         radiobuttons:
                             billing_same_as_shipping: //input[@id='billing:use_for_shipping_yes']
                             billing_differs_from_shipping: //input[@id='billing:use_for_shipping_no']
-                        required: [billing_first_name, billing_last_name, billing_street_address_1, billing_city, billing_region, billing_country, billing_zip_code, billing_telephone]
+                        required: [billing_first_name, billing_last_name, billing_email, billing_street_address_1, billing_city, billing_region, billing_country, billing_zip_code, billing_telephone]
                 -
                     shipping_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping']
@@ -85,14 +86,14 @@ checkout_cart:
                             shipping_same_as_billing: //input[@id='shipping:same_as_billing']
                         links:
                             back: //p[@class='back-link']/a[@href]
-                        required: [shipping_first_name, shipping_last_name, shipping_street_address_1, shipping_city, shipping_region, shipping_country, shipping_zip_code, shipping_telephone]
+                        required: [shipping_first_name, shipping_last_name, shipping_street_address_1, shipping_city, shipping_state, shipping_country, shipping_zip_code, shipping_telephone]
                 -
                     shipping_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping_method']
                         buttons:
                             continue: //button[span='Continue']
                         radiobuttons:
-                            ship_method: //input[@type='radio' and following-sibling::*[contains(text(), '%shipMethod%')]]
+                            ship_method: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
                         checkboxes:
                             add_gift_options: //input[@id='allow_gift_messages']
                         links:
@@ -195,7 +196,7 @@ checkout_multishipping_shipping_methods:
                             gift_option_for_the entire_order: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]
                             gift_option_for_individual_items: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]
                         radiobuttons:
-                            shipping_method: //input[@type='radio' and following-sibling::*[contains(text(), '%shipMethod%')]]
+                            shipping_method: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
                         fields:
                             gift_option_entire_order_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='From']
                             gift_option_entire_order_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='To']
