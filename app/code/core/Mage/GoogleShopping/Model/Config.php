@@ -247,4 +247,14 @@ class Mage_GoogleShopping_Model_Config extends Varien_Object
         return array_keys($this->getConfigData('base_attributes'));
     }
 
+
+    /**
+     * Google Product Categories list
+     *
+     * @return array
+     */
+    public function getGoogleProductCategories()
+    {
+        return $this->getConfigData('required_product_categories');
+    }
 }
