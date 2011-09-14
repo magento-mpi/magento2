@@ -57,12 +57,12 @@ if (strpos($_includePath, $_pearPhpDir) === false) {
 }
 
 // include necessary PEAR libs
-require_once $_pearPhpDir."/PEAR.php";
-require_once $_pearPhpDir."/PEAR/Frontend.php";
-require_once $_pearPhpDir."/PEAR/Registry.php";
-require_once $_pearPhpDir."/PEAR/Config.php";
-require_once $_pearPhpDir."/PEAR/Command.php";
-require_once $_pearPhpDir."/PEAR/Exception.php";
+//require_once $_pearPhpDir."/PEAR.php";
+//require_once $_pearPhpDir."/PEAR/Frontend.php";
+//require_once $_pearPhpDir."/PEAR/Registry.php";
+//require_once $_pearPhpDir."/PEAR/Config.php";
+//require_once $_pearPhpDir."/PEAR/Command.php";
+//require_once $_pearPhpDir."/PEAR/Exception.php";
 
 require_once dirname(__FILE__)."/Pear/Frontend.php";
 require_once dirname(__FILE__)."/Pear/Package.php";
