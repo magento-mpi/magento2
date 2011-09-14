@@ -118,8 +118,14 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
                 $this->_forward('noRoute');
                 return;
             }
+            // Check if the product exists
+            $product = Mage::getModel('catalog/product')->load($request['product']);
+            if (!$product || !$product->getId()) {
+                $this->_forward('noRoute');
+                return;
+            }
             // Try to load the option
-            $option = Mage::getModel('catalog/product_option')->load($optionId);
+            $option = $product->getOptionById($optionId);
             if (!$option || !$option->getId() || $option->getType() != 'file') {
                 $this->_forward('noRoute');
                 return;
