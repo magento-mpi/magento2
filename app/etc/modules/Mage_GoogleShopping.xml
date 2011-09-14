@@ -28,8 +28,8 @@
 <config>
     <modules>
         <Mage_GoogleShopping>
-            <active>true</active>
-            <codePool>false</codePool>
+            <active>false</active>
+            <codePool>core</codePool>
             <depends>
                 <Mage_Catalog/>
             </depends>
