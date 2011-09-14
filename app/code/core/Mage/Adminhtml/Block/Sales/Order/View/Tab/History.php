@@ -298,7 +298,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
      * @param mixed $b
      * @return int
      */
-    private function _sortHistoryByTimestamp($a, $b)
+    private static function _sortHistoryByTimestamp($a, $b)
     {
         $createdAtA = $a['created_at'];
         $createdAtB = $b['created_at'];
