@@ -1,4 +1,4 @@
 *.xml
-./etc/*.xml
-!./etc/integration-test-config.xml
-./tmp
+etc/*.xml
+!etc/integration-test-config.xml
+tmp/
