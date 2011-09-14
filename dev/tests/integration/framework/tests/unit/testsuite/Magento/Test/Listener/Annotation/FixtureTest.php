@@ -47,10 +47,12 @@ class Magento_Test_Listener_Annotation_FixtureTest extends PHPUnit_Framework_Tes
     }
 
     public static function sampleFixtureOne()
-    {}
+    {
+    }
 
     public static function sampleFixtureTwo()
-    {}
+    {
+    }
 
     public function testClassAnnotation()
     {

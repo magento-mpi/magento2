@@ -45,10 +45,12 @@ class Magento_Test_ListenerTestObserver
 }
 
 class Magento_Test_ListenerTestObserverOne extends Magento_Test_ListenerTestObserver
-{}
+{
+}
 
 class Magento_Test_ListenerTestObserverTwo extends Magento_Test_ListenerTestObserver
-{}
+{
+}
 
 /**
  * Test class for Magento_Test_Listener.

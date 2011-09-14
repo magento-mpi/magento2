@@ -14,13 +14,7 @@ $baseDir = realpath(__DIR__ . '/../../../../../');
 return array(
     'report_dir' => "{$baseDir}/dev/tests/static/report",
     'white_list' => array(
-        "{$baseDir}/dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/TestSuite",
-        "{$baseDir}/dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/Helper",
-        "{$baseDir}/dev/tests/integration/framework/Magento/Test/Helper",
-        "{$baseDir}/dev/tests/integration/framework/Magento/Test/Profiler",
-        "{$baseDir}/dev/tests/integration/framework/Magento/Test/TestSuite",
-        "{$baseDir}/dev/tests/integration/framework/Magento/Test/TestCase",
-        "{$baseDir}/dev/tests/integration/testsuite/",
+        "{$baseDir}/dev/tests/integration/",
         "{$baseDir}/dev/tests/static"
     ),
     'black_list' => array(

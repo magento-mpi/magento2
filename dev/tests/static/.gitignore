@@ -1,3 +1,4 @@
 *.xml
-/dev/tests/static/report
-/dev/tests/static/tmp
+./framework/tests/unit/*.xml
+./report
+./tmp
