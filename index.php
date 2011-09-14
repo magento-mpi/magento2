@@ -34,14 +34,6 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
  */
 error_reporting(E_ALL | E_STRICT);
 
-/**
- * Compilation includes configuration file
- */
-$compilerConfig = 'includes/config.php';
-if (file_exists($compilerConfig)) {
-    include $compilerConfig;
-}
-
 $mageFilename = 'app/Mage.php';
 $maintenanceFile = 'maintenance.flag';
 

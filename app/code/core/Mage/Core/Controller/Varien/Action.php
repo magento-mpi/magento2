@@ -507,7 +507,6 @@ abstract class Mage_Core_Controller_Varien_Action
             'controller_action_predispatch_'.$this->getRequest()->getRouteName(),
             array('controller_action'=>$this)
         );
-        Varien_Autoload::registerScope($this->getRequest()->getRouteName());
         Mage::dispatchEvent(
             'controller_action_predispatch_'.$this->getFullActionName(),
             array('controller_action'=>$this)
