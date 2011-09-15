@@ -137,6 +137,7 @@ manage_categories:
         messages:
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             success_saved_category: //li[normalize-space(@class)='success-msg' and contains(.//span,'The category has been saved.')]
+            success_deleted_category: //li[normalize-space(@class)='success-msg' and contains(.//span,'The category has been deleted.')]
 
 edit_manage_categories:
     mca: catalog_category/edit/store/0/
