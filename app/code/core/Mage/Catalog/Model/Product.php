@@ -1077,7 +1077,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         Mage::dispatchEvent(
             'catalog_model_product_duplicate',
-            array('current_product'=>$this, 'new_product'=>$newProduct)
+            array('current_product' => $this, 'new_product' => $newProduct)
         );
 
         /* @var $newProduct Mage_Catalog_Model_Product */
@@ -1096,7 +1096,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $attributes = array();
         foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
             if (isset($_attribute['code'])) {
-                $attributes[]=$_attribute['code'];
+                $attributes[] = $_attribute['code'];
             }
         }
         foreach ($this->getRelatedLinkCollection() as $_link) {
@@ -1110,7 +1110,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $attributes = array();
         foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
             if (isset($_attribute['code'])) {
-                $attributes[]=$_attribute['code'];
+                $attributes[] = $_attribute['code'];
             }
         }
         foreach ($this->getUpSellLinkCollection() as $_link) {
@@ -1124,7 +1124,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $attributes = array();
         foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
             if (isset($_attribute['code'])) {
-                $attributes[]=$_attribute['code'];
+                $attributes[] = $_attribute['code'];
             }
         }
         foreach ($this->getCrossSellLinkCollection() as $_link) {
@@ -1138,7 +1138,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $attributes = array();
         foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
             if (isset($_attribute['code'])) {
-                $attributes[]=$_attribute['code'];
+                $attributes[] = $_attribute['code'];
             }
         }
         foreach ($this->getGroupedLinkCollection() as $_link) {
