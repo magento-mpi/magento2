@@ -128,6 +128,12 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
             $currentTheme = $this->getThemeByName($themeId);
         }
 
+        if (!($currentTheme instanceof Mage_XmlConnect_Model_Theme)) {
+            Mage::throwException(
+                Mage::helper('xmlconnect')->__('Can\'t load selected theme. Please check your media folder permissions.')
+            );
+        }
+
         $themeList = '';
         foreach ($this->getAllThemes(true) as $theme) {
             $themeList .= '<li id="' . $theme->getName() . '">';
