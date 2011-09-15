@@ -490,37 +490,11 @@ class Product_Helper extends Mage_Selenium_TestCase
         }
         $this->fillProductInfo($productData, $productType);
         $this->clickButton('save', false);
-        $this->waitForSavedProduct(array(self::xpathErrorMessage,
+        $this->waitForElement(array(self::xpathErrorMessage .
+                                            "[not(text()='".self::excludedBundleMessage."')]" .
+                                            "[not(text()='".self::excludedConfigurableMessage."')]",
                                          self::xpathValidationMessage,
                                          self::xpathSuccessMessage));
-
-
-    }
-
-    /**
-     * Waiting for element appearance
-     *
-     * @param string|array $locator xPath locator or array of locators
-     * @param integer $timeout Timeout period
-     * @return type
-     */
-    public function waitForSavedProduct(array $locator, $timeout = 40)
-    {
-        $iStartTime = time();
-        while ($timeout > time() - $iStartTime) {
-            foreach ($locator as $loc) {
-                if ($this->isElementPresent($loc)) {
-                    $text = $this->getText($loc);
-                    if ($text != self::excludedBundleMessage && $text != self::excludedConfigurableMessage) {
-                        $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-                        return true;
-                    }
-                }
-            }
-
-            sleep(1);
-        }
-        return false;
     }
 
     /**

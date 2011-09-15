@@ -85,117 +85,108 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating duplicated simple product</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>6. Open created product;</p>
-     * <p>7. Click "Duplicate" button;</p>
-     * <p>8. Verify required fields has the same data except SKU (field empty)</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
+     * Test Realizing precondition for duplicating products.
      *
-     * @depends createConfigurableAttribute
      * @test
+     * @depends createConfigurableAttribute
      */
-    public function duplicateSimple($attrData)
+    public function createProducts($attrData)
     {
         //Data
-        $productData = $this->loadData('duplicate_simple', null, array('general_name', 'general_sku'));
-        $productData['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+        $simple = $this->loadData('duplicate_simple', null, array('general_name', 'general_sku'));
+        $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
                 $attrData['option_1']['admin_option_name'];
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $virtual = $this->loadData('duplicate_virtual', null, array('general_name', 'general_sku'));
+        $virtual['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+                $attrData['option_2']['admin_option_name'];
+        $downloadable = $this->loadData('duplicate_downloadable', null, array('general_name', 'general_sku'));
+        $downloadable['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+                $attrData['option_3']['admin_option_name'];
+        $productData = array('simple' => $simple, 'downloadable' => $downloadable, 'virtual' => $virtual);
         //Steps
-        $this->productHelper()->createProduct($productData);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        foreach ($productData as $key => $value) {
+            $this->productHelper()->createProduct($value, $key);
+            //Verifying
+            $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+            $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        }
+
+        return $productData;
+    }
+
+    /**
+     * <p>Creating duplicated simple product</p>
+     * <p>Steps:</p>
+     * <p>1. Open created product;</p>
+     * <p>2. Click "Duplicate" button;</p>
+     * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
+     * <p>Expected result:</p>
+     * <p>Product is duplicated, confirmation message appears;</p>
+     *
+     * @depends createProducts
+     * @test
+     */
+    public function duplicateSimple($productData)
+    {
+        //Data
+        $productSearch = $this->loadData('product_search',
+                array('product_sku' => $productData['simple']['general_sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButton('duplicate');
+        //Verifying
         $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
-        $this->productHelper()->verifyProductInfo($productData, array('general_sku', 'general_status'));
-
-        return $productData['general_sku'];
+        $this->productHelper()->verifyProductInfo($productData['simple'], array('general_sku', 'general_status'));
     }
 
     /**
      * <p>Creating duplicated virtual product</p>
      * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>6. Open created product;</p>
-     * <p>7. Click "Duplicate" button;</p>
-     * <p>8. Verify required fields has the same data except SKU (field empty)</p>
+     * <p>1. Open created product;</p>
+     * <p>2. Click "Duplicate" button;</p>
+     * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
      * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
+     * <p>Product is duplicated, confirmation message appears;</p>
      *
-     * @depends createConfigurableAttribute
+     * @depends createProducts
      * @test
      */
-    public function duplicateVirtual($attrData)
+    public function duplicateVirtual($productData)
     {
         //Data
-        $productData = $this->loadData('duplicate_virtual', null, array('general_name', 'general_sku'));
-        $productData['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-                $attrData['option_2']['admin_option_name'];
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
-        //Steps
-        $this->productHelper()->createProduct($productData, 'virtual');
-        //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $productSearch = $this->loadData('product_search',
+                array('product_sku' => $productData['virtual']['general_sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButton('duplicate');
+        //Verifying
         $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
-        $this->productHelper()->verifyProductInfo($productData, array('general_sku', 'general_status'));
-
-        return $productData['general_sku'];
+        $this->productHelper()->verifyProductInfo($productData['virtual'], array('general_sku', 'general_status'));
     }
 
     /**
      * <p>Creating duplicated downloadable product</p>
      * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in required fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>6. Open created product;</p>
-     * <p>7. Click "Duplicate" button;</p>
-     * <p>8. Verify required fields has the same data except SKU (field empty)</p>
+     * <p>1. Open created product;</p>
+     * <p>2. Click "Duplicate" button;</p>
+     * <p>3. Verify that all fields has the same data except SKU and Status(fields empty)</p>
      * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
+     * <p>Product is duplicated, confirmation message appears;</p>
      *
-     * @depends createConfigurableAttribute
+     * @depends createProducts
      * @test
      */
-    public function duplicateDownloadable($attrData)
+    public function duplicateDownloadable($productData)
     {
         //Data
-        $productData = $this->loadData('duplicate_downloadable', null, array('general_name', 'general_sku'));
-        $productData['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-                $attrData['option_3']['admin_option_name'];
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
-        //Steps
-        $this->productHelper()->createProduct($productData, 'downloadable');
-        //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $productSearch = $this->loadData('product_search',
+                array('product_sku' => $productData['downloadable']['general_sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButton('duplicate');
+        //Verifying
         $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
-        $this->productHelper()->verifyProductInfo($productData, array('general_sku', 'general_status'));
-
-        return $productData['general_sku'];
+        $this->productHelper()->verifyProductInfo($productData['downloadable'], array('general_sku', 'general_status'));
     }
 
     /**
@@ -212,39 +203,41 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @depends duplicateSimple
-     * @depends duplicateVirtual
-     * @depends duplicateDownloadable
+     * @depends createProducts
      *
      * @test
      */
-    public function duplicateGrouped($simple, $virtual, $downloadable)
+    public function duplicateGrouped($productData)
     {
         //Data
-        $productData = $this->loadData('duplicate_grouped',
+        $grouped = $this->loadData('duplicate_grouped',
                 array(
-                    'related_search_sku'           => $simple,
+                    'related_search_sku'           => $productData['simple']['general_sku'],
                     'related_product_position'     => 10,
-                    'up_sells_search_sku'          => $virtual,
+                    'up_sells_search_sku'          => $productData['virtual']['general_sku'],
                     'up_sells_product_position'    => 20,
-                    'cross_sells_search_sku'       => $downloadable,
+                    'cross_sells_search_sku'       => $productData['downloadable']['general_sku'],
                     'cross_sells_product_position' => 30
                 ), array('general_name', 'general_sku'));
 
-        $productData['associated_grouped_data']['associated_grouped_1']['associated_search_sku'] = $simple;
-        $productData['associated_grouped_data']['associated_grouped_2']['associated_search_sku'] = $virtual;
-        $productData['associated_grouped_data']['associated_grouped_3']['associated_search_sku'] = $downloadable;
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $grouped['associated_grouped_data']['associated_grouped_1']['associated_search_sku'] =
+                $productData['simple']['general_sku'];
+        $grouped['associated_grouped_data']['associated_grouped_2']['associated_search_sku'] =
+                $productData['virtual']['general_sku'];
+        $grouped['associated_grouped_data']['associated_grouped_3']['associated_search_sku'] =
+                $productData['downloadable']['general_sku'];
+        $productSearch = $this->loadData('product_search', array('product_sku' => $grouped['general_sku']));
         //Steps
-        $this->productHelper()->createProduct($productData, 'grouped');
+        $this->productHelper()->createProduct($grouped, 'grouped');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButton('duplicate');
+        //Verifying
         $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
-        $this->productHelper()->verifyProductInfo($productData, array('general_sku', 'general_status'));
+        $this->productHelper()->verifyProductInfo($grouped, array('general_sku', 'general_status'));
     }
 
     /**
@@ -261,39 +254,39 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Product is created, confirmation message appears;</p>
      *
-     * @depends duplicateSimple
-     * @depends duplicateVirtual
+     * @depends createProducts
      * @dataProvider dataBundle
      * @test
      */
-    public function duplicateBundle($data, $simple, $virtual)
+    public function duplicateBundle($data, $productData)
     {
         //Data
-        $productData = $this->loadData($data,
+        $bundle = $this->loadData($data,
                 array(
-                    'related_search_sku'           => $simple,
+                    'related_search_sku'           => $productData['simple']['general_sku'],
                     'related_product_position'     => 10,
-                    'up_sells_search_sku'          => $virtual,
+                    'up_sells_search_sku'          => $productData['virtual']['general_sku'],
                     'up_sells_product_position'    => 20,
-                    'cross_sells_search_sku'       => $virtual,
+                    'cross_sells_search_sku'       => $productData['downloadable']['general_sku'],
                     'cross_sells_product_position' => 30
                 ), array('general_name', 'general_sku'));
 
-        $productData['bundle_items_data']['bundle_items_1']['bundle_items_add_product_1']['bundle_items_search_sku'] =
-                $simple;
-        $productData['bundle_items_data']['bundle_items_2']['bundle_items_add_product_1']['bundle_items_search_sku'] =
-                $virtual;
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $bundle['bundle_items_data']['item_1']['add_product_1']['bundle_items_search_sku'] =
+                $productData['simple']['general_sku'];
+        $bundle['bundle_items_data']['item_2']['add_product_1']['bundle_items_search_sku'] =
+                $productData['virtual']['general_sku'];
+        $productSearch = $this->loadData('product_search', array('product_sku' => $bundle['general_sku']));
         //Steps
-        $this->productHelper()->createProduct($productData, 'bundle');
+        $this->productHelper()->createProduct($bundle, 'bundle');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButton('duplicate');
+        //Verifying
         $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
-        $this->productHelper()->verifyProductInfo($productData, array('general_sku', 'general_status'));
+        $this->productHelper()->verifyProductInfo($bundle, array('general_sku', 'general_status'));
     }
 
     public function dataBundle()
@@ -326,32 +319,24 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends createConfigurableAttribute
-     * @depends duplicateSimple
-     * @depends duplicateVirtual
-     * @depends duplicateDownloadable
+     * @depends createProducts
      */
-    public function duplicateConfigurable($attrData, $simple, $virtual, $downloadable)
+    public function duplicateConfigurable($attrData, $productData)
     {
-        $this->markTestIncomplete('Need clarification from CORE TEAM');
         //Data
-        $productData = $this->loadData('duplicate_configurable',
+        $configur = $this->loadData('duplicate_configurable',
                 array(
                     'configurable_attribute_title' => $attrData['admin_title'],
-                    'related_search_sku'           => $simple,
+                    'related_search_sku'           => $productData['simple']['general_sku'],
                     'related_product_position'     => 10,
-                    'up_sells_search_sku'          => $virtual,
+                    'up_sells_search_sku'          => $productData['virtual']['general_sku'],
                     'up_sells_product_position'    => 20,
-                    'cross_sells_search_sku'       => $downloadable,
+                    'cross_sells_search_sku'       => $productData['downloadable']['general_sku'],
                     'cross_sells_product_position' => 30
                 ), array('general_name', 'general_sku'));
-
-        $productData['associated_configurable_data']['associated_configurable_1']['associated_search_sku'] = $simple;
-        $productData['associated_configurable_data']['associated_configurable_2']['associated_search_sku'] = $virtual;
-        $productData['associated_configurable_data']['associated_configurable_3']['associated_search_sku'] =
-                $downloadable;
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $configur['general_sku']));
         //Steps
-        $this->productHelper()->createProduct($productData, 'configurable');
+        $this->productHelper()->createProduct($configur, 'configurable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
@@ -360,10 +345,10 @@ class Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->clickButton('duplicate');
         //Verifying
         $this->assertTrue($this->successMessage('success_duplicated_product'), $this->messages);
-        $this->productHelper()->fillConfigurableSettings($productData);
+        //Steps
+        $this->productHelper()->fillConfigurableSettings($configur);
         //Verifying
-//        unset ($productData['associated_configurable_data']);
-        $this->productHelper()->verifyProductInfo($productData,
+        $this->productHelper()->verifyProductInfo($configur,
                 array('general_sku', 'general_status', 'configurable_attribute_title'));
     }
 

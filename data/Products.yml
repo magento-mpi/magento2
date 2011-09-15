@@ -313,12 +313,12 @@ associated_configurable_data: &associatedProductsConfigurableData
 #*         Bundle Items Data                 *
 #*********************************************
 
-bundle_items_1: &itemMultipleSelect
+bundle_item_1: &itemMultipleSelect
     bundle_items_default_title: Multiple Select
     bundle_items_input_type: Multiple Select
     bundle_items_is_required: Yes
     bundle_items_position: 1
-    bundle_items_add_product_1: &bundleProduct
+    add_product_1: &bundleProduct
         # Data to search
         bundle_items_search_id: %noValue%
         bundle_items_search_name: %noValue%
@@ -333,38 +333,38 @@ bundle_items_1: &itemMultipleSelect
         selection_item_default_qty: %noValue%
         selection_item_position: %noValue%
         selection_item_default: %noValue%
-    bundle_items_add_product_2: %noValue%
+    add_product_2: %noValue%
 
-bundle_items_2: &itemDropdown
+bundle_item_2: &itemDropdown
     bundle_items_default_title: Drop-down
     bundle_items_input_type: Drop-down
     bundle_items_is_required: No
     bundle_items_position: 2
-    bundle_items_add_product_1: *bundleProduct
-    bundle_items_add_product_2: %noValue%
+    add_product_1: *bundleProduct
+    add_product_2: %noValue%
 
-bundle_items_3: &itemRadioButtons
+bundle_item_3: &itemRadioButtons
     bundle_items_default_title: Radio Buttons
     bundle_items_input_type: Radio Buttons
     bundle_items_is_required: Yes
     bundle_items_position: 3
-    bundle_items_add_product_1: *bundleProduct
-    bundle_items_add_product_2: %noValue%
+    add_product_1: *bundleProduct
+    add_product_2: %noValue%
 
-bundle_items_4: &itemCheckbox
+bundle_item_4: &itemCheckbox
     bundle_items_default_title: Checkbox
     bundle_items_input_type: Checkbox
     bundle_items_is_required: Yes
     bundle_items_position: 4
-    bundle_items_add_product_1: *bundleProduct
-    bundle_items_add_product_2: %noValue%
+    add_product_1: *bundleProduct
+    add_product_2: %noValue%
 
 bundle_items_data: &bundleData
     ship_bundle_items: Separately
-    bundle_items_1: *itemMultipleSelect
-    bundle_items_2: *itemDropdown
-    bundle_items_3: *itemRadioButtons
-    bundle_items_4: *itemCheckbox
+    item_1: *itemMultipleSelect
+    item_2: *itemDropdown
+    item_3: *itemRadioButtons
+    item_4: *itemCheckbox
 
 #*********************************************
 #*         Dowloadable Information Data      *
@@ -692,9 +692,7 @@ dynamic_bundle_required:
     general_weight_type: Dynamic
     general_status: Enabled
     general_visibility: Catalog, Search
-    bundle_items_data:
-        ship_bundle_items: %noValue%
-        bundle_items_1: %noValue%
+    bundle_items_data: %noValue%
 
 fixed_bundle_required: &bundle
     product_attribute_set: Default
@@ -710,9 +708,7 @@ fixed_bundle_required: &bundle
     prices_price_type: Fixed
     prices_price: 12.55
     prices_tax_class: None
-    bundle_items_data:
-        ship_bundle_items: %noValue%
-        bundle_items_1: %noValue%
+    bundle_items_data: %noValue%
 
 bundle_product_required: *bundle
 
@@ -850,24 +846,24 @@ duplicate_fixed_bundle:
     custom_options_data: *customOptionsData
     bundle_items_data:
         ship_bundle_items: Separately
-        bundle_items_1:
+        item_1:
             bundle_items_default_title: Multiple Select
             bundle_items_input_type: Multiple Select
             bundle_items_is_required: Yes
             bundle_items_position: 1
-            bundle_items_add_product_1: &bundleProduct
+            add_product_1:
                 bundle_items_search_sku: %noValue%
                 selection_item_price: 10
                 selection_item_price_type: Fixed
                 selection_item_default_qty: 10
                 selection_item_position: 10
                 selection_item_default: Yes
-        bundle_items_2:
+        item_2:
             bundle_items_default_title: Drop-down
             bundle_items_input_type: Drop-down
             bundle_items_is_required: No
             bundle_items_position: 2
-            bundle_items_add_product_1: &bundleProduct
+            add_product_1:
                 bundle_items_search_sku: %noValue%
                 selection_item_price: 20
                 selection_item_price_type: Percent
@@ -914,22 +910,22 @@ duplicate_dynamic_bundle:
     cross_sells_data: *crossSellsProductsData
     bundle_items_data:
         ship_bundle_items: Separately
-        bundle_items_1:
+        item_1:
             bundle_items_default_title: Checkbox
             bundle_items_input_type: Checkbox
             bundle_items_is_required: Yes
             bundle_items_position: 1
-            bundle_items_add_product_1: &bundleProduct
+            add_product_1:
                 bundle_items_search_sku: %noValue%
                 selection_item_default_qty: 10
                 selection_item_position: 10
                 selection_item_default: Yes
-        bundle_items_2:
+        item_2:
             bundle_items_default_title: Radio Buttons
             bundle_items_input_type: Radio Buttons
             bundle_items_is_required: No
             bundle_items_position: 2
-            bundle_items_add_product_1: &bundleProduct
+            add_product_1:
                 bundle_items_search_sku: %noValue%
                 selection_item_default_qty: 20
                 selection_item_user_defined_qty: No
@@ -1138,21 +1134,7 @@ duplicate_configurable:
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
-    associated_configurable_data:
-        associated_products_attribute_name_default: No
-        associated_products_attribute_name: New Value
-        associated_configurable_1:
-            associated_search_sku: %noValue%
-            associated_product_price: 10
-            associated_product_price_type: Fixed
-        associated_configurable_2:
-            associated_search_sku: %noValue%
-            associated_product_price: 20
-            associated_product_price_type: Percentage
-        associated_configurable_3:
-            associated_search_sku: %noValue%
-            associated_product_price: 30
-            associated_product_price_type: Percentage
+    custom_options_data: *customOptionsData
 
 #*********************************************
 #*         Downloadable Product Data         *
@@ -1262,6 +1244,4 @@ duplicate_downloadable:
         downloadable_links_title: Links Title
         downloadable_links_purchased_separately: No
         downloadable_sample_1: *samplesDownloadable
-        downloadable_sample_2: *samplesDownloadable
         downloadable_link_1: *linksDownloadable
-        downloadable_link_2: *linksDownloadable
