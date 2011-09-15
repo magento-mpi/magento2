@@ -79,7 +79,7 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
         $this->CustomerHelper()->openCustomer($searchData);
-        $this->deleteElement('delete_customer', 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete_customer', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
@@ -116,7 +116,7 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
         $this->addParameter('qtyDeletedCustomers', $customerQty);
         $xpath = $this->_getControlXpath('dropdown', 'grid_massaction_select');
         $this->select($xpath, 'Delete');
-        $this->deleteElement('submit', 'confirmation_for_massaction_delete');
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_customer_massaction'), $this->messages);
     }

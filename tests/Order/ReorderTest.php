@@ -96,7 +96,7 @@ class Order_ReorderTest extends Mage_Selenium_TestCase
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->deleteElement('edit', 'confirmation_for_edit');
+        $this->clickButtonAndConfirm('edit', 'confirmation_for_edit');
         $this->orderHelper()->addProductsToOrder($orderData['products_to_add']);
         $this->orderHelper()->fillOrderAddress('new', 'billing',
                 $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, FALSE));

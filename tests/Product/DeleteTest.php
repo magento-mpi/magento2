@@ -89,7 +89,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         //Steps
         $this->productHelper()->openProduct($productSearch);
-        $this->deleteElement('delete', 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
     }
@@ -153,7 +153,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         //Steps
         $this->productHelper()->openProduct($productSearch);
-        $this->deleteElement('delete', 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
 
@@ -196,7 +196,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         //Steps
         $this->assertTrue($this->searchAndOpen($productSearch), 'Cant\'t find item in grig');
-        $this->deleteElement('delete', 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
     }
@@ -247,7 +247,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
                 'After successful product creation should be redirected to Manage Products page');
         //Steps
         $this->assertTrue($this->searchAndOpen($productSearch), 'Cant\'t find item in grig');
-        $this->deleteElement('delete', 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
     }
@@ -294,7 +294,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->addParameter('qtyDeletedProducts', $productQty);
         $xpath = $this->_getControlXpath('dropdown', 'product_massaction');
         $this->select($xpath, 'Delete');
-        $this->deleteElement('submit', 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_products_massaction'), $this->messages);
     }

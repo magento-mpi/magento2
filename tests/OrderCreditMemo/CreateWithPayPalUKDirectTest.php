@@ -163,7 +163,7 @@ class OrderCreditMemo_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCas
         $this->fillForm(array('amount' => 'Capture Offline'));
         $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->deleteElement('credit_memo', 'confirmation_to_procced');
+        $this->clickButtonAndConfirm('credit_memo', 'confirmation_to_procced');
         $this->clickButton('refund_offline');
         $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
     }

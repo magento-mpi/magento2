@@ -70,7 +70,7 @@ class AttributeSet_DeleteTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_attribute_sets'), $this->messages);
         //Steps
         $this->attributeSetHelper()->openAttributeSet($setData['set_name']);
-        $this->deleteElement('delete_attribute_set', 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete_attribute_set', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_attribute_set_deleted'), $this->messages);
     }
@@ -97,7 +97,7 @@ class AttributeSet_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->assertPreConditions();
         $this->attributeSetHelper()->openAttributeSet($setData['set_name']);
-        $this->deleteElement('delete_attribute_set', 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete_attribute_set', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_attribute_set_deleted'), $this->messages);
         $this->navigate('manage_products');

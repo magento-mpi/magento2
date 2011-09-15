@@ -84,7 +84,7 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('manage_attributes'), $this->messages);
         //Steps
         $this->productAttributeHelper()->openAttribute($searchData);
-        $this->deleteElement('delete_attribute', 'delete_confirm_message');
+        $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_attribute'), $this->messages);
     }
@@ -166,7 +166,7 @@ class ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->openAttribute($searchData);
-        $this->deleteElement('delete_attribute', 'delete_confirm_message');
+        $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
         $this->assertTrue($this->errorMessage('attribute_used_in_configurable'), $this->messages);
     }

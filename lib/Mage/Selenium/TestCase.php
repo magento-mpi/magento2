@@ -1735,12 +1735,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Delete opened element
+     * Click button and confirm
      *
      * @param string $buttonName
      * @param string $message
      */
-    public function deleteElement($buttonName, $message)
+    public function clickButtonAndConfirm($buttonName, $message)
     {
         $buttonXpath = $this->_getControlXpath('button', $buttonName);
         if ($this->isElementPresent($buttonXpath)) {

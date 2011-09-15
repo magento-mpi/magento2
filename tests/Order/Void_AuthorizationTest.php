@@ -117,7 +117,7 @@ class Order_Void_AuthorizationTest extends Mage_Selenium_TestCase
                 'Could not get to Manage Sales Orders page');
         $this->searchAndOpen(array('1' => $orderId), TRUE, 'sales_order_grid');
         $this->assertTrue($this->buttonIsPresent('void'), 'Button Void is not on the page');
-        $this->deleteElement('void', 'confirmation_to_void');
+        $this->clickButtonAndConfirm('void', 'confirmation_to_void');
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->assertTrue($this->successMessage('success_void'), $this->messages);
         //Postconditions
@@ -178,7 +178,7 @@ class Order_Void_AuthorizationTest extends Mage_Selenium_TestCase
                 'Could not get to Manage Sales Orders page');
         $this->searchAndOpen(array('1' => $orderId), TRUE, 'sales_order_grid');
         $this->assertTrue($this->buttonIsPresent('void'), 'Button Void is not on the page');
-        $this->deleteElement('void', 'confirmation_to_void');
+        $this->clickButtonAndConfirm('void', 'confirmation_to_void');
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->assertTrue($this->successMessage('success_void'), $this->messages);
         //Postconditions
@@ -239,7 +239,7 @@ class Order_Void_AuthorizationTest extends Mage_Selenium_TestCase
                 'Could not get to Manage Sales Orders page');
         $this->searchAndOpen(array('1' => $orderId), TRUE, 'sales_order_grid');
         $this->assertTrue($this->buttonIsPresent('void'), 'Button Void is not on the page');
-        $this->deleteElement('void', 'confirmation_to_void');
+        $this->clickButtonAndConfirm('void', 'confirmation_to_void');
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->assertTrue($this->successMessage('success_void'), $this->messages);
         //Postconditions
@@ -294,7 +294,7 @@ class Order_Void_AuthorizationTest extends Mage_Selenium_TestCase
                 'Could not get to Manage Sales Orders page');
         $this->searchAndOpen(array('1' => $orderId), TRUE, 'sales_order_grid');
         $this->assertTrue($this->buttonIsPresent('void'), 'Button Void is not on the page');
-        $this->deleteElement('void', 'confirmation_to_void');
+        $this->clickButtonAndConfirm('void', 'confirmation_to_void');
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->assertTrue($this->successMessage('success_void'), $this->messages);
         //Postconditions

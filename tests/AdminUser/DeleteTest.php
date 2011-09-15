@@ -79,7 +79,7 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_user'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('edit_admin_user'), $this->messages);
         //Steps
-        $this->deleteElement('delete_user', 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_user'), $this->messages);
     }
@@ -106,7 +106,7 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_admin_users');
         $this->assertTrue($this->searchAndOpen($searchDataCurrentUser), 'Admin User is not found');
         //Verifying
-        $this->deleteElement('delete_user', 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->errorMessage('cannot_delete_account'), $this->messages);
     }
