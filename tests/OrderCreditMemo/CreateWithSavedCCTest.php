@@ -28,7 +28,7 @@
  */
 
 /**
- * Credit Memo for Order
+ * Credit Memo for Order (Credit Card)
  *
  * @package     selenium
  * @subpackage  tests
@@ -44,17 +44,25 @@ class OrderCreditMemo_CreateTest extends Mage_Selenium_TestCase
    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
     }
     protected function assertPreConditions()
-    {}
+    {
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->addParameter('tabName', 'edit/section/payment/');
+        $this->clickControl('tab', 'sales_payment_methods');
+        $payment = $this->loadData('saved_cc_wo3d_enable');
+        $this->fillForm($payment, 'sales_payment_methods');
+        $this->saveForm('save_config');
+    }
     /**
      * @test
      */
     public function createProducts()
     {
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
         $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
@@ -87,7 +95,7 @@ class OrderCreditMemo_CreateTest extends Mage_Selenium_TestCase
      * @depends createProducts
      * @test
      */
-    public function full($productData)
+    public function fullWithCreditCard($productData)
     {
         $orderData = $this->loadData('order_req_1',
                 array('filter_sku' => $productData['general_sku']));
@@ -96,12 +104,13 @@ class OrderCreditMemo_CreateTest extends Mage_Selenium_TestCase
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
-        $this->clickButton('submit_invoice', TRUE);
+        $this->clickButton('invoice');
+        $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->clickButton('credit_memo', TRUE);
-        $this->clickButton('refund_offline', TRUE);
-        $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
+        $productsToRefund = $this->loadData('products_to_refund_1');
+        $productsToRefund['product_1']['filter_sku'] = $productData['general_sku'];
+        $productsToRefund['product_1']['qty_to_refund'] = '1';
+        $this->orderCreditMemoHelper()->createCreditMemo($productsToRefund);
     }
 
     /**
@@ -128,7 +137,7 @@ class OrderCreditMemo_CreateTest extends Mage_Selenium_TestCase
      * @depends createProducts
      * @test
      */
-    public function partial($productData)
+    public function partialWithCreditCard($productData)
     {
         $orderData = $this->loadData('order_req_partial_creditmemo',
                 array('filter_sku' => $productData['general_sku']));
@@ -137,24 +146,12 @@ class OrderCreditMemo_CreateTest extends Mage_Selenium_TestCase
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
-        $this->clickButton('submit_invoice', TRUE);
+        $this->clickButton('invoice');
+        $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->clickButton('credit_memo', TRUE);
         $productsToRefund = $this->loadData('products_to_refund_1');
-        $productsToRefund['product_1']['general_sku'] = $productData['general_sku'];
-        foreach($productsToRefund as $product => $options)
-        {
-            $this->addParameter('sku', $options['general_sku']);
-            if (array_key_exists('options', $options))
-            {
-                $this->fillForm($options['options']);
-            }
-        }
-        $this->clickButton('update_qty', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('refund_offline', TRUE);
-        $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
+        $productsToRefund['product_1']['filter_sku'] = $productData['general_sku'];
+        $this->orderCreditMemoHelper()->createCreditMemo($productsToRefund);
     }
 
 }

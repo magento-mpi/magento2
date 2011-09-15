@@ -41,8 +41,6 @@ class OrderCreditMemo_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCas
      * <p>Preconditions:</p>
      *
      * <p>Log in to Backend.</p>
-     * <p>Navigate to 'System Configuration' page</p>
-     * <p>Enable all shipping methods</p>
      */
     public function setUpBeforeTests()
     {
@@ -51,9 +49,22 @@ class OrderCreditMemo_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCas
 
     protected function assertPreConditions()
     {
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
+        //Preconditions: Enabling PayPal
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal');
+        $payment = $this->loadData('paypal_enable');
+        $this->fillForm($payment, 'sales_paypal');
+        $this->saveForm('save_config');
+        //Preconditions: Enabling PayPalUKDirect
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->addParameter('tabName', 'edit/section/paypal/');
+        $this->clickControl('tab', 'sales_paypal');
+        $payment = $this->loadData('paypal_uk_direct_wo_3d_enable');
+        $this->fillForm($payment, 'sales_paypal');
+        $this->saveForm('save_config');
     }
 
     /**
@@ -61,6 +72,9 @@ class OrderCreditMemo_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCas
      */
     public function createProducts()
     {
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->addParameter('id', '0');
         $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
@@ -70,7 +84,7 @@ class OrderCreditMemo_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCas
     }
 
     /**
-     * Bug found.
+     * Bug.
      * <p>PayPalUK Direct. Refund Offline</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders.</p>
@@ -95,45 +109,23 @@ class OrderCreditMemo_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCas
      */
     public function fullRefundOnline($productData)
     {
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypal = $this->loadData('paypal_enable');
-        $this->fillForm($paypal, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayPalUKDirect
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_enable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Steps
         $this->navigate('manage_sales_orders');
         $orderData = $this->loadData('order_data_paypal_direct_payment_payflow_edition_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
+        $this->clickButton('invoice');
         $this->fillForm(array('amount' => 'Capture Online'));
-        $this->clickButton('submit_invoice', TRUE);
+        $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
         $this->navigate('manage_sales_invoices');
         $this->searchAndOpen(array('filter_order_id' => $orderId), FALSE);
         $this->waitForPageToLoad();
         $this->addParameter('invoice_id', $this->defineIdFromUrl());
-        $this->clickButton('credit_memo', TRUE);
-        $this->clickButton('refund', TRUE);
+        $this->clickButton('credit_memo');
+        $this->clickButton('refund');
         $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_disable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
     }
 
     /**
@@ -161,40 +153,29 @@ class OrderCreditMemo_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCas
      */
     public function fullRefundOffline($productData)
     {
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypal = $this->loadData('paypal_enable');
-        $this->fillForm($paypal, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayPalUKDirect
-        $this->navigate('system_configuration');
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_enable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Steps
         $this->navigate('manage_sales_orders');
         $orderData = $this->loadData('order_data_paypal_direct_payment_payflow_edition_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
+        $this->clickButton('invoice');
         $this->fillForm(array('amount' => 'Capture Offline'));
-        $this->clickButton('submit_invoice', TRUE);
+        $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
         $this->deleteElement('credit_memo', 'confirmation_to_procced');
-        $this->clickButton('refund_offline', TRUE);
+        $this->clickButton('refund_offline');
         $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
-        //Postconditions
+    }
+
+    protected function assertPostConditions()
+    {
         $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
         $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_disable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
+        $this->clickControl('tab', 'sales_paypal');
+        $payment = $this->loadData('paypal_uk_direct_wo_3d_disable');
+        $this->fillForm($payment, 'sales_paypal');
         $this->saveForm('save_config');
     }
 }
