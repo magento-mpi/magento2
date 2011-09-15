@@ -150,8 +150,8 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
             return '';
         }
 
-        $html = '<select name="'.$this->getName().'" id="'.$this->getId().'" class="'
-            .$this->getClass().'" title="'.$this->getTitle().'" '.$this->getExtraParams().'>';
+        $html = '<select name="' . $this->getName() . '" id="' . $this->getId() . '" class="'
+            . $this->getClass() . '" title="' . $this->getTitle() . '" ' . $this->getExtraParams() . '>';
         $values = $this->getValue();
 
         if (!is_array($values)){
@@ -176,7 +176,7 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
             }
 
             if (is_array($value)) {
-                $html.= '<optgroup label="'.$label.'">';
+                $html .= '<optgroup label="' . $label . '">';
                 foreach ($value as $keyGroup => $optionGroup) {
                     if (!is_array($optionGroup)) {
                         $optionGroup = array(
@@ -184,23 +184,24 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
                             'label' => $optionGroup
                         );
                     }
-                    $html.= $this->_optionToHtml(
+                    $html .= $this->_optionToHtml(
                         $optionGroup,
                         in_array($optionGroup['value'], $values)
                     );
                 }
-                $html.= '</optgroup>';
+                $html .= '</optgroup>';
             } else {
-                $html.= $this->_optionToHtml(array(
-                    'value' => $value,
-                    'label' => $label,
-                    'params' => $params
-                ),
+                $html .= $this->_optionToHtml(
+                    array(
+                        'value' => $value,
+                        'label' => $label,
+                        'params' => $params
+                    ),
                     in_array($value, $values)
                 );
             }
         }
-        $html.= '</select>';
+        $html .= '</select>';
         return $html;
     }
 
