@@ -792,13 +792,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Process stock status index on item after commit
+     * Process stock status index on item after save
      *
      * @return Mage_CatalogInventory_Model_Stock_Item
      */
-    public function afterCommitCallback()
+    protected function _afterSave()
     {
-        parent::afterCommitCallback();
+        parent::_afterSave();
         Mage::getSingleton('index/indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );

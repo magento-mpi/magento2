@@ -292,9 +292,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         if ($salable && $this->getProduct($product)->hasData('is_salable')) {
             $salable = $this->getProduct($product)->getData('is_salable');
         }
-        elseif ($salable && $this->isComposite()) {
-            $salable = null;
-        }
 
         return (boolean) (int) $salable;
     }

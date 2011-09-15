@@ -496,13 +496,8 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
         $query = $select->crossUpdateFromSelect($table);
         $write->query($query);
 
-        if ($this->useIdxTable()) {
-            $write->truncateTable($coaTable);
-            $write->truncateTable($copTable);
-        } else {
-            $write->delete($coaTable);
-            $write->delete($copTable);
-        }
+        $write->delete($coaTable);
+        $write->delete($copTable);
 
         return $this;
     }
@@ -534,11 +529,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
         $query = $select->insertFromSelect($this->getIdxTable(), array(), false);
         $write->query($query);
 
-        if ($this->useIdxTable()) {
-            $write->truncateTable($table);
-        } else {
-            $write->delete($table);
-        }
+        $write->delete($table);
 
         return $this;
     }

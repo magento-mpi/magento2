@@ -156,11 +156,7 @@ class Mage_Downloadable_Model_Resource_Indexer_Price extends Mage_Catalog_Model_
         $query = $select->crossUpdateFromSelect(array('i' => $this->_getDefaultFinalPriceTable()));
         $write->query($query);
 
-        if ($this->useIdxTable()) {
-            $write->truncateTable($table);
-        } else {
-            $write->delete($table);
-        }
+        $write->delete($table);
 
         return $this;
     }

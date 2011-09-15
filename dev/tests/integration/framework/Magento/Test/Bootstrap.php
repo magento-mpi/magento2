@@ -207,8 +207,6 @@ class Magento_Test_Bootstrap
             'log_dir'     => $this->_installDir . DIRECTORY_SEPARATOR . 'log',
             'session_dir' => $this->_installDir . DIRECTORY_SEPARATOR . 'session',
             'media_dir'   => $this->_installDir . DIRECTORY_SEPARATOR . 'media',
-            'public_dir'  => $this->_installDir . DIRECTORY_SEPARATOR . 'pub',
-            'skin_dir'    => $this->_installDir . DIRECTORY_SEPARATOR . 'pub' . DIRECTORY_SEPARATOR . 'skin',
             'upload_dir'  => $this->_installDir . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'upload',
         );
 
@@ -239,7 +237,7 @@ class Magento_Test_Bootstrap
      */
     public function cleanupDir($optionCode)
     {
-        if (in_array($optionCode, array('etc_dir', 'var_dir', 'media_dir', 'public_dir'))) {
+        if (in_array($optionCode, array('etc_dir', 'var_dir', 'media_dir'))) {
             throw new Exception("Directory '{$optionCode}' must not be cleaned up while running tests.");
         }
         $dir = $this->_options[$optionCode];
@@ -423,7 +421,6 @@ class Magento_Test_Bootstrap
         $this->_ensureDirExists($this->_installEtcDir);
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'media');
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'skin');
-        $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'pub');
 
         /* Copy *.xml configuration files */
         $dirs = array(
