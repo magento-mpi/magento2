@@ -40,3 +40,16 @@ shopping_cart:
                             update_shopping_cart: //button[span='Update Shopping Cart']
         messages:
             product_added_to_cart:  //li[normalize-space(@class)='success-msg' and contains(.//span,'%productName% was added to your shopping cart.')]
+
+empty_shopping_cart:
+    mca: checkout/cart/
+    title: Shopping Cart
+    uimap:
+        form:
+            fieldsets:
+                -
+                    shopping_cart_empty:
+                        xpath: //div[@class='main']
+                        links:
+                            continue_shopping: //a[text()='here']
+     

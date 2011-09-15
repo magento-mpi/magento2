@@ -27,14 +27,28 @@
 ---
 # 'Checkout' page
 
-checkout_cart:
+onepage_checkout:
     mca: checkout/onepage/
-    click_xpath: //ul[@class='links']//a[contains(., 'Checkout')]
+    click_xpath: //ul[@class='links']//a[text()= 'Checkout']
     title: Checkout
     uimap:
         form: &checkoutForm
             fieldsets:
                 -
+                    checkout_method:
+                        xpath: //ol[@id='checkoutSteps']//li[@id='opc-login']
+                        buttons:
+                            continue: //button[span='Continue']
+                            login: //button[span='Login']
+                        fields:
+                            email_address: //input[@id='login-email']
+                            password: //input[@id='login-password']
+                        checkboxes:
+                            checkout_as_guest: //input[@id='login:guest']
+                            register: //input[@id='login:register']
+                        links:
+                            forgot_password: //a[text()='Forgot your password?']
+                -    
                     billing_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-billing']
                         buttons:
@@ -55,6 +69,8 @@ checkout_cart:
                             billing_zip_code: //input[@id='billing:postcode']
                             billing_telephone: //input[@id='billing:telephone']
                             billing_fax: //input[@id='billing:fax']
+                            password: //input[@id='billing:customer_password']
+                            confirm_password: //input[@id='billing:confirm_password']
                         checkboxes:
                             billing_save_in_address_book: //input[@id='billing:save_in_address_book']
                         radiobuttons:
@@ -104,13 +120,13 @@ checkout_cart:
                         radiobuttons:
                             pay_method: //input[@type='radio' and following-sibling::*[contains(text(), '%payMethod%')]]
                         dropdowns:
-                            credit_card_type: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Credit Card Type')]/following-sibling::div/select
-                            expiration_date_month: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Expiration Date')]/following-sibling::div/div[contains(.,'Month')]/select
-                            expiration_date_year: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Expiration Date')]/following-sibling::div/div[contains(.,'Year')]/select
+                            credit_card_type: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Credit Card Type']/following-sibling::div/select
+                            expiration_date_month: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Expiration Date']/following-sibling::div/div[text()='Month']/select
+                            expiration_date_year: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Expiration Date']/following-sibling::div/div[text()='Year']/select
                         fields:
-                            name_on_card: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Name on Card')]/following-sibling::div/input
-                            credit_card_number: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Credit Card Number')]/following-sibling::div/input
-                            cvv: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Card Verification Number')]/following-sibling::div/div/input
+                            name_on_card: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Name on Card']/following-sibling::div/input
+                            credit_card_number: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Credit Card Number']/following-sibling::div/input
+                            cvv: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Card Verification Number']/following-sibling::div/div/input
                         links:
                             back: //p[@class='back-link']/a[@href]
                         required: [credit_card_type, expiration_date_month, expiration_date_year, name_on_card, credit_card_number, cvv]
@@ -121,6 +137,16 @@ checkout_cart:
                             place_order: //button[span='Place Order']
                         links:
                             edit_cart: //a[contains(.,'Edit Your Cart')]
+            messages: &checkoutMessages
+                empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+                please_select_option: "//div[@id='advice-validate-select-%fieldId%' and not(contains(@style,'display: none;'))]"
+                invalid_email_address: "//div[@id='advice-validate-email-%fieldId%' and not(contains(@style,'display: none;'))]"
+                invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
+                invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
+                incorrect_credit_card_exp_date: "//div[@id='advice-validate-cc-exp-ccsave_expiration' and not(contains(@style,'display: none;'))]"
+                empty_shipping_methods_for_all_addresses: //li[normalize-space(@class)='error-msg' and contains(.//span,'Please select shipping methods for all addresses')]
+                success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.//span,'The address has been saved.')]
+                payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.//span,'Payment method is not defined')]
 
 checkout_multishipping:
     mca: checkout/multishipping/addresses/
@@ -176,7 +202,7 @@ checkout_multishipping_add_new_address:
                         links:
                             back: //p[@class='back-link']/a[@href]
                         required: [first_name, last_name, telephone, street_address_1, city, zip_code, region, country]
-
+        messages: *checkoutMessages
 
 checkout_multishipping_shipping_methods:
     mca: checkout/multishipping/shipping/
@@ -207,15 +233,15 @@ checkout_multishipping_shipping_methods:
         buttons:
             continue_to_billing_information: //button[span='Continue to Billing Information']
         links:
-            back_to_select_addresses: //a[contains(.,'Back to Select Addresses')]
-
+            back_to_select_addresses: //a[text()='Back to Select Addresses']
+        messages: *checkoutMessages
 
 checkout_multishipping_edit_shipment_address:
     mca: checkout/multishipping_address/editShipping/id/%id%/
     title: Edit Shipping Address
     uimap:
         form: *createNewAddress
-
+        messages: *checkoutMessages
 
 checkout_multishipping_payment_methods:
     mca: checkout/multishipping/billing/
@@ -231,19 +257,19 @@ checkout_multishipping_payment_methods:
                         radiobuttons:
                             pay_method: //input[@type='radio' and following-sibling::*[contains(text(), '%payMethod%')]]
                         dropdowns:
-                            credit_card_type: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Credit Card Type')]/following-sibling::div/select
-                            expiration_date_month: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Expiration Date')]/following-sibling::div/div[contains(.,'Month')]/select
-                            expiration_date_year: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Expiration Date')]/following-sibling::div/div[contains(.,'Year')]/select
+                            credit_card_type: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Credit Card Type']/following-sibling::div/select
+                            expiration_date_month: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Expiration Date']/following-sibling::div/div[text()='Month']/select
+                            expiration_date_year: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Expiration Date']/following-sibling::div/div[text()='Year']/select
                             paypal_billing_agreement: //select[@name='payment[ba_agreement_id]']
                         fields:
-                            name_on_card: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Name on Card')]/following-sibling::div/input
-                            credit_card_number: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Credit Card Number')]/following-sibling::div/input
-                            cvv: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[contains(.,'Card Verification Number')]/following-sibling::div/div/input
+                            name_on_card: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Name on Card']/following-sibling::div/input
+                            credit_card_number: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Credit Card Number']/following-sibling::div/input
+                            cvv: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Card Verification Number']/following-sibling::div/div/input
         buttons:
             continue_to_review_order: //button[span='Continue to Review Your Order']
         links:
-            back_to_select_addresses: //a[contains(.,'Back to Select Addresses')]
-
+            back_to_select_addresses: //a[text()='Back to Select Addresses']
+        messages: *checkoutMessages
 
 checkout_multishipping_edit_billing_address:
     mca: checkout/multishipping_address/selectBilling/
@@ -259,6 +285,7 @@ checkout_multishipping_edit_billing_address:
                         links:
                             edit_address: //a[contains(@href, 'multishipping_address/editAddress/id/%addressId%/')]
                             select_address: //a[contains(@href, 'multishipping_address/setBilling/id/%addressId%/')]
+        messages: *checkoutMessages
 
 checkout_multishipping_create_billing_address:
     mca: checkout/multishipping_address/newBilling/
@@ -290,13 +317,14 @@ checkout_multishipping_create_billing_address:
                             save_address: //button[span='Save Address']
                         links:
                             back: //a[contains(@href, 'multishipping_address/selectBilling/')]
-
+        messages: *checkoutMessages
 
 checkout_multishipping_edit_billing_address:
     mca: checkout/multishipping_address/editAddress/id/%id%/
     title: Edit Address
     uimap:
         form: *createBillingAddress
+        messages: *checkoutMessages
 
 checkout_multishipping_review_order:
     mca: checkout/multishipping/overview/
@@ -315,3 +343,17 @@ checkout_multishipping_review_order:
                             back_to_billing_information: //a[contains(@href, 'backtobilling/')]
                         buttons:
                             place_order: //button[span='Place Order']
+
+checkout_multishipping_success_order:
+    mca: checkout/multishipping/success/
+    title: Success Order
+    uimap:
+        form: &successOrder
+            fieldsets:
+                -
+                    success_order:
+                        xpath: //div[div/h1[text()='Order Success']]
+                        links:
+                            order_number: //a[text()='%orderId%']
+                        buttons:
+                            continue_shopping: //button[span='Continue Shopping']
