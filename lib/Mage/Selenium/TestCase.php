@@ -1825,9 +1825,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function saveForm($buttonName)
     {
         $this->clickButton($buttonName, false);
-        $this->waitForElement(array(self::xpathErrorMessage
-                                        . '[not(text()="' . self::excludedBundleMessage . '")]'
-                                        . '[not(text()="' . self::excludedConfigurableMessage . '")]',
+        $this->waitForElement(array(self::xpathErrorMessage,
                                     self::xpathValidationMessage,
                                     self::xpathSuccessMessage));
         $this->addParameter('id', $this->defineIdFromUrl());
