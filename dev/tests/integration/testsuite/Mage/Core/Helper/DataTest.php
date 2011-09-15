@@ -230,7 +230,7 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($decoratedVo, $this->_helper->decorateArray($sample, ''));
     }
 
-    public function testAssocToXml()
+/*    public function testAssocToXml()
     {
         $data = array(
             'one' => 1,
@@ -248,7 +248,7 @@ XML;
         $this->assertInstanceOf('SimpleXMLElement', $result);
         $this->assertEquals($expectedResult, $result->asXML());
     }
-
+*/
     /**
      * @param array $array
      * @param string $rootName

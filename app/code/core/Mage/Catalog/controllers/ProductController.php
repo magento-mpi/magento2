@@ -31,6 +31,7 @@
  * @package    Mage_Catalog
  */
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
+    implements Mage_Catalog_Controller_Product_View_Interface
 {
     /**
      * Current applied design settings

@@ -743,7 +743,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 $adapter->dropForeignKey($tableName, $foreignChildKey);
             }
             if ($isAddChildData && !isset($describe['is_child'])) {
-                $adapter->truncateTable($tableName);
+                $adapter->delete($tableName);
                 $dropIndexes['PRIMARY'] = $indexesNow['PRIMARY'];
                 $addIndexes['PRIMARY']  = $indexesNeed['PRIMARY'];
 
