@@ -108,12 +108,12 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
         $isArrayOption = true;
         foreach ($this->getOptions() as $key => $option) {
             if ($isArrayOption && is_array($option)) {
-                $value  = $option['value'];
-                $label  = $option['label'];
+                $value  = (string)$option['value'];
+                $label  = (string)$option['label'];
                 $params = (!empty($option['params'])) ? $option['params'] : array();
             } else {
-                $value = $key;
-                $label = $option;
+                $value = (string)$key;
+                $label = (string)$option;
                 $isArrayOption = false;
                 $params = array();
             }
