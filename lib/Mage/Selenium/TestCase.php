@@ -179,11 +179,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected $_firstPageAfterAdminLogin = 'dashboard';
 
-    protected $captureScreenshotOnFailure = TRUE;
+//    protected $captureScreenshotOnFailure = TRUE;
 
-    protected $screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
+//    protected $screenshotPath = SELENIUM_TESTS_SCREENSHOTDIR;
 
-    protected $screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
+//    protected $screenshotUrl = SELENIUM_TESTS_SCREENSHOTDIR;
 
     /**
      * Excluded message about Bundle product
@@ -644,8 +644,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             } else {
                 $this->open($this->getPageUrl($page));
             }
-            $this->assertTextNotPresent('Fatal error:');
-            $this->assertTextNotPresent('There has been an error processing your request');
+            $this->assertTextNotPresent('Fatal error:', 'Fatal error on page ');
+            $this->assertTextNotPresent('There has been an error processing your request',
+                    'There has been an error processing your request');
             $this->_pageHelper->validateCurrentPage();
             $this->_currentPage = $page;
         } catch (PHPUnit_Framework_Exception $e) {
@@ -909,8 +910,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
             if ($willChangePage) {
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->assertTextNotPresent('Fatal error:');
-                $this->assertTextNotPresent('There has been an error processing your request');
+                $this->assertTextNotPresent('Fatal error:', 'Fatal error on page ');
+                $this->assertTextNotPresent('There has been an error processing your request',
+                        'There has been an error processing your request');
                 $this->addParameter('id', $this->defineIdFromUrl());
                 $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
             }
