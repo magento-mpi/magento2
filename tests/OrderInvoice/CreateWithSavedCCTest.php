@@ -28,7 +28,7 @@
  */
 
 /**
- * Invoice for the order
+ * Invoice for the order with Credit Card (saved)
  *
  * @package     selenium
  * @subpackage  tests
@@ -46,7 +46,15 @@ class OrderInvoice_CreateTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
     protected function assertPreConditions()
-    {}
+    {
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->addParameter('tabName', 'edit/section/payment/');
+        $this->clickControl('tab', 'sales_payment_methods', TRUE);
+        $payment = $this->loadData('saved_cc_wo3d_enable');
+        $this->fillForm($payment, 'sales_payment_methods');
+        $this->saveForm('save_config');
+    }
     /**
      * @test
      */
@@ -86,17 +94,8 @@ class OrderInvoice_CreateTest extends Mage_Selenium_TestCase
      * @depends createProducts
      * @test
      */
-    public function full($productData)
+    public function fullWithCreditCard($productData)
     {
-        //Preconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods', TRUE);
-        $payment = $this->loadData('saved_cc_wo3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
-        //Steps
         $orderData = $this->loadData('order_req_1',
                 array('filter_sku' => $productData['general_sku']));
         $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
@@ -105,14 +104,10 @@ class OrderInvoice_CreateTest extends Mage_Selenium_TestCase
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
-        $this->clickButton('submit_invoice', TRUE);
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->addParameter('sku', $productData['general_sku']);
-        $this->addParameter('invoicedQty', '1');
-        $xpathInvoiced = $this->_getControlXpath('field', 'qty_invoiced');
-        $this->assertTrue($this->isElementPresent($xpathInvoiced),
-                'Qty of invoiced products is incorrect at the orders form');
+        $productsToInvoice = $this->loadData('products_to_invoice_1');
+        $productsToInvoice['product_1']['filter_sku'] = $productData['general_sku'];
+        $productsToInvoice['product_1']['qty_to_invoice'] = '1';
+        $this->orderInvoiceHelper()->createInvoice($productsToInvoice);
     }
 
     /**
@@ -138,17 +133,8 @@ class OrderInvoice_CreateTest extends Mage_Selenium_TestCase
      * @depends createProducts
      * @test
      */
-    public function partial($productData)
+    public function partialWithCreditCard($productData)
     {
-        //Preconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods', TRUE);
-        $payment = $this->loadData('saved_cc_wo3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
-        //Steps
         $orderData = $this->loadData('order_req_partial_invoice',
                 array('filter_sku' => $productData['general_sku']));
         $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
@@ -157,30 +143,8 @@ class OrderInvoice_CreateTest extends Mage_Selenium_TestCase
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
         $productsToInvoice = $this->loadData('products_to_invoice_1');
-        $productsToInvoice['product_1']['general_sku'] = $productData['general_sku'];
-        foreach($productsToInvoice as $product => $options)
-        {
-            $this->addParameter('sku', $options['general_sku']);
-            if (array_key_exists('configurable_options', $options))
-            {
-                $this->fillForm($options['configurable_options']);
-            }
-        }
-        $this->clickButton('update_qty', FALSE);
-        $this->pleaseWait();
-        $this->clickButton('submit_invoice', TRUE);
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        foreach($productsToInvoice as $product => $options) {
-            if (array_key_exists('configurable_options', $options)) {
-                $this->addParameter('sku', $options['general_sku']);
-                $this->addParameter('invoicedQty', $options['configurable_options']['qty_to_invoice']);
-                $xpathInvoiced = $this->_getControlXpath('field', 'qty_invoiced');
-                $this->assertTrue($this->isElementPresent($xpathInvoiced),
-                        'Qty of invoiced products is incorrect at the orders form');
-            }
-        }
+        $productsToInvoice['product_1']['filter_sku'] = $productData['general_sku'];
+        $this->orderInvoiceHelper()->createInvoice($productsToInvoice);
     }
-
 }

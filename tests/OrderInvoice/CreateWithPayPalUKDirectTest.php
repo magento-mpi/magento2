@@ -54,16 +54,16 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypal = $this->loadData('paypal_enable');
-        $this->fillForm($paypal, 'sales_paypal');
+        $payment = $this->loadData('paypal_enable');
+        $this->fillForm($payment, 'sales_paypal');
         $this->saveForm('save_config');
         //Preconditions: Enabling PayPalUKDirect
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_enable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
+        $payment = $this->loadData('paypal_uk_direct_wo_3d_enable');
+        $this->fillForm($payment, 'sales_paypal');
         $this->saveForm('save_config');
     }
 
@@ -199,8 +199,8 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal', TRUE);
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_disable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
+        $payment = $this->loadData('paypal_uk_direct_wo_3d_disable');
+        $this->fillForm($payment, 'sales_paypal');
         $this->saveForm('save_config');
     }
 }
