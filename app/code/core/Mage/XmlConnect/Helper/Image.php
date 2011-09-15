@@ -246,7 +246,11 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
         }
         $file['name'] .= '.png';
 
-        $fileType = exif_imagetype($file['tmp_name']);
+//      We can't use exif extension, because magento doesn't require it.
+//      $fileType = exif_imagetype($file['tmp_name']);
+        list($unnecessaryVar, $unnecessaryVar, $fileType) = getimagesize($file['tmp_name']);
+        unset($unnecessaryVar);
+
         if ($fileType != IMAGETYPE_PNG) {
             switch ($fileType) {
                 case IMAGETYPE_GIF:
