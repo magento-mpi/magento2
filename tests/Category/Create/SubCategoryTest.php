@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Sub category creation tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -52,8 +52,7 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_categories');
-        //$this->assertTrue($this->checkCurrentPage('manage_categories'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
+        $this->categoryHelper()->checkCategoriesPage();
     }
 
     /**
@@ -70,14 +69,38 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     public function subCategoryWithRequiredFieldsOnly()
     {
         //Data
+        $rooCat = 'Default Category';
         $categoryData = $this->loadData('sub_category_required', null, 'name');
         //Steps
-        $this->categoryHelper()->createSubCategory('Default Category', $categoryData);
+        $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
-        return($categoryData['name']);
+        $this->categoryHelper()->checkCategoriesPage();
+
+        return $rooCat . '/' . $categoryData['name'];
+    }
+
+    /**
+     * <p>Creating Sub Category with all fields filling</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Root Category" button </p>
+     * <p>2. Fill in required fields</p>
+     * <p>3. Click "Save Category" button</p>
+     * <p>Expected Result:</p>
+     * <p>Root Category created, success message appears</p>
+     *
+     * @test
+     * @depends subCategoryWithRequiredFieldsOnly
+     */
+    public function rootCategoryWithAllFields($rooCat)
+    {
+        //Data
+        $categoryData = $this->loadData('category_all', null, 'name');
+        //Steps
+        $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->categoryHelper()->checkCategoriesPage();
     }
 
     /**
@@ -91,15 +114,15 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>Subcategory not created, error message appears</p>
      *
      * @dataProvider dataEmptyFields
+     * @depends subCategoryWithRequiredFieldsOnly
      * @test
      */
-    public function subCategoryWithRequiredFieldsEmpty($emptyField, $fieldType)
+    public function subCategoryWithRequiredFieldsEmpty($emptyField, $fieldType, $rooCat)
     {
         //Data
-        $overrideData = array($emptyField => '%noValue%');
-        $categoryData = $this->loadData('sub_category_required', $overrideData);
+        $categoryData = $this->loadData('sub_category_required', array($emptyField => '%noValue%'));
         //Steps
-        $this->categoryHelper()->createSubCategory('Default Category', $categoryData);
+        $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
@@ -124,19 +147,19 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
      *
+     * @depends subCategoryWithRequiredFieldsOnly
      * @test
      */
-    public function subCategoryWithSpecialCharacters()
+    public function subCategoryWithSpecialCharacters($rooCat)
     {
         //Data
         $categoryData = $this->loadData('sub_category_required',
                 array('name' => $this->generate('string', 32, ':punct:')));
         //Steps
-        $this->categoryHelper()->createSubCategory('Default Category', $categoryData);
+        $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->categoryHelper()->checkCategoriesPage();
     }
 
     /**
@@ -149,19 +172,19 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Subcategory created, success message appears</p>
      *
+     * @depends subCategoryWithRequiredFieldsOnly
      * @test
      */
-    public function subCategoryWithLongValues()
+    public function subCategoryWithLongValues($rooCat)
     {
         //Data
         $categoryData = $this->loadData('sub_category_required',
                 array('name' => $this->generate('string', 255, ':alnum:')));
         //Steps
-        $this->categoryHelper()->createSubCategory('Default Category', $categoryData);
+        $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->categoryHelper()->checkCategoriesPage();
     }
 
     /**
@@ -178,16 +201,19 @@ class Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
      * @depends subCategoryWithRequiredFieldsOnly
      * @test
      */
-    public function nestedSubCategory($categoryPath)
+    public function nestedSubCategory($rooCat)
     {
-        //Data
-        $categoryDataNested = $this->loadData('sub_category_required', null, 'name');
-        $categoryPath = 'Default Category/'. $categoryPath;
-        //Steps
-        $this->categoryHelper()->createSubCategory($categoryPath, $categoryDataNested);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
+        for ($i = 1; $i <= 10; $i++) {
+            //Data
+            $categoryData = $this->loadData('sub_category_required', null, 'name');
+            //Steps
+            $this->categoryHelper()->createSubCategory($rooCat, $categoryData);
+            //Verifying
+            $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+            $this->categoryHelper()->checkCategoriesPage();
+            //Steps
+            $rooCat.='/' . $categoryData['name'];
+        }
     }
+
 }

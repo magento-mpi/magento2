@@ -26,63 +26,57 @@
 #
 ---
 product_1: &product1
-    category_products_id: %noValue%
-    category_products_name: %noValue%
-    category_products_sku: %noValue%
-    category_products_price_from: %noValue%
-    category_products_price_to: %noValue%
-    category_products_position_from: %noValue%
-    category_products_position_to: %noValue%
+    category_products_search_id: %noValue%
+    category_products_search_name: %noValue%
+    category_products_search_sku: %noValue%
+    category_products_search_price_from: %noValue%
+    category_products_search_price_to: %noValue%
+    category_products_search_position_from: %noValue%
+    category_products_search_position_to: %noValue%
     category_products_position: %noValue%
 
-root_category:
+category_all:
     #General Information
-    name: root_category
+    name: Category
     is_active: Yes
     url_key: %noValue%
-    thumbnail_image: #local/path/to/image.jpg
-    description: %noValue%
-    image: #local/path/to/image.jpg
-    page_title: %noValue%
-    meta_keywords: %noValue%
-    meta_description: %noValue%
+    thumbnail_image: %noValue%#local/path/to/image.jpg
+    description: Subcategory Description
+    image: %noValue%#local/path/to/image.jpg
+    page_title: Subcategory Page Title
+    meta_keywords: Subcategory Meta Keywords
+    meta_description: Subcategory Meta Description
     include_in_navigation_menu: Yes
     #Display Settings
-    display_mode: %noValue%
-    cms_block: %noValue%
-    is_anchor: %noValue%
-    available_product_listing_config: Yes
-    available_product_listing: %noValue%
-    default_product_listing_config: %noValue%
-    default_product_listing: %noValue%
-    layered_navigation_price_step_config: %noValue%
-    layered_navigation_price_step: %noValue%
-    #Custom Design
-    use_parent_category_settings: %noValue%
-    apply_to_products: %noValue%
-    custom_design: %noValue%
-    active_from: %noValue%
-    active_to: %noValue%
-    page_layout: %noValue%
-    custom_layout_update: %noValue%
-    #Category Products
-    category_products_data: %noValue%
-
-sub_category_required:
-    #General Information
-    name: sub_category_required
-    is_active: Yes
-    include_in_navigation_menu: Yes
-    #Display Settings
+    display_mode: Static block and products
+    cms_block: Footer Links
+    is_anchor: Yes
     available_product_listing_config: No
-    available_product_listing: Name
+    available_product_listing: Name, Price
     default_product_listing_config: No
     default_product_listing: Name
+    layered_navigation_price_step_config: No
+    layered_navigation_price_step: 50
+    #Custom Design
+    use_parent_category_settings: No
+    apply_to_products: Yes
+    custom_design: default
+    active_from: 12/12/10
+    active_to: 12/12/12
+    page_layout: 3 columns
+    custom_layout_update: Custom Layout Update
+    #Category Products
+    category_products_data:
+        product_1: *product1
 
-root_category_rename:
-    #General Information
-    name: root_category
+sub_category_required:
+    name: Sub Category Required
+    is_active: Yes
+    available_product_listing_config: No
+    available_product_listing: Best Value, Name, Price
 
-sub_category_required_rename:
-    #General Information
-    name: sub_category_required
+root_category_required:
+    name: Root Category Required
+    is_active: Yes
+    available_product_listing_config: No
+    available_product_listing: Best Value, Name, Price

@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Category deletion tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -52,8 +52,7 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_categories');
-        $this->assertTrue($this->checkCurrentPage('manage_categories'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
+        $this->categoryHelper()->checkCategoriesPage();
     }
 
     /**
@@ -71,16 +70,15 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
     public function deleteRootCategory()
     {
         //Data
-        $rootCategoryData = $this->loadData('root_category', null, 'name');
+        $rootCategoryData = $this->loadData('root_category_required', null, 'name');
         //Steps
         $this->categoryHelper()->createRootCategory($rootCategoryData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->categoryHelper()->checkCategoriesPage();
         //Steps
-        $this->clickButton('delete_category', FALSE);
-        $this->pleaseWait(2);
+        $this->categoryHelper()->selectCategory($rootCategoryData['name']);
+        $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
         $this->assertTrue($this->successMessage('success_deleted_category'), $this->messages);
     }
 
@@ -94,22 +92,21 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result</p>
      * <p>Subcategory Deleted, Success message appears</p>
      *
-     *
      * @test
      */
     public function deleteSubCategory()
     {
         //Data
+        $rootCat = 'Default Category';
         $subCategoryData = $this->loadData('sub_category_required', null, 'name');
         //Steps
-        $this->categoryHelper()->createSubCategory('Default Category', $subCategoryData);
+        $this->categoryHelper()->createSubCategory($rootCat, $subCategoryData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->categoryHelper()->checkCategoriesPage();
         //Steps
-        $this->clickButton('delete_category', FALSE);
-        $this->pleaseWait(2);
+        $this->categoryHelper()->selectCategory($rootCat . '/' . $subCategoryData['name']);
+        $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
         $this->assertTrue($this->successMessage('success_deleted_category'), $this->messages);
     }
 
@@ -127,27 +124,28 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
     public function rootCategoryThatCannotBeDeleted()
     {
         //Data
-        $rootCategoryData = $this->loadData('root_category', null, 'name');
-        $storeData = $this->loadData('generic_store', array(
-                                     'root_category' => $rootCategoryData['name']), 'store_name');
+        $rootCategoryData = $this->loadData('root_category_required', null, 'name');
+        $storeData = $this->loadData('generic_store', array('root_category' => $rootCategoryData['name']),
+                'store_name');
         //Steps
         $this->categoryHelper()->createRootCategory($rootCategoryData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
-        //Pre-Conditions
+        $this->categoryHelper()->checkCategoriesPage();
+        //Steps
         $this->navigate('manage_stores');
-        $this->assertTrue($this->checkCurrentPage('manage_stores'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
+        //Verifying
+        $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
+        //Steps
         $this->storeHelper()->createStore($storeData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_store'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_stores'), $this->messages);
-        //Verifying
+        //Steps
         $this->navigate('manage_categories');
-        $this->categoryHelper()->defineCorrectCategory($rootCategoryData['name']);
-        $this->verifyElementPresent('delete');
+        $this->categoryHelper()->selectCategory($rootCategoryData['name']);
+        //Verifying
+        $this->assertFalse($this->buttonIsPresent('delete_category'), 'There is "Delete Category" button on the page');
     }
 
     /**
@@ -166,27 +164,22 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
     public function deleteRootCategoryWithSubcategories()
     {
         //Data
-        $rootCategoryData = $this->loadData('root_category', null, 'name');
+        $rootCategoryData = $this->loadData('root_category_required', null, 'name');
         $subCategoryData = $this->loadData('sub_category_required', null, 'name');
         //Steps
         $this->categoryHelper()->createRootCategory($rootCategoryData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
         //Steps
         $this->categoryHelper()->createSubCategory($rootCategoryData['name'], $subCategoryData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
         //Steps
-        $this->clickButton('reset');
-        $this->categoryHelper()->selectCategory($rootCategoryData['name']);
-        $this->clickButton('delete_category', FALSE);
         $this->pleaseWait();
+        $this->categoryHelper()->selectCategory($rootCategoryData['name']);
+        $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
+        //Verifying
         $this->assertTrue($this->successMessage('success_deleted_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
     }
 
     /**
@@ -205,39 +198,32 @@ class Category_DeleteTest extends Mage_Selenium_TestCase
     public function deleteRootCategoryWithSubcategoriesHavingProducts()
     {
         //Data
-        $rootCategoryData = $this->loadData('root_category', null, 'name');
-        $subCategoryData = $this->loadData('sub_category_with_products', null, 'name');
         $productData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
-
-        $subCategoryData['category_products_data'] = array('product_1' => array(
-                'category_products_search_category_products_sku' => $productData['general_sku']));
-        //Pre-Conditions
+        $rootCategoryData = $this->loadData('root_category_required', null, 'name');
+        $subCategoryData = $this->loadData('category_all',
+                array('category_products_search_sku' => $productData['general_sku']), 'name');
+        //Steps
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
         $this->addParameter('id', '0');
-
         $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         //Steps
         $this->assertPreConditions();
         $this->categoryHelper()->createRootCategory($rootCategoryData);
         //Verifying
-        $this->pleaseWait();
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
         //Steps
         $this->categoryHelper()->createSubCategory($rootCategoryData['name'], $subCategoryData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
         //Steps
-        $this->clickButton('reset');
-        $this->categoryHelper()->selectCategory($rootCategoryData['name']);
-        $this->clickButton('delete_category', FALSE);
         $this->pleaseWait();
+        $this->categoryHelper()->selectCategory($rootCategoryData['name']);
+        $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
+        //Verifying
         $this->assertTrue($this->successMessage('success_deleted_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
     }
 
 }

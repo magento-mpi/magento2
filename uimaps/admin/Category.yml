@@ -122,13 +122,13 @@ manage_categories:
                                     dropdowns:
                                         category_products_massaction: //select[@id='filter_in_category']
                                     fields:
-                                        category_products_id: //input[@id='catalog_category_products_filter_entity_id']
-                                        category_products_name: //input[@id='catalog_category_products_filter_name']
-                                        category_products_sku: //input[@id='catalog_category_products_filter_sku']
-                                        category_products_price_from: //input[@id='catalog_category_products_filter_price_from']
-                                        category_products_price_to: //input[@id='catalog_category_products_filter_price_to']
-                                        category_products_position_from: //input@id='catalog_category_products_filter_position_from']
-                                        category_products_position_to: //input@id='catalog_category_products_filter_position_to']
+                                        category_products_search_id: //input[@id='catalog_category_products_filter_entity_id']
+                                        category_products_search_name: //input[@id='catalog_category_products_filter_name']
+                                        category_products_search_sku: //input[@id='catalog_category_products_filter_sku']
+                                        category_products_search_price_from: //input[@id='catalog_category_products_filter_price_from']
+                                        category_products_search_price_to: //input[@id='catalog_category_products_filter_price_to']
+                                        category_products_search_position_from: //input@id='catalog_category_products_filter_position_from']
+                                        category_products_search_position_to: //input@id='catalog_category_products_filter_position_to']
                                         category_products_position: %productXpath%//input[@name='position']
         buttons:
             reset: //button[span='Reset']
@@ -138,6 +138,7 @@ manage_categories:
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             success_saved_category: //li[normalize-space(@class)='success-msg' and contains(.//span,'The category has been saved.')]
             success_deleted_category: //li[normalize-space(@class)='success-msg' and contains(.//span,'The category has been deleted.')]
+            confirm_delete: Are you sure you want to delete this category?
 
 edit_manage_categories:
     mca: catalog_category/edit/store/0/

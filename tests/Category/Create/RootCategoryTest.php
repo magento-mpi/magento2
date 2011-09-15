@@ -28,7 +28,7 @@
  */
 
 /**
- * @TODO
+ * Root category creation tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -52,8 +52,7 @@ class Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_categories');
-        $this->assertTrue($this->checkCurrentPage('manage_categories'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
+        $this->categoryHelper()->checkCategoriesPage();
     }
 
     /**
@@ -70,14 +69,34 @@ class Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
     public function rootCategoryWithRequiredFieldsOnly()
     {
         //Data
-        $categoryData = $this->loadData('root_category', null, 'name');
+        $categoryData = $this->loadData('root_category_required', null, 'name');
         //Steps
         $this->categoryHelper()->createRootCategory($categoryData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_categories'),
-                'After successful product creation should be redirected to Manage Products page');
-        $this->clickButton('reset', false);
+        $this->categoryHelper()->checkCategoriesPage();
+    }
+
+    /**
+     * <p>Creating Root Category with all fields filling</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Root Category" button </p>
+     * <p>2. Fill in required fields</p>
+     * <p>3. Click "Save Category" button</p>
+     * <p>Expected Result:</p>
+     * <p>Root Category created, success message appears</p>
+     *
+     * @test
+     */
+    public function rootCategoryWithAllFields()
+    {
+        //Data
+        $categoryData = $this->loadData('category_all', null, 'name');
+        //Steps
+        $this->categoryHelper()->createRootCategory($categoryData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
+        $this->categoryHelper()->checkCategoriesPage();
     }
 
     /**
@@ -97,15 +116,13 @@ class Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
     public function rootCategoryWithRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        $overrideData = array($emptyField => '');
-        $categoryData = $this->loadData('root_category', $overrideData);
+        $categoryData = $this->loadData('root_category_required', array($emptyField => '%noValue%'));
         //Steps
         $this->categoryHelper()->createRootCategory($categoryData);
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertTrue($this->validationMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-        print_r($categoryData);
     }
 
     public function dataEmptyFields()

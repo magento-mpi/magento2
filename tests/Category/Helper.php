@@ -55,6 +55,7 @@ class Category_Helper extends Mage_Selenium_TestCase
         } else {
             $this->addParameter('parentCategoryId', $parentCategoryId);
             $this->addParameter('subName', $catName);
+            $this->getCurrentLocationUimapPage()->assignParams($this->_paramsHelper);
             $isDiscloseCategory = $this->_getControlXpath('link', 'expand_category');
             $catXpath = $this->_getControlXpath('link', 'sub_category');
 
@@ -63,7 +64,7 @@ class Category_Helper extends Mage_Selenium_TestCase
                 $this->pleaseWait();
             }
         }
-
+        $this->waitForAjax();
         $qtyCat = $this->getXpathCount($catXpath . $categoryText);
 
         for ($i = 1; $i <= $qtyCat; $i++) {
@@ -92,9 +93,8 @@ class Category_Helper extends Mage_Selenium_TestCase
 
         foreach ($nodes as $value) {
             $correctSubCat = array();
-
-            for ($i = 0; $i < count($correctRoot); $i++) {
-                $correctSubCat = array_merge($correctSubCat, $this->defineCorrectCategory($value, $correctRoot[$i]));
+            foreach ($correctRoot as $v) {
+                $correctSubCat = array_merge($correctSubCat, $this->defineCorrectCategory($value, $v));
             }
             $correctRoot = $correctSubCat;
         }
@@ -128,6 +128,7 @@ class Category_Helper extends Mage_Selenium_TestCase
      */
     public function fillCategoryInfo(array $categoryData)
     {
+        $categoryData = $this->arrayEmptyClear($categoryData);
         $page = $this->getCurrentLocationUimapPage();
         $tabs = $page->getAllTabs();
         foreach ($tabs as $tab => $values) {
@@ -139,12 +140,11 @@ class Category_Helper extends Mage_Selenium_TestCase
             if ($tab != 'category_products') {
                 $this->fillForm($categoryData, $tab);
             } else {
+
                 $arrayKey = $tab . '_data';
                 if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
                     foreach ($categoryData[$arrayKey] as $key => $value) {
-                        $this->clickButton('reset_filter', FALSE);
-                        $this->pleaseWait();
-                        $this->productHelper()->assignProduct($categoryData[$arrayKey][$key], $tab);
+                        $this->productHelper()->assignProduct($value, $tab);
                     }
                 }
             }
@@ -177,6 +177,56 @@ class Category_Helper extends Mage_Selenium_TestCase
         $this->pleaseWait();
         $this->fillCategoryInfo($categoryData);
         $this->saveForm('save_category');
+    }
+
+    /**
+     * check that Categories Page is opened
+     */
+    public function checkCategoriesPage()
+    {
+        $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+        if ($currentPage != 'edit_manage_categories' && $currentPage != 'manage_categories') {
+            $this->fail("Opened the wrong page: '" . $currentPage . "' (should be: 'manage_categories')");
+        }
+    }
+
+    /**
+     * Click button and confirm
+     *
+     * @param string $buttonName
+     * @param string $message
+     */
+    public function deleteCategory($buttonName, $message)
+    {
+        $buttonXpath = $this->_getControlXpath('button', $buttonName);
+        if ($this->isElementPresent($buttonXpath)) {
+            $confirmation = $this->getCurrentLocationUimapPage()->findMessage($message);
+            $this->chooseCancelOnNextConfirmation();
+            $this->click($buttonXpath);
+            if ($this->isConfirmationPresent()) {
+                $text = $this->getConfirmation();
+                if ($text == $confirmation) {
+                    $this->chooseOkOnNextConfirmation();
+                    $this->click($buttonXpath);
+                    $this->getConfirmation();
+                    $this->pleaseWait();
+
+                    return true;
+                } else {
+                    $this->messages['error'][] = "The confirmation text incorrect: {$text}\n";
+                }
+            } else {
+                $this->messages['error'][] = "The confirmation does not appear\n";
+                $this->pleaseWait();
+                $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+
+                return true;
+            }
+        } else {
+            $this->messages['error'][] = "There is no way to remove an item(There is no 'Delete' button)\n";
+        }
+
+        return false;
     }
 
 }

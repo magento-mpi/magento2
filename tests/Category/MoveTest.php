@@ -41,7 +41,7 @@ class Category_MoveTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->markTestIncomplete();
     }
 
 
