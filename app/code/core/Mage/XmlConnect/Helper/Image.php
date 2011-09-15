@@ -667,7 +667,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
         try {
             $ioFile = new Varien_Io_File();
             $ioFile->checkAndCreateFolder($dir);
-        } catch (Exeption $e) {
+        } catch (Exception $e) {
             Mage::throwException($e->getMessage());
         }
     }
