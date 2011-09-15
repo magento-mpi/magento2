@@ -53,7 +53,7 @@ class OrderInvoice_CreateWithPayPalDirectTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
         $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $this->clickControl('tab', 'sales_paypal');
         $payment = $this->loadData('paypal_enable');
         $this->fillForm($payment, 'sales_paypal');
         $this->saveForm('save_config');
@@ -61,7 +61,7 @@ class OrderInvoice_CreateWithPayPalDirectTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
         $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $this->clickControl('tab', 'sales_paypal');
         $payment = $this->loadData('website_payments_pro_wo_3d_enable');
         $this->fillForm($payment, 'sales_paypal');
         $this->saveForm('save_config');
@@ -113,9 +113,9 @@ class OrderInvoice_CreateWithPayPalDirectTest extends Mage_Selenium_TestCase
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
+        $this->clickButton('invoice');
         $this->fillForm(array('amount' => 'Capture Online'));
-        $this->clickButton('submit_invoice', TRUE);
+        $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
     }
 
@@ -150,9 +150,9 @@ class OrderInvoice_CreateWithPayPalDirectTest extends Mage_Selenium_TestCase
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
+        $this->clickButton('invoice');
         $this->fillForm(array('amount' => 'Capture Offline'));
-        $this->clickButton('submit_invoice', TRUE);
+        $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
     }
 
@@ -187,9 +187,9 @@ class OrderInvoice_CreateWithPayPalDirectTest extends Mage_Selenium_TestCase
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
+        $this->clickButton('invoice');
         $this->fillForm(array('amount' => 'Not Capture'));
-        $this->clickButton('submit_invoice', TRUE);
+        $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
     }
 
@@ -198,7 +198,7 @@ class OrderInvoice_CreateWithPayPalDirectTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
         $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal', TRUE);
+        $this->clickControl('tab', 'sales_paypal');
         $payment = $this->loadData('website_payments_pro_wo_3d_disable');
         $this->fillForm($payment, 'sales_paypal');
         $this->saveForm('save_config');

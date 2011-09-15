@@ -50,7 +50,7 @@ class OrderInvoice_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
         $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods', TRUE);
+        $this->clickControl('tab', 'sales_payment_methods');
         $payment = $this->loadData('saved_cc_wo3d_enable');
         $this->fillForm($payment, 'sales_payment_methods');
         $this->saveForm('save_config');
