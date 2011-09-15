@@ -112,7 +112,6 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         $url = false;
         if (!$product->getSmallImage()) {
             $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
-            var_dump($url);
         }
         elseif ($attribute = $product->getResource()->getAttribute('small_image')) {
             $url = $attribute->getFrontend()->getUrl($product);
