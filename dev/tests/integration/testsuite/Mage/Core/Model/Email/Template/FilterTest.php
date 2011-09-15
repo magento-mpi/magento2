@@ -31,7 +31,7 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
             'skin',
             ' url="favicon.ico"', // note leading space
         ));
-        $this->assertStringEndsWith('skin/frontend/base/default/favicon.ico', $url);
+        $this->assertStringEndsWith('skin/frontend/default/default/favicon.ico', $url);
     }
 
     /**
