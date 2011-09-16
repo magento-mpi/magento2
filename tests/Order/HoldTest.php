@@ -27,7 +27,7 @@
  */
 
 /**
- * @TODO
+ * @Test Hold and Unhold
  *
  * @package     selenium
  * @subpackage  tests
@@ -47,9 +47,13 @@ class Order_HoldTest extends Mage_Selenium_TestCase
     }
     protected function assertPreConditions()
     {
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->addParameter('tabName', 'edit/section/payment/');
+        $this->clickControl('tab', 'sales_payment_methods');
+        $payment = $this->loadData('saved_cc_wo3d_enable');
+        $this->fillForm($payment, 'sales_payment_methods');
+        $this->saveForm('save_config');
     }
     /**
      * <p>Holding order after creation via mass action.</p>
@@ -64,17 +68,19 @@ class Order_HoldTest extends Mage_Selenium_TestCase
      */
     public function holdViaMassAction()
     {
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->addParameter('id', '0');
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_req_1',
                 array('filter_sku' => $productData['general_sku']));
         $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
-        $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
-
         $this->assertTrue($this->navigate('manage_sales_orders'),
                 'Could not get to Manage Sales Orders page');
         $this->searchAndChoose(array('1' => $orderId), 'sales_order_grid');
@@ -101,8 +107,7 @@ class Order_HoldTest extends Mage_Selenium_TestCase
     public function unholdViaMassAction($orderId)
     {
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->navigate('manage_sales_orders'),
-                'Could not get to Manage Sales Orders page');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $this->searchAndChoose(array('1' => $orderId), 'sales_order_grid');
         $userData = array('actions' => 'Unhold');
         $this->fillForm($userData, 'sales_order_grid');
@@ -124,21 +129,23 @@ class Order_HoldTest extends Mage_Selenium_TestCase
      */
     public function holdViaOrderView()
     {
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->addParameter('id', '0');
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_req_1',
                 array('filter_sku' => $productData['general_sku']));
         $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
-        $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->navigate('manage_sales_orders'),
                 'Could not get to Manage Sales Orders page');
         $this->searchAndOpen(array('1' => $orderId), TRUE, 'sales_order_grid');
-        $this->clickButton('hold', TRUE);
-        $this->defineIdFromUrl();
+        $this->saveForm('hold');
         $this->assertTrue($this->successMessage('success_hold_order'), $this->messages);
         return $orderId;
     }
@@ -158,12 +165,10 @@ class Order_HoldTest extends Mage_Selenium_TestCase
     public function unholdViaOrderView($orderId)
     {
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->navigate('manage_sales_orders'),
-                'Could not get to Manage Sales Orders page');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $this->searchAndOpen(array('1' => $orderId), TRUE, 'sales_order_grid');
         $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-        $this->clickButton('unhold', TRUE);
-        $this->defineIdFromUrl();
+        $this->saveForm('unhold');
         $this->assertTrue($this->successMessage('success_unhold_order'), $this->messages);
     }
 }
