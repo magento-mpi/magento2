@@ -39,7 +39,6 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      * <p>Preconditions:</p>
      *
      * <p>Log in to Backend.</p>
-     * <p>Navigate to 'Manage Products' page</p>
      */
     public function setUpBeforeTests()
     {
@@ -48,9 +47,13 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->addParameter('tabName', 'edit/section/payment/');
+        $this->clickControl('tab', 'sales_payment_methods');
+        $payment = $this->loadData('saved_cc_wo3d_enable');
+        $this->fillForm($payment, 'sales_payment_methods');
+        $this->saveForm('save_config');
     }
     /**
      * <p>Precondition test for creating coupon and customer</p>
@@ -61,26 +64,25 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
     {
         //Creating coupon
         $this->navigate('manage_shopping_cart_price_rules');
-        $this->clickButton('add_new_rule', TRUE);
+        $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
+        $this->clickButton('add_new_rule');
         $coupon = $this->loadData('coupon_fixed_amount',
                 array('from_date' => '10/12/10', 'to_date' => '10/12/15'), array('rule_name','coupon_code'));
         $this->fillForm($coupon);
         $this->saveForm('save_rule');
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_shopping_cart_price_rules'), $this->messages);
         //Creating customer
         $userData = $this->loadData('new_customer', NULL, 'email');
         $addressData = $this->loadData('new_customer_address');
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         $searchData = array ('email' => $userData['email']);
         if ($this->search($searchData) == false){
             $this->CustomerHelper()->createCustomer($userData, $addressData);
             $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         }
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         $data = array_merge($userData, $addressData);
         $data = array('coupon' => $coupon['coupon_code'] ,'data' => $data);
         return $data;
@@ -104,21 +106,23 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
     public function amountLessThanGrandTotal($data)
     {
         $this->navigate('manage_products');
-        $couponCode = $this->loadData('coupon', array('coupon_code' => $data['coupon'], 'success' => true));
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        $reconfigProduct = $this->loadData('products_to_reconfig_1',
-                array('filter_sku' => $productData['general_sku']));
-        $orderData = $this->loadData('order_req_1', array('shipping_same_as_billing_address' => 'yes'));
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderData['coupons']['coupon_1'] = $couponCode;
-        $orderData['products_to_reconfigure'] = $reconfigProduct;
-        $orderData['customer_data']['email'] = $data['data']['email'];
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $orderData = $this->loadData('order_with_coupon_1',
+                array('filter_sku' => $productData['general_sku'], 'coupon_code' => $data['coupon'],
+                    'email' => $data['data']['email']));
         $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
+        $orderData = $this->arrayEmptyClear($orderData);
+        $this->addParameter('storeName', $orderData['store_view']);
+        $this->orderHelper()->navigateToCreateOrderPage($orderData['customer_data']);
+        $this->orderHelper()->addProductsToOrder($orderData['products_to_add']);
+        $this->orderHelper()->reconfigProduct($orderData['products_to_reconfigure']);
+        $this->assertTrue($this->orderHelper()->applyCoupon($orderData['coupons']),
+                $this->messages);
     }
 
     /**
@@ -139,18 +143,23 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
     public function amountGreaterThanGrandTotal($data)
     {
         $this->navigate('manage_products');
-        $couponCode = $this->loadData('coupon', array('coupon_code' => $data['coupon'], 'success' => true));
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $couponCode = $this->loadData('coupon', array('coupon_code' => $data['coupon'], 'success' => TRUE));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        $orderData = $this->loadData('order_req_1', array('shipping_same_as_billing_address' => 'yes'));
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderData['coupons']['coupon_1'] = $couponCode;
-        $orderData['customer_data']['email'] = $data['data']['email'];
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $orderData = $this->loadData('order_with_coupon_2',
+                array('filter_sku' => $productData['general_sku'], 'coupon_code' => $data['coupon'],
+                    'email' => $data['data']['email']));
         $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
+        $orderData = $this->arrayEmptyClear($orderData);
+        $this->addParameter('storeName', $orderData['store_view']);
+        $this->orderHelper()->navigateToCreateOrderPage($orderData['customer_data']);
+        $this->orderHelper()->addProductsToOrder($orderData['products_to_add']);
+        $this->assertTrue($this->orderHelper()->applyCoupon($orderData['coupons']),
+                'Incorrect message after applying coupon');
     }
 
     /**
@@ -169,17 +178,20 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
     public function wrongCode($data)
     {
         $this->navigate('manage_products');
-        $couponCode = $this->loadData('coupon', array('coupon_code' => 'wrong_code', 'success' => false));
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        $orderData = $this->loadData('order_req_1', array('shipping_same_as_billing_address' => 'yes'));
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderData['coupons']['coupon_1'] = $couponCode;
-        $orderData['customer_data']['email'] = $data['data']['email'];
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $orderData = $this->loadData('order_with_coupon_3',
+                array('filter_sku' => $productData['general_sku'], 'email' => $data['data']['email']));
         $this->navigate('manage_sales_orders');
-        $orderId = $this->orderHelper()->createOrder($orderData, true);
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
+        $orderData = $this->arrayEmptyClear($orderData);
+        $this->addParameter('storeName', $orderData['store_view']);
+        $this->orderHelper()->navigateToCreateOrderPage($orderData['customer_data']);
+        $this->orderHelper()->addProductsToOrder($orderData['products_to_add']);
+        $this->assertTrue($this->orderHelper()->applyCoupon($orderData['coupons']),
+                'Incorrect message after applying coupon');
     }
 }

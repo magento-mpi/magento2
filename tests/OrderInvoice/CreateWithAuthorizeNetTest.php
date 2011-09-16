@@ -50,7 +50,7 @@ class OrderInvoice_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment/');
         $this->clickControl('tab', 'sales_payment_methods');
         $payment = $this->loadData('authorize_net_without_3d_enable');
@@ -64,13 +64,12 @@ class OrderInvoice_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
     public function createProducts()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         return $productData;
     }
 
@@ -136,7 +135,7 @@ class OrderInvoice_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
     public function fullCaptureOffline($productData)
     {
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_authorize_net_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -173,7 +172,7 @@ class OrderInvoice_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
     public function fullNotCapture($productData)
     {
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_authorize_net_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -188,7 +187,7 @@ class OrderInvoice_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
     protected function assertPostConditions()
     {
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment_services/');
         $this->clickControl('tab', 'sales_payment_methods');
         $payment = $this->loadData('authorize_net_without_3d_disable');

@@ -41,23 +41,31 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
+
     }
     protected function assertPreConditions()
-    {}
+    {
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->addParameter('tabName', 'edit/section/payment/');
+        $this->clickControl('tab', 'sales_payment_methods');
+        $payment = $this->loadData('saved_cc_wo3d_enable');
+        $this->fillForm($payment, 'sales_payment_methods');
+        $this->saveForm('save_config');
+    }
 
     /**
      * @test
      */
     public function createProducts()
     {
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->addParameter('id', '0');
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         return $productData;
     }
     /**
@@ -88,10 +96,10 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
     public function orderWithEmptyFieldsForCreditCardVisa($emptyVisaField, $productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_visa_1', $emptyVisaField);
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData, true);
-        $this->clickButton('submit_order', FALSE);
+        $orderId = $this->orderHelper()->createOrder($orderData, TRUE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         foreach ($emptyVisaField as $key => $value) {
@@ -99,37 +107,37 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
                 continue;
             }
             if ($key == 'name_on_card_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findField($key);
                 }
             }
             if ($key == 'credit_card_type_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'credit_card_number_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown('credit_card_type_saved');
                 }
             }
             if ($key == 'expiration_date_month_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'expiration_date_year_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'cvv_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findField($key);
                 }
@@ -146,7 +154,6 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
                 $this->assertTrue($this->errorMessage('card_type_doesnt_match'), $this->messages);
                 break;
             case 'expiration_date_month_saved':
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $this->assertTrue($this->errorMessage('error_invalid_exp_date'), $this->messages);
                 break;
             case 'expiration_date_year_saved':
@@ -200,10 +207,10 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
     public function orderWithEmptyFieldsForCreditCardAmericanExpress($emptyAmericanExpressField, $productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_american_express_1', $emptyAmericanExpressField);
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData, true);
-        $this->clickButton('submit_order', FALSE);
+        $orderId = $this->orderHelper()->createOrder($orderData, TRUE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         foreach ($emptyAmericanExpressField as $key => $value) {
@@ -211,37 +218,37 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
                 continue;
             }
             if ($key == 'name_on_card_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findField($key);
                 }
             }
             if ($key == 'credit_card_type_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'credit_card_number_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown('credit_card_type_saved');
                 }
             }
             if ($key == 'expiration_date_month_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'expiration_date_year_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'cvv_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findField($key);
                 }
@@ -258,7 +265,6 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
                 $this->assertTrue($this->errorMessage('card_type_doesnt_match'), $this->messages);
                 break;
             case 'expiration_date_month_saved':
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $this->assertTrue($this->errorMessage('error_invalid_exp_date'), $this->messages);
                 break;
             case 'expiration_date_year_saved':
@@ -312,10 +318,10 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
     public function orderWithEmptyFieldsForCreditCardMasterCard($emptyMasterCardField, $productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_mastercard_1', $emptyMasterCardField);
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData, true);
-        $this->clickButton('submit_order', FALSE);
+        $orderId = $this->orderHelper()->createOrder($orderData, TRUE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         foreach ($emptyMasterCardField as $key => $value) {
@@ -323,37 +329,37 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
                 continue;
             }
             if ($key == 'name_on_card_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findField($key);
                 }
             }
             if ($key == 'credit_card_type_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'credit_card_number_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown('credit_card_type_saved');
                 }
             }
             if ($key == 'expiration_date_month_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'expiration_date_year_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'cvv_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findField($key);
                 }
@@ -370,7 +376,6 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
                 $this->assertTrue($this->errorMessage('card_type_doesnt_match'), $this->messages);
                 break;
             case 'expiration_date_month_saved':
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $this->assertTrue($this->errorMessage('error_invalid_exp_date'), $this->messages);
                 break;
             case 'expiration_date_year_saved':
@@ -424,10 +429,10 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
     public function testOrderWithEmptyFieldsForCreditCardDiscover($emptyDiscoverField, $productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_discover_1', $emptyDiscoverField);
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData, true);
-        $this->clickButton('submit_order', FALSE);
+        $orderId = $this->orderHelper()->createOrder($orderData, TRUE);
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_payment_method');
         foreach ($emptyDiscoverField as $key => $value) {
@@ -435,37 +440,37 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
                 continue;
             }
             if ($key == 'name_on_card_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findField($key);
                 }
             }
             if ($key == 'credit_card_type_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'credit_card_number_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown('credit_card_type_saved');
                 }
             }
             if ($key == 'expiration_date_month_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'expiration_date_year_saved'){
-                if ($fieldSet->findDropdown($key) != Null)
+                if ($fieldSet->findDropdown($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findDropdown($key);
                 }
             }
             if ($key == 'cvv_saved'){
-                if ($fieldSet->findField($key) != Null)
+                if ($fieldSet->findField($key) != NULL)
                 {
                     $fieldXpath = $fieldSet->findField($key);
                 }
@@ -482,7 +487,6 @@ class NewCustomerCreditCardsEmptyFields_Test extends Mage_Selenium_TestCase
                 $this->assertTrue($this->errorMessage('card_type_doesnt_match'), $this->messages);
                 break;
             case 'expiration_date_month_saved':
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $this->assertTrue($this->errorMessage('error_invalid_exp_date'), $this->messages);
                 break;
             case 'expiration_date_year_saved':

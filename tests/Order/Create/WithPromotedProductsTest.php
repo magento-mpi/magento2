@@ -50,9 +50,13 @@ class Order_Create_WithPromotedProductsTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->addParameter('tabName', 'edit/section/payment/');
+        $this->clickControl('tab', 'sales_payment_methods');
+        $payment = $this->loadData('saved_cc_wo3d_enable');
+        $this->fillForm($payment, 'sales_payment_methods');
+        $this->saveForm('save_config');
     }
 
     /**
@@ -60,12 +64,14 @@ class Order_Create_WithPromotedProductsTest extends Mage_Selenium_TestCase
      */
     public function createProducts()
     {
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->addParameter('id', '0');
         $productData = $this->loadData('promoted_product_special_price_for_order',
                 null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         return $productData;
     }
 
@@ -94,10 +100,14 @@ class Order_Create_WithPromotedProductsTest extends Mage_Selenium_TestCase
     public function specialPrices($productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_for_promoted_products_special_price');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderData['products_to_reconfigure']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData, TRUE);
+        $orderData = $this->arrayEmptyClear($orderData);
+        $this->orderHelper()->navigateToCreateOrderPage();
+        $this->orderHelper()->addProductsToOrder($orderData['products_to_add']);
+        $this->orderHelper()->reconfigProduct($orderData['products_to_reconfigure']);
         $value = '$'.$productData['prices_special_price'];
         $this->addParameter('value', $value);
         $xpath = $this->_getControlXpath('field', 'price_value');
@@ -128,20 +138,16 @@ class Order_Create_WithPromotedProductsTest extends Mage_Selenium_TestCase
     public function minAllowedQtyInShoppingCart($productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_for_promoted_products_min_qty');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderData['products_to_reconfigure']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData, TRUE);
+        $orderData = $this->arrayEmptyClear($orderData);
+        $this->orderHelper()->navigateToCreateOrderPage();
+        $this->orderHelper()->addProductsToOrder($orderData['products_to_add']);
+        $this->orderHelper()->reconfigProduct($orderData['products_to_reconfigure']);
+        $value = '$'.$productData['prices_special_price'];
         $xpath = $this->_getControlXpath('message', 'invalid_qty_of_product');
         $this->assertTrue($this->isElementPresent($xpath), 'Warning message did not appear');
     }
-
-//    /**
-//     * @TODO
-//     * It makes sense only for frontend
-//     */
-//    public function qtyIncrement()
-//    {
-//
-//    }
 }

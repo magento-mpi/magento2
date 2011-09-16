@@ -47,21 +47,19 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
     protected function assertPreConditions()
-    {
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
-    }
+    {}
     /**
      * @test
      */
     public function createProducts()
     {
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->addParameter('id', '0');
         $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         return $productData;
     }
 
@@ -83,20 +81,15 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function shippingMethodsFlatRate($productData)
     {
         $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/carriers/');
         $this->clickControl('tab', 'sales_shipping_methods', TRUE);
         $shipment = $this->loadData('flat_rate');
         $this->fillForm($shipment, 'sales_shipping_methods');
         $this->saveForm('save_config');
         $this->navigate('manage_sales_orders');
-        $billingAddress = $this->orderHelper()->customerAddressGenerator(
-                ':alpha:', $addrType = 'billing', $symNum = 32, TRUE);
-        $shippingAddress = $this->orderHelper()->customerAddressGenerator(
-                ':alpha:', $addrType = 'shipping', $symNum = 32, TRUE);
-        $shippingAddress['shipping_same_as_billing_address'] = 'no';
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_req_1', array(
-                'billing_addr_data' => $billingAddress,
-                'shipping_addr_data' => $shippingAddress,
                 'customer_email' => $this->generate('email', 32, 'valid')));
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -128,25 +121,19 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function shippingMethodsFreeShipping($productData)
     {
         $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/carriers/');
         $this->clickControl('tab', 'sales_shipping_methods', TRUE);
         $shipment = $this->loadData('free_shipping');
         $this->fillForm($shipment, 'sales_shipping_methods');
         $this->saveForm('save_config');
         $this->navigate('manage_sales_orders');
-        $billingAddress = $this->orderHelper()->customerAddressGenerator(
-                ':alpha:', $addrType = 'billing', $symNum = 32, TRUE);
-        $shippingAddress = $this->orderHelper()->customerAddressGenerator(
-                ':alpha:', $addrType = 'shipping', $symNum = 32, TRUE);
-        $shippingAddress['shipping_same_as_billing_address'] = 'no';
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_ship_free', array(
-                'billing_addr_data' => $billingAddress,
-                'shipping_addr_data' => $shippingAddress,
                 'customer_email' => $this->generate('email', 32, 'valid')));
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice', TRUE);
         $this->clickButton('submit_invoice', TRUE);
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
@@ -173,14 +160,15 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function shippingMethodsUSPS($productData)
     {
         $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/carriers/');
         $this->clickControl('tab', 'sales_shipping_methods', TRUE);
         $shipment = $this->loadData('usps');
         $this->fillForm($shipment, 'sales_shipping_methods');
         $this->saveForm('save_config');
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_ship_usps', array(
-                'shipping_same_as_billing_address' => 'no',
                 'customer_email' => $this->generate('email', 32, 'valid')));
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -212,14 +200,15 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     public function shippingMethodsUPSXML($productData)
     {
         $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/carriers/');
         $this->clickControl('tab', 'sales_shipping_methods', TRUE);
         $shipment = $this->loadData('ups');
         $this->fillForm($shipment, 'sales_shipping_methods');
         $this->saveForm('save_config');
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_ship_ups', array(
-                'shipping_same_as_billing_address' => 'no',
                 'customer_email' => $this->generate('email', 32, 'valid')));
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -233,83 +222,85 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
     }
 
-//    /**
-//     * <p>Creating order with FedEx shipment method</p>
-//     * <p>Steps:</p>
-//     * <p>1. Navigate to "Manage Orders" page;</p>
-//     * <p>2. Create new order for new customer;</p>
-//     * <p>3. Select simple product and add it to the order;</p>
-//     * <p>4. Fill in all required information;</p>
-//     * <p>5. Choose FedEx shipping method;</p>
-//     * <p>6. Click "Submit Order" button;</p>
-//     * <p>Expected result:</p>
-//     * <p>Order is created;</p>
-//     *
-//     * @depends createProducts
-//     * @test
-//     */
-//    public function shippingMethodsFedEx($productData)
-//    {
-//        $this->navigate('system_configuration');
-//        $this->addParameter('tabName', 'edit/section/carriers/');
-//        $this->clickControl('tab', 'sales_shipping_methods', TRUE);
-//        $shipment = $this->loadData('fedex');
-//        $this->fillForm($shipment, 'sales_shipping_methods');
-//        $this->saveForm('save_config');
-//        //rework parameter
-//        $this->navigate('manage_sales_orders');
-//        $orderData = $this->loadData('order_ship_ups', array(
-//                'shipping_same_as_billing_address' => 'no',
-//                'customer_email' => $this->generate('email', 32, 'valid')));
-//        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-//        $orderId = $this->orderHelper()->createOrder($orderData);
-//        $this->addParameter('order_id', $orderId);
-//        $this->addParameter('id', $this->defineIdFromUrl());
-//        $this->clickButton('invoice', TRUE);
-//        $this->clickButton('submit_invoice', TRUE);
-//        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-//        $this->clickButton('ship', TRUE);
-//        $this->clickButton('submit_shipment', TRUE);
-//        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
-//    }
-//
-//    /**
-//     * <p>Creating order with DHL shipment method</p>
-//     * <p>Steps:</p>
-//     * <p>1. Navigate to "Manage Orders" page;</p>
-//     * <p>2. Create new order for new customer;</p>
-//     * <p>3. Select simple product and add it to the order;</p>
-//     * <p>4. Fill in all required information;</p>
-//     * <p>5. Choose DHL shipping method;</p>
-//     * <p>6. Click "Submit Order" button;</p>
-//     * <p>Expected result:</p>
-//     * <p>Order is created;</p>
-//     *
-//     * @depends createProducts
-//     * @test
-//     */
-//    public function shippingMethodsDHL($productData)
-//    {
-//        $this->navigate('system_configuration');
-//        $this->addParameter('tabName', 'edit/section/carriers/');
-//        $this->clickControl('tab', 'sales_shipping_methods', TRUE);
-//        $shipment = $this->loadData('dhl');
-//        $this->fillForm($shipment, 'sales_shipping_methods');
-//        $this->saveForm('save_config');
-//        //rework parameter
-//        $this->navigate('manage_sales_orders');
-//        $orderData = $this->loadData('order_ship_dhl', array(
-//                'shipping_same_as_billing_address' => 'no',
-//                'customer_email' => $this->generate('email', 32, 'valid')));
-//        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-//        $orderId = $this->orderHelper()->createOrder($orderData);
-//        $this->addParameter('order_id', $orderId);
-//        $this->addParameter('id', $this->defineIdFromUrl());
-//        $this->clickButton('invoice', TRUE);
-//        $this->clickButton('submit_invoice', TRUE);
-//        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-//        $this->clickButton('ship', TRUE);
-//        $this->clickButton('submit_shipment', TRUE);
-//        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
-//    }
+    /**
+     * <p>Creating order with DHL shipment method</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Select simple product and add it to the order;</p>
+     * <p>4. Fill in all required information;</p>
+     * <p>5. Choose DHL shipping method;</p>
+     * <p>6. Click "Submit Order" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created;</p>
+     *
+     * @depends createProducts
+     * @test
+     */
+    public function shippingMethodsDHL($productData)
+    {
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->addParameter('tabName', 'edit/section/carriers/');
+        $this->clickControl('tab', 'sales_shipping_methods', TRUE);
+        $shipment = $this->loadData('dhl');
+        $this->fillForm($shipment, 'sales_shipping_methods');
+        $this->saveForm('save_config');
+        $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
+        $orderData = $this->loadData('order_ship_dhl', array(
+                'billing_zip_code' => '85258',
+                'shipping_zip_code' => '85258',
+                'customer_email' => $this->generate('email', 32, 'valid')));
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->addParameter('order_id', $orderId);
+        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->clickButton('invoice', TRUE);
+        $this->clickButton('submit_invoice', TRUE);
+        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
+        $this->clickButton('ship', TRUE);
+        $this->clickButton('submit_shipment', TRUE);
+        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
+    }
+
+    /**
+     * <p>Creating order with FedEx shipment method</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Select simple product and add it to the order;</p>
+     * <p>4. Fill in all required information;</p>
+     * <p>5. Choose FedEx shipping method;</p>
+     * <p>6. Click "Submit Order" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created;</p>
+     *
+     * @depends createProducts
+     * @test
+     */
+    public function shippingMethodsFedEx($productData)
+    {
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->addParameter('tabName', 'edit/section/carriers/');
+        $this->clickControl('tab', 'sales_shipping_methods', TRUE);
+        $shipment = $this->loadData('fedex');
+        $this->fillForm($shipment, 'sales_shipping_methods');
+        $this->saveForm('save_config');
+        $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
+        $orderData = $this->loadData('order_ship_ups', array(
+                'customer_email' => $this->generate('email', 32, 'valid')));
+        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
+        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->addParameter('order_id', $orderId);
+        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->clickButton('invoice', TRUE);
+        $this->clickButton('submit_invoice', TRUE);
+        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
+        $this->clickButton('ship', TRUE);
+        $this->clickButton('submit_shipment', TRUE);
+        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
+    }
 }

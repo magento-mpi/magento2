@@ -41,18 +41,26 @@ class NewCustomerComplete_Test extends Mage_Selenium_TestCase
    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
-        $this->addParameter('id', '0');
     }
     protected function assertPreConditions()
-    {}
+    {
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->addParameter('tabName', 'edit/section/payment/');
+        $this->clickControl('tab', 'sales_payment_methods');
+        $payment = $this->loadData('saved_cc_wo3d_enable');
+        $this->fillForm($payment, 'sales_payment_methods');
+        $this->saveForm('save_config');
+    }
     /**
      * @test
      */
     public function createProducts()
     {
-        $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->addParameter('id', '0');
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'),
@@ -86,11 +94,14 @@ class NewCustomerComplete_Test extends Mage_Selenium_TestCase
     public function orderCompleteSpecialCharacters($productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $billingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':punct:', $addrType = 'billing', $symNum = 32, TRUE);
         $shippingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':punct:', $addrType = 'shipping', $symNum = 32, TRUE);
         $shippingAddress['shipping_same_as_billing_address'] = 'no';
+        $shippingAddress['shipping_state'] = 'California';
+        $billingAddress['billing_state'] = 'California';
         $orderData = $this->loadData('order_req_1', array(
                 'billing_addr_data' => $billingAddress,
                 'shipping_addr_data' => $shippingAddress,
@@ -98,12 +109,11 @@ class NewCustomerComplete_Test extends Mage_Selenium_TestCase
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
-        $this->clickButton('submit_invoice', TRUE);
+        $this->clickButton('invoice');
+        $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->clickButton('ship', TRUE);
-        $this->clickButton('submit_shipment', TRUE);
+        $this->clickButton('ship');
+        $this->clickButton('submit_shipment');
         $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
     }
     /**
@@ -131,11 +141,14 @@ class NewCustomerComplete_Test extends Mage_Selenium_TestCase
     public function orderCompleteAllFields($productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $billingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':alpha:', $addrType = 'billing', $symNum = 32, FALSE);
         $shippingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':alpha:', $addrType = 'shipping', $symNum = 32, FALSE);
         $shippingAddress['shipping_same_as_billing_address'] = 'no';
+        $shippingAddress['shipping_state'] = 'California';
+        $billingAddress['billing_state'] = 'California';
         $orderData = $this->loadData('order_req_1', array(
                 'billing_addr_data' => $billingAddress,
                 'shipping_addr_data' => $shippingAddress,
@@ -143,12 +156,11 @@ class NewCustomerComplete_Test extends Mage_Selenium_TestCase
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
-        $this->clickButton('submit_invoice', TRUE);
+        $this->clickButton('invoice');
+        $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->clickButton('ship', TRUE);
-        $this->clickButton('submit_shipment', TRUE);
+        $this->clickButton('ship');
+        $this->clickButton('submit_shipment');
         $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
     }
     /**
@@ -176,11 +188,14 @@ class NewCustomerComplete_Test extends Mage_Selenium_TestCase
     public function orderCompleteReqFields($productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $billingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':alpha:', $addrType = 'billing', $symNum = 32, TRUE);
         $shippingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':alpha:', $addrType = 'shipping', $symNum = 32, TRUE);
         $shippingAddress['shipping_same_as_billing_address'] = 'no';
+        $shippingAddress['shipping_state'] = 'California';
+        $billingAddress['billing_state'] = 'California';
         $orderData = $this->loadData('order_req_1', array(
                 'billing_addr_data' => $billingAddress,
                 'shipping_addr_data' => $shippingAddress,
@@ -188,12 +203,11 @@ class NewCustomerComplete_Test extends Mage_Selenium_TestCase
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice', TRUE);
-        $this->clickButton('submit_invoice', TRUE);
+        $this->clickButton('invoice');
+        $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->clickButton('ship', TRUE);
-        $this->clickButton('submit_shipment', TRUE);
+        $this->clickButton('ship');
+        $this->clickButton('submit_shipment');
         $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
     }
 }

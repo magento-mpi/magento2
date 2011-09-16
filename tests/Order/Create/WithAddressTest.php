@@ -27,7 +27,7 @@
  */
 
 /**
- * @TODO
+ * Test with variations of address
  *
  * @package     selenium
  * @subpackage  tests
@@ -47,6 +47,13 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->addParameter('id', '0');
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->addParameter('tabName', 'edit/section/payment/');
+        $this->clickControl('tab', 'sales_payment_methods');
+        $payment = $this->loadData('saved_cc_wo3d_enable');
+        $this->fillForm($payment, 'sales_payment_methods');
+        $this->saveForm('save_config');
     }
 
     /**
@@ -63,14 +70,13 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
         $userData = $this->loadData('new_customer', NULL, 'email');
         $addressData = $this->loadData('new_customer_address');
         $this->navigate('manage_customers');
-        $this->assertTrue($this->checkCurrentPage('manage_customers'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         $searchData = array ('email' => $userData['email']);
         if ($this->search($searchData) == false){
             $this->CustomerHelper()->createCustomer($userData, $addressData);
             $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         }
-        $this->assertTrue($this->checkCurrentPage('manage_customers'),
-                'After successful customer creation should be redirected to Manage Customers page');
+        $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         $data = array_merge($userData, $addressData);
         return $data;
     }
@@ -80,12 +86,11 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function createProducts()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         return $productData;
     }
     /**
@@ -106,6 +111,7 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function existingCustomerBillingEqualsShipping($data, $productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_req_1');
         $orderData['shipping_addr_data']['shipping_same_as_billing_address'] = 'yes';
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
@@ -130,9 +136,10 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
      */
     public function existingCustomerBillingDiffersFromShipping($data, $productData)
     {
+        $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $shippingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':alnum:', $addrType = 'shipping', $symNum = 32, TRUE);
-        $this->navigate('manage_sales_orders');
         $orderData = $this->loadData('order_req_1');
         $orderData['shipping_addr_data']['shipping_same_as_billing_address'] = 'no';
         $orderData['shipping_addr_data']+$shippingAddress;
@@ -158,15 +165,18 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function newCustomerBillingEqualsShippingWithoutSave($productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $billingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':alnum:', $addrType = 'billing', $symNum = 32, TRUE);
         $billingAddress['billing_save_in_address_book'] = 'no';
+        $billingAddress['billing_state'] = 'California';
         $shippingAddress = array(
                 'shipping_address_choice'       => $billingAddress['billing_address_choice'],
                 'shipping_first_name'           => $billingAddress['billing_first_name'],
                 'shipping_last_name'            => $billingAddress['billing_last_name'],
                 'shipping_street_address_1'     => $billingAddress['billing_street_address_1'],
                 'shipping_city'                 => $billingAddress['billing_city'],
+                'shipping_state'                => $billingAddress['billing_state'],
                 'shipping_zip_code'             => $billingAddress['billing_zip_code'],
                 'shipping_telephone'            => $billingAddress['billing_telephone'],
                 'shipping_save_in_address_book' => 'no');
@@ -196,11 +206,14 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function newCustomerBillingDiffersFromShippingWithoutSave($productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $billingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':alnum:', $addrType = 'billing', $symNum = 32, TRUE);
         $billingAddress['billing_save_in_address_book'] = 'no';
+        $billingAddress['billing_state'] = 'California';
         $shippingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':alnum:', $addrType = 'shipping', $symNum = 32, TRUE);
+        $shippingAddress['shipping_state'] = 'California';
         $shippingAddress['shipping_save_in_address_book'] = 'no';
         $shippingAddress['shipping_same_as_billing_address'] = 'no';
         $orderData = $this->loadData('order_req_1');
@@ -228,15 +241,18 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function newCustomerBillingEqualsShippingWithSave($productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $billingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':alnum:', $addrType = 'billing', $symNum = 32, TRUE);
         $billingAddress['billing_save_in_address_book'] = 'yes';
+        $billingAddress['billing_state'] = 'California';
         $shippingAddress = array(
                 'shipping_address_choice'       => $billingAddress['billing_address_choice'],
                 'shipping_first_name'           => $billingAddress['billing_first_name'],
                 'shipping_last_name'            => $billingAddress['billing_last_name'],
                 'shipping_street_address_1'     => $billingAddress['billing_street_address_1'],
                 'shipping_city'                 => $billingAddress['billing_city'],
+                'shipping_state'                => $billingAddress['billing_state'],
                 'shipping_zip_code'             => $billingAddress['billing_zip_code'],
                 'shipping_telephone'            => $billingAddress['billing_telephone'],
                 'shipping_save_in_address_book' => 'yes',
@@ -266,11 +282,14 @@ class Order_Create_WithAddressTest extends Mage_Selenium_TestCase
     public function newCustomerBillingDiffersFromShippingWithSave($productData)
     {
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $billingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':alnum:', $addrType = 'billing', $symNum = 32, TRUE);
+        $billingAddress['billing_state'] = 'California';
         $billingAddress['billing_save_in_address_book'] = 'yes';
         $shippingAddress = $this->orderHelper()->customerAddressGenerator(
                 ':alnum:', $addrType = 'shipping', $symNum = 32, TRUE);
+        $shippingAddress['shipping_state'] = 'California';
         $shippingAddress['shipping_save_in_address_book'] = 'yes';
         $shippingAddress['shipping_same_as_billing_address'] = 'no';
         $orderData = $this->loadData('order_req_1');

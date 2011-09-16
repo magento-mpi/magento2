@@ -47,7 +47,7 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment/');
         $this->clickControl('tab', 'sales_payment_methods');
         $payment = $this->loadData('saved_cc_wo3d_enable');
@@ -60,13 +60,12 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
     public function createProducts()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
         $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         return $productData;
     }
 
@@ -99,6 +98,7 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
         $orderData = $this->loadData('order_req_1', array('filter_sku' => $productData['general_sku']));
         $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
@@ -140,6 +140,7 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
         $orderData = $this->loadData('order_req_partial_shipment', array('filter_sku' => $productData['general_sku']));
         $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
         $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderId = $this->orderHelper()->createOrder($orderData);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
