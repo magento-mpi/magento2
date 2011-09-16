@@ -692,7 +692,8 @@ dynamic_bundle_required:
     general_weight_type: Dynamic
     general_status: Enabled
     general_visibility: Catalog, Search
-    bundle_items_data: %noValue%
+    bundle_items_data:
+        item_1: %noValue%
 
 fixed_bundle_required: &bundle
     product_attribute_set: Default
@@ -708,7 +709,8 @@ fixed_bundle_required: &bundle
     prices_price_type: Fixed
     prices_price: 12.55
     prices_tax_class: None
-    bundle_items_data: %noValue%
+    bundle_items_data:
+        item_1: %noValue%
 
 bundle_product_required: *bundle
 

@@ -833,7 +833,7 @@ class Product_Helper extends Mage_Selenium_TestCase
                 $this->addParameter('optionId', $i);
                 $this->verifyForm($values, 'bundle_items');
                 foreach ($values as $k => $v) {
-                    if (preg_match('/^bundle_items_add_product/', $k) && is_array($v)) {
+                    if (preg_match('/^add_product_/', $k) && is_array($v)) {
                         $selectionSettings = array();
                         foreach ($v as $field => $data) {
                             if ($field == 'bundle_items_search_name' or $field == 'bundle_items_search_sku') {

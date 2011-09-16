@@ -62,7 +62,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
      */
     public function openAttribute($searchData)
     {
-        $this->assertTrue($this->searchAndOpen($searchData), 'Attribute is not found');
+        $this->assertTrue($this->searchAndOpen($searchData, true, 'attributes_grid'), 'Attribute is not found');
     }
 
     /**

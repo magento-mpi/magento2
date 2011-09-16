@@ -526,7 +526,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required', null, array('general_name', 'general_sku'));
-        $productData['bundle_items_data'][] = $this->loadData('bundle_items_1',
+        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
                 array('bundle_items_default_title' => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
@@ -557,7 +557,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('dynamic_bundle_required', null, array('general_name', 'general_sku'));
-        $productData['bundle_items_data'][] = $this->loadData('bundle_items_1',
+        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
                 array('bundle_items_position' => $invalidPosition));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
@@ -591,7 +591,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         //Data
         $simpleData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
         $bundleData = $this->loadData($dataBundleType, null, array('general_name', 'general_sku'));
-        $bundleData['bundle_items_data']['bundle_items_1'] = $this->loadData('bundle_items_1',
+        $bundleData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
                 array('bundle_items_sku' => $simpleData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($simpleData);
@@ -633,7 +633,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         //Data
         $virtualData = $this->loadData('virtual_product_required', null, array('general_name', 'general_sku'));
         $bundleData = $this->loadData($dataBundleType, null, array('general_name', 'general_sku'));
-        $bundleData['bundle_items_data']['bundle_items_1'] = $this->loadData('bundle_items_2',
+        $bundleData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_2',
                 array('bundle_items_sku' => $virtualData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($virtualData, 'virtual');
