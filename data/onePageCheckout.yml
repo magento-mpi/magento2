@@ -1,0 +1,123 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#Test data for One Page Checkout(Frontend)
+
+#*********************************************
+#*         Billing information               *
+#*********************************************
+billing_information_data: &billing_information
+    billing_first_name: %noValue%
+    billing_last_name: %noValue%
+    billing_company: %noValue%
+    billing_email: %noValue%
+    billing_street_address_1: %noValue%
+    billing_street_address_2: %noValue%
+    billing_city: %noValue%
+    billing_region: %noValue%
+    billing_zip_code: %noValue%
+    billing_telephone: %noValue%
+    billing_fax: %noValue%
+    password: %noValue%
+    confirm_password: %noValue%
+
+
+#*********************************************
+#*         Shipping information              *
+#*********************************************
+shipping_information_data: &shipping_information
+    shipping_first_name: %noValue%
+    shipping_last_name: %noValue%
+    shipping_company: %noValue%
+    shipping_street_address_1: %noValue%
+    shipping_street_address_2: %noValue%
+    shipping_city: %noValue%
+    shipping_region: %noValue%
+    shipping_zip_code: %noValue%
+    shipping_telephone: %noValue%
+    shipping_fax: %noValue%
+    shipping_same_as_billing: %noValue%
+
+#*********************************************
+#*         Gift options data                 *
+#*********************************************
+gift_options_data: &gift_options
+    gift_option_for_the entire_order: %noValue%
+    gift_option_for_individual_items: %noValue%
+    gift_option_entire_order_from: %noValue%
+    gift_option_entire_order_to: %noValue%
+    gift_option_entire_order_message: %noValue%
+    gift_option_for_individual_items_from: %noValue%
+    gift_option_for_individual_items_to: %noValue%
+    gift_option_for_individual_items_message: %noValue%
+
+
+#*********************************************
+#*         Credit Card information           *
+#*********************************************
+credit_card_data: &credit_card_info
+    name_on_card: %noValue%
+    credit_card_type: %noValue%
+    credit_card_number: %noValue%
+    expiration_date_month: %noValue%
+    expiration_date_year: %noValue%
+    cvv: %noValue%
+
+checkout_data_required:
+# checkout method
+    checkout_as_guest: %noValue%
+    register: %noValue%
+# Billing information
+    billing_information: *billing_information
+    billing_same_as_shipping: %noValue%
+    billing_differs_from_shipping: %noValue%
+# Shipping information
+    shipping_information_data: *shipping_information
+    shipping_same_as_billing: %noValue%
+# Shipping method
+    ship_method: %noValue%
+    add_gift_options: %noValue%
+# Payment Information
+    pay_method: Check / Money order
+
+checkout_data_credit_card:
+# checkout method
+    checkout_as_guest: %noValue%
+    register: %noValue%
+# Billing information
+    billing_same_as_shipping: %noValue%
+    billing_differs_from_shipping: %noValue%
+    billing_information: *billing_information
+# Shipping information
+    shipping_same_as_billing: %noValue%
+    shipping_information_data: *shipping_information
+# Shipping method
+    ship_method: %noValue%
+    add_gift_options: *gift_options
+# Payment Information
+    pay_method: Credit Card (saved)
+    credit_card_data: *credit_card_info

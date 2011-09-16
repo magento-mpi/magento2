@@ -48,7 +48,7 @@ onepage_checkout:
                             register: //input[@id='login:register']
                         links:
                             forgot_password: //a[text()='Forgot your password?']
-                -    
+                -
                     billing_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-billing']
                         buttons:
@@ -108,10 +108,19 @@ onepage_checkout:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping_method']
                         buttons:
                             continue: //button[span='Continue']
+                        checkboxes:
+                            add_gift_options: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options.']]
+                            gift_option_for_the entire_order: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]
+                            gift_option_for_individual_items: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]
                         radiobuttons:
                             ship_method: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
-                        checkboxes:
-                            add_gift_options: //input[@id='allow_gift_messages']
+                        fields:
+                            gift_option_entire_order_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for whole order.')]//input[@title='From']
+                            gift_option_entire_order_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for whole order.')]//input[@title='To']
+                            gift_option_entire_order_message: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for whole order.')]//input[@title='Message']
+                            gift_option_for_individual_items_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//input[@title='From']
+                            gift_option_for_individual_items_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//input[@title='Message']
+                            gift_option_for_individual_items_message: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//textarea[@title='Message']
                         links:
                             back: //p[@class='back-link']/a[@href]
                 -
