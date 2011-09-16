@@ -69,6 +69,18 @@ class Enterprise_AdminGws_Model_Role extends Varien_Object
     protected $_exclusiveAccessToCategory = array();
 
     /**
+     * Initialize admin role
+     *
+     * @return void
+     */
+    public function _construct()
+    {
+        /* @var $adminUser Mage_Admin_Model_User */
+        $adminUser = Mage::getSingleton('admin/session')->getUser();
+        $this->setAdminRole($adminUser->getRole());
+    }
+
+    /**
      * Set ACL role and determine its limitations
      *
      * @param Mage_Admin_Model_Roles $role
@@ -158,6 +170,7 @@ class Enterprise_AdminGws_Model_Role extends Varien_Object
      * Set allowed store ids for the core admin role object in session.
      * If role model is not defined yeat do nothing.
      *
+     * @param mixed $value
      * @return array
      */
     public function setStoreIds($value)
@@ -188,6 +201,7 @@ class Enterprise_AdminGws_Model_Role extends Varien_Object
      * Set allowed store group ids for the core admin role object in session.
      * If role model is not defined yeat do nothing.
      *
+     * @param mixed $value
      * @return array
      */
     public function setStoreGroupIds($value)
