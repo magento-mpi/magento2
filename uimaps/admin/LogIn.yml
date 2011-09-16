@@ -44,7 +44,7 @@ log_in_to_admin:
         messages:
             empty_user_name: "//input[@id='username']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             empty_password: "//input[@id='login']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            wrong_credentials: //li[normalize-space(@class)='error-msg' and contains(.//span,'Invalid Username or Password.')]
+            wrong_credentials: //li[normalize-space(@class)='error-msg' and contains(.//span,'Invalid User Name or Password.')]
             access_denied: //li[normalize-space(@class)='error-msg' and contains(.//span,'Access denied.')]
             inactive_account: //li[normalize-space(@class)='error-msg' and contains(.//span,'This account is inactive.')]
             account_locked: //li[normalize-space(@class)='error-msg' and contains(.//span,'This account is locked.')]
