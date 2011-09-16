@@ -257,12 +257,12 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array $productData Product in array to add to order. Function should be called for each product to add
      */
-    public function addProductsToOrder(array $productData) #TODO make possibility to search not only by SKU
+    public function addProductsToOrder(array $productData)
     {
         $this->clickButton('add_products', FALSE);
         $configurable = FALSE;
         foreach ($productData as $product => $data) {
-            $xpathProduct = $this->search($productData[$product]);
+            $xpathProduct = $this->search($data);
             $this->assertNotEquals(NULL, $xpathProduct);
             if (!($this->isElementPresent($xpathProduct . "//a[text()='Configure'][@disabled]"))) {
                 $configurable = TRUE;
@@ -289,7 +289,7 @@ class Order_Helper extends Mage_Selenium_TestCase
     {
         foreach ($productData['configurable_options'] as $option => $value) {
             if (is_array($value)){
-                foreach ($value as $clue => $dataset) {#TODO check is value is array
+                foreach ($value as $clue => $dataset) {
                     if (preg_match('/value/', $clue)) {
                         $this->addParameter($option, $dataset);
                     } else {
@@ -313,21 +313,22 @@ class Order_Helper extends Mage_Selenium_TestCase
         if (!is_array($paymentMethod) && !is_string($paymentMethod)) {
             throw new Exception('Incorrect type of $paymentMethod.');
         }
-        $this->pleaseWait(); #TODO check if it is needed
+        $this->pleaseWait();
         $this->clickControl('radiobutton', $paymentMethod['payment_method'], FALSE);
         $this->pleaseWait();
-        $this->waitForAjax(); #TODO check if it is needed
+        $this->waitForAjax();
         if (array_key_exists('payment_info', $paymentMethod)) {
             $this->fillForm($paymentMethod['payment_info'], 'order_payment_method');
         }
         if (array_key_exists('3d_secure_validation_code', $paymentMethod)) {
             $this->clickButton('start_reset_validation', FALSE);
-            $this->pleaseWait(30,30);
-            $this->pleaseWait();
+            $this->waitForAjax();
             $xpath = $this->_getControlXpath('button', '3d_password');
+            $this->waitForElement($xpath);
             $this->type($xpath, $paymentMethod['3d_secure_validation_code']);
+            $xpath = $this->_getControlXpath('button', '3d_submit');
             $this->clickButton('3d_submit', FALSE);
-            $this->pleaseWait();
+            $this->waitForElementNotPresent($xpath);
             $this->pleaseWait();
         }
     }
@@ -388,8 +389,8 @@ class Order_Helper extends Mage_Selenium_TestCase
         foreach($reconfigProduct as $product => $options) {
             if (array_key_exists('filter_sku', $options)) {
                 $this->addParameter('sku', $options['filter_sku']);
-                if (array_key_exists('configurable_options', $options)) {
-                    $this->fillForm($options['configurable_options']);
+                if (array_key_exists('reconfigurable_options', $options)) {
+                    $this->fillForm($options['reconfigurable_options']);
                 }
             }
         }
@@ -430,7 +431,7 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->fillForm(array('coupon_code' => $data['coupon_code']));
             $this->clickButton('apply', FALSE);
             $this->pleaseWait();
-            if (strtolower($data['success']) == 'true') {
+            if ((strtolower($data['success']) == 'true') || (strtolower($data['success']) == '1')) {
                 if ($this->successMessage('success_applying_coupon')) {
                     return TRUE;
                 } else {
