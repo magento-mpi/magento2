@@ -69,18 +69,6 @@ class Enterprise_AdminGws_Model_Role extends Varien_Object
     protected $_exclusiveAccessToCategory = array();
 
     /**
-     * Initialize admin role
-     *
-     * @return void
-     */
-    public function _construct()
-    {
-        /* @var $adminUser Mage_Admin_Model_User */
-        $adminUser = Mage::getSingleton('admin/session')->getUser();
-        $this->setAdminRole($adminUser->getRole());
-    }
-
-    /**
      * Set ACL role and determine its limitations
      *
      * @param Mage_Admin_Model_Roles $role
