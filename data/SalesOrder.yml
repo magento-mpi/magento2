@@ -25,72 +25,79 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
+#*********************************************
+#*      Order address Data                   *
+#*********************************************
 
+#<------------Billing Address Required------------>
 new_customer_order_billing_address_reqfields: &billingReqFields
     billing_address_choice: Add New Address
-    billing_first_name: 'Steven_testdataset req'
-    billing_last_name: 'Stevenson_testdataset req'
-    billing_street_address_1: 'number 11 testdataset req'
+    billing_first_name: 'billing_Steven'
+    billing_last_name: 'billing_Stevenson'
+    billing_street_address_1: 'billing street address'
     billing_city: 'Palo Alto'
     billing_country: 'United States'
     billing_state: California
     billing_zip_code: '94306'
-    billing_telephone: '091019019 testdataset req'
-    acc_email: %noValue%
-    customer_group: 'General'
+    billing_telephone: '091019019 billing'
     billing_save_in_address_book: yes
 
+#<------------Shipping Address Required------------>
 new_customer_order_shipping_address_reqfields: &shippingReqFields
     shipping_same_as_billing_address: no
     shipping_address_choice: Add New Address
-    shipping_first_name: 'Steven_testdataset req'
-    shipping_last_name: 'Stevenson_testdataset req'
-    shipping_street_address_1: 'number 11 testdataset req'
+    shipping_first_name: 'shipping_Steven'
+    shipping_last_name: 'shipping_Stevenson'
+    shipping_street_address_1: 'shipping street address'
     shipping_city: 'Palo Alto'
     shipping_country: 'United States'
     shipping_state: California
     shipping_zip_code: '94306'
-    shipping_telephone: '091019019 testdataset req'
+    shipping_telephone: '091019019 shipping'
     shipping_save_in_address_book: yes
 
+#<------------Billing Address ALL------------>
 new_customer_order_billing_address_allfields: &billingAllFields
     billing_address_choice: Add New Address
-    billing_prefix: 'Mr testdataset all'
-    billing_first_name: 'Steven testdataset all'
-    billing_middle_name: 'Y testdataset all'
-    billing_last_name: 'Stevenson testdataset all'
-    billing_suffix: 'Jr testdataset all'
-    billing_company: 'home testdataset all'
-    billing_street_address_1: 'number 11 testdataset all'
-    billing_street_address_2: 'nothing testdataset all'
+    billing_prefix: 'Mr(billing)'
+    billing_first_name: 'Steven(billing)'
+    billing_middle_name: 'Y(billing)'
+    billing_last_name: 'Stevenson(billing)'
+    billing_suffix: 'Jr(billing)'
+    billing_company: 'home(billing)'
+    billing_street_address_1: 'street_address_1(billing)'
+    billing_street_address_2: 'street_address_2(billing)'
     billing_city: 'Palo Alto'
     billing_country: 'United States'
     billing_state: California
     billing_zip_code: '94306'
-    billing_telephone: '091019019 testdataset all'
-    billing_fax: '0919327869 testdataset all'
-    acc_email: %noValue%
-    customer_group: 'General'
+    billing_telephone: '091019019(billing)'
+    billing_fax: '0919327869(billing)'
     billing_save_in_address_book: yes
 
+#<------------Shipping Address ALL------------>
 new_customer_order_shipping_address_allfields: &shippingAllFields
     shipping_same_as_billing_address: no
     shipping_address_choice: Add New Address
-    shipping_prefix: 'Mr testdataset all'
-    shipping_first_name: 'Steven testdataset all'
-    shipping_middle_name: 'Y testdataset all'
-    shipping_last_name: 'Stevenson testdataset all'
-    shipping_suffix: 'Jr testdataset all'
-    shipping_company: 'home testdataset all'
-    shipping_street_address_1: 'number 11 testdataset all'
-    shipping_street_address_2: 'nothing testdataset all'
+    shipping_prefix: 'Mr(shipping)'
+    shipping_first_name: 'Steven(shipping)'
+    shipping_middle_name: 'Y(shipping)'
+    shipping_last_name: 'Stevenson(shipping)'
+    shipping_suffix: 'Jr(shipping)'
+    shipping_company: 'home(shipping)'
+    shipping_street_address_1: 'street_address_1(shipping)'
+    shipping_street_address_2: 'street_address_2(shipping)'
     shipping_city: 'Palo Alto'
     shipping_country: 'United States'
     shipping_state: California
     shipping_zip_code: '94306'
-    shipping_telephone: '091019019 testdataset all'
-    shipping_fax: '0919327869 testdataset all'
+    shipping_telephone: '091019019(shipping)'
+    shipping_fax: '0919327869(shipping)'
     shipping_save_in_address_book: yes
+
+#*********************************************
+#*      Order customer Data                  *
+#*********************************************
 
 new_customer:
     associate_to_website: Main Website
@@ -100,15 +107,14 @@ new_customer:
     middle_name: %noValue%
     last_name: 'Stevenson'
     suffix: 'Jr'
-    email: 'test_purpose@gmail.com'
+    email: 'test_purpose@example.com'
     date_of_birth: 01/01/1976
     tax_vat_number: '123123'
     gender: 'Male'
     send_welcome_email: No
     send_from: %noValue%
-    password: 123qaz456XSW
+    password: 123123q
     auto_generated_password: No
-
 
 new_customer_address:
     prefix: 'Mr'
@@ -129,6 +135,221 @@ new_customer_address:
     default_billing_address: %noValue%
     default_shipping_address: %noValue%
 
+#*********************************************
+#*      Products Data                        *
+#*********************************************
+
+#<------------SIMPLE------------>
+simple_product_for_order:
+    product_attribute_set: Default
+    general_name: Simple Product For Order
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_order
+    general_weight: 2.56
+    general_status: Enabled
+    prices_price: 4.95
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    custom_options_data: %noValue%
+
+#<------------VIRTUAL------------>
+virtual_product_for_order:
+    product_attribute_set: Default
+    general_name: Virtual Product For Oreder
+    general_description: Description for Virtual Product
+    general_short_description: Short Description for Virtual Product
+    general_sku: virtual_sku_order
+    general_status: Enabled
+    prices_price: 14.95
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    custom_options_data: %noValue%
+
+#<------------DOWNLOADABLE------------>
+downloadable_links: &linksDownloadable
+    downloadable_link_row_title: Link Row Title
+    downloadable_link_row_price: 12
+    downloadable_link_row_unlimited_downloads: No
+    downloadable_link_max_downloads: 100
+    downloadable_link_shareable: No
+    downloadable_link_row_sample_url_radiobutton: Yes
+    downloadable_link_row_sample_url: www.sample.com
+    downloadable_link_row_url_radiobutton: Yes
+    downloadable_link_row_file_url: www.file.com
+    downloadable_link_row_sort_order: 1
+
+downloadable_information_data: &downloadableData
+    downloadable_links_purchased_separately: Yes
+    downloadable_link_1: *linksDownloadable
+
+downloadable_product_for_order:
+    product_attribute_set: Default
+    general_name: Downloadable Product For Order
+    general_description: Description for Downloadable Product
+    general_short_description: Short Description for Downloadable Product
+    general_sku: downloadable_sku_order
+    general_status: Enabled
+    prices_price: 14.95
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    custom_options_data: %noValue%
+    downloadable_information_data: *downloadableData
+
+#<------------GROUPED------------>
+associated_grouped: &groupedAssociatedProduct1
+    associated_search_id: %noValue%
+    associated_search_name: %noValue%
+    associated_search_sku: %noValue%
+    associated_search_price_from: %noValue%
+    associated_search_price_to: %noValue%
+    associated_search_default_qty_from: %noValue%
+    associated_search_default_qty_to: %noValue%
+    associated_search_position_from: %noValue%
+    associated_search_position_to: %noValue%
+    associated_product_position: %noValue%
+    associated_product_default_qty: %noValue%
+
+associated_grouped_data: &associatedProductsGroupedData
+    associated_grouped_1: *groupedAssociatedProduct1
+    associated_grouped_2: %noValue%
+    associated_grouped_3: %noValue%
+
+grouped_product_for_order:
+    product_attribute_set: Default
+    general_name: Grouped Product  For Order
+    general_description: Description for Grouped Product
+    general_short_description: Short Description for Grouped Product
+    general_sku: grouped_sku_order
+    general_status: Enabled
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    associated_grouped_data: *associatedProductsGroupedData
+
+#<------------BUNDLE------------>
+bundle_item_1: &itemMultipleSelect
+    bundle_items_default_title: Multiple Select
+    bundle_items_input_type: Multiple Select
+    bundle_items_is_required: Yes
+    bundle_items_position: 1
+    add_product_1: &bundleProduct
+        bundle_items_search_id: %noValue%
+        bundle_items_search_name: %noValue%
+        bundle_items_search_attribute_set: %noValue%
+        bundle_items_search_sku: %noValue%
+        bundle_items_search_price_from: %noValue%
+        bundle_items_search_price_to: %noValue%
+        bundle_items_qty_to_add: %noValue%
+        selection_item_price: %noValue%
+        selection_item_price_type: %noValue%
+        selection_item_default_qty: %noValue%
+        selection_item_position: %noValue%
+        selection_item_default: %noValue%
+    add_product_2: %noValue%
+
+bundle_item_2: &itemDropdown
+    bundle_items_default_title: Drop-down
+    bundle_items_input_type: Drop-down
+    bundle_items_is_required: No
+    bundle_items_position: 2
+    add_product_1: *bundleProduct
+    add_product_2: %noValue%
+
+bundle_item_3: &itemRadioButtons
+    bundle_items_default_title: Radio Buttons
+    bundle_items_input_type: Radio Buttons
+    bundle_items_is_required: Yes
+    bundle_items_position: 3
+    add_product_1: *bundleProduct
+    add_product_2: %noValue%
+
+bundle_item_4: &itemCheckbox
+    bundle_items_default_title: Checkbox
+    bundle_items_input_type: Checkbox
+    bundle_items_is_required: Yes
+    bundle_items_position: 4
+    add_product_1: *bundleProduct
+    add_product_2: %noValue%
+
+bundle_items_data: &bundleData
+    ship_bundle_items: Separately
+    item_1: *itemMultipleSelect
+    item_2: *itemDropdown
+    item_3: *itemRadioButtons
+    item_4: *itemCheckbox
+
+fixed_bundle_for_order:
+    product_attribute_set: Default
+    general_name: Bundle(Fixed) Product For Order
+    general_description: Description for Bundle(Fixed) Product
+    general_short_description: Short Description for Bundle(Fixed) Product Product
+    general_sku_type: Fixed
+    general_sku: bundle_fixed_sku_order
+    general_weight_type: Fixed
+    general_weight: 0.999
+    general_status: Enabled
+    prices_price_type: Fixed
+    prices_price: 12.55
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    bundle_items_data: *bundleData
+
+#<------------CONFIGURABLE------------>
+associated_configurable: &configurableAssociatedProduct1
+    associated_search_id: %noValue%
+    associated_search_name: %noValue%
+    associated_search_attribute_set: %noValue%
+    associated_search_sku: %noValue%
+    associated_search_price_from: %noValue%
+    associated_search_price_to: %noValue%
+    associated_search_inventory: %noValue%
+    associated_search_by_attribute_value: %noValue%
+    associated_product_price: %noValue%
+    associated_product_price_type: %noValue%
+
+associated_configurable_data: &associatedProductsConfigurableData
+    associated_configurable_1: *configurableAssociatedProduct1
+    associated_configurable_2: %noValue%
+
+configurable_product_for_order:
+    product_attribute_set: Default
+    configurable_attribute_title: %noValue%
+    general_name: Configurable Product For Order
+    general_description: Description for Configurable Product
+    general_short_description: Short Description for Configurable Product
+    general_sku: configurable_sku_order
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 14.95
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    associated_configurable_data: *associatedProductsConfigurableData
+
+#*********************************************
+#*          Credit Card Data                 *
+#*********************************************
+
+#<------------Saved CC------------>
 american_express: &americanExpress
     name_on_card_saved: 'Test Account'
     credit_card_type_saved: 'American Express'
@@ -145,6 +366,23 @@ visa: &visa
     expiration_date_year_saved: '2020'
     cvv_saved: '111'
 
+mastercard: &mastercard
+    name_on_card_saved: 'Test Account'
+    credit_card_type_saved: 'MasterCard'
+    credit_card_number_saved: '5100080000000000'
+    expiration_date_month_saved: '07 - July'
+    expiration_date_year_saved: '2020'
+    cvv_saved: '111'
+
+discover: &discover
+    name_on_card_saved: 'Test Account'
+    credit_card_type_saved: 'Discover'
+    credit_card_number_saved: '6011000000000004'
+    expiration_date_month_saved: '07 - July'
+    expiration_date_year_saved: '2020'
+    cvv_saved: '111'
+
+#<------------ELSE------------>
 authorize_net_visa_w_cvv: &authorizeNetVisaWCvv
     credit_card_type_autnet: 'Visa'
     credit_card_number_autnet: '4024007127653'
@@ -180,183 +418,126 @@ authorize_net_3d_mastercard_w_cvv: &authorizeNet3DMasterCardWCvv
     expiration_date_year_autnet: '2012'
     cvv_autnet: 123
 
-mastercard: &mastercard
-    name_on_card_saved: 'Test Account'
-    credit_card_type_saved: 'MasterCard'
-    credit_card_number_saved: '5100080000000000'
-    expiration_date_month_saved: '07 - July'
-    expiration_date_year_saved: '2020'
-    cvv_saved: '111'
+#*********************************************
+#*      Order creation Data                  *
+#*********************************************
 
-discover: &discover
-    name_on_card_saved: 'Test Account'
-    credit_card_type_saved: 'Discover'
-    credit_card_number_saved: '6011000000000004'
-    expiration_date_month_saved: '07 - July'
-    expiration_date_year_saved: '2020'
-    cvv_saved: '111'
+#<------------PHYSICAL------------>
+order_template:
+    customer_data:
+        id: %noValue%
+        name: %noValue%
+        email: %noValue%
+        phone: %noValue%
+        zip_code: %noValue%
+        country: %noValue%
+        state: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_id: %noValue%
+            filter_name: %noValue%
+            filter_sku: %noValue%
+            filter_price_from: %noValue%
+            filter_price_to: %noValue%
+            configurable_options: %noValue%
+        product_2: %noValue%
+    products_to_reconfigure: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    gift_messages:
+        product_1:
+            general_sku: %noValue
+            message_option:
+                to: %noValue%
+                from: %noValue%
+                message: %noValue%
+    coupons:
+        coupon_1: %noValue%
 
-simple_product_for_order:
-    product_attribute_set: Default
-    general_name: Simple Product
-    general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
-    general_sku: simple_sku
-    general_weight: 2.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 4.95
-    prices_tax_class: None
-    gift_options_allow_gift_message_default: Yes
-    inventory_qty: 120
-    inventory_qty_uses_decimals: Yes
-    inventory_backorders_default: No
-    inventory_backorders: Allow Qty Below 0
-    inventory_qty_increments_default: No
-    inventory_qty_increments: 1
-    inventory_stock_availability: In Stock
-    websites: Main Website
-    categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
-    custom_options_data: %noValue%
+#<------------VIRTUAL------------>
+order_template_virtual:
+    customer_data:
+        id: %noValue%
+        name: %noValue%
+        email: %noValue%
+        phone: %noValue%
+        zip_code: %noValue%
+        country: %noValue%
+        state: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_id: %noValue%
+            filter_name: %noValue%
+            filter_sku: %noValue%
+            filter_price_from: %noValue%
+            filter_price_to: %noValue%
+            configurable_options: %noValue%
+        product_2: %noValue%
+    products_to_reconfigure: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data: %noValue%
+    gift_messages:
+        product_1:
+            general_sku: %noValue
+            message_option:
+                to: %noValue%
+                from: %noValue%
+                message: %noValue%
+    coupons:
+        coupon_1: %noValue%
 
-associated_grouped: &groupedAssociatedProduct1
-    # Data to search
-    associated_search_id: %noValue%
-    associated_search_name: %noValue%
-    associated_search_sku: %noValue%
-    associated_search_price_from: %noValue%
-    associated_search_price_to: %noValue%
-    associated_search_default_qty_from: %noValue%
-    associated_search_default_qty_to: %noValue%
-    associated_search_position_from: %noValue%
-    associated_search_position_to: %noValue%
-    # Data to fill in
-    associated_products_position: %noValue%
-    associated_products_default_qty: 1
+#*********************************************
+#*      ConfigurableOptions For Products     *
+#*********************************************
 
-associated_grouped_data: &associatedProductsGroupedData
-    associated_grouped_1: *groupedAssociatedProduct1
+config_option_download:
+    optionCheck:
+        value_1: Link Row Title
+        data_1:
+            check: yes
+    optionText:
+        value_1: Quantity
+        data_1:
+            text: 1
 
-grouped_product_for_order:
-    product_attribute_set: Default
-    general_name: Grouped Product
-    general_description: Description for Grouped Product
-    general_short_description: Short Description for Grouped Product
-    general_sku: grouped_sku
-    general_url_key: grouped_product_url_key
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    general_country_manufacture: Albania
-    gift_options_allow_gift_message_default: Yes
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_enable_qty_increments_default: No
-    inventory_enable_qty_increments: Yes
-    inventory_qty_increments_default: No
-    inventory_qty_increments: 1
-    inventory_stock_availability: In Stock
-    websites: Main Website
-    categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
-    associated_grouped_data: *associatedProductsGroupedData
+config_option_grouped:
+    optionText:
+        value_1: %noValue%
+        data_1:
+            config_qty_text: 2
+        value_2: %noValue%
+        data_2:
+            config_qty_text: 3
+        value_3: %noValue%
+        data_3:
+            config_qty_text: 4
 
-virtual_product_for_order:
-    product_attribute_set: Default
-    general_name: Virtual Product
-    general_description: Description for Virtual Product
-    general_short_description: Short Description for Virtual Product
-    general_sku: virtual_sku
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 14.95
-    prices_tax_class: None
-    gift_options_allow_gift_message_default: Yes
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 120
-    inventory_qty_for_items_out_of_stock_default: No
-    inventory_qty_for_items_out_of_stock: 10
-    inventory_min_allowed_qty_default: No
-    inventory_min_allowed_qty: 1
-    inventory_max_allowed_qty_default: No
-    inventory_max_allowed_qty: 11
-    inventory_qty_uses_decimals: Yes
-    inventory_backorders_default: No
-    inventory_backorders: Allow Qty Below 0
-    inventory_notify_for_qty_below_default: No
-    inventory_notify_for_qty_below: 12
-    inventory_enable_qty_increments_default: No
-    inventory_enable_qty_increments: Yes
-    inventory_qty_increments_default: No
-    inventory_qty_increments: 1
-    inventory_stock_availability: In Stock
-    websites: Main Website
-    categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
-    custom_options_data: %noValue%
+config_option_bundle:
+
+#*********************************************
+#*      Regularize Data                      *
+#*********************************************
 
 
-downloadable_links: &linksDownloadable
-    downloadable_link_row_title: Link Row Title
-    downloadable_link_row_price: 12
-    downloadable_link_row_unlimited_downloads: No
-    downloadable_link_max_downloads: 100
-    downloadable_link_shareable: No
-    downloadable_link_row_sample_url_radiobutton: Yes
-    downloadable_link_row_sample_url: www.sample.com
-    downloadable_link_row_url_radiobutton: Yes
-    downloadable_link_row_file_url: www.file.com
-    downloadable_link_row_sort_order: 1
-
-downloadable_information_data: &downloadableData
-    downloadable_samples_title: Samples Title
-    downloadable_links_title: Links Title
-    downloadable_links_purchased_separately: Yes
-    downloadable_link_1: *linksDownloadable
-
-downloadable_product_for_order:
-    product_attribute_set: Default
-    general_name: Downloadable Product
-    general_description: Description for Downloadable Product
-    general_short_description: Short Description for Downloadable Product
-    general_sku: downloadable_sku
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 14.95
-    prices_tax_class: None
-    gift_options_allow_gift_message_default: Yes
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 120
-    inventory_qty_for_items_out_of_stock_default: No
-    inventory_qty_for_items_out_of_stock: 10
-    inventory_min_allowed_qty_default: No
-    inventory_min_allowed_qty: 1
-    inventory_max_allowed_qty_default: No
-    inventory_max_allowed_qty: 11
-    inventory_backorders_default: No
-    inventory_backorders: Allow Qty Below 0
-    inventory_notify_for_qty_below_default: No
-    inventory_notify_for_qty_below: 12
-    inventory_enable_qty_increments_default: No
-    inventory_enable_qty_increments: Yes
-    inventory_qty_increments_default: No
-    inventory_qty_increments: 1
-    inventory_stock_availability: In Stock
-    websites: Main Website
-    categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
-    custom_options_data: %noValue%
-    downloadable_information_data: *downloadableData
 
 
 simple_product_for_configurable_for_order:
@@ -373,20 +554,6 @@ simple_product_for_configurable_for_order:
     inventory_qty: 100
     inventory_stock_availability: In Stock
 
-configurable_product_for_order:
-    product_attribute_set: Default
-    configurable_attribute_title: %noValue%
-    general_name: Configurable Product Required
-    general_description: Description for Configurable Product Required
-    general_short_description: Short Description for Configurable Product Required
-    general_sku: configurable_sku.req
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 14.95
-    prices_tax_class: None
-    inventory_stock_availability: In Stock
-
-
 simple_product_for_bundle_for_order:
     product_attribute_set: Default
     general_name: Simple Product Required
@@ -400,25 +567,6 @@ simple_product_for_bundle_for_order:
     prices_tax_class: None
     inventory_qty: 100
     inventory_stock_availability: In Stock
-
-fixed_bundle_for_order:
-    product_attribute_set: Default
-    general_name: Bundle(Fixed) Product Required
-    general_description: Description for Bundle(Fixed) Product Required
-    general_short_description: Short Description for Bundle(Fixed) Product Product Required
-    general_sku_type: Fixed
-    general_sku: bundle_fixed_sku.req
-    general_weight_type: Fixed
-    general_weight: 0.999
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price_type: Fixed
-    prices_price: 12.55
-    prices_tax_class: None
-    inventory_stock_availability: In Stock
-    bundle_items_data:
-        ship_bundle_items: %noValue%
-        bundle_items_1: %noValue%
 
 coupon_percent:
     rule_name: 123
@@ -519,50 +667,6 @@ coupon_fixed_amount:
     stop_further_rules_processing: No
     default_rule_label_for_all_store_views: 123
     default_store_view: 123
-
-order_template:
-    customer_data:
-        id: %noValue%
-        name: %noValue%
-        email: %noValue%
-        phone: %noValue%
-        zip_code: %noValue%
-        country: %noValue%
-        state: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_id: %noValue%
-            filter_name: %noValue%
-            filter_sku: %noValue%
-            filter_price_from: %noValue%
-            filter_price_to: %noValue%
-            configurable_options: %noValue%
-    products_to_reconfigure:
-        product_1:
-            filter_sku: %noValue%
-            reconfigurable_options:
-                qty: 1
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_method: Fixed
-    gift_messages:
-        product_1:
-            general_sku: %noValue
-            message_option:
-                to: %noValue%
-                from: %noValue%
-                message: %noValue%
-    coupons:
-        coupon_1: %noValue%
 
 order_req_1:
     customer_data:
