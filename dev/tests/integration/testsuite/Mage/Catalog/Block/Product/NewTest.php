@@ -76,6 +76,8 @@ class Mage_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
         $html = $this->_block->toHtml();
         $this->assertNotEmpty($html);
         $this->assertContains('New Product', $html);
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Product_Collection', $this->_block->getProductCollection());
+        $this->assertInstanceOf(
+            'Mage_Catalog_Model_Resource_Product_Collection', $this->_block->getProductCollection()
+        );
     }
 }

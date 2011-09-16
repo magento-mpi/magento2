@@ -13,7 +13,9 @@
  * Empty class for testing
  */
 class Mage_Catalog_Block_Product_AbstractTestAbstract extends Mage_Catalog_Block_Product_Abstract
-{}
+{
+
+}
 
 /**
  * Test class for Mage_Catalog_Block_Product_Abstract.

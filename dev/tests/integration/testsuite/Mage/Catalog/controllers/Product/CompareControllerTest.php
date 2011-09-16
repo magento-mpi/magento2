@@ -114,28 +114,28 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
         $this->_assertCompareListEquals(array(1));
     }
 
-//    public function testIndexActionDisplay()
-//    {
-//        $this->_requireVisitorWithTwoProducts();
-//
-//        $this->dispatch('catalog/product_compare/index');
-//
-//        $responseBody = $this->getResponse()->getBody();
-//
-//        $this->assertContains('Products Comparison List', $responseBody);
-//
-//        $this->assertContains('simple_product_1', $responseBody);
-//        $this->assertContains('Simple Product 1 Name', $responseBody);
-//        $this->assertContains('Simple Product 1 Full Description', $responseBody);
-//        $this->assertContains('Simple Product 1 Short Description', $responseBody);
-//        $this->assertContains('$1,234.56', $responseBody);
-//
-//        $this->assertContains('simple_product_2', $responseBody);
-//        $this->assertContains('Simple Product 2 Name', $responseBody);
-//        $this->assertContains('Simple Product 2 Full Description', $responseBody);
-//        $this->assertContains('Simple Product 2 Short Description', $responseBody);
-//        $this->assertContains('$987.65', $responseBody);
-//    }
+    public function testIndexActionDisplay()
+    {
+        $this->_requireVisitorWithTwoProducts();
+
+        $this->dispatch('catalog/product_compare/index');
+
+        $responseBody = $this->getResponse()->getBody();
+
+        $this->assertContains('Products Comparison List', $responseBody);
+
+        $this->assertContains('simple_product_1', $responseBody);
+        $this->assertContains('Simple Product 1 Name', $responseBody);
+        $this->assertContains('Simple Product 1 Full Description', $responseBody);
+        $this->assertContains('Simple Product 1 Short Description', $responseBody);
+        $this->assertContains('$1,234.56', $responseBody);
+
+        $this->assertContains('simple_product_2', $responseBody);
+        $this->assertContains('Simple Product 2 Name', $responseBody);
+        $this->assertContains('Simple Product 2 Full Description', $responseBody);
+        $this->assertContains('Simple Product 2 Short Description', $responseBody);
+        $this->assertContains('$987.65', $responseBody);
+    }
 
     public function testClearAction()
     {
