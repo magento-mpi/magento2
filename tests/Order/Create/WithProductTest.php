@@ -50,6 +50,13 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->addParameter('tabName', 'edit/section/payment/');
+        $this->clickControl('tab', 'sales_payment_methods');
+        $payment = $this->loadData('saved_cc_wo3d_enable');
+        $this->fillForm($payment, 'sales_payment_methods');
+        $this->saveForm('save_config');
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
@@ -116,8 +123,8 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
 //        $orderId = $this->orderHelper()->createOrder($orderData);
 //        //Verifying
 //        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-
-        return $simple['general_sku'];
+        $simple = array('general_sku' => $simple['general_sku'], 'general_name' => $simple['general_name']);
+        return $simple;
     }
 
     /**
@@ -153,8 +160,8 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
 //        $orderId = $this->orderHelper()->createOrder($orderData);
 //        //Verifying
 //        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-
-        return $virtual['general_sku'];
+        $virtual = array('general_sku' => $virtual['general_sku'], 'general_name' => $virtual['general_name']);
+        return $virtual;
     }
 
 //    /**
@@ -325,17 +332,24 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
     public function bundleWithSimple($simple, $virtual)
     {
         //Data
-        $bundle = $this->loadData('fixed_bundle_for_order', array('bundle_items_search_sku' => $simple),
+        $bundle = $this->loadData('fixed_bundle_for_order', array('bundle_items_search_sku' => $simple['general_sku']),
                 array('general_name', 'general_sku'));
         for ($i = 1; $i < 5; $i++) {
             $bundle['bundle_items_data']['item_' . $i]['add_product_2'] = $this->loadData('bundle_item_1/add_product_1',
-                    array('bundle_items_search_sku' => $virtual));
+                    array('bundle_items_search_sku' => $virtual['general_sku']));
         }
-        $orderData = $this->loadData('order_template',
+        $orderData = $this->loadData('config_option_bundle',
                 array(
             'filter_sku' => $bundle['general_sku'],
-            'configurable_options' => $this->loadData('config_option_bundle'),
+            'multiple_choose' => $virtual['general_name'],
+            'dropdown_choose' => $simple['general_name'],
             'customer_email' => $this->generate('email', 32, 'valid')));
+        $orderData['products_to_add']['product_1']['configurable_options']
+            ['optionRadio']['value_1'] = $simple['general_name'];
+        $orderData['products_to_add']['product_1']['configurable_options']
+            ['optionCheck']['value_1'] = $virtual['general_name'];
+        $orderData['products_to_add']['product_1']['configurable_options']
+            ['optionCheck']['value_2'] = $simple['general_name'];
         //Steps
         $this->productHelper()->createProduct($bundle, 'bundle');
         //Verifying

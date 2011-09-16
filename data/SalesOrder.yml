@@ -532,6 +532,57 @@ config_option_grouped:
             config_qty_text: 4
 
 config_option_bundle:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_id: %noValue%
+            filter_name: %noValue%
+            filter_sku: %noValue%
+            filter_price_from: %noValue%
+            filter_price_to: %noValue%
+            configurable_options:
+                titleOfMultiple:
+                    value_1: Multiple Select
+                    data_1:
+                        multiple_choose: %noValue%
+                titleOfDropdown:
+                    value_1: Drop-down
+                    data_1:
+                        dropdown_choose: %noValue%
+                        dropdown_qty: 3
+                optionRadio:
+                    value_1: %noValue%
+                    data_1:
+                        radio_choose: Yes
+                titleOfRadio:
+                    value_1: Radio Buttons
+                    data_1:
+                        radio_qty: 5
+                optionCheck:
+                    value_1: %noValue%
+                    data_1:
+                        check_choose: Yes
+                    value_2: %noValue%
+                    data_2:
+                        check_choose: Yes
+                optionText:
+                    value_1: Quantity
+                    data_1:
+                        total_qty: 11
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
 
 #*********************************************
 #*      Regularize Data                      *

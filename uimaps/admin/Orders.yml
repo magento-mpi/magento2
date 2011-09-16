@@ -282,14 +282,20 @@ create_order_for_new_customer:
                 -
                     product_composite_configure_form: &productCompositeConfigureForm
                         xpath: //div[div/h4[contains(text(),'Configure Product')]]
+                        multiselects:
+                            multiple_choose: //div/dl/dt/label[contains(text(),'%titleOfMultiple%')]/../following-sibling::dd[1]//select
                         dropdowns:
-                            drop: //div/dl[./dt/label[contains(text(),'%optionDropdown%')]]//select
+                            dropdown_choose: //div/dl/dt/label[contains(text(),'%titleOfDropdown%')]/../following-sibling::dd[1]//select
                         radiobuttons:
-                            radio: //input[@type='radio']/../span/label[contains(text(),'%optionRadio%')]/../../input[@type='radio']
+                            radio_choose: //input[@type='radio']/../span/label[contains(text(),'%optionRadio%')]/../../input[@type='radio']
                         checkboxes:
-                            check: //input[@type='checkbox']/../span/label[contains(text(),'%optionCheck%')]/../../input[@type='checkbox']
+                            check_choose: //input[@type='checkbox']/../span/label[contains(text(),'%optionCheck%')]/../../input[@type='checkbox']
                         fields:
-                            text: //input[@type='text']/../label[contains(text(),'%optionText%')]/following-sibling::*[@type='text']
+                            total_qty: //input[@type='text']/../label[contains(text(),'%optionText%')]/following-sibling::*[@type='text']
+                            multiple_qty: //div/dl/dt[label[contains(text(),'%titleOfMultiple%')]]//input[@type='text']
+                            dropdown_qty: //div/dl/dt[label[contains(text(),'%titleOfDropdown%')]]//input[@type='text']
+                            radio_qty: //div/dl/dt[label[contains(text(),'%titleOfRadio%')]]//input[@type='text']
+                            check_qty: //div/dl/dt[label[contains(text(),'%titleOfCheckbox%')]]//input[@type='text']
                             config_qty_text: //tr[td[contains(.,'%optionText%')]]/td/input[@title='Qty']
                         buttons:
                             ok: //button[span[contains(text(),'OK')]]
