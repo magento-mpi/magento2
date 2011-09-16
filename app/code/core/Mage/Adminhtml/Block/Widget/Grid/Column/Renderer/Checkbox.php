@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox
         $html = '<input type="checkbox" ';
         $html .= 'name="' . $this->getColumn()->getFieldName() . '" ';
         $html .= 'value="' . $this->escapeHtml($value) . '" ';
-        $html .= 'class="'. $this->getColumn()->getInlineCss() ? $this->getColumn()->getInlineCss() : 'checkbox' .'"';
+        $html .= 'class="'. ($this->getColumn()->getInlineCss() ? $this->getColumn()->getInlineCss() : 'checkbox') .'"';
         $html .= $checked . $this->getDisabled() . '/>';
         return $html;
     }
