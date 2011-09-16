@@ -1256,7 +1256,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $xpathTR = "//table[@class='data']//tr";
         foreach ($data as $key => $value) {
-            if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key)) {
+            if (!preg_match('/_from/', $key) and !preg_match('/_to/', $key) and !is_array($value)) {
                 $xpathTR .= "[td[normalize-space(text())='$value']]";
             }
         }
