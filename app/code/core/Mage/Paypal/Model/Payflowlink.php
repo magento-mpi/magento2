@@ -181,6 +181,15 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             $payment->setIsFraudDetected(true);
         }
 
+        if ($transaction->getId() && $payment->getAdditionalInformation('authorization_amount') !=
+            Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_FULL
+        ) {
+            $_id = $payment->getTransactionId();
+            $payment->setTransactionId($txnId);
+            $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+            $payment->setTransactionId($_id);
+        }
+
         $this->_authorize($payment, $amount, $transaction, $txnId);
         if ($payment->getAdditionalInformation('authorization_amount') !=
             Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_FULL
@@ -190,7 +199,6 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             if ($payment->getTransactionId()) {
                 $payment->setAdditionalInformation('authorization_id', $payment->getTransactionId());
             }
-
         }
 
         $transaction->delete();
@@ -208,10 +216,6 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      */
     protected function _authorize(Varien_Object $payment, $amount, $transaction, $txnId)
     {
-        $_id = $payment->getTransactionId();
-        $payment->setTransactionId($txnId);
-        $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
-        $payment->setTransactionId($_id);
         $authorizationAmount = $payment->getAdditionalInformation('authorization_amount');
         if ($authorizationAmount == Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_ONE) {
             $payment->setParentTransactionId($txnId);
@@ -239,6 +243,12 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         if ($transaction->getId()) {
             $removePaypalTransaction = true;
             $this->_authorize($payment, $amount, $transaction, $txnId);
+
+            $_id = $payment->getTransactionId();
+            $payment->setTransactionId($txnId);
+            $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+            $payment->setTransactionId($_id);
+
             $payment->setReferenceTransactionId($payment->getAdditionalInformation('authorization_id'));
         }
 
