@@ -313,12 +313,10 @@ class Order_Helper extends Mage_Selenium_TestCase
         if (!is_array($paymentMethod) && !is_string($paymentMethod)) {
             throw new Exception('Incorrect type of $paymentMethod.');
         }
-        $this->pleaseWait();
         $this->clickControl('radiobutton', $paymentMethod['payment_method'], FALSE);
         $this->pleaseWait();
-        $this->waitForAjax();
         if (array_key_exists('payment_info', $paymentMethod)) {
-            $this->fillForm($paymentMethod['payment_info'], 'order_payment_method');
+            $this->fillForm($paymentMethod['payment_info']);
         }
         if (array_key_exists('3d_secure_validation_code', $paymentMethod)) {
             $this->clickButton('start_reset_validation', FALSE);

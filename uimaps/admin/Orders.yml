@@ -125,12 +125,12 @@ create_order_for_new_customer:
                         dropdowns:
                             filter_massaction: //select[@id='filter_in_products']
                         fields:
-                            filter_id: //input[@id='filter_entity_id']
-                            filter_name: //input[@id='filter_name']
-                            filter_sku: //input[@id='filter_sku']
-                            filter_price_from: //input[@id='filter_price_from']
-                            filter_price_to: //input[@id='filter_price_to']
-                            qty_to_add: %productXpath%//input[@class='input-text qty']
+                            filter_id: //input[@name='entity_id']
+                            filter_name: //input[@name='name']
+                            filter_sku: //input[@name='sku']
+                            filter_price_from: //input[@name='price[from]']
+                            filter_price_to: //input[@name='price[to]']
+                            qty_to_add: %productXpath%//input[@name='qty']
                         links:
                             configure: %productXpath%//a[text()= 'Configure']
                 -

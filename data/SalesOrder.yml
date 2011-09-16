@@ -174,10 +174,10 @@ paypal_direct_payment_visa_w_cvv: &paypalDirectPaymentVisaWCvv
     cvv_paypal_direct_payment: '123'
 
 authorize_net_3d_mastercard_w_cvv: &authorizeNet3DMasterCardWCvv
-    credit_card_type_autnet: 'Visa'
-    credit_card_number_autnet: '4000000000000002'
-    expiration_date_month_autnet: '07 - July'
-    expiration_date_year_autnet: '2020'
+    credit_card_type_autnet: 'MasterCard'
+    credit_card_number_autnet: '5200000000000007'
+    expiration_date_month_autnet: '01 - January'
+    expiration_date_year_autnet: '2012'
     cvv_autnet: 123
 
 mastercard: &mastercard
@@ -208,22 +208,10 @@ simple_product_for_order:
     prices_price: 4.95
     prices_tax_class: None
     gift_options_allow_gift_message_default: Yes
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
     inventory_qty: 120
-    inventory_qty_for_items_out_of_stock_default: No
-    inventory_qty_for_items_out_of_stock: 10
-    inventory_min_allowed_qty_default: No
-    inventory_min_allowed_qty: 0
-    inventory_max_allowed_qty_default: No
-    inventory_max_allowed_qty: 0
     inventory_qty_uses_decimals: Yes
     inventory_backorders_default: No
     inventory_backorders: Allow Qty Below 0
-    inventory_notify_for_qty_below_default: No
-    inventory_notify_for_qty_below: 12
-    inventory_enable_qty_increments_default: No
-    inventory_enable_qty_increments: Yes
     inventory_qty_increments_default: No
     inventory_qty_increments: 1
     inventory_stock_availability: In Stock
@@ -234,23 +222,23 @@ simple_product_for_order:
     cross_sells_products_data: %noValue%
     custom_options_data: %noValue%
 
-associated_products_grouped: &groupedAssociatedProduct1
+associated_grouped: &groupedAssociatedProduct1
     # Data to search
-    associated_products_id: %noValue%
-    associated_products_name: %noValue%
-    associated_products_sku: %noValue%
-    associated_products_price_from: %noValue%
-    associated_products_price_to: %noValue%
-    associated_products_default_qty_from: %noValue%
-    associated_products_default_qty_to: %noValue%
-    associated_products_position_from: %noValue%
-    associated_products_position_to: %noValue%
+    associated_search_id: %noValue%
+    associated_search_name: %noValue%
+    associated_search_sku: %noValue%
+    associated_search_price_from: %noValue%
+    associated_search_price_to: %noValue%
+    associated_search_default_qty_from: %noValue%
+    associated_search_default_qty_to: %noValue%
+    associated_search_position_from: %noValue%
+    associated_search_position_to: %noValue%
     # Data to fill in
     associated_products_position: %noValue%
     associated_products_default_qty: 1
 
-associated_products_grouped_data: &associatedProductsGroupedData
-    associated_products_grouped_1: *groupedAssociatedProduct1
+associated_grouped_data: &associatedProductsGroupedData
+    associated_grouped_1: *groupedAssociatedProduct1
 
 grouped_product_for_order:
     product_attribute_set: Default
@@ -275,7 +263,7 @@ grouped_product_for_order:
     related_products_data: %noValue%
     up_sells_products_data: %noValue%
     cross_sells_products_data: %noValue%
-    associated_products_grouped_data: *associatedProductsGroupedData
+    associated_grouped_data: *associatedProductsGroupedData
 
 virtual_product_for_order:
     product_attribute_set: Default
@@ -458,19 +446,19 @@ coupon_percent:
 products_to_reconfig_1:
     product_1:
         filter_sku: %noValue%
-        configurable_options:
+        reconfigurable_options:
             qty: 50
 
 products_to_reconfig_2:
     product_1:
         filter_sku: %noValue%
-        configurable_options:
+        reconfigurable_options:
             action: Remove
 
 products_to_reconfig_3:
     product_1:
         filter_sku: %noValue%
-        configurable_options:
+        reconfigurable_options:
             qty: 10
 
 products_to_refund_1:
@@ -554,7 +542,7 @@ order_template:
     products_to_reconfigure:
         product_1:
             filter_sku: %noValue%
-            configurable_options:
+            reconfigurable_options:
                 qty: 1
     account_data:
         customer_group: General
@@ -636,6 +624,9 @@ order_no_payment_method:
         customer_email: %noValue%
     billing_addr_data: *billingReqFields
     shipping_addr_data: *shippingReqFields
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
 
 order_data_visa_1:
     customer_data:
@@ -654,6 +645,7 @@ order_data_visa_1:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_data_american_express_1:
@@ -673,6 +665,7 @@ order_data_american_express_1:
         payment_method: credit_card
         payment_info: *americanExpress
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_data_mastercard_1:
@@ -692,6 +685,7 @@ order_data_mastercard_1:
         payment_method: credit_card
         payment_info: *mastercard
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_data_discover_1:
@@ -711,6 +705,7 @@ order_data_discover_1:
         payment_method: credit_card
         payment_info: *discover
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_ship_flat_rate:
@@ -730,6 +725,7 @@ order_ship_flat_rate:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_ship_free:
@@ -749,6 +745,7 @@ order_ship_free:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Free Shipping
         shipping_method: Free
 
 order_ship_ups:
@@ -768,6 +765,7 @@ order_ship_ups:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: United Parcel Service
         shipping_method: UPS Ground
 
 order_ship_fedex:
@@ -787,7 +785,8 @@ order_ship_fedex:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
-        shipping_method: UPS Ground
+        shipping_service: Federal Express
+        shipping_method: First Overnight
 
 order_ship_usps:
     customer_data:
@@ -806,6 +805,7 @@ order_ship_usps:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: United States Postal Service
         shipping_method: Express Mail
 
 order_ship_dhl:
@@ -825,7 +825,8 @@ order_ship_dhl:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
-        shipping_method: DHL
+        shipping_service: DHL
+        shipping_method: Express
 
 order_with_message_for_product:
     customer_data:
@@ -844,6 +845,7 @@ order_with_message_for_product:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
     gift_messages:
         product_1:
@@ -870,6 +872,7 @@ order_with_message_empty_fields_for_product:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
     gift_messages:
         product_1:
@@ -901,6 +904,7 @@ order_req_grouped_product:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_req_configurable_product:
@@ -929,6 +933,7 @@ order_req_configurable_product:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_req_virtual_product:
@@ -956,6 +961,11 @@ order_req_bundle_product:
     products_to_add:
         product_1:
             filter_sku: %noValue%
+            configurable_options:
+                optionText:
+                    value_1: Quantity
+                    data_1:
+                        text: 1
     account_data:
         customer_group: General
         customer_email: %noValue%
@@ -965,6 +975,7 @@ order_req_bundle_product:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_req_downloadable_product:
@@ -1004,7 +1015,7 @@ order_req_partial_creditmemo:
     products_to_reconfigure:
         product_1:
             filter_sku: %noValue%
-            configurable_options:
+            reconfigurable_options:
                 qty: 10
     account_data:
         customer_group: General
@@ -1030,7 +1041,7 @@ order_req_partial_invoice:
     products_to_reconfigure:
         product_1:
             filter_sku: %noValue%
-            configurable_options:
+            reconfigurable_options:
                 qty: 10
     account_data:
         customer_group: General
@@ -1056,7 +1067,7 @@ order_req_partial_shipment:
     products_to_reconfigure:
         product_1:
             filter_sku: %noValue%
-            configurable_options:
+            reconfigurable_options:
                 qty: 10
     account_data:
         customer_group: General
@@ -1087,6 +1098,7 @@ order_data_check_money_order_1:
         payment_method: check_money_order
         payment_info: %noValue%
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_data_authorize_net_1:
@@ -1187,6 +1199,7 @@ order_data_authorize_net_3D_1:
         payment_info: *authorizeNet3DMasterCardWCvv
         3d_secure_validation_code: 1234
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 promoted_product_special_price_for_order:
@@ -1242,7 +1255,7 @@ order_for_promoted_products_special_price:
     products_to_reconfigure:
         product_1:
             filter_sku: %noValue%
-            configurable_options:
+            reconfigurable_options:
                 qty: 4
     account_data:
         customer_group: General
@@ -1253,6 +1266,7 @@ order_for_promoted_products_special_price:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 order_for_promoted_products_min_qty:
@@ -1267,7 +1281,7 @@ order_for_promoted_products_min_qty:
     products_to_reconfigure:
         product_1:
             filter_sku: %noValue%
-            configurable_options:
+            reconfigurable_options:
                 qty: 2
     account_data:
         customer_group: General
@@ -1278,6 +1292,7 @@ order_for_promoted_products_min_qty:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
 custom_options_dropdown: &dropdown
@@ -1339,7 +1354,7 @@ order_for_customized_product:
                 optionDropdown:
                     value_1: Custom Option
                     data_1:
-                        drop: 'Title 1 +$0.10'
+                        drop: Title 1
                 optionText:
                     value_1: Quantity
                     data_1:
@@ -1353,13 +1368,14 @@ order_for_customized_product:
         payment_method: credit_card
         payment_info: *visa
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
-paypal_direct_payment_payflow_edition_mastercard_w_cvv: &paypalDirectPaymentPayflowEditionMastercardWCvv3D
+paypal_direct_payment_payflow_edition_mastercard_w_cvv_3d: &paypalDirectPaymentPayflowEditionMastercardWCvv3D
     credit_card_type_paypal_direct_payment_payflow_edition: 'MasterCard'
-    credit_card_number_paypal_direct_payment_payflow_edition: '5157 6445 3773 3037'
-    expiration_date_month_paypal_direct_payment_payflow_edition: '11 - November'
-    expiration_date_year_paypal_direct_payment_payflow_edition: '2015'
+    credit_card_number_paypal_direct_payment_payflow_edition: '5200000000000007'
+    expiration_date_month_paypal_direct_payment_payflow_edition: '1 - January'
+    expiration_date_year_paypal_direct_payment_payflow_edition: '2012'
     cvv_paypal_direct_payment_payflow_edition: '123'
 
 order_data_paypal_direct_payment_payflow_edition_w3d_1:
@@ -1380,12 +1396,13 @@ order_data_paypal_direct_payment_payflow_edition_w3d_1:
         payment_info: *paypalDirectPaymentPayflowEditionMastercardWCvv3D
         3d_secure_validation_code: 1234
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
-paypal_direct_payment_visa_w_cvv: &paypalDirectPaymentVisaWCvv3D
+paypal_direct_payment_visa_w_cvv_3d: &paypalDirectPaymentVisaWCvv3D
     credit_card_type_paypal_direct_payment: 'Visa'
-    credit_card_number_paypal_direct_payment: '4539 1773 6220 5799'
-    expiration_date_month_paypal_direct_payment: '02 - February'
+    credit_card_number_paypal_direct_payment: '4000000000000002'
+    expiration_date_month_paypal_direct_payment: '01 - January'
     expiration_date_year_paypal_direct_payment: '2012'
     cvv_paypal_direct_payment: '123'
 
@@ -1407,12 +1424,13 @@ order_data_website_payments_pro_w3d_1:
         payment_info: *paypalDirectPaymentVisaWCvv3D
         3d_secure_validation_code: 1234
     shipping_data:
+        shipping_service: Flat Rate
         shipping_method: Fixed
 
-payflow_pro_visa_w_cvv: &payflowProVisaWCvv3D
+payflow_pro_visa_w_cvv_3d: &payflowProVisaWCvv3D
     credit_card_type_payflow_pro: 'Visa'
-    credit_card_number_payflow_pro: '4539 1773 6220 5799'
-    expiration_date_month_payflow_pro: '02 - February'
+    credit_card_number_payflow_pro: '4000000000000002'
+    expiration_date_month_payflow_pro: '01 - January'
     expiration_date_year_payflow_pro: '2012'
     cvv_payflow_pro: '123'
 
@@ -1437,11 +1455,11 @@ order_data_payflow_pro_w3d_1:
         shipping_method: Fixed
 
 
-visa: &visa_3d
+visa_3d: &visa_3d
     credit_card_type_saved: 'Visa'
     credit_card_number_saved: '4000000000000002'
-    expiration_date_month_saved: '07 - July'
-    expiration_date_year_saved: '2020'
+    expiration_date_month_saved: '01 - January'
+    expiration_date_year_saved: '2012'
     cvv_saved: '123'
 
 order_data_visa_w3d_1:
@@ -1505,7 +1523,7 @@ order_req_partial_invoice_check:
     products_to_reconfigure:
         product_1:
             filter_sku: %noValue%
-            configurable_options:
+            reconfigurable_options:
                 qty: 10
     account_data:
         customer_group: General
@@ -1530,7 +1548,7 @@ order_req_partial_creditmemo_check:
     products_to_reconfigure:
         product_1:
             filter_sku: %noValue%
-            configurable_options:
+            reconfigurable_options:
                 qty: 10
     account_data:
         customer_group: General
@@ -1542,3 +1560,59 @@ order_req_partial_creditmemo_check:
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
+
+order_with_coupon_1:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    products_to_reconfigure:
+        product_1:
+            filter_sku: %noValue%
+            reconfigurable_options:
+                qty: 50
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    coupons:
+        coupon_1:
+            coupon_code: %noValue%
+            success: true
+
+order_with_coupon_2:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    coupons:
+        coupon_1:
+            coupon_code: %noValue%
+            success: true
+
+order_with_coupon_3:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
+        product_1:
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    coupons:
+        coupon_1:
+            coupon_code: 123123123
+            success: false

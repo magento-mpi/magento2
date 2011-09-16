@@ -138,10 +138,14 @@ authorize_net_with_3d_disable:
 
 gift_message_for_order_enable:
     allow_gift_messages_on_order_level: Yes
-    allow_gift_messages_for_order_items: Yes
 
 gift_message_for_order_disable:
     allow_gift_messages_on_order_level: No
+
+gift_message_for_item_enable:
+    allow_gift_messages_for_order_items: Yes
+
+gift_message_for_item_disable:
     allow_gift_messages_for_order_items: No
 
 saved_cc_w3d_enable:
