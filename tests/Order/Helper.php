@@ -152,11 +152,11 @@ class Order_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
-        if (isset($orderData['payment_data'])) {
-            $this->selectPaymentMethod($orderData['payment_data']);
-        }
         if (isset($orderData['shipping_data'])) {
             $this->selectShippingMethod($orderData['shipping_data']);
+        }
+        if (isset($orderData['payment_data'])) {
+            $this->selectPaymentMethod($orderData['payment_data']);
         }
         if ($validate == TRUE) {
             $this->clickButton('submit_order', FALSE);
