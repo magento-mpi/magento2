@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <input>
+        <customer_id>10001</customer_id>
+        <website_id>1</website_id>
+    </input>
+    <expected>
+        <balance>1100</balance>
+    </expected>
+</root>
