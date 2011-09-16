@@ -191,29 +191,6 @@
                     </US>
                 </allowed_countries>
 
-                <required_product_categories>
-                    <google_product_category translate="label">
-                        <label>Apparel &amp; Accessories &gt; Clothing</label>
-                    </google_product_category>
-                    <google_product_category translate="label">
-                        <label>Apparel &amp; Accessories &gt; Shoes</label>
-                    </google_product_category>
-                    <google_product_category translate="label">
-                        <label>Apparel &amp; Accessories</label>
-                    </google_product_category>
-                    <google_product_category translate="label">
-                        <label>Media &gt; Books</label>
-                    </google_product_category>
-                    <google_product_category translate="label">
-                        <label>Media &gt; DVDs &amp; Videos</label>
-                    </google_product_category>
-                    <google_product_category translate="label">
-                        <label>Media &gt; Music</label>
-                    </google_product_category>
-                    <google_product_category translate="label">
-                        <label>Software &gt; Video Game Software</label>
-                    </google_product_category>
-                </required_product_categories>
                 <!-- Available destinations for products. -->
                 <destinations>
                     <product_search>ProductSearch</product_search>
@@ -246,10 +223,6 @@
                             <name>Image link</name>
                             <required>0</required>
                         </image_link>
-                        <item_group_id  translate="name">
-                            <name>Item Group ID</name>
-                            <required>0</required>
-                        </item_group_id>
                         -->
                         <title translate="name">
                             <name>Title</name>
@@ -275,10 +248,6 @@
                             <name>Quantity</name>
                             <required>0</required>
                         </quantity>
-                        <google_product_category>
-                            <name>Google Product Category</name>
-                            <required>1</required>
-                        </google_product_category>
                         -->
                         <condition translate="name">
                             <name>Condition</name>
@@ -303,10 +272,6 @@
                             <required>0</required>
                             <country>US</country>
                         </sale_price_effective_date_to>
-                        <age_group translate="name">
-                            <name>Age Group</name>
-                            <required>0</required>
-                        </age_group>
                         <author translate="name">
                             <name>Author</name>
                             <required>0</required>
@@ -335,10 +300,6 @@
                             <name>Featured Product</name>
                             <required>0</required>
                         </featured_product>
-                        <gender translate="name">
-                            <name>Gender</name>
-                            <required>0</required>
-                        </gender>
                         <genre translate="name">
                             <name>Genre</name>
                             <required>0</required>
@@ -438,7 +399,6 @@
                     <target_country/>
                     <content_language/>
                     <destinations/>
-                    <google_product_category/>
                 </base_attributes>
             </googleshopping>
         </google>
