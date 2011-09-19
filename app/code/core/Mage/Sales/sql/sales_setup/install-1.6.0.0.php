@@ -859,8 +859,6 @@ $table = $installer->getConnection()
         ), 'Cc Number Enc')
     ->addColumn('cc_trans_id', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Cc Trans Id')
-    ->addColumn('paybox_request_number', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'Paybox Request Number')
     ->addColumn('address_status', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Address Status')
     ->addColumn('additional_information', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(

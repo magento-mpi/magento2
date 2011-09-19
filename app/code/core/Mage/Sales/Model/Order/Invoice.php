@@ -84,8 +84,6 @@
  * @method Mage_Sales_Model_Order_Invoice setState(int $value)
  * @method int getShippingAddressId()
  * @method Mage_Sales_Model_Order_Invoice setShippingAddressId(int $value)
- * @method string getCybersourceToken()
- * @method Mage_Sales_Model_Order_Invoice setCybersourceToken(string $value)
  * @method string getStoreCurrencyCode()
  * @method Mage_Sales_Model_Order_Invoice setStoreCurrencyCode(string $value)
  * @method string getTransactionId()

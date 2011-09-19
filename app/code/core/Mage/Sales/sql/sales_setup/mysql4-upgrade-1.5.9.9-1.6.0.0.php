@@ -4064,11 +4064,6 @@ $tables = array(
                 'length'    => 255,
                 'comment'   => 'Cc Trans Id'
             ),
-            'paybox_request_number' => array(
-                'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
-                'length'    => 255,
-                'comment'   => 'Paybox Request Number'
-            ),
             'address_status' => array(
                 'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
                 'length'    => 255,

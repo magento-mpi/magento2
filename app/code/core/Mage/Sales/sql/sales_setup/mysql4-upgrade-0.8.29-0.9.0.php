@@ -230,7 +230,6 @@ CREATE TABLE `{$installer->getTable('sales_flat_quote_payment')}` (
     `cc_ss_start_month` tinyint(2) unsigned default '0',
     `cc_ss_start_year` smallint(4) unsigned default '0',
 
-    `cybersource_token` varchar(255) default '',
     `paypal_correlation_id` varchar(255) default '',
     `paypal_payer_id` varchar(255) default '',
     `paypal_payer_status` varchar(255) default '',
