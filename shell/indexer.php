@@ -27,7 +27,7 @@
 require_once 'abstract.php';
 
 /**
- * Magento Compiler Shell Script
+ * Magento Indexer Shell Script
  *
  * @category    Mage
  * @package     Mage_Shell
