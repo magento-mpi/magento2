@@ -205,21 +205,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var string
      */
-    const xpathSuccessMessage = "//li[normalize-space(@class)='success-msg']/ul/li";
+    const xpathSuccessMessage = "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]";
 
     /**
      * Error message Xpath
      *
      * @var string
      */
-    const xpathErrorMessage = "//li[normalize-space(@class)='error-msg']/ul/li";
+    const xpathErrorMessage = "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]";
 
     /**
      * Error message Xpath
      *
      * @var string
      */
-    const xpathValidationMessage = "//form/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]";
+    const xpathValidationMessage = "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))]";
 
     /**
      * Field Name xpath with ValidationMessage
@@ -1768,7 +1768,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 return true;
             }
         } else {
-            $this->messages['error'][] = "There is no way to remove an item(There is no 'Delete' button)\n";
+            $this->messages['error'][] = "There is no way to click button(There is no '$buttonName' button)\n";
         }
 
         return false;
@@ -1824,12 +1824,35 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function saveForm($buttonName)
     {
+        $this->messages = array();
+        $this->_parseMessages();
+        foreach ($this->messages as $key => $value) {
+            $this->messages[$key] = array_unique($value);
+        }
+        $success = self::xpathSuccessMessage;
+        $error = self::xpathErrorMessage;
+        $validation = self::xpathValidationMessage;
+        $types = array('success', 'error', 'validation');
+        foreach ($types as $message) {
+            if (array_key_exists($message, $this->messages)) {
+                $exclude = '';
+                foreach ($this->messages[$message] as $messageText) {
+                    $exclude .="[not(..//.='$messageText')]";
+                }
+                ${$message} .= $exclude;
+            }
+        }
         $this->clickButton($buttonName, false);
-        $this->waitForElement(array(self::xpathErrorMessage,
-                                    self::xpathValidationMessage,
-                                    self::xpathSuccessMessage));
+        $this->waitForElement(array($success, $error, $validation));
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+        $this->getCurrentLocationUimapPage()->assignParams($this->_paramsHelper);
+//        $this->clickButton($buttonName, false);
+//        $this->waitForElement(array(self::xpathErrorMessage,
+//                                    self::xpathValidationMessage,
+//                                    self::xpathSuccessMessage));
+//        $this->addParameter('id', $this->defineIdFromUrl());
+//        $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
 
         return $this;
     }
