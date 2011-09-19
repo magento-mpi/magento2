@@ -65,16 +65,24 @@ shipping_information_data: &shipping_information
 #*********************************************
 #*         Gift options data                 *
 #*********************************************
-gift_options_data: &gift_options
-    gift_option_for_the entire_order: %noValue%
-    gift_option_for_individual_items: %noValue%
-    gift_option_entire_order_from: %noValue%
-    gift_option_entire_order_to: %noValue%
-    gift_option_entire_order_message: %noValue%
+product_individual_options_1: &product_individual_options_1
+    product_name: %noValue%
     gift_option_for_individual_items_from: %noValue%
     gift_option_for_individual_items_to: %noValue%
     gift_option_for_individual_items_message: %noValue%
 
+gift_options_data: &gift_options
+    entire_order:
+        gift_option_for_the_entire_order: %noValue%
+        gift_option_entire_order_from: %noValue%
+        gift_option_entire_order_to: %noValue%
+        gift_option_entire_order_message: %noValue%
+    individual_items:
+        product_name_1: %noValue%
+        product_message_1: *product_individual_options_1
+        product_name_2: %noValue%
+        product_message_2: %noVlaue%
+#    gift_option_for_individual_items: %noValue%
 
 #*********************************************
 #*         Credit Card information           *

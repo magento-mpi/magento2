@@ -110,7 +110,7 @@ onepage_checkout:
                             continue: //button[span='Continue']
                         checkboxes:
                             add_gift_options: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options.']]
-                            gift_option_for_the entire_order: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]
+                            gift_option_for_the_entire_order: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]
                             gift_option_for_individual_items: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]
                         radiobuttons:
                             ship_method: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
@@ -118,9 +118,9 @@ onepage_checkout:
                             gift_option_entire_order_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for whole order.')]//input[@title='From']
                             gift_option_entire_order_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for whole order.')]//input[@title='To']
                             gift_option_entire_order_message: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for whole order.')]//input[@title='Message']
-                            gift_option_for_individual_items_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//input[@title='From']
-                            gift_option_for_individual_items_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//input[@title='Message']
-                            gift_option_for_individual_items_message: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//textarea[@title='Message']
+                            gift_option_for_individual_items_from: //div[h5[contains(.,'%productName%')]]//input[@title='From']
+                            gift_option_for_individual_items_to: //div[h5[contains(.,'%productName%')]]//input[@title='To']
+                            gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='From']
                         links:
                             back: //p[@class='back-link']/a[@href]
                 -
@@ -156,6 +156,7 @@ onepage_checkout:
                 empty_shipping_methods_for_all_addresses: //li[normalize-space(@class)='error-msg' and contains(.//span,'Please select shipping methods for all addresses')]
                 success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.//span,'The address has been saved.')]
                 payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.//span,'Payment method is not defined')]
+                ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
 
 checkout_multishipping:
     mca: checkout/multishipping/addresses/
@@ -228,7 +229,7 @@ checkout_multishipping_shipping_methods:
                             product: //a[contains(.,'%product%')]
                         checkboxes:
                             add_gift_options: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options']]
-                            gift_option_for_the entire_order: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]
+                            gift_option_for_the_entire_order: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]
                             gift_option_for_individual_items: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]
                         radiobuttons:
                             shipping_method: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
@@ -236,9 +237,9 @@ checkout_multishipping_shipping_methods:
                             gift_option_entire_order_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='From']
                             gift_option_entire_order_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//input[@title='To']
                             gift_option_entire_order_message: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for this address.')]//textarea[@title='Message']
-                            gift_option_for_individual_items_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//input[@title='From']
-                            gift_option_for_individual_items_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//input[@title='To']
-                            gift_option_for_individual_items_message: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for the item.')]//textarea[@title='Message']
+                            gift_option_for_individual_items_from: //div[h5[contains(.,'%productName%')]]//input[@title='From']
+                            gift_option_for_individual_items_to: //div[h5[contains(.,'%productName%')]]//input[@title='To']
+                            gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='From']
         buttons:
             continue_to_billing_information: //button[span='Continue to Billing Information']
         links:
