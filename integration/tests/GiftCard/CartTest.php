@@ -25,39 +25,12 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * @magentoDataFixture GiftCard/_fixtures/code_pool.php
+ * @magentoDataFixture GiftCard/_fixtures/giftcard_account.php
+ */
 class GiftCard_CartTest extends Magento_Test_Webservice
 {
-    /**
-     * Giftcard account instance
-     *
-     * @var Enterprise_GiftCardAccount_Model_Giftcardaccount
-     */
-    protected $_giftcardAccount;
-
-    /**
-     * @return void
-     */
-    protected function setUp()
-    {
-        require dirname(__FILE__) . '/_fixtures/code_pool.php';
-        $accountFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_account.xml');
-        $accountCreateData = self::simpleXmlToArray($accountFixture->create);
-
-        $giftcardAccount = new Enterprise_GiftCardAccount_Model_Giftcardaccount();
-        $giftcardAccount->setData($accountCreateData);
-        $giftcardAccount->save();
-
-        $this->_giftcardAccount = $giftcardAccount;
-    }
-
-    protected function tearDown()
-    {
-        if ($this->_giftcardAccount) {
-            $this->_giftcardAccount->delete();
-            unset($this->_giftcardAccount);
-        }
-    }
-
     /**
      * Test giftcard Shopping Cart add, list, remove
      *
@@ -65,19 +38,20 @@ class GiftCard_CartTest extends Magento_Test_Webservice
      */
     public function testLSD()
     {
-        //Test giftcard att to quote
+        //Test giftcard add to quote
+        $giftcardAccount = self::getFixture('giftcard_account');
         $quoteId = $this->call('cart.create', array(1));
-        $addResult = $this->call('cart_giftcard.add', array($this->_giftcardAccount->getCode(), $quoteId));
+        $addResult = $this->call('cart_giftcard.add', array($giftcardAccount->getCode(), $quoteId));
         $this->assertTrue($addResult, 'Add giftcard to quote');
 
         //Test list of giftcards added to quote
         $giftcards = $this->call('cart_giftcard.list', array($quoteId));
         $this->assertGreaterThan(0, count($giftcards));
-        $this->assertEquals($this->_giftcardAccount->getCode(), $giftcards[0]['code']);
-        $this->assertEquals($this->_giftcardAccount->getBalance(), $giftcards[0]['base_amount']);
+        $this->assertEquals($giftcardAccount->getCode(), $giftcards[0]['code']);
+        $this->assertEquals($giftcardAccount->getBalance(), $giftcards[0]['base_amount']);
 
         //Test giftcard removing from quote
-        $removeResult = $this->call('cart_giftcard.remove', array($this->_giftcardAccount->getCode(), $quoteId));
+        $removeResult = $this->call('cart_giftcard.remove', array($giftcardAccount->getCode(), $quoteId));
         $this->assertTrue($removeResult, 'Remove giftcard from quote');
     }
 

@@ -27,40 +27,10 @@
 
 /**
  * @magentoDataFixture GiftCard/_fixtures/code_pool.php
+ * @magentoDataFixture GiftCard/_fixtures/giftcard_account.php
  */
 class GiftCard_CustomerTest extends Magento_Test_Webservice
 {
-    /**
-     * Giftcard account instance
-     *
-     * @var Enterprise_GiftCardAccount_Model_Giftcardaccount
-     */
-    protected $_giftcardAccount;
-
-    /**
-     * @return void
-     */
-    protected function setUp()
-    {
-        require dirname(__FILE__) . '/_fixtures/code_pool.php';
-        $accountFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_account.xml');
-        $accountCreateData = self::simpleXmlToArray($accountFixture->create);
-
-        $giftcardAccount = new Enterprise_GiftCardAccount_Model_Giftcardaccount();
-        $giftcardAccount->setData($accountCreateData);
-        $giftcardAccount->save();
-
-        $this->_giftcardAccount = $giftcardAccount;
-    }
-
-    protected function tearDown()
-    {
-        if ($this->_giftcardAccount) {
-            $this->_giftcardAccount->delete();
-            unset($this->_giftcardAccount);
-        }
-    }
-
     /**
      * Test giftcard customer info by code
      *
@@ -68,9 +38,10 @@ class GiftCard_CustomerTest extends Magento_Test_Webservice
      */
     public function testInfo()
     {
-        $balance = $this->_giftcardAccount->getData('balance');
-        $dateExpires = $this->_giftcardAccount->getData('date_expires');
-        $code = $this->_giftcardAccount->getData('code');
+        $giftcardAccount = self::getFixture('giftcard_account');
+        $balance = $giftcardAccount->getData('balance');
+        $dateExpires = $giftcardAccount->getData('date_expires');
+        $code = $giftcardAccount->getData('code');
         
         $info = $this->call('giftcard_customer.info', array($code));
         $this->assertEquals($balance, $info['balance']);
@@ -84,7 +55,8 @@ class GiftCard_CustomerTest extends Magento_Test_Webservice
      */
     public function testRedeem()
     {
-        $code = $this->_giftcardAccount->getData('code');
+        $giftcardAccount = self::getFixture('giftcard_account');
+        $code = $giftcardAccount->getData('code');
         //Fixture customer id
         $customerId = 10001;
         //Default website has id 1
