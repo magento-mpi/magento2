@@ -504,7 +504,7 @@ config_option_download:
         field_1:
             fieldType: field
             fieldParameter:
-            fieldsValue: 10            
+            fieldsValue: 10
 
 config_option_grouped:
 
@@ -546,7 +546,7 @@ config_option_bundle:
         field_1:
             fieldType: field
             fieldParameter: %noValue%
-            fieldsValue: 15              
+            fieldsValue: 15
 
 config_option_configurable:
 
@@ -750,12 +750,14 @@ order_template:
         shipping_service: Flat Rate
         shipping_method: Fixed
     gift_messages:
-        product_1:
-            general_sku: %noValue
-            message_option:
-                to: %noValue%
-                from: %noValue%
-                message: %noValue%
+        entire_order: %noValue%
+        individual_items:
+            product_1:
+                general_sku: %noValue%
+                message_option:
+                    to: %noValue%
+                    from: %noValue%
+                    message: %noValue%
     coupons:
         coupon_1: %noValue%
 
@@ -908,12 +910,14 @@ order_req_1:
         shipping_service: Flat Rate
         shipping_method: Fixed
     gift_messages:
-        product_1:
-            general_sku: %noValue
-            message_option:
-                to: %noValue%
-                from: %noValue%
-                message: %noValue%
+        entire_order: %noValue%
+        individual_items:
+            product_1:
+                general_sku: %noValue%
+                message_option:
+                    to: %noValue%
+                    from: %noValue%
+                    message: %noValue%
     coupons:
         coupon_1: %noValue%
 
@@ -1171,12 +1175,39 @@ order_with_message_for_product:
         shipping_service: Flat Rate
         shipping_method: Fixed
     gift_messages:
+        entire_order: %noValue%
+        individual_items:
+            product_1:
+                general_sku: %noValue%
+                message_option:
+                    to: me
+                    from: guess_who
+                    message: How you doing?
+
+order_with_message_for_order:
+    customer_data:
+        email: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    products_to_add:
         product_1:
-            general_sku: %noValue
-            message_option:
-                to: me
-                from: guess_who
-                message: How you doing?
+            filter_sku: %noValue%
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    billing_addr_data: *billingReqFields
+    shipping_addr_data: *shippingReqFields
+    payment_data:
+        payment_method: credit_card
+        payment_info: *visa
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    gift_messages:
+        entire_order:
+            from_order_level: guess_who
+            to_order_level: me
+            message_order_level: How you doing?
 
 order_with_message_empty_fields_for_product:
     customer_data:
@@ -1198,12 +1229,14 @@ order_with_message_empty_fields_for_product:
         shipping_service: Flat Rate
         shipping_method: Fixed
     gift_messages:
-        product_1:
-            general_sku: %noValue
-            message_option:
-                to: ' '
-                from: ' '
-                message: ' '
+        entire_order: %noValue%
+        individual_items:
+            product_1:
+                general_sku: %noValue%
+                message_option:
+                    to: ' '
+                    from: ' '
+                    message: ' '
 
 order_req_grouped_product:
     customer_data:
@@ -1825,12 +1858,14 @@ order_req_check_1:
         shipping_service: Flat Rate
         shipping_method: Fixed
     gift_messages:
-        product_1:
-            general_sku: %noValue
-            message_option:
-                to: %noValue%
-                from: %noValue%
-                message: %noValue%
+        entire_order: %noValue%
+        individual_items:
+            product_1:
+                general_sku: %noValue%
+                message_option:
+                    to: %noValue%
+                    from: %noValue%
+                    message: %noValue%
     coupons:
         coupon_1: %noValue%
 

@@ -354,21 +354,17 @@ class Order_Helper extends Mage_Selenium_TestCase
     /**
      *
      */
-    public function validate3dSecure()
+    public function validate3dSecure($password = '1234')
     {
         $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
         if ($this->isElementPresent($xpath)) {
             $this->clickButton('start_reset_validation', FALSE);
-            $this->fail('@TODO');
-//            $this->clickButton('start_reset_validation', FALSE);
-//            $this->waitForAjax();
-//            $xpath = $this->_getControlXpath('button', '3d_password');
-//            $this->waitForElement($xpath);
-//            $this->type($xpath, $paymentMethod['3d_secure_validation_code']);
-//            $xpath = $this->_getControlXpath('button', '3d_submit');
-//            $this->clickButton('3d_submit', FALSE);
-//            $this->waitForElementNotPresent($xpath);
-//            $this->pleaseWait();
+            $xpath = $this->_getControlXpath('field', '3d_password');
+            $this->waitForElement($xpath);
+            $this->type($xpath, $password);
+            $this->clickButton('3d_submit', FALSE);
+            $this->waitForElementNotPresent($xpath);
+            $this->pleaseWait();
         }
     }
 
@@ -451,19 +447,22 @@ class Order_Helper extends Mage_Selenium_TestCase
      */
     public function addGiftMessage(array $giftMessages)
     {
-//      @TODO for product and for order
-//        foreach($giftMessages as $product => $message) {
-//            if (array_key_exists('general_sku', $message)) {
-//                $this->addParameter('sku', $message['general_sku']);
-//                if (array_key_exists('message_options', $message)) {
-//                    $this->clickControl('link', 'gift_options', FALSE);
-//                    $this->waitForAjax();
-//                    $this->fillForm($message['message_options']);
-//                    $this->clickButton('ok', FALSE);
-//                    $this->pleaseWait();
-//                }
-//            }
-//        }
+        if (array_key_exists('entire_order', $giftMessages)) {
+            $this->fillForm($giftMessages['entire_order']);
+        }
+        if (array_key_exists('individual_items', $giftMessages)) {
+            foreach ($giftMessages['individual_items'] as $clue => $dataset) {
+                if (preg_match('/general_sku/', $clue)) {
+                    $this->addParameter('sku', $dataset);
+                } else {
+                    $this->clickControl('link', 'gift_options', FALSE);
+                    $this->waitForAjax();
+                    $this->fillForm($dataset);
+                    $this->clickButton('ok', FALSE);
+                    $this->pleaseWait();
+                }
+            }
+        }
     }
 
     /**
