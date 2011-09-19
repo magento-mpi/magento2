@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -25,6 +26,7 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 /**
  * Creating order for new customer with one required field empty
  *
@@ -32,19 +34,20 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CheckingValidationBackendTest extends Mage_Selenium_TestCase
+class Order_Create_CheckingValidationBackendTest extends Mage_Selenium_TestCase
 {
-   /**
-    * <p>Preconditions:</p>
-    *
-    * <p>Log in to Backend.</p>
-    *
-    */
+
+    /**
+     * <p>Preconditions:</p>
+     *
+     * <p>Log in to Backend.</p>
+     *
+     */
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-
     }
+
     /**
      *
      * <p>Creating products for testing.</p>
@@ -54,249 +57,277 @@ class CheckingValidationBackendTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('saved_cc_wo3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
+        // @TODO Verify that shipment method enabled
+        // @TODO Verify that payment method enabled
+        $this->navigate('manage_sales_orders');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
+        $this->addParameter('id', '0');
     }
 
     /**
      * @test
      */
-    public function createProducts()
+    public function createSimple()
     {
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->addParameter('id', '0');
+        //Data
         $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        //Steps
+        $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData;
+
+        return $productData['general_sku'];
     }
 
-   /**
-    * <p>Create customer via 'Create order' form (required fields are not filled).</p>
-    * <p>Steps:</p>
-    * <p>1.Go to Sales-Orders;</p>
-    * <p>2.Press "Create New Order" button;</p>
-    * <p>3.Press "Create New Customer" button;</p>
-    * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-    * <p>5.Fill all fields except one required;</p>
-    * <p>6.Press 'Add Products' button;</p>
-    * <p>7.Add first two products;</p>
-    * <p>8.Choose shipping address the same as billing;</p>
-    * <p>9.Check payment method 'Check / Money order';</p>
-    * <p>10.Choose first from 'Get shipping methods and rates';</p>
-    * <p>11.Submit order;</p>
-    * <p>Expected result:</p>
-    * <p>New customer is not created. Order is not created for the new customer. Message with "Empty required field" appears.</p>
-    *
-    * @depends createProducts
-    * @dataProvider data_emptyBillingFields
-    * @param array $emptyBillingField
-    * @test
-    *
-    */
-    public function orderWithoutRequiredFieldsFilledBillingAddress($emptyBillingField, $productData)
+    /**
+     * <p>Create customer via 'Create order' form (required fields are not filled).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders;</p>
+     * <p>2.Press "Create New Order" button;</p>
+     * <p>3.Press "Create New Customer" button;</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
+     * <p>5.Fill all fields except one required;</p>
+     * <p>6.Press 'Add Products' button;</p>
+     * <p>7.Add first two products;</p>
+     * <p>8.Choose shipping address the same as billing;</p>
+     * <p>9.Check payment method 'Check / Money order';</p>
+     * <p>10.Choose first from 'Get shipping methods and rates';</p>
+     * <p>11.Submit order;</p>
+     * <p>Expected result:</p>
+     * <p>New customer is not created. Order is not created for the new customer.
+     *    Message with "Empty required field" appears.</p>
+     *
+     * @depends createSimple
+     * @dataProvider dataEmptyFieldsBilling
+     *
+     * @param string $emptyField
+     * @param string $simpleSku
+     * @test
+     *
+     */
+    public function emptyRequiredFildsInBillingAddress($emptyField, $simpleSku)
     {
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_req_1', $emptyBillingField);
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $this->orderHelper()->createOrder($orderData, TRUE);
+        //Data
+        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
+        if ($emptyField != 'billing_country') {
+            $orderData['billing_addr_data'] = $this->loadData('billing_address_req', array($emptyField => ''));
+        } else {
+            $orderData['billing_addr_data'] = $this->loadData('billing_address_req',
+                    array($emptyField => '', 'billing_state' => '%noValue%'));
+        }
+        //Steps
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_billing_address');
-        foreach ($emptyBillingField as $key => $value) {
-            if ($value == '%noValue%' || !$fieldSet) {
-                continue;
-            }
-            if ($fieldSet->findField($key) != Null) {
-                $fieldXpath = $fieldSet->findField($key);
-            } else {
-                $fieldXpath = $fieldSet->findDropdown($key);
-            }
-            if (preg_match('/street_address/', $key)) {
-                $fieldXpath .= "/ancestor::div[@class='multi-input']";
-            }
-            $this->addParameter('fieldXpath', $fieldXpath);
-        }   $this->addParameter('fieldXpath', $fieldXpath);
+        if ($emptyField != 'billing_country' and $emptyField != 'billing_state') {
+            $fieldXpath = $fieldSet->findField($emptyField);
+        } else {
+            $fieldXpath = $fieldSet->findDropdown($emptyField);
+        }
+        if ($emptyField == 'billing_street_address_1') {
+            $fieldXpath .= "/ancestor::div[@class='multi-input']";
+        }
+        $this->addParameter('fieldXpath', $fieldXpath);
+
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
-    public function data_emptyBillingFields()
+
+    public function dataEmptyFieldsBilling()
     {
         return array(
-            array(array('billing_first_name'     => '')),
-            array(array('billing_last_name'      => '')),
-            array(array('billing_street_address_1'   => '')),
-            array(array('billing_city'    =>  '')),
-            array(array('billing_zip_code' =>  '')),
-            array(array('billing_telephone'   =>  ''))
+            array('billing_first_name'),
+            array('billing_last_name'),
+            array('billing_street_address_1'),
+            array('billing_city'),
+            array('billing_country'),
+            array('billing_state'),
+            array('billing_zip_code'),
+            array('billing_telephone')
         );
     }
-   /**
-    * <p>Create customer via 'Create order' form (required fields are not filled).</p>
-    * <p>Steps:</p>
-    * <p>1.Go to Sales-Orders;</p>
-    * <p>2.Press "Create New Order" button;</p>
-    * <p>3.Press "Create New Customer" button;</p>
-    * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
-    * <p>5.Fill all fields except one required;</p>
-    * <p>6.Press 'Add Products' button;</p>
-    * <p>7.Fill in billing address with required fields;</p>
-    * <p>8.Check each shipping required fields (message with error should appear near the field);</p>
-    * <p>9.Check payment method 'visa'. Fill its fields with correct information;</p>
-    * <p>10.Choose first from 'Get shipping methods and rates';</p>
-    * <p>11.Submit order;</p>
-    * <p>Expected result:</p>
-    * <p>New customer is not created. Order is not created for the new customer. Message with "Empty required field" appears.</p>
-    *
-    * @depends createProducts
-    * @dataProvider data_emptyShippingFields
-    * @param array $emptyShippingField
-    * @test
-    */
-    public function orderWithoutRequiredFieldsFilledShippingAddress($emptyShippingField, $productData)
+
+    /**
+     * <p>Create customer via 'Create order' form (required fields are not filled).</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders;</p>
+     * <p>2.Press "Create New Order" button;</p>
+     * <p>3.Press "Create New Customer" button;</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists;</p>
+     * <p>5.Fill all fields except one required;</p>
+     * <p>6.Press 'Add Products' button;</p>
+     * <p>7.Fill in billing address with required fields;</p>
+     * <p>8.Check each shipping required fields (message with error should appear near the field);</p>
+     * <p>9.Check payment method 'visa'. Fill its fields with correct information;</p>
+     * <p>10.Choose first from 'Get shipping methods and rates';</p>
+     * <p>11.Submit order;</p>
+     * <p>Expected result:</p>
+     * <p>New customer is not created. Order is not created for the new customer.
+     *    Message with "Empty required field" appears.</p>
+     *
+     * @depends createSimple
+     * @dataProvider dataEmptyFieldsShipping
+     *
+     * @param string $emptyField
+     * @param string $simpleSku
+     * @test
+     */
+    public function emptyRequiredFildsInShippingAddress($emptyField, $simpleSku)
     {
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_req_1', $emptyShippingField);
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $this->orderHelper()->createOrder($orderData, TRUE);
+        //Data
+        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
+        if ($emptyField != 'shipping_country') {
+            $orderData['shipping_addr_data'] = $this->loadData('shipping_address_req', array($emptyField => ''));
+        } else {
+            $orderData['shipping_addr_data'] = $this->loadData('shipping_address_req',
+                    array($emptyField => '', 'shipping_state' => '%noValue%'));
+        }
+        //Steps
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
         $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
         $fieldSet = $page->findFieldset('order_shipping_address');
-        foreach ($emptyShippingField as $key => $value) {
-            if ($value == '%noValue%' || !$fieldSet) {
-                continue;
-            }
-            if ($fieldSet->findField($key) != NULL) {
-                $fieldXpath = $fieldSet->findField($key);
-            } else {
-                $fieldXpath = $fieldSet->findDropdown($key);
-            }
-            if (preg_match('/street_address/', $key)) {
-                $fieldXpath .= "/ancestor::div[@class='multi-input']";
-            }
-            $this->addParameter('fieldXpath', $fieldXpath);
-        }   $this->addParameter('fieldXpath', $fieldXpath);
+        if ($emptyField != 'shipping_country' and $emptyField != 'shipping_state') {
+            $fieldXpath = $fieldSet->findField($emptyField);
+        } else {
+            $fieldXpath = $fieldSet->findDropdown($emptyField);
+        }
+        if ($emptyField == 'shipping_street_address_1') {
+            $fieldXpath .= "/ancestor::div[@class='multi-input']";
+        }
+        $this->addParameter('fieldXpath', $fieldXpath);
+
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
-    public function data_emptyShippingFields()
+
+    public function dataEmptyFieldsShipping()
     {
         return array(
-            array(array(    'shipping_first_name'     => ''
-                            )),
-            array(array(
-                            'shipping_last_name'      => ''
-                            )),
-            array(array(
-                            'shipping_street_address_1'   => ''
-                            )),
-            array(array(
-                            'shipping_city'    =>  ''
-                            )),
-            array(array(
-                            'shipping_zip_code' =>  ''
-                            )),
-            array(array(
-                            'shipping_telephone'   =>  ''
-                            ))
+            array('shipping_first_name'),
+            array('shipping_last_name'),
+            array('shipping_street_address_1'),
+            array('shipping_city'),
+            array('shipping_country'),
+            array('shipping_state'),
+            array('shipping_zip_code'),
+            array('shipping_telephone')
         );
     }
-   /**
-    * <p>Create order without shipping method</p>
-    * <p>Steps:</p>
-    * <p>1. Create new order for new customer;</p>
-    * <p>2. Fill in the required fields with billing and shipping address;</p>
-    * <p>3. Do not add any products to order;</p>
-    * <p>4. Do not choose any shipping method;</p>
-    * <p>5. Submit order;</p>
-    * <p>Expected result:</p>
-    * <p>Order cannot be created by the reason of empty required fields in shipping method.</p>
-    *
-    * @depends createProducts
-    * @test
-    */
-    public function noShippingMethodChosen($productData)
+
+    /**
+     * <p>Create order without shipping method</p>
+     * <p>Steps:</p>
+     * <p>1. Create new order for new customer;</p>
+     * <p>2. Fill in the required fields with billing and shipping address;</p>
+     * <p>3. Do not add any products to order;</p>
+     * <p>4. Do not choose any shipping method;</p>
+     * <p>5. Submit order;</p>
+     * <p>Expected result:</p>
+     * <p>Order cannot be created by the reason of empty required fields in shipping method.</p>
+     *
+     * @depends createSimple
+     * @test
+     */
+    public function noShippingMethodChosen($simpleSku)
     {
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_no_shipping_method');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $this->orderHelper()->createOrder($orderData, TRUE);
-        $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
-        $fieldSet = $page->findFieldset('shipping_method');
-        $fieldXpath = $fieldSet->findLink('get_shipping_methods_and_rates');
+        //Data
+        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
+        unset($orderData['shipping_data']);
+        //Steps
+        $this->orderHelper()->createOrder($orderData, false);
+        //Verifying
+        $fieldXpath = $this->_getControlXpath('link', 'get_shipping_methods_and_rates');
         $this->addParameter('fieldXpath', $fieldXpath);
         $this->assertTrue($this->errorMessage('empty_required_field'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
-   /**
-    * <p>Create order without products.</p>
-    * <p>Steps:</p>
-    * <p>1. Create new order for new customer;</p>
-    * <p>2. Fill in the required fields with billing and shipping address;</p>
-    * <p>3. Add products to order;</p>
-    * <p>4. Choose any shipping method;</p>
-    * <p>5. Remove products from order;</p>
-    * <p>6. Submit order;</p>
-    * <p>Expected result:</p>
-    * <p>Order cannot be created. Message 'You need to specify order items.' appears.</p>
-    *
-    * @depends createProducts
-    * @test
-    */
-    public function noProductsChosen($productData)
+
+    /**
+     * <p>Create order without products.</p>
+     * <p>Steps:</p>
+     * <p>1. Create new order for new customer;</p>
+     * <p>2. Fill in the required fields with billing and shipping address;</p>
+     * <p>3. Add products to order;</p>
+     * <p>4. Choose any shipping method;</p>
+     * <p>5. Remove products from order;</p>
+     * <p>6. Submit order;</p>
+     * <p>Expected result:</p>
+     * <p>Order cannot be created. Message 'You need to specify order items.' appears.</p>
+     *
+     * @depends createSimple
+     * @test
+     */
+    public function noProductsChosen()
     {
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_no_shipping_method');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $this->orderHelper()->createOrder($orderData, TRUE);
-        $productToRemove = $this->loadData('products_to_reconfig_2');
-        $productToRemove['product_1']['filter_sku'] = $productData['general_sku'];
-        $this->orderHelper()->reconfigProduct($productToRemove);
-        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-        $this->waitForAjax();
-        $this->clickButton('submit_order', FALSE);
-        $this->waitForPageToLoad();
-        $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
-        $fieldSet = $page->findFieldset('shipping_method');
-        $fieldXpath = $fieldSet->findLink('get_shipping_methods_and_rates');
-        $this->addParameter('fieldXpath', $fieldXpath);
+        //Data
+        $orderData = $this->loadData('order_physical');
+        //Steps
+        $this->orderHelper()->createOrder($orderData, false);
+        //Verifying
         $this->assertTrue($this->errorMessage('error_specify_order_items'), $this->messages);
+        $this->assertTrue($this->errorMessage('shipping_must_be_specified'), $this->messages);
     }
-   /**
-    * <p>Create order without payment method.</p>
-    * <p>Steps:</p>
-    * <p>1. Create new order for new customer;</p>
-    * <p>2. Fill in the required fields with billing and shipping address;</p>
-    * <p>3. Add products to order;</p>
-    * <p>4. Choose any shipping method;</p>
-    * <p>5. Do not choose payment method;</p>
-    * <p>6. Submit order;</p>
-    * <p>Expected result:</p>
-    * <p>Order cannot be created. Message 'Please select one of the options.' appears.</p>
-    *
-    * @depends createProducts
-    * @test
-    */
-    public function noPaymentMethodChosen($productData)
+
+    /**
+     * <p>Create order without payment method.</p>
+     * <p>Steps:</p>
+     * <p>1. Create new order for new customer;</p>
+     * <p>2. Fill in the required fields with billing and shipping address;</p>
+     * <p>3. Add products to order;</p>
+     * <p>4. Choose any shipping method;</p>
+     * <p>5. Do not choose payment method;</p>
+     * <p>6. Submit order;</p>
+     * <p>Expected result:</p>
+     * <p>Order cannot be created. Message 'Please select one of the options.' appears.</p>
+     *
+     * @depends createSimple
+     * @test
+     */
+    public function noPaymentMethodChosen($simpleSku)
     {
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_no_payment_method');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $this->orderHelper()->createOrder($orderData, TRUE);
-        $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
-        $fieldSet = $page->findFieldset('order_payment_method');
-        $fieldXpath = $fieldSet->findRadiobutton('credit_card');
-        $this->addParameter('fieldXpath', $fieldXpath);
+        //Data
+        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
+        unset($orderData['payment_data']);
+        //Steps
+        $this->orderHelper()->createOrder($orderData, false);
+        //Verifying
         $this->assertTrue($this->errorMessage('empty_payment_method'), $this->messages);
     }
+
+//    /**
+//     * With empty credit card data
+//     * @param type $simpleSku
+//     *
+//     * @depends createSimple
+//     * @dataProvider dataEmptyCardFields
+//     * @test
+//     */
+//    public function noPaymentMethodChosen($emptyField, $fieldType, $simpleSku)
+//    {
+//        //Data
+//        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
+//        $orderData['payment_data'] = $this->loadData('saved_credit_card', array($emptyField => ''));
+//        //Steps
+//        $this->orderHelper()->createOrder($orderData, false);
+//        //Verifying
+//        $this->addFieldIdToMessage($fieldType, $emptyField);
+//        $this->assertTrue($this->validationMessage('required_field_empty'), $this->messages);
+//        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
+//    }
+//
+//    public function dataEmptyCardFields()
+//    {
+//        return array(
+//            array('expiration_month', 'dropdown'),
+//            array('card_type', 'dropdown'),
+//            array('card_number', 'field'),
+//
+//            array('name_on_card', 'field'),
+//            array('card_verification_number', 'field'),
+//            array('expiration_year', 'dropdown')
+//        );
+//    }
 }
