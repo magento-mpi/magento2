@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <input>
-        <customer_id>10001</customer_id>
+        <customer_id></customer_id>
         <website_id>1</website_id>
     </input>
     <expected>
@@ -10,7 +10,6 @@
             <balance_amount>1100.0000</balance_amount>
             <balance_delta>100.0000</balance_delta>
             <is_customer_notified>0</is_customer_notified>
-            <customer_id>10001</customer_id>
             <website_id>1</website_id>
             <base_currency_code>EN</base_currency_code>
         </history_items>
@@ -19,7 +18,6 @@
             <balance_amount>1000.0000</balance_amount>
             <balance_delta>1000.0000</balance_delta>
             <is_customer_notified>0</is_customer_notified>
-            <customer_id>10001</customer_id>
             <website_id>1</website_id>
             <base_currency_code>EN</base_currency_code>
         </history_items>

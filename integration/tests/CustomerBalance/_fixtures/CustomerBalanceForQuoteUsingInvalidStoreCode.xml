@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <input>
+        <quote_id></quote_id>
+        <store_code>invalid_code</store_code>
+    </input>
+    <expected>
+        <used_amount>10</used_amount>
+    </expected>
+</root>

@@ -38,6 +38,18 @@
 class CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
 {
     /**
+     * Customer fixture
+     * @var Mage_Customer_Model_Customer
+     */
+    public static $customer = null;
+
+    /**
+     * Customer without balance fixture
+     * @var Mage_Customer_Model_Customer
+     */
+    public static $customerWithoutBalance = null;
+
+    /**
      * Test successful customer balance info
      *
      * @return void
@@ -47,9 +59,11 @@ class CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
         $customerBalanceFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalance.xml');
         $data = self::simpleXmlToArray($customerBalanceFixture);
 
+        $data['input']['customer_id'] = self::$customer->getId();
+
         $result = $this->call('storecredit.balance', $data['input']);
 
-        $this->assertEquals($data['expected']['balance'], $result);
+        $this->assertEquals($data['expected']['balance'], $result, 'This balance value is not expected');
     }
 
     /**
@@ -61,13 +75,14 @@ class CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceBalanceExceptionBalanceNotFound()
     {
-        //Get customer id without balance
         $customerBalanceFixture = simplexml_load_file(
             dirname(__FILE__) . '/_fixtures/CustomerBalanceExceptionBalanceNotFound.xml'
         );
         $data = self::simpleXmlToArray($customerBalanceFixture);
 
-        $this->call('storecredit.balance', $data['input'], 'This balance value is not expected');
+        $data['input']['customer_id'] = self::$customerWithoutBalance->getId();
+
+        $this->call('storecredit.balance', $data['input'], 'Balance value is not expected');
     }
 
     /**
@@ -82,6 +97,8 @@ class CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
             dirname(__FILE__) . '/_fixtures/CustomerBalanceHistory.xml'
         );
         $data = self::simpleXmlToArray($customerBalanceHistoryFixture);
+
+        $data['input']['customer_id'] = self::$customer->getId();
 
         $result = $this->call('storecredit.history', $data['input']);
 
@@ -103,12 +120,24 @@ class CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceHistoryExceptionHistoryNotFound()
     {
-        //Get customer id without balance history
         $customerBalanceHistoryFixture = simplexml_load_file(
             dirname(__FILE__) . '/_fixtures/CustomerBalanceExceptionHistoryNotFound.xml'
         );
         $data = self::simpleXmlToArray($customerBalanceHistoryFixture);
 
+        $data['input']['customer_id'] = self::$customerWithoutBalance->getId();
+
         $this->call('storecredit.history', $data['input']);
+    }
+
+
+    public static function tearDownAfterClass()
+    {
+        Mage::register('isSecureArea', true);
+
+        self::$customer->delete();
+        self::$customerWithoutBalance->delete();
+
+        Mage::unregister('isSecureArea');
     }
 }

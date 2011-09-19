@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <input>
-        <customer_id></customer_id>
-        <website_id>1</website_id>
+        <quote_id></quote_id>
+        <store_code>default</store_code>
     </input>
     <expected>
-        <balance>1100</balance>
+        <used_amount>10</used_amount>
     </expected>
 </root>

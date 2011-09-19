@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <input>
-        <customer_id></customer_id>
-        <website_id>1</website_id>
+        <quote_id></quote_id>
+        <store_id>1</store_id>
     </input>
 </root>

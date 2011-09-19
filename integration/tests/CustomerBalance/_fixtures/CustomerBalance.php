@@ -25,15 +25,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$customer = new Mage_Customer_Model_Customer();
-
 //Add customer
-$customer->setId(10001)
-    ->setStoreId(1)
+$customer = new Mage_Customer_Model_Customer();
+$customer->setStoreId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
-    ->setEmail('mr.test@test.com')
+    ->setEmail('mr.test'.time().'@test.com')
     ->setFirstname('Test')
     ->setLastname('Test')
     ->setMiddlename('Test')
@@ -44,26 +42,29 @@ $customer->setId(10001)
 
 //Change customer balance several times to create balance with history
 $customerBalance = new Enterprise_CustomerBalance_Model_Balance();
-$customerBalance->setCustomerId(10001)
+$customerBalance->setCustomerId($customer->getId())
     ->setWebsiteId(1)
     ->setAmountDelta(1000)
     ->setBaseCurrencyCode('EN')
     ->save();
 
-$customerBalance->setCustomerId(10001)
+$customerBalance->setCustomerId($customer->getId())
     ->setWebsiteId(1)
     ->setAmountDelta(100)
     ->setBaseCurrencyCode('EN')
     ->setAdditionalInfo('Test')
     ->save();
 
+//Save customer ID
+CustomerBalance_CustomerBalanceTest::$customer = $customer;
+
 //Add customer without balance
-$customer->setId(10002)
-    ->setStoreId(1)
+$customer = new Mage_Customer_Model_Customer();
+$customer->setStoreId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
-    ->setEmail('mr.test2@test.com')
+    ->setEmail('mr.test2'.time().'@test.com')
     ->setFirstname('Test 2')
     ->setLastname('Test 2')
     ->setMiddlename('Test 2')
@@ -71,3 +72,6 @@ $customer->setId(10002)
     ->setRewardUpdateNotification(1)
     ->setRewardWarningNotification(1)
     ->save();
+
+//Save customer without balance ID
+CustomerBalance_CustomerBalanceTest::$customerWithoutBalance = $customer;
