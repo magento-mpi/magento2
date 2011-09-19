@@ -38,10 +38,10 @@ class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
     protected static $_fixtures = array();
 
     private $_webServiceMap = array(
-                                    'soapv1'=>'Magento_Test_Webservice_SoapV1',
-                                    'soapv2'=>'Magento_Test_Webservice_SoapV2',
-                                    'xmlrpc'=>'Magento_Test_Webservice_XmlRpc'
-                             );
+        'soapv1'=>'Magento_Test_Webservice_SoapV1',
+        'soapv2'=>'Magento_Test_Webservice_SoapV2',
+        'xmlrpc'=>'Magento_Test_Webservice_XmlRpc'
+    );
 
 
     public function getWebService()
@@ -59,7 +59,7 @@ class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
     {
         if(is_null(self::$_ws)) $this->getWebService();
 
-        return self::$_ws->call($path,$params);;
+        return self::$_ws->call($path, $params);
     }
 
     /**

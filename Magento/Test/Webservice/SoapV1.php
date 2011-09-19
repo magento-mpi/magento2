@@ -27,8 +27,10 @@
 
 class Magento_Test_Webservice_SoapV1
 {
-
+    /** @var string */
     private $_session = null;
+
+    /** @var Zend_Soap_Client */
     private $_client = null;
 
     public function init()

@@ -27,8 +27,10 @@
 
 class Magento_Test_Webservice_XmlRpc
 {
-
+    /** @var string */
     private $_session = null;
+
+    /** @var Zend_XmlRpc_Client */
     private $_client = null;
 
     public function init()

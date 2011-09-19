@@ -27,8 +27,10 @@
 
 class Magento_Test_Webservice_SoapV2
 {
-
+    /** @var string */
     private $_session = null;
+
+    /** @var Zend_Soap_Client */
     private $_client = null;
     private $_configFunction;
     private $_configAlias;
@@ -50,14 +52,13 @@ class Magento_Test_Webservice_SoapV2
 
     public function call($path, $params = array())
     {
-
-        $pathExploded = explode('.',$path);
+        $pathExploded = explode('.', $path);
 
         $pathapi = $pathExploded[0];
-        $pathmethod = isset($pathExploded[1])?$pathExploded[1]:'';
-        $pathmethod[0]=strtoupper($pathmethod[0]);
-        foreach($this->_configAlias as $key => $value){
-            if((string)$value == $pathapi){
+        $pathmethod = isset($pathExploded[1]) ? $pathExploded[1] : '';
+        $pathmethod[0] = strtoupper($pathmethod[0]);
+        foreach ($this->_configAlias as $key => $value) {
+            if ((string)$value == $pathapi) {
                 $pathapi = $key;
                 break;
             }
@@ -67,7 +68,7 @@ class Magento_Test_Webservice_SoapV2
         $soap2method .= $pathmethod;
         array_unshift($params, $this->_session);
 
-        $result = call_user_func_array(array($this->_client, $soap2method) ,$params);
+        $result = call_user_func_array(array($this->_client, $soap2method), $params);
 
         return get_object_vars($result);
     }
