@@ -132,14 +132,6 @@
                     </tax>
                 </observers>
             </sales_order_save_after>
-            <catalogindex_prepare_price_select>
-                <observers>
-                    <tax>
-                        <class>tax/observer</class>
-                        <method>prepareCatalogIndexPriceSelect</method>
-                    </tax>
-                </observers>
-            </catalogindex_prepare_price_select>
             <catalog_product_collection_load_after>
                 <observers>
                     <tax>

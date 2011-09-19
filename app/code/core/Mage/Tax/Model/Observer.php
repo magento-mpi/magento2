@@ -120,36 +120,6 @@ class Mage_Tax_Model_Observer
     }
 
     /**
-     * Prepare select which is using to select index data for layered navigation
-     *
-     * @param   Varien_Event_Observer $observer
-     * @return  Mage_Tax_Model_Observer
-     */
-    public function prepareCatalogIndexPriceSelect(Varien_Event_Observer $observer)
-    {
-        $table = $observer->getEvent()->getTable();
-        $response = $observer->getEvent()->getResponseObject();
-        $select = $observer->getEvent()->getSelect();
-        $storeId = $observer->getEvent()->getStoreId();
-
-        $additionalCalculations = $response->getAdditionalCalculations();
-        $calculation = Mage::helper('tax')->getPriceTaxSql(
-            $table . '.min_price', $table.'.tax_class_id'
-        );
-
-        if (!empty($calculation)) {
-            $additionalCalculations[] = $calculation;
-            $response->setAdditionalCalculations($additionalCalculations);
-            /**
-             * Tax class presented in price index table
-             */
-            //Mage::helper('tax')->joinTaxClass($select, $storeId, $table);
-        }
-
-        return $this;
-    }
-
-    /**
      * Add tax percent values to product collection items
      *
      * @param   Varien_Event_Observer $observer

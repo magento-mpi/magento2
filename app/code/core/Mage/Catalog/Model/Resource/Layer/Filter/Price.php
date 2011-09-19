@@ -98,11 +98,6 @@ class Mage_Catalog_Model_Resource_Layer_Filter_Price extends Mage_Core_Model_Res
         );
 
         /**
-         * @deprecated since 1.3.2.2
-         */
-        Mage::dispatchEvent('catalogindex_prepare_price_select', $eventArgs);
-
-        /**
          * @since 1.4
          */
         Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);

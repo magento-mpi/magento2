@@ -129,13 +129,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 );
             }
 
-            $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
-            if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
-                $this->_getSession()->addNotice(
-                    Mage::helper('enterprise_staging')->__('Cannot perform create operation because reindexing process or another staging operation is running.')
-                );
-            }
-
             $entryPoint = Mage::getSingleton('enterprise_staging/entry');
             if ($entryPoint->isAutomatic()) {
                 $this->_getSession()->addNotice(

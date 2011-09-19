@@ -263,20 +263,4 @@ class Mage_Bundle_Model_Observer
         return $this;
     }
 
-    /**
-     * CatalogIndex Indexer after plain reindex process
-     *
-     * @deprecated since 1.4.0.0
-     * @see Mage_Bundle_Model_Mysql4_Indexer_Price
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Bundle_Model_Observer
-     */
-    public function catalogIndexPlainReindexAfter(Varien_Event_Observer $observer)
-    {
-        $products = $observer->getEvent()->getProducts();
-        Mage::getSingleton('bundle/price_index')->reindex($products);
-
-        return $this;
-    }
 }

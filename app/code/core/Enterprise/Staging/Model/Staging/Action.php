@@ -142,9 +142,6 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-        if (Mage::helper('enterprise_staging')->getCatalogIndexRunningFlag()) {
-            return false;
-        }
         if ($this->getStaging() && $this->getStaging()->isStatusProcessing()) {
             return false;
         }

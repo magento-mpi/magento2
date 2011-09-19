@@ -105,7 +105,6 @@
                             <virtual/>
                         </allowed_selection_types>
                         <price_model>bundle/product_price</price_model>
-                        <index_data_retreiver>bundle/catalogIndex_data_bundle</index_data_retreiver>
                         <index_priority>40</index_priority>
                         <price_indexer>bundle/indexer_price</price_indexer>
                         <stock_indexer>bundle/indexer_stock</stock_indexer>
@@ -155,16 +154,6 @@
                 <bundle>bundle/sales_order_pdf_items_creditmemo</bundle>
             </creditmemo>
         </pdf>
-        <events>
-            <catalogindex_plain_reindex_after>
-                <observers>
-                    <bundle>
-                        <class>bundle/observer</class>
-                        <method>catalogIndexPlainReindexAfter</method>
-                    </bundle>
-                </observers>
-            </catalogindex_plain_reindex_after>
-        </events>
     </global>
     <frontend>
         <translate>

@@ -44,53 +44,6 @@ class Mage_Bundle_Model_Resource_Selection extends Mage_Core_Model_Resource_Db_A
     }
 
     /**
-     * Retrieve Price From index
-     *
-     * @param int $productId
-     * @param float $qty
-     * @param int $storeId
-     * @param int $groupId
-     * @return mixed
-     */
-    public function getPriceFromIndex($productId, $qty, $storeId, $groupId)
-    {
-        $adapter = $this->_getReadAdapter();
-        $select = clone $adapter->select();
-        $select->reset();
-
-        $attrPriceId = Mage::getSingleton('eav/entity_attribute')
-            ->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'price');
-        $attrTierPriceId = Mage::getSingleton('eav/entity_attribute')
-            ->getIdByCode(Mage_Catalog_Model_Product::ENTITY, 'tier_price');
-
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
-
-        $select->from(array("price_index" => $this->getTable('catalogindex/price')), array('price' => 'SUM(value)'))
-            ->where('entity_id = :product_id')
-            ->where('website_id = :website_id')
-            ->where('customer_group_id = :customer_group')
-            ->where('attribute_id = :price_attribute OR attribute_id = :tier_price_attribute')
-            ->where('qty <= :qty')
-            ->group('entity_id');
-
-        $bind = array(
-            'product_id' => $productId,
-            'website_id' => $websiteId,
-            'customer_group' => $groupId,
-            'price_attribute' => $attrPriceId,
-            'tier_price_attribute' => $attrTierPriceId,
-            'qty'   => $qty
-        );
-
-        $price = $adapter->fetchCol($select, $bind);
-        if (!empty($price)) {
-            return array_shift($price);
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * Retrieve Required children ids
      * Return grouped array, ex array(
      *   group => array(ids)

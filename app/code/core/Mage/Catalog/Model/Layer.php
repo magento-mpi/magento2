@@ -49,16 +49,6 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     protected $_stateKey = null;
 
     /**
-     * Get data aggregation object
-     *
-     * @return Mage_CatalogIndex_Model_Aggregation
-     */
-    public function getAggregator()
-    {
-        return Mage::getSingleton('catalogindex/aggregation');
-    }
-
-    /**
      * Get layer state key
      *
      * @return string
@@ -284,14 +274,6 @@ class Mage_Catalog_Model_Layer extends Varien_Object
      */
     protected function _getSetIds()
     {
-        $key = $this->getStateKey().'_SET_IDS';
-        $setIds = $this->getAggregator()->getCacheData($key);
-
-        if ($setIds === null) {
-            $setIds = $this->getProductCollection()->getSetIds();
-            $this->getAggregator()->saveCacheData($setIds, $key, $this->getStateTags());
-        }
-
-        return $setIds;
+        return $this->getProductCollection()->getSetIds();
     }
 }

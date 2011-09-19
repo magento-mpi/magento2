@@ -155,7 +155,6 @@
                         <model>downloadable/product_type</model>
                         <is_qty>1</is_qty>
                         <price_model>downloadable/product_price</price_model>
-                        <index_data_retreiver>downloadable/catalogIndex_data_downloadable</index_data_retreiver>
                         <composite>0</composite>
                         <price_indexer>downloadable/indexer_price</price_indexer>
                         <can_use_qty_decimals>0</can_use_qty_decimals>

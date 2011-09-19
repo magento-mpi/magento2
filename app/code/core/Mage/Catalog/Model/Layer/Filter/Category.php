@@ -154,29 +154,22 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
      */
     protected function _getItemsData()
     {
-        $key = $this->getLayer()->getStateKey().'_SUBCATEGORIES';
-        $data = $this->getLayer()->getAggregator()->getCacheData($key);
+        $categoty   = $this->getCategory();
+        /** @var $categoty Mage_Catalog_Model_Categeory */
+        $categories = $categoty->getChildrenCategories();
 
-        if ($data === null) {
-            $categoty   = $this->getCategory();
-            /** @var $categoty Mage_Catalog_Model_Categeory */
-            $categories = $categoty->getChildrenCategories();
+        $this->getLayer()->getProductCollection()
+            ->addCountToCategories($categories);
 
-            $this->getLayer()->getProductCollection()
-                ->addCountToCategories($categories);
-
-            $data = array();
-            foreach ($categories as $category) {
-                if ($category->getIsActive() && $category->getProductCount()) {
-                    $data[] = array(
-                        'label' => Mage::helper('core')->htmlEscape($category->getName()),
-                        'value' => $category->getId(),
-                        'count' => $category->getProductCount(),
-                    );
-                }
+        $data = array();
+        foreach ($categories as $category) {
+            if ($category->getIsActive() && $category->getProductCount()) {
+                $data[] = array(
+                    'label' => Mage::helper('core')->htmlEscape($category->getName()),
+                    'value' => $category->getId(),
+                    'count' => $category->getProductCount(),
+                );
             }
-            $tags = $this->getLayer()->getStateTags();
-            $this->getLayer()->getAggregator()->saveCacheData($data, $key, $tags);
         }
         return $data;
     }

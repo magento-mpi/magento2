@@ -152,61 +152,6 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
                     }
                     break;
 
-                case 'refresh_layered_navigation_now':
-                    try {
-                        $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
-                        if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
-                            $kill = Mage::getModel('catalogindex/catalog_index_kill_flag')->loadSelf();
-                            $kill->setFlagData($flag->getFlagData())->save();
-                        }
-
-                        $flag->setState(Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED)->save();
-                        Mage::getSingleton('catalogindex/indexer')->plainReindex();
-                        $this->_getSession()->addSuccess(
-                            Mage::helper('adminhtml')->__('Layered Navigation Indices were refreshed.')
-                        );
-                    }
-                    catch (Mage_Core_Exception $e) {
-                        $this->_getSession()->addError($e->getMessage());
-                    }
-                    catch (Exception $e) {
-                        $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('An error occurred while refreshing the Layered Navigation indices.'));
-                    }
-                    break;
-
-                case 'refresh_layered_navigation':
-                    try {
-                        $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
-                        switch ($flag->getState()) {
-                            case Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED:
-                                $flag->delete();
-                                $this->_getSession()->addSuccess(
-                                    Mage::helper('adminhtml')->__('The Layered Navigation indexing queue has been canceled.')
-                                );
-                                break;
-                            case Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING:
-                                $kill = Mage::getModel('catalogindex/catalog_index_kill_flag')->loadSelf();
-                                $kill->setFlagData($flag->getFlagData())->save();
-                                $this->_getSession()->addSuccess(
-                                    Mage::helper('adminhtml')->__('The Layered Navigation process has been queued to be killed.')
-                                );
-                                break;
-                            default:
-                                $flag->setState(Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED)->save();
-                                $this->_getSession()->addSuccess(
-                                    Mage::helper('adminhtml')->__('The Layered Navigation indexing has been queued.')
-                                );
-                                break;
-                        }
-                    }
-                    catch (Mage_Core_Exception $e) {
-                        $this->_getSession()->addError($e->getMessage());
-                    }
-                    catch (Exception $e) {
-                        $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('An error occurred while refreshing the Layered Navigation indices.'));
-                    }
-                    break;
-
                 case 'rebuild_search_index':
                     try {
                         Mage::getSingleton('catalogsearch/fulltext')->rebuildIndex();
@@ -311,24 +256,6 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
         }
         catch (Exception $e) {
             $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('An error occurred while clearing the image cache.'));
-        }
-
-        $this->_redirect('*/*');
-    }
-
-    public function refreshLayeredNavigationAction()
-    {
-        try {
-            Mage::getSingleton('catalogindex/indexer')->plainReindex();
-            $this->_getSession()->addSuccess(
-                Mage::helper('adminhtml')->__('The Layered Navigation indices were refreshed.')
-            );
-        }
-        catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
-        }
-        catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('An error occurred while refreshing the layered navigation indices.'));
         }
 
         $this->_redirect('*/*');

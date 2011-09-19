@@ -64,15 +64,6 @@
             </weee>
         </blocks>
         <events>
-            <catalogindex_prepare_price_select>
-                <observers>
-                    <weee>
-                        <type>model</type>
-                        <class>weee/observer</class>
-                        <method>prepareCatalogIndexSelect</method>
-                    </weee>
-                </observers>
-            </catalogindex_prepare_price_select>
             <catalog_entity_attribute_save_before>
                 <observers>
                     <weee>

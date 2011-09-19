@@ -157,27 +157,6 @@ class Enterprise_CatalogPermissions_Model_Observer
     }
 
     /**
-     * Apply category view for tree
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_CatalogPermissions_Model_Observer
-     */
-    public function applyPriceGrantOnPriceIndex(Varien_Event_Observer $observer)
-    {
-        if (!$this->_helper->isEnabled()) {
-            return $this;
-        }
-
-        $this->_getIndexModel()->applyPriceGrantToPriceIndex(
-            $observer->getEvent(),
-            $this->_getCustomerGroupId(),
-            $this->_getWebsiteId()
-        );
-
-        return $this;
-    }
-
-    /**
      * Applies permissions on product count for categories
      *
      * @param Varien_Event_Observer $observer
