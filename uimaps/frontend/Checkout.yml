@@ -38,7 +38,7 @@ onepage_checkout:
                     checkout_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-login']
                         buttons:
-                            continue: //button[span='Continue']
+                            continue: //li[@id='opc-login']//button[span='Continue']
                             login: //button[span='Login']
                         fields:
                             email_address: //input[@id='login-email']
@@ -52,7 +52,7 @@ onepage_checkout:
                     billing_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-billing']
                         buttons:
-                            continue: //button[span='Continue']
+                            continue: //li[@id='opc-billing']//button[span='Continue']
                         dropdowns:
                             billing_address_select: //select[@id='billing-address-select']
                             billing_region: //select[@id='billing:region_id']
@@ -74,14 +74,14 @@ onepage_checkout:
                         checkboxes:
                             billing_save_in_address_book: //input[@id='billing:save_in_address_book']
                         radiobuttons:
-                            billing_same_as_shipping: //input[@id='billing:use_for_shipping_yes']
-                            billing_differs_from_shipping: //input[@id='billing:use_for_shipping_no']
+                            ship_to_this_address: //input[@id='billing:use_for_shipping_yes']
+                            ship_to_different_address: //input[@id='billing:use_for_shipping_no']
                         required: [billing_first_name, billing_last_name, billing_email, billing_street_address_1, billing_city, billing_region, billing_country, billing_zip_code, billing_telephone]
                 -
                     shipping_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping']
                         buttons:
-                            continue: //button[span='Continue']
+                            continue: //li[@id='opc-shipping']//button[span='Continue']
                         dropdowns:
                             shipping_address_select: //select[@id='shipping-address-select']
                             shipping_state: //select[@id='shipping:region_id']
@@ -99,9 +99,9 @@ onepage_checkout:
                             shipping_fax: //input[@id='shipping:fax']
                         checkboxes:
                             shipping_save_in_address_book: //input[@id='shipping:save_in_address_book']
-                            shipping_same_as_billing: //input[@id='shipping:same_as_billing']
+                            use_billing_address: //input[@id='shipping:same_as_billing']
                         links:
-                            back: //p[@class='back-link']/a[@href]
+                            back: //li[@id='opc-shipping']//p[@class='back-link']/a[@href]
                         required: [shipping_first_name, shipping_last_name, shipping_street_address_1, shipping_city, shipping_state, shipping_country, shipping_zip_code, shipping_telephone]
                 -
                     shipping_method:
@@ -109,36 +109,36 @@ onepage_checkout:
                         buttons:
                             continue: //button[span='Continue']
                         checkboxes:
-                            add_gift_options: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options.']]
-                            gift_option_for_the_entire_order: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]
-                            gift_option_for_individual_items: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for Individual Items']]
+                            add_gift_options: //*[label='Add gift options.']/input
+                            gift_option_for_the_entire_order: //input[@id='allow_gift_messages_for_order']
+                            gift_option_for_individual_items: //input[@id='allow_gift_messages_for_items']
                         radiobuttons:
                             ship_method: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
                         fields:
-                            gift_option_entire_order_from: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for whole order.')]//input[@title='From']
-                            gift_option_entire_order_to: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for whole order.')]//input[@title='To']
-                            gift_option_entire_order_message: //input[@type='checkbox' and following-sibling::*[text()= 'Add gift options for the Entire Order']]/../following-sibling::div[contains(p, 'You can leave this box blank if you do not wish to add a gift message for whole order.')]//input[@title='Message']
+                            gift_option_entire_order_from: //input[[@id='gift-message-whole-from']
+                            gift_option_entire_order_to: //input[@id='gift-message-whole-to']
+                            gift_option_entire_order_message: //input[@id='gift-message-whole-message']
                             gift_option_for_individual_items_from: //div[h5[contains(.,'%productName%')]]//input[@title='From']
                             gift_option_for_individual_items_to: //div[h5[contains(.,'%productName%')]]//input[@title='To']
                             gift_option_for_individual_items_message: //div[h5[contains(.,'%productName%')]]//textarea[@title='From']
                         links:
-                            back: //p[@class='back-link']/a[@href]
+                            back: //li[@id='opc-shipping_method']//p[@class='back-link']/a[@href]
                 -
                     payment_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-payment']
                         radiobuttons:
-                            pay_method: //input[@type='radio' and following-sibling::*[contains(text(), '%payMethod%')]]
-                        dropdowns:
-                            credit_card_type: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Credit Card Type']/following-sibling::div/select
-                            expiration_date_month: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Expiration Date']/following-sibling::div/div[text()='Month']/select
-                            expiration_date_year: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Expiration Date']/following-sibling::div/div[text()='Year']/select
+                            check_payment_method: //input[@title='%paymentTitle%']
                         fields:
-                            name_on_card: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Name on Card']/following-sibling::div/input
-                            credit_card_number: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Credit Card Number']/following-sibling::div/input
-                            cvv: //dt[label[contains(text(), '%payMethod%')]]/following-sibling::dd[1]//label[text()='Card Verification Number']/following-sibling::div/div/input
+                            name_on_card: //input[@id='%paymentId%_cc_owner']
+                            card_number: //input[@id='%paymentId%_cc_number']
+                            card_verification_number : //input[@id='%paymentId%_cc_cid']
+                        dropdowns:
+                            card_type: //select[@id='%paymentId%_cc_type']
+                            expiration_month: //select[@id='%paymentId%_expiration']
+                            expiration_year: //select[@id='%paymentId%_expiration_yr']
                         links:
-                            back: //p[@class='back-link']/a[@href]
-                        required: [credit_card_type, expiration_date_month, expiration_date_year, name_on_card, credit_card_number, cvv]
+                            back: //li[@id='opc-payment']//p[@class='back-link']/a[@href]
+                        required: [card_type, card_number, expiration_month, expiration_year, card_verification_number, name_on_card]
                 -
                     order_review:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-review']
@@ -153,9 +153,9 @@ onepage_checkout:
                 invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
                 invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
                 incorrect_credit_card_exp_date: "//div[@id='advice-validate-cc-exp-ccsave_expiration' and not(contains(@style,'display: none;'))]"
-                empty_shipping_methods_for_all_addresses: //li[normalize-space(@class)='error-msg' and contains(.//span,'Please select shipping methods for all addresses')]
-                success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.//span,'The address has been saved.')]
-                payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.//span,'Payment method is not defined')]
+                empty_shipping_methods_for_all_addresses: //li[normalize-space(@class)='error-msg' and contains(.,'Please select shipping methods for all addresses')]
+                success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
+                payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
                 ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
 
 checkout_multishipping:
