@@ -328,9 +328,6 @@ class Order_Helper extends Mage_Selenium_TestCase
      */
     public function selectPaymentMethod($paymentMethod, $validate = TRUE)
     {
-        if ($validate) {
-            $this->assertFalse($this->errorMessage('no_payment'), 'No Payment Information Required');
-        }
         if (is_string($paymentMethod)) {
             $paymentMethod = $this->loadData($paymentMethod);
         }
@@ -338,15 +335,21 @@ class Order_Helper extends Mage_Selenium_TestCase
         $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : NULL;
 
         if ($payment) {
-            $this->addParameter('paymentTitle', $payment);
-            $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
-            $this->click($xpath);
-            $this->pleaseWait();
-            if ($card) {
-                $paymentId = $this->getAttribute($xpath . '/@value');
-                $this->addParameter('paymentId', $paymentId);
-                $this->fillForm($card, 'order_payment_method');
-                $this->validate3dSecure();
+            if ($this->errorMessage('no_payment')) {
+                if ($validate) {
+                    $this->fail('TNo Payment Information Required');
+                }
+            } else {
+                $this->addParameter('paymentTitle', $payment);
+                $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
+                $this->click($xpath);
+                $this->pleaseWait();
+                if ($card) {
+                    $paymentId = $this->getAttribute($xpath . '/@value');
+                    $this->addParameter('paymentId', $paymentId);
+                    $this->fillForm($card, 'order_payment_method');
+                    $this->validate3dSecure();
+                }
             }
         }
     }
@@ -384,7 +387,7 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->pleaseWait();
             $this->addParameter('shipService', $shippingMethod['shipping_service']);
             $this->addParameter('shipMethod', $shippingMethod['shipping_method']);
-            if ($this->errorMessage('ship_method_unavailable')) {
+            if ($this->errorMessage('ship_method_unavailable') || $this->errorMessage('no_shipping')) {
                 if ($validate) {
                     $this->fail('This shipping method is currently unavailable.');
                 }

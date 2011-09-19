@@ -38,6 +38,7 @@ billing_address_req: &billingReq
     billing_city: 'Palo Alto'
     billing_country: 'United States'
     billing_state: California
+    billing_region: %noValue%
     billing_zip_code: '94306'
     billing_telephone: '091019019 billing'
 
@@ -50,6 +51,7 @@ shipping_address_req: &shippingReq
     shipping_city: 'Palo Alto'
     shipping_country: 'United States'
     shipping_state: California
+    shipping_region: %noValue%
     shipping_zip_code: '94306'
     shipping_telephone: '091019019 shipping'
 
@@ -425,7 +427,7 @@ order_physical:
         store_name: %noValue%
     store_view: Default Store View
     account_data:
-        customer_group: Wholesale
+        customer_group: General
         customer_email: %noValue%
     products_to_add:
         product_1: &product
@@ -465,7 +467,7 @@ order_virtual:
         store_name: %noValue%
     store_view: Default Store View
     account_data:
-        customer_group: Wholesale
+        customer_group: General
         customer_email: %noValue%
     products_to_add:
         product_1: &product
@@ -487,6 +489,14 @@ order_virtual:
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
+
+#*********************************************
+#*      Payment Data For Order               *
+#*********************************************
+
+saved_credit_card: &savedCC
+    payment_method: Credit Card (saved)
+    payment_info: *visaSavedCC
 
 #*********************************************
 #*      ConfigurableOptions For Products     *
