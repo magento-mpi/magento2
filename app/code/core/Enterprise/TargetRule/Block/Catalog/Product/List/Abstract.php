@@ -31,22 +31,9 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends Mage_Catalog_Block_Product_Abstract
+abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
+    extends Enterprise_TargetRule_Block_Product_Abstract
 {
-    /**
-     * Catalog Product Link Collection
-     *
-     * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
-     */
-    protected $_linkCollection;
-
-    /**
-     * Catalog Product List Item Collection array
-     *
-     * @var array
-     */
-    protected $_items;
-
     /**
      * TargetRule Index instance
      *
@@ -62,13 +49,6 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
     protected $_excludeProductIds;
 
     /**
-     * Retrieve Catalog Product List Type identifier
-     *
-     * @return int
-     */
-    abstract public function getType();
-
-    /**
      * Retrieve current product instance (if actual and available)
      *
      * @return Mage_Catalog_Model_Product
@@ -76,16 +56,6 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
     public function getProduct()
     {
         return Mage::registry('product');
-    }
-
-    /**
-     * Retrieve TargetRule data helper
-     *
-     * @return Enterprise_TargetRule_Helper_Data
-     */
-    public function getTargetRuleHelper()
-    {
-        return Mage::helper('enterprise_targetrule');
     }
 
     /**
@@ -190,46 +160,43 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
     }
 
     /**
-     * Retrieve related product collection assigned to product
+     * Get target rule based products for related and up-sell
      *
      * @throws Mage_Core_Exception
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Collection|null
      */
-    public function getLinkCollection()
+    protected function _getTargetLinkCollection()
     {
-        if (is_null($this->_linkCollection)) {
-            switch ($this->getType()) {
-                case Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS:
-                    $this->_linkCollection = $this->getProduct()
-                        ->getRelatedProductCollection();
-                    break;
+        $linkCollection = null;
+        switch ($this->getType()) {
+            case Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS:
+                $linkCollection = $this->getProduct()
+                    ->getRelatedProductCollection();
+                break;
 
-                case Enterprise_TargetRule_Model_Rule::UP_SELLS:
-                    $this->_linkCollection = $this->getProduct()
-                        ->getUpSellProductCollection();
-                    break;
+            case Enterprise_TargetRule_Model_Rule::UP_SELLS:
+                $linkCollection = $this->getProduct()
+                    ->getUpSellProductCollection();
+                break;
 
-                default:
-                    Mage::throwException(
-                        Mage::helper('enterprise_targetrule')->__('Undefined Catalog Product List Type')
-                    );
-            }
-
-            $this->_addProductAttributesAndPrices($this->_linkCollection);
-            Mage::getSingleton('catalog/product_visibility')
-                ->addVisibleInCatalogFilterToCollection($this->_linkCollection);
-
-            $this->_linkCollection->addAttributeToSort('position', 'ASC')
-                ->setFlag('do_not_use_category_id', true)
-                ->setPageSize($this->getPositionLimit());
-
-            $excludeProductIds = $this->getExcludeProductIds();
-            if ($excludeProductIds) {
-                $this->_linkCollection->addAttributeToFilter('entity_id', array('nin' => $excludeProductIds));
-            }
+            default:
+                Mage::throwException(
+                    Mage::helper('enterprise_targetrule')->__('Undefined Catalog Product List Type')
+                );
         }
 
-        return $this->_linkCollection;
+        $this->_addProductAttributesAndPrices($linkCollection);
+        Mage::getSingleton('catalog/product_visibility')
+            ->addVisibleInCatalogFilterToCollection($linkCollection);
+
+        $linkCollection->setFlag('do_not_use_category_id', true)->setPageSize($this->getPositionLimit());
+
+        $excludeProductIds = $this->getExcludeProductIds();
+        if ($excludeProductIds) {
+            $linkCollection->addAttributeToFilter('entity_id', array('nin' => $excludeProductIds));
+        }
+
+        return $linkCollection;
     }
 
     /**
@@ -243,73 +210,41 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
     }
 
     /**
-     * Retrieve Catalog Product List Items
+     * Get target rule collection for related and up-sell
      *
      * @return array
      */
-    public function getItemCollection()
+    protected function _getTargetRuleProducts()
     {
-        if (is_null($this->_items)) {
-            $ruleBased  = array(
-                Enterprise_TargetRule_Model_Rule::BOTH_SELECTED_AND_RULE_BASED,
-                Enterprise_TargetRule_Model_Rule::RULE_BASED_ONLY,
-            );
-            $selected   = array(
-                Enterprise_TargetRule_Model_Rule::BOTH_SELECTED_AND_RULE_BASED,
-                Enterprise_TargetRule_Model_Rule::SELECTED_ONLY,
-            );
-            $behavior   = $this->getPositionBehavior();
-            $limit      = $this->getPositionLimit();
+        $excludeProductIds = $this->getExcludeProductIds();
+        if (!is_null($this->_items)) {
+            $excludeProductIds = array_merge(array_keys($this->_items), $excludeProductIds);
+        }
+        $limit = $this->getPositionLimit();
 
-            $this->_items = array();
+        $productIds = $this->_getTargetRuleIndex()
+            ->setType($this->getType())
+            ->setLimit($limit)
+            ->setProduct($this->getProduct())
+            ->setExcludeProductIds($excludeProductIds)
+            ->getProductIds();
 
-            if (in_array($behavior, $selected)) {
-                foreach ($this->getLinkCollection() as $item) {
-                    $this->_items[$item->getEntityId()] = $item;
-                }
-            }
+        $items = array();
+        if ($productIds) {
+            /** @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+            $collection = Mage::getResourceModel('catalog/product_collection');
+            $collection->addFieldToFilter('entity_id', array('in' => $productIds));
+            $this->_addProductAttributesAndPrices($collection);
 
-            if (in_array($behavior, $ruleBased) && $limit > count($this->_items)) {
-                $excludeProductIds = array_merge(array_keys($this->_items), $this->getExcludeProductIds());
+            Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+            $collection->setPageSize($limit)->setFlag('do_not_use_category_id', true);
 
-                $count = $limit - count($this->_items);
-                $productIds = $this->_getTargetRuleIndex()
-                    ->setType($this->getType())
-                    ->setLimit($count)
-                    ->setProduct($this->getProduct())
-                    ->setExcludeProductIds($excludeProductIds)
-                    ->getProductIds();
-
-                if ($productIds) {
-                    /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
-                    $collection = Mage::getResourceModel('catalog/product_collection');
-                    $collection->addFieldToFilter('entity_id', array('in' => $productIds));
-                    $this->_addProductAttributesAndPrices($collection);
-
-                    Mage::getSingleton('catalog/product_visibility')
-                        ->addVisibleInCatalogFilterToCollection($collection);
-                    $collection->setPageSize($count)
-                        ->setFlag('do_not_use_category_id', true);
-
-                    $rotationMode = $this->getTargetRuleHelper()->getRotationMode($this->getType());
-
-                    if ($rotationMode == Enterprise_TargetRule_Model_Rule::ROTATION_SHUFFLE) {
-                        foreach ($collection as $item) {
-                            $this->_items[(int) $item->getEntityId()] = $item;
-                        }
-                        shuffle($this->_items);
-                    } else {
-                        $orderedAr = array_flip($productIds);
-                        foreach ($collection as $item) {
-                            $this->_items[(int)$orderedAr[$item->getEntityId()]] = $item;
-                        }
-                        ksort($this->_items);
-                    }
-                }
+            foreach ($collection as $item) {
+                $items[$item->getEntityId()] = $item;
             }
         }
 
-        return $this->_items;
+        return $items;
     }
 
     /**
