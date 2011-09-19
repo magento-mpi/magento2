@@ -111,7 +111,7 @@ create_invoice:
             reset: //p[@class='form-buttons']//button[span='Reset']
         messages:
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
-            failure: //li[normalize-space(@class)='error-msg' and contains(.//span,'PayPal gateway rejected the request.')]
+            failure: //li[normalize-space(@class)='error-msg' and contains(.,'PayPal gateway rejected the request.')]
 
 view_invoice:
     mca: sales_invoice/view/invoice_id/%invoice_id%/

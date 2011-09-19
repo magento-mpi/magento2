@@ -49,7 +49,7 @@ manage_sales_checkout_terms_conditions:
         buttons:
             create_new_checkout_agreement: //button[span='Add New']
         messages:
-            condition_saved: //li[normalize-space(@class)='success-msg' and contains(.//span,'The condition has been saved.')]
+            condition_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been saved.')]
 
 # Create new condition agreement
 create_condition:

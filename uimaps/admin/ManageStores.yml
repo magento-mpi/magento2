@@ -51,12 +51,12 @@ manage_stores:
             create_store: //button[span='Create Store']
             create_store_view: //button[span='Create Store View']
         messages:
-            success_saved_store:  //li[normalize-space(@class)='success-msg' and contains(.//span, 'The store has been saved')]
-            success_saved_store_view: //li[normalize-space(@class)='success-msg' and contains(.//span, 'The store view has been saved')]
-            success_saved_website: //li[normalize-space(@class)='success-msg' and contains(.//span, 'The website has been saved')]
-            success_deleted_store: //li[normalize-space(@class)='success-msg' and contains(.//span, 'The store has been deleted')]
-            success_deleted_store_view: //li[normalize-space(@class)='success-msg' and contains(.//span, 'The store view has been deleted')]
-            success_deleted_website: //li[normalize-space(@class)='success-msg' and contains(.//span, 'The website has been deleted')]
+            success_saved_store:  //li[normalize-space(@class)='success-msg' and contains(., 'The store has been saved')]
+            success_saved_store_view: //li[normalize-space(@class)='success-msg' and contains(., 'The store view has been saved')]
+            success_saved_website: //li[normalize-space(@class)='success-msg' and contains(., 'The website has been saved')]
+            success_deleted_store: //li[normalize-space(@class)='success-msg' and contains(., 'The store has been deleted')]
+            success_deleted_store_view: //li[normalize-space(@class)='success-msg' and contains(., 'The store view has been deleted')]
+            success_deleted_website: //li[normalize-space(@class)='success-msg' and contains(., 'The website has been deleted')]
 
 # 'New Store View' Page
 new_store_view:
@@ -81,8 +81,8 @@ new_store_view:
             reset: //button[span='Reset']
             save_store_view: //button[span='Save Store View']
         messages:
-            wrong_store_view_code: //li[normalize-space(@class)='error-msg' and contains(.//span, 'The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
-            store_view_code_exist: //li[normalize-space(@class)='error-msg' and contains(.//span, 'Store with the same code already exists')]
+            wrong_store_view_code: //li[normalize-space(@class)='error-msg' and contains(., 'The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
+            store_view_code_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Store with the same code already exists')]
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
 
 # 'Edit Store View' Page
@@ -109,8 +109,8 @@ edit_store_view:
             delete_store_view: //button[span='Delete Store View']
             save_store_view: //button[span='Save Store View']
         messages:
-            wrong_store_view_code: //li[normalize-space(@class)='error-msg' and contains(.//span, 'The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
-            store_view_code_exist: //li[normalize-space(@class)='error-msg' and contains(.//span, 'Store with the same code already exists')]
+            wrong_store_view_code: //li[normalize-space(@class)='error-msg' and contains(., 'The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
+            store_view_code_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Store with the same code already exists')]
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field') and not(contains(@style,'display: none;'))]"
 
 # 'New Website' Page
@@ -133,8 +133,8 @@ new_website:
             reset: //button[span='Reset']
             save_website: //button[span='Save Website']
         messages:
-            wrong_website_code: //li[normalize-space(@class)='error-msg' and contains(.//span, 'Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
-            website_code_exist: //li[normalize-space(@class)='error-msg' and contains(.//span, 'Website with the same code already exists.')]
+            wrong_website_code: //li[normalize-space(@class)='error-msg' and contains(., 'Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
+            website_code_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Website with the same code already exists.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field') and not(contains(@style,'display: none;'))]"
 
 # 'Edit Website' Page
@@ -162,8 +162,8 @@ edit_website:
             delete_website: //button[span='Delete Website']
             save_website: //button[span='Save Website']
         messages:
-            wrong_website_code: //li[normalize-space(@class)='error-msg' and contains(.//span, 'Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
-            website_code_exist: //li[normalize-space(@class)='error-msg' and contains(.//span, 'Website with the same code already exists.')]
+            wrong_website_code: //li[normalize-space(@class)='error-msg' and contains(., 'Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter')]
+            website_code_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Website with the same code already exists.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field') and not(contains(@style,'display: none;'))]"
 
 # 'New Store' Page

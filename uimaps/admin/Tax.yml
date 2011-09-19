@@ -273,8 +273,8 @@ manage_import_export_tax_rates:
                         buttons:
                             export_tax_rates: //button[span='Export Tax Rates']
         messages:
-            invalid_file_upload_attempt: //li[normalize-space(@class)='error-msg' and contains(.//span,'Invalid file upload attempt')]
-            invalid_file_format_upload_attempt: //li[normalize-space(@class)='error-msg' and contains(.//span,'Invalid file format upload attempt')]
+            invalid_file_upload_attempt: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid file upload attempt')]
+            invalid_file_format_upload_attempt: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid file format upload attempt')]
 
 # Manage Tax Rules and related pages
 # Manage Tax Rules page
@@ -304,7 +304,7 @@ manage_tax_rule:
         buttons:
             add_new_tax_rule: //button[span='Add New Tax Rule']
         messages:
-            tax_rule_saved: //li[normalize-space(@class)='success-msg' and contains(.//span,'The tax rule has been saved.')]
+            tax_rule_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The tax rule has been saved.')]
             # TODO
 
 # Add New Tax Rule page
@@ -332,7 +332,7 @@ create_tax_rule:
             save_rule: //button[span='Save Rule']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages:
-            code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.//span,'Code already exists.')]
+            code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             # TODO
 
