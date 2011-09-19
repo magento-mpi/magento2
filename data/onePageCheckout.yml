@@ -26,41 +26,102 @@
 #
 ---
 #Test data for One Page Checkout(Frontend)
+#*********************************************
+#*         Checkout Method                   *
+#*********************************************
+guest:
+    checkout_method: guest
+
+register:
+    checkout_method: register
+
+login:
+    checkout_method: login
+    additional_data:
+        email_address: %noValue%
+        password: %noValue%
 
 #*********************************************
-#*         Billing information               *
+#*         Billing Address                   *
 #*********************************************
-billing_information_data: &billing_information
-    billing_first_name: %noValue%
-    billing_last_name: %noValue%
-    billing_company: %noValue%
-    billing_email: %noValue%
-    billing_street_address_1: %noValue%
-    billing_street_address_2: %noValue%
-    billing_city: %noValue%
+
+#<--------------GUEST---------------->
+billing_guest_req: &billingGuestReq
+    billing_first_name: billing_Steven
+    billing_last_name: billing_Stevenson
+    billing_email: billing_guest@example.com
+    billing_street_address_1: billing street address
+    billing_city: Palo Alto
+    billing_country: United States
+    billing_state: California
     billing_region: %noValue%
-    billing_zip_code: %noValue%
-    billing_telephone: %noValue%
-    billing_fax: %noValue%
-    password: %noValue%
-    confirm_password: %noValue%
+    billing_zip_code: 94306
+    billing_telephone: 091019019 billing
+    ship_to_this_address: %noValue%
+    ship_to_different_address: Yes
 
+billing_guest_all: &billingGuestAll
+    billing_prefix: %noValue%
+    billing_first_name: 'Steven(billing)'
+    billing_middle_name: %noValue%
+    billing_last_name: 'Stevenson(billing)'
+    billing_suffix: %noValue%
+    billing_company: 'home(billing)'
+    billing_street_address_1: 'street_address_1(billing)'
+    billing_street_address_2: 'street_address_2(billing)'
+    billing_city: 'Palo Alto'
+    billing_country: 'United States'
+    billing_state: California
+    billing_zip_code: '94306'
+    billing_telephone: '091019019(billing)'
+    billing_fax: '0919327869(billing)'
+    ship_to_this_address: %noValue%
+    ship_to_different_address: Yes
+
+#<--------------REGISTER---------------->
+
+#<--------------LOGIN---------------->
 
 #*********************************************
 #*         Shipping information              *
 #*********************************************
-shipping_information_data: &shipping_information
-    shipping_first_name: %noValue%
-    shipping_last_name: %noValue%
-    shipping_company: %noValue%
-    shipping_street_address_1: %noValue%
-    shipping_street_address_2: %noValue%
-    shipping_city: %noValue%
+
+#<--------------GUEST---------------->
+shipping_guest_req: &shippingGuestReq
+    shipping_first_name: shipping_Steven
+    shipping_last_name: shipping_Stevenson
+    shipping_email: shipping_guest@example.com
+    shipping_street_address_1: shipping street address
+    shipping_city: Palo Alto
+    shipping_country: United States
+    shipping_state: California
     shipping_region: %noValue%
-    shipping_zip_code: %noValue%
-    shipping_telephone: %noValue%
-    shipping_fax: %noValue%
-    shipping_same_as_billing: %noValue%
+    shipping_zip_code: 94306
+    shipping_telephone: 091019019 shipping
+    ship_to_this_address: %noValue%
+    ship_to_different_address: Yes
+
+shipping_guest_all: &shippingGuestAll
+    shipping_prefix: %noValue%
+    shipping_first_name: 'Steven(shipping)'
+    shipping_middle_name: %noValue%
+    shipping_last_name: 'Stevenson(shipping)'
+    shipping_suffix: %noValue%
+    shipping_company: 'home(shipping)'
+    shipping_street_address_1: 'street_address_1(shipping)'
+    shipping_street_address_2: 'street_address_2(shipping)'
+    shipping_city: 'Palo Alto'
+    shipping_country: 'United States'
+    shipping_state: California
+    shipping_zip_code: '94306'
+    shipping_telephone: '091019019(shipping)'
+    shipping_fax: '0919327869(shipping)'
+    ship_to_this_address: %noValue%
+    ship_to_different_address: Yes
+
+#<--------------REGISTER---------------->
+
+#<--------------LOGIN---------------->
 
 #*********************************************
 #*         Gift options data                 *
@@ -80,50 +141,3 @@ gift_options_data: &gift_options
     individual_items:
         product_message_1: *product_individual_options_1
         product_message_2: %noVlaue%
-#    gift_option_for_individual_items: %noValue%
-
-#*********************************************
-#*         Credit Card information           *
-#*********************************************
-credit_card_data: &credit_card_info
-    name_on_card: %noValue%
-    credit_card_type: %noValue%
-    credit_card_number: %noValue%
-    expiration_date_month: %noValue%
-    expiration_date_year: %noValue%
-    cvv: %noValue%
-
-checkout_data_required:
-# checkout method
-    checkout_as_guest: %noValue%
-    register: %noValue%
-# Billing information
-    billing_information: *billing_information
-    billing_same_as_shipping: %noValue%
-    billing_differs_from_shipping: %noValue%
-# Shipping information
-    shipping_information_data: *shipping_information
-    shipping_same_as_billing: %noValue%
-# Shipping method
-    ship_method: %noValue%
-    add_gift_options: %noValue%
-# Payment Information
-    pay_method: Check / Money order
-
-checkout_data_credit_card:
-# checkout method
-    checkout_as_guest: %noValue%
-    register: %noValue%
-# Billing information
-    billing_same_as_shipping: %noValue%
-    billing_differs_from_shipping: %noValue%
-    billing_information: *billing_information
-# Shipping information
-    shipping_same_as_billing: %noValue%
-    shipping_information_data: *shipping_information
-# Shipping method
-    ship_method: %noValue%
-    add_gift_options: *gift_options
-# Payment Information
-    pay_method: Credit Card (saved)
-    credit_card_data: *credit_card_info

@@ -38,58 +38,43 @@ class Checkout_Helper extends Mage_Selenium_TestCase
 {
 
     /**
-     * Generates array of strings for filling customer's billing/shipping form
-     * @param string $charsType :alnum:, :alpha:, :digit:, :lower:, :upper:, :punct:
-     * @param string $addrType Gets two values: 'billing' and 'shipping'.
-     *                         Default is 'billing'
-     * @param int $symNum min = 5, default value = 32
-     * @return array
-     * @uses DataGenerator::generate()
-     * @see DataGenerator::generate()
+     * Select Checkout Method(Onepage Checkout)
+     *
+     * @param array $methodName guest|register|login
      */
-    public function frontCustomerAddressGenerator($charsType, $addrType = 'billing', $symNum = 32, $required = FALSE)
+    public function frontSelectCheckoutMethod($method = 'guest')
     {
-        $type = array(':alnum:', ':alpha:', ':digit:', ':lower:', ':upper:', ':punct:');
-        if (array_search($charsType, $type) === FALSE
-                || ($addrType != 'billing' && $addrType != 'shipping')
-                || $symNum < 5 || !is_int($symNum)) {
-            throw new Exception('Incorrect parameters');
-        } else {
-            if ($required == TRUE) {
-                return array(
-                    $addrType . '_address_select'          => 'New Address',
-                    $addrType . '_prefix'                  => '%noValue%',
-                    $addrType . '_first_name'              => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_middle_name'             => '%noValue%',
-                    $addrType . '_last_name'               => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_suffix'                  => '%noValue%',
-                    $addrType . '_company'                 => '%noValue%',
-                    $addrType . '_street_address_1'        => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_street_address_2'        => '%noValue%',
-                    $addrType . '_region'                  => '%noValue%',
-                    $addrType . '_city'                    => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_zip_code'                => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_telephone'               => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_fax'                     => '%noValue%'
-                );
-            } else {
-                return array(
-                    $addrType . '_address_select'          => 'New Address',
-                    $addrType . '_prefix'                  => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_first_name'              => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_middle_name'             => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_last_name'               => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_suffix'                  => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_company'                 => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_street_address_1'        => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_street_address_2'        => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_region'                  => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_city'                    => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_zip_code'                => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_telephone'               => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_fax'                     => $this->generate('string', $symNum, $charsType)
-                );
-            }
+        if (is_string($method)) {
+            $method = $this->loadData($method);
+        }
+        $checkoutType = (isset($method['checkout_method'])) ? $method['checkout_method'] : null;
+        $page = $this->getCurrentLocationUimapPage();
+        $set = $page->findFieldset('checkout_method');
+        $xpath = $set->getXpath();
+
+        $this->waitForElement($xpath . "[contains(@class,'active')]");
+
+        switch ($checkoutType) {
+            case 'guest':
+                $this->fillForm(array('checkout_as_guest' => 'Yes'));
+                $this->click($set->findButton('continue'));
+                break;
+            case 'register':
+                $this->fillForm(array('register' => 'Yes'));
+                $this->click($set->findButton('continue'));
+                break;
+            case 'login':
+                if (isset($method['additional_data'])) {
+                    $this->fillForm($method['additional_data']);
+                }
+                $billingSetXpath = $page->findFieldset('billing_information')->getXpath();
+                $this->click($set->findButton('login'));
+                $this->waitForElement(array(self::xpathErrorMessage, self::xpathValidationMessage,
+                    $billingSetXpath . "[contains(@class,'active')]"));
+                break;
+            default:
+                $this->click($set->findButton('continue'));
+                break;
         }
     }
 
@@ -102,8 +87,8 @@ class Checkout_Helper extends Mage_Selenium_TestCase
      */
     public function frontSelectShippingMethod($shippingMethod, $validate = TRUE)
     {
-        $xpath = _getControlXpath('fieldset', 'shipping_method') . '[@class[contains(.,"active")]]';
-        $this->waitForElement($xpath);
+        $setXpath = $this->_getControlXpath('fieldset', 'shipping_method') . "[contains(@class,'active')]";
+        $this->waitForElement($setXpath);
         if (is_string($shippingMethod)) {
             $shippingMethod = $this->loadData($shippingMethod);
         }
@@ -160,8 +145,8 @@ class Checkout_Helper extends Mage_Selenium_TestCase
      */
     public function frontSelectPaymentMethod($paymentMethod, $validate = TRUE)
     {
-        $xpath = _getControlXpath('fieldset', 'payment_method') . '[@class[contains(.,"active")]]';
-        $this->waitForElement($xpath);
+        $setXpath = $this->_getControlXpath('fieldset', 'payment_method') . "[contains(@class,'active')]";
+        $this->waitForElement($setXpath);
         if ($validate) {
             $this->assertFalse($this->errorMessage('no_payment'), 'No Payment Information Required');
         }
@@ -180,7 +165,7 @@ class Checkout_Helper extends Mage_Selenium_TestCase
                 $this->addParameter('paymentId', $paymentId);
                 $this->fillForm($card, 'order_payment_method');
                 $this->clickButton('continue', FALSE);
-                $this->validate3dSecure();
+                $this->frontValidate3dSecure();
             }
         }
     }
@@ -188,9 +173,9 @@ class Checkout_Helper extends Mage_Selenium_TestCase
     /**
      * Enters code to centinel iframe in case it appears.
      */
-    public function validate3dSecure($password = '1234')
+    public function frontValidate3dSecure($password = '1234')
     {
-        $xpath = _getControlXpath('fieldset', 'payment_method') . '[@class[contains(.,"active")]]';
+        $xpath = $this->_getControlXpath('fieldset', 'payment_method') . "[contains(@class,'active')]";
         $this->waitForElementNotPresent($xpath);
         $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
         if ($this->isElementPresent($xpath)) {
@@ -203,15 +188,6 @@ class Checkout_Helper extends Mage_Selenium_TestCase
         }
     }
 
-
-
-
-
-
-
-
-
-
-
 }
+
 ?>
