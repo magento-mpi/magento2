@@ -44,6 +44,8 @@ function enablePaymentMethods(free) {
                 } else {
                     $((elements[i]).parentNode).hide();
                 }
+            } else {
+                elements[i].disabled = true;
             }
         }
     };
