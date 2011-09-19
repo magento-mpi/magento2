@@ -104,8 +104,8 @@ class Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservice
     {
         $attributeList = $this->call('catalog_category_attribute.list');
 
-        $this->assertEquals(true, is_array($attributeList));
-        $this->assertEquals(true, count($attributeList) > 0);
+        $this->assertInternalType('array', $attributeList);
+        $this->assertGreaterThan(0, count($attributeList));
 
         foreach ($attributeList as $attribute) {
             if ($attribute['code'] == self::$_code) {

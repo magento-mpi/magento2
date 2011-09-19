@@ -47,11 +47,11 @@ class GiftCard_CustomerTest extends Magento_Test_Webservice
         $this->assertEquals($balance, $info['balance']);
         $this->assertEquals($dateExpires, $info['expire_date']);
     }
-    
+
     /**
      * Test redeem amount present on gift card to Store Credit.
      *
-     * @magentoDataFixture _fixtures/customer.php
+     * @magentoDataFixture GiftCard/_fixtures/customer.php
      */
     public function testRedeem()
     {
@@ -64,17 +64,18 @@ class GiftCard_CustomerTest extends Magento_Test_Webservice
 
         $result = $this->call('giftcard_customer.redeem', array($code, $customerId, $websiteId));
         $this->assertTrue($result);
+
+        //TODO: add check that giftcard was really redeemed
     }
 
     /**
      * Test info throw exception with incorrect data
      *
+     * @expectedException Exception
      * @return void
      */
     public function testIncorrectDataInfoException()
     {
-        $this->setExpectedException('Exception');
-
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_customer.xml');
         $invalidData = self::simpleXmlToArray($fixture->invalid_info);
         $this->call('giftcard_customer.info', $invalidData);
@@ -83,12 +84,11 @@ class GiftCard_CustomerTest extends Magento_Test_Webservice
     /**
      * Test redeem throw exception with incorrect data
      *
+     * @expectedException Exception
      * @return void
      */
     public function testIncorrectDataRedeemException()
     {
-        $this->setExpectedException('Exception');
-
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_customer.xml');
         $invalidData = self::simpleXmlToArray($fixture->invalid_redeem);
         $this->call('giftcard_customer.redeem', $invalidData);

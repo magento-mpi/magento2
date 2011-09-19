@@ -46,6 +46,7 @@ class GiftCard_CartTest extends Magento_Test_Webservice
 
         //Test list of giftcards added to quote
         $giftcards = $this->call('cart_giftcard.list', array($quoteId));
+        $this->assertInternalType('array', $giftcards);
         $this->assertGreaterThan(0, count($giftcards));
         $this->assertEquals($giftcardAccount->getCode(), $giftcards[0]['code']);
         $this->assertEquals($giftcardAccount->getBalance(), $giftcards[0]['base_amount']);
@@ -53,17 +54,18 @@ class GiftCard_CartTest extends Magento_Test_Webservice
         //Test giftcard removing from quote
         $removeResult = $this->call('cart_giftcard.remove', array($giftcardAccount->getCode(), $quoteId));
         $this->assertTrue($removeResult, 'Remove giftcard from quote');
+
+        //TODO: try load quote using model/api by $quoteId and check that there is no gift card there
     }
 
     /**
      * Test add throw exception with incorrect data
      *
+     * @expectedException Exception
      * @return void
      */
     public function testIncorrectDataAddException()
     {
-        $this->setExpectedException('Exception');
-
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_cart.xml');
         $invalidData = self::simpleXmlToArray($fixture->invalid_create);
         $this->call('cart_giftcard.add', $invalidData);
@@ -72,12 +74,11 @@ class GiftCard_CartTest extends Magento_Test_Webservice
     /**
      * Test list throw exception with incorrect data
      *
+     * @expectedException Exception
      * @return void
      */
     public function testIncorrectDataListException()
     {
-        $this->setExpectedException('Exception');
-
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_cart.xml');
         $invalidData = self::simpleXmlToArray($fixture->invalid_list);
         $this->call('cart_giftcard.list', $invalidData);
@@ -86,12 +87,11 @@ class GiftCard_CartTest extends Magento_Test_Webservice
     /**
      * Test remove throw exception with incorrect data
      *
+     * @expectedException Exception
      * @return void
      */
     public function testIncorrectDataRemoveException()
     {
-        $this->setExpectedException('Exception');
-
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_cart.xml');
         $invalidData = self::simpleXmlToArray($fixture->invalid_remove);
         $this->call('cart_giftcard.remove', $invalidData);

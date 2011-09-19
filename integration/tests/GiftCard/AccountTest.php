@@ -49,6 +49,7 @@ class GiftCard_AccountTest extends Magento_Test_Webservice
 
         //Test list
         $list = $this->call('giftcard_account.list');
+        $this->assertInternalType('array', $list);
         $this->assertGreaterThan(0, count($list));
 
         //Test info
@@ -69,18 +70,20 @@ class GiftCard_AccountTest extends Magento_Test_Webservice
         //Test remove
         $removeResult = $this->call('giftcard_account.remove', array($id));
         $this->assertTrue($removeResult);
+
+        //TODO: add check that giftcard account was really removed
     }
 
     /**
      * Test Exception on invalid data
      *
+     * @expectedException Exception
      * @return void
      */
     public function testCreateExceptionInvalidData()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_account.xml');
 
-        $this->setExpectedException('Exception');
         $invalidCreateData = self::simpleXmlToArray($fixture->invalid_create);
         $this->call('giftcard_account.create', array($invalidCreateData));
     }
@@ -88,13 +91,13 @@ class GiftCard_AccountTest extends Magento_Test_Webservice
     /**
      * Test giftcard account not found exception
      *
+     * @expectedException Exception
      * @return void
      */
     public function testExceptionNotFound()
     {
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_account.xml');
 
-        $this->setExpectedException('Exception');
         $invalidData = self::simpleXmlToArray($fixture->invalid_info);
         $this->call('giftcard_account.info', array($invalidData));
     }
