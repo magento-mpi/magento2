@@ -140,6 +140,13 @@ onepage_checkout:
                             back: //li[@id='opc-payment']//p[@class='back-link']/a[@href]
                         required: [card_type, card_number, expiration_month, expiration_year, card_verification_number, name_on_card]
                 -
+                    3d_secure_card_validation: &3DSecureCardValidation
+                        xpath: //iframe[@id='centinel_authenticate_iframe']
+                        fields:
+                            3d_password: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[2]/td[2]/b/input[1]
+                        buttons:
+                            3d_submit: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[4]/td[2]/b/input
+                -
                     order_review:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-review']
                         buttons:

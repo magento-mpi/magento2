@@ -102,6 +102,8 @@ class Checkout_Helper extends Mage_Selenium_TestCase
      */
     public function frontSelectShippingMethod($shippingMethod, $validate = TRUE)
     {
+        $xpath = _getControlXpath('fieldset', 'shipping_method') . '[@class[contains(.,"active")]]';
+        $this->waitForElement($xpath);
         if (is_string($shippingMethod)) {
             $shippingMethod = $this->loadData($shippingMethod);
         }
@@ -141,17 +143,65 @@ class Checkout_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('individual_items', $giftOptions)) {
             $this->fillForm(array('gift_option_for_individual_items' => 'Yes'));
             foreach ($giftOptions['individual_items'] as $clue => $dataset) {
-                if (preg_match('/product_name/', $clue)) {
-                    $this->addParameter('productName', $dataset);
-                } else {
+                if (isset($dataset['product_name'])) {
+                    $this->addParameter('productName', $dataset['product_name']);
                     $this->fillForm($dataset);
                 }
             }
         }
     }
 
+    /**
+     * Selecting payment method
+     *
+     * @param array $paymentMethod
+     * @param bool  $validate
+     *
+     */
+    public function frontSelectPaymentMethod($paymentMethod, $validate = TRUE)
+    {
+        $xpath = _getControlXpath('fieldset', 'payment_method') . '[@class[contains(.,"active")]]';
+        $this->waitForElement($xpath);
+        if ($validate) {
+            $this->assertFalse($this->errorMessage('no_payment'), 'No Payment Information Required');
+        }
+        if (is_string($paymentMethod)) {
+            $paymentMethod = $this->loadData($paymentMethod);
+        }
+        $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : NULL;
+        $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : NULL;
+        if ($payment) {
+            $this->addParameter('paymentTitle', $payment);
+            $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
+            $this->click($xpath);
+            $this->pleaseWait();
+            if ($card) {
+                $paymentId = $this->getAttribute($xpath . '/@value');
+                $this->addParameter('paymentId', $paymentId);
+                $this->fillForm($card, 'order_payment_method');
+                $this->clickButton('continue', FALSE);
+                $this->validate3dSecure();
+            }
+        }
+    }
 
-
+    /**
+     * Enters code to centinel iframe in case it appears.
+     */
+    public function validate3dSecure($password = '1234')
+    {
+        $xpath = _getControlXpath('fieldset', 'payment_method') . '[@class[contains(.,"active")]]';
+        $this->waitForElementNotPresent($xpath);
+        $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
+        if ($this->isElementPresent($xpath)) {
+            $xpath = $this->_getControlXpath('field', '3d_password');
+            $this->waitForElement($xpath);
+            $this->type($xpath, $password);
+            $this->clickButton('3d_submit', FALSE);
+            $this->waitForElementNotPresent($xpath);
+            $this->pleaseWait();
+        }
+    }
 
 
 
