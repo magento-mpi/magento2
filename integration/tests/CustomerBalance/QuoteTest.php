@@ -68,7 +68,7 @@ class CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteSetAmount()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/CustomerBalanceForQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $data['input']['quote_id'] = self::$quote->getId();
@@ -86,7 +86,7 @@ class CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteRemoveAmount()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/CustomerBalanceForQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $data['input']['quote_id'] = self::$quote->getId();
@@ -105,7 +105,7 @@ class CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteSetAmountWithoutStoreId()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/CustomerBalanceForQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $result = $this->call('storecredit_quote.setAmount', array('quote_id' => self::$quote->getId()));
@@ -136,7 +136,7 @@ class CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteSetAmountUsingStoreCode()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/CustomerBalanceForQuoteUsingStoreCode.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuoteUsingStoreCode.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $data['input']['quote_id'] = self::$quote->getId();
@@ -154,7 +154,7 @@ class CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteRemoveAmountUsingStoreCode()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/CustomerBalanceForQuoteUsingStoreCode.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuoteUsingStoreCode.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $data['input']['quote_id'] = self::$quote->getId();
@@ -175,7 +175,7 @@ class CustomerBalance_QuoteTest extends Magento_Test_Webservice
     public function testCustomerBalanceForQuoteSetAmountUsingInvalidStoreCodeException()
     {
         $quoteFixture = simplexml_load_file(
-            dirname(__FILE__).'/_fixtures/CustomerBalanceForQuoteUsingInvalidStoreCode.xml'
+            dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuoteUsingInvalidStoreCode.xml'
         );
         $data = self::simpleXmlToArray($quoteFixture);
 
@@ -192,7 +192,7 @@ class CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionQuoteNotExists()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/CustomerBalanceForQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $this->call('storecredit_quote.setAmount', $data['input']);
@@ -206,7 +206,7 @@ class CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionQuoteNotExists()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/CustomerBalanceForQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $this->call('storecredit_quote.removeAmount', $data['input']);
@@ -221,7 +221,7 @@ class CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteSetAmountExceptionGuestQuote()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/CustomerBalanceForGuestQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForGuestQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $data['input']['quote_id'] = self::$guestQuote->getId();
@@ -238,7 +238,7 @@ class CustomerBalance_QuoteTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceForQuoteRemoveAmountExceptionGuestQuote()
     {
-        $quoteFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/CustomerBalanceForGuestQuote.xml');
+        $quoteFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalanceForGuestQuote.xml');
         $data = self::simpleXmlToArray($quoteFixture);
 
         $data['input']['quote_id'] = self::$guestQuote->getId();
@@ -254,6 +254,11 @@ class CustomerBalance_QuoteTest extends Magento_Test_Webservice
         self::$quote->delete();
         self::$customer->delete();
         self::$product->delete();
+
+        self::$guestQuote = null;
+        self::$quote = null;
+        self::$customer = null;
+        self::$product = null;
 
         Mage::unregister('isSecureArea');
     }

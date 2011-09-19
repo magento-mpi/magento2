@@ -96,20 +96,20 @@ $quote->setCustomer($customer)
 //Create billing/shipping address
 $address = new Mage_Sales_Model_Quote_Address();
 $address->setData(array(
-        'city'                => 'New York',
-        'country_id'          => 'US',
-        'fax'                 => '56-987-987',
-        'firstname'           => 'Jacklin',
-        'lastname'            => 'Sparrow',
-        'middlename'          => 'John',
-        'postcode'            => '10012',
-        'region'              => 'New York',
-        'region_id'           => '43',
-        'street'              => 'Main Street',
-        'telephone'           => '718-452-9207',
-        'is_default_billing'  => true,
-        'is_default_shipping' => true,
-        'use_for_shipping'    => true
+    'city'                => 'New York',
+    'country_id'          => 'US',
+    'fax'                 => '56-987-987',
+    'firstname'           => 'Jacklin',
+    'lastname'            => 'Sparrow',
+    'middlename'          => 'John',
+    'postcode'            => '10012',
+    'region'              => 'New York',
+    'region_id'           => '43',
+    'street'              => 'Main Street',
+    'telephone'           => '718-452-9207',
+    'is_default_billing'  => true,
+    'is_default_shipping' => true,
+    'use_for_shipping'    => true
 ));
 //Implode street address (this method is overridden)
 $address->setStreet($address->getData('street'));
@@ -124,16 +124,16 @@ $quote->collectTotals()
 CustomerBalance_QuoteTest::$quote = $quote;
 
 //Create shopping cart by guest
-$quote = new Mage_Sales_Model_Quote();
-$quote->setStoreId(1)
-        ->setIsActive(false)
-        ->setIsMultiShipping(false)
-        ->addProduct($product);
+$guestQuote = new Mage_Sales_Model_Quote();
+$guestQuote->setStoreId(1)
+    ->setIsActive(false)
+    ->setIsMultiShipping(false)
+    ->addProduct($product);
 
-$quote->setBillingAddress($address);
-$quote->getShippingAddress()->setSameAsBilling(0);
-$quote->collectTotals()
+$guestQuote->setBillingAddress($address);
+$guestQuote->getShippingAddress()->setSameAsBilling(0);
+$guestQuote->collectTotals()
     ->save();
 
 //Save shopping cart created by guest
-CustomerBalance_QuoteTest::$guestQuote = $quote;
+CustomerBalance_QuoteTest::$guestQuote = $guestQuote;

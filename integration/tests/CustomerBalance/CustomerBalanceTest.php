@@ -82,7 +82,7 @@ class CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
 
         $data['input']['customer_id'] = self::$customerWithoutBalance->getId();
 
-        $this->call('storecredit.balance', $data['input'], 'Balance value is not expected');
+        $this->call('storecredit.balance', $data['input']);
     }
 
     /**
@@ -104,8 +104,8 @@ class CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
 
         $this->assertEquals(count($data['expected']['history_items']), count($result), 'History checksum fail');
 
-        foreach($data['expected']['history_items'] as $index => $expectedHistoryItem) {
-            foreach($expectedHistoryItem as $key => $value ) {
+        foreach ($data['expected']['history_items'] as $index => $expectedHistoryItem) {
+            foreach ($expectedHistoryItem as $key => $value) {
                 $this->assertEquals($value, $result[$index][$key], 'History item value fail');
             }
         }
@@ -137,6 +137,9 @@ class CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
 
         self::$customer->delete();
         self::$customerWithoutBalance->delete();
+
+        self::$customer = null;
+        self::$customerWithoutBalance = null;
 
         Mage::unregister('isSecureArea');
     }
