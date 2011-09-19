@@ -49,7 +49,9 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     protected $_logHandle = null;
 
     /**
-     * Constructor
+     * Basic constructor of Selenium RC driver
+     *
+     * Extension: initialization of log file handle.
      */
     public function __construct()
     {
@@ -59,9 +61,11 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     }
 
     /**
-     * Set the flag to not restart browser connection after each test (if set value is true)
+     * Sets the flag to RESTART/DON'T RESTART of a browser connection after each
+     * test (TRUE - do not restart, FALSE - do restart)
      *
-     * @param boolean $flag
+     * @param boolean $flag Flag of restarting browser after each test
+     * (TRUE - do not restart, FALSE - do restart)
      * @return Mage_Selenium_Driver
      */
     public function setContiguousSession($flag)
@@ -71,7 +75,7 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     }
 
     /**
-     * Start browser connection
+     * Starts browser connection
      *
      * @return string
      */
@@ -81,7 +85,9 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     }
 
     /**
-     * Stop browser connection
+     * Stops browser connection
+     *
+     * Extension: checking of _contiguousSession flag (RESTART/NOT RESTART of browser)
      */
     public function stop()
     {
@@ -96,10 +102,11 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
     }
 
     /**
-     * Send a command to the Selenium RC server.
+     * Sends a command to the Selenium RC server.
+     * Extension: transaction logging to opened file stream in view: TIME,REQUEST,RESPONSE or TIME,EXCEPTION
      *
-     * @param  string $command
-     * @param  array  $arguments
+     * @param  string $command   Command for send to Selenium RC server
+     * @param  array  $arguments Array of arguments to command
      * @return string
      */
     protected function doCommand($command, array $arguments = array())
@@ -125,6 +132,13 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
         return $response;
     }
 
+    /**
+     * Performs to return time to logging (e.g. 15:18:43.244768)
+     *
+     * @param  string $format       A composite format string
+     * @param  mixed  $utimestamp  (by default = null)
+     * @return string String a formatted date string.
+     */
     public static function udate($format, $utimestamp = null)
     {
         if (is_null($utimestamp))
