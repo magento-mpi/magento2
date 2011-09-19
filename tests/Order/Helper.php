@@ -50,47 +50,34 @@ class Order_Helper extends Mage_Selenium_TestCase
     public function customerAddressGenerator($charsType, $addrType = 'billing', $symNum = 32, $required = FALSE)
     {
         $type = array(':alnum:', ':alpha:', ':digit:', ':lower:', ':upper:', ':punct:');
-        if (array_search($charsType, $type) === FALSE
-                || ($addrType != 'billing' && $addrType != 'shipping')
+        if (!in_array($charsType, $type) || ($addrType != 'billing' && $addrType != 'shipping')
                 || $symNum < 5 || !is_int($symNum)) {
             throw new Exception('Incorrect parameters');
+        }
+        $return = array();
+        $page = $this->getUimapPage('admin', 'create_order_for_existing_customer');
+        $fieldset = $page->findFieldset('order_' . $addrType . '_address');
+        $fields = $fieldset->getAllFields();
+        $required = $fieldset->getAllRequired();
+        $req = array();
+        foreach ($required as $key => $value) {
+            $req[] = $value;
+        }
+        if ($required) {
+            foreach ($fields as $fieldsKey => $xpath) {
+                if (in_array($fieldsKey, $req)) {
+                    $return[$fieldsKey] = $this->generate('string', $symNum, $charsType);
+                } else {
+                    $return[$fieldsKey] = '%noValue%';
+                }
+            }
         } else {
-            if ($required == TRUE) {
-                return array(
-                    $addrType . '_address_choice'          => 'Add New Address',
-                    $addrType . '_prefix'                  => '%noValue%',
-                    $addrType . '_first_name'              => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_middle_name'             => '%noValue%',
-                    $addrType . '_last_name'               => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_suffix'                  => '%noValue%',
-                    $addrType . '_company'                 => '%noValue%',
-                    $addrType . '_street_address_1'        => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_street_address_2'        => '%noValue%',
-                    $addrType . '_region'                  => '%noValue%',
-                    $addrType . '_city'                    => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_zip_code'                => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_telephone'               => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_fax'                     => '%noValue%'
-                );
-            } else {
-                return array(
-                    $addrType . '_address_choice'          => 'Add New Address',
-                    $addrType . '_prefix'                  => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_first_name'              => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_middle_name'             => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_last_name'               => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_suffix'                  => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_company'                 => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_street_address_1'        => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_street_address_2'        => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_region'                  => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_city'                    => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_zip_code'                => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_telephone'               => $this->generate('string', $symNum, $charsType),
-                    $addrType . '_fax'                     => $this->generate('string', $symNum, $charsType)
-                );
+            foreach ($fields as $fieldsKey => $xpath) {
+                $return[$fieldsKey] = $this->generate('string', $symNum, $charsType);
             }
         }
+
+        return $return;
     }
 
     /**
@@ -100,77 +87,41 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @return bool|string
      */
-    public function createOrder($orderData, $validate = FALSE)
+    public function createOrder($orderData, $validate = TRUE)
     {
-        $this->addParameter('id', '0');
-        if (is_string($orderData)) {
-            $orderData = $this->loadData($orderData);
-        }
         $orderData = $this->arrayEmptyClear($orderData);
-        if (isset($orderData['store_view'])) {
-            $this->addParameter('storeName', $orderData['store_view']);
+        $storeView = (isset($orderData['store_view'])) ? $orderData['store_view'] : NULL;
+        $customer = (isset($orderData['customer_data'])) ? $orderData['customer_data'] : NULL;
+        $account = (isset($orderData['account_data'])) ? $orderData['account_data'] : array();
+        $products = (isset($orderData['products_to_add'])) ? $orderData['products_to_add'] : array();
+        $coupons = (isset($orderData['coupons'])) ? $orderData['coupons'] : NULL;
+        $billingAddr = (isset($orderData['billing_addr_data'])) ? $orderData['billing_addr_data'] : NULL;
+        $shippingAddr = (isset($orderData['shipping_addr_data'])) ? $orderData['shipping_addr_data'] : NULL;
+        $paymentMethod = (isset($orderData['payment_data'])) ? $orderData['payment_data'] : NULL;
+        $shippingMethod = (isset($orderData['shipping_data'])) ? $orderData['shipping_data'] : NULL;
+
+        $this->navigateToCreateOrderPage($customer, $storeView);
+        $this->fillForm($account, 'order_account_information');
+        foreach ($products as $value) {
+            $this->addProductToOrder($value);
         }
-        if (isset($orderData['customer_data'])) {
-            $this->navigateToCreateOrderPage($orderData['customer_data']);
-        } else {
-            $this->navigateToCreateOrderPage(NULL);
+        if ($coupons) {
+            $this->applyCoupon($coupons, $validate);
         }
-        if (isset($orderData['products_to_add'])) {
-            $this->addProductsToOrder($orderData['products_to_add']);
+        if ($billingAddr) {
+            $billingChoise = $billingAddr['address_choice'];
+            $this->fillOrderAddress($billingAddr, $billingChoise, 'billing');
         }
-        if (isset($orderData['products_to_reconfigure'])) {
-            $this->reconfigProduct($orderData['products_to_reconfigure']);
+        if ($shippingAddr) {
+            $shippingChoise = $shippingAddr['address_choice'];
+            $this->fillOrderAddress($shippingAddr, $shippingChoise, 'shipping');
         }
-        if (isset($orderData['gift_messages'])) {
-            $this->addGiftMessage($orderData['gift_messages']);
+        if ($shippingMethod) {
+            $this->selectShippingMethod($shippingMethod, $validate);
         }
-        if (isset($orderData['coupons'])) {
-            $this->applyCoupon($orderData['coupons']);
-        }
-        if (isset($orderData['account_data'])) {
-            $this->fillForm($orderData['account_data'], 'order_account_information');
-        }
-        if (isset($orderData['billing_addr_data'])) {
-            if (isset($orderData['billing_addr_data']['billing_address_choice']) &&
-                    ($orderData['billing_addr_data']['billing_address_choice'] == 'Add New Address')) {
-                $this->fillOrderAddress('new', 'billing',  $orderData['billing_addr_data']);
-            } elseif (isset($orderData['billing_addr_data']['billing_address_choice']) &&
-                    ($orderData['billing_addr_data']['billing_address_choice'] != 'Add New Address')){
-                $this->fillOrderAddress('exist', 'billing',  $orderData['billing_addr_data']);
-            }
-        }
-        if (isset($orderData['shipping_addr_data'])) {
-            if ($orderData['shipping_addr_data']['shipping_same_as_billing_address'] == 'yes'){
-                $this->fillOrderAddress('sameAsBilling');
-            } else {
-                if (isset($orderData['shipping_addr_data']['shipping_address_choice']) &&
-                        ($orderData['shipping_addr_data']['shipping_address_choice'] == 'Add New Address')){
-                    $this->fillOrderAddress('new', 'shipping',  $orderData['shipping_addr_data']);
-                } elseif (isset($orderData['shipping_addr_data']['shipping_address_choice']) &&
-                        ($orderData['shipping_addr_data']['shipping_address_choice'] != 'Add New Address')){
-                    $this->fillOrderAddress('exist', 'shipping',  $orderData['shipping_addr_data']);
-                }
-            }
-        }
-        if (isset($orderData['shipping_data'])) {
-            $this->selectShippingMethod($orderData['shipping_data']);
-        }
-        if (isset($orderData['payment_data'])) {
-            $this->selectPaymentMethod($orderData['payment_data']);
-        }
-        if ($validate == TRUE) {
-            $this->clickButton('submit_order', FALSE);
-            $this->pleaseWait();
-            return FALSE;
-        } else {
-            $errors = $this->getErrorMessages();
-            $this->assertTrue(empty($errors), $this->messages);
-            $this->saveForm('submit_order');
-            if ($this->successMessage('success_created_order') == TRUE) {
-                return $this->_defineOrderId('view_order');
-            }
-            return FALSE;
-        }
+        $this->selectPaymentMethod($paymentMethod, $validate);
+
+        $this->saveForm('submit_order');
     }
 
     /**
@@ -180,17 +131,44 @@ class Order_Helper extends Mage_Selenium_TestCase
      * @param string $address       'billing' or 'shipping'
      * @param array  $addressData
      */
-    public function fillOrderAddress($addressType, $address = NULL, $addressData = NULL)
+    public function fillOrderAddress($addressData, $addressChoise = 'new', $addressType = 'billing')
     {
-        if ($addressType == 'sameAsBilling') {
+        if (is_string($addressData)) {
+            $addressData = $this->loadData($addressData);
+        }
+
+        if ($addressChoise == 'sameAsBilling') {
             $this->fillForm(array('shipping_same_as_billing_address' => 'yes'));
         }
-        if (($addressType == 'new') && ($address != NULL) && ($addressData != NULL)) {
-            if ($addressData[$address.'_address_choice'] == 'Add New Address')
-                $this->fillForm($addressData);
+        if ($addressChoise == 'new') {
+            $xpath = $this->_getControlXpath('dropdown', $addressType . '_address_choice');
+            if ($this->isElementPresent($xpath . "/option[@selected]")) {
+                $this->select($xpath, 'label=Add New Address');
+                if ($addressType == 'shipping') {
+                    $this->pleaseWait();
+                }
+            }
+            if ($addressType == 'shipping') {
+                $xpath = $this->_getControlXpath('checkboxe', 'shipping_same_as_billing_address');
+                $value = $this->getValue($xpath);
+                if ($value == 'on') {
+                    $this->click($xpath);
+                    $this->pleaseWait();
+                }
+            }
+            $this->fillForm($addressData);
         }
-        if (($addressType == 'exist') && ($address != NULL) && ($addressData != NULL)) {
-            $this->fillForm(array($address.'_address_choice' => $this->defineAddressToChoose($addressData)));
+        if ($addressChoise == 'exist') {
+            if ($addressType == 'shipping') {
+                $xpath = $this->_getControlXpath('checkboxe', 'shipping_same_as_billing_address');
+                $value = $this->getValue($xpath);
+                if ($value == 'on') {
+                    $this->click($xpath);
+                    $this->pleaseWait();
+                }
+            }
+            $addressLine = $this->defineAddressToChoose($addressData, $addressType);
+            $this->fillForm(array($addressType . '_address_choice' => 'label=' . $addressLine));
         }
     }
 
@@ -201,24 +179,28 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @return bool|string               The most suitable address found by using keywords
      */
-    public function defineAddressToChoose(array $keyWords)
+    public function defineAddressToChoose(array $addressData, $addressType = 'billing')
     {
-        foreach ($keyWords as $key => $value) {
-            if (preg_match('/prefix/', $key) || preg_match('/middle/', $key)
-                    || preg_match('/suffix/', $key) || preg_match('/company/', $key)
-                    || preg_match('/telephone/', $key) || preg_match('/fax/', $key)
-                    || preg_match('/address_choice/', $key) || preg_match('/save_in_address_book/', $key)
-                    || preg_match('/same_as_billing/', $key)) {
-                unset ($keyWords[$key]);
+        $inString = array();
+        foreach ($addressData as $key => $value) {
+            if ($key == $addressType . '_first_name' || $key == $addressType . '_first_name' ||
+                    $key == $addressType . '_last_name' || $key == $addressType . '_street_address_1' ||
+                    $key == $addressType . '_street_address_2' || $key == $addressType . '_city' ||
+                    $key == $addressType . '_zip_code' || $key == $addressType . '_country' ||
+                    $key == $addressType . '_state' || $key == $addressType . '_region') {
+                $inString[$key] = $value;
             }
         }
-        $xpathDropDown = $this->_getControlXpath('dropdown', 'billing_address_choice');
+        if (!$inString) {
+            $this->fail('Data to select the address wrong');
+        }
+        $xpathDropDown = $this->_getControlXpath('dropdown', $addressType . '_address_choice');
         $addressCount = $this->getXpathCount($xpathDropDown . '/option');
         $res = 0;
         for ($i = 1; $i <= $addressCount; $i++) {
             $addressValue = $this->getText($xpathDropDown . "/option[$i]");
             foreach ($keyWords as $v) {
-                $res += preg_match('/'.preg_quote($v).'/', $addressValue);
+                $res += preg_match('/' . preg_quote($v) . '/', $addressValue);
             }
             if ($res == count($keyWords)) {
                 $res = $addressValue;
@@ -228,9 +210,8 @@ class Order_Helper extends Mage_Selenium_TestCase
         }
         if (is_string($res)) {
             return $res;
-        } else {
-            return FALSE;
         }
+        $this->fail('Can not define address');
     }
 
     /**
@@ -257,27 +238,49 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array $productData Product in array to add to order. Function should be called for each product to add
      */
-    public function addProductsToOrder(array $productData)
+    public function addProductToOrder(array $productData)
     {
-        $this->clickButton('add_products', FALSE);
-        $configurable = FALSE;
-        foreach ($productData as $product => $data) {
-            $xpathProduct = $this->search($data);
-            $this->assertNotEquals(NULL, $xpathProduct);
-            if (!($this->isElementPresent($xpathProduct . "//a[text()='Configure'][@disabled]"))) {
-                $configurable = TRUE;
-            } else {
-                $configurable = FALSE;
+        $configur = array();
+        $aditionalData = array();
+        foreach ($productData as $key => $value) {
+            if (!preg_match('/^filter_/', $key)) {
+                $aditionalData[$key] = $value;
+                unset($productData[$key]);
             }
-            $this->searchAndChoose(array('filter_sku' => $productData[$product]['filter_sku']));
-            if (array_key_exists('configurable_options', $data) && $configurable == TRUE) {
-                $this->pleaseWait();
-                $this->configureProduct($data);
-                $this->clickButton('ok', FALSE);
+            if ($key == 'qty_to_add') {
+                $aditionalData['product_qty'] = $value;
+                unset($productData[$key]);
+            }
+            if ($key == 'filter_sku' || $key == 'filter_name') {
+                $productSku = $value;
+            }
+            if ($key == 'configurable_options') {
+                $configur = $value;
             }
         }
-        $this->clickButton('add_selected_products_to_order', FALSE);
-        $this->pleaseWait();
+
+        if ($productData) {
+            $this->clickButton('add_products', FALSE);
+            $xpathProduct = $this->search($productData);
+            $this->assertNotEquals(NULL, $xpathProduct, 'Product is not found');
+            $this->addParameter('productXpath', $xpathProduct);
+            $configurable = FALSE;
+            $configureLink = $this->_getControlXpath('link', 'configure');
+            if (!$this->isElementPresent($configureLink . '[@disabled]')) {
+                $configurable = TRUE;
+            }
+            $this->click($xpathProduct . "//input[@type='checkbox']");
+            if ($configurable && $configur) {
+                $this->pleaseWait();
+                $this->configureProduct($configur);
+                $this->clickButton('ok', FALSE);
+            }
+            $this->clickButton('add_selected_products_to_order', FALSE);
+            $this->pleaseWait();
+            if ($aditionalData) {
+                $this->reconfigProduct($productSku, $aditionalData);
+            }
+        }
     }
 
     /**
@@ -285,15 +288,33 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array $productData Product in array to add to order. Function should be called for each product to add
      */
-    public function configureProduct(array $productData)
+    public function configureProduct(array $configurData)
     {
-        foreach ($productData['configurable_options'] as $option => $value) {
-            if (is_array($value)){
-                foreach ($value as $clue => $dataset) {
-                    if (preg_match('/value/', $clue)) {
-                        $this->addParameter($option, $dataset);
-                    } else {
-                        $this->fillForm($dataset);
+        $page = $this->getCurrentLocationUimapPage();
+        $set = $page->findFieldset('product_composite_configure_form');
+
+        foreach ($configurData as $key => $value) {
+            if (is_array($value)) {
+                $optionTitle = (isset($value['title'])) ? $value['title'] : '';
+                $this->addParameter('optionTitle', $optionTitle);
+                foreach ($value as $k => $v) {
+                    if (is_array($v)) {
+                        $type = (isset($v['fieldType'])) ? $v['fieldType'] : '';
+                        $parameter = (isset($v['fieldParameter'])) ? $v['fieldParameter'] : '';
+                        $field_value = (isset($v['fieldsValue'])) ? $v['fieldsValue'] : '';
+                        $this->addParameter('optionParameter', $parameter);
+                        $method = 'getAll' . ucfirst(strtolower($type));
+                        if ($method == 'getAllCheckbox') {
+                            $method .= 'es';
+                        } else {
+                            $method .= 's';
+                        }
+                        $a = $set->$method();
+                        foreach ($a as $field => $fieldValue) {
+                            if ($this->isElementPresent($fieldValue)) {
+                                $this->fillForm(array($field => $field_value));
+                            }
+                        }
                     }
                 }
             }
@@ -305,29 +326,49 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array|string $paymentMethod
      */
-    public function selectPaymentMethod($paymentMethod)
+    public function selectPaymentMethod($paymentMethod, $validate = TRUE)
     {
+        if ($validate) {
+            $this->assertFalse($this->errorMessage('no_payment'), 'No Payment Information Required');
+        }
         if (is_string($paymentMethod)) {
             $paymentMethod = $this->loadData($paymentMethod);
         }
-        if (!is_array($paymentMethod) && !is_string($paymentMethod)) {
-            throw new Exception('Incorrect type of $paymentMethod.');
-        }
-        $this->clickControl('radiobutton', $paymentMethod['payment_method'], FALSE);
-        $this->pleaseWait();
-        if (array_key_exists('payment_info', $paymentMethod)) {
-            $this->fillForm($paymentMethod['payment_info']);
-        }
-        if (array_key_exists('3d_secure_validation_code', $paymentMethod)) {
-            $this->clickButton('start_reset_validation', FALSE);
-            $this->waitForAjax();
-            $xpath = $this->_getControlXpath('button', '3d_password');
-            $this->waitForElement($xpath);
-            $this->type($xpath, $paymentMethod['3d_secure_validation_code']);
-            $xpath = $this->_getControlXpath('button', '3d_submit');
-            $this->clickButton('3d_submit', FALSE);
-            $this->waitForElementNotPresent($xpath);
+        $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : NULL;
+        $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : NULL;
+
+        if ($payment) {
+            $this->addParameter('paymentTitle', $payment);
+            $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
+            $this->click($xpath);
             $this->pleaseWait();
+            if ($card) {
+                $paymentId = $this->getAttribute($xpath . '/@value');
+                $this->addParameter('paymentId', $paymentId);
+                $this->fillForm($card, 'order_payment_method');
+                $this->validate3dSecure();
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    public function validate3dSecure()
+    {
+        $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
+        if ($this->isElementPresent($xpath)) {
+            $this->clickButton('start_reset_validation', FALSE);
+            $this->fail('@TODO');
+//            $this->clickButton('start_reset_validation', FALSE);
+//            $this->waitForAjax();
+//            $xpath = $this->_getControlXpath('button', '3d_password');
+//            $this->waitForElement($xpath);
+//            $this->type($xpath, $paymentMethod['3d_secure_validation_code']);
+//            $xpath = $this->_getControlXpath('button', '3d_submit');
+//            $this->clickButton('3d_submit', FALSE);
+//            $this->waitForElementNotPresent($xpath);
+//            $this->pleaseWait();
         }
     }
 
@@ -336,19 +377,25 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array|string $shippingMethod
      */
-    public function selectShippingMethod($shippingMethod)
+    public function selectShippingMethod($shippingMethod, $validate = TRUE)
     {
         if (is_string($shippingMethod)) {
             $shippingMethod = $this->loadData($shippingMethod);
         }
         if (array_key_exists('shipping_service', $shippingMethod) &&
-                array_key_exists('shipping_method', $shippingMethod)){
-                    $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-                    $this->pleaseWait();
-                    $this->addParameter('shipService', $shippingMethod['shipping_service']);
-                    $this->addParameter('shipMethod', $shippingMethod['shipping_method']);
-                    $this->clickControl('radiobutton', 'ship_method', FALSE);
-                    $this->pleaseWait();
+                array_key_exists('shipping_method', $shippingMethod)) {
+            $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
+            $this->pleaseWait();
+            $this->addParameter('shipService', $shippingMethod['shipping_service']);
+            $this->addParameter('shipMethod', $shippingMethod['shipping_method']);
+            if ($this->errorMessage('ship_method_unavailable')) {
+                if ($validate) {
+                    $this->fail('This shipping method is currently unavailable.');
+                }
+            } else {
+                $this->clickControl('radiobutton', 'ship_method', FALSE);
+                $this->pleaseWait();
+            }
         }
     }
 
@@ -357,23 +404,30 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array|string $customerData    Array with customer data to search or string with dataset to load
      */
-    public function navigateToCreateOrderPage($customerData = NULL)
+    public function navigateToCreateOrderPage($customerData, $storeView)
     {
         $this->clickButton('create_new_order');
         if ($customerData == NULL) {
             $this->clickButton('create_new_customer', FALSE);
+            $this->pleaseWait();
         } else {
             if (is_string($customerData)) {
                 $customerData = $this->loadData($customerData);
             }
-            $this->assertNotEquals(NULL, $this->searchAndOpen($customerData, FALSE, 'order_customer_grid'));
+            $this->assertTrue($this->searchAndOpen($customerData, FALSE, 'order_customer_grid'),
+                    'Customer is not found');
         }
-        $this->pleaseWait();
+
         $page = $this->getCurrentLocationUimapPage();
         $storeSelectorXpath = $page->findFieldset('order_store_selector')->getXpath();
         if ($this->isElementPresent($storeSelectorXpath . "[not(normalize-space(@style)='display:none')]")) {
-            $this->clickControl('radiobutton', 'choose_main_store', FALSE);
-            $this->pleaseWait();
+            if ($storeView) {
+                $this->addParameter('storeName', $storeView);
+                $this->clickControl('radiobutton', 'choose_main_store', FALSE);
+                $this->pleaseWait();
+            } else {
+                $this->fail('Store View is not set');
+            }
         }
     }
 
@@ -382,16 +436,10 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array $reconfigProduct Array with the products and data to reconfigure
      */
-    public function reconfigProduct(array $reconfigProduct)
+    public function reconfigProduct($productSku, array $productData)
     {
-        foreach($reconfigProduct as $product => $options) {
-            if (array_key_exists('filter_sku', $options)) {
-                $this->addParameter('sku', $options['filter_sku']);
-                if (array_key_exists('reconfigurable_options', $options)) {
-                    $this->fillForm($options['reconfigurable_options']);
-                }
-            }
-        }
+        $this->addParameter('sku', $productSku);
+        $this->fillForm($productData, 'order_items_ordered');
         $this->clickButton('update_items_and_quantity', FALSE);
         $this->pleaseWait();
     }
@@ -403,18 +451,19 @@ class Order_Helper extends Mage_Selenium_TestCase
      */
     public function addGiftMessage(array $giftMessages)
     {
-        foreach($giftMessages as $product => $message) {
-            if (array_key_exists('general_sku', $message)) {
-                $this->addParameter('sku', $message['general_sku']);
-                if (array_key_exists('message_options', $message)) {
-                    $this->clickControl('link', 'gift_options', FALSE);
-                    $this->waitForAjax();
-                    $this->fillForm($message['message_options']);
-                    $this->clickButton('ok', FALSE);
-                    $this->pleaseWait();
-                }
-            }
-        }
+//      @TODO for product and for order
+//        foreach($giftMessages as $product => $message) {
+//            if (array_key_exists('general_sku', $message)) {
+//                $this->addParameter('sku', $message['general_sku']);
+//                if (array_key_exists('message_options', $message)) {
+//                    $this->clickControl('link', 'gift_options', FALSE);
+//                    $this->waitForAjax();
+//                    $this->fillForm($message['message_options']);
+//                    $this->clickButton('ok', FALSE);
+//                    $this->pleaseWait();
+//                }
+//            }
+//        }
     }
 
     /**
@@ -422,26 +471,26 @@ class Order_Helper extends Mage_Selenium_TestCase
      *
      * @param array $couponCode
      */
-    public function applyCoupon(array $couponCode)
+    public function applyCoupon($coupons, $validate = TRUE)
     {
-        foreach ($couponCode as $coupon => $data)
-        {
-            $this->fillForm(array('coupon_code' => $data['coupon_code']));
+        $xpath = $this->_getControlXpath('fieldset', 'order_apply_coupon_code');
+        if (!$this->isElementPresent($xpath) && $coupons) {
+            $this->fail('Can not add coupon(Product is not added)');
+        }
+
+        if (is_string($coupons)) {
+            $coupons[] = $coupons;
+        }
+        foreach ($coupons as $code) {
+            $this->fillForm(array('coupon_code' => $code));
             $this->clickButton('apply', FALSE);
             $this->pleaseWait();
-            if ((strtolower($data['success']) == 'true') || (strtolower($data['success']) == '1')) {
-                if ($this->successMessage('success_applying_coupon')) {
-                    return TRUE;
-                } else {
-                    return FALSE;
-                }
-            } else {
-                if ($this->errorMessage('invalid_coupon_code')) {
-                    return TRUE;
-                } else {
-                    return FALSE;
-                }
+            if ($validate) {
+                $this->addParameter('couponCode', $code);
+                $this->assertTrue($this->successMessage('success_applying_coupon'), $this->messages);
+                $this->assertFalse($this->errorMessage('invalid_coupon_code'), $this->messages);
             }
         }
     }
+
 }

@@ -30,8 +30,8 @@
 #*********************************************
 
 #<------------Billing Address Required------------>
-new_customer_order_billing_address_reqfields: &billingReqFields
-    billing_address_choice: Add New Address
+billing_address_req: &billingReq
+    address_choice: new
     billing_first_name: 'billing_Steven'
     billing_last_name: 'billing_Stevenson'
     billing_street_address_1: 'billing street address'
@@ -40,12 +40,10 @@ new_customer_order_billing_address_reqfields: &billingReqFields
     billing_state: California
     billing_zip_code: '94306'
     billing_telephone: '091019019 billing'
-    billing_save_in_address_book: yes
 
 #<------------Shipping Address Required------------>
-new_customer_order_shipping_address_reqfields: &shippingReqFields
-    shipping_same_as_billing_address: no
-    shipping_address_choice: Add New Address
+shipping_address_req: &shippingReq
+    address_choice: new
     shipping_first_name: 'shipping_Steven'
     shipping_last_name: 'shipping_Stevenson'
     shipping_street_address_1: 'shipping street address'
@@ -54,11 +52,10 @@ new_customer_order_shipping_address_reqfields: &shippingReqFields
     shipping_state: California
     shipping_zip_code: '94306'
     shipping_telephone: '091019019 shipping'
-    shipping_save_in_address_book: yes
 
 #<------------Billing Address ALL------------>
-new_customer_order_billing_address_allfields: &billingAllFields
-    billing_address_choice: Add New Address
+billing_address_all: &billingAll
+    address_choice: new
     billing_prefix: 'Mr(billing)'
     billing_first_name: 'Steven(billing)'
     billing_middle_name: 'Y(billing)'
@@ -76,9 +73,9 @@ new_customer_order_billing_address_allfields: &billingAllFields
     billing_save_in_address_book: yes
 
 #<------------Shipping Address ALL------------>
-new_customer_order_shipping_address_allfields: &shippingAllFields
+shipping_address_all: &shippingAll
+    address_choice: new
     shipping_same_as_billing_address: no
-    shipping_address_choice: Add New Address
     shipping_prefix: 'Mr(shipping)'
     shipping_first_name: 'Steven(shipping)'
     shipping_middle_name: 'Y(shipping)'
@@ -350,6 +347,303 @@ configurable_product_for_order:
 #*********************************************
 
 #<------------Saved CC------------>
+saved_american_express: &americanExpressSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'American Express'
+    card_number: '341111111111111'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '1234'
+
+saved_visa: &visaSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'Visa'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+saved_mastercard: &mastercardSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'MasterCard'
+    card_number: '5100080000000000'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+saved_discover: &discoverSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'Discover'
+    card_number: '6011000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+#<------------ELSE------------>
+else_american_express: &americanExpressElse
+    card_type: 'American Express'
+    card_number: '341111111111111'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '1234'
+
+else_visa: &visaElse
+    card_type: 'Visa'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+else_mastercard: &mastercardElse
+    card_type: 'MasterCard'
+    card_number: '5100080000000000'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+else_discover: &discoverElse
+    card_type: 'Discover'
+    card_number: '6011000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+#*********************************************
+#*       Create Order Data                   *
+#*********************************************
+
+#<------------PHYSICAL------------>
+order_physical:
+    customer_data:
+        id: %noValue%
+        name: %noValue%
+        email: %noValue%
+        telephone: %noValue%
+        zip_code: %noValue%
+        country: %noValue%
+        region: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    account_data:
+        customer_group: Wholesale
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_id: %noValue%
+            filter_name: %noValue%
+            filter_sku: %noValue%
+            filter_price_from: %noValue%
+            filter_price_to: %noValue%
+            qty_to_add: %noValue%
+            configurable_options: %noValue%
+            custom_price_use: %noValue%
+            custom_price: %noValue%
+            product_qty: %noValue%
+            apply: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReq
+    shipping_addr_data: *shippingReq
+    payment_data:
+        payment_method: Check / Money order
+        payment_info: %noValue%
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+
+#<------------VIRTUAL------------>
+order_virtual:
+    customer_data:
+        id: %noValue%
+        name: %noValue%
+        email: %noValue%
+        telephone: %noValue%
+        zip_code: %noValue%
+        country: %noValue%
+        region: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    account_data:
+        customer_group: Wholesale
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_id: %noValue%
+            filter_name: %noValue%
+            filter_sku: %noValue%
+            filter_price_from: %noValue%
+            filter_price_to: %noValue%
+            qty_to_add: %noValue%
+            configurable_options: %noValue%
+            custom_price_use: %noValue%
+            custom_price: %noValue%
+            product_qty: %noValue%
+            apply: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReq
+    payment_data:
+        payment_method: Check / Money order
+        payment_info: %noValue%
+
+#*********************************************
+#*      ConfigurableOptions For Products     *
+#*********************************************
+
+config_option_download:
+    option_1:
+        title: Links
+        field_1:
+            fieldType: checkbox
+            fieldParameter: Link Row Title
+            fieldsValue: Yes
+    option_2:
+        title: Quantity
+        field_1:
+            fieldType: field
+            fieldParameter:
+            fieldsValue: 10            
+
+config_option_grouped:
+
+config_option_bundle:
+    option_1:
+        title: Multiple Select
+        field_1:
+            fieldType: multiselect
+            fieldParameter: %noValue%
+            fieldsValue: nfzgm_Virtual Product For Oreder
+    option_2:
+        title: Drop-down
+        field_1:
+            fieldType: multiselect
+            fieldParameter: %noValue%
+            fieldsValue: ncslf_Simple Product For Order
+        field_2:
+            fieldType: field
+            fieldParameter: Qty
+            fieldsValue: 10
+    option_3:
+        title: Radio Buttons
+        field_1:
+            fieldType: radiobutton
+            fieldParameter: ncslf_Simple Product For Order
+            fieldsValue: yes
+        field_2:
+            fieldType: field
+            fieldParameter: Qty
+            fieldsValue: 10
+    option_4:
+        title: Checkbox
+        field_1:
+            fieldType: checkbox
+            fieldParameter: ncslf_Simple Product For Order
+            fieldsValue: yes
+    option_5:
+        title: Quantity
+        field_1:
+            fieldType: field
+            fieldParameter: %noValue%
+            fieldsValue: 15              
+
+config_option_configurable:
+
+config_option_custom_options:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#*********************************************
+#*           Regularize and DELETE           *
+#*********************************************
+
+#<------------Billing Address Required------------>
+new_customer_order_billing_address_reqfields: &billingReqFields
+    billing_address_choice: Add New Address
+    billing_first_name: 'billing_Steven'
+    billing_last_name: 'billing_Stevenson'
+    billing_street_address_1: 'billing street address'
+    billing_city: 'Palo Alto'
+    billing_country: 'United States'
+    billing_state: California
+    billing_zip_code: '94306'
+    billing_telephone: '091019019 billing'
+    billing_save_in_address_book: yes
+
+#<------------Shipping Address Required------------>
+new_customer_order_shipping_address_reqfields: &shippingReqFields
+    shipping_same_as_billing_address: no
+    shipping_address_choice: Add New Address
+    shipping_first_name: 'shipping_Steven'
+    shipping_last_name: 'shipping_Stevenson'
+    shipping_street_address_1: 'shipping street address'
+    shipping_city: 'Palo Alto'
+    shipping_country: 'United States'
+    shipping_state: California
+    shipping_zip_code: '94306'
+    shipping_telephone: '091019019 shipping'
+    shipping_save_in_address_book: yes
+
+#<------------Billing Address ALL------------>
+new_customer_order_billing_address_allfields: &billingAllFields
+    billing_address_choice: Add New Address
+    billing_prefix: 'Mr(billing)'
+    billing_first_name: 'Steven(billing)'
+    billing_middle_name: 'Y(billing)'
+    billing_last_name: 'Stevenson(billing)'
+    billing_suffix: 'Jr(billing)'
+    billing_company: 'home(billing)'
+    billing_street_address_1: 'street_address_1(billing)'
+    billing_street_address_2: 'street_address_2(billing)'
+    billing_city: 'Palo Alto'
+    billing_country: 'United States'
+    billing_state: California
+    billing_zip_code: '94306'
+    billing_telephone: '091019019(billing)'
+    billing_fax: '0919327869(billing)'
+    billing_save_in_address_book: yes
+
+#<------------Shipping Address ALL------------>
+new_customer_order_shipping_address_allfields: &shippingAllFields
+    shipping_same_as_billing_address: no
+    shipping_address_choice: Add New Address
+    shipping_prefix: 'Mr(shipping)'
+    shipping_first_name: 'Steven(shipping)'
+    shipping_middle_name: 'Y(shipping)'
+    shipping_last_name: 'Stevenson(shipping)'
+    shipping_suffix: 'Jr(shipping)'
+    shipping_company: 'home(shipping)'
+    shipping_street_address_1: 'street_address_1(shipping)'
+    shipping_street_address_2: 'street_address_2(shipping)'
+    shipping_city: 'Palo Alto'
+    shipping_country: 'United States'
+    shipping_state: California
+    shipping_zip_code: '94306'
+    shipping_telephone: '091019019(shipping)'
+    shipping_fax: '0919327869(shipping)'
+    shipping_save_in_address_book: yes
+
+#*********************************************
+#*          Credit Card Data                 *
+#*********************************************
+
+#<------------Saved CC------------>
 american_express: &americanExpress
     name_on_card_saved: 'Test Account'
     credit_card_type_saved: 'American Express'
@@ -464,132 +758,6 @@ order_template:
                 message: %noValue%
     coupons:
         coupon_1: %noValue%
-
-#<------------VIRTUAL------------>
-order_template_virtual:
-    customer_data:
-        id: %noValue%
-        name: %noValue%
-        email: %noValue%
-        phone: %noValue%
-        zip_code: %noValue%
-        country: %noValue%
-        state: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_id: %noValue%
-            filter_name: %noValue%
-            filter_sku: %noValue%
-            filter_price_from: %noValue%
-            filter_price_to: %noValue%
-            configurable_options: %noValue%
-        product_2: %noValue%
-    products_to_reconfigure: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data: %noValue%
-    gift_messages:
-        product_1:
-            general_sku: %noValue
-            message_option:
-                to: %noValue%
-                from: %noValue%
-                message: %noValue%
-    coupons:
-        coupon_1: %noValue%
-
-#*********************************************
-#*      ConfigurableOptions For Products     *
-#*********************************************
-
-config_option_download:
-    optionCheck:
-        value_1: Link Row Title
-        data_1:
-            check: yes
-    optionText:
-        value_1: Quantity
-        data_1:
-            text: 1
-
-config_option_grouped:
-    optionText:
-        value_1: %noValue%
-        data_1:
-            config_qty_text: 2
-        value_2: %noValue%
-        data_2:
-            config_qty_text: 3
-        value_3: %noValue%
-        data_3:
-            config_qty_text: 4
-
-config_option_bundle:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_id: %noValue%
-            filter_name: %noValue%
-            filter_sku: %noValue%
-            filter_price_from: %noValue%
-            filter_price_to: %noValue%
-            configurable_options:
-                titleOfMultiple:
-                    value_1: Multiple Select
-                    data_1:
-                        multiple_choose: %noValue%
-                titleOfDropdown:
-                    value_1: Drop-down
-                    data_1:
-                        dropdown_choose: %noValue%
-                        dropdown_qty: 3
-                optionRadio:
-                    value_1: %noValue%
-                    data_1:
-                        radio_choose: Yes
-                titleOfRadio:
-                    value_1: Radio Buttons
-                    data_1:
-                        radio_qty: 5
-                optionCheck:
-                    value_1: %noValue%
-                    data_1:
-                        check_choose: Yes
-                    value_2: %noValue%
-                    data_2:
-                        check_choose: Yes
-                optionText:
-                    value_1: Quantity
-                    data_1:
-                        total_qty: 11
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-#*********************************************
-#*      Regularize Data                      *
-#*********************************************
-
-
-
 
 simple_product_for_configurable_for_order:
     product_attribute_set: Default
