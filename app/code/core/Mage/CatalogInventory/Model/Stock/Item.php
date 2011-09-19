@@ -454,7 +454,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if (!$this->getManageStock() || Mage::app()->getStore()->isAdmin()) {
             return true;
         }
-        if ($this->getQty() - $qty < 0) {
+
+        if ($this->getQty() - $this->getMinQty() - $qty < 0) {
             switch ($this->getBackorders()) {
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NONOTIFY:
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY:
