@@ -55,13 +55,12 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     public function createProducts()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
         $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         return $productData;
     }
 
@@ -89,14 +88,14 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     public function savedCC($productData)
     {
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment/');
         $this->clickControl('tab', 'sales_payment_methods');
         $payment = $this->loadData('saved_cc_wo3d_enable');
         $this->fillForm($payment, 'sales_payment_methods');
         $this->saveForm('save_config');
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_visa_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -126,7 +125,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     public function checkMoneyOrder($productData)
     {
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_check_money_order_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
@@ -159,7 +158,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment/');
         $this->clickControl('tab', 'sales_payment_methods');
         $payment = $this->loadData('authorize_net_without_3d_enable');
@@ -167,13 +166,13 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_authorize_net_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment/');
         $this->clickControl('tab', 'sales_payment_methods');
         $payment = $this->loadData('authorize_net_without_3d_disable');
@@ -206,7 +205,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         //Preconditions: Enabling PayPal
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $paypal = $this->loadData('paypal_enable');
@@ -214,7 +213,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Preconditions: Enabling PayPalUKDirect
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_enable');
@@ -222,13 +221,13 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_paypal_direct_payment_payflow_edition_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_disable');
@@ -260,7 +259,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         //Preconditions: Enabling PayPal
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('paypal_enable');
@@ -268,7 +267,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Preconditions: Enabling PayflowPro
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('payflow_pro_wo_3d_enable');
@@ -276,13 +275,13 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_payflow_pro_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('payflow_pro_wo_3d_disable');
@@ -315,7 +314,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         //Preconditions: Enabling PayPal
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('paypal_enable');
@@ -323,7 +322,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Preconditions: Enabling Website payments pro
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('website_payments_pro_wo_3d_enable');
@@ -331,13 +330,13 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_website_payments_pro_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('website_payments_pro_wo_3d_disable');
@@ -372,7 +371,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         //Preconditions: Enabling 3DSecure
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment_services/');
         $this->clickControl('tab', 'sales_payment_services');
         $payflowpro = $this->loadData('3d_secure_enable');
@@ -380,7 +379,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Preconditions: Enabling AuthorizeNet with 3D Secure
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment/');
         $this->clickControl('tab', 'sales_payment_methods');
         $payment = $this->loadData('authorize_net_with_3d_enable');
@@ -388,13 +387,13 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_authorize_net_3D_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment_services/');
         $this->clickControl('tab', 'sales_payment_methods');
         $payment = $this->loadData('authorize_net_with_3d_disable');
@@ -427,7 +426,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         //Preconditions: Enabling 3DSecure
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment_services/');
         $this->clickControl('tab', 'sales_payment_services');
         $payflowpro = $this->loadData('3d_secure_enable');
@@ -435,7 +434,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Preconditions: Enabling PayPal
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $paypal = $this->loadData('paypal_enable');
@@ -443,7 +442,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Preconditions: Enabling PayPalUKDirect
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $paypalukdirect = $this->loadData('paypal_uk_direct_w_3d_enable');
@@ -451,13 +450,13 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_paypal_direct_payment_payflow_edition_w3d_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_disable');
@@ -490,7 +489,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         //Preconditions: Enabling 3DSecure
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment_services/');
         $this->clickControl('tab', 'sales_payment_services');
         $payflowpro = $this->loadData('3d_secure_enable');
@@ -498,7 +497,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Preconditions: Enabling PayPal
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('paypal_enable');
@@ -506,7 +505,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Preconditions: Enabling Website payments pro
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('website_payments_pro_w_3d_enable');
@@ -514,13 +513,13 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_website_payments_pro_w3d_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('website_payments_pro_wo_3d_disable');
@@ -553,7 +552,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         //Preconditions: Enabling 3DSecure
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment_services/');
         $this->clickControl('tab', 'sales_payment_services');
         $payflowpro = $this->loadData('3d_secure_enable');
@@ -561,7 +560,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Preconditions: Enabling PayPal
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('paypal_enable');
@@ -569,7 +568,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Preconditions: Enabling PayflowPro
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('payflow_pro_w_3d_enable');
@@ -577,13 +576,13 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_payflow_pro_w3d_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/paypal/');
         $this->clickControl('tab', 'sales_paypal');
         $payflowpro = $this->loadData('payflow_pro_wo_3d_disable');
@@ -616,7 +615,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         //Preconditions: Enabling 3DSecure
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment_services/');
         $this->clickControl('tab', 'sales_payment_services');
         $payflowpro = $this->loadData('3d_secure_enable');
@@ -624,7 +623,7 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Preconditions: Enabling 3D for saved cc.
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment/');
         $this->clickControl('tab', 'sales_payment_methods');
         $savedcc = $this->loadData('saved_cc_w3d_enable');
@@ -632,13 +631,13 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $this->saveForm('save_config');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderData = $this->loadData('order_data_visa_w3d_1');
         $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
         $orderId = $this->orderHelper()->createOrder($orderData);
         //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->addParameter('tabName', 'edit/section/payment/');
         $this->clickControl('tab', 'sales_paypal');
         $savedcc = $this->loadData('saved_cc_w3d_disable');
