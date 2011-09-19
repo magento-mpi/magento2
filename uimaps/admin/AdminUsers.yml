@@ -53,12 +53,12 @@ manage_admin_users:
         buttons:
             add_new_admin_user: //button[span='Add New User' or span='Add New']
         messages: &adminUserMessages
-            exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'A user with the same user name or email aleady exists.')]
+            exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.,'A user with the same user name or email aleady exists.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            cannot_delete_account: //li[normalize-space(@class)='error-msg' and contains(.//span,'You cannot delete your own account.')]
-            success_deleted_user: //li[normalize-space(@class)='success-msg' and contains(.//span,'The user has been deleted.')]
-            success_saved_user: //li[normalize-space(@class)='success-msg' and contains(.//span,'The user has been saved.')]
-            exist_email: //li[normalize-space(@class)='error-msg' and contains(.//span,'Email already exists.')]
+            cannot_delete_account: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete your own account.')]
+            success_deleted_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been deleted.')]
+            success_saved_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been saved.')]
+            exist_email: //li[normalize-space(@class)='error-msg' and contains(.,'Email already exists.')]
             invalid_password: //div[@id='advice-validate-admin-password-user_password']
             password_unmatch: //div[@id='advice-validate-cpassword-user_confirmation']
             invalid_email: //div[@id='advice-validate-email-user_email']
