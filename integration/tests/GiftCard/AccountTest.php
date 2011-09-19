@@ -71,7 +71,9 @@ class GiftCard_AccountTest extends Magento_Test_Webservice
         $removeResult = $this->call('giftcard_account.remove', array($id));
         $this->assertTrue($removeResult);
 
-        //TODO: add check that giftcard account was really removed
+        //Test item was really removed and fault was Exception thrown
+        $this->setExpectedException('Exception');
+        $this->call('giftcard_account.remove', array($id));
     }
 
     /**

@@ -55,7 +55,9 @@ class GiftCard_CartTest extends Magento_Test_Webservice
         $removeResult = $this->call('cart_giftcard.remove', array($giftcardAccount->getCode(), $quoteId));
         $this->assertTrue($removeResult, 'Remove giftcard from quote');
 
-        //TODO: try load quote using model/api by $quoteId and check that there is no gift card there
+        //Test giftcard removed
+        $this->setExpectedException('Exception');
+        $removeResult = $this->call('cart_giftcard.remove', array($giftcardAccount->getCode(), $quoteId));
     }
 
     /**

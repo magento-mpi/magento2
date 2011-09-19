@@ -25,14 +25,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * @magentoDataFixture GiftCard/_fixtures/code_pool.php
- * @magentoDataFixture GiftCard/_fixtures/giftcard_account.php
- */
 class GiftCard_CustomerTest extends Magento_Test_Webservice
 {
     /**
      * Test giftcard customer info by code
+     *
+     * @magentoDataFixture GiftCard/_fixtures/code_pool.php
+     * @magentoDataFixture GiftCard/_fixtures/giftcard_account.php
      *
      * @return void
      */
@@ -52,20 +51,37 @@ class GiftCard_CustomerTest extends Magento_Test_Webservice
      * Test redeem amount present on gift card to Store Credit.
      *
      * @magentoDataFixture GiftCard/_fixtures/customer.php
+     * @magentoDataFixture GiftCard/_fixtures/code_pool.php
+     * @magentoDataFixture GiftCard/_fixtures/giftcard_account.php
+     *
+     * @return void
      */
     public function testRedeem()
     {
+        /** @var $giftcardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
         $giftcardAccount = self::getFixture('giftcard_account');
-        $code = $giftcardAccount->getData('code');
+        $code = $giftcardAccount->getCode();
+
         //Fixture customer id
-        $customerId = 10001;
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = self::getFixture('giftcard/customer');
+        $customerId = $customer->getId();
+
         //Default website has id 1
         $websiteId = 1;
 
         $result = $this->call('giftcard_customer.redeem', array($code, $customerId, $websiteId));
         $this->assertTrue($result);
 
-        //TODO: add check that giftcard was really redeemed
+        //Test giftcard redeemed to customer balance
+        $customerBalance = new Enterprise_CustomerBalance_Model_Balance();
+        $customerBalance->setCustomerId($customer->getId());
+        $customerBalance->loadByCustomer();
+        $this->assertEquals($giftcardAccount->getBalance(), $customerBalance->getAmount());
+
+        //Test giftcard already redeemed
+        $this->setExpectedException('Exception');
+        $this->call('giftcard_customer.redeem', array($code, $customerId, $websiteId));
     }
 
     /**
