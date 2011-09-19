@@ -106,7 +106,7 @@ create_order_for_new_customer:
                             id: //input[@name='entity_id']
                             name: //input[@name='name']
                             email: //input[@name='email']
-                            phone: //input[@name='Telephone']
+                            telephone: //input[@name='Telephone']
                             zip_code: //input[@name='billing_postcode']
                             state: //input[@name='billing_regione']
                             store_name: //input[@name='store_name']
@@ -132,28 +132,27 @@ create_order_for_new_customer:
                             filter_price_to: //input[@name='price[to]']
                             qty_to_add: %productXpath%//input[@name='qty']
                         links:
-                            configure: %productXpath%//a[text()= 'Configure']
+                            configure: %productXpath%//a[text()='Configure']
                 -
                     order_items_ordered: &orderItemsOrdered
                         xpath: //div[@id='order-items']
                         buttons:
                             add_products: //button[span='Add Products']
-                            configure: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//button[span='Configure']
+                            configure: //tr[td/@class='first'][contains(.,'%sku%')]//button[span='Configure']
                             update_items_and_quantity: //button[span[contains(text(),'Update Items and Qty')]]
                         checkboxes:
-                            custom_price: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@id,'item_use_custom_price_')]
-                            apply: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@id,'item_use_discount_')]
+                            custom_price_use: //tr[td/@class='first'][contains(.,'%sku%')]//div[label='Custom Price*']/input
+                            apply: //tr[td/@class='first'][contains(.,'%sku%')]//input[contains(@id,'item_use_discount_')]
                         dropdowns:
-                            action: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//select
+                            action: //tr[td/@class='first'][contains(.,'%sku%')]//select
                         fields:
-                            qty: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[@class='input-text item-qty']
-                            custom_price: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[@class='input-text item-price']
-                            price_value: //td[@class='price'][1]/span[text()='%value%']
+                            product_qty: //tr[td/@class='first'][contains(.,'%sku%')]//input[@class='input-text item-qty']
+                            custom_price: //tr[td/@class='first'][contains(.,'%sku%')]//div[label='Custom Price*']/../input
                         links:
-                            gift_options: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//a[contains(text(),'Gift Options')]
+                            gift_options: //tr[td/@class='first'][contains(.,'%sku%')]/..//a[text()='Gift Options']
                 -
                     order_apply_coupon_code: &orderApplyCouponCode
-                        xpath: //div[@id='order-coupons']
+                        xpath: //div[div/h4[contains(text(),'Apply Coupon Cod')]]
                         buttons:
                             apply: //button[span='Apply']
                         fields:
@@ -188,6 +187,7 @@ create_order_for_new_customer:
                             billing_zip_code: //input[@id='order-billing_address_postcode']
                             billing_telephone: //input[@id='order-billing_address_telephone']
                             billing_fax: //input[@id='order-billing_address_fax']
+                        required: [billing_first_name,billing_last_name,billing_street_address_1,billing_city,billing_country,billing_zip_code,billing_telephone]
                 -
                     order_shipping_address: &orderShippingAddress
                         xpath: //div[@id='order-shipping_address']
@@ -212,48 +212,27 @@ create_order_for_new_customer:
                             shipping_zip_code: //input[@id='order-shipping_address_postcode']
                             shipping_telephone: //input[@id='order-shipping_address_telephone']
                             shipping_fax: //input[@id='order-shipping_address_fax']
+                        required: [shipping_first_name,shipping_last_name,shipping_street_address_1,shipping_city,shipping_country,shipping_zip_code,shipping_telephone]
+                -
+                    shipping_method: &shippingMethod
+                        xpath: //div[@id='order-shipping_method']
+                        links:
+                            get_shipping_methods_and_rates: //a[normalize-space(text())='Get shipping methods and rates']
+                        radiobuttons:
+                            ship_method: //dt[strong='%shipService%']/following::dd[1]//li[label[contains(text(),'%shipMethod%')]]/input
                 -
                     order_payment_method: &orderPaymentMethod
                         xpath: //div[@id='order-billing_method']
                         radiobuttons:
-                            check_money_order: //input[@type='radio' and @id='p_method_checkmo']
-                            credit_card: //input[@type='radio' and @id='p_method_ccsave']
-                            authorize_net_directpost: //input[@id='p_method_authorizenet_directpost']
-                            paypal_uk_direct: //input[@id='p_method_paypaluk_direct']
-                            authorize_net: //input[@id='p_method_authorizenet']
-                            paypal_direct_payment_payflow_edition: //input[@id='p_method_paypaluk_direct']
-                            payflow_pro: //input[@id='p_method_verisign']
-                            paypal_direct_payment: //input[@id='p_method_paypal_direct']
+                            check_payment_method: //input[@title='%paymentTitle%']
                         fields:
-                            name_on_card_saved: //ul[@id='payment_form_ccsave']//div[@class='input-box']/input[@name='payment[cc_owner]']
-                            credit_card_number_saved: //ul[@id='payment_form_ccsave']//div[@class='input-box']/input[@name='payment[cc_number]']
-                            cvv_saved: //ul[@id='payment_form_ccsave']//div[@class='input-box']/input[@name='payment[cc_cid]']
-                            name_on_card_autnet: //ul[@id='payment_form_authorizenet']//div[@class='input-box']/input[@name='payment[cc_owner]']
-                            credit_card_number_autnet: //ul[@id='payment_form_authorizenet']//div[@class='input-box']/input[@name='payment[cc_number]']
-                            cvv_autnet: //ul[@id='payment_form_authorizenet']//div[@class='input-box']/input[@name='payment[cc_cid]']
-                            credit_card_number_paypal_direct_payment_payflow_edition: //ul[@id='payment_form_paypaluk_direct']//input[@name='payment[cc_number]']
-                            cvv_paypal_direct_payment_payflow_edition: //ul[@id='payment_form_paypaluk_direct']//input[@name='payment[cc_cid]']
-                            credit_card_number_payflow_pro: //ul[@id='payment_form_verisign']//input[@name='payment[cc_number]']
-                            cvv_payflow_pro: //ul[@id='payment_form_verisign']//input[@name='payment[cc_cid]']
-                            credit_card_number_paypal_direct_payment: //ul[@id='payment_form_paypal_direct']//input[@name='payment[cc_number]']
-                            cvv_paypal_direct_payment: //ul[@id='payment_form_paypal_direct']//input[@name='payment[cc_cid]']
+                            name_on_card: //input[@id='%paymentId%_cc_owner']
+                            card_number: //input[@id='%paymentId%_cc_number']
+                            card_verification_number : //input[@id='%paymentId%_cc_cid']
                         dropdowns:
-                            credit_card_type_saved: //ul[@id='payment_form_ccsave']//select[@name='payment[cc_type]']
-                            expiration_date_month_saved: //ul[@id='payment_form_ccsave']//select[@name='payment[cc_exp_month]']
-                            expiration_date_year_saved: //ul[@id='payment_form_ccsave']//select[@name='payment[cc_exp_year]']
-                            credit_card_type_autnet: //ul[@id='payment_form_authorizenet']//select[@name='payment[cc_type]']
-                            expiration_date_month_autnet: //ul[@id='payment_form_authorizenet']//select[@name='payment[cc_exp_month]']
-                            expiration_date_year_autnet: //ul[@id='payment_form_authorizenet']//select[@name='payment[cc_exp_year]']
-                            credit_card_type_paypal_direct_payment_payflow_edition: //ul[@id='payment_form_paypaluk_direct']//select[@name='payment[cc_type]']
-                            expiration_date_month_paypal_direct_payment_payflow_edition: //ul[@id='payment_form_paypaluk_direct']//select[@name='payment[cc_exp_month]']
-                            expiration_date_year_paypal_direct_payment_payflow_edition: //ul[@id='payment_form_paypaluk_direct']//select[@name='payment[cc_exp_year]']
-                            credit_card_type_payflow_pro: //ul[@id='payment_form_verisign']//select[@name='payment[cc_type]']
-                            expiration_date_month_payflow_pro: //ul[@id='payment_form_verisign']//select[@name='payment[cc_exp_month]']
-                            expiration_date_year_payflow_pro: //ul[@id='payment_form_verisign']//select[@name='payment[cc_exp_year]']
-                            credit_card_type_paypal_direct_payment: //ul[@id='payment_form_paypal_direct']//select[@name='payment[cc_type]']
-                            expiration_date_month_paypal_direct_payment: //ul[@id='payment_form_paypal_direct']//select[@name='payment[cc_exp_month]']
-                            expiration_date_year_paypal_direct_payment: //ul[@id='payment_form_paypal_direct']//select[@name='payment[cc_exp_year]']
-                    #TODO - add more methods
+                            card_type: //select[@id='%paymentId%_cc_type']
+                            expiration_month: //select[@id='%paymentId%_expiration']
+                            expiration_year: //select[@id='%paymentId%_expiration_yr']
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
                         xpath: //div[div/h4[contains(text(),'3D Secure Card Validation')]]
@@ -265,13 +244,6 @@ create_order_for_new_customer:
                         fields:
                             order_comments: //textarea[@id='order-comment']
                 -
-                    shipping_method: &shippingMethod
-                        xpath: //div[@id='order-shipping_method']
-                        links:
-                            get_shipping_methods_and_rates: //a[normalize-space(text())='Get shipping methods and rates']
-                        radiobuttons:
-                            ship_method: //dt[contains(.,'%shipService%')]//following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(), '%shipMethod%')]]
-                -
                     order_totals: &orderTotals
                         xpath: //div[div/h4[contains(text(),'Order Totals')]]
                         checkboxes:
@@ -282,21 +254,18 @@ create_order_for_new_customer:
                 -
                     product_composite_configure_form: &productCompositeConfigureForm
                         xpath: //div[div/h4[contains(text(),'Configure Product')]]
-                        multiselects:
-                            multiple_choose: //div/dl/dt/label[contains(text(),'%titleOfMultiple%')]/../following-sibling::dd[1]//select
-                        dropdowns:
-                            dropdown_choose: //div/dl/dt/label[contains(text(),'%titleOfDropdown%')]/../following-sibling::dd[1]//select
-                        radiobuttons:
-                            radio_choose: //input[@type='radio']/../span/label[contains(text(),'%optionRadio%')]/../../input[@type='radio']
                         checkboxes:
-                            check_choose: //input[@type='checkbox']/../span/label[contains(text(),'%optionCheck%')]/../../input[@type='checkbox']
+                            option_checkbox: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[contains(@class,'checkbox')]
                         fields:
-                            total_qty: //input[@type='text']/../label[contains(text(),'%optionText%')]/following-sibling::*[@type='text']
-                            multiple_qty: //div/dl/dt[label[contains(text(),'%titleOfMultiple%')]]//input[@type='text']
-                            dropdown_qty: //div/dl/dt[label[contains(text(),'%titleOfDropdown%')]]//input[@type='text']
-                            radio_qty: //div/dl/dt[label[contains(text(),'%titleOfRadio%')]]//input[@type='text']
-                            check_qty: //div/dl/dt[label[contains(text(),'%titleOfCheckbox%')]]//input[@type='text']
-                            config_qty_text: //tr[td[contains(.,'%optionText%')]]/td/input[@title='Qty']
+                            option_field_1: //dt[contains(label,'%optionTitle%')][contains(.,'%optionParameter%')]//input
+                            option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input
+                            option_field_3: //dt[contains(label,'%optionTitle%')]//input
+                        dropdowns:
+                            option_dropdown: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]
+                        multiselects:
+                            option_multiselect: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@name,'%optionParameter%')]
+                        radiobuttons:
+                            option_radio: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[contains(@class,'radio')]
                         buttons:
                             ok: //button[span[contains(text(),'OK')]]
                             cancel: //button[span[contains(text(),'Cancel')]]
@@ -337,7 +306,9 @@ create_order_for_new_customer:
             invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'coupon code is not valid.')]
             invalid_qty_of_product: //div[@class='error']/div[contains(.,'The minimum quantity allowed for purchase is')]
             success_applying_coupon: //li[normalize-space(@class)='success-msg' and contains(.,'The coupon code has been accepted.')]
-
+            ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
+            no_payment: //label[text()='No Payment Information Required']
+            no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
 
 create_order_for_existing_customer:
     mca: sales_order_create/index/customer_id/%id%/
