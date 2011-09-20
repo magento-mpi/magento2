@@ -12,4 +12,9 @@
             <values>option3</values>
         </option>
     </attributeData>
+    <expected>
+        <type>select</type>
+        <required>0</required>
+        <scope>store</scope>
+    </expected>
 </root>
