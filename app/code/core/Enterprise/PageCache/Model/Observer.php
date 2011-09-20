@@ -500,7 +500,8 @@ class Enterprise_PageCache_Model_Observer
     {
         $object = $observer->getDataObject();
         Enterprise_PageCache_Model_Cache::getCacheInstance()
-            ->save($object->getValue(), Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY);
+            ->save($object->getValue(), Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY,
+                array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
         return $this;
     }
 
