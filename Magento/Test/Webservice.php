@@ -43,7 +43,6 @@ class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
         'xmlrpc'=>'Magento_Test_Webservice_XmlRpc'
     );
 
-
     public function getWebService()
     {
         if (is_null(self::$_ws)) {
@@ -57,7 +56,9 @@ class Magento_Test_Webservice extends PHPUnit_Framework_TestCase
 
     public function call($path, $params = array())
     {
-        if(is_null(self::$_ws)) $this->getWebService();
+        if(is_null(self::$_ws)) {
+            $this->getWebService();
+        }
 
         return self::$_ws->call($path, $params);
     }
