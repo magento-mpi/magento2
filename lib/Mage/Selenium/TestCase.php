@@ -1907,7 +1907,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $success = self::xpathSuccessMessage;
         $error = self::xpathErrorMessage;
         $validation = self::xpathValidationMessage;
-        $types = array('success', 'error', 'validation');
+        $types = array(/*'success',*/ 'error', 'validation');
         foreach ($types as $message) {
             if (array_key_exists($message, $this->messages)) {
                 $exclude = '';
