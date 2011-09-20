@@ -4345,6 +4345,8 @@ system_configuration:
                                         merge_css_files_use_default: //input[@name='groups[css][fields][merge_css_files][inherit]']
         buttons:
             save_config: //button[span='Save Config']
+        messages:
+            success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]
 
 system_configuration_tabs:
     mca: system_config/edit/section/%tabName%/
@@ -4353,6 +4355,8 @@ system_configuration_tabs:
         form: *systemConfiguration
         buttons:
             save_config: //button[span='Save Config']
+        messages:
+            success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]
 
 system_configuration_website:
     mca: system_config/edit/section/%tabName%/website/%webSite%/
@@ -4361,6 +4365,8 @@ system_configuration_website:
         form: *systemConfiguration
         buttons:
             save_config: //button[span='Save Config']
+        messages:
+            success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]
 
 system_configuration_store:
     mca: system_config/edit/section/%tabName%/website/%webSite%/store/%storeName%/
@@ -4369,3 +4375,5 @@ system_configuration_store:
         form: *systemConfiguration
         buttons:
             save_config: //button[span='Save Config']
+        messages:
+            success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]

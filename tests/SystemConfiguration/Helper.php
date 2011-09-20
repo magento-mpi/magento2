@@ -47,29 +47,14 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
             $parameters = $this->loadData($parameters);
         }
         $parameters = $this->arrayEmptyClear($parameters);
-
         $this->navigate('system_configuration');
-
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : NULL;
-
         if ($chooseScope) {
             $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope');
             $toSelect = $xpath . '//option[normalize-space(text())="' .
                     $parameters['configuration_scope'] . '"]';
             $isSelected = $toSelect . '[@selected]';
-            $params = $this->getAttribute($toSelect . '@url');
-            $params = explode('/', $params);
-            foreach ($params as $key => $value) {
-                if ($value == 'section' && isset($params[$key + 1])) {
-                    $this->addParameter('tabName', $params[$key + 1]);
-                }
-                if ($value == 'website' && isset($params[$key + 1])) {
-                    $this->addParameter('webSite', $params[$key + 1]);
-                }
-                if ($value == 'store' && isset($params[$key + 1])) {
-                    $this->addParameter('storeName', $params[$key + 1]);
-                }
-            }
+            $this->defineParameters($toSelect, '@url');
             if (!$this->isElementPresent($isSelected)) {
                 $this->fillForm(array('current_configuration_scope' => $parameters['configuration_scope']));
                 $this->waitForPageToLoad();
@@ -83,8 +68,26 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
                     $xpath = $this->_getControlXpath('tab', $tab);
                     $this->clickAndWait($xpath);
                     $this->fillForm($settings, $tab);
+                    $this->defineParameters($xpath, '@href');
                     $this->saveForm('save_config');
                 }
+            }
+        }
+    }
+
+    private function defineParameters($xpath, $attribute)
+    {
+        $params = $this->getAttribute($xpath . $attribute);
+        $params = explode('/', $params);
+        foreach ($params as $key => $value) {
+            if ($value == 'section' && isset($params[$key + 1])) {
+                $this->addParameter('tabName', $params[$key + 1]);
+            }
+            if ($value == 'website' && isset($params[$key + 1])) {
+                $this->addParameter('webSite', $params[$key + 1]);
+            }
+            if ($value == 'store' && isset($params[$key + 1])) {
+                $this->addParameter('storeName', $params[$key + 1]);
             }
         }
     }

@@ -26,139 +26,221 @@
 #
 ---
 authorize_net_without_3d_enable:
-    an_enabled: Yes
-    an_api_login_id: 36sCtGS8w
-    an_transaction_key: 33YvD5r6mm9B47e2
-    an_test_mode: Yes
-    an_gateway_url: https://test.authorize.net/gateway/transact.dll
-    an_credit_card_verification: Yes
-    an_3d_secure_card_validation: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            an_enabled: Yes
+            an_api_login_id: 36sCtGS8w
+            an_transaction_key: 33YvD5r6mm9B47e2
+            an_test_mode: Yes
+            an_gateway_url: https://test.authorize.net/gateway/transact.dll
+            an_credit_card_verification: Yes
+            an_3d_secure_card_validation: No
 
 authorize_net_without_3d_disable:
-    an_3d_secure_card_validation: No
-    an_credit_card_verification: No
-    an_enabled: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            an_3d_secure_card_validation: No
+            an_credit_card_verification: No
+            an_enabled: No
 
 paypal_enable:
-    email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
-    api_authentication_methods: API Signature
-    sandbox_mode: Yes
-    api_username: artem__1312450055_biz_api1.magento.com
-    api_password: 1312450088
-    api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_paypal
+        configuration:
+            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
+            api_authentication_methods: API Signature
+            sandbox_mode: Yes
+            api_username: artem__1312450055_biz_api1.magento.com
+            api_password: 1312450088
+            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
 
 paypal_uk_direct_wo_3d_enable:
-    website_payments_pro_payflow_edition: Yes
-    wpppe_partner: PayPalUK
-    wpppe_user: ukpromerchant2g
-    wpppe_vendor: ukpromerchant2g
-    wpppe_password: testing678
-    wpppe_sandbox_mode: Yes
-    wpppe_require_cvv_entry: Yes
-    wpppe_3d_secure_card_validation: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_paypal
+        configuration:
+            website_payments_pro_payflow_edition: Yes
+            wpppe_partner: PayPalUK
+            wpppe_user: ukpromerchant2g
+            wpppe_vendor: ukpromerchant2g
+            wpppe_password: testing678
+            wpppe_sandbox_mode: Yes
+            wpppe_require_cvv_entry: Yes
+            wpppe_3d_secure_card_validation: No
 
 paypal_uk_direct_w_3d_enable:
-    website_payments_pro_payflow_edition: Yes
-    wpppe_partner: PayPalUK
-    wpppe_user: ukpromerchant2g
-    wpppe_vendor: ukpromerchant2g
-    wpppe_password: testing678
-    wpppe_sandbox_mode: Yes
-    wpppe_require_cvv_entry: Yes
-    wpppe_3d_secure_card_validation: Yes
-    wpppe_severe_3d_secure_card_validation: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_services
+        configuration:
+            processor_id: 134-01
+            merchant_id: magentoTEST
+            password: mag3nt0T3ST
+            test_mode: Yes
+    tab_2:
+        tab_name: sales_paypal
+        configuration:
+            website_payments_pro_payflow_edition: Yes
+            wpppe_partner: PayPalUK
+            wpppe_user: ukpromerchant2g
+            wpppe_vendor: ukpromerchant2g
+            wpppe_password: testing678
+            wpppe_sandbox_mode: Yes
+            wpppe_require_cvv_entry: Yes
+            wpppe_3d_secure_card_validation: Yes
+            wpppe_severe_3d_secure_card_validation: No
+
 
 paypal_uk_direct_wo_3d_disable:
-    wpppe_sandbox_mode: Yes
-    wpppe_require_cvv_entry: Yes
-    wpppe_3d_secure_card_validation: No
-    website_payments_pro_payflow_edition: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_paypal
+        configuration:
+            wpppe_sandbox_mode: Yes
+            wpppe_require_cvv_entry: Yes
+            wpppe_3d_secure_card_validation: No
+            website_payments_pro_payflow_edition: No
 
 payflow_pro_wo_3d_enable:
-    payflow_pro_gateway: Yes
-    pp_partner: PayPal
-    pp_user: petervarienpayflowpro
-    pp_vendor: petervarienpayflowpro
-    pp_password: paypal123456
-    pp_test_mode: Yes
-    pp_require_cvv_entry: Yes
-    pp_3d_secure_card_validation: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_paypal
+        configuration:
+            payflow_pro_gateway: Yes
+            pp_partner: PayPal
+            pp_user: petervarienpayflowpro
+            pp_vendor: petervarienpayflowpro
+            pp_password: paypal123456
+            pp_test_mode: Yes
+            pp_require_cvv_entry: Yes
+            pp_3d_secure_card_validation: No
 
 payflow_pro_w_3d_enable:
-    payflow_pro_gateway: Yes
-    pp_partner: PayPal
-    pp_user: petervarienpayflowpro
-    pp_vendor: petervarienpayflowpro
-    pp_password: paypal123456
-    pp_test_mode: Yes
-    pp_require_cvv_entry: Yes
-    pp_3d_secure_card_validation: Yes
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_services
+        configuration:
+            processor_id: 134-01
+            merchant_id: magentoTEST
+            password: mag3nt0T3ST
+            test_mode: Yes
+    tab_2:
+        tab_name: sales_paypal
+        configuration:
+            payflow_pro_gateway: Yes
+            pp_partner: PayPal
+            pp_user: petervarienpayflowpro
+            pp_vendor: petervarienpayflowpro
+            pp_password: paypal123456
+            pp_test_mode: Yes
+            pp_require_cvv_entry: Yes
+            pp_3d_secure_card_validation: Yes
 
 payflow_pro_wo_3d_disable:
-    pp_test_mode: Yes
-    pp_require_cvv_entry: Yes
-    pp_3d_secure_card_validation: No
-    payflow_pro_gateway: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_paypal
+        configuration:
+            pp_test_mode: Yes
+            pp_require_cvv_entry: Yes
+            pp_3d_secure_card_validation: No
+            payflow_pro_gateway: No
 
 website_payments_pro_wo_3d_enable:
-    website_payments_pro: Yes
-    wpp_require_cvv_entry: Yes
-    wpp_3d_secure_card_validation: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_paypal
+        configuration:
+            website_payments_pro: Yes
+            wpp_require_cvv_entry: Yes
+            wpp_3d_secure_card_validation: No
 
 website_payments_pro_w_3d_enable:
-    website_payments_pro: Yes
-    wpp_require_cvv_entry: Yes
-    wpp_3d_secure_card_validation: Yes
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_paypal
+        configuration:
+            website_payments_pro: Yes
+            wpp_require_cvv_entry: Yes
+            wpp_3d_secure_card_validation: Yes
 
 website_payments_pro_wo_3d_disable:
-    wpp_require_cvv_entry: Yes
-    wpp_3d_secure_card_validation: No
-    website_payments_pro: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_paypal
+        configuration:
+            wpp_require_cvv_entry: Yes
+            wpp_3d_secure_card_validation: No
+            website_payments_pro: No
 
 3d_secure_enable:
-    processor_id: 134-01
-    merchant_id: magentoTEST
-    password: mag3nt0T3ST
-    test_mode: Yes
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_services
+        configuration:
+            processor_id: 134-01
+            merchant_id: magentoTEST
+            password: mag3nt0T3ST
+            test_mode: Yes
 
 authorize_net_with_3d_enable:
-    an_enabled: Yes
-    an_api_login_id: 36sCtGS8w
-    an_transaction_key: 33YvD5r6mm9B47e2
-    an_test_mode: Yes
-    an_gateway_url: https://test.authorize.net/gateway/transact.dll
-    an_credit_card_verification: Yes
-    an_3d_secure_card_validation: Yes
-    an_severe_3d_secure_card_validation: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_services
+        configuration:
+            processor_id: 134-01
+            merchant_id: magentoTEST
+            password: mag3nt0T3ST
+            test_mode: Yes
+    tab_2:
+        tab_name: sales_payment_methods
+        configuration:
+            an_enabled: Yes
+            an_api_login_id: 36sCtGS8w
+            an_transaction_key: 33YvD5r6mm9B47e2
+            an_test_mode: Yes
+            an_gateway_url: https://test.authorize.net/gateway/transact.dll
+            an_credit_card_verification: Yes
+            an_3d_secure_card_validation: Yes
+            an_severe_3d_secure_card_validation: No
 
 authorize_net_with_3d_disable:
-    an_3d_secure_card_validation: No
-    an_credit_card_verification: No
-    an_enabled: No
-
-gift_message_for_order_enable:
-    allow_gift_messages_on_order_level: Yes
-
-gift_message_for_order_disable:
-    allow_gift_messages_on_order_level: No
-
-gift_message_for_item_enable:
-    allow_gift_messages_for_order_items: Yes
-
-gift_message_for_item_disable:
-    allow_gift_messages_for_order_items: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            an_3d_secure_card_validation: No
+            an_credit_card_verification: No
+            an_enabled: No
 
 saved_cc_w3d_enable:
-    scc_enabled: Yes
-    scc_request_card_security_code: Yes
-    scc_3d_secure_card_validation: Yes
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            scc_enabled: Yes
+            scc_request_card_security_code: Yes
+            scc_3d_secure_card_validation: Yes
 
 saved_cc_wo3d_enable:
-    scc_enabled: Yes
-    scc_request_card_security_code: Yes
-    scc_3d_secure_card_validation: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            scc_enabled: Yes
+            scc_request_card_security_code: Yes
+            scc_3d_secure_card_validation: No
 
 saved_cc_w3d_disable:
-    scc_request_card_security_code: Yes
-    scc_3d_secure_card_validation: No
-    scc_enabled: Yes
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            scc_request_card_security_code: Yes
+            scc_3d_secure_card_validation: No
+            scc_enabled: Yes

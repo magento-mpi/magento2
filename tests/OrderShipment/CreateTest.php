@@ -43,16 +43,15 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
+        $this->addParameter('tabName', '');
+        $this->addParameter('webSite', '');
+        $this->addParameter('storeName', '');
+        $this->systemConfigurationHelper()->configure('saved_cc_wo3d_enable');
+        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
     }
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('saved_cc_wo3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
+        $this->addParameter('id', '0');
     }
     /**
      * @test
@@ -61,7 +60,6 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->addParameter('id', '0');
         $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
@@ -100,6 +98,7 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice');
@@ -142,6 +141,7 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
         $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->addParameter('order_id', $orderId);
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice');
