@@ -62,10 +62,7 @@ class Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservice
         self::$_expectedData = self::simpleXmlToArray(self::$_attributeFixture->expected);
 
         $installer = new Mage_Catalog_Model_Resource_Eav_Mysql4_Setup('core_setup');
-
-        $installer->startSetup();
         $installer->addAttribute('catalog_category', self::$_code, self::$_data);
-        $installer->endSetup();
     }
 
     /**
@@ -79,24 +76,11 @@ class Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservice
         parent::tearDownAfterClass();
 
         $installer = new Mage_Catalog_Model_Resource_Eav_Mysql4_Setup('core_setup');
-
-        $installer->startSetup();
-        $attributeId = $installer->getAttributeId('catalog_category', self::$_code);
         $installer->removeAttribute('catalog_category', self::$_code);
-        $installer->endSetup();
-
-        // $installer->removeAttribute() doesn't delete attribute options for some reason, we must do it by hands
-        $optionsCollection = new Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection();
-        $optionsCollection->setAttributeFilter($attributeId);
-
-        /** @var $option Mage_Eav_Model_Entity_Attribute_Option */
-        foreach ($optionsCollection->getItems() as $option) {
-            $option->delete();
-        }
 
         self::$_attributeFixture = null;
-        self::$_data = null;
         self::$_code = null;
+        self::$_data = null;
         self::$_expectedData = null;
     }
 
