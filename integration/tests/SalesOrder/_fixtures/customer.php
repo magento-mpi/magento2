@@ -26,8 +26,7 @@
  */
 
 $customer = new Mage_Customer_Model_Customer();
-$customer->setId(10001)
-    ->setStoreId(1)
+$customer->setStoreId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)

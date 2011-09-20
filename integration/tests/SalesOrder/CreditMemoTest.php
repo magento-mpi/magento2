@@ -45,7 +45,7 @@ class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 
         $orderItems = $order->getAllItems();
         $qtys = array();
-        
+
         /** @var $orderItem Mage_Sales_Model_Order_Item */
         foreach ($orderItems as $orderItem) {
             $qtys[$orderItem->getId()] = 1;
@@ -64,15 +64,13 @@ class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         $this->assertNotEmpty($creditMemoIncrementId, 'Creditmemo was not created');
 
         //Test list
-        $filter = array();
-        $creditmemoList = $this->call('order_creditmemo.list', array($filter));
+        $creditmemoList = $this->call('order_creditmemo.list');
         $this->assertInternalType('array', $creditmemoList);
         $this->assertNotEmpty($creditmemoList, 'Creditmemo list is empty');
 
         //Test add comment
         $commentText = 'Creditmemo comment';
-        $isCommentAdded = $this->call('order_creditmemo.addComment', array($creditMemoIncrementId, $commentText));
-        $this->assertTrue($isCommentAdded);
+        $this->assertTrue($this->call('order_creditmemo.addComment', array($creditMemoIncrementId, $commentText)));
 
         //Test info
         $creditmemoInfo = $this->call('order_creditmemo.info', array($creditMemoIncrementId));
@@ -96,7 +94,7 @@ class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         $this->assertInternalType('array', $creditmemoInfo['comments']);
         $this->assertGreaterThan(0, count($creditmemoInfo['comments']));
         $this->assertEquals($commentText, $creditmemoInfo['comments'][0]['comment']);
-        
+
         //Test cancel
         //Situation when creditmemo is possible to cancel was not found
         $this->setExpectedException('Exception');
@@ -155,7 +153,7 @@ class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     }
 
     /**
-     * Test Exception on invalid credit memo while adding comment
+     * Test Exception on invalid credit memo while getting info
      *
      * @expectedException Exception
      * @return void
