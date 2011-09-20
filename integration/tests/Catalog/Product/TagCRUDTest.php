@@ -30,11 +30,6 @@
  */
 class Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
 {
-    public function testLogin()
-    {
-        $this->assertNotEmpty($this->getWebService()->login('api', 'apiapi'));
-    }
-
     public function testTagCRUD()
     {
         $tagFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/TagCRUD.xml');

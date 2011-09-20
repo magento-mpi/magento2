@@ -30,10 +30,7 @@
  */
 class Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservice
 {
-    public function testLogin()
-    {
-        $this->assertNotEmpty($this->getWebService()->login('api', 'apiapi'));
-    }
+    protected static $links = array();
 
     public function testDownloadableLinkCreate()
     {
@@ -62,6 +59,40 @@ class Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservice
             }
         }
 
+    }
+
+    public function testDownloadableLinkItems($xmlPath)
+    {
+        $product_id = Magento_Test_Webservice::getFixture('productData')->getId();
+
+        self::$links = array();
+        $items = $this->call('product_downloadable_link.list', array($product_id));
+        foreach ($items as $type => $item) {
+            switch($type) {
+                case "links": $type = 'link'; break;
+                case "samples": $type = 'sample'; break;
+            }
+            foreach ($item as $itemEntity) {
+                if (isset($itemEntity['link_id'])) {
+                    self::$links[$type][] = $itemEntity['link_id'];
+                }
+                if (isset($itemEntity['sample_id'])) {
+                    self::$links[$type][] = $itemEntity['sample_id'];
+                }
+            }
+        }
+        $this->assertEquals(2, count(self::$links));
+        $this->assertNotEmpty(self::$links['link']);
+    }
+
+    public function testDownloadableLinkRemove($xmlPath)
+    {
+        foreach (self::$links as $type => $item) {
+            foreach ($item as $link_id) {
+                $removeResult = $this->call('product_downloadable_link.remove', array($link_id, $type));
+                $this->assertTrue($removeResult);
+            }
+        }
     }
 
 }
