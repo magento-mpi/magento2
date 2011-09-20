@@ -401,7 +401,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function ordersAction() {
         $this->_initCustomer();
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/customer_edit_tab_orders')->toHtml());
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -410,8 +411,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function lastOrdersAction() {
         $this->_initCustomer();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_orders')->toHtml());
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -459,8 +460,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function viewWishlistAction()
     {
         $this->_initCustomer();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_wishlist')->toHtml());
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -499,47 +500,52 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function viewCartAction()
     {
         $this->_initCustomer();
-
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_cart', 'admin.customer.view.cart')
-                ->setWebsiteId($this->getRequest()->getParam('website_id'))
-                ->toHtml()
-        );
+        $layout = $this->loadLayout()
+            ->getLayout()
+            ->getBlock('admin.customer.view.cart')
+            ->setWebsiteId();
+        $this->renderLayout();
     }
 
     /**
      * Get shopping carts from all websites for specified client
      *
-     * @return string
      */
     public function cartsAction()
     {
         $this->_initCustomer();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_carts', 'admin.customer.carts')->toHtml()
-        );
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
+    /**
+     * Get customer's product reviews list
+     *
+     */
     public function productReviewsAction()
     {
         $this->_initCustomer();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_reviews', 'admin.customer.reviews')
-                ->setCustomerId(Mage::registry('current_customer')->getId())
-                ->setUseAjax(true)
-                ->toHtml()
-        );
+        $this->loadLayout()
+            ->getLayout()
+            ->getBlock('admin.customer.reviews')
+            ->setCustomerId(Mage::registry('current_customer')->getId())
+            ->setUseAjax(true);
+        $this->renderLayout();
     }
 
+    /**
+     * Get customer's tags list
+     *
+     */
     public function productTagsAction()
     {
         $this->_initCustomer();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_tag', 'admin.customer.tags')
-                ->setCustomerId(Mage::registry('current_customer')->getId())
-                ->setUseAjax(true)
-                ->toHtml()
-        );
+        $this->loadLayout()
+            ->getLayout()
+            ->getBlock('admin.customer.tags')
+            ->setCustomerId(Mage::registry('current_customer')->getId())
+            ->setUseAjax(true);
+        $this->renderLayout();
     }
 
     public function tagGridAction()

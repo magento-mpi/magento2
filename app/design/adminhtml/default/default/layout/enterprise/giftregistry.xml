@@ -53,4 +53,11 @@
             <block type="enterprise_giftregistry/adminhtml_customer_edit" name="giftregistry_customer_edit"></block>
         </reference> 
    </adminhtml_giftregistry_customer_edit>
+   
+   <adminhtml_giftregistry_customer_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="enterprise_giftregistry/adminhtml_customer_grid" name="adminhtml.giftregistry.customer.grid"/>
+        </block>
+    </adminhtml_giftregistry_customer_grid>
+    
 </layout>
