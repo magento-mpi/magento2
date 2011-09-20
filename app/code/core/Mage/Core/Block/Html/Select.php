@@ -30,7 +30,7 @@
  *
  * @category   Mage
  * @package    Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
 {
@@ -165,7 +165,7 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
         $isArrayOption = true;
         foreach ($this->getOptions() as $key => $option) {
             if ($isArrayOption && is_array($option)) {
-                $value  = (string)$option['value'];
+                $value  = $option['value'];
                 $label  = (string)$option['label'];
                 $params = (!empty($option['params'])) ? $option['params'] : array();
             } else {
@@ -233,10 +233,10 @@ class Mage_Core_Block_Html_Select extends Mage_Core_Block_Abstract
         }
 
         return sprintf('<option value="%s"%s %s>%s</option>',
-            $this->htmlEscape($option['value']),
+            $this->escapeHtml($option['value']),
             $selectedHtml,
             $params,
-            $this->htmlEscape($option['label']));
+            $this->escapeHtml($option['label']));
     }
 
     /**
