@@ -585,7 +585,7 @@ config_option_custom_options:
 
 #<------------Billing Address Required------------>
 new_customer_order_billing_address_reqfields: &billingReqFields
-    billing_address_choice: Add New Address
+    address_choice: Add New Address
     billing_first_name: 'billing_Steven'
     billing_last_name: 'billing_Stevenson'
     billing_street_address_1: 'billing street address'
@@ -599,7 +599,7 @@ new_customer_order_billing_address_reqfields: &billingReqFields
 #<------------Shipping Address Required------------>
 new_customer_order_shipping_address_reqfields: &shippingReqFields
     shipping_same_as_billing_address: no
-    shipping_address_choice: Add New Address
+    address_choice: Add New Address
     shipping_first_name: 'shipping_Steven'
     shipping_last_name: 'shipping_Stevenson'
     shipping_street_address_1: 'shipping street address'
@@ -612,7 +612,7 @@ new_customer_order_shipping_address_reqfields: &shippingReqFields
 
 #<------------Billing Address ALL------------>
 new_customer_order_billing_address_allfields: &billingAllFields
-    billing_address_choice: Add New Address
+    address_choice: Add New Address
     billing_prefix: 'Mr(billing)'
     billing_first_name: 'Steven(billing)'
     billing_middle_name: 'Y(billing)'
@@ -632,7 +632,7 @@ new_customer_order_billing_address_allfields: &billingAllFields
 #<------------Shipping Address ALL------------>
 new_customer_order_shipping_address_allfields: &shippingAllFields
     shipping_same_as_billing_address: no
-    shipping_address_choice: Add New Address
+    address_choice: Add New Address
     shipping_prefix: 'Mr(shipping)'
     shipping_first_name: 'Steven(shipping)'
     shipping_middle_name: 'Y(shipping)'

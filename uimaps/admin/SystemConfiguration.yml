@@ -33,6 +33,14 @@ system_configuration:
     title: Configuration / System / Magento Admin
     uimap:
         form: &systemConfiguration
+            fieldsets:
+                -
+                    current_configuration_scope:
+                        xpath: //div[@class='switcher' and contains(.,'Current Configuration Scope')]
+                        dropdowns:
+                            current_configuration_scope: //select[@id='store_switcher']
+                        links:
+                            manage_stores: //a[text()='Manage Stores']
             tabs:
                 -
                     general_general:
@@ -4337,35 +4345,27 @@ system_configuration:
                                         merge_css_files_use_default: //input[@name='groups[css][fields][merge_css_files][inherit]']
         buttons:
             save_config: //button[span='Save Config']
-        dropdowns:
-            current_configuration_scope: //select[@id='store_switcher']
 
 system_configuration_tabs:
-    mca: system_config/%tabName%/
+    mca: system_config/edit/section/%tabName%/
     title: Configuration / System / Magento Admin
     uimap:
         form: *systemConfiguration
         buttons:
             save_config: //button[span='Save Config']
-        dropdowns:
-            current_configuration_scope: //select[@id='store_switcher']
 
 system_configuration_website:
-    mca: system_config/%TabName%/website/%webSite%/
+    mca: system_config/edit/section/%tabName%/website/%webSite%/
     title: Configuration / System / Magento Admin
     uimap:
         form: *systemConfiguration
         buttons:
             save_config: //button[span='Save Config']
-        dropdowns:
-            current_configuration_scope: //select[@id='store_switcher']
 
 system_configuration_store:
-    mca: system_config/%TabName%/website/%webSite%/store/%storeName%/
+    mca: system_config/edit/section/%tabName%/website/%webSite%/store/%storeName%/
     title: Configuration / System / Magento Admin
     uimap:
         form: *systemConfiguration
         buttons:
             save_config: //button[span='Save Config']
-        dropdowns:
-            current_configuration_scope: //select[@id='store_switcher']
