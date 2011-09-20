@@ -489,12 +489,7 @@ class Product_Helper extends Mage_Selenium_TestCase
             $this->fillConfigurableSettings($productData);
         }
         $this->fillProductInfo($productData, $productType);
-        $this->clickButton('save', false);
-        $this->waitForElement(array(self::xpathErrorMessage .
-                                            "[not(text()='".self::excludedBundleMessage."')]" .
-                                            "[not(text()='".self::excludedConfigurableMessage."')]",
-                                         self::xpathValidationMessage,
-                                         self::xpathSuccessMessage));
+        $this->saveForm('save');
     }
 
     /**
@@ -547,8 +542,9 @@ class Product_Helper extends Mage_Selenium_TestCase
      *
      * @param array $productData
      */
-    public function verifyProductInfo(array $productData, $skipElements = null)
+    public function verifyProductInfo(array $productData, $skipElements = array())
     {
+        $this->messages['error'] = array();
         $productData = $this->arrayEmptyClear($productData);
         $nestedArrays = array();
         foreach ($productData as $key => $value) {

@@ -52,7 +52,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is displayed');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -76,10 +76,15 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('simple_product_required', null, array('general_sku', 'general_name'));
         $productData['custom_options_data'] = $this->loadData('custom_options_data');
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**

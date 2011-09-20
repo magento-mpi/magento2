@@ -52,7 +52,7 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -77,8 +77,8 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+
         return $productData;
     }
 
@@ -100,12 +100,16 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('downloadable_product', null, array('general_name', 'general_sku'));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -212,12 +216,11 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -249,12 +252,11 @@ class Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**

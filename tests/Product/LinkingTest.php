@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -41,9 +42,8 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        // @TODO
+        $this->markTestSkipped('Need implement');
     }
-
 
     /**
      * @TODO
@@ -68,4 +68,5 @@ class Product_LinkingTest extends Mage_Selenium_TestCase
     {
         // @TODO
     }
+
 }

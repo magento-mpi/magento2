@@ -49,7 +49,7 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -105,8 +105,8 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+
         return $productData;
     }
 
@@ -130,12 +130,16 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $productData = $this->loadData('configurable_product',
                 array('configurable_attribute_title' => $attrData['admin_title']),
                 array('general_name', 'general_sku'));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($productData, array('configurable_attribute_title'));
     }
 
     /**
@@ -244,12 +248,11 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+        $this->productHelper()->verifyProductInfo($productData, array('configurable_attribute_title'));
     }
 
     /**
@@ -282,12 +285,11 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+        $this->productHelper()->verifyProductInfo($productData, array('configurable_attribute_title'));
     }
 
     /**
@@ -490,18 +492,21 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
                 array('general_name', 'general_sku'));
         $configurable['associated_configurable_data'] = $this->loadData('associated_configurable_data',
                 array('associated_search_sku' => $simple['general_sku']));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($simple);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($configurable, array('configurable_attribute_title'));
     }
 
     /**
@@ -533,18 +538,21 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
                 array('general_name', 'general_sku'));
         $configurable['associated_configurable_data'] = $this->loadData('associated_configurable_data',
                 array('associated_search_sku' => $virtual['general_sku']));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($virtual, 'virtual');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($configurable, array('configurable_attribute_title'));
     }
 
     /**
@@ -576,18 +584,21 @@ class Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
                 array('general_name', 'general_sku'));
         $configurable['associated_configurable_data'] = $this->loadData('associated_configurable_data',
                 array('associated_search_sku' => $download['general_sku']));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
         $this->productHelper()->createProduct($download, 'downloadable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($configurable, array('configurable_attribute_title'));
     }
 
 }

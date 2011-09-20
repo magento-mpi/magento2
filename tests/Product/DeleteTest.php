@@ -52,7 +52,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -85,8 +85,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, $type);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
@@ -149,8 +148,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
@@ -186,14 +184,12 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($associated, $type);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->createProduct($configPr, 'configurable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->assertTrue($this->searchAndOpen($productSearch), 'Cant\'t find item in grig');
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
@@ -237,14 +233,12 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($associatedData, $associatedType);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->createProduct($productData, $type);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->assertTrue($this->searchAndOpen($productSearch), 'Cant\'t find item in grig');
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
@@ -285,8 +279,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
             $this->productHelper()->createProduct($productData);
             //Verifying
             $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-            $this->assertTrue($this->checkCurrentPage('manage_products'),
-                    'After successful product creation should be redirected to Manage Products page');
+            $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         }
         for ($i = 1; $i <= $productQty; $i++) {
             $this->searchAndChoose(${'searchData' . $i});

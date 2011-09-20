@@ -52,7 +52,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -77,62 +77,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        return $productData;
-    }
-
-    /**
-     * <p>Creating product with all fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
-     *
-     * @test
-     * @depends requiredFieldsForDynamicSmoke
-     */
-    public function allFieldsForDynamic()
-    {
-        //Data
-        $productData = $this->loadData('dynamic_bundle', null, array('general_name', 'general_sku'));
-        //Steps
-        $this->productHelper()->createProduct($productData, 'bundle');
-        //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-        return $productData;
-    }
-
-    /**
-     * <p>Creating product with all fields</p>
-     * <p>Steps:</p>
-     * <p>1. Click 'Add product' button;</p>
-     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
-     * <p>3. Click 'Continue' button;</p>
-     * <p>4. Fill in all fields;</p>
-     * <p>5. Click 'Save' button;</p>
-     * <p>Expected result:</p>
-     * <p>Product is created, confirmation message appears;</p>
-     *
-     * @test
-     * @depends requiredFieldsForDynamicSmoke
-     */
-    public function allFieldsForFixed()
-    {
-        //Data
-        $productData = $this->loadData('fixed_bundle', null, array('general_name', 'general_sku'));
-        //Steps
-        $this->productHelper()->createProduct($productData, 'bundle');
-        //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         return $productData;
     }
 
@@ -158,8 +103,67 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+    }
+
+    /**
+     * <p>Creating product with all fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add product' button;</p>
+     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
+     * <p>3. Click 'Continue' button;</p>
+     * <p>4. Fill in all fields;</p>
+     * <p>5. Click 'Save' button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @test
+     * @depends requiredFieldsForDynamicSmoke
+     */
+    public function allFieldsForDynamic()
+    {
+        //Data
+        $productData = $this->loadData('dynamic_bundle', null, array('general_name', 'general_sku'));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'bundle');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($productData);
+    }
+
+    /**
+     * <p>Creating product with all fields</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add product' button;</p>
+     * <p>2. Fill in 'Attribute Set' and 'Product Type' fields;</p>
+     * <p>3. Click 'Continue' button;</p>
+     * <p>4. Fill in all fields;</p>
+     * <p>5. Click 'Save' button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, confirmation message appears;</p>
+     *
+     * @test
+     * @depends requiredFieldsForDynamicSmoke
+     */
+    public function allFieldsForFixed()
+    {
+        //Data
+        $productData = $this->loadData('fixed_bundle', null, array('general_name', 'general_sku'));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($productData, 'bundle');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -257,22 +261,21 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadData('dynamic_bundle_required',
                 array(
-                            'general_name'              => $this->generate('string', 32, ':punct:'),
-                            'general_description'       => $this->generate('string', 32, ':punct:'),
-                            'general_short_description' => $this->generate('string', 32, ':punct:'),
-                            'general_sku'               => $this->generate('string', 32, ':punct:')
+                    'general_name'              => $this->generate('string', 32, ':punct:'),
+                    'general_description'       => $this->generate('string', 32, ':punct:'),
+                    'general_short_description' => $this->generate('string', 32, ':punct:'),
+                    'general_sku'               => $this->generate('string', 32, ':punct:')
                 ));
         $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -293,24 +296,23 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('fixed_bundle_required',
-                        array(
-                            'general_name'              => $this->generate('string', 255, ':alnum:'),
-                            'general_description'       => $this->generate('string', 255, ':alnum:'),
-                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
-                            'general_sku'               => $this->generate('string', 64, ':alnum:'),
-                            'general_weight'            => 99999999.9999
+                array(
+                    'general_name'              => $this->generate('string', 255, ':alnum:'),
+                    'general_description'       => $this->generate('string', 255, ':alnum:'),
+                    'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                    'general_sku'               => $this->generate('string', 64, ':alnum:'),
+                    'general_weight'            => 99999999.9999
                 ));
         $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -368,8 +370,7 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
@@ -592,21 +593,22 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         $simpleData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
         $bundleData = $this->loadData($dataBundleType, null, array('general_name', 'general_sku'));
         $bundleData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
-                array('bundle_items_sku' => $simpleData['general_sku']));
+                array('bundle_items_search_sku' => $simpleData['general_sku']));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $bundleData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($simpleData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->createProduct($bundleData, 'bundle');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-
-        return $simpleData['general_sku'];
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($bundleData);
     }
 
     /**
@@ -634,21 +636,22 @@ class Product_Create_BundleTest extends Mage_Selenium_TestCase
         $virtualData = $this->loadData('virtual_product_required', null, array('general_name', 'general_sku'));
         $bundleData = $this->loadData($dataBundleType, null, array('general_name', 'general_sku'));
         $bundleData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_2',
-                array('bundle_items_sku' => $virtualData['general_sku']));
+                array('bundle_items_search_sku' => $virtualData['general_sku']));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $bundleData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($virtualData, 'virtual');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->createProduct($bundleData, 'bundle');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
-
-        return $virtualData['general_sku'];
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($bundleData);
     }
 
     public function dataBundleType()

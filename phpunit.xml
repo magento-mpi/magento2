@@ -43,9 +43,7 @@
             <directory suffix="Test.php">tests/AttributeSet</directory>
             <directory suffix="Test.php">tests/ProductAttribute</directory>
             <directory suffix="Test.php">tests/Category</directory>
-            <directory suffix="Test.php">tests/Product/Create</directory>
-            <directory suffix="DuplicateTest.php">tests/Product</directory>
-            <directory suffix="DeleteTest.php">tests/Product</directory>
+            <directory suffix="Test.php">tests/Product</directory>
             <directory suffix="Test.php">tests/Customer</directory>
         </testsuite>
     </testsuites>

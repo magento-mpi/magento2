@@ -1638,7 +1638,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             $label = strrev(substr($label, 0, strpos($label, "-")));
                         }
                         if ($label) {
-                            $element = "'" . $label . "': " . $element;
+                            $element = '"' . $label . '": ' . $element;
                         }
                     }
 

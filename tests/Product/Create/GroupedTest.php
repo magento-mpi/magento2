@@ -52,7 +52,7 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), 'Wrong page is opened');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -77,8 +77,8 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+
         return $productData;
     }
 
@@ -100,12 +100,13 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadData('grouped_product', null, array('general_name', 'general_sku'));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'grouped');
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -207,12 +208,11 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -244,12 +244,11 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'grouped');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->assertTrue($this->verifyForm($productData, 'general'), $this->messages);
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -302,18 +301,21 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $simpleData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
         $groupedData = $this->loadData('grouped_product_required',
                 array('associated_search_sku' => $simpleData['general_sku']), array('general_name', 'general_sku'));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $groupedData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($simpleData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->createProduct($groupedData, 'grouped');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($groupedData);
 
         return $simpleData['general_sku'];
     }
@@ -342,18 +344,21 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $virtualData = $this->loadData('virtual_product_required', null, array('general_name', 'general_sku'));
         $groupedData = $this->loadData('grouped_product_required',
                 array('associated_search_sku' => $virtualData['general_sku']), array('general_name', 'general_sku'));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $groupedData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($virtualData, 'virtual');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->createProduct($groupedData, 'grouped');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($groupedData);
 
         return $virtualData['general_sku'];
     }
@@ -384,18 +389,21 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $groupedData = $this->loadData('grouped_product_required',
                 array('associated_search_sku' => $downloadableData['general_sku']),
                 array('general_name', 'general_sku'));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $groupedData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($downloadableData, 'downloadable');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
         $this->productHelper()->createProduct($groupedData, 'grouped');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($groupedData);
 
         return $downloadableData['general_sku'];
     }
@@ -429,12 +437,16 @@ class Product_Create_GroupedTest extends Mage_Selenium_TestCase
                 $this->loadData('associated_grouped', array('associated_search_sku' => $virtualSku));
         $groupedData['associated_grouped_data']['associated_grouped_3'] =
                 $this->loadData('associated_grouped', array('associated_search_sku' => $downloadableSku));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $groupedData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($groupedData, 'grouped');
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'),
-                'After successful product creation should be redirected to Manage Products page');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($groupedData);
     }
 
 }

@@ -106,13 +106,11 @@ class ProductAttribute_Create_CreateFromProductPage extends Mage_Selenium_TestCa
 
     protected function tearDown()
     {
-        $a = $this->getAllWindowNames();
-        foreach ($a as $value) {
-            if ($value == 'new_attribute') {
-                $this->selectWindow("name=" . $value);
-                $this->close();
-                $this->selectWindow(null);
-            }
+        $windowQty = $this->getAllWindowNames();
+        if (count($windowQty) > 1 && end($windowQty) != 'null') {
+            $this->selectWindow("name=" . end($windowQty));
+            $this->close();
+            $this->selectWindow(null);
         }
     }
 
