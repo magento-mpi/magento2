@@ -15,6 +15,7 @@ class Varien_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('Varien Library');
         $suite->addTestSuite('Varien_Data_Collection_DbTest');
+        $suite->addTestSuite('Varien_ObjectTest');
         return $suite;
     }
 }
