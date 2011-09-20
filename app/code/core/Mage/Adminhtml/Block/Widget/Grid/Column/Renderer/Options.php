@@ -50,17 +50,17 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Options
                 $res = array();
                 foreach ($value as $item) {
                     if (isset($options[$item])) {
-                        $res[] = $options[$item];
+                        $res[] = $this->escapeHtml($options[$item]);
                     }
                     elseif ($showMissingOptionValues) {
-                        $res[] = $item;
+                        $res[] = $this->escapeHtml($item);
                     }
                 }
                 return implode(', ', $res);
             } elseif (isset($options[$value])) {
-                return $options[$value];
+                return $this->escapeHtml($options[$value]);
             } elseif (in_array($value, $options)) {
-                return $value;
+                return $this->escapeHtml($value);
             }
         }
     }
