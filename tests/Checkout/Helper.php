@@ -209,14 +209,13 @@ class Checkout_Helper extends Mage_Selenium_TestCase
             $this->addParameter('paymentTitle', $payment);
             $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
             $this->click($xpath);
-            $this->pleaseWait();
             if ($card) {
                 $paymentId = $this->getAttribute($xpath . '/@value');
                 $this->addParameter('paymentId', $paymentId);
                 $this->fillForm($card, 'order_payment_method');
-                $this->clickButton('payment_method_continue', FALSE);
-                $this->frontValidate3dSecure();
             }
+            $this->clickButton('payment_method_continue', FALSE);
+            $this->frontValidate3dSecure();
         }
     }
 

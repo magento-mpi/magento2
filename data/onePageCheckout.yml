@@ -158,10 +158,37 @@ saved_visa: &visaSavedCC
     expiration_year: '2020'
     card_verification_number: '111'
 
+authorize_net_visa: &authorizeNetVisaSavedCC
+    card_type: 'Visa'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '123'
+
+paypaluk_direct_visa: &paypalukDirectVisaSavedCC
+    card_type: 'Visa'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '123'
+
+payflowpro_verisign_visa: &payflowProVisaSavedCC
+    card_type: 'Visa'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '123'
+
+paypal_direct_payment_visa: &paypalDirectPaymentVisaSavedCC
+    card_type: 'Visa'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '123'
 #*********************************************
 #*         Checkout Data                     *
 #*********************************************
-checkout_data:
+checkout_data_template:
     products_to_add:
         product_1:
             general_name: %noValue%
@@ -188,3 +215,85 @@ checkout_data:
         payment_method: Credit Card (saved)
         payment_info: *visaSavedCC
 
+checkout_data_saved_cc:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Credit Card (saved)
+        payment_info: *visaSavedCC
+
+checkout_data_check_money_order:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Check / Money order
+
+checkout_data_authorize_net:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Credit Card (Authorize.net)
+        payment_info: *authorizeNetVisaSavedCC
+
+checkout_data_paypaluk_direct:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: PayPal Direct Payment Payflow Edition
+        payment_info: *paypalukDirectVisaSavedCC
+
+checkout_data_payflow_pro_verisign:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Payflow Pro
+        payment_info: *payflowProVisaSavedCC
+
+checkout_data_paypal_direct_payment:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: PayPal Direct Payment
+        payment_info: *paypalDirectPaymentVisaSavedCC
