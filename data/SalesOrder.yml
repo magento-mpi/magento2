@@ -240,32 +240,34 @@ grouped_product_for_order:
     associated_grouped_data: *associatedProductsGroupedData
 
 #<------------BUNDLE------------>
+product_to_bundle: &bundleProduct
+    bundle_items_search_id: %noValue%
+    bundle_items_search_name: %noValue%
+    bundle_items_search_attribute_set: %noValue%
+    bundle_items_search_sku: %noValue%
+    bundle_items_search_price_from: %noValue%
+    bundle_items_search_price_to: %noValue%
+    bundle_items_qty_to_add: %noValue%
+    selection_item_price: %noValue%
+    selection_item_price_type: %noValue%
+    selection_item_default_qty: %noValue%
+    selection_item_position: %noValue%
+    selection_item_default: %noValue%
+
 bundle_item_1: &itemMultipleSelect
     bundle_items_default_title: Multiple Select
     bundle_items_input_type: Multiple Select
     bundle_items_is_required: Yes
     bundle_items_position: 1
-    add_product_1: &bundleProduct
-        bundle_items_search_id: %noValue%
-        bundle_items_search_name: %noValue%
-        bundle_items_search_attribute_set: %noValue%
-        bundle_items_search_sku: %noValue%
-        bundle_items_search_price_from: %noValue%
-        bundle_items_search_price_to: %noValue%
-        bundle_items_qty_to_add: %noValue%
-        selection_item_price: %noValue%
-        selection_item_price_type: %noValue%
-        selection_item_default_qty: %noValue%
-        selection_item_position: %noValue%
-        selection_item_default: %noValue%
+    add_product_1: %noValue%
     add_product_2: %noValue%
 
 bundle_item_2: &itemDropdown
     bundle_items_default_title: Drop-down
     bundle_items_input_type: Drop-down
-    bundle_items_is_required: No
+    bundle_items_is_required: Yes
     bundle_items_position: 2
-    add_product_1: *bundleProduct
+    add_product_1: %noValue%
     add_product_2: %noValue%
 
 bundle_item_3: &itemRadioButtons
@@ -273,7 +275,7 @@ bundle_item_3: &itemRadioButtons
     bundle_items_input_type: Radio Buttons
     bundle_items_is_required: Yes
     bundle_items_position: 3
-    add_product_1: *bundleProduct
+    add_product_1: %noValue%
     add_product_2: %noValue%
 
 bundle_item_4: &itemCheckbox
@@ -281,7 +283,7 @@ bundle_item_4: &itemCheckbox
     bundle_items_input_type: Checkbox
     bundle_items_is_required: Yes
     bundle_items_position: 4
-    add_product_1: *bundleProduct
+    add_product_1: %noValue%
     add_product_2: %noValue%
 
 bundle_items_data: &bundleData
@@ -502,67 +504,81 @@ saved_credit_card: &savedCC
 #*      ConfigurableOptions For Products     *
 #*********************************************
 
+#<------------TEMPLATE------------>
+configure_field_multiselect:
+    fieldType: multiselect
+    fieldsValue: %noValue%
+
+configure_field_dropdown:
+    fieldType: dropdown
+    fieldsValue: %noValue%
+
+configure_field_checkbox:
+    fieldType: checkbox
+    fieldParameter: %noValue%
+    fieldsValue: Yes
+
+configure_field_radiobutton:
+    fieldType: radiobutton
+    fieldParameter: %noValue%
+    fieldsValue: Yes
+
+configure_field_input:
+    fieldType: field
+    fieldParameter: %noValue%
+    fieldsValue: %noValue%
+
+configure_option:
+    title: %noValue%
+    field_1: %noValue%
+    field_2: %noValue%
+
+#<------------Configure Options For Product------------>
 config_option_download:
     option_1:
         title: Links
-        field_1:
+        field_link:
             fieldType: checkbox
             fieldParameter: Link Row Title
             fieldsValue: Yes
     option_2:
         title: Quantity
-        field_1:
+        field_qty:
             fieldType: field
-            fieldParameter:
             fieldsValue: 10
-
-config_option_grouped:
 
 config_option_bundle:
     option_1:
         title: Multiple Select
-        field_1:
-            fieldType: multiselect
-            fieldParameter: %noValue%
-            fieldsValue: nfzgm_Virtual Product For Oreder
+        field_multiselect: %noValue%
     option_2:
         title: Drop-down
-        field_1:
-            fieldType: multiselect
-            fieldParameter: %noValue%
-            fieldsValue: ncslf_Simple Product For Order
-        field_2:
+        field_dropdow: %noValue%
+        field_dropdow_qty:
             fieldType: field
-            fieldParameter: Qty
-            fieldsValue: 10
+            fieldParameter: 'Qty:'
+            fieldsValue: 2
     option_3:
         title: Radio Buttons
-        field_1:
-            fieldType: radiobutton
-            fieldParameter: ncslf_Simple Product For Order
-            fieldsValue: yes
-        field_2:
+        field_radio: %noValue%
+        field_radio_qty:
             fieldType: field
-            fieldParameter: Qty
-            fieldsValue: 10
+            fieldParameter: 'Qty:'
+            fieldsValue: 3
     option_4:
         title: Checkbox
-        field_1:
-            fieldType: checkbox
-            fieldParameter: ncslf_Simple Product For Order
-            fieldsValue: yes
+        field_checkbox: %noValue%
     option_5:
         title: Quantity
-        field_1:
+        field_product_qty:
             fieldType: field
-            fieldParameter: %noValue%
-            fieldsValue: 15
+            fieldsValue: 5
 
 config_option_configurable:
 
 config_option_custom_options:
 
-
+config_option_grouped:
 
 
 

@@ -28,7 +28,7 @@
  */
 
 /**
- * Order creation with product
+ * Order creation with different type of products
  *
  * @package     selenium
  * @subpackage  tests
@@ -50,13 +50,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-//        $this->navigate('system_configuration');
-//        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-//        $this->addParameter('tabName', 'edit/section/payment/');
-//        $this->clickControl('tab', 'sales_payment_methods');
-//        $payment = $this->loadData('saved_cc_wo3d_enable');
-//        $this->fillForm($payment, 'sales_payment_methods');
-//        $this->saveForm('save_config');
+        // @TODO enable ship and payment method
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->addParameter('id', '0');
@@ -110,9 +104,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         $simple = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         $attrCode = $attrData['attribute_code'];
         $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
-        $orderData = $this->loadData('order_physical',
-                array('filter_sku' => $simple['general_sku'],
-                      'customer_email' => $this->generate('email', 32, 'valid')));
+        $orderData = $this->loadData('order_physical', array('filter_sku' => $simple['general_sku']));
         //Steps
         $this->productHelper()->createProduct($simple);
         //Verifying
@@ -124,7 +116,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
 
-        return $simple['general_sku'];
+        return $simple;
     }
 
     /**
@@ -147,9 +139,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         $virtual = $this->loadData('virtual_product_for_order', null, array('general_name', 'general_sku'));
         $attrCode = $attrData['attribute_code'];
         $virtual['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
-        $orderData = $this->loadData('order_virtual',
-                array('filter_sku' => $virtual['general_sku'],
-                      'customer_email' => $this->generate('email', 32, 'valid')));
+        $orderData = $this->loadData('order_virtual', array('filter_sku' => $virtual['general_sku']));
         //Steps
         $this->productHelper()->createProduct($virtual, 'virtual');
         //Verifying
@@ -161,7 +151,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
 
-        return $virtual['general_sku'];
+        return $virtual;
     }
 
     /**
@@ -182,11 +172,8 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         //Data
         $downloadable = $this->loadData('downloadable_product_for_order', null, array('general_name', 'general_sku'));
         $orderData = $this->loadData('order_virtual',
-                array(
-                    'filter_sku'           => $downloadable['general_sku'],
-                    'configurable_options' => $this->loadData('config_option_download'),
-                    'customer_email'       => $this->generate('email', 32, 'valid')
-                ));
+                array('filter_sku'           => $downloadable['general_sku'],
+                      'configurable_options' => $this->loadData('config_option_download')));
         //Steps
         $this->productHelper()->createProduct($downloadable, 'downloadable');
         //Verifying
@@ -204,7 +191,8 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
      * <p>Steps:</p>
      * <p>1. Navigate to "Manage Orders" page;</p>
      * <p>2. Create new order for new customer;</p>
-     * <p>3. Select downloadable product and add it to the order.Fill any required information to configure product;</p>
+     * <p>3. Select downloadable product and add it to the order.
+     *       Fill any required information to configure product;</p>
      * <p>4. Fill in all required information; Shipping methods and address should be disabled;</p>
      * <p>5. Click "Submit Order" button;</p>
      * <p>Expected result:</p>
@@ -222,7 +210,7 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         $downloadable['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
         $orderData = $this->loadData('order_virtual',
                 array('filter_sku' => $downloadable['general_sku'],
-                      'customer_email' => $this->generate('email', 32, 'valid')));
+            'customer_email' => $this->generate('email', 32, 'valid')));
         //Steps
         $this->productHelper()->createProduct($downloadable, 'downloadable');
         //Verifying
@@ -237,91 +225,92 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
         return $downloadable['general_sku'];
     }
 
-////    /**
-////     * <p>Creating order with grouped products</p>
-////     * <p>Steps:</p>
-////     * <p>1. Navigate to "Manage Orders" page;</p>
-////     * <p>2. Create new order for new customer;</p>
-////     * <p>3. Select group product and add it to the order. Fill any required information to configure product;</p>
-////     * <p>4. Fill in all required information</p>
-////     * <p>5. Click "Submit Order" button;</p>
-////     * <p>Expected result:</p>
-////     * <p>Order is created;</p>
-////     *
-////     * @depends withSimpleProduct
-////     * @depends withVirtualProduct
-////     * @depends withDownloadableNotConfigProduct
-////     * @test
-////     */
-////    public function groupedWithAllTypesOfProducts($simple, $virtual, $download)
-////    {
-////        //Data
-////
-////        $grouped = $this->loadData('grouped_product_for_order', array('associated_search_sku' => $simple),
-////                array('general_name', 'general_sku'));
-////        $grouped['associated_grouped_data']['associated_grouped_2'] = $this->loadData('associated_grouped',
-////                array('associated_search_sku' => $virtual));
-////        $grouped['associated_grouped_data']['associated_grouped_3'] = $this->loadData('associated_grouped',
-////                array('associated_search_sku' => $download));
-////        $orderData = $this->loadData('order_template',
-////                array(
-////            'filter_sku' => $grouped['general_sku'],
-////            'configurable_options' => $this->loadData('config_option_grouped',
-////                    array('value_1' => $simple, 'value_2' => $virtual, 'value_3' => $download)),
-////            'customer_email' => $this->generate('email', 32, 'valid')));
-////        //Steps
-////        $this->productHelper()->createProduct($grouped, 'grouped');
-////        //Verifying
-////        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-////        //Steps
-////        $this->navigate('manage_sales_orders');
-////        $orderId = $this->orderHelper()->createOrder($orderData);
-////        //Verifying
-////        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-////
-////        return $grouped['general_sku'];
-////    }
-////
-////    /**
-////     * <p>Creating order with grouped products</p>
-////     * <p>Steps:</p>
-////     * <p>1. Navigate to "Manage Orders" page;</p>
-////     * <p>2. Create new order for new customer;</p>
-////     * <p>3. Select group product and add it to the order. Fill any required information to configure product;</p>
-////     * <p>4. Fill in all required information</p>
-////     * <p>5. Click "Submit Order" button;</p>
-////     * <p>Expected result:</p>
-////     * <p>Order is created;</p>
-////     *
-////     * @depends withVirtualProduct
-////     * @depends withDownloadableNotConfigProduct
-////     * @depends groupedWithAllTypesOfProducts
-////     * @test
-////     */
-////    public function groupedWithVirtualTypesOfProducts($virtual, $download, $grouped)
-////    {
-////        //Data
-////        $orderData = $this->loadData('order_template_virtual',
-////                array(
-////            'filter_sku' => $grouped,
-////            'configurable_options' => $this->loadData('config_option_grouped',
-////                    array('value_1' => $download, 'value_2' => $virtual)),
-////            'customer_email' => $this->generate('email', 32, 'valid')));
-////        //Steps
-////        $this->navigate('manage_sales_orders');
-////        $orderId = $this->orderHelper()->createOrder($orderData);
-////        //Verifying
-////        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-////
-////        return $orderData;
-////    }
-//
+    /**
+     * <p>Creating order with bundled products</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Select bundled product and add it to the order. Fill any required information to configure product;</p>
+     * <p>4. Fill in all required information</p>
+     * <p>5. Click "Submit Order" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created;</p>
+     *
+     * @depends withSimpleProduct
+     * @depends withVirtualProduct
+     * @test
+     */
+    public function bundleWithSimple($simple, $virtual)
+    {
+        //Data
+        //Bundle Product Data
+        $product1 = $this->loadData('product_to_bundle', array('bundle_items_search_sku' => $simple['general_sku']));
+        $product2 = $this->loadData('product_to_bundle', array('bundle_items_search_sku' => $virtual['general_sku']));
+        $bundle = $this->loadData('fixed_bundle_for_order',
+                array('add_product_1' => $product1, 'add_product_2' => $product2),
+                array('general_name', 'general_sku'));
+        //Order Data
+        $multiSelect = $this->loadData('configure_field_multiselect', array('fieldsValue' => $simple['general_name']));
+        $dropDown = $this->loadData('configure_field_dropdown', array('fieldsValue' => $simple['general_name']));
+        $checkBox = $this->loadData('configure_field_checkbox', array('fieldParameter' => $simple['general_name']));
+        $radio = $this->loadData('configure_field_radiobutton', array('fieldParameter' => $simple['general_name']));
+        $configurable = $this->loadData('config_option_bundle',
+                array('field_multiselect' => $multiSelect, 'field_dropdow'  => $dropDown,
+                      'field_radio'       => $radio,       'field_checkbox' => $checkBox));
+        $orderData = $this->loadData('order_physical',
+                array('filter_sku' => $bundle['general_sku'], 'configurable_options' => $configurable));
+        //Steps
+        $this->productHelper()->createProduct($bundle, 'bundle');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $orderId = $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+
+        return array('bundle_sku' => $bundle['general_sku'], 'virtual_name' => $virtual['general_name']);
+    }
+
+    /**
+     * <p>Creating order with bundle product</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order for new customer;</p>
+     * <p>3. Select bundled product and add it to the order. Fill any required information to configure product;</p>
+     * <p>4. Fill in all required information</p>
+     * <p>5. Click "Submit Order" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created;</p>
+     *
+     * @depends bundleWithSimple
+     * @test
+     */
+    public function bundleWithVirtual($data)
+    {
+        //Data
+        $multiSelect = $this->loadData('configure_field_multiselect', array('fieldsValue' => $data['virtual_name']));
+        $dropDown = $this->loadData('configure_field_dropdown', array('fieldsValue' => $data['virtual_name']));
+        $checkBox = $this->loadData('configure_field_checkbox', array('fieldParameter' => $data['virtual_name']));
+        $radio = $this->loadData('configure_field_radiobutton', array('fieldParameter' => $data['virtual_name']));
+        $configurable = $this->loadData('config_option_bundle',
+                array('field_multiselect' => $multiSelect, 'field_dropdow'  => $dropDown,
+                      'field_radio'       => $radio,       'field_checkbox' => $checkBox));
+        $orderData = $this->loadData('order_virtual',
+                array('filter_sku' => $data['bundle_sku'], 'configurable_options' => $configurable));
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $orderId = $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+    }
+
 //    /**
-//     * <p>Creating order with bundled products</p>
+//     * <p>Creating order with grouped products</p>
 //     * <p>Steps:</p>
 //     * <p>1. Navigate to "Manage Orders" page;</p>
 //     * <p>2. Create new order for new customer;</p>
-//     * <p>3. Select bundled product and add it to the order. Fill any required information to configure product;</p>
+//     * <p>3. Select group product and add it to the order. Fill any required information to configure product;</p>
 //     * <p>4. Fill in all required information</p>
 //     * <p>5. Click "Submit Order" button;</p>
 //     * <p>Expected result:</p>
@@ -329,33 +318,27 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
 //     *
 //     * @depends withSimpleProduct
 //     * @depends withVirtualProduct
+//     * @depends withDownloadableNotConfigProduct
 //     * @test
 //     */
-//    public function bundleWithSimple($simple, $virtual)
+//    public function groupedWithAllTypesOfProducts($simple, $virtual, $download)
 //    {
 //        //Data
-//        $bundle = $this->loadData('fixed_bundle_for_order',
-//         array('bundle_items_search_sku' => $simple['general_sku']),
+//
+//        $grouped = $this->loadData('grouped_product_for_order', array('associated_search_sku' => $simple),
 //                array('general_name', 'general_sku'));
-//        for ($i = 1; $i < 5; $i++) {
-//            $bundle['bundle_items_data']['item_' . $i]['add_product_2'] =
-//                   $this->loadData('bundle_item_1/add_product_1',
-//                    array('bundle_items_search_sku' => $virtual['general_sku']));
-//        }
-//        $orderData = $this->loadData('config_option_bundle',
+//        $grouped['associated_grouped_data']['associated_grouped_2'] = $this->loadData('associated_grouped',
+//                array('associated_search_sku' => $virtual));
+//        $grouped['associated_grouped_data']['associated_grouped_3'] = $this->loadData('associated_grouped',
+//                array('associated_search_sku' => $download));
+//        $orderData = $this->loadData('order_template',
 //                array(
-//            'filter_sku' => $bundle['general_sku'],
-//            'multiple_choose' => $virtual['general_name'],
-//            'dropdown_choose' => $simple['general_name'],
+//            'filter_sku' => $grouped['general_sku'],
+//            'configurable_options' => $this->loadData('config_option_grouped',
+//                    array('value_1' => $simple, 'value_2' => $virtual, 'value_3' => $download)),
 //            'customer_email' => $this->generate('email', 32, 'valid')));
-//        $orderData['products_to_add']['product_1']['configurable_options']
-//            ['optionRadio']['value_1'] = $simple['general_name'];
-//        $orderData['products_to_add']['product_1']['configurable_options']
-//            ['optionCheck']['value_1'] = $virtual['general_name'];
-//        $orderData['products_to_add']['product_1']['configurable_options']
-//            ['optionCheck']['value_2'] = $simple['general_name'];
 //        //Steps
-//        $this->productHelper()->createProduct($bundle, 'bundle');
+//        $this->productHelper()->createProduct($grouped, 'grouped');
 //        //Verifying
 //        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
 //        //Steps
@@ -363,59 +346,97 @@ class Order_Create_WithProductTest extends Mage_Selenium_TestCase
 //        $orderId = $this->orderHelper()->createOrder($orderData);
 //        //Verifying
 //        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+//
+//        return $grouped['general_sku'];
 //    }
 //
-////    /**
-////     * <p>Creating order with configurable products</p>
-////     * <p>Steps:</p>
-////     * <p>1. Navigate to "Manage Orders" page;</p>
-////     * <p>2. Create new order for new customer;</p>
-////     * <p>3. Select configurable product and add it to the order.Fill any required information to configure product;</p>
-////     * <p>4. Fill in all required information</p>
-////     * <p>5. Click "Submit Order" button;</p>
-////     * <p>Expected result:</p>
-////     * <p>Order is created;</p>
-////     *
-////     * @test
-////     */
-////    public function configurablePrd()
-////    {
-////        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
-////                array('admin_title', 'attribute_code'));
-////        $associatedAttributes = $this->loadData('associated_attributes',
-////                array('General' => $attrData['attribute_code']));
-////        $this->navigate('manage_attributes');
-////        $this->productAttributeHelper()->createAttribute($attrData);
-////        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
-////        $this->navigate('manage_attribute_sets');
-////        $this->attributeSetHelper()->openAttributeSet();
-////        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
-////        $this->saveForm('save_attribute_set');
-////        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
-////        $this->navigate('manage_products');
-////        $simple = $this->loadData('simple_product_for_configurable_for_order', null,
-////                array('general_name', 'general_sku'));
-////        $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-////                $attrData['option_1']['admin_option_name'];
-////        $configurable = $this->loadData('configurable_product_for_order',
-////                array('configurable_attribute_title' => $attrData['admin_title']),
-////                array('general_name', 'general_sku'));
-////        $configurable['associated_configurable_data'] = $this->loadData('associated_configurable_data',
-////                array('associated_search_sku' => $simple['general_sku']));
-////        $this->productHelper()->createProduct($simple);
-////        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-////        $this->assertTrue($this->checkCurrentPage('manage_products'),
-////                'After successful product creation should be redirected to Manage Products page');
-////        $this->productHelper()->createProduct($configurable, 'configurable');
-////        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-////        $this->assertTrue($this->checkCurrentPage('manage_products'),
-////                'After successful product creation should be redirected to Manage Products page');
-////        $orderData = $this->loadData('order_req_configurable_product',
-////                array('filter_sku' => $configurable['general_sku']));
-////        $orderData['products_to_add']['product_1']['configurable_options']['optionDropdown']['value_1'] =
-////                $attrData['admin_title'];
-////        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
-////        $this->navigate('manage_sales_orders');
-////        $orderId = $this->orderHelper()->createOrder($orderData);
-////    }
+//    /**
+//     * <p>Creating order with grouped products</p>
+//     * <p>Steps:</p>
+//     * <p>1. Navigate to "Manage Orders" page;</p>
+//     * <p>2. Create new order for new customer;</p>
+//     * <p>3. Select group product and add it to the order. Fill any required information to configure product;</p>
+//     * <p>4. Fill in all required information</p>
+//     * <p>5. Click "Submit Order" button;</p>
+//     * <p>Expected result:</p>
+//     * <p>Order is created;</p>
+//     *
+//     * @depends withVirtualProduct
+//     * @depends withDownloadableNotConfigProduct
+//     * @depends groupedWithAllTypesOfProducts
+//     * @test
+//     */
+//    public function groupedWithVirtualTypesOfProducts($virtual, $download, $grouped)
+//    {
+//        //Data
+//        $orderData = $this->loadData('order_template_virtual',
+//                array(
+//            'filter_sku' => $grouped,
+//            'configurable_options' => $this->loadData('config_option_grouped',
+//                    array('value_1' => $download, 'value_2' => $virtual)),
+//            'customer_email' => $this->generate('email', 32, 'valid')));
+//        //Steps
+//        $this->navigate('manage_sales_orders');
+//        $orderId = $this->orderHelper()->createOrder($orderData);
+//        //Verifying
+//        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+//
+//        return $orderData;
+//    }
+//
+//    /**
+//     * <p>Creating order with configurable products</p>
+//     * <p>Steps:</p>
+//     * <p>1. Navigate to "Manage Orders" page;</p>
+//     * <p>2. Create new order for new customer;</p>
+//     * <p>3. Select configurable product and add it to the order.
+//     *    Fill any required information to configure product;</p>
+//     * <p>4. Fill in all required information</p>
+//     * <p>5. Click "Submit Order" button;</p>
+//     * <p>Expected result:</p>
+//     * <p>Order is created;</p>
+//     *
+//     * @test
+//     */
+//    public function configurablePrd()
+//    {
+//        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
+//                array('admin_title', 'attribute_code'));
+//        $associatedAttributes = $this->loadData('associated_attributes',
+//                       array('General' => $attrData['attribute_code']));
+//        $this->navigate('manage_attributes');
+//        $this->productAttributeHelper()->createAttribute($attrData);
+//        $this->assertTrue($this->successMessage('success_saved_attribute'), $this->messages);
+//        $this->navigate('manage_attribute_sets');
+//        $this->attributeSetHelper()->openAttributeSet();
+//        $this->attributeSetHelper()->addAttributeToSet($associatedAttributes);
+//        $this->saveForm('save_attribute_set');
+//        $this->assertTrue($this->successMessage('success_attribute_set_saved'), $this->messages);
+//        $this->navigate('manage_products');
+//        $simple = $this->loadData('simple_product_for_configurable_for_order', null,
+//                array('general_name', 'general_sku'));
+//        $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
+//                $attrData['option_1']['admin_option_name'];
+//        $configurable = $this->loadData('configurable_product_for_order',
+//                array('configurable_attribute_title' => $attrData['admin_title']),
+//                 array('general_name', 'general_sku'));
+//        $configurable['associated_configurable_data'] = $this->loadData('associated_configurable_data',
+//                array('associated_search_sku' => $simple['general_sku']));
+//        $this->productHelper()->createProduct($simple);
+//        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+//        $this->assertTrue($this->checkCurrentPage('manage_products'),
+//                'After successful product creation should be redirected to Manage Products page');
+//        $this->productHelper()->createProduct($configurable, 'configurable');
+//        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+//        $this->assertTrue($this->checkCurrentPage('manage_products'),
+//                'After successful product creation should be redirected to Manage Products page');
+//        $orderData = $this->loadData('order_req_configurable_product',
+//                array('filter_sku' => $configurable['general_sku']));
+//        $orderData['products_to_add']['product_1']['configurable_options']['optionDropdown']['value_1'] =
+//                $attrData['admin_title'];
+//        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+//        $this->navigate('manage_sales_orders');
+//        $orderId = $this->orderHelper()->createOrder($orderData);
+//    }
+
 }

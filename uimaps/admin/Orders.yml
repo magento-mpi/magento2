@@ -258,17 +258,17 @@ create_order_for_new_customer:
                     product_composite_configure_form: &productCompositeConfigureForm
                         xpath: //div[div/h4[contains(text(),'Configure Product')]]
                         checkboxes:
-                            option_checkbox: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[contains(@class,'checkbox')]
+                            option_checkbox: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='checkbox']
                         fields:
-                            option_field_1: //dt[contains(label,'%optionTitle%')][contains(.,'%optionParameter%')]//input
-                            option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input
-                            option_field_3: //dt[contains(label,'%optionTitle%')]//input
+                            option_field_1: //dt[contains(label,'%optionTitle%')][contains(.,'%optionParameter%')]//input[@type='text']
+                            option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input[@type='text']
+                            option_field_3: //dt[contains(label,'%optionTitle%')]//input[@type='text']
                         dropdowns:
-                            option_dropdown: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]
+                            option_dropdown: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select
                         multiselects:
-                            option_multiselect: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@name,'%optionParameter%')]
+                            option_multiselect: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]
                         radiobuttons:
-                            option_radio: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[contains(@class,'radio')]
+                            option_radio: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='radio']
                         buttons:
                             ok: //button[span[contains(text(),'OK')]]
                             cancel: //button[span[contains(text(),'Cancel')]]

@@ -271,9 +271,26 @@ class Order_Helper extends Mage_Selenium_TestCase
             }
             $this->click($xpathProduct . "//input[@type='checkbox']");
             if ($configurable && $configur) {
+                $this->_parseMessages();
+                $before = $this->messages;
                 $this->pleaseWait();
                 $this->configureProduct($configur);
                 $this->clickButton('ok', FALSE);
+                $this->_parseMessages();
+                $after = $this->messages;
+                $result = array();
+                foreach ($after as $key => $value) {
+                    if ($key == 'success') {
+                        continue;
+                    }
+                    if (is_array($value) && (array_key_exists($key, $before) && is_array($before[$key]))) {
+                        $result = array_merge($result, array_diff($value, $before[$key]));
+                    }
+                }
+                if ($result) {
+                    $this->fail("Error(s) when configure product '$productSku':\n" .
+                            implode("\n", $result));
+                }
             }
             $this->clickButton('add_selected_products_to_order', FALSE);
             $this->pleaseWait();
@@ -313,6 +330,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                         foreach ($a as $field => $fieldValue) {
                             if ($this->isElementPresent($fieldValue)) {
                                 $this->fillForm(array($field => $field_value));
+                                continue;
                             }
                         }
                     }
