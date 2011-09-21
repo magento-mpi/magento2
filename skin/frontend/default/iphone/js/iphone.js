@@ -121,7 +121,7 @@ document.observe("dom:loaded", function() {
                 };
                 
                 $("nav-container").insert(this.clonedSubmenuList);
-				$('nav-container').setStyle({'height' : this.clonedSubmenuList.getHeight() + 'px'});
+                $('nav-container').setStyle({'height' : this.clonedSubmenuList.getHeight() + 'px'});
                 $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + (sliderPosition - document.body.offsetWidth) + "px, 0, 0)"});
                 
                 sliderPosition = sliderPosition - document.body.offsetWidth;
@@ -155,7 +155,7 @@ document.observe("dom:loaded", function() {
             this.element.addEventListener('touchend', this, false);
         },
 
-        onTouchMove: function(e) {
+        onTouchMove: function() {
             this.moved = true;
             this.theTarget.className = this.theTarget.className.replace(/ ?pressed/gi, '');
         },
@@ -309,7 +309,6 @@ document.observe("dom:loaded", function() {
                     'position': 'relative',
                     '-webkit-transform': 'translateX(' + this.itemPos + '%)'
                 });
-            
                 if (Math.abs(this.itemPos) >= this.lastItemPos) {
                     this.nextButton.addClassName('disabled');
                 }
@@ -345,23 +344,26 @@ document.observe("dom:loaded", function() {
         touchMove: function (e) {
             this.finalCoord.x = e.targetTouches[0].pageX;
             this.finalCoord.y = e.targetTouches[0].pageY;
-			
-			var changeX = 0;
-			changeX = this.originalCoord.x - this.finalCoord.x;
-			
-			if(Math.abs(changeX) > this.options.threshold.x) {
-				e.preventDefault();
-			}
+            
+            var changeX = 0;
+            changeX = this.originalCoord.x - this.finalCoord.x;
+            
+            if(Math.abs(changeX) > this.options.threshold.x) {
+                e.preventDefault();
+            }
         },
         touchEnd: function (e) {
+            if ( e.preventSwipe ) {
+                return
+            }
             var changeX;
-			changeX = this.originalCoord.x - this.finalCoord.x;
-			if(changeX > this.options.threshold.x) {
-				this.moveRight();
-			}
-			if(changeX < this.options.threshold.x * -1) {
-				this.moveLeft();
-			}
+            changeX = this.originalCoord.x - this.finalCoord.x;
+            if(changeX > this.options.threshold.x) {
+                this.moveRight();
+            }
+            if(changeX < this.options.threshold.x * -1) {
+                this.moveLeft();
+            }
         }
     });
     
@@ -392,7 +394,7 @@ document.observe("dom:loaded", function() {
         initialize: function (elem, swipeLeft, swipeRight, options) { 
             this.options  = Object.extend({
                 threshold: {
-                    x: 30,
+                    x: 50,
                     y: 20
                 },
                 preventDefaultEvents: false
