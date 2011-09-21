@@ -38,7 +38,7 @@ onepage_checkout:
                     checkout_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-login']
                         buttons:
-                            continue: //li[@id='opc-login']//button[span='Continue']
+                            checkout_method_continue: //li[@id='opc-login']//button[span='Continue']
                             login: //button[span='Login']
                         fields:
                             email_address: //input[@id='login-email']
@@ -52,7 +52,7 @@ onepage_checkout:
                     billing_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-billing']
                         buttons:
-                            continue: //li[@id='opc-billing']//button[span='Continue']
+                            billing_continue: //li[@id='opc-billing']//button[span='Continue']
                         dropdowns:
                             billing_address_select: //select[@id='billing-address-select']
                             billing_region: //select[@id='billing:region_id']
@@ -81,7 +81,7 @@ onepage_checkout:
                     shipping_information:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping']
                         buttons:
-                            continue: //li[@id='opc-shipping']//button[span='Continue']
+                            shipping_continue: //li[@id='opc-shipping']//button[span='Continue']
                         dropdowns:
                             shipping_address_select: //select[@id='shipping-address-select']
                             shipping_state: //select[@id='shipping:region_id']
@@ -107,7 +107,7 @@ onepage_checkout:
                     shipping_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping_method']
                         buttons:
-                            continue: //button[span='Continue']
+                            ship_method_continue: //button[span='Continue']
                         checkboxes:
                             add_gift_options: //*[label='Add gift options.']/input
                             gift_option_for_the_entire_order: //input[@id='allow_gift_messages_for_order']
@@ -126,6 +126,8 @@ onepage_checkout:
                 -
                     payment_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-payment']
+                        buttons:
+                            payment_method_continue: //button[span='Continue']
                         radiobuttons:
                             check_payment_method: //input[@title='%paymentTitle%']
                         fields:

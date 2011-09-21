@@ -73,7 +73,7 @@ class Checkout_Helper extends Mage_Selenium_TestCase
                     $billingSetXpath . "[contains(@class,'active')]"));
                 break;
             default:
-                $this->click($set->findButton('continue'));
+                $this->click($set->findButton('checkout_method_continue'));
                 break;
         }
     }
@@ -105,7 +105,7 @@ class Checkout_Helper extends Mage_Selenium_TestCase
                 if (array_key_exists('add_gift_options', $shippingMethod)) {
                     $this->frontAddGiftMessage($shippingMethod['add_gift_options']);
                 }
-                $this->clickButton('continue', FALSE);
+                $this->clickButton('ship_method_continue', FALSE);
                 $this->pleaseWait();
             }
         }
@@ -164,7 +164,7 @@ class Checkout_Helper extends Mage_Selenium_TestCase
                 $paymentId = $this->getAttribute($xpath . '/@value');
                 $this->addParameter('paymentId', $paymentId);
                 $this->fillForm($card, 'order_payment_method');
-                $this->clickButton('continue', FALSE);
+                $this->clickButton('payment_method_continue', FALSE);
                 $this->frontValidate3dSecure();
             }
         }
@@ -188,6 +188,86 @@ class Checkout_Helper extends Mage_Selenium_TestCase
         }
     }
 
+    /**
+     * Fills address on frontend
+     *
+     * @param array $addressData
+     * @param string $addressChoise     'new' or 'exist'
+     * @param type $addressType         'billing' or 'shipping'
+     */
+    public function frontFillAddress(array $addressData, $addressChoise, $addressType)
+    {
+        switch ($addressChoise) {
+            case 'new':
+                $this->fillForm($addressData);
+                break;
+            case 'exist':
+                $addressLine = $this->orderHelper()->defineAddressToChoose($addressData, $addressType);
+                $this->fillForm(array($addressType . '_address_select' => 'label=' . $addressLine));
+                break;
+            default:
+                $this->fail('error');
+                break;
+        }
+    }
+
+    /**
+     * Fills onepage address
+     *
+     * @param array $addressData
+     * @param string $addressType   'billing' or 'shipping'
+     */
+    public function frontFillOnePageAddress(array $addressData, $addressType)
+    {
+        $setXpath = $this->_getControlXpath('fieldset', $addressType . '_information') . "[contains(@class,'active')]";
+        $this->waitForElement($setXpath);
+        $checkoutMethodXpath = $this->_getControlXpath('fieldset', 'checkout_method');
+        if ($this->isElementPresent($checkoutMethodXpath)) {
+            $checkoutMethod = 'guest_or_register';
+        } else {
+            $checkoutMethod = 'login';
+        }
+        $addressChoise = (isset($addressData[$addressType . '_address_select']))
+                            ? $addressData[$addressType . '_address_select']
+                            : 'exist';
+        if ($checkoutMethod == 'guest_or_register' && $addressChoise == 'exist') {
+            $this->fail('Cannot choose existing address for guest');
+        }
+        $this->frontFillAddress($addressData, $addressChoise, $addressType);
+    }
+
+    /**
+     * Fills onepage billing address
+     *
+     * @param array|string $addressData
+     * @return bool        $fillShipping
+     */
+    public function frontFillOnePageBillingAddress($addressData)
+    {
+        if (is_string($addressData)) {
+            $addressData = $this->loadData($addressData);
+        }
+        $this->frontFillOnePageAddress($addressData, 'billing');
+        $xpath = $this->_getControlXpath('radiobutton', 'ship_to_this_address');
+        $fillShipping = (!$this->verifyChecked($xpath)) ? TRUE : FALSE;
+        $this->clickButton('billing_continue', false);
+        return $fillShipping;
+    }
+
+    /**
+     * Fills onepage shipping address
+     *
+     * @param array|string $addressData
+     * @return bool
+     */
+    public function frontFillOnePageShippingAddress($addressData)
+    {
+        if (is_string($addressData)) {
+            $addressData = $this->loadData($addressData);
+        }
+        $this->frontFillOnePageAddress($addressData, 'shipping');
+        $this->clickButton('shipping_continue', false);
+    }
 }
 
 ?>
