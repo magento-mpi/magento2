@@ -80,6 +80,8 @@ class Magento_Test_Entity
 
     protected function _testUpdate()
     {
+        //isObjectNew flag is set to false to prevent incorrect behavior of observers (_afterSave, etc.)
+        //if they are using isObjectNew flag in their logic.
         $this->_model->isObjectNew(false);
 
         foreach ($this->_updateData as $key => $value) {
