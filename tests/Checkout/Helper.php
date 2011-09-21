@@ -57,11 +57,11 @@ class Checkout_Helper extends Mage_Selenium_TestCase
         switch ($checkoutType) {
             case 'guest':
                 $this->fillForm(array('checkout_as_guest' => 'Yes'));
-                $this->click($set->findButton('continue'));
+                $this->click($set->findButton('checkout_method_continue'));
                 break;
             case 'register':
                 $this->fillForm(array('register' => 'Yes'));
-                $this->click($set->findButton('continue'));
+                $this->click($set->findButton('checkout_method_continue'));
                 break;
             case 'login':
                 if (isset($method['additional_data'])) {
@@ -249,7 +249,7 @@ class Checkout_Helper extends Mage_Selenium_TestCase
         }
         $this->frontFillOnePageAddress($addressData, 'billing');
         $xpath = $this->_getControlXpath('radiobutton', 'ship_to_this_address');
-        $fillShipping = (!$this->verifyChecked($xpath)) ? TRUE : FALSE;
+        $fillShipping = $this->verifyChecked($xpath);
         $this->clickButton('billing_continue', false);
         return $fillShipping;
     }

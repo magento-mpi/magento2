@@ -38,6 +38,8 @@ shopping_cart:
                         buttons:
                             continue_shopping: //button[span='Continue Shopping']
                             update_shopping_cart: //button[span='Update Shopping Cart']
+        buttons:
+            proceed_to_checkout: //button[span='Proceed to Checkout']
         messages:
             product_added_to_cart:  //li[normalize-space(@class)='success-msg' and contains(.//span,'%productName% was added to your shopping cart.')]
 
@@ -52,4 +54,3 @@ empty_shopping_cart:
                         xpath: //div[@class='main']
                         links:
                             continue_shopping: //a[text()='here']
-     
