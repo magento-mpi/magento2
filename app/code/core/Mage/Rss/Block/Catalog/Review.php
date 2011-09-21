@@ -42,7 +42,7 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Rss_Block_Abstract
     const CACHE_TAG = 'block_html_rss_catalog_review';
 
     /**
-     * Constructor
+     * Initialize cache
      *
      * @return null
      */
@@ -98,7 +98,7 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Rss_Block_Abstract
      * Format single RSS element
      *
      * @param array $args
-     * @return void
+     * @return null
      */
     public function addReviewItemXmlCallback($args)
     {
@@ -113,13 +113,13 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Rss_Block_Abstract
             array('id' => $row['review_id'], '_secure' => true, '_nosecret' => true));
         $storeName = $store->getName();
 
-        $description = '<p>' .
-        $this->__('Product: <a href="%s">%s</a> <br/>', $productUrl, $row['name']) .
-        $this->__('Summary of review: %s <br/>', $row['title']) .
-        $this->__('Review: %s <br/>', $row['detail']) .
-        $this->__('Store: %s <br/>', $storeName ) .
-        $this->__('click <a href="%s">here</a> to view the review', $reviewUrl) .
-        '</p>';
+        $description = '<p>'
+                     . $this->__('Product: <a href="%s">%s</a> <br/>', $productUrl, $row['name'])
+                     . $this->__('Summary of review: %s <br/>', $row['title'])
+                     . $this->__('Review: %s <br/>', $row['detail'])
+                     . $this->__('Store: %s <br/>', $storeName )
+                     . $this->__('click <a href="%s">here</a> to view the review', $reviewUrl)
+                     . '</p>';
         $data = array(
             'title'         => $this->__('Product: "%s" review By: %s', $row['name'], $row['nickname']),
             'link'          => 'test',
