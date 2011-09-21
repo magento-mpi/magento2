@@ -33,7 +33,7 @@ class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
     /**
      * Return list of gift registry items
      *
-     * @return Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
+     * @return Enterprise_GiftRegistry_Model_Resource_Item_Collection
      */
     public function getItems()
     {
@@ -43,7 +43,7 @@ class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
     /**
      * Count gift registry items in last order
      *
-     * @param Enterprise_GiftRegistry_Model_Mysql4_Item $item
+     * @param Enterprise_GiftRegistry_Model_Resource_Item $item
      * @return mixed
      */
     public function getQtyOrdered($item)
@@ -58,7 +58,7 @@ class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
     /**
      * Return gift registry entity remained item qty
      *
-     * @param Enterprise_GiftRegistry_Model_Mysql4_Item $item
+     * @param Enterprise_GiftRegistry_Model_Resource_Item $item
      * @return mixed
      */
     public function getRemainedQty($item)
@@ -73,7 +73,7 @@ class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
     /**
      * Return gift registry entity item qty
      *
-     * @param Enterprise_GiftRegistry_Model_Mysql4_Item $item
+     * @param Enterprise_GiftRegistry_Model_Resource_Item $item
      * @return mixed
      */
     public function getQty($item)
@@ -84,7 +84,7 @@ class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
     /**
      * Return gift registry entity item fulfilled qty
      *
-     * @param Enterprise_GiftRegistry_Model_Mysql4_Item $item
+     * @param Enterprise_GiftRegistry_Model_Resource_Item $item
      * @return mixed
      */
     public function getQtyFulfilled($item)

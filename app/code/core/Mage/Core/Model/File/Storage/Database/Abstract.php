@@ -68,7 +68,7 @@ abstract class Mage_Core_Model_File_Storage_Database_Abstract extends Mage_Core_
     /**
      * Get resource instance
      *
-     * @return Mage_Core_Model_Mysql4_Abstract
+     * @return Mage_Core_Model_Resource_Abstract
      */
     protected function _getResource()
     {

@@ -139,7 +139,7 @@ class Mage_SalesRule_Model_Observer
      */
     protected function _checkSalesRulesAvailability($attributeCode)
     {
-        /* @var $collection Mage_SalesRule_Model_Mysql4_Rule_Collection */
+        /* @var $collection Mage_SalesRule_Model_Resource_Rule_Collection */
         $collection = Mage::getResourceModel('salesrule/rule_collection')
             ->addAttributeInConditionFilter($attributeCode);
 

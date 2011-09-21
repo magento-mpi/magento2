@@ -78,7 +78,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     /**
      * Retrieve Resource instance wrapper
      *
-     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     * @return Enterprise_Cms_Model_Resource_Hierarchy_Node
      */
     protected function _getResource()
     {

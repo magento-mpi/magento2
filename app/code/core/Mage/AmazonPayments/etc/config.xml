@@ -39,7 +39,6 @@
             </amazonpayments>
             <amazonpayments_resource>
                 <class>Mage_AmazonPayments_Model_Resource</class>
-                <deprecatedNode>amazonpayments_mysql4</deprecatedNode>
                 <entities>
                     <api_debug>
                         <table>amazonpayments_api_debug</table>

@@ -95,7 +95,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
+     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock
      */
     protected function _getResource()
     {

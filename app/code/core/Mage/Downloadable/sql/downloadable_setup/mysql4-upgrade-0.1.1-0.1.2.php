@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
+/** @var $installer Mage_Catalog_Model_Resource_Setup */
 
 $conn = $installer->getConnection();
 /* @var $conn Varien_Db_Adapter_Pdo_Mysql */

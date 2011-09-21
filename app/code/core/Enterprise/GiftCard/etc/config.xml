@@ -36,7 +36,7 @@
             <enterprise_giftcard_setup>
                 <setup>
                     <module>Enterprise_GiftCard</module>
-                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+                    <class>Mage_Catalog_Model_Resource_Setup</class>
                 </setup>
             </enterprise_giftcard_setup>
         </resources>
@@ -47,7 +47,6 @@
             </enterprise_giftcard>
             <enterprise_giftcard_resource>
                 <class>Enterprise_GiftCard_Model_Resource</class>
-                <deprecatedNode>enterprise_giftcard_mysql4</deprecatedNode>
                 <entities>
                     <amount>
                         <table>enterprise_giftcard_amount</table>

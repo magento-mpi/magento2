@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Sales_Model_Mysql4_Setup */
+/* @var $installer Mage_Sales_Model_Resource_Setup */
 
 $installer->getConnection()->addColumn($this->getTable('sales_order'), 'discount_refunded', 'decimal(12,4) default NULL AFTER `subtotal_canceled`');
 $installer->getConnection()->addColumn($this->getTable('sales_order'), 'discount_canceled', 'decimal(12,4) default NULL AFTER `discount_refunded`');
@@ -82,8 +82,8 @@ $preparedSql = 'CREATE TEMPORARY TABLE ' . $installer->getConnection()->quoteIde
 
 $installer->getConnection()->query($preparedSql);
 $select = $installer->getConnection()->select();
-$select->join(array('to_update' => $temporaryTableName), 
-    'to_update.order_id = main_table.entity_id', 
+$select->join(array('to_update' => $temporaryTableName),
+    'to_update.order_id = main_table.entity_id',
     array(
         'discount_refunded' => 'order_discount',
         'base_discount_refunded' => 'order_base_discount'
@@ -93,7 +93,7 @@ $select->join(array('to_update' => $temporaryTableName),
 $installer->getConnection()->query(
     $select->crossUpdateFromSelect(array('main_table'=>$ordersTable))
 );
- 
+
 $installer->getConnection()->query(
     'DROP TEMPORARY TABLE ' . $installer->getConnection()->quoteIdentifier($temporaryTableName)
 );
@@ -119,8 +119,8 @@ $preparedSql = 'CREATE TEMPORARY TABLE ' . $installer->getConnection()->quoteIde
 
 $installer->getConnection()->query($preparedSql);
 $select = $installer->getConnection()->select();
-$select->join(array('to_update' => $temporaryTableName), 
-    'to_update.order_id = main_table.entity_id', 
+$select->join(array('to_update' => $temporaryTableName),
+    'to_update.order_id = main_table.entity_id',
     array(
         'discount_invoiced' => 'order_discount',
         'base_discount_invoiced' => 'order_base_discount'
@@ -130,7 +130,7 @@ $select->join(array('to_update' => $temporaryTableName),
 $installer->getConnection()->query(
     $select->crossUpdateFromSelect(array('main_table'=>$ordersTable))
 );
- 
+
 $installer->getConnection()->query(
     'DROP TEMPORARY TABLE ' . $installer->getConnection()->quoteIdentifier($temporaryTableName)
 );

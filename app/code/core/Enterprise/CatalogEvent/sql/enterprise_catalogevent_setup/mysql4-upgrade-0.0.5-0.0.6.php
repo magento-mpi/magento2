@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/* @var $installer Enterprise_CatalogEvent_Model_Mysql4_Setup */
+/* @var $installer Enterprise_CatalogEvent_Model_Resource_Setup */
 $installer = $this;
 $installer->getConnection()->dropColumn($installer->getTable('sales/quote_item'), 'event_name');
 $installer->getConnection()->dropColumn($installer->getTable('sales/order_item'), 'event_name');

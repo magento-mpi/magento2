@@ -105,7 +105,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Mod
     /**
      * Add index to product count select in product collection
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
      * @return Enterprise_CatalogPermissions_Model_Permission_Index
      */
     public function addIndexToProductCount($collection, $customerGroupId)
@@ -117,7 +117,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Mod
     /**
      * Add index to category collection
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection|Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection $collection
+     * @param Mage_Catalog_Model_Resource_Category_Collection|Mage_Catalog_Model_Resource_Category_Flat_Collection $collection
      * @param int $customerGroupId
      * @param int $websiteId
      * @return Enterprise_CatalogPermissions_Model_Permission_Index
@@ -157,7 +157,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Mod
     /**
      * Add index select in product collection
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
      * @return Enterprise_CatalogPermissions_Model_Permission_Index
      */
     public function addIndexToProductCollection($collection, $customerGroupId)

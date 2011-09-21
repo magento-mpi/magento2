@@ -498,7 +498,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     /**
      * Get invoice items collection
      *
-     * @return Mage_Sales_Model_Mysql4_Order_Invoice_Item_Collection
+     * @return Mage_Sales_Model_Resource_Order_Invoice_Item_Collection
      */
     public function getItemsCollection()
     {

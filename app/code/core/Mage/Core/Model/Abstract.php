@@ -60,7 +60,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     /**
      * Resource model instance
      *
-     * @var Mage_Core_Model_Mysql4_Abstract
+     * @var Mage_Core_Model_Resource_Db_Abstract
      */
     protected $_resource;
 
@@ -128,7 +128,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     /**
      * Get resource instance
      *
-     * @return Mage_Core_Model_Mysql4_Abstract
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _getResource()
     {
@@ -545,7 +545,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     /**
      * Retrieve model resource
      *
-     * @return Mage_Core_Model_Mysql4_Abstract
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     public function getResource()
     {

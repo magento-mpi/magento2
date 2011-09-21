@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/** @var Enterprise_TargetRule_Model_Mysql4_Setup */
+/** @var Enterprise_TargetRule_Model_Resource_Setup */
 $installer = $this;
 
 $installer->getConnection()->modifyColumn(

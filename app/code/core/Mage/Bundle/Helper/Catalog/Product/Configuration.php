@@ -89,7 +89,7 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_
         $bundleOptionsIds = unserialize($optionsQuoteItemOption->getValue());
         if ($bundleOptionsIds) {
             /**
-            * @var Mage_Bundle_Model_Mysql4_Option_Collection
+            * @var Mage_Bundle_Model_Resource_Option_Collection
             */
             $optionsCollection = $typeInstance->getOptionsByIds($bundleOptionsIds, $product);
 

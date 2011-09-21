@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Sales_Model_Mysql4_Setup */
+/* @var $installer Mage_Sales_Model_Resource_Setup */
 
 $installer->startSetup();
 $installer->addAttribute('order_payment', 'additional_information', array('type' => 'text'));

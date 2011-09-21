@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/** @var $installer Mage_Sales_Model_Mysql4_Setup */
+/** @var $installer Mage_Sales_Model_Resource_Setup */
 
 $installer->getConnection()->addColumn($installer->getTable('salesrule/coupon_aggregated'),
     'subtotal_amount_actual', "decimal(12,4) NOT NULL default '0.0000'");

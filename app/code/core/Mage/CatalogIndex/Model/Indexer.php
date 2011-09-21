@@ -164,14 +164,14 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     /**
      * Retreive store collection
      *
-     * @return Mage_Core_Model_Mysql4_Store_Collection
+     * @return Mage_Core_Model_Resource_Store_Collection
      */
     protected function _getWebsites()
     {
         $websites = $this->getData('_websites');
         if (is_null($websites)) {
             $websites = Mage::getModel('core/website')->getCollection()->load();
-            /* @var $stores Mage_Core_Model_Mysql4_Website_Collection */
+            /* @var $stores Mage_Core_Model_Resource_Website_Collection */
 
             $this->setData('_websites', $websites);
         }
@@ -405,7 +405,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
      *
      * @param Mage_Core_Model_Store $store
      * @param mixed $products
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     protected function _getProductCollection($store, $products)
     {
@@ -427,7 +427,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     /**
      * Walk Product Collection for Relation Parent products
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
      * @param Mage_Core_Model_Store|Mage_Core_Model_Website $store
      * @param array $attributes
      * @param array $prices
@@ -476,7 +476,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     /**
      * Run indexing process for product collection
      *
-     * @param   Mage_Catalog_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param   Mage_Catalog_Model_Resource_Product_Collection $collection
      * @param   mixed $store
      * @param   array $attributes
      * @param   array $prices
@@ -591,7 +591,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
      * @param array $attributes
      * @param array $values
      * @param array $filteredAttributes
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $productCollection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $productCollection
      * @return array
      */
     public function buildEntityPriceFilter($attributes, $values, &$filteredAttributes, $productCollection)
@@ -686,7 +686,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
      * @param array $attributes
      * @param array $values
      * @param array $filteredAttributes
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $productCollection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $productCollection
      * @return array
      */
     public function buildEntityFilter($attributes, $values, &$filteredAttributes, $productCollection)

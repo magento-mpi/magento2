@@ -34,7 +34,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      * Limit store views collection. Adding limitation depending
      * on allowed group ids for user.
      *
-     * @param Mage_Core_Model_Mysql4_Store_Collection $collection
+     * @param Mage_Core_Model_Resource_Store_Collection $collection
      */
     public function limitStores($collection)
     {
@@ -46,7 +46,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit websites collection
      *
-     * @param Mage_Core_Model_Mysql4_Website_Collection $collection
+     * @param Mage_Core_Model_Resource_Website_Collection $collection
      */
     public function limitWebsites($collection)
     {
@@ -57,7 +57,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit store groups collection
      *
-     * @param Mage_Core_Model_Mysql4_Store_Group_Collection $collection
+     * @param Mage_Core_Model_Resource_Store_Group_Collection $collection
      */
     public function limitStoreGroups($collection)
     {
@@ -67,7 +67,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit a collection by allowed stores without admin
      *
-     * @param Mage_Core_Model_Mysql4_Collection_Abstract $collection
+     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
      */
     public function addStoreFilterNoAdmin($collection)
     {
@@ -77,7 +77,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Add filter by store views to a collection
      *
-     * @param Mage_Core_Model_Mysql4_Collection_Abstract $collection
+     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
      */
     public function addStoreFilter($collection)
     {
@@ -112,7 +112,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit customers collection
      *
-     * @param Mage_Customer_Model_Entity_Customer_Collection $collection
+     * @param Mage_Customer_Model_Resource_Customer_Collection $collection
      */
     public function limitCustomers($collection)
     {
@@ -125,7 +125,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit reviews collection
      *
-     * @param Mage_Review_Model_Mysql4_Review_Collection $collection
+     * @param Mage_Review_Model_Resource_Review_Collection $collection
      */
     public function limitReviews($collection)
     {
@@ -135,7 +135,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit product reviews collection
      *
-     * @param Mage_Review_Model_Mysql4_Review_Product_Collection
+     * @param Mage_Review_Model_Resource_Review_Product_Collection
      */
     public function limitProductReviews($collection)
     {
@@ -145,7 +145,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit price rules collection
      *
-     * @param Mage_Core_Model_Mysql4_Collection_Abstract $collection
+     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
      */
     public function limitPriceRules($collection)
     {
@@ -155,7 +155,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit online visitor log collection
      *
-     * @param Mage_Log_Model_Mysql4_Visitor_Collection $collection
+     * @param Mage_Log_Model_Resource_Visitor_Collection $collection
      */
     public function limitOnlineCustomers($collection)
     {
@@ -165,7 +165,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit GCA collection
      *
-     * @param Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection $collection
+     * @param Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection $collection
      */
     public function limitGiftCardAccounts($collection)
     {
@@ -175,7 +175,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit Reward Points history collection
      *
-     * @param Enterprise_Reward_Model_Mysql4_Reward_History_Collection $collection
+     * @param Enterprise_Reward_Model_Resource_Reward_History_Collection $collection
      */
     public function limitRewardHistoryWebsites($collection)
     {
@@ -185,7 +185,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit Reward Points balance collection
      *
-     * @param Enterprise_Reward_Model_Mysql4_Reward_Collection $collection
+     * @param Enterprise_Reward_Model_Resource_Reward_Collection $collection
      */
     public function limitRewardBalanceWebsites($collection)
     {
@@ -195,7 +195,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit store credit collection
      *
-     * @param Enterprise_CustomerBalance_Model_Mysql4_Balance_Collection $collection
+     * @param Enterprise_CustomerBalance_Model_Resource_Balance_Collection $collection
      */
     public function limitStoreCredits($collection)
     {
@@ -205,7 +205,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit store credit collection
      *
-     * @param Enterprise_CustomerBalance_Model_Mysql4_Balance_History_Collection $collection
+     * @param Enterprise_CustomerBalance_Model_Resource_Balance_History_Collection $collection
      */
     public function limitStoreCreditsHistory($collection)
     {
@@ -216,7 +216,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit Catalog events collection
      *
-     * @param Enterprise_CatalogEvent_Model_Mysql4_Event_Collection $collection
+     * @param Enterprise_CatalogEvent_Model_Resource_Event_Collection $collection
      */
     public function limitCatalogEvents($collection)
     {
@@ -226,7 +226,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit catalog categories collection
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection $collection
+     * @param Mage_Catalog_Model_Resource_Category_Collection $collection
      */
     public function limitCatalogCategories($collection)
     {
@@ -236,7 +236,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit core URL rewrites
      *
-     * @param Mage_Core_Model_Mysql4_Url_Rewrite_Collection $collection
+     * @param Mage_Core_Model_Resource_Url_Rewrite_Collection $collection
      */
     public function limitCoreUrlRewrites($collection)
     {
@@ -246,7 +246,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit ratings collection
      *
-     * @param Mage_Rating_Model_Mysql4_Rating_Collection $collection
+     * @param Mage_Rating_Model_Resource_Rating_Collection $collection
      */
     public function limitRatings($collection)
     {
@@ -266,7 +266,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Filter checkout agreements collection by allowed stores
      *
-     * @param Mage_Checkout_Model_Mysql4_Agreement_Collection $collection
+     * @param Mage_Checkout_Model_Resource_Agreement_Collection $collection
      */
     public function limitCheckoutAgreements($collection)
     {
@@ -277,7 +277,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Filter admin roles collection by allowed stores
      *
-     * @param Mage_Admin_Model_Mysql4_Roles_Collection $collection
+     * @param Mage_Admin_Model_Resource_Roles_Collection $collection
      */
     public function limitAdminPermissionRoles($collection)
     {
@@ -294,7 +294,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Filter admin users collection by allowed stores
      *
-     * @param Mage_Admin_Model_Mysql4_Users_Collection $collection
+     * @param Mage_Admin_Model_Resource_User_Collection $collection
      */
     public function limitAdminPermissionUsers($collection)
     {
@@ -361,7 +361,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit product reports
      *
-     * @param  Mage_Reports_Model_Mysql4_Product_Collection $collection
+     * @param  Mage_Reports_Model_Resource_Product_Collection $collection
      */
     public function limitProductReports($collection)
     {
@@ -371,7 +371,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit customer segment collection
      *
-     * @param Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection $collection
+     * @param Enterprise_CustomerSegment_Model_Resource_Segment_Collection $collection
      */
     public function limitCustomerSegments($collection)
     {
@@ -381,7 +381,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit GiftRegistry Entity collection
      *
-     * @param Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection $collection
+     * @param Enterprise_GiftRegistry_Model_Resource_Entity_Collection $collection
      */
     public function limitGiftRegistryEntityWebsites($collection)
     {
@@ -391,7 +391,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit bestsellers collection
      *
-     * @param Mage_Sales_Model_Mysql4_Report_Bestsellers_Collection $collection
+     * @param Mage_Sales_Model_Resource_Report_Bestsellers_Collection $collection
      */
     public function limitBestsellersCollection($collection)
     {

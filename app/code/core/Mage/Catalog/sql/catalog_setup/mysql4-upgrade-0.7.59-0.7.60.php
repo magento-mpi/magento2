@@ -26,7 +26,7 @@
 
 $installer = $this;
 
-/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
+/** @var $installer Mage_Catalog_Model_Resource_Setup */
 
 $installer->startSetup();
 $installer->getConnection()->addColumn($installer->getTable('catalog/product_option'), 'image_size_x', 'smallint unsigned not null after `file_extension`');

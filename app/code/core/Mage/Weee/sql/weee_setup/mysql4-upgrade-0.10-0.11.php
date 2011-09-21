@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Weee_Model_Mysql4_Setup */
+/* @var $installer Mage_Weee_Model_Resource_Setup */
 
 $installer->startSetup();
 

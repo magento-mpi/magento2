@@ -263,7 +263,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     /**
      * Retrieve new (not loaded) Group collection object with website filter
      *
-     * @return Mage_Core_Model_Mysql4_Store_Group_Collection
+     * @return Mage_Core_Model_Resource_Store_Group_Collection
      */
     public function getGroupCollection()
     {
@@ -369,7 +369,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     /**
      * Retrieve new (not loaded) Store collection object with website filter
      *
-     * @return Mage_Core_Model_Mysql4_Store_Collection
+     * @return Mage_Core_Model_Resource_Store_Collection
      */
     public function getStoreCollection()
     {

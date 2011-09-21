@@ -492,7 +492,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      * Retrieve history log collection
      *
      * @param boolean $reload
-     * @return Enterprise_Staging_Model_Mysql4_Staging_Log_Collection
+     * @return Enterprise_Staging_Model_Resource_Staging_Log_Collection
      */
     public function getLogCollection($reload=false)
     {

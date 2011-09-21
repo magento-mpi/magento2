@@ -73,7 +73,7 @@ class Mage_Tag_Model_Tag_Relation extends Mage_Core_Model_Abstract
     /**
      * Retrieve Resource Instance wrapper
      *
-     * @return Mage_Tag_Model_Mysql4_Tag_Relation
+     * @return Mage_Tag_Model_Resource_Tag_Relation
      */
     protected function _getResource()
     {

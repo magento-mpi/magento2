@@ -39,7 +39,6 @@
             </compiler>
             <compiler_resource>
                 <class>Mage_Compiler_Model_Resource</class>
-                <deprecatedNode>compiler_mysql4</deprecatedNode>
                 <entities>
                     <configuration>
                         <table>compiler_configuration</table>

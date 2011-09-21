@@ -39,7 +39,6 @@
             </xmlconnect>
             <xmlconnect_resource>
                 <class>Mage_XmlConnect_Model_Resource</class>
-                <deprecatedNode>xmlconnect_mysql4</deprecatedNode>
                 <entities>
                     <application><table>xmlconnect_application</table></application>
                     <history><table>xmlconnect_history</table></history>

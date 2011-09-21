@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Enterprise_Reminder_Model_Mysql4_Setup */
+/* @var $installer Enterprise_Reminder_Model_Resource_Setup */
 
 $installer->run("
 

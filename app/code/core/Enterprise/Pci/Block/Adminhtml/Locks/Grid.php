@@ -44,7 +44,7 @@ class Enterprise_Pci_Block_Adminhtml_Locks_Grid extends Mage_Adminhtml_Block_Wid
     /**
      * Instantiate collection
      *
-     * @return Mage_Admin_Model_Mysql4_User_Collection
+     * @return Mage_Admin_Model_Resource_User_Collection
      */
     public function getCollection()
     {

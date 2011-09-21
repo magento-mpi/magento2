@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Enterprise_Reminder_Model_Mysql4_Setup */
+/* @var $installer Enterprise_Reminder_Model_Resource_Setup */
 
 $installer->getConnection()->query("ALTER TABLE {$this->getTable('catalogsearch_query')}
     ADD INDEX `IDX_SEARCH_REC` (`query_text`, `store_id`, `num_results`)");

@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
+/** @var $installer Mage_Catalog_Model_Resource_Setup */
 
 $installer->startSetup();
 $installer->updateAttribute('catalog_category', 'is_active', 'is_global', Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE);

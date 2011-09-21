@@ -36,7 +36,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
     /**
      * Catalog Product Link Collection
      *
-     * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     * @var Mage_Catalog_Model_Resource_Product_Collection
      */
     protected $_linkCollection;
 
@@ -193,7 +193,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
      * Retrieve related product collection assigned to product
      *
      * @throws Mage_Core_Exception
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     public function getLinkCollection()
     {
@@ -281,7 +281,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
                     ->getProductIds();
 
                 if ($productIds) {
-                    /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+                    /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
                     $collection = Mage::getResourceModel('catalog/product_collection');
                     $collection->addFieldToFilter('entity_id', array('in' => $productIds));
                     $this->_addProductAttributesAndPrices($collection);

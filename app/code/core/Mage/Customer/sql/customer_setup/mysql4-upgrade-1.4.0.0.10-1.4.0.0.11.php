@@ -25,7 +25,7 @@
  */
 
 
-/* @var $installer Mage_Customer_Model_Entity_Setup */
+/** @var $installer Mage_Customer_Model_Resource_Setup */
 $installer = $this;
 
 $installer->getConnection()->addColumn($installer->getTable('customer/eav_attribute'), 'data_model',

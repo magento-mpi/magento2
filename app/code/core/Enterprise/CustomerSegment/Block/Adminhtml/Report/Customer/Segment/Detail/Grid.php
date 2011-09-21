@@ -52,7 +52,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection */
+        /* @var $collection Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection */
         $collection = Mage::getResourceModel('enterprise_customersegment/report_customer_collection');
         $collection->addNameToSelect()
             ->setViewMode($this->getCustomerSegment()->getViewMode())

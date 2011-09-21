@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/* @var $installer Mage_Customer_Model_Entity_Setup */
+/** @var $installer Mage_Customer_Model_Resource_Setup */
 $installer = $this;
 $installer->startSetup();
 $installer->run("

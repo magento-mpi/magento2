@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Enterprise_CustomerSegment_Model_Mysql4_Setup */
+/* @var $installer Enterprise_CustomerSegment_Model_Resource_Setup */
 
 // add field that indicates that attribute is used for customer segments to attribute properties
 $installer->getConnection()->addColumn($installer->getTable('catalog/eav_attribute'), "is_used_for_customer_segment", "TINYINT(1) UNSIGNED NOT NULL DEFAULT '0'");

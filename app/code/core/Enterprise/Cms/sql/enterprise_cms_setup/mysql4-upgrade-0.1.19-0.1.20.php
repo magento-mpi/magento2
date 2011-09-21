@@ -25,7 +25,7 @@
  */
 
 
-/* @var $installer Enterprise_Cms_Model_Mysql4_Setup */
+/* @var $installer Enterprise_Cms_Model_Resource_Setup */
 $installer = $this;
 
 $installer->getConnection()->changeColumn($installer->getTable('cms/page'), 'under_version_control',

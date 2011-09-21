@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Enterprise_GiftRegistry_Model_Mysql4_Setup */
+/* @var $installer Enterprise_GiftRegistry_Model_Resource_Setup */
 
 $select = Mage::getModel('enterprise_giftregistry/item')->getCollection()->getSelect();
 $stmt = $this->getConnection()->query($select);

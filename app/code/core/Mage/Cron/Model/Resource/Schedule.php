@@ -26,7 +26,7 @@
 
 
 /**
- * Schedule mysql4 resource
+ * Schedule resource
  *
  * @category    Mage
  * @package     Mage_Cron

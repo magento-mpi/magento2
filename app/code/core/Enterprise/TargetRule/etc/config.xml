@@ -39,7 +39,6 @@
             </enterprise_targetrule>
             <enterprise_targetrule_resource>
                 <class>Enterprise_TargetRule_Model_Resource</class>
-                <deprecatedNode>enterprise_targetrule_mysql4</deprecatedNode>
                 <entities>
                     <rule>
                         <table>enterprise_targetrule</table>

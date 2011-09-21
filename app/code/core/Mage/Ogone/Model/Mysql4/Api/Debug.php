@@ -29,7 +29,7 @@
  *
  * @deprecated - used core/log_adapter for debugging
  */
-class Mage_Ogone_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Ogone_Model_Mysql4_Api_Debug extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Init ogone debug resource model

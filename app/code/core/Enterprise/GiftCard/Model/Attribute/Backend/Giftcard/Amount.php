@@ -30,7 +30,7 @@ class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Retrieve resource model
      *
-     * @return Enterprise_GiftCard_Model_Mysql4_Attribute_Backend_Giftcard_Amounts
+     * @return Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amounts
      */
     protected function _getResource()
     {

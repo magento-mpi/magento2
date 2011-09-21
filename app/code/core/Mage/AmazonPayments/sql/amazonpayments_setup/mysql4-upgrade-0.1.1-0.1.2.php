@@ -26,7 +26,7 @@
 
 
 $installer = $this;
-/* @var $installer Mage_AmazonPayments_Model_Mysql4_Setup */
+/* @var $installer Mage_AmazonPayments_Model_Resource_Setup */
 
 $installer->startSetup();
 

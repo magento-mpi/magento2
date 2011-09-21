@@ -25,12 +25,12 @@
  */
 
 
-/* @var $installer Mage_Sendfriend_Model_Mysql4_Setup */
+/* @var $installer Mage_Sendfriend_Model_Resource_Setup */
 $installer = $this;
 
 $installer->startSetup();
 $installer->getConnection()->modifyColumn($installer->getTable('sendfriend/sendfriend'),
     'log_id', 'int(10) unsigned NOT NULL auto_increment');
-$installer->getConnection()->addColumn($installer->getTable('sendfriend/sendfriend'), 
+$installer->getConnection()->addColumn($installer->getTable('sendfriend/sendfriend'),
     'website_id', 'smallint(5) NOT NULL');
 $installer->endSetup();

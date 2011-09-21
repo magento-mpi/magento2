@@ -28,7 +28,7 @@
 set_time_limit(0);
 
 $installer = $this;
-/* @var $installer Mage_Sales_Model_Mysql4_Setup */
+/* @var $installer Mage_Sales_Model_Resource_Setup */
 $installer->getConnection()->beginTransaction();
 
 $installer->getConnection()->addColumn($this->getTable('sales/quote'), 'global_currency_code', 'varchar(255) NULL AFTER `store_to_quote_rate`');

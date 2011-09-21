@@ -212,7 +212,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         $resource = $this->_getResource();
-        /* @var $resource Enterprise_Cms_Model_Mysql4_Page_Revision */
+        /* @var $resource Enterprise_Cms_Model_Resource_Page_Revision */
         if ($resource->isRevisionPublished($this)) {
             Mage::throwException(
                 Mage::helper('enterprise_cms')->__('Revision #%s could not be removed because it is published.', $this->getRevisionNumber())

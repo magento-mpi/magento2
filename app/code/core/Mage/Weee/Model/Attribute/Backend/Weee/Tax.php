@@ -33,7 +33,7 @@ class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Mage_Catalog_Model_Prod
     /**
      * Retrieve resource model
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Weee
+     * @return Mage_Catalog_Model_Resource_Product_Attribute_Backend_Weee
      */
     protected function _getResource()
     {

@@ -26,12 +26,12 @@
 
 /**
  * eWAY Api Debug Mysql4 resourcre model
- * 
+ *
  * @category   Mage
  * @package    Mage_Eway
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eway_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Eway_Model_Mysql4_Api_Debug extends Mage_Core_Model_Resource_Db_Abstract
 {
     protected function _construct()
     {

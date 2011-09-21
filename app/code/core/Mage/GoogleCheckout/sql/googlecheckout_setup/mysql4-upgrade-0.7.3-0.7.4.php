@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_GoogleCheckout_Model_Mysql4_Setup */
+/* @var $installer Mage_GoogleCheckout_Model_Resource_Setup */
 
 $installer->run("
 CREATE TABLE `{$this->getTable('googlecheckout/notification')}` (

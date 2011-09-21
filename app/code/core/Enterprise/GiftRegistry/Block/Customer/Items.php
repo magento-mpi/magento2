@@ -43,7 +43,7 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
     /**
      * Return list of gift registries
      *
-     * @return Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
+     * @return Enterprise_GiftRegistry_Model_Resource_Item_Collection
      */
     public function getItemCollection()
     {

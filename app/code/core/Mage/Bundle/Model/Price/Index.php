@@ -58,7 +58,7 @@ class Mage_Bundle_Model_Price_Index extends Mage_Core_Model_Abstract
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Mage_Bundle_Model_Mysql4_Price_Index
+     * @return Mage_Bundle_Model_Resource_Price_Index
      */
     protected function _getResource()
     {
@@ -93,7 +93,7 @@ class Mage_Bundle_Model_Price_Index extends Mage_Core_Model_Abstract
     /**
      * Add bundle price range index to Product collection
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
      * @return Mage_Bundle_Model_Price_Index
      */
     public function addPriceIndexToCollection($collection)

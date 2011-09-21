@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Sales_Model_Mysql4_Setup */
+/* @var $installer Mage_Sales_Model_Resource_Setup */
 $this->startSetup();
 
 $installer->getConnection()->addColumn($installer->getTable('sales/order_aggregated_created'),

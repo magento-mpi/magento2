@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
+/** @var $installer Mage_Catalog_Model_Resource_Setup */
 
 $attributeId    = $installer->getAttributeId('catalog_category', 'is_active');
 $entityTypeId   = $installer->getEntityTypeId('catalog_category');

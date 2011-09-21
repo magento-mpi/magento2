@@ -316,7 +316,7 @@
             <Mage_Core_Model_Date/>
             <Mage_Core_Model_Encryption/>
             <Mage_Customer_Model_Address_Abstract/>
-            <Mage_Customer_Model_Entity_Group/>
+            <Mage_Customer_Model_Resource_Group/>
             <Mage_Directory_Block_Data/>
             <Mage_Directory_Helper_Data/>
             <Mage_Directory_Model_Currency/>

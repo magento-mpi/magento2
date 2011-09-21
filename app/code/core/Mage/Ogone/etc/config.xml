@@ -38,8 +38,7 @@
                 <resourceModel>ogone_resource</resourceModel>
             </ogone>
             <ogone_resource>
-                <class>Mage_Ogone_Model_Resource</class>
-                <deprecatedNode>ogone_mysql4</deprecatedNode>
+                <class>Mage_Ogone_Model_Mysql4</class>
                 <entities>
                     <api_debug><table>ogone_api_debug</table></api_debug>
                 </entities>

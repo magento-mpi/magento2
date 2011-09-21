@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
+/** @var $installer Mage_Catalog_Model_Resource_Setup */
 
 // make 'weight' attribute applicable to gift card products
 $applyTo = $installer->getAttribute('catalog_product', 'weight', 'apply_to');

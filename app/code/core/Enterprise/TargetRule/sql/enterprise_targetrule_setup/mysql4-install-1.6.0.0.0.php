@@ -25,7 +25,7 @@
  */
 
 
-/* @var $installer Enterprise_TargetRule_Model_Mysql4_Setup */
+/* @var $installer Enterprise_TargetRule_Model_Resource_Setup */
 $installer = $this;
 
 $installer->startSetup();

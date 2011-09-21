@@ -38,7 +38,7 @@ class Mage_Catalog_Block_Widget_Link
 {
     /**
      * Entity model name which must be used to retrieve entity specific data.
-     * @var null|Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract
+     * @var null|Mage_Catalog_Model_Resource_Abstract
      */
     protected $_entityResource = null;
 
@@ -65,7 +65,7 @@ class Mage_Catalog_Block_Widget_Link
     public function getHref()
     {
         if (!$this->_href) {
-            
+
             if($this->hasStoreId()) {
                 $store = Mage::app()->getStore($this->getStoreId());
             } else {
@@ -75,7 +75,7 @@ class Mage_Catalog_Block_Widget_Link
             /* @var $store Mage_Core_Model_Store */
             $href = "";
             if ($this->getData('id_path')) {
-                /* @var $urlRewriteResource Mage_Core_Model_Mysql4_Url_Rewrite */
+                /* @var $urlRewriteResource Mage_Core_Model_Resource_Url_Rewrite */
                 $urlRewriteResource = Mage::getResourceSingleton('core/url_rewrite');
                 $href = $urlRewriteResource->getRequestPathByIdPath($this->getData('id_path'), $store);
                 if (!$href) {

@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Sales_Model_Mysql4_Setup */
+/* @var $installer Mage_Sales_Model_Resource_Setup */
 
 $tableOrder       = $this->getTable('sales_order');
 $tableOrderEntity = $this->getTable('sales_order_entity');

@@ -286,7 +286,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      * Retrieve configurable atrribute collection
      *
      * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable_Attribute_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
      */
     public function getConfigurableAttributeCollection($product = null)
     {
@@ -360,7 +360,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      * Retrieve related products collection
      *
      * @param  Mage_Catalog_Model_Product $product
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Type_Configurable_Product_Collection
      */
     public function getUsedProductCollection($product = null)
     {

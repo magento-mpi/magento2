@@ -39,7 +39,6 @@
             </cybersource>
             <cybersource_resource>
                 <class>Mage_Cybersource_Model_Resource</class>
-                <deprecatedNode>cybersource_mysql4</deprecatedNode>
             </cybersource_resource>
         </models>
         <resources>

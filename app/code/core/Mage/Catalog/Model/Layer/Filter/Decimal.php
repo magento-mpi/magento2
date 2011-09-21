@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_F
     /**
      * Resource instance
      *
-     * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Layer_Filter_Decimal
+     * @var Mage_Catalog_Model_Resource_Layer_Filter_Decimal
      */
     protected $_resource;
 
@@ -56,7 +56,7 @@ class Mage_Catalog_Model_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_F
     /**
      * Retrieve resource instance
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Layer_Filter_Decimal
+     * @return Mage_Catalog_Model_Resource_Layer_Filter_Decimal
      */
     protected function _getResource()
     {

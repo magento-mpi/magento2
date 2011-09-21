@@ -38,7 +38,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
     /**
      * Resource instance
      *
-     * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Layer_Filter_Attribute
+     * @var Mage_Catalog_Model_Resource_Layer_Filter_Attribute
      */
     protected $_resource;
 
@@ -55,7 +55,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
     /**
      * Retrieve resource instance
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Layer_Filter_Attribute
+     * @return Mage_Catalog_Model_Resource_Layer_Filter_Attribute
      */
     protected function _getResource()
     {

@@ -25,7 +25,7 @@
  */
 
 
-/* @var $installer Enterprise_Reward_Model_Mysql4_Setup */
+/* @var $installer Enterprise_Reward_Model_Resource_Setup */
 $installer = $this;
 
 $attributes = array(

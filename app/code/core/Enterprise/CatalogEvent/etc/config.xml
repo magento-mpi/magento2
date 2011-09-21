@@ -39,7 +39,6 @@
             </enterprise_catalogevent>
             <enterprise_catalogevent_resource>
                 <class>Enterprise_CatalogEvent_Model_Resource</class>
-                <deprecatedNode>enterprise_catalogevent_mysql4</deprecatedNode>
                 <entities>
                     <event>
                         <table>enterprise_catalogevent_event</table>

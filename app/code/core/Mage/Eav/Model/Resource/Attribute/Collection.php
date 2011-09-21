@@ -222,7 +222,7 @@ abstract class Mage_Eav_Model_Resource_Attribute_Collection
     /**
      * Exclude system hidden attributes but include password hash
      *
-     * @return Mage_Customer_Model_Entity_Attribute_Collection
+     * @return Mage_Customer_Model_Resource_Attribute_Collection
      */
     public function addSystemHiddenFilterWithPasswordHash()
     {

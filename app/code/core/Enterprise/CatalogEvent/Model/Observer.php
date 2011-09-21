@@ -107,7 +107,7 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
-        /* @var $categoryCollection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
+        /** @var $categoryCollection Mage_Catalog_Model_Resource_Category_Collection */
 
         $categoryIds = array();
 
@@ -344,7 +344,7 @@ class Enterprise_CatalogEvent_Model_Observer
      * Return event collection
      *
      * @param array $categoryIds
-     * @return Enterprise_CatalogEvent_Model_Mysql4_Event_Collection
+     * @return Enterprise_CatalogEvent_Model_Resource_Event_Collection
      */
     protected function _getEventCollection(array $categoryIds = null)
     {

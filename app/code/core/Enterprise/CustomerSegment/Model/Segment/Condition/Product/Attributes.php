@@ -119,7 +119,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
     /**
      * Get resource
      *
-     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment
+     * @return Enterprise_CustomerSegment_Model_Resource_Segment
      */
     public function getResource()
     {

@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Enterprise_GiftCardAccount_Model_Mysql4_Setup */
+/* @var $installer Enterprise_GiftCardAccount_Model_Resource_Setup */
 $installer->startSetup();
 
 $installer->run("

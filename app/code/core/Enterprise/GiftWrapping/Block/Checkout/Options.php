@@ -40,7 +40,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     /**
      * Gift wrapping collection
      *
-     * @return Enterprise_GiftWrapping_Model_Resource_Mysql4_Wrapping_Collection
+     * @return Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
      */
     public function getDesignCollection()
     {

@@ -198,11 +198,11 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Mage_Catalog_B
     /**
      * Retrieve linked as cross-sell product collection
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection
      */
     protected function _getLinkCollection()
     {
-        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection */
+        /* @var $collection Mage_Catalog_Model_Resource_Product_Link_Product_Collection */
         $collection = Mage::getModel('catalog/product_link')
             ->useCrossSellLinks()
             ->getProductCollection()
@@ -311,11 +311,11 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Mage_Catalog_B
      * Retrieve Product Collection by Product Ids
      *
      * @param array $productIds
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     protected function _getProductCollectionByIds($productIds)
     {
-        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+        /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('catalog/product_collection');
         $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         $this->_addProductAttributesAndPrices($collection);

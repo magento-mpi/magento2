@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Enterprise_GiftCardAccount_Model_Mysql4_Setup */
+/* @var $installer Enterprise_GiftCardAccount_Model_Resource_Setup */
 $installer->startSetup();
 
 $installer->getConnection()->addColumn($this->getTable('enterprise_giftcardaccount'), 'is_redeemable', 'tinyint(1) NOT NULL DEFAULT 1');

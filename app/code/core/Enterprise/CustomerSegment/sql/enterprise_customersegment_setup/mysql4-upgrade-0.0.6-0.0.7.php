@@ -25,6 +25,6 @@
  */
 
 $installer = $this;
-/* @var $installer Enterprise_CustomerSegment_Model_Mysql4_Setup */
+/* @var $installer Enterprise_CustomerSegment_Model_Resource_Setup */
 
 $installer->updateAttribute('customer', 'created_at', 'is_used_for_customer_segment', 1);

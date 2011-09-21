@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/* @var $installer Mage_Sales_Model_Mysql4_Setup */
+/* @var $installer Mage_Sales_Model_Resource_Setup */
 $installer = $this;
 $installer->startSetup();
 $installer->getConnection()->addColumn($this->getTable('enterprise_reward_history'), 'points_used', "int(11) NOT NULL DEFAULT '0' AFTER `points_delta`");

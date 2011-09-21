@@ -39,7 +39,6 @@
             </enterprise_pagecache>
             <enterprise_pagecache_resource>
                 <class>Enterprise_PageCache_Model_Resource</class>
-                <deprecatedNode>enterprise_pagecache_mysql4</deprecatedNode>
             </enterprise_pagecache_resource>
         </models>
         <blocks>

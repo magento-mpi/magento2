@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Enterprise_GiftRegistry_Model_Mysql4_Setup */
+/* @var $installer Enterprise_GiftRegistry_Model_Resource_Setup */
 
 $installer->addAttribute('quote_item', 'giftregistry_item_id', array('type' => 'int', 'visible' => 0));
 $installer->addAttribute('order_item', 'giftregistry_item_id', array('type' => 'int', 'visible' => 0));

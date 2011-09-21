@@ -31,7 +31,7 @@
  * @package     Mage_Flo2Cash
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Flo2Cash_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+class Mage_Flo2Cash_Model_Mysql4_Setup extends Mage_Sales_Model_Resource_Setup
 {
 
 }

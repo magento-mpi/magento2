@@ -25,6 +25,6 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Sales_Model_Mysql4_Setup */
+/* @var $installer Mage_Sales_Model_Resource_Setup */
 
 $installer->addAttribute('quote_address', 'applied_taxes', array('type'=>'text'));

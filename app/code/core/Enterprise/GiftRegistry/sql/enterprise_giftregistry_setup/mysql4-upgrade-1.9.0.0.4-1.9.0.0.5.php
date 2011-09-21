@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Enterprise_GiftRegistry_Model_Mysql4_Setup */
+/* @var $installer Enterprise_GiftRegistry_Model_Resource_Setup */
 
 $installer->run("
 CREATE TABLE `{$this->getTable('enterprise_giftregistry/item_option')}` (

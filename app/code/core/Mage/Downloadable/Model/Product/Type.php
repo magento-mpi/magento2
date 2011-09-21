@@ -118,7 +118,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * Get downloadable product samples
      *
      * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Downloadable_Model_Mysql4_Sample_Collection
+     * @return Mage_Downloadable_Model_Resource_Sample_Collection
      */
     public function getSamples($product = null)
     {

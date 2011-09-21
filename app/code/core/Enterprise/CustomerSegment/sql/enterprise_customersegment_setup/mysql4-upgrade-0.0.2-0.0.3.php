@@ -25,7 +25,7 @@
  */
 
 $installer = $this;
-/* @var $installer Enterprise_CustomerSegment_Model_Mysql4_Setup */
+/* @var $installer Enterprise_CustomerSegment_Model_Resource_Setup */
 
 // use all product attributes that are used for price rules, for customer segments as well
 $installer->run("UPDATE {$installer->getTable('catalog/eav_attribute')}

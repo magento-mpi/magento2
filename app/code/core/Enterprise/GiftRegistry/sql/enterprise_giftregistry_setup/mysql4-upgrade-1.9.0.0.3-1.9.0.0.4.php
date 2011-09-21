@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/* @var $installer Enterprise_GiftRegistry_Model_Mysql4_Setup */
+/* @var $installer Enterprise_GiftRegistry_Model_Resource_Setup */
 $installer = $this;
 $_connection = $installer->getConnection();
 

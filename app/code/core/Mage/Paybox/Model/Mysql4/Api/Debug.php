@@ -31,7 +31,7 @@
  * @package    Mage_Paybox
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paybox_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Paybox_Model_Mysql4_Api_Debug extends Mage_Core_Model_Resource_Db_Abstract
 {
     protected function _construct()
     {

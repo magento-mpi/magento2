@@ -26,6 +26,6 @@
 
 $installer = $this;
 
-/* @var $installer Mage_Customer_Model_Entity_Setup */
+/** @var $installer Mage_Customer_Model_Resource_Setup */
 $this->updateAttribute('customer_address', 'region_id', 'frontend_label', 'State/Province');
 

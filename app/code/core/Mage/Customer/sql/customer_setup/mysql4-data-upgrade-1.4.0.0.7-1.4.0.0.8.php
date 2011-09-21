@@ -25,7 +25,7 @@
  */
 
 
-/* @var $installer Mage_Customer_Model_Entity_Setup */
+/** @var $installer Mage_Customer_Model_Resource_Setup */
 $installer = $this;
 
 /* @var $addressHelper Mage_Customer_Helper_Address */

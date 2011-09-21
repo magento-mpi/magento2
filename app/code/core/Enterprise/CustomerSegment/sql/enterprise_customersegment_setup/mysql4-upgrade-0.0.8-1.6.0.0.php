@@ -30,7 +30,7 @@ $segmentTable  = $installer->getTable('enterprise_customersegment/segment');
 $websiteTable  = $installer->getTable('enterprise_customersegment/website');
 $adapter = $installer->getConnection();
 
-/* @var $installer Enterprise_CustomerSegment_Model_Mysql4_Setup */
+/* @var $installer Enterprise_CustomerSegment_Model_Resource_Setup */
 $installer->run("CREATE TABLE `{$websiteTable}` (
   `segment_id` int(10) unsigned NOT NULL,
   `website_id` smallint(5) unsigned NOT NULL,

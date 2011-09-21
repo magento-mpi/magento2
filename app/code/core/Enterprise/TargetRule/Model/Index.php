@@ -54,7 +54,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
     /**
      * Retrieve resource instance
      *
-     * @return Enterprise_TargetRule_Model_Mysql4_Index
+     * @return Enterprise_TargetRule_Model_Resource_Index
      */
     protected function _getResource()
     {
@@ -231,11 +231,11 @@ class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
     /**
      * Retrieve Rule collection by type and product
      *
-     * @return Enterprise_TargetRule_Model_Mysql4_Rule_Collection
+     * @return Enterprise_TargetRule_Model_Resource_Rule_Collection
      */
     public function getRuleCollection()
     {
-        /* @var $collection Enterprise_TargetRule_Model_Mysql4_Rule_Collection */
+        /* @var $collection Enterprise_TargetRule_Model_Resource_Rule_Collection */
         $collection = Mage::getResourceModel('enterprise_targetrule/rule_collection');
         $collection->addApplyToFilter($this->getType())
             ->addProductFilter($this->getProduct()->getId())

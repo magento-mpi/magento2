@@ -222,7 +222,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Form extends Mage_Core_Block_Templa
         if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
             $options = unserialize($cache);
         } else {
-            /** @var $collection Mage_Directory_Model_Mysql4_Country_Collection */
+            /** @var $collection Mage_Directory_Model_Resource_Country_Collection */
             $collection = Mage::getModel('directory/country')->getResourceCollection()
                 ->loadByStore();
             $options = $collection->toOptionArray(false);

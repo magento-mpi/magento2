@@ -32,7 +32,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Strikeiron_Model_Mysql4_Taxrate extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Strikeiron_Model_Mysql4_Taxrate extends Mage_Core_Model_Resource_Db_Abstract
 {
     protected function _construct()
     {

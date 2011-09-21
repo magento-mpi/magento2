@@ -39,7 +39,6 @@
             </enterprise_pci>
             <enterprise_pci_resource>
                 <class>Enterprise_Pci_Model_Resource</class>
-                <deprecatedNode>enterprise_pci_mysql4</deprecatedNode>
                 <entities>
                     <admin_passwords>
                         <table>enterprise_admin_passwords</table>

@@ -25,5 +25,5 @@
  */
 
 $installer = $this;
-/* @var $installer Enterprise_GiftWrapping_Model_Resource_Mysql4_Setup */
+/** @var $installer Enterprise_GiftWrapping_Model_Resource_Setup */
 

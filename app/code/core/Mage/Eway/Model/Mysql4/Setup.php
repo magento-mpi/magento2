@@ -27,12 +27,12 @@
 
 /**
  * eWAY Setup Mysql4 resourcre model
- * 
+ *
  * @category   Mage
  * @package    Mage_Eway
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eway_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+class Mage_Eway_Model_Mysql4_Setup extends Mage_Sales_Model_Resource_Setup
 {
 
 }

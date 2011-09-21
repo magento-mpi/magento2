@@ -70,7 +70,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History
     /**
      * Return invintation status history collection
      *
-     * @return Enterprise_Invintation_Model_Mysql4_Invintation_History_Collection
+     * @return Enterprise_Invintation_Model_Resource_Invintation_History_Collection
      */
     public function getHistoryCollection()
     {
