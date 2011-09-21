@@ -36,6 +36,7 @@
  */
 class SystemConfiguration_Helper extends Mage_Selenium_TestCase
 {
+
     /**
      * System Configuration
      *
@@ -51,12 +52,11 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : NULL;
         if ($chooseScope) {
             $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope');
-            $toSelect = $xpath . '//option[normalize-space(text())="' .
-                    $parameters['configuration_scope'] . '"]';
+            $toSelect = $xpath . '//option[normalize-space(text())="' . $parameters['configuration_scope'] . '"]';
             $isSelected = $toSelect . '[@selected]';
             $this->defineParameters($toSelect, '@url');
             if (!$this->isElementPresent($isSelected)) {
-                $this->fillForm(array('current_configuration_scope' => $parameters['configuration_scope']));
+                $this->fillForm(array('current_configuration_scope' => $chooseScope));
                 $this->waitForPageToLoad();
             }
         }
@@ -66,15 +66,21 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
                 $settings = (isset($value['configuration'])) ? $value['configuration'] : NULL;
                 if ($tab) {
                     $xpath = $this->_getControlXpath('tab', $tab);
+                    $this->defineParameters($xpath, '@href');
                     $this->clickAndWait($xpath);
                     $this->fillForm($settings, $tab);
-                    $this->defineParameters($xpath, '@href');
                     $this->saveForm('save_config');
                 }
             }
         }
     }
 
+    /**
+     * Define Url Parameters for System Configuration page
+     *
+     * @param string $xpath
+     * @param type $attribute
+     */
     private function defineParameters($xpath, $attribute)
     {
         $params = $this->getAttribute($xpath . $attribute);
@@ -91,5 +97,5 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
             }
         }
     }
-}
 
+}
