@@ -82,7 +82,7 @@ class Mage_Selenium_Uimap_Abstract
 
     /**
      * Parser from native UIMap array to UIMap class hierarchy
-     * 
+     *
      * @param array Array with UIMap
      * @return Mage_Selenium_Uimap_Abstract
      */
@@ -102,13 +102,13 @@ class Mage_Selenium_Uimap_Abstract
                 }
             }
         }
-        
+
         return $this;
     }
 
     /**
      * Asign parameters decorator to uimap tree from any level
-     * 
+     *
      * @param Mage_Selenium_Helper_Params $params Parameters decorator
      * @return Mage_Selenium_Uimap_Abstract
      */
@@ -118,7 +118,7 @@ class Mage_Selenium_Uimap_Abstract
         $this->_elements_cache = null;
 
         foreach ($this->_elements as $elem) {
-            if ($elem instanceof Mage_Selenium_Uimap_Abstract 
+            if ($elem instanceof Mage_Selenium_Uimap_Abstract
                 || $elem instanceof Mage_Selenium_Uimap_ElementsCollection
             ) {
                 $elem->assignParams($params);
@@ -135,8 +135,8 @@ class Mage_Selenium_Uimap_Abstract
     }
 
     /**
-    * Get parameters decorator 
-    * 
+    * Get parameters decorator
+    *
     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
     * @return Mage_Selenium_Helper_Params|null
     */
@@ -145,12 +145,13 @@ class Mage_Selenium_Uimap_Abstract
         if ($paramsDecorator) {
             return $paramsDecorator;
         }
+
         return $this->_params;
     }
 
     /**
-    * apply parameters decorator to string 
-    * 
+    * apply parameters decorator to string
+    *
     * @param string $text
     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
     * @return Mage_Selenium_Helper_Params|null
@@ -161,12 +162,13 @@ class Mage_Selenium_Uimap_Abstract
         if ($paramsDecorator) {
             return $paramsDecorator->replaceParameters($text);
         }
+
         return $text;
     }
 
     /**
      * Internal recursive function
-     * 
+     *
      * @param string UIMap elements collection name
      * @param Mage_Selenium_Uimap_ElementsCollection|Mage_Selenium_Uimap_Abstract $container UIMap container
      * @param array $cache Array with search results
@@ -191,7 +193,8 @@ class Mage_Selenium_Uimap_Abstract
                     $this->__getElementsRecursive($elementsCollectionName, $elValue, $cache, $paramsDecorator);
                 }
             } elseif ($elValue instanceof Mage_Selenium_Uimap_Abstract) {
-                $this->__getElementsRecursive($elementsCollectionName, $elValue->getElements(), $cache, $paramsDecorator);
+                $this->__getElementsRecursive($elementsCollectionName,
+                        $elValue->getElements(), $cache, $paramsDecorator);
             }
         }
 
@@ -201,7 +204,7 @@ class Mage_Selenium_Uimap_Abstract
     /**
      * Search UIMap element by name on any level from current and deeper
      * This method uses a cache to save search results
-     * 
+     *
      * @param string UIMap elements collection name
      * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
      * @return array
@@ -210,8 +213,10 @@ class Mage_Selenium_Uimap_Abstract
     {
         if (empty($this->_elements_cache[$elementsCollectionName])) {
             $cache = array();
-            $this->_elements_cache[$elementsCollectionName] = new Mage_Selenium_Uimap_ElementsCollection($elementsCollectionName,
-                $this->__getElementsRecursive($elementsCollectionName, $this->_elements, $cache, $paramsDecorator), $paramsDecorator);
+            $this->_elements_cache[$elementsCollectionName] = new Mage_Selenium_Uimap_ElementsCollection(
+                    $elementsCollectionName,
+                    $this->__getElementsRecursive($elementsCollectionName, $this->_elements, $cache, $paramsDecorator),
+                    $paramsDecorator);
         }
 
         return $this->_elements_cache[$elementsCollectionName];
@@ -231,7 +236,8 @@ class Mage_Selenium_Uimap_Abstract
         if (preg_match('|^getAll(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 6));
             if (!empty($elementName)) {
-                $returnValue = $this->getAllElements($elementName, $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
+                $returnValue = $this->getAllElements($elementName,
+                        $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
             }
         } elseif(preg_match('|^get(\w+)$|', $name)) {
             $elementName = strtolower(substr($name, 3));
@@ -242,7 +248,8 @@ class Mage_Selenium_Uimap_Abstract
             $elementName = strtolower(substr($name, 4)) . 's';
             if (!empty($elementName) && !empty($arguments)) {
                 $elemetsColl = $this->getAllElements($elementName);
-                $returnValue = $elemetsColl->get($arguments[0], $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
+                $returnValue = $elemetsColl->get($arguments[0],
+                        $this->getParams(isset($arguments[1]) ? $arguments[1] : null));
             }
         }
 
