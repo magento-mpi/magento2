@@ -44,9 +44,11 @@
 </div>
 <?php $_menu = $this->renderCategoriesMenuHtml(0,'level-top') ?>
 <?php if($_menu): ?>
-<div id="nav-container">
-    <ul id="nav">
-        <?php echo $_menu ?>
-    </ul>
+<div class="nav-wrap">
+    <div id="nav-container">
+        <ul id="nav">
+            <?php echo $_menu ?>
+        </ul>
+    </div>
 </div>
 <?php endif ?>
