@@ -1,0 +1,4 @@
+some_root_timer;0.080000;0.040000;2;0;0
+some_root_timer->some_nested_timer;0.080000;0.026667;3;0;0
+some_root_timer->some_nested_timer->some_deeply_nested_timer;0.030000;0.010000;3;0;0
+one_more_root_timer;0.010000;0.010000;1;0;0
