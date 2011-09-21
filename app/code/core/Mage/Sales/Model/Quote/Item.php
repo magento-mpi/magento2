@@ -112,8 +112,8 @@
  * @method Mage_Sales_Model_Quote_Item setWeeeTaxAppliedRowAmount(float $value)
  * @method float getBaseWeeeTaxAppliedAmount()
  * @method Mage_Sales_Model_Quote_Item setBaseWeeeTaxAppliedAmount(float $value)
- * @method float getBaseWeeeTaxAppliedRowAmount()
- * @method Mage_Sales_Model_Quote_Item setBaseWeeeTaxAppliedRowAmount(float $value)
+ * @method float getBaseWeeeTaxAppliedRowAmnt()
+ * @method Mage_Sales_Model_Quote_Item setBaseWeeeTaxAppliedRowAmnt(float $value)
  * @method float getWeeeTaxDisposition()
  * @method Mage_Sales_Model_Quote_Item setWeeeTaxDisposition(float $value)
  * @method float getWeeeTaxRowDisposition()
@@ -198,18 +198,6 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     {
         $this->_init('sales/quote_item');
         $this->_errorInfos = Mage::getModel('sales/status_list');
-    }
-
-    /**
-     * Init mapping array of short fields to
-     * its full names
-     *
-     * @return Varien_Object
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('quote_item');
-        return $this;
     }
 
     /**

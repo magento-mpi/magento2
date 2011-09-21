@@ -44,7 +44,7 @@
             <col />
             <tr>
                 <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Send At'); ?></label></td>
-                <td><strong><?php echo $this->formatDate($this->getInvitation()->getDate(), 'medium', true) ?></strong></td>
+                <td><strong><?php echo $this->formatDate($this->getInvitation()->getInvitationDate(), 'medium', true) ?></strong></td>
                 <td rowspan="5"></td>
                 <td class="label" rowspan="5"><label><?php  echo $this->helper('enterprise_invitation')->__('Invitation Message'); ?></label></td>
                 <td class="value" rowspan="5">

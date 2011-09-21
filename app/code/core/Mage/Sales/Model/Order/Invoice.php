@@ -106,8 +106,8 @@
  * @method Mage_Sales_Model_Order_Invoice setBaseHiddenTaxAmount(float $value)
  * @method float getShippingHiddenTaxAmount()
  * @method Mage_Sales_Model_Order_Invoice setShippingHiddenTaxAmount(float $value)
- * @method float getBaseShippingHiddenTaxAmount()
- * @method Mage_Sales_Model_Order_Invoice setBaseShippingHiddenTaxAmount(float $value)
+ * @method float getBaseShippingHiddenTaxAmnt()
+ * @method Mage_Sales_Model_Order_Invoice setBaseShippingHiddenTaxAmnt(float $value)
  * @method float getShippingInclTax()
  * @method Mage_Sales_Model_Order_Invoice setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
@@ -182,17 +182,6 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     protected function _construct()
     {
         $this->_init('sales/order_invoice');
-    }
-
-    /**
-     * Init mapping array of short fields to its full names
-     *
-     * @return Mage_Sales_Model_Order_Invoice
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('order_invoice');
-        return $this;
     }
 
     /**

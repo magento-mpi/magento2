@@ -43,8 +43,8 @@ class Enterprise_Reward_Model_Total_Invoice_Reward extends Mage_Sales_Model_Orde
     public function collect(Mage_Sales_Model_Order_Invoice $invoice)
     {
         $order = $invoice->getOrder();
-        $rewardCurrecnyAmountLeft = $order->getRewardCurrencyAmount() - $order->getRewardCurrencyAmountInvoiced();
-        $baseRewardCurrecnyAmountLeft = $order->getBaseRewardCurrencyAmount() - $order->getBaseRewardCurrencyAmountInvoiced();
+        $rewardCurrecnyAmountLeft = $order->getRewardCurrencyAmount() - $order->getRwrdCurrencyAmountInvoiced();
+        $baseRewardCurrecnyAmountLeft = $order->getBaseRewardCurrencyAmount() - $order->getBaseRwrdCrrncyAmtInvoiced();
         if ($order->getBaseRewardCurrencyAmount() && $baseRewardCurrecnyAmountLeft > 0) {
             if ($baseRewardCurrecnyAmountLeft < $invoice->getBaseGrandTotal()) {
                 $invoice->setGrandTotal($invoice->getGrandTotal() - $rewardCurrecnyAmountLeft);

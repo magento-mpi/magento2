@@ -39,8 +39,8 @@
         <ul class="note-list">
         <?php foreach ($this->getHistoryCollection() as $_history): ?>
             <li>
-                <strong><?php echo $this->formatDate($_history->getDate(), 'medium') ?></strong>
-                <?php echo $this->formatTime($_history->getDate(), 'medium') ?><span class="separator">|</span>
+                <strong><?php echo $this->formatDate($_history->getInvitationDate(), 'medium') ?></strong>
+                <?php echo $this->formatTime($_history->getInvitationDate(), 'medium') ?><span class="separator">|</span>
                 <strong><?php echo $_history->getStatusText()?></strong>
             </li>
         <?php endforeach; ?>

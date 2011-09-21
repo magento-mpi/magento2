@@ -95,9 +95,9 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Tax extends Mage_Sales_Model_Order
                 $shippingTaxAmount           = $invoice->getShippingTaxAmount()*$taxFactor;
                 $baseShippingTaxAmount       = $invoice->getBaseShippingTaxAmount()*$taxFactor;
                 $totalHiddenTax             += $invoice->getShippingHiddenTaxAmount()*$taxFactor;
-                $baseTotalHiddenTax         += $invoice->getBaseShippingHiddenTaxAmount()*$taxFactor;
+                $baseTotalHiddenTax         += $invoice->getBaseShippingHiddenTaxAmnt()*$taxFactor;
                 $shippingHiddenTaxAmount     = $invoice->getShippingHiddenTaxAmount()*$taxFactor;
-                $baseShippingHiddenTaxAmount = $invoice->getBaseShippingHiddenTaxAmount()*$taxFactor;
+                $baseShippingHiddenTaxAmount = $invoice->getBaseShippingHiddenTaxAmnt()*$taxFactor;
                 $shippingTaxAmount           = $creditmemo->getStore()->roundPrice($shippingTaxAmount);
                 $baseShippingTaxAmount       = $creditmemo->getStore()->roundPrice($baseShippingTaxAmount);
                 $totalHiddenTax              = $creditmemo->getStore()->roundPrice($totalHiddenTax);
@@ -111,7 +111,7 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Tax extends Mage_Sales_Model_Order
             $orderShippingAmount = $order->getShippingAmount();
             $baseOrderShippingAmount = $order->getBaseShippingAmount();
             $orderShippingHiddenTaxAmount = $order->getShippingHiddenTaxAmount();
-            $baseOrderShippingHiddenTaxAmount = $order->getBaseShippingHiddenTaxAmount();
+            $baseOrderShippingHiddenTaxAmount = $order->getBaseShippingHiddenTaxAmnt();
 
             $baseOrderShippingRefundedAmount = $order->getBaseShippingRefunded();
             $baseOrderShippingHiddenTaxRefunded = $order->getBaseShippingHiddenTaxRefunded();
@@ -129,7 +129,7 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Tax extends Mage_Sales_Model_Order
                 $shippingTaxAmount          = $order->getShippingTaxAmount()*$part;
                 $baseShippingTaxAmount      = $order->getBaseShippingTaxAmount()*$basePart;
                 $shippingHiddenTaxAmount    = $order->getShippingHiddenTaxAmount()*$part;
-                $baseShippingHiddenTaxAmount= $order->getBaseShippingHiddenTaxAmount()*$basePart;
+                $baseShippingHiddenTaxAmount= $order->getBaseShippingHiddenTaxAmnt()*$basePart;
                 $shippingTaxAmount          = $creditmemo->getStore()->roundPrice($shippingTaxAmount);
                 $baseShippingTaxAmount      = $creditmemo->getStore()->roundPrice($baseShippingTaxAmount);
                 $shippingHiddenTaxAmount    = $creditmemo->getStore()->roundPrice($shippingHiddenTaxAmount);
@@ -139,7 +139,7 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Tax extends Mage_Sales_Model_Order
                 $baseShippingTaxAmount      = $order->getBaseShippingTaxAmount() - $order->getBaseShippingTaxRefunded();
                 $shippingHiddenTaxAmount    = $order->getShippingHiddenTaxAmount()
                         - $order->getShippingHiddenTaxRefunded();
-                $baseShippingHiddenTaxAmount= $order->getBaseShippingHiddenTaxAmount()
+                $baseShippingHiddenTaxAmount= $order->getBaseShippingHiddenTaxAmnt()
                         - $order->getBaseShippingHiddenTaxRefunded();
             }
             $totalTax           += $shippingTaxAmount;
@@ -152,7 +152,7 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Tax extends Mage_Sales_Model_Order
         $allowedBaseTax = $order->getBaseTaxAmount() - $order->getBaseTaxRefunded();
         $allowedHiddenTax     = $order->getHiddenTaxAmount() + $order->getShippingHiddenTaxAmount()
             - $order->getHiddenTaxRefunded() - $order->getShippingHiddenTaxRefunded();
-        $allowedBaseHiddenTax = $order->getBaseHiddenTaxAmount() + $order->getBaseShippingHiddenTaxAmount()
+        $allowedBaseHiddenTax = $order->getBaseHiddenTaxAmount() + $order->getBaseShippingHiddenTaxAmnt()
             - $order->getBaseHiddenTaxRefunded() - $order->getBaseShippingHiddenTaxRefunded();
 
 

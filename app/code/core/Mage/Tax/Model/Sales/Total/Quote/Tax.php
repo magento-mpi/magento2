@@ -192,7 +192,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 $baseHiddenTax  = $this->_deltaRound($baseHiddenTax, $rateKey, $inclTax, 'base');
 
                 $this->_getAddress()->setShippingHiddenTaxAmount(max(0, $hiddenTax));
-                $this->_getAddress()->setBaseShippingHiddenTaxAmount(max(0, $baseHiddenTax));
+                $this->_getAddress()->setBaseShippingHiddenTaxAmnt(max(0, $baseHiddenTax));
                 $this->_getAddress()->addTotalAmount('shipping_hidden_tax', $hiddenTax);
                 $this->_getAddress()->addBaseTotalAmount('shipping_hidden_tax', $baseHiddenTax);
             }

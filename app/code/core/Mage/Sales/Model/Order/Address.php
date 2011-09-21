@@ -87,17 +87,6 @@ class Mage_Sales_Model_Order_Address extends Mage_Customer_Model_Address_Abstrac
     }
 
     /**
-     * Init mapping array of short fields to its full names
-     *
-     * @return Mage_Sales_Model_Order_Address
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('order_address');
-        return $this;
-    }
-
-    /**
      * Set order
      *
      * @return Mage_Sales_Model_Order_Address

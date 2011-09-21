@@ -138,8 +138,8 @@
  * @method Mage_Sales_Model_Order_Item setWeeeTaxAppliedRowAmount(float $value)
  * @method float getBaseWeeeTaxAppliedAmount()
  * @method Mage_Sales_Model_Order_Item setBaseWeeeTaxAppliedAmount(float $value)
- * @method float getBaseWeeeTaxAppliedRowAmount()
- * @method Mage_Sales_Model_Order_Item setBaseWeeeTaxAppliedRowAmount(float $value)
+ * @method float getBaseWeeeTaxAppliedRowAmnt()
+ * @method Mage_Sales_Model_Order_Item setBaseWeeeTaxAppliedRowAmnt(float $value)
  * @method float getWeeeTaxDisposition()
  * @method Mage_Sales_Model_Order_Item setWeeeTaxDisposition(float $value)
  * @method float getWeeeTaxRowDisposition()
@@ -220,18 +220,6 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('sales/order_item');
-    }
-
-     /**
-     * Init mapping array of short fields to
-     * its full names
-     *
-     * @return Varien_Object
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('order_item');
-        return $this;
     }
 
     /**

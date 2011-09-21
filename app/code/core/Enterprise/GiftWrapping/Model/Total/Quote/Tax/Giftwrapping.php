@@ -173,11 +173,11 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping extends Mage_Sa
         $quote->setGwItemsTaxAmount($address->getGwItemsTaxAmount() + $quote->getGwItemsTaxAmount());
         $quote->setGwBaseTaxAmount($address->getGwBaseTaxAmount() + $quote->getGwBaseTaxAmount());
         $quote->setGwTaxAmount($address->getGwTaxAmount() + $quote->getGwTaxAmount());
-        $quote->setGwPrintedCardBaseTaxAmount(
-            $address->getGwPrintedCardBaseTaxAmount() + $quote->getGwPrintedCardBaseTaxAmount()
+        $quote->setGwCardBaseTaxAmount(
+            $address->getGwCardBaseTaxAmount() + $quote->getGwCardBaseTaxAmount()
         );
-        $quote->setGwPrintedCardTaxAmount(
-            $address->getGwPrintedCardTaxAmount() + $quote->getGwPrintedCardTaxAmount()
+        $quote->setGwCardTaxAmount(
+            $address->getGwCardTaxAmount() + $quote->getGwCardTaxAmount()
         );
 
         $applied = Mage::getSingleton('tax/calculation')->getAppliedRates($this->_request);

@@ -473,7 +473,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
          * Disable editing of quantity of item if creating of shipment forced
          * and ship partially disabled for order
          */
-        if ($this->getOrder()->getForcedDoShipmentWithInvoice()
+        if ($this->getOrder()->getForcedShipmentWithInvoice()
             && ($this->canShipPartially($this->getOrder()) || $this->canShipPartiallyItem($this->getOrder()))
         ) {
             return false;

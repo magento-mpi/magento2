@@ -154,19 +154,4 @@ class Mage_Sales_Helper_Data extends Mage_Core_Helper_Data
     {
         return Mage::getStoreConfigFlag(Mage_Sales_Model_Order_Creditmemo::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
     }
-
-    /**
-     * Get old field map
-     *
-     * @param string $entityId
-     * @return array
-     */
-    public function getOldFieldMap($entityId)
-    {
-        $node = Mage::getConfig()->getNode('global/sales/old_fields_map/' . $entityId);
-        if ($node === false) {
-            return array();
-        }
-        return (array) $node;
-    }
 }

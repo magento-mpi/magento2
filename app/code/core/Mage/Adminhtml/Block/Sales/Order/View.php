@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         }
 
         if ($this->_isAllowedAction('invoice') && $order->canInvoice()) {
-            $_label = $order->getForcedDoShipmentWithInvoice() ?
+            $_label = $order->getForcedShipmentWithInvoice() ?
                 Mage::helper('sales')->__('Invoice and Ship') :
                 Mage::helper('sales')->__('Invoice');
             $this->_addButton('order_invoice', array(
@@ -158,7 +158,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         }
 
         if ($this->_isAllowedAction('ship') && $order->canShip()
-            && !$order->getForcedDoShipmentWithInvoice()) {
+            && !$order->getForcedShipmentWithInvoice()) {
             $this->_addButton('order_ship', array(
                 'label'     => Mage::helper('sales')->__('Ship'),
                 'onclick'   => 'setLocation(\'' . $this->getShipUrl() . '\')',

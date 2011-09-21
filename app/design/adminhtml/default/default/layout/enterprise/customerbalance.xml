@@ -63,7 +63,7 @@
                 <action method="setLabel"><value>Store Credit</value></action>
             </block>
             <block type="adminhtml/sales_order_totals_item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
-                <action method="setSourceField"><value>customer_balance_total_refunded</value></action>
+                <action method="setSourceField"><value>customer_bal_total_refunded</value></action>
                 <action method="setLabel"><value>Refunded to Store Credit</value></action>
                 <action method="setDisplayArea"><value>footer</value></action>
                 <action method="setStrong"><flag>true</flag></action>

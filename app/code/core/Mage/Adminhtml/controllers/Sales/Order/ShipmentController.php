@@ -74,7 +74,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             /**
              * Check shipment is available to create separate from invoice
              */
-            if ($order->getForcedDoShipmentWithInvoice()) {
+            if ($order->getForcedShipmentWithInvoice()) {
                 $this->_getSession()->addError($this->__('Cannot do shipment for the order separately from invoice.'));
                 return false;
             }

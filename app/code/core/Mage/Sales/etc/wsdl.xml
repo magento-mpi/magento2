@@ -339,7 +339,7 @@
                     <element name="weee_tax_applied_amount" type="xsd:string" minOccurs="0" />
                     <element name="weee_tax_applied_row_amount" type="xsd:string" minOccurs="0" />
                     <element name="base_weee_tax_applied_amount" type="xsd:string" minOccurs="0" />
-                    <element name="base_weee_tax_applied_row_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_weee_tax_applied_row_amnt" type="xsd:string" minOccurs="0" />
                     <element name="weee_tax_disposition" type="xsd:string" minOccurs="0" />
                     <element name="weee_tax_row_disposition" type="xsd:string" minOccurs="0" />
                     <element name="base_weee_tax_disposition" type="xsd:string" minOccurs="0" />
@@ -563,7 +563,7 @@
                     <element name="base_tax_amount" type="xsd:string" minOccurs="0" />
                     <element name="base_row_total" type="xsd:string" minOccurs="0" />
                     <element name="base_weee_tax_applied_amount" type="xsd:string" minOccurs="0" />
-                    <element name="base_weee_tax_applied_row_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_weee_tax_applied_row_amnt" type="xsd:string" minOccurs="0" />
                     <element name="weee_tax_applied_amount" type="xsd:string" minOccurs="0" />
                     <element name="weee_tax_applied_row_amount" type="xsd:string" minOccurs="0" />
                     <element name="weee_tax_disposition" type="xsd:string" minOccurs="0" />
