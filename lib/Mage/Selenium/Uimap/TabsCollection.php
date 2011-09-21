@@ -37,7 +37,7 @@ class Mage_Selenium_Uimap_TabsCollection extends ArrayObject
 {
     /**
      * Get Tab structure by name
-     * @param string Tab name
+     * @param string $name Tab name
      * @return Mage_Selenium_Uimap_Tab
      */
     public function getTab($name)

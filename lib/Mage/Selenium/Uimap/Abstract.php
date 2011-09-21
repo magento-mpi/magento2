@@ -61,7 +61,7 @@ class Mage_Selenium_Uimap_Abstract
     protected $_params = null;
 
     /**
-     * Retrieve xpath of the current element
+     * Retrieve XPath of the current element
      *
      * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
      * @return string|null
@@ -73,6 +73,7 @@ class Mage_Selenium_Uimap_Abstract
 
     /**
      * Retrieve all elements on current level
+     *
      * @return array
      */
     public function &getElements()
@@ -83,7 +84,7 @@ class Mage_Selenium_Uimap_Abstract
     /**
      * Parser from native UIMap array to UIMap class hierarchy
      *
-     * @param array Array with UIMap
+     * @param array &$container Array with UIMap
      * @return Mage_Selenium_Uimap_Abstract
      */
     protected function parseContainerArray(array &$container)
@@ -150,7 +151,7 @@ class Mage_Selenium_Uimap_Abstract
     }
 
     /**
-    * apply parameters decorator to string
+    * Apply parameters decorator to string
     *
     * @param string $text
     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
@@ -169,7 +170,7 @@ class Mage_Selenium_Uimap_Abstract
     /**
      * Internal recursive function
      *
-     * @param string UIMap elements collection name
+     * @param string $elementsCollectionName UIMap elements collection name
      * @param Mage_Selenium_Uimap_ElementsCollection|Mage_Selenium_Uimap_Abstract $container UIMap container
      * @param array $cache Array with search results
      * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
@@ -205,8 +206,8 @@ class Mage_Selenium_Uimap_Abstract
      * Search UIMap element by name on any level from current and deeper
      * This method uses a cache to save search results
      *
-     * @param string UIMap elements collection name
-     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
+     * @param string                      $elementsCollectionName UIMap Elements collection name
+     * @param Mage_Selenium_Helper_Params $paramsDecorator        Parameters decorator instance or null
      * @return array
      */
     public function getAllElements($elementsCollectionName, $paramsDecorator = null)
