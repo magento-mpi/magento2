@@ -112,7 +112,7 @@ class Mage_Selenium_TestConfiguration
     protected $_configData = array();
 
     /**
-     * Constructor defined private to implement singleton
+     * Constructor (defined private to implement singleton)
      */
     private function __construct()
     {
@@ -120,6 +120,8 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Destructor
+     *
+     * Extension: defines, browser need to be restarted or not.
      */
     public function  __destruct()
     {
@@ -135,6 +137,8 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Initializes test configuration
+     *
+     * @return Mage_Selenium_TestConfiguration
      */
     public static function initInstance()
     {
@@ -146,7 +150,11 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Initializes test configuration instance
+     * Initializes test configuration instance which includes:
+     * <li>Initialize configuration
+     * <li>Initialize DataSets
+     * <li>Initialize UIMap instance
+     * <li>Initialize all drivers connections from configuration
      *
      * @return Mage_Selenium_TestConfiguration
      */
@@ -160,7 +168,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrieve file helper instance
+     * Performs retrieving of file helper instance
      *
      * @return Mage_Selenium_Helper_File
      */
@@ -173,13 +181,13 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrieve page helper instance
+     * Performs retrieving of file helper instance
      *
-     * @param Mage_Selenium_TestCase $testCase
-     * @param Mage_Selenium_Helper_Application $applicationHelper
+     * @param Mage_Selenium_TestCase           $testCase            Current test case as object (by default = NULL)
+     * @param Mage_Selenium_Helper_Application $applicationHelper   Current tested application as object (by default = NULL)
      * @return Mage_Selenium_Helper_Page
      */
-    public function getPageHelper(Mage_Selenium_TestCase $testCase=null, Mage_Selenium_Helper_Application $applicationHelper=null)
+    public function getPageHelper($testCase=null, $applicationHelper=null)
     {
         if (is_null($this->_pageHelper)) {
             $this->_pageHelper = new Mage_Selenium_Helper_Page($this);
@@ -194,7 +202,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrieve data generator helper instance
+     * Performs retrieving of Data Generator helper instance
      *
      * @return Mage_Selenium_Helper_DataGenerator
      */
@@ -207,7 +215,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrieve data helper instance
+     * Performs retrieving of Data helper instance
      *
      * @return Mage_Selenium_Helper_Data
      */
@@ -220,7 +228,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrieve Application helper instance
+     * Performs retrieving of Application helper instance
      *
      * @return Mage_Selenium_Helper_File
      */
@@ -233,7 +241,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrieve uimap helper instance
+     * Performs retrieving of UIMap helper instance
      *
      * @return Mage_Selenium_Helper_Uimap
      */
@@ -246,7 +254,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Initializes configuration
+     * Initializes and loads configuration data
      *
      * @return Mage_Selenium_TestConfiguration
      */
@@ -282,9 +290,9 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Initializes new driver connection
+     * Initializes new driver connection with specific configuration
      *
-     * @param array $connectionConfig
+     * @param array $connectionConfig Array of configuration data to start driver's connection
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _addDriverConnection(array $connectionConfig)
@@ -301,9 +309,9 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrieve value from configuration
+     * Performs retrieving of value from Configuration
      *
-     * @param string $path - xpath-like path to config value
+     * @param string $path - XPath-like path to config value (by default = '')
      * @return array
      */
     public function getConfigValue($path = '')
@@ -312,9 +320,9 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Retrieve value from data configuration by path
+     * Performs retrieving of value from DataSet by path
      *
-     * @param string $path
+     * @param string $path XPath-like path to DataSet value (by default = '')
      * @return array|string
      */
     public function getDataValue($path = '')
@@ -325,8 +333,8 @@ class Mage_Selenium_TestConfiguration
     /**
      * Get node|value by path
      *
-     * @param array $config
-     * @param string $path
+     * @param array  $data Array of Configuration|DataSet data
+     * @param string $path XPath-like path to Configuration|DataSet value
      * @return array|string
      */
     protected function _descend($data, $path)
@@ -346,7 +354,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Load and merge data files
+     * Performs loading and merging of DataSet files
      *
      * @return Mage_Selenium_TestConfiguration
      */
@@ -359,7 +367,7 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
-     * Load configuration data
+     * Performs loading of Configuration files
      *
      * @return Mage_Selenium_TestConfiguration
      */
