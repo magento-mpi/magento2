@@ -55,7 +55,7 @@ onepage_checkout:
                             billing_continue: //li[@id='opc-billing']//button[span='Continue']
                         dropdowns:
                             billing_address_select: //select[@id='billing-address-select']
-                            billing_region: //select[@id='billing:region_id']
+                            billing_state: //select[@id='billing:region_id']
                             billing_country: //select[@id='billing:country_id']
                         fields:
                             billing_first_name: //input[@id='billing:firstname']
@@ -107,7 +107,7 @@ onepage_checkout:
                     shipping_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-shipping_method']
                         buttons:
-                            ship_method_continue: //button[span='Continue']
+                            ship_method_continue: //li[@id='opc-shipping_method']//button[span='Continue']
                         checkboxes:
                             add_gift_options: //*[label='Add gift options.']/input
                             gift_option_for_the_entire_order: //input[@id='allow_gift_messages_for_order']
@@ -127,7 +127,7 @@ onepage_checkout:
                     payment_method:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-payment']
                         buttons:
-                            payment_method_continue: //button[span='Continue']
+                            payment_method_continue: //li[@id='opc-payment']//button[span='Continue']
                         radiobuttons:
                             check_payment_method: //input[@title='%paymentTitle%']
                         fields:
@@ -166,6 +166,15 @@ onepage_checkout:
                 success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
                 payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
                 ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
+
+onepage_checkout_success:
+    mca: checkout/onepage/success/
+    title: Magento Commerce
+    uimap:
+        form: &successForm
+        messages:
+            success_checkout: //p[contains(.,'Your order')]
+
 
 checkout_multishipping:
     mca: checkout/multishipping/addresses/

@@ -29,7 +29,7 @@
 #*********************************************
 #*         Checkout Method                   *
 #*********************************************
-guest:
+guest: &guest
     checkout_method: guest
 
 register:
@@ -47,6 +47,7 @@ login:
 
 #<--------------GUEST---------------->
 billing_guest_req: &billingGuestReq
+    billing_address_select: New Address
     billing_first_name: billing_Steven
     billing_last_name: billing_Stevenson
     billing_email: billing_guest@example.com
@@ -61,12 +62,14 @@ billing_guest_req: &billingGuestReq
     ship_to_different_address: Yes
 
 billing_guest_all: &billingGuestAll
+    billing_address_select: New Address
     billing_prefix: %noValue%
     billing_first_name: 'Steven(billing)'
     billing_middle_name: %noValue%
     billing_last_name: 'Stevenson(billing)'
     billing_suffix: %noValue%
     billing_company: 'home(billing)'
+    billing_email: billing_guest@example.com
     billing_street_address_1: 'street_address_1(billing)'
     billing_street_address_2: 'street_address_2(billing)'
     billing_city: 'Palo Alto'
@@ -88,6 +91,7 @@ billing_guest_all: &billingGuestAll
 
 #<--------------GUEST---------------->
 shipping_guest_req: &shippingGuestReq
+    shipping_address_select: New Address
     shipping_first_name: shipping_Steven
     shipping_last_name: shipping_Stevenson
     shipping_email: shipping_guest@example.com
@@ -102,6 +106,7 @@ shipping_guest_req: &shippingGuestReq
     ship_to_different_address: Yes
 
 shipping_guest_all: &shippingGuestAll
+    shipping_address_select: New Address
     shipping_prefix: %noValue%
     shipping_first_name: 'Steven(shipping)'
     shipping_middle_name: %noValue%
@@ -141,3 +146,45 @@ gift_options_data: &gift_options
     individual_items:
         product_message_1: *product_individual_options_1
         product_message_2: %noVlaue%
+
+#*********************************************
+#*         Payment Data                      *
+#*********************************************
+saved_visa: &visaSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'Visa'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+#*********************************************
+#*         Checkout Data                     *
+#*********************************************
+checkout_data:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+        product_2: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    gift_messages:
+        entire_order:
+            gift_option_entire_order_from: %noValue%
+            gift_option_entire_order_to: %noValue%
+            gift_option_entire_order_message: %noValue%
+        individual_items:
+            product_1:
+                general_sku: %noValue%
+                message_option:
+                    gift_option_for_individual_items_from: %noValue%
+                    gift_option_for_individual_items_to: %noValue%
+                    gift_option_for_individual_items_message: %noValue%
+    payment_data:
+        payment_method: Credit Card (saved)
+        payment_info: *visaSavedCC
+

@@ -38,6 +38,56 @@ class Checkout_Helper extends Mage_Selenium_TestCase
 {
 
     /**
+     * Create checkout
+     *
+     * @param array|string  $checkoutData
+     *
+     */
+    public function frontCreateCheckout($checkoutData)
+    {
+        if (is_string($checkoutData)) {
+            $checkoutData = $this->loadData($checkoutData);
+        }
+        $checkoutData = $this->arrayEmptyClear($checkoutData);
+        $products = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
+        $customer = (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : NULL;
+        $billingAddr = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : NULL;
+        $shippingAddr = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : NULL;
+        $shippingMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : NULL;
+        $paymentMethod = (isset($checkoutData['payment_data'])) ? $checkoutData['payment_data'] : NULL;
+        if ($products) {
+            foreach ($products as $product => $data) {
+                $this->productHelper()->frontOpenProduct($data['general_name']);
+                $this->productHelper()->frontAddProductToCart($data['general_name']);
+            }
+            $this->clickButton('proceed_to_checkout');
+        } else {
+            $this->fail('You should specify products for adding to shopping cart');
+        }
+        if ($customer) {
+            $this->checkoutHelper()->frontSelectCheckoutMethod($customer);
+        }
+        if ($billingAddr) {
+            $fillShipping = $this->frontFillOnePageBillingAddress($billingAddr);
+        }
+        if ($shippingAddr && $fillShipping) {
+            $this->frontFillOnePageShippingAddress($shippingAddr);
+        }
+        if ($shippingMethod) {
+            $this->frontSelectShippingMethod($shippingMethod, FALSE);
+        }
+        if ($paymentMethod) {
+            $this->frontSelectPaymentMethod($paymentMethod, FALSE);
+        }
+        $xpath = $this->_getControlXpath('fieldset', 'order_review') . "[contains(@class,'active')]";
+        if ($this->isElementPresent($xpath)) {
+            $this->clickButton('place_order');
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
      * Select Checkout Method(Onepage Checkout)
      *
      * @param array $methodName guest|register|login
@@ -192,13 +242,17 @@ class Checkout_Helper extends Mage_Selenium_TestCase
      * Fills address on frontend
      *
      * @param array $addressData
-     * @param string $addressChoise     'new' or 'exist'
+     * @param string $addressChoise     'New Address' or 'exist'
      * @param type $addressType         'billing' or 'shipping'
      */
     public function frontFillAddress(array $addressData, $addressChoise, $addressType)
     {
         switch ($addressChoise) {
-            case 'new':
+            case 'New Address':
+                $xpath = $this->_getControlXpath('dropdown', $addressType . '_address_select');
+                if (!$this->isElementPresent($xpath)) {
+                    unset($addressData[$addressType . '_address_select']);
+                }
                 $this->fillForm($addressData);
                 break;
             case 'exist':
@@ -249,7 +303,7 @@ class Checkout_Helper extends Mage_Selenium_TestCase
         }
         $this->frontFillOnePageAddress($addressData, 'billing');
         $xpath = $this->_getControlXpath('radiobutton', 'ship_to_this_address');
-        $fillShipping = $this->verifyChecked($xpath);
+        $fillShipping = (!$this->verifyChecked($xpath)) ? TRUE : FALSE;
         $this->clickButton('billing_continue', false);
         return $fillShipping;
     }
