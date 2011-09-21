@@ -208,20 +208,6 @@
         </events>
     </frontend>
     <admin>
-        <fieldsets>
-            <catalog_product_dataflow>
-                <is_in_stock>
-                    <product_type>
-                        <bundle/>
-                    </product_type>
-                </is_in_stock>
-                <manage_stock>
-                    <product_type>
-                        <bundle/>
-                    </product_type>
-                </manage_stock>
-            </catalog_product_dataflow>
-        </fieldsets>
         <routers>
             <adminhtml>
                 <args>
