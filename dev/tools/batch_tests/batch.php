@@ -1,4 +1,14 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     tools
+ * @subpackage  batch_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 $tests = array(
     '../../tests/unit',
     '../../tests/static/framework/tests/unit',
