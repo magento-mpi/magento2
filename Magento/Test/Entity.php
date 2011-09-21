@@ -80,6 +80,8 @@ class Magento_Test_Entity
 
     protected function _testUpdate()
     {
+        $this->_model->isObjectNew(false);
+
         foreach ($this->_updateData as $key => $value) {
             $this->_model->setDataUsingMethod($key, $value);
         }
