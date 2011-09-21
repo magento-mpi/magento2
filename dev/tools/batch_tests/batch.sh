@@ -1,2 +1,2 @@
 #!/bin/sh
-php source/batch_tests.php
+php batch.php
