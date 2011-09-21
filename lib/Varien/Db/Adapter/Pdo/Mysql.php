@@ -2499,6 +2499,19 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     }
 
     /**
+     * Retrieve Foreign Key name
+     * @param string $fkName
+     * @return string
+     */
+    protected function _getForeignKeyName($fkName)
+    {
+        if (substr($fkName, 0, 3) != 'FK_') {
+            $fkName = 'FK_' . $fkName;
+        }
+        return $fkName;
+    }
+
+    /**
      * Add new Foreign Key to table
      * If Foreign Key with same name is exist - it will be deleted
      *
@@ -2519,6 +2532,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         $onUpdate = Varien_Db_Adapter_Interface::FK_ACTION_CASCADE,
         $purge = false, $schemaName = null, $refSchemaName = null)
     {
+        $fkName = $this->_getForeignKeyName($fkName);
+
         $this->dropForeignKey($tableName, $fkName, $schemaName);
 
         if ($purge) {
