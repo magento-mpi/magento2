@@ -530,7 +530,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
                 $items = $this->getItemCollection();
                 foreach ($items as $_item) {
                     if ($_item->getProductId() == $productId && $_item->getId() != $resultItem->getId()) {
-                        if ($resultItem->compareOptions($resultItem->getOptions(), $_item->getOptions())) {
+                        if ($resultItem->representProduct($_item->getProduct())) {
                             $resultItem->setQty($resultItem->getQty() + $_item->getQty());
                             $_item->isDeleted(true);
                         }
