@@ -124,9 +124,9 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
                 $order->getBaseGrandTotal(),
                 $order->getBaseTaxAmount(),
                 $order->getBaseShippingAmount(),
-                $this->jsQuoteEscape($address->getCity()),
-                $this->jsQuoteEscape($address->getRegion()),
-                $this->jsQuoteEscape($address->getCountry())
+                $this->jsQuoteEscape(Mage::helper('core')->escapeHtml($address->getCity())),
+                $this->jsQuoteEscape(Mage::helper('core')->escapeHtml($address->getRegion())),
+                $this->jsQuoteEscape(Mage::helper('core')->escapeHtml($address->getCountry()))
             );
             foreach ($order->getAllVisibleItems() as $item) {
                 $result[] = sprintf("_gaq.push(['_addItem', '%s', '%s', '%s', '%s', '%s', '%s']);",
