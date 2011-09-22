@@ -220,7 +220,7 @@ class Order_Helper extends Mage_Selenium_TestCase
      * @param string $fieldset
      * @return bool|integer
      */
-    protected function _defineOrderId($fieldset)
+    public function defineOrderIdFromTitle()
     {
         try {
             $item_id = 0;
