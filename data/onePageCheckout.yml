@@ -158,7 +158,7 @@ saved_visa: &visaSavedCC
     expiration_year: '2020'
     card_verification_number: '111'
 
-visa: &visaSavedCC
+visa: &visa
     card_type: 'Visa'
     card_number: '4024007127653'
     expiration_month: '07 - July'
@@ -262,7 +262,7 @@ checkout_data_authorize_net:
         shipping_method: Fixed
     payment_data:
         payment_method: Credit Card (Authorize.net)
-        payment_info: *visaSavedCC
+        payment_info: *visa
 
 checkout_data_authorize_net_3d:
     products_to_add:
@@ -290,7 +290,7 @@ checkout_data_paypaluk_direct:
         shipping_method: Fixed
     payment_data:
         payment_method: PayPal Direct Payment Payflow Edition
-        payment_info: *visaSavedCC
+        payment_info: *visa
 
 checkout_data_paypaluk_direct_3d:
     products_to_add:
@@ -318,7 +318,7 @@ checkout_data_payflow_pro_verisign:
         shipping_method: Fixed
     payment_data:
         payment_method: Payflow Pro
-        payment_info: *visaSavedCC
+        payment_info: *visa
 
 checkout_data_payflow_pro_verisign_3d:
     products_to_add:
@@ -346,7 +346,7 @@ checkout_data_paypal_direct_payment:
         shipping_method: Fixed
     payment_data:
         payment_method: PayPal Direct Payment
-        payment_info: *visaSavedCC
+        payment_info: *visa
 
 checkout_data_paypal_direct_payment_3d:
     products_to_add:
