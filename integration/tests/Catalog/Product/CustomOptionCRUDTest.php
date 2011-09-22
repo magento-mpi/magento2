@@ -30,6 +30,9 @@
  */
 class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
 {
+    /**
+     * @var array
+     */
     protected static $createdOptionAfter;
 
     /**
@@ -37,15 +40,15 @@ class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionCRUD()
     {
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOption.xml');
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
         $store = (string) $customOptionFixture->store;
         $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
 
         $createdOptionBefore = $this->call('product_custom_option.list', array(
-                $fixtureProductId,
-                $store
-            ));
+            $fixtureProductId,
+            $store
+        ));
         $this->assertEmpty($createdOptionBefore);
 
         foreach ($customOptions as $option) {
@@ -66,7 +69,7 @@ class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
         self::$createdOptionAfter = $this->call('product_custom_option.list', array($fixtureProductId));
 
         $this->assertTrue(is_array(self::$createdOptionAfter));
-        $this->assertEquals(6, count(self::$createdOptionAfter));
+        $this->assertEquals(count($customOptions), count(self::$createdOptionAfter));
 
         foreach (self::$createdOptionAfter as $option) {
             $this->assertEquals($customOptions[$option['type']]['title'], $option['title']);
@@ -79,6 +82,7 @@ class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
             $optionInfo = $this->call('product_custom_option.info', array(
                 $option['option_id']
             ));
+
             $this->assertTrue(is_array($optionInfo));
             $this->assertGreaterThan(3, count($optionInfo));
 
@@ -118,37 +122,32 @@ class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
             }
         }
 
-        self::assertEquals(3, $updateCounter);
+        $this->assertEquals(count($customOptionsToUpdate), $updateCounter);
     }
 
     /**
-     * Product Custom Option ::types() method test 
+     * Product Custom Option ::types() method test
      *
      * @depends testCustomOptionCRUD
      */
     public function testCustomOptionTypes()
     {
-        $attributeSetFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOptionTypes.xml');
+        $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOptionTypes.xml');
         $customOptionsTypes = self::simpleXmlToArray($attributeSetFixture);
 
         $optionTypes = $this->call('product_custom_option.types', array());
         $this->assertEquals($customOptionsTypes['customOptionTypes']['types'], $optionTypes);
     }
 
-    protected function _createOption($productId, $option, $store = null)
-    {
-        if (isset($option['additional_fields'])
-            and !is_array(reset($option['additional_fields']))) {
-            $option['additional_fields'] = array($option['additional_fields']);
-        }
-
-        return $this->call('product_custom_option.add', array(
-            $productId,
-            $option,
-            $store
-        ));
-    }
-
+    /**
+     * Update custom option
+     *
+     * @param int $optionId
+     * @param array $option
+     * @param int $store
+     *
+     * @return boolean
+     */
     protected function _updateOption($optionId, $option, $store = null)
     {
         if (isset($option['additional_fields'])
@@ -170,7 +169,7 @@ class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionAddExceptionProductNotExists()
     {
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOption.xml');
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
@@ -194,6 +193,7 @@ class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
 
         $option = reset($customOptions);
         unset($option['additional_fields']);
+
         $this->setExpectedException('Exception');
         $this->call('product_custom_option.add', array(
             $fixtureProductId,
@@ -209,10 +209,11 @@ class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
     public function testCustomOptionDateTimeAddExceptionStoreNotExist()
     {
         $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOption.xml');
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
+
         $this->setExpectedException('Exception');
         $this->call('product_custom_option.add', array(
             $fixtureProductId,
@@ -232,10 +233,10 @@ class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
         $store = (string) $customOptionFixture->store;
 
         $this->setExpectedException('Exception');
-        $createdOptionBefore = $this->call('product_custom_option.list', array(
-                'unknown_id',
-                $store
-            ));
+        $this->call('product_custom_option.list', array(
+            'unknown_id',
+            $store
+        ));
     }
 
     /**
@@ -248,45 +249,35 @@ class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
         $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
 
         $this->setExpectedException('Exception');
-        $createdOptionBefore = $this->call('product_custom_option.list', array(
-                $fixtureProductId,
-                'unknown_store_name'
-            ));
+        $this->call('product_custom_option.list', array(
+            $fixtureProductId,
+            'unknown_store_name'
+        ));
     }
-
 
     /**
      * Test option add with invalid type
      *
+     * @expectedException Exception
      * @depends testCustomOptionCRUD
      */
     public function testCustomOptionUpdateExceptionInvalidType()
     {
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOption.xml');
-        $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
-
-        $store = (string) $customOptionFixture->store;
-        $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
-        $fixtureCustomOptionId = Magento_Test_Webservice::getFixture('customOptionId');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOption.xml');
 
         $customOptionsToUpdate = self::simpleXmlToArray($customOptionFixture->CustomOptionsToUpdate);
         $option = reset(self::$createdOptionAfter);
 
         $toUpdateValues = $customOptionsToUpdate[$option['type']];
-        if (isset($toUpdateValues['additional_fields'])
-            and !is_array(reset($toUpdateValues['additional_fields']))) {
-            $toUpdateValues['additional_fields'] = array($toUpdateValues['additional_fields']);
-        }
         $toUpdateValues['type'] = 'unknown_type';
 
-        $this->setExpectedException('Exception');
         $this->_updateOption($option['option_id'], $toUpdateValues);
     }
-
 
     /**
      * Test option remove and exception
      *
+     * @expectedException Exception
      * @depends testCustomOptionUpdateExceptionInvalidType
      */
     public function testCustomOptionRemove()
@@ -300,10 +291,6 @@ class Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
         }
 
         // Delete exception test
-        try {
-            $this->call('product_custom_option.remove', array(mt_rand(99999, 999999)));
-            $this->fail("Didn't receive exception!");
-        } catch (Exception $e) { }
+        $this->call('product_custom_option.remove', array(mt_rand(99999, 999999)));
     }
-
 }

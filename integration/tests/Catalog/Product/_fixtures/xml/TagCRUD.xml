@@ -48,4 +48,7 @@
             <qty>100</qty>
         </stock_data>
     </product>
+    <expected>
+        <created_tags_count>3</created_tags_count>
+    </expected>
 </root>

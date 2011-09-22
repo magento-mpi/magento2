@@ -30,10 +30,17 @@
  */
 class Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
 {
+    /**
+     * Test tag CRUD
+     *
+     * @return void
+     */
     public function testTagCRUD()
     {
-        $tagFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/TagCRUD.xml');
+        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/TagCRUD.xml');
         $data = self::simpleXmlToArray($tagFixture->tagData);
+        $expected = self::simpleXmlToArray($tagFixture->expected);
+
         $data['product_id'] = Magento_Test_Webservice::getFixture('productData')->getId();
         $data['customer_id'] = Magento_Test_Webservice::getFixture('customerData')->getId();
 
@@ -70,7 +77,7 @@ class Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
             Magento_Test_Webservice::getFixture('productData')->getId()
         ));
         $this->assertNotEmpty($tagsList, "Can't find added tag in list");
-        $this->assertEquals(3, count($tagsList), "Can't find added tag in list");
+        $this->assertEquals($expected['created_tags_count'], count($tagsList), "Can't find added tag in list");
 
         // delete test
         $tagToDelete = array_shift($tagsList);
@@ -78,11 +85,7 @@ class Catalog_Product_TagCRUDTest extends Magento_Test_Webservice
         $this->assertTrue($tagDelete, "Can't delete added tag");
 
         // Delete exception test
-        try {
-            $this->call('product_tag.remove', array($tagToDelete['tag_id']));
-            $this->fail("Didn't receive exception!");
-        } catch (Exception $e) { }
-
+        $this->setExpectedException('Exception');
+        $this->call('product_tag.remove', array($tagToDelete['tag_id']));
     }
-
 }

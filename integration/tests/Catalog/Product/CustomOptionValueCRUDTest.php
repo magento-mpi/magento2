@@ -37,17 +37,17 @@ class Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionValueCRUD()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOptionValue.xml');
         $customOptionValues = self::simpleXmlToArray($valueFixture->CustomOptionValues);
 
         $store = (string) $valueFixture->store;
-        $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
         $fixtureCustomOptionId = Magento_Test_Webservice::getFixture('customOptionId');
 
         $createdOptionValuesBefore = $this->call('product_custom_option_value.list', array(
-                $fixtureCustomOptionId,
-                $store
-            ));
+            $fixtureCustomOptionId,
+            $store
+        ));
+
         $this->assertTrue(is_array($createdOptionValuesBefore));
         $this->assertEquals(2, count($createdOptionValuesBefore));
 
@@ -59,19 +59,18 @@ class Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
         ));
         $this->assertTrue($addResult);
 
-        // list
+        // Get list test
         $createdOptionValuesAfter = $this->call('product_custom_option_value.list', array(
-                $fixtureCustomOptionId,
-                $store
-            ));
-
+            $fixtureCustomOptionId,
+            $store
+        ));
         $this->assertTrue(is_array($createdOptionValuesAfter));
         $this->assertEquals(3, count($createdOptionValuesAfter));
 
         self::$_lastAddedOption = array_pop($createdOptionValuesAfter);
         $this->assertEquals($customOptionValues['value_1']['title'], self::$_lastAddedOption['title']);
 
-        // update & info
+        // Update & info tests
         $customOptionValuesToUpdate = self::simpleXmlToArray($valueFixture->CustomOptionValuesToUpdate);
         $toUpdateValues = $customOptionValuesToUpdate['value_1'];
 
@@ -87,22 +86,22 @@ class Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
 
         foreach($toUpdateValues as $key => $value) {
             if(is_string($value)) {
-                self::assertEquals($value, $optionValueInfoAfterUpdate[$key]);
+                $this->assertEquals($value, $optionValueInfoAfterUpdate[$key]);
             }
         }
     }
 
     /**
      * Test successful option value add with invalid option id
-     * 
+     *
+     * @expectedException Exception
      * @depends testCustomOptionValueCRUD
      */
     public function testCustomOptionValueAddExceptionInvalidOptionId()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOptionValue.xml');
         $customOptionValues = self::simpleXmlToArray($valueFixture->CustomOptionValues);
 
-        $this->setExpectedException('Exception');
         $this->call('product_custom_option_value.add', array(
             'invalid_id',
             $customOptionValues,
@@ -112,29 +111,27 @@ class Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
 
     /**
      * Test product custom option values list with invalid option id (exception)
-     * 
+     *
+     * @expectedException Exception
      * @depends testCustomOptionValueCRUD
      */
     public function testCustomOptionValueListExceptionInvalidOptionId()
     {
-        $this->setExpectedException('Exception');
-        $this->call('product_custom_option_value.list', array(
-                'invalid_id'
-            ));
+        $this->call('product_custom_option_value.list', array('invalid_id'));
     }
 
     /**
      * Test product custom option values update with invalid value id
-     * 
+     *
+     * @expectedException Exception
      * @depends testCustomOptionValueCRUD
      */
     public function testCustomOptionValueUpdateExceptionValueId()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOptionValue.xml');
         $customOptionValuesToUpdate = self::simpleXmlToArray($valueFixture->CustomOptionValuesToUpdate);
 
-        $this->setExpectedException('Exception');
-        $updateOptionValueResult = $this->call('product_custom_option_value.update', array(
+        $this->call('product_custom_option_value.update', array(
             'invalid_id',
             $customOptionValuesToUpdate['value_1']
         ));
@@ -142,17 +139,17 @@ class Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
 
     /**
      * Test product custom option values update with invalid title
-     * 
+     *
+     * @expectedException Exception
      * @depends testCustomOptionValueCRUD
      */
     public function testCustomOptionValueUpdateExceptionTitle()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOptionValue.xml');
         $customOptionValuesToUpdate = self::simpleXmlToArray($valueFixture->CustomOptionValuesToUpdate);
         unset($customOptionValuesToUpdate['value_1']['title']);
 
-        $this->setExpectedException('Exception');
-        $updateOptionValueResult = $this->call('product_custom_option_value.update', array(
+        $this->call('product_custom_option_value.update', array(
             self::$_lastAddedOption['value_id'],
             $customOptionValuesToUpdate['value_1']
         ));
@@ -160,7 +157,7 @@ class Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
 
     /**
      * Test successful option value remove
-     * 
+     *
      * @depends testCustomOptionValueUpdateExceptionTitle
      */
     public function testCustomOptionValueRemove()
@@ -172,10 +169,7 @@ class Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
         $this->assertTrue($removeOptionValueResult);
 
         // Delete exception test
-        try {
-            $this->call('product_custom_optionv.remove', array(self::$_lastAddedOption['value_id']));
-            $this->fail("Didn't receive exception!");
-        } catch (Exception $e) { }
+        $this->setExpectedException('Exception');
+        $this->call('product_custom_optionv.remove', array(self::$_lastAddedOption['value_id']));
     }
-
 }

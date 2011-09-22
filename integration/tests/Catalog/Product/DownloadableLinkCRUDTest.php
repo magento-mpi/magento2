@@ -32,9 +32,14 @@ class Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservice
 {
     protected static $links = array();
 
+    /**
+     * Test downloadable link create
+     *
+     * @return void
+     */
     public function testDownloadableLinkCreate()
     {
-        $tagFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/LinkCRUD.xml');
+        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/LinkCRUD.xml');
         $items = self::simpleXmlToArray($tagFixture->items);
 
         $product_id = Magento_Test_Webservice::getFixture('productData')->getId();
@@ -52,17 +57,22 @@ class Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservice
                         'base64_content' => base64_encode(file_get_contents($filePath)));
                 }
 
-                $resultId = $this->call('product_downloadable_link.add',
-                    array($product_id, $value, $key)
-                );
+                $resultId = $this->call('product_downloadable_link.add', array($product_id, $value, $key));
                 $this->assertGreaterThan(0, $resultId);
             }
         }
-
     }
 
-    public function testDownloadableLinkItems($xmlPath)
+    /**
+     * Test get downloadable link items
+     *
+     * @return void
+     */
+    public function testDownloadableLinkItems()
     {
+        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/LinkCRUD.xml');
+        $fixtureItems = self::simpleXmlToArray($tagFixture->items);
+
         $product_id = Magento_Test_Webservice::getFixture('productData')->getId();
 
         self::$links = array();
@@ -81,11 +91,16 @@ class Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservice
                 }
             }
         }
-        $this->assertEquals(2, count(self::$links));
+        $this->assertEquals(count($fixtureItems), count(self::$links));
         $this->assertNotEmpty(self::$links['link']);
     }
 
-    public function testDownloadableLinkRemove($xmlPath)
+    /**
+     * Remove downloadable link
+     *
+     * @return void
+     */
+    public function testDownloadableLinkRemove()
     {
         foreach (self::$links as $type => $item) {
             foreach ($item as $link_id) {
@@ -94,5 +109,4 @@ class Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservice
             }
         }
     }
-
 }

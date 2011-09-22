@@ -30,9 +30,14 @@
  */
 class Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
 {
+    /**
+     * Test Attribute set CRUD
+     *
+     * @return void
+     */
     public function testAttributeSetCRUD()
     {
-        $attributeSetFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/AttributeSet.xml');
+        $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/AttributeSet.xml');
         $data = self::simpleXmlToArray($attributeSetFixture->create);
         $data['attributeSetName'] = $data['attributeSetName'] . ' ' . mt_rand(1000, 9999);
 
@@ -40,7 +45,7 @@ class Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
         $createdAttrSetId = $this->call('product_attribute_set.create', $data);
         $this->assertGreaterThan(0, $createdAttrSetId);
 
-        // Dublicate name exception test
+        // Duplicate name exception test
         try {
             $this->call('product_attribute_set.create', $data);
             $this->fail("Didn't receive exception!");
@@ -59,27 +64,28 @@ class Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
         }
         $this->assertTrue($completeFlag, "Can't find added attribute set in list");
 
-        // Remove AttrSet with related products 
+        // Remove AttrSet with related products
         $productData = self::simpleXmlToArray($attributeSetFixture->RelatedProduct);
         $productData['sku'] = $productData['sku'] . '_' . mt_rand(1000, 9999);
         $productId = $this->call('product.create', array(
-                     $productData['typeId'],
-                     $createdAttrSetId,
-                     $productData['sku'],
-                     $productData['productData']
-                ));
-        // Dublicate name exception test
+            $productData['typeId'],
+            $createdAttrSetId,
+            $productData['sku'],
+            $productData['productData']
+        ));
+
         try {
             $this->call('product_attribute_set.remove', array($createdAttrSetId));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) { }
+
         $this->call('product.delete', array($productId));
 
         // delete test
         $attributeSetDelete = $this->call('product_attribute_set.remove', array($createdAttrSetId));
         $this->assertTrue($attributeSetDelete, "Can't delete added attribute set");
 
-        // Delete exception test
+        // Test delete undefined attribute set and check successful delete in previous call
         try {
             $this->call('product_attribute_set.remove', array($createdAttrSetId));
             $this->fail("Didn't receive exception!");
@@ -87,64 +93,70 @@ class Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
 
     }
 
+    /**
+     * Test attribute CRUD in attribute set
+     *
+     * @return void
+     */
     public function testAttributeSetAttrCRUD()
     {
         $testAttributeSetId = self::getFixture('testAttributeSetId');
         $testAttributeSetAttrIdsArray = self::getFixture('testAttributeSetAttrIdsArray');
 
-        // attributeAdd test
+        // add attribute test
         $addResult = $this->call('product_attribute_set.attributeAdd',
             array($testAttributeSetAttrIdsArray[0], $testAttributeSetId));
         $this->assertTrue($addResult);
 
-        // attributeRemove test
+        // delete attribute test
         $removeResult = $this->call('product_attribute_set.attributeRemove',
             array($testAttributeSetAttrIdsArray[0], $testAttributeSetId));
         $this->assertTrue($removeResult);
     }
 
+    /**
+     * Test group of attribute sets CRUD
+     *
+     * @return void
+     */
     public function testAttributeSetGroupCRUD()
     {
         $testAttributeSetId = self::getFixture('testAttributeSetId');
-        $attributeSetFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/AttributeSet.xml');
+        $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/AttributeSet.xml');
         $data = self::simpleXmlToArray($attributeSetFixture->groupAdd);
 
-        // groupAdd test
+        // add group test
         $createdAttributeSetGroupId = $this->call('product_attribute_set.groupAdd',
             array($testAttributeSetId, $data['groupName']));
         $this->assertGreaterThan(0, $createdAttributeSetGroupId);
 
-        // groupAdd exception test
+        // add already exist group exception test
         try {
             $createdAttributeSetGroupId = $this->call('product_attribute_set.groupAdd',
                 array($testAttributeSetId, $data['existsGroupName']));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) { }
 
-        // groupRename test
+        // rename group test
         $groupName = $data['groupName'] . ' ' . mt_rand(1000, 9999);
         $renameResult = $this->call('product_attribute_set.groupRename',
             array($createdAttributeSetGroupId, $groupName));
         $this->assertTrue($renameResult);
 
-        // groupRename exception test
+        // rename group exception test
         try {
-            $renameResult = $this->call('product_attribute_set.groupRename',
+            $this->call('product_attribute_set.groupRename',
                 array($createdAttributeSetGroupId, $data['existsGroupName']));
             $this->fail("Didn't receive exception!");
         } catch (Exception $e) { }
 
-        // groupRemove test
+        // remove group test
         $removeResult = $this->call('product_attribute_set.groupRemove',
             array($createdAttributeSetGroupId));
         $this->assertTrue($removeResult);
 
-        // groupRemove exception test
-        try {
-            $removeResult = $this->call('product_attribute_set.groupRemove',
-                array($createdAttributeSetGroupId));
-            $this->fail("Didn't receive exception!");
-        } catch (Exception $e) { }
+        // remove undefined group exception test
+        $this->setExpectedException('Exception');
+        $this->call('product_attribute_set.groupRemove', array($createdAttributeSetGroupId));
     }
-
 }
