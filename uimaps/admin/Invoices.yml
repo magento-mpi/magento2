@@ -114,7 +114,7 @@ create_invoice:
             failure: //li[normalize-space(@class)='error-msg' and contains(.,'PayPal gateway rejected the request.')]
 
 view_invoice:
-    mca: sales_invoice/view/invoice_id/%invoice_id%/
+    mca: sales_invoice/view/invoice_id/%id%/
     title: %invoiceId% / Invoices / Sales / Magento Admin
     uimap:
         form: &viewInvoice
