@@ -158,33 +158,27 @@ saved_visa: &visaSavedCC
     expiration_year: '2020'
     card_verification_number: '111'
 
-authorize_net_visa: &authorizeNetVisaSavedCC
+visa: &visaSavedCC
     card_type: 'Visa'
     card_number: '4024007127653'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '123'
 
-paypaluk_direct_visa: &paypalukDirectVisaSavedCC
+saved_cc_visa_3d: &savedCCVisa3d
+    name_on_card: 'Test Account'
     card_type: 'Visa'
-    card_number: '4024007127653'
-    expiration_month: '07 - July'
-    expiration_year: '2020'
-    card_verification_number: '123'
+    card_number: '4000000000000002'
+    expiration_month: '01 - January'
+    expiration_year: '2012'
+    card_verification_number: '111'
 
-payflowpro_verisign_visa: &payflowProVisaSavedCC
+visa_3d: &visa3d
     card_type: 'Visa'
-    card_number: '4024007127653'
-    expiration_month: '07 - July'
-    expiration_year: '2020'
-    card_verification_number: '123'
-
-paypal_direct_payment_visa: &paypalDirectPaymentVisaSavedCC
-    card_type: 'Visa'
-    card_number: '4024007127653'
-    expiration_month: '07 - July'
-    expiration_year: '2020'
-    card_verification_number: '123'
+    card_number: '4000000000000002'
+    expiration_month: '01 - January'
+    expiration_year: '2012'
+    card_verification_number: '111'
 #*********************************************
 #*         Checkout Data                     *
 #*********************************************
@@ -229,6 +223,20 @@ checkout_data_saved_cc:
         payment_method: Credit Card (saved)
         payment_info: *visaSavedCC
 
+checkout_data_saved_cc_3d:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Credit Card (saved)
+        payment_info: *savedCCVisa3d
+
 checkout_data_check_money_order:
     products_to_add:
         product_1:
@@ -254,7 +262,21 @@ checkout_data_authorize_net:
         shipping_method: Fixed
     payment_data:
         payment_method: Credit Card (Authorize.net)
-        payment_info: *authorizeNetVisaSavedCC
+        payment_info: *visaSavedCC
+
+checkout_data_authorize_net_3d:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Credit Card (Authorize.net)
+        payment_info: *visa3d
 
 checkout_data_paypaluk_direct:
     products_to_add:
@@ -268,7 +290,21 @@ checkout_data_paypaluk_direct:
         shipping_method: Fixed
     payment_data:
         payment_method: PayPal Direct Payment Payflow Edition
-        payment_info: *paypalukDirectVisaSavedCC
+        payment_info: *visaSavedCC
+
+checkout_data_paypaluk_direct_3d:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: PayPal Direct Payment Payflow Edition
+        payment_info: *visa3d
 
 checkout_data_payflow_pro_verisign:
     products_to_add:
@@ -282,7 +318,21 @@ checkout_data_payflow_pro_verisign:
         shipping_method: Fixed
     payment_data:
         payment_method: Payflow Pro
-        payment_info: *payflowProVisaSavedCC
+        payment_info: *visaSavedCC
+
+checkout_data_payflow_pro_verisign_3d:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Payflow Pro
+        payment_info: *visa3d
 
 checkout_data_paypal_direct_payment:
     products_to_add:
@@ -296,4 +346,18 @@ checkout_data_paypal_direct_payment:
         shipping_method: Fixed
     payment_data:
         payment_method: PayPal Direct Payment
-        payment_info: *paypalDirectPaymentVisaSavedCC
+        payment_info: *visaSavedCC
+
+checkout_data_paypal_direct_payment_3d:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestAll
+    shipping_address_data: *shippingGuestAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: PayPal Direct Payment
+        payment_info: *visa3d

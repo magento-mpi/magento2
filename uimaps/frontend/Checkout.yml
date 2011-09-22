@@ -148,6 +148,7 @@ onepage_checkout:
                             3d_password: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[2]/td[2]/b/input[1]
                         buttons:
                             3d_submit: //html/body/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[6]/td/form/div/table/tbody/tr/td/font/b/center/table/tbody/tr[4]/td[2]/b/input
+                            3d_continue: //html/body/table/tbody/tr[3]/td/div/input[1]
                 -
                     order_review:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-review']
@@ -166,6 +167,7 @@ onepage_checkout:
                 success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
                 payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
                 ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
+                paypal_alert: There was an error processing your order. Please contact us or try again later.
 
 onepage_checkout_success:
     mca: checkout/onepage/success/

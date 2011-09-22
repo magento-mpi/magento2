@@ -34,7 +34,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Checkout_Helper extends Mage_Selenium_TestCase
+class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
 {
 
     /**
@@ -65,7 +65,7 @@ class Checkout_Helper extends Mage_Selenium_TestCase
             $this->fail('You should specify products for adding to shopping cart');
         }
         if ($customer) {
-            $this->checkoutHelper()->frontSelectCheckoutMethod($customer);
+            $this->frontSelectCheckoutMethod($customer);
         }
         if ($billingAddr) {
             $fillShipping = $this->frontFillOnePageBillingAddress($billingAddr);
@@ -81,7 +81,16 @@ class Checkout_Helper extends Mage_Selenium_TestCase
         }
         $xpath = $this->_getControlXpath('fieldset', 'order_review') . "[contains(@class,'active')]";
         if ($this->isElementPresent($xpath)) {
-            $this->clickButton('place_order');
+            $this->answerOnNextPrompt('OK');
+            $this->clickButton('place_order', FALSE);
+            $this->waitForAjax();
+            $text = $this->_getControlXpath('message', 'paypal_alert');
+            $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
+            if ($alert == TRUE) {
+                $this->getAlert();
+                $this->fail($text);
+            }
+            $this->waitForPageToLoad();
         } else {
             return FALSE;
         }
@@ -233,6 +242,11 @@ class Checkout_Helper extends Mage_Selenium_TestCase
             $this->type($xpath, $password);
             $this->clickButton('3d_submit', FALSE);
             $this->waitForElementNotPresent($xpath);
+            $xpathContinue = $this->_getControlXpath('button', '3d_continue');
+            $this->waitForElement($xpathContinue);
+            if ($this->isElementPresent($xpathContinue)) {
+                $this->clickButton('3d_continue', FALSE);
+            }
             $this->pleaseWait();
         }
     }

@@ -32,8 +32,8 @@ authorize_net_without_3d_enable:
         configuration:
             an_enabled: Yes
             an_api_login_id: 36sCtGS8w
-            an_transaction_key: 33YvD5r6mm9B47e2
-            an_test_mode: Yes
+            an_transaction_key: 74sL4dM4dy9Q7Z7v
+            an_test_mode: No
             an_gateway_url: https://test.authorize.net/gateway/transact.dll
             an_credit_card_verification: Yes
             an_3d_secure_card_validation: No
@@ -64,6 +64,15 @@ paypal_uk_direct_wo_3d_enable:
     tab_1:
         tab_name: sales_paypal
         configuration:
+            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
+            api_authentication_methods: API Signature
+            sandbox_mode: Yes
+            api_username: artem__1312450055_biz_api1.magento.com
+            api_password: 1312450088
+            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
+    tab_2:
+        tab_name: sales_paypal
+        configuration:
             website_payments_pro_payflow_edition: Yes
             wpppe_partner: PayPalUK
             wpppe_user: ukpromerchant2g
@@ -76,13 +85,22 @@ paypal_uk_direct_wo_3d_enable:
 paypal_uk_direct_w_3d_enable:
     configuration_scope: Default Config
     tab_1:
+        tab_name: sales_paypal
+        configuration:
+            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
+            api_authentication_methods: API Signature
+            sandbox_mode: Yes
+            api_username: artem__1312450055_biz_api1.magento.com
+            api_password: 1312450088
+            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
+    tab_2:
         tab_name: sales_payment_services
         configuration:
             processor_id: 134-01
             merchant_id: magentoTEST
             password: mag3nt0T3ST
             test_mode: Yes
-    tab_2:
+    tab_3:
         tab_name: sales_paypal
         configuration:
             website_payments_pro_payflow_edition: Yes
@@ -111,6 +129,15 @@ payflow_pro_wo_3d_enable:
     tab_1:
         tab_name: sales_paypal
         configuration:
+            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
+            api_authentication_methods: API Signature
+            sandbox_mode: Yes
+            api_username: artem__1312450055_biz_api1.magento.com
+            api_password: 1312450088
+            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
+    tab_2:
+        tab_name: sales_paypal
+        configuration:
             payflow_pro_gateway: Yes
             pp_partner: PayPal
             pp_user: petervarienpayflowpro
@@ -123,13 +150,22 @@ payflow_pro_wo_3d_enable:
 payflow_pro_w_3d_enable:
     configuration_scope: Default Config
     tab_1:
+        tab_name: sales_paypal
+        configuration:
+            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
+            api_authentication_methods: API Signature
+            sandbox_mode: Yes
+            api_username: artem__1312450055_biz_api1.magento.com
+            api_password: 1312450088
+            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
+    tab_2:
         tab_name: sales_payment_services
         configuration:
             processor_id: 134-01
             merchant_id: magentoTEST
             password: mag3nt0T3ST
             test_mode: Yes
-    tab_2:
+    tab_3:
         tab_name: sales_paypal
         configuration:
             payflow_pro_gateway: Yes
@@ -156,6 +192,15 @@ website_payments_pro_wo_3d_enable:
     tab_1:
         tab_name: sales_paypal
         configuration:
+            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
+            api_authentication_methods: API Signature
+            sandbox_mode: Yes
+            api_username: artem__1312450055_biz_api1.magento.com
+            api_password: 1312450088
+            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
+    tab_2:
+        tab_name: sales_paypal
+        configuration:
             website_payments_pro: Yes
             wpp_require_cvv_entry: Yes
             wpp_3d_secure_card_validation: No
@@ -163,6 +208,22 @@ website_payments_pro_wo_3d_enable:
 website_payments_pro_w_3d_enable:
     configuration_scope: Default Config
     tab_1:
+        tab_name: sales_paypal
+        configuration:
+            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
+            api_authentication_methods: API Signature
+            sandbox_mode: Yes
+            api_username: artem__1312450055_biz_api1.magento.com
+            api_password: 1312450088
+            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
+    tab_2:
+        tab_name: sales_payment_services
+        configuration:
+            processor_id: 134-01
+            merchant_id: magentoTEST
+            password: mag3nt0T3ST
+            test_mode: Yes
+    tab_3:
         tab_name: sales_paypal
         configuration:
             website_payments_pro: Yes
@@ -202,7 +263,7 @@ authorize_net_with_3d_enable:
         configuration:
             an_enabled: Yes
             an_api_login_id: 36sCtGS8w
-            an_transaction_key: 33YvD5r6mm9B47e2
+            an_transaction_key: 74sL4dM4dy9Q7Z7v
             an_test_mode: Yes
             an_gateway_url: https://test.authorize.net/gateway/transact.dll
             an_credit_card_verification: Yes
@@ -221,6 +282,13 @@ authorize_net_with_3d_disable:
 saved_cc_w3d_enable:
     configuration_scope: Default Config
     tab_1:
+        tab_name: sales_payment_services
+        configuration:
+            processor_id: 134-01
+            merchant_id: magentoTEST
+            password: mag3nt0T3ST
+            test_mode: Yes
+    tab_2:
         tab_name: sales_payment_methods
         configuration:
             scc_enabled: Yes
@@ -267,7 +335,7 @@ all_payment_methods_without_3d:
         configuration:
             an_enabled: Yes
             an_api_login_id: 36sCtGS8w
-            an_transaction_key: 33YvD5r6mm9B47e2
+            an_transaction_key: 74sL4dM4dy9Q7Z7v
             an_test_mode: Yes
             an_gateway_url: https://test.authorize.net/gateway/transact.dll
             an_credit_card_verification: Yes
@@ -299,4 +367,4 @@ all_payment_methods_without_3d:
         configuration:
             website_payments_pro: Yes
             wpp_require_cvv_entry: Yes
-            wpp_3d_secure_card_validation: Yes
+            wpp_3d_secure_card_validation: No
