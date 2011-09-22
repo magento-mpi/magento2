@@ -709,8 +709,25 @@ products_to_invoice:
         invoice_product_qty: 5
     product_2: %noValue%
 
+#*********************************************
+#*           Shipment Data                   *
+#*********************************************
 
+products_to_ship:
+    product_1:
+        ship_product_sku: %noValue%
+        ship_product_qty: 5
+    product_2: %noValue%
 
+#*********************************************
+#*           CreditMemo Data                 *
+#*********************************************
+products_to_refund:
+    product_1:
+        return_filter_sku: %noValue%
+        return_to_stock: Yes
+        qty_to_refund: 5
+    product_2: %noValue%
 
 
 
