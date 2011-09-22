@@ -1226,10 +1226,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if (strtolower($fieldData['value']) == 'yes') {
                 if (($this->getValue($fieldData['path']) == 'off') || ($this->getValue($fieldData['path']) == '0')) {
                     $this->click($fieldData['path']);
+                    $this->waitForAjax();
                 }
             } elseif (strtolower($fieldData['value']) == 'no') {
                 if (($this->getValue($fieldData['path']) == 'on') || ($this->getValue($fieldData['path']) == '1')) {
                     $this->click($fieldData['path']);
+                    $this->waitForAjax();
                 }
             }
         } else {
@@ -1248,8 +1250,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
             if (strtolower($fieldData['value']) == 'yes') {
                 $this->click($fieldData['path']);
+                $this->waitForAjax();
             } else {
                 $this->uncheck($fieldData['path']);
+                $this->waitForAjax();
             }
         } else {
             throw new PHPUnit_Framework_Exception("Can't fill in the radiobutton field: {$fieldData['path']}");
