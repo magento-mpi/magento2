@@ -77,4 +77,35 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
          */
         $this->assertEmpty($collection->getItems());
     }
+
+    /**
+     * @magentoDataFixture Mage/Core/_files/design_change.php
+     */
+    public function testChangeDesignCache()
+    {
+        $date = Varien_Date::now(true);
+        $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
+
+        $cacheId = 'design_change_' . md5($storeId . $date);
+
+        $design = new Mage_Core_Model_Design;
+        $design->loadChange($storeId, $date);
+
+        $cachedDesign = Mage::app()->loadCache($cacheId);
+        $cachedDesign = unserialize($cachedDesign);
+
+        $this->assertTrue(is_array($cachedDesign));
+        $this->assertEquals($cachedDesign['design'], $design->getDesign());
+
+        $design->setDesign('default/default/default')->save();
+
+        $design = new Mage_Core_Model_Design;
+        $design->loadChange($storeId, $date);
+
+        $cachedDesign = Mage::app()->loadCache($cacheId);
+        $cachedDesign = unserialize($cachedDesign);
+
+        $this->assertTrue(is_array($cachedDesign));
+        $this->assertEquals($cachedDesign['design'], $design->getDesign());
+    }
 }
