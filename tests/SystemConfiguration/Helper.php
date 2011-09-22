@@ -48,7 +48,6 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
             $parameters = $this->loadData($parameters);
         }
         $parameters = $this->arrayEmptyClear($parameters);
-        $this->navigate('system_configuration');
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : NULL;
         if ($chooseScope) {
             $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope');
@@ -70,6 +69,7 @@ class SystemConfiguration_Helper extends Mage_Selenium_TestCase
                     $this->clickAndWait($xpath);
                     $this->fillForm($settings, $tab);
                     $this->saveForm('save_config');
+                    $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
                 }
             }
         }
