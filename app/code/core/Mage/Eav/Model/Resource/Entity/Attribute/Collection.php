@@ -244,7 +244,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
      */
     public function addAttributeGrouping()
     {
-        $this->getSelect()->group('entity_attribute.attribute_id');
+        $this->getSelect()->group('main_table.attribute_id');
         return $this;
     }
 
