@@ -2200,7 +2200,7 @@ system_configuration:
                                         proxy_port: //input[@name='groups[api][fields][proxy_port][value]']
                                     dropdowns:
                                         api_authentication_methods: //select[@name='groups[api][fields][api_authentication][value]']
-                                        sandbox_mode: //select[@name='groups[api][fields][sandbox_flag][value]']
+                                        api_sandbox_mode: //select[@name='groups[api][fields][sandbox_flag][value]']
                                         api_uses_proxy: //select[@name='groups[api][fields][use_proxy][value]']
                                     buttons:
                                         get_credentials_from_paypal: //button[span='Get Credentials from PayPal']
