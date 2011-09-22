@@ -34,26 +34,26 @@ billing_address_req: &billingReq
     address_choice: new
     billing_first_name: 'billing_Steven'
     billing_last_name: 'billing_Stevenson'
-    billing_street_address_1: 'billing street address'
-    billing_city: 'Palo Alto'
+    billing_street_address_1: '11832 W. Pico Blvd'
+    billing_city: 'Los Angeles'
     billing_country: 'United States'
     billing_state: California
     billing_region: %noValue%
-    billing_zip_code: '94306'
-    billing_telephone: '091019019 billing'
+    billing_zip_code: '90064'
+    billing_telephone: '(310) 954-8012'
 
 #<------------Shipping Address Required------------>
 shipping_address_req: &shippingReq
     address_choice: new
     shipping_first_name: 'shipping_Steven'
     shipping_last_name: 'shipping_Stevenson'
-    shipping_street_address_1: 'shipping street address'
-    shipping_city: 'Palo Alto'
+    shipping_street_address_1: '11832 W. Pico Blvd'
+    shipping_city: 'Los Angeles'
     shipping_country: 'United States'
     shipping_state: California
     shipping_region: %noValue%
-    shipping_zip_code: '94306'
-    shipping_telephone: '091019019 shipping'
+    shipping_zip_code: '90064'
+    shipping_telephone: '(310) 954-8012'
 
 #<------------Billing Address ALL------------>
 billing_address_all: &billingAll
@@ -94,6 +94,8 @@ shipping_address_all: &shippingAll
     shipping_fax: '0919327869(shipping)'
     shipping_save_in_address_book: yes
 
+shipping_address_same_as_blling: &shippingSameAsBilling
+    address_choice: sameAsBilling
 #*********************************************
 #*      Order customer Data                  *
 #*********************************************
@@ -393,7 +395,7 @@ else_american_express: &americanExpressElse
 
 else_visa: &visaElse
     card_type: 'Visa'
-    card_number: '4024007127653'
+    card_number: '4000000000000002'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
@@ -413,92 +415,39 @@ else_discover: &discoverElse
     card_verification_number: '111'
 
 #*********************************************
-#*       Create Order Data                   *
+#*              Payment Data                 *
 #*********************************************
 
-#<------------PHYSICAL------------>
-order_physical:
-    customer_data:
-        id: %noValue%
-        name: %noValue%
-        email: %noValue%
-        telephone: %noValue%
-        zip_code: %noValue%
-        country: %noValue%
-        region: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    products_to_add:
-        product_1: &product
-            filter_id: %noValue%
-            filter_name: %noValue%
-            filter_sku: %noValue%
-            filter_price_from: %noValue%
-            filter_price_to: %noValue%
-            qty_to_add: %noValue%
-            configurable_options: %noValue%
-            custom_price_use: %noValue%
-            custom_price: %noValue%
-            product_qty: %noValue%
-            apply: %noValue%
-        product_2: %noValue%
-    coupons:
-        coupon_1: %noValue%
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
-    payment_data:
-        payment_method: Check / Money order
-        payment_info: %noValue%
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
+payment_check_money: &checkMoney
+    payment_method: Check / Money order
+    payment_info: %noValue%
 
-#<------------VIRTUAL------------>
-order_virtual:
-    customer_data:
-        id: %noValue%
-        name: %noValue%
-        email: %noValue%
-        telephone: %noValue%
-        zip_code: %noValue%
-        country: %noValue%
-        region: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    products_to_add:
-        product_1: &product
-            filter_id: %noValue%
-            filter_name: %noValue%
-            filter_sku: %noValue%
-            filter_price_from: %noValue%
-            filter_price_to: %noValue%
-            qty_to_add: %noValue%
-            configurable_options: %noValue%
-            custom_price_use: %noValue%
-            custom_price: %noValue%
-            product_qty: %noValue%
-            apply: %noValue%
-        product_2: %noValue%
-    coupons:
-        coupon_1: %noValue%
-    billing_addr_data: *billingReq
-    payment_data:
-        payment_method: Check / Money order
-        payment_info: %noValue%
-
-#*********************************************
-#*      Payment Data For Order               *
-#*********************************************
-
-saved_credit_card: &savedCC
+payment_saved_cc_visa: &savedCCVisa
     payment_method: Credit Card (saved)
     payment_info: *visaSavedCC
+
+payment_paypal_direct_uk: &paypalDirectUkVisa
+    payment_method: PayPal Direct Payment Payflow Edition
+    payment_info: *visaElse
+
+payment_paypal_direct: &paypalDirectVisa
+    payment_method: PayPal Direct Payment
+    payment_info: *visaElse
+
+payment_payflo_pro: &payfloProVisa
+    payment_method: Payflow Pro
+    payment_info: *visaElse
+
+payment_authorize: &authorizeNetVisa
+    payment_method: Credit Card (Authorize.net)
+    payment_info: *visaElse
+#*********************************************
+#*             Shipping Data                 *
+#*********************************************
+
+shipping_rlat_rate: &flatRate
+    shipping_service: Flat Rate
+    shipping_method: Fixed
 
 #*********************************************
 #*      ConfigurableOptions For Products     *
@@ -580,14 +529,185 @@ config_option_custom_options:
 
 config_option_grouped:
 
+#*********************************************
+#*       Create Order Data                   *
+#*********************************************
 
+#<------------PHYSICAL------------>
+order_physical:
+    customer_data:
+        id: %noValue%
+        name: %noValue%
+        email: %noValue%
+        telephone: %noValue%
+        zip_code: %noValue%
+        country: %noValue%
+        region: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_id: %noValue%
+            filter_name: %noValue%
+            filter_sku: %noValue%
+            filter_price_from: %noValue%
+            filter_price_to: %noValue%
+            qty_to_add: %noValue%
+            configurable_options: %noValue%
+            custom_price_use: %noValue%
+            custom_price: %noValue%
+            product_qty: %noValue%
+            apply: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReq
+    shipping_addr_data: *shippingReq
+    payment_data:
+        payment_method: Check / Money order
+        payment_info: %noValue%
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
 
+#<------------VIRTUAL------------>
+order_virtual:
+    customer_data:
+        id: %noValue%
+        name: %noValue%
+        email: %noValue%
+        telephone: %noValue%
+        zip_code: %noValue%
+        country: %noValue%
+        region: %noValue%
+        store_name: %noValue%
+    store_view: Default Store View
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_id: %noValue%
+            filter_name: %noValue%
+            filter_sku: %noValue%
+            filter_price_from: %noValue%
+            filter_price_to: %noValue%
+            qty_to_add: %noValue%
+            configurable_options: %noValue%
+            custom_price_use: %noValue%
+            custom_price: %noValue%
+            product_qty: %noValue%
+            apply: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReq
+    payment_data:
+        payment_method: Check / Money order
+        payment_info: %noValue%
 
+#<------------New Customer, Saved CC, FlatRate, ShippingSameAsBilling------------>
+order_newcustmoer_saved_cc_flatrate:
+    store_view: Default Store View
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_sku: %noValue%
+            product_qty: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReq
+    shipping_addr_data: *shippingSameAsBilling
+    payment_data: *savedCCVisa
+    shipping_data: *flatRate
 
+#<------------New Customer, PaypalDirectUk, FlatRate, ShippingSameAsBilling------------>
+order_newcustmoer_paypaldirectuk_flatrate:
+    store_view: Default Store View
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_sku: %noValue%
+            product_qty: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReq
+    shipping_addr_data: *shippingSameAsBilling
+    payment_data: *paypalDirectUkVisa
+    shipping_data: *flatRate
 
+#<------------New Customer, PaypalDirect, FlatRate, ShippingSameAsBilling------------>
+order_newcustmoer_paypaldirect_flatrate:
+    store_view: Default Store View
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_sku: %noValue%
+            product_qty: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReq
+    shipping_addr_data: *shippingSameAsBilling
+    payment_data: *paypalDirectVisa
+    shipping_data: *flatRate
 
+#<------------New Customer, PayflowPro, FlatRate, ShippingSameAsBilling------------>
+order_newcustmoer_payflowpro_flatrate:
+    store_view: Default Store View
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_sku: %noValue%
+            product_qty: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReq
+    shipping_addr_data: *shippingSameAsBilling
+    payment_data: *payfloProVisa
+    shipping_data: *flatRate
 
+#<------------New Customer, Authorize.net, FlatRate, ShippingSameAsBilling------------>
+order_newcustmoer_authorize_flatrate:
+    store_view: Default Store View
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_sku: %noValue%
+            product_qty: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReq
+    shipping_addr_data: *shippingSameAsBilling
+    payment_data: *authorizeNetVisa
+    shipping_data: *flatRate
 
+#*********************************************
+#*           INVOICE DATA                    *
+#*********************************************
+
+products_to_invoice:
+    product_1:
+        invoice_product_sku: %noValue%
+        invoice_product_qty: 5
+    product_2: %noValue%
 
 
 
@@ -599,7 +719,6 @@ config_option_grouped:
 #*           Regularize and DELETE           *
 #*********************************************
 
-#<------------Billing Address Required------------>
 new_customer_order_billing_address_reqfields: &billingReqFields
     address_choice: Add New Address
     billing_first_name: 'billing_Steven'
@@ -612,7 +731,6 @@ new_customer_order_billing_address_reqfields: &billingReqFields
     billing_telephone: '091019019 billing'
     billing_save_in_address_book: yes
 
-#<------------Shipping Address Required------------>
 new_customer_order_shipping_address_reqfields: &shippingReqFields
     shipping_same_as_billing_address: no
     address_choice: Add New Address
@@ -626,58 +744,6 @@ new_customer_order_shipping_address_reqfields: &shippingReqFields
     shipping_telephone: '091019019 shipping'
     shipping_save_in_address_book: yes
 
-#<------------Billing Address ALL------------>
-new_customer_order_billing_address_allfields: &billingAllFields
-    address_choice: Add New Address
-    billing_prefix: 'Mr(billing)'
-    billing_first_name: 'Steven(billing)'
-    billing_middle_name: 'Y(billing)'
-    billing_last_name: 'Stevenson(billing)'
-    billing_suffix: 'Jr(billing)'
-    billing_company: 'home(billing)'
-    billing_street_address_1: 'street_address_1(billing)'
-    billing_street_address_2: 'street_address_2(billing)'
-    billing_city: 'Palo Alto'
-    billing_country: 'United States'
-    billing_state: California
-    billing_zip_code: '94306'
-    billing_telephone: '091019019(billing)'
-    billing_fax: '0919327869(billing)'
-    billing_save_in_address_book: yes
-
-#<------------Shipping Address ALL------------>
-new_customer_order_shipping_address_allfields: &shippingAllFields
-    shipping_same_as_billing_address: no
-    address_choice: Add New Address
-    shipping_prefix: 'Mr(shipping)'
-    shipping_first_name: 'Steven(shipping)'
-    shipping_middle_name: 'Y(shipping)'
-    shipping_last_name: 'Stevenson(shipping)'
-    shipping_suffix: 'Jr(shipping)'
-    shipping_company: 'home(shipping)'
-    shipping_street_address_1: 'street_address_1(shipping)'
-    shipping_street_address_2: 'street_address_2(shipping)'
-    shipping_city: 'Palo Alto'
-    shipping_country: 'United States'
-    shipping_state: California
-    shipping_zip_code: '94306'
-    shipping_telephone: '091019019(shipping)'
-    shipping_fax: '0919327869(shipping)'
-    shipping_save_in_address_book: yes
-
-#*********************************************
-#*          Credit Card Data                 *
-#*********************************************
-
-#<------------Saved CC------------>
-american_express: &americanExpress
-    name_on_card_saved: 'Test Account'
-    credit_card_type_saved: 'American Express'
-    credit_card_number_saved: '341111111111111'
-    expiration_date_month_saved: '07 - July'
-    expiration_date_year_saved: '2020'
-    cvv_saved: '1234'
-
 visa: &visa
     name_on_card_saved: 'Test Account'
     credit_card_type_saved: 'Visa'
@@ -685,135 +751,6 @@ visa: &visa
     expiration_date_month_saved: '07 - July'
     expiration_date_year_saved: '2020'
     cvv_saved: '111'
-
-mastercard: &mastercard
-    name_on_card_saved: 'Test Account'
-    credit_card_type_saved: 'MasterCard'
-    credit_card_number_saved: '5100080000000000'
-    expiration_date_month_saved: '07 - July'
-    expiration_date_year_saved: '2020'
-    cvv_saved: '111'
-
-discover: &discover
-    name_on_card_saved: 'Test Account'
-    credit_card_type_saved: 'Discover'
-    credit_card_number_saved: '6011000000000004'
-    expiration_date_month_saved: '07 - July'
-    expiration_date_year_saved: '2020'
-    cvv_saved: '111'
-
-#<------------ELSE------------>
-authorize_net_visa_w_cvv: &authorizeNetVisaWCvv
-    credit_card_type_autnet: 'Visa'
-    credit_card_number_autnet: '4024007127653'
-    expiration_date_month_autnet: '07 - July'
-    expiration_date_year_autnet: '2020'
-    cvv_autnet: 123
-
-paypal_direct_payment_payflow_edition_mastercard_w_cvv: &paypalDirectPaymentPayflowEditionMastercardWCvv
-    credit_card_type_paypal_direct_payment_payflow_edition: 'MasterCard'
-    credit_card_number_paypal_direct_payment_payflow_edition: '5214600357288164'
-    expiration_date_month_paypal_direct_payment_payflow_edition: '11 - November'
-    expiration_date_year_paypal_direct_payment_payflow_edition: '2015'
-    cvv_paypal_direct_payment_payflow_edition: '123'
-
-payflow_pro_visa_w_cvv: &payflowProVisaWCvv
-    credit_card_type_payflow_pro: 'Visa'
-    credit_card_number_payflow_pro: '4111111111111111'
-    expiration_date_month_payflow_pro: '12 - December'
-    expiration_date_year_payflow_pro: '2015'
-    cvv_payflow_pro: '123'
-
-paypal_direct_payment_visa_w_cvv: &paypalDirectPaymentVisaWCvv
-    credit_card_type_paypal_direct_payment: 'Visa'
-    credit_card_number_paypal_direct_payment: '4556543150206778'
-    expiration_date_month_paypal_direct_payment: '04 - April'
-    expiration_date_year_paypal_direct_payment: '2013'
-    cvv_paypal_direct_payment: '123'
-
-authorize_net_3d_mastercard_w_cvv: &authorizeNet3DMasterCardWCvv
-    credit_card_type_autnet: 'MasterCard'
-    credit_card_number_autnet: '5200000000000007'
-    expiration_date_month_autnet: '01 - January'
-    expiration_date_year_autnet: '2012'
-    cvv_autnet: 123
-
-#*********************************************
-#*      Order creation Data                  *
-#*********************************************
-
-#<------------PHYSICAL------------>
-order_template:
-    customer_data:
-        id: %noValue%
-        name: %noValue%
-        email: %noValue%
-        phone: %noValue%
-        zip_code: %noValue%
-        country: %noValue%
-        state: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_id: %noValue%
-            filter_name: %noValue%
-            filter_sku: %noValue%
-            filter_price_from: %noValue%
-            filter_price_to: %noValue%
-            configurable_options: %noValue%
-        product_2: %noValue%
-    products_to_reconfigure: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    gift_messages:
-        entire_order: %noValue%
-        individual_items:
-            product_1:
-                general_sku: %noValue%
-                message_option:
-                    to: %noValue%
-                    from: %noValue%
-                    message: %noValue%
-    coupons:
-        coupon_1: %noValue%
-
-simple_product_for_configurable_for_order:
-    product_attribute_set: Default
-    general_name: Simple Product Required
-    general_description: Description for Simple Product Required
-    general_short_description: Short Description for Simple Product Required
-    general_sku: simple_sku.req
-    general_weight: 1.13
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 9.99
-    prices_tax_class: None
-    inventory_qty: 100
-    inventory_stock_availability: In Stock
-
-simple_product_for_bundle_for_order:
-    product_attribute_set: Default
-    general_name: Simple Product Required
-    general_description: Description for Simple Product Required
-    general_short_description: Short Description for Simple Product Required
-    general_sku: simple_sku.req
-    general_weight: 1.13
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 9.99
-    prices_tax_class: None
-    inventory_qty: 100
-    inventory_stock_availability: In Stock
 
 coupon_percent:
     rule_name: 123
@@ -838,34 +775,11 @@ coupon_percent:
     default_rule_label_for_all_store_views: 123
     default_store_view: 123
 
-products_to_reconfig_1:
-    product_1:
-        filter_sku: %noValue%
-        reconfigurable_options:
-            qty: 50
-
-products_to_reconfig_2:
-    product_1:
-        filter_sku: %noValue%
-        reconfigurable_options:
-            action: Remove
-
-products_to_reconfig_3:
-    product_1:
-        filter_sku: %noValue%
-        reconfigurable_options:
-            qty: 10
-
 products_to_refund_1:
     product_1:
         filter_sku: %noValue%
         return_to_stock: Yes
         qty_to_refund: 5
-
-products_to_invoice_1:
-    product_1:
-        filter_sku: %noValue%
-        qty_to_invoice: 5
 
 products_to_ship_1:
     product_1:
@@ -914,272 +828,6 @@ coupon_fixed_amount:
     stop_further_rules_processing: No
     default_rule_label_for_all_store_views: 123
     default_store_view: 123
-
-order_req_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    gift_messages:
-        entire_order: %noValue%
-        individual_items:
-            product_1:
-                general_sku: %noValue%
-                message_option:
-                    to: %noValue%
-                    from: %noValue%
-                    message: %noValue%
-    coupons:
-        coupon_1: %noValue%
-
-order_no_shipping_method:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-
-order_no_payment_method:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_data_visa_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_data_american_express_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *americanExpress
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_data_mastercard_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *mastercard
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_data_discover_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *discover
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_ship_flat_rate:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_ship_free:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Free Shipping
-        shipping_method: Free
-
-order_ship_ups:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: United Parcel Service
-        shipping_method: UPS Ground
-
-order_ship_fedex:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Federal Express
-        shipping_method: First Overnight
-
-order_ship_usps:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: United States Postal Service
-        shipping_method: Express Mail
-
-order_ship_dhl:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: DHL
-        shipping_method: Express
 
 order_with_message_for_product:
     customer_data:
@@ -1263,326 +911,6 @@ order_with_message_empty_fields_for_product:
                     to: ' '
                     from: ' '
                     message: ' '
-
-order_req_grouped_product:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options:
-                optionText:
-                    value_1: %noValue%
-                    data_1:
-                        config_qty_text: 1
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_req_configurable_product:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options:
-                optionDropdown:
-                    value_1:  %noValue%
-                    data_1:
-                        drop: Dropdown_Option_Admin_1
-                optionText:
-                    value_1: Quantity
-                    data_1:
-                        text: 1
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_req_virtual_product:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data: %noValue%
-
-order_req_bundle_product:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options:
-                optionText:
-                    value_1: Quantity
-                    data_1:
-                        text: 1
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_req_downloadable_product:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options:
-                optionCheck:
-                    value_1: Link Row Title
-                    data_1:
-                        check: yes
-                optionText:
-                    value_1: Quantity
-                    data_1:
-                        text: 1
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-
-order_req_partial_creditmemo:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    products_to_reconfigure:
-        product_1:
-            filter_sku: %noValue%
-            reconfigurable_options:
-                qty: 10
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_req_partial_invoice:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    products_to_reconfigure:
-        product_1:
-            filter_sku: %noValue%
-            reconfigurable_options:
-                qty: 10
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_req_partial_shipment:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    products_to_reconfigure:
-        product_1:
-            filter_sku: %noValue%
-            reconfigurable_options:
-                qty: 10
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_data_check_money_order_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: check_money_order
-        payment_info: %noValue%
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_data_authorize_net_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: authorize_net
-        payment_info: *authorizeNetVisaWCvv
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_data_paypal_direct_payment_payflow_edition_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: paypal_direct_payment_payflow_edition
-        payment_info: *paypalDirectPaymentPayflowEditionMastercardWCvv
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_data_payflow_pro_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: payflow_pro
-        payment_info: *payflowProVisaWCvv
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_data_website_payments_pro_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: paypal_direct_payment
-        payment_info: *paypalDirectPaymentVisaWCvv
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_data_authorize_net_3D_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: authorize_net
-        payment_info: *authorizeNet3DMasterCardWCvv
-        3d_secure_validation_code: 1234
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
 
 promoted_product_special_price_for_order:
     product_attribute_set: Default
@@ -1677,326 +1005,3 @@ order_for_promoted_products_min_qty:
         shipping_service: Flat Rate
         shipping_method: Fixed
 
-custom_options_dropdown: &dropdown
-    custom_options_general_title: Custom Option Drop-down
-    custom_options_general_input_type: Drop-down
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 1
-    custom_option_row_1:
-        custom_options_title: Title 1
-        custom_options_price: 2.56
-        custom_options_price_type: Percent
-        custom_options_sku: sku_drop_down_row_1
-        custom_options_sort_order: 1
-
-customized_product_for_order:
-    product_attribute_set: Default
-    general_name: Simple Product
-    general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
-    general_sku: simple_sku
-    general_weight: 2.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 4.95
-    prices_tax_class: None
-    gift_options_allow_gift_message_default: Yes
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 120
-    inventory_qty_for_items_out_of_stock_default: No
-    inventory_qty_for_items_out_of_stock: 10
-    inventory_min_allowed_qty_default: No
-    inventory_min_allowed_qty: 0
-    inventory_max_allowed_qty_default: No
-    inventory_max_allowed_qty: 0
-    inventory_qty_uses_decimals: Yes
-    inventory_backorders_default: No
-    inventory_backorders: Allow Qty Below 0
-    inventory_notify_for_qty_below_default: No
-    inventory_notify_for_qty_below: 12
-    inventory_stock_availability: In Stock
-    websites: Main Website
-    categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
-    custom_options_data:
-        custom_options_field: *dropdown
-
-order_for_customized_product:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options:
-                optionDropdown:
-                    value_1: Custom Option
-                    data_1:
-                        drop: Title 1
-                optionText:
-                    value_1: Quantity
-                    data_1:
-                        text: 1
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-paypal_direct_payment_payflow_edition_mastercard_w_cvv_3d: &paypalDirectPaymentPayflowEditionMastercardWCvv3D
-    credit_card_type_paypal_direct_payment_payflow_edition: 'MasterCard'
-    credit_card_number_paypal_direct_payment_payflow_edition: '5200000000000007'
-    expiration_date_month_paypal_direct_payment_payflow_edition: '1 - January'
-    expiration_date_year_paypal_direct_payment_payflow_edition: '2012'
-    cvv_paypal_direct_payment_payflow_edition: '123'
-
-order_data_paypal_direct_payment_payflow_edition_w3d_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: paypal_direct_payment_payflow_edition
-        payment_info: *paypalDirectPaymentPayflowEditionMastercardWCvv3D
-        3d_secure_validation_code: 1234
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-paypal_direct_payment_visa_w_cvv_3d: &paypalDirectPaymentVisaWCvv3D
-    credit_card_type_paypal_direct_payment: 'Visa'
-    credit_card_number_paypal_direct_payment: '4000000000000002'
-    expiration_date_month_paypal_direct_payment: '01 - January'
-    expiration_date_year_paypal_direct_payment: '2012'
-    cvv_paypal_direct_payment: '123'
-
-order_data_website_payments_pro_w3d_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: paypal_direct_payment
-        payment_info: *paypalDirectPaymentVisaWCvv3D
-        3d_secure_validation_code: 1234
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-payflow_pro_visa_w_cvv_3d: &payflowProVisaWCvv3D
-    credit_card_type_payflow_pro: 'Visa'
-    credit_card_number_payflow_pro: '4000000000000002'
-    expiration_date_month_payflow_pro: '01 - January'
-    expiration_date_year_payflow_pro: '2012'
-    cvv_payflow_pro: '123'
-
-order_data_payflow_pro_w3d_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: payflow_pro
-        payment_info: *payflowProVisaWCvv3D
-        3d_secure_validation_code: 1234
-    shipping_data:
-        shipping_method: Fixed
-
-
-visa_3d: &visa_3d
-    credit_card_type_saved: 'Visa'
-    credit_card_number_saved: '4000000000000002'
-    expiration_date_month_saved: '01 - January'
-    expiration_date_year_saved: '2012'
-    cvv_saved: '123'
-
-order_data_visa_w3d_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingAllFields
-    shipping_addr_data: *shippingAllFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa_3d
-        3d_secure_validation_code: 1234
-    shipping_data:
-        shipping_method: Fixed
-
-order_req_check_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: check_money_order
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    gift_messages:
-        entire_order: %noValue%
-        individual_items:
-            product_1:
-                general_sku: %noValue%
-                message_option:
-                    to: %noValue%
-                    from: %noValue%
-                    message: %noValue%
-    coupons:
-        coupon_1: %noValue%
-
-order_req_partial_invoice_check:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    products_to_reconfigure:
-        product_1:
-            filter_sku: %noValue%
-            reconfigurable_options:
-                qty: 10
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: check_money_order
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_req_partial_creditmemo_check:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    products_to_reconfigure:
-        product_1:
-            filter_sku: %noValue%
-            reconfigurable_options:
-                qty: 10
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: check_money_order
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_with_coupon_1:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    products_to_reconfigure:
-        product_1:
-            filter_sku: %noValue%
-            reconfigurable_options:
-                qty: 50
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    coupons:
-        coupon_1:
-            coupon_code: %noValue%
-            success: true
-
-order_with_coupon_2:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    coupons:
-        coupon_1:
-            coupon_code: %noValue%
-            success: true
-
-order_with_coupon_3:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    coupons:
-        coupon_1:
-            coupon_code: 123123123
-            success: false
