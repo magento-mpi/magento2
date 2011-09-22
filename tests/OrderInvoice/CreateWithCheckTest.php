@@ -37,37 +37,39 @@
 class OrderInvoice_CreateWithCheckTest extends Mage_Selenium_TestCase
 {
 
-   /**
-    * <p>Preconditions:</p>
-    * <p>Log in to Backend.</p>
-    */
-   public function setUpBeforeTests()
+    /**
+     * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
+     */
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
     }
+
     protected function assertPreConditions()
     {
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('saved_cc_wo3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
+        $this->systemConfigurationHelper()->configure('check_money_order');
+        $this->addParameter('id', '0');
     }
+
     /**
+     * Create Simple Product for tests
+     *
      * @test
      */
-    public function createProducts()
+    public function createSimpleProduct()
     {
+        //Data
+        $simpleSku = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        //Steps
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->addParameter('id', '0');
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($simpleSku);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData;
+
+        return $simpleSku['general_sku'];
     }
 
     /**
@@ -90,23 +92,28 @@ class OrderInvoice_CreateWithCheckTest extends Mage_Selenium_TestCase
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced successfully</p>
      *
-     * @depends createProducts
+     * @depends createSimpleProduct
      * @test
      */
-    public function fullWithCheck($productData)
+    public function fullWithCheck($simpleSku)
     {
-        $orderData = $this->loadData('order_req_check_1',
-                array('filter_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+        //Data
+        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
+        //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        //Steps
+        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
         $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
-        $productsToInvoice = $this->loadData('products_to_invoice_1');
-        $productsToInvoice['product_1']['filter_sku'] = $productData['general_sku'];
-        $productsToInvoice['product_1']['qty_to_invoice'] = '1';
-        $this->orderInvoiceHelper()->createInvoice($productsToInvoice);
+        $this->clickButton('invoice');
+        //Verifying
+        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
+        //Steps
+        $this->clickButton('submit_invoice');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
     }
 
     /**
@@ -129,23 +136,23 @@ class OrderInvoice_CreateWithCheckTest extends Mage_Selenium_TestCase
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced successfully</p>
      *
-     * @depends createProducts
+     * @depends createSimpleProduct
      * @test
      */
-    public function partialWithCheck($productData)
+    public function partialWithCheck($simpleSku)
     {
-        $orderData = $this->loadData('order_req_partial_invoice_check',
-                array('filter_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+        //Data
+        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku, 'product_qty' => 10));
+        $invoice = $this->loadData('products_to_invoice', array('invoice_product_sku' => $simpleSku));
+        //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        //Steps
+        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
         $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
-        $productsToInvoice = $this->loadData('products_to_invoice_1');
-        $productsToInvoice['product_1']['filter_sku'] = $productData['general_sku'];
-        $productsToInvoice['product_1']['qty_to_invoice'] = '1';
-        $this->orderInvoiceHelper()->createInvoice($productsToInvoice);
+        $this->orderInvoiceHelper()->createPartialInvoiceAndVerify($invoice);
     }
 
 }

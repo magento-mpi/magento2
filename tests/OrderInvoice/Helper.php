@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -35,37 +36,46 @@
  */
 class OrderInvoice_Helper extends Mage_Selenium_TestCase
 {
-   /**
-    * Provides partial or full invoice
-    *
-    * @param array $invoiceData
-    */
-    public function createInvoice(array $invoiceData)
+
+    /**
+     * Provides partial or full invoice
+     *
+     * @param array $invoiceData
+     */
+    public function createPartialInvoiceAndVerify(array $invoiceData)
     {
-        $this->clickButton('invoice');
         $invoiceData = $this->arrayEmptyClear($invoiceData);
-        foreach($invoiceData as $product => $options) {
-            if (array_key_exists('filter_sku', $options)) {
-                $this->addParameter('sku', $options['filter_sku']);
-                if (array_key_exists('qty_to_invoice', $options)) {
-                    $this->fillForm(array('qty_to_invoice' => $options['qty_to_invoice']));
-                    $this->clickButton('update_qty', FALSE);
-                    $this->pleaseWait();
+        $this->clickButton('invoice');
+
+        $verify = array();
+        foreach ($invoiceData as $product => $options) {
+            if (is_array($options)) {
+                $sku = (isset($options['invoice_product_sku'])) ? $options['invoice_product_sku'] : NULL;
+                $productQty = (isset($options['invoice_product_qty'])) ? $options['invoice_product_qty'] : '%noValue%';
+                if ($sku) {
+                    $verify[$sku] = $productQty;
+                    $this->addParameter('sku', $sku);
+                    $this->fillForm(array('qty_to_invoice' => $productQty));
                 }
             }
+        }
+        $buttonXpath = $this->_getControlXpath('button', 'update_qty');
+        if ($this->isElementPresent($buttonXpath . "[not(@disabled)]")) {
+            $this->click($buttonXpath);
+            $this->pleaseWait();
         }
         $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        foreach($invoiceData as $product => $options) {
-            if (array_key_exists('filter_sku', $options)) {
-                $this->addParameter('sku', $options['filter_sku']);
-                if (array_key_exists('qty_to_invoice', $options)) {
-                    $this->addParameter('invoicedQty', $options['qty_to_invoice']);
-                    $xpathInvoiced = $this->_getControlXpath('field', 'qty_invoiced');
-                    $this->assertTrue($this->isElementPresent($xpathInvoiced),
-                        'Qty of invoiced products is incorrect at the orders form');
-                }
+        foreach ($verify as $productSku => $qty) {
+            if ($qty == '%noValue%') {
+                continue;
             }
+            $this->addParameter('sku', $productSku);
+            $this->addParameter('invoicedQty', $qty);
+            $xpathInvoiced = $this->_getControlXpath('field', 'qty_invoiced');
+            $this->assertTrue($this->isElementPresent($xpathInvoiced),
+                    'Qty of invoiced products is incorrect at the orders form');
         }
     }
+
 }
