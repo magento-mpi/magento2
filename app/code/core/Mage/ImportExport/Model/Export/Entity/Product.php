@@ -313,7 +313,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             $productId = $stockItemRow['product_id'];
             unset(
                 $stockItemRow['item_id'], $stockItemRow['product_id'], $stockItemRow['low_stock_date'],
-                $stockItemRow['stock_id'], $stockItemRow['stock_status_changed_automatically']
+                $stockItemRow['stock_id'], $stockItemRow['stock_status_changed_auto']
             );
             $stockItemRows[$productId] = $stockItemRow;
         }

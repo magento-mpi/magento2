@@ -133,7 +133,7 @@
         <reference name="creditmemo_totals">
             <block type="adminhtml/sales_order_totals_item" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/view.phtml" after="-" />
             <block type="adminhtml/sales_order_totals_item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
-                <action method="setSourceField"><value>customer_balance_total_refunded</value></action>
+                <action method="setSourceField"><value>customer_bal_total_refunded</value></action>
                 <action method="setAfterCondition"><condition>last</condition></action>
                 <action method="setLabel"><value>Refunded to Store Credit</value></action>
                 <action method="setDisplayArea"><value>footer</value></action>
@@ -142,7 +142,7 @@
         </reference>
         <!--<reference name="footer">
             <block type="adminhtml/sales_order_totals_item" name="customerbalance_refunded" template="sales/order/totals/item.phtml" after="-">
-                <action method="setSourceField"><value>customer_balance_total_refunded</value></action>
+                <action method="setSourceField"><value>customer_bal_total_refunded</value></action>
                 <action method="setLabel"><value>Refunded to Store Credit</value></action>
             </block>
         </reference>-->
