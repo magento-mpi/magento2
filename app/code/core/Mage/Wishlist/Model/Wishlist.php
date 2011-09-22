@@ -199,9 +199,11 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     public function getItemCollection()
     {
         if (is_null($this->_itemCollection)) {
+            /** @var $currentWebsiteOnly boolean */
+            $currentWebsiteOnly = !Mage::app()->getStore()->isAdmin();
             $this->_itemCollection =  Mage::getResourceModel('wishlist/item_collection')
                 ->addWishlistFilter($this)
-                ->addStoreFilter($this->getSharedStoreIds())
+                ->addStoreFilter($this->getSharedStoreIds($currentWebsiteOnly))
                 ->setVisibilityFilter();
         }
 
@@ -389,7 +391,8 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
                 $this->_storeIds = $this->getStore()->getWebsite()->getStoreIds();
             } else {
                 $_storeIds = array();
-                foreach (Mage::app()->getStores() as $store) {
+                $stores = Mage::app()->getStores();
+                foreach ($stores as $store) {
                     $_storeIds[] = $store->getId();
                 }
                 $this->_storeIds = $_storeIds;
