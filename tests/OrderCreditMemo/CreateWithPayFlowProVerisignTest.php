@@ -49,42 +49,33 @@ class OrderCreditMemo_CreateWithPayFlowProVerisignTest extends Mage_Selenium_Tes
 
     protected function assertPreConditions()
     {
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payment = $this->loadData('paypal_enable');
-        $this->fillForm($payment, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayflowPro
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payment = $this->loadData('payflow_pro_wo_3d_enable');
-        $this->fillForm($payment, 'sales_paypal');
-        $this->saveForm('save_config');
-
+//        $this->navigate('system_configuration');
+//        $this->systemConfigurationHelper()->configure('paypal_enable');
+//        $this->systemConfigurationHelper()->configure('payflow_pro_without_3Dsecure');
+        $this->addParameter('id', '0');
     }
 
     /**
+     * Create Simple Product for tests
+     *
      * @test
      */
-    public function createProducts()
+    public function createSimpleProduct()
     {
+        //Data
+        $simpleSku = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        //Steps
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->addParameter('id', '0');
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($simpleSku);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData;
+
+        return $simpleSku['general_sku'];
     }
 
     /**
-     * <p>Verisign. Refund Offline</p>
+     * <p>Verisign. Refund</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders.</p>
      * <p>2.Press "Create New Order" button.</p>
@@ -103,81 +94,40 @@ class OrderCreditMemo_CreateWithPayFlowProVerisignTest extends Mage_Selenium_Tes
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer. Refund Online is successful</p>
      *
-     * @depends createProducts
+     * @depends createSimpleProduct
+     * @dataProvider dataCreditMemo
      * @test
      */
-    public function fullRefundOnline($productData)
+    public function fullCrediMemo($captureType, $refundType, $simpleSku)
     {
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_payflowpro_flatrate', array('filter_sku' => $simpleSku));
+        //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_payflow_pro_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
         $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice');
-        $this->fillForm(array('amount' => 'Capture Online'));
+        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
+        $this->fillForm(array('amount' => $captureType));
         $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
         $this->navigate('manage_sales_invoices');
-        $this->searchAndOpen(array('filter_order_id' => $orderId), FALSE);
-        $this->waitForPageToLoad();
-        $this->addParameter('invoice_id', $this->defineIdFromUrl());
+        $this->searchAndOpen(array('filter_order_id' => $orderId));
         $this->clickButton('credit_memo');
-        $this->clickButton('refund');
+        $this->clickButton($refundType);
+        //Verifying
         $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
     }
 
-    /**
-     * <p>Verisign. Refund Offline</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Verisign - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Invoice order.</p>
-     * <p>14.Make refund offline.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Refund Offline is successful</p>
-     *
-     * @depends createProducts
-     * @test
-     */
-    public function fullRefundOffline($productData)
+    public function dataCreditMemo()
     {
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_payflow_pro_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice');
-        $this->fillForm(array('amount' => 'Capture Offline'));
-        $this->clickButton('submit_invoice');
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->clickButtonAndConfirm('credit_memo', 'confirmation_to_procced');
-        $this->clickButton('refund_offline');
-        $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
-    }
-
-    protected function assertPostConditions()
-    {
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payment = $this->loadData('payflow_pro_wo_3d_disable');
-        $this->fillForm($payment, 'sales_paypal');
-        $this->saveForm('save_config');
+        return array(
+            array('Capture Online', 'refund'),
+            array('Capture Online', 'refund_offline'),
+            array('Capture Offline', 'refund_offline'),
+        );
     }
 
 }

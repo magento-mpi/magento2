@@ -37,37 +37,39 @@
 class OrderCreditMemo_CreateWithSavedCCTest extends Mage_Selenium_TestCase
 {
 
-  /**
-    * <p>Preconditions:</p>
-    * <p>Log in to Backend.</p>
-    */
-   public function setUpBeforeTests()
+    /**
+     * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
+     */
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
     }
+
     protected function assertPreConditions()
     {
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('saved_cc_wo3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
+        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
+        $this->addParameter('id', '0');
     }
+
     /**
+     * Create Simple Product for tests
+     *
      * @test
      */
-    public function createProducts()
+    public function createSimpleProduct()
     {
+        //Data
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        //Steps
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->addParameter('id', '0');
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData;
+
+        return $productData['general_sku'];
     }
 
     /**
@@ -91,26 +93,26 @@ class OrderCreditMemo_CreateWithSavedCCTest extends Mage_Selenium_TestCase
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and refunded successfully</p>
      *
-     * @depends createProducts
+     * @depends createSimpleProduct
      * @test
      */
-    public function fullWithCreditCard($productData)
+    public function fullCreditMemoWithCreditCard($simpleSku)
     {
-        $orderData = $this->loadData('order_req_1',
-                array('filter_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_saved_cc_flatrate', array('filter_sku' => $simpleSku));
+        //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButton('invoice');
+        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
         $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $productsToRefund = $this->loadData('products_to_refund_1');
-        $productsToRefund['product_1']['filter_sku'] = $productData['general_sku'];
-        $productsToRefund['product_1']['qty_to_refund'] = '1';
-        $this->orderCreditMemoHelper()->createCreditMemo($productsToRefund);
+        $this->clickButton('credit_memo');
+        $this->assertTrue($this->checkCurrentPage('create_credit_memo'), $this->messages);
+        $this->clickButton('refund_offline');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
     }
 
     /**
@@ -134,25 +136,24 @@ class OrderCreditMemo_CreateWithSavedCCTest extends Mage_Selenium_TestCase
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and refunded successfully</p>
      *
-     * @depends createProducts
+     * @depends createSimpleProduct
      * @test
      */
-    public function partialWithCreditCard($productData)
+    public function partialCreditMemoWithCreditCard($simpleSku)
     {
-        $orderData = $this->loadData('order_req_partial_creditmemo',
-                array('filter_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_saved_cc_flatrate',
+                array('filter_sku' => $simpleSku, 'product_qty' => 10));
+        $creditMemo = $this->loadData('products_to_refund', array('return_filter_sku' => $simpleSku));
+        //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButton('invoice');
+        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
         $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $productsToRefund = $this->loadData('products_to_refund_1');
-        $productsToRefund['product_1']['filter_sku'] = $productData['general_sku'];
-        $this->orderCreditMemoHelper()->createCreditMemo($productsToRefund);
+        $this->orderCreditMemoHelper()->createPartialShipmentAndVerify($creditMemo);
     }
 
 }

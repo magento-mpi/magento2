@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -35,39 +36,46 @@
  */
 class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
 {
-   /**
-    * Provides partial or full refund
-    *
-    * @param array $refundData
-    */
-    public function createCreditMemo(array $refundData)
+
+    /**
+     * Provides partial or full refund
+     *
+     * @param array $refundData
+     */
+    public function createPartialShipmentAndVerify(array $shipmentData, $refundButton = 'refund_offline')
     {
+        $shipmentData = $this->arrayEmptyClear($shipmentData);
         $this->clickButton('credit_memo');
-        $refundData = $this->arrayEmptyClear($refundData);
-        foreach($refundData as $product => $options) {
-            if (array_key_exists('filter_sku', $options)) {
-                $this->addParameter('sku', $options['filter_sku']);
-                if (array_key_exists('qty_to_refund', $options)
-                        && array_key_exists('return_to_stock', $options)) {
-                    $this->fillForm(array('return_to_stock' => $options['return_to_stock'],
-                        'qty_to_refund' => $options['qty_to_refund']));
-                    $this->clickButton('update_qty', FALSE);
-                    $this->pleaseWait();
+
+        $verify = array();
+        foreach ($shipmentData as $product => $options) {
+            if (is_array($options)) {
+                $sku = (isset($options['return_filter_sku'])) ? $options['return_filter_sku'] : NULL;
+                $productQty = (isset($options['qty_to_refund'])) ? $options['qty_to_refund'] : '%noValue%';
+                if ($sku) {
+                    $verify[$sku] = $productQty;
+                    $this->addParameter('sku', $sku);
+                    $this->fillForm($options);
                 }
             }
         }
-        $this->clickButton('refund_offline');
+        $buttonXpath = $this->_getControlXpath('button', 'update_qty');
+        if ($this->isElementPresent($buttonXpath . "[not(@disabled)]")) {
+            $this->click($buttonXpath);
+            $this->pleaseWait();
+        }
+        $this->clickButton($refundButton);
         $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
-        foreach($refundData as $product => $options) {
-            if (array_key_exists('filter_sku', $options)) {
-                $this->addParameter('sku', $options['filter_sku']);
-                if (array_key_exists('qty_to_refund', $options)) {
-                    $this->addParameter('refundedQty', $options['qty_to_refund']);
-                    $xpathRefunded = $this->_getControlXpath('field', 'qty_refunded');
-                    $this->assertTrue($this->isElementPresent($xpathRefunded),
-                        'Qty of refunded products is incorrect at the orders form');
-                }
+        foreach ($verify as $productSku => $qty) {
+            if ($qty == '%noValue%') {
+                continue;
             }
+            $this->addParameter('sku', $productSku);
+            $this->addParameter('refundedQty', $qty);
+            $xpathShiped = $this->_getControlXpath('field', 'qty_refunded');
+            $this->assertTrue($this->isElementPresent($xpathShiped),
+                    'Qty of refunded products is incorrect at the orders form');
         }
     }
+
 }
