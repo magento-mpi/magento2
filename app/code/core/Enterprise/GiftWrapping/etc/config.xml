@@ -40,7 +40,6 @@
             </enterprise_giftwrapping>
             <enterprise_giftwrapping_resource>
                 <class>Enterprise_GiftWrapping_Model_Resource</class>
-                <resourceModel>enterprise_giftwrapping_resource</resourceModel>
                 <entities>
                     <wrapping><table>enterprise_giftwrapping</table></wrapping>
                     <attribute><table>enterprise_giftwrapping_store_attributes</table></attribute>
