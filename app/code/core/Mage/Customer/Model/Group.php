@@ -117,13 +117,13 @@ class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Processing data save after transaction commit
+     * Run reindex process after data save
      *
      * @return Mage_Customer_Model_Group
      */
-    public function afterCommitCallback()
+    protected function _afterSave()
     {
-        parent::afterCommitCallback();
+        parent::_afterSave();
         Mage::getSingleton('index/indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
