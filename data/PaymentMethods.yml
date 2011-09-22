@@ -25,346 +25,321 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-authorize_net_without_3d_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_payment_methods
-        configuration:
-            an_enabled: Yes
-            an_api_login_id: 36sCtGS8w
-            an_transaction_key: 74sL4dM4dy9Q7Z7v
-            an_test_mode: No
-            an_gateway_url: https://test.authorize.net/gateway/transact.dll
-            an_credit_card_verification: Yes
-            an_3d_secure_card_validation: No
 
-authorize_net_without_3d_disable:
+#<-------------3D Secure Credit Card Validation------------------------>
+enable_3d_secure:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_payment_methods
-        configuration:
-            an_3d_secure_card_validation: No
-            an_credit_card_verification: No
-            an_enabled: No
-
-paypal_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_paypal
-        configuration:
-            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
-            api_authentication_methods: API Signature
-            sandbox_mode: Yes
-            api_username: artem__1312450055_biz_api1.magento.com
-            api_password: 1312450088
-            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
-
-paypal_uk_direct_wo_3d_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_paypal
-        configuration:
-            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
-            api_authentication_methods: API Signature
-            sandbox_mode: Yes
-            api_username: artem__1312450055_biz_api1.magento.com
-            api_password: 1312450088
-            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
-    tab_2:
-        tab_name: sales_paypal
-        configuration:
-            website_payments_pro_payflow_edition: Yes
-            wpppe_partner: PayPalUK
-            wpppe_user: ukpromerchant2g
-            wpppe_vendor: ukpromerchant2g
-            wpppe_password: testing678
-            wpppe_sandbox_mode: Yes
-            wpppe_require_cvv_entry: Yes
-            wpppe_3d_secure_card_validation: No
-
-paypal_uk_direct_w_3d_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_paypal
-        configuration:
-            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
-            api_authentication_methods: API Signature
-            sandbox_mode: Yes
-            api_username: artem__1312450055_biz_api1.magento.com
-            api_password: 1312450088
-            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
-    tab_2:
+    tab_1: &enable3DSecure
         tab_name: sales_payment_services
         configuration:
             processor_id: 134-01
             merchant_id: magentoTEST
             password: mag3nt0T3ST
             test_mode: Yes
-    tab_3:
+            debug_mode: Yes
+
+#<-------------Paypal------------------------>
+paypal_enable:
+    configuration_scope: Default Config
+    tab_1: &enablePaypal
+        tab_name: sales_paypal
+        configuration:
+            merchant_country: United States
+            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
+            website_payments_pro: No
+            website_payments_pro_payflow_edition: No
+            payflow_pro_gateway_express_checkout: No
+            payflow_pro_gateway: No
+            express_checkout: No
+            website_payments_standard: No
+            payflow_link: No
+
+paypal_api_settings:
+    configuration_scope: Default Config
+    tab_1: &setPaypalApi
+        tab_name: sales_paypal
+        configuration:
+            api_authentication_methods: API Signature
+            api_username: artem__1312450055_biz_api1.magento.com
+            api_password: 1312450088
+            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
+            api_sandbox_mode: Yes
+            api_uses_proxy: No
+
+#<-------------PayPal Direct Payment Payflow Edition------------------------>
+paypal_uk_direct_without_3Dsecure:
+    configuration_scope: Default Config
+    tab_1: &payPalDirectUkWithout3Dsecure
         tab_name: sales_paypal
         configuration:
             website_payments_pro_payflow_edition: Yes
+            wpppe_title: PayPal Direct Payment Payflow Edition
+            wpppe_payment_action: Authorization
+            wpppe_debug_mode: Yes
+            wpppe_transfer_cart_line_items: No
             wpppe_partner: PayPalUK
             wpppe_user: ukpromerchant2g
             wpppe_vendor: ukpromerchant2g
             wpppe_password: testing678
             wpppe_sandbox_mode: Yes
+            wpppe_api_uses_proxy: No
+            wpppe_allowed_credit_card_types: American Express, Visa, MasterCard,
+            wpppe_require_cvv_entry: Yes
+            wpppe_3d_secure_card_validation: No
+
+paypal_uk_direct_with_3Dsecure:
+    configuration_scope: Default Config
+    tab_1: *enable3DSecure
+    tab_2:
+        tab_name: sales_paypal
+        configuration:
+            website_payments_pro_payflow_edition: Yes
+            wpppe_title: PayPal Direct Payment Payflow Edition
+            wpppe_payment_action: Authorization
+            wpppe_debug_mode: Yes
+            wpppe_transfer_cart_line_items: No
+            wpppe_partner: PayPalUK
+            wpppe_user: ukpromerchant2g
+            wpppe_vendor: ukpromerchant2g
+            wpppe_password: testing678
+            wpppe_sandbox_mode: Yes
+            wpppe_api_uses_proxy: No
+            wpppe_allowed_credit_card_types: American Express, Visa, MasterCard
             wpppe_require_cvv_entry: Yes
             wpppe_3d_secure_card_validation: Yes
             wpppe_severe_3d_secure_card_validation: No
+            wpppe_centinel_api_url: https://centineltest.cardinalcommerce.com/maps/txns.asp
 
-
-paypal_uk_direct_wo_3d_disable:
+#<-------------PayPal Direct Payment------------------------>
+website_payments_pro_without_3Dsecure:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_paypal
-        configuration:
-            wpppe_sandbox_mode: Yes
-            wpppe_require_cvv_entry: Yes
-            wpppe_3d_secure_card_validation: No
-            website_payments_pro_payflow_edition: No
-
-payflow_pro_wo_3d_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_paypal
-        configuration:
-            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
-            api_authentication_methods: API Signature
-            sandbox_mode: Yes
-            api_username: artem__1312450055_biz_api1.magento.com
-            api_password: 1312450088
-            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
-    tab_2:
-        tab_name: sales_paypal
-        configuration:
-            payflow_pro_gateway: Yes
-            pp_partner: PayPal
-            pp_user: petervarienpayflowpro
-            pp_vendor: petervarienpayflowpro
-            pp_password: paypal123456
-            pp_test_mode: Yes
-            pp_require_cvv_entry: Yes
-            pp_3d_secure_card_validation: No
-
-payflow_pro_w_3d_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_paypal
-        configuration:
-            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
-            api_authentication_methods: API Signature
-            sandbox_mode: Yes
-            api_username: artem__1312450055_biz_api1.magento.com
-            api_password: 1312450088
-            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
-    tab_2:
-        tab_name: sales_payment_services
-        configuration:
-            processor_id: 134-01
-            merchant_id: magentoTEST
-            password: mag3nt0T3ST
-            test_mode: Yes
-    tab_3:
-        tab_name: sales_paypal
-        configuration:
-            payflow_pro_gateway: Yes
-            pp_partner: PayPal
-            pp_user: petervarienpayflowpro
-            pp_vendor: petervarienpayflowpro
-            pp_password: paypal123456
-            pp_test_mode: Yes
-            pp_require_cvv_entry: Yes
-            pp_3d_secure_card_validation: Yes
-
-payflow_pro_wo_3d_disable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_paypal
-        configuration:
-            pp_test_mode: Yes
-            pp_require_cvv_entry: Yes
-            pp_3d_secure_card_validation: No
-            payflow_pro_gateway: No
-
-website_payments_pro_wo_3d_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_paypal
-        configuration:
-            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
-            api_authentication_methods: API Signature
-            sandbox_mode: Yes
-            api_username: artem__1312450055_biz_api1.magento.com
-            api_password: 1312450088
-            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
-    tab_2:
+    tab_1: *setPaypalApi
+    tab_2: &payPalDirectWithout3Dsecure
         tab_name: sales_paypal
         configuration:
             website_payments_pro: Yes
+            wpp_title: PayPal Direct Payment
+            wpp_sort_order: %noValue%
+            wpp_payment_action: Authorization
+            wpp_payment_applicable_from: All Allowed Countries
+            wpp_countries_payment_applicable_from:
+            wpp_debug_mode: Yes
+            wpp_transfer_cart_line_items: No
+            wpp_allowed_credit_card_types: American Express, Visa, MasterCard
             wpp_require_cvv_entry: Yes
             wpp_3d_secure_card_validation: No
 
-website_payments_pro_w_3d_enable:
+website_payments_pro_with_3Dsecure:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_paypal
-        configuration:
-            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
-            api_authentication_methods: API Signature
-            sandbox_mode: Yes
-            api_username: artem__1312450055_biz_api1.magento.com
-            api_password: 1312450088
-            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
-    tab_2:
-        tab_name: sales_payment_services
-        configuration:
-            processor_id: 134-01
-            merchant_id: magentoTEST
-            password: mag3nt0T3ST
-            test_mode: Yes
+    tab_1: *setPaypalApi
+    tab_2: *enable3DSecure
     tab_3:
         tab_name: sales_paypal
         configuration:
             website_payments_pro: Yes
+            wpp_title: PayPal Direct Payment
+            wpp_sort_order: %noValue%
+            wpp_payment_action: Authorization
+            wpp_payment_applicable_from: All Allowed Countries
+            wpp_countries_payment_applicable_from:
+            wpp_debug_mode: Yes
+            wpp_transfer_cart_line_items: No
+            wpp_allowed_credit_card_types: American Express, Visa, MasterCard
             wpp_require_cvv_entry: Yes
             wpp_3d_secure_card_validation: Yes
+            wpp_severe_3d_secure_card_validation: No
+            wpp_centinel_custom_api_url: https://centineltest.cardinalcommerce.com/maps/txns.asp
 
-website_payments_pro_wo_3d_disable:
+#<-------------PayPal Direct Payment Payflow Edition------------------------>
+payflow_pro_without_3Dsecure:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_paypal
-        configuration:
-            wpp_require_cvv_entry: Yes
-            wpp_3d_secure_card_validation: No
-            website_payments_pro: No
-
-3d_secure_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_payment_services
-        configuration:
-            processor_id: 134-01
-            merchant_id: magentoTEST
-            password: mag3nt0T3ST
-            test_mode: Yes
-
-authorize_net_with_3d_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_payment_services
-        configuration:
-            processor_id: 134-01
-            merchant_id: magentoTEST
-            password: mag3nt0T3ST
-            test_mode: Yes
-    tab_2:
-        tab_name: sales_payment_methods
-        configuration:
-            an_enabled: Yes
-            an_api_login_id: 36sCtGS8w
-            an_transaction_key: 74sL4dM4dy9Q7Z7v
-            an_test_mode: Yes
-            an_gateway_url: https://test.authorize.net/gateway/transact.dll
-            an_credit_card_verification: Yes
-            an_3d_secure_card_validation: Yes
-            an_severe_3d_secure_card_validation: No
-
-authorize_net_with_3d_disable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_payment_methods
-        configuration:
-            an_3d_secure_card_validation: No
-            an_credit_card_verification: No
-            an_enabled: No
-
-saved_cc_w3d_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_payment_services
-        configuration:
-            processor_id: 134-01
-            merchant_id: magentoTEST
-            password: mag3nt0T3ST
-            test_mode: Yes
-    tab_2:
-        tab_name: sales_payment_methods
-        configuration:
-            scc_enabled: Yes
-            scc_request_card_security_code: Yes
-            scc_3d_secure_card_validation: Yes
-
-saved_cc_wo3d_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_payment_methods
-        configuration:
-            scc_enabled: Yes
-            scc_request_card_security_code: Yes
-            scc_3d_secure_card_validation: No
-
-saved_cc_w3d_disable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_payment_methods
-        configuration:
-            scc_request_card_security_code: Yes
-            scc_3d_secure_card_validation: No
-            scc_enabled: Yes
-
-all_payment_methods_without_3d:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_paypal
-        configuration:
-            email_associated_with_paypal_merchant_account: artem__1312450055_biz@magento.com
-            api_authentication_methods: API Signature
-            sandbox_mode: Yes
-            api_username: artem__1312450055_biz_api1.magento.com
-            api_password: 1312450088
-            api_signature: AaJzI4qHj73NietETlqIqDO1m4wqAzIalaVXo6z4DiXWviF5vG.QwKKE
-    tab_2:
-        tab_name: sales_payment_methods
-        configuration:
-            scc_enabled: Yes
-            scc_request_card_security_code: Yes
-            scc_3d_secure_card_validation: No
-    tab_3:
-        tab_name: sales_payment_methods
-        configuration:
-            an_enabled: Yes
-            an_api_login_id: 36sCtGS8w
-            an_transaction_key: 74sL4dM4dy9Q7Z7v
-            an_test_mode: Yes
-            an_gateway_url: https://test.authorize.net/gateway/transact.dll
-            an_credit_card_verification: Yes
-            an_3d_secure_card_validation: No
-    tab_4:
-        tab_name: sales_paypal
-        configuration:
-            website_payments_pro_payflow_edition: Yes
-            wpppe_partner: PayPalUK
-            wpppe_user: ukpromerchant2g
-            wpppe_vendor: ukpromerchant2g
-            wpppe_password: testing678
-            wpppe_sandbox_mode: Yes
-            wpppe_require_cvv_entry: Yes
-            wpppe_3d_secure_card_validation: No
-    tab_5:
+    tab_1: &payflowProWithout3Dsecure
         tab_name: sales_paypal
         configuration:
             payflow_pro_gateway: Yes
+            pp_title: Payflow Pro
+            pp_sort_order: %noValue%
+            pp_payment_action: Authorization
+            pp_payment_applicable_from: All Allowed Countries
+            pp_countries_payment_applicable_from: %noValue%
+            pp_debug_mode: Yes
             pp_partner: PayPal
             pp_user: petervarienpayflowpro
             pp_vendor: petervarienpayflowpro
             pp_password: paypal123456
             pp_test_mode: Yes
+            pp_use_proxy: No
+            pp_proxy_host: %noValue%
+            pp_proxy_port: %noValue%
+            pp_allowed_credit_card_types: American Express, Visa, MasterCard
             pp_require_cvv_entry: Yes
             pp_3d_secure_card_validation: No
-    tab_6:
+
+payflow_pro_with_3Dsecure:
+    configuration_scope: Default Config
+    tab_1: *enable3DSecure
+    tab_2:
         tab_name: sales_paypal
         configuration:
-            website_payments_pro: Yes
-            wpp_require_cvv_entry: Yes
-            wpp_3d_secure_card_validation: No
+            payflow_pro_gateway: Yes
+            pp_title: Payflow Pro
+            pp_sort_order: %noValue%
+            pp_payment_action: Authorization
+            pp_payment_applicable_from: All Allowed Countries
+            pp_countries_payment_applicable_from: %noValue%
+            pp_debug_mode: Yes
+            pp_partner: PayPal
+            pp_user: petervarienpayflowpro
+            pp_vendor: petervarienpayflowpro
+            pp_password: paypal123456
+            pp_test_mode: Yes
+            pp_use_proxy: No
+            pp_proxy_host: %noValue%
+            pp_proxy_port: %noValue%
+            pp_allowed_credit_card_types: American Express, Visa, MasterCard
+            pp_require_cvv_entry: Yes
+            pp_3d_secure_card_validation: Yes
+            pp_severe_3d_secure_card_validation: No
+            pp_centinel_api_url: https://centineltest.cardinalcommerce.com/maps/txns.asp
+
+#<-------------Saved CC------------------------>
+saved_cc_with_3Dsecure:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            scc_enabled: Yes
+            scc_title: Credit Card (saved)
+            scc_new_order_status: %noValue%
+            scc_credit_card_type: American Express, Visa, MasterCard, Discover
+            scc_request_card_security_code: Yes
+            scc_3d_secure_card_validation: Yes
+            scc_severe_3d_secure_card_validation: No
+            scc_centinel_api_url: https://centineltest.cardinalcommerce.com/maps/txns.asp
+            scc_payment_from_applicable_countries: All Allowed Countries
+            scc_minimum_order_total: %noValue%
+            scc_maximum_order_total: %noValue%
+            scc_sort_order: %noValue%
+
+saved_cc_without_3Dsecure:
+    configuration_scope: Default Config
+    tab_1: &savedCCWithout3Dsecure
+        tab_name: sales_payment_methods
+        configuration:
+            scc_enabled: Yes
+            scc_title: Credit Card (saved)
+            scc_new_order_status: %noValue%
+            scc_credit_card_type: American Express, Visa, MasterCard, Discover
+            scc_request_card_security_code: Yes
+            scc_3d_secure_card_validation: No
+            scc_payment_from_applicable_countries: All Allowed Countries
+            scc_minimum_order_total: %noValue%
+            scc_maximum_order_total: %noValue%
+            scc_sort_order: %noValue%
+
+saved_cc_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            scc_enabled: No
+
+#<-------------Check / Money Order------------------------>
+check_money_order:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            cmo_enabled: Yes
+            cmo_title: Check / Money order
+            cmo_new_order_status: %noValue%
+            cmo_payment_from_applicable_countries: All Allowed Countries
+            cmo_payment_from_specific_countries: %noValue%
+            cmo_make_check_payable_to: %noValue%
+            cmo_send_check_to: %noValue%
+            cmo_minimum_order_total: %noValue%
+            cmo_maximum_order_total: %noValue%
+            cmo_sort_order: %noValue%
+
+check_money_order_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            cmo_enabled: No
+
+#<-------------Authorize.Net------------------------>
+authorize_net_without_3Dsecure:
+    configuration_scope: Default Config
+    tab_1: &authorizeWithout3Dsecure
+        tab_name: sales_payment_methods
+        configuration:
+            an_enabled: Yes
+            an_title: Credit Card (Authorize.net)
+            an_api_login_id: 36sCtGS8w
+            an_payment_action: Authorize Only
+            an_transaction_key: 33YvD5r6mm9B47e2
+            an_new_order_status: %noValue%
+            an_test_mode: No
+            an_gateway_url: https://test.authorize.net/gateway/transact.dll
+            an_accepted_currency: US Dollar
+            an_debug: Yes
+            an_email_customer: %noValue%
+            an_merchants_email: %noValue%
+            an_credit_card_types: American Express, Visa, MasterCard, Discover
+            an_credit_card_verification: Yes
+            an_payment_from_applicable_countries: All Allowed Countries
+            an_payment_from_specific_coutries: %noValue%
+            an_minimum_order_total: %noValue%
+            an_maximum_order_total: %noValue%
+            an_sort_order: %noValue%
+            an_allow_partial_authorization: Yes
+            an_3d_secure_card_validation: No
+
+authorize_net_with_3Dsecure:
+    configuration_scope: Default Config
+    tab_1: *enable3DSecure
+    tab_2:
+        tab_name: sales_payment_methods
+        configuration:
+            an_enabled: Yes
+            an_title: Credit Card (Authorize.net)
+            an_api_login_id: 36sCtGS8w
+            an_payment_action: Authorize Only
+            an_transaction_key: 74sL4dM4dy9Q7Z7v
+            an_new_order_status: %noValue%
+            an_test_mode: No
+            an_gateway_url: https://test.authorize.net/gateway/transact.dll
+            an_accepted_currency: US Dollar
+            an_debug: Yes
+            an_email_customer: %noValue%
+            an_merchants_email: %noValue%
+            an_credit_card_types: American Express, Visa, MasterCard, Discover
+            an_credit_card_verification: Yes
+            an_payment_from_applicable_countries: All Allowed Countries
+            an_payment_from_specific_coutries: %noValue%
+            an_minimum_order_total: %noValue%
+            an_maximum_order_total: %noValue%
+            an_sort_order: %noValue%
+            an_allow_partial_authorization: Yes
+            an_3d_secure_card_validation: Yes
+            an_severe_3d_secure_card_validation: No
+            an_centinel_api_url:  https://centineltest.cardinalcommerce.com/maps/txns.asp
+
+authorize_net_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            an_enabled: No
+
+#<-------------All------------------------>
+all_payment_methods_without_3d:
+    configuration_scope: Default Config
+    tab_1: *enablePaypal
+    tab_2: *setPaypalApi
+    tab_3: *payPalDirectUkWithout3Dsecure
+    tab_4: *payPalDirectWithout3Dsecure
+    tab_5: *payflowProWithout3Dsecure
+    tab_6: *savedCCWithout3Dsecure
+    tab_7: *authorizeWithout3Dsecure
