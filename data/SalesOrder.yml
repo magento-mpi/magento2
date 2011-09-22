@@ -147,9 +147,9 @@ simple_product_for_order:
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
     general_sku: simple_sku_order
-    general_weight: 2.56
+    general_weight: 18.56
     general_status: Enabled
-    prices_price: 4.95
+    prices_price: 54.95
     prices_tax_class: None
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes

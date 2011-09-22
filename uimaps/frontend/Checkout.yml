@@ -152,10 +152,34 @@ onepage_checkout:
                 -
                     order_review:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-review']
+                        fields:
+                            product_name: //table[@id='checkout-review-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]/td[h3[contains(.,'%productName%')]]
+                            product_price: //table[@id='checkout-review-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]/td[2]/span[contains(.,'%price%')]
+                            product_qty: //table[@id='checkout-review-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]/td[3][contains(.,'%qty%')]
+                            product_subtotal: //table[@id='checkout-review-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]/td[4][contains(.,'%subtotal%')]
+                            subtotal_total: //table[@id='checkout-review-table']/tfoot/tr[contains(.,'Subtotal')]/td[contains(.,'%subtotalTotal%')]
+                            shipping_total: //table[@id='checkout-review-table']/tfoot/tr[contains(.,'Shipping')]/td[contains(.,'%shippingTotal%')]
+                            grand_total: //table[@id='checkout-review-table']/tfoot/tr[contains(.,'Grand Total')]/td[contains(.,'%grandTotal%')]
                         buttons:
                             place_order: //button[span='Place Order']
                         links:
                             edit_cart: //a[contains(.,'Edit Your Cart')]
+                -
+                    checkout_progress:
+                        xpath: //div[@class='block block-progress opc-block-progress']
+                        fields:
+                            billing_address_checkout: //dt[contains(.,'Billing Address')]/following-sibling::dd[1]/address[contains(.,'%billingParameter%')]
+                            shipping_address_checkout: //dt[contains(.,'Shipping Address')]/following-sibling::dd[1]/address[contains(.,'%shippingParameter%')]
+                            shipping_method_checkout: //dt[contains(.,'Shipping Method')]/following-sibling::dd[1][contains(.,'%shippingMethod%')]
+                            payment_method_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1][contains(.,'%paymentMethod%')]
+                            payment_info_card_type_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]//table//tr[contains(.,'%paymentCardType%')]
+                            payment_info_card_number_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]//table//tr[contains(.,'xxxx-%paymentCardNumber%')]
+                            payment_info_card_name_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]//table//tr[contains(.,'%paymentCardName%')]
+                        links:
+                            billing_address_change_link: //dt[1]/a[@href='#billing']
+                            shipping_address_change_link: //dt[2]/a[@href='#payment']
+                            shipping_method_change_link: //dt[3]/a[@href='#shipping_method']
+                            payment_method_change_link: //dt[4]/a[@href='#payment']
             messages: &checkoutMessages
                 empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
                 please_select_option: "//div[@id='advice-validate-select-%fieldId%' and not(contains(@style,'display: none;'))]"

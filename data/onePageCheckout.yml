@@ -60,6 +60,7 @@ billing_guest_req: &billingGuestReq
     billing_telephone: 091019019 billing
     ship_to_this_address: %noValue%
     ship_to_different_address: Yes
+    billing_save_in_address_book: %noValue%
 
 billing_guest_all: &billingGuestAll
     billing_address_select: New Address
@@ -80,6 +81,7 @@ billing_guest_all: &billingGuestAll
     billing_fax: '0919327869(billing)'
     ship_to_this_address: %noValue%
     ship_to_different_address: Yes
+    billing_save_in_address_book: %noValue%
 
 #<--------------REGISTER---------------->
 
@@ -94,7 +96,6 @@ shipping_guest_req: &shippingGuestReq
     shipping_address_select: New Address
     shipping_first_name: shipping_Steven
     shipping_last_name: shipping_Stevenson
-    shipping_email: shipping_guest@example.com
     shipping_street_address_1: shipping street address
     shipping_city: Palo Alto
     shipping_country: United States
@@ -102,8 +103,8 @@ shipping_guest_req: &shippingGuestReq
     shipping_region: %noValue%
     shipping_zip_code: 94306
     shipping_telephone: 091019019 shipping
-    ship_to_this_address: %noValue%
-    ship_to_different_address: Yes
+    use_billing_address: %noValue%
+    shipping_save_in_address_book: %noValue%
 
 shipping_guest_all: &shippingGuestAll
     shipping_address_select: New Address
@@ -121,8 +122,8 @@ shipping_guest_all: &shippingGuestAll
     shipping_zip_code: '94306'
     shipping_telephone: '091019019(shipping)'
     shipping_fax: '0919327869(shipping)'
-    ship_to_this_address: %noValue%
-    ship_to_different_address: Yes
+    use_billing_address: %noValue%
+    shipping_save_in_address_book: %noValue%
 
 #<--------------REGISTER---------------->
 
@@ -188,8 +189,8 @@ checkout_data_template:
             general_name: %noValue%
         product_2: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -214,8 +215,8 @@ checkout_data_saved_cc:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -228,8 +229,8 @@ checkout_data_saved_cc_3d:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -242,8 +243,8 @@ checkout_data_check_money_order:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -255,8 +256,8 @@ checkout_data_authorize_net:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -269,8 +270,8 @@ checkout_data_authorize_net_3d:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -283,8 +284,8 @@ checkout_data_paypaluk_direct:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -297,8 +298,8 @@ checkout_data_paypaluk_direct_3d:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -311,8 +312,8 @@ checkout_data_payflow_pro_verisign:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -325,8 +326,8 @@ checkout_data_payflow_pro_verisign_3d:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -339,8 +340,8 @@ checkout_data_paypal_direct_payment:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -353,8 +354,8 @@ checkout_data_paypal_direct_payment_3d:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *guest
-    billing_address_data: *billingGuestAll
-    shipping_address_data: *shippingGuestAll
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
