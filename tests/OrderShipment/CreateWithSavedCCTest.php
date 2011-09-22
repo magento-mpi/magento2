@@ -34,37 +34,42 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class OrderShipment_CreateTest extends Mage_Selenium_TestCase
+class OrderShipment_CreateWithSavedCCTest extends Mage_Selenium_TestCase
 {
-   /**
-    * <p>Preconditions:</p>
-    * <p>Log in to Backend.</p>
-    */
-   public function setUpBeforeTests()
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
+     */
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->addParameter('tabName', '');
-        $this->addParameter('webSite', '');
-        $this->addParameter('storeName', '');
-        $this->systemConfigurationHelper()->configure('saved_cc_wo3d_enable');
-        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
     }
+
     protected function assertPreConditions()
     {
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
         $this->addParameter('id', '0');
     }
+
     /**
+     * Create Simple Product for tests
+     *
      * @test
      */
-    public function createProducts()
+    public function createSimpleProduct()
     {
+        //Data
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        //Steps
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData;
+
+        return $productData['general_sku'];
     }
 
     /**
@@ -88,26 +93,26 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and shipped successfully</p>
      *
-     * @depends createProducts
+     * @depends createSimpleProduct
      * @test
      */
-    public function full($productData)
+    public function fullShipment($simpleSku)
     {
-        $orderData = $this->loadData('order_req_1', array('filter_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_saved_cc_flatrate', array('filter_sku' => $simpleSku));
+        //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-        $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice');
-        $this->clickButton('submit_invoice');
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $productsToShip = $this->loadData('products_to_ship_1');
-        $productsToShip['product_1']['filter_sku'] = $productData['general_sku'];
-        $productsToShip['product_1']['qty_to_ship'] = '1';
-        $this->orderShipmentHelper()->createShipment($productsToShip);
+        //Steps
+        $this->clickButton('ship');
+        //Verifying
+        $this->assertTrue($this->checkCurrentPage('create_shipment'), $this->messages);
+        //Steps
+        $this->clickButton('submit_shipment');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
     }
 
     /**
@@ -131,24 +136,22 @@ class OrderShipment_CreateTest extends Mage_Selenium_TestCase
      * <p>Message "The order has been created." is displayed.</p>
      * <p>Order is invoiced and shipped successfully</p>
      *
-     * @depends createProducts
+     * @depends createSimpleProduct
      * @test
      */
-    public function partial($productData)
+    public function partialShipment($simpleSku)
     {
-        $orderData = $this->loadData('order_req_partial_shipment', array('filter_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_saved_cc_flatrate',
+                array('filter_sku' => $simpleSku, 'product_qty' => 10));
+        $shipment = $this->loadData('products_to_ship', array('ship_product_sku' => $simpleSku));
+        //Steps
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-        $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
-        $this->clickButton('invoice');
-        $this->clickButton('submit_invoice');
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $productsToShip = $this->loadData('products_to_ship_1');
-        $productsToShip['product_1']['filter_sku'] = $productData['general_sku'];
-        $this->orderShipmentHelper()->createShipment($productsToShip);
+        //Steps
+        $this->orderShipmentHelper()->createPartialShipmentAndVerify($shipment);
     }
+
 }

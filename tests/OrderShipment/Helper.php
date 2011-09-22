@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -35,35 +36,41 @@
  */
 class OrderShipment_Helper extends Mage_Selenium_TestCase
 {
-   /**
-    * Provides partial or fill shipment
-    *
-    * @param array $shipmentData
-    */
-    public function createShipment(array $shipmentData)
+
+    /**
+     * Provides partial or fill shipment
+     *
+     * @param array $shipmentData
+     */
+    public function createPartialShipmentAndVerify(array $shipmentData)
     {
-        $this->clickButton('ship');
         $shipmentData = $this->arrayEmptyClear($shipmentData);
-        foreach($shipmentData as $product => $options) {
-            if (array_key_exists('filter_sku', $options)) {
-                $this->addParameter('sku', $options['filter_sku']);
-                if (array_key_exists('qty_to_ship', $options)) {
-                    $this->fillForm(array('qty_to_ship' => $options['qty_to_ship']));
+        $this->clickButton('ship');
+
+        $verify = array();
+        foreach ($shipmentData as $product => $options) {
+            if (is_array($options)) {
+                $sku = (isset($options['ship_product_sku'])) ? $options['ship_product_sku'] : NULL;
+                $productQty = (isset($options['ship_product_qty'])) ? $options['ship_product_qty'] : '%noValue%';
+                if ($sku) {
+                    $verify[$sku] = $productQty;
+                    $this->addParameter('sku', $sku);
+                    $this->fillForm(array('qty_to_ship' => $productQty));
                 }
             }
         }
         $this->clickButton('submit_shipment');
         $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
-        foreach($shipmentData as $product => $options) {
-            if (array_key_exists('filter_sku', $options)) {
-                $this->addParameter('sku', $options['filter_sku']);
-                if (array_key_exists('qty_to_ship', $options)) {
-                    $this->addParameter('shippedQty', $options['qty_to_ship']);
-                    $xpathShipped = $this->_getControlXpath('field', 'qty_shipped');
-                    $this->assertTrue($this->isElementPresent($xpathShipped),
-                        'Qty of shipped products is incorrect at the orders form');
-                }
+        foreach ($verify as $productSku => $qty) {
+            if ($qty == '%noValue%') {
+                continue;
             }
+            $this->addParameter('sku', $productSku);
+            $this->addParameter('shippedQty', $qty);
+            $xpathShiped = $this->_getControlXpath('field', 'qty_shipped');
+            $this->assertTrue($this->isElementPresent($xpathShiped),
+                    'Qty of shipped products is incorrect at the orders form');
         }
     }
+
 }
