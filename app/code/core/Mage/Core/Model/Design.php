@@ -77,7 +77,7 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
     public function loadChange($storeId, $date = null)
     {
         if (is_null($date)) {
-            $date = date(Varien_Date::DATE_PHP_FORMAT, Mage::app()->getLocale()->storeTimeStamp($storeId));
+            $date = Varien_Date::formatDate(Mage::app()->getLocale()->storeTimeStamp($storeId), false);
         }
 
         $changeCacheId = 'design_change_' . md5($storeId . $date);
