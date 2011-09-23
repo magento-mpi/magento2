@@ -48,8 +48,6 @@ class OrderCreditMemo_CreateWithCheckTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('check_money_order');
         $this->addParameter('id', '0');
     }
 
@@ -99,8 +97,10 @@ class OrderCreditMemo_CreateWithCheckTest extends Mage_Selenium_TestCase
     public function fullCreditMemoWithCheck($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('checkmoney');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
@@ -142,9 +142,12 @@ class OrderCreditMemo_CreateWithCheckTest extends Mage_Selenium_TestCase
     public function partialCreditMemoWithCheck($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku, 'product_qty' => 10));
+        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+                array('filter_sku' => $simpleSku, 'product_qty' => 10));
         $creditMemo = $this->loadData('products_to_refund', array('return_filter_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('checkmoney');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);

@@ -48,8 +48,6 @@ class OrderCreditMemo_CreateWithSavedCCTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
         $this->addParameter('id', '0');
     }
 
@@ -99,8 +97,10 @@ class OrderCreditMemo_CreateWithSavedCCTest extends Mage_Selenium_TestCase
     public function fullCreditMemoWithCreditCard($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_saved_cc_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate', array('filter_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
@@ -142,10 +142,12 @@ class OrderCreditMemo_CreateWithSavedCCTest extends Mage_Selenium_TestCase
     public function partialCreditMemoWithCreditCard($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_saved_cc_flatrate',
+        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate',
                 array('filter_sku' => $simpleSku, 'product_qty' => 10));
         $creditMemo = $this->loadData('products_to_refund', array('return_filter_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);

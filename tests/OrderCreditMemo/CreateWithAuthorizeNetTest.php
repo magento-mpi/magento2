@@ -51,77 +51,30 @@ class OrderCreditMemo_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('authorize_net_without_3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
+        $this->addParameter('id', '0');
     }
 
     /**
+     * Create Simple Product for tests
+     *
      * @test
      */
-    public function createProducts()
+    public function createSimpleProduct()
     {
+        //Data
+        $simpleSku = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        //Steps
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->addParameter('id', '0');
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($simpleSku);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData;
+
+        return $simpleSku['general_sku'];
     }
 
-//    /**
-//     * <p>AuthorizeNet. Refund Online</p>
-//     * <p>Steps:</p>
-//     * <p>1.Go to Sales-Orders.</p>
-//     * <p>2.Press "Create New Order" button.</p>
-//     * <p>3.Press "Create New Customer" button.</p>
-//     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-//     * <p>5.Fill all fields.</p>
-//     * <p>6.Press 'Add Products' button.</p>
-//     * <p>7.Add first two products.</p>
-//     * <p>8.Choose shipping address the same as billing.</p>
-//     * <p>9.Check payment method 'Credit Card - Visa'</p>
-//     * <p>10. Fill in all required fields.</p>
-//     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-//     * <p>12.Submit order.</p>
-//     * <p>13.Invoice order.</p>
-//     * <p>14.Make refund online.</p>
-//     * <p>Expected result:</p>
-//     * <p>New customer is created. Order is created for the new customer. Refund Online is successful</p>
-//     *
-//     * @depends createProducts
-//     * @test
-//     */
-//    public function fullRefundOnline($productData)
-//    {
-//        $this->navigate('manage_sales_orders');
-//        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-//        $orderData = $this->loadData('order_data_authorize_net_1');
-//        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-//        $orderId = $this->orderHelper()->createOrder($orderData);
-//        $this->addParameter('order_id', $orderId);
-//        $this->addParameter('id', $this->defineIdFromUrl());
-//        $this->clickButton('invoice', TRUE);
-//        $this->fillForm(array('amount' => 'Capture Online'));
-//        $this->clickButton('submit_invoice', TRUE);
-//        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-//        $this->navigate('manage_sales_invoices');
-//        $this->searchAndOpen(array('filter_order_id' => $orderId), FALSE);
-//        $this->waitForPageToLoad();
-//        $this->addParameter('invoice_id', $this->defineIdFromUrl());
-//        $this->clickButton('credit_memo', TRUE);
-//        $this->clickButton('refund', TRUE);
-//        $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
-//    }
-
     /**
-     * <p>AuthorizeNet. Refund Offline</p>
+     * <p>AuthorizeNet. Full refund/p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders.</p>
      * <p>2.Press "Create New Order" button.</p>
@@ -136,40 +89,91 @@ class OrderCreditMemo_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
      * <p>11.Choose first from 'Get shipping methods and rates'.</p>
      * <p>12.Submit order.</p>
      * <p>13.Invoice order.</p>
-     * <p>14.Make refund offline.</p>
+     * <p>14.Make refund online.</p>
      * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer. Refund Offline is successful</p>
+     * <p>New customer is created. Order is created for the new customer. Credit memo is(isn't) created</p>
      *
-     * @depends createProducts
+     * @depends createSimpleProduct
+     * @dataProvider dataRefund
      * @test
      */
-    public function fullRefundOffline($productData)
+    public function fullRefund($captureType, $refundType, $simpleSku)
     {
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_authorizenet_flatrate', array('filter_sku' => $simpleSku));
+        //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('authorizenet_without_3Dsecure');
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_authorize_net_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
+
         $this->addParameter('order_id', $orderId);
-        $this->addParameter('id', $this->defineIdFromUrl());
         $this->clickButton('invoice');
-        $this->fillForm(array('amount' => 'Capture Offline'));
+        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
+        $this->fillForm(array('amount' => $captureType));
         $this->clickButton('submit_invoice');
         $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->clickButtonAndConfirm('credit_memo', 'confirmation_to_procced');
-        $this->clickButton('refund_offline');
-        $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
+
+        $this->navigate('manage_sales_invoices');
+        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->clickButton('credit_memo');
+        $this->clickButton($refundType);
+        //Verifying
+        if ($refundType != 'refund') {
+            $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
+        } else {
+            $this->assertTrue($this->errorMessage('failed_authorize_online_refund'), $this->messages);
+        }
     }
 
-    protected function assertPostConditions()
+    public function dataRefund()
     {
+        return array(
+            array('Capture Online', 'refund'),
+            array('Capture Online', 'refund_offline'),
+            array('Capture Offline', 'refund_offline')
+        );
+    }
+
+    /**
+     * @depends createSimpleProduct
+     * @dataProvider dataRefund
+     * @test
+     */
+    public function partialRefund($captureType, $refundType, $simpleSku)
+    {
+        $this->markTestIncomplete('Need implement');
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_authorizenet_flatrate',
+                array('filter_sku' => $simpleSku, 'product_qty' => 10));
+        $creditMemo = $this->loadData('products_to_refund', array('return_filter_sku' => $simpleSku));
+        //Steps
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment_services/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('authorize_net_without_3d_disable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
+        $this->systemConfigurationHelper()->configure('authorizenet_without_3Dsecure');
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
+
+        $this->addParameter('order_id', $orderId);
+        $this->clickButton('invoice');
+        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
+        $this->fillForm(array('amount' => $captureType));
+        $this->clickButton('submit_invoice');
+        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
+
+        $this->navigate('manage_sales_invoices');
+        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->clickButton('credit_memo');
+        $this->clickButton($refundType);
+        //Verifying
+        if ($refundType != 'refund') {
+            $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
+        } else {
+            $this->assertTrue($this->errorMessage('failed_authorize_online_refund'), $this->messages);
+        }
     }
 
 }
