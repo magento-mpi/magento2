@@ -50,9 +50,9 @@ class Mage_XmlConnect_Block_Cart_Paypal_Mecl_Shippingmethods
         $methodListXmlObj->addAttribute('label', $this->__('Shipping Method'));
 
         if ($this->getCanEditShippingMethod() || !$this->getCurrentShippingRate()) {
-            if ($groups = $this->getShippingRateGroups()) {
+            $groups = $this->getShippingRateGroups();
+            if ($groups) {
                 $currentRate = $this->getCurrentShippingRate();
-
                 foreach ($groups as $code => $rates) {
                     $rateXmlObj = $this->_addRatesToXmlObj($methodListXmlObj, $code);
                     foreach ($rates as $rate) {
@@ -63,36 +63,20 @@ class Mage_XmlConnect_Block_Cart_Paypal_Mecl_Shippingmethods
                         if ($currentRate === $rate) {
                             $rateAttributes += array('selected' => 1);
                         }
-                        $rateXmlObj->addCustomChild(
-                            'rate',
-                            null,
-                            $rateAttributes
-                        );
+                        $rateXmlObj->addCustomChild('rate', null, $rateAttributes);
                     }
                 }
             } else {
-                $message = $this->_quote->isVirtual()
-                    ? $this->__('No shipping method required.')
+                $message = $this->_quote->isVirtual() ? $this->__('No shipping method required.')
                     : $this->__('Sorry, no quotes are available for this order at this time.');
-                $methodListXmlObj->addCustomChild(
-                    'method',
-                    null,
-                    array(
-                         'label' => $message
-                    )
-                );
+                $methodListXmlObj->addCustomChild('method', null, array('label' => $message));
             }
         } else {
             $rateXmlObj = $this->_addRatesToXmlObj($methodListXmlObj);
-
-            $rateXmlObj->addCustomChild(
-                'rate',
-                null,
-                array(
-                    'label' => $this->renderShippingRateOption($this->getCurrentShippingRate()),
-                    'selected' => 1
-                )
-            );
+            $rateXmlObj->addCustomChild('rate', null, array(
+                'label' => $this->renderShippingRateOption($this->getCurrentShippingRate()),
+                'selected' => 1
+            ));
         }
 
         return $methodListXmlObj->asNiceXml();
@@ -108,11 +92,6 @@ class Mage_XmlConnect_Block_Cart_Paypal_Mecl_Shippingmethods
     protected function _addRatesToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $methodListXmlObj, $code = '')
     {
         $attributes = $code ? array('label' => $this->getCarrierName($code)) : array();
-        return $methodListXmlObj->addCustomChild(
-            'method',
-            null,
-            $attributes
-        )
-        ->addCustomChild('rates');
+        return $methodListXmlObj->addCustomChild('method', null, $attributes)->addCustomChild('rates');
     }
 }

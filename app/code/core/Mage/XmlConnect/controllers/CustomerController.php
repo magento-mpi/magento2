@@ -34,9 +34,9 @@
 class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Action
 {
     /**
-     * Customer authentification action
+     * Customer authentication action
      *
-     * @return void
+     * @return null
      */
     public function loginAction()
     {
@@ -83,7 +83,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Customer logout
      *
-     * @return void
+     * @return null
      */
     public function logoutAction()
     {
@@ -101,7 +101,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Customer registration/edit account form
      *
-     * @return void
+     * @return null
      */
     public function formAction()
     {
@@ -111,19 +111,14 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             if ($editFlag == 1) {
                 if (!$this->_getSession()->isLoggedIn()) {
                     $this->_message(
-                        $this->__('Customer not logged in.'),
-                        self::MESSAGE_STATUS_ERROR,
-                        array('logged_in' => '0')
+                        $this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR, array('logged_in' => '0')
                     );
                     return;
                 }
                 $customer = $this->_getSession()->getCustomer();
             }
 
-            $this->loadLayout(false)
-                ->getLayout()
-                ->getBlock('xmlconnect.customer.form')
-                ->setCustomer($customer);
+            $this->loadLayout(false)->getLayout()->getBlock('xmlconnect.customer.form')->setCustomer($customer);
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
@@ -136,15 +131,13 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Change customer data action
      *
-     * @return void
+     * @return null
      */
     public function editAction()
     {
         if (!$this->_getSession()->isLoggedIn()) {
             $this->_message(
-                $this->__('Customer not logged in.'),
-                self::MESSAGE_STATUS_ERROR,
-                array('logged_in' => '0')
+                $this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR, array('logged_in' => '0')
             );
             return;
         }
@@ -153,8 +146,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
             /* @var $customerForm Mage_Customer_Model_Form */
             $customerForm = Mage::getModel('customer/form');
-            $customerForm->setFormCode('customer_account_edit')
-                ->setEntity($customer);
+            $customerForm->setFormCode('customer_account_edit')->setEntity($customer);
 
             $customerData = $customerForm->extractData($this->getRequest());
 
@@ -228,7 +220,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Save customer account
      *
-     * @return void
+     * @return null
      */
     public function saveAction()
     {
@@ -251,8 +243,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
             /* @var $customerForm Mage_Customer_Model_Form */
             $customerForm = Mage::getModel('customer/form');
-            $customerForm->setFormCode('customer_account_create')
-                ->setEntity($customer);
+            $customerForm->setFormCode('customer_account_create')->setEntity($customer);
 
             $customerData = $customerForm->extractData($this->getRequest());
 
@@ -329,7 +320,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Send new password to customer by specified email
      *
-     * @return void
+     * @return null
      */
     public function forgotPasswordAction()
     {
@@ -339,8 +330,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 $this->_message($this->__('Invalid email address.'), self::MESSAGE_STATUS_ERROR);
                 return;
             }
-            $customer = Mage::getModel('customer/customer')
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+            $customer = Mage::getModel('customer/customer')->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->loadByEmail($email);
 
             if ($customer->getId()) {
@@ -349,22 +339,19 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                     $customer->changePassword($newPassword, false);
                     $customer->sendPasswordReminderEmail();
                     $this->_message(
-                        $this->__('A new password has been sent.'),
-                        self::MESSAGE_STATUS_SUCCESS
+                        $this->__('A new password has been sent.'), self::MESSAGE_STATUS_SUCCESS
                     );
                     return;
                 } catch (Mage_Core_Exception $e) {
                     $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
                 } catch (Exception $e) {
                     $this->_message(
-                        $this->__('Problem changing or sending password.'),
-                        self::MESSAGE_STATUS_ERROR
+                        $this->__('Problem changing or sending password.'), self::MESSAGE_STATUS_ERROR
                     );
                 }
             } else {
                 $this->_message(
-                    $this->__('This email address was not found in our records.'),
-                    self::MESSAGE_STATUS_ERROR
+                    $this->__('This email address was not found in our records.'), self::MESSAGE_STATUS_ERROR
                 );
             }
         } else {
@@ -375,16 +362,14 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Customer addresses list
      *
-     * @return void
+     * @return null
      */
     public function addressAction()
     {
         if (!$this->_getSession()->isLoggedIn()) {
             Mage::log('address:'.$this->_getSession()->getSessionId());
             $this->_message(
-                $this->__('Customer not logged in.'),
-                self::MESSAGE_STATUS_ERROR,
-                array('logged_in' => '0')
+                $this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR, array('logged_in' => '0')
             );
             return;
         }
@@ -396,10 +381,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             } catch (Mage_Core_Exception $e) {
                 $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
             } catch (Exception $e) {
-                $this->_message(
-                    $this->__('Unable to load addresses.'),
-                    self::MESSAGE_STATUS_ERROR
-                );
+                $this->_message($this->__('Unable to load addresses.'), self::MESSAGE_STATUS_ERROR);
                 Mage::logException($e);
             }
         } else {
@@ -414,16 +396,14 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Customer add/edit address form
      *
-     * @return void
+     * @return null
      */
     public function addressFormAction()
     {
         try {
             if (!$this->_getSession()->isLoggedIn()) {
                 $this->_message(
-                    $this->__('Customer not logged in.'),
-                    self::MESSAGE_STATUS_ERROR,
-                    array('logged_in' => '0')
+                    $this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR, array('logged_in' => '0')
                 );
                 return;
             }
@@ -437,18 +417,12 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             if ($addressId) {
                 $address->load($addressId);
                 if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
-                    $this->_message(
-                        $this->__('Specified address does not exist.'),
-                        self::MESSAGE_STATUS_ERROR
-                    );
+                    $this->_message($this->__('Specified address does not exist.'), self::MESSAGE_STATUS_ERROR);
                     return;
                 }
             }
 
-            $this->loadLayout(false)
-                ->getLayout()
-                ->getBlock('xmlconnect.customer.address.form')
-                ->setAddress($address);
+            $this->loadLayout(false)->getLayout()->getBlock('xmlconnect.customer.address.form')->setAddress($address);
 
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
@@ -463,15 +437,13 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Remove customer address
      *
-     * @return void
+     * @return null
      */
     public function deleteAddressAction()
     {
         if (!$this->_getSession()->isLoggedIn()) {
             $this->_message(
-                $this->__('Customer not logged in.'),
-                self::MESSAGE_STATUS_ERROR,
-                array('logged_in' => '0')
+                $this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR, array('logged_in' => '0')
             );
             return;
         }
@@ -483,25 +455,16 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
-                $this->_message(
-                    $this->__('Address does not belong to this customer.'),
-                    self::MESSAGE_STATUS_ERROR
-                );
+                $this->_message($this->__('Address does not belong to this customer.'), self::MESSAGE_STATUS_ERROR);
                 return;
             }
 
             try {
                 $address->delete();
-                $this->_message(
-                    $this->__('Address has been deleted.'),
-                    self::MESSAGE_STATUS_SUCCESS
-                );
+                $this->_message($this->__('Address has been deleted.'), self::MESSAGE_STATUS_SUCCESS);
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_message(
-                    $this->__('An error occurred while deleting the address.'),
-                    self::MESSAGE_STATUS_ERROR
-                );
+                $this->_message($this->__('An error occurred while deleting the address.'), self::MESSAGE_STATUS_ERROR);
             }
         }
     }
@@ -509,15 +472,13 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Add/Save customer address
      *
-     * @return void
+     * @return null
      */
     public function saveAddressAction()
     {
         if (!$this->_getSession()->isLoggedIn()) {
             $this->_message(
-                $this->__('Customer not logged in.'),
-                self::MESSAGE_STATUS_ERROR,
-                array('logged_in' => '0')
+                $this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR, array('logged_in' => '0')
             );
             return;
         }
@@ -590,15 +551,13 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Customer orders list
      *
-     * @return void
+     * @return null
      */
     public function orderListAction()
     {
         if (!$this->_getSession()->isLoggedIn()) {
             $this->_message(
-                $this->__('Customer not logged in.'),
-                self::MESSAGE_STATUS_ERROR,
-                array('logged_in' => '0')
+                $this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR, array('logged_in' => '0')
             );
             return;
         }
@@ -617,16 +576,14 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Customer order details
      *
-     * @return void
+     * @return null
      */
     public function orderDetailsAction()
     {
         try {
             if (!$this->_getSession()->isLoggedIn()) {
                 $this->_message(
-                    $this->__('Customer not logged in.'),
-                    self::MESSAGE_STATUS_ERROR,
-                    array('logged_in' => '0')
+                    $this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR, array('logged_in' => '0')
                 );
                 return;
             }
@@ -666,9 +623,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     {
         $customerId = Mage::getSingleton('customer/session')->getCustomerId();
         $availableStates = Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates();
-        if ($order->getId()
-            && $order->getCustomerId()
-            && ($order->getCustomerId() == $customerId)
+        if ($order->getId() && $order->getCustomerId() && ($order->getCustomerId() == $customerId)
             && in_array($order->getState(), $availableStates, true)
         ) {
             return true;
@@ -679,7 +634,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Check if customer is loggined
      *
-     * @return void
+     * @return null
      */
     public function isLogginedAction()
     {
@@ -714,7 +669,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Store Credit info
      *
-     * @return void
+     * @return null
      */
     public function storeCreditAction()
     {
@@ -743,7 +698,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Check Gift card action
      *
-     * @return void
+     * @return null
      */
     public function giftcardCheckAction()
     {
@@ -780,7 +735,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     /**
      * Redeem Gift card action
      *
-     * @return void
+     * @return null
      */
     public function giftcardRedeemAction()
     {
@@ -805,7 +760,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                     ->setIsRedeemed(true)->redeem();
 
                 $this->_message(
-                    $this->__('Gift Card "%s" was redeemed.', Mage::helper('core')->htmlEscape($code)),
+                    $this->__('Gift Card "%s" was redeemed.', Mage::helper('core')->escapeHtml($code)),
                     self::MESSAGE_STATUS_SUCCESS
                 );
             }

@@ -41,88 +41,54 @@ class Mage_XmlConnect_Block_Cart_Paypal_Mecl_Review extends Mage_Paypal_Block_Ex
     protected function _toHtml()
     {
         /** @var $reviewXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $reviewXmlObj = Mage::getModel(
-            'xmlconnect/simplexml_element',
-            '<mecl_cart_details></mecl_cart_details>'
-        );
+        $reviewXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<mecl_cart_details></mecl_cart_details>');
 
         if ($this->getPaypalMessages()) {
-            $reviewXmlObj->addChild(
-                'paypal_message',
-                implode(PHP_EOL, $this->getPaypalMessages())
-            );
+            $reviewXmlObj->addChild('paypal_message', implode(PHP_EOL, $this->getPaypalMessages()));
         }
 
         if ($this->getShippingAddress()) {
             $reviewXmlObj->addCustomChild(
                 'shipping_address',
-                $this->renderAddress($this->getShippingAddress()),
+                Mage::helper('xmlconnect')->trimLineBreaks($this->getShippingAddress()->format('text')),
                 array('label' => $this->__('Shipping Address'))
             );
         }
 
         if ($this->_quote->isVirtual()) {
-            $reviewXmlObj->addCustomChild(
-                'shipping_method',
-                null,
-                array(
-                     'label' => $this->__('No shipping method required.')
-                )
-            );
+            $reviewXmlObj->addCustomChild('shipping_method', null, array(
+                'label' => $this->__('No shipping method required.')
+            ));
         } elseif ($this->getCanEditShippingMethod() || !$this->getCurrentShippingRate()) {
             if ($groups = $this->getShippingRateGroups()) {
                 $currentRate = $this->getCurrentShippingRate();
                 foreach ($groups as $code => $rates) {
                     foreach ($rates as $rate) {
                         if ($currentRate === $rate) {
-                            $reviewXmlObj->addCustomChild(
-                                'shipping_method',
-                                null,
-                                array(
-                                    'rate' => strip_tags($this->renderShippingRateOption($rate)),
-                                    'label' => $this->getCarrierName($code)
-                                )
-                            );
+                            $reviewXmlObj->addCustomChild('shipping_method', null, array(
+                                'rate' => strip_tags($this->renderShippingRateOption($rate)),
+                                'label' => $this->getCarrierName($code)
+                            ));
                             break(2);
                         }
                     }
                 }
             }
         }
-        $reviewXmlObj->addCustomChild(
-            'payment_method',
-            $this->escapeHtml($this->getPaymentMethodTitle()),
-            array(
-                'label' => $this->__('Payment Method')
-            )
-        );
+        $reviewXmlObj->addCustomChild('payment_method', $this->escapeHtml($this->getPaymentMethodTitle()), array(
+            'label' => $this->__('Payment Method')
+        ));
 
         $reviewXmlObj->addCustomChild(
             'billing_address',
-            $this->renderAddress($this->getBillingAddress()),
+            Mage::helper('xmlconnect')->trimLineBreaks($this->getBillingAddress()->format('text')),
             array(
-                'label' => $this->__('Billing Address'),
-                'payer_email' => $this->__('Payer Email: %s', $this->getBillingAddress()->getEmail())
-            )
-        );
+                'label'         => $this->__('Billing Address'),
+                'payer_email'   => $this->__('Payer Email: %s', $this->getBillingAddress()->getEmail())
+        ));
 
         $this->getChild('details')->addDetailsToXmlObj($reviewXmlObj);
 
         return $reviewXmlObj->asNiceXml();
-    }
-
-    /**
-     * Get text output for specified address
-     *
-     * @param $address
-     * @return string
-     */
-    public function renderAddress($address)
-    {
-        return preg_replace(
-            array('@\r@', '@\n+@'),
-            array('', PHP_EOL),
-            $address->getFormated(false)
-        );
     }
 }

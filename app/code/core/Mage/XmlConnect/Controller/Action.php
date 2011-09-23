@@ -62,7 +62,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
      * Declare content type header
      * Validate current application
      *
-     * @return void
+     * @return null
      */
     public function preDispatch()
     {
@@ -78,8 +78,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
         $screenSize = isset($_COOKIE[$screenSizeCookieName]) ? (string) $_COOKIE[$screenSizeCookieName] : '';
         if (!$appCode) {
             $this->_message(
-                Mage::helper('xmlconnect')->__('Specified invalid app code.'),
-                self::MESSAGE_STATUS_ERROR
+                Mage::helper('xmlconnect')->__('Specified invalid app code.'), self::MESSAGE_STATUS_ERROR
             );
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -91,8 +90,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
             && (int)Mage::getStoreConfig('general/restriction/mode') == 0
         ) {
             $this->_message(
-                Mage::helper('xmlconnect')->__('Website is offline.'),
-                self::MESSAGE_STATUS_SUCCESS
+                Mage::helper('xmlconnect')->__('Website is offline.'), self::MESSAGE_STATUS_SUCCESS
             );
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -108,8 +106,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
             Mage::register('current_app', $appModel);
         } else {
             $this->_message(
-                Mage::helper('xmlconnect')->__('Specified invalid app code.'),
-                self::MESSAGE_STATUS_ERROR
+                Mage::helper('xmlconnect')->__('Specified invalid app code.'), self::MESSAGE_STATUS_ERROR
             );
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -119,7 +116,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
     /**
      * Validate response body
      *
-     * @return void
+     * @return null
      */
     public function postDispatch()
     {
@@ -139,7 +136,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
      * @param string $text
      * @param string $status
      * @param array $children
-     * @return void
+     * @return null
      */
     protected function _message($text, $status, $children = array())
     {

@@ -108,8 +108,7 @@ class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_C
                     $attributeCode  = $attributeItem->getAttributeCode();
                     list($filterModel, $filterBlock) = $this->helper('xmlconnect')->getFilterByKey($attributeCode);
 
-                    $filterModel->setLayer($layer)
-                        ->setAttributeModel($attributeItem);
+                    $filterModel->setLayer($layer)->setAttributeModel($attributeItem);
 
                     $filterParam = parent::REQUEST_FILTER_PARAM_REFIX . $attributeCode;
                     /**
@@ -126,9 +125,8 @@ class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_C
                  * Separately apply and save category filter
                  */
                 list($categoryFilter, $categoryFilterBlock) = $this->helper('xmlconnect')->getFilterByKey('category');
-                $filterParam    = parent::REQUEST_FILTER_PARAM_REFIX . $categoryFilter->getRequestVar();
-                $categoryFilter->setLayer($layer)
-                    ->setRequestVar($filterParam)
+                $filterParam = parent::REQUEST_FILTER_PARAM_REFIX . $categoryFilter->getRequestVar();
+                $categoryFilter->setLayer($layer)->setRequestVar($filterParam)
                     ->apply($this->getRequest(), $categoryFilterBlock);
                 $filters[] = $categoryFilter;
 
@@ -156,7 +154,6 @@ class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_C
                 $this->setHasProductItems(1);
             }
             $collection->getSelect()->limit($count, $offset);
-
             $collection->setFlag('require_stock_items', true);
 
             $this->_productCollection = $collection;

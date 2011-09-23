@@ -31,15 +31,14 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default
-    extends Mage_Sales_Block_Order_Item_Renderer_Default
+class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default extends Mage_Sales_Block_Order_Item_Renderer_Default
 {
     /**
      * Add item to XML object
      * (get from template: sales/order/items/renderer/default.phtml)
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj
-     * @return void
+     * @return null
      */
     public function addItemToXmlObject(Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj)
     {
@@ -47,13 +46,9 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default
         $item = $this->getItem();
 
         /** @var $itemXml Mage_XmlConnect_Model_Simplexml_Element */
-        $itemXml = $orderItemXmlObj->addCustomChild(
-            'item',
-            null,
-            array(
-                'product_id' => $item->getProductId()
-            )
-        );
+        $itemXml = $orderItemXmlObj->addCustomChild('item', null, array(
+            'product_id' => $item->getProductId()
+        ));
         $itemXml->addCustomChild('name', $item->getName());
 
         /** @var $weeeHelper Mage_Weee_Helper_Data */
@@ -61,10 +56,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default
         /** @var $taxHelper Mage_Tax_Helper_Data */
         $taxHelper  = $this->helper('tax');
 
-        Mage::helper('xmlconnect/customer_order')->addItemOptionsToXml(
-            $this,
-            $itemXml
-        );
+        Mage::helper('xmlconnect/customer_order')->addItemOptionsToXml($this, $itemXml);
 
         $addtInfoBlock = $this->getProductAdditionalInformationBlock();
         if ($addtInfoBlock) {
@@ -89,10 +81,10 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default
             && $this->getWeeeTaxAppliedAmount();
 
         $this->setTypesOfDisplay(array(
-            1   => $typeOfDisplay1,
-            2   => $typeOfDisplay2,
-            4   => $typeOfDisplay4,
-            14  => $typeOfDisplay014,
+            Mage_XmlConnect_Helper_Customer_Order::PRICE_DISPLAY_TYPE_1   => $typeOfDisplay1,
+            Mage_XmlConnect_Helper_Customer_Order::PRICE_DISPLAY_TYPE_2   => $typeOfDisplay2,
+            Mage_XmlConnect_Helper_Customer_Order::PRICE_DISPLAY_TYPE_4   => $typeOfDisplay4,
+            Mage_XmlConnect_Helper_Customer_Order::PRICE_DISPLAY_TYPE_14  => $typeOfDisplay014,
         ));
         $this->setWeeeTaxes($weeeHelper->getApplied($item));
 
@@ -100,33 +92,20 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Default
         $priceXml = $itemXml->addChild('price');
 
         // Quantity: Ordered, Shipped, Cancelled, Refunded
-        Mage::helper('xmlconnect/customer_order')->addQuantityToXml(
-            $this,
-            $itemXml->addChild('qty'),
-            $item
-        );
+        Mage::helper('xmlconnect/customer_order')->addQuantityToXml($this, $itemXml->addChild('qty'), $item);
 
         /** @var $subtotalXml Mage_XmlConnect_Model_Simplexml_Element */
         $subtotalXml = $itemXml->addChild('subtotal');
 
         // Price & subtotal - excluding tax
         if ($taxHelper->displaySalesBothPrices() || $taxHelper->displaySalesPriceExclTax()) {
-            Mage::helper('xmlconnect/customer_order')->addPriceAndSubtotalToXml(
-                $this,
-                $item,
-                $priceXml,
-                $subtotalXml
-            );
+            Mage::helper('xmlconnect/customer_order')->addPriceAndSubtotalToXml($this, $item, $priceXml, $subtotalXml);
         }
 
         // Price & subtotal - including tax
         if ($taxHelper->displaySalesBothPrices() || $taxHelper->displaySalesPriceInclTax()) {
             Mage::helper('xmlconnect/customer_order')->addPriceAndSubtotalToXml(
-                $this,
-                $item,
-                $priceXml,
-                $subtotalXml,
-                true
+                $this, $item, $priceXml, $subtotalXml, true
             );
         }
     }

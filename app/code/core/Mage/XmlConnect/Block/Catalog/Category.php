@@ -55,16 +55,14 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
             $productListBlock = $this->getChild('product_list');
             if ($productListBlock && $categoryModel->getLevel() > 1) {
                 $layer = Mage::getSingleton('catalog/layer');
-                $productsXmlObj = $productListBlock->setCategory($categoryModel)
-                    ->setLayer($layer)
+                $productsXmlObj = $productListBlock->setCategory($categoryModel)->setLayer($layer)
                     ->getProductsXmlObject();
                 $hasMoreProductItems = (int)$productListBlock->getHasProductItems();
             }
 
             $infoBlock = $this->getChild('category_info');
             if ($infoBlock) {
-                $categoryInfoXmlObj = $infoBlock->setCategory($categoryModel)
-                    ->getCategoryInfoXmlObject();
+                $categoryInfoXmlObj = $infoBlock->setCategory($categoryModel)->getCategoryInfoXmlObject();
                 $categoryInfoXmlObj->addChild('has_more_items', $hasMoreProductItems);
                 $categoryXmlObj->appendChild($categoryInfoXmlObj);
             }
@@ -86,11 +84,8 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
                 if (!is_null($categoryId)) {
                     $itemXmlObj->addChild('parent_id', $item->getParentId());
                 }
-                $icon = Mage::helper('xmlconnect/catalog_category_image')
-                    ->initialize($item, 'thumbnail')
-                    ->resize(
-                        Mage::helper('xmlconnect/image')->getImageSizeForContent('category')
-                );
+                $icon = Mage::helper('xmlconnect/catalog_category_image')->initialize($item, 'thumbnail')
+                    ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('category'));
 
                 $iconXml = $itemXmlObj->addChild('icon', $icon);
 

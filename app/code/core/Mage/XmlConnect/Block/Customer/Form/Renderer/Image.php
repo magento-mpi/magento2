@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Form_Renderer_Image
-    extends Mage_XmlConnect_Block_Customer_Form_Renderer_File
+class Mage_XmlConnect_Block_Customer_Form_Renderer_Image extends Mage_XmlConnect_Block_Customer_Form_Renderer_File
 {
     /**
      * Field type
@@ -67,19 +66,15 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_Image
 
             if (!empty($validateRules['max_image_width'])) {
                 $minTextLength = (int) $validateRules['max_image_width'];
-                $validatorXmlObj->addRule(array (
-                    'type' => 'max_image_width',
-                    'value' => $minTextLength,
-                    'field_label' => $this->getLabel()
+                $validatorXmlObj->addRule(array(
+                    'type' => 'max_image_width', 'value' => $minTextLength, 'field_label' => $this->getLabel()
                 ));
             }
 
             if (!empty($validateRules['max_image_heght'])) {
                 $maxTextLength = $validateRules['max_image_heght'];
-                $validatorXmlObj->addRule(array (
-                    'type' => 'max_image_height',
-                    'value' => $maxTextLength,
-                    'field_label' => $this->getLabel()
+                $validatorXmlObj->addRule(array(
+                    'type' => 'max_image_height', 'value' => $maxTextLength, 'field_label' => $this->getLabel()
                 ));
             }
         }

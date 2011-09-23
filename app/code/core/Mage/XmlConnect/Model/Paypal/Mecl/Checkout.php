@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Paypal_Mecl_Checkout
-    extends Mage_Paypal_Model_Express_Checkout
+class Mage_XmlConnect_Model_Paypal_Mecl_Checkout extends Mage_Paypal_Model_Express_Checkout
 {
     /**
      * Payment method type

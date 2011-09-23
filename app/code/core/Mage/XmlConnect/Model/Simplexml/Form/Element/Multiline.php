@@ -122,10 +122,9 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Multiline
                 $value = !empty($values[$i]) ? array('value' => $values[$i]) : array();
 
                 $valuesXmlObj->addCustomChild('item', null, array(
-                        'id' => $this->getXmlId($i),
-                        'name' => $this->getFieldName($i)
-                    ) + $value
-                );
+                    'id' => $this->getXmlId($i),
+                    'name' => $this->getFieldName($i)
+                ) + $value);
             }
         }
         return $this;

@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Catalog_Product_Options_Virtual
-    extends Mage_XmlConnect_Block_Catalog_Product_Options
+class Mage_XmlConnect_Block_Catalog_Product_Options_Virtual extends Mage_XmlConnect_Block_Catalog_Product_Options
 {
     /**
      * Generate virtual product options xml

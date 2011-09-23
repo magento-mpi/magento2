@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Form_Renderer_Select
-    extends Enterprise_Customer_Block_Form_Renderer_Select
+class Mage_XmlConnect_Block_Customer_Form_Renderer_Select extends Enterprise_Customer_Block_Form_Renderer_Select
 {
     /**
      * Field type

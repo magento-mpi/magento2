@@ -46,6 +46,6 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Msgtitle
         if (strlen($msgTitle) > 50) {
             $msgTitle = substr($msgTitle, 0, 50) . '...';
         }
-        return $this->htmlEscape($msgTitle);
+        return $this->escapeHtml($msgTitle);
     }
 }

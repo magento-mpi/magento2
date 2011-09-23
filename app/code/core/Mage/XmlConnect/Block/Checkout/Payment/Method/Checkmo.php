@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Checkout_Payment_Method_Checkmo
-    extends Mage_Payment_Block_Form_Checkmo
+class Mage_XmlConnect_Block_Checkout_Payment_Method_Checkmo extends Mage_Payment_Block_Form_Checkmo
 {
     /**
      * Prevent any rendering

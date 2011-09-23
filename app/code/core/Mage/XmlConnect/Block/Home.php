@@ -76,9 +76,7 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
                 ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('category'));
 
             $iconXml = $itemXmlObj->addChild('icon', $icon);
-
             $file = Mage::helper('xmlconnect')->urlToPath($icon);
-
             $iconXml->addAttribute('modification_time', filemtime($file));
         }
         $homeXmlObj->addChild('home_banner', '/current/media/catalog/category/banner_home.png');

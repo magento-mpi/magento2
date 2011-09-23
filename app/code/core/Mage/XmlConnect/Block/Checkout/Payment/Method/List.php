@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Checkout_Payment_Method_List
-    extends Mage_Payment_Block_Form_Container
+class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Block_Form_Container
 {
     /**
      * Pre-defined array of methods that we are going to render
@@ -57,10 +56,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List
      * @var array
      */
     protected $_pbridgeMethodArray = array(
-        'pbridge_authorizenet',
-        'pbridge_paypal',
-        'pbridge_verisign',
-        'pbridge_paypaluk',
+        'pbridge_authorizenet', 'pbridge_paypal', 'pbridge_verisign', 'pbridge_paypaluk'
     );
 
     /**
@@ -96,17 +92,13 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List
         $storeCreditFlag = (int) Mage::getStoreConfig(Enterprise_CustomerBalance_Helper_Data::XML_PATH_ENABLED);
         if ($storeCreditFlag && $customerBalanceBlock->isDisplayContainer()) {
             $balance = $this->getQuote()->getStore()->formatPrice($customerBalanceBlock->getBalance(), false);
-            $methodsXmlObj->addCustomChild(
-                'customer_balance',
-                null,
-                array(
-                    'post_name' => 'payment[use_customer_balance]',
-                    'code'      => 1,
-                    'label'     => $this->__('Use Store Credit (%s available)', $balance),
-                    'is_cover_a_quote' => intval($customerBalanceBlock->isFullyPaidAfterApplication()),
-                    'selected'  => intval($customerBalanceBlock->isCustomerBalanceUsed())
-                )
-            );
+            $methodsXmlObj->addCustomChild('customer_balance', null, array(
+                'post_name' => 'payment[use_customer_balance]',
+                'code'      => 1,
+                'label'     => $this->__('Use Store Credit (%s available)', $balance),
+                'is_cover_a_quote' => intval($customerBalanceBlock->isFullyPaidAfterApplication()),
+                'selected'  => intval($customerBalanceBlock->isCustomerBalanceUsed())
+            ));
         }
     }
 
@@ -118,37 +110,23 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List
     public function addGiftcardToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $methodsXmlObj)
     {
         $giftcardInfoBlock = $this->getLayout()->addBlock(
-            'enterprise_giftcardaccount/checkout_onepage_payment_additional',
-            'giftcard_info'
+            'enterprise_giftcardaccount/checkout_onepage_payment_additional', 'giftcard_info'
         );
 
         if (intval($giftcardInfoBlock->getAppliedGiftCardAmount())) {
-            $amount = $this->getQuote()
-                ->getStore()
-                ->formatPrice($giftcardInfoBlock->getAppliedGiftCardAmount(), false);
+            $amount = $this->getQuote()->getStore()->formatPrice($giftcardInfoBlock->getAppliedGiftCardAmount(), false);
             $amount = $this->__('Gift Card amount applied to order: %s', $amount);
 
-            $methodsXmlObj->addCustomChild(
-                'information',
-                null,
-                array(
-                    'label' => $amount,
-                    'disabled' => '1'
-                )
-            );
+            $methodsXmlObj->addCustomChild('information', null, array('label' => $amount, 'disabled' => '1'));
 
             if ($this->_isPaymentRequired()) {
-                $methodsXmlObj->addCustomChild(
-                    'method',
-                    null,
-                    array(
-                        'post_name' => 'payment[method]',
-                        'code' => 'free',
-                        'label' => $this->__('No Payment Information Required'),
-                        'selected' => '1',
-                        'disabled' => '1'
-                    )
-                );
+                $methodsXmlObj->addCustomChild('method', null, array(
+                    'post_name' => 'payment[method]',
+                    'code' => 'free',
+                    'label' => $this->__('No Payment Information Required'),
+                    'selected' => '1',
+                    'disabled' => '1'
+                ));
             }
             $this->setIsUsedGiftCard(true);
         }
@@ -314,9 +292,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List
             $renderer->addPaymentFormToXmlObj($methodItemXmlObj);
         }
         if (!count($usedMethods)) {
-            Mage::throwException(
-                $this->__('Sorry, no payment options are available for this order at this time.')
-            );
+            Mage::throwException($this->__('Sorry, no payment options are available for this order at this time.'));
         }
         return $methodsXmlObj->asNiceXml();
     }

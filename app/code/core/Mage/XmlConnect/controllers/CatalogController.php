@@ -36,7 +36,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     /**
      * Category list
      *
-     * @return void
+     * @return null
      */
     public function categoryAction()
     {
@@ -49,8 +49,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_message(
-                $this->__('An error occurred while loading categories.'),
-                self::MESSAGE_STATUS_ERROR
+                $this->__('An error occurred while loading categories.'), self::MESSAGE_STATUS_ERROR
             );
         }
     }
@@ -58,7 +57,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     /**
      * Filter product list
      *
-     * @return void
+     * @return null
      */
     public function filtersAction()
     {
@@ -70,8 +69,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_message(
-                $this->__('An error occurred while loading category filters.'),
-                self::MESSAGE_STATUS_ERROR
+                $this->__('An error occurred while loading category filters.'), self::MESSAGE_STATUS_ERROR
             );
         }
     }
@@ -79,7 +77,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     /**
      * Product information
      *
-     * @return void
+     * @return null
      */
     public function productAction()
     {
@@ -98,7 +96,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     /**
      * Product options list
      *
-     * @return void
+     * @return null
      */
     public function productOptionsAction()
     {
@@ -116,7 +114,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     /**
      * Product gallery images list
      *
-     * @return void
+     * @return null
      */
     public function productGalleryAction()
     {
@@ -134,7 +132,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     /**
      * Product reviews list
      *
-     * @return void
+     * @return null
      */
     public function productReviewsAction()
     {
@@ -152,7 +150,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     /**
      * Add new review
      *
-     * @return void
+     * @return null
      */
     public function productReviewAction()
     {
@@ -170,7 +168,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     /**
      * Perform search products
      *
-     * @return void
+     * @return null
      */
     public function searchAction()
     {
@@ -229,7 +227,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
     /**
      * Retrieve suggestions based on search query
      *
-     * @return void
+     * @return null
      */
     public function searchSuggestAction()
     {
@@ -323,8 +321,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
          */
         $categoryId = $this->getRequest()->getParam('category_id', null);
         if ($categoryId) {
-            $category = Mage::getModel('catalog/category')
-                ->load($categoryId);
+            $category = Mage::getModel('catalog/category')->load($categoryId);
             $product->setCategory($category);
             Mage::register('current_category', $category);
         }

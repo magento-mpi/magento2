@@ -42,7 +42,7 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
     {
         $_item = $this->getItem();
         $productXmlObj = $reviewXmlObj->addCustomChild('item');
-        $productXmlObj->addCustomChild('name', $this->htmlEscape($this->getProductName()));
+        $productXmlObj->addCustomChild('name', $this->escapeHtml($this->getProductName()));
 
         if ($_options = $this->getOptionList()) {
             $optionsXmlObj = $productXmlObj->addChild('options');
@@ -55,14 +55,10 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
                     $value = null;
                 }
 
-                $optionsXmlObj->addCustomChild(
-                    'option',
-                    $value,
-                    array(
-                        'label' => $this->htmlEscape($_option['label']),
-                        'value' => $_formattedOptionValue['value']
-                    )
-                );
+                $optionsXmlObj->addCustomChild('option', $value, array(
+                    'label' => $this->escapeHtml($_option['label']),
+                    'value' => $_formattedOptionValue['value']
+                ));
             }
         }
 
@@ -87,19 +83,15 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
 
         if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()) {
             if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')
-                && $_item->getWeeeTaxAppliedAmount()) {
-                $exclPrice = $_item->getRowTotal()
-                    + $_item->getWeeeTaxAppliedRowAmount()
+                && $_item->getWeeeTaxAppliedAmount()
+            ) {
+                $exclPrice = $_item->getRowTotal() + $_item->getWeeeTaxAppliedRowAmount()
                     + $_item->getWeeeTaxRowDisposition();
             } else {
                 $exclPrice = $_item->getRowTotal();
             }
             $exclPrice = $this->_formatPrice($exclPrice);
-
-            $subtotalXmlObj->addAttribute(
-                'excluding_tax',
-                $subtotalXmlObj->xmlentities($exclPrice)
-            );
+            $subtotalXmlObj->addAttribute('excluding_tax', $subtotalXmlObj->xmlentities($exclPrice));
         }
 
         if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()) {
@@ -114,10 +106,7 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
             }
             $inclPrice = $this->_formatPrice($inclPrice);
 
-            $subtotalXmlObj->addAttribute(
-                'including_tax',
-                $subtotalXmlObj->xmlentities($inclPrice)
-            );
+            $subtotalXmlObj->addAttribute('including_tax', $subtotalXmlObj->xmlentities($inclPrice));
         }
 
         if (Mage::helper('weee')->getApplied($_item)) {
@@ -155,18 +144,14 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
             if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')
                 && $_item->getWeeeTaxAppliedAmount()
             ) {
-                $exclPrice = $_item->getCalculationPrice()
-                    + $_item->getWeeeTaxAppliedAmount()
+                $exclPrice = $_item->getCalculationPrice() + $_item->getWeeeTaxAppliedAmount()
                     + $_item->getWeeeTaxDisposition();
             } else {
                 $exclPrice = $_item->getCalculationPrice();
             }
             $exclPrice = $this->_formatPrice($exclPrice);
 
-            $priceXmlObj->addAttribute(
-                'excluding_tax',
-                $priceXmlObj->xmlentities($exclPrice)
-            );
+            $priceXmlObj->addAttribute('excluding_tax', $priceXmlObj->xmlentities($exclPrice));
         }
 
         if ($this->helper('tax')->displayCartPriceInclTax()
@@ -183,10 +168,7 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
             }
             $inclPrice = $this->_formatPrice($inclPrice);
 
-            $priceXmlObj->addAttribute(
-                'including_tax',
-                $priceXmlObj->xmlentities($inclPrice)
-            );
+            $priceXmlObj->addAttribute('including_tax', $priceXmlObj->xmlentities($inclPrice));
         }
 
         if (Mage::helper('weee')->getApplied($_item)) {
@@ -225,45 +207,34 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
                     $amount = $tax['amount'];
                 }
 
-                $weeeXmlObj->addCustomChild(
-                    'item',
-                    null,
-                    array(
-                        'name' => $tax['title'],
-                        'amount' => $this->_formatPrice($amount)
-                    )
-                );
+                $weeeXmlObj->addCustomChild('item', null, array(
+                    'name'      => $tax['title'],
+                    'amount'    => $this->_formatPrice($amount)
+                ));
             }
         } elseif ($_item->getWeeeTaxAppliedAmount()
             && ($typeOfDisplay2 || Mage::helper('weee')->typeOfDisplay($_item, 4, 'sales'))
         ) {
             foreach (Mage::helper('weee')->getApplied($_item) as $tax) {
-
                 if ($subtotalFlag) {
                     $amount = $tax['row_amount_incl_tax'];
                 } else {
                     $amount = $tax['amount_incl_tax'];
                 }
 
-                $weeeXmlObj->addCustomChild(
-                    'item',
-                    null,
-                    array(
-                        'name' => $tax['title'],
-                        'amount' => $this->_formatPrice($amount)
-                    )
-                );
+                $weeeXmlObj->addCustomChild('item', null, array(
+                    'name'      => $tax['title'],
+                    'amount'    => $this->_formatPrice($amount)
+                ));
             }
         }
 
         if ($typeOfDisplay2 && $_item->getWeeeTaxAppliedAmount()) {
             if ($subtotalFlag) {
-                $totalExcl = $_item->getRowTotal()
-                    + $_item->getWeeeTaxAppliedRowAmount()
+                $totalExcl = $_item->getRowTotal() + $_item->getWeeeTaxAppliedRowAmount()
                     + $_item->getWeeeTaxRowDisposition();
             } else {
-                $totalExcl = $_item->getCalculationPrice()
-                    + $_item->getWeeeTaxAppliedAmount()
+                $totalExcl = $_item->getCalculationPrice() + $_item->getWeeeTaxAppliedAmount()
                     + $_item->getWeeeTaxDisposition();
             }
 
@@ -282,10 +253,7 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_
             }
 
             $totalIncl = $this->_formatPrice($totalIncl);
-            $priceXmlObj->addAttribute(
-                'total_including_tax',
-                $priceXmlObj->xmlentities($totalIncl)
-            );
+            $priceXmlObj->addAttribute('total_including_tax', $priceXmlObj->xmlentities($totalIncl));
         }
 
         return $priceXmlObj;

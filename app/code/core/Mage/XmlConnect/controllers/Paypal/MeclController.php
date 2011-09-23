@@ -87,7 +87,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
     /**
      * Make sure customer is logged in
      *
-     * @return void
+     * @return null
      */
     public function preDispatch()
     {
@@ -96,9 +96,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
         ) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            $this->_message(
-                $this->__('Customer not logged in.'),
-                self::MESSAGE_STATUS_ERROR,
+            $this->_message($this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR,
                 array('logged_in' => '0')
             );
             return;
@@ -116,16 +114,11 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             $customer = Mage::getSingleton('customer/session')->getCustomer();
             if ($customer && $customer->getId()) {
                 $this->_checkout->setCustomerWithAddressChange(
-                    $customer,
-                    null,
-                    $this->_getQuote()->getShippingAddress()
+                    $customer, null, $this->_getQuote()->getShippingAddress()
                 );
             }
 
-            $token = $this->_checkout->start(
-                Mage::getUrl('*/*/return'),
-                Mage::getUrl('*/*/cancel')
-            );
+            $token = $this->_checkout->start(Mage::getUrl('*/*/return'), Mage::getUrl('*/*/cancel'));
 
             if ($token) {
                 $this->_initToken($token);
@@ -135,18 +128,12 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
                 $message->addChild('token', $token);
                 $this->getResponse()->setBody($message->asNiceXml());
             } else {
-                $this->_message(
-                    $this->__('Token has not been set.'),
-                    self::MESSAGE_STATUS_ERROR
-                );
+                $this->_message($this->__('Token has not been set.'), self::MESSAGE_STATUS_ERROR);
             }
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
-            $this->_message(
-                $this->__('Unable to start Mobile Express Checkout.'),
-                self::MESSAGE_STATUS_ERROR
-            );
+            $this->_message($this->__('Unable to start Mobile Express Checkout.'), self::MESSAGE_STATUS_ERROR);
             Mage::logException($e);
         }
     }
@@ -160,22 +147,13 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
         try {
             $this->_initCheckout();
             $this->_checkout->returnFromPaypal($this->_initToken());
-
-            $this->_message(
-                $this->__('Mobile Express Checkout processed successfully.'),
-                self::MESSAGE_STATUS_SUCCESS
-            );
+            $this->_message($this->__('Mobile Express Checkout processed successfully.'), self::MESSAGE_STATUS_SUCCESS);
             return;
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
-            $this->_message(
-                $this->__('Unable to initialize return action.'),
-                self::MESSAGE_STATUS_ERROR
-            );
+            $this->_message($this->__('Unable to initialize return action.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -196,27 +174,19 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
                 $messageArray[] = $message;
             }
 
-            $detailsBlock = $this->getLayout()
-                    ->getBlock('xmlconnect.cart.paypal.mecl.review');
+            $detailsBlock = $this->getLayout()->getBlock('xmlconnect.cart.paypal.mecl.review');
             if (count($messageArray)) {
                 $detailsBlock->setPaypalMessages($messageArray);
             }
 
-            $detailsBlock->setQuote($this->_getQuote())
-                ->getChild('details')->setQuote($this->_getQuote())
+            $detailsBlock->setQuote($this->_getQuote())->getChild('details')->setQuote($this->_getQuote())
                 ->getChild('totals')->setQuote($this->_getQuote());
-
             $this->renderLayout();
             return;
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-        }
-        catch (Exception $e) {
-            $this->_message(
-                $this->__('Unable to initialize express checkout review.'),
-                self::MESSAGE_STATUS_ERROR
-            );
+        } catch (Exception $e) {
+            $this->_message($this->__('Unable to initialize express checkout review.'), self::MESSAGE_STATUS_ERROR);
             Mage::logException($e);
         }
     }
@@ -231,16 +201,12 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             $this->_checkout->prepareOrderReview($this->_initToken());
             $this->loadLayout(false);
 
-            $this->getLayout()
-                ->getBlock('xmlconnect.cart.paypal.mecl.shippingmethods')
-                ->setQuote($this->_getQuote());
+            $this->getLayout()->getBlock('xmlconnect.cart.paypal.mecl.shippingmethods')->setQuote($this->_getQuote());
             $this->renderLayout();
             return;
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_message(
                 $this->__('Unable to initialize express checkout shipping method list.'),
                 self::MESSAGE_STATUS_ERROR
@@ -257,29 +223,16 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
         try {
             $this->_initCheckout();
             if ($this->getRequest()->getParam('shipping_method', false)) {
-                $this->_checkout->updateShippingMethod(
-                    $this->getRequest()->getParam('shipping_method')
-                );
-                $this->_message(
-                    $this->__('Shipping method successfully updated'),
-                    self::MESSAGE_STATUS_SUCCESS
-                );
+                $this->_checkout->updateShippingMethod($this->getRequest()->getParam('shipping_method'));
+                $this->_message($this->__('Shipping method successfully updated'), self::MESSAGE_STATUS_SUCCESS);
             } else {
-                $this->_message(
-                    $this->__('Shipping method is required'),
-                    self::MESSAGE_STATUS_ERROR
-                );
+                $this->_message($this->__('Shipping method is required'), self::MESSAGE_STATUS_ERROR);
             }
             return;
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-        }
-        catch (Exception $e) {
-            $this->_message(
-                $this->__('Unable to update shipping method.'),
-                self::MESSAGE_STATUS_ERROR
-            );
+        } catch (Exception $e) {
+            $this->_message($this->__('Unable to update shipping method.'), self::MESSAGE_STATUS_ERROR);
             Mage::logException($e);
         }
     }
@@ -306,8 +259,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             if ($order) {
                 $orderId = $order->getId();
                 $realOrderId = $order->getIncrementId();
-                $session->setLastOrderId($order->getId())
-                    ->setLastRealOrderId($order->getIncrementId());
+                $session->setLastOrderId($order->getId())->setLastRealOrderId($order->getIncrementId());
             }
 
             // recurring profiles may be created along with the order or without it
@@ -333,11 +285,9 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             $message->addChild('order_id', $orderId);
             $this->getResponse()->setBody($message->asNiceXml());
             return;
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_message($this->__('Unable to place the order.'), self::MESSAGE_STATUS_ERROR);
             Mage::logException($e);
         }
@@ -356,17 +306,11 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
 
             if ($order && $order->getId() && $order->getQuoteId() == $this->_getCheckoutSession()->getQuoteId()) {
                 $order->cancel()->save();
-                $this->_getCheckoutSession()
-                    ->unsLastQuoteId()
-                    ->unsLastSuccessQuoteId()
-                    ->unsLastOrderId()
+                $this->_getCheckoutSession()->unsLastQuoteId()->unsLastSuccessQuoteId()->unsLastOrderId()
                     ->unsLastRealOrderId();
             }
 
-            $this->_message(
-                $this->__('Mobile Express Checkout has been canceled.'),
-                self::MESSAGE_STATUS_SUCCESS
-            );
+            $this->_message($this->__('Mobile Express Checkout has been canceled.'), self::MESSAGE_STATUS_SUCCESS);
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
@@ -379,7 +323,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
      * Instantiate quote and checkout
      *
      * @throws Mage_Core_Exception
-     * @return void
+     * @return null
      */
     protected function _initCheckout()
     {
@@ -394,8 +338,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
         $this->_getCheckoutSession()->setCartWasUpdated(false);
 
         $this->_checkout = Mage::getSingleton($this->_checkoutType, array(
-            'config' => $this->_config,
-            'quote'  => $quote,
+            'config' => $this->_config, 'quote'  => $quote
         ));
     }
 
@@ -426,6 +369,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
      * Search for proper checkout token in request or session or (un)set specified one
      * Combined getter/setter
      *
+     * @throws Mage_Core_Exception
      * @param string $setToken
      * @return Mage_Paypal_ExpressController|string
      */
@@ -434,9 +378,7 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
         if (null !== $setToken) {
             if (false === $setToken) {
                 if (!$this->_getSession()->getExpressCheckoutToken()) { // security measure for avoid unset token twice
-                    Mage::throwException(
-                        $this->__('PayPal Mobile Express Checkout Token does not exist.')
-                    );
+                    Mage::throwException($this->__('PayPal Mobile Express Checkout Token does not exist.'));
                 }
                 $this->_getSession()->unsExpressCheckoutToken();
             } else {
@@ -444,11 +386,11 @@ class Mage_XmlConnect_Paypal_MeclController extends Mage_XmlConnect_Controller_A
             }
             return $this;
         }
-        if ($setToken = $this->getRequest()->getParam('token')) {
+
+        $setToken = $this->getRequest()->getParam('token');
+        if ($setToken) {
             if ($setToken !== $this->_getSession()->getExpressCheckoutToken()) {
-                Mage::throwException(
-                    $this->__('Wrong PayPal Mobile Express Checkout Token specified.')
-                );
+                Mage::throwException($this->__('Wrong PayPal Mobile Express Checkout Token specified.'));
             }
         } else {
             $setToken = $this->_getSession()->getExpressCheckoutToken();

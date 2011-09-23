@@ -36,7 +36,7 @@ class Mage_XmlConnect_Model_Template extends Mage_Core_Model_Template
     /**
      * Model constructor
      *
-     * @return void
+     * @return null
      */
     protected function _construct()
     {

@@ -59,9 +59,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
         if (!$file) {
             // check if placeholder defined in config
             $isConfigPlaceholder = Mage::getStoreConfig(
-                'catalog/placeholder/'
-                . $this->getDestinationSubdir()
-                . '_placeholder'
+                'catalog/placeholder/' . $this->getDestinationSubdir() . '_placeholder'
             );
             $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;
             if ($isConfigPlaceholder && file_exists($baseDir . $configPlaceholder)) {
@@ -69,21 +67,17 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
             } else {
                 // replace file with skin or default skin placeholder
                 $skinBaseDir     = Mage::getDesign()->getSkinBaseDir();
-                $skinPlaceholder = '/images/xmlconnect/catalog/category/placeholder/'
-                    . $this->getDestinationSubdir()
+                $skinPlaceholder = '/images/xmlconnect/catalog/category/placeholder/' . $this->getDestinationSubdir()
                     . '.jpg';
 
                 $file = $skinPlaceholder;
                 if (file_exists($skinBaseDir . $file)) {
                     $baseDir = $skinBaseDir;
                 } else {
-                    $baseDir = Mage::getDesign()->getSkinBaseDir(
-                        array('_theme' => 'default')
-                    );
+                    $baseDir = Mage::getDesign()->getSkinBaseDir(array('_theme' => 'default'));
                     if (!file_exists($baseDir . $file)) {
-                        $baseDir = Mage::getDesign()->getSkinBaseDir(
-                            array('_theme' => 'default', '_package' => 'base')
-                        );
+                        $baseDir = Mage::getDesign()
+                            ->getSkinBaseDir(array('_theme' => 'default', '_package' => 'base'));
                     }
                 }
             }
@@ -93,33 +87,24 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
         $baseFile = $baseDir . $file;
 
         if ((!$file) || (!file_exists($baseFile))) {
-            Mage::throwException(
-                Mage::helper('xmlconnect')->__('Image file was not found.')
-            );
+            Mage::throwException(Mage::helper('xmlconnect')->__('Image file was not found.'));
         }
 
         $this->_baseFile = $baseFile;
 
         // build new filename (most important params)
-        $path = array(
-            Mage::getSingleton('xmlconnect/catalog_category_media_config')->getBaseMediaPath(),
-            'cache',
-            Mage::app()->getStore()->getId(),
-            $path[] = $this->getDestinationSubdir()
+        $path = array(Mage::getSingleton('xmlconnect/catalog_category_media_config')->getBaseMediaPath(), 'cache',
+            Mage::app()->getStore()->getId(), $path[] = $this->getDestinationSubdir()
         );
         if ((!empty($this->_width)) || (!empty($this->_height))) {
             $path[] = "{$this->_width}x{$this->_height}";
         }
 
         // add misk params as a hash
-        $miscParams = array(
-                ($this->_keepAspectRatio  ? '' : 'non') . 'proportional',
-                ($this->_keepFrame        ? '' : 'no')  . 'frame',
-                ($this->_keepTransparency ? '' : 'no')  . 'transparency',
-                ($this->_constrainOnly ? 'do' : 'not')  . 'constrainonly',
-                $this->_rgbToString($this->_backgroundColor),
-                'angle' . $this->_angle,
-                'quality' . $this->_quality
+        $miscParams = array(($this->_keepAspectRatio  ? '' : 'non') . 'proportional',
+            ($this->_keepFrame ? '' : 'no') . 'frame', ($this->_keepTransparency ? '' : 'no') . 'transparency',
+            ($this->_constrainOnly ? 'do' : 'not')  . 'constrainonly', $this->_rgbToString($this->_backgroundColor),
+            'angle' . $this->_angle, 'quality' . $this->_quality
         );
 
         // if has watermark add watermark params to hash
@@ -176,7 +161,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
     /**
      * Clear catalog cache
      *
-     * @return void
+     * @return null
      */
     public function clearCache()
     {

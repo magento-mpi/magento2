@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Pbridge_Verisign
-    extends Mage_Payment_Block_Info_Cc
+class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Pbridge_Verisign extends Mage_Payment_Block_Info_Cc
 {
     /**
      * Add CC Save Payment info to order XML object
@@ -44,19 +43,14 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Pbridge_Verisign
     {
         $orderItemXmlObj->addAttribute('type', $this->getMethod()->getCode());
         $orderItemXmlObj->addAttribute(
-            'title',
-            $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle())
+            'title', $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle())
         );
 
         if ($_specificInfo = $this->getSpecificInformation()) {
             foreach ($_specificInfo as $label => $value) {
-                $orderItemXmlObj->addCustomChild(
-                    'item',
-                    implode($this->getValueAsArray($value, true), PHP_EOL),
-                    array(
-                        'label' => $label
-                    )
-                );
+                $orderItemXmlObj->addCustomChild('item', implode($this->getValueAsArray($value, true), '\n'), array(
+                    'label' => $label
+                ));
             }
         }
     }

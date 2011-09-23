@@ -70,8 +70,7 @@ class Mage_XmlConnect_Model_Observer
     public function changeUpdatedAtParamOnConfigSave($observer)
     {
         $configData = $observer->getEvent()->getConfigData();
-        if ($configData
-            && (int)$configData->isValueChanged()
+        if ($configData && (int)$configData->isValueChanged()
             && in_array($configData->getPath(), $this->_appDependOnConfigFieldPathes)
         ) {
             Mage::getModel('xmlconnect/application')->updateAllAppsUpdatedAtParameter();
@@ -87,10 +86,8 @@ class Mage_XmlConnect_Model_Observer
     public function sendMessageImmediately($observer)
     {
         $message = $observer->getEvent()->getData('queueMessage');
-        if ($message instanceof Mage_XmlConnect_Model_Queue
-            && (strtolower($message->getExecTime()) == 'null'
-                || !$message->getExecTime()
-            )
+        if ($message instanceof Mage_XmlConnect_Model_Queue && (strtolower($message->getExecTime()) == 'null'
+            || !$message->getExecTime())
         ) {
             $message->setExecTime(Mage::getSingleton('core/date')->gmtDate());
             Mage::helper('xmlconnect')->sendBroadcastMessage($message);
@@ -103,19 +100,14 @@ class Mage_XmlConnect_Model_Observer
     /**
      * Send scheduled messages
      *
-     * @return void
+     * @return null
      */
     public function scheduledSend()
     {
-        $countOfQueue = Mage::getStoreConfig(
-            Mage_XmlConnect_Model_Queue::XML_PATH_CRON_MESSAGES_COUNT
-        );
+        $countOfQueue = Mage::getStoreConfig(Mage_XmlConnect_Model_Queue::XML_PATH_CRON_MESSAGES_COUNT);
 
-        $collection = Mage::getModel('xmlconnect/queue')->getCollection()
-            ->addOnlyForSendingFilter()
-            ->setPageSize($countOfQueue)
-            ->setCurPage(1)
-            ->load();
+        $collection = Mage::getModel('xmlconnect/queue')->getCollection()->addOnlyForSendingFilter()
+            ->setPageSize($countOfQueue)->setCurPage(1)->load();
 
         foreach ($collection as $message) {
             if ($message->getId()) {

@@ -80,7 +80,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Edit
     {
         $message = Mage::registry('current_message');
         if ($message && $message->getId()) {
-            return $this->__('Edit AirMail Message Queue #%s', $this->htmlEscape($message->getId()));
+            return $this->__('Edit AirMail Message Queue #%s', $this->escapeHtml($message->getId()));
         } else {
             return $this->__('New AirMail Message Queue');
         }

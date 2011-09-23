@@ -44,19 +44,14 @@ abstract class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Paypal_Abstrac
     {
         $orderItemXmlObj->addAttribute('type', $this->getMethod()->getCode());
         $orderItemXmlObj->addAttribute(
-            'title',
-            $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle())
+            'title', $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle())
         );
 
         if ($_specificInfo = $this->getSpecificInformation()) {
             foreach ($_specificInfo as $label => $value) {
-                $orderItemXmlObj->addCustomChild(
-                    'item',
-                    implode($this->getValueAsArray($value, true), PHP_EOL),
-                    array(
-                        'label' => $label
-                    )
-                );
+                $orderItemXmlObj->addCustomChild('item', implode($this->getValueAsArray($value, true), '\n'), array(
+                    'label' => $label
+                ));
             }
         }
     }

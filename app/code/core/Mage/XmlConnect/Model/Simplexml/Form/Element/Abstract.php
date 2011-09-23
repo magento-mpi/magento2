@@ -179,13 +179,7 @@ abstract class Mage_XmlConnect_Model_Simplexml_Form_Element_Abstract
      */
     public function getXmlAttributes()
     {
-        return array(
-            'title',
-            'required',
-            'disabled',
-            'visible',
-            'relation'
-        );
+        return array('title', 'required', 'disabled', 'visible', 'relation');
     }
 
     /**
@@ -195,10 +189,7 @@ abstract class Mage_XmlConnect_Model_Simplexml_Form_Element_Abstract
      */
     public function getRequiredXmlAttributes()
     {
-        return array(
-            'label' => null,
-            'type' => null
-        );
+        return array('label' => null, 'type' => null);
     }
 
     /**
@@ -274,10 +265,7 @@ abstract class Mage_XmlConnect_Model_Simplexml_Form_Element_Abstract
     protected function _addValue(Mage_XmlConnect_Model_Simplexml_Element $xmlObj)
     {
         if ($this->getEscapedValue()) {
-            $xmlObj->addAttribute(
-                'value',
-                $xmlObj->xmlAttribute($this->getEscapedValue())
-            );
+            $xmlObj->addAttribute('value', $xmlObj->xmlAttribute($this->getEscapedValue()));
         }
         return $this;
     }

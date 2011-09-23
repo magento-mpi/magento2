@@ -59,13 +59,7 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
      * @var array
      */
     protected $_imageIds = array(
-        'icon',
-        'loader_image',
-        'loader_image_i4',
-        'logo',
-        'logo_i4',
-        'big_logo',
-        'big_logo_i4'
+        'icon', 'loader_image', 'loader_image_i4', 'logo', 'logo_i4', 'big_logo', 'big_logo_i4'
     );
 
     /**
@@ -641,10 +635,8 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
     {
         $errors = array();
 
-        if ($native === false
-            || (!isset($native['navigationBar']['icon'])
-                || !Zend_Validate::is($native['navigationBar']['icon'], 'NotEmpty')
-            )
+        if ($native === false || (!isset($native['navigationBar']['icon'])
+            || !Zend_Validate::is($native['navigationBar']['icon'], 'NotEmpty'))
         ) {
             $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
         }
@@ -754,7 +746,7 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
      *
      * @throws Mage_Core_Exception
      * @param array $data
-     * @return void
+     * @return null
      */
     public function checkRequiredConfigFields($data)
     {
@@ -762,26 +754,14 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
             return;
         }
 
-        if (isset($data['navigationBar']['icon'])
-            && empty($data['navigationBar']['icon'])
-        ) {
-            Mage::throwException(
-                Mage::helper('xmlconnect')->__('Logo in Header image missing.')
-            );
+        if (isset($data['navigationBar']['icon']) && empty($data['navigationBar']['icon'])) {
+            Mage::throwException(Mage::helper('xmlconnect')->__('Logo in Header image missing.'));
         }
-        if (isset($data['body']['bannerImage'])
-            && empty($data['body']['bannerImage'])
-        ) {
-            Mage::throwException(
-                Mage::helper('xmlconnect')->__('Banner on Home Screen image missing.')
-            );
+        if (isset($data['body']['bannerImage']) && empty($data['body']['bannerImage'])) {
+            Mage::throwException(Mage::helper('xmlconnect')->__('Banner on Home Screen image missing.'));
         }
-        if (isset($data['body']['backgroundImage'])
-            && empty($data['body']['backgroundImage'])
-        ) {
-            Mage::throwException(
-                Mage::helper('xmlconnect')->__('App Background image missing.')
-            );
+        if (isset($data['body']['backgroundImage']) && empty($data['body']['backgroundImage'])) {
+            Mage::throwException(Mage::helper('xmlconnect')->__('App Background image missing.'));
         }
     }
 

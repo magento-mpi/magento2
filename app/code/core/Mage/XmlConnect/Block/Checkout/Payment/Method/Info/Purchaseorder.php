@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Purchaseorder
-    extends Mage_Payment_Block_Info_Purchaseorder
+class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Purchaseorder extends Mage_Payment_Block_Info_Purchaseorder
 {
     /**
      * Add Purchase Order Payment info to order XML object
@@ -43,17 +42,10 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Purchaseorder
     public function addPaymentInfoToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj)
     {
         $orderItemXmlObj->addAttribute('type', $this->getMethod()->getCode());
-        $orderItemXmlObj->addAttribute(
-            'title',
-            $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle())
-        );
+        $orderItemXmlObj->addAttribute('title', $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle()));
 
-        $orderItemXmlObj->addCustomChild(
-            'item',
-            $this->getInfo()->getPoNumber(),
-            array(
-                'label' => Mage::helper('sales')->__('Purchase Order Number:')
-            )
-        );
+        $orderItemXmlObj->addCustomChild('item', $this->getInfo()->getPoNumber(), array(
+            'label' => Mage::helper('sales')->__('Purchase Order Number:')
+        ));
     }
 }

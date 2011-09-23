@@ -163,11 +163,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
 
         $isCopied = copy($originalSizeFileName, $customSizeFileName);
         clearstatcache();
-        if ($isCopied
-            && (is_readable($customSizeFileName)
-                || chmod($customSizeFileName, 0644)
-            )
-        ) {
+        if ($isCopied && (is_readable($customSizeFileName) || chmod($customSizeFileName, 0644))) {
             $this->_handleResize($fieldPath, $customSizeFileName);
         } else {
             $fileName = '';
@@ -184,7 +180,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      *
      * @param string $fieldPath
      * @param string $file
-     * @return void
+     * @return null
      */
     protected function _handleResize($fieldPath, $file)
     {
@@ -219,9 +215,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
             $height = $conf['height'];
         }
 
-        if (($width != $image->getOriginalWidth())
-            || ($height != $image->getOriginalHeight())
-        ) {
+        if (($width != $image->getOriginalWidth()) || ($height != $image->getOriginalHeight())) {
             $image->keepTransparency(true);
             $image->keepFrame(true);
             $image->keepAspectRatio(true);
@@ -647,7 +641,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      * @param mixed $item (argument to change)
      * @param mixed $key (used with array_walk_recursive function as a key of given array)
      * @param string $value (contains float)
-     * @return void
+     * @return null
      */
     protected function _zoom(&$item, $key, $value)
     {

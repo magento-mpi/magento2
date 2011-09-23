@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Form_Renderer_File
-    extends Enterprise_Customer_Block_Form_Renderer_File
+class Mage_XmlConnect_Block_Customer_Form_Renderer_File extends Enterprise_Customer_Block_Form_Renderer_File
 {
     /**
      * Field type
@@ -65,19 +64,13 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_File
         $this->_setFormPostParams($fieldsetXmlObj);
 
         $attributes = array(
-            'label' => $this->getLabel(),
-            'name'  => $this->getFieldName(),
-            'value' => $this->getEscapedValue()
+            'label' => $this->getLabel(), 'name' => $this->getFieldName(), 'value' => $this->getEscapedValue()
         );
 
         $attributes += Mage::helper('xmlconnect/customer_form_renderer')
             ->addTitleAndRequiredAttr($fieldsetXmlObj, $this);
 
-        $fieldXmlObj = $fieldsetXmlObj->addField(
-            $this->getHtmlId(),
-            $this->_filedType,
-            $attributes
-        );
+        $fieldXmlObj = $fieldsetXmlObj->addField($this->getHtmlId(), $this->_filedType, $attributes);
         $this->_addValidator($fieldXmlObj);
 
         return $this;
@@ -98,19 +91,19 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_File
 
             if (!empty($validateRules['max_file_size'])) {
                 $minTextLength = (int) $validateRules['max_file_size'];
-                $validatorXmlObj->addRule(array (
-                    'type' => 'max_file_size',
-                    'value' => $minTextLength,
-                    'field_label' => $this->getLabel()
+                $validatorXmlObj->addRule(array(
+                    'type'          => 'max_file_size',
+                    'value'         => $minTextLength,
+                    'field_label'   => $this->getLabel()
                 ));
             }
 
             if (!empty($validateRules['file_extensions'])) {
                 $maxTextLength = $validateRules['file_extensions'];
-                $validatorXmlObj->addRule(array (
-                    'type' => 'file_extensions',
-                    'value' => $maxTextLength,
-                    'field_label' => $this->getLabel()
+                $validatorXmlObj->addRule(array(
+                    'type'          => 'file_extensions',
+                    'value'         => $maxTextLength,
+                    'field_label'   => $this->getLabel()
                 ));
             }
         }

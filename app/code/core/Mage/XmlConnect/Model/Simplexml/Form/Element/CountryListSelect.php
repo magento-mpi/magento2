@@ -39,11 +39,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_CountryListSelect
      *
      * @var array
      */
-    protected  $_countryListValues = array(
-        'country_id',
-        'region_id',
-        'region'
-    );
+    protected  $_countryListValues = array('country_id', 'region_id', 'region');
 
     /**
      * Init country list select element
@@ -100,46 +96,25 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_CountryListSelect
                     $selectedCountry = array('selected' => 1);
                 }
 
-                $item = $valuesXmlObj->addCustomChild('item', null, array(
-                        'relation' => $relationType
-                    ) + $selectedCountry
+                $item = $valuesXmlObj->addCustomChild('item', null,
+                    array('relation' => $relationType) + $selectedCountry
                 );
 
-                $item->addCustomChild(
-                    'label',
-                    (string)$data['label']
-                );
-                $item->addCustomChild(
-                    'value',
-                    $data['value']
-                );
+                $item->addCustomChild('label', (string)$data['label']);
+                $item->addCustomChild('value', $data['value']);
 
                 if ($relationType == 'region_id') {
                     $regionsXmlObj = $item->addCustomChild('regions');
                     foreach ($regions as $regionData) {
                         $selectedRegion = array();
 
-                        if (!empty($selectedCountry)
-                            && $this->getRegionId() == $regionData['value']
-                        ) {
+                        if (!empty($selectedCountry) && $this->getRegionId() == $regionData['value']) {
                             $selectedRegion = array('selected' => 1);
                         }
 
-                        $regionItem = $regionsXmlObj->addCustomChild(
-                            'region_item',
-                            null,
-                            $selectedRegion
-                        );
-
-                        $regionItem->addCustomChild(
-                            'label',
-                            (string)$regionData['label']
-                        );
-
-                        $regionItem->addCustomChild(
-                            'value',
-                            (string)$regionData['value']
-                        );
+                        $regionItem = $regionsXmlObj->addCustomChild('region_item', null, $selectedRegion);
+                        $regionItem->addCustomChild('label', (string)$regionData['label']);
+                        $regionItem->addCustomChild('value', (string)$regionData['value']);
                     }
                 }
             }
@@ -164,10 +139,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_CountryListSelect
         }
 
         if ($this->getCountryId()) {
-            $xmlObj->addAttribute(
-                'value',
-                $xmlObj->xmlAttribute($this->getCountryId())
-            );
+            $xmlObj->addAttribute('value', $xmlObj->xmlAttribute($this->getCountryId()));
         }
         $countries = $this->_getCountryOptions();
 
@@ -187,9 +159,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_CountryListSelect
                 }
 
                 $item = $values->addCustomChild('item', null, array(
-                    'relation' => $relationType,
-                    'label' => (string)$data['label'],
-                    'value' => $data['value']
+                    'relation' => $relationType, 'label' => (string)$data['label'], 'value' => $data['value']
                 ));
 
                 if ($relationType !== 'region') {
@@ -200,31 +170,24 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_CountryListSelect
                     }
 
                     $regionsXmlObj = $item->addCustomChild('field', null, array(
-                            'id' => 'region_list_' . $data['value'],
-                            'name' => 'region_id',
-                            'label' => Mage::helper('xmlconnect')->__('State/Province'),
-                            'type' => 'select',
-                            'required' => 1
-                        ) + $selectedRegion
-                    );
+                        'id' => 'region_list_' . $data['value'], 'name' => 'region_id',
+                        'label' => Mage::helper('xmlconnect')->__('State/Province'), 'type' => 'select',
+                        'required' => 1
+                    ) + $selectedRegion);
 
                     $regionValues = $regionsXmlObj->addCustomChild('values');
 
                     foreach ($regions as $regionData) {
                         $regionValues->addCustomChild('item', null, array(
-                            'label' => (string)$regionData['label'],
-                            'value' => (string)$regionData['value']
+                            'label' => (string)$regionData['label'], 'value' => (string)$regionData['value']
                         ));
                     }
                 } elseif ($this->getCountryId() == $data['value']) {
-                        $item->addCustomChild('field', null, array(
-                            'id' => 'region_' . $data['value'],
-                            'name' => 'region',
-                            'label' => Mage::helper('xmlconnect')->__('State/Province'),
-                            'type' => 'text',
-                            'value' => $this->getRegion(),
-                            'required' => 1
-                        ));
+                    $item->addCustomChild('field', null, array(
+                        'id' => 'region_' . $data['value'], 'name' => 'region',
+                        'label' => Mage::helper('xmlconnect')->__('State/Province'), 'type' => 'text',
+                        'value' => $this->getRegion(), 'required' => 1
+                    ));
                 }
             }
         }
@@ -240,12 +203,11 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_CountryListSelect
     protected function _getRegionOptions($countryId)
     {
         $cacheKey = 'DIRECTORY_REGION_SELECT_STORE' . Mage::app()->getStore()->getId() . $countryId;
-        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+        $cache = Mage::app()->loadCache($cacheKey);
+        if (Mage::app()->useCache('config') && $cache) {
             $options = unserialize($cache);
         } else {
-            $collection = Mage::getModel('directory/region')
-                ->getResourceCollection()
-                ->addCountryFilter($countryId)
+            $collection = Mage::getModel('directory/region')->getResourceCollection()->addCountryFilter($countryId)
                 ->load();
             $options = $collection->toOptionArray();
             if (Mage::app()->useCache('config')) {
@@ -263,11 +225,11 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_CountryListSelect
     protected function _getCountryOptions()
     {
         $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
-        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+        $cache = Mage::app()->loadCache($cacheKey);
+        if (Mage::app()->useCache('config') && $cache) {
             $options = unserialize($cache);
         } else {
-            $collection = Mage::getModel('directory/country')->getResourceCollection()
-                ->loadByStore();
+            $collection = Mage::getModel('directory/country')->getResourceCollection()->loadByStore();
             $options = $collection->toOptionArray(false);
             if (Mage::app()->useCache('config')) {
                 Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));

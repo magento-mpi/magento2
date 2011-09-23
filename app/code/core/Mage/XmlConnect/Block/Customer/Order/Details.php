@@ -50,17 +50,8 @@ class Mage_XmlConnect_Block_Customer_Order_Details extends Mage_Payment_Block_In
      * - 'free' => Mage_Payment_Block_Info
      */
     protected $_methodArray = array(
-        'ccsave',
-        'checkmo',
-        'purchaseorder',
-        'authorizenet',
-        'pbridge_authorizenet',
-        'pbridge_verisign',
-        'paypal_express',
-        'paypal_mecl',
-        'pbridge_paypal_direct',
-        'pbridge_paypaluk_direct',
-        'free'
+        'ccsave', 'checkmo', 'purchaseorder', 'authorizenet', 'pbridge_authorizenet', 'pbridge_verisign',
+        'paypal_express', 'paypal_mecl', 'pbridge_paypal_direct', 'pbridge_paypaluk_direct', 'free'
     );
 
     /**
@@ -76,17 +67,13 @@ class Mage_XmlConnect_Block_Customer_Order_Details extends Mage_Payment_Block_In
         $order = $this->_getOrder();
 
         $orderDate = $this->formatDate($order->getCreatedAtStoreDate(), 'long');
-        $orderXmlObj->addCustomChild(
-            'order',
-            null,
-            array(
-                 'label' => $this->__('Order #%s - %s', $order->getRealOrderId(), $order->getStatusLabel()),
-                 'order_date' => $this->__('Order Date: %s', $orderDate)
-            )
-        );
+        $orderXmlObj->addCustomChild('order', null, array(
+             'label' => $this->__('Order #%s - %s', $order->getRealOrderId(), $order->getStatusLabel()),
+             'order_date' => $this->__('Order Date: %s', $orderDate)
+        ));
         if (!$order->getIsVirtual()) {
-            $shipping = $this->_formatAddress($order->getShippingAddress()->format('text'));
-            $billing  = $this->_formatAddress($order->getBillingAddress()->format('text'));
+            $shipping = Mage::helper('xmlconnect')->trimLineBreaks($order->getShippingAddress()->format('text'));
+            $billing  = Mage::helper('xmlconnect')->trimLineBreaks($order->getBillingAddress()->format('text'));
 
             $orderXmlObj->addCustomChild('shipping_address', $shipping);
             $orderXmlObj->addCustomChild('billing_address', $billing);
@@ -154,9 +141,7 @@ class Mage_XmlConnect_Block_Customer_Order_Details extends Mage_Payment_Block_In
             if (!empty($specificInfo)) {
                 foreach ($specificInfo as $label => $value) {
                     if ($value) {
-                        $paymentNode->addCustomChild(
-                            'item',
-                            implode($this->getValueAsArray($value, true), PHP_EOL),
+                        $paymentNode->addCustomChild('item', implode($this->getValueAsArray($value, true), '\n'),
                             array('label' => $label)
                         );
                     }
@@ -185,6 +170,7 @@ class Mage_XmlConnect_Block_Customer_Order_Details extends Mage_Payment_Block_In
     /**
      * Format address string
      *
+     * @deprecated after 1.6.0.0
      * @param string $address
      * @return string
      */
@@ -192,7 +178,7 @@ class Mage_XmlConnect_Block_Customer_Order_Details extends Mage_Payment_Block_In
     {
         return preg_replace(
             array('@\r@', '@\n+@'),
-            array('', PHP_EOL),
+            array('', '\n'),
             $address
         );
     }

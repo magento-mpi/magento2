@@ -31,8 +31,7 @@
  * @package    Mage_XmlConnect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content
-    extends Mage_Adminhtml_Block_Template
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminhtml_Block_Template
 {
     /**
      * Set path to template used for generating block's output.
@@ -43,13 +42,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content
     public function setTemplate($templateType)
     {
         $deviceType = Mage::helper('xmlconnect')->getDeviceType();
-        parent::setTemplate(
-            'xmlconnect/edit/tab/design/preview/'
-            . $templateType
-            . '_'
-            . $deviceType
-            . '.phtml'
-        );
+        parent::setTemplate('xmlconnect/edit/tab/design/preview/' . $templateType . '_' . $deviceType . '.phtml');
         return $this;
     }
 }

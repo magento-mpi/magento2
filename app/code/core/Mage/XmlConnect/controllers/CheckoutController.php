@@ -36,7 +36,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Make sure customer is logged in
      *
-     * @return void
+     * @return null
      */
     public function preDispatch()
     {
@@ -67,7 +67,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Onepage Checkout page
      *
-     * @return void
+     * @return null
      */
     public function indexAction()
     {
@@ -105,7 +105,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Display customer new billing addrress form
      *
-     * @return void
+     * @return null
      */
     public function newBillingAddressFormAction()
     {
@@ -123,7 +123,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Display customer new shipping addrress form
      *
-     * @return void
+     * @return null
      */
     public function newShippingAddressFormAction()
     {
@@ -141,7 +141,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Billing addresses list action
      *
-     * @return void
+     * @return null
      */
     public function billingAddressAction()
     {
@@ -159,7 +159,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Save billing address to current quote using onepage model
      *
-     * @return void
+     * @return null
      */
     public function saveBillingAddressAction()
     {
@@ -187,7 +187,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Shipping addresses list action
      *
-     * @return void
+     * @return null
      */
     public function shippingAddressAction()
     {
@@ -205,7 +205,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Save shipping address to current quote using onepage model
      *
-     * @return void
+     * @return null
      */
     public function saveShippingAddressAction()
     {
@@ -298,7 +298,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Get shipping methods for current quote
      *
-     * @return void
+     * @return null
      */
     public function shippingMethodsAction()
     {
@@ -318,7 +318,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Shipping method save action
      *
-     * @return void
+     * @return null
      */
     public function saveShippingMethodAction()
     {
@@ -331,13 +331,10 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         $result = $this->getOnepage()->saveShippingMethod($data);
         if (!$result) {
 
-            Mage::dispatchEvent(
-                'checkout_controller_onepage_save_shipping_method',
-                array(
-                    'request' => $this->getRequest(),
-                    'quote' => $this->getOnepage()->getQuote()
-                )
-            );
+            Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array(
+                'request' => $this->getRequest(),
+                'quote' => $this->getOnepage()->getQuote()
+            ));
             $this->getOnepage()->getQuote()->collectTotals()->save();
 
             $this->_message($this->__('Shipping method has been set.'), self::MESSAGE_STATUS_SUCCESS);
@@ -358,7 +355,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Save checkout method
      *
-     * @return void
+     * @return null
      */
     public function saveMethodAction()
     {
@@ -379,7 +376,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Get payment methods action
      *
-     * @return void
+     * @return null
      */
     public function paymentMethodsAction()
     {
@@ -396,7 +393,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Save payment action
      *
-     * @return void
+     * @return null
      */
     public function savePaymentAction()
     {
@@ -425,7 +422,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Order summary info action
      *
-     * @return void
+     * @return null
      */
     public function orderReviewAction()
     {
@@ -444,7 +441,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     /**
      * Create order action
      *
-     * @return void
+     * @return null
      */
     public function saveOrderAction()
     {

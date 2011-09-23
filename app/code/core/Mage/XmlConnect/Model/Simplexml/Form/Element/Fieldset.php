@@ -67,7 +67,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Fieldset
      *
      * @param array $attributes
      */
-    public function __construct($attributes=array())
+    public function __construct($attributes = array())
     {
         parent::__construct($attributes);
         $this->_renderer = Mage_XmlConnect_Model_Simplexml_Form::getFieldsetRenderer();
@@ -84,22 +84,15 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Fieldset
         $xmlObj = $this->getXmlObject();
         $this->_addRequiredAttributes($xmlObj);
         foreach ($this->getAttributes() as $key => $val) {
-            $xmlObj->addAttribute(
-                $key,
-                $xmlObj->xmlAttribute($val)
-            );
+            $xmlObj->addAttribute($key, $xmlObj->xmlAttribute($val));
         }
-
-        foreach ($this->getChildrenXml() as $element) {
+        foreach ($this->getChildrenXml(false) as $element) {
             $xmlObj->appendChild($element);
         }
-
-        foreach ($this->getSubFieldsetXml() as $fieldset) {
+        foreach ($this->getChildrenXml(true) as $fieldset) {
             $xmlObj->appendChild($fieldset);
         }
-
         $this->addAfterXmlElementToObj($xmlObj);
-
         return $xmlObj;
     }
 
@@ -126,13 +119,14 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Fieldset
     /**
      * Get children array of elements
      *
+     * @param bool $isFieldset
      * @return array
      */
-    public function getChildrenXml()
+    public function getChildrenXml($isFieldset = false)
     {
         $result = array();
         foreach ($this->getSortedElements() as $element) {
-            if ($element->getType() != 'fieldset') {
+            if ($this->_checkFieldset($element, $isFieldset)) {
                 $result[] = $element->toXmlObject();
             }
         }
@@ -140,19 +134,18 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Fieldset
     }
 
     /**
-     * Get sub fieldset xml
+     * Check weather is element a fieldset
      *
-     * @return array
+     * @param Mage_XmlConnect_Model_Simplexml_Form_Abstract $element
+     * @param bool $equal
+     * @return bool
      */
-    public function getSubFieldsetXml()
-    {
-        $result = array();
-        foreach ($this->getSortedElements() as $element) {
-            if ($element->getType() == 'fieldset') {
-                $result[] = $element->toXmlObject();
-            }
+    protected function _checkFieldset($element, $equal = true) {
+        if ($equal) {
+            return $element->getType() == 'fieldset';
+        } else {
+            return $element->getType() != 'fieldset';
         }
-        return $result;
     }
 
     /**

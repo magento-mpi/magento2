@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Form_Renderer_Text
-    extends Enterprise_Customer_Block_Form_Renderer_Text
+class Mage_XmlConnect_Block_Customer_Form_Renderer_Text extends Enterprise_Customer_Block_Form_Renderer_Text
 {
     /**
      * Field type
@@ -47,24 +46,16 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_Text
      * @param Mage_XmlConnect_Model_Simplexml_Form_Element_Fieldset $fieldsetXmlObj
      * @return Mage_XmlConnect_Block_Customer_Form_Renderer_Text
      */
-    public function addFieldToXmlObj(
-        Mage_XmlConnect_Model_Simplexml_Form_Element_Fieldset $fieldsetXmlObj
-    )
+    public function addFieldToXmlObj(Mage_XmlConnect_Model_Simplexml_Form_Element_Fieldset $fieldsetXmlObj)
     {
         $attributes = array(
-            'label' => $this->getLabel(),
-            'name'  => $this->getFieldName(),
-            'value' => $this->getEscapedValue()
+            'label' => $this->getLabel(), 'name' => $this->getFieldName(), 'value' => $this->getEscapedValue()
         );
 
         $attributes += Mage::helper('xmlconnect/customer_form_renderer')
             ->addTitleAndRequiredAttr($fieldsetXmlObj, $this);
 
-        $fieldXmlObj = $fieldsetXmlObj->addField(
-            $this->getHtmlId(),
-            $this->_filedType,
-            $attributes
-        );
+        $fieldXmlObj = $fieldsetXmlObj->addField($this->getHtmlId(), $this->_filedType, $attributes);
 
         $validateRules = $this->getAttributeObject()->getValidateRules();
 
@@ -73,24 +64,16 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_Text
 
             if (!empty($validateRules['min_text_length'])) {
                 $minTextLength = (int) $validateRules['min_text_length'];
-                $validatorXmlObj->addRule(array (
-                    'type' => 'min_length',
-                    'value' => $minTextLength,
-                ));
+                $validatorXmlObj->addRule(array('type' => 'min_length', 'value' => $minTextLength));
             }
 
             if (!empty($validateRules['max_text_length'])) {
                 $maxTextLength = (int) $validateRules['max_text_length'];
-                $validatorXmlObj->addRule(array (
-                    'type' => 'max_length',
-                    'value' => $maxTextLength
-                ));
+                $validatorXmlObj->addRule(array('type' => 'max_length', 'value' => $maxTextLength));
             }
 
             if (!empty($validateRules['input_validation'])) {
-                $validatorXmlObj->addRule(array (
-                    'type' => $validateRules['input_validation']
-                ));
+                $validatorXmlObj->addRule(array('type' => $validateRules['input_validation']));
             }
         }
 

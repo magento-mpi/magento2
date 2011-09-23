@@ -40,26 +40,17 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
      */
     protected function _initProduct()
     {
-        Mage::dispatchEvent(
-            'review_controller_product_init_before',
-            array('controller_action' => $this)
-        );
+        Mage::dispatchEvent('review_controller_product_init_before', array('controller_action' => $this));
 
         $productId  = (int) $this->getRequest()->getParam('id');
         $product = $this->_loadProduct($productId);
 
         try {
-            Mage::dispatchEvent(
-                'review_controller_product_init',
-                array('product' => $product)
-            );
-            Mage::dispatchEvent(
-                'review_controller_product_init_after',
-                array(
-                    'product'           => $product,
-                    'controller_action' => $this
-                )
-            );
+            Mage::dispatchEvent('review_controller_product_init', array('product' => $product));
+            Mage::dispatchEvent('review_controller_product_init_after', array(
+                'product'           => $product,
+                'controller_action' => $this
+            ));
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
             return false;
@@ -81,14 +72,9 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
             return false;
         }
 
-        $product = Mage::getModel('catalog/product')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($productId);
+        $product = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId())->load($productId);
         /** @var $product Mage_Catalog_Model_Product */
-        if (!$product->getId()
-            || !$product->isVisibleInCatalog()
-            || !$product->isVisibleInSiteVisibility()
-        ) {
+        if (!$product->getId() || !$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
             return false;
         }
 
@@ -107,9 +93,7 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
      */
     protected function _checkGuestAllowed()
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()
-            || Mage::helper('review')->getIsGuestAllowToWrite()
-        ) {
+        if (Mage::getSingleton('customer/session')->isLoggedIn() || Mage::helper('review')->getIsGuestAllowToWrite()) {
             return true;
         }
 
@@ -123,7 +107,7 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
     /**
      * Get review form
      *
-     * @return void
+     * @return null
      */
     public function formAction()
     {
@@ -145,7 +129,7 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
     /**
      * Save product review
      *
-     * @return void
+     * @return null
      */
     public function saveAction()
     {
@@ -160,30 +144,25 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
         if ($product && !empty($data)) {
             /** @var $review Mage_Review_Model_Review */
             $review     = Mage::getModel('review/review')->setData($data);
-
             $validate   = $review->validate();
+
             if ($validate === true) {
                 try {
                     $review->setEntityId($review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE))
-                        ->setEntityPkValue($product->getId())
-                        ->setStatusId(Mage_Review_Model_Review::STATUS_PENDING)
+                        ->setEntityPkValue($product->getId())->setStatusId(Mage_Review_Model_Review::STATUS_PENDING)
                         ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                         ->setStoreId(Mage::app()->getStore()->getId())
-                        ->setStores(array(Mage::app()->getStore()->getId()))
-                        ->save();
+                        ->setStores(array(Mage::app()->getStore()->getId()))->save();
 
                     foreach ($rating as $ratingId => $optionId) {
-                        Mage::getModel('rating/rating')
-                            ->setRatingId($ratingId)
-                            ->setReviewId($review->getId())
+                        Mage::getModel('rating/rating')->setRatingId($ratingId)->setReviewId($review->getId())
                             ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
                             ->addOptionVote($optionId, $product->getId());
                     }
 
                     $review->aggregate();
                     $this->_message(
-                        $this->__('Your review has been accepted for moderation.'),
-                        self::MESSAGE_STATUS_SUCCESS
+                        $this->__('Your review has been accepted for moderation.'), self::MESSAGE_STATUS_SUCCESS
                     );
                 } catch (Exception $e) {
                     $this->_message($this->__('Unable to post the review.'), self::MESSAGE_STATUS_ERROR);
@@ -210,6 +189,6 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
      */
     private function _trimDot($text)
     {
-        return trim((string)$text, " \n\r\t.");
+        return trim($text, " \n\r\t.");
     }
 }

@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Form_Renderer_Boolean
-    extends Mage_XmlConnect_Block_Customer_Form_Renderer_Select
+class Mage_XmlConnect_Block_Customer_Form_Renderer_Boolean extends Mage_XmlConnect_Block_Customer_Form_Renderer_Select
 {
     /**
      * Return array of select options
@@ -42,18 +41,9 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_Boolean
     public function getOptions()
     {
         return array(
-            array(
-                'value' => '',
-                'label' => ''
-            ),
-            array(
-                'value' => '0',
-                'label' => Mage::helper('enterprise_customer')->__('No')
-            ),
-            array(
-                'value' => '1',
-                'label' => Mage::helper('enterprise_customer')->__('Yes')
-            ),
+            array('value' => '', 'label' => ''),
+            array('value' => '0', 'label' => Mage::helper('enterprise_customer')->__('No')),
+            array('value' => '1', 'label' => Mage::helper('enterprise_customer')->__('Yes'))
         );
     }
 }

@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable
-    extends Mage_XmlConnect_Block_Catalog_Product_Options
+class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_XmlConnect_Block_Catalog_Product_Options
 {
     /**
      * Generate bundle product options xml
@@ -144,12 +143,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable
                         $valueNode->addAttribute('formated_price', $option['formated_price']);
                     }
                     if (sizeof($_attributes) > 1) {
-                        $this->_prepareRecursivelyRelatedValues(
-                            $valueNode,
-                            $_attributes,
-                            $option['products'],
-                            1
-                        );
+                        $this->_prepareRecursivelyRelatedValues($valueNode, $_attributes, $option['products'], 1);
                     }
                 }
                 $isFirst = false;
@@ -205,12 +199,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable
             $_attrClone = $attributes;
             if (next($_attrClone) != false) {
                 reset($_attrClone);
-                $this->_prepareRecursivelyRelatedValues(
-                    $_valueNode,
-                    $_attrClone,
-                    $intersect,
-                    $cycle + 1
-                );
+                $this->_prepareRecursivelyRelatedValues($_valueNode, $_attrClone, $intersect, $cycle + 1);
             }
         }
     }

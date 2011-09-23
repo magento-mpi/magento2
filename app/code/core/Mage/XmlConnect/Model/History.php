@@ -53,7 +53,7 @@ class Mage_XmlConnect_Model_History extends Mage_Core_Model_Abstract
     /**
      * Initialize application
      *
-     * @return void
+     * @return null
      */
     protected function _construct()
     {

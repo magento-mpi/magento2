@@ -36,7 +36,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
     /**
      * Declare content type header
      *
-     * @return void
+     * @return null
      */
     public function preDispatch()
     {
@@ -68,9 +68,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
             $app->setScreenSize($screenSize);
 
             if (!$app->getId()) {
-                Mage::throwException(
-                    $this->__('App with specified code does not exist.')
-                );
+                Mage::throwException($this->__('App with specified code does not exist.'));
             }
 
             $app->loadConfiguration();
@@ -87,11 +85,11 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
      * Set application coolies: application code and device screen size.
      *
      * @param Mage_XmlConnect_Model_Application $app
-     * @return void
+     * @return null
      */
     protected function _initCookies(Mage_XmlConnect_Model_Application $app)
     {
-        $cookieToSetArray = array (
+        $cookieToSetArray = array(
             array(
                 'cookieName'    => Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME,
                 'paramName'     => Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME,
@@ -101,8 +99,8 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
                 'cookieName'    => Mage_XmlConnect_Model_Application::APP_SCREEN_SIZE_NAME,
                 'paramName'     => Mage_XmlConnect_Model_Application::APP_SCREEN_SIZE_NAME,
                 'value'         => $app->getScreenSize()
-            )
-        );
+        ));
+
         foreach ($cookieToSetArray as $item) {
             if (!isset($_COOKIE[$item['cookieName']])
                 || $_COOKIE[$item['cookieName']] != $this->getRequest()->getParam($item['paramName'])
@@ -112,13 +110,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
                  */
                 $cookieExpireOffset = 3600 * 24 * 30;
                 Mage::getSingleton('core/cookie')->set(
-                    $item['cookieName'],
-                    $item['value'],
-                    $cookieExpireOffset,
-                    '/',
-                    null,
-                    null,
-                    true
+                    $item['cookieName'], $item['value'], $cookieExpireOffset, '/', null, null, true
                 );
             }
         }
@@ -127,7 +119,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
     /**
      * Default action
      *
-     * @return void
+     * @return null
      */
     public function indexAction()
     {
@@ -150,14 +142,10 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
             $this->loadLayout(false);
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
-            $this->_message(
-                $e->getMessage(),
-                Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR
-            );
+            $this->_message($e->getMessage(), Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
             $this->_message(
-                $this->__('Can\'t show configuration.'),
-                Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR
+                $this->__('Can\'t show configuration.'), Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR
             );
             Mage::logException($e);
         }
@@ -168,9 +156,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
      *
      * @param string $text
      * @param string $status
-     * @param string $type
-     * @param string $action
-     * @return void
+     * @return null
      */
     protected function _message($text, $status)
     {

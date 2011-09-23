@@ -42,9 +42,6 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Free extends Mage_Payme
     public function addPaymentInfoToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj)
     {
         $orderItemXmlObj->addAttribute('type', $this->getMethod()->getCode());
-        $orderItemXmlObj->addAttribute(
-            'title',
-            $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle())
-        );
+        $orderItemXmlObj->addAttribute('title', $orderItemXmlObj->xmlAttribute($this->getMethod()->getTitle()));
     }
 }
