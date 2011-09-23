@@ -81,13 +81,13 @@ class Mage_Tag_Model_Tag_Relation extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Init indexing process after tag data commit
+     * Init indexing process after tag data save
      *
      * @return Mage_Tag_Model_Tag_Relation
      */
-    public function afterCommitCallback()
+    protected function _afterSave()
     {
-        parent::afterCommitCallback();
+        parent::_afterSave();
         Mage::getSingleton('index/indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );

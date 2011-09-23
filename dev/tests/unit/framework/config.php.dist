@@ -1,0 +1,27 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Payment
+ * @subpackage  tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
+
+define('TESTS_MAGENTO_ONLINE_ENABLED', false);
+
+define('PAYMENT_AUTHORIZENET_LOGIN',    '');
+define('PAYMENT_AUTHORIZENET_KEY',      '');
+
+
+define('PAYMENT_PAYPAL_USER',           '');
+define('PAYMENT_PAYPAL_PASSWORD',       '');
+define('PAYMENT_PAYPAL_SIGNATURE',      '');
+
+define('PAYMENT_PAYFLO_USER',           '');
+define('PAYMENT_PAYFLO_PARTNER',        '');
+define('PAYMENT_PAYFLO_VENDOR',         '');
+define('PAYMENT_PAYFLO_PASSWORD',       '');

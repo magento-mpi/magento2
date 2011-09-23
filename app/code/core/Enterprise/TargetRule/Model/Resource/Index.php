@@ -463,7 +463,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
                 $this->getTypeIndex($typeId)->cleanIndex($store);
             }
             if (is_null($store)) {
-                $adapter->truncateTable($this->getMainTable());
+                $adapter->delete($this->getMainTable());
             } else {
                 $where = array('store_id IN(?)' => $store);
                 $adapter->delete($this->getMainTable(), $where);

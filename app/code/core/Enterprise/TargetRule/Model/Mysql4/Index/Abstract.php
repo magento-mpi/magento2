@@ -32,6 +32,6 @@
  * @package     Enterprise_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Mysql4_Index_Abstract extends Enterprise_TargetRule_Model_Resource_Index_Abstract
+abstract class Enterprise_TargetRule_Model_Mysql4_Index_Abstract extends Enterprise_TargetRule_Model_Resource_Index_Abstract
 {
 }

@@ -713,7 +713,7 @@ class Varien_Object implements ArrayAccess
 
     protected function _camelize($name)
     {
-        return uc_words($name, '');
+        return str_replace(' ', '', ucwords(str_replace('_', ' ', $name)));
     }
 
     /**

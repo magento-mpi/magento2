@@ -166,12 +166,14 @@ final class Mage
     public static function reset()
     {
         self::$_registry        = array();
+        self::$_appRoot         = null;
         self::$_app             = null;
         self::$_config          = null;
         self::$_events          = null;
         self::$_objects         = null;
         self::$_isDownloader    = false;
         self::$_isDeveloperMode = false;
+        self::$_isInstalled     = null;
         // do not reset $headersSentThrowsException
     }
 
@@ -631,6 +633,12 @@ final class Mage
             Varien_Profiler::start('mage');
             self::setRoot();
             self::$_app    = new Mage_Core_Model_App();
+            if (isset($options['request'])) {
+                self::$_app->setRequest($options['request']);
+            }
+            if (isset($options['response'])) {
+                self::$_app->setResponse($options['response']);
+            }
             self::$_events = new Varien_Event_Collection();
             self::$_config = new Mage_Core_Model_Config($options);
             self::$_app->run(array(

@@ -864,6 +864,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         Varien_Profiler::stop('__EAV_COLLECTION_BEFORE_LOAD__');
 
         $this->_renderFilters();
+        $this->_renderOrders();
 
         Varien_Profiler::start('__EAV_COLLECTION_LOAD_ENT__');
         $this->_loadEntities($printQuery, $logQuery);
@@ -1407,12 +1408,10 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     {
         if (is_array($attribute)) {
             foreach ($attribute as $attr) {
-                $this->addAttributeToSort($attr, $dir);
+                parent::setOrder($attr, $dir);
             }
-        } else {
-            $this->addAttributeToSort($attribute, $dir);
         }
-        return $this;
+        return parent::setOrder($attribute, $dir);
     }
 
     /**
@@ -1431,12 +1430,18 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     }
 
     /**
-     * Before load method
+     * Treat "order by" items as attributes to sort
      *
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
-    protected function _beforeLoad()
+    protected function _renderOrders()
     {
+        if (!$this->_isOrdersRendered) {
+            foreach ($this->_orders as $attribute => $direction) {
+                $this->addAttributeToSort($attribute, $direction);
+            }
+            $this->_isOrdersRendered = true;
+        }
         return $this;
     }
 

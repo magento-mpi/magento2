@@ -507,8 +507,6 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     public function getData()
     {
         if ($this->_data === null) {
-            
-            
             $this->_renderFilters()
                  ->_renderOrders()
                  ->_renderLimit();
@@ -525,7 +523,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
 
     /**
      * Prepare select for load
-     * 
+     *
      * @return string
      */
     protected function _prepareSelect(Varien_Db_Select $select)
@@ -563,7 +561,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
             $alias = $table;
         }
 
-        if (!isset($this->_joinedTables[$alias])) {
+        if (!isset($this->_joinedTables[$table])) {
             $this->getSelect()->join(
                 array($alias => $this->getTable($table)),
                 $cond,

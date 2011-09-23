@@ -24,12 +24,10 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-set_include_path(get_include_path().PS.Mage::getBaseDir('lib').DS.'googlecheckout');
-
-require_once('googleresponse.php');
-require_once('googlemerchantcalculations.php');
-require_once('googleresult.php');
-require_once('googlerequest.php');
+require_once('googlecheckout/googleresponse.php');
+require_once('googlecheckout/googlemerchantcalculations.php');
+require_once('googlecheckout/googleresult.php');
+require_once('googlecheckout/googlerequest.php');
 
 abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
 {

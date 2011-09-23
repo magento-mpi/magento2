@@ -41,12 +41,9 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
     const CIPHER_LATEST       = 2;
 
     protected $_cipher = self::CIPHER_LATEST;
-    protected $_crypts = array();
 
     protected $_keyVersion;
     protected $_keys = array();
-
-    protected $_iv = '';
 
     public function __construct()
     {
@@ -164,9 +161,9 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
      * By default initializes with latest key and crypt versions
      *
      * @param string $key
-     * @return Varien_Crypt_Mcrypt
+     * @return Magento_Crypt
      */
-    protected function _getCrypt($key = null, $cipherVersion = null)
+    protected function _getCrypt($key = null, $cipherVersion = null, $initVector = true)
     {
         if (null === $key && null == $cipherVersion) {
             $cipherVersion = self::CIPHER_RIJNDAEL_256;
@@ -180,19 +177,18 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
         }
         $cipherVersion = $this->validateCipher($cipherVersion);
 
-        $this->_crypts[$key][$cipherVersion] = Varien_Crypt::factory();
-        $this->_crypts[$key][$cipherVersion]->setMode(MCRYPT_MODE_ECB);
-        $this->_crypts[$key][$cipherVersion]->setCipher(MCRYPT_BLOWFISH);
-
         if ($cipherVersion === self::CIPHER_RIJNDAEL_128) {
-            $this->_crypts[$key][$cipherVersion]->setCipher(MCRYPT_RIJNDAEL_128);
-        } elseif ($cipherVersion === self::CIPHER_RIJNDAEL_256) {
-            $this->_crypts[$key][$cipherVersion]->setCipher(MCRYPT_RIJNDAEL_128);
-            $this->_crypts[$key][$cipherVersion]->setMode(MCRYPT_MODE_CBC);
-            $this->_crypts[$key][$cipherVersion]->setInitVector($this->_iv);
+            $cipher = MCRYPT_RIJNDAEL_128;
+            $mode   = MCRYPT_MODE_ECB;
+        } else if ($cipherVersion === self::CIPHER_RIJNDAEL_256) {
+            $cipher = MCRYPT_RIJNDAEL_128;
+            $mode   = MCRYPT_MODE_CBC;
+        } else {
+            $cipher = MCRYPT_BLOWFISH;
+            $mode   = MCRYPT_MODE_ECB;
         }
-        $this->_crypts[$key][$cipherVersion]->init($key);
-        return $this->_crypts[$key][$cipherVersion];
+
+        return new Magento_Crypt($key, $cipher, $mode, $initVector);
     }
 
     /**
@@ -211,10 +207,11 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
             $parts = explode(':', $data, 4);
             $partsCount = count($parts);
 
+            $initVector = false;
             // specified key, specified crypt, specified iv
             if (4 === $partsCount) {
                 list($keyVersion, $cryptVersion, $iv, $data) = $parts;
-                $this->_iv    = $iv ? $iv : null;
+                $initVector   = $iv ? $iv : false;
                 $keyVersion   = (int)$keyVersion;
                 $cryptVersion = self::CIPHER_RIJNDAEL_256;
             }
@@ -223,20 +220,17 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
                 list($keyVersion, $cryptVersion, $data) = $parts;
                 $keyVersion   = (int)$keyVersion;
                 $cryptVersion = (int)$cryptVersion;
-                $this->_iv = null;
             }
             // no key version = oldest key, specified crypt
             elseif (2 === $partsCount) {
                 list($cryptVersion, $data) = $parts;
                 $keyVersion   = 0;
                 $cryptVersion = (int)$cryptVersion;
-                $this->_iv = null;
             }
             // no key version = oldest key, no crypt version = oldest crypt
             elseif (1 === $partsCount) {
                 $keyVersion   = 0;
                 $cryptVersion = self::CIPHER_BLOWFISH;
-                $this->_iv = null;
             }
             // not supported format
             else {
@@ -246,8 +240,8 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
             if (!isset($this->_keys[$keyVersion])) {
                 return '';
             }
-            $crypt = $this->_getCrypt($this->_keys[$keyVersion], $cryptVersion);
-            return str_replace("\x0", '', trim($crypt->decrypt(base64_decode((string)$data))));
+            $crypt = $this->_getCrypt($this->_keys[$keyVersion], $cryptVersion, $initVector);
+            return trim($crypt->decrypt(base64_decode((string)$data)));
         }
         return '';
     }
@@ -261,7 +255,7 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
     public function encrypt($data)
     {
         $crypt = $this->_getCrypt();
-        return (MCRYPT_BLOWFISH !== $crypt->getCypher() ? $this->_keyVersion . ':' . $this->_cipher . ':' : '') .
+        return $this->_keyVersion . ':' . $this->_cipher . ':' .
                (MCRYPT_MODE_CBC === $crypt->getMode() ? $crypt->getInitVector() . ':' : '') .
                base64_encode($crypt->encrypt((string)$data));
     }

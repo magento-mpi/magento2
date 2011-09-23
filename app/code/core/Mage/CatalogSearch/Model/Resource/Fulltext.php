@@ -294,7 +294,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->update($this->getTable('catalogsearch/search_query'), array('is_processed' => 0));
-        $adapter->truncateTable($this->getTable('catalogsearch/result'));
+        $adapter->delete($this->getTable('catalogsearch/result'));
 
         Mage::dispatchEvent('catalogsearch_reset_search_result');
 

@@ -93,12 +93,20 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     protected $_fetchStmt = null;
 
+    /**
+     * Whether orders are rendered
+     *
+     * @var bool
+     */
+    protected $_isOrdersRendered = false;
+
     public function __construct($conn=null)
     {
         parent::__construct();
         if (!is_null($conn)) {
             $this->setConnection($conn);
         }
+        $this->_isOrdersRendered = false;
     }
 
     /**
@@ -299,20 +307,19 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     private function _setOrder($field, $direction, $unshift = false)
     {
+        $this->_isOrdersRendered = false;
         $field = (string)$this->_getMappedField($field);
         $direction = (strtoupper($direction) == self::SORT_ORDER_ASC) ? self::SORT_ORDER_ASC : self::SORT_ORDER_DESC;
-        // emulate associative unshift
+
+        unset($this->_orders[$field]); // avoid ordering by the same field twice
         if ($unshift) {
-            $orders = array($field => new Zend_Db_Expr($field . ' ' . $direction));
-            foreach ($this->_orders as $key => $expression) {
-                if (!isset($orders[$key])) {
-                    $orders[$key] = $expression;
-                }
+            $orders = array($field => $direction);
+            foreach ($this->_orders as $key => $dir) {
+                $orders[$key] = $dir;
             }
             $this->_orders = $orders;
-        }
-        else {
-            $this->_orders[$field] = new Zend_Db_Expr($field . ' ' . $direction);
+        } else {
+            $this->_orders[$field] = $direction;
         }
         return $this;
     }
@@ -454,15 +461,14 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     protected function _renderOrders()
     {
-        $ordersInSelect = $this->_select->getPart(Zend_Db_Select::ORDER);
-
-        foreach ($this->_orders as $orderExpr) {
-            if (!in_array($orderExpr, $ordersInSelect)) {
-                $this->_select->order($orderExpr);
-            }
-        }
-
-        return $this;
+        if (!$this->_isOrdersRendered) {
+            $this->_select->reset(Zend_Db_Select::ORDER);
+            foreach ($this->_orders as $field => $direction) {
+                $this->_select->order(new Zend_Db_Expr($field . ' ' . $direction));
+             }
+            $this->_isOrdersRendered = true;
+         }
+         return $this;
     }
 
     /**
