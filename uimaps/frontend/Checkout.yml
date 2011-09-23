@@ -69,8 +69,8 @@ onepage_checkout:
                             billing_zip_code: //input[@id='billing:postcode']
                             billing_telephone: //input[@id='billing:telephone']
                             billing_fax: //input[@id='billing:fax']
-                            password: //input[@id='billing:customer_password']
-                            confirm_password: //input[@id='billing:confirm_password']
+                            billing_password: //input[@id='billing:customer_password']
+                            billing_confirm_password: //input[@id='billing:confirm_password']
                         checkboxes:
                             billing_save_in_address_book: //input[@id='billing:save_in_address_book']
                         radiobuttons:
