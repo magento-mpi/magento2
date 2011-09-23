@@ -77,8 +77,8 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
         );
 
         if ($check) {
-            $message = 'Your design change for the specified store intersects with' .
-                ' another one, please specify another date range.';
+            $message = 'Your design change for the specified store intersects with'
+                . ' another one, please specify another date range.';
             Mage::throwException(Mage::helper('core')->__($message));
         }
 
