@@ -38,10 +38,10 @@ class Magento_Test_Webservice_SoapV2
     public function init()
     {
         $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL.'/api/v2_soap/?wsdl=1');
-        $this->_session=  $this->_client->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
+        $this->_client->setSoapVersion(SOAP_1_1);
+        $this->_session = $this->_client->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
         $this->_configFunction = Mage::getSingleton('api/config')->getNode('v2/resources_function_prefix')->children();
         $this->_configAlias = Mage::getSingleton('api/config')->getNode('resources_alias')->children();
-
     }
 
     public function login($api, $key)
@@ -49,7 +49,37 @@ class Magento_Test_Webservice_SoapV2
         return $this->_client->login($api, $key);
     }
 
+    /**
+     * @param object $obj
+     * @return Array
+     */
+    public static function soapResultToArray($soapResult)
+    {
+        if (is_object($soapResult) && null !== ($_data = get_object_vars($soapResult))) {
+            foreach ($_data as $key => $value) {
+                if (is_object($value) || is_array($value)) {
+                    $_data[$key] = self::soapResultToArray($value);
+                }
+            }
+            return $_data;
+        } elseif (is_array($soapResult)){
+            $_data = array();
+            foreach ($soapResult as $key => $value) {
+                if (is_object($value) || is_array($value)) {
+                    $_data[$key] = self::soapResultToArray($value);
+                }
+            }
+            return $_data;
+        }
+        return array();
+    }
 
+    /**
+     * 
+     * 
+     * @param unknown_type $path
+     * @param unknown_type $params
+     */
     public function call($path, $params = array())
     {
         $pathExploded = explode('.', $path);
@@ -68,8 +98,15 @@ class Magento_Test_Webservice_SoapV2
         $soap2method .= $pathmethod;
         array_unshift($params, $this->_session);
 
-        $result = call_user_func_array(array($this->_client, $soap2method), $params);
+        $soapResult = call_user_func_array(array($this->_client, $soap2method), $params);
 
-        return get_object_vars($result);
+        $result = array();
+        if (is_array($soapResult) || is_object($soapResult)) {
+            $result = self::soapResultToArray($soapResult);
+        } else {
+            $result = $soapResult;
+        }
+
+        return $result;
     }
 }
