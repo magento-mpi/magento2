@@ -41,18 +41,24 @@ class GiftCard_CartTest extends Magento_Test_Webservice
         //Test giftcard add to quote
         $giftcardAccount = self::getFixture('giftcard_account');
         $quoteId = $this->call('cart.create', array(1));
-        $addResult = $this->call('cart_giftcard.add', array($giftcardAccount->getCode(), $quoteId));
+        $addResult = $this->call('cart_giftcard.add', array(
+            'giftcardAccountCode' => $giftcardAccount->getCode(),
+            'quoteId' => $quoteId
+        ));
         $this->assertTrue($addResult, 'Add giftcard to quote');
 
         //Test list of giftcards added to quote
-        $giftcards = $this->call('cart_giftcard.list', array($quoteId));
+        $giftcards = $this->call('cart_giftcard.list', array('quoteId' => $quoteId));
         $this->assertInternalType('array', $giftcards);
         $this->assertGreaterThan(0, count($giftcards));
         $this->assertEquals($giftcardAccount->getCode(), $giftcards[0]['code']);
         $this->assertEquals($giftcardAccount->getBalance(), $giftcards[0]['base_amount']);
 
         //Test giftcard removing from quote
-        $removeResult = $this->call('cart_giftcard.remove', array($giftcardAccount->getCode(), $quoteId));
+        $removeResult = $this->call('cart_giftcard.remove', array(
+            'giftcardAccountCode' => $giftcardAccount->getCode(),
+            'quoteId' => $quoteId
+        ));
         $this->assertTrue($removeResult, 'Remove giftcard from quote');
 
         //Test giftcard removed

@@ -44,10 +44,8 @@ class Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
         $fixtureCustomOptionId = Magento_Test_Webservice::getFixture('customOptionId');
 
         $createdOptionValuesBefore = $this->call('product_custom_option_value.list', array(
-            $fixtureCustomOptionId,
-            $store
-        ));
-
+                $fixtureCustomOptionId
+            ));
         $this->assertTrue(is_array($createdOptionValuesBefore));
         $this->assertEquals(2, count($createdOptionValuesBefore));
 

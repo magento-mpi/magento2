@@ -48,7 +48,7 @@ class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 
         /** @var $orderItem Mage_Sales_Model_Order_Item */
         foreach ($orderItems as $orderItem) {
-            $qtys[$orderItem->getId()] = 1;
+            $qtys[] = array('order_item_id' => $orderItem->getId(), 'qty' => 1);
         }
         $adjustmentPositive = 2;
         $adjustmentNegative = 1;
@@ -61,6 +61,7 @@ class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
 
         //Test create
         $creditMemoIncrementId = $this->call('order_creditmemo.create', array($orderIncrementalId, $data));
+
         $this->assertNotEmpty($creditMemoIncrementId, 'Creditmemo was not created');
 
         //Test list
@@ -86,7 +87,8 @@ class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         $this->assertArrayHasKey('items', $creditmemoInfo);
         $this->assertInternalType('array', $creditmemoInfo['items']);
         $this->assertGreaterThan(0, count($creditmemoInfo['items']));
-        $this->assertArrayHasKey($creditmemoInfo['items'][0]['order_item_id'], $qtys);
+        //$this->assertArrayHasKey($creditmemoInfo['items'][0]['order_item_id'], $qtys);
+        $this->assertEquals($creditmemoInfo['items'][0]['order_item_id'], $qtys[0]['order_item_id']);
         $this->assertEquals($product->getId(), $creditmemoInfo['items'][0]['product_id']);
 
         //Test comment was added correctly
@@ -126,6 +128,12 @@ class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     public function testListEmptyFilter()
     {
         $filter = array('order_id' => 'invalid-id');
+        if (self::$_ws instanceof Magento_Test_Webservice_SoapV2) {
+            $filter = new stdClass();
+            $filter->filter = array();
+            $filter->filter[] = (object)array('key' => 'order_id', 'value' => 'invalid-id');
+        }
+
         $creditmemoList = $this->call('order_creditmemo.list', array($filter));
         $this->assertEquals(0, count($creditmemoList));
     }
