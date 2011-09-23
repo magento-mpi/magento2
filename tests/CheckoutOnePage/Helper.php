@@ -162,7 +162,10 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                         $this->fail('This shipping method is currently unavailable.');
                     }
                 } else {
-                    $this->clickControl('radiobutton', 'ship_method', FALSE);
+                    $xpathRadio = $this->_getControlXpath('radiobutton', 'ship_method');
+                    if ($this->isElementPresent($xpathRadio)) {
+                        $this->clickControl('radiobutton', 'ship_method', FALSE);
+                    }
                     if (array_key_exists('add_gift_options', $shippingMethod)) {
                         $this->frontAddGiftMessage($shippingMethod['add_gift_options']);
                     }
