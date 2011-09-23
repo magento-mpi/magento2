@@ -116,10 +116,10 @@
             </catalog_product_attribute_update_before>
             <controller_action_predispatch>
                 <observers>
-                    <enterprise_admingws>
+                    <enterprise_pricepermissions>
                         <class>enterprise_pricepermissions/observer</class>
                         <method>adminControllerPredispatch</method>
-                    </enterprise_admingws>
+                    </enterprise_pricepermissions>
                 </observers>
             </controller_action_predispatch>
         </events>
