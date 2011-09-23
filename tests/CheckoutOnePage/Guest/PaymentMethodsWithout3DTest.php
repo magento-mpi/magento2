@@ -85,7 +85,9 @@ class CheckoutOnePage_PaymentMethodsWithout3DTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         $this->loginAdminUser();
-        $this->systemConfigurationHelper()->configure('saved_cc_wo3d_enable');
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc',
@@ -148,7 +150,9 @@ class CheckoutOnePage_PaymentMethodsWithout3DTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         $this->loginAdminUser();
-        $this->systemConfigurationHelper()->configure('authorize_net_without_3d_enable');
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->systemConfigurationHelper()->configure('authorize_net_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_authorize_net',
@@ -182,7 +186,9 @@ class CheckoutOnePage_PaymentMethodsWithout3DTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         $this->loginAdminUser();
-        $this->systemConfigurationHelper()->configure('paypal_uk_direct_wo_3d_enable');
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->systemConfigurationHelper()->configure('paypal_uk_direct_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_paypaluk_direct',
@@ -215,7 +221,9 @@ class CheckoutOnePage_PaymentMethodsWithout3DTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         $this->loginAdminUser();
-        $this->systemConfigurationHelper()->configure('payflow_pro_wo_3d_enable');
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->systemConfigurationHelper()->configure('payflow_pro_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_payflow_pro_verisign',
@@ -249,7 +257,9 @@ class CheckoutOnePage_PaymentMethodsWithout3DTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         $this->loginAdminUser();
-        $this->systemConfigurationHelper()->configure('website_payments_pro_wo_3d_enable');
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->systemConfigurationHelper()->configure('website_payments_pro_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_paypal_direct_payment',
