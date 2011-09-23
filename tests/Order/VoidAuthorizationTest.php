@@ -28,19 +28,21 @@
  */
 
 /**
- * Cancel orders
+ * Void Authorizations
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Order_CancelTest extends Mage_Selenium_TestCase
+class Order_VoidAuthorizationTest extends Mage_Selenium_TestCase
 {
 
     /**
      * <p>Preconditions:</p>
      *
      * <p>Log in to Backend.</p>
+     * <p>Navigate to 'System Configuration' page</p>
+     * <p>Enable all shipping methods</p>
      */
     public function setUpBeforeTests()
     {
@@ -72,44 +74,55 @@ class Order_CancelTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Cancel Pending Order From Order Page
+     * <p>Void order.</p>
+     * <p>Steps:</p>
+     * <p>1.Go to Sales-Orders.</p>
+     * <p>2.Press "Create New Order" button.</p>
+     * <p>3.Press "Create New Customer" button.</p>
+     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
+     * <p>5.Fill all fields.</p>
+     * <p>6.Press 'Add Products' button.</p>
+     * <p>7.Add first two products.</p>
+     * <p>8.Choose shipping address the same as billing.</p>
+     * <p>9.Check payment method 'PayPal Direct - Visa'</p>
+     * <p>10. Fill in all required fields.</p>
+     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>12.Submit order.</p>
+     * <p>13.Void Order.</p>
+     * <p>Expected result:</p>
+     * <p>New customer is created. Order is created for the new customer. Void successful</p>
      *
      * @depends createSimpleProduct
      * @dataProvider dataPaymentMethods
      * @test
      */
-    public function cancelPendingOrderFromOrderPage($payment, $simpleSku)
+    public function voidPendingOrderFromOrderPage($payment, $simpleSku)
     {
         //Data
         $orderData = $this->loadData('order_newcustmoer_' . $payment . '_flatrate', array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('system_configuration');
-        if ($payment != 'checkmoney') {
-            $payment .= '_without_3Dsecure';
-        }
-        if ($payment == 'paypaldirect' || $payment == 'paypaldirectuk' || $payment == 'payflowpro') {
+        if ($payment != 'authorizenet') {
             $this->systemConfigurationHelper()->configure('paypal_enable');
         }
-        $this->systemConfigurationHelper()->configure($payment);
+        $this->systemConfigurationHelper()->configure($payment . '_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         //Steps
-        $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
+        $this->clickButtonAndConfirm('void', 'confirmation_to_void');
         //Verifying
-        $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        $this->assertTrue($this->successMessage('success_voided_order'), $this->messages);
     }
 
     public function dataPaymentMethods()
     {
         return array(
             array('paypaldirect'),
-            array('savedcc'),
+            array('authorizenet'),
             array('paypaldirectuk'),
-            array('checkmoney'),
-            array('payflowpro'),
-            array('authorizenet')
+            array('payflowpro')
         );
     }
 

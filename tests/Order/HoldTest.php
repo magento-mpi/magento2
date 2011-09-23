@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -45,130 +46,85 @@ class Order_HoldTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
     }
+
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('saved_cc_wo3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
+        $this->addParameter('id', '0');
     }
+
     /**
-     * <p>Holding order after creation via mass action.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Hold order via mass action menu;</p>
-     * <p>Expected result:</p>
-     * <p>Order is holded;</p>
+     * Create Simple Product for tests
      *
      * @test
      */
-    public function holdViaMassAction()
+    public function createSimpleProduct()
     {
+        //Data
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        //Steps
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->addParameter('id', '0');
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_req_1',
-                array('filter_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->navigate('manage_sales_orders'),
-                'Could not get to Manage Sales Orders page');
-        $this->searchAndChoose(array('1' => $orderId), 'sales_order_grid');
-        $userData = array('actions' => 'Hold');
-        $this->fillForm($userData, 'sales_order_grid');
-        $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-        $this->clickButton('submit');
-        $this->assertTrue($this->successMessage('success_hold_order'), $this->messages);
-        return $orderId;
+
+        return $productData['general_sku'];
     }
 
     /**
-     * <p>Unholding order after holding via mass action menu.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Choose already holded order;</p>
-     * <p>3. Unhold order via mass action menu;</p>
-     * <p>Expected result:</p>
-     * <p>Order is unholded;</p>
-     *
-     * @depends holdViaMassAction
-     * @test
-     */
-    public function unholdViaMassAction($orderId)
-    {
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $this->searchAndChoose(array('1' => $orderId), 'sales_order_grid');
-        $userData = array('actions' => 'Unhold');
-        $this->fillForm($userData, 'sales_order_grid');
-        $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-        $this->clickButton('submit');
-        $this->assertTrue($this->successMessage('success_unhold_order'), $this->messages);
-    }
-
-    /**
-     * <p>Holding order after creation.</p>
+     * <p>Holding and unholding order after creation.</p>
      * <p>Steps:</p>
      * <p>1. Navigate to "Manage Orders" page;</p>
      * <p>2. Create new order for new customer;</p>
      * <p>3. Hold order;</p>
      * <p>Expected result:</p>
      * <p>Order is holded;</p>
-     *
-     * @test
-     */
-    public function holdViaOrderView()
-    {
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->addParameter('id', '0');
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($productData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_req_1',
-                array('filter_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->assertTrue($this->navigate('manage_sales_orders'),
-                'Could not get to Manage Sales Orders page');
-        $this->searchAndOpen(array('1' => $orderId), TRUE, 'sales_order_grid');
-        $this->saveForm('hold');
-        $this->assertTrue($this->successMessage('success_hold_order'), $this->messages);
-        return $orderId;
-    }
-
-    /**
-     * <p>Unholding order after holding.</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Choose already holded order;</p>
-     * <p>3. Unhold order;</p>
+     * <p>4. Unhold order;</p>
      * <p>Expected result:</p>
      * <p>Order is unholded;</p>
      *
-     * @depends holdViaOrderView
+     *
+     * @depends createSimpleProduct
+     * @dataProvider dataPaymentMethods
      * @test
      */
-    public function unholdViaOrderView($orderId)
+    public function holdAndUnholdPendingOrderViaOrderPage($payment, $simpleSku)
     {
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_' . $payment . '_flatrate', array('filter_sku' => $simpleSku));
+        //Steps
+        $this->navigate('system_configuration');
+        if ($payment != 'checkmoney') {
+            $payment .= '_without_3Dsecure';
+        }
+        if ($payment == 'paypaldirect' || $payment == 'paypaldirectuk' || $payment == 'payflowpro') {
+            $this->systemConfigurationHelper()->configure('paypal_enable');
+        }
+        $this->systemConfigurationHelper()->configure($payment);
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $this->searchAndOpen(array('1' => $orderId), TRUE, 'sales_order_grid');
-        $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-        $this->saveForm('unhold');
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        //Steps
+        $this->clickButton('hold');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_hold_order'), $this->messages);
+        //Steps
+        $this->clickButton('unhold');
+        //Verifying
         $this->assertTrue($this->successMessage('success_unhold_order'), $this->messages);
     }
+
+    public function dataPaymentMethods()
+    {
+        return array(
+            array('paypaldirect'),
+            array('savedcc'),
+            array('paypaldirectuk'),
+            array('checkmoney'),
+            array('payflowpro'),
+            array('authorizenet')
+        );
+    }
+
 }

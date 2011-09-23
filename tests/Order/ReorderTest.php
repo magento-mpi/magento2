@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -36,37 +37,37 @@
 class Order_ReorderTest extends Mage_Selenium_TestCase
 {
 
-   /**
-    * <p>Preconditions:</p>
-    * <p>Log in to Backend.</p>
-    */
-   public function setUpBeforeTests()
+    /**
+     * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
+     */
+    public function setUpBeforeTests()
     {
         $this->loginAdminUser();
     }
+
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('saved_cc_wo3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
+        $this->addParameter('id', '0');
     }
+
     /**
+     * Create Simple Product for tests
+     *
      * @test
      */
-    public function createProducts()
+    public function createSimpleProduct()
     {
+        //Data
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        //Steps
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->addParameter('id', '0');
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData;
+
+        return $productData['general_sku'];
     }
 
     /**
@@ -91,25 +92,61 @@ class Order_ReorderTest extends Mage_Selenium_TestCase
      * <p>New order during reorder is created.</p>
      * <p>Message "The order has been created." is displayed.</p>
      *
-     * @depends createProducts
+     * @depends createSimpleProduct
+     * @dataProvider dataPaymentMethods
      * @test
      */
-    public function reorder($productData)
+    public function reorderPendingOrder($payment, $simpleSku)
     {
+        //Data
+        $errors = array();
+        $orderData = $this->loadData('order_newcustmoer_' . $payment . '_flatrate', array('filter_sku' => $simpleSku));
+        //Steps
+        $this->navigate('system_configuration');
+        if ($payment != 'checkmoney') {
+            $payment .= '_without_3Dsecure';
+        }
+        if ($payment == 'paypaldirect' || $payment == 'paypaldirectuk' || $payment == 'payflowpro') {
+            $this->systemConfigurationHelper()->configure('paypal_enable');
+        }
+        $this->systemConfigurationHelper()->configure($payment);
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_req_1',
-                array('filter_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        $this->clickButtonAndConfirm('edit', 'confirmation_for_edit');
-        $this->addParameter('storeName', $orderData['store_view']);
-        $this->orderHelper()->addProductsToOrder($orderData['products_to_add']);
-        $this->orderHelper()->fillOrderAddress('new', 'billing',
-                $this->orderHelper()->customerAddressGenerator(':alpha:', $addrType = 'billing', $symNum = 32, FALSE));
-        $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
-        $this->orderHelper()->selectShippingMethod($orderData['shipping_data']);
-        $this->saveForm('submit_order');
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        //Steps
+        $this->clickButton('reorder');
+        if (isset($orderData['payment_data']['payment_info'])) {
+            $data = $orderData['payment_data']['payment_info'];
+            $emptyFields = array('card_number', 'card_verification_number');
+            foreach ($emptyFields as $field) {
+                $xpath = $this->_getControlXpath('field', $field);
+                $value = $this->getAttribute($xpath . '@value');
+                if ($value) {
+                    $errors[] = "Value for field '$field' should be empty, but now is $value";
+                }
+            }
+            $this->fillForm(array('card_number' => $data['card_number'],
+                'card_verification_number' => $data['card_verification_number']));
+        }
+        $this->saveForm('submit_order');
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        if ($errors) {
+            $this->fail(implode("\n", $errors));
+        }
     }
+
+    public function dataPaymentMethods()
+    {
+        return array(
+            array('paypaldirect'),
+            array('savedcc'),
+            array('paypaldirectuk'),
+            array('checkmoney'),
+            array('payflowpro'),
+            array('authorizenet')
+        );
+    }
+
 }
