@@ -140,6 +140,23 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     }
 
     /**
+     * Validate catalog product massStatus
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateCatalogProductMassActions($controller)
+    {
+        if ($this->_role->getIsAll()) {
+            return;
+        }
+
+        $store = Mage::app()->getStore($this->_request->getParam('store', Mage_Core_Model_App::ADMIN_STORE_ID));
+        if (!$this->_role->hasStoreAccess($store->getId())) {
+            $this->_forward();
+        }
+    }
+
+    /**
      * Avoid viewing disallowed customer
      *
      * @param Mage_Adminhtml_Controller_Action $controller
