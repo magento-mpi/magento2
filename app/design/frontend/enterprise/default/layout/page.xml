@@ -121,8 +121,6 @@ Default layout, loads most of the pages
                 <label>Page Bottom</label>
             </block>
         </block>
-
-        <block type="core/profiler" output="toHtml" name="core_profiler"/>
     </default>
 
     <print translate="label" module="page">

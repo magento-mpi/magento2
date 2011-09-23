@@ -935,7 +935,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      */
     public function load($object, $entityId, $attributes = array())
     {
-        Varien_Profiler::start('__EAV_LOAD_MODEL__');
+        Magento_Profiler::start('__EAV_LOAD_MODEL__');
         /**
          * Load object base row data
          */
@@ -959,12 +959,12 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         $this->_loadModelAttributes($object);
 
         $object->setOrigData();
-        Varien_Profiler::start('__EAV_LOAD_MODEL_AFTER_LOAD__');
+        Magento_Profiler::start('__EAV_LOAD_MODEL_AFTER_LOAD__');
 
         $this->_afterLoad($object);
-        Varien_Profiler::stop('__EAV_LOAD_MODEL_AFTER_LOAD__');
+        Magento_Profiler::stop('__EAV_LOAD_MODEL_AFTER_LOAD__');
 
-        Varien_Profiler::stop('__EAV_LOAD_MODEL__');
+        Magento_Profiler::stop('__EAV_LOAD_MODEL__');
         return $this;
     }
 
@@ -980,7 +980,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             return $this;
         }
 
-        Varien_Profiler::start('__EAV_LOAD_MODEL_ATTRIBUTES__');
+        Magento_Profiler::start('__EAV_LOAD_MODEL_ATTRIBUTES__');
 
         $selects = array();
         foreach (array_keys($this->getAttributesByTable()) as $table) {
@@ -1000,7 +1000,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             }
         }
 
-        Varien_Profiler::stop('__EAV_LOAD_MODEL_ATTRIBUTES__');
+        Magento_Profiler::stop('__EAV_LOAD_MODEL_ATTRIBUTES__');
 
         return $this;
     }

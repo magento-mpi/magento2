@@ -229,7 +229,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
 
     public function toHtml()
     {
-        Varien_Profiler::start('form/toHtml');
+        Magento_Profiler::start('form/toHtml');
         $html = '';
         if ($useContainer = $this->getUseContainer()) {
             $html .= '<form '.$this->serialize($this->getHtmlAttributes()).'>';
@@ -247,7 +247,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         if ($useContainer) {
             $html.= '</form>';
         }
-        Varien_Profiler::stop('form/toHtml');
+        Magento_Profiler::stop('form/toHtml');
         return $html;
     }
 

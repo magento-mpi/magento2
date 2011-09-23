@@ -1202,9 +1202,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         if (Mage::app()->useCache(self::CACHE_GROUP)) {
             Mage::app()->setUseSessionVar(false);
-            Varien_Profiler::start('CACHE_URL');
+            Magento_Profiler::start('CACHE_URL');
             $html = Mage::getSingleton($this->_getUrlModelClass())->sessionUrlVar($html);
-            Varien_Profiler::stop('CACHE_URL');
+            Magento_Profiler::stop('CACHE_URL');
         }
         return $html;
     }

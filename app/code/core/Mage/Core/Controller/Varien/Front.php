@@ -129,7 +129,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
         $routersInfo = Mage::app()->getStore()->getConfig(self::XML_STORE_ROUTERS_PATH);
 
-        Varien_Profiler::start('mage::app::init_front_controller::collect_routers');
+        Magento_Profiler::start('mage::app::init_front_controller::collect_routers');
         foreach ($routersInfo as $routerCode => $routerInfo) {
             if (isset($routerInfo['disabled']) && $routerInfo['disabled']) {
                 continue;
@@ -142,7 +142,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
                 $this->addRouter($routerCode, $router);
             }
         }
-        Varien_Profiler::stop('mage::app::init_front_controller::collect_routers');
+        Magento_Profiler::stop('mage::app::init_front_controller::collect_routers');
 
         Mage::dispatchEvent('controller_front_init_routers', array('front'=>$this));
 
@@ -162,14 +162,14 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
         $request->setPathInfo()->setDispatched(false);
         if (!$request->isStraight()) {
-            Varien_Profiler::start('mage::dispatch::db_url_rewrite');
+            Magento_Profiler::start('mage::dispatch::db_url_rewrite');
             Mage::getModel('core/url_rewrite')->rewrite();
-            Varien_Profiler::stop('mage::dispatch::db_url_rewrite');
+            Magento_Profiler::stop('mage::dispatch::db_url_rewrite');
         }
-        Varien_Profiler::start('mage::dispatch::config_url_rewrite');
+        Magento_Profiler::start('mage::dispatch::config_url_rewrite');
         $this->rewrite();
-        Varien_Profiler::stop('mage::dispatch::config_url_rewrite');
-        Varien_Profiler::start('mage::dispatch::routers_match');
+        Magento_Profiler::stop('mage::dispatch::config_url_rewrite');
+        Magento_Profiler::start('mage::dispatch::routers_match');
         $i = 0;
         while (!$request->isDispatched() && $i++<100) {
             foreach ($this->_routers as $router) {
@@ -178,15 +178,15 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
                 }
             }
         }
-        Varien_Profiler::stop('mage::dispatch::routers_match');
+        Magento_Profiler::stop('mage::dispatch::routers_match');
         if ($i>100) {
             Mage::throwException('Front controller reached 100 router match iterations');
         }
         //This event give possibility to launch smth before sending ouptut(Allow cookie setting)
         Mage::dispatchEvent('controller_front_send_response_before', array('front'=>$this));
-        Varien_Profiler::start('mage::app::dispatch::send_response');
+        Magento_Profiler::start('mage::app::dispatch::send_response');
         $this->getResponse()->sendResponse();
-        Varien_Profiler::stop('mage::app::dispatch::send_response');
+        Magento_Profiler::stop('mage::app::dispatch::send_response');
         Mage::dispatchEvent('controller_front_send_response_after', array('front'=>$this));
         return $this;
     }

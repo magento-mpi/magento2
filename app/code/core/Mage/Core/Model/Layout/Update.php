@@ -339,8 +339,8 @@ class Mage_Core_Model_Layout_Update
 
     public function fetchPackageLayoutUpdates($handle)
     {
-        $_profilerKey = 'layout/package_update: '.$handle;
-        Varien_Profiler::start($_profilerKey);
+        $_profilerKey = 'layout_package_update:' . $handle;
+        Magento_Profiler::start($_profilerKey);
         if (empty($this->_packageLayout)) {
             $this->fetchFileLayoutUpdates();
         }
@@ -349,27 +349,25 @@ class Mage_Core_Model_Layout_Update
             $this->fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
-        Varien_Profiler::stop($_profilerKey);
+        Magento_Profiler::stop($_profilerKey);
 
         return true;
     }
 
     public function fetchDbLayoutUpdates($handle)
     {
-        $_profilerKey = 'layout/db_update: '.$handle;
-        Varien_Profiler::start($_profilerKey);
+        $_profilerKey = 'layout_db_update:' . $handle;
+        Magento_Profiler::start($_profilerKey);
         $updateStr = Mage::getResourceModel('core/layout')->fetchUpdatesByHandle($handle);
-        if (!$updateStr) {
-            return false;
+        if ($updateStr) {
+            $updateStr = '<update_xml>' . $updateStr . '</update_xml>';
+            $updateStr = str_replace($this->_subst['from'], $this->_subst['to'], $updateStr);
+            $updateXml = simplexml_load_string($updateStr, $this->getElementClass());
+            $this->fetchRecursiveUpdates($updateXml);
+            $this->addUpdate($updateXml->innerXml());
         }
-        $updateStr = '<update_xml>' . $updateStr . '</update_xml>';
-        $updateStr = str_replace($this->_subst['from'], $this->_subst['to'], $updateStr);
-        $updateXml = simplexml_load_string($updateStr, $this->getElementClass());
-        $this->fetchRecursiveUpdates($updateXml);
-        $this->addUpdate($updateXml->innerXml());
-
-        Varien_Profiler::stop($_profilerKey);
-        return true;
+        Magento_Profiler::stop($_profilerKey);
+        return (bool)$updateStr;
     }
 
     public function fetchRecursiveUpdates($updateXml)

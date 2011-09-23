@@ -1,9 +1,9 @@
 <?php
-/* 
+/*
  * Magento
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -11,13 +11,13 @@
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade Magento to newer
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
- * 
+ *
  * @category   Mage
  * @package    Mage_LoadTest
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
@@ -42,19 +42,19 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Bundle extends Mage_LoadTest_
 	}
 	$productId = $this->_product->getId();
 //	echo "start\n";
-	Varien_Profiler::start("option::collection::init");
+	Magento_Profiler::start("option::collection::init");
 	if(!isset($this->_optionCollections[$productId])) {
-	    Varien_profiler::start("option::collection::insider");
+	    Magento_Profiler::start("option::collection::insider");
 	    $this->_optionCollections[$productId] = $this->_typeInstance->getOptionsCollection();
-	    Varien_profiler::stop("option::collection::insider");
+	    Magento_Profiler::stop("option::collection::insider");
 	}
-	Varien_Profiler::stop("option::collection::init");
+	Magento_Profiler::stop("option::collection::init");
 
-	Varien_Profiler::start("selection::collection::init");
+	Magento_Profiler::start("selection::collection::init");
 	if(!isset($this->_filteredOptions[$productId])) {
 //	    echo "selectioninit\n";
 //	    echo "load\n";
-	    
+
 	    /*if (!count($optionCollection->getItems())) {
 		return false;
 	    }*/
@@ -75,7 +75,7 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Bundle extends Mage_LoadTest_
 		}
 	    }
 	}
-	Varien_Profiler::stop("selection::collection::init");
+	Magento_Profiler::stop("selection::collection::init");
 //	echo "finish\n";
 	$request = array();
 	if(!$this->_typeInstance->isSalable($this->_product))
@@ -85,7 +85,7 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Bundle extends Mage_LoadTest_
 	$request['bundle_option'] = array();
 	$request['related_product'] = '';
 
-	Varien_Profiler::start("filterd::options::foreach");
+	Magento_Profiler::start("filterd::options::foreach");
 	foreach($this->_filteredOptions[$productId] as $optionId => $selectionIds)
 	{
 	    $option = $this->_optionCollections[$productId]->getItemById($optionId);
@@ -116,11 +116,10 @@ class Mage_LoadTest_Model_Renderer_Sales_Item_Type_Bundle extends Mage_LoadTest_
 		}
 	    }
 	}
-	Varien_Profiler::stop("filterd::options::foreach");
-	
+	Magento_Profiler::stop("filterd::options::foreach");
+
 	return new Varien_Object($request);
     }
-    
-}
 
+}
 

@@ -108,9 +108,9 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
             return $this;
         }
 
-        Varien_Profiler::start('__MATCH_PRODUCTS__');
+        Magento_Profiler::start('__MATCH_PRODUCTS__');
         $productIds = $rule->getMatchingProductIds();
-        Varien_Profiler::stop('__MATCH_PRODUCTS__');
+        Magento_Profiler::stop('__MATCH_PRODUCTS__');
         $customerGroupIds = $rule->getCustomerGroupIds();
 
         $fromTime = strtotime($rule->getFromDate());

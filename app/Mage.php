@@ -408,10 +408,10 @@ final class Mage
      */
     public static function dispatchEvent($name, array $data = array())
     {
-        Varien_Profiler::start('DISPATCH EVENT:'.$name);
+        Magento_Profiler::start('DISPATCH EVENT:'.$name);
         $result = self::app()->dispatchEvent($name, $data);
         #$result = self::registry('events')->dispatch($name, $data);
-        Varien_Profiler::stop('DISPATCH EVENT:'.$name);
+        Magento_Profiler::stop('DISPATCH EVENT:'.$name);
         return $result;
     }
 
@@ -575,9 +575,9 @@ final class Mage
             self::$_events = new Varien_Event_Collection();
             self::$_config = new Mage_Core_Model_Config($options);
 
-            Varien_Profiler::start('self::app::init');
+            Magento_Profiler::start('self::app::init');
             self::$_app->init($code, $type, $options);
-            Varien_Profiler::stop('self::app::init');
+            Magento_Profiler::stop('self::app::init');
             self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
         }
         return self::$_app;
@@ -624,7 +624,7 @@ final class Mage
     public static function run($code = '', $type = 'store', $options = array())
     {
         try {
-            Varien_Profiler::start('mage');
+            Magento_Profiler::start('mage');
             self::setRoot();
             self::$_app    = new Mage_Core_Model_App();
             if (isset($options['request'])) {
@@ -640,7 +640,7 @@ final class Mage
                 'scope_type' => $type,
                 'options'    => $options,
             ));
-            Varien_Profiler::stop('mage');
+            Magento_Profiler::stop('mage');
         } catch (Mage_Core_Model_Session_Exception $e) {
             header('Location: ' . self::getBaseUrl());
             die();
