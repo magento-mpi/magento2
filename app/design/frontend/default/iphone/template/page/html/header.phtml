@@ -47,6 +47,7 @@
             <dt class="menu dropdown"><a href="#">Menu</a></dt>
             <dd class="menu-box" style="display:none;">
                 <ul>
+                    <li class="welcome-msg"><?php echo $this->getWelcome() ?> <?php echo $this->getAdditionalHtml() ?></li>
                     <?php echo $this->getChildHtml('topLinks') ?>
                     <?php echo $this->getChildHtml('store_switcher') ?>
                     <?php echo $this->getChildHtml('store_language') ?>
