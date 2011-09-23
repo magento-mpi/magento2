@@ -195,6 +195,12 @@ onepage_checkout:
                 shipping_alert: Please specify shipping method.
                 payment_alert: Please specify payment method.
 
+onepage_checkout_logged_in:
+    mca: checkout/onepage/index/
+    title: Checkout
+    uimap:
+        form: *checkoutForm
+
 onepage_checkout_success:
     mca: checkout/onepage/success/
     title: Magento Commerce
