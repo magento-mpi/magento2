@@ -61,6 +61,12 @@ document.observe("dom:loaded", function() {
         
     });
     
+    if ( $$('#remember-me-box a')[0] ) {
+        $$('#remember-me-box a')[0].observe('click', function(e) {
+            $('remember-me-popup').setStyle({'top' : e.pointerY() + 'px'});
+        });
+    }
+    
     var sliderPosition = 0,
         last,
         diff;
