@@ -48,8 +48,6 @@ class OrderShipment_CreateWithSavedCCTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
         $this->addParameter('id', '0');
     }
 
@@ -96,11 +94,13 @@ class OrderShipment_CreateWithSavedCCTest extends Mage_Selenium_TestCase
      * @depends createSimpleProduct
      * @test
      */
-    public function fullShipment($simpleSku)
+    public function fullShipmentForOrderWithoutInvoice($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_saved_cc_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate', array('filter_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
@@ -139,13 +139,15 @@ class OrderShipment_CreateWithSavedCCTest extends Mage_Selenium_TestCase
      * @depends createSimpleProduct
      * @test
      */
-    public function partialShipment($simpleSku)
+    public function partialShipmentForOrderWithoutInvoice($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_saved_cc_flatrate',
+        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate',
                 array('filter_sku' => $simpleSku, 'product_qty' => 10));
         $shipment = $this->loadData('products_to_ship', array('ship_product_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
