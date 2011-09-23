@@ -319,7 +319,11 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         }
         $this->frontFillOnePageAddress($addressData, 'billing');
         $xpath = $this->_getControlXpath('radiobutton', 'ship_to_this_address');
-        $fillShipping = (!$this->verifyChecked($xpath)) ? TRUE : FALSE;
+        if ($this->isElementPresent($xpath)) {
+            $fillShipping = (!$this->verifyChecked($xpath)) ? TRUE : FALSE;
+        } else {
+            $fillShipping = FALSE;
+        }
         $this->clickButton('billing_continue', false);
         return $fillShipping;
     }

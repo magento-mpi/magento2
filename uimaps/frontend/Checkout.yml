@@ -176,10 +176,10 @@ onepage_checkout:
                             payment_info_card_number_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]//table//tr[contains(.,'xxxx-%paymentCardNumber%')]
                             payment_info_card_name_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]//table//tr[contains(.,'%paymentCardName%')]
                         links:
-                            billing_address_change_link: //dt[1]/a[@href='#billing']
-                            shipping_address_change_link: //dt[2]/a[@href='#payment']
-                            shipping_method_change_link: //dt[3]/a[@href='#shipping_method']
-                            payment_method_change_link: //dt[4]/a[@href='#payment']
+                            billing_address_change_link: //dt[contains(.,'Billing Address')]/a[@href='#billing']
+                            shipping_address_change_link: //dt[contains(.,'Shipping Address')]/a[@href='#payment']
+                            shipping_method_change_link: //dt[contains(.,'Shipping Method')]/a[@href='#shipping_method']
+                            payment_method_change_link: //dt[contains(.,'Payment Method')]/a[@href='#payment']
             messages: &checkoutMessages
                 empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
                 please_select_option: "%fieldXpath%/following-sibling::*[text()='Please select an option.' and not(contains(@style,'display: none;'))]"
@@ -192,6 +192,8 @@ onepage_checkout:
                 payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
                 ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
                 paypal_alert: There was an error processing your order. Please contact us or try again later.
+                shipping_alert: Please specify shipping method.
+                payment_alert: Please specify payment method.
 
 onepage_checkout_success:
     mca: checkout/onepage/success/
@@ -199,7 +201,7 @@ onepage_checkout_success:
     uimap:
         form: &successForm
         messages:
-            success_checkout: //p[contains(.,'Your order')]
+            success_checkout: //h1[contains(.,'Your order has been received')]
 
 
 checkout_multishipping:
