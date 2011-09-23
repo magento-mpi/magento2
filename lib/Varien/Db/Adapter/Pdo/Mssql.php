@@ -3319,20 +3319,26 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      * Generate fragment of SQL, that check condition and return true or false value
      *
-     * @param string $condition     expression
-     * @param string $true          true value
-     * @param string $false         false value
+     * @param Zend_Db_Expr|Zend_Db_Select|string $expression
+     * @param string $true  true value
+     * @param string $false false value
      * @return Zend_Db_Expr
      */
-    public function getCheckSql($condition, $true, $false)
+    public function getCheckSql($expression, $true, $false)
     {
-        return new Zend_Db_Expr("CASE WHEN {$condition} THEN {$true} ELSE {$false} END");
+        if ($expression instanceof Zend_Db_Expr || $expression instanceof Zend_Db_Select) {
+            $expression = sprintf("CASE WHEN (%s) THEN %s ELSE %s END", $expression, $true, $false);
+        } else {
+            $expression = sprintf("CASE WHEN %s THEN %s ELSE %s END", $expression, $true, $false);
+        }
+
+        return new Zend_Db_Expr($expression);
     }
 
     /**
      * Returns valid IFNULL expression
      *
-     * @param string $column
+     * @param Zend_Db_Expr|Zend_Db_Select|string $expression
      * @param string $value OPTIONAL. Applies when $expression is NULL
      * @return Zend_Db_Expr
      */

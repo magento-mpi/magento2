@@ -25,10 +25,11 @@
  */
 
 /**
- *
  * XmlConnect fixed Varien SimpleXML Element class
  *
- * @author  Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Model_Simplexml_Element extends Varien_Simplexml_Element
 {
@@ -44,7 +45,7 @@ class Mage_XmlConnect_Model_Simplexml_Element extends Varien_Simplexml_Element
             /**
              * @link http://bugs.php.net/bug.php?id=41867 , fixed in 5.2.4
              */
-            if (version_compare(phpversion(), '5.2.4', '<')===true) {
+            if (version_compare(phpversion(), '5.2.4', '<') === true) {
                 $name = $source->children()->getName();
             } else {
                 $name = $source->getName();

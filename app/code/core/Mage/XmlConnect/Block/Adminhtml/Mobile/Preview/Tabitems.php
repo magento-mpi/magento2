@@ -23,7 +23,16 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Adminhtml_Block_Template
+
+/**
+ * XmlConnect Tab items block
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems
+    extends Mage_Adminhtml_Block_Template
 {
     /**
      * Set preview tab items template
@@ -33,8 +42,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems extends Mage_Admin
         parent::__construct();
 
         $deviceType = Mage::helper('xmlconnect')->getDeviceType();
-
-        $this->setTemplate('xmlconnect/edit/tab/design/preview/tab_items_' . $deviceType . '.phtml');
+        $this->setTemplate(
+            'xmlconnect/edit/tab/design/preview/tab_items_'
+            . $deviceType
+            . '.phtml'
+        );
     }
 
     /**

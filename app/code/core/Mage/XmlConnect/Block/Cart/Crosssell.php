@@ -74,7 +74,7 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
             }
 
             $itemXmlObj->addChild('has_options', (int)$product->getHasOptions());
-            $itemXmlObj->addChild('in_stock', (int)$product->isInStock());
+            $itemXmlObj->addChild('in_stock', (int)$product->getIsInStock());
             if ($product->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
                 $itemXmlObj->addChild('is_salable', 0);
             } else {

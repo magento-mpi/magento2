@@ -70,23 +70,27 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
             }
         }
 
-        $categoryCollection = $categoryModel->getCategories($categoryId, 0, false, true);
+        $categoryCollection = $this->getCurrentChildCategories();
 
         // subcategories are exists
         if (sizeof($categoryCollection)) {
             $itemsXmlObj = $categoryXmlObj->addChild('items');
             foreach ($categoryCollection as $item) {
-                $itemXmlObj = $itemsXmlObj->addChild('item');
                 /** @var $item Mage_Catalog_Model_Category */
                 $item = Mage::getModel('catalog/category')->load($item->getId());
-                $itemXmlObj->addChild('label', $categoryXmlObj->xmlentities(strip_tags($item->getName())));
+
+                $itemXmlObj = $itemsXmlObj->addChild('item');
+                $itemXmlObj->addChild('label', $categoryXmlObj->xmlentities($item->getName()));
                 $itemXmlObj->addChild('entity_id', $item->getId());
                 $itemXmlObj->addChild('content_type', $item->hasChildren() ? 'categories' : 'products');
                 if (!is_null($categoryId)) {
                     $itemXmlObj->addChild('parent_id', $item->getParentId());
                 }
-                $icon = Mage::helper('xmlconnect/catalog_category_image')->initialize($item, 'thumbnail')
-                    ->resize(Mage::helper('xmlconnect/image')->getImageSizeForContent('category'));
+                $icon = Mage::helper('xmlconnect/catalog_category_image')
+                    ->initialize($item, 'thumbnail')
+                    ->resize(
+                        Mage::helper('xmlconnect/image')->getImageSizeForContent('category')
+                );
 
                 $iconXml = $itemXmlObj->addChild('icon', $icon);
 
@@ -99,5 +103,22 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
             $categoryXmlObj->appendChild($productsXmlObj);
         }
         return $categoryXmlObj->asNiceXml();
+    }
+
+    /**
+     * Retrieve child categories of current category
+     *
+     * @return Varien_Data_Tree_Node_Collection
+     */
+    public function getCurrentChildCategories()
+    {
+        $layer = Mage::getSingleton('catalog/layer');
+        $category   = $layer->getCurrentCategory();
+        /* @var $category Mage_Catalog_Model_Category */
+        $categories = $category->getChildrenCategories();
+        $productCollection = Mage::getResourceModel('catalog/product_collection');
+        $layer->prepareProductCollection($productCollection);
+        $productCollection->addCountToCategories($categories);
+        return $categories;
     }
 }

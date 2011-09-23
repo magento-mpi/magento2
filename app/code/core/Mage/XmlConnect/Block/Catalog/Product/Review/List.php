@@ -31,7 +31,8 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Catalog_Product_Review_List extends Mage_XmlConnect_Block_Catalog_Product_Review
+class Mage_XmlConnect_Block_Catalog_Product_Review_List
+    extends Mage_XmlConnect_Block_Catalog_Product_Review
 {
     /**
      * Store reviews collection
@@ -103,12 +104,12 @@ class Mage_XmlConnect_Block_Catalog_Product_Review_List extends Mage_XmlConnect_
      */
     protected function _toHtml()
     {
-        $product = Mage::getModel('catalog/product')->load((int)$this->getRequest()->getParam('id', 0));
+        $product = Mage::getModel('catalog/product')
+            ->load((int)$this->getRequest()->getParam('id', 0));
         if ($product->getId()) {
             $this->setProduct($product);
         }
 
         return $this->getReviewsXmlObject()->asNiceXml();
     }
-
 }

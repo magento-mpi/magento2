@@ -31,7 +31,8 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Theme extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Theme
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Renders grid column
@@ -47,7 +48,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Theme extends Mage_Adminh
             $value = 'all';
         }
 
-        return $this->_getValueLabel($options, $value);
+        return $this->escapeHtml($this->_getValueLabel($options, $value));
     }
 
     /**

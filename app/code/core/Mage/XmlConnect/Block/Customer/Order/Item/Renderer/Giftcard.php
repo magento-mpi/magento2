@@ -62,6 +62,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Giftcard
 
     /**
      * Add item to XML object
+     * (get from template: sales/order/items/renderer/default.phtml)
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $orderItemXmlObj
      * @return void
@@ -71,7 +72,7 @@ class Mage_XmlConnect_Block_Customer_Order_Item_Renderer_Giftcard
         $item = $this->getOrderItem();
         $item->setProductOptions(array('additional_options' => $this->getItemOptions()));
 
-        $defaultRenderer = $this->getLayout()->getBlock('xmlconnect.customer.order.items')->getItemRenderer();
+        $defaultRenderer = $this->getLayout()->getBlock('xmlconnect.customer.order.items')->getItemRenderer(null);
         $defaultRenderer->setItem($item);
         $defaultRenderer->addItemToXmlObject($orderItemXmlObj);
     }

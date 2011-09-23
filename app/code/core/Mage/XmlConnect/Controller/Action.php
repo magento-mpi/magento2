@@ -138,16 +138,20 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
      *
      * @param string $text
      * @param string $status
-     * @param string $type
-     * @param string $action
+     * @param array $children
      * @return void
      */
-    protected function _message($text, $status, $type='', $action='')
+    protected function _message($text, $status, $children = array())
     {
         /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
         $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
-        $message->addChild('status', $status);
-        $message->addChild('text', $text);
+        $message->addCustomChild('status', $status);
+        $message->addCustomChild('text', $text);
+
+        foreach ($children as $node => $value) {
+            $message->addCustomChild($node, $value);
+        }
+
         $this->getResponse()->setBody($message->asNiceXml());
     }
 }

@@ -44,6 +44,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
     protected $_rules;
 
     protected $_roundingDeltas = array();
+
     protected $_baseRoundingDeltas = array();
 
     /**
@@ -678,18 +679,24 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve subordinate coupon IDs
+     * Set coupon code to address if $rule contains validated coupon
      *
-     * @return array
+     * @param  Mage_Sales_Model_Quote_Address $address
+     * @param  Mage_SalesRule_Model_Rule $rule
+     *
+     * @return Mage_SalesRule_Model_Validator
      */
     protected function _maintainAddressCouponCode($address, $rule)
     {
-        foreach ($rule->getCoupons() as $coupon) {
-            if (strtolower($coupon->getCode()) == strtolower($this->getCouponCode())) {
-                $address->setCouponCode($this->getCouponCode());
-                break;
-            }
+        /*
+        Rule is a part of rules collection, which includes only rules with 'No Coupon' type or with validated coupon.
+        As a result, if rule uses coupon code(s) ('Specific' or 'Auto' Coupon Type), it always contains validated coupon
+        */
+        if ($rule->getCoponType() != Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON) {
+            $address->setCouponCode($this->getCouponCode());
         }
+
+        return $this;
     }
 
     /**
@@ -713,7 +720,9 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         if (!empty($label)) {
             $description[$rule->getId()] = $label;
         }
+
         $address->setDiscountDescriptionArray($description);
+
         return $this;
     }
 

@@ -31,6 +31,7 @@
             <active>false</active>
             <codePool>core</codePool>
             <depends>
+                <Mage_Adminhtml/>
                 <Mage_GiftMessage/>
             </depends>
         </Enterprise_GiftWrapping>
