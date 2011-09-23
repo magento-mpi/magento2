@@ -33,10 +33,10 @@ class Varien_Object implements ArrayAccess
     protected $_hasDataChanges = false;
 
     /**
-    * Original data that was loaded
-    *
-    * @var array
-    */
+     * Original data that was loaded
+     *
+     * @var array
+     */
     protected $_origData;
 
     /**
@@ -507,7 +507,6 @@ class Varien_Object implements ArrayAccess
                 return $this->unsetData($key);
             case 'has' :
                 $key = $this->_underscore(substr($method, 3));
-//                return $this->hasData($key);
                 return isset($this->_data[$key]);
         }
         throw new Varien_Exception ("Invalid method ".get_class($this)."::".$method."(".print_r($args, 1).")");

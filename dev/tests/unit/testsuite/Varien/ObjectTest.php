@@ -385,7 +385,10 @@ string',
             'key2' => 'value2'
         ));
         $this->assertEquals('key1="value1" key2="value2"', $this->_object->serialize());
-        $this->assertEquals('key1:\'value1\'_key2:\'value2\'', $this->_object->serialize(array('key', 'key1', 'key2'), ':', '_', '\''));
+        $this->assertEquals(
+            'key1:\'value1\'_key2:\'value2\'',
+            $this->_object->serialize(array('key', 'key1', 'key2'), ':', '_', '\'')
+        );
     }
 
     /**
