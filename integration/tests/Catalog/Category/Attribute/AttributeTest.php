@@ -120,9 +120,7 @@ class Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservice
 
         $options = array();
         foreach ($attributeOptions as $option) {
-            if ($option['label']) {
-                $options[] = $option['label'];
-            }
+            $options[] = $option['label'];
         }
 
         $this->assertEquals(self::$_data['option']['values'], $options);
