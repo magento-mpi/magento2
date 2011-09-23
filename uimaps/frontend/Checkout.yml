@@ -181,9 +181,9 @@ onepage_checkout:
                             shipping_method_change_link: //dt[3]/a[@href='#shipping_method']
                             payment_method_change_link: //dt[4]/a[@href='#payment']
             messages: &checkoutMessages
-                empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-                please_select_option: "//div[@id='advice-validate-select-%fieldId%' and not(contains(@style,'display: none;'))]"
-                invalid_email_address: "//div[@id='advice-validate-email-%fieldId%' and not(contains(@style,'display: none;'))]"
+                empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+                please_select_option: "%fieldXpath%/following-sibling::*[text()='Please select an option.' and not(contains(@style,'display: none;'))]"
+                invalid_email_address: "%fieldXpath%/following-sibling::*[text()='Please enter a valid email address. For example johndoe@domain.com.' and not(contains(@style,'display: none;'))]"
                 invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
                 invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
                 incorrect_credit_card_exp_date: "//div[@id='advice-validate-cc-exp-ccsave_expiration' and not(contains(@style,'display: none;'))]"
