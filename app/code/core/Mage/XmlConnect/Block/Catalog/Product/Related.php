@@ -42,20 +42,15 @@ class Mage_XmlConnect_Block_Catalog_Product_Related extends Mage_XmlConnect_Bloc
     public function getRelatedProductsXmlObj()
     {
         /** @var $relatedXmlObj Mage_XmlConnect_Model_Simplexml_Element */
-        $relatedXmlObj = Mage::getModel(
-            'xmlconnect/simplexml_element',
-            '<related_products></related_products>'
-        );
+        $relatedXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<related_products></related_products>');
 
         $productObj = $this->getParentBlock()->getProduct();
 
         if (is_object(Mage::getConfig()->getNode('modules/Enterprise_TargetRule'))) {
             Mage::register('product', $productObj);
 
-            $productBlock = $this->getLayout()
-                ->addBlock(
-                    'enterprise_targetrule/catalog_product_list_related',
-                    'relatedProducts'
+            $productBlock = $this->getLayout()->addBlock(
+                'enterprise_targetrule/catalog_product_list_related', 'relatedProducts'
             );
 
             $collection = $productBlock->getItemCollection();
@@ -85,15 +80,16 @@ class Mage_XmlConnect_Block_Catalog_Product_Related extends Mage_XmlConnect_Bloc
     {
         foreach ($collection as $product) {
             $productXmlObj = $this->productToXmlObject($product);
-            if ($productXmlObj) {
-                if ($this->getParentBlock()->getChild('product_price')) {
-                    $this->getParentBlock()->getChild('product_price')
-                        ->setProduct($product)
-                        ->setProductXmlObj($productXmlObj)
-                        ->collectProductPrices();
-                }
-                $relatedXmlObj->appendChild($productXmlObj);
+
+            if (!$productXmlObj) {
+                continue;
             }
+
+            if ($this->getParentBlock()->getChild('product_price')) {
+                $this->getParentBlock()->getChild('product_price')->setProduct($product)
+                    ->setProductXmlObj($productXmlObj)->collectProductPrices();
+            }
+            $relatedXmlObj->appendChild($productXmlObj);
         }
         return $relatedXmlObj;
     }
@@ -116,15 +112,12 @@ class Mage_XmlConnect_Block_Catalog_Product_Related extends Mage_XmlConnect_Bloc
     protected function _getProductCollection()
     {
         if (is_null($this->_productCollection)) {
-            $collection = $this->getParentBlock()
-                ->getProduct()
-                ->getRelatedProductCollection();
+            $collection = $this->getParentBlock()->getProduct()->getRelatedProductCollection();
             Mage::getSingleton('catalog/layer')->prepareProductCollection($collection);
             /**
              * Add rating and review summary, image attribute, apply sort params
              */
             $this->_prepareCollection($collection);
-
             $this->_productCollection = $collection;
         }
         return $this->_productCollection;

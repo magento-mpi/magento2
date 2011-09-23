@@ -36,7 +36,7 @@ class Mage_XmlConnect_IndexController extends Mage_XmlConnect_Controller_Action
     /**
      * Default action
      *
-     * @return void
+     * @return null
      */
     public function indexAction()
     {

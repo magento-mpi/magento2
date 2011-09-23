@@ -226,9 +226,7 @@ EOT;
             Mage::logException($e);
         }
         if (!count($defaultThemeArray)) {
-            Mage::throwException(
-                Mage::helper('xmlconnect')->__('Can\'t load default themes.')
-            );
+            Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t load default themes.'));
         }
         return $defaultThemeArray;
     }
@@ -273,7 +271,7 @@ EOT;
      *
      * @throws Mage_Core_Exception
      * @param null $theme
-     * @return void
+     * @return null
      */
     public function resetTheme($theme = null)
     {
@@ -293,9 +291,7 @@ EOT;
             }
 
             if (!$ioFile->cp($src, $dst)) {
-                Mage::throwException(
-                    Mage::helper('xmlconnect')->__('Can\'t copy file "%s" to "%s".', $src, $dst)
-                );
+                Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t copy file "%s" to "%s".', $src, $dst));
             } else {
                 $ioFile->chmod($dst, 0755);
             }
