@@ -44,14 +44,20 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
         return $collection;
     }
 
+    /**
+     * get gallery url
+     *
+     * @param Varien_Object $image
+     * @return string
+     */
     public function getGalleryUrl($image=null)
     {
         $params = array('id'=>$this->getProduct()->getId());
         if ($image) {
             $params['image'] = $image->getValueId();
-            return $this->getUrl('*/*/gallery', $params);
+            return $this->getUrl('catalog/product/gallery', $params);
         }
-        return $this->getUrl('*/*/gallery', $params);
+        return $this->getUrl('catalog/product/gallery', $params);
     }
 
     public function disableGallery()
