@@ -91,7 +91,7 @@ customer_account:
     mca: customer/account/index/
     title: My Account
     uimap:
-        form:
+        form: &customerAccount
             tabs:
                 -
                     account_dashboard:
@@ -102,6 +102,12 @@ customer_account:
         messages:
             success_registration: //li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering with')]
             success_saved: //li[normalize-space(@class)='success-msg' and contains(.//span,'The account information has been saved.')]
+
+customer_account_relogged_in:
+    mca: customer/account/
+    title: My Account
+    uimap:
+        form: *customerAccount
 
 edit_account_info:
     mca: customer/account/edit/

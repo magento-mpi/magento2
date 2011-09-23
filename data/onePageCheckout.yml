@@ -41,6 +41,9 @@ login: &login
         email_address: %noValue%
         password: %noValue%
 
+perform_login:
+    email: %noValue%
+    password: %noValue%
 #*********************************************
 #*         Billing Address                   *
 #*********************************************
@@ -516,7 +519,7 @@ checkout_data_saved_cc_req_guest_virtual_product:
         payment_method: Credit Card (saved)
         payment_info: *visaSavedCC
 
-#<-----------------Data for Logged In Customer----------------->
+#<-----------------Data for Registered Customer----------------->
 checkout_data_saved_cc_registered:
     products_to_add:
         product_1:
@@ -582,6 +585,71 @@ checkout_data_saved_cc_req_registered_no_payment_method:
         product_1:
             general_name: %noValue%
     checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+
+#<-----------------Data for Logged In Customer----------------->
+checkout_data_saved_cc_loggedin:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Credit Card (saved)
+        payment_info: *visaSavedCC
+
+checkout_data_saved_cc_req_loggedin_virtual_product:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReqVirtual
+    payment_data:
+        payment_method: Credit Card (saved)
+        payment_info: *visaSavedCC
+
+checkout_data_saved_cc_req_loggedin:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReqWithShipping
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Credit Card (saved)
+        payment_info: *visaSavedCC
+
+checkout_data_saved_cc_req_loggedin_empty_fields:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReqVirtual
+
+checkout_data_saved_cc_req_loggedin_empty_fields_shipping:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingGuestReqEmptyFields
+
+checkout_data_saved_cc_req_loggedin_no_shipping_method:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+
+checkout_data_saved_cc_req_loggedin_no_payment_method:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data:
