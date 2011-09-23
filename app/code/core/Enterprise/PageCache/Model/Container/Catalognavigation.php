@@ -64,7 +64,7 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
         if ($blockCacheId && $categoryCacheId) {
             $blockContent = $this->_loadCache($blockCacheId);
             $categoryUniqueClasses = $this->_loadCache($categoryCacheId);
-            if ($blockContent && $categoryUniqueClasses !== false) {
+            if ($blockContent !== false && $categoryUniqueClasses !== false) {
                 if ($categoryUniqueClasses != '') {
                     $regexp = '';
                     foreach (explode(' ', $categoryUniqueClasses) as $categoryUniqueClass) {

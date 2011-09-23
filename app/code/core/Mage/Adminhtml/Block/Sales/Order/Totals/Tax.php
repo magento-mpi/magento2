@@ -42,24 +42,17 @@ class Mage_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Tax_Block_Sales_O
     {
         /** @var $source Mage_Sales_Model_Order */
         $source = $this->getOrder();
-        $info = array();
-        if ($source instanceof Mage_Sales_Model_Order) {
-            $rates = Mage::getModel('sales/order_tax')->getCollection()->loadByOrder($source)->toArray();
-            $info  = Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
 
+        $taxClassAmount = array();
+        if ($source instanceof Mage_Sales_Model_Order) {
             $taxClassAmount = Mage::helper('tax')->getCalculatedTaxes($source);
-            if ($taxClassAmount) {
-                $i = 0;
-                foreach ($taxClassAmount as $tax) {
-                    $info[$i]['hidden']           = $tax['hidden_tax_amount'];
-                    $info[$i]['amount']           = $tax['tax_amount'];
-                    $info[$i]['base_amount']      = $tax['base_tax_amount'];
-                    $i++;
-                }
+            if (empty($taxClassAmount)) {
+                $rates = Mage::getModel('sales/order_tax')->getCollection()->loadByOrder($source)->toArray();
+                $taxClassAmount =  Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
             }
         }
 
-        return $info;
+        return $taxClassAmount;
     }
 
     /**

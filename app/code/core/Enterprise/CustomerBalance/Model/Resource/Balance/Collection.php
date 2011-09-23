@@ -45,15 +45,15 @@ class Enterprise_CustomerBalance_Model_Resource_Balance_Collection
     }
 
     /**
-     * Filter collection by specified websites
+     * Add filter by website id
      *
-     * @param array|int $websiteIds
+     * @param integer|array $websiteId
      * @return Enterprise_CustomerBalance_Model_Resource_Balance_Collection
      */
-    public function addWebsitesFilter($websiteIds)
+    public function addWebsiteFilter($websiteId)
     {
         $this->getSelect()->where(
-            array('main_table.website_id IN (?)' => $websiteIds)
+            is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?', $websiteId
         );
         return $this;
     }

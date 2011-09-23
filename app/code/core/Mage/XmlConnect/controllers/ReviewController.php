@@ -27,7 +27,9 @@
 /**
  * XmlConnect review controller
  *
- * @author  Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_Xmlconnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
 {
@@ -38,7 +40,11 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
      */
     protected function _initProduct()
     {
-        Mage::dispatchEvent('review_controller_product_init_before', array('controller_action'=>$this));
+        Mage::dispatchEvent(
+            'review_controller_product_init_before',
+            array('controller_action' => $this)
+        );
+
         $productId  = (int) $this->getRequest()->getParam('id');
         $product = $this->_loadProduct($productId);
 
@@ -79,7 +85,10 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);
         /** @var $product Mage_Catalog_Model_Product */
-        if (!$product->getId() || !$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
+        if (!$product->getId()
+            || !$product->isVisibleInCatalog()
+            || !$product->isVisibleInSiteVisibility()
+        ) {
             return false;
         }
 
@@ -122,8 +131,15 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
             return;
         }
 
-        $this->loadLayout(false);
-        $this->renderLayout();
+        try {
+            $this->loadLayout(false);
+            $this->renderLayout();
+        } catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        } catch (Exception $e) {
+            $this->_message($this->__('Unable to load review form.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
+        }
     }
 
     /**
@@ -140,11 +156,13 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
         $data   = $this->getRequest()->getPost();
         $rating = $this->getRequest()->getPost('ratings', array());
 
-        if (($product = $this->_initProduct()) && !empty($data)) {
+        $product = $this->_initProduct();
+        if ($product && !empty($data)) {
             /** @var $review Mage_Review_Model_Review */
             $review     = Mage::getModel('review/review')->setData($data);
 
-            if (($validate = $review->validate()) === true) {
+            $validate   = $review->validate();
+            if ($validate === true) {
                 try {
                     $review->setEntityId($review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE))
                         ->setEntityPkValue($product->getId())
@@ -169,10 +187,12 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
                     );
                 } catch (Exception $e) {
                     $this->_message($this->__('Unable to post the review.'), self::MESSAGE_STATUS_ERROR);
+                    Mage::logException($e);
                 }
             } else {
                 if (is_array($validate)) {
-                    $this->_message(implode('. ', $validate), self::MESSAGE_STATUS_ERROR);
+                    $validate = array_map(array($this, '_trimDot'), $validate);
+                    $this->_message(implode('. ', $validate) . '.', self::MESSAGE_STATUS_ERROR);
                 } else {
                     $this->_message($this->__('Unable to post the review.'), self::MESSAGE_STATUS_ERROR);
                 }
@@ -180,5 +200,16 @@ class Mage_XmlConnect_ReviewController extends Mage_XmlConnect_Controller_Action
         } else {
             $this->_message($this->__('Unable to post the review.'), self::MESSAGE_STATUS_ERROR);
         }
+    }
+
+    /**
+     * Trim ending dot (the ".") symbol from string
+     *
+     * @param string $text
+     * @return string
+     */
+    private function _trimDot($text)
+    {
+        return trim((string)$text, " \n\r\t.");
     }
 }

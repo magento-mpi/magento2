@@ -19,29 +19,29 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Sales
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$installer = $this;
-
-$tableName = $installer->getTable('sales/quote_item');
-$columnOptions = array(
-    'TYPE'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
-    'UNSIGNED'  => true,
-    'NULLABLE'  => false,
-    'DEFAULT'   => 0,
-    'COMMENT'   => 'Product Tax Class Id',
-);
-$installer->getConnection()->addColumn($tableName, 'tax_class_id', $columnOptions);
-
-$tableName = $installer->getTable('sales/order_item');
-$columnOptions = array(
-    'TYPE'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
-    'UNSIGNED'  => true,
-    'NULLABLE'  => false,
-    'DEFAULT'   => 0,
-    'COMMENT'   => 'Product Tax Class Id',
-);
-$installer->getConnection()->addColumn($tableName, 'tax_class_id', $columnOptions);
+/**
+ * Xmlconnect form image element
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_XmlConnect_Model_Simplexml_Form_Element_Image
+    extends Mage_XmlConnect_Model_Simplexml_Form_Element_File
+{
+    /**
+     * Init text element
+     *
+     * @param array $attributes
+     */
+    public function __construct($attributes = array())
+    {
+        parent::__construct($attributes);
+        $this->setType('image');
+    }
+}

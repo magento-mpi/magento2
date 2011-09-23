@@ -577,7 +577,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
     protected function _setFontRegular($object, $size = 7)
     {
-        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertineC_Re-2.8.0.ttf');
+        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
         $object->setFont($font, $size);
         return $font;
     }

@@ -46,28 +46,36 @@
                 <div class="wrap">
                     <div class="product-image-and-actions">
                         <?php echo $this->getChildHtml('media') ?>
-                        <ul class="product-actions">
-                            <?php if (!$this->hasOptions()):?>
-                                <?php echo $this->getChildHtml('addto') ?>
-                            <?php endif; ?>
-                            <?php if ($this->canEmailToFriend()): ?>
-                                <li><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></li>
-                            <?php endif; ?>
-                        </ul>
                     </div>
                     <div class="product-desc">
-                        <div class="price-box">
-                            <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
-                            <?php echo $this->getChildHtml('product_type_data') ?>
-                        </div>
+                        <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                        <?php echo $this->getChildHtml('product_type_data') ?>
                         <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+                        <?php if ($_product->getTypeId() != Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) :?>
                         <fieldset class="add-to-cart-box">
                             <?php if($_product->isSaleable()): ?>
                                 <?php echo $this->getChildHtml('addtocart') ?>
                             <?php endif; ?>
                         </fieldset>
+                        <?php endif; ?>
                     </div>
                 </div>
+                <?php if (!$this->hasOptions() && $_product->getTypeId() != Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) :?>
+                    <?php echo $this->getChildHtml('addto') ?>
+                <?php endif; ?>
+                <?php if ($_product->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) :?>
+                    <div class="grouped-grid">
+                        <?php echo $this->getChildHtml('product_type_data_grid') ?>
+                        <?php if ($_product->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) :?>
+                        <fieldset class="add-to-cart-box">
+                            <?php if($_product->isSaleable()): ?>
+                                <?php echo $this->getChildHtml('addtocart') ?>
+                            <?php endif; ?>
+                        </fieldset>
+                        <?php endif; ?>
+                    </div>
+                    <?php echo $this->getChildHtml('addto') ?>
+                <?php endif; ?>
             </div>
             <div class="product-collateral">
                 <?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
@@ -105,7 +113,12 @@
             }
             var e = null;
             try {
-                this.form.submit();
+                var originalImg = $$('.product-image img')[0];
+                originalImg.up().insert(originalImg.clone().addClassName('cloned'));
+                originalImg.addClassName('animate');
+                $$('.product-image img')[0].observe('webkitTransitionEnd', function(e) {
+                    this.form.submit();
+                }.bind(this));
             } catch (e) {
             }
             this.form.action = oldUrl;

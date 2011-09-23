@@ -31,7 +31,8 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Purchaseorder extends Mage_Payment_Block_Info_Purchaseorder
+class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Purchaseorder
+    extends Mage_Payment_Block_Info_Purchaseorder
 {
     /**
      * Add Purchase Order Payment info to order XML object

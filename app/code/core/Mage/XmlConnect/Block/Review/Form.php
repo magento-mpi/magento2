@@ -27,9 +27,9 @@
 /**
  * Product review form xml renderer
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Block_Review_Form extends Mage_Core_Block_Template
 {
@@ -55,16 +55,14 @@ class Mage_XmlConnect_Block_Review_Form extends Mage_Core_Block_Template
 
         $nickname = '';
         if ($customer->getId()) {
-            $nickname = strip_tags($customer->getFirstname());
+            $nickname = $xmlReview->xmlentities($customer->getFirstname());
         }
 
         if ($this->getRatings()) {
             $ratingsFieldset = $xmlReview->addCustomChild(
                 'fieldset',
                 null,
-                array(
-                    'label'    => $this->__('How do you rate this product?')
-                )
+                array('label' => $this->__('How do you rate this product?'))
             );
 
             foreach ($this->getRatings() as $rating) {

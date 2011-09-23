@@ -25,10 +25,10 @@
  */
 
 /**
- * XmlConnect Model Queue
+ * XmlConnect Queue model
  *
  * @category    Mage
- * @package     Mage_XmlConnect
+ * @package     Mage_Xmlconnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
@@ -94,10 +94,11 @@ class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
     /**
      * Load object data
      *
-     * @param   integer $id
-     * @return  Mage_Core_Model_Abstract
+     * @param int $id
+     * @param string $field
+     * @return Mage_XmlConnect_Model_Queue
      */
-    public function load($id, $field=null)
+    public function load($id, $field = null)
     {
         parent::load($id, $field);
 

@@ -35,7 +35,6 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
                     'catalog_category_layered_nochildren',
                 ),
                 array(
-                    'skin/frontend/default/default/favicon.ico',
                     'categorypath-category-1-category-1-1-category-1-1-1-html',
                     'category-category-1-1-1',
                     '<title>Category 1.1.1 - Category 1.1 - Category 1</title>',

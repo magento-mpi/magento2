@@ -44,13 +44,6 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
     protected $_isNeedUseIdxTable = false;
 
     /**
-     * Flag that defines if need to disable keys during data inserting
-     *
-     * @var bool
-     */
-    protected $_isDisableKeys = true;
-
-    /**
      * Reindex all
      *
      * @return Mage_Index_Model_Resource_Abstract
@@ -137,7 +130,7 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
         }
         $select = $this->_getIndexAdapter()->select()->from($sourceTable, $sourceColumns);
 
-        Mage::getResourceHelper('index')->insertData($this, $select, $destTable, $targetColumns, $readToIndex);
+        $this->insertFromSelect($select, $destTable, $targetColumns, $readToIndex);
         return $this;
     }
 
@@ -161,9 +154,6 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
             $to     = $this->_getWriteAdapter();
         }
 
-        if ($this->useDisableKeys()) {
-            $to->disableTableKeys($destTable);
-        }
         if ($from === $to) {
             $query = $select->insertFromSelect($destTable, $columns);
             $to->query($query);
@@ -184,9 +174,6 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
                 $to->insertArray($destTable, $columns, $data);
             }
         }
-        if ($this->useDisableKeys()) {
-            $to->enableTableKeys($destTable);
-        }
         return $this;
     }
 
@@ -202,20 +189,6 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
             $this->_isNeedUseIdxTable = (bool)$value;
         }
         return $this->_isNeedUseIdxTable;
-    }
-
-    /**
-     * Set or get flag that defines if need to disable keys during data inserting
-     *
-     * @param bool $value
-     * @return bool
-     */
-    public function useDisableKeys($value = null)
-    {
-        if (!is_null($value)) {
-            $this->_isDisableKeys = (bool)$value;
-        }
-        return $this->_isDisableKeys;
     }
 
     /**

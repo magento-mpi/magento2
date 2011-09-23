@@ -393,7 +393,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     /**
      * Retrieve attribute expression by specified column
      *
-     * @param $field
+     * @param string $field
      * @return string|Zend_Db_Expr
      */
     protected function _prepareOrderExpression($field)
@@ -402,7 +402,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             if ($columnEntry[2] != $field) {
                 continue;
             }
-            if($columnEntry[1] instanceof Zend_Db_Expr) {
+            if ($columnEntry[1] instanceof Zend_Db_Expr) {
                 return $columnEntry[1];
             }
         }

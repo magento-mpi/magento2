@@ -427,8 +427,9 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             $idBySku = $product->getIdBySku($productId);
             if ($idBySku) {
                 $productId = $idBySku;
-            }
-            if ($loadByIdOnFalse) {
+                $identifierType = 'id';
+            } else if ($loadByIdOnFalse) {
+                // Try to load by ID if we incorrectly determined that $productId is SKU
                 $identifierType = 'id';
             }
         }

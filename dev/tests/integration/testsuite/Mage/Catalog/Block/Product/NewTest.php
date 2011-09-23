@@ -41,9 +41,9 @@ class Mage_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Mage::app()->getStore()->getId(), $info[1]);
 
         $this->assertSame(2, array_shift($keys));
-        $this->assertEquals('default', $info[2]);
+        $this->assertEquals(Mage::getDesign()->getPackageName(), $info[2]);
         $this->assertSame(3, array_shift($keys));
-        $this->assertEquals('default', $info[2]);
+        $this->assertEquals(Mage::getDesign()->getTheme('template'), $info[3]);
 
         $this->assertSame(4, array_shift($keys));
         $this->assertNotEquals('', $info[4]);

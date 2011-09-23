@@ -29,13 +29,19 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Number extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Number
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     protected $_defaultWidth = 100;
 
+    /**
+     * Returns value of the row
+     *
+     * @param Varien_Object $row
+     * @return mixed|string
+     */
     protected function _getValue(Varien_Object $row)
     {
         $data = parent::_getValue($row);
@@ -50,6 +56,11 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Number extends Mage_Admin
         return $this->getColumn()->getDefault();
     }
 
+    /**
+     * Renders CSS
+     *
+     * @return string
+     */
     public function renderCss()
     {
         return parent::renderCss() . ' a-right';

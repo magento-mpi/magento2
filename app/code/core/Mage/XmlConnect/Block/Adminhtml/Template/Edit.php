@@ -24,7 +24,15 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_XmlConnect_Block_Adminhtml_Template_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+/**
+ * Xmlconnect template edit block
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_XmlConnect_Block_Adminhtml_Template_Edit
+    extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Constructor
@@ -36,9 +44,17 @@ class Mage_XmlConnect_Block_Adminhtml_Template_Edit extends Mage_Adminhtml_Block
         $this->_blockGroup  = 'xmlconnect';
         parent::__construct();
 
-        $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''
-            . Mage::helper('adminhtml')->__('Warning: All related AirMail messages will be deteted!\n Are you sure you want to do this?')
-            .'\', \'' . $this->getDeleteUrl() . '\')');
+        $this->_updateButton(
+            'delete',
+            'onclick',
+            'deleteConfirm(\''
+                . $this->__('Warning: All related AirMail messages will be deleted!')
+                . PHP_EOL
+                . $this->__('Are you sure you want to do this?')
+                .'\', \''
+                . $this->getDeleteUrl()
+                . '\')'
+        );
         $this->_updateButton('save', 'label', $this->__('Save'));
         $this->_updateButton('save', 'onclick', 'if (editForm.submit()) {disableElements(\'save\')}');
         $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/*/template') . '\')');

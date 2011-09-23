@@ -71,7 +71,7 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testGetConfigData()
     {
-        $this->assertEquals('{{base_url}}', $this->_model->getConfigData('base_url'));
+        $this->assertEquals('http://localhost/', $this->_model->getConfigData('base_url'));
     }
 
     public function testSetGetRequest()
@@ -118,8 +118,7 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     /**
      * Note: isolation flushes the URL memory cache
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture current_store web/unsecure/base_url      http://sample.com/base_path/
-     * @magentoConfigFixture current_store web/unsecure/base_link_url http://sample.com/base_link_path/
+     * @magentoConfigFixture current_store web/secure/base_url      http://sample.com/base_path/
      * @magentoConfigFixture current_store web/secure/base_link_url   https://sample.com/base_link_path/
      * @magentoConfigFixture current_store web/secure/use_in_frontend 1
      */
@@ -129,7 +128,7 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('http://sample.com/base_path/', $actualUrl);
 
         $actualUrl = $this->_model->getBaseUrl(array('_type' => Mage_Core_Model_Store::URL_TYPE_LINK));
-        $this->assertEquals('http://sample.com/base_link_path/index.php/', $actualUrl);
+        $this->assertEquals('https://sample.com/base_link_path/index.php/', $actualUrl);
 
         $actualUrl = $this->_model->getBaseUrl(array('_type' => Mage_Core_Model_Store::URL_TYPE_LINK, '_secure' => 1));
         $this->assertEquals('https://sample.com/base_link_path/index.php/', $actualUrl);

@@ -670,14 +670,19 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     public function dropForeignKey($tableName, $fkName, $schemaName = null)
     {
         $foreignKeys = $this->getForeignKeys($tableName, $schemaName);
-        $fkName      = strtoupper($fkName);
-        if (isset($foreignKeys[$fkName])) {
-            $sql = sprintf('ALTER TABLE %s DROP FOREIGN KEY %s',
-                $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
-                $this->quoteIdentifier($foreignKeys[$fkName]['FK_NAME'])
-            );
-            $this->resetDdlCache($tableName, $schemaName);
-            $this->raw_query($sql);
+        $fkName = strtoupper($fkName);
+        if (substr($fkName, 0, 3) == 'FK_') {
+            $fkName = substr($fkName, 3);
+        }
+        foreach (array($fkName, 'FK_' . $fkName) as $key) {
+            if (isset($foreignKeys[$key])) {
+                $sql = sprintf('ALTER TABLE %s DROP FOREIGN KEY %s',
+                    $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
+                    $this->quoteIdentifier($foreignKeys[$key]['FK_NAME'])
+                );
+                $this->resetDdlCache($tableName, $schemaName);
+                $this->raw_query($sql);
+            }
         }
         return $this;
     }
@@ -2748,8 +2753,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         switch ($column['DATA_TYPE']) {
             case 'smallint':
             case 'int':
-            case 'bigint':
                 $value = (int)$value;
+                break;
+            case 'bigint':
+                // Can't cast to int on 32 bit systems here: BIGINT is larger than such systems' MAX_INT
                 break;
 
             case 'decimal':
@@ -2801,19 +2808,25 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     /**
      * Generate fragment of SQL, that check condition and return true or false value
      *
-     * @param string $condition     expression
-     * @param string $true          true value
-     * @param string $false         false value
+     * @param Zend_Db_Expr|Zend_Db_Select|string $expression
+     * @param string $true  true value
+     * @param string $false false value
      */
-    public function getCheckSql($condition, $true, $false)
+    public function getCheckSql($expression, $true, $false)
     {
-        return new Zend_Db_Expr("IF({$condition}, {$true}, {$false})");
+        if ($expression instanceof Zend_Db_Expr || $expression instanceof Zend_Db_Select) {
+            $expression = sprintf("IF((%s), %s, %s)", $expression, $true, $false);
+        } else {
+            $expression = sprintf("IF(%s, %s, %s)", $expression, $true, $false);
+        }
+
+        return new Zend_Db_Expr($expression);
     }
 
     /**
      * Returns valid IFNULL expression
      *
-     * @param string $column
+     * @param Zend_Db_Expr|Zend_Db_Select|string $expression
      * @param string $value OPTIONAL. Applies when $expression is NULL
      * @return Zend_Db_Expr
      */
@@ -3537,6 +3550,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         return $value;
     }
 
+
+
+
+
     /**
      * Returns date that fits into TYPE_DATETIME range and is suggested to act as default 'zero' value
      * for a column for current RDBMS. Deprecated and left for compatibility only.
@@ -3552,10 +3569,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         return '0000-00-00 00:00:00';
     }
 
-
-
-
-
     /**
      * Retrieve Foreign Key name
      *
@@ -3564,7 +3577,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @param  string $fkName
      * @return string
      */
-    protected function _getForeignKeyName_getForeignKeyName($fkName)
+    protected function _getForeignKeyName($fkName)
     {
         if (substr($fkName, 0, 3) != 'FK_') {
             $fkName = 'FK_' . $fkName;

@@ -149,22 +149,10 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
          * Fix saving attribute in admin
          */
         Mage::getSingleton('eav/config')->clear();
-        return parent::_afterSave();
-    }
-
-    /**
-     * Init indexing process after attribute data commit
-     *
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
-     */
-    public function afterCommitCallback()
-    {
-        parent::afterCommitCallback();
-
         Mage::getSingleton('index/indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
-        return $this;
+        return parent::_afterSave();
     }
 
     /**

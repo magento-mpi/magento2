@@ -138,13 +138,15 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
             $value = (isset($rate['value']) ? $rate['value'] : $rate['percent'])*1;
 
             $oneRate = array(
-                            'code'=>$rate['code'],
-                            'title'=>$rate['title'],
-                            'percent'=>$value,
-                            'position'=>$rate['position'],
-                            'priority'=>$rate['priority'],
-                            );
-
+                'code'=>$rate['code'],
+                'title'=>$rate['title'],
+                'percent'=>$value,
+                'position'=>$rate['position'],
+                'priority'=>$rate['priority'],
+            );
+            if (isset($rate['tax_calculation_rule_id'])) {
+                $oneRate['rule_id'] = $rate['tax_calculation_rule_id'];
+            }
 
             if (isset($rate['hidden'])) {
                 $row['hidden'] = $rate['hidden'];

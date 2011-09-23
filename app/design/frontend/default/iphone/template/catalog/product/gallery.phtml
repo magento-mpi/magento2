@@ -33,6 +33,7 @@
             <li class="product"><strong><?php echo $__helper->productAttribute($_product, $_product->getName(), 'name') ?></strong></li>
         </ul>
     </div>
+    <a href="<?php echo $this->helper('checkout/cart')->getAddUrl($_product) ?>" class="add-to-cart">Add to Cart</a>
     <div class="product-gallery">
         <span class="next">Next</span>
         <span class="prev">Prev</span>

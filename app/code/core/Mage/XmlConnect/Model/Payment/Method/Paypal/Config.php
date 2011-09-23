@@ -19,38 +19,37 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Index
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Index resource helper class for Oracle adapter
+ * PayPal Mobile Express Checkout Library config
  *
  * @category    Mage
- * @package     Mage_Index
+ * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Index_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Helper_Oracle
+class Mage_XmlConnect_Model_Payment_Method_Paypal_Config
+    extends Mage_Paypal_Model_Config
 {
     /**
-     * Insert data from select statement
-     *
-     * Oracle adapter realization 'insert from select' needs enabled table keys for success work
-     *
-     * @param Mage_Index_Model_Resource_Abstract $object
-     * @param Varien_Db_Select $select
-     * @param string $destTable
-     * @param array $columns
-     * @param bool $readToIndex
-     * @return Mage_Index_Model_Resource_Helper_Oracle
+     * PayPal Website Payments Pro - PayPal Mobile Express Checkout Library
      */
-    public function insertData($object, $select, $destTable, $columns, $readToIndex)
+    const METHOD_WPP_MECL = 'paypal_mecl';
+
+    /**
+     * Get url for dispatching customer to express checkout start
+     *
+     * @param string $token
+     * @return string
+     */
+    public function getExpressCheckoutStartUrl($token)
     {
-        $useDisableKeys = $object->useDisableKeys();
-        $object->useDisableKeys(false);
-        $object->insertFromSelect($select, $destTable, $columns, $readToIndex);
-        $object->useDisableKeys($useDisableKeys);
-        return $this;
+        return $this->getPaypalUrl(array(
+            'cmd'   => '_express-checkout-mobile',
+            'token' => $token,
+        ));
     }
 }

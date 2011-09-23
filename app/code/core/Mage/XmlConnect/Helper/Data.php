@@ -194,10 +194,14 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Create filter object by key
+     * Create array with filter model and filter block by key
+     *
+     * Create array with:
+     * - Mage_Catalog_Model_Layer_Filter_Abstract
+     * - Mage_Catalog_Block_Layer_Filter_Abstract
      *
      * @param string $key
-     * @return Mage_Catalog_Model_Layer_Filter_Abstract
+     * @return array
      */
     public function getFilterByKey($key)
     {
@@ -215,7 +219,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
                 $filterModelName = 'catalog/layer_filter_attribute';
                 break;
         }
-        return Mage::getModel($filterModelName);
+        return array(Mage::getModel($filterModelName), $this->getLayout()->createBlock($filterModelName));
     }
 
     /**
@@ -234,10 +238,9 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      * Retrieve device specific country options array
      *
      * @throws Mage_Core_Exception
-     * @param bool $isItunes
      * @return array
      */
-    public function getCountryOptionsArray($isItunes = false)
+    public function getCountryOptionsArray()
     {
         Varien_Profiler::start('TEST: ' . __METHOD__);
         $deviceType = $this->getDeviceType();
@@ -333,7 +336,6 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get default application tabs
      *
-     * @param string
      * @return array
      */
     public function getDefaultApplicationDesignTabs()
@@ -439,8 +441,8 @@ EOT;
     /**
      * Return select options for xml from array
      *
-     * @param array $dataArray - source array
-     * @param string $info - selected item
+     * @param array $dataArray source array
+     * @param string $selected selected item
      * @return string
      */
     public function getArrayAsXmlItemValues($dataArray, $selected)
@@ -570,13 +572,21 @@ EOT;
     public function getApplicationOptions()
     {
         $options = array();
+        /** @var $app Mage_XmlConnect_Model_Application */
         foreach (Mage::getModel('xmlconnect/application')->getCollection() as $app) {
-            if (self::isTemplateAllowedForApplication($app)) {
-                $options[] = array('value' => $app->getId(), 'label' => $app->getName());
-            }
+            $options[] = array(
+                'value' => $app->getCode(),
+                'label' => $app->getName()
+            );
         }
         if (count($options) > 1) {
-            $options[] = array('value' => '', 'label' => Mage::helper('xmlconnect')->__('Please Select Application'));
+            array_unshift(
+                $options,
+                array(
+                    'value' => '',
+                    'label' => Mage::helper('xmlconnect')->__('Please Select Application')
+                )
+            );
         }
         return $options;
     }
@@ -584,7 +594,7 @@ EOT;
     /**
      * Get applications array like `code` as `name`
      *
-     * @staticvar array $apps
+     * @static array $apps
      * @return array
      */
     public function getApplications()
@@ -597,19 +607,6 @@ EOT;
             }
         }
         return $apps;
-    }
-
-    /**
-     * Check if creating AirMail template for the application is allowed
-     *
-     * @param Mage_XmlConnect_Model_Application $application
-     * @return boolean
-     */
-    public static function isTemplateAllowedForApplication($application = null)
-    {
-        return $application instanceof Mage_XmlConnect_Model_Application
-            ? in_array($application->getType(), array(self::DEVICE_TYPE_IPHONE))
-            : false;
     }
 
     /**
@@ -626,12 +623,18 @@ EOT;
 
         try {
             $appCode = $queue->getAppCode();
-            $app = Mage::getModel('xmlconnect/application')->load($appCode, 'code');
+            /** @var $app Mage_XmlConnect_Model_Application */
+            $app = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
 
             if (!$app->getId()) {
                 Mage::throwException(
                     Mage::helper('xmlconnect')->__('Can\'t load application with code "%s"', $appCode)
                 );
+            }
+
+            if (!$app->isNotificationsActive()) {
+                $queue->setStatus(Mage_XmlConnect_Model_Queue::STATUS_CANCELED);
+                return;
             }
 
             $userpwd = $app->getUserpwd();
@@ -640,35 +643,33 @@ EOT;
             switch ($sendType) {
                 case Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_AIRMAIL:
                     $configPath = 'xmlconnect/' . Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_AIRMAIL . '/broadcast_url';
-                    $broadcastUrl = Mage::getStoreConfig($configPath);
                     $params = $queue->getAirmailBroadcastParams();
                     break;
 
                 case Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_PUSH:
                 default:
                     $configPath = 'xmlconnect/' . Mage_XmlConnect_Model_Queue::MESSAGE_TYPE_PUSH . '/broadcast_url';
-                    $broadcastUrl = Mage::getStoreConfig($configPath);
                     $params = $queue->getPushBroadcastParams();
                     break;
             }
 
-            $ch = curl_init($broadcastUrl);
+            $curlHandler = curl_init(Mage::getStoreConfig($configPath));
 
             $httpHeaders = $this->getHttpHeaders();
 
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_USERPWD, $userpwd);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+            curl_setopt($curlHandler, CURLOPT_POST, 1);
+            curl_setopt($curlHandler, CURLOPT_HTTPHEADER, $httpHeaders);
+            curl_setopt($curlHandler, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curlHandler, CURLOPT_USERPWD, $userpwd);
+            curl_setopt($curlHandler, CURLOPT_TIMEOUT, 60);
 
             // Execute the request.
-            $result = curl_exec($ch);
-            $succeeded  = curl_errno($ch) == 0 ? true : false;
+            $result     = curl_exec($curlHandler);
+            $succeeded  = curl_errno($curlHandler) == 0 ? true : false;
 
             // close cURL resource, and free up system resources
-            curl_close($ch);
+            curl_close($curlHandler);
 
             if ($succeeded && (is_null($result) || strtolower($result) == 'null')) {
                 $queue->setStatus(Mage_XmlConnect_Model_Queue::STATUS_COMPLETED);
@@ -743,7 +744,7 @@ EOT;
 
     /**
      * Returns Application name by it's code
-     * @param  string $appCode
+     * @param string $appCode
      * @return string
      */
     public function getApplicationName($appCode = null)
@@ -764,7 +765,7 @@ EOT;
 
     /**
      * Returns Application name by it's code
-     * @param  string $appCode
+     * @param string $templateId
      * @return string
      */
     public function getTemplateName($templateId = null)
@@ -786,10 +787,10 @@ EOT;
     /**
      * Set value into multidimensional array 'conf/native/navigationBar/icon'
      *
-     * @param &array $target // pointer to target array
-     * @param string $fieldPath // 'conf/native/navigationBar/icon'
-     * @param mixed $fieldValue // 'Some Value' || 12345 || array(1=>3, 'aa'=>43)
-     * @param string $delimiter // path delimiter
+     * @param array &$target pointer to target array
+     * @param string $fieldPath 'conf/native/navigationBar/icon'
+     * @param mixed $fieldValue 'Some Value' || 12345 || array(1=>3, 'aa'=>43)
+     * @param string $delimiter path delimiter
      * @return null
      */
     public function _injectFieldToArray(&$target, $fieldPath, $fieldValue, $delimiter = '/')
@@ -829,7 +830,7 @@ EOT;
      */
     public function validateConfFieldNotEmpty($field, $native)
     {
-        if ( ($native === false)
+        if (($native === false)
             || (!isset($native['body']) || !is_array($native['body'])
             || !isset($native['body'][$field])
             || !Zend_Validate::is($native['body'][$field], 'NotEmpty'))
@@ -837,5 +838,34 @@ EOT;
             return false;
         }
         return true;
+    }
+
+    /**
+     * Check the notifications are allowed for current type of application
+     *
+     * @param Mage_XmlConnect_Model_Application $application
+     * @return bool
+     */
+    public function isNotificationsAllowed($application = null)
+    {
+        return $this->getDeviceHelper($application)->isNotificationsAllowed();
+    }
+
+    /**
+     * Get front url for action
+     *
+     * @param string $action
+     * @param array $params
+     * @return string url
+     */
+    public function getActionUrl($action, $params = array())
+    {
+        $defaultParams = array(
+            '_store' => $this->getApplication()->getStoreId(),
+            '_nosid' => true,
+            '_secure' => $this->getApplication()->getUseSecureURLInFrontend()
+        );
+        $params = array_merge($defaultParams, $params);
+        return Mage::getUrl($action, $params);
     }
 }

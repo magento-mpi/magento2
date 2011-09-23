@@ -97,7 +97,6 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         $this->_model->addActionLayoutHandles();
         $handles = $this->_model->getLayout()->getUpdate()->getHandles();
         $this->assertContains('test_controller_action', $handles);
-        $this->assertContains('THEME_frontend_default_default', $handles);
     }
 
     /**

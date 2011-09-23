@@ -51,8 +51,8 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
      */
     public function gridAction()
     {
-        $block = $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_customer_grid');
-        $this->getResponse()->setBody($block->toHtml());
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**

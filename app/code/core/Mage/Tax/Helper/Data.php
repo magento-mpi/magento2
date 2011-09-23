@@ -555,10 +555,10 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $calculator = Mage::getSingleton('tax/calculation');
         if ($type) {
-            $taxAmount = $calculator->calcTaxAmount($price, $percent, false);
+            $taxAmount = $calculator->calcTaxAmount($price, $percent, false, false);
             return $price + $taxAmount;
         } else {
-            $taxAmount = $calculator->calcTaxAmount($price, $percent, true);
+            $taxAmount = $calculator->calcTaxAmount($price, $percent, true, false);
             return $price - $taxAmount;
         }
     }
@@ -800,36 +800,48 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
             $current = Mage::registry('current_invoice');
         } elseif (Mage::registry('current_creditmemo')) {
             $current = Mage::registry('current_creditmemo');
+        } else {
+            $current = $source;
         }
+
         $taxClassAmount = array();
         if ($current && $source) {
-            $shippingTaxAmount      = $current->getShippingTaxAmount();
-            $baseShippingTaxAmount  = $current->getBaseShippingTaxAmount();
-            $shippingHiddenTaxAmount= $current->getShippingHiddenTaxAmount();
+            $shippingTaxAmount          = $current->getShippingTaxAmount();
+            $baseShippingTaxAmount      = $current->getBaseShippingTaxAmount();
+            $shippingHiddenTaxAmount    = $current->getShippingHiddenTaxAmount();
 
             $i = 0;
             foreach($current->getItemsCollection() as $item) {
-                $taxClassId = $source->getItemById($item->getOrderItemId())->getTaxClassId();
+                $taxCollection = Mage::getResourceModel('tax/sales_order_tax_item')
+                    ->getTaxItemsByItemId(
+                        $item->getOrderItemId() ? $item->getOrderItemId() : $item->getItemId()
+                    );
 
-                if (isset($taxClassAmount[$taxClassId])) {
-                    $taxClassAmount[$taxClassId]['tax_amount']        += $item->getTaxAmount();
-                    $taxClassAmount[$taxClassId]['base_tax_amount']   += $item->getBaseTaxAmount();
-                    $taxClassAmount[$taxClassId]['hidden_tax_amount'] += $item->getHiddenTaxAmount();
-                } else {
-                    if ($i == 0) {
-                        $taxClassAmount[$taxClassId]['tax_amount']        = $shippingTaxAmount;
-                        $taxClassAmount[$taxClassId]['base_tax_amount']   = $baseShippingTaxAmount;
-                        $taxClassAmount[$taxClassId]['hidden_tax_amount'] = $shippingHiddenTaxAmount;
+                foreach ($taxCollection as $tax) {
+                    $taxClassId = $tax['tax_id'];
+                    $percent    = $tax['percent'];
+                    if (isset($taxClassAmount[$taxClassId])) {
+                        $taxClassAmount[$taxClassId]['tax_amount']          += $item->getRowTotal() * $percent / 100;
+                        $taxClassAmount[$taxClassId]['base_tax_amount'] += $item->getBaseRowTotal() * $percent / 100;
+                        $taxClassAmount[$taxClassId]['hidden_tax_amount']   += $item->getHiddenTaxAmount();
                     } else {
-                        $taxClassAmount[$taxClassId]['tax_amount']        = 0;
-                        $taxClassAmount[$taxClassId]['base_tax_amount']   = 0;
-                        $taxClassAmount[$taxClassId]['hidden_tax_amount'] = 0;
+                        if ($i == 0) {
+                            $i = 1;
+                            $taxClassAmount[$taxClassId]['tax_amount']          = $shippingTaxAmount;
+                            $taxClassAmount[$taxClassId]['base_tax_amount']     = $baseShippingTaxAmount;
+                            $taxClassAmount[$taxClassId]['hidden_tax_amount']   = $shippingHiddenTaxAmount;
+                        } else {
+                            $taxClassAmount[$taxClassId]['tax_amount']          = 0;
+                            $taxClassAmount[$taxClassId]['base_tax_amount']     = 0;
+                            $taxClassAmount[$taxClassId]['hidden_tax_amount']   = 0;
+                        }
+                        $taxClassAmount[$taxClassId]['tax_amount']          += $item->getRowTotal() * $percent / 100;
+                        $taxClassAmount[$taxClassId]['base_tax_amount'] += $item->getBaseRowTotal() * $percent / 100;
+                        $taxClassAmount[$taxClassId]['hidden_tax_amount']   += $item->getHiddenTaxAmount();
+                        $taxClassAmount[$taxClassId]['title']               = $tax['title'];
+                        $taxClassAmount[$taxClassId]['percent']             = $tax['percent'];
                     }
-                    $taxClassAmount[$taxClassId]['tax_amount']        += $item->getTaxAmount();
-                    $taxClassAmount[$taxClassId]['base_tax_amount']   += $item->getBaseTaxAmount();
-                    $taxClassAmount[$taxClassId]['hidden_tax_amount'] += $item->getHiddenTaxAmount();
                 }
-                $i++;
             }
 
             foreach ($taxClassAmount as $key=>$tax) {

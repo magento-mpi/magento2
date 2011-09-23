@@ -19,32 +19,25 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Index
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Index resource helper class for MySQL adapter
+ * Customer textarea field form xml renderer
  *
  * @category    Mage
- * @package     Mage_Index
+ * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Index_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Mysql4
+class Mage_XmlConnect_Block_Customer_Form_Renderer_Textarea
+    extends Mage_XmlConnect_Block_Customer_Form_Renderer_Text
 {
     /**
-     * Insert data from select statement
+     * Field type
      *
-     * @param Mage_Index_Model_Resource_Abstract $object
-     * @param Varien_Db_Select $select
-     * @param string $destTable
-     * @param array $columns
-     * @param bool $readToIndex
-     * @return Mage_Index_Model_Resource_Helper_Mysql4
+     * @var string
      */
-    public function insertData($object, $select, $destTable, $columns, $readToIndex)
-    {
-        return $object->insertFromSelect($select, $destTable, $columns, $readToIndex);
-    }
+    protected $_filedType = 'textarea';
 }

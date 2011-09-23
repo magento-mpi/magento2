@@ -19,32 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Index
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Index resource helper class for MSSQL adapter
+ * PayPal Express Payment info xml renderer
  *
  * @category    Mage
- * @package     Mage_Index
+ * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Index_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Helper_Mssql
+class Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Paypal_Express
+    extends Mage_XmlConnect_Block_Checkout_Payment_Method_Info_Paypal_Abstract
 {
-    /**
-     * Insert data from select statement
-     *
-     * @param Mage_Index_Model_Resource_Abstract $object
-     * @param Varien_Db_Select $select
-     * @param string $destTable
-     * @param array $columns
-     * @param bool $readToIndex
-     * @return Mage_Index_Model_Resource_Helper_Mssql
-     */
-    public function insertData($object, $select, $destTable, $columns, $readToIndex)
-    {
-        return $object->insertFromSelect($select, $destTable, $columns, $readToIndex);
-    }
 }
