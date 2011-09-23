@@ -383,11 +383,11 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             if (array_key_exists('ship_to_different_address', $billingAddr)) {
                 unset($billingAddr['ship_to_different_address']);
             }
-            if (array_key_exists('password', $billingAddr)) {
-                unset($billingAddr['password']);
+            if (array_key_exists('billing_password', $billingAddr)) {
+                unset($billingAddr['billing_password']);
             }
-            if (array_key_exists('confirm_password', $billingAddr)) {
-                unset($billingAddr['confirm_password']);
+            if (array_key_exists('billing_confirm_password', $billingAddr)) {
+                unset($billingAddr['billing_confirm_password']);
             }
             $xpathChange = $this->_getControlXpath('link', 'billing_address_change_link');
             $this->waitForElement($xpathChange);
