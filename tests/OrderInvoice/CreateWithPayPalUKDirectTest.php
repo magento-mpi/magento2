@@ -49,9 +49,6 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('paypal_enable');
-        $this->systemConfigurationHelper()->configure('paypal_uk_direct_without_3Dsecure');
         $this->addParameter('id', '0');
     }
 
@@ -102,6 +99,9 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
         //Data
         $orderData = $this->loadData('order_newcustmoer_paypaldirectuk_flatrate', array('filter_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('paypal_enable');
+        $this->systemConfigurationHelper()->configure('paypaldirectuk_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
@@ -134,11 +134,35 @@ class OrderInvoice_CreateWithPayPalUKDirectTest extends Mage_Selenium_TestCase
      * @param type $simpleSku
      *
      * @depends createSimpleProduct
-     * @dataProvider dataCaptureType
+     * @dataProvider dataCapture
+     * @test
      */
     public function partialInvoiceWithDifferentTypesOfCapture($captureType, $simpleSku)
     {
-        $this->markTestSkipped('Need Implement');
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_paypaldirectuk_flatrate',
+                array('filter_sku' => $simpleSku, 'product_qty' => 10));
+        $invoice = $this->loadData('products_to_invoice', array('invoice_product_sku' => $simpleSku));
+        //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('paypal_enable');
+        $this->systemConfigurationHelper()->configure('paypaldirectuk_without_3Dsecure');
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        //Steps
+        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
+        $this->addParameter('order_id', $orderId);
+        $this->orderInvoiceHelper()->createPartialInvoiceAndVerify($invoice);
+    }
+
+    public function dataCapture()
+    {
+        return array(
+            array('Capture Online'),
+            array('Capture Offline')
+        );
     }
 
 }

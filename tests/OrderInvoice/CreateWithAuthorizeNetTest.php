@@ -49,8 +49,6 @@ class OrderInvoice_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('authorize_net_without_3Dsecure');
         $this->addParameter('id', '0');
     }
 
@@ -99,8 +97,10 @@ class OrderInvoice_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_authorize_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustmoer_authorizenet_flatrate', array('filter_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('authorizenet_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
@@ -115,12 +115,7 @@ class OrderInvoice_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
         $this->fillForm(array('amount' => $captureType));
         $this->clickButton('submit_invoice');
         //Verifying
-        if ($captureType != 'Capture Online') {
-            $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        } else {
-            $this->assertTrue($this->errorMessage('success_creating_invoice'/* 'authorizenet_online_invoice_error' */),
-                    $this->messages);
-        }
+        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
     }
 
     public function dataCaptureType()
@@ -130,19 +125,6 @@ class OrderInvoice_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
             array('Capture Offline'),
             array('Not Capture')
         );
-    }
-
-    /**
-     *
-     * @param type $captureType
-     * @param type $simpleSku
-     *
-     * @depends createSimpleProduct
-     * @dataProvider dataCaptureType
-     */
-    public function partialInvoiceWithDifferentTypesOfCapture($captureType, $simpleSku)
-    {
-        $this->markTestSkipped('Need Implement');
     }
 
 }

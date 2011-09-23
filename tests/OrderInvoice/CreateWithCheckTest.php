@@ -48,8 +48,6 @@ class OrderInvoice_CreateWithCheckTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('check_money_order');
         $this->addParameter('id', '0');
     }
 
@@ -98,8 +96,10 @@ class OrderInvoice_CreateWithCheckTest extends Mage_Selenium_TestCase
     public function fullWithCheck($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('checkmoney');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
@@ -142,9 +142,12 @@ class OrderInvoice_CreateWithCheckTest extends Mage_Selenium_TestCase
     public function partialWithCheck($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku, 'product_qty' => 10));
+        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+                array('filter_sku' => $simpleSku, 'product_qty' => 10));
         $invoice = $this->loadData('products_to_invoice', array('invoice_product_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('checkmoney');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying

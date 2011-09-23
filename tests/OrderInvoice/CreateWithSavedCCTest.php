@@ -48,8 +48,6 @@ class OrderInvoice_CreateWithSavedCCTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
         $this->addParameter('id', '0');
     }
 
@@ -98,8 +96,10 @@ class OrderInvoice_CreateWithSavedCCTest extends Mage_Selenium_TestCase
     public function fullWithSavedCC($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_saved_cc_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate', array('filter_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
@@ -142,10 +142,12 @@ class OrderInvoice_CreateWithSavedCCTest extends Mage_Selenium_TestCase
     public function partialWithCreditCard($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_saved_cc_flatrate',
+        $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate',
                 array('filter_sku' => $simpleSku, 'product_qty' => 10));
         $invoice = $this->loadData('products_to_invoice', array('invoice_product_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying

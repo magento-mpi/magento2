@@ -49,9 +49,6 @@ class OrderInvoice_CreateWithPayFlowProVerisignTest extends Mage_Selenium_TestCa
 
     protected function assertPreConditions()
     {
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('paypal_enable');
-        $this->systemConfigurationHelper()->configure('payflow_pro_without_3Dsecure');
         $this->addParameter('id', '0');
     }
 
@@ -102,6 +99,9 @@ class OrderInvoice_CreateWithPayFlowProVerisignTest extends Mage_Selenium_TestCa
         //Data
         $orderData = $this->loadData('order_newcustmoer_payflowpro_flatrate', array('filter_sku' => $simpleSku));
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('paypal_enable');
+        $this->systemConfigurationHelper()->configure('payflowpro_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
