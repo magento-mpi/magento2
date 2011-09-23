@@ -71,8 +71,32 @@ manage_sales_orders:
         buttons:
             create_new_order: //button[span='Create New Order']
         messages: &orderMessages
+            #success
+            success_created_order: //li[normalize-space(@class)='success-msg' and contains(.,'The order has been created.')]
+            success_creating_invoice: //li[normalize-space(@class)='success-msg' and contains(.,'The invoice has been created.')]
+            success_creating_shipment: //li[normalize-space(@class)='success-msg' and contains(.,'The shipment has been created.')]
+            success_creating_creditmemo: //li[normalize-space(@class)='success-msg' and contains(.,'The credit memo has been created.')]
+            success_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.,'The order has been cancelled.')]
+            success_hold_order: //li[normalize-space(@class)='success-msg' and contains(.,'The order has been put on hold.')]
+            success_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.,'The order has been released from holding status.')]
+            success_massaction_hold_order: //li[normalize-space(@class)='success-msg' and contains(.,'%orderQty% order(s) have been put on hold.')]
+            success_massaction_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.,'%orderQty% order(s) have been released from holding status.')]
+            success_massaction_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.,'%orderQty% order(s) have been canceled.')]
+            success_voided_order: //li[normalize-space(@class)='success-msg' and contains(.,'The payment has been voided.')]
+            #error
             ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
+            failed_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'The order(s) cannot be canceled')]
+            failed_hold_order: //li[normalize-space(@class)='error-msg' and contains(.,'No order(s) were put on hold.')]
+            failed_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'No order(s) were released from holding status.')]
+            failed_massaction_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) cannot be canceled')]
+            failed_massaction_hold_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) were not put on hold.')]
+            failed_massaction_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) were not released from holding status.')]
+            #confirmation
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
+            confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
+            confirmation_for_cancel: Are you sure you want to cancel this order?
+            confirmation_to_void: Are you sure you want to void the payment?
+            #not verified
             card_type_doesnt_match: "%fieldXpath%/following-sibling::*[text()='Card type does not match credit card number.' and not(contains(@style,'display: none;'))]"
             invalid_cvv: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card verification number.' and not(contains(@style,'display: none;'))]"
             invalid_card_number: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card number.' and not(contains(@style,'display: none;'))]"
@@ -83,35 +107,18 @@ manage_sales_orders:
             failed_print_all: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             empty_payment_method: "//following-sibling::*[text()='Please select one of the options.' and not(contains(@style,'display: none;'))]"
-            success_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.,'order(s) have been released from holding status.')]
-            failed_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'No order(s) were released from holding status.')]
             customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'This customer email already exists.')]
             email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
-            success_creating_creditmemo: //li[normalize-space(@class)='success-msg' and contains(.,'The credit memo has been created.')]
             authorizenet_online_invoice_error: //li[normalize-space(@class)='error-msg' and contains(.,'Order was not released from holding status.')]
-            failed_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'Order was not released from holding status.')]
             error_invalid_exp_date: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect credit card expiration date.')]
             shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'Shipping method must be specified.')]
             success_applying_coupon: //li[normalize-space(@class)='success-msg' and contains(.,'The coupon code has been accepted.')]
             email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid hostname.')]
-            success_creating_shipment: //li[normalize-space(@class)='success-msg' and contains(.,'The shipment has been created.')]
             error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify order items.')]
-            success_creating_invoice: //li[normalize-space(@class)='success-msg' and contains(.,'The invoice has been created.')]
-            success_hold_order: //li[normalize-space(@class)='success-msg' and contains(.,'order(s) have been put on hold.')]
-            failed_canceled_order: //li[normalize-space(@class)='error-msg' and contains(.,'The order cannot be canceled.')]
-            success_hold_order: //li[normalize-space(@class)='success-msg' and contains(.,'The order has been put on hold')]
-            success_created_order: //li[normalize-space(@class)='success-msg' and contains(.,'The order has been created.')]
             required_field_empty: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-            success_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.,'Order has been canceled.')]
             invalid_qty_of_product: //div[@class='error']/div[contains(.,'The minimum quantity allowed for purchase is')]
-            failed_hold_order: //li[normalize-space(@class)='error-msg' and contains(.,'No order(s) were put on hold.')]
-            failed_hold_order: //li[normalize-space(@class)='error-msg' and contains(.,'Order were not put on hold.')]
-            nvalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'coupon code is not valid.')]
-            success_void: //li[normalize-space(@class)='success-msg' and contains(.,'The payment has been voided.')]
-            confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
+            invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'coupon code is not valid.')]
             no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
-            confirmation_for_cancel: Are you sure you want to cancel this order?
-            confirmation_to_void: Are you sure you want to void the payment?
             no_payment: //label[text()='No Payment Information Required']
             success_print_packingslips: #TODO
             success_print_credit_memos: #TODO

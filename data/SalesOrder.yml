@@ -420,7 +420,6 @@ else_discover: &discoverElse
 
 payment_check_money: &checkMoney
     payment_method: Check / Money order
-    payment_info: %noValue%
 
 payment_saved_cc_visa: &savedCCVisa
     payment_method: Credit Card (saved)
@@ -441,6 +440,7 @@ payment_payflo_pro: &payfloProVisa
 payment_authorize: &authorizeNetVisa
     payment_method: Credit Card (Authorize.net)
     payment_info: *visaElse
+
 #*********************************************
 #*             Shipping Data                 *
 #*********************************************
@@ -609,8 +609,26 @@ order_virtual:
         payment_method: Check / Money order
         payment_info: %noValue%
 
+#<------------New Customer, Check/Money, FlatRate, ShippingSameAsBilling------------>
+order_newcustmoer_checkmoney_flatrate:
+    store_view: Default Store View
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_sku: %noValue%
+            product_qty: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReq
+    shipping_addr_data: *shippingSameAsBilling
+    payment_data: *checkMoney
+    shipping_data: *flatRate
+
 #<------------New Customer, Saved CC, FlatRate, ShippingSameAsBilling------------>
-order_newcustmoer_saved_cc_flatrate:
+order_newcustmoer_savedcc_flatrate:
     store_view: Default Store View
     account_data:
         customer_group: General
@@ -682,7 +700,7 @@ order_newcustmoer_payflowpro_flatrate:
     shipping_data: *flatRate
 
 #<------------New Customer, Authorize.net, FlatRate, ShippingSameAsBilling------------>
-order_newcustmoer_authorize_flatrate:
+order_newcustmoer_authorizenet_flatrate:
     store_view: Default Store View
     account_data:
         customer_group: General

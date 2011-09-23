@@ -67,11 +67,12 @@ paypal_api_settings:
             api_uses_proxy: No
 
 #<-------------PayPal Direct Payment Payflow Edition------------------------>
-paypal_uk_direct_without_3Dsecure:
+paypaldirectuk_without_3Dsecure:
     configuration_scope: Default Config
     tab_1: &payPalDirectUkWithout3Dsecure
         tab_name: sales_paypal
         configuration:
+            email_associated_with_paypal_merchant_account:
             website_payments_pro_payflow_edition: Yes
             wpppe_title: PayPal Direct Payment Payflow Edition
             wpppe_payment_action: Authorization
@@ -87,12 +88,13 @@ paypal_uk_direct_without_3Dsecure:
             wpppe_require_cvv_entry: Yes
             wpppe_3d_secure_card_validation: No
 
-paypal_uk_direct_with_3Dsecure:
+paypaldirectuk_with_3Dsecure:
     configuration_scope: Default Config
     tab_1: *enable3DSecure
     tab_2:
         tab_name: sales_paypal
         configuration:
+            email_associated_with_paypal_merchant_account:
             website_payments_pro_payflow_edition: Yes
             wpppe_title: PayPal Direct Payment Payflow Edition
             wpppe_payment_action: Authorization
@@ -111,7 +113,7 @@ paypal_uk_direct_with_3Dsecure:
             wpppe_centinel_api_url: https://centineltest.cardinalcommerce.com/maps/txns.asp
 
 #<-------------PayPal Direct Payment------------------------>
-website_payments_pro_without_3Dsecure:
+paypaldirect_without_3Dsecure:
     configuration_scope: Default Config
     tab_1: *setPaypalApi
     tab_2: &payPalDirectWithout3Dsecure
@@ -129,7 +131,7 @@ website_payments_pro_without_3Dsecure:
             wpp_require_cvv_entry: Yes
             wpp_3d_secure_card_validation: No
 
-website_payments_pro_with_3Dsecure:
+paypaldirect_with_3Dsecure:
     configuration_scope: Default Config
     tab_1: *setPaypalApi
     tab_2: *enable3DSecure
@@ -151,7 +153,7 @@ website_payments_pro_with_3Dsecure:
             wpp_centinel_custom_api_url: https://centineltest.cardinalcommerce.com/maps/txns.asp
 
 #<-------------PayPal Direct Payment Payflow Edition------------------------>
-payflow_pro_without_3Dsecure:
+payflowpro_without_3Dsecure:
     configuration_scope: Default Config
     tab_1: &payflowProWithout3Dsecure
         tab_name: sales_paypal
@@ -175,7 +177,7 @@ payflow_pro_without_3Dsecure:
             pp_require_cvv_entry: Yes
             pp_3d_secure_card_validation: No
 
-payflow_pro_with_3Dsecure:
+payflowpro_with_3Dsecure:
     configuration_scope: Default Config
     tab_1: *enable3DSecure
     tab_2:
@@ -203,7 +205,7 @@ payflow_pro_with_3Dsecure:
             pp_centinel_api_url: https://centineltest.cardinalcommerce.com/maps/txns.asp
 
 #<-------------Saved CC------------------------>
-saved_cc_with_3Dsecure:
+savedcc_with_3Dsecure:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_payment_methods
@@ -221,7 +223,7 @@ saved_cc_with_3Dsecure:
             scc_maximum_order_total: %noValue%
             scc_sort_order: %noValue%
 
-saved_cc_without_3Dsecure:
+savedcc_without_3Dsecure:
     configuration_scope: Default Config
     tab_1: &savedCCWithout3Dsecure
         tab_name: sales_payment_methods
@@ -237,7 +239,7 @@ saved_cc_without_3Dsecure:
             scc_maximum_order_total: %noValue%
             scc_sort_order: %noValue%
 
-saved_cc_disable:
+savedcc_disable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_payment_methods
@@ -245,7 +247,7 @@ saved_cc_disable:
             scc_enabled: No
 
 #<-------------Check / Money Order------------------------>
-check_money_order:
+checkmoney:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_payment_methods
@@ -269,7 +271,7 @@ check_money_order_disable:
             cmo_enabled: No
 
 #<-------------Authorize.Net------------------------>
-authorize_net_without_3Dsecure:
+authorizenet_without_3Dsecure:
     configuration_scope: Default Config
     tab_1: &authorizeWithout3Dsecure
         tab_name: sales_payment_methods
@@ -278,7 +280,7 @@ authorize_net_without_3Dsecure:
             an_title: Credit Card (Authorize.net)
             an_api_login_id: 36sCtGS8w
             an_payment_action: Authorize Only
-            an_transaction_key: 33YvD5r6mm9B47e2
+            an_transaction_key: 74sL4dM4dy9Q7Z7v
             an_new_order_status: %noValue%
             an_test_mode: No
             an_gateway_url: https://test.authorize.net/gateway/transact.dll
@@ -296,7 +298,7 @@ authorize_net_without_3Dsecure:
             an_allow_partial_authorization: Yes
             an_3d_secure_card_validation: No
 
-authorize_net_with_3Dsecure:
+authorizenet_with_3Dsecure:
     configuration_scope: Default Config
     tab_1: *enable3DSecure
     tab_2:
