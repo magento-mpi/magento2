@@ -122,7 +122,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve wishlist items availability
      *
-     * @deprecated after 1.6.0.0-rc2
+     * @deprecated after 1.6.0.0
      *
      * @return bool
      */

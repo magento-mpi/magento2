@@ -412,7 +412,10 @@ Validation.add('IsEmpty', '', function(v) {
 });
 
 Validation.addAllThese([
-    ['validate-select', 'Please select an option.', function(v) {
+    ['validate-no-html-tags', 'HTML tags are not allowed', function(v) {
+				return !/<(\/)?\w+/.test(v);
+			}],
+	['validate-select', 'Please select an option.', function(v) {
                 return ((v != "none") && (v != null) && (v.length != 0));
             }],
     ['required-entry', 'This is a required field.', function(v) {
@@ -504,7 +507,7 @@ Validation.addAllThese([
             }],
     ['validate-url', 'Please enter a valid URL. Protocol is required (http://, https:// or ftp://)', function (v) {
                 v = (v || '').replace(/^\s+/, '').replace(/\s+$/, '');
-                return Validation.get('IsEmpty').test(v) || /^(http|https|ftp):\/\/(([A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))(\.[A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))*)(:(\d+))?(\/[A-Z0-9~](([A-Z0-9_~-]|\.)*[A-Z0-9~]|))*\/?$/i.test(v)
+                return Validation.get('IsEmpty').test(v) || /^(http|https|ftp):\/\/(([A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))(\.[A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))*)(:(\d+))?(\/[A-Z0-9~](([A-Z0-9_~-]|\.)*[A-Z0-9~]|))*\/?(\?.*)?$/i.test(v)
             }],
     ['validate-clean-url', 'Please enter a valid URL. For example http://www.example.com or www.example.com', function (v) {
                 return Validation.get('IsEmpty').test(v) || /^(http|https|ftp):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v) || /^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v)

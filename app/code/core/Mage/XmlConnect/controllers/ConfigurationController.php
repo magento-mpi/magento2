@@ -52,7 +52,6 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
      */
     protected function _initApp()
     {
-
         $cookieName = Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME;
         $code = $this->getRequest()->getParam($cookieName);
         $screenSize = (string) $this->getRequest()->getParam(
@@ -62,12 +61,18 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
         $app = Mage::getModel('xmlconnect/application');
         if ($app) {
             $app->loadByCode($code);
-            Mage::app()->setCurrentStore(Mage::app()->getStore($app->getStoreId())->getCode());
+            Mage::app()->setCurrentStore(
+                Mage::app()->getStore($app->getStoreId())->getCode()
+            );
             Mage::getSingleton('core/locale')->emulate($app->getStoreId());
             $app->setScreenSize($screenSize);
+
             if (!$app->getId()) {
-                Mage::throwException($this->__('App with specified code does not exist.'));
+                Mage::throwException(
+                    $this->__('App with specified code does not exist.')
+                );
             }
+
             $app->loadConfiguration();
         } else {
             Mage::throwException($this->__('App code required.'));
@@ -90,11 +95,13 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
             array(
                 'cookieName'    => Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME,
                 'paramName'     => Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME,
-                'value'         => $app->getCode()),
+                'value'         => $app->getCode()
+            ),
             array(
                 'cookieName'    => Mage_XmlConnect_Model_Application::APP_SCREEN_SIZE_NAME,
                 'paramName'     => Mage_XmlConnect_Model_Application::APP_SCREEN_SIZE_NAME,
-                'value'         => $app->getScreenSize())
+                'value'         => $app->getScreenSize()
+            )
         );
         foreach ($cookieToSetArray as $item) {
             if (!isset($_COOKIE[$item['cookieName']])
@@ -165,11 +172,12 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
      * @param string $action
      * @return void
      */
-    protected function _message($text, $status, $type='', $action='')
+    protected function _message($text, $status)
     {
+        /** @var $message Mage_XmlConnect_Model_Simplexml_Element */
         $message = Mage::getModel('xmlconnect/simplexml_element', '<message></message>');
-        $message->addChild('status', $status);
-        $message->addChild('text', $text);
+        $message->addCustomChild('status', $status);
+        $message->addCustomChild('text', $text);
         $this->getResponse()->setBody($message->asNiceXml());
     }
 }

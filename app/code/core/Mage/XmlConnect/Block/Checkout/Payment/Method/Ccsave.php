@@ -31,7 +31,8 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_Block_Form_Ccsave
+class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave
+    extends Mage_Payment_Block_Form_Ccsave
 {
     /**
      * Prevent any rendering

@@ -45,32 +45,57 @@
             <?php $i=0; foreach ($_productCollection as $_product): ?>
                 <li>
                     <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>">
-                        <div class="product-image">
-                            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(65); ?>" width="65" height="65" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
-                        </div>
-                        <div class="product-shop">
-                            <header>
-                                <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
-                                <?php echo $this->getPriceHtml($_product, true) ?>
-                                <?php if(!$_product->isSaleable()): ?>
-                                    <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
-                                <?php endif; ?>
-                            </header>
+                        <div class="wrap">
+                            <div class="product-image">
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(65); ?>" width="65" height="65" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                            </div>
+                            <div class="product-shop">
+                                <header>
+                                    <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                                    <?php echo $this->getPriceHtml($_product, true) ?>
+                                    <?php if(!$_product->isSaleable()): ?>
+                                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                    <?php endif; ?>
+                                </header>
+                            </div>
                         </div>
                     </a>
                     <div class="actions">
                         <ul>
-                            <li><a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/i_view_details.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('View Details') ?></a></li>
-                            <li><a href="<?php echo $this->getUrl('*/product/gallery', array('id'=>$_product->getId())) ?>"><img src="<?php echo $this->getSkinUrl('images/i_gallery.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('View Gallery') ?></a></li>
-                            <li><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><img src="<?php echo $this->getSkinUrl('images/i_tell_a_friend.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('Tell a Friend') ?></a></li>
+                            <li><a href="<?php echo $_product->getProductUrl() ?>" class="i-view-details"><i></i><?php echo $this->__('View Details') ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('*/product/gallery', array('id'=>$_product->getId())) ?>" class="i-view-gallery"><i></i><?php echo $this->__('View Gallery') ?></a></li>
+                            <li><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>" class="i-send-friend"><i></i><?php echo $this->__('Tell a Friend') ?></a></li>
                             <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                                <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"><img src="<?php echo $this->getSkinUrl('images/i_add_to_wishlist.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('Add to Wishlist') ?></a></li>
+                                <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="i-send-wishlist"><i></i><?php echo $this->__('Add to Wishlist') ?></a></li>
                             <?php endif; ?>
-                            <li><a href="#" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;"><img src="<?php echo $this->getSkinUrl('images/i_add_to_cart.png') ?>" width="37" height="37" alt="<?php echo $this->__('Front Banner')?>" /><?php echo $this->__('Add to Cart') ?></a></li>
+                            <li><a href="<?php echo $this->getAddToCartUrl($_product) ?>" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;" class="i-add-to-cart"><i></i><?php echo $this->__('Add to Cart') ?></a></li>
                         </ul>
-                        </div>
+                    </div>
                 </li>
             <?php endforeach ?>
         </ul>
     </div>
+    <script>
+        $$('.product-image').each(function(n) {
+            var parent = n.up('a'),
+                clone  = n.up().clone(true).addClassName('cloned');
+
+            parent.insert(clone.wrap('div', {'class' : 'cloned-wrap'}));
+
+            new webkit_draggable(clone.up(), { handle : clone.select('.product-image')[0], revert : true, scroll : true, onStart : function(e) {
+                    e.preventDefault();
+                    //parent.addClassName('on-start');
+                },
+                onEnd : function() {
+                    //parent.removeClassName('on-start');
+                }
+            });
+        });
+        webkit_drop.add($('menu'),
+        {
+            onDrop : function(elem, e) { e.preventDefault(); setLocation(elem.up('li').down('.actions li:last-child a').readAttribute('href')); elem.remove(); },
+            onOver : function(elem, e) { e.preventDefault(); elem.down().addClassName('to-cart-animate'); },
+            onOut  : function(elem) { elem.down().removeClassName('to-cart-animate'); }
+        });
+    </script>
 <?php endif; ?>

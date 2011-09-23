@@ -132,23 +132,33 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
                 $this->_initialize($payment, 1);
                 break;
             case Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_ZERO:
-                $amountError = false;
                 try {
                     $this->_initialize($payment, 0);
                 } catch (Mage_Paypal_Exception $e) {
-                    $amountError = true;
-                }
-                if ($amountError) {
                     $authorizationAmount = Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_ONE;
                     $this->_initialize($payment, 1);
                 }
                 break;
         }
-        $payment->setAdditionalInformation('authorization_amount',$authorizationAmount);
+        $payment->setAdditionalInformation('authorization_amount', $authorizationAmount);
 
         return $this;
     }
 
+    /**
+     * Add transaction with correct transaction Id
+     *
+     * @param Varien_Object $payment
+     * @param string $txnId
+     * @return void
+     */
+    protected function _addTransaction($payment, $txnId)
+    {
+        $previousTxnId = $payment->getTransactionId();
+        $payment->setTransactionId($txnId);
+        $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+        $payment->setTransactionId($previousTxnId);
+    }
     /**
      * Initialize request
      *
@@ -185,7 +195,23 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             $payment->setIsFraudDetected(true);
         }
 
+        if ($transaction->getId() && $payment->getAdditionalInformation('authorization_amount') !=
+            Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_FULL
+        ) {
+            $this->_addTransaction($payment, $txnId);
+        }
+
         $this->_authorize($payment, $amount, $transaction, $txnId);
+        if ($payment->getAdditionalInformation('authorization_amount') !=
+            Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_FULL
+        ) {
+            $payment->setParentTransactionId($txnId);
+            parent::authorize($payment, $amount);
+            if ($payment->getTransactionId()) {
+                $payment->setAdditionalInformation('authorization_id', $payment->getTransactionId());
+            }
+        }
+
         $transaction->delete();
         return $this;
     }
@@ -194,9 +220,9 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      * Additional authorization logic for Account Verification
      *
      * @param Varien_Object $payment
-     * @param  $amount
-     * @param  $transaction
-     * @param  $txnId
+     * @param mixed $amount
+     * @param Mage_Paypal_Model_Payment_Transaction $transaction
+     * @param string $txnId
      * @return Mage_Paypal_Model_Payflowlink
      */
     protected function _authorize(Varien_Object $payment, $amount, $transaction, $txnId)
@@ -227,15 +253,16 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         $transaction->loadByTxnId($txnId);
         if ($transaction->getId()) {
             $removePaypalTransaction = true;
-            $payment->setTransactionId($txnId);
-            $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
             $this->_authorize($payment, $amount, $transaction, $txnId);
+
+            $this->_addTransaction($payment, $txnId);
+
             $payment->setReferenceTransactionId($payment->getAdditionalInformation('authorization_id'));
         }
 
         $payment->setParentTransactionId($txnId);
 
-        $payment->setAmountOrdered($amount);
+        $payment->setRequestAmount(round($amount,2));
         parent::capture($payment, $amount);
 
         if ($removePaypalTransaction) {
@@ -256,6 +283,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         /** @var $payment Mage_Sales_Model_Quote_Payment */
         if ($payment instanceof Mage_Sales_Model_Order_Payment) {
             parent::void($payment);
+            $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_VOID);
             return $this;
         } elseif ($payment instanceof Mage_Sales_Model_Quote_Payment) {
             $this->setStore($payment->getQuote()->getStoreId());
@@ -380,6 +408,8 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     }
 
     /**
+     * Check Transaction
+     *
      * @param Mage_Paypal_Model_Payment_Transaction $transaction
      * @param mixed $amount
      * @return Mage_Paypal_Model_Payflowlink
@@ -467,7 +497,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             ->setCustref($orderId)
             ->setPonum($salesDocument->getId());
         if ($fullAmount != Mage_Paypal_Model_Config::AUTHORIZATION_AMOUNT_FULL) {
-            $request->setSubtotal($salesDocument->getBaseSubtotal())
+            $request->setSubtotal($this->_formatStr('%.2F', $salesDocument->getBaseSubtotal()))
                 ->setTaxamt($this->_formatStr('%.2F', $salesDocument->getBaseTaxAmount()))
                 ->setFreightamt($this->_formatStr('%.2F', $salesDocument->getBaseShippingAmount()));
         }
@@ -533,8 +563,8 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             ->setPwd($this->getConfigData('pwd', $this->_getStoreId()))
             ->setVerbosity($this->getConfigData('verbosity', $this->_getStoreId()))
             ->setTender(self::TENDER_CC);
-        if ($payment->getAmountOrdered() > 0) {
-            $request->setAmt($payment->getAmountOrdered());
+        if ($payment->getRequestAmount() > 0) {
+            $request->setAmt(round($payment->getRequestAmount(),2));
         }
         return $request;
     }

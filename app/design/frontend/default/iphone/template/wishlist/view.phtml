@@ -40,7 +40,7 @@
                             $isVisibleProduct = $product->isVisibleInSiteVisibility();
                         ?>
                         <li>
-                            <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(45, 45); ?>" width="45" height="45" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></a>
+                            <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(45, 45); ?>" width="45" height="45" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
                              <div class="wishlist-item">
                                 <h2><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a>
                                     <?php if ($isVisibleProduct): ?>

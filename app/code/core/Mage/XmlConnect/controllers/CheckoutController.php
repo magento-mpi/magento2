@@ -28,7 +28,7 @@
  * XmlConnect checkout controller
  *
  * @category    Mage
- * @package     Mage_Checkout
+ * @package     Mage_Xmlconnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Action
@@ -45,7 +45,11 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             && !Mage::getSingleton('checkout/session')->getQuote()->isAllowedGuestCheckout()
         ) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            $this->_message($this->__('Customer not logged in.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(
+                $this->__('Customer not logged in.'),
+                self::MESSAGE_STATUS_ERROR,
+                array('logged_in' => '0')
+            );
             return ;
         }
     }
@@ -87,8 +91,15 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
         Mage::getSingleton('checkout/session')->setCartWasUpdated(false);
         $this->getOnepage()->initCheckout();
 
-        $this->loadLayout(false);
-        $this->renderLayout();
+        try {
+            $this->loadLayout(false);
+            $this->renderLayout();
+        } catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        } catch (Exception $e) {
+            $this->_message($this->__('Unable to load checkout.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
+        }
     }
 
     /**
@@ -98,8 +109,15 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
      */
     public function newBillingAddressFormAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        try {
+            $this->loadLayout(false);
+            $this->renderLayout();
+        } catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        } catch (Exception $e) {
+            $this->_message($this->__('Unable to load billing address form.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
+        }
     }
 
     /**
@@ -109,8 +127,15 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
      */
     public function newShippingAddressFormAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        try {
+            $this->loadLayout(false);
+            $this->renderLayout();
+        } catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        } catch (Exception $e) {
+            $this->_message($this->__('Unable to load shipping address form.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
+        }
     }
 
     /**
@@ -120,8 +145,15 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
      */
     public function billingAddressAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        try {
+            $this->loadLayout(false);
+            $this->renderLayout();
+        } catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        } catch (Exception $e) {
+            $this->_message($this->__('Unable to load billing address.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
+        }
     }
 
     /**
@@ -159,8 +191,15 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
      */
     public function shippingAddressAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        try {
+            $this->loadLayout(false);
+            $this->renderLayout();
+        } catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        } catch (Exception $e) {
+            $this->_message($this->__('Unable to load billing address.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
+        }
     }
 
     /**
@@ -290,9 +329,19 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
 
         $data = $this->getRequest()->getPost('shipping_method', '');
         $result = $this->getOnepage()->saveShippingMethod($data);
-        if (!isset($result['error'])) {
+        if (!$result) {
+
+            Mage::dispatchEvent(
+                'checkout_controller_onepage_save_shipping_method',
+                array(
+                    'request' => $this->getRequest(),
+                    'quote' => $this->getOnepage()->getQuote()
+                )
+            );
+            $this->getOnepage()->getQuote()->collectTotals()->save();
+
             $this->_message($this->__('Shipping method has been set.'), self::MESSAGE_STATUS_SUCCESS);
-        } else {
+        } elseif(isset($result['error'])) {
             if (!is_array($result['message'])) {
                 $result['message'] = array($result['message']);
             }
@@ -300,6 +349,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
                 'request' => $this->getRequest(),
                 'quote' => $this->getOnepage()->getQuote()
             ));
+            $this->getOnepage()->getQuote()->collectTotals()->save();
             $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
         }
     }
@@ -380,8 +430,15 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
     public function orderReviewAction()
     {
         $this->getOnepage()->getQuote()->collectTotals()->save();
-        $this->loadLayout(false);
-        $this->renderLayout();
+        try {
+            $this->loadLayout(false);
+            $this->renderLayout();
+        } catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        } catch (Exception $e) {
+            $this->_message($this->__('Unable to load order review.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
+        }
     }
 
     /**

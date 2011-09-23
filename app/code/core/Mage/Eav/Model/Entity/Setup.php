@@ -1338,8 +1338,8 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                     array('attribute_id', 'value'))
                 ->addIndex($this->getIdxName($eavTableName, array('entity_type_id', 'value')),
                     array('entity_type_id', 'value'))
-                ->addForeignKey($this->getFkName($eavTableName, 'entity_id', 'eav/entity', 'entity_id'),
-                    'entity_id', $this->getTable('eav/entity'), 'entity_id',
+                ->addForeignKey($this->getFkName($eavTableName, 'entity_id', $baseTableName, 'entity_id'),
+                    'entity_id', $this->getTable($baseTableName), 'entity_id',
                     Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
                 ->addForeignKey($this->getFkName($eavTableName, 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
                     'entity_type_id', $this->getTable('eav/entity_type'), 'entity_type_id',

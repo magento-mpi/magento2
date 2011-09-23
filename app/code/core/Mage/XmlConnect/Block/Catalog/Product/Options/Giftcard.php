@@ -27,11 +27,12 @@
 /**
  * Gift Card product options xml renderer
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlConnect_Block_Catalog_Product_Options
+class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard
+    extends Mage_XmlConnect_Block_Catalog_Product_Options
 {
     /**
      * Get sender name
@@ -70,7 +71,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
     }
 
     /**
-     * Get preconfigured values from product
+     * Get pre-configured values from product
      *
      * @param  $value param id
      * @return string
@@ -145,12 +146,9 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
         /** @var $optionsXmlObj Mage_XmlConnect_Model_Simplexml_Element */
         $optionsXmlObj = $xmlModel->options;
 
-        if (!$product->isSaleable()) {
+        if (!$product->isSalable()) {
             return $isObject ? $xmlModel : $xmlModel->asNiceXml();
         }
-
-        /** @var $test Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard */
-        $giftCard = $product->getTypeInstance(true);
 
         /** @var $priceModel Enterprise_GiftCard_Block_Catalog_Product_Price */
         $priceModel = $product->getPriceModel();
@@ -158,96 +156,117 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = Mage::helper('core');
 
+        $configValue = $this->getDefaultValue('giftcard_amount');
+
+        /**
+         * Render fixed amounts options
+         */
+
+        /** @var $fixedAmountsNode Mage_XmlConnect_Model_Simplexml_Element */
+        $fixedAmountsNode = $optionsXmlObj->addChild('fixed_amounts');
         if ($this->isAmountAvailable($product)) {
-
-            $configValue = $this->getDefaultValue('giftcard_amount');
-
-            /**
-             * Render fixed amounts options
-             */
-            if (count($amounts = $priceModel->getSortedAmounts($product))) {
-                $amountNode = $optionsXmlObj->addChild('fixed_amounts');
+            $amounts = $priceModel->getSortedAmounts($product);
+            if (count($amounts)) {
                 foreach ($amounts as $price) {
-                    $amount = $amountNode->addChild('amount');
+                    $amountNode = $fixedAmountsNode->addChild('amount');
                     if ($configValue == $price) {
-                        $amount->addAttribute('selected', 1);
+                        $amountNode->addAttribute('selected', 1);
                     }
-                    $amount->addAttribute(
-                        'price',
-                        $coreHelper->currency($price, true, false)
+                    $amountNode->addAttribute(
+                        'formatted_price',
+                        $xmlModel->xmlAttribute(
+                            $coreHelper->currency($price, true, false)
+                        )
                     );
+                    $amountNode->addAttribute('price', $price);
                 }
             }
+        }
 
-            /**
-             * Render open amount options
-             */
-            $openAmountNode = $optionsXmlObj->addChild('open_amount');
-            if ($product->getAllowOpenAmount()) {
-                $openAmountNode->addAttribute('enabled', 1);
-                if ($configValue == 'custom') {
-                    $openAmountNode->addAttribute(
-                        'selected_amount',
-                        $this->getDefaultValue('custom_giftcard_amount')
-                    );
-                }
-                if ($priceModel->getMinAmount($product)) {
-                    $minAmount = $xmlModel->xmlentities(
-                        $coreHelper->currency(
-                            $product->getOpenAmountMin(),
-                            true,
-                            false
-                        )
-                    );
-                } else {
-                    $minAmount = 0;
-                }
-                $openAmountNode->addAttribute('min_amount', $minAmount);
+        /**
+         * Render open amount options
+         */
 
-                if ($priceModel->getMaxAmount($product)) {
-                    $maxAmount = $xmlModel->xmlentities(
-                        $coreHelper->currency(
-                            $product->getOpenAmountMax(),
-                            true,
-                            false
-                        )
-                    );
-                } else {
-                    $maxAmount = 0;
-                }
-                $openAmountNode->addAttribute('max_amount', $maxAmount);
+        /** @var $openAmountNode Mage_XmlConnect_Model_Simplexml_Element */
+        $openAmountNode = $optionsXmlObj->addChild('open_amount');
+        if ($product->getAllowOpenAmount()) {
+            $openAmountNode->addAttribute('enabled', 1);
+
+            if ($configValue == 'custom') {
+                $openAmountNode->addAttribute(
+                    'selected_amount',
+                    $this->getDefaultValue('custom_giftcard_amount')
+                );
+            }
+            if ($priceModel->getMinAmount($product)) {
+                $minPrice  = $product->getOpenAmountMin();
+                $minAmount = $coreHelper->currency($minPrice, true, false);
             } else {
-                $openAmountNode->addAttribute('enabled', 0);
+                $minAmount = $minPrice = 0;
             }
+            $openAmountNode->addAttribute(
+                'formatted_min_amount',
+                $xmlModel->xmlAttribute($minAmount)
+            );
+            $openAmountNode->addAttribute('min_amount', $minPrice);
+
+            if ($priceModel->getMaxAmount($product)) {
+                $maxPrice  = $product->getOpenAmountMax();
+                $maxAmount = $coreHelper->currency($maxPrice, true, false);
+            } else {
+                $maxAmount = $maxPrice = 0;
+            }
+            $openAmountNode->addAttribute(
+                'formatted_max_amount',
+                $xmlModel->xmlAttribute($maxAmount)
+            );
+            $openAmountNode->addAttribute('max_amount', $maxPrice);
+        } else {
+            $openAmountNode->addAttribute('enabled', 0);
         }
 
         /**
          * Render Gift Card form options
          */
-        $form = $optionsXmlObj->addCustomChild('form', null, array(
+        $form = $optionsXmlObj->addCustomChild(
+            'form',
+            null,
+            array(
                 'name'      => 'giftcard-send-form',
                 'method'    => 'post'
             )
         );
 
-        $senderFieldset = $form->addCustomChild('fieldset', null, array(
+        $senderFieldset = $form->addCustomChild(
+            'fieldset',
+            null,
+            array(
                 'legend' => $this->__('Sender Information')
             )
         );
 
-        $senderFieldset->addField('giftcard_sender_name', 'text', array(
+        $senderFieldset->addField(
+            'giftcard_sender_name',
+            'text',
+            array(
                 'label'     => Mage::helper('enterprise_giftcard')->__('Sender Name'),
                 'required'  => 'true',
                 'value'     => $this->getSenderName()
             )
         );
 
-        $recipientFieldset = $form->addCustomChild('fieldset', null, array(
+        $recipientFieldset = $form->addCustomChild(
+            'fieldset',
+            null,
+            array(
                 'legend' => $this->__('Recipient Information')
             )
         );
 
-        $recipientFieldset->addField('giftcard_recipient_name', 'text', array(
+        $recipientFieldset->addField(
+            'giftcard_recipient_name',
+            'text',
+            array(
                 'label'     => Mage::helper('enterprise_giftcard')->__('Recipient Name'),
                 'required'  => 'true',
                 'value'     => $this->getDefaultValue('giftcard_recipient_name')
@@ -255,14 +274,20 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
         );
 
         if ($this->isEmailAvailable($product)) {
-            $senderFieldset->addField('giftcard_sender_email', 'text', array(
+            $senderFieldset->addField(
+                'giftcard_sender_email',
+                'email',
+                array(
                     'label'     => Mage::helper('enterprise_giftcard')->__('Sender Email'),
                     'required'  => 'true',
                     'value'     => $this->getSenderEmail()
                 )
             );
 
-            $recipientFieldset->addField('giftcard_recipient_email', 'text', array(
+            $recipientFieldset->addField(
+                'giftcard_recipient_email',
+                'email',
+                array(
                     'label'     => Mage::helper('enterprise_giftcard')->__('Recipient Email'),
                     'required'  => 'true',
                     'value'     => $this->getDefaultValue('giftcard_recipient_email')
@@ -274,7 +299,10 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlCon
             $messageMaxLength = (int) Mage::getStoreConfig(
                 Enterprise_GiftCard_Model_Giftcard::XML_PATH_MESSAGE_MAX_LENGTH
             );
-            $recipientFieldset->addField('giftcard_message', 'text', array(
+            $recipientFieldset->addField(
+                'giftcard_message',
+                'textarea',
+                array(
                     'label'     => Mage::helper('enterprise_giftcard')->__('Message'),
                     'required'  => 'false',
                     'max_length'=> $messageMaxLength,

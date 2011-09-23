@@ -47,8 +47,9 @@ class Mage_SalesRule_Model_Resource_Coupon_Collection extends Mage_Core_Model_Re
     /**
      * Add rule to filter
      *
+     * @param Mage_SalesRule_Model_Rule|int $rule
      *
-     * @param unknown_type $rule
+     * @return Mage_SalesRule_Model_Resource_Coupon_Collection
      */
     public function addRuleToFilter($rule)
     {
@@ -57,17 +58,22 @@ class Mage_SalesRule_Model_Resource_Coupon_Collection extends Mage_Core_Model_Re
         } else {
             $ruleId = (int)$rule;
         }
+
         $this->addFieldToFilter('rule_id', $ruleId);
+
+        return $this;
     }
 
     /**
      * Add rule IDs to filter
      *
-     *
      * @param array $ruleIds
+     *
+     * @return Mage_SalesRule_Model_Resource_Coupon_Collection
      */
     public function addRuleIdsToFilter(array $ruleIds)
     {
         $this->addFieldToFilter('rule_id', array('in' => $ruleIds));
+        return $this;
     }
 }

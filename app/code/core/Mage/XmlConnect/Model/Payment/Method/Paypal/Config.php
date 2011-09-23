@@ -19,29 +19,37 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Sales
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$installer = $this;
+/**
+ * PayPal Mobile Express Checkout Library config
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_XmlConnect_Model_Payment_Method_Paypal_Config
+    extends Mage_Paypal_Model_Config
+{
+    /**
+     * PayPal Website Payments Pro - PayPal Mobile Express Checkout Library
+     */
+    const METHOD_WPP_MECL = 'paypal_mecl';
 
-$tableName = $installer->getTable('sales/quote_item');
-$columnOptions = array(
-    'TYPE'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
-    'UNSIGNED'  => true,
-    'NULLABLE'  => false,
-    'DEFAULT'   => 0,
-    'COMMENT'   => 'Product Tax Class Id',
-);
-$installer->getConnection()->addColumn($tableName, 'tax_class_id', $columnOptions);
-
-$tableName = $installer->getTable('sales/order_item');
-$columnOptions = array(
-    'TYPE'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
-    'UNSIGNED'  => true,
-    'NULLABLE'  => false,
-    'DEFAULT'   => 0,
-    'COMMENT'   => 'Product Tax Class Id',
-);
-$installer->getConnection()->addColumn($tableName, 'tax_class_id', $columnOptions);
+    /**
+     * Get url for dispatching customer to express checkout start
+     *
+     * @param string $token
+     * @return string
+     */
+    public function getExpressCheckoutStartUrl($token)
+    {
+        return $this->getPaypalUrl(array(
+            'cmd'   => '_express-checkout-mobile',
+            'token' => $token,
+        ));
+    }
+}

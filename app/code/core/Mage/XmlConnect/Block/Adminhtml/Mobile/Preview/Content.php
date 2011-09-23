@@ -23,7 +23,16 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminhtml_Block_Template
+
+/**
+ * XmlConnect preview content block
+ *
+ * @category   Mage
+ * @package    Mage_XmlConnect
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content
+    extends Mage_Adminhtml_Block_Template
 {
     /**
      * Set path to template used for generating block's output.
@@ -34,7 +43,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     public function setTemplate($templateType)
     {
         $deviceType = Mage::helper('xmlconnect')->getDeviceType();
-        parent::setTemplate('xmlconnect/edit/tab/design/preview/' . $templateType . '_' . $deviceType . '.phtml');
+        parent::setTemplate(
+            'xmlconnect/edit/tab/design/preview/'
+            . $templateType
+            . '_'
+            . $deviceType
+            . '.phtml'
+        );
         return $this;
     }
 }

@@ -603,6 +603,11 @@ class Enterprise_PricePermissions_Model_Observer
                 // New products are created without recurring profiles
                 $product->setIsRecurring(false);
                 $product->unsRecurringProfile();
+                // Add MAP default values
+                $product->setMsrpEnabled(
+                    Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_USE_CONFIG);
+                $product->setMsrpDisplayActualPriceType(
+                    Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG);
             }
         }
     }

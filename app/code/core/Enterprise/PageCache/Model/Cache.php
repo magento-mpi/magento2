@@ -57,11 +57,11 @@ class Enterprise_PageCache_Model_Cache
                 $options = array();
             }
 
-            if (!empty($options['backend_options']['cache_dir'])) {
-                $options['backend_options']['cache_dir'] = Mage::getBaseDir('var') . DS
-                    . $options['backend_options']['cache_dir'];
-
-                Mage::app()->getConfig()->getOptions()->createDirIfNotExists($options['backend_options']['cache_dir']);
+            foreach (array('backend_options', 'slow_backend_options') as $tag) {
+                if (!empty($options[$tag]['cache_dir'])) {
+                    $options[$tag]['cache_dir'] = Mage::getBaseDir('var') . DS . $options[$tag]['cache_dir'];
+                    Mage::app()->getConfig()->getOptions()->createDirIfNotExists($options[$tag]['cache_dir']);
+                }
             }
 
             self::$_cache = Mage::getModel('core/cache', $options);

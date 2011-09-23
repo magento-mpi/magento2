@@ -28,7 +28,7 @@
  * Shopping cart summary information xml renderer
  *
  * @category    Mage
- * @package     Mage_Checkout
+ * @package     Mage_Xmlconnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Block_Cart_Info extends Mage_XmlConnect_Block_Cart
@@ -49,10 +49,12 @@ class Mage_XmlConnect_Block_Cart_Info extends Mage_XmlConnect_Block_Cart
             'is_virtual',
             (int)$this->helper('checkout/cart')->getIsVirtualQuote()
         );
+
         $xmlObject->addChild(
             'summary_qty',
             (int)$this->helper('checkout/cart')->getSummaryCount()
         );
+
         $xmlObject->addChild(
             'virtual_qty',
             (int)$quote->getItemVirtualQty()
@@ -68,7 +70,6 @@ class Mage_XmlConnect_Block_Cart_Info extends Mage_XmlConnect_Block_Cart
             $totalsXmlObj = Mage::getModel('xmlconnect/simplexml_element', $totalsXml);
             $xmlObject->appendChild($totalsXmlObj);
         }
-
         return $xmlObject->asNiceXml();
     }
 }
