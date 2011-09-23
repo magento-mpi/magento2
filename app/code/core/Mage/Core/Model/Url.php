@@ -308,7 +308,7 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getSecure()
     {
         if ($this->hasData('secure_is_forced')) {
-            return $this->getData('secure');
+            return (bool)$this->getData('secure');
         }
 
         $store = $this->getStore();

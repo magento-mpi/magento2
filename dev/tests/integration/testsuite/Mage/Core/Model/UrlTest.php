@@ -87,6 +87,18 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Mage_Core_Model_Store::URL_TYPE_LINK, $this->_model->getType());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testGetSecure()
+    {
+        $this->assertFalse($this->_model->getSecure());
+        $this->_model->setSecureIsForced(1);
+        $this->assertTrue(is_bool($this->_model->getSecure()));
+        Mage::app()->getStore()->setId(Mage_Core_Model_App::ADMIN_STORE_ID);
+        $this->assertFalse($this->_model->getSecure());
+    }
+
     public function testSetGetStore()
     {
         $this->assertInstanceOf('Mage_Core_Model_Store', $this->_model->getStore());
