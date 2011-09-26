@@ -1182,8 +1182,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
             $this->removeAllSelections($fieldData['path']);
-            $valuesArray = explode(',', $fieldData['value']);
-            $valuesArray = array_map('trim', $valuesArray);
+            if (strtolower($fieldData['value']) == 'all') {
+                $count = $this->getXpathCount($fieldData['path'] . '//option');
+                for ($i = 1; $i <= $count; $i++) {
+                    $valuesArray[] = $this->getText($fieldData['path'] . "//option[$i]");
+                }
+            } else {
+                $valuesArray = explode(',', $fieldData['value']);
+                $valuesArray = array_map('trim', $valuesArray);
+            }
             foreach ($valuesArray as $value) {
                 if ($value != null) {
                     $this->addSelection($fieldData['path'], 'regexp:' . preg_quote($value));
@@ -1911,7 +1918,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $success = self::xpathSuccessMessage;
         $error = self::xpathErrorMessage;
         $validation = self::xpathValidationMessage;
-        $types = array(/*'success',*/ 'error', 'validation');
+        $types = array('success', 'error', 'validation');
         foreach ($types as $message) {
             if (array_key_exists($message, $this->messages)) {
                 $exclude = '';
@@ -1924,6 +1931,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->clickButton($buttonName, false);
         $this->waitForElement(array($success, $error, $validation));
         $this->addParameter('id', $this->defineIdFromUrl());
+        $this->assertTextNotPresent('Fatal error:', 'Fatal error on page');
+        $this->assertTextNotPresent('There has been an error processing your request',
+                    'There has been an error processing your request');
         $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
         $this->getCurrentLocationUimapPage()->assignParams($this->_paramsHelper);
 //        $this->clickButton($buttonName, false);
@@ -2149,6 +2159,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function verifyMessagesCount($count = 1, $xpath = Mage_Selenium_TestCase::xpathValidationMessage)
     {
+        $this->_parseMessages();
         return $this->getXpathCount($xpath) == $count;
     }
 
