@@ -520,6 +520,11 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
         $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->systemConfigurationHelper()->configure('free_enable');
+        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $performLogin = $this->loadData('perform_login',
                 array('email' => $customerData['email'], 'password' => $customerData['password']));

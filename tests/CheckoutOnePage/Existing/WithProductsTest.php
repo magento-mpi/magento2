@@ -153,7 +153,7 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc_registered',
@@ -196,7 +196,7 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_registered_virtual_product',

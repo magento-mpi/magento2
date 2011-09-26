@@ -337,14 +337,14 @@ saved_visa: &visaSavedCC
     expiration_year: '2020'
     card_verification_number: '111'
 
-visa: &visa
+visa: &visaElse
     card_type: 'Visa'
     card_number: '4024007127653'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '123'
 
-saved_cc_visa_3d: &savedCCVisa3d
+saved_cc_visa_3d: &visaSavedCC3D
     name_on_card: 'Test Account'
     card_type: 'Visa'
     card_number: '4000000000000002'
@@ -352,12 +352,94 @@ saved_cc_visa_3d: &savedCCVisa3d
     expiration_year: '2012'
     card_verification_number: '111'
 
-visa_3d: &visa3d
+visa_3d: &visaElse3D
     card_type: 'Visa'
     card_number: '4000000000000002'
     expiration_month: '01 - January'
     expiration_year: '2012'
     card_verification_number: '111'
+
+#*********************************************
+#*              Payment Data Without 3D      *
+#*********************************************
+
+payment_check_money: &checkMoney
+    payment_method: Check / Money order
+
+payment_saved_cc_visa: &savedCCVisa
+    payment_method: Credit Card (saved)
+    payment_info: *visaSavedCC
+
+payment_paypal_direct_uk: &paypalDirectUkVisa
+    payment_method: PayPal Direct Payment Payflow Edition
+    payment_info: *visaElse
+
+payment_paypal_direct: &paypalDirectVisa
+    payment_method: PayPal Direct Payment
+    payment_info: *visaElse
+
+payment_payflow_pro: &payflowProVisa
+    payment_method: Payflow Pro
+    payment_info: *visaElse
+
+payment_authorize: &authorizeNetVisa
+    payment_method: Credit Card (Authorize.net)
+    payment_info: *visaElse
+
+#*********************************************
+#*              Payment Data With 3D         *
+#*********************************************
+payment_saved_cc_visa_3d: &savedCCVisa3D
+    payment_method: Credit Card (saved)
+    payment_info: *visaSavedCC3D
+
+payment_paypal_direct_uk_3d: &paypalDirectUkVisa3D
+    payment_method: PayPal Direct Payment Payflow Edition
+    payment_info: *visaElse3D
+
+payment_paypal_direct_3d: &paypalDirectVisa3D
+    payment_method: PayPal Direct Payment
+    payment_info: *visaElse3D
+
+payment_payflow_pro_3d: &payflowProVisa3D
+    payment_method: Payflow Pro
+    payment_info: *visaElse3D
+
+payment_authorize_3d: &authorizeNetVisa3D
+    payment_method: Credit Card (Authorize.net)
+    payment_info: *visaElse3D
+
+#*********************************************
+#*             Shipping Data                 *
+#*********************************************
+
+shipping_flatrate: &flatRate
+    shipping_service: Flat Rate
+    shipping_method: Fixed
+
+shipping_free: &freeShipping
+    shipping_service: Free Shipping
+    shipping_method: Free
+
+shipping_ups: &ups
+    shipping_service: United Parcel Service
+    shipping_method: Ground
+
+shipping_upsxml: &upsXml
+    shipping_service: United Parcel Service XML
+    shipping_method: Ground
+
+shipping_usps: &usps
+    shipping_service: United States Postal Service
+    shipping_method: Express Mail
+
+shipping_fedex: &fedex
+    shipping_service: Federal Express
+    shipping_method: Ground
+
+shipping_dhl: &dhl
+    shipping_service: DHL
+    shipping_method: Ground
 #*********************************************
 #*         Checkout Data                     *
 #*********************************************
@@ -369,9 +451,7 @@ checkout_data_template:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
+    shipping_data: *flatRate
     gift_messages:
         entire_order:
             gift_option_entire_order_from: %noValue%
@@ -384,9 +464,7 @@ checkout_data_template:
                     gift_option_for_individual_items_from: %noValue%
                     gift_option_for_individual_items_to: %noValue%
                     gift_option_for_individual_items_message: %noValue%
-    payment_data:
-        payment_method: Credit Card (saved)
-        payment_info: *visaSavedCC
+    payment_data: *savedCCVisa
 
 #<-------------Payment Methods Without 3D--------------->
 checkout_data_saved_cc:
@@ -396,12 +474,8 @@ checkout_data_saved_cc:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Credit Card (saved)
-        payment_info: *visaSavedCC
+    shipping_data: *flatRate
+    payment_data: *visaSavedCC
 
 
 checkout_data_check_money_order:
@@ -411,11 +485,8 @@ checkout_data_check_money_order:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Check / Money order
+    shipping_data: *flatRate
+    payment_data: *checkMoney
 
 checkout_data_authorize_net:
     products_to_add:
@@ -424,12 +495,8 @@ checkout_data_authorize_net:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Credit Card (Authorize.net)
-        payment_info: *visa
+    shipping_data: *flatRate
+    payment_data: *authorizeNetVisa
 
 
 checkout_data_paypaluk_direct:
@@ -439,12 +506,8 @@ checkout_data_paypaluk_direct:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: PayPal Direct Payment Payflow Edition
-        payment_info: *visa
+    shipping_data: *flatRate
+    payment_data: *paypalDirectUkVisa
 
 
 checkout_data_payflow_pro_verisign:
@@ -454,12 +517,8 @@ checkout_data_payflow_pro_verisign:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Payflow Pro
-        payment_info: *visa
+    shipping_data: *flatRate
+    payment_data: *payflowProVisa
 
 checkout_data_paypal_direct_payment:
     products_to_add:
@@ -468,12 +527,8 @@ checkout_data_paypal_direct_payment:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: PayPal Direct Payment
-        payment_info: *visa
+    shipping_data: *flatRate
+    payment_data: *paypalDirectVisa
 
 #<-------------Payment Methods With 3D--------------->
 checkout_data_saved_cc_3d:
@@ -483,12 +538,8 @@ checkout_data_saved_cc_3d:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Credit Card (saved)
-        payment_info: *savedCCVisa3d
+    shipping_data: *flatRate
+    payment_data: *savedCCVisa3D
 
 checkout_data_authorize_net_3d:
     products_to_add:
@@ -497,12 +548,8 @@ checkout_data_authorize_net_3d:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Credit Card (Authorize.net)
-        payment_info: *visa3d
+    shipping_data: *flatRate
+    payment_data: *authorizeNetVisa3D
 
 checkout_data_paypaluk_direct_3d:
     products_to_add:
@@ -511,12 +558,8 @@ checkout_data_paypaluk_direct_3d:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: PayPal Direct Payment Payflow Edition
-        payment_info: *visa3d
+    shipping_data: *flatRate
+    payment_data: *paypalDirectUkVisa3D
 
 checkout_data_payflow_pro_verisign_3d:
     products_to_add:
@@ -525,12 +568,8 @@ checkout_data_payflow_pro_verisign_3d:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Payflow Pro
-        payment_info: *visa3d
+    shipping_data: *flatRate
+    payment_data: *payflowProVisa3D
 
 checkout_data_paypal_direct_payment_3d:
     products_to_add:
@@ -539,12 +578,8 @@ checkout_data_paypal_direct_payment_3d:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: PayPal Direct Payment
-        payment_info: *visa3d
+    shipping_data: *flatRate
+    payment_data: *paypalDirectVisa3D
 
 #<-----------------Data for Guest Customer-------------------->
 checkout_data_saved_cc_req_guest:
@@ -553,12 +588,8 @@ checkout_data_saved_cc_req_guest:
             general_name: %noValue%
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReqWithShipping
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Credit Card (saved)
-        payment_info: *visaSavedCC
+    shipping_data: *flatRate
+    payment_data: *visaSavedCC
 
 checkout_data_saved_cc_req_guest_empty_fields:
     products_to_add:
@@ -590,9 +621,7 @@ checkout_data_saved_cc_req_guest_no_payment_method:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
+    shipping_data: *flatRate
 
 checkout_data_saved_cc_req_guest_virtual_product:
     products_to_add:
@@ -600,9 +629,7 @@ checkout_data_saved_cc_req_guest_virtual_product:
             general_name: %noValue%
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReqEmptyFields
-    payment_data:
-        payment_method: Credit Card (saved)
-        payment_info: *visaSavedCC
+    payment_data: *visaSavedCC
 
 #<-----------------Data for Registered Customer----------------->
 checkout_data_saved_cc_registered:
@@ -612,12 +639,8 @@ checkout_data_saved_cc_registered:
     checkout_as_customer: *login
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Credit Card (saved)
-        payment_info: *visaSavedCC
+    shipping_data: *flatRate
+    payment_data: *visaSavedCC
 
 checkout_data_saved_cc_req_registered_virtual_product:
     products_to_add:
@@ -625,9 +648,7 @@ checkout_data_saved_cc_req_registered_virtual_product:
             general_name: %noValue%
     checkout_as_customer: *login
     billing_address_data: *billingRegisteredReqVirtual
-    payment_data:
-        payment_method: Credit Card (saved)
-        payment_info: *visaSavedCC
+    payment_data: *visaSavedCC
 
 checkout_data_saved_cc_req_registered:
     products_to_add:
@@ -635,12 +656,8 @@ checkout_data_saved_cc_req_registered:
             general_name: %noValue%
     checkout_as_customer: *login
     billing_address_data: *billingRegisteredReqWithShipping
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Credit Card (saved)
-        payment_info: *visaSavedCC
+    shipping_data: *flatRate
+    payment_data: *visaSavedCC
 
 checkout_data_saved_cc_req_registered_empty_fields:
     products_to_add:
@@ -672,9 +689,7 @@ checkout_data_saved_cc_req_registered_no_payment_method:
     checkout_as_customer: *login
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
+    shipping_data: *flatRate
 
 #<-----------------Data for Logged In Customer----------------->
 checkout_data_saved_cc_loggedin:
@@ -683,33 +698,23 @@ checkout_data_saved_cc_loggedin:
             general_name: %noValue%
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Credit Card (saved)
-        payment_info: *visaSavedCC
+    shipping_data: *flatRate
+    payment_data: *visaSavedCC
 
 checkout_data_saved_cc_req_loggedin_virtual_product:
     products_to_add:
         product_1:
             general_name: %noValue%
     billing_address_data: *billingRegisteredReqVirtual
-    payment_data:
-        payment_method: Credit Card (saved)
-        payment_info: *visaSavedCC
+    payment_data: *visaSavedCC
 
 checkout_data_saved_cc_req_loggedin:
     products_to_add:
         product_1:
             general_name: %noValue%
     billing_address_data: *billingRegisteredReqWithShipping
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    payment_data:
-        payment_method: Credit Card (saved)
-        payment_info: *visaSavedCC
+    shipping_data: *flatRate
+    payment_data: *visaSavedCC
 
 checkout_data_saved_cc_req_loggedin_empty_fields:
     products_to_add:
@@ -737,92 +742,341 @@ checkout_data_saved_cc_req_loggedin_no_payment_method:
             general_name: %noValue%
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
+    shipping_data: *flatRate
 
-#<---------Data for registration customer during checkout------------------>
-checkout_data_register:
+#<-------------Payment Methods Without 3D For Registered Customer-------------->
+checkout_data_registered_savedcc_flatrate:
     products_to_add:
         product_1:
             general_name: %noValue%
-        product_2: %noValue%
-    checkout_as_customer: *register
-    billing_address_data: *billingRegisterReq
-    shipping_address_data: *shippingRegisterUseBilling
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    gift_messages:
-        entire_order:
-            gift_option_entire_order_from: %noValue%
-            gift_option_entire_order_to: %noValue%
-            gift_option_entire_order_message: %noValue%
-        individual_items:
-            product_1:
-                general_sku: %noValue%
-                message_option:
-                    gift_option_for_individual_items_from: %noValue%
-                    gift_option_for_individual_items_to: %noValue%
-                    gift_option_for_individual_items_message: %noValue%
-    payment_data:
-        payment_method: Check / Money order
+    checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *savedCCVisa
 
-checkout_data_undefined:
+checkout_data_registered_checkmoney_flatrate:
     products_to_add:
         product_1:
             general_name: %noValue%
-        product_2: %noValue%
-    checkout_as_customer:
-        checkout_method: 123
+    checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *checkMoney
 
-checkout_data_billing_empty_fields:
+checkout_data_registered_authorizenet_flatrate:
     products_to_add:
         product_1:
             general_name: %noValue%
-        product_2: %noValue%
-    checkout_as_customer: *register
-    billing_address_data: *billingRegisterReq
+    checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *authorizeNetVisa
 
-checkout_data_shipping_empty_fields:
+
+checkout_data_registered_paypaldirectuk_flatrate:
     products_to_add:
         product_1:
             general_name: %noValue%
-        product_2: %noValue%
-    checkout_as_customer: *register
-    billing_address_data: *billingRegisterReq
-    shipping_address_data: *shippingRegisterAll
+    checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectUkVisa
 
-checkout_data_shipping_method_undefined:
+
+checkout_data_registered_payflowpro_flatrate:
     products_to_add:
         product_1:
             general_name: %noValue%
-        product_2: %noValue%
-    checkout_as_customer: *register
-    billing_address_data: *billingRegisterReq
-    shipping_address_data: *shippingRegisterAll
-    shipping_data:
-        shipping_service: NO
-        shipping_method: NO
+    checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *payflowProVisa
 
-checkout_data_payment_method_undefined:
+checkout_data_registered_paypaldirect_flatrate:
     products_to_add:
         product_1:
             general_name: %noValue%
-        product_2: %noValue%
-    checkout_as_customer: *register
-    billing_address_data: *billingRegisterReq
-    shipping_address_data: *shippingRegisterAll
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
+    checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectVisa
 
-checkout_data_register_for_virtual:
+#<-------------Payment Methods With 3D For Registered Customer-------------->
+checkout_data_registered_savedcc_3d_flatrate:
     products_to_add:
         product_1:
             general_name: %noValue%
-        product_2: %noValue%
-    checkout_as_customer: *register
-    billing_address_data: *billingRegisterForVirtual
-    payment_data:
-        payment_method: Check / Money order
+    checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *savedCCVisa3D
+
+checkout_data_registered_authorizenet_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *authorizeNetVisa3D
+
+
+checkout_data_registered_paypaldirectuk_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectUkVisa3D
+
+
+checkout_data_registered_payflowpro_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *payflowProVisa3D
+
+checkout_data_registered_paypaldirect_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *login
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectVisa3D
+
+#<-------------Payment Methods Without 3D For LoggedIn Customer-------------->
+checkout_data_loggedin_savedcc_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *savedCCVisa
+
+checkout_data_loggedin_checkmoney_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *checkMoney
+
+checkout_data_loggedin_authorizenet_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *authorizeNetVisa
+
+
+checkout_data_loggedin_paypaldirectuk_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectUkVisa
+
+
+checkout_data_loggedin_payflowpro_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *payflowProVisa
+
+checkout_data_loggedin_paypaldirect_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectVisa
+
+#<-------------Payment Methods With 3D For LoggedIn Customer-------------->
+checkout_data_loggedin_savedcc_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *savedCCVisa3D
+
+checkout_data_loggedin_authorizenet_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *authorizeNetVisa3D
+
+
+checkout_data_loggedin_paypaldirectuk_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectUkVisa3D
+
+
+checkout_data_loggedin_payflowpro_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *payflowProVisa3D
+
+checkout_data_loggedin_paypaldirect_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    billing_address_data: *billingRegisteredReq
+    shipping_address_data: *shippingRegisteredReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectVisa3D
+
+#<-------------Payment Methods Without 3D For Guest Customer-------------->
+checkout_data_guest_savedcc_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
+    shipping_data: *flatRate
+    payment_data: *savedCCVisa
+
+checkout_data_guest_checkmoney_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
+    shipping_data: *flatRate
+    payment_data: *checkMoney
+
+checkout_data_guest_authorizenet_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
+    shipping_data: *flatRate
+    payment_data: *authorizeNetVisa
+
+
+checkout_data_guest_paypaldirectuk_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectUkVisa
+
+
+checkout_data_guest_payflowpro_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
+    shipping_data: *flatRate
+    payment_data: *payflowProVisa
+
+checkout_data_guest_paypaldirect_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectVisa
+
+#<-------------Payment Methods With 3D For Guest Customer-------------->
+checkout_data_guest_savedcc_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
+    shipping_data: *flatRate
+    payment_data: *savedCCVisa3D
+
+checkout_data_guest_authorizenet_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
+    shipping_data: *flatRate
+    payment_data: *authorizeNetVisa3D
+
+
+checkout_data_guest_paypaldirectuk_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectUkVisa3D
+
+
+checkout_data_guest_payflowpro_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
+    shipping_data: *flatRate
+    payment_data: *payflowProVisa3D
+
+checkout_data_guest_paypaldirect_3d_flatrate:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+    checkout_as_customer: *guest
+    billing_address_data: *billingGuestReq
+    shipping_address_data: *shippingGuestReq
+    shipping_data: *flatRate
+    payment_data: *paypalDirectVisa3D

@@ -105,7 +105,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest',
@@ -237,7 +237,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $longValues = array(
@@ -285,7 +285,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $specValues = array(
@@ -398,7 +398,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $specValues = array(
@@ -449,7 +449,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc',
@@ -490,7 +490,12 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
+        $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
+        $this->systemConfigurationHelper()->configure('free_enable');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_no_shipping_method',
@@ -543,7 +548,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->systemConfigurationHelper()->configure('saved_cc_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_no_payment_method',
