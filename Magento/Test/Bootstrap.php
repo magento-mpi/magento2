@@ -67,6 +67,13 @@ class Magento_Test_Bootstrap
     protected $_testsEtcDir;
 
     /**
+     * Additional directory with tests-specific *.xml configuration files
+     *
+     * @var string
+     */
+    protected $_additionalTestsEtcDirs;
+
+    /**
      * Installation destination directory
      *
      * @var string
@@ -150,13 +157,23 @@ class Magento_Test_Bootstrap
      *
      * @param string $dbVendorName
      * @param string $magentoDir
-     * @param string $testsEtcDir
+     * @param string|array $testsEtcDir
      * @param string $tmpDir
      */
     public function __construct($dbVendorName, $magentoDir, $testsEtcDir, $tmpDir)
     {
+
         $this->_dbVendorName = $dbVendorName;
         $this->_magentoDir = $magentoDir;
+
+        //For backward compatibility If test directory is an array
+        //it's first element used as a main tests etc directory
+        //and all other elements are used as additional etc directories
+        if (is_array($testsEtcDir)) {
+            $_testsEtcDir = array_shift($testsEtcDir);
+            $this->_additionalTestsEtcDirs = $testsEtcDir;
+            $testsEtcDir = $_testsEtcDir;
+        }
         $this->_testsEtcDir = $testsEtcDir;
 
         $this->_readLocalXml();
@@ -417,10 +434,26 @@ class Magento_Test_Bootstrap
 
         $magentoEtcDir = $this->_magentoDir . '/app/etc';
 
+        /**
+         * Source etc directories contains all directories with XML files, excluding modules etc directory
+         * 
+         * @var array $sourceEtcDirs
+         */
+        $sourceEtcDirs = array($magentoEtcDir, $this->_testsEtcDir);
+        if (is_array($this->_additionalTestsEtcDirs)) {
+            $sourceEtcDirs = array_merge($sourceEtcDirs, $this->_additionalTestsEtcDirs);
+        }
+        /**
+         * List of directories where xml files may be found
+         *
+         * @var array $allEtcDirs
+         */
+        $allEtcDirs = array_merge((array) "$magentoEtcDir/modules", $sourceEtcDirs);
+
         /* Copy *.xml configuration files */
-        foreach (array($magentoEtcDir, "$magentoEtcDir/modules", $this->_testsEtcDir) as $sourceEtcDir) {
+        foreach ($allEtcDirs as $sourceEtcDir) {
             $targetEtcDir = str_replace(
-                array($magentoEtcDir, $this->_testsEtcDir),
+                $sourceEtcDirs,
                 $this->_installEtcDir,
                 $sourceEtcDir
             );

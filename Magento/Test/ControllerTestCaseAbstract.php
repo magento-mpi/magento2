@@ -65,6 +65,8 @@ abstract class Magento_Test_ControllerTestCaseAbstract extends Magento_TestCase
      */
     public function dispatch($uri)
     {
+        //Unregister previously registered controller
+        Mage::unregister('controller');
         $this->getRequest()->setRequestUri($uri);
         Mage::run($this->_runCode, $this->_runScope, $this->_runOptions);
     }

@@ -41,10 +41,15 @@ set_include_path(implode(
     )
 ));
 
+$testEtcDir = "$baseDir/framework";
+if (defined('TESTS_ETC_DIRECTORY') && TESTS_ETC_DIRECTORY && is_dir(TESTS_ETC_DIRECTORY)) {
+    $testEtcDir = array($testEtcDir, realpath(TESTS_ETC_DIRECTORY));
+}
+
 Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(
     (defined('TESTS_DB_VENDOR') ? TESTS_DB_VENDOR : 'mysql'),
     realpath("$baseDir/../../"),
-    "$baseDir/framework",
+    $testEtcDir,
     "$baseDir/tmp"
 ));
 if (defined('TESTS_SHUTDOWN_METHOD') && TESTS_SHUTDOWN_METHOD) {
