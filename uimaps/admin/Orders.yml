@@ -83,6 +83,7 @@ manage_sales_orders:
             success_massaction_unhold_order: //li[normalize-space(@class)='success-msg' and contains(.,'%orderQty% order(s) have been released from holding status.')]
             success_massaction_canceled_order: //li[normalize-space(@class)='success-msg' and contains(.,'%orderQty% order(s) have been canceled.')]
             success_voided_order: //li[normalize-space(@class)='success-msg' and contains(.,'The payment has been voided.')]
+            success_applying_coupon: //li[normalize-space(@class)='success-msg' and contains(.,'The coupon code has been accepted.')]
             #error
             ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
             failed_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'The order(s) cannot be canceled')]
@@ -91,39 +92,41 @@ manage_sales_orders:
             failed_massaction_cancel_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) cannot be canceled')]
             failed_massaction_hold_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) were not put on hold.')]
             failed_massaction_unhold_order: //li[normalize-space(@class)='error-msg' and contains(.,'%orderQty% order(s) were not released from holding status.')]
+            invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'"%code%" coupon code is not valid.')]
+            no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
+            no_payment: //label[text()='No Payment Information Required']
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            required_field_empty: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'Shipping method must be specified.')]
+            error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify order items.')]
+            empty_payment_method: "//following-sibling::*[text()='Please select one of the options.' and not(contains(@style,'display: none;'))]"
+            invalid_cvv: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card verification number.' and not(contains(@style,'display: none;'))]"
+            card_type_doesnt_match: "%fieldXpath%/following-sibling::*[text()='Card type does not match credit card number.' and not(contains(@style,'display: none;'))]"
+            invalid_exp_date: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect credit card expiration date.')]
+            out_of_stock_product: //tr[td/@class='first'][contains(.,'%sku%')][.//div='This product is currently out of stock.']
+            requested_quantity_not_available: //tr[td/@class='first'][contains(.,'%sku%')][.//div='The requested quantity for "%sku%" is not available.']
+            min_allowed_quantity_error: //tr[td/@class='first'][contains(.,'%sku%')][.//div='The minimum quantity allowed for purchase is %qty%.']
+            max_allowed_quantity_error: //tr[td/@class='first'][contains(.,'%sku%')][.//div='The maximum quantity allowed for purchase is %qty%.']
+            wrong_increments_qty: //tr[td/@class='first'][contains(.,'%sku%')][.//div='This product is available for purchase in increments of %qty% only.']
+            customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'This customer email already exists')]
+            email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
+            email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid hostname.')]
+            not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,"appears to be a DNS hostname but cannot match against hostname schema for TLD")]
+            hostname_not_valid: //li[normalize-space(@class)='error-msg' and contains(.,'appears to be a local network name but local network names are not allowed')]
+            not_valid_email: //li[normalize-space(@class)='error-msg' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
             #confirmation
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
             confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
             confirmation_for_cancel: Are you sure you want to cancel this order?
             confirmation_to_void: Are you sure you want to void the payment?
             #not verified
-            card_type_doesnt_match: "%fieldXpath%/following-sibling::*[text()='Card type does not match credit card number.' and not(contains(@style,'display: none;'))]"
-            invalid_cvv: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card verification number.' and not(contains(@style,'display: none;'))]"
+            authorizenet_online_invoice_error: //li[normalize-space(@class)='error-msg' and contains(.,'Order was not released from holding status.')]
+            
             invalid_card_number: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card number.' and not(contains(@style,'display: none;'))]"
             failed_print_packingslips: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
             failed_print_credit_memos: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
-            invalid_exp_date: "%fieldXpath%/following-sibling::*[text()='Incorrect credit card expiration date.' and not(contains(@style,'display: none;'))]"
             failed_print_invoices: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
             failed_print_all: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
-            empty_payment_method: "//following-sibling::*[text()='Please select one of the options.' and not(contains(@style,'display: none;'))]"
-            customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'This customer email already exists.')]
-            email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
-            authorizenet_online_invoice_error: //li[normalize-space(@class)='error-msg' and contains(.,'Order was not released from holding status.')]
-            error_invalid_exp_date: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect credit card expiration date.')]
-            shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'Shipping method must be specified.')]
-            success_applying_coupon: //li[normalize-space(@class)='success-msg' and contains(.,'The coupon code has been accepted.')]
-            email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid hostname.')]
-            error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify order items.')]
-            required_field_empty: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-            invalid_qty_of_product: //div[@class='error']/div[contains(.,'The minimum quantity allowed for purchase is')]
-            invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'coupon code is not valid.')]
-            no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
-            no_payment: //label[text()='No Payment Information Required']
-            success_print_packingslips: #TODO
-            success_print_credit_memos: #TODO
-            success_print_invoices: #TODO
-            success_print_all: #TODO
 
 # 'New Order' page
 create_order_for_new_customer:
@@ -268,10 +271,13 @@ create_order_for_new_customer:
                             name_on_card: //input[@id='%paymentId%_cc_owner']
                             card_number: //input[@id='%paymentId%_cc_number']
                             card_verification_number : //input[@id='%paymentId%_cc_cid']
+                            issue_number: //*[@id='%paymentId%_cc_issue']
                         dropdowns:
                             card_type: //select[@id='%paymentId%_cc_type']
                             expiration_month: //select[@id='%paymentId%_expiration']
                             expiration_year: //select[@id='%paymentId%_expiration_yr']
+                            start_date_month: //select[@id='%paymentId%_start_month']
+                            start_date_year: //select[@id='%paymentId%_start_year']
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
                         xpath: //div[div/h4[contains(text(),'3D Secure Card Validation')]]
@@ -302,8 +308,11 @@ create_order_for_new_customer:
                             option_field_1: //dt[contains(label,'%optionTitle%')][contains(.,'%optionParameter%')]//input[@type='text']
                             option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input[@type='text']
                             option_field_3: //dt[contains(label,'%optionTitle%')]//input[@type='text']
+                            option_field_4: //tr[td='%optionParameter%']//input[@type='text']
+                            option_field_5: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//textarea
                         dropdowns:
-                            option_dropdown: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select
+                            option_dropdown_1: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@name,'%optionParameter%')]
+                            option_dropdown_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select
                         multiselects:
                             option_multiselect: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]
                         radiobuttons:
@@ -322,7 +331,7 @@ create_order_for_new_customer:
                             ok: //button[span='OK']
                             cancel: //button[span='Cancel']
                 -
-                    gift_options_for_order:
+                    gift_options_for_order: &giftMessageForOrder
                         xpath: //div[@class='entry-edit' and contains(.,'Gift Message for the Entire Order')]
                         fields:
                             from_order_level: //input[contains(@name, '[sender]')]
@@ -365,6 +374,8 @@ create_order_for_existing_customer:
                     order_totals: *orderTotals
                 -
                     product_composite_configure_form: *productCompositeConfigureForm
+                -
+                    gift_options_for_order: *giftMessageForOrder
                 -
                     gift_options: *giftMessage
                 -
@@ -439,10 +450,16 @@ view_order:
                                 items_ordered:
                                     xpath: //div[@class='grid np']
                                     fields:
-                                        qty_ordered: //tbody[tr/td/div[contains(.,'%sku%')]]//table[@class='qty-table']//tr[contains(.,'Ordered')]//strong[text()='%orderedQty%']
-                                        qty_invoiced: //tbody[tr/td/div[contains(.,'%sku%')]]//table[@class='qty-table']//tr[contains(.,'Invoiced')]//strong[text()='%invoicedQty%']
-                                        qty_shipped: //tbody[tr/td/div[contains(.,'%sku%')]]//table[@class='qty-table']//tr[contains(.,'Shipped')]//strong[text()='%shippedQty%']
-                                        qty_refunded: //tbody[tr/td/div[contains(.,'%sku%')]]//table[@class='qty-table']//tr[contains(.,'Refunded')]//strong[text()='%refundedQty%']
+                                        qty_ordered: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Ordered'][td/strong='%orderedQty%']
+                                        qty_invoiced: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Invoiced'][td/strong='%invoicedQty%']
+                                        qty_shipped: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Shipped'][td/strong='%shippedQty%']
+                                        qty_refunded: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Refunded'][td/strong='%refundedQty%']
+                                    links:
+                                        gift_options: //tbody[@class][tr[contains(.,'%sku%')]]//a[text()='Gift Options']
+                            -
+                                gift_options: *giftMessage
+                            -
+                                gift_options_for_order: *giftMessageForOrder
                             -
                                 comments_history:
                                     xpath: //div[@class='entry-edit'][./div/h4='Comments History']

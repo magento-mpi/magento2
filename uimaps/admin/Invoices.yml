@@ -92,6 +92,12 @@ create_invoice:
                         buttons:
                             update_qty: //button[span[contains(text(),'Update Qty')]]
                 -
+                    product_line_to_invoice:
+                        xpath: //div[@id='invoice_item_container']/div[@class='grid np']//tbody[@class]
+                        fields:
+                            product_sku: //tr[contains(.//@name,'invoice[items')]//*[strong='SKU:']
+                            product_qty: //tr[contains(.//@name,'invoice[items')]//input[contains(@name,'invoice[items]')]
+                -
                     invoice_history:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Invoice History']
                         fields:
