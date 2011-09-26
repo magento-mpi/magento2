@@ -184,6 +184,7 @@ onepage_checkout:
                 empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
                 please_select_option: "%fieldXpath%/following-sibling::*[text()='Please select an option.' and not(contains(@style,'display: none;'))]"
                 invalid_email_address: "%fieldXpath%/following-sibling::*[text()='Please enter a valid email address. For example johndoe@domain.com.' and not(contains(@style,'display: none;'))]"
+                different_passwords: "%fieldXpath%/following-sibling::*[text()='Please make sure your passwords match.' and not(contains(@style,'display: none;'))]"
                 invalid_credit_card_number: "//div[@id='advice-validate-cc-type-ccsave_cc_number' and not(contains(@style,'display: none;'))]"
                 invalid_credit_card_type: "//div[@id='advice-validate-cc-type-select-ccsave_cc_type' and not(contains(@style,'display: none;'))]"
                 incorrect_credit_card_exp_date: "//div[@id='advice-validate-cc-exp-ccsave_expiration' and not(contains(@style,'display: none;'))]"
@@ -194,6 +195,7 @@ onepage_checkout:
                 paypal_alert: There was an error processing your order. Please contact us or try again later.
                 shipping_alert: Please specify shipping method.
                 payment_alert: Please specify payment method.
+                billing_long_values_data_alert: '"First Name" length must be equal or less than 255 characters. "Last Name" length must be equal or less than 255 characters. "Street Address" length must be equal or less than 255 characters. "City" length must be equal or less than 255 characters. "Telephone" length must be equal or less than 255 characters.'
 
 onepage_checkout_logged_in:
     mca: checkout/onepage/index/
@@ -208,7 +210,6 @@ onepage_checkout_success:
         form: &successForm
         messages:
             success_checkout: //h1[contains(.,'Your order has been received')]
-
 
 checkout_multishipping:
     mca: checkout/multishipping/addresses/
