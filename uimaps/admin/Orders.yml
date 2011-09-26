@@ -113,7 +113,7 @@ manage_sales_orders:
             email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid hostname.')]
             not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,"appears to be a DNS hostname but cannot match against hostname schema for TLD")]
             hostname_not_valid: //li[normalize-space(@class)='error-msg' and contains(.,'appears to be a local network name but local network names are not allowed')]
-            not_valid_email: //li[normalize-space(@class)='error-msg' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
+            not_valid_email: //*[text()='Please enter a valid email address. For example johndoe@domain.com.']
             #confirmation
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
             confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead

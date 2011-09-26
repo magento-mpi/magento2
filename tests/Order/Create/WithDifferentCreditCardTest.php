@@ -84,8 +84,8 @@ class Order_Create_WithDifferentCreditCardTest extends Mage_Selenium_TestCase
         $orderData = $this->loadData('order_newcustmoer_savedcc_flatrate', array('filter_sku' => $simpleSku));
         $orderData['payment_data']['payment_info'] = $this->loadData($card);
         //Steps
-//        $this->navigate('system_configuration');
-//        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('savedcc_without_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying

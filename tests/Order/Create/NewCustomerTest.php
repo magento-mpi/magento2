@@ -303,7 +303,8 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertTrue($this->errorMessage('not_valid_email'), $this->messages);
+        $this->assertTrue($this->validationMessage('not_valid_email'), $this->messages);
+        $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
     /**
