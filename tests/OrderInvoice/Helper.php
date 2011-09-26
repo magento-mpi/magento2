@@ -42,21 +42,35 @@ class OrderInvoice_Helper extends Mage_Selenium_TestCase
      *
      * @param array $invoiceData
      */
-    public function createPartialInvoiceAndVerify(array $invoiceData)
+    public function createInvoiceAndVerifyProductQty($captureType = null, $invoiceData = array())
     {
         $invoiceData = $this->arrayEmptyClear($invoiceData);
-        $this->clickButton('invoice');
-
         $verify = array();
+        $this->clickButton('invoice');
         foreach ($invoiceData as $product => $options) {
             if (is_array($options)) {
                 $sku = (isset($options['invoice_product_sku'])) ? $options['invoice_product_sku'] : NULL;
-                $productQty = (isset($options['invoice_product_qty'])) ? $options['invoice_product_qty'] : '%noValue%';
+                $productQty = (isset($options['qty_to_invoice'])) ? $options['qty_to_invoice'] : '%noValue%';
                 if ($sku) {
                     $verify[$sku] = $productQty;
                     $this->addParameter('sku', $sku);
                     $this->fillForm(array('qty_to_invoice' => $productQty));
                 }
+            }
+        }
+        if ($captureType) {
+            $this->fillForm(array('amount' => $captureType));
+        }
+        if (!$verify) {
+            $setXpath = $this->_getControlXpath('fieldset', 'product_line_to_invoice');
+            $skuXpath = $this->_getControlXpath('field', 'product_sku');
+            $qtyXpath = $this->_getControlXpath('field', 'product_qty');
+            $productCount = $this->getXpathCount($setXpath);
+            for ($i = 1; $i <= $productCount; $i++) {
+                $prod_sku = $this->getText($setXpath . "[$i]" . $skuXpath);
+                $prod_sku = trim(preg_replace('/SKU:|\\n/', '', $prod_sku));
+                $prod_qty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/@value');
+                $verify[$prod_sku] = $prod_qty;
             }
         }
         $buttonXpath = $this->_getControlXpath('button', 'update_qty');
@@ -76,6 +90,18 @@ class OrderInvoice_Helper extends Mage_Selenium_TestCase
             $this->assertTrue($this->isElementPresent($xpathInvoiced),
                     'Qty of invoiced products is incorrect at the orders form');
         }
+    }
+
+    /**
+     *
+     * @param type $searchData
+     */
+    public function openInvoice($searchData)
+    {
+        if (is_string($searchData)) {
+            $searchData = $this->loadData($searchData);
+        }
+        $this->assertTrue($this->searchAndOpen($searchData), 'Invoice is not found');
     }
 
 }

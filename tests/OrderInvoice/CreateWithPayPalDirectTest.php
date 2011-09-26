@@ -107,16 +107,7 @@ class OrderInvoice_CreateWithPayPalDirectTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         //Steps
-        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
-        $this->addParameter('order_id', $orderId);
-        $this->clickButton('invoice');
-        //Verifying
-        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
-        //Steps
-        $this->fillForm(array('amount' => $captureType));
-        $this->clickButton('submit_invoice');
-        //Verifying
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
     public function dataCaptureType()
@@ -152,9 +143,7 @@ class OrderInvoice_CreateWithPayPalDirectTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         //Steps
-        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
-        $this->addParameter('order_id', $orderId);
-        $this->orderInvoiceHelper()->createPartialInvoiceAndVerify($invoice);
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType, $invoice);
     }
 
     public function dataCapture()

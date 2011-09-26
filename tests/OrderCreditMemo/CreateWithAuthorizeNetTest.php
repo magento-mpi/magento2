@@ -108,16 +108,9 @@ class OrderCreditMemo_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $orderId = $this->orderHelper()->defineOrderIdFromTitle();
-
-        $this->addParameter('order_id', $orderId);
-        $this->clickButton('invoice');
-        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
-        $this->fillForm(array('amount' => $captureType));
-        $this->clickButton('submit_invoice');
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
         $this->clickButton('credit_memo');
         $this->clickButton($refundType);
         //Verifying
@@ -156,22 +149,16 @@ class OrderCreditMemo_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $orderId = $this->orderHelper()->defineOrderIdFromTitle();
-
-        $this->addParameter('order_id', $orderId);
-        $this->clickButton('invoice');
-        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
-        $this->fillForm(array('amount' => $captureType));
-        $this->clickButton('submit_invoice');
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->clickButton('credit_memo');
-        $this->clickButton($refundType);
+        $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
         //Verifying
         if ($refundType != 'refund') {
+            $this->clickButton('credit_memo');
+            $this->clickButton($refundType);
             $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
         } else {
+            $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType);
             $this->assertTrue($this->errorMessage('failed_authorize_online_refund'), $this->messages);
         }
     }

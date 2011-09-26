@@ -42,13 +42,12 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
      *
      * @param array $refundData
      */
-    public function createPartialShipmentAndVerify(array $shipmentData, $refundButton = 'refund_offline')
+    public function createCreditMemoAndVerifyProductQty($refundButton, $creditMemoData = array())
     {
-        $shipmentData = $this->arrayEmptyClear($shipmentData);
-        $this->clickButton('credit_memo');
-
+        $creditMemoData = $this->arrayEmptyClear($creditMemoData);
         $verify = array();
-        foreach ($shipmentData as $product => $options) {
+        $this->clickButton('credit_memo');
+        foreach ($creditMemoData as $product => $options) {
             if (is_array($options)) {
                 $sku = (isset($options['return_filter_sku'])) ? $options['return_filter_sku'] : NULL;
                 $productQty = (isset($options['qty_to_refund'])) ? $options['qty_to_refund'] : '%noValue%';
@@ -57,6 +56,18 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
                     $this->addParameter('sku', $sku);
                     $this->fillForm($options);
                 }
+            }
+        }
+        if (!$verify) {
+            $setXpath = $this->_getControlXpath('fieldset', 'product_line_to_refund');
+            $skuXpath = $this->_getControlXpath('field', 'product_sku');
+            $qtyXpath = $this->_getControlXpath('field', 'product_qty');
+            $productCount = $this->getXpathCount($setXpath);
+            for ($i = 1; $i <= $productCount; $i++) {
+                $prod_sku = $this->getText($setXpath . "[$i]" . $skuXpath);
+                $prod_sku = trim(preg_replace('/SKU:|\\n/', '', $prod_sku));
+                $prod_qty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/@value');
+                $verify[$prod_sku] = $prod_qty;
             }
         }
         $buttonXpath = $this->_getControlXpath('button', 'update_qty');

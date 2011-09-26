@@ -104,15 +104,8 @@ class OrderCreditMemo_CreateWithCheckTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-        $this->clickButton('invoice');
-        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
-        $this->clickButton('submit_invoice');
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->clickButton('credit_memo');
-        $this->assertTrue($this->checkCurrentPage('create_credit_memo'), $this->messages);
-        $this->clickButton('refund_offline');
-        //Verifying
-        $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
+        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');
     }
 
     /**
@@ -151,13 +144,8 @@ class OrderCreditMemo_CreateWithCheckTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-        $this->clickButton('invoice');
-        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
-        $this->clickButton('submit_invoice');
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
-        $this->orderCreditMemoHelper()->createPartialShipmentAndVerify($creditMemo);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
+        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline', $creditMemo);
     }
 
 }

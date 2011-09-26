@@ -28,13 +28,13 @@
  */
 
 /**
- * Creating Order with specific shipment
+ * Test with variations of address
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
+class Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
 {
 
     /**
@@ -61,7 +61,6 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
@@ -70,30 +69,46 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating order with different shipment methods</p>
-     * <p>Steps:</p>
-     * <p>1. Navigate to "Manage Orders" page;</p>
-     * <p>2. Create new order for new customer;</p>
-     * <p>3. Select simple product and add it to the order;</p>
-     * <p>4. Fill in all required information;</p>
-     * <p>5. Choose shipping method;</p>
-     * <p>6. Choose payment method;</p>
-     * <p>6. Click "Submit Order" button;</p>
-     * <p>Expected result:</p>
-     * <p>Order is created;</p>
+     * <p>Create customer for tests</p>
      *
-     * @depends createSimpleProduct
-     * @dataProvider dataShipment
      * @test
      */
-    public function differentShipmentMethods($shipment, $simpleSku)
+    public function createCustomer()
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
-        $orderData['shipping_data'] = $this->loadData('shipping_' . $shipment);
+        $userData = $this->loadData('generic_customer_account', NULL, 'email');
+        $addressData = $this->loadData('all_fields_address');
+        //Steps
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData, $addressData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
+
+        return $userData['email'];
+    }
+
+    /**
+     * <p>Creating order for existing customer with same billing and shipping addresses.</p>
+     * <p>Steps:</p>
+     * <p>1. Navigate to "Manage Orders" page;</p>
+     * <p>2. Create new order and choose existing customer from the list;</p>
+     * <p>3. Choose existing address for billing and shipping;</p>
+     * <p>4. Fill in all required fields (add products, add payment method information, choose shipping method, etc);</p>
+     * <p>5. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Order is created, no error messages appear;</p>
+     *
+     * @depends createSimpleProduct
+     * @depends createCustomer
+     * @test
+     */
+    public function existingCustomerWithAddress($simpleSku, $customer)
+    {
+        //Data
+        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku, 'email' => $customer));
+        unset($orderData['billing_addr_data']);
+        unset($orderData['shipping_addr_data']);
         //Steps And Verifying
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($shipment . '_enable');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
@@ -105,19 +120,6 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
-    }
-
-    public function dataShipment()
-    {
-        return array(
-            array('flatrate'),
-            array('free'),
-            array('ups'),
-            array('upsxml'),
-            array('usps'),
-            array('fedex'),
-            array('dhl')
-        );
     }
 
 }

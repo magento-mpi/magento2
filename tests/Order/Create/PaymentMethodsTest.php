@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -37,611 +38,136 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * <p>Preconditions:</p>
-     *
      * <p>Log in to Backend.</p>
-     * <p>Navigate to 'System Configuration' page</p>
-     * <p>Enable all shipping methods</p>
      */
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
     }
+
     protected function assertPreConditions()
-    {}
+    {
+        $this->addParameter('id', '0');
+    }
+
     /**
+     * Create Simple Product for tests
+     *
      * @test
      */
-    public function createProducts()
+    public function createSimpleProduct()
     {
+        //Data
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        //Steps
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->addParameter('id', '0');
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
         $this->productHelper()->createProduct($productData);
+        //Verifying
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        return $productData;
+
+        return $productData['general_sku'];
     }
 
     /**
-     * <p>Visa credit card.</p>
+     * <p>Create Orders using differnt payment methods without 3DSecure</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders.</p>
      * <p>2.Press "Create New Order" button.</p>
      * <p>3.Press "Create New Customer" button.</p>
      * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
+     * <p>5.Press 'Add Products' button.</p>
+     * <p>6.Add simple product.</p>
+     * <p>7.Fill all required fields in billing address form.</p>
      * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Credit Card - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
+     * <p>9.Check shipping method</p>
+     * <p>10.Check payment method</p>
+     * <p>11.Submit order.</p>
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer.</p>
      *
-     * @depends createProducts
+     * @depends createSimpleProduct
+     * @dataProvider dataWithout3DSecure
      * @test
      */
-    public function savedCC($productData)
+    public function createOrderWithout3DSecure($payment, $simpleSku)
     {
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_' . $payment . '_flatrate', array('filter_sku' => $simpleSku));
+        //Steps
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('saved_cc_wo3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
+        if ($payment == 'paypaldirect' || $payment == 'paypaldirectuk' || $payment == 'payflowpro') {
+            $this->systemConfigurationHelper()->configure('paypal_enable');
+        }
+        if ($payment != 'checkmoney') {
+            $payment .= '_without_3Dsecure';
+        }
+        $this->systemConfigurationHelper()->configure($payment);
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_visa_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+    }
+
+    public function dataWithout3DSecure()
+    {
+        return array(
+            array('paypaldirect'),
+            array('savedcc'),
+            array('paypaldirectuk'),
+            array('checkmoney'),
+            array('payflowpro'),
+            array('authorizenet')
+        );
     }
 
     /**
-     * <p>Check/Money order.</p>
+     * <p>Create Orders using differnt payment methods with 3DSecure</p>
      * <p>Steps:</p>
      * <p>1.Go to Sales-Orders.</p>
      * <p>2.Press "Create New Order" button.</p>
      * <p>3.Press "Create New Customer" button.</p>
      * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
+     * <p>5.Press 'Add Products' button.</p>
+     * <p>6.Add simple product.</p>
+     * <p>7.Fill all required fields in billing address form.</p>
      * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Check/Money Order'</p>
-     * <p>10.Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
+     * <p>9.Check shipping method</p>
+     * <p>10.Check payment method</p>
+     * <p>11.Validate card with 3D secure</p>
      * <p>12.Submit order.</p>
      * <p>Expected result:</p>
      * <p>New customer is created. Order is created for the new customer.</p>
      *
-     * @depends createProducts
+     * @depends createSimpleProduct
+     * @dataProvider dataWith3DSecure
      * @test
      */
-    public function checkMoneyOrder($productData)
+    public function createOrderWith3DSecure($payment, $simpleSku)
     {
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_' . $payment . '_flatrate', array('filter_sku' => $simpleSku));
+        //Steps
+        $this->navigate('system_configuration');
+        if ($payment == 'paypaldirect' || $payment == 'paypaldirectuk' || $payment == 'payflowpro') {
+            $this->systemConfigurationHelper()->configure('paypal_enable');
+        }
+        $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
         $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_check_money_order_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
     }
 
-    /**
-     * <p>AuthorizeNet.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Credit Card - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Invoice order.</p>
-     * <p>14. Ship order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
-     *
-     * @depends createProducts
-     * @test
-     */
-    public function authorizeNet($productData)
+    public function dataWith3DSecure()
     {
-        //Preconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('authorize_net_without_3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_authorize_net_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('authorize_net_without_3d_disable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
+        return array(
+            array('paypaldirect'),
+            array('savedcc'),
+            array('paypaldirectuk'),
+            array('payflowpro'),
+            array('authorizenet')
+        );
     }
 
-    /**
-     * <p>PayPalUkDirect.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'PayPalUkDirect'</p>
-     * <p>10.Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
-     *
-     * @depends createProducts
-     * @test
-     */
-    public function payPalUKDirect($productData)
-    {
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $paypal = $this->loadData('paypal_enable');
-        $this->fillForm($paypal, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayPalUKDirect
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_enable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_paypal_direct_payment_payflow_edition_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_disable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
-    }
-    /**
-     * <p>PayflowPro.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Payflow Pro'</p>
-     * <p>10.Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
-     *
-     * @depends createProducts
-     * @test
-     */
-    public function payFlowProVerisign($productData)
-    {
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('paypal_enable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayflowPro
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('payflow_pro_wo_3d_enable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_payflow_pro_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('payflow_pro_wo_3d_disable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-    }
-
-    /**
-     * <p>Website payments pro.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'PayPal Direct'</p>
-     * <p>10.Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
-     *
-     * @depends createProducts
-     * @test
-     */
-    public function payPalDirect($productData)
-    {
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('paypal_enable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling Website payments pro
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('website_payments_pro_wo_3d_enable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_website_payments_pro_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('website_payments_pro_wo_3d_disable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-    }
-
-    /**
-     * <p>AuthorizeNet.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add first two products.</p>
-     * <p>8.Choose shipping address the same as billing.</p>
-     * <p>9.Check payment method 'Credit Card - Visa'</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>13.Invoice order.</p>
-     * <p>14. Ship order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
-     *
-     * @depends createProducts
-     * @test
-     */
-    public function using3DSecureAuthorizeNet($productData)
-    {
-        //Preconditions: Enabling 3DSecure
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment_services/');
-        $this->clickControl('tab', 'sales_payment_services');
-        $payflowpro = $this->loadData('3d_secure_enable');
-        $this->fillForm($payflowpro, 'sales_payment_services');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling AuthorizeNet with 3D Secure
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('authorize_net_with_3d_enable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_authorize_net_3D_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment_services/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $payment = $this->loadData('authorize_net_with_3d_disable');
-        $this->fillForm($payment, 'sales_payment_methods');
-        $this->saveForm('save_config');
-    }
-
-    /**
-     * <p>PayPalUkDirect with 3D Secure.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add any product.</p>
-     * <p>8.Fill in all required fields in address.</p>
-     * <p>9.Check payment method 'PayPalUkDirect'. Enter 3D secure password</p>
-     * <p>10.Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
-     *
-     * @depends createProducts
-     * @test
-     */
-    public function using3DSecurePayPalUKDirect($productData)
-    {
-        //Preconditions: Enabling 3DSecure
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment_services/');
-        $this->clickControl('tab', 'sales_payment_services');
-        $payflowpro = $this->loadData('3d_secure_enable');
-        $this->fillForm($payflowpro, 'sales_payment_services');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $paypal = $this->loadData('paypal_enable');
-        $this->fillForm($paypal, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayPalUKDirect
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $paypalukdirect = $this->loadData('paypal_uk_direct_w_3d_enable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_paypal_direct_payment_payflow_edition_w3d_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $paypalukdirect = $this->loadData('paypal_uk_direct_wo_3d_disable');
-        $this->fillForm($paypalukdirect, 'sales_paypal');
-        $this->saveForm('save_config');
-    }
-
-    /**
-     * <p>Website payments pro with 3D Secure.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add any products.</p>
-     * <p>8.Fill all fields in addresses.</p>
-     * <p>9.Check payment method 'PayPal Direct'. Enter 3D Secure password.</p>
-     * <p>10.Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
-     *
-     * @depends createProducts
-     * @test
-     */
-    public function using3DSecurePayPalDirect($productData)
-    {
-        //Preconditions: Enabling 3DSecure
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment_services/');
-        $this->clickControl('tab', 'sales_payment_services');
-        $payflowpro = $this->loadData('3d_secure_enable');
-        $this->fillForm($payflowpro, 'sales_payment_services');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('paypal_enable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling Website payments pro
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('website_payments_pro_w_3d_enable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_website_payments_pro_w3d_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('website_payments_pro_wo_3d_disable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-    }
-
-    /**
-     * <p>PayflowPro with 3D Secure.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add any products.</p>
-     * <p>8.Fill all fields in addresses.</p>
-     * <p>9.Check payment method 'Payflow Pro'. Enter 3D secure password.</p>
-     * <p>10.Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
-     *
-     * @depends createProducts
-     * @test
-     */
-    public function using3DSecurePayFlowProVerisign($productData)
-    {
-        //Preconditions: Enabling 3DSecure
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment_services/');
-        $this->clickControl('tab', 'sales_payment_services');
-        $payflowpro = $this->loadData('3d_secure_enable');
-        $this->fillForm($payflowpro, 'sales_payment_services');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayPal
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('paypal_enable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling PayflowPro
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('payflow_pro_w_3d_enable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_payflow_pro_w3d_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/paypal/');
-        $this->clickControl('tab', 'sales_paypal');
-        $payflowpro = $this->loadData('payflow_pro_wo_3d_disable');
-        $this->fillForm($payflowpro, 'sales_paypal');
-        $this->saveForm('save_config');
-    }
-
-    /**
-     * <p>Visa credit card with 3D Secure.</p>
-     * <p>Steps:</p>
-     * <p>1.Go to Sales-Orders.</p>
-     * <p>2.Press "Create New Order" button.</p>
-     * <p>3.Press "Create New Customer" button.</p>
-     * <p>4.Choose 'Main Store' (First from the list of radiobuttons) if exists.</p>
-     * <p>5.Fill all fields.</p>
-     * <p>6.Press 'Add Products' button.</p>
-     * <p>7.Add any products.</p>
-     * <p>8.Fill all fields for addresses.</p>
-     * <p>9.Check payment method 'Credit Card - Visa'. Enter 3D secure password.</p>
-     * <p>10. Fill in all required fields.</p>
-     * <p>11.Choose first from 'Get shipping methods and rates'.</p>
-     * <p>12.Submit order.</p>
-     * <p>Expected result:</p>
-     * <p>New customer is created. Order is created for the new customer.</p>
-     *
-     * @depends createProducts
-     * @test
-     */
-    public function using3DSecureSavedCC($productData)
-    {
-        //Preconditions: Enabling 3DSecure
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment_services/');
-        $this->clickControl('tab', 'sales_payment_services');
-        $payflowpro = $this->loadData('3d_secure_enable');
-        $this->fillForm($payflowpro, 'sales_payment_services');
-        $this->saveForm('save_config');
-        //Preconditions: Enabling 3D for saved cc.
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_payment_methods');
-        $savedcc = $this->loadData('saved_cc_w3d_enable');
-        $this->fillForm($savedcc, 'sales_payment_methods');
-        $this->saveForm('save_config');
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_data_visa_w3d_1');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        //Postconditions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/payment/');
-        $this->clickControl('tab', 'sales_paypal');
-        $savedcc = $this->loadData('saved_cc_w3d_disable');
-        $this->fillForm($savedcc, 'sales_payment_methods');
-        $this->saveForm('save_config');
-    }
 }

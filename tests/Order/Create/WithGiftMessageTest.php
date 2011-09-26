@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -45,9 +46,30 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
     }
-    protected function assertPreConditions()
-    {}
 
+    protected function assertPreConditions()
+    {
+        $this->addParameter('id', '0');
+    }
+
+    /**
+     * Create Simple Product for tests
+     *
+     * @test
+     */
+    public function createSimpleProduct()
+    {
+        //Data
+        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        //Steps
+        $this->navigate('manage_products');
+        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+
+        return $productData['general_sku'];
+    }
 
     /**
      * <p>Creating order with gift messages for order</p>
@@ -61,53 +83,22 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created, no error messages appear, gift message added for the order;</p>
      *
+     * @depends createSimpleProduct
      * @test
      */
-    public function forOrder()
+    public function giftMessagePerOrder($simpleSku)
     {
-        //Precondtions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/sales/');
-        $this->clickControl('tab', 'sales_sales');
-        $gift = $this->loadData('gift_message_for_order_enable');
-        $this->fillForm($gift, 'sales_sales');
-        $this->saveForm('save_config');
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+                array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadData('gift_messages_per_order')));
         //Steps
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($productData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderData = $this->loadData('order_with_message_for_product',
-                array('filter_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
-        unset($orderData['gift_messages']);
-        $orderData = $this->arrayEmptyClear($orderData);
-        $this->addParameter('storeName', $orderData['store_view']);
-        $this->orderHelper()->navigateToCreateOrderPage();
-        $this->orderHelper()->addProductsToOrder($orderData['products_to_add']);
-        $this->fillForm($orderData['account_data'], 'order_account_information');
-        $this->orderHelper()->fillOrderAddress('new', 'billing',  $orderData['billing_addr_data']);
-        $this->orderHelper()->fillOrderAddress('sameAsBilling');
-        $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
-        $this->orderHelper()->selectShippingMethod($orderData['shipping_data']);
-        $message = array('from_order_level' => 'from_test', 'to_order_level' => 'to_test',
-            'message_order_level' => 'some message');
-        $this->fillForm($message);
-        $this->clickButton('submit_order');
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-        //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/sales/');
-        $this->clickControl('tab', 'sales_sales');
-        $gift = $this->loadData('gift_message_for_order_disable');
-        $this->fillForm($gift, 'sales_sales');
-        $this->saveForm('save_config');
+        $this->systemConfigurationHelper()->configure('gift_message_for_order_enable');
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->orderHelper()->verifyGiftMessage($orderData['gift_messages']);
     }
 
     /**
@@ -122,40 +113,23 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created, no error messages appear, gift message added for the products;</p>
      *
+     * @depends createSimpleProduct
      * @test
      */
-    public function forProducts()
+    public function giftMessageForProduct($simpleSku)
     {
-        //Precondtions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/sales/');
-        $this->clickControl('tab', 'sales_sales');
-        $gift = $this->loadData('gift_message_for_item_enable');
-        $this->fillForm($gift, 'sales_sales');
-        $this->saveForm('save_config');
+        //Data
+        $gift = $this->loadData('gift_messages_individual', array('sku_product' => $simpleSku));
+        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+                array('filter_sku' => $simpleSku, 'gift_messages' => $gift));
         //Steps
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($productData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $orderData = $this->loadData('order_with_message_for_product',
-                array('general_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/sales/');
-        $this->clickControl('tab', 'sales_sales');
-        $gift = $this->loadData('gift_message_for_item_disable');
-        $this->fillForm($gift, 'sales_sales');
-        $this->saveForm('save_config');
+        $this->systemConfigurationHelper()->configure('gift_message_per_item_enable');
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->orderHelper()->verifyGiftMessage($orderData['gift_messages']);
     }
 
     /**
@@ -170,39 +144,23 @@ class Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Order is created, no error messages appear;</p>
      *
+     * @depends createSimpleProduct
      * @test
      */
-    public function withEmptyFields()
+    public function giftMessagesWithEmptyFields($simpleSku)
     {
-        //Precondtions
-        $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/sales/');
-        $this->clickControl('tab', 'sales_sales');
-        $gift = $this->loadData('gift_message_for_item_enable');
-        $this->fillForm($gift, 'sales_sales');
-        $this->saveForm('save_config');
+        //Data
+        $gift = $this->loadData('gift_messages_with_empty_fields', array('sku_product' => $simpleSku));
+        $orderData = $this->loadData('order_physical', array('filter_sku' => $simpleSku, 'gift_messages' => $gift));
         //Steps
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
-        $this->productHelper()->createProduct($productData);
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $orderData = $this->loadData('order_with_message_empty_fields_for_product',
-                array('general_sku' => $productData['general_sku']));
-        $orderData['account_data']['customer_email'] = $this->generate('email', 32, 'valid');
-        $orderData['products_to_add']['product_1']['filter_sku'] = $productData['general_sku'];
-        $this->navigate('manage_sales_orders');
-        $this->assertTrue($this->checkCurrentPage('manage_sales_orders'), $this->messages);
-        $orderId = $this->orderHelper()->createOrder($orderData);
-        //Postconditions
         $this->navigate('system_configuration');
-        $this->assertTrue($this->checkCurrentPage('system_configuration'), $this->messages);
-        $this->addParameter('tabName', 'edit/section/sales/');
-        $this->clickControl('tab', 'sales_sales');
-        $gift = $this->loadData('gift_message_for_item_disable');
-        $this->fillForm($gift, 'sales_sales');
-        $this->saveForm('save_config');
+        $this->systemConfigurationHelper()->configure('gift_message_all_enable');
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $this->orderHelper()->verifyGiftMessage($this->loadData('gift_messages_with_empty_fields_expected',
+                        array('sku_product' => $simpleSku)));
     }
+
 }

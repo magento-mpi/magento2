@@ -105,15 +105,7 @@ class OrderInvoice_CreateWithCheckTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         //Steps
-        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
-        $this->addParameter('order_id', $orderId);
-        $this->clickButton('invoice');
-        //Verifying
-        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
-        //Steps
-        $this->clickButton('submit_invoice');
-        //Verifying
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
     }
 
     /**
@@ -153,9 +145,7 @@ class OrderInvoice_CreateWithCheckTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         //Steps
-        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
-        $this->addParameter('order_id', $orderId);
-        $this->orderInvoiceHelper()->createPartialInvoiceAndVerify($invoice);
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty(null, $invoice);
     }
 
 }

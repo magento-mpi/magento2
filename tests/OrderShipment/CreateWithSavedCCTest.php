@@ -106,13 +106,7 @@ class OrderShipment_CreateWithSavedCCTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         //Steps
-        $this->clickButton('ship');
-        //Verifying
-        $this->assertTrue($this->checkCurrentPage('create_shipment'), $this->messages);
-        //Steps
-        $this->clickButton('submit_shipment');
-        //Verifying
-        $this->assertTrue($this->successMessage('success_creating_shipment'), $this->messages);
+        $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
     }
 
     /**
@@ -153,7 +147,7 @@ class OrderShipment_CreateWithSavedCCTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         //Steps
-        $this->orderShipmentHelper()->createPartialShipmentAndVerify($shipment);
+        $this->orderShipmentHelper()->createShipmentAndVerifyProductQty($shipment);
     }
 
 }

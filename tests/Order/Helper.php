@@ -58,9 +58,9 @@ class Order_Helper extends Mage_Selenium_TestCase
         $page = $this->getUimapPage('admin', 'create_order_for_existing_customer');
         $fieldset = $page->findFieldset('order_' . $addrType . '_address');
         $fields = $fieldset->getAllFields();
-        $required = $fieldset->getAllRequired();
+        $requiredFields = $fieldset->getAllRequired();
         $req = array();
-        foreach ($required as $key => $value) {
+        foreach ($requiredFields as $key => $value) {
             $req[] = $value;
         }
         if ($required) {
@@ -76,7 +76,8 @@ class Order_Helper extends Mage_Selenium_TestCase
                 $return[$fieldsKey] = $this->generate('string', $symNum, $charsType);
             }
         }
-
+        $return[$addrType . '_country'] = 'Ukraine';
+        $return['address_choice'] = 'new';
         return $return;
     }
 
@@ -99,6 +100,7 @@ class Order_Helper extends Mage_Selenium_TestCase
         $shippingAddr = (isset($orderData['shipping_addr_data'])) ? $orderData['shipping_addr_data'] : NULL;
         $paymentMethod = (isset($orderData['payment_data'])) ? $orderData['payment_data'] : NULL;
         $shippingMethod = (isset($orderData['shipping_data'])) ? $orderData['shipping_data'] : NULL;
+        $giftMessages = (isset($orderData['gift_messages'])) ? $orderData['gift_messages'] : array();
 
         $this->navigateToCreateOrderPage($customer, $storeView);
         $this->fillForm($account, 'order_account_information');
@@ -120,6 +122,7 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->selectShippingMethod($shippingMethod, $validate);
         }
         $this->selectPaymentMethod($paymentMethod, $validate);
+        $this->addGiftMessage($giftMessages);
 
         $this->saveForm('submit_order');
     }
@@ -330,7 +333,7 @@ class Order_Helper extends Mage_Selenium_TestCase
                         foreach ($a as $field => $fieldValue) {
                             if ($this->isElementPresent($fieldValue)) {
                                 $this->fillForm(array($field => $field_value));
-                                continue;
+                                break;
                             }
                         }
                     }
@@ -355,7 +358,7 @@ class Order_Helper extends Mage_Selenium_TestCase
         if ($payment) {
             if ($this->errorMessage('no_payment')) {
                 if ($validate) {
-                    $this->fail('TNo Payment Information Required');
+                    $this->fail('No Payment Information Required');
                 }
             } else {
                 $this->addParameter('paymentTitle', $payment);
@@ -471,18 +474,43 @@ class Order_Helper extends Mage_Selenium_TestCase
         if (array_key_exists('entire_order', $giftMessages)) {
             $this->fillForm($giftMessages['entire_order']);
         }
-        if (array_key_exists('individual_items', $giftMessages)) {
-            foreach ($giftMessages['individual_items'] as $clue => $dataset) {
-                if (preg_match('/general_sku/', $clue)) {
-                    $this->addParameter('sku', $dataset);
-                } else {
+        if (array_key_exists('individual', $giftMessages)) {
+            foreach ($giftMessages['individual'] as $product => $options) {
+                if (is_array($options) && isset($options['sku_product'])) {
+                    $this->addParameter('sku', $options['sku_product']);
                     $this->clickControl('link', 'gift_options', FALSE);
                     $this->waitForAjax();
-                    $this->fillForm($dataset);
+                    $this->fillForm($options);
                     $this->clickButton('ok', FALSE);
                     $this->pleaseWait();
                 }
             }
+        }
+    }
+
+    /**
+     *
+     * @param array $giftMessages
+     */
+    public function verifyGiftMessage(array $giftMessages)
+    {
+        if (array_key_exists('entire_order', $giftMessages)) {
+            $this->verifyForm($giftMessages['entire_order']);
+        }
+        if (array_key_exists('individual', $giftMessages)) {
+            foreach ($giftMessages['individual'] as $product => $options) {
+                if (is_array($options) && isset($options['sku_product'])) {
+                    $this->addParameter('sku', $options['sku_product']);
+                    $this->clickControl('link', 'gift_options', FALSE);
+                    $this->waitForAjax();
+                    $this->verifyForm($options);
+                    $this->clickButton('ok', FALSE);
+                    $this->pleaseWait();
+                }
+            }
+        }
+        if (!empty($this->messages['error'])) {
+            $this->fail(implode("\n", $this->messages['error']));
         }
     }
 
@@ -493,14 +521,15 @@ class Order_Helper extends Mage_Selenium_TestCase
      */
     public function applyCoupon($coupons, $validate = TRUE)
     {
+        if (is_string($coupons)) {
+            $coup[] = $coupons;
+            $coupons = $coup;
+        }
         $xpath = $this->_getControlXpath('fieldset', 'order_apply_coupon_code');
         if (!$this->isElementPresent($xpath) && $coupons) {
             $this->fail('Can not add coupon(Product is not added)');
         }
 
-        if (is_string($coupons)) {
-            $coupons[] = $coupons;
-        }
         foreach ($coupons as $code) {
             $this->fillForm(array('coupon_code' => $code));
             $this->clickButton('apply', FALSE);

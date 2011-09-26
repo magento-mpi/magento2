@@ -107,18 +107,10 @@ class OrderCreditMemo_CreateWithPayFlowProVerisignTest extends Mage_Selenium_Tes
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $orderId = $this->orderHelper()->defineOrderIdFromTitle();
-        $this->addParameter('order_id', $orderId);
-        $this->clickButton('invoice');
-        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
-        $this->fillForm(array('amount' => $captureType));
-        $this->clickButton('submit_invoice');
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->clickButton('credit_memo');
-        $this->clickButton($refundType);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
+        $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
+        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType);
     }
 
     public function dataCreditMemo()

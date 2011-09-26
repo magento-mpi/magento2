@@ -107,18 +107,10 @@ class OrderCreditMemo_CreateWithPayPalDirectTest extends Mage_Selenium_TestCase
         $this->orderHelper()->createOrder($orderData);
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $orderId = $this->orderHelper()->defineOrderIdFromTitle();
-        $this->addParameter('order_id', $orderId);
-        $this->clickButton('invoice');
-        $this->assertTrue($this->checkCurrentPage('create_invoice'), $this->messages);
-        $this->fillForm(array('amount' => $captureType));
-        $this->clickButton('submit_invoice');
-        $this->assertTrue($this->successMessage('success_creating_invoice'), $this->messages);
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
-        $this->clickButton('credit_memo');
-        $this->clickButton($refundType);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
+        $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
+        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType);
     }
 
     public function dataCreditMemo()
@@ -132,11 +124,27 @@ class OrderCreditMemo_CreateWithPayPalDirectTest extends Mage_Selenium_TestCase
 
     /**
      * @depends createSimpleProduct
+     * @dataProvider dataCreditMemo
      * @test
      */
-    public function partialCreditMemo($simpleSku)
+    public function partialCreditMemo($captureType, $refundType, $simpleSku)
     {
-        $this->markTestSkipped('Need implement');
+        //Data
+        $orderData = $this->loadData('order_newcustmoer_paypaldirect_flatrate',
+                array('filter_sku' => $simpleSku, 'product_qty' => 10));
+        $creditMemo = $this->loadData('products_to_refund', array('return_filter_sku' => $simpleSku));
+        //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('paypal_enable');
+        $this->systemConfigurationHelper()->configure('paypaldirect_without_3Dsecure');
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
+        $orderId = $this->orderHelper()->defineOrderIdFromTitle();
+        $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
+        $this->navigate('manage_sales_invoices');
+        $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
+        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, $creditMemo);
     }
 
 }

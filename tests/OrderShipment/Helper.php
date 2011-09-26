@@ -42,12 +42,12 @@ class OrderShipment_Helper extends Mage_Selenium_TestCase
      *
      * @param array $shipmentData
      */
-    public function createPartialShipmentAndVerify(array $shipmentData)
+    public function createShipmentAndVerifyProductQty(array $shipmentData = array())
     {
         $shipmentData = $this->arrayEmptyClear($shipmentData);
-        $this->clickButton('ship');
-
         $verify = array();
+
+        $this->clickButton('ship');
         foreach ($shipmentData as $product => $options) {
             if (is_array($options)) {
                 $sku = (isset($options['ship_product_sku'])) ? $options['ship_product_sku'] : NULL;
@@ -57,6 +57,18 @@ class OrderShipment_Helper extends Mage_Selenium_TestCase
                     $this->addParameter('sku', $sku);
                     $this->fillForm(array('qty_to_ship' => $productQty));
                 }
+            }
+        }
+        if (!$verify) {
+            $setXpath = $this->_getControlXpath('fieldset', 'product_line_to_ship');
+            $skuXpath = $this->_getControlXpath('field', 'product_sku');
+            $qtyXpath = $this->_getControlXpath('field', 'product_qty');
+            $productCount = $this->getXpathCount($setXpath);
+            for ($i = 1; $i <= $productCount; $i++) {
+                $prod_sku = $this->getText($setXpath . "[$i]" . $skuXpath);
+                $prod_sku = trim(preg_replace('/SKU:|\\n/', '', $prod_sku));
+                $prod_qty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/@value');
+                $verify[$prod_sku] = $prod_qty;
             }
         }
         $this->clickButton('submit_shipment');
