@@ -515,7 +515,8 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
             $buyRequest = Mage::helper('catalog/product')->addParamsToBuyRequest($buyRequest, $params);
 
             $product->setWishlistStoreId($item->getStoreId());
-            $resultItem = $this->addNewItem($product, $buyRequest, true);
+            $resultItem = $this->addNewItem($product, $buyRequest);
+            //$resultItem = $this->addNewItem($product, $buyRequest, true);
             /**
              * Error message
              */
@@ -532,7 +533,10 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
 
                 $items = $this->getItemCollection();
                 foreach ($items as $_item) {
-                    if ($_item->getProductId() == $productId && $_item->getId() != $resultItem->getId()) {
+                    if ($_item->getProductId() == $productId
+                        && $_item->getId() != $resultItem->getId()
+                        && $_item->getId() != $itemId
+                    ) {
                         if ($resultItem->representProduct($_item->getProduct())) {
                             $resultItem->setQty($resultItem->getQty() + $_item->getQty());
                             $_item->isDeleted(true);
@@ -541,6 +545,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
                 }
             } else {
                 $resultItem->setQty($buyRequest->getQty()*1);
+                $resultItem->setOrigData('qty',0);
             }
         } else {
             Mage::throwException(Mage::helper('checkout')->__('The product does not exist.'));
