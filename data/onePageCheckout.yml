@@ -744,6 +744,92 @@ checkout_data_saved_cc_req_loggedin_no_payment_method:
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
 
+#<---------Data for registration customer during checkout------------------>
+checkout_data_register:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+        product_2: %noValue%
+    checkout_as_customer: *register
+    billing_address_data: *billingRegisterReq
+    shipping_address_data: *shippingRegisterUseBilling
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    gift_messages:
+        entire_order:
+            gift_option_entire_order_from: %noValue%
+            gift_option_entire_order_to: %noValue%
+            gift_option_entire_order_message: %noValue%
+        individual_items:
+            product_1:
+                general_sku: %noValue%
+                message_option:
+                    gift_option_for_individual_items_from: %noValue%
+                    gift_option_for_individual_items_to: %noValue%
+                    gift_option_for_individual_items_message: %noValue%
+    payment_data:
+        payment_method: Check / Money order
+
+checkout_data_undefined:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+        product_2: %noValue%
+    checkout_as_customer:
+        checkout_method: 123
+
+checkout_data_billing_empty_fields:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+        product_2: %noValue%
+    checkout_as_customer: *register
+    billing_address_data: *billingRegisterReq
+
+checkout_data_shipping_empty_fields:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+        product_2: %noValue%
+    checkout_as_customer: *register
+    billing_address_data: *billingRegisterReq
+    shipping_address_data: *shippingRegisterAll
+
+checkout_data_shipping_method_undefined:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+        product_2: %noValue%
+    checkout_as_customer: *register
+    billing_address_data: *billingRegisterReq
+    shipping_address_data: *shippingRegisterAll
+    shipping_data:
+        shipping_service: NO
+        shipping_method: NO
+
+checkout_data_payment_method_undefined:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+        product_2: %noValue%
+    checkout_as_customer: *register
+    billing_address_data: *billingRegisterReq
+    shipping_address_data: *shippingRegisterAll
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+
+checkout_data_register_for_virtual:
+    products_to_add:
+        product_1:
+            general_name: %noValue%
+        product_2: %noValue%
+    checkout_as_customer: *register
+    billing_address_data: *billingRegisterForVirtual
+    payment_data:
+        payment_method: Check / Money order
+
 #<-------------Payment Methods Without 3D For Registered Customer-------------->
 checkout_data_registered_savedcc_flatrate:
     products_to_add:
