@@ -703,7 +703,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         // validate bind
         list($pk, $fk) = explode('=', $bind);
         $pk = $this->getSelect()->getAdapter()->quoteColumnAs(trim($pk), null);
-        $bindCond = $tableAlias . '.' . $pk . '=' . $this->_getAttributeFieldName($fk);
+        $bindCond = $tableAlias . '.' . trim($pk) . '=' . $this->_getAttributeFieldName(trim($fk));
 
         // process join type
         switch ($joinType) {
