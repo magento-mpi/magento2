@@ -10,9 +10,10 @@
  */
 
 /**
+ * As far none class is present as separate bundle product,
+ * this test is clone of Mage_Catalog_Model_Product with product type "bundle"
  *
  * @group module:Mage_Bundle
- * @magentoDataFixture Mage/Bundle/_files/products.php
  */
 class Mage_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
 {
@@ -60,21 +61,6 @@ class Mage_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertSame($bundleSingleton, $this->_model->getTypeInstance(true));
     }
 
-    public function testGetIdBySku()
-    {
-        $this->assertEquals(1, $this->_model->getIdBySku('bundle_product_one')); // fixture
-    }
-
-    public function testGetAttributes()
-    {
-        // fixture required
-        $this->_model->load(1);
-        $attributes = $this->_model->getAttributes();
-        $this->assertArrayHasKey('name', $attributes);
-        $this->assertArrayHasKey('sku', $attributes);
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Eav_Attribute', $attributes['sku']);
-    }
-
     /**
      * @magentoAppIsolation enabled
      */
@@ -94,49 +80,10 @@ class Mage_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     public function testGetPriceModel()
     {
-        $default = $this->_model->getPriceModel();
-        $this->assertInstanceOf('Mage_Catalog_Model_Product_Type_Price', $default);
-        $this->assertSame($default, $this->_model->getPriceModel());
-
         $this->_model->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
         $type = $this->_model->getPriceModel();
         $this->assertInstanceOf('Mage_Bundle_Model_Product_Price', $type);
         $this->assertSame($type, $this->_model->getPriceModel());
-    }
-
-    /**
-     * @covers Mage_Catalog_Model_Product::getCalculatedFinalPrice
-     * @covers Mage_Catalog_Model_Product::getMinimalPrice
-     * @covers Mage_Catalog_Model_Product::getSpecialPrice
-     * @covers Mage_Catalog_Model_Product::getSpecialFromDate
-     * @covers Mage_Catalog_Model_Product::getSpecialToDate
-     * @covers Mage_Catalog_Model_Product::getRequestPath
-     * @covers Mage_Catalog_Model_Product::getGiftMessageAvailable
-     * @covers Mage_Catalog_Model_Product::getRatingSummary
-     * @dataProvider getObsoleteGettersDataProvider
-     * @param string $key
-     * @param string $method
-     */
-    public function testGetObsoleteGetters($key, $method)
-    {
-        $value = uniqid();
-        $this->assertEmpty($this->_model->$method());
-        $this->_model->setData($key, $value);
-        $this->assertEquals($value, $this->_model->$method());
-    }
-
-    public function getObsoleteGettersDataProvider()
-    {
-        return array(
-            array('calculated_final_price', 'getCalculatedFinalPrice'),
-            array('minimal_price', 'getMinimalPrice'),
-            array('special_price', 'getSpecialPrice'),
-            array('special_from_date', 'getSpecialFromDate'),
-            array('special_to_date', 'getSpecialToDate'),
-            array('request_path', 'getRequestPath'),
-            array('gift_message_available', 'getGiftMessageAvailable'),
-            array('rating_summary', 'getRatingSummary'),
-        );
     }
 
     public function testIsComposite()
