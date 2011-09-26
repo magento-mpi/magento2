@@ -53,7 +53,7 @@ class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         $adjustmentPositive = 2;
         $adjustmentNegative = 1;
         $data = array(
-            'qtys' => $qtys,
+            'qtys'                => $qtys,
             'adjustment_positive' => $adjustmentPositive,
             'adjustment_negative' => $adjustmentNegative
         );
@@ -87,7 +87,7 @@ class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
         $this->assertArrayHasKey('items', $creditmemoInfo);
         $this->assertInternalType('array', $creditmemoInfo['items']);
         $this->assertGreaterThan(0, count($creditmemoInfo['items']));
-        //$this->assertArrayHasKey($creditmemoInfo['items'][0]['order_item_id'], $qtys);
+
         $this->assertEquals($creditmemoInfo['items'][0]['order_item_id'], $qtys[0]['order_item_id']);
         $this->assertEquals($product->getId(), $creditmemoInfo['items'][0]['product_id']);
 
@@ -170,7 +170,6 @@ class SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     {
         $this->call('order_creditmemo.info', array('invalid-id'));
     }
-
 
     /**
      * Test exception on invalid credit memo cancel
