@@ -83,12 +83,9 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
                 return false;
             }
         } else {
-            if ($package . '/' . $theme == '/') {
-                $this->_getSession()->addError(Mage::helper('widget')->__('Wrong Design Package or Theme specified.'));
-                return false;
-            }
+            $packageTheme = $package . '/' . $theme == '/' ? null : $package . '/' . $theme;
             $widgetInstance->setType($type)
-                ->setPackageTheme($package . '/' . $theme);
+                ->setPackageTheme($packageTheme);
         }
         Mage::register('current_widget_instance', $widgetInstance);
         return $widgetInstance;
