@@ -37,12 +37,12 @@ class Mage_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
     {
         // model getter
         $model = $this->_model->getTypeInstance();
-        $this->assertInstanceOf('Mage_Catalog_Model_Product_Type_Abstract', $model);
+        $this->assertInstanceOf('Mage_Bundle_Model_Product_Type', $model);
         $this->assertSame($model, $this->_model->getTypeInstance());
 
         // singleton getter
         $singleton = $this->_model->getTypeInstance(true);
-        $this->assertInstanceOf('Mage_Catalog_Model_Product_Type_Abstract', $singleton);
+        $this->assertInstanceOf('Mage_Bundle_Model_Product_Type', $singleton);
         $this->assertNotSame($model, $this->_model->getTypeInstance(true));
         $this->assertSame($singleton, $this->_model->getTypeInstance(true));
 
