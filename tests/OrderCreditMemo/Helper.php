@@ -67,7 +67,7 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
                 $prod_sku = $this->getText($setXpath . "[$i]" . $skuXpath);
                 $prod_sku = trim(preg_replace('/SKU:|\\n/', '', $prod_sku));
                 if ($this->isElementPresent($qtyXpath . "/input")) {
-                    $prod_qty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/@value');
+                    $prod_qty = $this->getAttribute($setXpath . "[$i]" . $qtyXpath . '/input/@value');
                 } else {
                     $prod_qty = $this->getText($setXpath . "[$i]" . $qtyXpath);
                 }

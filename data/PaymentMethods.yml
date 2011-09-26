@@ -207,7 +207,8 @@ payflowpro_with_3Dsecure:
 #<-------------Saved CC------------------------>
 savedcc_with_3Dsecure:
     configuration_scope: Default Config
-    tab_1:
+    tab_1: *enable3DSecure
+    tab_2:
         tab_name: sales_payment_methods
         configuration:
             scc_enabled: Yes

@@ -477,7 +477,7 @@ saved_american_express: &americanExpressSavedCC
 saved_visa: &visaSavedCC
     name_on_card: 'Test Account'
     card_type: 'Visa'
-    card_number: '4111111111111111'
+    card_number: '4000000000000002'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
@@ -575,7 +575,7 @@ else_american_express: &americanExpressElse
 
 else_visa: &visaElse
     card_type: 'Visa'
-    card_number: '4111111111111111'
+    card_number: '4000000000000002'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'

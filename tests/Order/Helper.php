@@ -383,12 +383,31 @@ class Order_Helper extends Mage_Selenium_TestCase
         $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
         if ($this->isElementPresent($xpath)) {
             $this->clickButton('start_reset_validation', FALSE);
-            $xpath = $this->_getControlXpath('field', '3d_password');
-            $this->waitForElement($xpath);
-            $this->type($xpath, $password);
-            $this->clickButton('3d_submit', FALSE);
-            $this->waitForElementNotPresent($xpath);
             $this->pleaseWait();
+            $alert = $this->isAlertPresent();
+            if ($alert) {
+                $text = $this->getAlert();
+                $this->fail($text);
+            }
+            $this->waitForElement("//div//iframe[@id='centinel_authenticate_iframe'" .
+                    " and normalize-space(@style)='display: block;']");
+            $this->waitForElement("//body[@onbeforeunload and @onload]");
+            if ($this->isElementPresent("//input[@name='external.field.password']")) {
+                $this->type("//input[@name='external.field.password']", $password);
+                $this->click("//input[@value='Submit']");
+                $a = "//font//b[text()='Incorrect, Please try again']";
+                $b = "//html/body/h1[text()='Verification Successful']";
+                $this->waitForElement(array($a, $b));
+                $this->assertElementPresent("//html/body/h1[text()='Verification Successful']");
+            } else {
+                $this->fail('wrong card');
+            }
+//            $xpath = $this->_getControlXpath('field', '3d_password');
+//            $this->waitForElement($xpath);
+//            $this->type($xpath, $password);
+//            $this->clickButton('3d_submit', FALSE);
+//            $this->waitForElementNotPresent($xpath);
+//            $this->pleaseWait();
         }
     }
 

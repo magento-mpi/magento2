@@ -332,8 +332,8 @@ class Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         //Data
         $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
                 array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 22, 'valid')));
-        $orderData['billing_addr_data'] = $this->orderHelper()->customerAddressGenerator(':alnum:', 'billing', 280);
-        $orderData['shipping_addr_data'] = $this->orderHelper()->customerAddressGenerator(':alnum:', 'shipping', 280);
+        $orderData['billing_addr_data'] = $this->orderHelper()->customerAddressGenerator(':alnum:', 'billing', 255);
+        $orderData['shipping_addr_data'] = $this->orderHelper()->customerAddressGenerator(':alnum:', 'shipping', 255);
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
