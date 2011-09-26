@@ -37,11 +37,11 @@ class Magento_Test_Webservice_SoapV2
 
     public function init()
     {
-        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL.'/api/v2_soap/?wsdl=1');
+        $this->_client = new Zend_Soap_Client(TESTS_WEBSERVICE_URL . '/api/v2_soap/?wsdl=1');
         $this->_client->setSoapVersion(SOAP_1_1);
-        $this->_session = $this->_client->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
+        $this->_session        = $this->_client->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
         $this->_configFunction = Mage::getSingleton('api/config')->getNode('v2/resources_function_prefix')->children();
-        $this->_configAlias = Mage::getSingleton('api/config')->getNode('resources_alias')->children();
+        $this->_configAlias    = Mage::getSingleton('api/config')->getNode('resources_alias')->children();
     }
 
     public function login($api, $key)
@@ -50,8 +50,10 @@ class Magento_Test_Webservice_SoapV2
     }
 
     /**
-     * @param object $obj
-     * @return Array
+     * Convert object to array recursively
+     *
+     * @param object $soapResult
+     * @return array
      */
     public static function soapResultToArray($soapResult)
     {
@@ -75,32 +77,32 @@ class Magento_Test_Webservice_SoapV2
     }
 
     /**
-     * 
-     * 
-     * @param unknown_type $path
-     * @param unknown_type $params
+     * Do soap call
+     *
+     * @param string $path
+     * @param array $params
+     * @return array|mixed
      */
     public function call($path, $params = array())
     {
-        $pathExploded = explode('.', $path);
+        $pathExploded  = explode('.', $path);
 
-        $pathapi = $pathExploded[0];
-        $pathmethod = isset($pathExploded[1]) ? $pathExploded[1] : '';
-        $pathmethod[0] = strtoupper($pathmethod[0]);
+        $pathApi       = $pathExploded[0];
+        $pathMethod    = isset($pathExploded[1]) ? $pathExploded[1] : '';
+        $pathMethod[0] = strtoupper($pathMethod[0]);
         foreach ($this->_configAlias as $key => $value) {
-            if ((string)$value == $pathapi) {
-                $pathapi = $key;
+            if ((string) $value == $pathApi) {
+                $pathApi = $key;
                 break;
             }
         }
 
-        $soap2method = (string)$this->_configFunction->$pathapi;
-        $soap2method .= $pathmethod;
+        $soap2method = (string) $this->_configFunction->$pathApi;
+        $soap2method .= $pathMethod;
         array_unshift($params, $this->_session);
 
         $soapResult = call_user_func_array(array($this->_client, $soap2method), $params);
 
-        $result = array();
         if (is_array($soapResult) || is_object($soapResult)) {
             $result = self::soapResultToArray($soapResult);
         } else {
