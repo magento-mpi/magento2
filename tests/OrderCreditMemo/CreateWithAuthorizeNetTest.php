@@ -137,7 +137,6 @@ class OrderCreditMemo_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
      */
     public function partialRefund($captureType, $refundType, $simpleSku)
     {
-        $this->markTestIncomplete('Need implement');
         //Data
         $orderData = $this->loadData('order_newcustmoer_authorizenet_flatrate',
                 array('filter_sku' => $simpleSku, 'product_qty' => 10));
@@ -154,11 +153,10 @@ class OrderCreditMemo_CreateWithAuthorizeNetTest extends Mage_Selenium_TestCase
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
         //Verifying
         if ($refundType != 'refund') {
+            $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType);
+        } else {
             $this->clickButton('credit_memo');
             $this->clickButton($refundType);
-            $this->assertTrue($this->successMessage('success_creating_creditmemo'), $this->messages);
-        } else {
-            $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType);
             $this->assertTrue($this->errorMessage('failed_authorize_online_refund'), $this->messages);
         }
     }
