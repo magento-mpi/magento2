@@ -84,7 +84,7 @@ paypaldirectuk_without_3Dsecure:
             wpppe_password: testing678
             wpppe_sandbox_mode: Yes
             wpppe_api_uses_proxy: No
-            wpppe_allowed_credit_card_types: American Express, Visa, MasterCard,
+            wpppe_allowed_credit_card_types: all
             wpppe_require_cvv_entry: Yes
             wpppe_3d_secure_card_validation: No
 
@@ -106,7 +106,7 @@ paypaldirectuk_with_3Dsecure:
             wpppe_password: testing678
             wpppe_sandbox_mode: Yes
             wpppe_api_uses_proxy: No
-            wpppe_allowed_credit_card_types: American Express, Visa, MasterCard
+            wpppe_allowed_credit_card_types: all
             wpppe_require_cvv_entry: Yes
             wpppe_3d_secure_card_validation: Yes
             wpppe_severe_3d_secure_card_validation: No
@@ -127,7 +127,7 @@ paypaldirect_without_3Dsecure:
             wpp_countries_payment_applicable_from:
             wpp_debug_mode: Yes
             wpp_transfer_cart_line_items: No
-            wpp_allowed_credit_card_types: American Express, Visa, MasterCard
+            wpp_allowed_credit_card_types: all
             wpp_require_cvv_entry: Yes
             wpp_3d_secure_card_validation: No
 
@@ -146,7 +146,7 @@ paypaldirect_with_3Dsecure:
             wpp_countries_payment_applicable_from:
             wpp_debug_mode: Yes
             wpp_transfer_cart_line_items: No
-            wpp_allowed_credit_card_types: American Express, Visa, MasterCard
+            wpp_allowed_credit_card_types: all
             wpp_require_cvv_entry: Yes
             wpp_3d_secure_card_validation: Yes
             wpp_severe_3d_secure_card_validation: No
@@ -173,7 +173,7 @@ payflowpro_without_3Dsecure:
             pp_use_proxy: No
             pp_proxy_host: %noValue%
             pp_proxy_port: %noValue%
-            pp_allowed_credit_card_types: American Express, Visa, MasterCard
+            pp_allowed_credit_card_types: all
             pp_require_cvv_entry: Yes
             pp_3d_secure_card_validation: No
 
@@ -198,7 +198,7 @@ payflowpro_with_3Dsecure:
             pp_use_proxy: No
             pp_proxy_host: %noValue%
             pp_proxy_port: %noValue%
-            pp_allowed_credit_card_types: American Express, Visa, MasterCard
+            pp_allowed_credit_card_types: all
             pp_require_cvv_entry: Yes
             pp_3d_secure_card_validation: Yes
             pp_severe_3d_secure_card_validation: No
@@ -213,7 +213,7 @@ savedcc_with_3Dsecure:
             scc_enabled: Yes
             scc_title: Credit Card (saved)
             scc_new_order_status: %noValue%
-            scc_credit_card_type: American Express, Visa, MasterCard, Discover
+            scc_credit_card_type: all
             scc_request_card_security_code: Yes
             scc_3d_secure_card_validation: Yes
             scc_severe_3d_secure_card_validation: No
@@ -231,7 +231,7 @@ savedcc_without_3Dsecure:
             scc_enabled: Yes
             scc_title: Credit Card (saved)
             scc_new_order_status: %noValue%
-            scc_credit_card_type: American Express, Visa, MasterCard, Discover
+            scc_credit_card_type: all
             scc_request_card_security_code: Yes
             scc_3d_secure_card_validation: No
             scc_payment_from_applicable_countries: All Allowed Countries
@@ -288,7 +288,7 @@ authorizenet_without_3Dsecure:
             an_debug: Yes
             an_email_customer: %noValue%
             an_merchants_email: %noValue%
-            an_credit_card_types: American Express, Visa, MasterCard, Discover
+            an_credit_card_types: all
             an_credit_card_verification: Yes
             an_payment_from_applicable_countries: All Allowed Countries
             an_payment_from_specific_coutries: %noValue%
@@ -316,7 +316,7 @@ authorizenet_with_3Dsecure:
             an_debug: Yes
             an_email_customer: %noValue%
             an_merchants_email: %noValue%
-            an_credit_card_types: American Express, Visa, MasterCard, Discover
+            an_credit_card_types: all
             an_credit_card_verification: Yes
             an_payment_from_applicable_countries: All Allowed Countries
             an_payment_from_specific_coutries: %noValue%

@@ -117,30 +117,134 @@ new_customer:
     password: 123123q
     auto_generated_password: No
 
-new_customer_address:
-    prefix: 'Mr'
-    first_name: 'Steven'
-    middle_name: %noValue%
-    last_name: 'Stevenson'
-    suffix: 'Jr'
-    company: 'test'
-    street_address_line_1: 'number 11'
-    street_address_line_2: 'nothing'
-    city: 'Palo Alto'
-    country: 'United States'
-    state: California
-    region: %noValue%
-    zip_code: '90232'
-    telephone: '530-918-3581'
-    fax: %noValue%
-    default_billing_address: %noValue%
-    default_shipping_address: %noValue%
+shipping:
+    shipping_prefix: 'Mr(shipping)'
+    shipping_first_name: 'Steven(shipping)'
+    shipping_middle_name: 'Y(shipping)'
+    shipping_last_name: 'Stevenson(shipping)'
+    shipping_suffix: 'Jr(shipping)'
+    shipping_company: 'home(shipping)'
+    shipping_street_address_1: 'street_address_1(shipping)'
+    shipping_street_address_2: 'street_address_2(shipping)'
+    shipping_city: 'Palo Alto'
+    shipping_country: 'United States'
+    shipping_state: California
+    shipping_zip_code: '94306'
+    shipping_telephone: '091019019(shipping)'
+    shipping_fax: '0919327869(shipping)'
+    default_shipping_address: Yes
+    default_billing_address: no
+
+billing: &billingAll
+    billing_first_name: 'Steven(billing)'
+    billing_middle_name: 'Y(billing)'
+    billing_last_name: 'Stevenson(billing)'
+    billing_suffix: 'Jr(billing)'
+    billing_company: 'home(billing)'
+    billing_street_address_1: 'street_address_1(billing)'
+    billing_street_address_2: 'street_address_2(billing)'
+    billing_city: 'Palo Alto'
+    billing_country: 'United States'
+    billing_state: California
+    billing_zip_code: '94306'
+    billing_telephone: '091019019(billing)'
+    billing_fax: '0919327869(billing)'
+    default_billing_address: yes
+    default_shipping_address: No
 
 #*********************************************
 #*      Products Data                        *
 #*********************************************
 
 #<------------SIMPLE------------>
+simple_low_qty:
+    product_attribute_set: Default
+    general_name: Simple Product For Order
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_order
+    general_weight: 18.56
+    general_status: Enabled
+    prices_price: 54.95
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 2
+    inventory_stock_availability: In Stock
+    websites: Main Website
+
+simple_with_increments:
+    product_attribute_set: Default
+    general_name: Simple Product For Order
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_order
+    general_weight: 18.56
+    general_status: Enabled
+    prices_price: 54.95
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_enable_qty_increments_default: No
+    inventory_enable_qty_increments: Yes
+    inventory_qty_increments_default: No
+    inventory_qty_increments: 10
+    inventory_stock_availability: In Stock
+    websites: Main Website
+
+simple_out_of_stock:
+    product_attribute_set: Default
+    general_name: Simple Product For Order
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_order
+    general_weight: 18.56
+    general_status: Enabled
+    prices_price: 54.95
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 0
+    inventory_stock_availability: Out of Stock
+    websites: Main Website
+
+simple_min_allowed_qty:
+    product_attribute_set: Default
+    general_name: Simple Product For Order
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_order
+    general_weight: 18.56
+    general_status: Enabled
+    prices_price: 54.95
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_min_allowed_qty_default: No
+    inventory_min_allowed_qty: 10
+    inventory_stock_availability: In Stock
+    websites: Main Website
+
+simple_max_allowed_qty:
+    product_attribute_set: Default
+    general_name: Simple Product For Order
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_order
+    general_weight: 18.56
+    general_status: Enabled
+    prices_price: 54.95
+    prices_tax_class: None
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_max_allowed_qty_default: No
+    inventory_max_allowed_qty: 10
+    inventory_stock_availability: In Stock
+    websites: Main Website
+
 simple_product_for_order:
     product_attribute_set: Default
     general_name: Simple Product For Order
@@ -224,7 +328,7 @@ associated_grouped: &groupedAssociatedProduct1
     associated_product_default_qty: %noValue%
 
 associated_grouped_data: &associatedProductsGroupedData
-    associated_grouped_1: *groupedAssociatedProduct1
+    associated_grouped_1: %noValue%
     associated_grouped_2: %noValue%
     associated_grouped_3: %noValue%
 
@@ -315,7 +419,7 @@ fixed_bundle_for_order:
     bundle_items_data: *bundleData
 
 #<------------CONFIGURABLE------------>
-associated_configurable: &configurableAssociatedProduct1
+associated: &configurableAssociatedProduct1
     associated_search_id: %noValue%
     associated_search_name: %noValue%
     associated_search_attribute_set: %noValue%
@@ -328,8 +432,9 @@ associated_configurable: &configurableAssociatedProduct1
     associated_product_price_type: %noValue%
 
 associated_configurable_data: &associatedProductsConfigurableData
-    associated_configurable_1: *configurableAssociatedProduct1
+    associated_configurable_1: %noValue%
     associated_configurable_2: %noValue%
+    associated_configurable_3: %noValue%
 
 configurable_product_for_order:
     product_attribute_set: Default
@@ -353,6 +458,14 @@ configurable_product_for_order:
 #*********************************************
 
 #<------------Saved CC------------>
+saved_empty_all:
+    name_on_card: ' '
+    card_type: ' '
+    card_number: ' '
+    expiration_month: ' '
+    expiration_year: ' '
+    card_verification_number: ' '
+
 saved_american_express: &americanExpressSavedCC
     name_on_card: 'Test Account'
     card_type: 'American Express'
@@ -364,7 +477,7 @@ saved_american_express: &americanExpressSavedCC
 saved_visa: &visaSavedCC
     name_on_card: 'Test Account'
     card_type: 'Visa'
-    card_number: '4024007127653'
+    card_number: '4111111111111111'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
@@ -377,9 +490,76 @@ saved_mastercard: &mastercardSavedCC
     expiration_year: '2020'
     card_verification_number: '111'
 
+saved_jcb: &jcbSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'JCB'
+    card_number: '3530111333300000'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '1234'
+
+saved_laser: &laserSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'Laser'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+saved_uatp: &uatpSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'UATP'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+saved_diners_club: &dinersClubSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'Diners Club'
+    card_number: '30569309025904'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+saved_switch_maestro: &switchMaestroSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'Switch/Maestro'
+    card_number: '4024007127653'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
 saved_discover: &discoverSavedCC
     name_on_card: 'Test Account'
     card_type: 'Discover'
+    card_number: '6011000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+saved_solo: &soloSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'Solo'
+    card_number: '6767705369846419'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+    issue_number:
+    start_date_month: 12 - December
+    start_date_year: 2011
+
+saved_enroute: &enrouteSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'enRoute'
+    card_number: '6011000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+saved_other: &otherSavedCC
+    name_on_card: 'Test Account'
+    card_type: 'Other'
     card_number: '6011000000000004'
     expiration_month: '07 - July'
     expiration_year: '2020'
@@ -395,7 +575,7 @@ else_american_express: &americanExpressElse
 
 else_visa: &visaElse
     card_type: 'Visa'
-    card_number: '4000000000000002'
+    card_number: '4111111111111111'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
@@ -410,6 +590,38 @@ else_mastercard: &mastercardElse
 else_discover: &discoverElse
     card_type: 'Discover'
     card_number: '6011000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+else_other: &otherElse
+    card_type: 'Other'
+    card_number: '6011000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+
+else_jcb: &jcbElse
+    card_type: 'JCB'
+    card_number: '3530111333300000'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '1234'
+
+else_solo: &soloElse
+    card_type: 'Solo'
+    card_number: '6767705369846419'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '111'
+    issue_number:
+    start_date_month: 12 - December
+    start_date_year: 2011
+
+else_switch_maestro: &switchMaestroElse
+    name_on_card: 'Test Account'
+    card_type: 'Switch/Maestro'
+    card_number: '4024007127653'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
@@ -445,9 +657,33 @@ payment_authorize: &authorizeNetVisa
 #*             Shipping Data                 *
 #*********************************************
 
-shipping_rlat_rate: &flatRate
+shipping_rlatrate: &flatRate
     shipping_service: Flat Rate
     shipping_method: Fixed
+
+shipping_free: &freeShipping
+    shipping_service: Free Shipping
+    shipping_method: Free
+
+shipping_ups: &ups
+    shipping_service: United Parcel Service
+    shipping_method: Ground
+
+shipping_upsxml: &upsXml
+    shipping_service: United Parcel Service XML
+    shipping_method: Ground
+
+shipping_usps: &usps
+    shipping_service: United States Postal Service
+    shipping_method: Express Mail
+
+shipping_fedex: &fedex
+    shipping_service: Federal Express
+    shipping_method: Ground
+
+shipping_dhl: &dhl
+    shipping_service: DHL
+    shipping_method: Ground
 
 #*********************************************
 #*      ConfigurableOptions For Products     *
@@ -524,10 +760,108 @@ config_option_bundle:
             fieldsValue: 5
 
 config_option_configurable:
-
-config_option_custom_options:
+    option_1:
+        title: %noValue%
+        field_dropdown:
+            fieldType: dropdown
+            fieldsValue: %noValue%
 
 config_option_grouped:
+    option_1:
+        title: %noValue%
+        field_dropdown:
+            fieldType: field
+            fieldParameter: %noValue%
+            fieldsValue: 5
+    option_2: %noValue%
+
+config_option_custom_options:
+    option_1:
+        title: Custom Option Field
+        field_dropdown:
+            fieldType: field
+            fieldsValue: Custom Option Field Text
+    option_2:
+        title: Custom Option Area
+        field_dropdown:
+            fieldType: field
+            fieldsValue: Custom Option Area Text
+    option_3:
+        title: Custom Option Date
+        field_dropdown_1:
+            fieldType: dropdown
+            fieldParameter: day
+            fieldsValue: 29
+        field_dropdown_2:
+            fieldType: dropdown
+            fieldParameter: month
+            fieldsValue: 12
+        field_dropdown_3:
+            fieldType: dropdown
+            fieldParameter: year
+            fieldsValue: 2011
+    option_4:
+        title: Custom Options Date & Time
+        field_dropdown_1:
+            fieldType: dropdown
+            fieldParameter: day
+            fieldsValue: 24
+        field_dropdown_2:
+            fieldType: dropdown
+            fieldParameter: month
+            fieldsValue: 11
+        field_dropdown_3:
+            fieldType: dropdown
+            fieldParameter: year
+            fieldsValue: 2011
+        field_dropdown_4:
+            fieldType: dropdown
+            fieldParameter: hour
+            fieldsValue: 11
+        field_dropdown_5:
+            fieldType: dropdown
+            fieldParameter: minute
+            fieldsValue: 59
+        field_dropdown_6:
+            fieldType: dropdown
+            fieldParameter: day_part
+            fieldsValue: PM
+    option_5:
+        title: Custom Option Time
+        field_dropdown_1:
+            fieldType: dropdown
+            fieldParameter: hour
+            fieldsValue: 10
+        field_dropdown_2:
+            fieldType: dropdown
+            fieldParameter: minute
+            fieldsValue: 50
+        field_dropdown_3:
+            fieldType: dropdown
+            fieldParameter: day_part
+            fieldsValue: PM
+    option_6:
+        title: Custom Option Drop-down
+        field_dropdown:
+            fieldType: dropdown
+            fieldsValue: Title 1
+    option_7:
+        title: Custom Option Checkbox
+        field_checkbox:
+            fieldType: checkbox
+            fieldParameter: Title 1
+            fieldsValue: Yes
+    option_8:
+        title: Custom Option Multiple Select
+        field_multiselect:
+            fieldType: multiselect
+            fieldsValue: Title 1
+    option_9:
+        title: Custom Option Radio Buttons
+        field_checkbox:
+            fieldType: radiobutton
+            fieldParameter: Title 1
+            fieldsValue: Yes
 
 #*********************************************
 #*       Create Order Data                   *
@@ -618,6 +952,7 @@ order_newcustmoer_checkmoney_flatrate:
     products_to_add:
         product_1: &product
             filter_sku: %noValue%
+            configurable_options: %noValue%
             product_qty: %noValue%
         product_2: %noValue%
     coupons:
@@ -626,6 +961,7 @@ order_newcustmoer_checkmoney_flatrate:
     shipping_addr_data: *shippingSameAsBilling
     payment_data: *checkMoney
     shipping_data: *flatRate
+    gift_messages: %noValue%
 
 #<------------New Customer, Saved CC, FlatRate, ShippingSameAsBilling------------>
 order_newcustmoer_savedcc_flatrate:
@@ -724,7 +1060,7 @@ order_newcustmoer_authorizenet_flatrate:
 products_to_invoice:
     product_1:
         invoice_product_sku: %noValue%
-        invoice_product_qty: 5
+        qty_to_invoice: 5
     product_2: %noValue%
 
 #*********************************************
@@ -747,45 +1083,32 @@ products_to_refund:
         qty_to_refund: 5
     product_2: %noValue%
 
-
-
-
 #*********************************************
-#*           Regularize and DELETE           *
+#*              Coupon Data                  *
 #*********************************************
 
-new_customer_order_billing_address_reqfields: &billingReqFields
-    address_choice: Add New Address
-    billing_first_name: 'billing_Steven'
-    billing_last_name: 'billing_Stevenson'
-    billing_street_address_1: 'billing street address'
-    billing_city: 'Palo Alto'
-    billing_country: 'United States'
-    billing_state: California
-    billing_zip_code: '94306'
-    billing_telephone: '091019019 billing'
-    billing_save_in_address_book: yes
-
-new_customer_order_shipping_address_reqfields: &shippingReqFields
-    shipping_same_as_billing_address: no
-    address_choice: Add New Address
-    shipping_first_name: 'shipping_Steven'
-    shipping_last_name: 'shipping_Stevenson'
-    shipping_street_address_1: 'shipping street address'
-    shipping_city: 'Palo Alto'
-    shipping_country: 'United States'
-    shipping_state: California
-    shipping_zip_code: '94306'
-    shipping_telephone: '091019019 shipping'
-    shipping_save_in_address_book: yes
-
-visa: &visa
-    name_on_card_saved: 'Test Account'
-    credit_card_type_saved: 'Visa'
-    credit_card_number_saved: '4024007127653'
-    expiration_date_month_saved: '07 - July'
-    expiration_date_year_saved: '2020'
-    cvv_saved: '111'
+coupon_fixed_amount:
+    rule_name: some_name
+    description: some_desc
+    status: Active
+    customer_groups: General, NOT LOGGED IN
+    coupon: Specific Coupon
+    coupon_code: coupon_code
+    uses_per_coupon: 100
+    uses_per_customer: 100
+    from_date: %noValue%
+    to_date: %noValue%
+    priority: 1
+    public_in_rss_feed: Yes
+    apply: Fixed amount discount for whole cart
+    discount_amount: 100
+    maximum_qty_discount_is_applied_to: 0
+    discount_qty_step: 0
+    apply_to_shipping_amount: Yes
+    free_shipping: No
+    stop_further_rules_processing: No
+    default_rule_label_for_all_store_views: 123
+    default_store_view: 123
 
 coupon_percent:
     rule_name: 123
@@ -810,233 +1133,48 @@ coupon_percent:
     default_rule_label_for_all_store_views: 123
     default_store_view: 123
 
-products_to_refund_1:
-    product_1:
-        filter_sku: %noValue%
-        return_to_stock: Yes
-        qty_to_refund: 5
+#*********************************************
+#*           Gift Messages                   *
+#*********************************************
 
-products_to_ship_1:
-    product_1:
-        filter_sku: %noValue%
-        qty_to_ship: 5
-
-messages_for_products_1:
-    product_1:
-        filter_sku: %noValue%
-        message_options:
-            to: friend
-            from: me
-            message: 'hi there'
-
-empty_message_for_products_1:
-    product_1:
-        filter_sku: %noValue%
-        message_options:
-            to: %noValue%
-            from: %noValue%
-            message: %noValue%
-
-coupon: &coupon_1
-    coupon_code: %noValue%
-    success: true
-
-coupon_fixed_amount:
-    rule_name: some_name
-    description: some_desc
-    status: Active
-    customer_groups: General
-    coupon: Specific Coupon
-    coupon_code: coupon_code
-    uses_per_coupon: 100
-    uses_per_customer: 100
-    from_date: %noValue%
-    to_date: %noValue%
-    priority: 1
-    public_in_rss_feed: Yes
-    apply: Fixed amount discount for whole cart
-    discount_amount: 100
-    maximum_qty_discount_is_applied_to: 0
-    discount_qty_step: 0
-    apply_to_shipping_amount: No
-    free_shipping: No
-    stop_further_rules_processing: No
-    default_rule_label_for_all_store_views: 123
-    default_store_view: 123
-
-order_with_message_for_product:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
+gift_messages_individual:
+    individual: &forProduct
         product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    gift_messages:
-        entire_order: %noValue%
-        individual_items:
-            product_1:
-                general_sku: %noValue%
-                message_option:
-                    to: me
-                    from: guess_who
-                    message: How you doing?
+            sku_product: %noValue%
+            to: me
+            from: guess_who
+            message: How you doing?
 
-order_with_message_for_order:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    gift_messages:
-        entire_order:
-            from_order_level: guess_who
-            to_order_level: me
-            message_order_level: How you doing?
+gift_messages_per_order:
+    entire_order: &forOrder
+        from_order_level: guess_who
+        to_order_level: me
+        message_order_level: How you doing?
 
-order_with_message_empty_fields_for_product:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-    gift_messages:
-        entire_order: %noValue%
-        individual_items:
-            product_1:
-                general_sku: %noValue%
-                message_option:
-                    to: ' '
-                    from: ' '
-                    message: ' '
+gift_messages: &allGiftMessages
+    entire_order: *forOrder
+    individual: *forProduct
 
-promoted_product_special_price_for_order:
-    product_attribute_set: Default
-    general_name: Simple Product
-    general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
-    general_sku: simple_sku
-    general_weight: 2.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 4.95
-    prices_special_price: 3.99
-    prices_special_price_from: 5/25/10
-    prices_special_price_to: 9/29/15
-    prices_tax_class: None
-    gift_options_allow_gift_message_default: Yes
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 120
-    inventory_qty_for_items_out_of_stock_default: No
-    inventory_qty_for_items_out_of_stock: 10
-    inventory_min_allowed_qty_default: No
-    inventory_min_allowed_qty: 4
-    inventory_max_allowed_qty_default: No
-    inventory_max_allowed_qty: 0
-    inventory_qty_uses_decimals: Yes
-    inventory_backorders_default: No
-    inventory_backorders: Allow Qty Below 0
-    inventory_notify_for_qty_below_default: No
-    inventory_notify_for_qty_below: 12
-    inventory_enable_qty_increments_default: No
-    inventory_enable_qty_increments: Yes
-    inventory_qty_increments_default: No
-    inventory_qty_increments: 2
-    inventory_stock_availability: In Stock
-    websites: Main Website
-    categories: Default Category
-    related_products_data: %noValue%
-    up_sells_products_data: %noValue%
-    cross_sells_products_data: %noValue%
-    custom_options_data: %noValue%
+gift_messages_with_empty_fields:
+    entire_order:
+        from_order_level: ' '
+        to_order_level: ' '
+        message_order_level: How you doing?
+    individual:
+        product_1:
+            sku_product: %noValue%
+            to: ' '
+            from: ' '
+            message: How you doing?
 
-order_for_promoted_products_special_price:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
+gift_messages_with_empty_fields_expected:
+    entire_order:
+        from_order_level: billing_Steven billing_Stevenson
+        to_order_level: shipping_Steven shipping_Stevenson
+        message_order_level: How you doing?
+    individual:
         product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    products_to_reconfigure:
-        product_1:
-            filter_sku: %noValue%
-            reconfigurable_options:
-                qty: 4
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
-order_for_promoted_products_min_qty:
-    customer_data:
-        email: %noValue%
-        store_name: %noValue%
-    store_view: Default Store View
-    products_to_add:
-        product_1:
-            filter_sku: %noValue%
-            configurable_options: %noValue%
-    products_to_reconfigure:
-        product_1:
-            filter_sku: %noValue%
-            reconfigurable_options:
-                qty: 2
-    account_data:
-        customer_group: General
-        customer_email: %noValue%
-    billing_addr_data: *billingReqFields
-    shipping_addr_data: *shippingReqFields
-    payment_data:
-        payment_method: credit_card
-        payment_info: *visa
-    shipping_data:
-        shipping_service: Flat Rate
-        shipping_method: Fixed
-
+            sku_product: %noValue%
+            to: shipping_Steven shipping_Stevenson
+            from: billing_Steven billing_Stevenson
+            message: How you doing?

@@ -30,13 +30,37 @@
 #*********************************************
 
 gift_message_for_order_enable:
-    allow_gift_messages_on_order_level: Yes
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_sales
+        configuration:
+            allow_gift_messages_on_order_level: Yes
 
 gift_message_for_order_disable:
-    allow_gift_messages_on_order_level: No
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_sales
+        configuration:
+            allow_gift_messages_on_order_level: No
 
-gift_message_for_item_enable:
-    allow_gift_messages_for_order_items: Yes
+gift_message_per_item_enable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_sales
+        configuration:
+            allow_gift_messages_for_order_items: Yes
 
-gift_message_for_item_disable:
-    allow_gift_messages_for_order_items: No
+gift_message_per_item_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_sales
+        configuration:
+            allow_gift_messages_for_order_items: No
+
+gift_message_all_enable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_sales
+        configuration:
+            allow_gift_messages_on_order_level: Yes
+            allow_gift_messages_for_order_items: Yes
