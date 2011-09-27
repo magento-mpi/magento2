@@ -413,31 +413,31 @@ payment_authorize_3d: &authorizeNetVisa3D
 #*             Shipping Data                 *
 #*********************************************
 
-shipping_flatrate: &flatRate
+front_shipping_flatrate: &flatRate
     shipping_service: Flat Rate
     shipping_method: Fixed
 
-shipping_free: &freeShipping
+front_shipping_free: &freeShipping
     shipping_service: Free Shipping
     shipping_method: Free
 
-shipping_ups: &ups
+front_shipping_ups: &ups
     shipping_service: United Parcel Service
     shipping_method: Ground
 
-shipping_upsxml: &upsXml
+front_shipping_upsxml: &upsXml
     shipping_service: United Parcel Service XML
-    shipping_method: Ground
+    shipping_method: UPS Ground
 
-shipping_usps: &usps
+front_shipping_usps: &usps
     shipping_service: United States Postal Service
     shipping_method: Express Mail
 
-shipping_fedex: &fedex
+front_shipping_fedex: &fedex
     shipping_service: Federal Express
     shipping_method: Home Delivery
 
-shipping_dhl: &dhl
+front_shipping_dhl: &dhl
     shipping_service: DHL
     shipping_method: Ground
 #*********************************************
@@ -475,7 +475,7 @@ checkout_data_saved_cc:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *visaSavedCC
+    payment_data: *savedCCVisa
 
 
 checkout_data_check_money_order:
@@ -589,7 +589,7 @@ checkout_data_saved_cc_req_guest:
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReqWithShipping
     shipping_data: *flatRate
-    payment_data: *visaSavedCC
+    payment_data: *savedCCVisa
 
 checkout_data_saved_cc_req_guest_empty_fields:
     products_to_add:
@@ -629,7 +629,7 @@ checkout_data_saved_cc_req_guest_virtual_product:
             general_name: %noValue%
     checkout_as_customer: *guest
     billing_address_data: *billingGuestReqEmptyFields
-    payment_data: *visaSavedCC
+    payment_data: *savedCCVisa
 
 #<-----------------Data for Registered Customer----------------->
 checkout_data_saved_cc_registered:
@@ -776,7 +776,7 @@ checkout_data_register_for_virtual:
     billing_address_data: *billingRegisterForVirtual
     payment_data:
         payment_method: Check / Money order
-        
+
 #<-----------------Data for Logged In Customer----------------->
 checkout_data_saved_cc_loggedin:
     products_to_add:
