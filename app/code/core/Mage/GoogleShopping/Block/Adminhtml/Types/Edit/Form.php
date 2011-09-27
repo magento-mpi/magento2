@@ -65,7 +65,8 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
             $countrySelect->setDisabled(true);
         }
 
-        $attributeSetsSelect = $this->getAttributeSetsSelectElement($targetCountry)->setValue($itemType->getAttributeSetId());
+        $attributeSetsSelect = $this->getAttributeSetsSelectElement($targetCountry)
+            ->setValue($itemType->getAttributeSetId());
         if ($itemType->getAttributeSetId()) {
             $attributeSetsSelect->setDisabled(true);
         }
@@ -75,6 +76,16 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
             'title'     => $this->__('Attribute Set'),
             'required'  => true,
             'text'      => '<div id="attribute_set_select">' . $attributeSetsSelect->toHtml() . '</div>',
+        ));
+
+        $categories = Mage::helper('googleshopping/category')->getCategories();
+        $fieldset->addField('category', 'select', array(
+            'label'     => $this->__('Google Product Category'),
+            'title'     => $this->__('Google Product Category'),
+            'required'  => true,
+            'name'      => 'category',
+            'options'   => array_combine($categories, array_map('htmlspecialchars_decode', $categories)),
+            'value'      => $itemType->getCategory(),
         ));
 
         $attributesBlock = $this->getLayout()

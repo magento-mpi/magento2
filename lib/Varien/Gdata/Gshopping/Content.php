@@ -44,6 +44,27 @@ class Varien_Gdata_Gshopping_Content extends Zend_Gdata
     protected $_accountId;
 
     /**
+     * Debug flag
+     *
+     * @var bool
+     */
+    protected $_debug = false;
+
+    /**
+     * Log adapter instance
+     *
+     * @var null|object
+     */
+    protected $_logAdapter = null;
+
+    /**
+     * Log method name in log adapter
+     *
+     * @var string
+     */
+    protected $_logAdapterLogAction;
+
+    /**
      * Array with namespaces for entry
      *
      * @var array
@@ -186,9 +207,66 @@ class Varien_Gdata_Gshopping_Content extends Zend_Gdata
     public function performHttpRequest($method, $url, $headers = null, $body = null, $contentType = null, $remainingRedirects = null)
     {
         try {
-            return parent::performHttpRequest($method, $url, $headers, $body, $contentType, $remainingRedirects);
+            $url .= '?warnings';
+            $debugData = array(
+                'method'                => $method,
+                'url'                   => $url,
+                'headers'               => $headers,
+                'body'                  => $body,
+                'content_type'          => $contentType,
+                'remaining_redirects'   => $remainingRedirects
+            );
+            $result = parent::performHttpRequest($method, $url, $headers, $body, $contentType, $remainingRedirects);
+            $debugData['response'] = $result;
+            $this->debugData($debugData);
+            return $result;
         } catch (Zend_Gdata_App_HttpException $e) {
+            $debugData['response'] = $e->getResponse();
+            $this->debugData($debugData);
             throw new Varien_Gdata_Gshopping_HttpException($e);
         }
+    }
+
+    /**
+     * Log debug data
+     *
+     * @param mixed $debugData
+     * @return Varien_Gdata_Gshopping_Content
+     */
+    public function debugData($debugData)
+    {
+        if ($this->_debug && !is_null($this->_logAdapter)) {
+            $method = $this->_logAdapterLogAction;
+            $this->_logAdapter->$method($debugData);
+        }
+        return $this;
+    }
+
+    /**
+     * Set debug flag
+     *
+     * @param bool $flag
+     * @return Varien_Gdata_Gshopping_Content
+     */
+    public function setDebug($flag)
+    {
+        $this->_debug = $flag;
+        return $this;
+    }
+
+    /**
+     * Set log adapter
+     *
+     * @param object $instance
+     * @param string $method
+     * @return Varien_Gdata_Gshopping_Content
+     */
+    public function setLogAdapter($instance, $method)
+    {
+        if (method_exists($instance, $method)) {
+            $this->_logAdapter = $instance;
+            $this->_logAdapterLogAction = $method;
+        }
+        return $this;
     }
 }

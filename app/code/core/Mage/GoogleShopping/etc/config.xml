@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_GoogleShopping>
-            <version>1.6.0.0</version>
+            <version>1.6.0.0.1</version>
         </Mage_GoogleShopping>
     </modules>
     <global>
@@ -223,6 +223,10 @@
                             <name>Image link</name>
                             <required>0</required>
                         </image_link>
+                        <item_group_id  translate="name">
+                            <name>Item Group ID</name>
+                            <required>0</required>
+                        </item_group_id>
                         -->
                         <title translate="name">
                             <name>Title</name>
@@ -243,12 +247,6 @@
 
                     </Item>
                     <ProductSearch>
-                        <!-- These attributes aren't available for mapping
-                        <quantity translate="name">
-                            <name>Quantity</name>
-                            <required>0</required>
-                        </quantity>
-                        -->
                         <condition translate="name">
                             <name>Condition</name>
                             <required>1</required>
@@ -272,45 +270,25 @@
                             <required>0</required>
                             <country>US</country>
                         </sale_price_effective_date_to>
-                        <author translate="name">
-                            <name>Author</name>
-                            <required>0</required>
-                        </author>
-                        <availability translate="name">
-                            <name>Availability</name>
-                            <required>0</required>
-                        </availability>
+                        <age_group translate="name">
+                            <name>Age Group</name>
+                            <required>1</required>
+                        </age_group>
                         <brand translate="name">
                             <name>Brand</name>
-                            <required>0</required>
+                            <required>1</required>
                         </brand>
                         <color translate="name">
                             <name>Color</name>
-                            <required>0</required>
+                            <required>1</required>
                         </color>
-                        <edition translate="name">
-                            <name>Edition</name>
-                            <required>0</required>
-                        </edition>
-                        <feature translate="name">
-                            <name>Feature</name>
-                            <required>0</required>
-                        </feature>
-                        <featured_product translate="name">
-                            <name>Featured Product</name>
-                            <required>0</required>
-                        </featured_product>
-                        <genre translate="name">
-                            <name>Genre</name>
-                            <required>0</required>
-                        </genre>
-                        <manufacturer translate="name">
-                            <name>Manufacturer</name>
-                            <required>0</required>
-                        </manufacturer>
+                        <gender translate="name">
+                            <name>Gender</name>
+                            <required>1</required>
+                        </gender>
                         <mpn translate="name">
                             <name>Manufacturer\'s Part Number (MPN)</name>
-                            <required>0</required>
+                            <required>1</required>
                         </mpn>
                         <online_only translate="name">
                             <name>Online Only</name>
@@ -318,7 +296,7 @@
                         </online_only>
                         <gtin translate="name">
                             <name>GTIN</name>
-                            <required>0</required>
+                            <required>1</required>
                         </gtin>
                         <product_type translate="name">
                             <name>Product Type (Category)</name>
@@ -338,12 +316,16 @@
                         </shipping_weight>
                         <size translate="name">
                             <name>Size</name>
-                            <required>0</required>
+                            <required>1</required>
                         </size>
-                        <year translate="name">
-                            <name>Year</name>
-                            <required>0</required>
-                        </year>
+                        <material translate="name">
+                            <name>Material</name>
+                            <required>1</required>
+                        </material>
+                        <pattern translate="name">
+                            <name>Pattern/Graphic</name>
+                            <required>1</required>
+                        </pattern>
                     </ProductSearch>
                     <ProductAds>
                         <adwords_grouping translate="name">
@@ -393,12 +375,14 @@
                     <link/>
                     <content/>
                     <price/>
-                    <quantity/>
                     <image_link/>
                     <condition/>
                     <target_country/>
                     <content_language/>
                     <destinations/>
+                    <availability/>
+                    <google_product_category/>
+                    <product_type/>
                 </base_attributes>
             </googleshopping>
         </google>

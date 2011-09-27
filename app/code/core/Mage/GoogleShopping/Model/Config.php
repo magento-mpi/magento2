@@ -247,4 +247,33 @@ class Mage_GoogleShopping_Model_Config extends Varien_Object
         return array_keys($this->getConfigData('base_attributes'));
     }
 
+    /**
+     * Check whether debug mode is enabled
+     *
+     * @param int $storeId
+     * @return bool
+     */
+    public function getIsDebug($storeId)
+    {
+        return (bool)$this->getConfigData('debug', $storeId);
+    }
+
+    /**
+     * Returns all required attributes
+     *
+     * @return array
+     */
+    public function getRequiredAttributes()
+    {
+        $requiredAttributes = array();
+        foreach ($this->getAttributes() as $group => $attributes) {
+            foreach ($attributes as $attributeName => $attribute) {
+                if ($attribute['required']) {
+                    $requiredAttributes[$attributeName] = $attribute;
+                }
+            }
+        }
+
+        return $requiredAttributes;
+    }
 }

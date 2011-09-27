@@ -32,6 +32,7 @@
  *
  * @category   Mage
  * @package    Mage_GoogleShopping
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleShopping_Helper_Price
 {

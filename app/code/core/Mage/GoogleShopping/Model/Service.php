@@ -58,10 +58,9 @@ class Mage_GoogleShopping_Model_Service extends Varien_Object
         $errorMsg = Mage::helper('googleshopping')->__('Unable to connect to Google Content. Please, check Account settings in configuration.');
         try {
             if (!Mage::registry($this->_clientRegistryId)) {
-                $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, Varien_Gdata_Gshopping_Content::AUTH_SERVICE_NAME, null, '',
-                    $loginToken, $loginCaptcha,
-                    Zend_Gdata_ClientLogin::CLIENTLOGIN_URI,
-                    $type
+                $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass,
+                    Varien_Gdata_Gshopping_Content::AUTH_SERVICE_NAME, null, '', $loginToken, $loginCaptcha,
+                    Zend_Gdata_ClientLogin::CLIENTLOGIN_URI, $type
                 );
                 $configTimeout = array('timeout' => 60);
                 $client->setConfig($configTimeout);
@@ -92,7 +91,7 @@ class Mage_GoogleShopping_Model_Service extends Varien_Object
     }
 
     /**
-     * Retutn Google Content Service Instance
+     * Return Google Content Service Instance
      *
      * @param int $storeId
      * @return Varien_Gdata_Gshopping_Content
@@ -101,6 +100,12 @@ class Mage_GoogleShopping_Model_Service extends Varien_Object
     {
         if (!$this->_service) {
             $this->_service = $this->_connect($storeId);
+
+            if ($this->getConfig()->getIsDebug($storeId)) {
+                $this->_service
+                    ->setLogAdapter(Mage::getModel('core/log_adapter', 'googleshopping.log'), 'log')
+                    ->setDebug(true);
+            }
         }
         return $this->_service;
     }
