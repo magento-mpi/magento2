@@ -25,9 +25,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * @magentoDataFixture Catalog/Product/_fixtures/AttributeSet.php
- */
 class Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
 {
     /**
@@ -96,6 +93,7 @@ class Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
     /**
      * Test attribute CRUD in attribute set
      *
+     * @magentoDataFixture Catalog/Product/_fixtures/AttributeSet.php
      * @return void
      */
     public function testAttributeSetAttrCRUD()
@@ -117,6 +115,7 @@ class Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
     /**
      * Test group of attribute sets CRUD
      *
+     * @magentoDataFixture Catalog/Product/_fixtures/AttributeSet.php
      * @return void
      */
     public function testAttributeSetGroupCRUD()
