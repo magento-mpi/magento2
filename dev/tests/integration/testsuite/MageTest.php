@@ -25,7 +25,6 @@ class MageTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull(Mage::getRoot());
         Mage::reset();
         $this->assertNull(Mage::getRoot());
-        $this->assertTrue(Mage::isInstalled());
     }
 
     /**
