@@ -33,7 +33,6 @@ class MageTest extends PHPUnit_Framework_TestCase
     {
         $design = Mage::getDesign();
         $this->assertEquals('frontend', $design->getArea());
-        $this->assertEquals('default/default/default', $design->getAreaParameters());
         $this->assertSame(Mage::getDesign(), $design);
     }
 }
