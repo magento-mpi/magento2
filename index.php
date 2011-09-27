@@ -54,6 +54,9 @@ if (file_exists($maintenanceFile)) {
 require_once $mageFilename;
 
 #Magento_Profiler::enable();
+#Magento_Profiler::registerOutput(new Magento_Profiler_Output_Html());
+#Magento_Profiler::registerOutput(new Magento_Profiler_Output_Firebug());
+#Magento_Profiler::registerOutput(new Magento_Profiler_Output_Csvfile(__DIR__ . '/var/log/profiler.csv'));
 
 if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
     Mage::setIsDeveloperMode(true);

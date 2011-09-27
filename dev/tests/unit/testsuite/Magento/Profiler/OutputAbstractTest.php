@@ -19,7 +19,7 @@ class Magento_Profiler_OutputAbstractTest extends PHPUnit_Framework_TestCase
     /**
      * @var Magento_Profiler_OutputAbstract|PHPUnit_Framework_MockObject_MockObject
      */
-    private $_output;
+    private $_object;
 
     /**
      * @var ReflectionMethod
@@ -33,6 +33,7 @@ class Magento_Profiler_OutputAbstractTest extends PHPUnit_Framework_TestCase
         $timersProperty = new ReflectionProperty('Magento_Profiler', '_timers');
         $timersProperty->setAccessible(true);
         $timersProperty->setValue(include __DIR__ . '/_files/timers.php');
+        $timersProperty->setAccessible(false);
     }
 
     public static function tearDownAfterClass()
@@ -42,27 +43,28 @@ class Magento_Profiler_OutputAbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_output = $this->getMockForAbstractClass('Magento_Profiler_OutputAbstract');
+        $this->_object = $this->getMockForAbstractClass('Magento_Profiler_OutputAbstract');
 
-        $this->_timersGetter = new ReflectionMethod(get_class($this->_output), '_getTimers');
+        $this->_timersGetter = new ReflectionMethod(get_class($this->_object), '_getTimers');
         $this->_timersGetter->setAccessible(true);
     }
 
-    protected function _resetThresholds(Magento_Profiler_OutputAbstract $output)
+    protected function tearDown()
     {
-        $fetchKeys = array(
-            Magento_Profiler::FETCH_TIME,
-            Magento_Profiler::FETCH_AVG,
-            Magento_Profiler::FETCH_COUNT,
-            Magento_Profiler::FETCH_EMALLOC,
-            Magento_Profiler::FETCH_REALMEM,
-        );
-        foreach ($fetchKeys as $fetchKey) {
-            $output->setThreshold($fetchKey, null);
-        }
+        $this->_timersGetter->setAccessible(false);
     }
 
-    public function filterDataProvider()
+    /**
+     * @dataProvider getTimersDataProvider
+     */
+    public function testGetTimers($filter, $expectedTimers)
+    {
+        $this->_object->__construct($filter);
+        $actualTimers = $this->_timersGetter->invoke($this->_object);
+        $this->assertEquals($expectedTimers, $actualTimers);
+    }
+
+    public function getTimersDataProvider()
     {
         return array(
             'null filter' => array(
@@ -74,20 +76,20 @@ class Magento_Profiler_OutputAbstractTest extends PHPUnit_Framework_TestCase
                     'one_more_root_timer'
                 )
             ),
-            'exact timer' => array(
+            'exact timer filter' => array(
                 '/^some_root_timer->some_nested_timer$/',
                 array(
                     'some_root_timer->some_nested_timer',
                 )
             ),
-            'timer subtree' => array(
+            'timer subtree filter' => array(
                 '/^some_root_timer->some_nested_timer/',
                 array(
                     'some_root_timer->some_nested_timer',
                     'some_root_timer->some_nested_timer->some_deeply_nested_timer'
                 )
             ),
-            'timer strict subtree' => array(
+            'timer strict subtree filter' => array(
                 '/^some_root_timer->some_nested_timer->/',
                 array(
                     'some_root_timer->some_nested_timer->some_deeply_nested_timer'
@@ -97,26 +99,15 @@ class Magento_Profiler_OutputAbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider filterDataProvider
+     * @dataProvider thresholdDataProvider
      */
-    public function testFilter($filter, $expectedTimers)
+    public function testSetThreshold(array $thresholds, $expectedTimers)
     {
-        $this->_output = $this->getMockForAbstractClass('Magento_Profiler_OutputAbstract', array($filter));
-
-        $timerGetter = new ReflectionMethod(get_class($this->_output), '_getTimers');
-        $timerGetter->setAccessible(true);
-
-        $actualTimers = $timerGetter->invoke($this->_output);
-        $this->assertEquals($expectedTimers, $actualTimers);
-    }
-
-    public function testFilterDefaults()
-    {
-        $actualTimers = $this->_timersGetter->invoke($this->_output);
-
-        $expectedTimers = self::filterDataProvider();
-        $expectedTimers = $expectedTimers['null filter'][1];
-
+        $this->_resetThresholds($this->_object);
+        foreach ($thresholds as $fetchKey => $thresholdValue) {
+            $this->_object->setThreshold($fetchKey, $thresholdValue);
+        }
+        $actualTimers = $this->_timersGetter->invoke($this->_object);
         $this->assertEquals($expectedTimers, $actualTimers);
     }
 
@@ -172,31 +163,32 @@ class Magento_Profiler_OutputAbstractTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @dataProvider thresholdDataProvider
-     */
-    public function testSetThreshold(array $thresholds, $expectedTimers)
+    public function testSetThresholdReset()
     {
-        $this->_resetThresholds($this->_output);
-        foreach ($thresholds as $fetchKey => $thresholdValue) {
-            $this->_output->setThreshold($fetchKey, $thresholdValue);
-        }
-        $actualTimers = $this->_timersGetter->invoke($this->_output);
-        $this->assertEquals($expectedTimers, $actualTimers);
-    }
+        $this->_resetThresholds($this->_object);
 
-    public function testResetThreshold()
-    {
-        $this->_resetThresholds($this->_output);
-
-        $this->_output->setThreshold(Magento_Profiler::FETCH_COUNT, 4);
-        $actualTimers = $this->_timersGetter->invoke($this->_output);
+        $this->_object->setThreshold(Magento_Profiler::FETCH_COUNT, 4);
+        $actualTimers = $this->_timersGetter->invoke($this->_object);
         $this->assertEmpty($actualTimers);
 
-        $this->_output->setThreshold(Magento_Profiler::FETCH_COUNT, null);
-        $actualTimers = $this->_timersGetter->invoke($this->_output);
+        $this->_object->setThreshold(Magento_Profiler::FETCH_COUNT, null);
+        $actualTimers = $this->_timersGetter->invoke($this->_object);
         $expectedTimers = $this->thresholdDataProvider();
         $expectedTimers = $expectedTimers['empty'][1];
         $this->assertEquals($expectedTimers, $actualTimers);
+    }
+
+    protected function _resetThresholds(Magento_Profiler_OutputAbstract $output)
+    {
+        $fetchKeys = array(
+            Magento_Profiler::FETCH_TIME,
+            Magento_Profiler::FETCH_AVG,
+            Magento_Profiler::FETCH_COUNT,
+            Magento_Profiler::FETCH_EMALLOC,
+            Magento_Profiler::FETCH_REALMEM,
+        );
+        foreach ($fetchKeys as $fetchKey) {
+            $output->setThreshold($fetchKey, null);
+        }
     }
 }

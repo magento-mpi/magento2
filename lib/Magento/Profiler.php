@@ -60,7 +60,7 @@ class Magento_Profiler
      *
      * @var bool
      */
-    static private $_isInitialized = false;
+    static protected $_isInitialized = false;
 
     /**
      * Supported timer statistics keys
@@ -90,6 +90,11 @@ class Magento_Profiler
         return implode(self::NESTING_SEPARATOR, $currentPath);
     }
 
+    protected static function _initialize()
+    {
+        register_shutdown_function(array(__CLASS__, 'display'));
+    }
+
     /**
      * Enable profiling.
      * Any call to profiler does nothing until profiler is enabled.
@@ -97,7 +102,7 @@ class Magento_Profiler
     public static function enable()
     {
         if (!self::$_isInitialized) {
-            register_shutdown_function(array(__CLASS__, 'display'));
+            static::_initialize();
             self::$_isInitialized = true;
         }
         self::$_enabled = true;
@@ -115,16 +120,15 @@ class Magento_Profiler
     /**
      * Reset collected statistics for specified timer or for whole profiler if timer name is omitted
      *
-     * @param string|null $timerName
+     * @param string|null $timerId
      */
-    public static function reset($timerName = null)
+    public static function reset($timerId = null)
     {
-        if ($timerName === null) {
+        if ($timerId === null) {
             self::$_timers = array();
             self::$_currentPath = array();
             return;
         }
-        $timerId = self::_getTimerId($timerName);
         self::$_timers[$timerId] = array(
             'start'             => false,
             self::FETCH_TIME    => 0,
@@ -152,8 +156,15 @@ class Magento_Profiler
 
         $timerId = self::_getTimerId($timerName);
 
+        /*
+         * Timer can be already initialized, for example:
+         * self::start('timer'); // <- initialization
+         * self::stop('timer');
+         * self::start('timer'); // <- already initialized
+         * self::stop('timer');
+         */
         if (empty(self::$_timers[$timerId])) {
-            self::reset($timerName);
+            self::reset($timerId);
         }
 
         /* Continue collecting timers statistics under the latest started one */
@@ -231,7 +242,8 @@ class Magento_Profiler
             $result += (microtime(true) - self::$_timers[$timerId]['start']);
         }
         if ($isAvg) {
-            $result /= self::$_timers[$timerId][self::FETCH_COUNT];
+            $count = self::$_timers[$timerId][self::FETCH_COUNT];
+            $result = ($count ? $result / $count : 0);
         }
         return $result;
     }

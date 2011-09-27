@@ -16,6 +16,7 @@ class Magento_Profiler_Output_AllTests
         $suite = new PHPUnit_Framework_TestSuite('Magento Profiler');
         $suite->addTestSuite('Magento_Profiler_Output_HtmlTest');
         $suite->addTestSuite('Magento_Profiler_Output_CsvfileTest');
+        $suite->addTestSuite('Magento_Profiler_Output_FirebugTest');
         return $suite;
     }
 }

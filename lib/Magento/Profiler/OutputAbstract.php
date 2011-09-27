@@ -34,10 +34,7 @@ abstract class Magento_Profiler_OutputAbstract
     /**
      * Initialize profiler output with timer identifiers filter
      *
-     * @param string|null $filter Pattern to filter timers by their identifiers.
-     *                            Supports syntax similar to SQL LIKE operator:
-     *                            % - Matches any number of characters, even zero characters
-     *                            _ - Matches exactly one character
+     * @param string|null $filter PCRE pattern to filter timers by their identifiers
      */
     public function __construct($filter = null)
     {

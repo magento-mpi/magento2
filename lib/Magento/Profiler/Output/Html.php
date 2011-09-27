@@ -34,6 +34,7 @@ class Magento_Profiler_Output_Html extends Magento_Profiler_OutputAbstract
             $out[] = '</tr>';
         }
         $out[] = '</table>';
+        $out[] = '';
         $out = implode("\n", $out);
         echo $out;
     }
