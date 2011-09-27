@@ -42,6 +42,7 @@ shopping_cart:
             proceed_to_checkout: //button[span='Proceed to Checkout']
         messages:
             product_added_to_cart:  //li[normalize-space(@class)='success-msg' and contains(.//span,'%productName% was added to your shopping cart.')]
+            shopping_cart_is_empty: //h1[contains(.,'Shopping Cart is Empty')]
 
 empty_shopping_cart:
     mca: checkout/cart/

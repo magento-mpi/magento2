@@ -28,7 +28,7 @@
  */
 
 /**
- * One page Checkout test
+ * One page Checkout  - checking validation test
  *
  * @package     selenium
  * @subpackage  tests
@@ -70,7 +70,6 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->addParameter('id', '0');
         //Data
         $productData = $this->loadData('simple_product_for_order', null, array('general_name', 'general_sku'));
         //Steps
@@ -97,44 +96,8 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         //Steps
         $this->clickControl('link', 'checkout');
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('shopping_cart'), $this->messages);
-    }
-
-    /**
-     * <p>Checkout with required fields filling</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in Billing Information tab</p>
-     * <p>4. Select "Ship to this address" option</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>6. Select Shipping Method option</p>
-     * <p>7. Click 'Continue' button.</p>
-     * <p>8. Select Payment Method option</p>
-     * <p>9. Click 'Continue' button.</p>
-     * <p>Verify information into "Order Review" tab</p>
-     * <p>Expected result:</p>
-     * <p>Information window appears "Please specify payment method."</p>
-     *
-     * @depends createSimple
-     * @test
-     */
-    public function frontCheckoutRequiredFields($productData)
-    {
-        //Data
-        $checkoutData = $this->loadData('checkout_data_register', array('general_name' => $productData),
-                array('billing_email'));
-        //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
-        //Postconditions
-        $this->logoutCustomer();
+        $xPath = $this->_getControlXpath('message', 'shopping_cart_is_empty');
+        $this->assertTrue($this->isElementPresent($xPath));
     }
 
     /**
@@ -158,7 +121,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         //Steps
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
         //Verification
         $text = 'Please choose to register or to checkout as a guest.';
         $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
@@ -241,7 +204,86 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
     }
 
     /**
-     * <p>Filling required fields by invalid values</p>
+     * <p>Incorrect password length</p>
+     * <p>Preconditions</p>
+     * <p>1. Add product to Shopping Cart</p>
+     * <p>2. Click "Proceed to Checkout"</p>
+     * <p>Steps</p>
+     * <p>1. Fill in Checkout Method tab</p>
+     * <p>2. Click 'Continue' button.</p>
+     * <p>3. Fill in required fields by regular data. </p>
+     * <p>4. Fill in 'Password' field by values with incorrect length.</p>
+     * <p>5. Click 'Continue' button.</p>
+     * <p>Expected result:</p>
+     * <p>Error message appears</p>
+     *
+     * @depends createSimple
+     * @test
+     */
+    public function frontBillingAddressInvalidEmail($productData)
+    {
+        //Data
+        $billingPassword = $this->generate('string', 5, ':punct:');
+
+
+        $checkoutData = $this->loadData('checkout_data_billing_empty_fields',
+                array('general_name' => $productData, 'billing_password' => $billingPassword,
+                      'billing_confirm_password' => $billingPassword), array('billing_email'));
+        print_r($checkoutData);
+        //Steps
+        $this->assertTrue($this->logoutCustomer());
+        $this->assertTrue($this->frontend('home'));
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        //Verification
+        $this->assertTrue($this->errorMessage('invalid_password_length'), $this->messages);
+    }
+
+    /**
+     * <p>Filling required fields by invalid values(Except Email)</p>
+     * <p>Preconditions</p>
+     * <p>1. Add product to Shopping Cart</p>
+     * <p>2. Click "Proceed to Checkout"</p>
+     * <p>Steps</p>
+     * <p>1. Fill in Checkout Method tab</p>
+     * <p>2. Click 'Continue' button.</p>
+     * <p>3. Fill in 'Email' field by regular data.</p>
+     * <p>4. Fill other required fields by incorrect data.</p>
+     * <p>5. Click 'Continue' button.</p>
+     * <p>Expected result:</p>
+     * <p>Error message appears</p>
+     *
+     * @depends createSimple
+     * @dataProvider billingInvalidValues
+     * @test
+     */
+    public function frontBillingAddressInvalidValuesRequiredFields($invalidValues, $productData)
+    {
+        //Data
+        $checkoutData = $this->loadData('checkout_data_register',
+                array('general_name' => $productData, $invalidValues => $this->generate('string', 32, ':punct:')),
+                array('billing_email'));
+        print_r($checkoutData);
+        //Steps
+        $this->assertTrue($this->logoutCustomer());
+        $this->assertTrue($this->frontend('home'));
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        //Verification
+        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
+    }
+
+    public function billingInvalidValues()
+    {
+        return array(
+            array('billing_first_name'),
+            array('billing_last_name'),
+            array('billing_street_address_1'),
+            array('billing_city'),
+            array('billing_zip_code'),
+            array('billing_telephone'));
+    }
+
+    /**
+     * <p>Incorrect Email format</p>
      * <p>Preconditions</p>
      * <p>1. Add product to Shopping Cart</p>
      * <p>2. Click "Proceed to Checkout"</p>
@@ -257,18 +299,12 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * @depends createSimple
      * @test
      */
-    public function frontBillingAddressInvalidEmail($productData)
+    public function frontBillingAddressIncorrectEmailFormat($productData)
     {
         //Data
         $checkoutData = $this->loadData('checkout_data_billing_empty_fields',
                 array('general_name' => $productData,
-            'billing_first_name' => $this->generate('string', 32, ':punct:'),
-            'billing_last_name' => $this->generate('string', 32, ':punct:'),
-            'billing_email' => $this->generate('string', 32, ':punct:'),
-            'billing_street_address_1' => $this->generate('string', 32, ':punct:'),
-            'billing_city' => $this->generate('string', 32, ':punct:'),
-            'billing_zip_code' => $this->generate('string', 32, ':punct:'),
-            'billing_telephone' => $this->generate('string', 32, ':punct:')), array('billing_email'));
+            'billing_email' => $this->generate('string', 32, ':alnum:')));
         //Steps
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
@@ -279,8 +315,6 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $fieldXpath = $fieldSet->findField('billing_email');
         $this->addParameter('fieldXpath', $fieldXpath);
         $this->assertTrue($this->errorMessage('invalid_email_address'), $this->messages);
-        //Postconditions
-        $this->logoutCustomer();
     }
 
     /**
@@ -317,7 +351,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         //Steps
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
         //Verification
         $this->waitForAjax();
         $text = 'There is already a customer registered using this email address.
@@ -327,53 +361,8 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
             $this->getAlert();
             $this->assertTrue($alert);
         } else {
-            $this->fail('Alert is not appeared');
+            $this->fail('Alert' . $text . 'has not appeared');
         }
-    }
-
-    /**
-     * <p>Using long values for fill billing information form (except email field)</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill required fields by long values data.</p>
-     * <p>4. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Customer successfully redirected to the next page, no error masseges appears</p>
-     *
-     * @depends createSimple
-     * @test
-     */
-    public function frontBillingWithLongValues($productData)
-    {
-        //Data
-        $checkoutData = $this->loadData('checkout_data_billing_empty_fields',
-                array('general_name' => $productData,
-            'billing_first_name' => $this->generate('string', 256, ':punct:'),
-            'billing_last_name' => $this->generate('string', 256, ':punct:'),
-            'billing_street_address_1' => $this->generate('string', 256, ':punct:'),
-            'billing_city' => $this->generate('string', 256, ':punct:'),
-            'billing_zip_code' => $this->generate('string', 256, ':punct:'),
-            'billing_telephone' => $this->generate('string', 256, ':punct:')), array('billing_email'));
-        //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        //Verification
-        $text = $this->_getControlXpath('message', 'billing_long_values_data_alert');
-        $this->waitForAjax();
-        $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
-        if ($alert == TRUE) {
-            $this->getAlert();
-            $this->assertTrue($alert);
-        } else {
-            $this->fail('Alert is not appeared');
-        }
-        //Postconditions
-        $this->logoutCustomer();
     }
 
     /**
@@ -474,7 +463,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
     }
 
     /**
-     * <p>Using special characters for fill shipping information form</p>
+     * <p>Using long values for fill shipping information form</p>
      * <p>Preconditions</p>
      * <p>1. Add product to Shopping Cart</p>
      * <p>2. Click "Proceed to Checkout"</p>
@@ -492,7 +481,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
      * @depends createSimple
      * @test
      */
-    public function frontShippingAddressSpecialCharacters($productData)
+    public function frontShippingAddressLongValues($productData)
     {
 
         //Data
@@ -507,7 +496,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         //Steps
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
         //Verification
         $text = $this->_getControlXpath('message', 'billing_long_values_data_alert');
         $this->waitForAjax();
@@ -522,41 +511,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $this->logoutCustomer();
     }
 
-    /**
-     * <p>Verifying "Use Billing Address" checkbox functionality</p>
-     * <p>Preconditions</p>
-     * <p>1. Add product to Shopping Cart</p>
-     * <p>2. Click "Proceed to Checkout"</p>
-     * <p>Steps</p>
-     * <p>1. Fill in Checkout Method tab</p>
-     * <p>2. Click 'Continue' button.</p>
-     * <p>3. Fill in Billing Information tab</p>
-     * <p>4. Select "Ship to different address" option</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>6. Check "Use Billing Address" checkbox</p>
-     * <p>7. Verify data used for filling form</p>
-     * <p>8. Click 'Continue' button.</p>
-     * <p>Expected result:</p>
-     * <p>Data must be the same as billing address</p>
-     * <p>Customer successfully redirected to the next page, no error massages appears</p>
-     *
-     * @depends createSimple
-     * @test
-     */
-    public function frontShippingAddressUseBillingAddress($productData)
-    {
-        //Data
-        $checkoutData = $this->loadData('checkout_data_register', array('general_name' => $productData),
-                array('billing_email'));
-        //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        //Verification
-        $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
-        //Postconditions
-        $this->logoutCustomer();
-    }
+
 
     /**
      * <p>Shipping method not defined</p>
@@ -591,7 +546,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         //Steps
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
         //Verification
         $text = 'Please specify shipping method.';
         $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
@@ -638,7 +593,7 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         //Steps
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
         //Verification
         $setXpath = $this->_getControlXpath('fieldset', 'payment_method') . "[contains(@class,'active')]";
         $this->waitForElement($setXpath);
@@ -656,7 +611,6 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
             $this->fail('Alert ' . $text . ' has not appeared.');
         }
     }
-
 }
 
 ?>
