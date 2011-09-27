@@ -132,8 +132,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_loggedin',
                 array('general_name' => $productData));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');
@@ -174,8 +173,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_loggedin_empty_fields',
                 array('general_name' => $productData, $emptyField => ''));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');
@@ -254,8 +252,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
                 array('general_name' => $productData));
         $checkoutData['billing_address_data'] = $longValues;
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');
@@ -308,8 +305,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
                 array('general_name' => $productData));
         $checkoutData['billing_address_data'] = $specValues;
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');
@@ -351,8 +347,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_loggedin_empty_fields_shipping',
                 array('general_name' => $productData, $emptyField => ''));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');
@@ -434,8 +429,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
                 array('general_name' => $productData));
         $checkoutData['shipping_address_data'] = $specValues;
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');
@@ -482,8 +476,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $checkoutData['shipping_address_data'] = array('shipping_address_select' => 'New Address',
                                                     'use_billing_address' => 'Yes');
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');
@@ -531,8 +524,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_loggedin_no_shipping_method',
                 array('general_name' => $productData));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');
@@ -586,8 +578,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_loggedin_no_payment_method',
                 array('general_name' => $productData));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');

@@ -118,8 +118,7 @@ class CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Selenium_TestCase
             $payment .= '_without_3Dsecure';
         }
         $this->systemConfigurationHelper()->configure($payment);
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');
@@ -174,8 +173,7 @@ class CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Selenium_TestCase
             $this->systemConfigurationHelper()->configure('paypal_enable');
         }
         $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');

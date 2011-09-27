@@ -344,6 +344,13 @@ visa: &visaElse
     expiration_year: '2020'
     card_verification_number: '123'
 
+master_card: &masterCardElse
+    card_type: 'MasterCard'
+    card_number: '5287349085445470'
+    expiration_month: '07 - July'
+    expiration_year: '2012'
+    card_verification_number: '123'
+
 saved_cc_visa_3d: &visaSavedCC3D
     name_on_card: 'Test Account'
     card_type: 'Visa'
@@ -359,6 +366,13 @@ visa_3d: &visaElse3D
     expiration_year: '2012'
     card_verification_number: '111'
 
+master_card_3d: &masterCardElse3D
+    card_type: 'MasterCard'
+    card_number: '5200000000000007'
+    expiration_month: '01 - January'
+    expiration_year: '2012'
+    card_verification_number: '111'
+
 #*********************************************
 #*              Payment Data Without 3D      *
 #*********************************************
@@ -370,17 +384,17 @@ payment_saved_cc_visa: &savedCCVisa
     payment_method: Credit Card (saved)
     payment_info: *visaSavedCC
 
-payment_paypal_direct_uk: &paypalDirectUkVisa
+payment_paypal_direct_uk: &paypalDirectUkMaster
     payment_method: PayPal Direct Payment Payflow Edition
-    payment_info: *visaElse
+    payment_info: *masterCardElse
 
-payment_paypal_direct: &paypalDirectVisa
+payment_paypal_direct: &paypalDirectMaster
     payment_method: PayPal Direct Payment
-    payment_info: *visaElse
+    payment_info: *masterCardElse
 
-payment_payflow_pro: &payflowProVisa
+payment_payflow_pro: &payflowProMaster
     payment_method: Payflow Pro
-    payment_info: *visaElse
+    payment_info: *masterCardElse
 
 payment_authorize: &authorizeNetVisa
     payment_method: Credit Card (Authorize.net)
@@ -393,17 +407,17 @@ payment_saved_cc_visa_3d: &savedCCVisa3D
     payment_method: Credit Card (saved)
     payment_info: *visaSavedCC3D
 
-payment_paypal_direct_uk_3d: &paypalDirectUkVisa3D
+payment_paypal_direct_uk_3d: &paypalDirectUkMaster3D
     payment_method: PayPal Direct Payment Payflow Edition
-    payment_info: *visaElse3D
+    payment_info: *masterCardElse3D
 
-payment_paypal_direct_3d: &paypalDirectVisa3D
+payment_paypal_direct_3d: &paypalDirectMaster3D
     payment_method: PayPal Direct Payment
-    payment_info: *visaElse3D
+    payment_info: *masterCardElse3D
 
-payment_payflow_pro_3d: &payflowProVisa3D
+payment_payflow_pro_3d: &payflowProMaster3D
     payment_method: Payflow Pro
-    payment_info: *visaElse3D
+    payment_info: *masterCardElse3D
 
 payment_authorize_3d: &authorizeNetVisa3D
     payment_method: Credit Card (Authorize.net)
@@ -507,7 +521,7 @@ checkout_data_paypaluk_direct:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectUkVisa
+    payment_data: *paypalDirectUkMaster
 
 
 checkout_data_payflow_pro_verisign:
@@ -518,7 +532,7 @@ checkout_data_payflow_pro_verisign:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *payflowProVisa
+    payment_data: *payflowProMaster
 
 checkout_data_paypal_direct_payment:
     products_to_add:
@@ -528,7 +542,7 @@ checkout_data_paypal_direct_payment:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectVisa
+    payment_data: *paypalDirectMaster
 
 #<-------------Payment Methods With 3D--------------->
 checkout_data_saved_cc_3d:
@@ -559,7 +573,7 @@ checkout_data_paypaluk_direct_3d:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectUkVisa3D
+    payment_data: *paypalDirectUkMaster3D
 
 checkout_data_payflow_pro_verisign_3d:
     products_to_add:
@@ -569,7 +583,7 @@ checkout_data_payflow_pro_verisign_3d:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *payflowProVisa3D
+    payment_data: *payflowProMaster3D
 
 checkout_data_paypal_direct_payment_3d:
     products_to_add:
@@ -579,7 +593,7 @@ checkout_data_paypal_direct_payment_3d:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectVisa3D
+    payment_data: *paypalDirectMaster3D
 
 #<-----------------Data for Guest Customer-------------------->
 checkout_data_saved_cc_req_guest:
@@ -870,7 +884,7 @@ checkout_data_registered_paypaldirectuk_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectUkVisa
+    payment_data: *paypalDirectUkMaster
 
 
 checkout_data_registered_payflowpro_flatrate:
@@ -881,7 +895,7 @@ checkout_data_registered_payflowpro_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *payflowProVisa
+    payment_data: *payflowProMaster
 
 checkout_data_registered_paypaldirect_flatrate:
     products_to_add:
@@ -891,7 +905,7 @@ checkout_data_registered_paypaldirect_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectVisa
+    payment_data: *paypalDirectMaster
 
 #<-------------Payment Methods With 3D For Registered Customer-------------->
 checkout_data_registered_savedcc_3d_flatrate:
@@ -923,7 +937,7 @@ checkout_data_registered_paypaldirectuk_3d_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectUkVisa3D
+    payment_data: *paypalDirectUkMaster3D
 
 
 checkout_data_registered_payflowpro_3d_flatrate:
@@ -934,7 +948,7 @@ checkout_data_registered_payflowpro_3d_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *payflowProVisa3D
+    payment_data: *payflowProMaster3D
 
 checkout_data_registered_paypaldirect_3d_flatrate:
     products_to_add:
@@ -944,7 +958,7 @@ checkout_data_registered_paypaldirect_3d_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectVisa3D
+    payment_data: *paypalDirectMaster3D
 
 #<-------------Payment Methods Without 3D For LoggedIn Customer-------------->
 checkout_data_loggedin_savedcc_flatrate:
@@ -982,7 +996,7 @@ checkout_data_loggedin_paypaldirectuk_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectUkVisa
+    payment_data: *paypalDirectUkMaster
 
 
 checkout_data_loggedin_payflowpro_flatrate:
@@ -992,7 +1006,7 @@ checkout_data_loggedin_payflowpro_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *payflowProVisa
+    payment_data: *payflowProMaster
 
 checkout_data_loggedin_paypaldirect_flatrate:
     products_to_add:
@@ -1001,7 +1015,7 @@ checkout_data_loggedin_paypaldirect_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectVisa
+    payment_data: *paypalDirectMaster
 
 #<-------------Payment Methods With 3D For LoggedIn Customer-------------->
 checkout_data_loggedin_savedcc_3d_flatrate:
@@ -1030,7 +1044,7 @@ checkout_data_loggedin_paypaldirectuk_3d_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectUkVisa3D
+    payment_data: *paypalDirectUkMaster3D
 
 
 checkout_data_loggedin_payflowpro_3d_flatrate:
@@ -1040,7 +1054,7 @@ checkout_data_loggedin_payflowpro_3d_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *payflowProVisa3D
+    payment_data: *payflowProMaster3D
 
 checkout_data_loggedin_paypaldirect_3d_flatrate:
     products_to_add:
@@ -1049,7 +1063,7 @@ checkout_data_loggedin_paypaldirect_3d_flatrate:
     billing_address_data: *billingRegisteredReq
     shipping_address_data: *shippingRegisteredReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectVisa3D
+    payment_data: *paypalDirectMaster3D
 
 #<-------------Payment Methods Without 3D For Guest Customer-------------->
 checkout_data_guest_savedcc_flatrate:
@@ -1091,7 +1105,7 @@ checkout_data_guest_paypaldirectuk_flatrate:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectUkVisa
+    payment_data: *paypalDirectUkMaster
 
 
 checkout_data_guest_payflowpro_flatrate:
@@ -1102,7 +1116,7 @@ checkout_data_guest_payflowpro_flatrate:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *payflowProVisa
+    payment_data: *payflowProMaster
 
 checkout_data_guest_paypaldirect_flatrate:
     products_to_add:
@@ -1112,7 +1126,7 @@ checkout_data_guest_paypaldirect_flatrate:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectVisa
+    payment_data: *paypalDirectMaster
 
 #<-------------Payment Methods With 3D For Guest Customer-------------->
 checkout_data_guest_savedcc_3d_flatrate:
@@ -1144,7 +1158,7 @@ checkout_data_guest_paypaldirectuk_3d_flatrate:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectUkVisa3D
+    payment_data: *paypalDirectUkMaster3D
 
 
 checkout_data_guest_payflowpro_3d_flatrate:
@@ -1155,7 +1169,7 @@ checkout_data_guest_payflowpro_3d_flatrate:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *payflowProVisa3D
+    payment_data: *payflowProMaster3D
 
 checkout_data_guest_paypaldirect_3d_flatrate:
     products_to_add:
@@ -1165,4 +1179,4 @@ checkout_data_guest_paypaldirect_3d_flatrate:
     billing_address_data: *billingGuestReq
     shipping_address_data: *shippingGuestReq
     shipping_data: *flatRate
-    payment_data: *paypalDirectVisa3D
+    payment_data: *paypalDirectMaster3D

@@ -116,8 +116,7 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
             $payment .= '_without_3Dsecure';
         }
         $this->systemConfigurationHelper()->configure($payment);
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verifying
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
@@ -167,8 +166,7 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
             $this->systemConfigurationHelper()->configure('paypal_enable');
         }
         $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verifying
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
@@ -190,7 +188,7 @@ class CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function turnOff3D ()
+    public function turnOff3D()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');

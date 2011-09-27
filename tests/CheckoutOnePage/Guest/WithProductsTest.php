@@ -141,8 +141,7 @@ class CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_TestCase
         $checkoutData = $this->loadData('checkout_data_saved_cc_3d',
                 array('general_name' => $productData), array('billing_email'));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
@@ -182,8 +181,7 @@ class CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_TestCase
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_virtual_product',
                 array('general_name' => $productData), array('billing_email'));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);

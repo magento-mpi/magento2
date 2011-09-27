@@ -160,8 +160,7 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
                 array('general_name' => $productData, 'email_address' => $customerData['email'],
                     'password' => $customerData['password']));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
@@ -203,8 +202,7 @@ class CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
                 array('general_name' => $productData, 'email_address' => $customerData['email'],
                     'password' => $customerData['password']));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);

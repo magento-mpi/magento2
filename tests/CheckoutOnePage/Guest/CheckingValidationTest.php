@@ -111,8 +111,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest',
                 array('general_name' => $productData), array('billing_email'));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
@@ -146,8 +145,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_empty_fields',
                 array('general_name' => $productData, $emptyField => ''));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $page = $this->getUimapPage('frontend', 'onepage_checkout');
@@ -203,8 +201,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_empty_fields',
                 array('general_name' => $productData, 'billing_email' => $this->generate('email', 32, 'invalid')));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $page = $this->getUimapPage('frontend', 'onepage_checkout');
@@ -256,8 +253,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $checkoutData = $this->loadData('checkout_data_saved_cc', array('general_name' => $productData));
         $checkoutData['billing_address_data'] = $longValues;
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
@@ -304,8 +300,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $checkoutData = $this->loadData('checkout_data_saved_cc', array('general_name' => $productData));
         $checkoutData['billing_address_data'] = $specValues;
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
@@ -340,8 +335,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_empty_fields_shipping',
                 array('general_name' => $productData, $emptyField => ''));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $page = $this->getUimapPage('frontend', 'onepage_checkout');
@@ -416,8 +410,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $checkoutData = $this->loadData('checkout_data_saved_cc', array('general_name' => $productData));
         $checkoutData['shipping_address_data'] = $specValues;
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
@@ -458,8 +451,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $checkoutData['shipping_address_data'] = array('shipping_address_select' => 'New Address',
                                                     'use_billing_address' => 'Yes');
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);
@@ -501,8 +493,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_no_shipping_method',
                 array('general_name' => $productData), array('billing_email'));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
         $setXpath = $this->_getControlXpath('fieldset', 'shipping_method') . "[contains(@class,'active')]";
         $this->waitForElement($setXpath);
@@ -550,8 +541,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         $checkoutData = $this->loadData('checkout_data_saved_cc_req_guest_no_payment_method',
                 array('general_name' => $productData), array('billing_email'));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
         $setXpath = $this->_getControlXpath('fieldset', 'payment_method') . "[contains(@class,'active')]";
         $this->waitForElement($setXpath);

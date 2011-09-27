@@ -111,8 +111,7 @@ class CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Selenium_TestCas
         $checkoutData['shipping_data'] = $this->loadData('front_shipping_' . $shipping);
         //Steps
         $this->systemConfigurationHelper()->configure($shipping . '_enable');
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verifying
         $this->assertTrue($this->successMessage('success_checkout'), $this->messages);

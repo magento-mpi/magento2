@@ -160,8 +160,7 @@ class CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_TestCase
         $checkoutData = $this->loadData('checkout_data_saved_cc_loggedin',
                 array('general_name' => $productData));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');
@@ -208,8 +207,7 @@ class CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_TestCase
                 array('general_name' => $productData, 'email_address' => $customerData['email'],
                     'password' => $customerData['password']));
         //Steps
-        $this->assertTrue($this->logoutCustomer());
-        $this->assertTrue($this->frontend('home'));
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillForm($performLogin);
         $this->clickButton('login');
