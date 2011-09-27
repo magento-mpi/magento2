@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Class that used for output Magento Profiler results in format compatible with Bamboo Jmeter plugin
+ */
 class Magento_Test_Profiler_OutputBamboo extends Magento_Profiler_Output_Csvfile
 {
     /**

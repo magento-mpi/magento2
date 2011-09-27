@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-
+/**
+ * HTTP response implementation that is used instead core one for testing
+ */
 class Magento_Test_Response extends Mage_Core_Controller_Response_Http
 {
     /**

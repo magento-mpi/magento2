@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * HTTP request implementation that is used instead core one for testing
+ */
 class Magento_Test_Request extends Mage_Core_Controller_Request_Http
 {
     /**
