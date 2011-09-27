@@ -13,7 +13,7 @@ class Magento_AllTests
 {
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Magento 2 Library');
+        $suite = new PHPUnit_Framework_TestSuite('Magento Library');
         $suite->addTestSuite('Magento_CryptTest');
         return $suite;
     }

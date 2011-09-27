@@ -13,7 +13,7 @@
 <phpunit bootstrap="./framework/bootstrap.php" clors="true">
     <!-- Test suites definition -->
     <testsuites>
-        <testsuite name="Magento 2 Integration Tests">
+        <testsuite name="Magento Integration Tests">
             <directory suffix="Test.php">testsuite</directory>
         </testsuite>
     </testsuites>
