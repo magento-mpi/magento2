@@ -157,4 +157,18 @@ class Customer_Helper extends Mage_Selenium_TestCase
         $this->saveForm('submit');
     }
 
+    /**
+     * Log in customer at frontend.
+     *
+     * @param array $loginData
+     */
+    public function frontLoginCustomer(array $loginData)
+    {
+        $this->logoutCustomer();
+        $this->clickControl('link', 'log_in');
+        $this->fillForm($loginData);
+        $this->clickButton('login');
+        $this->assertTrue($this->checkCurrentPage('customer_account_relogged_in'), $this->messages);
+    }
+
 }
