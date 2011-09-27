@@ -74,7 +74,8 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Bl
                 if (isset($additionalData['schedule_date'])) {
                     $fieldset->addField('schedule_date', 'label', array(
                         'label'     => Mage::helper('enterprise_staging')->__('Schedule Date'),
-                        'value'     => $this->formatDate($additionalData['schedule_date'], 'medium', true)
+                        'value'     => Mage::helper('core')->formatDateRespectTimezone(
+                            $additionalData['schedule_date'], 'medium', true)
                     ));
                 }
                 if(isset($additionalData['action_before_reset'])) {
