@@ -52,7 +52,7 @@ class Mage_Selenium_Helper_Abstract
     /**
      * Constructor, expects global test configuration object
      *
-     * @param Mage_Selenium_TestConfiguration $config
+     * @param Mage_Selenium_TestConfiguration $config Test configuration
      */
     public function  __construct(Mage_Selenium_TestConfiguration $config)
     {
@@ -73,7 +73,8 @@ class Mage_Selenium_Helper_Abstract
     /**
      * Set current testcase object to allow callbacks
      *
-     * @param Mage_Selenium_TestCase $testCase
+     * @param Mage_Selenium_TestCase $testCase Current test case
+     *
      * @return Mage_Selenium_AbstractHelper
      */
     public function setTestCase(Mage_Selenium_TestCase $testCase)

@@ -53,7 +53,8 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
 
     /**
      * Class constructor
-     * @param Mage_Selenium_TestConfiguration $config
+     *
+     * @param Mage_Selenium_TestConfiguration $config Test configuration
      */
     public function  __construct(Mage_Selenium_TestConfiguration $config)
     {
@@ -67,7 +68,8 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     /**
      * Load and merge data files
      *
-     * @param string $area 'admin'|'frontend'
+     * @param string $area Application area ('frontend'|'admin')
+     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _loadUimapData($area)
@@ -94,6 +96,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * Retrieve array with uimap data
      *
      * @param string $area Application area ('frontend'|'admin')
+     *
      * @return array
      */
     public function &getUimap($area)
@@ -111,6 +114,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * @param string $area Application area ('frontend'|'admin')
      * @param string $pageKey UIMap page key
      * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
+     *
      * @return Mage_Selenium_Uimap_Page
      */
     public function getUimapPage($area, $pageKey, $paramsDecorator = null)
@@ -128,6 +132,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * @param string $area Application area ('frontend'|'admin')
      * @param string $pageKey UIMap page key
      * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
+     *
      * @return Mage_Selenium_Uimap_Page|Null
      */
     public function getUimapPageByMca($area, $mca, $paramsDecorator = null)

@@ -280,11 +280,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Constructs a test case with the given name and browser to test execution
      *
-     * @param  string $name     Test case name (by default = null)
-     * @param  array  $data     Test case data array (PHPUnit ONLY) (by default = array())
+     * @param  string $name Test case name (by default = null)
+     * @param  array  $data Test case data array (PHPUnit ONLY) (by default = array())
      * @param  string $dataName Name of Data set (PHPUnit ONLY) (by default = '')
-     * @param  array  $browser  Array of browser configuration settings: 'name', 'browser',
-     *  'host', 'port', 'timeout', 'httpTimeout' (by default = array())
+     * @param  array  $browser Array of browser configuration settings: 'name', 'browser', 'host', 'port', 'timeout',
+     * 'httpTimeout' (by default = array())
+     *
      * @throws InvalidArgumentException
      */
     public function __construct($name = null, array $data = array(), $dataName = '', array $browser = array())
@@ -308,11 +309,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Delegate method calls to the driver and overridden to allow load
-     * tests helpers
+     * Delegate method calls to the driver and overridden to allow load tests helpers
      *
      * @param string $command    Command's (method's) name to call
      * @param array  $arguments  Arguments for send to called command (method)
+     *
      * @return mixed
      */
     public function __call($command, $arguments)
@@ -337,11 +338,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Allow to access/load helpers from the tests level as a class in view
-     * "TestScope_HelperName"
+     * Allow to access/load helpers from the tests level as a class in view "TestScope_HelperName"
      *
      * @param   string $testScope   Contains part of the helper class name which refers to folder with needed helper
      * @param   string $helperName  Sufix, which described helper's name(default = 'Helper')
+     *
      * @return  Mage_Selenium_TestCase
      */
     protected function _loadHelper($testScope, $helperName = 'Helper')
@@ -368,12 +369,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Implementetion of setUpBeforeClass() method in the object context,
-     * called as setUpBeforeTests()
-     *
+     * Implementetion of setUpBeforeClass() method in the object context, called as setUpBeforeTests()<br>
      * Used ONLY one time before execution of each class (tests in test case)
      *
      * @staticvar boolean $_isFirst Internal variable, which described usage count of this one method
+     *
      * @return null
      */
     public function setUp()
@@ -387,20 +387,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Function is called before all tests in test case and used for do some
-     * action(s) as a precondition(s) for all test
+     * Function is called before all tests in test case and used for do some action(s) as a precondition(s) for all test
      *
      * @return null
      */
     public function setUpBeforeTests()
     {
-
     }
 
     /**
      * Append parameters decorator object
      *
      * @param Mage_Selenium_Helper_Params $paramsHelperObject Parameters decorator object
+     *
      * @return null
      */
     public function appendParamsDecorator($paramsHelperObject)
@@ -429,7 +428,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Loads specific driver for specified browser
      *
      * @param   array $browser Defines what kind of driver, for a what browser will be loaded
+     *
      * @since   Method available since Release 3.3.0
+     *
      * @return  PHPUnit_Extensions_SeleniumTestCase_Driver
      */
     protected function getDriver(array $browser)
@@ -437,8 +438,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $driver = $this->_testConfig->driver;
         $driver->setTestCase($this);
         $driver->setTestId($this->testId);
-        // @TODO we need separate driver connections if admin url
-        // doesn't start with frontend url
+        // @TODO we need separate driver connections if admin url doesn't start with frontend url
         $driver->setBrowserUrl($this->_applicationHelper->getBaseUrl());
         $driver->start();
         $this->drivers[] = $driver;
@@ -449,6 +449,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Sets the dependencies between a test cases
      *
      * @param  array $dependencies List of a dependencies of the each loaded test
+     *
      * @since  Method available since Release 3.4.0
      */
     public function setDependencies(array $dependencies)
@@ -471,12 +472,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
 
     /**
-     * Override data with index $key on-fly in the $overrideArray by
-     * new value (&$value)
+     * Override data with index $key on-fly in the $overrideArray by new value (&$value)
      *
-     * @param string $value         Value for override
-     * @param string $key           Index of the target to override
-     * @param array  $overrideArray Target array, which contains some indexe(s) to override
+     * @param string $value Value for override
+     * @param string $key Index of the target to override
+     * @param array $overrideArray Target array, which contains some indexe(s) to override
+     *
      * @return null
      */
     function overrideData(&$value, $key, $overrideArray)
@@ -491,9 +492,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Randomize data with index $key on-fly in the $randomizeArray by new value (&$value)
      *
-     * @param string $value          Value for randomization (in this case - value will be as a suffix)
-     * @param string $key            Index of the target to randomize
-     * @param array  $randomizeArray Target array, which contains some indexe(s) to randomize
+     * @param string $value Value for randomization (in this case - value will be as a suffix)
+     * @param string $key Index of the target to randomize
+     * @param array $randomizeArray Target array, which contains some indexe(s) to randomize
      */
     function randomizeData(&$value, $key, $randomizeArray)
     {
@@ -507,9 +508,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Get an array of keys from Multidimensional Array
      *
-     * @param   array $arrayData Array of data
-     * @param   array $arrayKeys Array of keys
-     * @return  array
+     * @param array $arrayData Array of data
+     * @param array $arrayKeys Array of keys
+     *
+     * @return array
      */
     function arrayKeysRecursion(array $arrayData, &$arrayKeys)
     {
@@ -526,7 +528,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Remove array elements with a value of '%noValue%'
      *
-     * @param  array $array  Array of data for clearning from '%noValue%' value(s)
+     * @param array $array  Array of data for clearning from '%noValue%' value(s)
+     *
      * @return array
      */
     public function arrayEmptyClear($array)
@@ -552,10 +555,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Loads test data from DataSet, specified in the $dataSource
      *
-     * @param   string|array      $dataSource  Data source (e.g. filename in ../data without .yml extension)
-     * @param   array|null        $override    Value to override in original data from data source
-     * @param   string|array|null $randomize   Value to randomize
-     * @return  array
+     * @param string|array $dataSource Data source (e.g. filename in ../data without .yml extension)
+     * @param array|null $override Value to override in original data from data source
+     * @param string|array|null $randomize Value to randomize
+     *
+     * @return array
      */
     public function loadData($dataSource, $override=null, $randomize=null)
     {
@@ -596,17 +600,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Generates random value as a string|text|email $type, with specified $length.
-     *
+     * Generates random value as a string|text|email $type, with specified $length.<br>
      * Can be used $modifier:
      * <li>if $type = string - alnum|alpha|digit|lower|upper|punct
      * <li>if $type = text - alnum|alpha|digit|lower|upper|punct
      * <li>if $type = email - valid|invalid
      *
-     * @param string            $type     Available types are 'string', 'text', 'email' (by default = 'string')
-     * @param integer           $length   Generated value length (by default = 100)
+     * @param string $type Available types are 'string', 'text', 'email' (by default = 'string')
+     * @param integer $length Generated value length (by default = 100)
      * @param string|array|null $modifier Value modifier, e.g. PCRE class (by default = NULL)
-     * @param string|null       $prefix   Prefix to prepend the generated value (by default = NULL)
+     * @param string|null $prefix Prefix to prepend the generated value (by default = NULL)
+     *
      * @return mixed
      */
     public function generate($type='string', $length=100, $modifier=null, $prefix=null)
@@ -620,13 +624,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
 
     /**
-     * Navigate to a specified frontend page
+     * Navigate to a specified frontend page<br>
+     * Page identifier must be described in the UIMAp. Opens "Home page" by default.
      *
-     * Page identifier must be described in the UIMAp.
-     * Opens "Home page" by default.
+     * @param string $page Page identifier (by default = 'home')
      *
-     * @param   string $page Page identifier (by default = 'home')
-     * @return  Mage_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function frontend($page='home')
     {
@@ -636,13 +639,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Navigate to a specified admin page.
+     * Navigate to a specified admin page.<br>
+     * Page identifier must be described in the UIMAp. Opens "Dashboard" page by default.
      *
-     * Page identifier must be described in the UIMAp.
-     * Opens "Dashboard" page by default.
+     * @param string $page Page identifier (by default = 'dashboard')
      *
-     * @param   string $page Page identifier (by default = 'dashboard')
-     * @return  Mage_Selenium_TestCase
+     * @return Mage_Selenium_TestCase
      */
     public function admin($page='dashboard')
     {
@@ -652,12 +654,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Navigates to a specified page in the current area.
-     *
+     * Navigates to a specified page in the current area.<br>
      * Page identifier must be described in the UIMAp.
      *
-     * @param   string $page Page identifier
-     * @return  Mage_Selenium_TestCase
+     * @param string $page Page identifier
+     *
+     * @return Mage_Selenium_TestCase
      */
     public function navigate($page)
     {
@@ -683,13 +685,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Navigates to the specified page in the current area
-     * and stops current testcase execution if navigation failed
-     *
+     * Navigates to the specified page in the current area and stops current testcase execution if navigation failed<br>
      * Page identifier must be described in the UIMAp.
      *
-     * @param   string $page Page identifier
-     * @return  Mage_Selenium_TestCase
+     * @param string $page Page identifier
+     *
+     * @return Mage_Selenium_TestCase
      */
     public function navigated($page)
     {
@@ -702,15 +703,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Checks the current openned page.
-     *
-     * Returns TRUE if requested page == current page else returns FALSE and
-     * sets up error message:
-     * "Opened the wrong page: $currentPage (should be:$page)
+     * Checks the current openned page.<br>
+     * Returns TRUE if requested page == current page else returns FALSE and sets up error message:
+     * "Opened the wrong page: $currentPage (should be:$page)".<br>
      * Page identifier must be described in the UIMAp.
      *
-     * @param   string  $page Page identifier
-     * @return  boolean
+     * @param string $page Page identifier
+     *
+     * @return boolean
      */
     public function checkCurrentPage($page)
     {
@@ -725,8 +725,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Returns URL of a specified page
      *
-     * @param   string $page Page identifier
-     * @return  string
+     * @param string $page Page identifier
+     *
+     * @return string
      */
     public function getPageUrl($page)
     {
@@ -736,8 +737,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Return click xpath of a specified page
      *
-     * @param   string $page Page identifier
-     * @return  string
+     * @param string $page Page identifier
+     *
+     * @return string
      */
     public function getPageClickXpath($page)
     {
@@ -757,8 +759,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Find PageID in UIMap in current area using full page URL
      *
-     * @param   string  $url Full URL to page
-     * @return  string|boolean
+     * @param string  $url Full URL to page
+     *
+     * @return string|boolean
      */
     protected function _findCurrentPageFromUrl($url)
     {
@@ -778,8 +781,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Get MCA-part of page URL
      *
-     * @param string $baseUrl    Base URL
+     * @param string $baseUrl Base URL
      * @param string $currentUrl Current URL
+     *
      * @return string
      */
     protected static function _getMcaFromCurrentUrl($baseUrl, $currentUrl)
@@ -825,10 +829,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Gets current area
-     *
+     * Gets current area<br>
      * Usage: to definition of area what operates in this time.
-     * <li>Possible areas: frontend|admin
+     * <li>Possible areas: frontend | admin
      *
      * @return string
      */
@@ -838,12 +841,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Sets current area
-     *
+     * Sets current area<br>
      * Usage: to setup of area what will operates next time
-     * Possible areas: frontend|admin
+     * <li>Possible areas: frontend | admin
      *
      * @param string $area Area identifier ('admin'|'frontend')
+     *
      * @return Mage_Selenium_TestCase
      */
     public function setArea($area)
@@ -856,8 +859,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Retrieves Page's data from UIMap by $pageKey
      *
-     * @param string $area      Area identifier ('admin'|'frontend')
-     * @param string $pageKey   UIMap page key
+     * @param string $area Area identifier ('admin'|'frontend')
+     * @param string $pageKey UIMap page key
+     *
      * @return Mage_Selenium_Uimap_Page
      */
     public function getUimapPage($area, $pageKey)
@@ -874,7 +878,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Retrieves current Page's data from UIMap
      *
-     * @return Mage_Selenium_Uimap_Page|null
+     * @return Mage_Selenium_Uimap_Page|NULL
      */
     public function getCurrentUimapPage()
     {
@@ -902,8 +906,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Gets XPath of specified control with specified name
      *
-     * @param string $controlType Type of control (e.g. button|link|radiobutton|checkbox)
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
+     *
      * @return string
      */
     protected function _getControlXpath($controlType, $controlName)
@@ -928,10 +933,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Click on specified control with specified name
      *
-     * @param string    $controlType    Type of control (e.g. button|link|radiobutton|checkbox)
-     * @param string    $controlName    Name of a control from UIMap
-     * @param boolean   $willChangePage Trigger of page reloading. If click on control doesn't
-     *  lead to page reload, should be FALSE (by default = TRUE)
+     * @param string $controlType Type of control (e.g. button|link|radiobutton|checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param boolean $willChangePage Trigger of page reloading. If click on control doesn't<br>
+     * lead to page reload, should be FALSE (by default = TRUE)
+     *
      * @return Mage_Selenium_TestCase
      */
     public function clickControl($controlType, $controlName, $willChangePage = true)
@@ -968,9 +974,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Click on button with specified name
      *
-     * @param string    $button         Name of a button from UIMap
-     * @param boolean   $willChangePage Trigger of page reloading. If click
-     *  on control doesn't lead to page reload, should be FALSE (by default = TRUE)
+     * @param string $button Button's identifier (Name of a button from UIMap)
+     * @param boolean $willChangePage Trigger of page reloading. If click on control doesn't<br>
+     * lead to page reload, should be FALSE (by default = TRUE)
+     *
      * @return Mage_Selenium_TestCase
      */
     public function clickButton($button, $willChangePage = true)
@@ -981,11 +988,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Searches specified control with specified name on the page
-     * If control is present - TRUE, else - FALSE
+     * Searches specified control with specified name on the page. If control is present - TRUE, else - FALSE
      *
-     * @param string $controlType Type of control (e.g. button|link|radiobutton|checkbox)
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
+     *
      * @return boolean
      */
     public function controlIsPresent($controlType, $controlName)
@@ -1004,10 +1011,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Searches specified button on the page
-     * If button is present - TRUE, else - FALSE
+     * Searches specified button on the page. If button is present - TRUE, else - FALSE
      *
      * @param string $button Name of a button from UIMap
+     *
      * @return boolean
      */
     public function buttonIsPresent($button)
@@ -1018,8 +1025,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Waits of appearing and disappearing of "Please wait" animated gif
      *
-     * @param integer $waitAppear    Timeout for appearing of loader in seconds (by default = 10)
+     * @param integer $waitAppear Timeout for appearing of loader in seconds (by default = 10)
      * @param integer $waitDisappear Timeout for disappearing of loader in seconds (by default = 30)
+     *
      * @return Mage_Selenium_TestCase
      */
     public function pleaseWait($waitAppear = 10, $waitDisappear = 30)
@@ -1044,8 +1052,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Fills any form by source data. Specific Tab can be filled only (if it defined)
      *
-     * @param array|string  $data   Array of data to filling or datasource name
-     * @param string        $tabId  Defines a specific Tab on a page to fill (by default = '')
+     * @param array|string $data Array of data to filling or datasource name
+     * @param string $tabId Defines a specific Tab on a page to fill (by default = '')
+     *
      * @return Mage_Selenium_TestCase|boolean
      */
     public function fillForm($data, $tabId = '')
@@ -1120,7 +1129,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Map data values to UIpage form
      *
      * @param array $fieldsets Array of fieldsets for filling
-     * @param array $data      Array of data to filling
+     * @param array $data Array of data to filling
+     *
      * @return array
      */
     protected function _getFormDataMap($fieldsets, $data)
@@ -1157,9 +1167,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Fills (typing a value) of 'text field' ('field'|'input') type control
+     * Fills (typing a value) of 'text field' ('field' | 'input') type control
      *
      * @param array $fieldData Array with PATH to control and VALUE to typing
+     *
      * @return null
      */
     protected function _fillFormField($fieldData)
@@ -1176,6 +1187,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Fills (makes selection of value(s)) in 'multiselect' type control
      *
      * @param array $fieldData  Array with PATH to control and VALUE(S) to selecting
+     *
      * @return null
      */
     protected function _fillFormMultiselect($fieldData)
@@ -1205,6 +1217,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Fills (makes selection of value) in 'dropdown' type control
      *
      * @param array $fieldData Array with PATH to control and VALUE to selecting
+     *
      * @return null
      */
     protected function _fillFormDropdown($fieldData)
@@ -1225,7 +1238,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Fills (makes selection of value) in 'checkbox' type control
      *
      * @param array $fieldData  Array with PATH to control and VALUE to selecting
-     * @return null
+     *
+     * @return void
+     * 
+     * @
      */
     protected function _fillFormCheckbox($fieldData)
     {
@@ -1250,6 +1266,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Fills (makes selection of value(s)) in 'radiobutton' type control
      *
      * @param array $fieldData Array with PATH to control and VALUE(S) to selecting
+     *
      * @return null
      */
     protected function _fillFormRadiobutton($fieldData)
@@ -1268,11 +1285,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Perform search specified data in specific grid.
-     * Returns NULL or XPath of found data.
+     * Perform search specified data in specific grid. Returns NULL or XPath of found data.
      *
-     * @param array       $data         Array of looking up data
+     * @param array $data Array of looking up data
      * @param string|null $fieldSetName Name of the fieldset with grid (by default = NULL)
+     *
      * @return string|null
      */
     public function search(array $data, $fieldSetName = null)
@@ -1315,6 +1332,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Forming xpath that contains the lookup data
      *
      * @param array $data Array of looking up data
+     *
      * @return string
      */
     public function formSearchXpath(array $data)
@@ -1331,10 +1349,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Perform search specified data in specific grid and open result
      *
-     * @param array       $data           Array of looking up data
-     * @param boolean     $willChangePage Trigger of page reloading. If click on control
-     *  doesn't lead to page reload, should be FALSE (by default = TRUE)
-     * @param string|null $fieldSetName   Name of the fieldset with grid (by default = NULL)
+     * @param array $data Array of looking up data
+     * @param boolean $willChangePage Trigger of page reloading. If click on control doesn't<br>
+     * lead to page reload, should be FALSE (by default = TRUE)
+     * @param string|null $fieldSetName Name of the fieldset with grid (by default = NULL)
+     *
      * @return boolean
      */
     public function searchAndOpen(array $data, $willChangePage = true, $fieldSetName = null)
@@ -1361,9 +1380,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Perform search specified data in specific grid and choose first element
      *
-     * @param array       $data         Array of looking up data
+     * @param array $data Array of looking up data
      * @param string|null $fieldSetName Name of the fieldset with grid (by default = NULL)
-     * @return null
+     *
+     * @return void
      */
     public function searchAndChoose(array $data, $fieldSetName = null)
     {
@@ -1382,6 +1402,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Prepare data array to search in grid
      *
      * @param array $data Array of looking up data
+     *
      * @return @array
      */
     protected function _prepareDataForSearch(array &$data)
@@ -1404,6 +1425,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Define parameter %Id% from XPath Title
      *
      * @param string $xpathTR XPath of control with 'title' attribute to retrieve an ID
+     *
      * @return integer
      */
     public function defineIdFromTitle($xpathTR)
@@ -1454,6 +1476,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param srting $fieldType Field's type
      * @param srting $fieldName Field's name from UIMap
+     *
      * @return null
      */
     public function addFieldIdToMessage($fieldType, $fieldName)
@@ -1471,6 +1494,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Check if message exists on page
      *
      * @param string $message  Message Id from UIMap
+     *
      * @return boolean
      */
     public function checkMessage($message)
@@ -1484,6 +1508,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Checks if message with specified XPath exists on page
      *
      * @param string $xpath XPath of message to checking
+     *
      * @return boolean
      */
     public function checkMessageByXpath($xpath)
@@ -1499,8 +1524,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Check if any 'error' message exists on page
      *
-     * @param string $message Error message's ID from UIMap OR XPath of error
-     *  message (by default = NULL)
+     * @param string $message Error message's ID from UIMap OR XPath of error message (by default = NULL)
+     *
      * @return boolean
      */
     public function errorMessage($message = null)
@@ -1525,8 +1550,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Check if any 'success' message exists on page
      *
-     * @param string $message Success message's ID from UIMap OR XPath of
-     *  success message (by default = NULL)
+     * @param string $message Success message's ID from UIMap OR XPath of success message (by default = NULL)
+     *
      * @return boolean
      */
     public function successMessage($message = null)
@@ -1551,8 +1576,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Checks if any 'validation' message exists on page
      *
-     * @param string $message Validation message's ID from UIMap OR XPath of
-     *  validation message (by default = NULL)
+     * @param string $message Validation message's ID from UIMap OR XPath of validation message (by default = NULL)
+     *
      * @return boolean
      */
     public function validationMessage($message = null)
@@ -1590,10 +1615,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Gets all element(s) by XPath
      *
-     * @param string $xpath           General XPath of looking up element(s)
-     * @param string $get             What to get. Allowed params: 'text' or 'value'
-     *  (by defauilt = 'text')
+     * @param string $xpath General XPath of looking up element(s)
+     * @param string $get What to get. Allowed params: 'text' or 'value' (by defauilt = 'text')
      * @param string $additionalXPath Additional XPath (by defauilt = '')
+     *
      * @return array
      */
     public function getElementsByXpath($xpath, $get = 'text', $additionalXPath = '')
@@ -1664,9 +1689,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Gets element by XPath
      *
-     * @param string $xpath  XPath of looking up element
-     * @param string $get    What to get. Allowed params: 'text' or 'value'
-     *  (by defauilt = 'text')
+     * @param string $xpath XPath of looking up element
+     * @param string $get What to get. Allowed params: 'text' or 'value' (by defauilt = 'text')
+     *
      * @return array
      */
     public function getElementByXpath($xpath, $get = 'text')
@@ -1755,12 +1780,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Assertions Methods
+     */
+    
+    /**
      * Asserts $condition and reports an error $message if $condition is FALSE.
      *
-     * @param  boolean $condition  Condition to assert
-     * @param  string  $message    Message to report if condition will FALSE (by default = '')
+     * @param boolean $condition Condition to assert
+     * @param string $message Message to report if condition will FALSE (by default = '')
+     *
      * @return PHPUnit_Framework_AssertionFailedError
-     * @throws PHPUnit_Framework_AssertionFailedError
      */
     public static function assertTrue($condition, $message = '')
     {
@@ -1782,10 +1811,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Asserts $condition and reports an error $message if $condition is TRUE.
      *
-     * @param  boolean $condition  Condition to assert
-     * @param  string  $message    Message to report if condition will TRUE (by default = '')
+     * @param boolean $condition Condition to assert
+     * @param string $message Message to report if condition will TRUE (by default = '')
+     *
      * @return PHPUnit_Framework_AssertionFailedError
-     * @throws PHPUnit_Framework_AssertionFailedError
      */
     public static function assertFalse($condition, $message = '')
     {
@@ -1805,10 +1834,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Gets node|value from DataSet by path to data source
+     * Gets node | value from DataSet by path to data source
      *
-     * @param string $path Path to data source (e.g. filename in ../data
-     *  without .yml extension) (by default = '')
+     * @param string $path Path to data source (e.g. filename in ../data without .yml extension) (by default = '')
+     *
      * @return array|string
      */
     protected function _getData($path='')
@@ -1819,8 +1848,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Performs submit form and confirmation popup
      *
-     * @param string $buttonName  Name of a button from UIMap
-     * @param string $message     Message ID from UIMap
+     * @param string $buttonName Name of a button from UIMap
+     * @param string $message Message ID from UIMap
+     *
      * @return boolean
      */
     public function clickButtonAndConfirm($buttonName, $message)
@@ -1860,8 +1890,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Waiting for element appearance
      *
-     * @param string|array  $locator XPath locator or array of locators
-     * @param integer       $timeout Timeout period in seconds (by default = 40)
+     * @param string|array $locator XPath locator or array of locators
+     * @param integer $timeout Timeout period in seconds (by default = 40)
+     *
      * @return boolean
      */
     public function waitForElement($locator, $timeout = 40)
@@ -1886,12 +1917,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Waiting for AJAX request to continue
-     *
+     * Waiting for AJAX request to continue<br>
      * Method works only if AJAX request was perform with Prototype or JQuery framework
      *
      * @param integer $timeout Timeout period in milliseconds (by default = 30000)
-     * @return null
+     *
+     * @return void
      */
     public function waitForAjax($timeout = 30000)
     {
@@ -1906,6 +1937,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Performs save opened form for submit
      *
      * @param string $buttonName Name of the button, what intended to save (submit) form (from UIMap)
+     *
      * @return Mage_Selenium_TestCase
      */
     public function saveForm($buttonName)
@@ -1949,11 +1981,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Performs verify opened form values
      *
-     * @param array|string $data         Array of data to verifying or datasource name
-     * @param string       $tabName      Defines a specific Tab on a page with form to
-     *  verification (by default = '')
-     * @param array        $skipElements Array of elements, what will skipped during
-     *  verification (by default = array('password'))
+     * @param array|string $data Array of data to verifying or datasource name
+     * @param string $tabName Defines a specific Tab on a page with form to verification (by default = '')
+     * @param array $skipElements Array of elements, what will skipped during verification (default = array('password'))
+     *
      * @return boolean
      */
     public function verifyForm($data, $tabName = '', $skipElements = array('password'))
@@ -2154,7 +2185,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Performs verify of messages count
      *
      * @param integer $count Expected count of message(s) on the page
-     * @param string  $xpath XPath of a message(s), what should be evaluated
+     * @param string $xpath XPath of a message(s), what should be evaluated
+     *
      * @return integer The number of nodes that match the specified $xpath
      */
     public function verifyMessagesCount($count = 1, $xpath = Mage_Selenium_TestCase::xpathValidationMessage)
@@ -2181,6 +2213,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Redefined PHPUnit_Extensions_SeleniumTestCase::suite, make possible to use dependency
      *
      * @param  string $className Name of class what loaded to parsing and execute
+     *
      * @return PHPUnit_Framework_TestSuite
      */
     public static function suite($className)
@@ -2337,9 +2370,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Takes a test and adds its dependencies
      *
-     * @param  PHPUnit_Framework_Test $test       Object. A Test can be run and collect its results
-     * @param  string                 $className  Name of class what loaded to parsing and execute
-     * @param  string                 $methodName Name of method what loaded from class to adding dependencies
+     * @param PHPUnit_Framework_Test $test Object. A Test can be run and collect its results
+     * @param string $className  Name of class what loaded to parsing and execute
+     * @param string $methodName Name of method what loaded from class to adding dependencies
+     *
      * @return void
      */
     public static function addTestDependencies(PHPUnit_Framework_Test $test, $className, $methodName)
@@ -2353,6 +2387,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $test;
     }
 
+    /**
+     * Runs the test case and collects the results in a TestResult object.<br>
+     * If no TestResult object is passed a new one will be created.
+     *
+     * @param  PHPUnit_Framework_TestResult $result Objec to collect of test results (by default = NULL)
+     *
+     * @return PHPUnit_Framework_TestResult
+     *
+     * @throws InvalidArgumentException
+     */
     public function run(PHPUnit_Framework_TestResult $result = null)
     {
         if ($result === null) {
@@ -2389,7 +2433,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * @since Method available since Release 3.5.4
+     * Performs a handling of dependencies between test what currently executing.
+     * 
+     * @return boolean
+     * 
+     * @since Method available since Release 3.5.4 
      */
     protected function handleDependencies()
     {
@@ -2441,6 +2489,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Override to run the test and assert its state
      *
      * @return mixed
+     *
      * @throws RuntimeException
      */
     protected function runTest()
@@ -2502,13 +2551,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Performs scrolling to specific element in the specified list(block) with
-     * specified name.
+     * Performs scrolling to specific element in the specified list(block) with specified name.
      *
      * @param string $elementType Type of the element what should be visible after scrolling
      * @param string $elementName Name of the element what should be visible after scrolling
-     * @param string $blockType   Type of the block where scroll is using
-     * @param string $blockName   Name of the block where scroll is using
+     * @param string $blockType Type of the block where scroll is using
+     * @param string $blockName Name of the block where scroll is using
+     *
      * @return null
      */
     public function moveScrollToElement($elementType, $elementName, $blockType, $blockName)
@@ -2532,15 +2581,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Moving specific element (with type = $elementType and name = $elementName)
-     * over the specified JS tree (with type = $blockType and name = $blockName)
+     * Moving specific element (with type = $elementType and name = $elementName)<br>
+     * over the specified JS tree (with type = $blockType and name = $blockName)<br>
      * to position = $moveToPosition
      *
-     * @param string  $elementType    Type of the element to move
-     * @param string  $elementName    Name of the element to move
-     * @param string  $blockType      Type of the block what contains JS tree
-     * @param string  $blockName      Name of the block what contains JS tree
+     * @param string $elementType Type of the element to move
+     * @param string $elementName Name of the element to move
+     * @param string $blockType Type of the block what contains JS tree
+     * @param string $blockName Name of the block what contains JS tree
      * @param integer $moveToPosition Index of position where element should be after moving (default = 1)
+     *
      * @return null
      */
     public function moveElementOverTree($elementType, $elementName, $blockType, $blockName, $moveToPosition = 1)

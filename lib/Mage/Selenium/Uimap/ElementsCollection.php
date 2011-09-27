@@ -49,11 +49,11 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
     protected $_params = null;
 
     /**
-     * Constructor
-     * 
+     * Construct an Uimap_ElementsCollection
+     *
      * @param string $type Type of element
      * @param array $objects Elements array
-     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or NULL (by default = NULL)
      */
     public function __construct($type, $objects, $paramsDecorator = null)
     {
@@ -65,6 +65,7 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
 
     /**
      * Get type of element
+     *
      * @return string
      */
     public function getType()
@@ -74,8 +75,10 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
 
     /**
      * Asign parameters decorator
-     * 
+     *
      * @param Mage_Selenium_Helper_Params $params Parameters decorator
+     *
+     * @return void
      */
     public function assignParams($params)
     {
@@ -84,9 +87,10 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
 
     /**
      * Get element by Id
-     * 
+     *
      * @param string $id Id of element
-     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or NULL (by default = NULL)
+     *
      * @return string|Null
      */
     public function get($id, $paramsDecorator = null)
@@ -94,7 +98,7 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
         $val = null;
         if (isset($this[$id])) {
             $val = $this[$id];
-            
+
             if (!$paramsDecorator && $this->_params) {
                 $paramsDecorator = $this->_params;
             }
@@ -105,11 +109,26 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
         return $val;
     }
 
+    /**
+     * Getting of ElementsCollectionIterator object
+     *
+     * @param Mage_Selenium_Uimap_ElementsCollection $collection The array or object to be iterated on.
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator array (by default = NULL)
+     *
+     * @return Mage_Selenium_Uimap_ElementsCollectionIterator
+     */
     public function getIterator()
     {
         return new Mage_Selenium_Uimap_ElementsCollectionIterator($this, $this->_params);
     }
 
+    /**
+     * Return current array entry by name
+     *
+     * @param $name string
+     *
+     * @return mixed The current array entry.
+     */
     public function __get($name)
     {
         $val = $this[$name];
@@ -120,7 +139,10 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
     }
 }
 
-
+/**
+ * This iterator allows to unset and modify values and keys while iterating
+ * over Arrays and Objects.
+ */
 class Mage_Selenium_Uimap_ElementsCollectionIterator extends ArrayIterator
 {
     /**
@@ -131,18 +153,24 @@ class Mage_Selenium_Uimap_ElementsCollectionIterator extends ArrayIterator
     protected $_params = null;
 
     /**
-    * 
-    * 
-    * @param Mage_Selenium_Uimap_ElementsCollection $collection
-    * @param Mage_Selenium_Helper_Params $paramsDecorator
-    * @return Mage_Selenium_Uimap_ElementsCollectionIterator
-    */
+     * Construct an ElementsCollectionIterator
+     *
+     * @param Mage_Selenium_Uimap_ElementsCollection $collection The array or object to be iterated on.
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator array (by default = NULL)
+     *
+     * @return Mage_Selenium_Uimap_ElementsCollectionIterator
+     */
     public function __construct($collection, $paramsDecorator = null)
     {
         $this->_params = $paramsDecorator;
         parent::__construct($collection);
     }
 
+    /**
+     * Return current array entry
+     *
+     * @return mixed The current array entry.
+     */
     public function current()
     {
         $val = parent::current();
@@ -151,5 +179,4 @@ class Mage_Selenium_Uimap_ElementsCollectionIterator extends ArrayIterator
         }
         return $val;
     }
-    
 }

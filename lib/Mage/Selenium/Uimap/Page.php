@@ -37,12 +37,14 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
 {
     /**
      * Page ID
+     *
      * @var string
      */
     protected $pageId = '';
 
     /**
      * Page MCA
+     *
      * @var string
      */
     protected $mca = '';
@@ -54,14 +56,16 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
 
     /**
      * Page title
+     *
      * @var string
      */
     protected $title = '';
 
     /**
      * Page class constructor
+     *
      * @param string $pageId Page ID
-     * @param array $pageContainer YML-generated array
+     * @param array $pageContainer Array of data, which contains in specific page
      */
     public function  __construct($pageId, array &$pageContainer)
     {
@@ -83,7 +87,8 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
 
     /**
      * Get page ID
-     * @return string
+     *
+     * @return string ID of the page
      */
     public function getPageId()
     {
@@ -92,8 +97,9 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
 
     /**
      * Get page mca
-     * 
-     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
+     *
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or NULL (by default = NULL)
+     *
      * @return string
      */
     public function getMca($paramsDecorator = null)
@@ -104,7 +110,8 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
     /**
      * Get page click xpath
      *
-     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or NULL (by default = NULL)
+     *
      * @return string
      */
     public function getClickXpath($paramsDecorator = null)
@@ -114,9 +121,10 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
 
     /**
      * Get page title
-     * 
+     *
      * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
-     * @return string
+     *
+     * @return string Title of the page
      */
     public function getTitle($paramsDecorator = null)
     {
@@ -132,5 +140,4 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
     {
         return $this->_elements['form'];
     }
-
 }

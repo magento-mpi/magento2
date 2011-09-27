@@ -62,6 +62,7 @@ class Mage_Selenium_Helper_Application extends Mage_Selenium_Helper_Abstract
      * Set current application area
      *
      * @param string $area Possible values are 'frontend' and 'admin'
+     *
      * @return Mage_Selenium_Helper_Application
      */
     public function setArea($area)

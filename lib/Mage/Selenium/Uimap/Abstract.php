@@ -64,6 +64,7 @@ class Mage_Selenium_Uimap_Abstract
      * Retrieve XPath of the current element
      *
      * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
+     *
      * @return string|null
      */
     public function getXPath($paramsDecorator = null)
@@ -85,6 +86,7 @@ class Mage_Selenium_Uimap_Abstract
      * Parser from native UIMap array to UIMap class hierarchy
      *
      * @param array &$container Array with UIMap
+     *
      * @return Mage_Selenium_Uimap_Abstract
      */
     protected function parseContainerArray(array &$container)
@@ -111,6 +113,7 @@ class Mage_Selenium_Uimap_Abstract
      * Asign parameters decorator to uimap tree from any level
      *
      * @param Mage_Selenium_Helper_Params $params Parameters decorator
+     *
      * @return Mage_Selenium_Uimap_Abstract
      */
     public function assignParams($params)
@@ -136,11 +139,12 @@ class Mage_Selenium_Uimap_Abstract
     }
 
     /**
-    * Get parameters decorator
-    *
-    * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
-    * @return Mage_Selenium_Helper_Params|null
-    */
+     * Get parameters decorator
+     *
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance (by default = NULL)
+     *
+     * @return Mage_Selenium_Helper_Params|null
+     */
     protected function getParams($paramsDecorator = null)
     {
         if ($paramsDecorator) {
@@ -151,12 +155,13 @@ class Mage_Selenium_Uimap_Abstract
     }
 
     /**
-    * Apply parameters decorator to string
-    *
-    * @param string $text
-    * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
-    * @return Mage_Selenium_Helper_Params|null
-    */
+     * Apply parameters decorator to string
+     *
+     * @param string $text String to change
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
+     *
+     * @return Mage_Selenium_Helper_Params|null
+     */
     protected function applyParamsToString($text, $paramsDecorator = null)
     {
         $paramsDecorator = $this->getParams($paramsDecorator);
@@ -174,6 +179,7 @@ class Mage_Selenium_Uimap_Abstract
      * @param Mage_Selenium_Uimap_ElementsCollection|Mage_Selenium_Uimap_Abstract $container UIMap container
      * @param array $cache Array with search results
      * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance or null
+     *
      * @return array
      */
     protected function __getElementsRecursive($elementsCollectionName, &$container, &$cache, $paramsDecorator = null)
@@ -206,8 +212,9 @@ class Mage_Selenium_Uimap_Abstract
      * Search UIMap element by name on any level from current and deeper
      * This method uses a cache to save search results
      *
-     * @param string                      $elementsCollectionName UIMap Elements collection name
-     * @param Mage_Selenium_Helper_Params $paramsDecorator        Parameters decorator instance or null
+     * @param string $elementsCollectionName UIMap Elements collection name
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Parameters decorator instance (by default = NULL)
+     *
      * @return array
      */
     public function getAllElements($elementsCollectionName, $paramsDecorator = null)
@@ -224,10 +231,17 @@ class Mage_Selenium_Uimap_Abstract
     }
 
     /**
-     * Magic method to call an accessor methods
-     * @param string Format: call "get"+"UIMap properties collection name"() to get UIMap elements collection by name from current level
-     *                    or "getAll"+"UIMap properties collection name"() to get UIMap elements collection by name on any level from current and deeper
-     *                    or "find"+"UIMap element type"(element name) to get UIMap element by name on any level from current and deeper
+     * Magic method to call an accessor methods<br>
+     * Format:
+     * <li>- call "get"+"UIMap properties collection name"() to get UIMap elements collection by name from current level
+     * <li>- call "getAll"+"UIMap properties collection name"() to get UIMap elements collection by name on any level
+     * from current and deeper
+     * <li>- call "find"+"UIMap element type"(element name) to get UIMap element by name on any level from current
+     * and deeper
+     *
+     * @param string $name Method's name to call 'get' | 'getAll' | 'find'
+     * @param string $arguments Argument to calling method 'UIMap properties collection name' | 'UIMap element type'
+     *
      * @return Mage_Selenium_Uimap_ElementsCollection|array|Null
      */
     public function __call($name, $arguments)

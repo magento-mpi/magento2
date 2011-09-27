@@ -28,7 +28,7 @@
  */
 
 /**
- * UImap factory
+ * UImap factory class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -39,27 +39,31 @@ class Mage_Selenium_Uimap_Factory
 
     /**
      * Array with allowed element names
+     *
      * @var array
      */
     protected static $allowedElementNames = array('buttons', 'messages', 'links', 'fields', 'dropdowns', 'multiselects',
                                                   'checkboxes', 'radiobuttons', 'required', 'pageelements');
 
     /**
-     * Class constructor
+     * Construct an Uimap_Factory
      */
     protected function __construct()
     {
     }
 
     /**
+     * Performs to create an UIMap object
      *
-     * @param <type> $elemKey
-     * @param <type> $elemValue
-     * @return <type>
+     * @param string $elemKey
+     * @param string|array $elemValue
+     *
+     * @return mixed
      */
     public static function createUimapElement($elemKey, &$elemValue)
     {
         $elements = null;
+
         switch ($elemKey) {
             case 'form':
                 $elements = new Mage_Selenium_Uimap_Form($elemValue);
@@ -89,8 +93,6 @@ class Mage_Selenium_Uimap_Factory
                                     $elemValue);
                 }
         }
-
         return $elements;
     }
-
 }

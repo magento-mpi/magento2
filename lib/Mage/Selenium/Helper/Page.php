@@ -75,7 +75,8 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
     /**
      * Set Application helper instance to access application info
      *
-     * @param Mage_Selenium_Helper_Application $applicationHelper
+     * @param Mage_Selenium_Helper_Application $applicationHelper Application helper instance
+     *
      * @return Mage_Selenium_AbstractHelper
      */
     public function setApplicationHelper(Mage_Selenium_Helper_Application $applicationHelper)
@@ -88,6 +89,7 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
      * Return URL of a specified page
      *
      * @param string $page Page identifier
+     *
      * @return string
      */
     public function getPageUrl($page)
@@ -109,6 +111,7 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
      * Return xpath which we need to click to open page
      *
      * @param string $page Page identifier
+     *
      * @return string
      */
     public function getPageClickXpath($page)
@@ -132,8 +135,9 @@ class Mage_Selenium_Helper_Page extends Mage_Selenium_Helper_Abstract
     /**
      * Convert page MCA to page ID
      *
-     * @param string page mca
+     * @param string Page's mca
      * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
+     *
      * @return string Page identifier
      */
     public function getPageByMca($mca, $paramsDecorator = null)

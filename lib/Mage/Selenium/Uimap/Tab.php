@@ -37,14 +37,16 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
 {
     /**
      * Tab Id
+     *
      * @var string
      */
     protected $tabId = '';
 
     /**
+     * Construct an Uimap_Tab
      *
-     * @param string $tabId
-     * @param array $tabContainer 
+     * @param string $tabId Tab's ID
+     * @param array $tabContainer Array of data, which contains in specific tab
      */
     public function  __construct($tabId, array &$tabContainer)
     {
@@ -58,6 +60,7 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
 
     /**
      * Get page ID
+     *
      * @return string
      */
     public function getTabId()
@@ -66,8 +69,10 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
     }
 
     /**
+     * Get Fieldset structure by ID
      *
-     * @param string $id
+     * @param string $id Fieldset ID
+     *
      * @return string
      */
     public function getFieldset($id)

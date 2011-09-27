@@ -73,6 +73,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * @param int $length Generated value length
      * @param string|array|null $modifier Value modifier, e.g. PCRE class
      * @param string|null $prefix Prefix to prepend the generated value
+     *
      * @return mixed
      */
     public function generate($type='string', $length=100, $modifier=null, $prefix=null)
@@ -99,10 +100,10 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * Generates email address
      *
      * @param int $length Generated string length (number of characters)
-     * @param string $validity  Defines if the generated string should be a vaild email address
-     *                          possible values of this parameter are 'valid' and 'invalid',
-     *                          any other value doesn't define validity of the generated address
+     * @param string $validity  Defines if the generated string should be a vaild email address possible values of<br>
+     * this parameter are 'valid' and 'invalid', any other value doesn't define validity of the generated address
      * @param string $prefix Prefix to prepend the generated value
+     *
      * @return string
      */
     public function generateEmailAddress($length=20, $validity='valid', $prefix='')
@@ -116,7 +117,7 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
         }
 
         $email = $prefix;
-        
+
         $mainlength = floor(($length - strlen($this->_emailDomainZone) - strlen($prefix) - 2) / 2);
 
         switch ($validity) {
@@ -175,9 +176,10 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * Generates random string
      *
      * @param int $length Generated string length (number of characters)
-     * @param string|array $class   PCRE class(es) to use for character in the generated string
-     *                              if no class is specified, only alphanumeric characters are used by default
+     * @param string|array $class PCRE class(es) to use for character in the generated string if no class<br>
+     * is specified, only alphanumeric characters are used by default
      * @param string $prefix Prefix to prepend the generated value
+     *
      * @return string
      */
     public function generateRandomString($length=100, $class=':alnum:', $prefix='')
@@ -217,12 +219,13 @@ class Mage_Selenium_Helper_DataGenerator extends Mage_Selenium_Helper_Abstract
      * Generates random string
      *
      * @param int $length Generated string length (number of characters)
-     * @param array $modifier   Allows to specify multiple properties of the generated text, e.g.:
-     *                          'class' => string - PCRE class(es) to use for generation, see
-     *                                  {@link Mage_Selenium_Helper_DataGenerator::generateRandomString()}
-     *                                  if no class is specified, only alphanumeric characters are used by default
-     *                          'para'  => int - number of paragraphs
+     * @param array $modifier Allows to specify multiple properties of the generated text, e.g.:<br>
+     * <li>'class' => string - PCRE class(es) to use for generation, see<br>
+     * {@link Mage_Selenium_Helper_DataGenerator::generateRandomString()}
+     * <li>if no class is specified, only alphanumeric characters are used by default
+     * <li>'para'  => int - number of paragraphs
      * @param string $prefix Prefix to prepend the generated value
+     *
      * @return string
      */
     public function generateRandomText($length=100, $modifier=null, $prefix='')

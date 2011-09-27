@@ -27,7 +27,8 @@
  */
 
 /**
- * Selenium Exception
+ * Test Automation Framework Exception.
+ * Thrown when a TAF command fails.
  *
  * @package     selenium
  * @subpackage  Mage_Selenium

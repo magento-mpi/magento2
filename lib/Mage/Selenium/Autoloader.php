@@ -26,7 +26,8 @@
  */
 
 /**
- * Simple autoloader implementation
+ * Class, which described method for automatically calling of needed class/interface what you are trying to use,
+ * which hasn't been defined yet. Simple autoloader implementation.
  *
  * @package     selenium
  * @subpackage  Mage_Selenium

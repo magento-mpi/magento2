@@ -37,12 +37,14 @@ class Mage_Selenium_Helper_Params
 {
     /**
      * Parameters array
+     *
      * @var array
      */
     protected $_paramsArray = array();
 
     /**
      * Class constructor
+     *
      * @param array $params Parameters array
      */
     public function  __construct(array $params = null)
@@ -57,8 +59,8 @@ class Mage_Selenium_Helper_Params
     /**
      * Set Xpath parameter
      *
-     * @param string $name   Parameter name
-     * @param string $value  Parameter value (null to unset)
+     * @param string $name Parameter name
+     * @param string $value Parameter value (null to unset)
      */
     public function setParameter($name, $value)
     {
@@ -73,7 +75,8 @@ class Mage_Selenium_Helper_Params
     /**
      * Get Xpath parameter
      *
-     * @param string $name   Parameter name
+     * @param string $name Parameter name
+     *
      * @return string
      */
     public function getParameter($name)
@@ -86,6 +89,7 @@ class Mage_Selenium_Helper_Params
      * Populate string with parameter values
      *
      * @param string $source Source string
+     *
      * @return string
      */
      public function replaceParameters($source)
@@ -101,6 +105,8 @@ class Mage_Selenium_Helper_Params
      * Populate string with Regexp for next matching
      *
      * @param string $source Source string
+     * @param string $regexp Regular expression (by default = '(.*?)')
+     *
      * @return string
      */
      public function replaceParametersWithRegexp($source, $regexp = '(.*?)')

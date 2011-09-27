@@ -79,6 +79,7 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Initialized browsers connections
+     *
      * @var array[int]PHPUnit_Extensions_SeleniumTestCase_Driver
      */
     protected $_drivers = array();
@@ -112,15 +113,14 @@ class Mage_Selenium_TestConfiguration
     protected $_configData = array();
 
     /**
-     * Constructor (defined private to implement singleton)
+     * Constructor (defined as private to implement singleton)
      */
     private function __construct()
     {
     }
 
     /**
-     * Destructor
-     *
+     * Destructor<br>
      * Extension: defines, browser need to be restarted or not.
      */
     public function  __destruct()
@@ -183,8 +183,9 @@ class Mage_Selenium_TestConfiguration
     /**
      * Performs retrieving of file helper instance
      *
-     * @param Mage_Selenium_TestCase           $testCase            Current test case as object (by default = NULL)
-     * @param Mage_Selenium_Helper_Application $applicationHelper   Current tested application as object (by default = NULL)
+     * @param Mage_Selenium_TestCase $testCase Current test case as object (by default = NULL)
+     * @param Mage_Selenium_Helper_Application $applicationHelper Current tested application as object (by default = NULL)
+     *
      * @return Mage_Selenium_Helper_Page
      */
     public function getPageHelper($testCase=null, $applicationHelper=null)
@@ -293,6 +294,7 @@ class Mage_Selenium_TestConfiguration
      * Initializes new driver connection with specific configuration
      *
      * @param array $connectionConfig Array of configuration data to start driver's connection
+     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _addDriverConnection(array $connectionConfig)
@@ -312,6 +314,7 @@ class Mage_Selenium_TestConfiguration
      * Performs retrieving of value from Configuration
      *
      * @param string $path - XPath-like path to config value (by default = '')
+     *
      * @return array
      */
     public function getConfigValue($path = '')
@@ -323,6 +326,7 @@ class Mage_Selenium_TestConfiguration
      * Performs retrieving of value from DataSet by path
      *
      * @param string $path XPath-like path to DataSet value (by default = '')
+     *
      * @return array|string
      */
     public function getDataValue($path = '')
@@ -335,6 +339,7 @@ class Mage_Selenium_TestConfiguration
      *
      * @param array  $data Array of Configuration|DataSet data
      * @param string $path XPath-like path to Configuration|DataSet value
+     *
      * @return array|string
      */
     protected function _descend($data, $path)

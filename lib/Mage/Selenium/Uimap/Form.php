@@ -36,8 +36,9 @@
 class Mage_Selenium_Uimap_Form extends Mage_Selenium_Uimap_Abstract
 {
     /**
+     * Construct an Uimap_Form
      *
-     * @param array $formContainer
+     * @param array $formContainer Array of data, which contains in the form
      */
     public function  __construct(array &$formContainer)
     {
@@ -46,6 +47,8 @@ class Mage_Selenium_Uimap_Form extends Mage_Selenium_Uimap_Abstract
 
     /**
      * Get tab defined on the current form
+     *
+     * @param string $id Tab's IDentifier
      *
      * @return Mage_Selenium_Uimap_Tab
      */

@@ -37,7 +37,9 @@ class Mage_Selenium_Uimap_FieldsetsCollection extends ArrayObject
 {
     /**
      * Get Fieldset structure by name
+     *
      * @param string $name Fieldset name
+     *
      * @return Mage_Selenium_Uimap_Fieldset
      */
     public function getFieldset($name)
