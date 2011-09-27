@@ -232,7 +232,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         $blockName = (string)$node['name'];
-        $_profilerKey = 'BLOCK: '.$blockName;
+        $_profilerKey = 'BLOCK:' . $blockName;
         Magento_Profiler::start($_profilerKey);
 
         $block = $this->addBlock($className, $blockName);
@@ -301,7 +301,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $parentName = $parent->getBlockName();
         }
 
-        $_profilerKey = 'BLOCK ACTION: '.$parentName.' > '.$method;
+        $_profilerKey = 'BLOCK_ACTION:' . $parentName . '>' . $method;
         Magento_Profiler::start($_profilerKey);
 
         if (!empty($parentName)) {

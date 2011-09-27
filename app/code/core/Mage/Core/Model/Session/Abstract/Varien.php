@@ -110,7 +110,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         // potential custom logic for session id (ex. switching between hosts)
         $this->setSessionId();
 
-        Magento_Profiler::start(__METHOD__.'/start');
+        Magento_Profiler::start('session_start');
         $sessionCacheLimiter = Mage::getConfig()->getNode('global/session_cache_limiter');
         if ($sessionCacheLimiter) {
             session_cache_limiter((string)$sessionCacheLimiter);
@@ -124,7 +124,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         if ($cookie->get(session_name()) == $this->getSessionId()) {
             $cookie->renew(session_name());
         }
-        Magento_Profiler::stop(__METHOD__.'/start');
+        Magento_Profiler::stop('session_start');
 
         return $this;
     }

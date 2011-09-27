@@ -103,7 +103,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      */
     public function loadByCode($entityType, $code)
     {
-        Magento_Profiler::start('_LOAD_ATTRIBUTE_BY_CODE__');
+        Magento_Profiler::start('load_by_code');
         if (is_numeric($entityType)) {
             $entityTypeId = $entityType;
         } elseif (is_string($entityType)) {
@@ -117,7 +117,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         }
         $this->_getResource()->loadByCode($this, $entityTypeId, $code);
         $this->_afterLoad();
-        Magento_Profiler::stop('_LOAD_ATTRIBUTE_BY_CODE__');
+        Magento_Profiler::stop('load_by_code');
         return $this;
     }
 

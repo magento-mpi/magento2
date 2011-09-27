@@ -109,7 +109,7 @@ class Mage_Core_Model_App_Area
         if (isset($this->_loadedParts[$part])) {
             return $this;
         }
-        Magento_Profiler::start('mage::dispatch::controller::action::predispatch::load_area::'.$this->_code.'::'.$part);
+        Magento_Profiler::start('load_area:' . $this->_code . '.' . $part);
         switch ($part) {
             case self::PART_CONFIG:
                 $this->_initConfig();
@@ -125,7 +125,7 @@ class Mage_Core_Model_App_Area
                 break;
         }
         $this->_loadedParts[$part] = true;
-        Magento_Profiler::stop('mage::dispatch::controller::action::predispatch::load_area::'.$this->_code.'::'.$part);
+        Magento_Profiler::stop('load_area:' . $this->_code . '.' . $part);
         return $this;
     }
 

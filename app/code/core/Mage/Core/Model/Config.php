@@ -292,9 +292,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         if (Mage::isInstalled(array('etc_dir' => $this->getOptions()->getEtcDir()))) {
             if ($this->_canUseCacheForInit()) {
-                Magento_Profiler::start('mage::app::init::config::load_cache');
+                Magento_Profiler::start('init_modules_config_cache');
                 $loaded = $this->loadCache();
-                Magento_Profiler::stop('mage::app::init::config::load_cache');
+                Magento_Profiler::stop('init_modules_config_cache');
                 if ($loaded) {
                     $this->_useCache = true;
                     return true;
@@ -1337,9 +1337,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $className = $this->getModelClassName($modelClass);
         if (class_exists($className)) {
-            Magento_Profiler::start('CORE::create_object_of::'.$className);
+            Magento_Profiler::start('FACTORY:' . $className);
             $obj = new $className($constructArguments);
-            Magento_Profiler::stop('CORE::create_object_of::'.$className);
+            Magento_Profiler::stop('FACTORY:' . $className);
             return $obj;
         } else {
             /* throw Mage::exception(

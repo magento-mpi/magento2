@@ -257,13 +257,13 @@ class Mage_Core_Model_App
             $options = array('etc_dir'=>$options);
         }
 
-        Magento_Profiler::start('mage::app::init::config');
+        Magento_Profiler::start('init_config');
         $this->_config = Mage::getConfig();
         $this->_config->setOptions($options);
         $this->_initBaseConfig();
         $this->_initCache();
         $this->_config->init($options);
-        Magento_Profiler::stop('mage::app::init::config');
+        Magento_Profiler::stop('init_config');
 
         if (Mage::isInstalled($options)) {
             $this->_initCurrentStore($code, $type);
@@ -329,12 +329,19 @@ class Mage_Core_Model_App
     public function run($params)
     {
         $options = isset($params['options']) ? $params['options'] : array();
+
+        Magento_Profiler::start('init');
+
         $this->baseInit($options);
         Mage::register('application_params', $params);
+
+        Magento_Profiler::stop('init');
 
         if ($this->_cache->processRequest()) {
             $this->getResponse()->sendResponse();
         } else {
+            Magento_Profiler::start('init');
+
             $this->_initModules();
             $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
 
@@ -346,7 +353,9 @@ class Mage_Core_Model_App
                 Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
             }
 
-            $this->getFrontController()->dispatch();
+            $controllerFront = $this->getFrontController();
+            Magento_Profiler::stop('init');
+            $controllerFront->dispatch();
         }
         return $this;
     }
@@ -371,9 +380,9 @@ class Mage_Core_Model_App
      */
     protected function _initBaseConfig()
     {
-        Magento_Profiler::start('mage::app::init::system_config');
+        Magento_Profiler::start('init_system_config');
         $this->_config->loadBase();
-        Magento_Profiler::stop('mage::app::init::system_config');
+        Magento_Profiler::stop('init_system_config');
         return $this;
     }
 
@@ -408,9 +417,9 @@ class Mage_Core_Model_App
         if (!$this->_config->loadModulesCache()) {
             $this->_config->loadModules();
             if ($this->_config->isLocalConfigLoaded() && !$this->_shouldSkipProcessModulesUpdates()) {
-                Magento_Profiler::start('mage::app::init::apply_db_schema_updates');
+                Magento_Profiler::start('apply_db_schema_updates');
                 Mage_Core_Model_Resource_Setup::applyAllUpdates();
-                Magento_Profiler::stop('mage::app::init::apply_db_schema_updates');
+                Magento_Profiler::stop('apply_db_schema_updates');
             }
             $this->_config->loadDb();
             $this->_config->saveCache();
@@ -456,9 +465,9 @@ class Mage_Core_Model_App
      */
     protected function _initCurrentStore($scopeCode, $scopeType)
     {
-        Magento_Profiler::start('mage::app::init::stores');
+        Magento_Profiler::start('init_stores');
         $this->_initStores();
-        Magento_Profiler::stop('mage::app::init::stores');
+        Magento_Profiler::stop('init_stores');
 
         if (empty($scopeCode) && !is_null($this->_website)) {
             $scopeCode = $this->_website->getCode();
@@ -739,9 +748,9 @@ class Mage_Core_Model_App
     {
         $this->_frontController = new Mage_Core_Controller_Varien_Front();
         Mage::register('controller', $this->_frontController);
-        Magento_Profiler::start('mage::app::init_front_controller');
+        Magento_Profiler::start('init_front_controller');
         $this->_frontController->init();
-        Magento_Profiler::stop('mage::app::init_front_controller');
+        Magento_Profiler::stop('init_front_controller');
         return $this;
     }
 
@@ -1291,7 +1300,7 @@ class Mage_Core_Model_App
 
             foreach ($events[$eventName]['observers'] as $obsName=>$obs) {
                 $observer->setData(array('event'=>$event));
-                Magento_Profiler::start('OBSERVER: '.$obsName);
+                Magento_Profiler::start('OBSERVER:' . $obsName);
                 switch ($obs['type']) {
                     case 'disabled':
                         break;
@@ -1308,7 +1317,7 @@ class Mage_Core_Model_App
                         $this->_callObserverMethod($object, $method, $observer);
                         break;
                 }
-                Magento_Profiler::stop('OBSERVER: '.$obsName);
+                Magento_Profiler::stop('OBSERVER:' . $obsName);
             }
         }
         return $this;
