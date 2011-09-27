@@ -35,7 +35,8 @@ if (Mage::helper('googleshopping')->isModuleEnabled('Mage_GoogleBase')) {
             array(
                 'type_id',
                 'attribute_set_id',
-                'target_country'
+                'target_country',
+                'category' => new Zend_Db_Expr('NULL')
             )
         )
         ->insertFromSelect($installer->getTable('googleshopping/types'));

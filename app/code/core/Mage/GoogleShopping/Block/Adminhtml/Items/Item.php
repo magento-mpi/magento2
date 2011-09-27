@@ -69,15 +69,6 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Bloc
                 'index'     => 'name',
         ));
 
-        $this->addColumn('gcontent_item_id',
-            array(
-                'header'    => $this->__('Google Content ID'),
-                'width'     => '150px',
-                'index'     => 'gcontent_item_id',
-                'renderer'  => 'googleshopping/adminhtml_items_renderer_id',
-
-        ));
-
         $this->addColumn('expires',
             array(
                 'header'    => $this->__('Expires'),
