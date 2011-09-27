@@ -1240,7 +1240,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $fieldData  Array with PATH to control and VALUE to selecting
      *
      * @return void
-     * 
+     *
      * @
      */
     protected function _fillFormCheckbox($fieldData)
@@ -1711,12 +1711,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function logoutCustomer()
     {
         try {
-            $this->frontend('customer_account');
-            if ("My Account" == $this->getTitle()) {
-                $this->clickAndWait("//a[@title='Log Out']", $this->_browserTimeoutPeriod);
+            $this->frontend('home');
+            $xpath = "//a[@title='Log Out']";
+            if ($this->isElementPresent($xpath)) {
+                $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
+                $this->frontend('home');
+            }
+            if ($this->getTitle() !== 'Home page') {
+                throw new PHPUnit_Framework_Exception('Home page was not opened');
             }
         } catch (PHPUnit_Framework_Exception $e) {
-            $this->_error = true;
+            $this->fail($e->getMessage());
         }
         return $this;
     }
@@ -1782,7 +1787,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Assertions Methods
      */
-    
+
     /**
      * Asserts $condition and reports an error $message if $condition is FALSE.
      *
@@ -2434,10 +2439,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Performs a handling of dependencies between test what currently executing.
-     * 
+     *
      * @return boolean
-     * 
-     * @since Method available since Release 3.5.4 
+     *
+     * @since Method available since Release 3.5.4
      */
     protected function handleDependencies()
     {
