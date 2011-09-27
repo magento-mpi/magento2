@@ -503,7 +503,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         //Steps
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
         $setXpath = $this->_getControlXpath('fieldset', 'shipping_method') . "[contains(@class,'active')]";
         $this->waitForElement($setXpath);
         if ($this->isElementPresent($setXpath)) {
@@ -513,12 +513,8 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         }
         //Verification
         $text = $this->_getControlXpath('message', 'shipping_alert');
-        $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
-        if ($alert == TRUE) {
-            $this->getAlert();
-        } else {
-            $this->fail('Alert ' . $text . ' has not appeared.');
-        }
+        $this->assertTrue($this->isAlertPresent(), 'error');
+        $this->assertEquals($text, $this->getAlert(), 'error');
     }
 
     /**
@@ -556,7 +552,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         //Steps
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData, FALSE);
         $setXpath = $this->_getControlXpath('fieldset', 'payment_method') . "[contains(@class,'active')]";
         $this->waitForElement($setXpath);
         if ($this->isElementPresent($setXpath)) {
@@ -566,11 +562,7 @@ class CheckoutOnePage_Guest_CheckingValidationTest extends Mage_Selenium_TestCas
         }
         //Verification
         $text = $this->_getControlXpath('message', 'payment_alert');
-        $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
-        if ($alert == TRUE) {
-            $this->getAlert();
-        } else {
-            $this->fail('Alert ' . $text . ' has not appeared.');
-        }
+        $this->assertTrue($this->isAlertPresent(), 'error');
+        $this->assertEquals($text, $this->getAlert(), 'error');
     }
 }

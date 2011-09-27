@@ -41,9 +41,10 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      * Create checkout
      *
      * @param array|string  $checkoutData
+     * @param bool          $validate           Set to TRUE if no errors should appear during checkout
      *
      */
-    public function frontCreateCheckout($checkoutData)
+    public function frontCreateCheckout($checkoutData, $validate = TRUE)
     {
         if (is_string($checkoutData)) {
             $checkoutData = $this->loadData($checkoutData);
@@ -66,18 +67,23 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         }
         if ($customer) {
             $this->frontSelectCheckoutMethod($customer);
+            $this->verifyNotPresetAlert($validate);
         }
         if ($billingAddr) {
             $fillShipping = $this->frontFillOnePageBillingAddress($billingAddr);
+            $this->verifyNotPresetAlert($validate);
         }
         if ($shippingAddr && $fillShipping) {
             $this->frontFillOnePageShippingAddress($shippingAddr);
+            $this->verifyNotPresetAlert($validate);
         }
         if ($shippingMethod) {
             $this->frontSelectShippingMethod($shippingMethod, FALSE);
+            $this->verifyNotPresetAlert($validate);
         }
         if ($paymentMethod) {
             $this->frontSelectPaymentMethod($paymentMethod, FALSE);
+            $this->verifyNotPresetAlert($validate);
         }
         $xpath = $this->_getControlXpath('fieldset', 'order_review') . "[contains(@class,'active')]";
         if ($this->isElementPresent($xpath)) {
@@ -86,14 +92,23 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->clickButton('place_order', FALSE);
             $this->waitForAjax();
             $text = $this->_getControlXpath('message', 'paypal_alert');
-            $alert = (!$this->isAlertPresent($text)) ? FALSE : TRUE;
-            if ($alert == TRUE) {
-                $this->getAlert();
-                $this->fail($text);
+            $alert = $this->isAlertPresent();
+            if ($alert) {
+                //$this->assertEquals($text, $this->getAlert(), 'error');
+                $this->fail($this->getAlert());
             }
             $this->waitForPageToLoad();
         } else {
             return FALSE;
+        }
+    }
+
+    public function verifyNotPresetAlert($validate = true)
+    {
+        $alert = $this->isAlertPresent();
+        if ($alert && $validate) {
+            $text = $this->getAlert();
+            $this->fail($text);
         }
     }
 
@@ -243,17 +258,37 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $this->waitForElementNotPresent($xpath);
         $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
         if ($this->isElementPresent($xpath)) {
+            $alert = $this->isAlertPresent();
+            if ($alert) {
+                $text = $this->getAlert();
+                $this->fail($text);
+            }
             $xpath = $this->_getControlXpath('field', '3d_password');
             $this->waitForElement($xpath);
-            $this->type($xpath, $password);
-            $this->clickButton('3d_submit', FALSE);
-            $this->waitForElementNotPresent($xpath);
-            $xpathContinue = $this->_getControlXpath('button', '3d_continue');
-            $this->waitForElement($xpathContinue);
-            if ($this->isElementPresent($xpathContinue)) {
-                $this->clickButton('3d_continue', FALSE);
+            if ($this->isElementPresent($xpath)) {
+                $this->type($xpath, $password);
+                $this->clickButton('3d_submit', FALSE);
+                $xpathContinue = $this->_getControlXpath('button', '3d_continue');
+                $this->waitForElement($xpathContinue);
+                if ($this->isElementPresent($xpathContinue)) {
+                    $this->clickButton('3d_continue', FALSE);
+                    $this->waitForElementNotPresent($xpathContinue);
+                }
+            } else {
+                $this->fail('wrong card');
             }
-            $this->pleaseWait();
+
+//            $xpath = $this->_getControlXpath('field', '3d_password');
+//            $this->waitForElement($xpath);
+//            $this->type($xpath, $password);
+//            $this->clickButton('3d_submit', FALSE);
+//            $this->waitForElementNotPresent($xpath);
+//            $xpathContinue = $this->_getControlXpath('button', '3d_continue');
+//            $this->waitForElement($xpathContinue);
+//            if ($this->isElementPresent($xpathContinue)) {
+//                $this->clickButton('3d_continue', FALSE);
+//            }
+//            $this->pleaseWait();
         }
     }
 
