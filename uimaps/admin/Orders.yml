@@ -121,7 +121,7 @@ manage_sales_orders:
             confirmation_to_void: Are you sure you want to void the payment?
             #not verified
             authorizenet_online_invoice_error: //li[normalize-space(@class)='error-msg' and contains(.,'Order was not released from holding status.')]
-            
+
             invalid_card_number: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card number.' and not(contains(@style,'display: none;'))]"
             failed_print_packingslips: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
             failed_print_credit_memos: //li[normalize-space(@class)='error-msg' and contains(.,'There are no printable documents related to selected orders.')]
@@ -258,6 +258,8 @@ create_order_for_new_customer:
                 -
                     shipping_method: &shippingMethod
                         xpath: //div[@id='order-shipping_method']
+                        fields:
+                            ship_service_name: //dt[strong='%shipService%']
                         links:
                             get_shipping_methods_and_rates: //a[normalize-space(text())='Get shipping methods and rates']
                         radiobuttons:

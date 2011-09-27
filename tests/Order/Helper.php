@@ -119,6 +119,8 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->fillOrderAddress($shippingAddr, $shippingChoise, 'shipping');
         }
         if ($shippingMethod) {
+            $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
+            $this->pleaseWait();
             $this->selectShippingMethod($shippingMethod, $validate);
         }
         $this->selectPaymentMethod($paymentMethod, $validate);
@@ -421,20 +423,31 @@ class Order_Helper extends Mage_Selenium_TestCase
         if (is_string($shippingMethod)) {
             $shippingMethod = $this->loadData($shippingMethod);
         }
-        if (array_key_exists('shipping_service', $shippingMethod) &&
-                array_key_exists('shipping_method', $shippingMethod)) {
-            $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
-            $this->pleaseWait();
-            $this->addParameter('shipService', $shippingMethod['shipping_service']);
-            $this->addParameter('shipMethod', $shippingMethod['shipping_method']);
+        $this->messages['error'] = array();
+        $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : NULL;
+        $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : NULL;
+        if (!$shipService or !$shipMethod) {
+            $this->messages['error'][] = 'Shipping Service(or Shipping Method) is not set';
+        } else {
+            $this->addParameter('shipService', $shipService);
+            $this->addParameter('shipMethod', $shipMethod);
             if ($this->errorMessage('ship_method_unavailable') || $this->errorMessage('no_shipping')) {
-                if ($validate) {
-                    $this->fail('This shipping method is currently unavailable.');
+                $this->messages['error'][] = 'No Shipping Method is available for this order';
+            } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
+                $method = $this->_getControlXpath('radiobutton', 'ship_method');
+                if ($this->isElementPresent($method)) {
+                    $this->click($method);
+                    $this->pleaseWait();
+                } else {
+                    $this->messages['error'][] = 'Shipping Method "' . $shipMethod . '" for "'
+                            . $shipService . '" is currently unavailable.';
                 }
             } else {
-                $this->clickControl('radiobutton', 'ship_method', FALSE);
-                $this->pleaseWait();
+                $this->messages['error'][] = 'Shipping Service "' . $shipService . '" is currently unavailable.';
             }
+        }
+        if ($this->messages['error'] && $validate) {
+            $this->fail(implode("\n", $this->messages['error']));
         }
     }
 
@@ -453,8 +466,7 @@ class Order_Helper extends Mage_Selenium_TestCase
             if (is_string($customerData)) {
                 $customerData = $this->loadData($customerData);
             }
-            $this->assertTrue($this->searchAndOpen($customerData, FALSE, 'order_customer_grid'),
-                    'Customer is not found');
+            $this->assertTrue($this->searchAndOpen($customerData, FALSE, 'order_customer_grid'),"Customer isn't found");
         }
 
         $page = $this->getCurrentLocationUimapPage();

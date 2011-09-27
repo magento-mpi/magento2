@@ -105,6 +105,10 @@ class Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertTrue($this->successMessage('success_canceled_order'), $this->messages);
+        if ($shipment != 'flatrate') {
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure($shipment . '_disable');
+        }
     }
 
     public function dataShipment()

@@ -435,7 +435,7 @@ shipping_usps: &usps
 
 shipping_fedex: &fedex
     shipping_service: Federal Express
-    shipping_method: Ground
+    shipping_method: Home Delivery
 
 shipping_dhl: &dhl
     shipping_service: DHL
