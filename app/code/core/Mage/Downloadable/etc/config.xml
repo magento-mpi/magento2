@@ -32,59 +32,6 @@
         </Mage_Downloadable>
     </modules>
     <global>
-        <fieldsets>
-            <downloadable_sales_copy_order>
-                <entity_id>
-                    <to_downloadable>order_id</to_downloadable>
-                </entity_id>
-                <increment_id>
-                    <to_downloadable>order_increment_id</to_downloadable>
-                </increment_id>
-                <created_at>
-                    <to_downloadable>*</to_downloadable>
-                </created_at>
-                <updated_at>
-                    <to_downloadable>*</to_downloadable>
-                </updated_at>
-                <customer_id>
-                    <to_downloadable>*</to_downloadable>
-                </customer_id>
-            </downloadable_sales_copy_order>
-            <downloadable_sales_copy_order_item>
-                <item_id>
-                    <to_downloadable>order_item_id</to_downloadable>
-                </item_id>
-                <name>
-                    <to_downloadable>product_name</to_downloadable>
-                </name>
-                <sku>
-                    <to_downloadable>product_sku</to_downloadable>
-                </sku>
-            </downloadable_sales_copy_order_item>
-            <downloadable_sales_copy_link>
-                <product_id>
-                    <to_purchased>*</to_purchased>
-                </product_id>
-                <link_id>
-                    <to_purchased>*</to_purchased>
-                </link_id>
-                <title>
-                    <to_purchased>link_title</to_purchased>
-                </title>
-                <is_shareable>
-                    <to_purchased>*</to_purchased>
-                </is_shareable>
-                <link_url>
-                    <to_purchased>*</to_purchased>
-                </link_url>
-                <link_file>
-                    <to_purchased>*</to_purchased>
-                </link_file>
-                <link_type>
-                    <to_purchased>*</to_purchased>
-                </link_type>
-            </downloadable_sales_copy_link>
-        </fieldsets>
         <sales>
             <quote>
                 <item>
@@ -312,55 +259,6 @@
         </events>
     </frontend>
     <admin>
-        <fieldsets>
-            <catalog_product_dataflow>
-                <qty>
-                    <product_type>
-                        <downloadable/>
-                    </product_type>
-                </qty>
-                <min_qty>
-                    <product_type>
-                        <downloadable/>
-                    </product_type>
-                </min_qty>
-                <is_qty_decimal>
-                    <product_type>
-                        <downloadable/>
-                    </product_type>
-                </is_qty_decimal>
-                <backorders>
-                    <product_type>
-                        <downloadable/>
-                    </product_type>
-                </backorders>
-                <min_sale_qty>
-                    <product_type>
-                        <downloadable/>
-                    </product_type>
-                </min_sale_qty>
-                <max_sale_qty>
-                    <product_type>
-                        <downloadable/>
-                    </product_type>
-                </max_sale_qty>
-                <is_in_stock>
-                    <product_type>
-                        <downloadable/>
-                    </product_type>
-                </is_in_stock>
-                <notify_stock_qty>
-                    <product_type>
-                        <downloadable/>
-                    </product_type>
-                </notify_stock_qty>
-                <manage_stock>
-                    <product_type>
-                        <downloadable/>
-                    </product_type>
-                </manage_stock>
-            </catalog_product_dataflow>
-        </fieldsets>
         <routers>
             <adminhtml>
                 <args>

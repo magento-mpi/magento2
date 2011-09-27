@@ -126,19 +126,6 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        <fieldsets>
-            <sales_convert_quote_address>
-                <reward_points_balance>
-                    <to_order>*</to_order>
-                </reward_points_balance>
-                <reward_currency_amount>
-                    <to_order>*</to_order>
-                </reward_currency_amount>
-                <base_reward_currency_amount>
-                    <to_order>*</to_order>
-                </base_reward_currency_amount>
-            </sales_convert_quote_address>
-        </fieldsets>
         <events>
             <newsletter_subscriber_save_commit_after>
                 <observers>
