@@ -114,7 +114,9 @@ onepage_checkout:
                             gift_option_for_individual_items: //input[@id='allow_gift_messages_for_items']
                         radiobuttons:
                             ship_method: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
+                            one_method_selected: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and ../following-sibling::*[contains(text(),'%shipMethod%')]]
                         fields:
+                            ship_service_name: //dt[text()='%shipService%']
                             gift_option_entire_order_from: //input[[@id='gift-message-whole-from']
                             gift_option_entire_order_to: //input[@id='gift-message-whole-to']
                             gift_option_entire_order_message: //input[@id='gift-message-whole-message']
@@ -130,6 +132,7 @@ onepage_checkout:
                             payment_method_continue: //li[@id='opc-payment']//button[span='Continue']
                         radiobuttons:
                             check_payment_method: //input[@title='%paymentTitle%']
+                            selected_one_payment: //label[normalize-space(text())='%paymentTitle%']
                         fields:
                             name_on_card: //input[@id='%paymentId%_cc_owner']
                             card_number: //input[@id='%paymentId%_cc_number']
@@ -192,6 +195,7 @@ onepage_checkout:
                 empty_shipping_methods_for_all_addresses: //li[normalize-space(@class)='error-msg' and contains(.,'Please select shipping methods for all addresses')]
                 success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
                 payment_method_not_defined: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not defined')]
+                no_shipping: //*[@id='checkout-shipping-method-load']/p[text()='Sorry, no quotes are available for this order at this time.']
                 ship_method_unavailable: //dt[strong='%shipService%']/following::dd[1]//li[@class='error-msg'][text()='This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.']
                 paypal_alert: There was an error processing your order. Please contact us or try again later.
                 shipping_alert: Please specify shipping method.
