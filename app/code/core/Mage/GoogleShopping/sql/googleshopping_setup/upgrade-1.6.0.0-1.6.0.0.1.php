@@ -25,7 +25,7 @@
  */
 
 /**
- * GoogleBase upgrade
+ * GoogleShopping upgrade
  *
  * @category    Mage
  * @package     Mage_GoogleShopping
