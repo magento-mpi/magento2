@@ -485,7 +485,7 @@ saved_visa: &visaSavedCC
 saved_mastercard: &mastercardSavedCC
     name_on_card: 'Test Account'
     card_type: 'MasterCard'
-    card_number: '5100080000000000'
+    card_number: 5200000000000007
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
@@ -493,7 +493,7 @@ saved_mastercard: &mastercardSavedCC
 saved_jcb: &jcbSavedCC
     name_on_card: 'Test Account'
     card_type: 'JCB'
-    card_number: '3530111333300000'
+    card_number: '3000000000000004'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '1234'
@@ -582,7 +582,7 @@ else_visa: &visaElse
 
 else_mastercard: &mastercardElse
     card_type: 'MasterCard'
-    card_number: '5100080000000000'
+    card_number: 5200000000000007
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
@@ -603,7 +603,7 @@ else_other: &otherElse
 
 else_jcb: &jcbElse
     card_type: 'JCB'
-    card_number: '3530111333300000'
+    card_number: '3000000000000004'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '1234'
@@ -619,7 +619,6 @@ else_solo: &soloElse
     start_date_year: 2011
 
 else_switch_maestro: &switchMaestroElse
-    name_on_card: 'Test Account'
     card_type: 'Switch/Maestro'
     card_number: '4024007127653'
     expiration_month: '07 - July'

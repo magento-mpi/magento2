@@ -94,10 +94,10 @@ create_credit_memo:
                             qty_to_refund: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@name,'[qty]')]
                 -
                     product_line_to_refund:
-                        xpath: //div[@class='grid np']
+                        xpath: //div[@class='grid np']//tbody[@class]
                         fields:
-                            product_sku: //tbody[@class]//tr[contains(.//@name,'creditmemo[items')]//*[strong='SKU:']
-                            product_qty: //tbody[@class]//tr[contains(.//@name,'creditmemo[items')]//td[5]
+                            product_sku: //tr[contains(.//@name,'creditmemo[items')]//*[strong='SKU:']
+                            product_qty: //tr[contains(.//@name,'creditmemo[items')]//td[5]
                 -
                     credit_memo_comments:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Credit Memo Comments']

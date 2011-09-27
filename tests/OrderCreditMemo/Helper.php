@@ -62,7 +62,7 @@ class OrderCreditMemo_Helper extends Mage_Selenium_TestCase
             $setXpath = $this->_getControlXpath('fieldset', 'product_line_to_refund');
             $skuXpath = $this->_getControlXpath('field', 'product_sku');
             $qtyXpath = $this->_getControlXpath('field', 'product_qty');
-            $productCount = $this->getXpathCount($setXpath . '//tbody[@class]');
+            $productCount = $this->getXpathCount($setXpath);
             for ($i = 1; $i <= $productCount; $i++) {
                 $prod_sku = $this->getText($setXpath . "[$i]" . $skuXpath);
                 $prod_sku = trim(preg_replace('/SKU:|\\n/', '', $prod_sku));
