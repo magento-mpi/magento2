@@ -485,15 +485,15 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     /**
      * Retrieve child block by name
      *
-     * @param  string $name
-     * @return mixed
+     * @param string $alias
+     * @return array|Mage_Core_Block_Abstract|false
      */
-    public function getChild($name = '')
+    public function getChild($alias = '')
     {
-        if ($name === '') {
+        if ($alias === '') {
             return $this->_children;
-        } elseif (isset($this->_children[$name])) {
-            return $this->_children[$name];
+        } elseif (isset($this->_children[$alias])) {
+            return $this->_children[$alias];
         }
         return false;
     }
