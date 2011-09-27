@@ -90,6 +90,9 @@ class Magento_Profiler
         return implode(self::NESTING_SEPARATOR, $currentPath);
     }
 
+    /**
+     * Initialize the profiler before the first enabling
+     */
     protected static function _initialize()
     {
         register_shutdown_function(array(__CLASS__, 'display'));

@@ -178,6 +178,11 @@ class Magento_Profiler_OutputAbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedTimers, $actualTimers);
     }
 
+    /**
+     * Reset threshold values for all profiler fetch keys
+     *
+     * @param Magento_Profiler_OutputAbstract $output
+     */
     protected function _resetThresholds(Magento_Profiler_OutputAbstract $output)
     {
         $fetchKeys = array(
