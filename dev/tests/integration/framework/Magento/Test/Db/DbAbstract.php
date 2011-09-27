@@ -110,6 +110,8 @@ abstract class Magento_Test_Db_DbAbstract
      *
      * @param string $command
      * @return boolean
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _exec($command)
     {
