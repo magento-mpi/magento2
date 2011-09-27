@@ -568,7 +568,8 @@ saved_other: &otherSavedCC
 #<------------ELSE------------>
 else_american_express: &americanExpressElse
     card_type: 'American Express'
-    card_number: '341111111111111'
+    card_number: '371449635398431'
+    #card_number: '341111111111111'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '1234'
@@ -589,7 +590,8 @@ else_mastercard: &mastercardElse
 
 else_discover: &discoverElse
     card_type: 'Discover'
-    card_number: '6011000000000004'
+    card_number: '6011000990139424'
+    #card_number: '6011000000000004'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
@@ -603,7 +605,8 @@ else_other: &otherElse
 
 else_jcb: &jcbElse
     card_type: 'JCB'
-    card_number: '3000000000000004'
+    card_number: 3566002020360505
+    #card_number: '3000000000000004'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '1234'
@@ -614,16 +617,20 @@ else_solo: &soloElse
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
-    issue_number:
+    issue_number: 1234
     start_date_month: 12 - December
     start_date_year: 2011
 
 else_switch_maestro: &switchMaestroElse
     card_type: 'Switch/Maestro'
-    card_number: '4024007127653'
+    card_number: '6331101999990016'
+    #card_number: '4024007127653'
     expiration_month: '07 - July'
     expiration_year: '2020'
     card_verification_number: '111'
+    issue_number: 2011
+    start_date_month: 12 - December
+    start_date_year: 2011
 
 #*********************************************
 #*              Payment Data                 *
@@ -636,13 +643,13 @@ payment_saved_cc_visa: &savedCCVisa
     payment_method: Credit Card (saved)
     payment_info: *visaSavedCC
 
-payment_paypal_direct_uk: &paypalDirectUkVisa
+payment_paypal_direct_uk: &paypalDirectUkMastercard
     payment_method: PayPal Direct Payment Payflow Edition
-    payment_info: *visaElse
+    payment_info: *mastercardElse
 
-payment_paypal_direct: &paypalDirectVisa
+payment_paypal_direct: &paypalDirectMastercard
     payment_method: PayPal Direct Payment
-    payment_info: *visaElse
+    payment_info: *mastercardElse
 
 payment_payflo_pro: &payfloProVisa
     payment_method: Payflow Pro
@@ -995,7 +1002,7 @@ order_newcustmoer_paypaldirectuk_flatrate:
         coupon_1: %noValue%
     billing_addr_data: *billingReq
     shipping_addr_data: *shippingSameAsBilling
-    payment_data: *paypalDirectUkVisa
+    payment_data: *paypalDirectUkMastercard
     shipping_data: *flatRate
 
 #<------------New Customer, PaypalDirect, FlatRate, ShippingSameAsBilling------------>
@@ -1013,7 +1020,7 @@ order_newcustmoer_paypaldirect_flatrate:
         coupon_1: %noValue%
     billing_addr_data: *billingReq
     shipping_addr_data: *shippingSameAsBilling
-    payment_data: *paypalDirectVisa
+    payment_data: *paypalDirectMastercard
     shipping_data: *flatRate
 
 #<------------New Customer, PayflowPro, FlatRate, ShippingSameAsBilling------------>
