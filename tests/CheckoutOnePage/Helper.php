@@ -78,11 +78,11 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->verifyNotPresetAlert($validate);
         }
         if ($shippingMethod) {
-            $this->frontSelectShippingMethod($shippingMethod, FALSE);
+            $this->frontSelectShippingMethod($shippingMethod, $validate);
             $this->verifyNotPresetAlert($validate);
         }
         if ($paymentMethod) {
-            $this->frontSelectPaymentMethod($paymentMethod, FALSE);
+            $this->frontSelectPaymentMethod($paymentMethod, $validate);
             $this->verifyNotPresetAlert($validate);
         }
         $xpath = $this->_getControlXpath('fieldset', 'order_review') . "[contains(@class,'active')]";
@@ -94,7 +94,6 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $text = $this->_getControlXpath('message', 'paypal_alert');
             $alert = $this->isAlertPresent();
             if ($alert) {
-                //$this->assertEquals($text, $this->getAlert(), 'error');
                 $this->fail($this->getAlert());
             }
             $this->waitForPageToLoad();
@@ -103,6 +102,10 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         }
     }
 
+    /**
+     *
+     * @param type $validate
+     */
     public function verifyNotPresetAlert($validate = true)
     {
         $alert = $this->isAlertPresent();
@@ -164,31 +167,41 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     {
         $setXpath = $this->_getControlXpath('fieldset', 'shipping_method') . "[contains(@class,'active')]";
         $this->waitForElement($setXpath);
-        if ($this->isElementPresent($setXpath)) {
-            if (is_string($shippingMethod)) {
-                $shippingMethod = $this->loadData($shippingMethod);
-            }
-            if (array_key_exists('shipping_service', $shippingMethod) &&
-                    array_key_exists('shipping_method', $shippingMethod)) {
-                $this->addParameter('shipService', $shippingMethod['shipping_service']);
-                $this->addParameter('shipMethod', $shippingMethod['shipping_method']);
-                if ($this->errorMessage('ship_method_unavailable')) {
-                    if ($validate) {
-                        $this->fail('This shipping method is currently unavailable.');
-                    }
-                } else {
-                    $xpathRadio = $this->_getControlXpath('radiobutton', 'ship_method');
-                    if ($this->isElementPresent($xpathRadio)) {
-                        $this->clickControl('radiobutton', 'ship_method', FALSE);
-                    }
-                    if (array_key_exists('add_gift_options', $shippingMethod)) {
-                        $this->frontAddGiftMessage($shippingMethod['add_gift_options']);
-                    }
-                    $this->clickButton('ship_method_continue', FALSE);
-                    $this->pleaseWait();
+
+        if (is_string($shippingMethod)) {
+            $shippingMethod = $this->loadData($shippingMethod);
+        }
+        $this->messages['error'] = array();
+        $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : NULL;
+        $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : NULL;
+        if (!$shipService or !$shipMethod) {
+            $this->messages['error'][] = 'Shipping Service(or Shipping Method) is not set';
+        } else {
+            $this->addParameter('shipService', $shipService);
+            $this->addParameter('shipMethod', $shipMethod);
+            if ($this->errorMessage('ship_method_unavailable') || $this->errorMessage('no_shipping')) {
+                $this->messages['error'][] = 'No Shipping Method is available for this order';
+            } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
+                $method = $this->_getControlXpath('radiobutton', 'ship_method');
+                $selectedMethod = $this->_getControlXpath('radiobutton', 'one_method_selected');
+                if ($this->isElementPresent($method)) {
+                    $this->click($method);
+                    $this->waitForAjax();
+                } elseif (!$this->isElementPresent($selectedMethod)) {
+                    $this->messages['error'][] = 'Shipping Method "' . $shipMethod . '" for "'
+                            . $shipService . '" is currently unavailable.';
                 }
+            } else {
+                $this->messages['error'][] = 'Shipping Service "' . $shipService . '" is currently unavailable.';
             }
         }
+        if ($this->messages['error'] && $validate) {
+            $this->fail(implode("\n", $this->messages['error']));
+        }
+        if (array_key_exists('add_gift_options', $shippingMethod)) {
+            $this->frontAddGiftMessage($shippingMethod['add_gift_options']);
+        }
+        $this->clickButton('ship_method_continue', FALSE);
     }
 
     /**
@@ -227,9 +240,6 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     {
         $setXpath = $this->_getControlXpath('fieldset', 'payment_method') . "[contains(@class,'active')]";
         $this->waitForElement($setXpath);
-        if ($validate) {
-            $this->assertFalse($this->errorMessage('no_payment'), 'No Payment Information Required');
-        }
         if (is_string($paymentMethod)) {
             $paymentMethod = $this->loadData($paymentMethod);
         }
@@ -238,7 +248,12 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         if ($payment) {
             $this->addParameter('paymentTitle', $payment);
             $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
-            $this->click($xpath);
+            $selectedPayment = $this->_getControlXpath('radiobutton', 'selected_one_payment');
+            if ($this->isElementPresent($xpath)) {
+                $this->click($xpath);
+            } elseif (!$this->isElementPresent($selectedPayment) && $validate) {
+                $this->fail('Payment Method "' . $payment . '" is currently unavailable.');
+            }
             if ($card) {
                 $paymentId = $this->getAttribute($xpath . '/@value');
                 $this->addParameter('paymentId', $paymentId);
@@ -429,8 +444,8 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             foreach ($billingAddr as $field => $data) {
                 $this->addParameter('billingParameter', $data);
                 $xpathBilling = $this->_getControlXpath('field', 'billing_address_checkout');
-                $this->assertTrue($this->isElementPresent($xpathBilling), 'Billing ' . $data .
-                        ' is not shown on the checkout progress bar');
+                $this->assertTrue($this->isElementPresent($xpathBilling),
+                        'Billing ' . $data . ' is not shown on the checkout progress bar');
             }
         }
         if ($shippingAddr) {
@@ -448,8 +463,8 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             foreach ($shippingAddr as $field => $data) {
                 $this->addParameter('shippingParameter', $data);
                 $xpathShipping = $this->_getControlXpath('field', 'shipping_address_checkout');
-                $this->assertTrue($this->isElementPresent($xpathShipping), 'Shipping ' . $data .
-                        ' is not shown on the checkout progress bar');
+                $this->assertTrue($this->isElementPresent($xpathShipping),
+                        'Shipping ' . $data . ' is not shown on the checkout progress bar');
             }
         }
         if ($shippingMethod) {
@@ -457,8 +472,8 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                     array_key_exists('shipping_method', $shippingMethod)) {
                 $xpathChange = $this->_getControlXpath('link', 'shipping_method_change_link');
                 $this->waitForElement($xpathChange);
-                $this->addParameter('shippingMethod', $shippingMethod['shipping_service'] .
-                        ' - ' . $shippingMethod['shipping_method']);
+                $this->addParameter('shippingMethod',
+                        $shippingMethod['shipping_service'] . ' - ' . $shippingMethod['shipping_method']);
                 $xpathShipMethod = $this->_getControlXpath('field', 'shipping_method_checkout');
                 $this->assertTrue($this->isElementPresent($xpathShipMethod),
                         'Shipping Method is not shown on the checkout progress bar.');
@@ -492,6 +507,5 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             }
         }
     }
-}
 
-?>
+}
