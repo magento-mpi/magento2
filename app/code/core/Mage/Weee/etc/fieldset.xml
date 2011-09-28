@@ -41,9 +41,9 @@
                 <base_weee_tax_applied_amount>
                     <to_order_item>*</to_order_item>
                 </base_weee_tax_applied_amount>
-                <base_weee_tax_applied_row_amount>
+                <base_weee_tax_applied_row_amnt>
                     <to_order_item>*</to_order_item>
-                </base_weee_tax_applied_row_amount>
+                </base_weee_tax_applied_row_amnt>
                 <weee_tax_disposition>
                     <to_order_item>*</to_order_item>
                 </weee_tax_disposition>
@@ -74,10 +74,10 @@
                     <to_cm_item>*</to_cm_item>
                     <to_invoice_item>*</to_invoice_item>
                 </base_weee_tax_applied_amount>
-                <base_weee_tax_applied_row_amount>
+                <base_weee_tax_applied_row_amnt>
                     <to_cm_item>*</to_cm_item>
                     <to_invoice_item>*</to_invoice_item>
-                </base_weee_tax_applied_row_amount>
+                </base_weee_tax_applied_row_amnt>
                 <weee_tax_disposition>
                     <to_cm_item>*</to_cm_item>
                     <to_invoice_item>*</to_invoice_item>
