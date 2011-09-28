@@ -428,8 +428,6 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
                 return $this->getData('url');
             }
 
-            Magento_Profiler::stop('REWRITE: '.__METHOD__);
-
             $rewrite = $this->getUrlRewrite();
             if ($this->getStoreId()) {
                 $rewrite->setStoreId($this->getStoreId());
