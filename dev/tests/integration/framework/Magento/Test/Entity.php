@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Class that implements CRUP tests for Mage_Core_Model_Abstract based objects
+ */
 class Magento_Test_Entity
 {
     /**

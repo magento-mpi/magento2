@@ -12,7 +12,7 @@
 -->
 <phpunit bootstrap="./framework/bootstrap.php" clors="true">
     <testsuites>
-        <testsuite name="Magento 2 Integration Tests">
+        <testsuite name="Magento Integration Tests">
             <file>testsuite/AllRelevantTests.php</file>
         </testsuite>
     </testsuites>

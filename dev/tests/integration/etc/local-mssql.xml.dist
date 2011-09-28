@@ -29,7 +29,7 @@
                     <host><![CDATA[localhost]]></host>
                     <username><![CDATA[user]]></username>
                     <password><![CDATA[password]]></password>
-                    <dbname><![CDATA[magento2_integration_tests]]></dbname>
+                    <dbname><![CDATA[magento_integration_tests]]></dbname>
                     <initStatements><![CDATA[]]></initStatements>
                     <model><![CDATA[mssql]]></model>
                     <type><![CDATA[pdo_mssql]]></type>

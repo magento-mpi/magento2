@@ -13,7 +13,7 @@ class AllTests
 {
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Magento 2');
+        $suite = new PHPUnit_Framework_TestSuite('Magento');
         $suite->addTest(Magento_AllTests::suite());
         return $suite;
     }

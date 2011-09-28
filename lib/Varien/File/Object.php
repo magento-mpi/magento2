@@ -192,8 +192,7 @@ class Varien_File_Object extends SplFileObject implements IFactory {
         $path_parts = pathinfo($fileName);
         if(isset($path_parts["extension"])) {
             return $path_parts["extension"];
-        }
-        else {
+        } else {
             return '';
         }
     }

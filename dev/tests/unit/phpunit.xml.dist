@@ -11,7 +11,7 @@
  */
 -->
 <phpunit bootstrap="./framework/bootstrap.php" clors="true">
-    <testsuite name="Magento 2 Unit Tests">
+    <testsuite name="Magento Unit Tests">
         <file>testsuite/AllTests.php</file>
     </testsuite>
     <filter>
@@ -25,4 +25,7 @@
             </exclude>
         </whitelist>
     </filter>
+    <php>
+        <ini name="date.timezone" value="America/Los_Angeles"/>
+    </php>
 </phpunit>

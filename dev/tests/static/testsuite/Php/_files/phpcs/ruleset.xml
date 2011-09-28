@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 -->
-<ruleset name="Magento 2">
-    <description>Magento 2 coding standard.</description>
+<ruleset name="Magento">
+    <description>Magento coding standard.</description>
     <rule ref="Zend.Files.ClosingTag"/>
     <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
     <rule ref="Generic.WhiteSpace.ScopeIndent"/>

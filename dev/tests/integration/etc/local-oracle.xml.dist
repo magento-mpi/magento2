@@ -27,7 +27,7 @@
             <default_setup>
                 <connection>
                     <host><![CDATA[]]></host>
-                    <username><![CDATA[magento2_integration_tests]]></username>
+                    <username><![CDATA[magento_integration_tests]]></username>
                     <password><![CDATA[magento]]></password>
                     <dbname><![CDATA[localhost/ORCL]]></dbname>
                     <initStatements><![CDATA[]]></initStatements>
