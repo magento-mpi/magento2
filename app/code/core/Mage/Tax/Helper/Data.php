@@ -783,8 +783,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get calculated taxes for each tax class
      *
-     * @param Mage_Sales_Model_Order $source
-     *
+     * This method returns array with format:
      * array(
      *  $index => array(
      *      'tax_amount'        => $taxAmount,
@@ -794,6 +793,8 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      *      'percent'           => $percent
      *  )
      * )
+     *
+     * @param Mage_Sales_Model_Order $source
      * @return array
      */
     public function getCalculatedTaxes($source)
@@ -846,8 +847,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get calculated Shipping & Handling Tax
      *
-     * @param Mage_Sales_Model_Order $source
-     *
+     * This method returns array with format:
      * array(
      *  $index => array(
      *      'tax_amount'        => $taxAmount,
@@ -857,6 +857,8 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      *      'percent'           => $percent
      *  )
      * )
+     *
+     * @param Mage_Sales_Model_Order $source
      * @return array
      */
     public function getShippingTax($source)
@@ -872,13 +874,13 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         $taxClassAmount = array();
         if ($current && $source) {
             if ($current->getShippingTaxAmount() != 0 && $current->getBaseShippingTaxAmount() != 0) {
-                $taxClassAmount[0]['tax_amount']          = $current->getShippingTaxAmount();
-                $taxClassAmount[0]['base_tax_amount']     = $current->getBaseShippingTaxAmount();
+                $taxClassAmount[0]['tax_amount']        = $current->getShippingTaxAmount();
+                $taxClassAmount[0]['base_tax_amount']   = $current->getBaseShippingTaxAmount();
                 if ($current->getShippingHiddenTaxAmount() > 0) {
                     $taxClassAmount[0]['hidden_tax_amount'] = $current->getShippingHiddenTaxAmount();
                 }
-                $taxClassAmount[0]['title']               = $this->__('Shipping & Handling Tax');
-                $taxClassAmount[0]['percent']             = NULL;
+                $taxClassAmount[0]['title']             = $this->__('Shipping & Handling Tax');
+                $taxClassAmount[0]['percent']           = NULL;
             }
         }
 
