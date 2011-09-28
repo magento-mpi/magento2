@@ -1752,7 +1752,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     protected function _validateCouponCode()
     {
         $code = $this->_getData('coupon_code');
-        if ($code) {
+        if (strlen($code)) {
             $addressHasCoupon = false;
             $addresses = $this->getAllAddresses();
             if (count($addresses)>0) {
