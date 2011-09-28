@@ -49,6 +49,13 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     protected $_excludeProductIds;
 
     /**
+     * Array of all product ids in list
+     *
+     * @var null|array
+     */
+    protected $_allProductIds = null;
+
+    /**
      * Retrieve current product instance (if actual and available)
      *
      * @return Mage_Catalog_Model_Product
@@ -160,12 +167,13 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     }
 
     /**
-     * Get target rule based products for related and up-sell
+     * Get link collection with limit parameter
      *
      * @throws Mage_Core_Exception
-     * @return Mage_Catalog_Model_Resource_Product_Collection|null
+     * @param null|int $limit
+     * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection|null
      */
-    protected function _getTargetLinkCollection()
+    protected function _getPreparedTargetLinkCollection($limit = null)
     {
         $linkCollection = null;
         switch ($this->getType()) {
@@ -185,11 +193,15 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
                 );
         }
 
-        $this->_addProductAttributesAndPrices($linkCollection);
+        if (!is_null($limit)) {
+            $this->_addProductAttributesAndPrices($linkCollection);
+            $linkCollection->setPageSize($limit);
+        }
+
         Mage::getSingleton('catalog/product_visibility')
             ->addVisibleInCatalogFilterToCollection($linkCollection);
 
-        $linkCollection->setFlag('do_not_use_category_id', true)->setPageSize($this->getPositionLimit());
+        $linkCollection->setFlag('do_not_use_category_id', true);
 
         $excludeProductIds = $this->getExcludeProductIds();
         if ($excludeProductIds) {
@@ -197,6 +209,16 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
         }
 
         return $linkCollection;
+    }
+
+    /**
+     * Get link collection for related and up-sell
+     *
+     * @return Mage_Catalog_Model_Resource_Product_Collection|null
+     */
+    protected function _getTargetLinkCollection()
+    {
+        return $this->_getPreparedTargetLinkCollection($this->getPositionLimit());
     }
 
     /**
@@ -210,24 +232,39 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     }
 
     /**
+     * Get target rule collection ids
+     *
+     * @param null|int $limit
+     * @return array
+     */
+    protected function _getTargetRuleProductIds($limit = null)
+    {
+        $excludeProductIds = $this->getExcludeProductIds();
+        if (!is_null($this->_items)) {
+            $excludeProductIds = array_merge(array_keys($this->_items), $excludeProductIds);
+        }
+        $indexModel = $this->_getTargetRuleIndex()
+            ->setType($this->getType())
+            ->setLimit($limit)
+            ->setProduct($this->getProduct())
+            ->setExcludeProductIds($excludeProductIds);
+        if (!is_null($limit)) {
+            $indexModel->setLimit($limit);
+        }
+
+        return $indexModel->getProductIds();
+    }
+
+    /**
      * Get target rule collection for related and up-sell
      *
      * @return array
      */
     protected function _getTargetRuleProducts()
     {
-        $excludeProductIds = $this->getExcludeProductIds();
-        if (!is_null($this->_items)) {
-            $excludeProductIds = array_merge(array_keys($this->_items), $excludeProductIds);
-        }
         $limit = $this->getPositionLimit();
 
-        $productIds = $this->_getTargetRuleIndex()
-            ->setType($this->getType())
-            ->setLimit($limit)
-            ->setProduct($this->getProduct())
-            ->setExcludeProductIds($excludeProductIds)
-            ->getProductIds();
+        $productIds = $this->_getTargetRuleProductIds($limit);
 
         $items = array();
         if ($productIds) {
@@ -265,5 +302,31 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     public function getItemsCount()
     {
         return count($this->getItemCollection());
+    }
+
+    /**
+     * Get ids of all assigned products
+     *
+     * @return array
+     */
+    public function getAllIds()
+    {
+        if (is_null($this->_allProductIds)) {
+            if (!$this->isShuffled()) {
+                $this->_allProductIds = array_keys($this->getItemCollection());
+                return $this->_allProductIds;
+            }
+
+            $targetRuleProductIds = $this->_getTargetRuleProductIds();
+            $linkProductCollection = $this->_getPreparedTargetLinkCollection();
+            $linkProductIds = array();
+            foreach ($linkProductCollection as $item) {
+                $linkProductIds[] = $item->getEntityId();
+            }
+            $this->_allProductIds = array_unique(array_merge($targetRuleProductIds, $linkProductIds));
+            shuffle($this->_allProductIds);
+        }
+
+        return $this->_allProductIds;
     }
 }
