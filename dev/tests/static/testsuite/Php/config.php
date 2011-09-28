@@ -21,7 +21,8 @@ return array(
         "{$baseDir}/dev/tests/integration/framework/Magento/Test/TestSuite",
         "{$baseDir}/dev/tests/integration/framework/Magento/Test/TestCase",
         "{$baseDir}/dev/tests/integration/testsuite/AllRelevantTests.php",
-        "{$baseDir}/dev/tests/static"
+        "{$baseDir}/dev/tests/static",
+        "{$baseDir}/dev/tools/batch_tests/batch.php"
     ),
     'black_list' => array(
         /* Files that intentionally violate the requirements for testing purposes */
