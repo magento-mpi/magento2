@@ -163,6 +163,17 @@ abstract class Enterprise_TargetRule_Block_Product_Abstract extends Mage_Catalog
     }
 
     /**
+     * Whether rotation mode is set to "shuffle"
+     *
+     * @return bool
+     */
+    public function isShuffled()
+    {
+        $rotationMode = $this->getTargetRuleHelper()->getRotationMode($this->getType());
+        return $rotationMode == Enterprise_TargetRule_Model_Rule::ROTATION_SHUFFLE;
+    }
+
+    /**
      * Order product items
      *
      * @return array|null
@@ -170,8 +181,7 @@ abstract class Enterprise_TargetRule_Block_Product_Abstract extends Mage_Catalog
     protected function _orderProductItems()
     {
         if (!is_null($this->_items)) {
-            $rotationMode = $this->getTargetRuleHelper()->getRotationMode($this->getType());
-            if ($rotationMode == Enterprise_TargetRule_Model_Rule::ROTATION_SHUFFLE) {
+            if ($this->isShuffled()) {
                 // shuffling assoc
                 $ids = array_keys($this->_items);
                 shuffle($ids);
@@ -181,7 +191,7 @@ abstract class Enterprise_TargetRule_Block_Product_Abstract extends Mage_Catalog
                     $this->_items[$id] = $items[$id];
                 }
             } else {
-                usort($this->_items, array($this, 'compareItems'));
+                uasort($this->_items, array($this, 'compareItems'));
             }
             $this->_sliceItems();
         }
