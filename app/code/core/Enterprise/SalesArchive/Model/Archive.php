@@ -63,7 +63,7 @@ class Enterprise_SalesArchive_Model_Archive
 
     /**
      * Get archive resource model
-     * @return Enterprise_SalesArchive_Model_Mysql4_Archive
+     * @return Enterprise_SalesArchive_Model_Resource_Archive
      */
     protected function _getResource()
     {

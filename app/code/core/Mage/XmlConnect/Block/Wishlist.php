@@ -61,7 +61,7 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
 
         if ($this->hasWishlistItems()) {
             /**
-             * @var Mage_Wishlist_Model_Mysql4_Product_Collection
+             * @var Mage_Wishlist_Model_Resource_Product_Collection
              */
             foreach ($this->getWishlistItems() as $item) {
                 /** @var $item Mage_Wishlist_Model_Item */

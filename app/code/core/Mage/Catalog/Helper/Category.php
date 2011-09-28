@@ -56,7 +56,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
      *
      * @param   boolean|string $sorted
      * @param   boolean $asCollection
-     * @return  Varien_Data_Tree_Node_Collection|Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection|array
+     * @return  Varien_Data_Tree_Node_Collection|Mage_Catalog_Model_Resource_Category_Collection|array
      */
     public function getStoreCategories($sorted=false, $asCollection=false, $toLoad=true)
     {

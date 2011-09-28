@@ -64,7 +64,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
     /**
      * Return available gift registry types collection
      *
-     * @return Enterprise_GiftRegistry_Model_Mysql4_Type_Collection
+     * @return Enterprise_GiftRegistry_Model_Resource_Type_Collection
      */
     public function getTypesCollection()
     {

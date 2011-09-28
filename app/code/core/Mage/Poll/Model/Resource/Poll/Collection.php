@@ -26,7 +26,7 @@
 
 
 /**
- * Pool Mysql4 collection model resource
+ * Pool resource collection model
  *
  * @category    Mage
  * @package     Mage_Poll

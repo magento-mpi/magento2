@@ -31,7 +31,7 @@
  * @package     Mage_Xmlconnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Resource_ConfigData extends Mage_Core_Model_Mysql4_Abstract
+class Mage_XmlConnect_Model_Resource_ConfigData extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize configuration data
@@ -50,7 +50,7 @@ class Mage_XmlConnect_Model_Resource_ConfigData extends Mage_Core_Model_Mysql4_A
      * @param string $category
      * @param string $path
      * @param string $value
-     * @return Mage_XmlConnect_Model_Mysql4_ConfigData
+     * @return Mage_XmlConnect_Model_Resource_ConfigData
      */
     public function saveConfig($applicationId, $category, $path, $value)
     {
@@ -76,7 +76,7 @@ class Mage_XmlConnect_Model_Resource_ConfigData extends Mage_Core_Model_Mysql4_A
      * @param bool $category
      * @param bool $path
      * @param bool $pathLike
-     * @return Mage_XmlConnect_Model_Mysql4_ConfigData
+     * @return Mage_XmlConnect_Model_Resource_ConfigData
      */
     public function deleteConfig($applicationId, $category = false, $path = false, $pathLike = true)
     {

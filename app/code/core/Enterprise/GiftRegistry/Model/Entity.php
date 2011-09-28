@@ -387,7 +387,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     /**
      * Return entity registrants collection
      *
-     * @return Enterprise_GiftRegistry_Model_Mysql4_Person_Collection
+     * @return Enterprise_GiftRegistry_Model_Resource_Person_Collection
      */
     public function getRegistrantsCollection()
     {
@@ -400,7 +400,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     /**
      * Return entity items collection
      *
-     * @return Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
+     * @return Enterprise_GiftRegistry_Model_Resource_Item_Collection
      */
     public function getItemsCollection()
     {

@@ -176,7 +176,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
     /**
      * Return customer group collection
      *
-     * @return Mage_Customer_Model_Entity_Group_Collection
+     * @return Mage_Customer_Model_Resource_Group_Collection
      */
     public function getCustomerGroupCollection()
     {

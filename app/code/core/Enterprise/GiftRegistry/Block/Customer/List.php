@@ -49,7 +49,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
     /**
      * Return list of gift registries
      *
-     * @return Enterprise_GiftRegistry_Model_Mysql4_GiftRegistry_Collection
+     * @return Enterprise_GiftRegistry_Model_Resource_GiftRegistry_Collection
      */
     public function getEntityCollection()
     {

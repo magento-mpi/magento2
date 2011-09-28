@@ -39,7 +39,6 @@
             </enterprise_logging>
             <enterprise_logging_resource>
                 <class>Enterprise_Logging_Model_Resource</class>
-                <deprecatedNode>enterprise_logging_mysql4</deprecatedNode>
                 <entities>
                     <event>
                         <table>enterprise_logging_event</table>

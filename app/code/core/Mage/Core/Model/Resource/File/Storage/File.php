@@ -101,7 +101,7 @@ class Mage_Core_Model_Resource_File_Storage_File
      * Clear files and directories in storage
      *
      * @param  string $dir
-     * @return Mage_Core_Model_Mysql4_File_Storage_File
+     * @return Mage_Core_Model_Resource_File_Storage_File
      */
     public function clear($dir = '')
     {

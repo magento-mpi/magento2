@@ -36,7 +36,7 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
     /**
      * Mapping attributes collection
      *
-     * @var Mage_GoogleShopping_Model_Mysql4_Attribute_Collection
+     * @var Mage_GoogleShopping_Model_Resource_Attribute_Collection
      */
     protected $_attributesCollection;
 
@@ -201,9 +201,9 @@ class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
 
     /**
      * Retrieve type's attributes collection
-     * It is protected, because only Type knowns about its attributes
+     * It is protected, because only Type knows about its attributes
      *
-     * @return Mage_GoogleShopping_Model_Mysql4_Attribute_Collection
+     * @return Mage_GoogleShopping_Model_Resource_Attribute_Collection
      */
     protected function _getAttributesCollection()
     {

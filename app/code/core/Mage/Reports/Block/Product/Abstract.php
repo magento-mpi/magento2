@@ -51,7 +51,7 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
     /**
      * Product Index Collection
      *
-     * @var Mage_Reports_Model_Mysql4_Product_Index_Collection_Abstract
+     * @var Mage_Reports_Model_Resource_Product_Index_Collection_Abstract
      */
     protected $_collection;
 
@@ -164,7 +164,7 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
      * Get products collection and apply recent events log to it
      *
      * @deprecated
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     protected function _getRecentProductsCollection()
     {

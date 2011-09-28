@@ -58,7 +58,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Mage_C
     /**
      * Gift wrapping collection
      *
-     * @return Enterprise_GiftWrapping_Model_Resource_Mysql4_Wrapping_Collection
+     * @return Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
      */
     public function getDesignCollection()
     {

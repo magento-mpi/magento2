@@ -19,37 +19,24 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_ImportExport
+ * @package     Mage_Ogone
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Import proxy product resource
+ * Ogone Debug
  *
- * @category    Mage
- * @package     Mage_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @deprecated - used core/log_adapter for debugging
  */
-class Mage_ImportExport_Model_Import_Proxy_Product_Resource extends Mage_Catalog_Model_Resource_Product
+class Mage_Ogone_Model_Resource_Api_Debug extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Product to category table.
+     * Init ogone debug resource model
      *
-     * @return string
      */
-    public function getProductCategoryTable()
+    protected function _construct()
     {
-        return $this->_productCategoryTable;
-    }
-
-    /**
-     * Product to website table.
-     *
-     * @return string
-     */
-    public function getProductWebsiteTable()
-    {
-        return $this->_productWebsiteTable;
+        $this->_init('ogone/api_debug', 'debug_id');
     }
 }

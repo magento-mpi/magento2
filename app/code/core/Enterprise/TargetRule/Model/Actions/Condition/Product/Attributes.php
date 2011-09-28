@@ -274,14 +274,14 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     /**
      * Retrieve SELECT WHERE condition for product collection
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
      * @param Enterprise_TargetRule_Model_Index                         $object
      * @param array                                                     $bind
      * @return Zend_Db_Expr
      */
     public function getConditionForCollection($collection, $object, &$bind)
     {
-        /* @var $resource Enterprise_TargetRule_Model_Mysql4_Index */
+        /* @var $resource Enterprise_TargetRule_Model_Resource_Index */
         $attributeCode  = $this->getAttribute();
         $valueType      = $this->getValueType();
         $operator       = $this->getOperator();

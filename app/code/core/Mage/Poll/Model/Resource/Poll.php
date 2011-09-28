@@ -26,7 +26,7 @@
 
 
 /**
- * Poll Mysql4 resource model
+ * Poll resource model
  *
  * @category    Mage
  * @package     Mage_Poll

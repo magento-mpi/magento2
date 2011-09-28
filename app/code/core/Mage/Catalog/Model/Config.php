@@ -278,7 +278,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
     /**
      * Retrieve resource model
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Config
+     * @return Mage_Catalog_Model_Resource_Config
      */
     protected function _getResource()
     {

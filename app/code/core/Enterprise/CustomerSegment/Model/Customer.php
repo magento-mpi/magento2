@@ -83,7 +83,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      *
      * @param string $eventName
      * @param int $websiteId
-     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection
+     * @return Enterprise_CustomerSegment_Model_Resource_Segment_Collection
      */
     public function getActiveSegmentsForEvent($eventName, $websiteId)
     {

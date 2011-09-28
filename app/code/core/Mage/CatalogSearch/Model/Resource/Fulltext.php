@@ -110,7 +110,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
      *
      * @param  int|null $storeId
      * @param  int|array|null $productIds
-     * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
+     * @return Mage_CatalogSearch_Model_Resource_Fulltext
      */
     public function rebuildIndex($storeId = null, $productIds = null)
     {

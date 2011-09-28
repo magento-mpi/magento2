@@ -240,7 +240,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                 return;
             }
             $collection = Mage::getResourceModel('admin/user_collection');
-            /** @var $collection Mage_Admin_Model_Mysql4_User_Collection */
+            /** @var $collection Mage_Admin_Model_Resource_User_Collection */
             $collection->addFieldToFilter('email', $email);
             $collection->load(false);
 

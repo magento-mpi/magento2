@@ -63,7 +63,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registrants extends  Enterpris
     /**
      * Return registrant collection
      *
-     * @return Enterprise_GiftRegistry_Model_Mysql4_Person_Collection
+     * @return Enterprise_GiftRegistry_Model_Resource_Person_Collection
      */
     public function getRegistrantList() {
         return $this->getEntity->getRegistrantCollection();

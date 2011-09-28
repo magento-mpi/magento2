@@ -53,7 +53,7 @@ class Enterprise_GiftRegistry_Block_Cart_Link extends Mage_Core_Block_Template
     /**
      * Return list of current customer gift registries
      *
-     * @return Enterprise_GiftRegistry_Model_Mysql4_GiftRegistry_Collection
+     * @return Enterprise_GiftRegistry_Model_Resource_GiftRegistry_Collection
      */
     public function getEntityValues()
     {

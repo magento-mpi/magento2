@@ -36,7 +36,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
      * Load country collection
      *
      * @param null|string $country
-     * @return Mage_Directory_Model_Mysql4_Country_Collection
+     * @return Mage_Directory_Model_Resource_Country_Collection
      */
     protected function _getCountryCollection()
     {
@@ -51,7 +51,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
      * Load region collection by specified country code
      *
      * @param null|string $country
-     * @return Mage_Directory_Model_Mysql4_Region_Collection
+     * @return Mage_Directory_Model_Resource_Region_Collection
      */
     protected function _getRegionCollection($country = null)
     {

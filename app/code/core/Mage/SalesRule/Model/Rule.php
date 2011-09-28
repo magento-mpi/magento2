@@ -358,7 +358,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     {
         if ($this->_coupons === null) {
             $collection = Mage::getResourceModel('salesrule/coupon_collection');
-            /** @var Mage_SalesRule_Model_Mysql4_Coupon_Collection */
+            /** @var Mage_SalesRule_Model_Resource_Coupon_Collection */
             $collection->addRuleToFilter($this);
             $this->_coupons = $collection->getItems();
         }

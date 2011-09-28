@@ -62,7 +62,7 @@ class Mage_Eav_Model_Form_Fieldset extends Mage_Core_Model_Abstract
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Mage_Eav_Model_Mysql4_Form_Fieldset
+     * @return Mage_Eav_Model_Resource_Form_Fieldset
      */
     protected function _getResource()
     {
@@ -72,7 +72,7 @@ class Mage_Eav_Model_Form_Fieldset extends Mage_Core_Model_Abstract
     /**
      * Retrieve resource collection instance wrapper
      *
-     * @return Mage_Eav_Model_Mysql4_Form_Fieldset_Collection
+     * @return Mage_Eav_Model_Resource_Form_Fieldset_Collection
      */
     public function getCollection()
     {

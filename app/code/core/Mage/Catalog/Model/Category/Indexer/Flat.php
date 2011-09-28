@@ -75,7 +75,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
     /**
      * Retrieve Catalog Category Flat Indexer model
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat
+     * @return Mage_Catalog_Model_Resource_Category_Flat
      */
     protected function _getIndexer()
     {

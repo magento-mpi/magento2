@@ -90,7 +90,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
     /**
      * Get condition combine resource model
      *
-     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment
+     * @return Enterprise_CustomerSegment_Model_Resource_Segment
      */
     public function getResource()
     {

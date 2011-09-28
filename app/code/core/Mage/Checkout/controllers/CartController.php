@@ -234,7 +234,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->getCollection()
                 ->addIdFilter($orderItemIds)
                 ->load();
-            /* @var $itemsCollection Mage_Sales_Model_Mysql4_Order_Item_Collection */
+            /* @var $itemsCollection Mage_Sales_Model_Resource_Order_Item_Collection */
             $cart = $this->_getCart();
             foreach ($itemsCollection as $item) {
                 try {

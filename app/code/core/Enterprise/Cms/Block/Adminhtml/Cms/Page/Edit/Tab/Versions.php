@@ -59,7 +59,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     {
         $userId = Mage::getSingleton('admin/session')->getUser()->getId();
 
-        /* var $collection Enterprise_Cms_Model_Mysql4_Version_Collection */
+        /* var $collection Enterprise_Cms_Model_Resource_Version_Collection */
         $collection = Mage::getModel('enterprise_cms/page_version')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVisibilityFilter($userId,
@@ -79,7 +79,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Retrieve collection for grid if there is not collection call _prepareCollection
      *
-     * @return Enterprise_Cms_Model_Mysql4_Page_Version_Collection
+     * @return Enterprise_Cms_Model_Resource_Page_Version_Collection
      */
     public function getCollection()
     {

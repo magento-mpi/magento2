@@ -33,7 +33,7 @@ class Enterprise_Search_Model_Search_Layer extends Mage_CatalogSearch_Model_Laye
     /**
      * Retrieve current layer product collection
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     public function getProductCollection()
     {
@@ -67,7 +67,7 @@ class Enterprise_Search_Model_Search_Layer extends Mage_CatalogSearch_Model_Laye
     /**
      * Get collection of all filterable attributes for layer products set
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection
+     * @return Mage_Catalog_Model_Resource_Attribute_Collection
      */
     public function getFilterableAttributes()
     {
@@ -75,7 +75,7 @@ class Enterprise_Search_Model_Search_Layer extends Mage_CatalogSearch_Model_Laye
         if (!$setIds) {
             return array();
         }
-        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection */
+        /* @var $collection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
         $collection = Mage::getResourceModel('catalog/product_attribute_collection')
             ->setItemObjectClass('catalog/resource_eav_attribute');
 

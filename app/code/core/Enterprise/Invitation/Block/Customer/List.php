@@ -35,7 +35,7 @@ class Enterprise_Invitation_Block_Customer_List extends Mage_Customer_Block_Acco
     /**
      * Return list of invitations
      *
-     * @return Enterprise_Invitation_Model_Mysql4_Invitation_Collection
+     * @return Enterprise_Invitation_Model_Resource_Invitation_Collection
      */
     public function getInvitationCollection()
     {

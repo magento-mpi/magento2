@@ -39,7 +39,6 @@
             </enterprise_admingws>
             <enterprise_admingws_resource>
                 <class>Enterprise_AdminGws_Model_Resource</class>
-                <deprecatedNode>enterprise_admingws_mysql4</deprecatedNode>
             </enterprise_admingws_resource>
         </models>
         <blocks>

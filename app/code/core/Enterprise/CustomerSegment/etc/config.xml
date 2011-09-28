@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerSegment>
-            <version>1.11.0.0.2</version>
+            <version>1.11.0.0.1</version>
         </Enterprise_CustomerSegment>
     </modules>
     <global>
@@ -39,7 +39,6 @@
             </enterprise_customersegment>
             <enterprise_customersegment_resource>
                 <class>Enterprise_CustomerSegment_Model_Resource</class>
-                <deprecatedNode>enterprise_customersegment_mysql4</deprecatedNode>
                 <entities>
                     <segment>
                         <table>enterprise_customersegment_segment</table>

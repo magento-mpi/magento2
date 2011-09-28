@@ -101,7 +101,6 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
 
     /**
      * Perform actions after object save
-     * return Mage_Core_Model_Mysql4_Abstract
      *
      * @param Mage_Core_Model_Abstract $rule
      * @return Mage_Core_Model_Resource_Db_Abstract

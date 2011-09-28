@@ -323,7 +323,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
      * Reindex not anchor root categories
      *
      * @param array $categoryIds
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product
+     * @return Mage_Catalog_Model_Resource_Category_Indexer_Product
      */
     protected function _refreshNotAnchorRootCategories(array $categoryIds = null)
     {

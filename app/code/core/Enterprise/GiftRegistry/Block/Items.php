@@ -83,7 +83,7 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
     /**
      * Return current gift registry entity
      *
-     * @return Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
+     * @return Enterprise_GiftRegistry_Model_Resource_Item_Collection
      */
     public function getEntity()
     {

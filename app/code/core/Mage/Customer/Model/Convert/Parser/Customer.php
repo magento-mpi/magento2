@@ -189,7 +189,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
     }
 
     /**
-     * @return Mage_Catalog_Model_Mysql4_Convert
+     * @return Mage_Catalog_Model_Resource_Convert
      */
     public function getResource()
     {

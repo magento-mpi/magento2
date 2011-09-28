@@ -37,7 +37,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
     /**
      * Store collection
      *
-     * @var Mage_Core_Model_Mysql4_Store_Collection
+     * @var Mage_Core_Model_Resource_Store_Collection
      */
     protected $_stores;
 
@@ -51,7 +51,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
     /**
      * Tax class collection
      *
-     * @var Mage_Tax_Model_Mysql4_Class_Collection
+     * @var Mage_Tax_Model_Resource_Class_Collection
      */
     protected $_tax_classes;
 

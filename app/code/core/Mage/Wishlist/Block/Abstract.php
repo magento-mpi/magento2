@@ -37,7 +37,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Wishlist Product Items Collection
      *
-     * @var Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @var Mage_Wishlist_Model_Resource_Item_Collection
      */
     protected $_collection;
 
@@ -105,7 +105,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Prepare additional conditions to collection
      *
-     * @param Mage_Wishlist_Model_Mysql4_Item_Collection $collection
+     * @param Mage_Wishlist_Model_Resource_Item_Collection $collection
      * @return Mage_Wishlist_Block_Customer_Wishlist
      */
     protected function _prepareCollection($collection)
@@ -116,7 +116,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Retrieve Wishlist Product Items collection
      *
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     public function getWishlistItems()
     {
@@ -133,7 +133,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      * Back compatibility retrieve wishlist product items
      *
      * @deprecated after 1.4.2.0
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
+     * @return Mage_Wishlist_Model_Resource_Item_Collection
      */
     public function getWishlist()
     {

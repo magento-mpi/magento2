@@ -235,7 +235,7 @@ class Mage_CatalogRule_Model_Observer
      */
     protected function _checkCatalogRulesAvailability($attributeCode)
     {
-        /* @var $collection Mage_CatalogRule_Model_Mysql4_Rule_Collection */
+        /* @var $collection Mage_CatalogRule_Model_Resource_Rule_Collection */
         $collection = Mage::getResourceModel('catalogrule/rule_collection')
             ->addAttributeInConditionFilter($attributeCode);
 
@@ -315,7 +315,7 @@ class Mage_CatalogRule_Model_Observer
 
     public function prepareCatalogProductCollectionPrices(Varien_Event_Observer $observer)
     {
-        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+        /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = $observer->getEvent()->getCollection();
         $store      = Mage::app()->getStore($observer->getEvent()->getStoreId());
         $websiteId  = $store->getWebsiteId();

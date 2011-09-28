@@ -64,7 +64,7 @@ class Mage_Log_Model_Visitor_Online extends Mage_Core_Model_Abstract
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Mage_Log_Model_Mysql4_Visitor_Online
+     * @return Mage_Log_Model_Resource_Visitor_Online
      */
     protected function _getResource()
     {
@@ -96,7 +96,7 @@ class Mage_Log_Model_Visitor_Online extends Mage_Core_Model_Abstract
      * Set Prepare at timestamp (if time is null, set current timestamp)
      *
      * @param int $time
-     * @return Mage_Log_Model_Mysql4_Visitor_Online
+     * @return Mage_Log_Model_Resource_Visitor_Online
      */
     public function setPrepareAt($time = null)
     {

@@ -39,7 +39,6 @@
             </googleshopping>
             <googleshopping_resource>
                 <class>Mage_GoogleShopping_Model_Resource</class>
-                <deprecatedNode>googleshopping_mysql4</deprecatedNode>
                 <entities>
                     <types>
                         <table>googleshopping_types</table>
