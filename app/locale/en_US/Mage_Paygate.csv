@@ -27,3 +27,4 @@
 "Test Mode","Test Mode"
 "Title","Title"
 "Transaction Key","Transaction Key"
+"Parent Authorize.Net transaction (ID %s) expired","Parent Authorize.Net transaction (ID %s) expired"
