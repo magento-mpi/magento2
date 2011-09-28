@@ -187,32 +187,33 @@ class Order_Helper extends Mage_Selenium_TestCase
     public function defineAddressToChoose(array $addressData, $addressType = 'billing')
     {
         $inString = array();
-        foreach ($addressData as $key => $value) {
-            if ($key == $addressType . '_first_name' || $key == $addressType . '_first_name' ||
-                    $key == $addressType . '_last_name' || $key == $addressType . '_street_address_1' ||
-                    $key == $addressType . '_street_address_2' || $key == $addressType . '_city' ||
-                    $key == $addressType . '_zip_code' || $key == $addressType . '_country' ||
-                    $key == $addressType . '_state' || $key == $addressType . '_region') {
-                $inString[$key] = $value;
+        $needKeys = array('first_name', 'last_name', 'street_address_1', 'street_address_2', 'city', 'zip_code',
+            'country', 'state', 'region');
+        foreach ($needKeys as $value) {
+            if (array_key_exists($addressType . '_' . $key, $addressData)) {
+                $inString[$addressType . '_' . $key] = $addressData[$addressType . '_' . $key];
             }
         }
+
         if (!$inString) {
             $this->fail('Data to select the address wrong');
         }
+
         $xpathDropDown = $this->_getControlXpath('dropdown', $addressType . '_address_choice');
         $addressCount = $this->getXpathCount($xpathDropDown . '/option');
-        $res = 0;
+
         for ($i = 1; $i <= $addressCount; $i++) {
+            $res = 0;
             $addressValue = $this->getText($xpathDropDown . "/option[$i]");
-            foreach ($keyWords as $v) {
+            foreach ($inString as $v) {
                 $res += preg_match('/' . preg_quote($v) . '/', $addressValue);
             }
-            if ($res == count($keyWords)) {
+            if ($res == count($inString)) {
                 $res = $addressValue;
                 break;
             }
-            $res = 0;
         }
+
         if (is_string($res)) {
             return $res;
         }
