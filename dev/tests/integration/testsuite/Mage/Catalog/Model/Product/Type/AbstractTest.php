@@ -12,7 +12,9 @@
 /**
  * The Mage_Catalog_Model_Product_Type_Abstract is a fake abstract
  */
-class Mage_Catalog_Model_Product_Type_AbstractTestAbstract extends Mage_Catalog_Model_Product_Type_Abstract {}
+class Mage_Catalog_Model_Product_Type_AbstractTestAbstract extends Mage_Catalog_Model_Product_Type_Abstract
+{
+}
 
 /**
  * @group module:Mage_Catalog
@@ -144,7 +146,8 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
      * @param array $requestData
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Catalog/_files/two_products.php
-     * two_products.php because there are products without options, and they don't intersect with product_simple.php by ID
+     * two_products.php because there are products without options, and they don't intersect with product_simple.php
+     * by ID
      */
     public function testPrepareForCart()
     {

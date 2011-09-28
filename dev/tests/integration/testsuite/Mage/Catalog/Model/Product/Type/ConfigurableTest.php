@@ -101,10 +101,10 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
     public function testGetUsedProductAttributes()
     {
         $testConfigurable = $this->_getAttributeByCode('test_configurable');
-        $id = (int)$testConfigurable->getId();
+        $attributeId = (int)$testConfigurable->getId();
         $attributes = $this->_model->getUsedProductAttributes();
-        $this->assertArrayHasKey($id, $attributes);
-        $this->assertSame($testConfigurable, $attributes[$id]);
+        $this->assertArrayHasKey($attributeId, $attributes);
+        $this->assertSame($testConfigurable, $attributes[$attributeId]);
     }
 
     public function testGetConfigurableAttributes()

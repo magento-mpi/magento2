@@ -38,7 +38,10 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api_V2Test extends PHPUnit_
     public function testPrepareTierPricesInvalidWebsite()
     {
         $product = new Mage_Catalog_Model_Product();
-        $data = $this->_model->prepareTierPrices($product, array((object) array('qty' => 3, 'price' => 8, 'website' => 100)));
+        $data = $this->_model->prepareTierPrices(
+            $product,
+            array((object) array('qty' => 3, 'price' => 8, 'website' => 100))
+        );
         $this->assertEquals(
             array(array('website_id' => 0, 'cust_group' => 32000, 'price_qty' => 3, 'price' => 8)),
             $data

@@ -20,7 +20,7 @@ class Mage_Core_Model_Config_BaseTest extends PHPUnit_Framework_TestCase
 <?xml version="1.0"?>
 <root><key>value</key></root>
 XML
-);
+        );
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $config->getNode('key'));
     }
 }

@@ -86,6 +86,9 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -97,6 +100,9 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
      * @param  PHPUnit_Framework_Test                 $test
      * @param  PHPUnit_Framework_AssertionFailedError $e
      * @param  float                                  $time
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
@@ -108,6 +114,9 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -120,6 +129,9 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
      * @param  Exception              $e
      * @param  float                  $time
      * @since  Method available since Release 3.0.0
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -174,6 +186,8 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
      *
      * @param  PHPUnit_Framework_Test $test
      * @param  float                  $time
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {

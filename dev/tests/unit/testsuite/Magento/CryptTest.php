@@ -60,7 +60,7 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
             }
         }
         file_put_contents($filename, '<?php return ' . var_export($data, true) . ";\n", LOCK_EX);
-        /**/
+        */
         if (!self::$_cipherInfo) {
             self::$_cipherInfo = include($filename);
         }
@@ -134,8 +134,8 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
         $cryptExpected = new Magento_Crypt($this->_key, MCRYPT_BLOWFISH, MCRYPT_MODE_ECB, false);
         $cryptActual = new Magento_Crypt($this->_key);
 
-        $this->assertEquals($cryptExpected->getCipher(),     $cryptActual->getCipher());
-        $this->assertEquals($cryptExpected->getMode(),       $cryptActual->getMode());
+        $this->assertEquals($cryptExpected->getCipher(), $cryptActual->getCipher());
+        $this->assertEquals($cryptExpected->getMode(), $cryptActual->getMode());
         $this->assertEquals($cryptExpected->getInitVector(), $cryptActual->getInitVector());
     }
 
@@ -162,7 +162,7 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
             }
         }
         file_put_contents($fixturesFilename, '<?php return ' . var_export($fixtures, true) . ";\n", LOCK_EX);
-        /**/
+        */
         $result = include($fixturesFilename);
         /* Restore encoded string back to binary */
         foreach ($result as &$cryptParams) {
@@ -203,9 +203,9 @@ class Magento_CryptTest extends PHPUnit_Framework_TestCase
         $crypt2 = new Magento_Crypt($this->_key, $cipher, $mode, true);
         $initVector2 = $crypt2->getInitVector();
 
-        $expectedInitVectorSize = $this->_getInitVectorSize($cipher, $mode);
-        $this->assertEquals($expectedInitVectorSize, strlen($initVector1));
-        $this->assertEquals($expectedInitVectorSize, strlen($initVector2));
+        $expectedSize = $this->_getInitVectorSize($cipher, $mode);
+        $this->assertEquals($expectedSize, strlen($initVector1));
+        $this->assertEquals($expectedSize, strlen($initVector2));
         $this->assertNotEquals($initVector2, $initVector1);
     }
 

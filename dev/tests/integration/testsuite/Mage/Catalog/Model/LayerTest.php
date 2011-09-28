@@ -109,17 +109,20 @@ class Mage_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
             throw $e;
         }
 
+
         try {
             $model = new Mage_Catalog_Model_Layer;
             $model->setCurrentCategory(new Varien_Object());
             $this->fail('Assign category of invalid class.');
-        } catch (Mage_Core_Exception $e) {}
+        } catch (Mage_Core_Exception $e) {
+        }
 
         try {
             $model = new Mage_Catalog_Model_Layer;
             $model->setCurrentCategory(new Mage_Catalog_Model_Category());
             $this->fail('Assign category with invalid id.');
-        } catch (Mage_Core_Exception $e) {}
+        } catch (Mage_Core_Exception $e) {
+        }
     }
 
     public function testGetCurrentStore()

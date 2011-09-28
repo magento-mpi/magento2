@@ -47,7 +47,7 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
 
     public function testGetUrl()
     {
-        $action = new Mage_Core_Controller_Front_Action(new Magento_Test_Request(), new Magento_Test_Response());
+        new Mage_Core_Controller_Front_Action(new Magento_Test_Request(), new Magento_Test_Response());
         /*
          * Mage::app()->getFrontController()->setAction($action); // done in action's constructor
          */

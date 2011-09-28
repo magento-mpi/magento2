@@ -10,8 +10,12 @@
  */
 
 /**
+ * Tests product model:
+ * - general behaviour is tested (external interaction and pricing is not tested there)
  *
  * @group module:Mage_Catalog
+ * @see Mage_Catalog_Model_ProductExternalTest
+ * @see Mage_Catalog_Model_ProductPriceTest
  * @magentoDataFixture Mage/Catalog/_files/categories.php
  */
 class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
@@ -24,13 +28,6 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new Mage_Catalog_Model_Product;
-    }
-
-    public function testGetStoreId()
-    {
-        $this->assertEquals(Mage::app()->getStore()->getId(), $this->_model->getStoreId());
-        $this->_model->setData('store_id', 999);
-        $this->assertEquals(999, $this->_model->getStoreId());
     }
 
     public function testGetResourceCollection()
@@ -52,13 +49,6 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->getName());
         $this->_model->setName('test');
         $this->assertEquals('test', $this->_model->getName());
-    }
-
-    public function testGetPrice()
-    {
-        $this->assertEmpty($this->_model->getPrice());
-        $this->_model->setPrice(10.0);
-        $this->assertEquals(10.0, $this->_model->getPrice());
     }
 
     public function testGetTypeId()
@@ -103,115 +93,9 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertSame($simpleSingleton, $this->_model->getTypeInstance(true));
     }
 
-    public function testGetLinkInstance()
-    {
-        $model = $this->_model->getLinkInstance();
-        $this->assertInstanceOf('Mage_Catalog_Model_Product_Link', $model);
-        $this->assertSame($model, $this->_model->getLinkInstance());
-    }
-
     public function testGetIdBySku()
     {
         $this->assertEquals(1, $this->_model->getIdBySku('simple')); // fixture
-    }
-
-    public function testGetCategoryId()
-    {
-        $this->assertFalse($this->_model->getCategoryId());
-        $category = new Varien_Object(array('id' => 5));
-        Mage::register('current_category', $category);
-        try {
-            $this->assertEquals(5, $this->_model->getCategoryId());
-            Mage::unregister('current_category');
-        } catch (Exception $e) {
-            Mage::unregister('current_category');
-            throw $e;
-        }
-    }
-
-    public function testGetCategory()
-    {
-        $this->assertEmpty($this->_model->getCategory());
-
-        Mage::register('current_category', new Varien_Object(array('id' => 3))); // fixture
-        try {
-            $category = $this->_model->getCategory();
-            $this->assertInstanceOf('Mage_Catalog_Model_Category', $category);
-            $this->assertEquals(3, $category->getId());
-            Mage::unregister('current_category');
-        } catch (Exception $e) {
-            Mage::unregister('current_category');
-            throw $e;
-        }
-
-        $categoryTwo = new StdClass;
-        $this->_model->setCategory($categoryTwo);
-        $this->assertSame($categoryTwo, $this->_model->getCategory());
-    }
-
-    public function testSetCategoryIds()
-    {
-        $this->_model->setCategoryIds('1,2,,3');
-        $this->assertEquals(array(0 => 1, 1 => 2, 3 => 3), $this->_model->getData('category_ids'));
-    }
-
-    /**
-     * @expectedException Mage_Core_Exception
-     */
-    public function testSetCategoryIdsException()
-    {
-        $this->_model->setCategoryIds(1);
-    }
-
-    public function testGetCategoryIds()
-    {
-        // none
-        $model = new Mage_Catalog_Model_Product;
-        $this->assertEquals(array(), $model->getCategoryIds());
-
-        // fixture
-        $this->_model->setId(1);
-        $this->assertEquals(array(2, 3, 4), $this->_model->getCategoryIds());
-    }
-
-    public function testGetCategoryCollection()
-    {
-        // empty
-        $collection = $this->_model->getCategoryCollection();
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Category_Collection', $collection);
-
-        // fixture
-        $this->_model->setId(1);
-        $fixtureCollection = $this->_model->getCategoryCollection();
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Category_Collection', $fixtureCollection);
-        $this->assertNotSame($fixtureCollection, $collection);
-        $ids = array();
-        foreach ($fixtureCollection as $category) {
-            $ids[] = $category->getId();
-        }
-        $this->assertEquals(array(2, 3, 4), $ids);
-    }
-
-    public function testGetWebsiteIds()
-    {
-        // set
-        $model = new Mage_Catalog_Model_Product(array('website_ids' => array(1, 2)));
-        $this->assertEquals(array(1, 2), $model->getWebsiteIds());
-
-        // fixture
-        $this->_model->setId(1);
-        $this->assertEquals(array(1), $this->_model->getWebsiteIds());
-    }
-
-    public function testGetStoreIds()
-    {
-        // set
-        $model = new Mage_Catalog_Model_Product(array('store_ids' => array(1, 2)));
-        $this->assertEquals(array(1, 2), $model->getStoreIds());
-
-        // fixture
-        $this->_model->setId(1);
-        $this->assertEquals(array(1), $this->_model->getStoreIds());
     }
 
     public function testGetAttributes()
@@ -255,57 +139,6 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty(Mage::app()->loadCache('catalog_product_999'));
     }
 
-    public function testGetPriceModel()
-    {
-        $default = $this->_model->getPriceModel();
-        $this->assertInstanceOf('Mage_Catalog_Model_Product_Type_Price', $default);
-        $this->assertSame($default, $this->_model->getPriceModel());
-
-        $this->_model->setTypeId('configurable');
-        $type = $this->_model->getPriceModel();
-        $this->assertInstanceOf('Mage_Catalog_Model_Product_Type_Configurable_Price', $type);
-        $this->assertSame($type, $this->_model->getPriceModel());
-    }
-
-    /**
-     * See detailed tests at Mage_Catalog_Model_Product_Type*_PriceTest
-     */
-    public function testGetTierPrice()
-    {
-        $this->assertEquals(array(), $this->_model->getTierPrice());
-    }
-
-    /**
-     * See detailed tests at Mage_Catalog_Model_Product_Type*_PriceTest
-     */
-    public function testGetTierPriceCount()
-    {
-        $this->assertEquals(0, $this->_model->getTierPriceCount());
-    }
-
-    /**
-     * See detailed tests at Mage_Catalog_Model_Product_Type*_PriceTest
-     */
-    public function testGetFormatedTierPrice()
-    {
-        $this->assertEquals(array(), $this->_model->getFormatedTierPrice());
-    }
-
-    /**
-     * See detailed tests at Mage_Catalog_Model_Product_Type*_PriceTest
-     */
-    public function testGetFormatedPrice()
-    {
-        $this->assertEquals('<span class="price">$0.00</span>', $this->_model->getFormatedPrice());
-    }
-
-    public function testSetGetFinalPrice()
-    {
-        $this->assertEquals(0, $this->_model->getFinalPrice());
-        $this->_model->setFinalPrice(10);
-        $this->assertEquals(10, $this->_model->getFinalPrice());
-    }
-
     /**
      * @covers Mage_Catalog_Model_Product::getCalculatedFinalPrice
      * @covers Mage_Catalog_Model_Product::getMinimalPrice
@@ -339,73 +172,6 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
             array('gift_message_available', 'getGiftMessageAvailable'),
             array('rating_summary', 'getRatingSummary'),
         );
-    }
-
-    /**
-     * @covers Mage_Catalog_Model_Product::getRelatedProducts
-     * @covers Mage_Catalog_Model_Product::getRelatedProductIds
-     * @covers Mage_Catalog_Model_Product::getRelatedProductCollection
-     * @covers Mage_Catalog_Model_Product::getRelatedLinkCollection
-     */
-    public function testRelatedProductsApi()
-    {
-        $this->assertEquals(array(), $this->_model->getRelatedProducts());
-        $this->assertEquals(array(), $this->_model->getRelatedProductIds());
-
-        $collection = $this->_model->getRelatedProductCollection();
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Product_Collection', $collection);
-        $this->assertSame($this->_model, $collection->getProduct());
-
-        $linkCollection = $this->_model->getRelatedLinkCollection();
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Product_Link_Collection', $linkCollection);
-        $this->assertSame($this->_model, $linkCollection->getProduct());
-    }
-
-    /**
-     * @covers Mage_Catalog_Model_Product::getUpSellProducts
-     * @covers Mage_Catalog_Model_Product::getUpSellProductIds
-     * @covers Mage_Catalog_Model_Product::getUpSellProductCollection
-     * @covers Mage_Catalog_Model_Product::getUpSellLinkCollection
-     */
-    public function testUpSellProductsApi()
-    {
-        $this->assertEquals(array(), $this->_model->getUpSellProducts());
-        $this->assertEquals(array(), $this->_model->getUpSellProductIds());
-
-        $collection = $this->_model->getUpSellProductCollection();
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Product_Collection', $collection);
-        $this->assertSame($this->_model, $collection->getProduct());
-
-        $linkCollection = $this->_model->getUpSellLinkCollection();
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Product_Link_Collection', $linkCollection);
-        $this->assertSame($this->_model, $linkCollection->getProduct());
-    }
-
-    /**
-     * @covers Mage_Catalog_Model_Product::getCrossSellProducts
-     * @covers Mage_Catalog_Model_Product::getCrossSellProductIds
-     * @covers Mage_Catalog_Model_Product::getCrossSellProductCollection
-     * @covers Mage_Catalog_Model_Product::getCrossSellLinkCollection
-     */
-    public function testCrossSellProductsApi()
-    {
-        $this->assertEquals(array(), $this->_model->getCrossSellProducts());
-        $this->assertEquals(array(), $this->_model->getCrossSellProductIds());
-
-        $collection = $this->_model->getCrossSellProductCollection();
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Product_Collection', $collection);
-        $this->assertSame($this->_model, $collection->getProduct());
-
-        $linkCollection = $this->_model->getCrossSellLinkCollection();
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Product_Link_Collection', $linkCollection);
-        $this->assertSame($this->_model, $linkCollection->getProduct());
-    }
-
-    public function testGetGroupedLinkCollection()
-    {
-        $linkCollection = $this->_model->getGroupedLinkCollection();
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Product_Link_Collection', $linkCollection);
-        $this->assertSame($this->_model, $linkCollection->getProduct());
     }
 
     public function testGetMediaAttributes()
@@ -620,40 +386,6 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array('from' => 1, 'to' => 2), $this->_model->getCustomDesignDate());
     }
 
-    /**
-     * @covers Mage_Catalog_Model_Product::getProductUrl
-     * @covers Mage_Catalog_Model_Product::getUrlInStore
-     */
-    public function testGetProductUrl()
-    {
-        $this->assertStringEndsWith('catalog/product/view/', $this->_model->getProductUrl());
-        $this->assertStringEndsWith('catalog/product/view/', $this->_model->getUrlInStore());
-        $this->_model->setId(999);
-        $url = $this->_model->getProductUrl();
-        $this->assertContains('catalog/product/view', $url);
-        $this->assertContains('id/999', $url);
-        $storeUrl = $this->_model->getUrlInStore();
-        $this->assertEquals($storeUrl, $url);
-    }
-
-    /**
-     * @see Mage_Catalog_Model_Product_UrlTest
-     */
-    public function testFormatUrlKey()
-    {
-        $this->assertEquals('test', $this->_model->formatUrlKey('test'));
-    }
-
-    public function testGetUrlPath()
-    {
-        $this->_model->setUrlPath('test');
-        $this->assertEquals('test', $this->_model->getUrlPath());
-
-        $category = new Mage_Catalog_Model_Category;
-        $category->setUrlPath('category');
-        $this->assertEquals('category/test', $this->_model->getUrlPath($category));
-    }
-
     public function testToArray()
     {
         $this->assertEquals(array(), $this->_model->toArray());
@@ -706,71 +438,11 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @covers Mage_Catalog_Model_Product::addOption
-     * @covers Mage_Catalog_Model_Product::getOptionById
-     * @covers Mage_Catalog_Model_Product::getOptions
-     */
-    public function testOptionApi()
-    {
-        $this->assertEquals(array(), $this->_model->getOptions());
-
-        $id = uniqid();
-        $option = new Mage_Catalog_Model_Product_Option(array('key' => 'value'));
-        $option->setId($id);
-        $this->_model->addOption($option);
-
-        $this->assertSame($option, $this->_model->getOptionById($id));
-        $this->assertEquals(array($id => $option), $this->_model->getOptions());
-    }
-
-    /**
-     * @covers Mage_Catalog_Model_Product::addCustomOption
-     * @covers Mage_Catalog_Model_Product::setCustomOptions
-     * @covers Mage_Catalog_Model_Product::getCustomOptions
-     * @covers Mage_Catalog_Model_Product::getCustomOption
-     * @covers Mage_Catalog_Model_Product::hasCustomOptions
-     */
-    public function testCustomOptionsApi()
-    {
-        $this->assertEquals(array(), $this->_model->getCustomOptions());
-        $this->assertFalse($this->_model->hasCustomOptions());
-
-        $this->_model->setId(99);
-        $this->_model->addCustomOption('one', 'value1');
-        $option = $this->_model->getCustomOption('one');
-        $this->assertInstanceOf('Varien_Object', $option);
-        $this->assertEquals($this->_model->getId(), $option->getProductId());
-        $this->assertSame($option->getProduct(), $this->_model);
-        $this->assertEquals('one', $option->getCode());
-        $this->assertEquals('value1', $option->getValue());
-
-        $this->assertEquals(array('one' => $option), $this->_model->getCustomOptions());
-        $this->assertTrue($this->_model->hasCustomOptions());
-
-        $this->_model->setCustomOptions('test');
-        $this->assertEquals('test', $this->_model->getCustomOptions());
-    }
-
-    public function testCanBeShowInCategory()
-    {
-        $this->_model->load(1); // fixture
-        $this->assertFalse((bool)$this->_model->canBeShowInCategory(6));
-        $this->assertTrue((bool)$this->_model->canBeShowInCategory(3));
-    }
-
-    public function testGetAvailableInCategories()
-    {
-        $this->assertEquals(array(), $this->_model->getAvailableInCategories());
-        $this->_model->load(1); // fixture
-        $this->assertEquals(array(2, 3, 4), $this->_model->getAvailableInCategories());
-    }
-
     public function testGetDefaultAttributeSetId()
     {
-        $id = $this->_model->getDefaultAttributeSetId();
-        $this->assertNotEmpty($id);
-        $this->assertRegExp('/^[0-9]+$/', $id);
+        $setId = $this->_model->getDefaultAttributeSetId();
+        $this->assertNotEmpty($setId);
+        $this->assertRegExp('/^[0-9]+$/', $setId);
     }
 
     public function testGetReservedAttributes()
@@ -812,18 +484,19 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     public function testSetOrigData()
     {
         $this->assertEmpty($this->_model->getOrigData());
-        $data = array('key' => 'value');
-        $this->_model->setOrigData($data);
+        $this->_model->setOrigData('key', 'value');
         $this->assertEmpty($this->_model->getOrigData());
 
         $storeId = Mage::app()->getStore()->getId();
         Mage::app()->getStore()->setId(Mage_Core_Model_App::ADMIN_STORE_ID);
         try {
-            $this->_model->setOrigData($data);
-            $this->assertEquals($data, $this->_model->getOrigData());
+            $this->_model->setOrigData('key', 'value');
+            $this->assertEquals('value', $this->_model->getOrigData('key'));
         } catch (Exception $e) {
             Mage::app()->getStore()->setId($storeId);
+            throw $e;
         }
+        Mage::app()->getStore()->setId($storeId);
     }
 
     public function testReset()

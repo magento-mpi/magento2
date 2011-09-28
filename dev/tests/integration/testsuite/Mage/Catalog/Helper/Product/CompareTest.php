@@ -104,12 +104,12 @@ class Mage_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_helper->getAllowUsedFlat());
     }
 
-    protected function _testGetProductUrl($method, $expectedFullActionName)
+    protected function _testGetProductUrl($method, $expectedFullAction)
     {
         $product = new Mage_Catalog_Model_Product;
         $product->setId(10);
         $url = $this->_helper->$method($product);
-        $this->assertContains($expectedFullActionName, $url);
+        $this->assertContains($expectedFullAction, $url);
         $this->assertContains('/product/10/', $url);
         $this->assertContains('/uenc/', $url);
     }

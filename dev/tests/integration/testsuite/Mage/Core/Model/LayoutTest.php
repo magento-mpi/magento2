@@ -68,7 +68,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->_model->generateXml();
         /* Generate fixture
         file_put_contents(__DIR__ . '/_files/_layout_update.xml', $this->_model->getNode()->asNiceXml());
-        /**/
+        */
         $this->assertXmlStringEqualsXmlFile(__DIR__ . '/_files/_layout_update.xml', $this->_model->getXmlString());
 
         $this->assertEquals(array(), $this->_model->getAllBlocks());
@@ -132,14 +132,25 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'named block' => array(
-                'core/text', 'some_block_name', array('type' => 'core/text'), '/^some_block_name$/',
+                'core/text',
+                'some_block_name',
+                array('type' => 'core/text'),
+                '/^some_block_name$/'
             ),
             'anonymous block' => array(
-                'core/text_list', '', array('type' => 'core/text_list', 'key1' => 'value1'), '/^ANONYMOUS_.+/',
+                'core/text_list',
+                '',
+                array('type' => 'core/text_list',
+                'key1' => 'value1'),
+                '/^ANONYMOUS_.+/'
             ),
             'anonymous suffix' => array(
-                'core/template', '.some_anonymous_suffix', array('type' => 'core/template'), '/^ANONYMOUS_.+/', 'some_anonymous_suffix',
-            ),
+                'core/template',
+                '.some_anonymous_suffix',
+                array('type' => 'core/template'),
+                '/^ANONYMOUS_.+/',
+                'some_anonymous_suffix'
+            )
         );
     }
 
