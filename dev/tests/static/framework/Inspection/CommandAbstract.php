@@ -102,7 +102,7 @@ abstract class Inspection_CommandAbstract
     protected function _execShellCmd($shellCmd, array &$output = null)
     {
         $output = array();
-        exec($shellCmd, $output, $exitCode);
+        exec($shellCmd . ' 2>&1', $output, $exitCode);
         return ($exitCode === 0);
     }
 }
