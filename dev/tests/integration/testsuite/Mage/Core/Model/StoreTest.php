@@ -27,10 +27,10 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider loadDataProvider
      */
-    public function testLoad($loadId, $id)
+    public function testLoad($loadId, $expectedId)
     {
         $this->_model->load($loadId);
-        $this->assertEquals($id, $this->_model->getId());
+        $this->assertEquals($expectedId, $this->_model->getId());
     }
 
     public function loadDataProvider()

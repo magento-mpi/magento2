@@ -30,7 +30,10 @@ class Mage_Catalog_Model_Product_Type_Configurable_PriceTest extends PHPUnit_Fra
         $attributes = $product->getTypeInstance()->getConfigurableAttributes($product);
         foreach ($attributes as $attribute) {
             $prices = $attribute->getPrices();
-            $product->addCustomOption('attributes', serialize(array($attribute->getProductAttribute()->getId() => $prices[0]['value_index'])));
+            $product->addCustomOption(
+                'attributes',
+                serialize(array($attribute->getProductAttribute()->getId() => $prices[0]['value_index']))
+            );
             break;
         }
         $this->assertEquals(105.0, $model->getFinalPrice(1, $product));

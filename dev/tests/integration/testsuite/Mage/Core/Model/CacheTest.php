@@ -108,11 +108,31 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
             'cache_id_5' => array('unique_tag_5'),
         );
         return array(
-            'no tags'         => array($cacheData, array(), array()),
-            'app tag'         => array($cacheData, array(Mage_Core_Model_App::CACHE_TAG), array()),
-            'unique tag'      => array($cacheData, array('unique_tag_1'), array('cache_id_2', 'cache_id_3', 'cache_id_4', 'cache_id_5')),
-            'few unique tags' => array($cacheData, array('unique_tag_1', 'unique_tag_5'), array('cache_id_2', 'cache_id_3', 'cache_id_4')),
-            'shared tag'      => array($cacheData, array('shared_tag'), array('cache_id_1', 'cache_id_3', 'cache_id_5')),
+            'no tags' => array(
+                $cacheData,
+                array(),
+                array()
+            ),
+            'app tag' => array(
+                $cacheData,
+                array(Mage_Core_Model_App::CACHE_TAG),
+                array()
+            ),
+            'unique tag' => array(
+                $cacheData,
+                array('unique_tag_1'),
+                array('cache_id_2', 'cache_id_3', 'cache_id_4', 'cache_id_5')
+            ),
+            'few unique tags' => array(
+                $cacheData,
+                array('unique_tag_1', 'unique_tag_5'),
+                array('cache_id_2', 'cache_id_3', 'cache_id_4')
+            ),
+            'shared tag' => array(
+                $cacheData,
+                array('shared_tag'),
+                array('cache_id_1', 'cache_id_3', 'cache_id_5')
+            )
         );
     }
 
@@ -168,7 +188,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
     {
         /* Expect cache types introduced by Mage_Core module which can not be disabled */
         $expectedCacheTypes = array('config', 'layout', 'block_html', 'translate', 'collections');
-        $expectedCacheTypeDataKeys = array('id', 'cache_type', 'description', 'tags', 'status');
+        $expectedKeys = array('id', 'cache_type', 'description', 'tags', 'status');
 
         $actualCacheTypesData = $this->_model->getTypes();
         $actualCacheTypes = array_keys($actualCacheTypesData);
@@ -179,7 +199,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         foreach ($actualCacheTypesData as $cacheTypeData) {
             /** @var $cacheTypeData Varien_Object */
             $this->assertInstanceOf('Varien_Object', $cacheTypeData);
-            $this->assertEquals($expectedCacheTypeDataKeys, array_keys($cacheTypeData->getData()));
+            $this->assertEquals($expectedKeys, array_keys($cacheTypeData->getData()));
         }
     }
 
@@ -219,7 +239,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $model = new Mage_Core_Model_Cache(array(
             'request_processors' => array('Mage_Core_Model_CacheTestRequestProcessor'),
         ));
-        Mage_Core_Model_CacheTestRequestProcessor::$_isEnabled = false;
+        Mage_Core_Model_CacheTestRequestProcessor::$isEnabled = false;
         $this->assertFalse($model->processRequest());
     }
 
@@ -231,18 +251,18 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $model = new Mage_Core_Model_Cache(array(
             'request_processors' => array('Mage_Core_Model_CacheTestRequestProcessor'),
         ));
-        Mage_Core_Model_CacheTestRequestProcessor::$_isEnabled = true;
+        Mage_Core_Model_CacheTestRequestProcessor::$isEnabled = true;
         $this->assertTrue($model->processRequest());
     }
 }
 
 class Mage_Core_Model_CacheTestRequestProcessor
 {
-    public static $_isEnabled;
+    public static $isEnabled;
 
     public function extractContent($content)
     {
-        if (self::$_isEnabled && $content === false) {
+        if (self::$isEnabled && $content === false) {
             return 'some content from cache';
         }
         return $content;

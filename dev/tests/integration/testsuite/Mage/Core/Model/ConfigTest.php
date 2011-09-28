@@ -10,7 +10,11 @@
  */
 
 /**
+ * First part of Mage_Core_Model_Config testing:
+ * - general behaviour is tested
+ *
  * @group module:Mage_Core
+ * @see Mage_Core_Model_ConfigFactoryTest
  */
 class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
@@ -113,7 +117,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testSaveCache()
     {
-
         $model = $this->_createModel(true);
         $model->removeCache();
         $this->assertFalse($model->loadCache());
@@ -247,57 +250,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('baseSecureUrl', $result);
     }
 
-    public function testGetGroupedClassName()
-    {
-        $model = $this->_createModel(true);
-        $this->assertEquals('Mage_Core_Model_Config', $model->getGroupedClassName('model', 'core/config'));
-        $this->assertEquals('Mage_Core_Block_Config', $model->getGroupedClassName('block', 'core/config'));
-        $this->assertEquals('Mage_Core_Helper_String', $model->getGroupedClassName('helper', 'core/string'));
-    }
-
-    public function testGetBlockClassName()
-    {
-        $this->assertEquals('Mage_Core_Block_Config', $this->_createModel(true)->getBlockClassName('core/config'));
-    }
-
-    public function testGetHelperClassName()
-    {
-        $model = $this->_createModel(true);
-        $this->assertEquals('Mage_Core_Helper_Data', $model->getHelperClassName('core'));
-        $this->assertEquals('Mage_Core_Helper_String', $model->getHelperClassName('core/string'));
-    }
-
-    public function testGetResourceHelper()
-    {
-        $model = $this->_createModel(true);
-        $this->assertInstanceOf('Mage_Core_Model_Resource_Helper_Abstract', $model->getResourceHelper('core'));
-        $this->assertInstanceOf('Mage_Core_Model_Resource_Helper_Abstract', $model->getResourceHelper('catalog'));
-    }
-
-    public function testGetModelClassName()
-    {
-        $this->assertEquals('Mage_Core_Model_Config', $this->_createModel(true)->getModelClassName('core/config'));
-    }
-
-    public function testGetModelInstance()
-    {
-        $this->assertInstanceOf('Mage_Core_Model_Config', $this->_createModel(true)->getModelInstance('core/config'));
-    }
-
-    public function testGetNodeClassInstance()
-    {
-        $this->assertInstanceOf('Mage_Core_Model_Variable_Observer', $this->_createModel(true)->getNodeClassInstance(
-            'adminhtml/events/cms_wysiwyg_config_prepare/observers/variable_observer'
-        ));
-    }
-
-    public function testGetResourceModelInstance()
-    {
-        $this->assertInstanceOf(
-            'Mage_Core_Model_Resource_Abstract', $this->_createModel(true)->getResourceModelInstance('core/config')
-        );
-    }
-
     public function testGetResourceConfig()
     {
         $this->assertInstanceOf(
@@ -389,13 +341,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('suffix', $fieldset);
         $this->assertArrayHasKey('email', $fieldset);
         $this->assertArrayHasKey('password', $fieldset);
-    }
-
-    public function testGetResourceModelClassName()
-    {
-        $this->assertEquals('Mage_Core_Model_Resource_Config',
-            $this->_createModel(true)->getResourceModelClassName('core/config')
-        );
     }
 
     /**
