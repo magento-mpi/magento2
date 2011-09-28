@@ -426,14 +426,8 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
      * @param  mixed $store
      * @return float
      */
-    public function getPrice(
-        $item,
-        $price,
-        $includeTax = false,
-        $shippingAddress = null,
-        $billingAddress = null,
-        $ctc = null,
-        $store = null
+    public function getPrice($item, $price, $includeTax = false, $shippingAddress = null, $billingAddress = null,
+        $ctc = null, $store = null
     ) {
         if (!$price) {
             return $price;

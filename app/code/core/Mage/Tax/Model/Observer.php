@@ -76,8 +76,8 @@ class Mage_Tax_Model_Observer
                         'percent'   => $rates['percent']
                     );
                 } else {
-                    $percentDelta    = $rates['percent'];
-                    $percentSum      = 0;
+                    $percentDelta   = $rates['percent'];
+                    $percentSum     = 0;
                     foreach ($rates['rates'] as $rate) {
                         $ratesIdQuoteItemId[$rates['id']][] = array(
                             'id'        => $quoteItemId,
@@ -91,7 +91,7 @@ class Mage_Tax_Model_Observer
                         foreach ($ratesIdQuoteItemId[$rates['id']] as &$rate) {
                             $rate = array(
                                 'id'        => $rate['id'],
-                                'percent'   => (($rate['percent']/$percentSum) * $delta) + $rate['percent']
+                                'percent'   => (($rate['percent'] / $percentSum) * $delta) + $rate['percent']
                             );
                         }
                     }
