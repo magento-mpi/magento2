@@ -35,7 +35,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
         self::$_fixtureDir = realpath(__DIR__ . '/../../../../_files');
         $mediaTmpDir = Mage::getSingleton('catalog/product_media_config')->getTmpMediaPath();
         mkdir("$mediaTmpDir/m/a", 0777, true);
-        copy("{self::$_fixtureDir}/magento_image.jpg", "$mediaTmpDir/m/a/magento_image.jpg");
+        copy(self::$_fixtureDir . '/magento_image.jpg', $mediaTmpDir . '/m/a/magento_image.jpg');
     }
 
     public static function productMediaFixture()
@@ -123,7 +123,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framewo
     public function testRemove($file)
     {
         $this->assertTrue($this->_model->remove(1, $file));
-        $info = $this->_model->info(1, $file);
+        $this->_model->info(1, $file);
     }
 
     public function testTypes()

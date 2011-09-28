@@ -21,9 +21,12 @@ class Mage_Core_Model_Resource_Entity_TableTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
+        // @codingStandardsIgnoreStart
         $config = new Varien_Simplexml_Config();
         $config->table      = 'test_table';
         $config->test_key   = 'test';
+        // @codingStandardsIgnoreEnd
+
         $this->_model = new Mage_Core_Model_Resource_Entity_Table($config);
     }
 

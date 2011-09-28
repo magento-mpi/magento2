@@ -76,8 +76,8 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
         $this->assertInstanceOf('Mage_Catalog_Model_Category', $currentCategory);
         $this->assertEquals($categoryId, $currentCategory->getId(), 'Category in registry.');
 
-        $lastVisitedCategoryId = Mage::getSingleton('catalog/session')->getLastVisitedCategoryId();
-        $this->assertEquals($categoryId, $lastVisitedCategoryId, 'Last visited category.');
+        $lastCategoryId = Mage::getSingleton('catalog/session')->getLastVisitedCategoryId();
+        $this->assertEquals($categoryId, $lastCategoryId, 'Last visited category.');
 
         /* Layout updates */
         $handles = Mage::app()->getLayout()->getUpdate()->getHandles();

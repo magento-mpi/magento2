@@ -33,9 +33,9 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
         mkdir($mediaDir, 0777, true);
         mkdir(self::$_mediaTmpDir, 0777, true);
 
-        copy("{$fixturesDir}/magento_image.jpg",        self::$_mediaTmpDir . "/magento_image.jpg");
-        copy("{$fixturesDir}/magento_image.jpg",        $mediaDir . "/magento_image.jpg");
-        copy("{$fixturesDir}/magento_small_image.jpg",  self::$_mediaTmpDir . "/magento_small_image.jpg");
+        copy("{$fixturesDir}/magento_image.jpg", self::$_mediaTmpDir . "/magento_image.jpg");
+        copy("{$fixturesDir}/magento_image.jpg", $mediaDir . "/magento_image.jpg");
+        copy("{$fixturesDir}/magento_small_image.jpg", self::$_mediaTmpDir . "/magento_small_image.jpg");
     }
 
     protected function setUp()
