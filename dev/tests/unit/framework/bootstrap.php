@@ -8,6 +8,13 @@
  * @license     {license_link}
  */
 
+$includePaths = array(
+    get_include_path(),
+    './testsuite',
+    '../../../lib',
+    '../../../app/code/core'
+);
+set_include_path(implode(PATH_SEPARATOR, $includePaths));
 
 spl_autoload_register('magentoAutoloadForUnitTests');
 

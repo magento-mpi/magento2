@@ -26,7 +26,6 @@
         </whitelist>
     </filter>
     <php>
-        <includePath>.:./testsuite/:../../../lib:../../../app/code/core</includePath>
         <ini name="date.timezone" value="America/Los_Angeles"/>
     </php>
 </phpunit>
