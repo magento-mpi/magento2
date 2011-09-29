@@ -663,7 +663,7 @@ payment_authorize: &authorizeNetVisa
 #*             Shipping Data                 *
 #*********************************************
 
-shipping_rlatrate: &flatRate
+shipping_flatrate: &flatRate
     shipping_service: Flat Rate
     shipping_method: Fixed
 

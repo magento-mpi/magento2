@@ -66,13 +66,6 @@ free_enable:
             free_shipping_show_method_if_not_applicable: %noValue%
             free_shipping_sort_order: %noValue%
 
-free_disable:
-    configuration_scope: Default Config
-    tab_1: &free
-        tab_name: sales_shipping_methods
-        configuration:
-            free_shipping_enabled: No
-
 ups_enable:
     configuration_scope: Default Config
     tab_1: &ups
@@ -101,13 +94,6 @@ ups_enable:
             ups_debug: Yes
             ups_show_method_if_not_applicable: Yes
             ups_sort_order: %noValue%
-
-ups_disable:
-    configuration_scope: Default Config
-    tab_1: &ups
-        tab_name: sales_shipping_methods
-        configuration:
-            ups_enabled: No
 
 upsxml_enable:
     configuration_scope: Default Config
@@ -145,13 +131,6 @@ upsxml_enable:
             ups_show_method_if_not_applicable: Yes
             ups_sort_order: %noValue%
 
-upsxml_disable:
-    configuration_scope: Default Config
-    tab_1: &upsxml
-        tab_name: sales_shipping_methods
-        configuration:
-            ups_enabled: No
-
 usps_enable:
     configuration_scope: Default Config
     tab_1: &usps
@@ -161,13 +140,6 @@ usps_enable:
             usps_user_id: 213MAGEN6752
             usps_password: 326ZL84XF990
             usps_ship_to_applicable_countries: All Allowed Countries
-
-usps_disable:
-    configuration_scope: Default Config
-    tab_1: &usps
-        tab_name: sales_shipping_methods
-        configuration:
-            usps_enabled_for_checkout: No
 
 fedex_enable:
     configuration_scope: Default Config
@@ -184,13 +156,6 @@ fedex_enable:
             fedex_allowed_methods: all
             fedex_ship_to_applicable_countries: All Allowed Countries
 
-fedex_disable:
-    configuration_scope: Default Config
-    tab_1: &fedex
-        tab_name: sales_shipping_methods
-        configuration:
-            fedex_enabled_for_checkout: No
-
 dhl_enable:
     configuration_scope: Default Config
     tab_1: &dhl
@@ -204,9 +169,13 @@ dhl_enable:
             dhl_shipping_key: 54233F2B2C4E5C4B4C5E5A595655304F424B5D44415D5A5A5C5A
             dhl_ship_to_applicable_countries: All Allowed Countries
 
-dhl_disable:
+shipping_disable:
     configuration_scope: Default Config
-    tab_1: &dhl
+    tab_1:
         tab_name: sales_shipping_methods
         configuration:
             dhl_enabled_for_checkout: No
+            fedex_enabled_for_checkout: No
+            usps_enabled_for_checkout: No
+            ups_enabled: No
+            free_shipping_enabled: No
