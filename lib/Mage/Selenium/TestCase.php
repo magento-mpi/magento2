@@ -1222,13 +1222,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     protected function _fillFormDropdown($fieldData)
     {
-        if ($this->isElementPresent($fieldData['path']) && $this->isEditable($fieldData['path'])) {
-            if ($this->isElementPresent($fieldData['path'] . "//option[text()='" . $fieldData['value'] . "']")) {
-                $this->select($fieldData['path'], 'label=' . $fieldData['value']);
-            } else {
-                $this->select($fieldData['path'], 'regexp:' . preg_quote($fieldData['value']));
+        $fieldXpath = $fieldData['path'];
+        if ($this->isElementPresent($fieldXpath) && $this->isEditable($fieldXpath)) {
+            if ($this->getSelectedValue($fieldXpath) != $fieldData['value']) {
+                if ($this->isElementPresent($fieldXpath . "//option[text()='" . $fieldData['value'] . "']")) {
+                    $this->select($fieldXpath, 'label=' . $fieldData['value']);
+                } else {
+                    $this->select($fieldXpath, 'regexp:' . preg_quote($fieldData['value']));
+                }
+                $this->waitForAjax();
             }
-            $this->waitForAjax();
         } else {
             throw new PHPUnit_Framework_Exception("Can't fill in the dropdown field: {$fieldData['path']}");
         }
