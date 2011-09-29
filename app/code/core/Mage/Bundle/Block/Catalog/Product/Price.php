@@ -87,7 +87,7 @@ class Mage_Bundle_Block_Catalog_Product_Price extends Mage_Catalog_Block_Product
                 ->setTemplate($this->getMAPTemplate())
                 ->setRealPriceHtml($hiddenPriceHtml)
                 ->setPriceElementIdPrefix('bundle-price-')
-                //->setIdSuffix('_clone')
+                ->setIdSuffix($this->getIdSuffix())
                 ->setProduct($product)
                 ->toHtml();
 
