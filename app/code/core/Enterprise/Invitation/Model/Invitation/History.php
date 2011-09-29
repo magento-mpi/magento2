@@ -31,8 +31,8 @@
  * @method Enterprise_Invitation_Model_Resource_Invitation_History getResource()
  * @method int getInvitationId()
  * @method Enterprise_Invitation_Model_Invitation_History setInvitationId(int $value)
- * @method string getDate()
- * @method Enterprise_Invitation_Model_Invitation_History setDate(string $value)
+ * @method string getInvitationDate()
+ * @method Enterprise_Invitation_Model_Invitation_History setInvitationDate(string $value)
  * @method string getStatus()
  * @method Enterprise_Invitation_Model_Invitation_History setStatus(string $value)
  *
@@ -42,12 +42,6 @@
  */
 class Enterprise_Invitation_Model_Invitation_History extends Mage_Core_Model_Abstract
 {
-    /**
-     * Mapping old names
-     * @var array
-     */
-    protected $_oldFieldsMap = array('invitation_date' => 'date');
-
     /**
      * Initialize model
      *
@@ -77,7 +71,7 @@ class Enterprise_Invitation_Model_Invitation_History extends Mage_Core_Model_Abs
      */
     protected function _beforeSave()
     {
-        $this->setDate($this->getResource()->formatDate(time()));
+        $this->setInvitationDate($this->getResource()->formatDate(time()));
         return parent::_beforeSave();
     }
 }

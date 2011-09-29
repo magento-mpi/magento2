@@ -19,6 +19,8 @@ class Magento_Test_Request extends Mage_Core_Controller_Request_Http
      *
      * @param bool $trimPort
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getHttpHost($trimPort = true)
     {

@@ -26,7 +26,7 @@
 
 
 /**
- * Mysql4 session save handler
+ * Session save handler
  *
  * @category    Mage
  * @package     Mage_Core

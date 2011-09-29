@@ -181,12 +181,12 @@
  * @method Mage_Sales_Model_Order setEditIncrement(int $value)
  * @method int getEmailSent()
  * @method Mage_Sales_Model_Order setEmailSent(int $value)
- * @method int getForcedDoShipmentWithInvoice()
- * @method Mage_Sales_Model_Order setForcedDoShipmentWithInvoice(int $value)
+ * @method int getForcedShipmentWithInvoice()
+ * @method Mage_Sales_Model_Order setForcedShipmentWithInvoice(int $value)
  * @method int getGiftMessageId()
  * @method Mage_Sales_Model_Order setGiftMessageId(int $value)
- * @method int getPaymentAuthorizationExpiration()
- * @method Mage_Sales_Model_Order setPaymentAuthorizationExpiration(int $value)
+ * @method int getPaymentAuthExpiration()
+ * @method Mage_Sales_Model_Order setPaymentAuthExpiration(int $value)
  * @method int getPaypalIpnCustomerNotified()
  * @method Mage_Sales_Model_Order setPaypalIpnCustomerNotified(int $value)
  * @method int getQuoteAddressId()
@@ -289,8 +289,8 @@
  * @method Mage_Sales_Model_Order setBaseHiddenTaxAmount(float $value)
  * @method float getShippingHiddenTaxAmount()
  * @method Mage_Sales_Model_Order setShippingHiddenTaxAmount(float $value)
- * @method float getBaseShippingHiddenTaxAmount()
- * @method Mage_Sales_Model_Order setBaseShippingHiddenTaxAmount(float $value)
+ * @method float getBaseShippingHiddenTaxAmnt()
+ * @method Mage_Sales_Model_Order setBaseShippingHiddenTaxAmnt(float $value)
  * @method float getHiddenTaxInvoiced()
  * @method Mage_Sales_Model_Order setHiddenTaxInvoiced(float $value)
  * @method float getBaseHiddenTaxInvoiced()
@@ -411,18 +411,6 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     protected function _construct()
     {
         $this->_init('sales/order');
-    }
-
-     /**
-     * Init mapping array of short fields to
-     * its full names
-     *
-     * @return Varien_Object
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('order');
-        return $this;
     }
 
     /**
@@ -1446,7 +1434,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * Get random items collection with related children
      *
      * @param int $limit
-     * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
+     * @return Mage_Sales_Model_Resource_Order_Item_Collection
      */
     public function getItemsRandomCollection($limit = 1)
     {
@@ -1457,7 +1445,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * Get random items collection without related children
      *
      * @param int $limit
-     * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
+     * @return Mage_Sales_Model_Resource_Order_Item_Collection
      */
     public function getParentItemsRandomCollection($limit = 1)
     {
@@ -1469,7 +1457,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      *
      * @param int $limit
      * @param bool $nonChildrenOnly
-     * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
+     * @return Mage_Sales_Model_Resource_Order_Item_Collection
      */
     protected function _getItemsRandomCollection($limit, $nonChildrenOnly = false)
     {

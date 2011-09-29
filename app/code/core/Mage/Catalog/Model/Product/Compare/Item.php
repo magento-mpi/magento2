@@ -72,7 +72,7 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
     /**
      * Retrieve Resource instance
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item
+     * @return Mage_Catalog_Model_Resource_Product_Compare_Item
      */
     protected function _getResource()
     {

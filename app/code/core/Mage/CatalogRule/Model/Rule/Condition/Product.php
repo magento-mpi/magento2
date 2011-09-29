@@ -248,7 +248,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     /**
      * Collect validated attributes
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $productCollection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $productCollection
      * @return Mage_CatalogRule_Model_Rule_Condition_Product
      */
     public function collectValidatedAttributes($productCollection)

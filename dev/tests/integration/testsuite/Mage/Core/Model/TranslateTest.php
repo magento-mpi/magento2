@@ -43,15 +43,16 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $modulesConfig);
 
         /* Number of nodes is the number of enabled modules, that support translation */
+        $checkedNode = 'Mage_Core';
         $this->assertGreaterThan(1, count($modulesConfig));
-        $this->assertNotEmpty($modulesConfig->Mage_Core);
+        $this->assertNotEmpty($modulesConfig->$checkedNode);
         $this->assertXmlStringEqualsXmlString(
             '<Mage_Core>
                 <files>
                     <default>Mage_Core.csv</default>
                 </files>
             </Mage_Core>',
-            $modulesConfig->Mage_Core->asXML()
+            $modulesConfig->$checkedNode->asXML()
         );
 
         $this->_model->init('non_existing_area');
@@ -60,11 +61,11 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function testGetConfig()
     {
-        $this->assertEquals('frontend',   $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_AREA));
-        $this->assertEquals('en_US',      $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_LOCALE));
-        $this->assertEquals(1,            $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_STORE));
-        $this->assertEquals('test',       $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_DESIGN_PACKAGE));
-        $this->assertEquals('default',    $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_DESIGN_THEME));
+        $this->assertEquals('frontend', $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_AREA));
+        $this->assertEquals('en_US', $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_LOCALE));
+        $this->assertEquals(1, $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_STORE));
+        $this->assertEquals('test', $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_DESIGN_PACKAGE));
+        $this->assertEquals('default', $this->_model->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_DESIGN_THEME));
         $this->assertNull($this->_model->getConfig('non_existing_key'));
     }
 
@@ -107,11 +108,17 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             array('', ''),
             array('Text with different translation on different modules', 'Text translation by Mage_Core module'),
             array(
-                new Mage_Core_Model_Translate_Expr('Text with different translation on different modules', 'Mage_Core'),
+                new Mage_Core_Model_Translate_Expr(
+                    'Text with different translation on different modules',
+                    'Mage_Core'
+                ),
                 'Text translation by Mage_Core module'
             ),
             array(
-                new Mage_Core_Model_Translate_Expr('Text with different translation on different modules', 'Mage_Catalog'),
+                new Mage_Core_Model_Translate_Expr(
+                    'Text with different translation on different modules',
+                    'Mage_Catalog'
+                ),
                 'Text translation by Mage_Catalog module'
             ),
             array(

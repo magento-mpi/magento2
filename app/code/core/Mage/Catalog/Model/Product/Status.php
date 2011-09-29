@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
     /**
      * Retrieve resource model wraper
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Status
+     * @return Mage_Catalog_Model_Resource_Product_Status
      */
     protected function _getResource()
     {

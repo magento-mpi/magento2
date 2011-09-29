@@ -73,6 +73,8 @@ class Mage_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
      * @param mixed $params
      * @return string
      * @see testProcess()
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function sampleProcessor(Mage_Catalog_Helper_Output $helper, $string, $params)
     {

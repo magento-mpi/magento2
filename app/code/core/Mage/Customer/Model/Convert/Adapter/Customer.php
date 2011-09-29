@@ -366,7 +366,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         }
 
         $collections = $this->getData();
-        if ($collections instanceof Mage_Customer_Model_Entity_Customer_Collection) {
+        if ($collections instanceof Mage_Customer_Model_Resource_Customer_Collection) {
             $collections = array($collections->getEntity()->getStoreId()=>$collections);
         } elseif (!is_array($collections)) {
             $this->addException(Mage::helper('customer')->__('No customer collections found'), Mage_Dataflow_Model_Convert_Exception::FATAL);
@@ -375,7 +375,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
         foreach ($collections as $storeId=>$collection) {
             $this->addException(Mage::helper('customer')->__('Records for %s store found.', $stores[$storeId]));
 
-            if (!$collection instanceof Mage_Customer_Model_Entity_Customer_Collection) {
+            if (!$collection instanceof Mage_Customer_Model_Resource_Customer_Collection) {
                 $this->addException(Mage::helper('customer')->__('Customer collection expected.'), Mage_Dataflow_Model_Convert_Exception::FATAL);
             }
             try {

@@ -42,7 +42,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Cms_Page
      * @param int $masterStoreId
      * @param int $stagingStoreId
      *
-     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Cms_Page
+     * @return Enterprise_Staging_Model_Resource_Adapter_Item_Cms_Page
      */
     protected function _beforeStoreMerge($entityName, $fields, $masterStoreId, $stagingStoreId)
     {
@@ -63,7 +63,7 @@ class Enterprise_Staging_Model_Resource_Adapter_Item_Cms_Page
      * @param int $masterStoreId
      * @param int $stagingStoreId
      *
-     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Cms_Page
+     * @return Enterprise_Staging_Model_Resource_Adapter_Item_Cms_Page
      */
     protected function _beforeStoreRollback($srcTable, $targetTable, $connection, $fields, $masterStoreId, $stagingStoreId)
     {

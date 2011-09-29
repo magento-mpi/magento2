@@ -430,7 +430,7 @@ class Mage_Core_Model_Cache
     /**
      * Get cache resource model
      *
-     * @return Mage_Core_Model_Mysql4_Cache
+     * @return Mage_Core_Model_Resource_Cache
      */
     protected function _getResource()
     {

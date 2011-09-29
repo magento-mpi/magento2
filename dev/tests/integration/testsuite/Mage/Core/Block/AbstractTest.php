@@ -28,6 +28,13 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $this->_block = new Mage_Core_Block_AbstractTestAbstract;
     }
 
+    public function testConstruct()
+    {
+        $data = array('test' => 'test');
+        $block = new Mage_Core_Block_AbstractTestAbstract($data);
+        $this->assertEquals($data, $block->getData());
+    }
+
     public function testGetRequest()
     {
         $this->assertInstanceOf('Mage_Core_Controller_Request_Http', $this->_block->getRequest());

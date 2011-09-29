@@ -366,7 +366,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Return attribute collection for current Product Attribute Set
      *
-     * @return Mage_GoogleBase_Model_Mysql4_Attribute_Collection
+     * @return Mage_GoogleBase_Model_Resource_Attribute_Collection
      */
     protected function _getAttributesCollection()
     {

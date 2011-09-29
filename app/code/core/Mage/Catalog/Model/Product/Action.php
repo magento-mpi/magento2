@@ -46,7 +46,7 @@ class Mage_Catalog_Model_Product_Action extends Mage_Core_Model_Abstract
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Action
+     * @return Mage_Catalog_Model_Resource_Product_Action
      */
     protected function _getResource()
     {

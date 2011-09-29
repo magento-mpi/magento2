@@ -15,6 +15,7 @@ class AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('Magento');
         $suite->addTest(Magento_AllTests::suite());
+        $suite->addTest(Varien_AllTests::suite());
         return $suite;
     }
 }

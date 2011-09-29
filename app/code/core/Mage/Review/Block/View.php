@@ -73,7 +73,7 @@ class Mage_Review_Block_View extends Mage_Catalog_Block_Product_Abstract
     /**
      * Retrieve collection of ratings
      *
-     * @return Mage_Rating_Model_Mysql4_Rating_Option_Vote_Collection
+     * @return Mage_Rating_Model_Resource_Rating_Option_Vote_Collection
      */
     public function getRating()
     {

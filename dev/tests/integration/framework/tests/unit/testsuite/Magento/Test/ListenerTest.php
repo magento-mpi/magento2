@@ -19,6 +19,8 @@ class Magento_Test_ListenerTestObserver
      * @param string $name
      * @param array $arguments
      * @throws Exception
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __call($name, $arguments)
     {

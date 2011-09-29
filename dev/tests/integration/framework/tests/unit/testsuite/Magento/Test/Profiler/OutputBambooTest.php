@@ -26,6 +26,9 @@ class Magento_Test_Profiler_OutputBambooTestFilter extends php_user_filter
      * @param int $consumed
      * @param bool $closing
      * @return int
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function filter($in, $out, &$consumed, $closing)
     {

@@ -109,7 +109,7 @@ class Mage_GoogleShopping_Model_MassOperations
     /**
      * Update Google Content items.
      *
-     * @param array|Mage_GoogleShopping_Model_Mysql4_Item_Collection $items
+     * @param array|Mage_GoogleShopping_Model_Resource_Item_Collection $items
      * @throws Zend_Gdata_App_CaptchaRequiredException
      * @return Mage_GoogleShopping_Model_MassOperations
      */
@@ -170,7 +170,7 @@ class Mage_GoogleShopping_Model_MassOperations
     /**
      * Remove Google Content items.
      *
-     * @param array|Mage_GoogleShopping_Model_Mysql4_Item_Collection $items
+     * @param array|Mage_GoogleShopping_Model_Resource_Item_Collection $items
      * @throws Zend_Gdata_App_CaptchaRequiredException
      * @return Mage_GoogleShopping_Model_MassOperations
      */
@@ -215,14 +215,14 @@ class Mage_GoogleShopping_Model_MassOperations
     /**
      * Return items collection by IDs
      *
-     * @param array|Mage_GoogleShopping_Model_Mysql4_Item_Collection $items
+     * @param array|Mage_GoogleShopping_Model_Resource_Item_Collection $items
      * @throws Mage_Core_Exception
-     * @return null|Mage_GoogleShopping_Model_Mysql4_Item_Collection
+     * @return null|Mage_GoogleShopping_Model_Resource_Item_Collection
      */
     protected function _getItemsCollection($items)
     {
         $itemsCollection = null;
-        if ($items instanceof Mage_GoogleShopping_Model_Mysql4_Item_Collection) {
+        if ($items instanceof Mage_GoogleShopping_Model_Resource_Item_Collection) {
             $itemsCollection = $items;
         } else if (is_array($items)) {
             $itemsCollection = Mage::getResourceModel('googleshopping/item_collection')

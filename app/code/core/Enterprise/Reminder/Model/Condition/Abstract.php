@@ -46,7 +46,7 @@ class Enterprise_Reminder_Model_Condition_Abstract extends Mage_Rule_Model_Condi
     /**
      * Get condition combine resource model
      *
-     * @return Enterprise_Reminder_Model_Mysql4_Rule
+     * @return Enterprise_Reminder_Model_Resource_Rule
      */
     public function getResource()
     {

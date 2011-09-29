@@ -37,7 +37,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Review_List
     /**
      * Store reviews collection
      *
-     * @var Mage_Review_Model_Mysql4_Review_Collection
+     * @var Mage_Review_Model_Resource_Review_Collection
      */
     protected $_reviewCollection = null;
 
@@ -77,7 +77,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Review_List
             if (!$product) {
                 return null;
             }
-            /** @var $collection Mage_Review_Model_Mysql4_Review_Collection */
+            /** @var $collection Mage_Review_Model_Resource_Review_Collection */
             $collection = Mage::getResourceModel('review/review_collection')
                 ->addEntityFilter('product', $product->getId())
                 ->addStoreFilter(Mage::app()->getStore()->getId())

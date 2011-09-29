@@ -188,7 +188,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Specify filter for attributes used in quick search
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     public function addSearchableAttributeFilter()
     {

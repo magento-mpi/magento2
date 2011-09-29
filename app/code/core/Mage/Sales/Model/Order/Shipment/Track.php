@@ -38,7 +38,6 @@
  * @method int getOrderId()
  * @method Mage_Sales_Model_Order_Shipment_Track setOrderId(int $value)
  * @method string getNumber()
- * @method Mage_Sales_Model_Order_Shipment_Track setNumber(string $value)
  * @method string getDescription()
  * @method Mage_Sales_Model_Order_Shipment_Track setDescription(string $value)
  * @method string getTitle()
@@ -71,26 +70,24 @@ class Mage_Sales_Model_Order_Shipment_Track extends Mage_Sales_Model_Abstract
     }
 
     /**
-     * Init mapping array of short fields to
-     * its full names
-     *
-     * @resturn Varien_Object
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = array(
-            'number' => 'track_number'
-        );
-    }
-
-    /**
-     * Back compatibility with old versions.
+     * Tracking number getter
      *
      * @return string
      */
     public function getNumber()
     {
         return $this->getData('track_number');
+    }
+
+    /**
+     * Tracking number setter
+     *
+     * @param string $number
+     * @return Varien_Object
+     */
+    public function setNumber($number)
+    {
+        return $this->setData('track_number', $number);
     }
 
     /**

@@ -83,11 +83,11 @@ class Magento_Test_Entity
 
     protected function _testDelete()
     {
-        $id = $this->_model->getId();
+        $modelId = $this->_model->getId();
         $this->_model->delete();
 
         $model = $this->_getEmptyModel();
-        $model->load($id);
+        $model->load($modelId);
         PHPUnit_Framework_Assert::assertEmpty($model->getId(), 'CRUD Delete error');
     }
 }

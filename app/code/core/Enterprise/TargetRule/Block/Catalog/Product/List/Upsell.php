@@ -55,7 +55,7 @@ class Enterprise_TargetRule_Block_Catalog_Product_List_Upsell
      * Retrieve related product collection assigned to product
      *
      * @throws Mage_Core_Exception
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     public function getLinkCollection()
     {

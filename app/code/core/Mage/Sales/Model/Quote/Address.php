@@ -126,8 +126,8 @@
  * @method Mage_Sales_Model_Quote_Address setBaseHiddenTaxAmount(float $value)
  * @method float getShippingHiddenTaxAmount()
  * @method Mage_Sales_Model_Quote_Address setShippingHiddenTaxAmount(float $value)
- * @method float getBaseShippingHiddenTaxAmount()
- * @method Mage_Sales_Model_Quote_Address setBaseShippingHiddenTaxAmount(float $value)
+ * @method float getBaseShippingHiddenTaxAmnt()
+ * @method Mage_Sales_Model_Quote_Address setBaseShippingHiddenTaxAmnt(float $value)
  * @method float getShippingInclTax()
  * @method Mage_Sales_Model_Quote_Address setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
@@ -198,17 +198,6 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     protected function _construct()
     {
         $this->_init('sales/quote_address');
-    }
-
-    /**
-     * Init mapping array of short fields to its full names
-     *
-     * @return Mage_Sales_Model_Quote_Address
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('quote_address');
-        return $this;
     }
 
     /**

@@ -154,7 +154,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     protected function _initCategories()
     {
         $collection = Mage::getResourceModel('catalog/category_collection')->addNameToResult();
-        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
+        /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         foreach ($collection as $category) {
             $structure = preg_split('#/+#', $category->getPath());
             $pathSize  = count($structure);
@@ -313,7 +313,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             $productId = $stockItemRow['product_id'];
             unset(
                 $stockItemRow['item_id'], $stockItemRow['product_id'], $stockItemRow['low_stock_date'],
-                $stockItemRow['stock_id'], $stockItemRow['stock_status_changed_automatically']
+                $stockItemRow['stock_id'], $stockItemRow['stock_status_changed_auto']
             );
             $stockItemRows[$productId] = $stockItemRow;
         }
@@ -486,7 +486,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         //Execution time may be very long
         set_time_limit(0);
 
-        /** @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+        /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $validAttrCodes  = $this->_getExportAttrCodes();
         $writer          = $this->getWriter();
         $defaultStoreId  = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
@@ -950,7 +950,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Entity attributes collection getter.
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Attribute_Collection
      */
     public function getAttributeCollection()
     {

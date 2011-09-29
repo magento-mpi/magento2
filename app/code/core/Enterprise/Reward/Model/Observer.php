@@ -610,7 +610,7 @@ class Enterprise_Reward_Model_Observer
             $order->getState() === Mage_Sales_Model_Order::STATE_CLOSED ) {
             return $this;
         }
-        if (($order->getBaseRewardCurrencyAmountInvoiced() - $order->getBaseRewardCurrencyAmountRefunded()) > 0) {
+        if (($order->getBaseRwrdCrrncyAmtInvoiced() - $order->getBaseRwrdCrrncyAmntRefnded()) > 0) {
             $order->setForcedCanCreditmemo(true);
         }
         return $this;
@@ -642,11 +642,11 @@ class Enterprise_Reward_Model_Observer
         $invoice = $observer->getEvent()->getInvoice();
         if ($invoice->getBaseRewardCurrencyAmount()) {
             $order = $invoice->getOrder();
-            $order->setRewardCurrencyAmountInvoiced(
-                $order->getRewardCurrencyAmountInvoiced() + $invoice->getRewardCurrencyAmount()
+            $order->setRwrdCurrencyAmountInvoiced(
+                $order->getRwrdCurrencyAmountInvoiced() + $invoice->getRewardCurrencyAmount()
             );
-            $order->setBaseRewardCurrencyAmountInvoiced(
-                $order->getBaseRewardCurrencyAmountInvoiced() + $invoice->getBaseRewardCurrencyAmount()
+            $order->setBaseRwrdCrrncyAmtInvoiced(
+                $order->getBaseRwrdCrrncyAmtInvoiced() + $invoice->getBaseRewardCurrencyAmount()
             );
         }
 
@@ -685,7 +685,7 @@ class Enterprise_Reward_Model_Observer
             $balance = (int)$input['refund_reward_points'];
             $balance = min($creditmemo->getRewardPointsBalance(), $balance);
             if ($enable && $balance) {
-                $creditmemo->setRewardPointsBalanceToRefund($balance);
+                $creditmemo->setRewardPointsBalanceRefund($balance);
             }
         }
         return $this;
@@ -702,10 +702,8 @@ class Enterprise_Reward_Model_Observer
         $creditmemo = $observer->getEvent()->getCreditmemo();
         /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getCreditmemo()->getOrder();
-        $refundedAmount = (float)(
-            $order->getBaseRewardCurrencyAmountRefunded() +$creditmemo->getBaseRewardCurrencyAmount()
-        );
-        $rewardAmount = (float)$order->getBaseRewardCurrencyAmountInvoiced();
+        $refundedAmount = (float)($order->getBaseRwrdCrrncyAmntRefnded() + $creditmemo->getBaseRewardCurrencyAmount());
+        $rewardAmount = (float)$order->getBaseRwrdCrrncyAmtInvoiced();
         if ($rewardAmount > 0 &&  $rewardAmount == $refundedAmount) {
             $order->setForcedCanCreditmemo(false);
         }
@@ -726,7 +724,7 @@ class Enterprise_Reward_Model_Observer
 
         if ($creditmemo->getAutomaticallyCreated()) {
             if (Mage::helper('enterprise_reward')->isAutoRefundEnabled()) {
-                $creditmemo->setRewardPointsBalanceToRefund($creditmemo->getRewardPointsBalance());
+                $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
             } else {
                 return $this;
             }
@@ -736,21 +734,21 @@ class Enterprise_Reward_Model_Observer
             $order->setRewardPointsBalanceRefunded(
                 $order->getRewardPointsBalanceRefunded() + $creditmemo->getRewardPointsBalance()
             );
-            $order->setRewardCurrencyAmountRefunded(
-                $order->getRewardCurrencyAmountRefunded() + $creditmemo->getRewardCurrencyAmount()
+            $order->setRwrdCrrncyAmntRefunded(
+                $order->getRwrdCrrncyAmntRefunded() + $creditmemo->getRewardCurrencyAmount()
             );
-            $order->setBaseRewardCurrencyAmountRefunded(
-                $order->getBaseRewardCurrencyAmountRefunded() + $creditmemo->getBaseRewardCurrencyAmount()
+            $order->setBaseRwrdCrrncyAmntRefnded(
+                $order->getBaseRwrdCrrncyAmntRefnded() + $creditmemo->getBaseRewardCurrencyAmount()
             );
-            $order->setRewardPointsBalanceToRefund(
-                $order->getRewardPointsBalanceToRefund() + $creditmemo->getRewardPointsBalanceToRefund()
+            $order->setRewardPointsBalanceRefund(
+                $order->getRewardPointsBalanceRefund() + $creditmemo->getRewardPointsBalanceRefund()
             );
 
-            if ((int)$creditmemo->getRewardPointsBalanceToRefund() > 0) {
+            if ((int)$creditmemo->getRewardPointsBalanceRefund() > 0) {
                 $reward = Mage::getModel('enterprise_reward/reward')
                     ->setCustomerId($order->getCustomerId())
                     ->setStore($order->getStoreId())
-                    ->setPointsDelta((int)$creditmemo->getRewardPointsBalanceToRefund())
+                    ->setPointsDelta((int)$creditmemo->getRewardPointsBalanceRefund())
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_CREDITMEMO)
                     ->setActionEntity($order)
                     ->save();

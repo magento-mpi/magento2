@@ -32,7 +32,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Model_Resource_ConfigData_Collection
-    extends Mage_Core_Model_Mysql4_Collection_Abstract
+    extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Is application filter applied
@@ -53,7 +53,7 @@ class Mage_XmlConnect_Model_Resource_ConfigData_Collection
      * Add application filter
      *
      * @param  $applicationId
-     * @return Mage_XmlConnect_Model_Mysql4_ConfigData_Collection
+     * @return Mage_XmlConnect_Model_Resource_ConfigData_Collection
      */
     public function addApplicationIdFilter($applicationId)
     {
@@ -68,7 +68,7 @@ class Mage_XmlConnect_Model_Resource_ConfigData_Collection
      *
      * @param  $path
      * @param bool $like
-     * @return Mage_XmlConnect_Model_Mysql4_ConfigData_Collection
+     * @return Mage_XmlConnect_Model_Resource_ConfigData_Collection
      */
     public function addPathFilter($path, $like = true)
     {
@@ -86,7 +86,7 @@ class Mage_XmlConnect_Model_Resource_ConfigData_Collection
      * Add category filter
      *
      * @param  $category
-     * @return Mage_XmlConnect_Model_Mysql4_ConfigData_Collection
+     * @return Mage_XmlConnect_Model_Resource_ConfigData_Collection
      */
     public function addCategoryFilter($category)
     {
@@ -98,7 +98,7 @@ class Mage_XmlConnect_Model_Resource_ConfigData_Collection
      * Add value filter
      *
      * @param  $value
-     * @return Mage_XmlConnect_Model_Mysql4_ConfigData_Collection
+     * @return Mage_XmlConnect_Model_Resource_ConfigData_Collection
      */
     public function addValueFilter($value)
     {
@@ -110,7 +110,7 @@ class Mage_XmlConnect_Model_Resource_ConfigData_Collection
      * Add filter by array
      *
      * @param array $array
-     * @return Mage_XmlConnect_Model_Mysql4_ConfigData_Collection
+     * @return Mage_XmlConnect_Model_Resource_ConfigData_Collection
      */
     public function addArrayFilter(array $array)
     {

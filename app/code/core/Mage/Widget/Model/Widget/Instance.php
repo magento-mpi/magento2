@@ -89,20 +89,6 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         }
     }
 
-     /**
-     * Init mapping array of short fields to
-     * its full names
-     *
-     * @return Varien_Object
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = array(
-            'type' => 'instance_type',
-        );
-        return $this;
-    }
-
     /**
      * Processing object before save data
      *
@@ -196,7 +182,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     public function setType($type)
     {
-        $this->setData('type', $type);
+        $this->setData('instance_type', $type);
         $this->_prepareType();
         return $this;
     }
@@ -210,7 +196,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getType()
     {
         $this->_prepareType();
-        return $this->_getData('type');
+        return $this->_getData('instance_type');
     }
 
     /**
@@ -220,8 +206,8 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     protected function _prepareType()
     {
-        if (strpos($this->_getData('type'), '-') >= 0) {
-            $this->setData('type', str_replace('-', '/', $this->_getData('type')));
+        if (strpos($this->_getData('instance_type'), '-') >= 0) {
+            $this->setData('instance_type', str_replace('-', '/', $this->_getData('instance_type')));
         }
         return $this;
     }

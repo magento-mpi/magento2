@@ -172,7 +172,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
      *
      * @param Mage_SalesRule_Model_Rule $rule
      * @param mixed $attributes
-     * return Mage_SalesRule_Model_Mysql4_Rule
+     * return Mage_SalesRule_Model_Resource_Rule
      */
     public function setActualProductAttributes($rule, $attributes)
     {

@@ -49,7 +49,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Enterprise_TargetRule_Model_Mysql4_Rule_Collection */
+        /* @var $collection Enterprise_TargetRule_Model_Resource_Rule_Collection */
         $collection = Mage::getModel('enterprise_targetrule/rule')
             ->getCollection();
         $this->setCollection($collection);

@@ -106,7 +106,6 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if (!is_null($conn)) {
             $this->setConnection($conn);
         }
-        $this->_isOrdersRendered = false;
     }
 
     /**
@@ -190,6 +189,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
 
         $this->_conn = $conn;
         $this->_select = $this->_conn->select();
+        $this->_isOrdersRendered = false;
         return $this;
     }
 

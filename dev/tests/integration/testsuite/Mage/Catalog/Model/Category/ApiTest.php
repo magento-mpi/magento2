@@ -64,29 +64,29 @@ class Mage_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
 
     public function testCRUD()
     {
-        $id = $this->_model->create(1, array(
+        $categoryId = $this->_model->create(1, array(
             'name'              => 'test category',
             'available_sort_by' => 'name',
             'default_sort_by'   => 'name',
             'is_active'         => 1,
             'include_in_menu'   => 1
         ));
-        $this->assertNotEmpty($id);
-        $data = $this->_model->info($id);
+        $this->assertNotEmpty($categoryId);
+        $data = $this->_model->info($categoryId);
         $this->assertNotEmpty($data);
         $this->assertEquals('test category', $data['name']);
 
-        $this->_model->update($id, array(
+        $this->_model->update($categoryId, array(
             'name'              => 'new name',
             'available_sort_by' => 'name',
             'default_sort_by'   => 'name',
             'is_active'         => 1,
             'include_in_menu'   => 1
         ));
-        $data = $this->_model->info($id);
+        $data = $this->_model->info($categoryId);
         $this->assertEquals('new name', $data['name']);
 
-        $this->_model->delete($id);
+        $this->_model->delete($categoryId);
     }
 
     public function testMove()

@@ -45,7 +45,7 @@ class Mage_Core_Model_Resource_File_Storage_Directory_Database extends Mage_Core
     /**
      * Create database scheme for storing files
      *
-     * @return Mage_Core_Model_Mysql4_File_Storage_Database
+     * @return Mage_Core_Model_Resource_File_Storage_Database
      */
     public function createDatabaseScheme()
     {
@@ -94,7 +94,7 @@ class Mage_Core_Model_Resource_File_Storage_Directory_Database extends Mage_Core
      *
      * @param  Mage_Core_Model_File_Storage_Directory_Database $object
      * @param  string $path
-     * @return Mage_Core_Model_Mysql4_File_Storage_Directory_Database
+     * @return Mage_Core_Model_Resource_File_Storage_Directory_Database
      */
     public function loadByPath(Mage_Core_Model_File_Storage_Directory_Database $object, $path)
     {
@@ -150,7 +150,7 @@ class Mage_Core_Model_Resource_File_Storage_Directory_Database extends Mage_Core
     /**
      * Delete all directories from storage
      *
-     * @return Mage_Core_Model_Mysql4_File_Storage_Database
+     * @return Mage_Core_Model_Resource_File_Storage_Database
      */
     public function clearDirectories()
     {

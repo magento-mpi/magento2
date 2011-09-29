@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Preview extends Mage_Adminhtml_Bl
             $storeId = Mage::app()->getDefaultStoreView()->getId();
         }
 
-        Varien_Profiler::start("newsletter_template_proccessing");
+        Magento_Profiler::start("newsletter_template_proccessing");
         $vars = array();
 
         $vars['subscriber'] = Mage::getModel('newsletter/subscriber');
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Preview extends Mage_Adminhtml_Bl
             $templateProcessed = "<pre>" . htmlspecialchars($templateProcessed) . "</pre>";
         }
 
-        Varien_Profiler::stop("newsletter_template_proccessing");
+        Magento_Profiler::stop("newsletter_template_proccessing");
 
         return $templateProcessed;
     }

@@ -62,8 +62,8 @@
  * @method int getUseConfigQtyIncrements()
  * @method Mage_CatalogInventory_Model_Stock_Item setUseConfigQtyIncrements(int $value)
  * @method Mage_CatalogInventory_Model_Stock_Item setQtyIncrements(float $value)
- * @method int getUseConfigEnableQtyIncrements()
- * @method Mage_CatalogInventory_Model_Stock_Item setUseConfigEnableQtyIncrements(int $value)
+ * @method int getUseConfigEnableQtyInc()
+ * @method Mage_CatalogInventory_Model_Stock_Item setUseConfigEnableQtyInc(int $value)
  * @method Mage_CatalogInventory_Model_Stock_Item setEnableQtyIncrements(int $value)
  *
  * @category    Mage
@@ -135,20 +135,6 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('cataloginventory/stock_item');
-    }
-
-    /**
-     * Init mapping array of short fields to
-     * its full names
-     *
-     * @resturn Varien_Object
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = array(
-            'stock_status_changed_automatically' => 'stock_status_changed_auto',
-            'use_config_enable_qty_increments'   => 'use_config_enable_qty_inc'
-        );
     }
 
     /**
@@ -363,7 +349,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function getEnableQtyIncrements()
     {
-        if ($this->getUseConfigEnableQtyIncrements()) {
+        if ($this->getUseConfigEnableQtyInc()) {
             return Mage::getStoreConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS);
         }
         return (bool) $this->getData('enable_qty_increments');
@@ -750,9 +736,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                 );
             }
 
-            $this->setStockStatusChangedAutomatically(0);
+            $this->setStockStatusChangedAuto(0);
             if ($this->hasStockStatusChangedAutomaticallyFlag()) {
-                $this->setStockStatusChangedAutomatically((int)$this->getStockStatusChangedAutomaticallyFlag());
+                $this->setStockStatusChangedAuto((int)$this->getStockStatusChangedAutomaticallyFlag());
             }
         } else {
             $this->setQty(0);

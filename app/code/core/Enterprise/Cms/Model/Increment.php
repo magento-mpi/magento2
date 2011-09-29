@@ -79,21 +79,6 @@ class Enterprise_Cms_Model_Increment extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Init mapping array of short fields to
-     * its full names
-     *
-     * @resturn Varien_Object
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = array(
-            'type'  => 'increment_type',
-            'node'  => 'increment_node',
-            'level' => 'increment_level'
-        );
-    }
-
-    /**
      * Load increment counter by passed node and level
      *
      * @param int $type
@@ -139,9 +124,9 @@ class Enterprise_Cms_Model_Increment extends Mage_Core_Model_Abstract
 
         // if no counter for such combination we need to create new
         if (!$this->getId()) {
-            $this->setType($type)
-                ->setNode($node)
-                ->setLevel($level);
+            $this->setIncrementType($type)
+                ->setIncrementNode($node)
+                ->setIncrementLevel($level);
         }
 
         $newIncrementId = $this->_getNextId();

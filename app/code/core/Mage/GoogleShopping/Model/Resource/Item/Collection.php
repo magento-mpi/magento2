@@ -41,7 +41,7 @@ class Mage_GoogleShopping_Model_Resource_Item_Collection extends Mage_Core_Model
     /**
      * Init collection select
      *
-     * @return Mage_GoogleShopping_Model_Mysql4_Item_Collection
+     * @return Mage_GoogleShopping_Model_Resource_Item_Collection
      */
     protected function _initSelect()
     {
@@ -54,7 +54,7 @@ class Mage_GoogleShopping_Model_Resource_Item_Collection extends Mage_Core_Model
      * Filter collection by specified store ids
      *
      * @param array|int $storeIds
-     * @return Mage_GoogleShopping_Model_Mysql4_Item_Collection
+     * @return Mage_GoogleShopping_Model_Resource_Item_Collection
      */
     public function addStoreFilter($storeIds)
     {
@@ -66,7 +66,7 @@ class Mage_GoogleShopping_Model_Resource_Item_Collection extends Mage_Core_Model
      * Filter collection by specified product id
      *
      * @param int $productId
-     * @return Mage_GoogleShopping_Model_Mysql4_Item_Collection
+     * @return Mage_GoogleShopping_Model_Resource_Item_Collection
      */
     public function addProductFilterId($productId)
     {
@@ -98,7 +98,7 @@ class Mage_GoogleShopping_Model_Resource_Item_Collection extends Mage_Core_Model
     /**
      * Join product and type data
      *
-     * @return Mage_GoogleShopping_Model_Mysql4_Item_Collection
+     * @return Mage_GoogleShopping_Model_Resource_Item_Collection
      */
     protected function _joinTables()
     {

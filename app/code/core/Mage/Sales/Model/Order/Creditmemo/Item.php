@@ -66,8 +66,8 @@
  * @method float getQty()
  * @method float getBaseCost()
  * @method Mage_Sales_Model_Order_Creditmemo_Item setBaseCost(float $value)
- * @method float getBaseWeeeTaxAppliedRowAmount()
- * @method Mage_Sales_Model_Order_Creditmemo_Item setBaseWeeeTaxAppliedRowAmount(float $value)
+ * @method float getBaseWeeeTaxAppliedRowAmnt()
+ * @method Mage_Sales_Model_Order_Creditmemo_Item setBaseWeeeTaxAppliedRowAmnt(float $value)
  * @method float getPrice()
  * @method Mage_Sales_Model_Order_Creditmemo_Item setPrice(float $value)
  * @method float getBaseRowTotalInclTax()
@@ -121,18 +121,6 @@ class Mage_Sales_Model_Order_Creditmemo_Item extends Mage_Core_Model_Abstract
     public function setCreditmemo(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
         $this->_creditmemo = $creditmemo;
-        return $this;
-    }
-
-    /**
-     * Init mapping array of short fields to
-     * its full names
-     *
-     * @return Varien_Object
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('creditmemo_item');
         return $this;
     }
 

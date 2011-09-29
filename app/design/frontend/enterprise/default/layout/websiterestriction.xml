@@ -54,7 +54,6 @@
             </block>
             <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml"/>
         </block>
-        <block type="core/profiler" output="toHtml" name="core_profiler"/>
     </restriction_index_stub>
 
     <!-- private sales mode additional layout update -->

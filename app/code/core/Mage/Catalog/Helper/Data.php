@@ -288,19 +288,6 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-    * Initialize mapping for old and new field names
-    *
-    * @return array
-    */
-    public function getOldFieldMap()
-    {
-        $node = Mage::getConfig()->getNode('global/catalog_product/old_fields_map');
-        if ($node === false) {
-            return array();
-        }
-        return (array) $node;
-    }
-    /**
      * Check if Minimum Advertised Price is enabled
      *
      * @return bool

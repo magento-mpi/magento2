@@ -95,7 +95,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     }
 
     /**
-     * @return Mage_Catalog_Model_Mysql4_Convert
+     * @return Mage_Catalog_Model_Resource_Convert
      */
     public function getResource()
     {

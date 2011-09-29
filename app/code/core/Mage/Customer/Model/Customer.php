@@ -98,7 +98,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Customer addresses collection
      *
-     * @var Mage_Customer_Model_Entity_Address_Collection
+     * @var Mage_Customer_Model_Resource_Address_Collection
      */
     protected $_addressesCollection;
 
@@ -277,7 +277,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Retrieve not loaded address collection
      *
-     * @return Mage_Customer_Model_Entity_Address_Collection
+     * @return Mage_Customer_Model_Resource_Address_Collection
      */
     public function getAddressCollection()
     {
@@ -287,7 +287,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Customer addresses collection
      *
-     * @return Mage_Customer_Model_Entity_Address_Collection
+     * @return Mage_Customer_Model_Resource_Address_Collection
      */
     public function getAddressesCollection()
     {
@@ -333,7 +333,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      * Get customer attribute model object
      *
      * @param   string $attributeCode
-     * @return  Mage_Customer_Model_Entity_Attribute | null
+     * @return  Mage_Customer_Model_Resource_Attribute | null
      */
     public function getAttribute($attributeCode)
     {

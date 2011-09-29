@@ -50,7 +50,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Enterprise_Reward_Model_Mysql4_Reward_Rate_Collection */
+        /* @var $collection Enterprise_Reward_Model_Resource_Reward_Rate_Collection */
         $collection = Mage::getModel('enterprise_reward/reward_rate')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();

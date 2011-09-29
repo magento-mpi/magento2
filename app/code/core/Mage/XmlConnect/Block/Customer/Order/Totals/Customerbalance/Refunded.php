@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Customer_Order_Totals_Customerbalance_Refunded
      */
     public function addToXmlObject(Mage_XmlConnect_Model_Simplexml_Element $totalsXml)
     {
-        $balance = $this->getSource()->getCustomerBalanceTotalRefunded();
+        $balance = $this->getSource()->getCustomerBalTotalRefunded();
         if ($balance) {
             $totalsXml->addCustomChild(
                 $this->getTotal()->getCode(),

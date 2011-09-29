@@ -11,6 +11,8 @@
 
 /**
  * The class is not really abstract, therefore can be tested with a dummy descendant.
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Mage_Catalog_Model_AbstractTestAbstract extends Mage_Catalog_Model_Abstract
 {

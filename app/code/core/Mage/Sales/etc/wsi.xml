@@ -234,8 +234,8 @@
                     <xsd:element name="customer_balance_invoiced" type="xsd:string" minOccurs="0" />
                     <xsd:element name="base_customer_balance_refunded" type="xsd:string" minOccurs="0" />
                     <xsd:element name="customer_balance_refunded" type="xsd:string" minOccurs="0" />
-                    <xsd:element name="base_customer_balance_total_refunded" type="xsd:string" minOccurs="0" />
-                    <xsd:element name="customer_balance_total_refunded" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="bs_customer_bal_total_refunded" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="customer_bal_total_refunded" type="xsd:string" minOccurs="0" />
                     <xsd:element name="gift_cards" type="xsd:string" minOccurs="0" />
                     <xsd:element name="base_gift_cards_amount" type="xsd:string" minOccurs="0" />
                     <xsd:element name="gift_cards_amount" type="xsd:string" minOccurs="0" />
@@ -246,12 +246,12 @@
                     <xsd:element name="reward_points_balance" type="xsd:string" minOccurs="0" />
                     <xsd:element name="base_reward_currency_amount" type="xsd:string" minOccurs="0" />
                     <xsd:element name="reward_currency_amount" type="xsd:string" minOccurs="0" />
-                    <xsd:element name="base_reward_currency_amount_invoiced" type="xsd:string" minOccurs="0" />
-                    <xsd:element name="reward_currency_amount_invoiced" type="xsd:string" minOccurs="0" />
-                    <xsd:element name="base_reward_currency_amount_refunded" type="xsd:string" minOccurs="0" />
-                    <xsd:element name="reward_currency_amount_refunded" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="base_rwrd_crrncy_amt_invoiced" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="rwrd_currency_amount_invoiced" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="base_rwrd_crrncy_amnt_refnded" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="rwrd_crrncy_amnt_refunded" type="xsd:string" minOccurs="0" />
                     <xsd:element name="reward_points_balance_refunded" type="xsd:string" minOccurs="0" />
-                    <xsd:element name="reward_points_balance_to_refund" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="reward_points_balance_refund" type="xsd:string" minOccurs="0" />
                     <xsd:element name="reward_salesrule_points" type="xsd:string" minOccurs="0" />
                     <xsd:element name="firstname" type="xsd:string" minOccurs="0" />
                     <xsd:element name="lastname" type="xsd:string" minOccurs="0" />
@@ -340,7 +340,7 @@
                     <xsd:element name="weee_tax_applied_amount" type="xsd:string" minOccurs="0" />
                     <xsd:element name="weee_tax_applied_row_amount" type="xsd:string" minOccurs="0" />
                     <xsd:element name="base_weee_tax_applied_amount" type="xsd:string" minOccurs="0" />
-                    <xsd:element name="base_weee_tax_applied_row_amount" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="base_weee_tax_applied_row_amnt" type="xsd:string" minOccurs="0" />
                     <xsd:element name="weee_tax_disposition" type="xsd:string" minOccurs="0" />
                     <xsd:element name="weee_tax_row_disposition" type="xsd:string" minOccurs="0" />
                     <xsd:element name="base_weee_tax_disposition" type="xsd:string" minOccurs="0" />
@@ -548,7 +548,7 @@
                     <xsd:element name="base_tax_amount" type="xsd:string" minOccurs="0" />
                     <xsd:element name="base_row_total" type="xsd:string" minOccurs="0" />
                     <xsd:element name="base_weee_tax_applied_amount" type="xsd:string" minOccurs="0" />
-                    <xsd:element name="base_weee_tax_applied_row_amount" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="base_weee_tax_applied_row_amnt" type="xsd:string" minOccurs="0" />
                     <xsd:element name="weee_tax_applied_amount" type="xsd:string" minOccurs="0" />
                     <xsd:element name="weee_tax_applied_row_amount" type="xsd:string" minOccurs="0" />
                     <xsd:element name="weee_tax_disposition" type="xsd:string" minOccurs="0" />

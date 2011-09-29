@@ -88,7 +88,7 @@
                     <xsd:element name="weee_tax_applied_amount" type="xsd:double" minOccurs="0"/>
                     <xsd:element name="weee_tax_applied_row_amount" type="xsd:double" minOccurs="0"/>
                     <xsd:element name="base_weee_tax_applied_amount" type="xsd:double" minOccurs="0"/>
-                    <xsd:element name="base_weee_tax_applied_row_amount" type="xsd:double" minOccurs="0"/>
+                    <xsd:element name="base_weee_tax_applied_row_amnt" type="xsd:double" minOccurs="0"/>
                     <xsd:element name="weee_tax_disposition" type="xsd:double" minOccurs="0"/>
                     <xsd:element name="weee_tax_row_disposition" type="xsd:double" minOccurs="0"/>
                     <xsd:element name="base_weee_tax_disposition" type="xsd:double" minOccurs="0"/>
@@ -173,7 +173,7 @@
                     <xsd:element name="gift_message_id" type="xsd:string" minOccurs="0"/>
                     <xsd:element name="gift_message" type="xsd:string" minOccurs="0"/>
                     <xsd:element name="customer_balance_amount_used" type="xsd:double" minOccurs="0"/>
-                    <xsd:element name="base_customer_balance_amount_used" type="xsd:double" minOccurs="0"/>
+                    <xsd:element name="base_customer_bal_amount_used" type="xsd:double" minOccurs="0"/>
                     <xsd:element name="use_customer_balance" type="xsd:string" minOccurs="0"/>
                     <xsd:element name="gift_cards_amount" type="xsd:string" minOccurs="0"/>
                     <xsd:element name="base_gift_cards_amount" type="xsd:string" minOccurs="0"/>

@@ -262,7 +262,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                     ->addObject($invoice)
                     ->addObject($invoice->getOrder());
                 $shipment = false;
-                if (!empty($data['do_shipment']) || (int) $invoice->getOrder()->getForcedDoShipmentWithInvoice()) {
+                if (!empty($data['do_shipment']) || (int) $invoice->getOrder()->getForcedShipmentWithInvoice()) {
                     $shipment = $this->_prepareShipment($invoice);
                     if ($shipment) {
                         $shipment->setEmailSent($invoice->getEmailSent());

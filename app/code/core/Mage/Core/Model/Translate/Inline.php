@@ -170,7 +170,7 @@ class Mage_Core_Model_Translate_Inline
             return $this;
         }
 
-        /* @var $resource Mage_Core_Model_Mysql4_Translate_String */
+        /* @var $resource Mage_Core_Model_Resource_Translate_String */
         $resource = Mage::getResourceModel('core/translate_string');
         foreach ($translate as $t) {
             if (Mage::getDesign()->getArea() == 'adminhtml') {

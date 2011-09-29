@@ -57,7 +57,7 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
      * Set type for COUNT SQL select
      *
      * @param int $type
-     * @return Mage_Reports_Model_Mysql4_Quote_Collection
+     * @return Mage_Reports_Model_Resource_Quote_Collection
      */
     public function setSelectCountSqlType($type)
     {

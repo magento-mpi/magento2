@@ -52,7 +52,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Enterprise_Reward_Model_Mysql4_Reward_History_Collection */
+        /** @var $collection Enterprise_Reward_Model_Resource_Reward_History_Collection */
         $collection = Mage::getModel('enterprise_reward/reward_history')->getCollection()
             ->addCustomerFilter($this->getCustomerId())
             ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())

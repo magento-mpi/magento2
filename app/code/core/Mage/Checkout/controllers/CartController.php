@@ -144,14 +144,14 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
          */
         $this->_getSession()->setCartWasUpdated(true);
 
-        Varien_Profiler::start(__METHOD__ . 'cart_display');
+        Magento_Profiler::start(__METHOD__ . 'cart_display');
         $this
             ->loadLayout()
             ->_initLayoutMessages('checkout/session')
             ->_initLayoutMessages('catalog/session')
             ->getLayout()->getBlock('head')->setTitle($this->__('Shopping Cart'));
         $this->renderLayout();
-        Varien_Profiler::stop(__METHOD__ . 'cart_display');
+        Magento_Profiler::stop(__METHOD__ . 'cart_display');
     }
 
     /**
@@ -234,7 +234,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->getCollection()
                 ->addIdFilter($orderItemIds)
                 ->load();
-            /* @var $itemsCollection Mage_Sales_Model_Mysql4_Order_Item_Collection */
+            /* @var $itemsCollection Mage_Sales_Model_Resource_Order_Item_Collection */
             $cart = $this->_getCart();
             foreach ($itemsCollection as $item) {
                 try {

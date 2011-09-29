@@ -238,7 +238,6 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
 		$quote->setBillingAddress($quoteAddress);
 	    if($address->getIsPrimaryShipping())
 		$quote->setShippingAddress($quoteAddress);
-	
 
 	}
 
@@ -251,12 +250,12 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
 	    ->setShippingMethod($shippingMethod);
 	$this->_quote['address_count'] = count($quote->getAllAddresses());
 	$this->_quote['visible_count'] = count($quote->getAllVisibleItems());
-		Varien_Profiler::reset("quote::payment::total");
-		Varien_Profiler::reset("quote::total::foreach");
-		Varien_Profiler::reset("quote::total::foreachitems");
-	Varien_Profiler::start("quote::payment::total");
+		Magento_Profiler::reset("quote::payment::total");
+		Magento_Profiler::reset("quote::total::foreach");
+		Magento_Profiler::reset("quote::total::foreachitems");
+	Magento_Profiler::start("quote::payment::total");
         $quote->collectTotals();
-	Varien_Profiler::stop("quote::payment::total");
+	Magento_Profiler::stop("quote::payment::total");
 
         $quote->save();
 
@@ -289,18 +288,18 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
     {
         $this->_loadData();
         $this->_profilerOperationStart();
-	Varien_Profiler::start("quote::create");
+	Magento_Profiler::start("quote::create");
         $quote = $this->_createQuote(true);
-	Varien_Profiler::stop("quote::create");
+	Magento_Profiler::stop("quote::create");
 
-	Varien_Profiler::start("order::save");
+	Magento_Profiler::start("order::save");
         $service = Mage::getModel('sales/service_quote', $quote);
         $order = $service->submit();
 
         /* @var $quote Mage_Sales_Model_Quote */
         //$quoteConvert = Mage::getModel('sales/convert_quote');
         /* @var $quoteConvert Mage_Sales_Model_Convert_Quote */
-	//Varien_Profiler::start("order::addresses::add");
+	//Magento_Profiler::start("order::addresses::add");
        // $order = $quoteConvert->addressToOrder($quote->getShippingAddress());
         /* @var $order Mage_Sales_Model_Order */
         /*$order->setBillingAddress($quoteConvert->addressToOrderAddress($quote->getBillingAddress()))
@@ -311,8 +310,8 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
         foreach ($quote->getShippingAddress()->getAllItems() as $item) {
             $order->addItem($quoteConvert->itemToOrderItem($item));
         }
-	Varien_Profiler::stop("order::addresses::add");
-	Varien_Profiler::start("order::save");
+	Magento_Profiler::stop("order::addresses::add");
+	Magento_Profiler::start("order::save");
         try {
             $order->place()
                 ->save();
@@ -320,7 +319,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
         catch (Exception $e) {
             Mage::throwException($e->__toString() . "\n\n" . print_r($order->getData(), true));
         }*/
-	Varien_Profiler::stop("order::save");
+	Magento_Profiler::stop("order::save");
         $orderId = $order->getId();
         $this->_order = $this->_quote;
         $this->_order['id'] = $orderId;
@@ -330,7 +329,6 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
         unset($quoteConvert);
         unset($order);
         $this->_profilerOperationStop();
-	//Mage::app()->getLeyout()->createBlock('core/profiler')->toHtml();
         return $orderId;
     }
 
@@ -387,22 +385,22 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
 	    if ($itemTypeInstance) {
 		$request = $itemTypeInstance->prepareRequestForCart($_product);
 		if($request instanceof Varien_Object) {
-		    //Varien_Profiler::start("product::addtocart");
+		    //Magento_Profiler::start("product::addtocart");
 		    $quote->addProduct(clone $_product, $request);
-		    //Varien_Profiler::stop("product::addtocart");
+		    //Magento_Profiler::stop("product::addtocart");
 		}
 		/*$debugInfo['time'] = array(
-		  'init_options'    => Varien_profiler::fetch("option::collection::init"),
-		  'insider'         => Varien_profiler::fetch("option::collection::insider"),
-		  'init_selections' => Varien_profiler::fetch("selection::collection::init"),
-		  'foreach'         => Varien_profiler::fetch("filterd::options::foreach"),
-		  'addtocart'       => Varien_profiler::fetch("product::addtocart"),
+		  'init_options'    => Magento_Profiler::fetch("option::collection::init"),
+		  'insider'         => Magento_Profiler::fetch("option::collection::insider"),
+		  'init_selections' => Magento_Profiler::fetch("selection::collection::init"),
+		  'foreach'         => Magento_Profiler::fetch("filterd::options::foreach"),
+		  'addtocart'       => Magento_Profiler::fetch("product::addtocart"),
 		);
-		Varien_profiler::reset("option::collection::init");
-		Varien_profiler::reset("option::collection::insider");
-		Varien_profiler::reset("selection::collection::init");
-		Varien_profiler::reset("filterd::options::foreach");
-		Varien_profiler::reset("product::addtocart");*/
+		Magento_Profiler::reset("option::collection::init");
+		Magento_Profiler::reset("option::collection::insider");
+		Magento_Profiler::reset("selection::collection::init");
+		Magento_Profiler::reset("filterd::options::foreach");
+		Magento_Profiler::reset("product::addtocart");*/
 	    }
 	    $this->_quote['products'][] = $debugInfo;
         }
@@ -563,11 +561,11 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
                 $order->addChild('customer', $this->_order['customer_name'])
                     ->addAttribute('id', $this->_order['customer_id']);
 
-		$order->addChild('quote_total', Varien_Profiler::fetch("quote::payment::total"));
-		$order->addChild('quote_total_foreach', Varien_Profiler::fetch("quote::total::foreach"));
-		$order->addChild('quote_total_foreach_1', Varien_Profiler::fetch("quote::total::foreach::1"));
-		$order->addChild('quote_total_foreach_2', Varien_Profiler::fetch("quote::total::foreach::2"));
-		$order->addChild('quote_total_foreachitems', Varien_Profiler::fetch("quote::total::foreachitems"));
+		$order->addChild('quote_total', Magento_Profiler::fetch("quote::payment::total"));
+		$order->addChild('quote_total_foreach', Magento_Profiler::fetch("quote::total::foreach"));
+		$order->addChild('quote_total_foreach_1', Magento_Profiler::fetch("quote::total::foreach::1"));
+		$order->addChild('quote_total_foreach_2', Magento_Profiler::fetch("quote::total::foreach::2"));
+		$order->addChild('quote_total_foreachitems', Magento_Profiler::fetch("quote::total::foreachitems"));
 		$order->addChild('address_count', $this->_quote['address_count']);
 		$order->addChild('visible_count', $this->_quote['visible_count']);
 

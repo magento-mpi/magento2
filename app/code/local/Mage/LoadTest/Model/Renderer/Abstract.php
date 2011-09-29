@@ -127,7 +127,7 @@ abstract class Mage_LoadTest_Model_Renderer_Abstract extends Varien_Object
     {
         $collection = Mage::getModel('core/store')
             ->getCollection();
-        /* @var $collection Mage_Core_Model_Mysql4_Store_Collection */
+        /* @var $collection Mage_Core_Model_Resource_Store_Collection */
         if (!is_null($storeIds)) {
             $collection->addIdFilter($storeIds);
         }

@@ -36,14 +36,14 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
     /**
      * History records collection
      *
-     * @var Enterprise_Reward_Model_Mysql4_Reward_History_Collection
+     * @var Enterprise_Reward_Model_Resource_Reward_History_Collection
      */
     protected $_collection = null;
 
     /**
      * Get history collection if needed
      *
-     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection|false
+     * @return Enterprise_Reward_Model_Resource_Reward_History_Collection|false
      */
     public function getHistory()
     {
@@ -137,7 +137,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
     /**
      * Return reword points update history collection by customer and website
      *
-     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
+     * @return Enterprise_Reward_Model_Resource_Reward_History_Collection
      */
     protected function _getCollection()
     {

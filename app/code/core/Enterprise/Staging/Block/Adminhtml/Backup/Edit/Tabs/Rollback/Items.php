@@ -107,7 +107,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Items extends
      * used in such way instead of standard _prepareCollection
      * bc we need collection preloaded in _prepareColumns
      *
-     * @return Enterprise_Staging_Model_Mysql4_Staging_Item_Xml_Collection
+     * @return Enterprise_Staging_Model_Resource_Staging_Item_Xml_Collection
      */
     public function getCollection()
     {

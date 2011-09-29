@@ -50,6 +50,9 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
         $this->assertSame($response, $this->getResponse());
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     public function testAssert404NotFound()
     {
         $this->getRequest()->setActionName('noRoute');

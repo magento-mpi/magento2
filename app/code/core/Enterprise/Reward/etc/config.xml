@@ -39,7 +39,6 @@
             </enterprise_reward>
             <enterprise_reward_resource>
                 <class>Enterprise_Reward_Model_Resource</class>
-                <deprecatedNode>enterprise_reward_mysql4</deprecatedNode>
                 <entities>
                     <reward>
                         <table>enterprise_reward</table>
@@ -89,18 +88,6 @@
             </email>
         </template>
         <sales>
-            <old_fields_map>
-                <order>
-                    <base_reward_currency_amount_invoiced>base_rwrd_crrncy_amt_invoiced</base_reward_currency_amount_invoiced>
-                    <reward_currency_amount_invoiced>rwrd_currency_amount_invoiced</reward_currency_amount_invoiced>
-                    <base_reward_currency_amount_refunded>base_rwrd_crrncy_amnt_refnded</base_reward_currency_amount_refunded>
-                    <reward_currency_amount_refunded>rwrd_crrncy_amnt_refunded</reward_currency_amount_refunded>
-                    <reward_points_balance_to_refund>reward_points_balance_refund</reward_points_balance_to_refund>
-                </order>
-                <order_creditmemo>
-                    <reward_points_balance_to_refund>reward_points_balance_refund</reward_points_balance_to_refund>
-                </order_creditmemo>
-            </old_fields_map>
             <quote>
                 <totals>
                     <reward>

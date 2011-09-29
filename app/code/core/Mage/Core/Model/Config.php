@@ -114,7 +114,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Resource model
      * Used for operations with DB
      *
-     * @var Mage_Core_Model_Mysql4_Config
+     * @var Mage_Core_Model_Resource_Config
      */
     protected $_resourceModel;
 
@@ -206,7 +206,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Get config resource model
      *
-     * @return Mage_Core_Store_Mysql4_Config
+     * @return Mage_Core_Model_Resource_Config
      */
     public function getResourceModel()
     {
@@ -292,9 +292,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         if (Mage::isInstalled(array('etc_dir' => $this->getOptions()->getEtcDir()))) {
             if ($this->_canUseCacheForInit()) {
-                Varien_Profiler::start('mage::app::init::config::load_cache');
+                Magento_Profiler::start('init_modules_config_cache');
                 $loaded = $this->loadCache();
-                Varien_Profiler::stop('mage::app::init::config::load_cache');
+                Magento_Profiler::stop('init_modules_config_cache');
                 if ($loaded) {
                     $this->_useCache = true;
                     return true;
@@ -311,7 +311,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function loadModules()
     {
-        Varien_Profiler::start('config/load-modules');
+        Magento_Profiler::start('config');
+        Magento_Profiler::start('load_modules');
         $this->_loadDeclaredModules();
 
         $resourceConfig = sprintf('config.%s.xml', $this->_getResourceConnectionModel('core'));
@@ -327,7 +328,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         $this->applyExtends();
-        Varien_Profiler::stop('config/load-modules');
+        Magento_Profiler::stop('load_modules');
+        Magento_Profiler::stop('config');
         return $this;
     }
 
@@ -348,12 +350,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function loadDb()
     {
+        Magento_Profiler::start('config');
         if ($this->_isLocalConfigLoaded && Mage::isInstalled()) {
-            Varien_Profiler::start('config/load-db');
+            Magento_Profiler::start('load_db');
             $dbConf = $this->getResourceModel();
             $dbConf->loadToXml($this);
-            Varien_Profiler::stop('config/load-db');
+            Magento_Profiler::stop('load_db');
         }
+        Magento_Profiler::stop('config');
         return $this;
     }
 
@@ -593,13 +597,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if (!isset($this->_cacheSections[$section])) {
             return false;
         }
-        $sectioPath = array_slice($path, 0, $this->_cacheSections[$section]+1);
-        $sectionKey = implode('_', $sectioPath);
+        $sectionPath = array_slice($path, 0, $this->_cacheSections[$section]+1);
+        $sectionKey = implode('_', $sectionPath);
 
         if (!isset($this->_cacheLoadedSections[$sectionKey])) {
-            Varien_Profiler::start('init_config_section:' . $sectionKey);
+            Magento_Profiler::start('init_config_section:' . $sectionKey);
             $this->_cacheLoadedSections[$sectionKey] = $this->_loadSectionCache($sectionKey);
-            Varien_Profiler::stop('init_config_section:' . $sectionKey);
+            Magento_Profiler::stop('init_config_section:' . $sectionKey);
         }
 
         if ($this->_cacheLoadedSections[$sectionKey] === false) {
@@ -618,7 +622,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $section    = $path[0];
         $config     = $this->_getSectionConfig($path);
-        $path       = array_slice($path, $this->_cacheSections[$section]+1);
+        $path       = array_slice($path, $this->_cacheSections[$section] + 1);
         if ($config) {
             return $config->descend($path);
         }
@@ -777,7 +781,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return ;
         }
 
-        Varien_Profiler::start('config/load-modules-declaration');
+        Magento_Profiler::start('load_modules_declaration');
 
         $unsortedConfig = new Mage_Core_Model_Config_Base();
         $unsortedConfig->loadString('<config/>');
@@ -828,7 +832,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         $this->extend($sortedConfig);
 
-        Varien_Profiler::stop('config/load-modules-declaration');
+        Magento_Profiler::stop('load_modules_declaration');
         return $this;
     }
 
@@ -1232,19 +1236,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $className = null;
         if (isset($config->rewrite->$class)) {
             $className = (string)$config->rewrite->$class;
-        } else {
-            /**
-             * Backwards compatibility for pre-MMDB extensions.
-             * In MMDB release resource nodes <..._mysql4> were renamed to <..._resource>. So <deprecatedNode> is left
-             * to keep name of previously used nodes, that still may be used by non-updated extensions.
-             */
-            if ($config->deprecatedNode) {
-                $deprecatedNode = $config->deprecatedNode;
-                $configOld = $this->_xml->global->{$groupType.'s'}->$deprecatedNode;
-                if (isset($configOld->rewrite->$class)) {
-                    $className = (string) $configOld->rewrite->$class;
-                }
-            }
         }
 
         // Second - if entity is not rewritten then use class prefix to form class name
@@ -1336,7 +1327,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Example:
      * $config->getModelInstance('catalog/product')
      *
-     * Will instantiate Mage_Catalog_Model_Mysql4_Product
+     * Will instantiate Mage_Catalog_Model_Resource_Product
      *
      * @param string $modelClass
      * @param array|object $constructArguments
@@ -1346,9 +1337,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $className = $this->getModelClassName($modelClass);
         if (class_exists($className)) {
-            Varien_Profiler::start('CORE::create_object_of::'.$className);
+            Magento_Profiler::start('FACTORY:' . $className);
             $obj = new $className($constructArguments);
-            Varien_Profiler::stop('CORE::create_object_of::'.$className);
+            Magento_Profiler::stop('FACTORY:' . $className);
             return $obj;
         } else {
             /* throw Mage::exception(

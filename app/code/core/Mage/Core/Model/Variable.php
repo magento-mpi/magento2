@@ -135,7 +135,7 @@ class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
      */
     public function getVariablesOptionArray($withGroup = false)
     {
-        /* @var $collection Mage_Core_Model_Mysql4_Variable_Collection */
+        /* @var $collection Mage_Core_Model_Resource_Variable_Collection */
         $collection = $this->getCollection();
         $variables = array();
         foreach ($collection->toOptionArray() as $variable) {

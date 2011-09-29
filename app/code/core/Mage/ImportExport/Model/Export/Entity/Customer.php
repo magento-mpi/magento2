@@ -258,7 +258,7 @@ class Mage_ImportExport_Model_Export_Entity_Customer extends Mage_ImportExport_M
     /**
      * Entity attributes collection getter.
      *
-     * @return Mage_Customer_Model_Entity_Attribute_Collection
+     * @return Mage_Customer_Model_Resource_Attribute_Collection
      */
     public function getAttributeCollection()
     {

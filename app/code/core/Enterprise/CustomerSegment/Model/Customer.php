@@ -83,7 +83,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      *
      * @param string $eventName
      * @param int $websiteId
-     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection
+     * @return Enterprise_CustomerSegment_Model_Resource_Segment_Collection
      */
     public function getActiveSegmentsForEvent($eventName, $websiteId)
     {
@@ -106,7 +106,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function processEvent($eventName, $customer, $website)
     {
-        Varien_Profiler::start('__SEGMENTS_MATCHING__');
+        Magento_Profiler::start('__SEGMENTS_MATCHING__');
         $website    = Mage::app()->getWebsite($website);
         $websiteId  = $website->getId();
         $segments = $this->getActiveSegmentsForEvent($eventName, $websiteId);
@@ -129,7 +129,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
         $this->addCustomerToWebsiteSegments($customerId, $websiteId, $matchedIds);
         $this->removeCustomerFromWebsiteSegments($customerId, $websiteId, $notMatchedIds);
 
-        Varien_Profiler::stop('__SEGMENTS_MATCHING__');
+        Magento_Profiler::stop('__SEGMENTS_MATCHING__');
         return $this;
     }
 

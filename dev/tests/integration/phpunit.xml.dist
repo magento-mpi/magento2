@@ -52,7 +52,7 @@
         <!-- Semicolon-separated 'glob' patterns, that match global XML configuration files -->
         <const name="TESTS_GLOBAL_CONFIG_FILES" value="../../../app/etc/*.xml"/>
         <!-- Semicolon-separated 'glob' patterns, that match module declaration XML configuration files -->
-        <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/modules/*.xml"/>
+        <const name="TESTS_MODULE_CONFIG_FILES" value="{../../../app/etc/modules/*.xml,etc/modules/XEnterprise_Enabler.xml}"/>
         <!-- Environment cleanup, optional. Possible values: uninstall, restoreDatabase -->
         <const name="TESTS_SHUTDOWN_METHOD" value="uninstall"/>
         <!-- CSV Profiler Output file -->

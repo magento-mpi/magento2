@@ -67,8 +67,8 @@
  * @method Mage_Sales_Model_Order_Invoice_Item setWeeeTaxDisposition(float $value)
  * @method float getBaseCost()
  * @method Mage_Sales_Model_Order_Invoice_Item setBaseCost(float $value)
- * @method float getBaseWeeeTaxAppliedRowAmount()
- * @method Mage_Sales_Model_Order_Invoice_Item setBaseWeeeTaxAppliedRowAmount(float $value)
+ * @method float getBaseWeeeTaxAppliedRowAmnt()
+ * @method Mage_Sales_Model_Order_Invoice_Item setBaseWeeeTaxAppliedRowAmnt(float $value)
  * @method float getPrice()
  * @method Mage_Sales_Model_Order_Invoice_Item setPrice(float $value)
  * @method float getBaseRowTotalInclTax()
@@ -114,17 +114,6 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
         $this->_init('sales/order_invoice_item');
     }
 
-    /**
-     * Init mapping array of short fields to
-     * its full names
-     *
-     * @return Varien_Object
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('invoice_item');
-        return $this;
-    }
     /**
      * Declare invoice instance
      *

@@ -74,7 +74,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
     /**
      * Return list of current customer gift registries
      *
-     * @return Enterprise_GiftRegistry_Model_Mysql4_GiftRegistry_Collection
+     * @return Enterprise_GiftRegistry_Model_Resource_GiftRegistry_Collection
      */
     public function getEntityValues()
     {

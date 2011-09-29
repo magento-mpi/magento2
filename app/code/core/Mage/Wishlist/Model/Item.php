@@ -113,7 +113,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Mage_Wishlist_Model_Mysql4_Item
+     * @return Mage_Wishlist_Model_Resource_Item
      */
     protected function _getResource()
     {

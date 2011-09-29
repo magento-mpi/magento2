@@ -47,7 +47,7 @@ class Mage_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_
                 $baseWeeeTaxAmount = $item->getBaseWeeeTaxAppliedAmount()*$item->getQty();
 
                 $item->setWeeeTaxAppliedRowAmount($weeeTaxAmount);
-                $item->setBaseWeeeTaxAppliedRowAmount($baseWeeeTaxAmount);
+                $item->setBaseWeeeTaxAppliedRowAmnt($baseWeeeTaxAmount);
                 $newApplied = array();
                 $applied = Mage::helper('weee')->getApplied($item);
                 foreach ($applied as $one) {

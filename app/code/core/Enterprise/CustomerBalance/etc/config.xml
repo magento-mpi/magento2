@@ -47,7 +47,6 @@
             </enterprise_customerbalance>
             <enterprise_customerbalance_resource>
                 <class>Enterprise_CustomerBalance_Model_Resource</class>
-                <deprecatedNode>enterprise_customerbalance_mysql4</deprecatedNode>
                 <entities>
                     <balance>
                         <table>enterprise_customerbalance</table>
@@ -101,19 +100,6 @@
                     </customerbalance>
                 </totals>
             </order_creditmemo>
-            <old_fields_map>
-                <order_creditmemo>
-                    <base_customer_balance_total_refunded>bs_customer_bal_total_refunded</base_customer_balance_total_refunded>
-                    <customer_balance_total_refunded>customer_bal_total_refunded</customer_balance_total_refunded>
-                </order_creditmemo>
-                <order>
-                    <base_customer_balance_total_refunded>bs_customer_bal_total_refunded</base_customer_balance_total_refunded>
-                    <customer_balance_total_refunded>customer_bal_total_refunded</customer_balance_total_refunded>
-                </order>
-                <quote>
-                    <base_customer_balance_amount_used>base_customer_bal_amount_used</base_customer_balance_amount_used>
-                </quote>
-            </old_fields_map>
         </sales>
         <events>
             <adminhtml_customer_save_after>

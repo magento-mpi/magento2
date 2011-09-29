@@ -64,7 +64,7 @@ class Mage_Eav_Model_Form_Element extends Mage_Core_Model_Abstract
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Mage_Eav_Model_Mysql4_Form_Element
+     * @return Mage_Eav_Model_Resource_Form_Element
      */
     protected function _getResource()
     {
@@ -74,7 +74,7 @@ class Mage_Eav_Model_Form_Element extends Mage_Core_Model_Abstract
     /**
      * Retrieve resource collection instance wrapper
      *
-     * @return Mage_Eav_Model_Mysql4_Form_Element_Collection
+     * @return Mage_Eav_Model_Resource_Form_Element_Collection
      */
     public function getCollection()
     {

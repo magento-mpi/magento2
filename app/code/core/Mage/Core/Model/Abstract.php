@@ -60,7 +60,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     /**
      * Resource model instance
      *
-     * @var Mage_Core_Model_Mysql4_Abstract
+     * @var Mage_Core_Model_Resource_Db_Abstract
      */
     protected $_resource;
 
@@ -97,6 +97,26 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     protected $_isObjectNew     = null;
 
     /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object attributes
+     * This behavior may change in child classes
+     */
+    public function __construct(array $data= array())
+    {
+        parent::__construct($data);
+        $this->_construct();
+    }
+
+    /**
+     * Model construct that should be used for object initialization
+     */
+    protected function _construct()
+    {
+
+    }
+
+    /**
      * Standard model initialization
      *
      * @param string $resourceModel
@@ -106,6 +126,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     protected function _init($resourceModel)
     {
         $this->_setResourceModel($resourceModel);
+        $this->_idFieldName = $this->_getResource()->getIdFieldName();
     }
 
     /**
@@ -128,7 +149,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     /**
      * Get resource instance
      *
-     * @return Mage_Core_Model_Mysql4_Abstract
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _getResource()
     {
@@ -137,52 +158,6 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
 
         return Mage::getResourceSingleton($this->_resourceName);
-    }
-
-
-    /**
-     * Retrieve identifier field name for model
-     *
-     * @return string
-     */
-    public function getIdFieldName()
-    {
-        if (!($fieldName = parent::getIdFieldName())) {
-            $fieldName = $this->_getResource()->getIdFieldName();
-            $this->setIdFieldName($fieldName);
-        }
-        return $fieldName;
-    }
-
-    /**
-     * Retrieve model object identifier
-     *
-     * @return mixed
-     */
-    public function getId()
-    {
-        $fieldName = $this->getIdFieldName();
-        if ($fieldName) {
-            return $this->_getData($fieldName);
-        } else {
-            return $this->_getData('id');
-        }
-    }
-
-    /**
-     * Declare model object identifier value
-     *
-     * @param   mixed $id
-     * @return  Mage_Core_Model_Abstract
-     */
-    public function setId($id)
-    {
-        if ($this->getIdFieldName()) {
-            $this->setData($this->getIdFieldName(), $id);
-        } else {
-            $this->setData('id', $id);
-        }
-        return $this;
     }
 
     /**
@@ -545,7 +520,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     /**
      * Retrieve model resource
      *
-     * @return Mage_Core_Model_Mysql4_Abstract
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     public function getResource()
     {

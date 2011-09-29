@@ -104,6 +104,9 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     public function testGetSetInstance()
     {
         $exceptionOccurred = false;
@@ -133,17 +136,17 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains($expectedCookie, $actualHeaders);
 
         /* Determine whether header-related functions can be in fact called with no error */
-        $expectedCanTestHeaders = true;
-        set_error_handler(function() use (&$expectedCanTestHeaders) {
-            $expectedCanTestHeaders = false;
+        $expectedCanTest = true;
+        set_error_handler(function() use (&$expectedCanTest) {
+            $expectedCanTest = false;
         });
         header($expectedHeader);
         setcookie('SomeCookie', 'cookie-value');
         restore_error_handler();
 
-        $this->assertEquals($expectedCanTestHeaders, Magento_Test_Bootstrap::canTestHeaders());
+        $this->assertEquals($expectedCanTest, Magento_Test_Bootstrap::canTestHeaders());
 
-        if ($expectedCanTestHeaders) {
+        if ($expectedCanTest) {
             $actualHeaders = xdebug_get_headers();
             $this->assertContains($expectedHeader, $actualHeaders);
             $this->assertContains($expectedCookie, $actualHeaders);

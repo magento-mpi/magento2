@@ -31,7 +31,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
     extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
-     * @var Enterprise_CustomerBalance_Model_Mysql4_Balance_Collection
+     * @var Enterprise_CustomerBalance_Model_Resource_Balance_Collection
      */
     protected $_collection;
 

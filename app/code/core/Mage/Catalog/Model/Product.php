@@ -118,18 +118,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Init mapping array of short fields to
-     * its full names
-     *
-     * @return Varien_Object
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = Mage::helper('catalog')->getOldFieldMap();
-        return $this;
-    }
-
-    /**
      * Retrieve Store Id
      *
      * @return int
@@ -605,7 +593,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product
+     * @return Mage_Catalog_Model_Resource_Product
      */
     protected function _getResource()
     {
@@ -926,7 +914,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Retrieve collection cross sell product
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection
      */
     public function getCrossSellProductCollection()
     {
@@ -1612,7 +1600,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Retrieve options collection of product
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Option_Collection
      */
     public function getProductOptionsCollection()
     {

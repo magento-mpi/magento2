@@ -31,8 +31,8 @@
  * @method Enterprise_Invitation_Model_Resource_Invitation getResource()
  * @method int getCustomerId()
  * @method Enterprise_Invitation_Model_Invitation setCustomerId(int $value)
- * @method string getDate()
- * @method Enterprise_Invitation_Model_Invitation setDate(string $value)
+ * @method string getInvitationDate()
+ * @method Enterprise_Invitation_Model_Invitation setInvitationDate(string $value)
  * @method string getEmail()
  * @method Enterprise_Invitation_Model_Invitation setEmail(string $value)
  * @method int getReferralId()
@@ -71,12 +71,6 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
 
     protected $_eventPrefix = 'enterprise_invitation';
     protected $_eventObject = 'invitation';
-
-    /**
-     * Mapping old field names
-     * @var array
-     */
-    protected $_oldFieldsMap = array('invitation_date' => 'date');
 
     /**
      * Intialize resource
