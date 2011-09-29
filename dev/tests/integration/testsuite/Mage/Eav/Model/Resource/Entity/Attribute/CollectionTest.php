@@ -87,25 +87,11 @@ class Mage_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit_Fr
         return array_values($groups);
     }
 
-    /**
-     * @covers Mage_Eav_Model_Resource_Entity_Attribute_Collection::addAttributeGrouping
-     */
     public function testAddAttributeGrouping()
     {
         $select = $this->_model->getSelect();
-        $select->join(
-            array('duplication' => 'eav_entity_attribute'),
-            'duplication.attribute_id IN (main_table.attribute_id, main_table.attribute_id + 1)',
-            array('unneeded_val' => 'duplication.attribute_id')
-        );
+        $this->assertEmpty($select->getPart(Zend_Db_Select::GROUP));
         $this->_model->addAttributeGrouping();
-
-        try {
-            $this->_model->load();
-        } catch (Exception $e) {
-            /* Collection threw exception either because duplicated items were loaded, or due to other problem
-            with grouping */
-            $this->fail('Grouping is not working: ' . $e->getMessage());
-        }
+        $this->assertEquals(array('main_table.attribute_id'), $select->getPart(Zend_Db_Select::GROUP));
     }
 }
