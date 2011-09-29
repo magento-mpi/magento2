@@ -436,7 +436,7 @@ class Magento_Test_Bootstrap
 
         /**
          * Source etc directories contains all directories with XML files, excluding modules etc directory
-         * 
+         *
          * @var array $sourceEtcDirs
          */
         $sourceEtcDirs = array($magentoEtcDir, $this->_testsEtcDir);
@@ -501,6 +501,9 @@ class Magento_Test_Bootstrap
 
         /* Switch an application to installed mode */
         $this->initialize();
+
+        /* Perform Reindex */
+        $this->_refreshIndexes();
     }
 
     /**
@@ -522,6 +525,19 @@ class Magento_Test_Bootstrap
         /* On Windows iterator excludes iterated directory itself */
         if (is_dir($this->_installDir)) {
             rmdir($this->_installDir);
+        }
+    }
+
+    /**
+     * Refresh all indexes
+     */
+    protected function _refreshIndexes()
+    {
+        if (defined('TESTS_REINDEX_ONSTART') && TESTS_REINDEX_ONSTART) {
+            $processCollection = Mage::getResourceModel('index/process_collection');
+            foreach ($processCollection as $process) {
+                $process->reindexEverything();
+            }
         }
     }
 }
