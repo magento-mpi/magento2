@@ -213,7 +213,9 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
             $placeholderName = $this->_placeholder->getName();
             if (self::$_sharedInfoData[$placeholderName]['first']) {
                 self::$_sharedInfoData[$placeholderName]['first'] = false;
-                self::$_sharedInfoData[$placeholderName]['cursor'] = 0;
+                if (!isset(self::$_sharedInfoData[$placeholderName]['cursor'])) {
+                    self::$_sharedInfoData[$placeholderName]['cursor'] = 0;
+                }
                 // check for shuffled
                 if ($this->_getSharedParam('shuffled') && !empty($ids)) {
                     shuffle($ids);
@@ -238,6 +240,9 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
      */
     protected function _popItem()
     {
+        if (!isset(self::$_sharedInfoData[$this->_placeholder->getName()]['cursor'])) {
+            self::$_sharedInfoData[$this->_placeholder->getName()]['cursor'] = 0;
+        }
         if (is_null($this->_itemPosition)) {
             $this->_itemPosition = self::$_sharedInfoData[$this->_placeholder->getName()]['cursor'];
         }
