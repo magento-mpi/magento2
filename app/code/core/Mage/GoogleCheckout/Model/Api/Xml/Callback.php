@@ -436,6 +436,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $order->place();
         $order->save();
         $order->sendNewOrderEmail();
+        Mage::dispatchEvent('googlecheckout_save_order_after', array('order' => $order));
 
         $quote->setIsActive(false)->save();
 
