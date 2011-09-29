@@ -275,10 +275,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
             }
 
-            if (isset($data['subscription'])) {
-                $customer->setIsSubscribed(true);
-            } else {
-                $customer->setIsSubscribed(false);
+            if (Mage::getSingleton('admin/session')->isAllowed('customer/newsletter')) {
+                $customer->setIsSubscribed(isset($data['subscription']));
             }
 
             if (isset($data['account']['sendemail_store_id'])) {
