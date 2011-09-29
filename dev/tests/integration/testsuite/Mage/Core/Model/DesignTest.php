@@ -55,6 +55,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
                 $model->save();
                 $this->fail('A validation failure is expected.');
             } catch (Mage_Core_Exception $e) {
+                // intentionally swallow exception
             }
 
             $this->_model->delete();
@@ -77,5 +78,103 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
          * @todo fix and add addStoreFilter method
          */
         $this->assertEmpty($collection->getItems());
+    }
+
+    /**
+     * @magentoDataFixture Mage/Core/_files/design_change.php
+     * @magentoConfigFixture current_store general/locale/timezone UTC
+     */
+    public function testLoadChangeCache()
+    {
+        $date = Varien_Date::now(true);
+        $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
+
+        $cacheId = 'design_change_' . md5($storeId . $date);
+
+        $design = new Mage_Core_Model_Design;
+        $design->loadChange($storeId, $date);
+
+        $cachedDesign = Mage::app()->loadCache($cacheId);
+        $cachedDesign = unserialize($cachedDesign);
+
+        $this->assertTrue(is_array($cachedDesign));
+        $this->assertEquals($cachedDesign['design'], $design->getDesign());
+
+        $design->setDesign('default/default/default')->save();
+
+        $design = new Mage_Core_Model_Design;
+        $design->loadChange($storeId, $date);
+
+        $cachedDesign = Mage::app()->loadCache($cacheId);
+        $cachedDesign = unserialize($cachedDesign);
+
+        $this->assertTrue(is_array($cachedDesign));
+        $this->assertEquals($cachedDesign['design'], $design->getDesign());
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Core/_files/design_change_timezone.php
+     * @dataProvider loadChangeTimezoneDataProvider
+     */
+    public function testLoadChangeTimezone($storeCode, $storeTimezone, $storeUtcOffset)
+    {
+        if (date_default_timezone_get() != 'UTC') {
+            $this->markTestSkipped('Test requires UTC to be the default timezone.');
+        }
+        $utcDatetime = time();
+        $utcDate = date('Y-m-d', $utcDatetime);
+        $storeDatetime = strtotime($storeUtcOffset, $utcDatetime);
+        $storeDate = date('Y-m-d', $storeDatetime);
+
+        if ($storeDate == $utcDate) {
+            $expectedDesign = "{$storeCode}_today_design";
+        } else if ($storeDatetime > $utcDatetime) {
+            $expectedDesign = "{$storeCode}_tomorrow_design";
+        } else {
+            $expectedDesign = "{$storeCode}_yesterday_design";
+        }
+
+        $store = Mage::app()->getStore($storeCode);
+        $store->setConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
+
+        $design = new Mage_Core_Model_Design;
+        $design->loadChange($store->getId());
+        $actualDesign = $design->getDesign();
+
+        $this->assertEquals($expectedDesign, $actualDesign);
+    }
+
+    public function loadChangeTimezoneDataProvider()
+    {
+        /**
+         * Depending on the current UTC time, either UTC-12:00, or UTC+12:00 timezone points to the different date.
+         * If UTC time is between 00:00 and 12:00, UTC+12:00 points to the same day, and UTC-12:00 to the previous day.
+         * If UTC time is between 12:00 and 24:00, UTC-12:00 points to the same day, and UTC+12:00 to the next day.
+         * Testing the design change with both UTC-12:00 and UTC+12:00 store timezones guarantees
+         * that the proper design change is chosen for the timezone with the date different from the UTC.
+         */
+        return array(
+            'default store - UTC+12:00' => array(
+                'default',
+                'Etc/GMT-12',  // "GMT-12", not "GMT+12", see http://www.php.net/manual/en/timezones.others.php#64310
+                '+12 hours',
+            ),
+            'default store - UTC-12:00' => array(
+                'default',
+                'Etc/GMT+12',
+                '-12 hours',
+            ),
+            'admin store - UTC+12:00' => array(
+                'admin',
+                'Etc/GMT-12',
+                '+12 hours',
+            ),
+            'admin store - UTC-12:00' => array(
+                'admin',
+                'Etc/GMT+12',
+                '-12 hours',
+            ),
+        );
     }
 }

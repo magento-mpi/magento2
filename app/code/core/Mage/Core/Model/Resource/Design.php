@@ -78,13 +78,16 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
 
         if ($check) {
             Mage::throwException(
-                Mage::helper('core')->__('Your design change for the specified store intersects with another one, please specify another date range.'));
+                Mage::helper('core')->__('Your design change for the specified store intersects with another one, please specify another date range.')
+            );
         }
 
-        if ($object->getDateFrom() === null)
+        if ($object->getDateFrom() === null) {
             $object->setDateFrom(new Zend_Db_Expr('null'));
-        if ($object->getDateTo() === null)
+        }
+        if ($object->getDateTo() === null) {
             $object->setDateTo(new Zend_Db_Expr('null'));
+        }
 
         parent::_beforeSave($object);
     }
@@ -169,12 +172,8 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
      * @param string $date
      * @return array
      */
-    public function loadChange($storeId, $date = null)
+    public function loadChange($storeId, $date)
     {
-        if (is_null($date)) {
-            $date = Varien_Date::now();
-        }
-
         $select = $this->_getReadAdapter()->select()
             ->from(array('main_table' => $this->getTable('design_change')))
             ->where('store_id = :store_id')
