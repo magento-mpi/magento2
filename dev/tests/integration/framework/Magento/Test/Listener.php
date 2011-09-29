@@ -82,6 +82,7 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
 
     /**
      * An error occurred.
+     * Method is required by implemented interface, but is not needed by the class.
      *
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
@@ -96,6 +97,7 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
 
     /**
      * A failure occurred.
+     * Method is required by implemented interface, but is not needed by the class.
      *
      * @param  PHPUnit_Framework_Test                 $test
      * @param  PHPUnit_Framework_AssertionFailedError $e
@@ -110,6 +112,7 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
 
     /**
      * Incomplete test.
+     * Method is required by implemented interface, but is not needed by the class.
      *
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
@@ -124,6 +127,7 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
 
     /**
      * Skipped test.
+     * Method is required by implemented interface, but is not needed by the class.
      *
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
@@ -183,6 +187,7 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
 
     /**
      * A test ended.
+     * Method signature is implied by implemented interface, not all parameters are needed.
      *
      * @param  PHPUnit_Framework_Test $test
      * @param  float                  $time
