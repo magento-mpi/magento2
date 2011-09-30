@@ -1,0 +1,74 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#
+catalog_page:
+    mca: %storeName%.html
+    title: %storeName%
+    uimap:
+        form: &catalogPage
+            fieldsets:
+                -
+                    catalog_view:
+                        xpath: //div[@class='category-products']
+                        dropdowns:
+                            show_per_page: //div[@class='toolbar']//div[@class='limiter']/select
+                            sort_by: //div[@class='toolbar']//div[@class='sorter']//select
+                        links:
+                            list: //a[@class='list']
+                            grid: //a[@class='grid']
+                            next_page: //a[@title='Next']
+                            product_name: //a[text()='%productName%']
+                            learn_more: %productNameXpath%/../../../../../li/div[@class='product-shop']//a[@class='link-learn']
+                            add_to_wish_list: %productNameXpath%/../../../../../li/div[@class='product-shop']//a[@class='link-wishlist']
+                            add_to_compare: %productNameXpath%/../../../../../li/div[@class='product-shop']//a[@class='link-compare']
+                        buttons:
+                            add_to_cart: %productNameXpath%/../../../../../li/div[@class='product-shop']//button[span='Add to Cart']
+                        pageelements:
+                            price_regular: %productNameXpath%/../../../../../li/div[@class='product-shop']//div[@class='price-box']/span[@class='regular-price']/span[@class='price' and normalize-space(text()='%regularPrice%')]
+                            price_excluding_tax: %productNameXpath%/../../../../../li/div[@class='product-shop']//div[@class='price-box']/span[@class='price-excluding-tax']/span[@class='price' and normalize-space(text()='%exclTaxPrice%')]
+                            price_including_tax: %productNameXpath%/../../../../../li/div[@class='product-shop']//div[@class='price-box']/span[@class='price-including-tax']/span[@class='price' and normalize-space(text()='%inclTaxPrice%')]
+                            price_old: %productNameXpath%/../../../../../li/div[@class='product-shop']//p[@class='old-price'and normalize-space(text()='%oldPrice%')]
+                            price_special_excluding_tax: %productNameXpath%/../../../../../li/div[@class='product-shop']//p[@class='special-price']/span[@class='price-excluding-tax' and normalize-space(text()='%specialExclTaxPrice%')]
+                            price_special_inlcuding_tax: %productNameXpath%/../../../../../li/div[@class='product-shop']//p[@class='special-price']/span[@class='price-including-tax' and normalize-space(text()='%specialExclTaxPrice%')]
+                            as_low_as: %productNameXpath%/../../../../../li/div[@class='product-shop']//a[@class='minimal-price-link']/span[@class='price' and normalize-space(text()='%minimalPrice%')]
+                            description: %productNameXpath%/../../../../../li/div[@class='product-shop']//div[@class='desc std']
+                -
+                    compare_products:
+                        xpath: //div[@class[contains(.,'block-compare')]]
+                -
+                    my_cart:
+                        xpath: //div[@class[contains(.,'block-cart')]]
+                -
+                    recently_viewed:
+                        xpath: //div[@class[contains(.,'block-viewed')]]
+
+catalog_page_index:
+    mca: "%storeName%.html?p=%index%"
+    title: %storeName%
+    uimap:
+        form: *catalogPage
