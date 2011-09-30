@@ -3,6 +3,13 @@
     <property name="dir.build_base" location="${basedir}/dev/build"/>
     <property name="dir.build_report" location="${basedir}/dev/build/report"/>
 
+    <!-- Copy the build customization files -->
+    <target name="init">
+        <copy todir="${basedir}/../" failonerror="true">
+            <fileset dir="${basedir}/dev/build/customization" />
+        </copy>
+    </target>
+
     <target name="clean">
         <delete dir="${dir.build_report}" />
 
@@ -19,7 +26,7 @@
     </target>
 
     <!-- Unit tests with coverage statistic -->
-    <target name="phpunit">
+    <target name="phpunit" depends="init">
         <exec executable="chmod" failonerror="true">
             <arg line="u+x ${dir.build_base}/bin/phpunit-with-xdebug.sh" />
         </exec>
@@ -32,7 +39,7 @@
     </target>
 
     <!-- Integration tests -->
-    <target name="phpunit-integration">
+    <target name="phpunit-integration" depends="init">
         <exec executable="chmod" failonerror="true">
             <arg line="u+x ${dir.build_base}/bin/phpunit-with-xdebug.sh" />
         </exec>
@@ -46,7 +53,7 @@
     </target>
 
     <!-- Running all integration tests without xdebug and code coverage report generation -->
-    <target name="integration-tests">
+    <target name="integration-tests" depends="init">
         <exec dir="${basedir}/dev/tests/integration" executable="phpunit" failonerror="true">
             <arg line="--stderr --log-junit ${dir.build_report}/integration-phpunit.xml" />
         </exec>
@@ -54,7 +61,7 @@
 
 
     <!-- The fastest way of all tests execution without any additional processing -->
-    <target name="phpunit-all">
+    <target name="phpunit-all" depends="init">
         <exec executable="chmod" failonerror="true">
             <arg line="u+x ${dir.build_base}/bin/phpunit-with-xdebug.sh" />
         </exec>
@@ -93,11 +100,11 @@
         </exec>
     </target>
 
-    <target name="integration" depends="clean,phpunit-integration" />
+    <target name="integration" depends="init,clean,phpunit-integration" />
 
-    <target name="integration-ce" depends="clean,prepare-ce,integration-tests" />
+    <target name="integration-ce" depends="init,clean,prepare-ce,integration-tests" />
 
-    <target name="static_code_analysis" description="Static Source Code Analysis Tests" depends="clean">
+    <target name="static_code_analysis" description="Static Source Code Analysis Tests" depends="init,clean">
         <exec dir="${basedir}/dev/tests/static" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${dir.build_report}/static-tests.xml" />
         </exec>
