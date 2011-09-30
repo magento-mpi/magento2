@@ -102,12 +102,10 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     public function __construct()
     {
         parent::__construct();
-        $this->_shipServiceWsdl = Mage::getModuleDir('etc', 'Mage_Usa')  . DS . 'wsdl' . DS . 'FedEx'
-              . DS . 'ShipService_v9.wsdl';
-        $this->_rateServiceWsdl = Mage::getModuleDir('etc', 'Mage_Usa')  . DS . 'wsdl' . DS . 'FedEx'
-              . DS . 'RateService_v9.wsdl';
-        $this->_trackServiceWsdl = Mage::getModuleDir('etc', 'Mage_Usa')  . DS . 'wsdl' . DS . 'FedEx'
-              . DS . 'TrackService_v5.wsdl';
+        $wsdlBasePath = Mage::getModuleDir('etc', 'Mage_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
+        $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v9.wsdl';
+        $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v9.wsdl';
+        $this->_trackServiceWsdl = $wsdlBasePath . 'TrackService_v5.wsdl';
     }
 
     /**
@@ -981,7 +979,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Parse xml tracking response
      *
-     * @deprecated after 1.6.0.2 see _parseTrackingResponse()
+     * @deprecated after 1.6.0.0 see _parseTrackingResponse()
      * @param array $trackingvalue
      * @param string $response
      * @return void
