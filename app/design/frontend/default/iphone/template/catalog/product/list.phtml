@@ -104,7 +104,7 @@
         <div class="category-products">
             <?php $_collectionSize = $_productCollection->count() ?>
             <?php $_columnCount = $this->getColumnCount(); ?>
-            <table class="c-grid" cellspacing="0">
+            <table class="c-grid" id="c-grid" cellspacing="0" cellpadding="0">
                 <tbody>
                 <?php $index = 1 ?>
                 <?php $i=0; foreach ($_productCollection as $key=>$_product): ?>
@@ -112,22 +112,41 @@
                     <tr>
                     <?php endif; ?>
                         <td>
-                            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>">
-                                <div class="wrap">
-                                    <div class="product-image">
-                                        <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(65); ?>" width="65" height="65" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
-                                    </div>
-                                    <div class="product-shop">
-                                        <header>
-                                            <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
-                                            <?php echo $this->getPriceHtml($_product, true) ?>
-                                            <?php if(!$_product->isSaleable()): ?>
-                                                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
-                                            <?php endif; ?>
-                                        </header>
+                            <div class="flip-block">
+                                <div class="front">
+                                    <span class="i-flip"></span>
+                                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>">
+                                        <div class="wrap">
+                                            <div class="product-image">
+                                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(65); ?>" width="65" height="65" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                                            </div>
+                                            <div class="product-shop">
+                                                <header>
+                                                    <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                                                    <?php echo $this->getPriceHtml($_product, true) ?>
+                                                    <?php if(!$_product->isSaleable()): ?>
+                                                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                                    <?php endif; ?>
+                                                </header>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="back">
+                                    <div class="back-face">
+                                        <span class="i-flip"></span>
+                                        <?php if($_product->getRatingSummary()): ?>
+                                            <?php echo $this->getReviewsSummaryHtml($_product) ?>
+                                        <?php endif; ?>
+                                        <?php echo $this->getPriceHtml($_product, true) ?>
+                                        <?php if($_product->isSaleable()): ?>
+                                            <a class="add-to-cart" href="<?php echo $this->getAddToCartUrl($_product) ?>" title="<?php echo $this->__('Add to Cart') ?>"><?php echo $this->__('Add to Cart') ?></a>
+                                        <?php else: ?>
+                                            <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         </td>
                     <?php if ($i % 2): ?>
                     </tr>
@@ -139,11 +158,37 @@
         </div>
         <script>
             document.observe('dom:loaded', function() {
-                $$('.c-grid td').each(function (n) {
-                    n.observe('click', function (e) {
-                        //e.preventDefault();
-                        //n.toggleClassName('active');
+                /*
+                $$('.c-grid .product-image').each(function(n) {
+                    var parent = n.up('a'),
+                        clone  = n.up().clone(true).addClassName('cloned');
+                    parent.insert(clone.wrap('div', {'class' : 'cloned-wrap'}));
+
+                    new webkit_draggable(clone.up(), { handle : clone.select('.product-image')[0], revert : true, scroll : true, onStart : function(r, e) {
+                            r.setStyle({'opacity':'100', 'visibility':'visible'});
+                        },
+                        onEnd : function(r, e) {
+                            r.setStyle({'opacity':'0', 'visibility':'hidden'});
+                        }
                     });
+                });
+                webkit_drop.add($('menu'),
+                {
+                    onDrop : function(elem, e) { e.preventDefault(); setLocation(elem.up('li').down('.actions li:last-child a').readAttribute('href')); elem.remove(); },
+                    onOver : function(elem, e) { e.preventDefault(); elem.down().addClassName('to-cart-animate'); },
+                    onOut  : function(elem) { elem.down().removeClassName('to-cart-animate'); }
+                });
+                */
+                $$('#c-grid .flip-block').each(function (n) {
+                    var h = n.up().getDimensions().height - 1;
+                    n.down().setStyle({
+                        'minHeight' : h + 'px'
+                    });
+                });
+                $('c-grid').on('click', ".i-flip", function(e, n) {
+                        var par = n.up('.flip-block');
+                        e.preventDefault();
+                        par.toggleClassName('active');
                 });
             });
         </script>
