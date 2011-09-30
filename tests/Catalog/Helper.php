@@ -55,7 +55,7 @@ class Catalog_Helper extends Mage_Selenium_TestCase
             }
         }
         if ($verificationData) {
-            $this->verifyPrices($verificationData, $storeName, $productName, $foundIt);
+            $this->verifyPrices($verificationData, $foundIt);
         }
     }
 
@@ -82,7 +82,7 @@ class Catalog_Helper extends Mage_Selenium_TestCase
             } else {
                 if ($this->isElementPresent($xpathNext)) {
                     $i++;
-                    $this->addParameter('index', $i);
+                    $this->addParameter('param', '?p=' . $i);
                     $this->getUimapPage('frontend', 'catalog_page_index')->assignParams($this->_paramsHelper);
                     $this->navigate('catalog_page_index');
                 } else {
@@ -97,26 +97,30 @@ class Catalog_Helper extends Mage_Selenium_TestCase
      * Verifies the correctness of prices in the catalog
      *
      * @param array $verificationData
-     * @return array
+     * @param int $pageNum
      */
-    public function verifyPrices(array $verificationData, $storeName, $productName, $foundIt)
+    public function verifyPrices(array $verificationData, $pageNum)
     {
-        $this->addParameter('index', $foundIt);
-        $this->addParameter('productName', $productName);
-        $this->addParameter('storeName', $storeName);
-        //$this->getUimapPage('frontend', 'catalog_page')->assignParams($this->_paramsHelper);
+        $this->addParameter('param', '?p=' . $pageNum);
         $this->getUimapPage('frontend', 'catalog_page_index')->assignParams($this->_paramsHelper);
-        $this->navigate('catalog_page_index');
-        $mca = $this->getUimapPage('frontend', 'catalog_page_index')->getMca();
-        print_r($mca);
-        //$this->pleaseWait();
         $page = $this->getCurrentLocationUimapPage();
-//        $formData = $page->getMainForm();
-//        $fieldsets = $formData->getAllFieldsets();
-//        print_r($fieldsets);
-//        $pageelements = $fieldsets->getAllPageelements();
-//        print_($pageelements);
-        //$pricesMissmatch = array();
-        //return $pricesMissmatch;
+        $xpathProduct = $this->_getControlXpath('link', 'product_name');
+        $this->addParameter('productNameXpath', $xpathProduct);
+        $pageelements = get_object_vars($page->getAllPageelements());
+        foreach ($verificationData as $key => $value) {
+            $this->addParameter('price', $value);
+            $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
+            $this->assertTrue($this->isElementPresent($xpathPrice),
+                    'Could not find element ' . $key . ' with price ' . $value);
+            unset($pageelements['ex_' . $key]);
+        }
+        foreach ($pageelements as $key => $value) {
+            if (!preg_match('/^ex_/', $key)) {
+                unset ($pageelements[$key]);
+            } else {
+                $value = preg_replace('/\%productNameXpath\%/', $xpathProduct, $value);
+                $this->assertFalse($this->isElementPresent($value), 'Element ' . $key . ' is on the page');
+            }
+        }
     }
 }

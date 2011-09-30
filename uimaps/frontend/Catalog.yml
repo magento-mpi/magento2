@@ -43,20 +43,29 @@ catalog_page:
                             grid: //a[@class='grid']
                             next_page: //a[@title='Next']
                             product_name: //a[text()='%productName%']
-                            learn_more: %productNameXpath%/../../../../../li/div[@class='product-shop']//a[@class='link-learn']
-                            add_to_wish_list: %productNameXpath%/../../../../../li/div[@class='product-shop']//a[@class='link-wishlist']
-                            add_to_compare: %productNameXpath%/../../../../../li/div[@class='product-shop']//a[@class='link-compare']
+                            learn_more: %productNameXpath%/../following-sibling::*//a[@class='link-learn']
+                            add_to_wish_list: %productNameXpath%/../following-sibling::*//a[@class='link-wishlist']
+                            add_to_compare: %productNameXpath%/../following-sibling::*//a[@class='link-compare']
                         buttons:
-                            add_to_cart: %productNameXpath%/../../../../../li/div[@class='product-shop']//button[span='Add to Cart']
+                            add_to_cart: %productNameXpath%/../following-sibling::*/button[span='Add to Cart']
                         pageelements:
-                            price_regular: %productNameXpath%/../../../../../li/div[@class='product-shop']//div[@class='price-box']/span[@class='regular-price']/span[@class='price' and normalize-space(text()='%regularPrice%')]
-                            price_excluding_tax: %productNameXpath%/../../../../../li/div[@class='product-shop']//div[@class='price-box']/span[@class='price-excluding-tax']/span[@class='price' and normalize-space(text()='%exclTaxPrice%')]
-                            price_including_tax: %productNameXpath%/../../../../../li/div[@class='product-shop']//div[@class='price-box']/span[@class='price-including-tax']/span[@class='price' and normalize-space(text()='%inclTaxPrice%')]
-                            price_old: %productNameXpath%/../../../../../li/div[@class='product-shop']//p[@class='old-price'and normalize-space(text()='%oldPrice%')]
-                            price_special_excluding_tax: %productNameXpath%/../../../../../li/div[@class='product-shop']//p[@class='special-price']/span[@class='price-excluding-tax' and normalize-space(text()='%specialExclTaxPrice%')]
-                            price_special_inlcuding_tax: %productNameXpath%/../../../../../li/div[@class='product-shop']//p[@class='special-price']/span[@class='price-including-tax' and normalize-space(text()='%specialExclTaxPrice%')]
-                            as_low_as: %productNameXpath%/../../../../../li/div[@class='product-shop']//a[@class='minimal-price-link']/span[@class='price' and normalize-space(text()='%minimalPrice%')]
-                            description: %productNameXpath%/../../../../../li/div[@class='product-shop']//div[@class='desc std']
+                            price_regular: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='regular-price']/span[@class='price' and normalize-space(text()='%price%')]
+                            price_excluding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-excluding-tax']/span[@class='price' and normalize-space(text()='%price%')]
+                            price_including_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-including-tax']/span[@class='price' and normalize-space(text()='%price%')]
+                            price_old: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='old-price' and normalize-space(text()='%price%')]
+                            price_special: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price' and normalize-space(text()='%price%')]
+                            price_special_excluding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price']/span[@class='price-excluding-tax' and normalize-space(text()='%price%')]
+                            price_special_inlcuding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price']/span[@class='price-including-tax' and normalize-space(text()='%price%')]
+                            as_low_as: %productNameXpath%/../following-sibling::div[@class='price-box']/a[@class='minimal-price-link']/span[@class='price' and normalize-space(text()='%price%')]
+                            description: %productNameXpath%/../following-sibling::div[@class='desc std']
+                            ex_price_regular: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='regular-price']
+                            ex_price_excluding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-excluding-tax']/span[@class='price']
+                            ex_price_including_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-including-tax']/span[@class='price']
+                            ex_price_old: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='old-price']
+                            ex_price_special: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price']
+                            ex_price_special_excluding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price']/span[@class='price-excluding-tax']
+                            ex_price_special_inlcuding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price']/span[@class='price-including-tax']
+                            ex_as_low_as: %productNameXpath%/../following-sibling::div[@class='price-box']/a[@class='minimal-price-link']/span[@class='price']
                 -
                     compare_products:
                         xpath: //div[@class[contains(.,'block-compare')]]
@@ -68,7 +77,7 @@ catalog_page:
                         xpath: //div[@class[contains(.,'block-viewed')]]
 
 catalog_page_index:
-    mca: "%storeName%.html?p=%index%"
+    mca: %storeName%.html%param%
     title: %storeName%
     uimap:
         form: *catalogPage

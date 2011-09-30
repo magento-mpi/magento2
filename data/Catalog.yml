@@ -30,8 +30,14 @@ product_data_template:
     store_name: test
     product_name: %noValue%
     verification:
+        price_regular: %noValue%
         price_excluding_tax: '$50.76'
         price_including_tax: '$50.76'
+        price_old: %noValue%
+        price_special: %noValue%
+        price_special_excluding_tax: %noValue%
+        price_special_inlcuding_tax: %noValue%
+        as_low_as: %noValue%
 
 simple_product_for_order_fullfill:
     product_attribute_set: Default
