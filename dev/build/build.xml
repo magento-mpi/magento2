@@ -5,9 +5,9 @@
     <property name="dir.build_report" location="${basedir}/dev/build/report"/>
 
     <!-- Copy the build customization files -->
-    <target name="init" if="env.build_name">
+    <target name="init" if="env.build_customization_dir">
         <copy todir="${basedir}" failonerror="true">
-            <fileset dir="${basedir}/dev/build/customization/${env.build_name}" />
+            <fileset dir="${basedir}/${env.build_customization_dir}" />
         </copy>
     </target>
 
