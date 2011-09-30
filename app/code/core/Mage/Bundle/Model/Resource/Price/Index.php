@@ -200,10 +200,6 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
         }
 
         $priceIndex = array();
-        if ($priceType == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
-            // load selection product prices from index for dynamic bundle
-            $priceIndex = $this->getProductsPriceFromIndex($selectionProducts);
-        }
 
         foreach ($this->_getWebsites() as $website) {
             if (!$website->getDefaultStore()) {
@@ -391,30 +387,6 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
         }
 
         return $productsData;
-    }
-
-    /**
-     * Retrieve Selection Product price from Price Index
-     * Return index key {entity_id}-{website_id}-{customer_group_id}
-     *
-     * @param int|array $productIds
-     * @return array
-     */
-    public function getProductsPriceFromIndex($productIds)
-    {
-        $price  = $this->_getAttribute('price');
-        $read = $this->_getReadAdapter();
-        $key = $read->getConcatSql(array('entity_id', 'customer_group_id', 'website_id'), '-');
-
-        $select = $read->select()
-            ->from(
-                array('price_index' => $this->getTable('catalogindex/price')),
-                array('index_key' => $key, 'value')
-            )
-            ->where('entity_id IN(?)', $productIds)
-            ->where('attribute_id= :attribute_id');
-        $index = $read->fetchPairs($select, array('attribute_id' => $price->getAttributeId()));
-        return $index;
     }
 
     /**

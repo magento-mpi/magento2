@@ -210,24 +210,18 @@ class Mage_Catalog_Model_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_F
      */
     protected function _getItemsData()
     {
-        $key = $this->_getCacheKey();
+        $data       = array();
+        $range      = $this->getRange();
+        $dbRanges   = $this->getRangeItemCounts($range);
 
-        $data = $this->getLayer()->getAggregator()->getCacheData($key);
-        if ($data === null) {
-            $data       = array();
-            $range      = $this->getRange();
-            $dbRanges   = $this->getRangeItemCounts($range);
-
-            foreach ($dbRanges as $index => $count) {
-                $data[] = array(
-                    'label' => $this->_renderItemLabel($range, $index),
-                    'value' => $index . ',' . $range,
-                    'count' => $count,
-                );
-            }
-
-
+        foreach ($dbRanges as $index => $count) {
+            $data[] = array(
+                'label' => $this->_renderItemLabel($range, $index),
+                'value' => $index . ',' . $range,
+                'count' => $count,
+            );
         }
+
         return $data;
     }
 }

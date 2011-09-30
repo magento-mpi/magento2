@@ -41,37 +41,29 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
      */
     protected function _getItemsData()
     {
-        $key    = $this->getLayer()->getStateKey() . '_SUBCATEGORIES';
-        $data   = $this->getLayer()->getCacheData($key);
+        /** @var $category Mage_Catalog_Model_Categeory */
+        $category   = $this->getCategory();
+        $categories = $category->getChildrenCategories();
 
-        if ($data === null) {
-            /** @var $category Mage_Catalog_Model_Categeory */
-            $category   = $this->getCategory();
-            $categories = $category->getChildrenCategories();
+        $productCollection = $this->getLayer()->getProductCollection();
+        $facets = $productCollection->getFacetedData('categories');
 
-            $productCollection = $this->getLayer()->getProductCollection();
-            $facets = $productCollection->getFacetedData('categories');
-
-            $data = array();
-            foreach ($categories as $category) {
-                $categoryId = $category->getId();
-                if (isset($facets[$categoryId])) {
-                    $category->setProductCount($facets[$categoryId]);
-                } else {
-                    $category->setProductCount(0);
-                }
-
-                if ($category->getIsActive() && $category->getProductCount()) {
-                    $data[] = array(
-                        'label' => Mage::helper('core')->escapeHtml($category->getName()),
-                        'value' => $categoryId,
-                        'count' => $category->getProductCount(),
-                    );
-                }
+        $data = array();
+        foreach ($categories as $category) {
+            $categoryId = $category->getId();
+            if (isset($facets[$categoryId])) {
+                $category->setProductCount($facets[$categoryId]);
+            } else {
+                $category->setProductCount(0);
             }
 
-            $tags = $this->getLayer()->getStateTags();
-            $this->getLayer()->getAggregator()->saveCacheData($data, $key, $tags);
+            if ($category->getIsActive() && $category->getProductCount()) {
+                $data[] = array(
+                    'label' => Mage::helper('core')->escapeHtml($category->getName()),
+                    'value' => $categoryId,
+                    'count' => $category->getProductCount(),
+                );
+            }
         }
 
         return $data;

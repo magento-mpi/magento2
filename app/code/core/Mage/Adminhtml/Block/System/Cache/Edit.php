@@ -79,27 +79,6 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
      */
     public function getCatalogData()
     {
-        $layeredIsDisabled = false;
-        $warning = '';
-
-        $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
-        switch ($flag->getState()) {
-            case Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED:
-                $layeredAction = Mage::helper('adminhtml')->__('Queued... Cancel');
-                //$layeredIsDisabled = true;
-                break;
-            case Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING:
-                $layeredAction = Mage::helper('adminhtml')->__('Running... Kill');
-                $warning = Mage::helper('adminhtml')->__('Do you really want to KILL parallel process and start new indexing process?');
-                //$layeredIsDisabled = true;
-                //$nowIsDisabled = true;
-                break;
-            default:
-                $layeredAction = Mage::helper('adminhtml')->__('Queue Refresh');
-                //$layeredIsDisabled = false;
-                break;
-        }
-
         return array(
             'refresh_catalog_rewrites'   => array(
                 'label'     => Mage::helper('adminhtml')->__('Catalog Rewrites'),
@@ -116,22 +95,6 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
                     array(
                         'name'      => 'clear_images_cache',
                         'action'    => Mage::helper('adminhtml')->__('Clear'),
-                        )
-                ),
-            ),
-            'refresh_layered_navigation' => array(
-                'label'     => Mage::helper('adminhtml')->__('Layered Navigation Indices'),
-                'buttons'   => array(
-                    array(
-                        'name'      => 'refresh_layered_navigation',
-                        'action'    => $layeredAction,
-                        'disabled'  => $layeredIsDisabled,
-                        ),
-                    array(
-                        'name'      => 'refresh_layered_navigation_now',
-                        'action'    => Mage::helper('adminhtml')->__('Refresh Now*'),
-                        'comment'   => Mage::helper('adminhtml')->__('* - If indexing is in progress, it will be killed and new indexing process will start.'),
-                        'warning'   => $warning,
                         )
                 ),
             ),

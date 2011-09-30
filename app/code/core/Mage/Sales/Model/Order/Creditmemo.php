@@ -91,8 +91,6 @@
  * @method Mage_Sales_Model_Order_Creditmemo setBillingAddressId(int $value)
  * @method int getInvoiceId()
  * @method Mage_Sales_Model_Order_Creditmemo setInvoiceId(int $value)
- * @method string getCybersourceToken()
- * @method Mage_Sales_Model_Order_Creditmemo setCybersourceToken(string $value)
  * @method string getStoreCurrencyCode()
  * @method Mage_Sales_Model_Order_Creditmemo setStoreCurrencyCode(string $value)
  * @method string getOrderCurrencyCode()

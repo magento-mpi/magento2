@@ -230,14 +230,6 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_product_collection_apply_limitations_after>
-            <catalogindex_prepare_price_select>
-                <observers>
-                    <enterprise_catalogpermissions>
-                        <class>enterprise_catalogpermissions/observer</class>
-                        <method>applyPriceGrantOnPriceIndex</method>
-                    </enterprise_catalogpermissions>
-                </observers>
-            </catalogindex_prepare_price_select>
             <catalog_product_collection_load_after>
                 <observers>
                     <enterprise_catalogpermissions>

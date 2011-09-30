@@ -256,17 +256,6 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
             }
         }
 
-        // search in catalogindex for products as part of configurable/grouped/bundle products (current store)
-        $where = array();
-        foreach ($options as $option) {
-            $where[] = sprintf('(attribute_id=%d AND value=%d)', $option['attribute_id'], $option['option_id']);
-        }
-        if ($where) {
-            $selects[] = (string)$this->getConnection()->select()
-                ->from($resource->getTableName('catalogindex/eav'), 'entity_id')
-                ->where(implode(' OR ', $where))
-                ->where("store_id={$storeId}");
-        }
         $sql = $this->getConnection()->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
         return $sql;
     }

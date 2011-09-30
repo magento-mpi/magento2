@@ -32,8 +32,16 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Model_Resource_Bundle extends Mage_CatalogIndex_Model_Resource_Data_Abstract
+class Mage_Bundle_Model_Resource_Bundle extends Mage_Core_Model_Resource_Db_Abstract
 {
+    /**
+     * Resource initialization
+     */
+    protected function _construct()
+    {
+        $this->_init('catalog/product', 'entity_id');
+    }
+
     /**
      * Preparing select for getting selection's raw data by product id
      * also can be specified extra parameter for limit which columns should be selected
@@ -123,4 +131,5 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_CatalogIndex_Model_Resource
 
         return $this;
     }
+
 }

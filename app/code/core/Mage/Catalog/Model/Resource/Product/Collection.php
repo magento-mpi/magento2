@@ -1060,44 +1060,6 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     }
 
     /**
-     * Add final price to the product
-     *
-     * @return Mage_Catalog_Model_Resource_Product_Collection
-     */
-    protected function _addFinalPrice()
-    {
-        foreach ($this->_items as $product) {
-            $basePrice = $product->getPrice();
-            $specialPrice = $product->getSpecialPrice();
-            $specialPriceFrom = $product->getSpecialFromDate();
-            $specialPriceTo = $product->getSpecialToDate();
-            if ($this->isEnabledFlat()) {
-                $rulePrice = null;
-                if ($product->getData('_rule_price') != $basePrice) {
-                    $rulePrice = $product->getData('_rule_price');
-                }
-            } else {
-                $rulePrice = $product->getData('_rule_price');
-            }
-
-            $finalPrice = $product->getPriceModel()->calculatePrice(
-                $basePrice,
-                $specialPrice,
-                $specialPriceFrom,
-                $specialPriceTo,
-                $rulePrice,
-                null,
-                null,
-                $product->getId()
-            );
-
-            $product->setCalculatedFinalPrice($finalPrice);
-        }
-
-        return $this;
-    }
-
-    /**
      * Retreive all ids
      *
      * @param boolean $resetCache

@@ -112,10 +112,6 @@
                         <paypal_payflow_silentPost/>
                         <googlecheckout_api_index/>
                         <googlecheckout_api_beacon/>
-                        <amazonpayments_cba_callback/>
-                        <amazonpayments_cba_notification/>
-                        <amazonpayments_asp_notification/>
-                        <ideal_basic_notify/>
                     </generic>
                     <register>
                         <customer_account_create/>

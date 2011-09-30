@@ -57,8 +57,6 @@
  * @method Mage_Sales_Model_Quote_Payment setCcSsStartMonth(int $value)
  * @method int getCcSsStartYear()
  * @method Mage_Sales_Model_Quote_Payment setCcSsStartYear(int $value)
- * @method string getCybersourceToken()
- * @method Mage_Sales_Model_Quote_Payment setCybersourceToken(string $value)
  * @method string getPaypalCorrelationId()
  * @method Mage_Sales_Model_Quote_Payment setPaypalCorrelationId(string $value)
  * @method string getPaypalPayerId()
@@ -71,10 +69,6 @@
  * @method Mage_Sales_Model_Quote_Payment setAdditionalData(string $value)
  * @method string getCcSsIssue()
  * @method Mage_Sales_Model_Quote_Payment setCcSsIssue(string $value)
- * @method string getIdealIssuerId()
- * @method Mage_Sales_Model_Quote_Payment setIdealIssuerId(string $value)
- * @method string getIdealIssuerList()
- * @method Mage_Sales_Model_Quote_Payment setIdealIssuerList(string $value)
  *
  * @category    Mage
  * @package     Mage_Sales
