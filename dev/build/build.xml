@@ -20,6 +20,9 @@
 
     <!-- Configurations for different Magento editions -->
     <target name="prepare-ce">
+        <exec executable="chmod" failonerror="true">
+            <arg line="u+x ${dir.build_base}/extruder/extruder.php" />
+        </exec>
         <exec dir="${basedir}" executable="${dir.build_base}/extruder/extruder.php" failonerror="true">
             <arg line="-w ${basedir} -l ${dir.build_base}/extruder/common_tests.txt -l ${dir.build_base}/extruder/ce.txt -v -s git" />
         </exec>
