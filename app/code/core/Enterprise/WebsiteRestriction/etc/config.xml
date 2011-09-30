@@ -112,6 +112,7 @@
                         <paypal_payflow_silentPost/>
                         <googlecheckout_api_index/>
                         <googlecheckout_api_beacon/>
+                        <authorizenet_directpost_payment_response/>
                     </generic>
                     <register>
                         <customer_account_create/>
