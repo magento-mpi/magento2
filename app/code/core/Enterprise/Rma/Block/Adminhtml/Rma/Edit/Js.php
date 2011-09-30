@@ -30,7 +30,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Js extends Mage_Adminhtml_Block_Te
     public function _construct()
     {
         parent::_construct();
-        $this->setRmaId(Mage::registry('current_rma')->getId());
+        if (Mage::registry('current_rma')) {
+            $this->setRmaId(Mage::registry('current_rma')->getId());
+        }
     }
 
     /**

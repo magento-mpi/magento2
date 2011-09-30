@@ -50,6 +50,10 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
         $this->_removeButton('reset');
         $this->_removeButton('delete');
 
+        if (!$this->getCreditmemo()) {
+            return;
+        }
+
         if ($this->getCreditmemo()->canCancel()) {
             $this->_addButton('cancel', array(
                 'label'     => Mage::helper('sales')->__('Cancel'),
@@ -132,7 +136,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
         return $this->getUrl(
             '*/sales_order/view',
             array(
-                'order_id'  => $this->getCreditmemo()->getOrderId(),
+                'order_id'  => $this->getCreditmemo() ? $this->getCreditmemo()->getOrderId() : null,
                 'active_tab'=> 'order_creditmemos'
             ));
     }

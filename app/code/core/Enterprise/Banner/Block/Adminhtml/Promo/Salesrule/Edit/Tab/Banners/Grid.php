@@ -37,7 +37,7 @@ class Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid
         parent::_construct();
         $this->setId('related_salesrule_banners_grid');
         $this->setVarNameFilter('related_salesrule_banners_filter');
-        if ($this->_getRule()->getId()) {
+        if ($this->_getRule() && $this->_getRule()->getId()) {
             $this->setDefaultFilter(array('in_banners'=>1));
         }
     }

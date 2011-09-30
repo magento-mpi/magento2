@@ -64,11 +64,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected function _gatherOrderItemsData()
     {
         $itemsData = array();
-        foreach (Mage::registry('current_order')->getItemsCollection() as $item) {
-            $itemsData[$item->getId()] = array(
-                'qty_shipped' => $item->getQtyShipped(),
-                'qty_returned' => $item->getQtyReturned()
-            );
+        if (Mage::registry('current_order')) {
+            foreach (Mage::registry('current_order')->getItemsCollection() as $item) {
+                $itemsData[$item->getId()] = array(
+                    'qty_shipped' => $item->getQtyShipped(),
+                    'qty_returned' => $item->getQtyReturned()
+                );
+            }
         }
         $this->setOrderItemsData($itemsData);
     }

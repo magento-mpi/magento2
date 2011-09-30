@@ -44,7 +44,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit
         $this->_blockGroup  = 'xmlconnect';
         parent::__construct();
         if ((bool)!Mage::getSingleton('adminhtml/session')->getNewApplication()) {
-            $app = Mage::helper('xmlconnect')->getApplication();
+            try {
+                $app = Mage::helper('xmlconnect')->getApplication();
+            } catch (Mage_Core_Exception $e) {
+                Mage::logException($e);
+                return;
+            }
+
             $this->_updateButton('save', 'label', $this->__('Save'));
             $this->_updateButton('save', 'onclick', 'if (editForm.submit()) {disableElements(\'save\')}');
 

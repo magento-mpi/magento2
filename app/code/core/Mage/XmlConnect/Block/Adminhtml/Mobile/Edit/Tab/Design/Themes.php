@@ -40,7 +40,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
     {
         parent::__construct();
 
-        $model = Mage::helper('xmlconnect')->getApplication();
+        try {
+            $model = Mage::helper('xmlconnect')->getApplication();
+        } catch (Mage_Core_Exception $e) {
+            Mage::logException($e);
+            return;
+        }
         $this->setTemplate('xmlconnect/form/element/themes.phtml');
 
         $data = $model->getFormData();

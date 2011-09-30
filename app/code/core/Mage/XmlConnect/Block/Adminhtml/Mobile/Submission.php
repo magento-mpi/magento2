@@ -49,7 +49,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission
         $this->removeButton('save');
         $this->removeButton('reset');
 
-        $app = Mage::helper('xmlconnect')->getApplication();
+        try {
+            $app = Mage::helper('xmlconnect')->getApplication();
+        } catch (Mage_Core_Exception $e) {
+            Mage::logException($e);
+            return;
+        }
+
         if ($app && $app->getIsResubmitAction()) {
             $label = $this->__('Resubmit App');
         } else {
