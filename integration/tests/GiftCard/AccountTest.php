@@ -101,7 +101,7 @@ class GiftCard_AccountTest extends Magento_Test_Webservice
         $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_account.xml');
 
         $invalidData = self::simpleXmlToArray($fixture->invalid_info);
-        $this->call('giftcard_account.info', array($invalidData));
+        $this->call('giftcard_account.info', array($invalidData['giftcard_id']));
     }
 
     /**
