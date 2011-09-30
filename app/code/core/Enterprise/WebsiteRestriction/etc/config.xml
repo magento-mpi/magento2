@@ -116,6 +116,7 @@
                         <amazonpayments_cba_notification/>
                         <amazonpayments_asp_notification/>
                         <ideal_basic_notify/>
+                        <authorizenet_directpost_payment_response/>
                     </generic>
                     <register>
                         <customer_account_create/>
