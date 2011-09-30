@@ -90,8 +90,8 @@ class Mage_Tax_Model_Observer
 
                     if ($percentDelta != $percentSum) {
                         $delta = $percentDelta - $percentSum;
-                        foreach ($ratesIdQuoteItemId[$rates['id']] as &$rat) {
-                            $rat['percent'] = (($rat['percent'] / $percentSum) * $delta) + $rat['percent'];
+                        foreach ($ratesIdQuoteItemId[$rates['id']] as &$rateTax) {
+                            $rateTax['percent'] = (($rateTax['percent'] / $percentSum) * $delta) + $rateTax['percent'];
                         }
                     }
                 }
