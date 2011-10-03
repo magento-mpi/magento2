@@ -552,19 +552,25 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 foreach ($item->getChildren() as $child) {
                     $taxRateRequest->setProductClassId($child->getProduct()->getTaxClassId());
                     $rate = $this->_calculator->getRate($taxRateRequest);
-                    $taxGroups[(string)$rate]['applied_rates'] = $this->_calculator->getAppliedRates($taxRateRequest);
+                    $applied_rates = $this->_calculator->getAppliedRates($taxRateRequest);
+                    $taxGroups[(string)$rate]['applied_rates'] = $applied_rates;
                     $this->_aggregateTaxPerRate($child, $rate, $taxGroups);
                     $inclTax = $child->getIsPriceInclTax();
-                    $itemTaxGroups[$child->getId()] = $this->_calculator->getAppliedRates($taxRateRequest);
+                    if ($rate > 0) {
+                        $itemTaxGroups[$child->getId()] = $applied_rates;
+                    }
                 }
                 $this->_recalculateParent($item);
             } else {
                 $taxRateRequest->setProductClassId($item->getProduct()->getTaxClassId());
                 $rate = $this->_calculator->getRate($taxRateRequest);
-                $taxGroups[(string)$rate]['applied_rates'] = $this->_calculator->getAppliedRates($taxRateRequest);
+                $applied_rates = $this->_calculator->getAppliedRates($taxRateRequest);
+                $taxGroups[(string)$rate]['applied_rates'] = $applied_rates;
                 $this->_aggregateTaxPerRate($item, $rate, $taxGroups);
                 $inclTax = $item->getIsPriceInclTax();
-                $itemTaxGroups[$item->getId()] = $this->_calculator->getAppliedRates($taxRateRequest);
+                if ($rate > 0) {
+                    $itemTaxGroups[$item->getId()] = $applied_rates;
+                }
             }
         }
 
