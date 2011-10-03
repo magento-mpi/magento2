@@ -66,11 +66,11 @@ Default layout, loads most of the pages
         </reference>
         <block type="catalog/product_price_template" name="catalog_product_price_template" />
     </default>
-    
+
 <!--
 Category default layout
 -->
-    
+
     <catalog_category_default translate="label">
         <label>Catalog Category (Non-Anchor)</label>
         <reference name="left">
@@ -317,27 +317,6 @@ Additional block dependant on product type
         </reference>
     </PRODUCT_TYPE_virtual>
 
-
-
-<!--
-Product send to friend
--->
-
-    <catalog_product_send translate="label">
-        <label>Catalog Product Email to a Friend</label>
-        <!-- Mage_Catalog -->
-        <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
-        </reference>
-        <reference name="head">
-            <action method="addJs"><script>varien/product.js</script></action>
-        </reference>
-        <reference name="content">
-            <block type="catalog/product_send" name="product.send" template="catalog/product/send.phtml">
-            </block>
-        </reference>
-    </catalog_product_send>
-
 <!--
 Product additional images gallery popup
 -->
@@ -426,22 +405,5 @@ SEO Site Map
             <action method="addLink" translate="label title" module="catalog"><label>Categories Sitemap</label><url helper="catalog/map/getCategoryUrl"/><title>Categories Sitemap</title></action>
         </reference>
     </catalog_seo_sitemap_product>
-
-
-<!--
-Catalog search terms block
--->
-
-    <catalog_seo_searchterm_popular translate="label">
-        <label>Catalog Seo Popular Search Terms</label>
-        <remove name="right"/>
-        <remove name="left"/>
-        <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
-        </reference>
-        <reference name="content">
-            <block type="catalog/seo_searchterm" name="seo.searchterm" template="catalog/seo/searchterm.phtml"/>
-        </reference>
-    </catalog_seo_searchterm_popular>
 
 </layout>

@@ -214,28 +214,12 @@ Base preview layout (?)
         </block>
     </newsletter_template_preview>
 
-    <newsletter_template_preview_switcher>
-        <block type="core/template" name="root" output="toHtml" template="newsletter/template/preview/iframeswitcher.phtml">
-            <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher" />
-            <block type="adminhtml/newsletter_template_preview_form" name="preview_form" />
-        </block>
-    </newsletter_template_preview_switcher>
-
     <newsletter_queue_preview>
         <block type="core/template" name="root" output="toHtml" template="newsletter/queue/preview.phtml">
             <block type="adminhtml/newsletter_queue_preview" name="content" as="content"></block>
         </block>
     </newsletter_queue_preview>
 
-<!--
-Base customer alerts preview layout (?)
--->
-
-    <alert_preview>
-        <block type="core/template" name="root" output="toHtml" template="alert/template/preview.phtml">
-            <block type="adminhtml/alert_template_preview" name="content" as="content"></block>
-        </block>
-    </alert_preview>
 <!--
 Base preview layout
 -->
@@ -245,25 +229,25 @@ Base preview layout
             <block type="adminhtml/system_email_template_preview" name="content" as="content"></block>
         </block>
     </systemPreview>
-    
+
     <adminhtml_dashboard_customersmost>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="adminhtml/dashboard_tab_customers_most" name="adminhtml.dashboard.tab.customers.most"/>
         </block>
     </adminhtml_dashboard_customersmost>
-    
+
     <adminhtml_dashboard_customersnewest>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="adminhtml/dashboard_tab_customers_newest" name="adminhtml.dashboard.tab.customers.newest"/>
         </block>
     </adminhtml_dashboard_customersnewest>
-    
+
     <adminhtml_dashboard_productsviewed>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="adminhtml/dashboard_tab_products_viewed" name="adminhtml.dashboard.tab.products.viewed"/>
         </block>
     </adminhtml_dashboard_productsviewed>
-    
+
 <!--
 Empty hanle for ajax response etc.
 -->
