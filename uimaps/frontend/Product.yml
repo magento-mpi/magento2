@@ -43,14 +43,14 @@ product_page:
                             add_to_wishlist: //a[text()='Add to Wishlist']
                             add_to_compare: //a[text()='Add to Compare']
                             email_to_friend: //a[text()='Email to a Friend']
-                            first_review: //a[text()='Be the first to review this product']   
+                            first_review: //a[text()='Be the first to review this product']
                         pageelements:
-                            produc_name: //div[@class='product-name']/h1
+                            product_name: //div[@class='product-name']/h1
                             old_price: //*[@class='old-price']//span[@class='price']
                             price: //*[@class='regular-price']//span[@class='price']
                             special_price: //*[@class='special-price']//span[@class='price']
-                            availability: //*[@class='availability in-stock']/span 
-                            short_descriprion: //div[@class='short-description']//div[@class='std']                           
+                            availability: //*[@class='availability in-stock']/span
+                            short_descriprion: //div[@class='short-description']//div[@class='std']
                 -
                     product_custom_options:
                         xpath: //div[@id='product-options-wrapper']
@@ -58,15 +58,15 @@ product_page:
                     details:
                         xpath: //div[h2[text()='Details']]
                         pageelements:
-                            descriprion: //div[@class='std']    
+                            descriprion: //div[@class='std']
                 -
                     additional_info:
-                        xpath: //div[h2[text()='Additional Information']]                            
+                        xpath: //div[h2[text()='Additional Information']]
                 -
                     add_tag:
                         xpath: //div[label[text()='Add Your Tags:']]
                         buttons:
                             add_tags: //button[@title='Add Tags']
                         fields:
-                            input_new_tags: //input[@id='productTagName']                    
+                            input_new_tags: //input[@id='productTagName']
         messages:

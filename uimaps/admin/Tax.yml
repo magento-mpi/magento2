@@ -57,7 +57,7 @@ create_customer_tax_class:
             fieldsets:
                 -
                     customer_tax_class_info:
-                        xpath: //div[@id='edit_form']
+                        xpath: //form[@id='edit_form']
                         fields:
                             customer_class_name: //input[@id='class_name']
                         required: [class_name]
@@ -122,7 +122,7 @@ create_product_tax_class:
             fieldsets:
                 -
                     product_tax_class_info:
-                        xpath:                      
+                        xpath:
                         fields:
                             product_class_name: //input[@id='class_name']
                         required: [class_name]
@@ -142,7 +142,7 @@ edit_product_tax_class:
             fieldsets:
                 -
                     product_tax_class_info:
-                        xpath:                      
+                        xpath:
                         fields:
                             product_class_name: //input[@id='class_name']
                         required: [class_name]
@@ -321,7 +321,7 @@ create_tax_rule:
                             name: //input[@id='code']
                             priority: //input[@id='priority']
                             sort_order: //input[@id='position']
-                        multiselectors:
+                        multiselects:
                             customer_tax_class: //select[@id='tax_customer_class']
                             product_tax_class: //select[@id='tax_product_class']
                             tax_rate: //select[@id='tax_rate']
@@ -350,7 +350,7 @@ edit_tax_rule:
                             name: //input[@id='code']
                             priority: //input[@id='priority']
                             sort_order: //input[@id='position']
-                        multiselectors:
+                        multiselects:
                             customer_tax_class: //select[@id='tax_customer_class']
                             product_tax_class: //select[@id='tax_product_class']
                             tax_rate: //select[@id='tax_rate']
