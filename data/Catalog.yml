@@ -27,7 +27,7 @@
 ---
 #Test data for product validation in catalog
 product_data_template:
-    store_name: test
+    category: test
     product_name: %noValue%
     verification:
         price_regular: %noValue%

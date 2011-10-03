@@ -44,39 +44,39 @@ class Catalog_Helper extends Mage_Selenium_TestCase
      */
     public function validateProduct($productsInfo)
     {
+        if (is_string($productsInfo)) {
+            $productsInfo = $this->loadData($productsInfo);
+        }
         $productsInfo = $this->arrayEmptyClear($productsInfo);
-        $storeName = (isset($productsInfo['store_name'])) ? $productsInfo['store_name'] : NULL;
+        $category = (isset($productsInfo['category'])) ? $productsInfo['category'] : NULL;
         $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : NULL;
         $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : NULL;
-        if ($storeName != NULL && $productName != NULL) {
-            $foundIt = $this->searchPageWithProduct($productName, $storeName);
+        if ($category != NULL && $productName != NULL) {
+            $foundIt = $this->searchPageWithProduct($productName, $category);
             if (!$foundIt) {
                 $this->fail('Could not find the product');
             }
         }
-        if ($verificationData) {
-            $this->verifyPrices($verificationData, $foundIt);
-        }
+        $this->verifyPrices($verificationData, $foundIt);
     }
 
     /**
-     * Validates product information in catalog
+     * Searches the page with the product in the catalog
      *
      * @param string $productName
-     * @param string $storeName
+     * @param string $category
      * @return mixed
      */
-    public function searchPageWithProduct($productName, $storeName)
+    public function searchPageWithProduct($productName, $category)
     {
-        $this->addParameter('storeName', $storeName);
+        $this->addParameter('category', $category);
         $this->getUimapPage('frontend', 'catalog_page')->assignParams($this->_paramsHelper);
         $this->frontend('catalog_page');
         $xpathNext = $this->_getControlXpath('link', 'next_page');
         $this->addParameter('productName', $productName);
         $xpathProduct = $this->_getControlXpath('link', 'product_name');
-        $foundIt = FALSE;
         $i = 1;
-        do {
+        for (;;) {
             if ($this->isElementPresent($xpathProduct)) {
                 return $i;
             } else {
@@ -86,11 +86,10 @@ class Catalog_Helper extends Mage_Selenium_TestCase
                     $this->getUimapPage('frontend', 'catalog_page_index')->assignParams($this->_paramsHelper);
                     $this->navigate('catalog_page_index');
                 } else {
-                    return $foundIt;
+                    return FALSE;
                 }
             }
-        } while (!$foundIt);
-        return $i;
+        }
     }
 
     /**
@@ -110,17 +109,21 @@ class Catalog_Helper extends Mage_Selenium_TestCase
         foreach ($verificationData as $key => $value) {
             $this->addParameter('price', $value);
             $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
-            $this->assertTrue($this->isElementPresent($xpathPrice),
-                    'Could not find element ' . $key . ' with price ' . $value);
+            if (!$this->isElementPresent($xpathPrice)) {
+                $this->messages['error'][] = 'Could not find element ' . $key . ' with price ' . $value;
+            }
             unset($pageelements['ex_' . $key]);
         }
         foreach ($pageelements as $key => $value) {
             if (!preg_match('/^ex_/', $key)) {
-                unset ($pageelements[$key]);
-            } else {
                 $value = preg_replace('/\%productNameXpath\%/', $xpathProduct, $value);
-                $this->assertFalse($this->isElementPresent($value), 'Element ' . $key . ' is on the page');
+                if ($this->isElementPresent($value)) {
+                    $this->messages['error'][] = 'Element ' . $key . ' is on the page';
+                }
             }
+        }
+        if (!empty($this->messages['error'])) {
+            $this->fail(implode("\n", $this->messages['error']));
         }
     }
 }

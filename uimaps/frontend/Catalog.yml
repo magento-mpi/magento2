@@ -27,8 +27,8 @@
 ---
 #
 catalog_page:
-    mca: %storeName%.html
-    title: %storeName%
+    mca: %category%.html
+    title: %category%
     uimap:
         form: &catalogPage
             fieldsets:
@@ -77,7 +77,7 @@ catalog_page:
                         xpath: //div[@class[contains(.,'block-viewed')]]
 
 catalog_page_index:
-    mca: %storeName%.html%param%
-    title: %storeName%
+    mca: %category%.html%param%
+    title: %category%
     uimap:
         form: *catalogPage
