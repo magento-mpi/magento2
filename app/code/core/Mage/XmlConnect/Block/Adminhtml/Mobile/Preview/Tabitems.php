@@ -42,11 +42,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Tabitems
         parent::__construct();
 
         $deviceType = Mage::helper('xmlconnect')->getDeviceType();
-        $this->setTemplate(
-            'xmlconnect/edit/tab/design/preview/tab_items_'
-            . $deviceType
-            . '.phtml'
-        );
+        if ($deviceType !== Mage_XmlConnect_Helper_Data::DEVICE_TYPE_DEFAULT) {
+            $this->setTemplate(
+                'xmlconnect/edit/tab/design/preview/tab_items_' . $deviceType . '.phtml'
+            );
+        }
     }
 
     /**
