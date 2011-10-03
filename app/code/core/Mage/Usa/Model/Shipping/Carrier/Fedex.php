@@ -959,7 +959,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             $this->_result = Mage::getModel('shipping/tracking_result');
         }
 
-        if($resultArray) {
+        if(isset($resultArray)) {
             $tracking = Mage::getModel('shipping/tracking_result_status');
             $tracking->setCarrier('fedex');
             $tracking->setCarrierTitle($this->getConfigData('title'));
