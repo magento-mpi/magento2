@@ -30,19 +30,26 @@ my_orders_history:
     mca: sales/order/history/
     title: My Orders
     uimap:
-        form:
+        form: &orderHistory
             fieldsets:
                 -
                     orders:
                         xpath: //div[@class='my-account']
                         links:
                             back: //p[@class='back-link']/a
-                            view_order: //tr/td[text()='%orderId%']/following-sibling::td/span/a[text()='View Order']
-                            reorder: //tr/td[text()='%orderId%']/following-sibling::td/span/a[text()='Reorder']
+                            view_order: //tr[td='%orderId%']/td/span/a[text()='View Order']
+                            reorder: //tr[td='%orderId%']/td/span/a[text()='Reorder']
+                            next_page: //a[@title='Next']
                         dropdowns:
                             show_per_page: //div[@class='limiter']/select
                         pageelements:
-                            order_total: //tr/td[text()='%orderId%']/following-sibling::td/span[text()='%orderTotal%']
+                            order_total: //tr[td='%orderId%']/td[span='%orderTotal%']
+
+my_orders_history_index:
+    mca: sales/order/history/%param%
+    title: My Orders
+    uimap:
+        form: *orderHistory
 
 view_order:
     mca: sales/order/view/order_id/%id%/
@@ -65,14 +72,27 @@ view_order:
                             subtotal_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price' and text()='%price%']
                             subtotal_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price' and text()='%price%']
                             qty: //tr[td[h3='%productName%']]/td[%colIndex%]/span[normalize-space(text()='Ordered:')]/strong[text()='%qty%']
+                            ex_price_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price']
+                            ex_price_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price']
+                            ex_subtotal_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price']
+                            ex_subtotal_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price']
                             #Total, grand total, shipping, tax elements
-                            total_subtotal_excluding_tax: //tr[@class='subtotal_excl first']/td[normalize-space(text()='Subtotal (Excl.Tax)')]/following-sibling::td/span[text()='%price%']
-                            total_subtotal_including_tax: //tr[@class='subtotal_incl']/td[normalize-space(text()='Subtotal (Incl.Tax)')]/following-sibling::td/span[text()='%price%']
-                            total_subtotal: //tr[@class='subtotal first']/td[normalize-space(text()='Subtotal')]/following-sibling::td/span[text()='%price%']
-                            total_shipping_excluding_tax: //tr[@class='shipping']/td[normalize-space(text()='Shipping & Handling (Excl.Tax)')]/following-sibling::td/span[text()='%price%']
-                            total_shipping_including_tax: //tr[@class='shipping_incl']/td[normalize-space(text()='Shipping & Handling (Incl.Tax)')]/following-sibling::td/span[text()='%price%']
-                            total_grand_total_excluding_tax: //tr[@class='grand_total']/td[strong[normalize-space(text()='Grand Total (Excl.Tax)')]]/following-sibling::td[strong/span[text()='%price%']]
-                            total_grand_total_including_tax: //tr[@class='grand_total_incl last']/td[strong[normalize-space(text()='Grand Total (Incl.Tax)')]]/following-sibling::td[strong/span[text()='%price%']]
-                            total_grand_total: //tr[@class='grand_total last']/td[strong[normalize-space(text()='Grand Total')]]/following-sibling::td[strong/span[text()='%price%']]
-                            total_tax: //tr/td[div[text()='Tax']]/following-sibling::td[span='%price%']
+                            total_subtotal_excluding_tax: //tr[normalize-space(td)='Subtotal (Excl.Tax)']/td[span='%price%']
+                            total_subtotal_including_tax: //tr[normalize-space(td)='Subtotal (Incl.Tax)']/td[span='%price%']
+                            total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span='%price%']
+                            total_shipping_excluding_tax: //tr[normalize-space(td)='Shipping & Handling (Excl.Tax)']/td[span='%price%']
+                            total_shipping_including_tax: //tr[normalize-space(td)='Shipping & Handling (Incl.Tax)']td[span='%price%']
+                            total_grand_total_excluding_tax: //tr[normalize-space(td)='Grand Total (Excl.Tax)']/td[strong='%price%']
+                            total_grand_total_including_tax: //tr[normalize-space(td)='Grand Total (Incl.Tax)']/td[strong='%price%']
+                            total_grand_total: //tr[normalize-space(td)='Grand Total']/td[strong='%price%']
+                            total_tax: //tr[normalize-space(td)='Tax']/td[span='%price%']
+                            ex_total_subtotal_excluding_tax: //tr[normalize-space(td)='Subtotal (Excl.Tax)']/td[span]
+                            ex_total_subtotal_including_tax: //tr[normalize-space(td)='Subtotal (Incl.Tax)']/td[span]
+                            ex_total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span]
+                            ex_total_shipping_excluding_tax: //tr[normalize-space(td)='Shipping & Handling (Excl.Tax)']/td[span]
+                            ex_total_shipping_including_tax: //tr[normalize-space(td)='Shipping & Handling (Incl.Tax)']td[span]
+                            ex_total_grand_total_excluding_tax: //tr[normalize-space(td)='Grand Total (Excl.Tax)']/td[strong]
+                            ex_total_grand_total_including_tax: //tr[normalize-space(td)='Grand Total (Incl.Tax)']/td[strong]
+                            ex_total_grand_total: //tr[normalize-space(td)='Grand Total']/td[strong]
+                            ex_total_tax: //tr[normalize-space(td)='Tax']/td[span]
 
