@@ -43,31 +43,34 @@
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php echo $this->getChildHtml('form_before') ?>
     <form id="shopping-cart-form" action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
-        <table id="shopping-cart-table" class="data-table cart-table" cellspacing="0">
-            <colgroup>
-                <col width="60" />
-                <col width="*" />
-                <col width="80" />
-                <col width="*" />
-                <col width="30" />
-            </colgroup>
-        <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
-            <thead>
-                <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
-                <tr>
-                    <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
-                    <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
-                    <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
-                    <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
-                </tr>
-                <?php endif; ?>
-            </thead>
-            <tbody>
-            <?php foreach($this->getItems() as $_item): ?>
-                <?php echo $this->getItemHtml($_item) ?>
-            <?php endforeach ?>
-            </tbody>
-        </table>
+        <div class="cart-table-wrap">
+            <span id="remove-all" class="remove-all item-remove"><img src="<?php echo $this->getSkinUrl('images/btn_trash.png') ?>" width="10" height="10" alt="<?php echo $this->__('Remove All')?>" /></span>
+            <table id="shopping-cart-table" class="data-table cart-table" cellspacing="0">
+                <colgroup>
+                    <col width="60" />
+                    <col width="*" />
+                    <col width="80" />
+                    <col width="*" />
+                    <col width="30" />
+                </colgroup>
+            <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+                <thead>
+                    <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                    <tr>
+                        <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                        <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                        <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                        <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                    </tr>
+                    <?php endif; ?>
+                </thead>
+                <tbody>
+                <?php foreach($this->getItems() as $_item): ?>
+                    <?php echo $this->getItemHtml($_item) ?>
+                <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
     </form>
     <?php echo $this->getChildHtml('coupon') ?>
     <div class="cart-footer">

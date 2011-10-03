@@ -1196,16 +1196,21 @@ section .category-title { display:none; }
     -webkit-perspective:1000;
     -webkit-box-shadow:inset 0 -10px 10px rgba(0, 0, 0, 0.25), inset 0 10px 10px rgba(0, 0, 0, 0.25), inset -10px 0 10px rgba(0, 0, 0, 0.25), inset 10px 0 10px rgba(0, 0, 0, 0.25);
 }
+.c-grid tr td:first-child { border-left:0; }
+.c-grid tr td:last-child { border-right:0; }
 .c-grid tr:last-child td {
     border-bottom:0;
 }
 .c-grid .i-flip {
-    background:url(../images/flip.png) no-repeat 20px center;
-    background-size:20px 20px;
+    background:url(../images/flip.png) no-repeat 25px 10px;
+    background-size:15px 15px;
     margin-left:-50px;
     float:right;
     height:50px;
     width:50px;
+    position:relative;
+    z-index:1;
+    -webkit-backface-visibility:hidden;
 }
 .c-grid .flip-block {
     height:100%;
@@ -1218,15 +1223,14 @@ section .category-title { display:none; }
 }
 .c-grid .cloned-wrap {
     padding:15px 0 0;
-    visibility:hidden;
+    opacity:0;
     width:100%;
+}
+.c-grid .flip-block.active .i-flip {
+    -webkit-transform:rotate(360deg);
 }
 .c-grid .flip-block .front {
     background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#eee));
-}
-.c-grid .flip-block .back .i-flip {
-    background-position:center;
-    margin:-10px -15px 0 0;
 }
 .c-grid .flip-block .front,
 .c-grid .flip-block .back {
@@ -1235,7 +1239,6 @@ section .category-title { display:none; }
 }
 .c-grid .flip-block .back {
     background:#fff;
-    padding:10px;
     position:absolute;
     top:0;
     bottom:0;
@@ -1245,6 +1248,7 @@ section .category-title { display:none; }
 .c-grid .flip-block .back {
     -webkit-transform:rotateY(180deg);
 }
+.c-grid .back-face { padding:10px; }
 .c-grid .back-face .rating-box { display:inline-block; }
 .c-grid .back-face .rating-links { margin:-2px 0 2px; }
 .c-grid .back-face .rating-links a { color:#fb6b36; text-decoration:underline; }
@@ -1694,6 +1698,41 @@ section .category-title { display:none; }
 .cart-shared .messages { margin:10px 0 7px; }
 .cart-shared fieldset { border-bottom:1px solid #ccc; margin:0 -10px; padding:0 10px 5px; }
 
+.cart-table-wrap {
+    position:relative;
+}
+.cart-table-wrap .item-remove {
+    display:none;
+    position:absolute;
+    top:9px;
+    right:10px;
+}
+.cart-table-wrap.animate {
+    padding:0 0 20px;
+}
+.cart-table-wrap.animate .item-remove {
+    display:block;
+}
+.cart-table-wrap.animate .cart-table .product-image {
+    position:absolute;
+    top:10px;
+    left:0;
+}
+.cart-table-wrap.animate .cart-table td {
+    border:0;
+    padding:7px 7px 0 0;
+}
+.cart-table-wrap.animate .cart-table .product-name {
+    margin:0;
+}
+.cart-table-wrap.animate .cart-table td:last-child,
+.cart-table-wrap.animate .cart-table .item-options,
+.cart-table-wrap.animate .cart-table .item-qty,
+.cart-table-wrap.animate .cart-table .cart-price,
+.cart-table-wrap.animate .cart-table .price-box {
+    display:none;
+}
+
 .cart-shared .cart-table { margin:3px 0 0; width:100%; }
 .cart-shared .cart-table,
 .cart-shared .cart-table .product-name { font-size:12px; }
@@ -1712,7 +1751,9 @@ section .category-title { display:none; }
 .cart-shared .cart-table .product-name { margin:0 0 10px; }
 .cart-shared .cart-table .product-name a { font-size:12px; color:#2f2f2f; }
 .cart-shared .cart-table .product-image img { border:1px solid #FFF; -webkit-box-shadow:1px 1px 3px 0 #ccc; }
-.cart-shared .cart-table .item-remove, .btn-remove {
+.cart-shared .cart-table .item-remove,
+.btn-remove,
+.item-remove {
     background:#e10000;
     border-radius:8px;
     display:block;
@@ -1725,7 +1766,8 @@ section .category-title { display:none; }
     -webkit-background-clip:padding-box;
 }
 .cart-shared .cart-table .item-remove:before,
-.btn-remove:before {
+.btn-remove:before,
+.item-remove:before {
     content:'';
     background:#fff;
     border-radius:9px;
@@ -1739,7 +1781,8 @@ section .category-title { display:none; }
     z-index:-1;
 }
 .cart-shared .cart-table .item-remove img,
-.btn-remove img { vertical-align:top; }
+.btn-remove img,
+.item-remove img { vertical-align:top; }
 
 .cart-shared .cart-table .product-name { font-size:11px; line-height:13px; font-weight:bold; }
 
