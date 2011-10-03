@@ -216,7 +216,16 @@ class Mage_Index_Model_Indexer
          * Index and save event just in case if some process matched it
          */
         if ($event->getProcessIds()) {
-            $this->indexEvent($event);
+            /** @var $resourceModel Mage_Index_Model_Resource_Abstract */
+            $resourceModel = Mage::getResourceModel('index/process');
+            $resourceModel->beginTransaction();
+            try {
+                $this->indexEvent($event);
+                $resourceModel->commit();
+            } catch (Exception $e) {
+                $resourceModel->rollBack();
+                throw $e;
+            }
             $event->save();
         }
         return $this;
