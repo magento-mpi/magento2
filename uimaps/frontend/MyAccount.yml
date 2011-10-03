@@ -1,0 +1,78 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#
+my_orders_history:
+    mca: sales/order/history/
+    title: My Orders
+    uimap:
+        form:
+            fieldsets:
+                -
+                    orders:
+                        xpath: //div[@class='my-account']
+                        links:
+                            back: //p[@class='back-link']/a
+                            view_order: //tr/td[text()='%orderId%']/following-sibling::td/span/a[text()='View Order']
+                            reorder: //tr/td[text()='%orderId%']/following-sibling::td/span/a[text()='Reorder']
+                        dropdowns:
+                            show_per_page: //div[@class='limiter']/select
+                        pageelements:
+                            order_total: //tr/td[text()='%orderId%']/following-sibling::td/span[text()='%orderTotal%']
+
+view_order:
+    mca: sales/order/view/order_id/%id%/
+    title: Order # %orderId%
+    uimap:
+        form:
+            fieldsets:
+                -
+                    order:
+                        xpath: //div[@class='my-account']
+                        links:
+                            reorder: //a[text()='Reorder']
+                            print_order: //a[text()='Print Order']
+                            back_to_my_orders: //p[@class='back-link']/a
+                        pageelements:
+                            order_status: //h1[text()='Order #%orderId% - %orderStatus%']
+                            #Table elements
+                            price_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price' and text()='%price%']
+                            price_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price' and text()='%price%']
+                            subtotal_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price' and text()='%price%']
+                            subtotal_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price' and text()='%price%']
+                            qty: //tr[td[h3='%productName%']]/td[%colIndex%]/span[normalize-space(text()='Ordered:')]/strong[text()='%qty%']
+                            #Total, grand total, shipping, tax elements
+                            total_subtotal_excluding_tax: //tr[@class='subtotal_excl first']/td[normalize-space(text()='Subtotal (Excl.Tax)')]/following-sibling::td/span[text()='%price%']
+                            total_subtotal_including_tax: //tr[@class='subtotal_incl']/td[normalize-space(text()='Subtotal (Incl.Tax)')]/following-sibling::td/span[text()='%price%']
+                            total_subtotal: //tr[@class='subtotal first']/td[normalize-space(text()='Subtotal')]/following-sibling::td/span[text()='%price%']
+                            total_shipping_excluding_tax: //tr[@class='shipping']/td[normalize-space(text()='Shipping & Handling (Excl.Tax)')]/following-sibling::td/span[text()='%price%']
+                            total_shipping_including_tax: //tr[@class='shipping_incl']/td[normalize-space(text()='Shipping & Handling (Incl.Tax)')]/following-sibling::td/span[text()='%price%']
+                            total_grand_total_excluding_tax: //tr[@class='grand_total']/td[strong[normalize-space(text()='Grand Total (Excl.Tax)')]]/following-sibling::td[strong/span[text()='%price%']]
+                            total_grand_total_including_tax: //tr[@class='grand_total_incl last']/td[strong[normalize-space(text()='Grand Total (Incl.Tax)')]]/following-sibling::td[strong/span[text()='%price%']]
+                            total_grand_total: //tr[@class='grand_total last']/td[strong[normalize-space(text()='Grand Total')]]/following-sibling::td[strong/span[text()='%price%']]
+                            total_tax: //tr/td[div[text()='Tax']]/following-sibling::td[span='%price%']
+
