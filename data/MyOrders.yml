@@ -37,6 +37,7 @@ product_data_information_template:
             verification:
                 price_excluding_tax: $14.95
                 price_including_tax: $14.95
+                qty: 8
                 subtotal_excluding_tax: $119.60
                 subtotal_including_tax: $119.60
         product_2:
@@ -44,6 +45,7 @@ product_data_information_template:
             verification:
                 price_excluding_tax: $54.95
                 price_including_tax: $54.95
+                qty: 10
                 subtotal_excluding_tax: $549.50
                 subtotal_including_tax: $549.50
         total_verification:
@@ -51,6 +53,8 @@ product_data_information_template:
             total_subtotal_including_tax: $669.10
             total_shipping_excluding_tax: $50.00
             total_shipping_including_tax: $50.00
-            total_grand_total: $719.10
+            total_tax: $0.00
+            total_grand_total_excluding_tax: $719.10
+            total_grand_total_including_tax: $719.10
 
 #you can use https://kd.varien.com/dev/artem.shugayev/index.php/admin/ admin/123123q for testing

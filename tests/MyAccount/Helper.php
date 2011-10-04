@@ -149,7 +149,7 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
             $this->addParameter('colIndex', $colIndex);
             $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
             if (!$this->isElementPresent($xpathPrice)) {
-                $this->messages['error']['price'] = 'Could not find element ' . $key . ' with price ' . $value;
+                $this->messages['error']['price'] = 'Could not find element ' . $key . ' with price (or qty) ' . $value;
             }
             unset($pageelements['ex_p_' . $key]);
         }
@@ -187,7 +187,7 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
             $this->addParameter('price', $value);
             $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
             if (!$this->isElementPresent($xpathPrice)) {
-                $this->messages['error']['total'] = 'Could not find element ' . $key . ' with price ' . $value;
+                $this->messages['error']['total'] = 'Could not find element ' . $key . ' with price (or qty) ' . $value;
             }
             unset($pageelements['ex_t_' . $key]);
         }

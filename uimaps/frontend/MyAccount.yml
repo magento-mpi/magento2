@@ -71,7 +71,7 @@ view_order:
                             price_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price' and text()='%price%']
                             subtotal_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price' and text()='%price%']
                             subtotal_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price' and text()='%price%']
-                            qty: //tr[td[h3='%productName%']]/td[%colIndex%]/span[normalize-space(text()='Ordered:')]/strong[text()='%qty%']
+                            qty: //tr[td[h3='%productName%']]/td[%colIndex%]/span[normalize-space(text()='Ordered:')]/strong[text()='%price%']
                             ex_p_price_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price']
                             ex_p_price_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price']
                             ex_p_subtotal_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price']
