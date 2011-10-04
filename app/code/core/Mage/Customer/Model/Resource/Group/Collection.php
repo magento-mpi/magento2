@@ -43,22 +43,6 @@ class Mage_Customer_Model_Resource_Group_Collection extends Mage_Core_Model_Reso
     }
 
     /**
-     * Set tax group filter
-     *
-     * @param mixed $classId
-     * @return Mage_Customer_Model_Resource_Group_Collection
-     */
-    public function setTaxGroupFilter($classId)
-    {
-        $this->getSelect()->joinLeft(
-            array('tax_class_group' => $this->getTable('tax/tax_class_group')),
-            'tax_class_group.class_group_id = main_table.customer_group_id'
-        );
-        $this->addFieldToFilter('tax_class_group.class_parent_id', $classId);
-        return $this;
-    }
-
-    /**
      * Set ignore ID filter
      *
      * @param array $indexes
