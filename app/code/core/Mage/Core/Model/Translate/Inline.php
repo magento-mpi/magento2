@@ -202,7 +202,7 @@ class Mage_Core_Model_Translate_Inline
             }
         } else if (is_string($body)) {
             $body = preg_replace('#'.$this->_tokenRegex.'#', '$1', $body);
-            $body = preg_replace('/{{escape.*?}}/');
+            $body = preg_replace('/{{escape.*?}}/', '', $body);
         }
         return $this;
     }
