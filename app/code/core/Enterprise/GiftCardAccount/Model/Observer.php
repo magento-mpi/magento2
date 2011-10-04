@@ -71,7 +71,7 @@ class Enterprise_GiftCardAccount_Model_Observer
                 /** @var $giftCardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
                 $giftCardAccount = Mage::getSingleton('enterprise_giftcardaccount/giftcardaccount')->load($card['i']);
                 try {
-                    $giftCardAccount->isValid();
+                    $giftCardAccount->isValid(true, true, false, (float)$quote->getBaseGiftCardsAmountUsed());
                 } catch (Mage_Core_Exception $e) {
                     $quote->setErrorMessage($e->getMessage());
                 }
