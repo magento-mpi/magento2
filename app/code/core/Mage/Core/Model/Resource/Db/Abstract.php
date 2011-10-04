@@ -51,7 +51,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
      *
      * @var string
      */
-    protected $_resourcePrefix;
+    protected $_resourcePrefix = 'core';
 
     /**
      * Connections cache for this resource model
@@ -148,6 +148,15 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     protected $_serializableFields   = array();
 
     /**
+     * Class constructor
+     */
+    public function __construct()
+    {
+        $this->_resources = Mage::getSingleton('core/resource');
+        parent::__construct();
+    }
+
+    /**
      * Standard resource model initialization
      *
      * @param string $mainTable
@@ -170,8 +179,6 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
      */
     protected function _setResource($connections, $tables = null)
     {
-        $this->_resources = Mage::getSingleton('core/resource');
-
         if (is_array($connections)) {
             foreach ($connections as $k=>$v) {
                 $this->_connections[$k] = $this->_resources->getConnection($v);
@@ -202,21 +209,12 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
      */
     protected function _setMainTable($mainTable, $idFieldName = null)
     {
-        $mainTableArr = explode('/', $mainTable);
-
-        if (!empty($mainTableArr[1])) {
-            if (empty($this->_resourceModel)) {
-                $this->_setResource($mainTableArr[0]);
-            }
-            $this->_setMainTable($mainTableArr[1], $idFieldName);
-        } else {
-            $this->_mainTable = $mainTable;
-            if (is_null($idFieldName)) {
-                $idFieldName = $mainTable . '_id';
-            }
-            $this->_idFieldName = $idFieldName;
+        $this->_mainTable = $mainTable;
+        if (is_null($idFieldName)) {
+            $idFieldName = $mainTable . '_id';
         }
 
+        $this->_idFieldName = $idFieldName;
         return $this;
     }
 
@@ -267,41 +265,9 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
             return $this->_tables[$cacheName];
         }
 
-        if (strpos($entityName, '/')) {
-            if (!is_null($entitySuffix)) {
-                $modelEntity = array($entityName, $entitySuffix);
-            } else {
-                $modelEntity = $entityName;
-            }
-            $this->_tables[$cacheName] = $this->_resources->getTableName($modelEntity);
-        } else if (!empty($this->_resourceModel)) {
-            $entityName = sprintf('%s/%s', $this->_resourceModel, $entityName);
-            if (!is_null($entitySuffix)) {
-                $modelEntity = array($entityName, $entitySuffix);
-            } else {
-                $modelEntity = $entityName;
-            }
-            $this->_tables[$cacheName] = $this->_resources->getTableName($modelEntity);
-        } else {
-            if (!is_null($entitySuffix)) {
-                $entityName .= '_' . $entitySuffix;
-            }
-            $this->_tables[$cacheName] = $entityName;
-        }
+        $this->_tables[$cacheName] = $this->_resources->getTableName($entityName);
+
         return $this->_tables[$cacheName];
-    }
-
-
-    /**
-     * Retrieve table name for the entity separated value
-     *
-     * @param string $entityName
-     * @param string $valueType
-     * @return string
-     */
-    public function getValueTable($entityName, $valueType)
-    {
-        return $this->getTable(array($entityName, $valueType));
     }
 
     /**
