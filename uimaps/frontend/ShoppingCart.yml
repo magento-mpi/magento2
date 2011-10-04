@@ -38,6 +38,24 @@ shopping_cart:
                         buttons:
                             continue_shopping: //button[span='Continue Shopping']
                             update_shopping_cart: //button[span='Update Shopping Cart']
+                        pageelements:
+                            table_head: //table[@id='shopping-cart-table']/thead/tr[contains(@class,'first')]
+                            product_line:  //table[@id='shopping-cart-table']/tbody/tr
+                -
+                    estimate_shipping:
+                        xpath: //div[h2='Estimate Shipping and Tax']
+                        buttons:
+                            get_quote: //button[span='Get a Quote']
+                            update_total: //button[span='Update Total']
+                        dropdowns:
+                            country: //select[@id='country']
+                            state: //select[@id='region_id']
+                        fields:
+                            ship_service_name: //dt[text()='%shipService%']
+                            zip_postal_code: //input[@id='postcode']
+                            region: //input[@id='region']
+                        radiobuttons:
+                            ship_method: //dt[text()='%shipService%']/following-sibling::*//input[@type='radio' and following-sibling::*[contains(text(),'%shipMethod%')]]
         buttons:
             proceed_to_checkout: //button[span='Proceed to Checkout']
         messages:
