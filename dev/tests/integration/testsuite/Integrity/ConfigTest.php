@@ -30,4 +30,12 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
     {
         return array(array('global/fieldsets'), array('admin/fieldsets'));
     }
+
+    /**
+     * The "deprecated node" feature had been removed
+     */
+    public function testDeprecatedNodeRemoval()
+    {
+        $this->assertSame(array(), Mage::getConfig()->getNode()->xpath('/config/global/models/*/deprecatedNode'));
+    }
 }
