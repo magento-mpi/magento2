@@ -36,12 +36,13 @@
  */
 class MyAccount_Helper extends Mage_Selenium_TestCase
 {
+
     /**
      * Validates product information in order review
      *
      * @param array|string $productsInfo
      */
-    public function frontValidateProduct($productsInfo)
+    public function frontValidatePricesInOrder($productsInfo)
     {
         if (is_string($productsInfo)) {
             $productsInfo = $this->loadData($productsInfo);
@@ -49,12 +50,12 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
         $productsInfo = $this->arrayEmptyClear($productsInfo);
         $loginInfo = (isset($productsInfo['login'])) ? $productsInfo['login'] : NULL;
         $orderId = (isset($productsInfo['order_id'])) ? $productsInfo['order_id'] : NULL;
-        $verificationData = (isset($productsInfo['validate'])) ? $productsInfo['validate'] : NULL;
+        $verificationData = (isset($productsInfo['validate'])) ? $productsInfo['validate'] : array();
 
         if ($loginInfo && $orderId) {
-            $this->frontNavigateToMyOrders($loginInfo, $orderId);
+            $this->frontLoginAndOpenCreatedOrder($loginInfo, $orderId);
         }
-        $this->frontVerifyPrices($verificationData);
+        $this->frontVerifyPricesOnOrderPage($verificationData);
     }
 
     /**
@@ -63,28 +64,23 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
      * @param array|string $loginInfo
      * @param string $orderId
      */
-    public function frontNavigateToMyOrders($loginInfo, $orderId)
+    public function frontLoginAndOpenCreatedOrder($loginInfo, $orderId)
     {
         if (is_string($loginInfo)) {
             $loginInfo = $this->loadData($loginInfo);
         }
-        $this->logoutCustomer();
-        $this->clickControl('link', 'log_in');
-        $this->fillForm($loginInfo);
-        $this->clickButton('login');
-        $this->frontend('my_orders_history');
-        $this->frontViewOrder($orderId);
+        $this->customerHelper()->frontLoginCustomer($loginInfo);
+        $this->frontOpenCreatedOrder($orderId);
     }
 
     /**
-     * Openes order view in My Account page
+     * Open order view page on My Account page
      *
      * @param string $orderId
      */
-    public function frontViewOrder($orderId)
+    public function frontOpenCreatedOrder($orderId)
     {
         $this->addParameter('orderId', $orderId);
-        $this->getUimapPage('frontend', 'my_orders_history')->assignParams($this->_paramsHelper);
         $this->frontend('my_orders_history');
         $xpathViewOrder = $this->_getControlXpath('link', 'view_order');
         $xpathNext = $this->_getControlXpath('link', 'next_page');
@@ -97,7 +93,6 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
                 if ($this->isElementPresent($xpathNext)) {
                     $i++;
                     $this->addParameter('param', '?p=' . $i);
-                    $this->getUimapPage('frontend', 'my_orders_history_index')->assignParams($this->_paramsHelper);
                     $this->navigate('my_orders_history_index');
                 } else {
                     $this->fail('Could not get the view link for order #' . $orderId);
@@ -111,13 +106,13 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
      *
      * @param array $verificationData
      */
-    public function frontVerifyPrices(array $verificationData)
+    public function frontVerifyPricesOnOrderPage(array $verificationData)
     {
         foreach ($verificationData as $validate => $data) {
             if (preg_match('/^product_/', $validate)) {
-                $this->frontVerifyProductPrices($verificationData[$validate]);
+                $this->frontVerifyProductPricesInOrder($verificationData[$validate]);
             } else {
-                $this->frontVerifyTotalPrices($verificationData[$validate]);
+                $this->frontVerifyTotalPricesInOrder($verificationData[$validate]);
             }
         }
         if (!empty($this->messages['error'])) {
@@ -130,48 +125,46 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
      *
      * @param array $verificationData
      */
-    public function frontVerifyProductPrices(array $verificationData)
+    public function frontVerifyProductPricesInOrder(array $verificationData)
     {
-        $page = $this->getCurrentLocationUimapPage();
-        $pageelements = get_object_vars($page->getAllPageelements());
-        $this->addParameter('productName', $verificationData['product_name']);
+        $pageelements = $this->getCurrentLocationUimapPage()->getAllPageelements();
+        $name = $verificationData['product_name'];
+        $this->addParameter('productName', $name);
+
+        $colIndexPrice = $this->frontFindColumnNumberByName('Price');
+        $colIndexSubtotal = $this->frontFindColumnNumberByName('Subtotal');
+        $colIndexQty = $this->frontFindColumnNumberByName('Qty');
         foreach ($verificationData['verification'] as $key => $value) {
             if (preg_match('/price/', $key)) {
-                $colIndex = $this->frontFindColumnNumberByName('Price');
-            }
-            if (preg_match('/subtotal/', $key)) {
-                $colIndex = $this->frontFindColumnNumberByName('Subtotal');
-            }
-            if (preg_match('/qty/', $key)) {
-                $colIndex = $this->frontFindColumnNumberByName('Qty');
+                $colIndex = $colIndexPrice;
+            } elseif (preg_match('/subtotal/', $key)) {
+                $colIndex = $colIndexSubtotal;
+            } elseif (preg_match('/qty/', $key)) {
+                $colIndex = $colIndexQty;
             }
             $this->addParameter('price', $value);
             $this->addParameter('colIndex', $colIndex);
             $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
             if (!$this->isElementPresent($xpathPrice)) {
-                $this->messages['error']['price'] = 'Could not find element ' . $key . ' with price (or qty) ' . $value;
+                $this->messages['error'][] = "'$name' product: Could not find element '$key' with value '$value'";
             }
             unset($pageelements['ex_p_' . $key]);
         }
         foreach ($pageelements as $key => $value) {
             if (preg_match('/^ex_p_/', $key)) {
                 if (preg_match('/price/', $key)) {
-                    $colIndex = $this->frontFindColumnNumberByName('Price');
+                    $colIndex = $colIndexPrice;
+                } elseif (preg_match('/subtotal/', $key)) {
+                    $colIndex = $colIndexSubtotal;
+                } elseif (preg_match('/qty/', $key)) {
+                    $colIndex = $colIndexQty;
                 }
-                if (preg_match('/subtotal/', $key)) {
-                    $colIndex = $this->frontFindColumnNumberByName('Subtotal');
-                }
-                if (preg_match('/qty/', $key)) {
-                    $colIndex = $this->frontFindColumnNumberByName('Qty');
-                }
-                $value = preg_replace('/\%productName\%/', $verificationData['product_name'], $value);
-                $value = preg_replace('/\%colIndex\%/', $colIndex, $value);
+                $this->addParameter('colIndex', $colIndex);
                 if ($this->isElementPresent($value)) {
-                    $this->messages['error']['price'] = 'Element ' . $key . ' is on the page';
+                    $this->messages['error'][] = "'$name' product: Element '$key' is on the page";
                 }
             }
         }
-        return $this->messages['error'];
     }
 
     /**
@@ -179,26 +172,24 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
      *
      * @param array $verificationData
      */
-    public function frontVerifyTotalPrices(array $verificationData)
+    public function frontVerifyTotalPricesInOrder(array $verificationData)
     {
-        $page = $this->getCurrentLocationUimapPage();
-        $pageelements = get_object_vars($page->getAllPageelements());
+        $pageelements = $this->getCurrentLocationUimapPage()->getAllPageelements();
         foreach ($verificationData as $key => $value) {
             $this->addParameter('price', $value);
             $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
             if (!$this->isElementPresent($xpathPrice)) {
-                $this->messages['error']['total'] = 'Could not find element ' . $key . ' with price (or qty) ' . $value;
+                $this->messages['error'][] = "Order prices: Could not find element '$key' with value '$value'";
             }
             unset($pageelements['ex_t_' . $key]);
         }
         foreach ($pageelements as $key => $value) {
             if (preg_match('/^ex_t_/', $key)) {
                 if ($this->isElementPresent($value)) {
-                    $this->messages['error']['total'] = 'Element ' . $key . ' is on the page';
+                    $this->messages['error'][] = "Order prices: Element '$key' is on the page";
                 }
             }
         }
-        return $this->messages['error'];
     }
 
     /**
@@ -219,4 +210,5 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
         }
         return 0;
     }
+
 }
