@@ -109,11 +109,10 @@ abstract class Magento_Test_Db_DbAbstract
      * Utility method that is used in children classes
      *
      * @param string $command
+     * @param array $output
      * @return boolean
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function _exec($command)
+    protected function _exec($command, &$output = null)
     {
         exec($command, $output, $return);
         return 0 == $return;

@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Checkout_Payment_Method_Purchaseorder
-    extends Mage_Payment_Block_Form_Purchaseorder
+class Mage_XmlConnect_Block_Checkout_Payment_Method_Purchaseorder extends Mage_Payment_Block_Form_Purchaseorder
 {
     /**
      * Prevent any rendering

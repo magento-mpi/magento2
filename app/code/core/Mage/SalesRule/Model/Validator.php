@@ -149,7 +149,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
          */
         if ($rule->getCouponType() != Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON) {
             $couponCode = $address->getQuote()->getCouponCode();
-            if ($couponCode) {
+            if (strlen($couponCode)) {
                 $coupon = Mage::getModel('salesrule/coupon');
                 $coupon->load($couponCode, 'code');
                 if ($coupon->getId()) {

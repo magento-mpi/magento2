@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard
-    extends Mage_XmlConnect_Block_Catalog_Product_Options
+class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard extends Mage_XmlConnect_Block_Catalog_Product_Options
 {
     /**
      * Get sender name
@@ -172,12 +171,9 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard
                     if ($configValue == $price) {
                         $amountNode->addAttribute('selected', 1);
                     }
-                    $amountNode->addAttribute(
-                        'formatted_price',
-                        $xmlModel->xmlAttribute(
-                            $coreHelper->currency($price, true, false)
-                        )
-                    );
+                    $amountNode->addAttribute('formatted_price', $xmlModel->xmlAttribute(
+                        $coreHelper->currency($price, true, false)
+                    ));
                     $amountNode->addAttribute('price', $price);
                 }
             }
@@ -186,17 +182,13 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard
         /**
          * Render open amount options
          */
-
         /** @var $openAmountNode Mage_XmlConnect_Model_Simplexml_Element */
         $openAmountNode = $optionsXmlObj->addChild('open_amount');
         if ($product->getAllowOpenAmount()) {
             $openAmountNode->addAttribute('enabled', 1);
 
             if ($configValue == 'custom') {
-                $openAmountNode->addAttribute(
-                    'selected_amount',
-                    $this->getDefaultValue('custom_giftcard_amount')
-                );
+                $openAmountNode->addAttribute('selected_amount', $this->getDefaultValue('custom_giftcard_amount'));
             }
             if ($priceModel->getMinAmount($product)) {
                 $minPrice  = $product->getOpenAmountMin();
@@ -204,10 +196,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard
             } else {
                 $minAmount = $minPrice = 0;
             }
-            $openAmountNode->addAttribute(
-                'formatted_min_amount',
-                $xmlModel->xmlAttribute($minAmount)
-            );
+            $openAmountNode->addAttribute('formatted_min_amount', $xmlModel->xmlAttribute($minAmount));
             $openAmountNode->addAttribute('min_amount', $minPrice);
 
             if ($priceModel->getMaxAmount($product)) {
@@ -216,10 +205,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard
             } else {
                 $maxAmount = $maxPrice = 0;
             }
-            $openAmountNode->addAttribute(
-                'formatted_max_amount',
-                $xmlModel->xmlAttribute($maxAmount)
-            );
+            $openAmountNode->addAttribute('formatted_max_amount', $xmlModel->xmlAttribute($maxAmount));
             $openAmountNode->addAttribute('max_amount', $maxPrice);
         } else {
             $openAmountNode->addAttribute('enabled', 0);
@@ -228,89 +214,56 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Giftcard
         /**
          * Render Gift Card form options
          */
-        $form = $optionsXmlObj->addCustomChild(
-            'form',
-            null,
-            array(
-                'name'      => 'giftcard-send-form',
-                'method'    => 'post'
-            )
-        );
+        $form = $optionsXmlObj->addCustomChild('form', null, array(
+            'name'      => 'giftcard-send-form',
+            'method'    => 'post'
+        ));
 
-        $senderFieldset = $form->addCustomChild(
-            'fieldset',
-            null,
-            array(
-                'legend' => $this->__('Sender Information')
-            )
-        );
+        $senderFieldset = $form->addCustomChild('fieldset', null, array(
+            'legend' => $this->__('Sender Information')
+        ));
 
-        $senderFieldset->addField(
-            'giftcard_sender_name',
-            'text',
-            array(
-                'label'     => Mage::helper('enterprise_giftcard')->__('Sender Name'),
-                'required'  => 'true',
-                'value'     => $this->getSenderName()
-            )
-        );
+        $senderFieldset->addField('giftcard_sender_name', 'text', array(
+            'label'     => Mage::helper('enterprise_giftcard')->__('Sender Name'),
+            'required'  => 'true',
+            'value'     => $this->getSenderName()
+        ));
 
-        $recipientFieldset = $form->addCustomChild(
-            'fieldset',
-            null,
-            array(
-                'legend' => $this->__('Recipient Information')
-            )
-        );
+        $recipientFieldset = $form->addCustomChild('fieldset', null, array(
+            'legend' => $this->__('Recipient Information')
+        ));
 
-        $recipientFieldset->addField(
-            'giftcard_recipient_name',
-            'text',
-            array(
-                'label'     => Mage::helper('enterprise_giftcard')->__('Recipient Name'),
-                'required'  => 'true',
-                'value'     => $this->getDefaultValue('giftcard_recipient_name')
-            )
-        );
+        $recipientFieldset->addField('giftcard_recipient_name', 'text', array(
+            'label'     => Mage::helper('enterprise_giftcard')->__('Recipient Name'),
+            'required'  => 'true',
+            'value'     => $this->getDefaultValue('giftcard_recipient_name')
+        ));
 
         if ($this->isEmailAvailable($product)) {
-            $senderFieldset->addField(
-                'giftcard_sender_email',
-                'email',
-                array(
-                    'label'     => Mage::helper('enterprise_giftcard')->__('Sender Email'),
-                    'required'  => 'true',
-                    'value'     => $this->getSenderEmail()
-                )
-            );
+            $senderFieldset->addField('giftcard_sender_email', 'email', array(
+                'label'     => Mage::helper('enterprise_giftcard')->__('Sender Email'),
+                'required'  => 'true',
+                'value'     => $this->getSenderEmail()
+            ));
 
-            $recipientFieldset->addField(
-                'giftcard_recipient_email',
-                'email',
-                array(
-                    'label'     => Mage::helper('enterprise_giftcard')->__('Recipient Email'),
-                    'required'  => 'true',
-                    'value'     => $this->getDefaultValue('giftcard_recipient_email')
-                )
-            );
+            $recipientFieldset->addField('giftcard_recipient_email', 'email', array(
+                'label'     => Mage::helper('enterprise_giftcard')->__('Recipient Email'),
+                'required'  => 'true',
+                'value'     => $this->getDefaultValue('giftcard_recipient_email')
+            ));
         }
 
         if ($this->isMessageAvailable($product)) {
             $messageMaxLength = (int) Mage::getStoreConfig(
                 Enterprise_GiftCard_Model_Giftcard::XML_PATH_MESSAGE_MAX_LENGTH
             );
-            $recipientFieldset->addField(
-                'giftcard_message',
-                'textarea',
-                array(
-                    'label'     => Mage::helper('enterprise_giftcard')->__('Message'),
-                    'required'  => 'false',
-                    'max_length'=> $messageMaxLength,
-                    'value'     => $this->getDefaultValue('giftcard_message')
-                )
-            );
+            $recipientFieldset->addField('giftcard_message', 'textarea', array(
+                'label'     => Mage::helper('enterprise_giftcard')->__('Message'),
+                'required'  => 'false',
+                'max_length'=> $messageMaxLength,
+                'value'     => $this->getDefaultValue('giftcard_message')
+            ));
         }
-
         return $isObject ? $xmlModel : $xmlModel->asNiceXml();
     }
 }

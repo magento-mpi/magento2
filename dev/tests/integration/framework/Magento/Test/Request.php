@@ -15,7 +15,8 @@
 class Magento_Test_Request extends Mage_Core_Controller_Request_Http
 {
     /**
-     * Retrieve HTTP HOST
+     * Retrieve HTTP HOST.
+     * This method is a stub - all parameters are ignored, just static value returned.
      *
      * @param bool $trimPort
      * @return string
