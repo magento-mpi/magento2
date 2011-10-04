@@ -202,6 +202,7 @@ class Mage_Core_Model_Translate_Inline
             }
         } else if (is_string($body)) {
             $body = preg_replace('#'.$this->_tokenRegex.'#', '$1', $body);
+            $body = preg_replace('/{{escape.*?}}/');
         }
         return $this;
     }
@@ -232,7 +233,7 @@ class Mage_Core_Model_Translate_Inline
             $this->_specialTags();
             $this->_otherText();
             $this->_insertInlineScriptsHtml();
-
+            $this->_escapeInline();
             $body = $this->_content;
         }
 
@@ -283,6 +284,23 @@ class Mage_Core_Model_Translate_Inline
     protected function _escape($string)
     {
         return str_replace("'", "\\'", htmlspecialchars($string));
+    }
+
+    /**
+     * Escapes quoting inside inline translations. Useful when inline translation is inserted inside a JS string.
+     * @see Mage_Core_Helper_Translate::inlineTranslateStartMarker()
+     * @see Mage_Core_Helper_Translate::inlineTranslateEndMarker()
+     * @return Mage_Core_Model_Translate_Inline
+     */
+    protected function _escapeInline()
+    {
+        preg_match('/{{escape=(.)}}(.*?){{escape}}/', $this->_content, $matches);
+        while (isset($matches[1])) {
+            $charToEscape = str_replace('"', '\\"', $matches[1]);
+            $part = str_replace("{$charToEscape}", "\\{$charToEscape}", $matches[2]);
+            $this->_content = str_replace($matches[0], $part, $this->_content);
+        }
+        return $this;
     }
 
     /**
