@@ -114,7 +114,7 @@ abstract class Mage_Reports_Model_Product_Index_Abstract extends Mage_Core_Model
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Mage_Reports_Model_Mysql4_Product_Index_Abstract
+     * @return Mage_Reports_Model_Resource_Product_Index_Abstract
      */
     protected function _getResource()
     {

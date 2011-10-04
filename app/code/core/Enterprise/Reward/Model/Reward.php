@@ -656,7 +656,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      *
      * @param Enterprise_Reward_Model_Reward_History $history
      * @return Enterprise_Reward_Model_Reward
-     * @see Enterprise_Reward_Model_Mysql4_Reward_History_Collection::loadExpiredSoonPoints()
+     * @see Enterprise_Reward_Model_Resource_Reward_History_Collection::loadExpiredSoonPoints()
      */
     public function sendBalanceWarningNotification($item, $websiteId)
     {

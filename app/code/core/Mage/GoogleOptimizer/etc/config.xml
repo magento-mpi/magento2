@@ -39,7 +39,6 @@
             </googleoptimizer>
             <googleoptimizer_resource>
                 <class>Mage_GoogleOptimizer_Model_Resource</class>
-                <deprecatedNode>googleoptimizer_mysql4</deprecatedNode>
                 <entities>
                     <code>
                         <table>googleoptimizer_code</table>

@@ -51,7 +51,7 @@ class Mage_Catalog_Model_Url
     /**
      * Resource model
      *
-     * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Url
+     * @var Mage_Catalog_Model_Resource_Url
      */
     protected $_resourceModel;
 
@@ -158,7 +158,7 @@ class Mage_Catalog_Model_Url
     /**
      * Retrieve resource model
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
+     * @return Mage_Catalog_Model_Resource_Url
      */
     public function getResource()
     {

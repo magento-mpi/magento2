@@ -51,7 +51,7 @@ class Mage_Catalog_Model_Product_Website extends Mage_Core_Model_Abstract
     /**
      * Retrieve Resource instance wrapper
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Website
+     * @return Mage_Catalog_Model_Resource_Product_Website
      */
     protected function _getResource()
     {

@@ -102,7 +102,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     /**
      * Retrieve permission collection
      *
-     * @return Enterprise_CatalogPermissions_Model_Mysql4_Permission_Collection
+     * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Collection
      */
     public function getPermissionCollection()
     {

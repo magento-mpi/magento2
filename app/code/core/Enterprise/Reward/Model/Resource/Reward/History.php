@@ -135,7 +135,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
      *
      * @param Enterprise_Reward_Model_Reward_History $history
      * @param int $required Points total that required
-     * @return Enterprise_Reward_Model_Mysql4_Reward_History
+     * @return Enterprise_Reward_Model_Resource_Reward_History
      */
     public function useAvailablePoints($history, $required)
     {

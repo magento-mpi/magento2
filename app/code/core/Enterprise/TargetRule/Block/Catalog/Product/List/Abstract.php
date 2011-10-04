@@ -268,7 +268,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
 
         $items = array();
         if ($productIds) {
-            /** @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+            /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
             $collection = Mage::getResourceModel('catalog/product_collection');
             $collection->addFieldToFilter('entity_id', array('in' => $productIds));
             $this->_addProductAttributesAndPrices($collection);

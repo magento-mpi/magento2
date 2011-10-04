@@ -39,7 +39,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
     /**
      * Gift wrapping collection
      *
-     * @return Enterprise_GiftWrapping_Model_Resource_Mysql4_Wrapping_Collection
+     * @return Enterprise_GiftWrapping_Model_Resource_Wrapping_Collection
      */
     public function getDesignCollection()
     {

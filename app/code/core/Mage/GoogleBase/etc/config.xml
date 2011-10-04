@@ -39,7 +39,6 @@
             </googlebase>
             <googlebase_resource>
                 <class>Mage_GoogleBase_Model_Resource</class>
-                <deprecatedNode>googlebase_mysql4</deprecatedNode>
                 <entities>
                     <types>
                         <table>googlebase_types</table>

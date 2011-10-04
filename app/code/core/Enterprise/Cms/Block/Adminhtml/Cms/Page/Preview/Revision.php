@@ -54,7 +54,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage_Admi
      */
     public function getRevisions()
     {
-        /* var $collection Enterprise_Cms_Model_Mysql4_Revision_Collection */
+        /* var $collection Enterprise_Cms_Model_Resource_Revision_Collection */
         $collection = Mage::getModel('enterprise_cms/page_revision')->getCollection()
             ->addPageFilter($this->getRequest()->getParam('page_id'))
             ->joinVersions()

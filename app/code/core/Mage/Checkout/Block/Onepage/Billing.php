@@ -77,7 +77,7 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
     /**
      * Return country collection
      *
-     * @return Mage_Directory_Model_Mysql4_Country_Collection
+     * @return Mage_Directory_Model_Resource_Country_Collection
      */
     public function getCountries()
     {

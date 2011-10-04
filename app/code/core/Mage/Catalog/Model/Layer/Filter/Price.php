@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     /**
      * Resource instance
      *
-     * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Layer_Filter_Price
+     * @var Mage_Catalog_Model_Resource_Layer_Filter_Price
      */
     protected $_resource;
 
@@ -60,7 +60,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     /**
      * Retrieve resource instance
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Layer_Filter_Price
+     * @return Mage_Catalog_Model_Resource_Layer_Filter_Price
      */
     protected function _getResource()
     {

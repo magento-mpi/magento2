@@ -107,7 +107,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
         if ($this->getAccessLevel() != $this->getOrigData('access_level')) {
             if ($this->getOrigData('access_level') == Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC) {
                 $resource = $this->_getResource();
-                /* @var $resource Enterprise_Cms_Model_Mysql4_Page_Version */
+                /* @var $resource Enterprise_Cms_Model_Resource_Page_Version */
 
                 if ($resource->isVersionLastPublic($this)) {
                     Mage::throwException(
@@ -165,7 +165,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         $resource = $this->_getResource();
-        /* @var $resource Enterprise_Cms_Model_Mysql4_Page_Version */
+        /* @var $resource Enterprise_Cms_Model_Resource_Page_Version */
         if ($this->isPublic()) {
             if ($resource->isVersionLastPublic($this)) {
                 Mage::throwException(

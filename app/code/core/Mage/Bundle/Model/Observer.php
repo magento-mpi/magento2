@@ -87,7 +87,7 @@ class Mage_Bundle_Model_Observer
             return $this;
         }
 
-        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection */
+        /* @var $collection Mage_Catalog_Model_Resource_Product_Link_Product_Collection */
         $collection = $observer->getEvent()->getCollection();
         $limit      = $observer->getEvent()->getLimit();
         if (is_array($limit)) {
@@ -98,7 +98,7 @@ class Mage_Bundle_Model_Observer
             }
         }
 
-        /* @var $resource Mage_Bundle_Model_Mysql4_Selection */
+        /* @var $resource Mage_Bundle_Model_Resource_Selection */
         $resource   = Mage::getResourceSingleton('bundle/selection');
 
         $productIds = array_keys($collection->getItems());
@@ -115,7 +115,7 @@ class Mage_Bundle_Model_Observer
             return $this;
         }
 
-        /* @var $bundleCollection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+        /* @var $bundleCollection Mage_Catalog_Model_Resource_Product_Collection */
         $bundleCollection = $product->getCollection()
             ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
             ->addStoreFilter()
@@ -177,7 +177,7 @@ class Mage_Bundle_Model_Observer
     public function loadProductOptions($observer)
     {
         $collection = $observer->getEvent()->getCollection();
-        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+        /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection->addPriceData();
 
         return $this;

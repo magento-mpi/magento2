@@ -39,7 +39,6 @@
             </enterprise_giftregistry>
             <enterprise_giftregistry_resource>
                 <class>Enterprise_GiftRegistry_Model_Resource</class>
-                <deprecatedNode>enterprise_giftregistry_mysql4</deprecatedNode>
                 <entities>
                     <type><table>enterprise_giftregistry_type</table></type>
                     <info><table>enterprise_giftregistry_type_info</table></info>

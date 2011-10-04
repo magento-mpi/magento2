@@ -50,7 +50,7 @@ class Mage_GoogleShopping_Model_Resource_Attribute_Collection extends Mage_Core_
      *
      * @param int $attributeSetId
      * @param string $targetCountry two words ISO format
-     * @return Mage_GoogleShopping_Model_Mysql4_Attribute_Collection
+     * @return Mage_GoogleShopping_Model_Resource_Attribute_Collection
      */
     public function addAttributeSetFilter($attributeSetId, $targetCountry)
     {
@@ -66,7 +66,7 @@ class Mage_GoogleShopping_Model_Resource_Attribute_Collection extends Mage_Core_
      * Add type filter
      *
      * @param int $type_id
-     * @return Mage_GoogleShopping_Model_Mysql4_Attribute_Collection
+     * @return Mage_GoogleShopping_Model_Resource_Attribute_Collection
      */
     public function addTypeFilter($type_id)
     {
@@ -79,7 +79,7 @@ class Mage_GoogleShopping_Model_Resource_Attribute_Collection extends Mage_Core_
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return  Mage_GoogleShopping_Model_Mysql4_Attribute_Collection
+     * @return  Mage_GoogleShopping_Model_Resource_Attribute_Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -96,7 +96,7 @@ class Mage_GoogleShopping_Model_Resource_Attribute_Collection extends Mage_Core_
     /**
      * Join attribute sets data to select
      *
-     * @return  Mage_GoogleShopping_Model_Mysql4_Attribute_Collection
+     * @return  Mage_GoogleShopping_Model_Resource_Attribute_Collection
      */
     protected function _joinAttributeSet()
     {

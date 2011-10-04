@@ -118,7 +118,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
     /**
      * Get resource
      *
-     * @return Enterprise_Reminder_Model_Mysql4_Rule
+     * @return Enterprise_Reminder_Model_Resource_Rule
      */
     public function getResource()
     {

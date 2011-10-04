@@ -39,7 +39,6 @@
             </enterprise_reminder>
             <enterprise_reminder_resource>
                 <class>Enterprise_Reminder_Model_Resource</class>
-                <deprecatedNode>enterprise_reminder_mysql4</deprecatedNode>
                 <entities>
                     <rule>
                         <table>enterprise_reminder_rule</table>

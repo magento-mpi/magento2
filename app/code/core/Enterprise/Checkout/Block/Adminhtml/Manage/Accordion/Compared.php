@@ -52,7 +52,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
     /**
      * Return items collection
      *
-     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getItemsCollection()
     {

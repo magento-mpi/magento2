@@ -106,7 +106,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     /**
      * Category tree model
      *
-     * @var Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
+     * @var Mage_Catalog_Model_Resource_Category_Tree
      */
     protected $_treeModel = null;
 
@@ -153,7 +153,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     /**
      * Retrieve category tree model
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
+     * @return Mage_Catalog_Model_Resource_Category_Tree
      */
     public function getTreeModel()
     {
@@ -163,7 +163,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     /**
      * Enter description here...
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
+     * @return Mage_Catalog_Model_Resource_Category_Tree
      */
     public function getTreeModelInstance()
     {

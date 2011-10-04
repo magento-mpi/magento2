@@ -40,7 +40,6 @@
             </enterprise_giftwrapping>
             <enterprise_giftwrapping_resource>
                 <class>Enterprise_GiftWrapping_Model_Resource</class>
-                <resourceModel>enterprise_giftwrapping_mysql4</resourceModel>
                 <entities>
                     <wrapping><table>enterprise_giftwrapping</table></wrapping>
                     <attribute><table>enterprise_giftwrapping_store_attributes</table></attribute>
@@ -62,7 +61,7 @@
             <enterprise_giftwrapping_setup>
                 <setup>
                     <module>Enterprise_GiftWrapping</module>
-                    <class>Enterprise_GiftWrapping_Model_Resource_Mysql4_Setup</class>
+                    <class>Enterprise_GiftWrapping_Model_Resource_Setup</class>
                 </setup>
             </enterprise_giftwrapping_setup>
         </resources>

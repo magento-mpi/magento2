@@ -39,7 +39,6 @@
             </enterprise_reward>
             <enterprise_reward_resource>
                 <class>Enterprise_Reward_Model_Resource</class>
-                <deprecatedNode>enterprise_reward_mysql4</deprecatedNode>
                 <entities>
                     <reward>
                         <table>enterprise_reward</table>

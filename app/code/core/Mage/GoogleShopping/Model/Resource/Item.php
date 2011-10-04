@@ -42,7 +42,7 @@ class Mage_GoogleShopping_Model_Resource_Item extends Mage_Core_Model_Resource_D
      * Load Item model by product
      *
      * @param Mage_GoogleShopping_Model_Item $model
-     * @return Mage_GoogleShopping_Model_Mysql4_Item
+     * @return Mage_GoogleShopping_Model_Resource_Item
      */
     public function loadByProduct($model)
     {

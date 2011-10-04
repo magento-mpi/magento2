@@ -389,8 +389,8 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      * to get correct values in different products lists.
      * E.g. crosssells, upsells, new products, recently viewed
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     protected function _addProductAttributesAndPrices(Mage_Catalog_Model_Resource_Product_Collection $collection)
     {

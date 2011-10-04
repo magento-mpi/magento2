@@ -108,7 +108,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     /**
      * Retrieve websites collection
      *
-     * @return Mage_Core_Model_Mysql4_Website_Collection
+     * @return Mage_Core_Model_Resource_Website_Collection
      */
     public function getWebsiteCollection()
     {
@@ -123,7 +123,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     /**
      * Retrieve customer group collection
      *
-     * @return Mage_Customer_Model_Entity_Group_Collection
+     * @return Mage_Customer_Model_Resource_Group_Collection
      */
     public function getCustomerGroupCollection()
     {

@@ -274,7 +274,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     {
         parent::save($product);
         $product = $this->getProduct($product);
-        /* @var $resource Mage_Bundle_Model_Mysql4_Bundle */
+        /* @var $resource Mage_Bundle_Model_Resource_Bundle */
         $resource = Mage::getResourceModel('bundle/bundle');
 
         $options = $product->getBundleOptionsData();
@@ -367,7 +367,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Retrieve bundle option collection
      *
      * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Bundle_Model_Mysql4_Option_Collection
+     * @return Mage_Bundle_Model_Resource_Option_Collection
      */
     public function getOptionsCollection($product = null)
     {
@@ -392,7 +392,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      *
      * @param array $optionIds
      * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Bundle_Model_Mysql4_Selection_Collection
+     * @return Mage_Bundle_Model_Resource_Selection_Collection
      */
     public function getSelectionsCollection($optionIds, $product = null)
     {
@@ -717,7 +717,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      *
      * @param array $selectionIds
      * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Bundle_Model_Mysql4_Selection_Collection
+     * @return Mage_Bundle_Model_Resource_Selection_Collection
      */
     public function getSelectionsByIds($selectionIds, $product = null)
     {
@@ -752,7 +752,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      *
      * @param array $optionIds
      * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Bundle_Model_Mysql4_Option_Collection
+     * @return Mage_Bundle_Model_Resource_Option_Collection
      */
     public function getOptionsByIds($optionIds, $product = null)
     {

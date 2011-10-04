@@ -85,7 +85,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
             $storeIds = $this->_getStore()->getWebsite()->getStoreIds();
 
             // Load last order of a customer
-            /* @var $collection Mage_Core_Model_Mysql4_Collection_Abstract */
+            /* @var $collection Mage_Core_Model_Resource_Db_Collection_Abstract */
             $collection = Mage::getResourceModel('sales/order_collection')
                 ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())
                 ->addAttributeToFilter('store_id', array('in' => $storeIds))

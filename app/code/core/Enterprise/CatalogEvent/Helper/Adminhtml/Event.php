@@ -56,7 +56,7 @@ class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Mage_Core_Helper_Ab
     {
         if ($this->_categories === null) {
             $tree = Mage::getModel('catalog/category')->getTreeModel();
-            /* @var $tree Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree */
+            /** @var $tree Mage_Catalog_Model_Resource_Category_Tree */
             $tree->load(null, 2); // Load only to second level.
             $tree->addCollectionData(null, 'position');
             $this->_categories = $tree->getNodeById(Mage_Catalog_Model_Category::TREE_ROOT_ID)->getChildren();

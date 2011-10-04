@@ -64,7 +64,7 @@ class Mage_Adminhtml_Helper_Sales extends Mage_Core_Helper_Abstract
         } else {
             $order = $dataObject->getOrder();
         }
-        
+
         if ($order && $order->isCurrencyDifferent()) {
             $res = '<strong>';
             $res.= $order->formatBasePrice($basePrice);
@@ -87,10 +87,10 @@ class Mage_Adminhtml_Helper_Sales extends Mage_Core_Helper_Abstract
     /**
      * Filter collection by removing not available product types
      *
-     * @param Mage_Core_Model_Mysql4_Collection_Abstract $collection
-     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
+     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
-    public function applySalableProductTypesFilter($collection) 
+    public function applySalableProductTypesFilter($collection)
     {
         $productTypes = Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray();
         $productTypes = array_keys($productTypes);

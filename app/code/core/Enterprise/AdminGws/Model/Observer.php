@@ -37,7 +37,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     const ACL_STORE_LEVEL = 'store_level';
 
     /**
-     * @var Mage_Core_Model_Mysql4_Store_Group_Collection
+     * @var Mage_Core_Model_Resource_Store_Group_Collection
      */
     protected $_storeGroupCollection;
     protected $_callbacks      = array();
@@ -115,7 +115,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Get all store groups
      *
-     * @return Mage_Core_Model_Mysql4_Store_Group_Collection
+     * @return Mage_Core_Model_Resource_Store_Group_Collection
      */
     protected function _getAllStoreGroups()
     {

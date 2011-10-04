@@ -177,7 +177,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
      * Standard resource collection initalization
      *
      * @param string $model
-     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _init($model, $entityModel = null)
     {
@@ -226,7 +226,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     /**
      * Get resource instance
      *
-     * @return Mage_Core_Model_Mysql4_Abstract
+     * @return Mage_Core_Model_Resource_Db_Abstract
      */
     public function getResource()
     {

@@ -80,7 +80,7 @@ class Enterprise_Banner_Block_Widget_Banner
     /**
      * Store Banner resource instance
      *
-     * @var Enterprise_Banner_Model_Mysql4_Banner
+     * @var Enterprise_Banner_Model_Resource_Banner
      */
     protected $_bannerResource = null;
 

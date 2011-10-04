@@ -1446,7 +1446,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * Get random items collection with related children
      *
      * @param int $limit
-     * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
+     * @return Mage_Sales_Model_Resource_Order_Item_Collection
      */
     public function getItemsRandomCollection($limit = 1)
     {
@@ -1457,7 +1457,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * Get random items collection without related children
      *
      * @param int $limit
-     * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
+     * @return Mage_Sales_Model_Resource_Order_Item_Collection
      */
     public function getParentItemsRandomCollection($limit = 1)
     {
@@ -1469,7 +1469,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      *
      * @param int $limit
      * @param bool $nonChildrenOnly
-     * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
+     * @return Mage_Sales_Model_Resource_Order_Item_Collection
      */
     protected function _getItemsRandomCollection($limit, $nonChildrenOnly = false)
     {

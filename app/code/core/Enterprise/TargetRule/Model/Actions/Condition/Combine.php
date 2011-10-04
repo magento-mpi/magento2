@@ -57,7 +57,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Mo
     /**
      * Retrieve SELECT WHERE condition for product collection
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
      * @param Enterprise_TargetRule_Model_Index $object
      * @param array $bind
      * @return Zend_Db_Expr
