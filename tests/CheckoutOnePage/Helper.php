@@ -36,6 +36,11 @@
  */
 class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
 {
+    const QTY = 'Qty';
+    const PRICE = 'Price';
+    const SUBTOTAL = 'Subtotal';
+    const EXCLTAX = '(Excl. Tax)';
+    const INCLTAX = '(Incl. Tax)';
 
     /**
      * Create checkout
@@ -506,6 +511,161 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
+    }
+
+    /**
+     * Get all Products info in checkout order review
+     *
+     * @return array
+     */
+    public function frontGetProductInfoInOrderReview()
+    {
+        $xpath = $this->_getControlXpath('pageelement', 'table_head') . '/th';
+        $productLine = $this->_getControlXpath('pageelement', 'product_line');
+
+        $tableRowNames = $productValues = $returnData = array();
+
+        $rowCount = $this->getXpathCount($xpath);
+        for ($i = 1; $i <= $rowCount; $i++) {
+            $text = trim($this->getText($xpath . "[$i]"));
+            if ($text == self::PRICE) {
+                if ($this->getAttribute($xpath . "[$i]/@colspan") == 2) {
+                    $tableRowNames[$text . self::EXCLTAX] = $i;
+                    $tableRowNames[$text . self::INCLTAX] = $i + 1;
+                } else {
+                    $tableRowNames[$text] = $i;
+                }
+            } elseif ($text == self::SUBTOTAL) {
+                if ($this->getAttribute($xpath . "[$i]/@colspan") == 2) {
+                    $tableRowNames[$text . self::EXCLTAX] = $i + 1;
+                    $tableRowNames[$text . self::INCLTAX] = $i + 2;
+                } else {
+                    $tableRowNames[$text] = $i;
+                }
+            } else {
+                $tableRowNames[$text] = $i;
+            }
+        }
+        if (array_key_exists(self::PRICE . self::EXCLTAX, $tableRowNames) && array_key_exists(self::QTY,
+                        $tableRowNames)) {
+            $tableRowNames[self::QTY] = $tableRowNames[self::QTY] + 1;
+        }
+        $productCount = $this->getXpathCount($productLine);
+        for ($i = 1; $i <= $productCount; $i++) {
+            foreach ($tableRowNames as $key => $value) {
+                if ($key != '') {
+                    $productValues[$i - 1][$key] = $this->getText($productLine . "[$i]/td[$value]");
+                }
+            }
+        }
+        foreach ($productValues as $key => &$productData) {
+            $productData = array_diff($productData, array(''));
+            foreach ($productData as $field_key => $field_value) {
+                $field_key = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $field_key)), '_');
+                $returnData[$key][$field_key] = $field_value;
+            }
+        }
+        return $returnData;
+    }
+
+    /**
+     * Verify checkout info
+     *
+     * @param string|array $productData
+     * @param string|array $orderPriceData
+     */
+    public function frontVerifyCheckoutData($productData, $orderPriceData)
+    {
+        if (is_string($productData)) {
+            $productData = $this->loadData($productData);
+        }
+        if (is_string($orderPriceData)) {
+            $orderPriceData = $this->loadData($orderPriceData);
+        }
+        //Get Products data and order prices data
+        $actualProductData = $this->frontGetProductInfoInOrderReview();
+        $this->frontVerifyTotalPrices($orderPriceData);
+        //Verify Products data
+        $actualProductQty = count($actualProductData);
+        $expectedProductQty = count($productData);
+        if ($actualProductQty != $expectedProductQty) {
+            $this->messages['error'][] = "'" . $actualProductQty . "' product(s) added to Shopping cart but must be '"
+                    . $expectedProductQty . "'";
+        } else {
+            for ($i = 0; $i < $actualProductQty; $i++) {
+                $this->frontCompareArrays($actualProductData[$i], $productData[$i], $productData[$i]['product_name']);
+            }
+        }
+        //Verify order prices data
+        if (!empty($this->messages['error'])) {
+            $this->fail(implode("\n", $this->messages['error']));
+        }
+    }
+
+    /**
+     *
+     * @param array $actualArray
+     * @param array $expectedArray
+     * @param string $productName
+     */
+    public function frontCompareArrays($actualArray, $expectedArray, $productName = '')
+    {
+        foreach ($actualArray as $key => $value) {
+            if (array_key_exists($key, $expectedArray) && (strcmp($expectedArray[$key], $value) == 0)) {
+                unset($expectedArray[$key]);
+                unset($actualArray[$key]);
+            }
+        }
+
+        if ($productName) {
+            $productName = $productName . ': ';
+        }
+
+        if ($actualArray) {
+            $actualErrors = $productName . "Data is displayed on the page: \n";
+            foreach ($actualArray as $key => $value) {
+                $actualErrors .= "Field '$key': value '$value'\n";
+            }
+        }
+        if ($expectedArray) {
+            $expectedErrors = $productName . "Data should appear on the page: \n";
+            foreach ($expectedArray as $key => $value) {
+                $expectedErrors .= "Field '$key': value '$value'\n";
+            }
+        }
+        if (isset($actualErrors)) {
+            $this->messages['error'][] = trim($actualErrors, "\x00..\x1F");
+        }
+        if (isset($expectedErrors)) {
+            $this->messages['error'][] = trim($expectedErrors, "\x00..\x1F");
+        }
+    }
+
+    /**
+     * Verifies the prices in total row
+     *
+     * @param array $verificationData
+     */
+    public function frontVerifyTotalPrices(array $verificationData)
+    {
+        $page = $this->getCurrentLocationUimapPage();
+        $pageelements = get_object_vars($page->getAllPageelements());
+        foreach ($verificationData as $key => $value) {
+            $this->addParameter('price', $value);
+            $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
+            if (!$this->isElementPresent($xpathPrice)) {
+                $this->messages['error']['total'] = 'Could not find element ' . $key . ' with price ' . $value;
+            }
+            unset($pageelements['ex_t_' . $key]);
+        }
+        foreach ($pageelements as $key => $value) {
+            if (preg_match('/^ex_t_/', $key)) {
+                if ($this->isElementPresent($value)) {
+                    $this->messages['error']['total'] = 'Element ' . $key . ' is on the page';
+                }
+            }
+        }
+        return $this->messages['error'];
     }
 
 }
