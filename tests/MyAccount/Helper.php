@@ -54,7 +54,7 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
         if ($loginInfo && $orderId) {
             $this->frontNavigateToMyOrders($loginInfo, $orderId);
         }
-        $this->verifyPrices($verificationData);
+        $this->frontVerifyPrices($verificationData);
     }
 
     /**
@@ -111,13 +111,13 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
      *
      * @param array $verificationData
      */
-    public function verifyPrices(array $verificationData)
+    public function frontVerifyPrices(array $verificationData)
     {
         foreach ($verificationData as $validate => $data) {
             if (preg_match('/^product_/', $validate)) {
-                $this->verifyProductPrices($verificationData[$validate]);
+                $this->frontVerifyProductPrices($verificationData[$validate]);
             } else {
-                $this->verifyTotalPrices($verificationData[$validate]);
+                $this->frontVerifyTotalPrices($verificationData[$validate]);
             }
         }
         if (!empty($this->messages['error'])) {
@@ -130,7 +130,7 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
      *
      * @param array $verificationData
      */
-    public function verifyProductPrices(array $verificationData)
+    public function frontVerifyProductPrices(array $verificationData)
     {
         $page = $this->getCurrentLocationUimapPage();
         $pageelements = get_object_vars($page->getAllPageelements());
@@ -179,7 +179,7 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
      *
      * @param array $verificationData
      */
-    public function verifyTotalPrices(array $verificationData)
+    public function frontVerifyTotalPrices(array $verificationData)
     {
         $page = $this->getCurrentLocationUimapPage();
         $pageelements = get_object_vars($page->getAllPageelements());
