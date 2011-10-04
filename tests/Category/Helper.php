@@ -230,12 +230,12 @@ class Category_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Validates product information in catalog
+     * Validates product information in category
      *
      * @param array|string $productsInfo
      * @return bool
      */
-    public function frontValidateProduct($productsInfo)
+    public function frontValidateProductInCategory($productsInfo)
     {
         if (is_string($productsInfo)) {
             $productsInfo = $this->loadData($productsInfo);
@@ -243,80 +243,77 @@ class Category_Helper extends Mage_Selenium_TestCase
         $productsInfo = $this->arrayEmptyClear($productsInfo);
         $category = (isset($productsInfo['category'])) ? $productsInfo['category'] : NULL;
         $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : NULL;
-        $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : NULL;
+        $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : array();
+
         if ($category != NULL && $productName != NULL) {
-            $foundIt = $this->frontSearchPageWithProduct($productName, $category);
+            $foundIt = $this->frontSearchAndOpenPageWithProduct($productName, $category);
             if (!$foundIt) {
                 $this->fail('Could not find the product');
             }
         }
-        $this->frontVerifyPrices($verificationData, $foundIt);
+        $this->frontVerifyProductPricesInCategory($productName, $verificationData);
     }
 
     /**
-     * Searches the page with the product in the catalog
+     * Searches the page with the product in the category
      *
      * @param string $productName
      * @param string $category
      * @return mixed
      */
-    public function frontSearchPageWithProduct($productName, $category)
+    public function frontSearchAndOpenPageWithProduct($productName, $category)
     {
-        $this->addParameter('category', $category);
-        $this->getUimapPage('frontend', 'catalog_page')->assignParams($this->_paramsHelper);
-        $this->frontend('catalog_page');
-        $xpathNext = $this->_getControlXpath('link', 'next_page');
+        $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
+        $this->addParameter('categoryTitle', $category);
+        $this->addParameter('categoryUrl', $url);
         $this->addParameter('productName', $productName);
+        $this->frontend('category_page');
+        $xpathNext = $this->_getControlXpath('link', 'next_page');
         $xpathProduct = $this->_getControlXpath('link', 'product_name');
+
         $i = 1;
         for (;;) {
             if ($this->isElementPresent($xpathProduct)) {
                 return $i;
+            } elseif ($this->isElementPresent($xpathNext)) {
+                $i++;
+                $this->addParameter('param', '?p=' . $i);
+                $this->navigate('category_page_index');
             } else {
-                if ($this->isElementPresent($xpathNext)) {
-                    $i++;
-                    $this->addParameter('param', '?p=' . $i);
-                    $this->getUimapPage('frontend', 'catalog_page_index')->assignParams($this->_paramsHelper);
-                    $this->navigate('catalog_page_index');
-                } else {
-                    return FALSE;
-                }
+                return FALSE;
             }
         }
     }
 
     /**
-     * Verifies the correctness of prices in the catalog
+     * Verifies the correctness of prices in the category
      *
      * @param array $verificationData
-     * @param int $pageNum
      */
-    public function frontVerifyPrices(array $verificationData, $pageNum)
+    public function frontVerifyProductPricesInCategory($productName, array $verificationData)
     {
-        $this->addParameter('param', '?p=' . $pageNum);
-        $this->getUimapPage('frontend', 'catalog_page_index')->assignParams($this->_paramsHelper);
-        $page = $this->getCurrentLocationUimapPage();
+        $this->addParameter('productName', $productName);
         $xpathProduct = $this->_getControlXpath('link', 'product_name');
         $this->addParameter('productNameXpath', $xpathProduct);
-        $pageelements = get_object_vars($page->getAllPageelements());
+
+        $pageelements = $this->getCurrentLocationUimapPage()->getAllPageelements();
+        $verificationData = $this->arrayEmptyClear($verificationData);
         foreach ($verificationData as $key => $value) {
             $this->addParameter('price', $value);
-            $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
+            $xpathPrice = $this->_getControlXpath('pageelement', $key);
             if (!$this->isElementPresent($xpathPrice)) {
                 $this->messages['error'][] = 'Could not find element ' . $key . ' with price ' . $value;
             }
             unset($pageelements['ex_' . $key]);
         }
         foreach ($pageelements as $key => $value) {
-            if (!preg_match('/^ex_/', $key)) {
-                $value = preg_replace('/\%productNameXpath\%/', $xpathProduct, $value);
-                if ($this->isElementPresent($value)) {
-                    $this->messages['error'][] = 'Element ' . $key . ' is on the page';
-                }
+            if (preg_match('/^ex_/', $key) && $this->isElementPresent($value)) {
+                $this->messages['error'][] = 'Element ' . $key . ' is on the page';
             }
         }
         if (!empty($this->messages['error'])) {
             $this->fail(implode("\n", $this->messages['error']));
         }
     }
+
 }
