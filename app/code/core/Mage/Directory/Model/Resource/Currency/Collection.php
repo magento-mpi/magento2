@@ -36,13 +36,6 @@
 class Mage_Directory_Model_Resource_Currency_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Currency name table
-     *
-     * @var string
-     */
-    protected $_currencyNameTable;
-
-    /**
      * Currency rate table
      *
      * @var string
@@ -58,7 +51,6 @@ class Mage_Directory_Model_Resource_Currency_Collection extends Mage_Core_Model_
     {
         $this->_init('directory/currency');
 
-        $this->_currencyNameTable   = $this->getTable('directory/currency_name');
         $this->_currencyRateTable   = $this->getTable('directory/currency_rate');
     }
 
