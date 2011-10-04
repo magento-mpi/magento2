@@ -39,11 +39,6 @@
             </googleoptimizer>
             <googleoptimizer_resource>
                 <class>Mage_GoogleOptimizer_Model_Resource</class>
-                <entities>
-                    <code>
-                        <table>googleoptimizer_code</table>
-                    </code>
-                </entities>
             </googleoptimizer_resource>
         </models>
         <helpers>

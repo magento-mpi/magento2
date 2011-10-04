@@ -39,11 +39,6 @@
             </shipping>
             <shipping_resource>
                 <class>Mage_Shipping_Model_Resource</class>
-                <entities>
-                    <tablerate>
-                        <table>shipping_tablerate</table>
-                    </tablerate>
-                </entities>
             </shipping_resource>
         </models>
         <resources>

@@ -39,23 +39,6 @@
             </enterprise_reminder>
             <enterprise_reminder_resource>
                 <class>Enterprise_Reminder_Model_Resource</class>
-                <entities>
-                    <rule>
-                        <table>enterprise_reminder_rule</table>
-                    </rule>
-                    <website>
-                        <table>enterprise_reminder_rule_website</table>
-                    </website>
-                    <template>
-                        <table>enterprise_reminder_template</table>
-                    </template>
-                    <coupon>
-                        <table>enterprise_reminder_rule_coupon</table>
-                    </coupon>
-                    <log>
-                        <table>enterprise_reminder_rule_log</table>
-                    </log>
-                </entities>
             </enterprise_reminder_resource>
         </models>
         <helpers>

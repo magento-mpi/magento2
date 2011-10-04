@@ -77,20 +77,6 @@
             </poll>
             <poll_resource>
                 <class>Mage_Poll_Model_Resource</class>
-                <entities>
-                    <poll>
-                        <table>poll</table>
-                    </poll>
-                    <poll_answer>
-                        <table>poll_answer</table>
-                    </poll_answer>
-                    <poll_vote>
-                        <table>poll_vote</table>
-                    </poll_vote>
-                    <poll_store>
-                        <table>poll_store</table>
-                    </poll_store>
-                </entities>
             </poll_resource>
         </models>
         <resources>

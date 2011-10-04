@@ -39,14 +39,6 @@
             </weee>
             <weee_resource>
                 <class>Mage_Weee_Model_Resource</class>
-                <entities>
-                    <tax>
-                        <table>weee_tax</table>
-                    </tax>
-                    <discount>
-                        <table>weee_discount</table>
-                    </discount>
-                </entities>
             </weee_resource>
         </models>
         <resources>

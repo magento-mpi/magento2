@@ -39,20 +39,6 @@
             </enterprise_customer>
             <enterprise_customer_resource>
                 <class>Enterprise_Customer_Model_Resource</class>
-                <entities>
-                    <sales_order>
-                        <table>enterprise_customer_sales_flat_order</table>
-                    </sales_order>
-                    <sales_order_address>
-                        <table>enterprise_customer_sales_flat_order_address</table>
-                    </sales_order_address>
-                    <sales_quote>
-                        <table>enterprise_customer_sales_flat_quote</table>
-                    </sales_quote>
-                    <sales_quote_address>
-                        <table>enterprise_customer_sales_flat_quote_address</table>
-                    </sales_quote_address>
-                </entities>
             </enterprise_customer_resource>
         </models>
         <blocks>

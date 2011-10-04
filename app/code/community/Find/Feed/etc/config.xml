@@ -39,11 +39,6 @@
             </find_feed>
             <find_feed_resource>
                 <class>Find_Feed_Model_Resource</class>
-                <entities>
-                    <feed_import_codes>
-                        <table>find_feed_import_codes</table>
-                    </feed_import_codes>
-                </entities>
             </find_feed_resource>
         </models>
         <resources>

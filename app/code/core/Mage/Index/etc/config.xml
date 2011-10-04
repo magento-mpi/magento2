@@ -39,17 +39,6 @@
             </index>
             <index_resource>
                 <class>Mage_Index_Model_Resource</class>
-                <entities>
-                    <event>
-                        <table>index_event</table>
-                    </event>
-                    <process>
-                        <table>index_process</table>
-                    </process>
-                    <process_event>
-                        <table>index_process_event</table>
-                    </process_event>
-                </entities>
             </index_resource>
         </models>
         <resources>

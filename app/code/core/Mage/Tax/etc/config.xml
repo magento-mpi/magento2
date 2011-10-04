@@ -39,35 +39,6 @@
             </tax>
             <tax_resource>
                 <class>Mage_Tax_Model_Resource</class>
-                <entities>
-                    <tax_class>
-                        <table>tax_class</table>
-                    </tax_class>
-                    <tax_calculation>
-                        <table>tax_calculation</table>
-                    </tax_calculation>
-                    <tax_calculation_rate>
-                        <table>tax_calculation_rate</table>
-                    </tax_calculation_rate>
-                    <tax_calculation_rate_title>
-                        <table>tax_calculation_rate_title</table>
-                    </tax_calculation_rate_title>
-                    <tax_calculation_rule>
-                        <table>tax_calculation_rule</table>
-                    </tax_calculation_rule>
-                    <tax_order_aggregated_created>
-                        <table>tax_order_aggregated_created</table>
-                    </tax_order_aggregated_created>
-                    <tax_order_aggregated_updated>
-                        <table>tax_order_aggregated_updated</table>
-                    </tax_order_aggregated_updated>
-                    <sales_order_tax>
-                        <table>sales_order_tax</table>
-                    </sales_order_tax>
-                    <sales_order_tax_item>
-                        <table>sales_order_tax_item</table>
-                    </sales_order_tax_item>
-                </entities>
             </tax_resource>
         </models>
         <resources>

@@ -39,32 +39,6 @@
             </enterprise_rma>
             <enterprise_rma_resource>
                 <class>Enterprise_Rma_Model_Resource</class>
-                <entities>
-                    <rma>
-                        <table>enterprise_rma</table>
-                    </rma>
-                    <rma_grid>
-                        <table>enterprise_rma_grid</table>
-                    </rma_grid>
-                    <rma_status_history>
-                        <table>enterprise_rma_status_history</table>
-                    </rma_status_history>
-                    <item_entity>
-                        <table>enterprise_rma_item_entity</table>
-                    </item_entity>
-                    <item_eav_attribute>
-                        <table>enterprise_rma_item_eav_attribute</table>
-                    </item_eav_attribute>
-                    <item_eav_attribute_website>
-                        <table>enterprise_rma_item_eav_attribute_website</table>
-                    </item_eav_attribute_website>
-                    <item_form_attribute>
-                        <table>enterprise_rma_item_form_attribute</table>
-                    </item_form_attribute>
-                    <rma_shipping_label>
-                        <table>enterprise_rma_shipping_label</table>
-                    </rma_shipping_label>
-                </entities>
             </enterprise_rma_resource>
         </models>
         <resources>
