@@ -1121,22 +1121,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         switch ($type) {
             case 'etc':
-                $dir .= DS.'etc';
-                break;
-
             case 'controllers':
-                $dir .= DS.'controllers';
-                break;
-
             case 'sql':
-                $dir .= DS.'sql';
-                break;
             case 'data':
-                $dir .= DS.'data';
-                break;
-
             case 'locale':
-                $dir .= DS.'locale';
+            case 'view':
+                $dir .= DS . $type;
                 break;
         }
 

@@ -32,10 +32,7 @@ class Mage_Core_Model_Design_Package
     const DEFAULT_THEME   = 'default';
     const BASE_PACKAGE    = 'base';
 
-    /**
-     * @deprecated after 1.4.0.0-alpha3
-     */
-    const FALLBACK_THEME  = 'default';
+    const SCOPE_SEPARATOR = '::';
 
     private static $_regexMatchCache      = array();
     private static $_customThemeTypeCache = array();
@@ -83,13 +80,6 @@ class Mage_Core_Model_Design_Package
     protected $_callbackFileDir;
 
     protected $_config = null;
-
-    /**
-     * Whether theme/skin hierarchy should be checked via fallback mechanism
-     * @TODO: implement setter for this value
-     * @var bool
-     */
-    protected $_shouldFallback = true;
 
     /**
      * Set store
@@ -272,7 +262,13 @@ class Mage_Core_Model_Design_Package
         return self::DEFAULT_THEME;
     }
 
-    public function updateParamDefaults(array &$params)
+    /**
+     * Update required parameters with default values if custom not specified
+     *
+     * @param array $params
+     * @return Mage_Core_Model_Design_Package
+     */
+    protected function _updateParamDefaults(array &$params)
     {
         if ($this->getStore()) {
             $params['_store'] = $this->getStore();
@@ -283,27 +279,35 @@ class Mage_Core_Model_Design_Package
         if (empty($params['_package'])) {
             $params['_package'] = $this->getPackageName();
         }
-        if (empty($params['_theme'])) {
+        if (!array_key_exists('_theme', $params)) {
             $params['_theme'] = $this->getTheme( (isset($params['_type'])) ? $params['_type'] : '' );
         }
         if (empty($params['_default'])) {
             $params['_default'] = false;
+        }
+        if (!array_key_exists('_module', $params)) {
+            $params['_module'] = false;
         }
         return $this;
     }
 
     public function getBaseDir(array $params)
     {
-        $this->updateParamDefaults($params);
-        $baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
-            $params['_area'].DS.$params['_package'].DS.$params['_theme'].DS.$params['_type'];
+        $this->_updateParamDefaults($params);
+        $baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design') . DS : '');
+        if ($params['_theme'] || !$params['_module']) {
+            $baseDir.= $params['_area'] . DS . $params['_package'] . DS . $params['_theme'] . DS;
+            $baseDir.= $params['_module'] ? $params['_module'] : $params['_type'];
+        } elseif ($params['_module']) {
+            $baseDir = Mage::getConfig()->getModuleDir('view', $params['_module']) . DS . $params['_area'];
+        }
         return $baseDir;
     }
 
     public function getSkinBaseDir(array $params=array())
     {
         $params['_type'] = 'skin';
-        $this->updateParamDefaults($params);
+        $this->_updateParamDefaults($params);
         $baseDir = (empty($params['_relative']) ? Mage::getBaseDir('skin').DS : '').
             $params['_area'].DS.$params['_package'].DS.$params['_theme'];
         return $baseDir;
@@ -312,7 +316,7 @@ class Mage_Core_Model_Design_Package
     public function getLocaleBaseDir(array $params=array())
     {
         $params['_type'] = 'locale';
-        $this->updateParamDefaults($params);
+        $this->_updateParamDefaults($params);
         $baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
             $params['_area'].DS.$params['_package'].DS.$params['_theme'] . DS . 'locale' . DS .
             Mage::app()->getLocale()->getLocaleCode();
@@ -322,7 +326,7 @@ class Mage_Core_Model_Design_Package
     public function getSkinBaseUrl(array $params=array())
     {
         $params['_type'] = 'skin';
-        $this->updateParamDefaults($params);
+        $this->_updateParamDefaults($params);
         $baseUrl = Mage::getBaseUrl('skin', isset($params['_secure'])?(bool)$params['_secure']:null)
             .$params['_area'].'/'.$params['_package'].'/'.$params['_theme'].'/';
         return $baseUrl;
@@ -391,17 +395,17 @@ class Mage_Core_Model_Design_Package
      */
     protected function _fallback($file, array &$params, array $fallbackScheme = array(array()))
     {
-        if ($this->_shouldFallback) {
-            foreach ($fallbackScheme as $try) {
-                $params = array_merge($params, $try);
-                $filename = $this->validateFile($file, $params);
-                if ($filename) {
-                    return $filename;
-                }
+        foreach ($fallbackScheme as $try) {
+            $params = array_merge($params, $try);
+            $filename = $this->validateFile($file, $params);
+            if ($filename) {
+                return $filename;
             }
-            $params['_package'] = self::BASE_PACKAGE;
-            $params['_theme']   = self::DEFAULT_THEME;
         }
+        $params['_package'] = self::BASE_PACKAGE;
+        $params['_theme']   = self::DEFAULT_THEME;
+        $params['_module']  = false;
+
         return $this->_renderFilename($file, $params);
     }
 
@@ -417,14 +421,41 @@ class Mage_Core_Model_Design_Package
     public function getFilename($file, array $params)
     {
         Magento_Profiler::start(__METHOD__);
-        $this->updateParamDefaults($params);
-        $result = $this->_fallback($file, $params, array(
-            array(),
-            array('_theme' => $this->getFallbackTheme()),
-            array('_theme' => self::DEFAULT_THEME),
-        ));
+        $file = $this->_extractScope($file, $params);
+        $this->_updateParamDefaults($params);
+
+        $fallback = array(array(), array('_module' => false));
+        $fallbackTheme = $this->getFallbackTheme();
+        if ($fallbackTheme && $params['_theme'] != $params['_theme']) {
+            $fallback[] = array('_theme' => $fallbackTheme, '_module' => $params['_module']);
+            $fallback[] = array('_theme' => $fallback, '_module' => false); // legacy
+        }
+        $fallback[] = array('_theme' => self::DEFAULT_THEME, '_module' => $params['_module']);
+        $fallback[] = array('_theme' => self::DEFAULT_THEME, '_module' => false); // legacy
+        $fallback[] = array('_theme' => false, '_module' => $params['_module']); // module
+        $result = $this->_fallback($file, $params, $fallback);
         Magento_Profiler::stop(__METHOD__);
         return $result;
+    }
+
+    /**
+     * Identify file scope if it defined in file name and override _module parameter in $params array
+     *
+     * @param string $file
+     * @param array &$params
+     * @return string
+     */
+    protected function _extractScope($file, array &$params)
+    {
+        if (false !== strpos($file, self::SCOPE_SEPARATOR)) {
+            $file = explode(self::SCOPE_SEPARATOR, $file);
+            if (empty($file[0])) {
+                throw new Exception('Scope separator "::" can\'n be used without scope identifier.');
+            }
+            $params['_module'] = $file[0];
+            $file = $file[1];
+        }
+        return $file;
     }
 
     /**
@@ -470,7 +501,7 @@ class Mage_Core_Model_Design_Package
         if (empty($params['_default'])) {
             $params['_default'] = false;
         }
-        $this->updateParamDefaults($params);
+        $this->_updateParamDefaults($params);
         if (!empty($file)) {
             $result = $this->_fallback($file, $params, array(
                 array(),
@@ -481,6 +512,12 @@ class Mage_Core_Model_Design_Package
         $result = $this->getSkinBaseUrl($params) . (empty($file) ? '' : $file);
         Magento_Profiler::stop(__METHOD__);
         return $result;
+    }
+
+    public function getSkinFile($file, array $params=array())
+    {
+        $params['_type'] = 'skin';
+        return $this->getFilename($file, $params);
     }
 
     /**
