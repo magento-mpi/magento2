@@ -39,17 +39,6 @@
             </enterprise_giftcardaccount>
             <enterprise_giftcardaccount_resource>
                 <class>Enterprise_GiftCardAccount_Model_Resource</class>
-                <entities>
-                    <giftcardaccount>
-                        <table>enterprise_giftcardaccount</table>
-                    </giftcardaccount>
-                    <pool>
-                        <table>enterprise_giftcardaccount_pool</table>
-                    </pool>
-                    <history>
-                        <table>enterprise_giftcardaccount_history</table>
-                    </history>
-                </entities>
             </enterprise_giftcardaccount_resource>
         </models>
         <resources>

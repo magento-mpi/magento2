@@ -49,35 +49,6 @@
             </downloadable>
             <downloadable_resource>
                 <class>Mage_Downloadable_Model_Resource</class>
-                <entities>
-                    <link>
-                        <table>downloadable_link</table>
-                    </link>
-                    <link_title>
-                        <table>downloadable_link_title</table>
-                    </link_title>
-                    <link_price>
-                        <table>downloadable_link_price</table>
-                    </link_price>
-                    <sample>
-                        <table>downloadable_sample</table>
-                    </sample>
-                    <sample_title>
-                        <table>downloadable_sample_title</table>
-                    </sample_title>
-                    <link_purchased>
-                        <table>downloadable_link_purchased</table>
-                    </link_purchased>
-                    <link_purchased_item>
-                        <table>downloadable_link_purchased_item</table>
-                    </link_purchased_item>
-                    <product_price_indexer_idx>
-                        <table>catalog_product_index_price_downlod_idx</table>
-                    </product_price_indexer_idx>
-                    <product_price_indexer_tmp>
-                        <table>catalog_product_index_price_downlod_tmp</table>
-                    </product_price_indexer_tmp>
-                </entities>
             </downloadable_resource>
         </models>
         <blocks>

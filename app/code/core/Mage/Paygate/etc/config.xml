@@ -39,11 +39,6 @@
             </paygate>
             <paygate_resource>
                 <class>Mage_Paygate_Model_Resource</class>
-                <entities>
-                    <authorizenet_debug>
-                        <table>paygate_authorizenet_debug</table>
-                    </authorizenet_debug>
-                </entities>
             </paygate_resource>
         </models>
         <resources>

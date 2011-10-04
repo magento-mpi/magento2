@@ -39,14 +39,6 @@
             </enterprise_logging>
             <enterprise_logging_resource>
                 <class>Enterprise_Logging_Model_Resource</class>
-                <entities>
-                    <event>
-                        <table>enterprise_logging_event</table>
-                    </event>
-                    <event_changes>
-                        <table>enterprise_logging_event_changes</table>
-                    </event_changes>
-                </entities>
             </enterprise_logging_resource>
         </models>
         <blocks>

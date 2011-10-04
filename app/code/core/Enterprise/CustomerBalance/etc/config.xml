@@ -47,14 +47,6 @@
             </enterprise_customerbalance>
             <enterprise_customerbalance_resource>
                 <class>Enterprise_CustomerBalance_Model_Resource</class>
-                <entities>
-                    <balance>
-                        <table>enterprise_customerbalance</table>
-                    </balance>
-                    <balance_history>
-                        <table>enterprise_customerbalance_history</table>
-                    </balance_history>
-                </entities>
             </enterprise_customerbalance_resource>
         </models>
         <blocks>

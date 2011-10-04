@@ -51,35 +51,6 @@
             </log>
             <log_resource>
                 <class>Mage_Log_Model_Resource</class>
-                <entities>
-                    <customer>
-                        <table>log_customer</table>
-                    </customer>
-                    <visitor>
-                        <table>log_visitor</table>
-                    </visitor>
-                    <visitor_info>
-                        <table>log_visitor_info</table>
-                    </visitor_info>
-                    <url_table>
-                        <table>log_url</table>
-                    </url_table>
-                    <url_info_table>
-                        <table>log_url_info</table>
-                    </url_info_table>
-                    <summary_table>
-                        <table>log_summary</table>
-                    </summary_table>
-                    <summary_type_table>
-                        <table>log_summary_type</table>
-                    </summary_type_table>
-                    <quote_table>
-                        <table>log_quote</table>
-                    </quote_table>
-                    <visitor_online>
-                        <table>log_visitor_online</table>
-                    </visitor_online>
-                </entities>
             </log_resource>
         </models>
         <resources>

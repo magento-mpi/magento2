@@ -39,11 +39,6 @@
             </sitemap>
             <sitemap_resource>
                 <class>Mage_Sitemap_Model_Resource</class>
-                <entities>
-                    <sitemap>
-                        <table>sitemap</table>
-                    </sitemap>
-                </entities>
             </sitemap_resource>
         </models>
         <resources>

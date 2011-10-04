@@ -39,17 +39,6 @@
             </catalogsearch>
             <catalogsearch_resource>
                 <class>Mage_CatalogSearch_Model_Resource</class>
-                <entities>
-                    <search_query>
-                        <table>catalogsearch_query</table>
-                    </search_query>
-                    <result>
-                        <table>catalogsearch_result</table>
-                    </result>
-                    <fulltext>
-                        <table>catalogsearch_fulltext</table>
-                    </fulltext>
-                </entities>
             </catalogsearch_resource>
         </models>
         <helpers>

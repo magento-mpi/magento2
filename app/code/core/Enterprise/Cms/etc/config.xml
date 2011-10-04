@@ -39,26 +39,6 @@
             </enterprise_cms>
             <enterprise_cms_resource>
                 <class>Enterprise_Cms_Model_Resource</class>
-                <entities>
-                    <page_version>
-                        <table>enterprise_cms_page_version</table>
-                    </page_version>
-                    <page_revision>
-                        <table>enterprise_cms_page_revision</table>
-                    </page_revision>
-                    <increment>
-                        <table>enterprise_cms_increment</table>
-                    </increment>
-                    <hierarchy_metadata>
-                        <table>enterprise_cms_hierarchy_metadata</table>
-                    </hierarchy_metadata>
-                    <hierarchy_node>
-                        <table>enterprise_cms_hierarchy_node</table>
-                    </hierarchy_node>
-                    <hierarchy_lock>
-                        <table>enterprise_cms_hierarchy_lock</table>
-                    </hierarchy_lock>
-                </entities>
             </enterprise_cms_resource>
         </models>
         <blocks>

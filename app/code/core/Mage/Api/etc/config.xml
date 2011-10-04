@@ -53,23 +53,6 @@
             </api>
             <api_resource>
                 <class>Mage_Api_Model_Resource</class>
-                <entities>
-                    <assert>
-                        <table>api_assert</table>
-                    </assert>
-                    <role>
-                        <table>api_role</table>
-                    </role>
-                    <rule>
-                        <table>api_rule</table>
-                    </rule>
-                    <user>
-                        <table>api_user</table>
-                    </user>
-                    <session>
-                        <table>api_session</table>
-                    </session>
-                </entities>
             </api_resource>
         </models>
         <resources>

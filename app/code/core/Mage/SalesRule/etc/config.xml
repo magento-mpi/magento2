@@ -44,35 +44,6 @@
             </salesrule>
             <salesrule_resource>
                 <class>Mage_SalesRule_Model_Resource</class>
-                <entities>
-                    <rule>
-                        <table>salesrule</table>
-                    </rule>
-                    <rule_customer>
-                        <table>salesrule_customer</table>
-                    </rule_customer>
-                    <label>
-                        <table>salesrule_label</table>
-                    </label>
-                    <coupon>
-                        <table>salesrule_coupon</table>
-                    </coupon>
-                    <coupon_usage>
-                        <table>salesrule_coupon_usage</table>
-                    </coupon_usage>
-                    <coupon_aggregated>
-                        <table>coupon_aggregated</table>
-                    </coupon_aggregated>
-                    <coupon_aggregated_updated>
-                        <table>coupon_aggregated_updated</table>
-                    </coupon_aggregated_updated>
-                    <coupon_aggregated_order>
-                        <table>coupon_aggregated_order</table>
-                    </coupon_aggregated_order>
-                    <product_attribute>
-                        <table>salesrule_product_attribute</table>
-                    </product_attribute>
-                </entities>
             </salesrule_resource>
         </models>
         <resources>

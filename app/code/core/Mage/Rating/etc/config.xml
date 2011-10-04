@@ -39,29 +39,6 @@
             </rating>
             <rating_resource>
                 <class>Mage_Rating_Model_Resource</class>
-                <entities>
-                    <rating>
-                        <table>rating</table>
-                    </rating>
-                    <rating_store>
-                        <table>rating_store</table>
-                    </rating_store>
-                    <rating_title>
-                        <table>rating_title</table>
-                    </rating_title>
-                    <rating_entity>
-                        <table>rating_entity</table>
-                    </rating_entity>
-                    <rating_option>
-                        <table>rating_option</table>
-                    </rating_option>
-                    <rating_option_vote>
-                        <table>rating_option_vote</table>
-                    </rating_option_vote>
-                    <rating_vote_aggregated>
-                        <table>rating_option_vote_aggregated</table>
-                    </rating_vote_aggregated>
-                </entities>
             </rating_resource>
         </models>
         <resources>

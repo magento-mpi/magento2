@@ -39,17 +39,6 @@
             </enterprise_invitation>
             <enterprise_invitation_resource>
                 <class>Enterprise_Invitation_Model_Resource</class>
-                <entities>
-                    <invitation>
-                        <table>enterprise_invitation</table>
-                    </invitation>
-                    <invitation_history>
-                        <table>enterprise_invitation_status_history</table>
-                    </invitation_history>
-                    <invitation_track>
-                        <table>enterprise_invitation_track</table>
-                    </invitation_track>
-                </entities>
             </enterprise_invitation_resource>
         </models>
         <helpers>
