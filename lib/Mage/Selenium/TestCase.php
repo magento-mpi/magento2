@@ -731,7 +731,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function getPageUrl($page)
     {
-        return $this->_pageHelper->getPageUrl($page);
+        $pageData = $this->getUimapPage($this->_applicationHelper->getArea(), $page);
+        $url = $this->_applicationHelper->getBaseUrl() . $pageData->getMca();
+
+        return $url;
     }
 
     /**
