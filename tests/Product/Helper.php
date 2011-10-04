@@ -914,7 +914,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         $this->getUimapPage('frontend', 'product_page')->assignParams($this->_paramsHelper);
 
         $this->frontend('product_page');
-        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement('produc_name');
+        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement('product_name');
         $openedProductName = $this->getText($xpathName);
         $this->assertEquals($productName, $openedProductName,
                 "Product with name '$openedProductName' is opened, but should be '$productName'");
@@ -931,7 +931,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         if ($dataForBuy) {
             $this->frontFillBuyInfo($dataForBuy, $productType);
         }
-        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement('produc_name');
+        $xpathName = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement('product_name');
         $openedProductName = $this->getText($xpathName);
         $this->addParameter('productName', $openedProductName);
         $this->clickButton('add_to_cart');
