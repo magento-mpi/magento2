@@ -410,9 +410,11 @@ class Enterprise_PageCache_Model_Observer
         }
         $this->_getCookie()->updateCustomerCookies();
 
-        $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED);
-        $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
-        Enterprise_PageCache_Model_Cookie::registerViewedProducts(array(), 0, false);
+        if (!$this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER)) {
+            $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED);
+            $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
+            Enterprise_PageCache_Model_Cookie::registerViewedProducts(array(), 0, false);
+        }
 
         return $this;
     }
