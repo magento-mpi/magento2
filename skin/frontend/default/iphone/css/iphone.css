@@ -1221,6 +1221,7 @@ section .category-title { display:none; }
     padding:15px 0 0;
     opacity:0;
     width:100%;
+    -webkit-backface-visibility:hidden;
 }
 .c-grid .flip-block.active .i-flip {
     -webkit-transform:rotate(360deg);
@@ -1450,6 +1451,7 @@ section .category-title { display:none; }
 .catalog-product-gallery .product-gallery { padding:10px 0 0; position:relative; }
 .catalog-product-gallery .product-gallery .carousel-items li {
     padding:0;
+    overflow:hidden;
     text-align:center;;
 }
 .catalog-product-gallery .product-gallery .carousel-items li img {
