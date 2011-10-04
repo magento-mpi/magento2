@@ -36,7 +36,9 @@ new_tax_rate_required:
     state: Texas
     zip_is_range: %noValue%
     rate_percent: 10
-    tax_title: %noValue%
+    store_view_name:
+        2: qweert
+        3: qwerty
 
 new_tax_rule_required:
     name: test_tax_id

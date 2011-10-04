@@ -45,7 +45,15 @@ class Tax_Helper extends Mage_Selenium_TestCase
     public function createTaxRate(array $taxRateData)
     {
         $taxRateData = $this->arrayEmptyClear($taxRateData);
+        $storViewName = (isset($taxRateData['store_view_name'])) ? $taxRateData['store_view_name'] : NULL;
         $this->clickButton('add_new_tax_rate');
+        $xpath = $this->_getControlXpath('fieldset', 'tax_titles');
+        if ($storViewName && $this->isElementPresent($xpath)) {
+            foreach ($storViewName as $key => $value) {
+                $this->addParameter('storeNumber', $key);
+                $this->fillForm(array('tax_title' => $value));
+            }
+        }
         $this->fillForm($taxRateData, 'tax_rate_info');
         $this->saveForm('save_rate');
     }
@@ -70,6 +78,9 @@ class Tax_Helper extends Mage_Selenium_TestCase
      */
     public function createCustomerTaxClass($customerTaxClassData)
     {
+        if (is_string($customerTaxClassData)) {
+            $customerTaxClassData = $this->loadData($customerTaxClassData);
+        }
         $this->clickButton('add_new');
         $this->fillForm($customerTaxClassData, 'create_customer_tax_class');
         $this->saveForm('save_class');
@@ -82,11 +93,23 @@ class Tax_Helper extends Mage_Selenium_TestCase
      */
     public function createProductTaxClass($productTaxClassData)
     {
+        if (is_string($productTaxClassData)) {
+            $productTaxClassData = $this->loadData($productTaxClassData);
+        }
         $this->clickButton('add_new');
         $this->fillForm($productTaxClassData, 'create_product_tax_class');
         $this->saveForm('save_class');
     }
 
-}
+    /**
+     * Search and Open Product rule
+     *
+     * @param array|string $taxRuleSearchData
+     */
+    public function searchTaxRule($taxRuleSearchData)
+    {
 
-?>
+        $this->searchAndOpen($taxRuleSearchData);
+    }
+
+}
