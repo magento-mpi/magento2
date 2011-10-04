@@ -33,8 +33,8 @@ Mage::register('original_include_path', get_include_path());
 if (defined('COMPILER_INCLUDE_PATH')) {
     $appPath = COMPILER_INCLUDE_PATH;
     set_include_path($appPath . PS . Mage::registry('original_include_path'));
-    include_once "Mage_Core_functions.php";
-    include_once "Varien_Autoload.php";
+    include_once COMPILER_INCLUDE_PATH . DS . "Mage_Core_functions.php";
+    include_once COMPILER_INCLUDE_PATH . DS . "Varien_Autoload.php";
 } else {
     /**
      * Set include path
@@ -138,7 +138,8 @@ final class Mage
     public static function getVersion()
     {
         $i = self::getVersionInfo();
-        return trim("{$i['major']}.{$i['minor']}.{$i['revision']}" . ($i['patch'] != '' ? ".{$i['patch']}" : "") . "-{$i['stability']}{$i['number']}", '.-');
+        return trim("{$i['major']}.{$i['minor']}.{$i['revision']}" . ($i['patch'] != '' ? ".{$i['patch']}" : "")
+                        . "-{$i['stability']}{$i['number']}", '.-');
     }
 
     /**
