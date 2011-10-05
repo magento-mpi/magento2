@@ -246,26 +246,30 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     }
 
     /**
-     * Get table name for the entity, validated by db adapter
+     * Get real table name for db table, validated by db adapter
      *
-     * @param string $entityName
+     * @param string $tableName
      * @return string
      */
-    public function getTable($entityName)
+    public function getTable($tableName)
     {
-        if (is_array($entityName)) {
-            $cacheName    = join('@', $entityName);
-            list($entityName, $entitySuffix) = $entityName;
+        if (is_array($tableName)) {
+            $cacheName    = join('@', $tableName);
+            list($tableName, $entitySuffix) = $tableName;
         } else {
-            $cacheName    = $entityName;
+            $cacheName    = $tableName;
             $entitySuffix = null;
+        }
+
+        if (!is_null($entitySuffix)) {
+            $tableName .= '_' . $entitySuffix;
         }
 
         if (isset($this->_tables[$cacheName])) {
             return $this->_tables[$cacheName];
         }
 
-        $this->_tables[$cacheName] = $this->_resources->getTableName($entityName);
+        $this->_tables[$cacheName] = $this->_resources->getTableName($tableName);
 
         return $this->_tables[$cacheName];
     }
