@@ -540,7 +540,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
      */
     public function getProductCount($category)
     {
-        $productTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
+        $productTable = Mage::getSingleton('core/resource')->getTableName('catalog_category_product');
 
         $select = $this->getReadConnection()->select()
             ->from(

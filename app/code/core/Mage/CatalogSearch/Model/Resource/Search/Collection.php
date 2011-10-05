@@ -200,9 +200,9 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
         }
 
         $resource = Mage::getSingleton('core/resource');
-        $optionTable      = $resource->getTableName('eav/attribute_option');
-        $optionValueTable = $resource->getTableName('eav/attribute_option_value');
-        $attributesTable  = $resource->getTableName('eav/attribute');
+        $optionTable      = $resource->getTableName('eav_attribute_option');
+        $optionValueTable = $resource->getTableName('eav_attribute_option_value');
+        $attributesTable  = $resource->getTableName('eav_attribute');
 
         /**
          * Select option Ids

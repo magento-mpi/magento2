@@ -135,7 +135,7 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
                 //if ( eregi("^Resource '(.*)' not found", $m) ) {
                     // Deleting non existent resource rule from rules table
                     //$cond = $this->_write->quoteInto('resource_id = ?', $resource);
-                    //$this->_write->delete(Mage::getSingleton('core/resource')->getTableName('admin/rule'), $cond);
+                    //$this->_write->delete(Mage::getSingleton('core/resource')->getTableName('admin_rule'), $cond);
                 //} else {
                     //TODO: We need to log such exceptions to somewhere like a system/errors.log
                 //}
