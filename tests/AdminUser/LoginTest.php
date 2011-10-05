@@ -326,7 +326,6 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
         $this->addParameter('adminEmail', $emailData['email']);
         $this->assertTrue($this->successMessage('retrieve_password'), $this->messages);
         //Steps
-        $this->clickControl('link', 'back_to_login');
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
         $this->assertTrue($this->checkCurrentPage('dashboard'), $this->messages);
