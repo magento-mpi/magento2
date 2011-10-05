@@ -31,25 +31,25 @@ browsers:
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false
-        browserTimeoutPeriod: 30000
+        browserTimeoutPeriod: 40000
     firefox: &firefox
         browser: '*firefox'
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false
-        browserTimeoutPeriod: 30000
+        browserTimeoutPeriod: 40000
     iexplore: &iexplore
         browser: '*iexplore'
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false
-        browserTimeoutPeriod: 30000
+        browserTimeoutPeriod: 40000
     googlechrome: &googlechrome
         browser: '*googlechrome'
         host: 127.0.0.1
         port: 4444
         doNotKillBrowsers: false
-        browserTimeoutPeriod: 30000
+        browserTimeoutPeriod: 40000
     default: *chrome
 applications:
     magento: &magento

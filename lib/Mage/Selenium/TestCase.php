@@ -119,7 +119,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var int
      */
-    protected $_browserTimeoutPeriod = 10000;
+    protected $_browserTimeoutPeriod = 40000;
 
     /**
      * @var PHPUnit_Framework_TestResult
@@ -303,8 +303,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->data = $data;
         $this->dataName = $dataName;
 
-        $this->_browserTimeoutPeriod = $this->_testConfig->getConfigValue('browsers/default/browserTimeoutPeriod');
-
+        $path = 'browsers/default/browserTimeoutPeriod';
+        $this->_browserTimeoutPeriod = (!is_bool($this->_testConfig->getConfigValue($path)))
+                            ? $this->_testConfig->getConfigValue($path)
+                            : $this->_browserTimeoutPeriod;
         parent::__construct($name, $data, $dataName, $browser);
     }
 
