@@ -65,10 +65,10 @@ $table = $installer->getConnection()
         array('user_id'))
     ->addIndex($installer->getIdxName('enterprise_cms/page_version', array('version_number')),
         array('version_number'))
-    ->addForeignKey($installer->getFkName('enterprise_cms/page_version', 'page_id', 'cms/page', 'page_id'),
+    ->addForeignKey($installer->getFkName('enterprise_cms_page_version', 'page_id', 'cms/page', 'page_id'),
         'page_id', $installer->getTable('cms_page'), 'page_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_cms/page_version', 'user_id', 'admin/user', 'user_id'),
+    ->addForeignKey($installer->getFkName('enterprise_cms_page_version', 'user_id', 'admin/user', 'user_id'),
         'user_id', $installer->getTable('admin_user'), 'user_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Cms Page Version');
@@ -132,13 +132,13 @@ $table = $installer->getConnection()
         array('user_id'))
     ->addIndex($installer->getIdxName('enterprise_cms/page_revision', array('revision_number')),
         array('revision_number'))
-    ->addForeignKey($installer->getFkName('enterprise_cms/page_revision', 'page_id', 'cms/page', 'page_id'),
+    ->addForeignKey($installer->getFkName('enterprise_cms_page_revision', 'page_id', 'cms/page', 'page_id'),
         'page_id', $installer->getTable('cms_page'), 'page_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_cms/page_revision', 'user_id', 'admin/user', 'user_id'),
+    ->addForeignKey($installer->getFkName('enterprise_cms_page_revision', 'user_id', 'admin/user', 'user_id'),
         'user_id', $installer->getTable('admin_user'), 'user_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_cms/page_revision', 'version_id', 'enterprise_cms/page_version', 'version_id'),
+    ->addForeignKey($installer->getFkName('enterprise_cms_page_revision', 'version_id', 'enterprise_cms/page_version', 'version_id'),
         'version_id', $installer->getTable('enterprise_cms_page_version'), 'version_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Cms Page Revision');
@@ -216,10 +216,10 @@ $table = $installer->getConnection()
         array('parent_node_id'))
     ->addIndex($installer->getIdxName('enterprise_cms/hierarchy_node', array('page_id')),
         array('page_id'))
-    ->addForeignKey($installer->getFkName('enterprise_cms/hierarchy_node', 'page_id', 'cms/page', 'page_id'),
+    ->addForeignKey($installer->getFkName('enterprise_cms_hierarchy_node', 'page_id', 'cms/page', 'page_id'),
         'page_id', $installer->getTable('cms_page'), 'page_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_cms/hierarchy_node', 'parent_node_id', 'enterprise_cms/hierarchy_node', 'node_id'),
+    ->addForeignKey($installer->getFkName('enterprise_cms_hierarchy_node', 'parent_node_id', 'enterprise_cms/hierarchy_node', 'node_id'),
         'parent_node_id', $installer->getTable('enterprise_cms_hierarchy_node'), 'node_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Cms Hierarchy Node');
@@ -288,7 +288,7 @@ $table = $installer->getConnection()
         ), 'Menu Ordered')
     ->addColumn('menu_list_type', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         ), 'Menu List Type')
-    ->addForeignKey($installer->getFkName('enterprise_cms/hierarchy_metadata', 'node_id', 'enterprise_cms/hierarchy_node', 'node_id'),
+    ->addForeignKey($installer->getFkName('enterprise_cms_hierarchy_metadata', 'node_id', 'enterprise_cms/hierarchy_node', 'node_id'),
         'node_id', $installer->getTable('enterprise_cms_hierarchy_node'), 'node_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Cms Hierarchy Metadata');

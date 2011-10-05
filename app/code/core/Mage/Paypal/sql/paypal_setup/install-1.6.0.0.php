@@ -110,7 +110,7 @@ $table = $installer->getConnection()
         ), 'Consumer Id')
     ->addIndex($installer->getIdxName('paypal/settlement_report_row', array('report_id')),
         array('report_id'))
-    ->addForeignKey($installer->getFkName('paypal/settlement_report_row', 'report_id', 'paypal/settlement_report', 'report_id'),
+    ->addForeignKey($installer->getFkName('paypal_settlement_report_row', 'report_id', 'paypal/settlement_report', 'report_id'),
         'report_id', $installer->getTable('paypal_settlement_report'), 'report_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Paypal Settlement Report Row Table');
@@ -138,7 +138,7 @@ $table = $installer->getConnection()
         ), 'Updated At')
     ->addIndex($installer->getIdxName('paypal/cert', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('paypal/cert', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('paypal_cert', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Paypal Certificate Table');

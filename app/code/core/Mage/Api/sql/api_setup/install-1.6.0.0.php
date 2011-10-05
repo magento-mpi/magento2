@@ -131,7 +131,7 @@ $table = $installer->getConnection()
         array('resource_id', 'role_id'))
     ->addIndex($installer->getIdxName('api/rule', array('role_id', 'resource_id')),
         array('role_id', 'resource_id'))
-    ->addForeignKey($installer->getFkName('api/rule', 'role_id', 'api/role', 'role_id'),
+    ->addForeignKey($installer->getFkName('api_rule', 'role_id', 'api/role', 'role_id'),
         'role_id', $installer->getTable('api_role'), 'role_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Api ACL Rules');
@@ -197,7 +197,7 @@ $table = $installer->getConnection()
         array('user_id'))
     ->addIndex($installer->getIdxName('api/session', array('sessid')),
         array('sessid'))
-    ->addForeignKey($installer->getFkName('api/session', 'user_id', 'api/user', 'user_id'),
+    ->addForeignKey($installer->getFkName('api_session', 'user_id', 'api/user', 'user_id'),
         'user_id', $installer->getTable('api_user'), 'user_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Api Sessions');

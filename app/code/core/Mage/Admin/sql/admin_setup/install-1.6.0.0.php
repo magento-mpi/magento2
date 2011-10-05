@@ -131,7 +131,7 @@ $table = $installer->getConnection()
         array('resource_id', 'role_id'))
     ->addIndex($installer->getIdxName('admin/rule', array('role_id', 'resource_id')),
         array('role_id', 'resource_id'))
-    ->addForeignKey($installer->getFkName('admin/rule', 'role_id', 'admin/role', 'role_id'),
+    ->addForeignKey($installer->getFkName('admin_rule', 'role_id', 'admin/role', 'role_id'),
         'role_id', $installer->getTable('admin_role'), 'role_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Admin Rule Table');

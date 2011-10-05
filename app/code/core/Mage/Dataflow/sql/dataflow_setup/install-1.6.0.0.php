@@ -79,7 +79,7 @@ $table = $installer->getConnection()
         ), 'Status')
     ->addIndex($installer->getIdxName('dataflow/import', array('session_id')),
         array('session_id'))
-    ->addForeignKey($installer->getFkName('dataflow/import', 'session_id', 'dataflow/session', 'session_id'),
+    ->addForeignKey($installer->getFkName('dataflow_import_data', 'session_id', 'dataflow/session', 'session_id'),
         'session_id', $installer->getTable('dataflow_session'), 'session_id',
         Varien_Db_Ddl_Table::ACTION_NO_ACTION, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Dataflow Import Data');
@@ -147,7 +147,7 @@ $table = $installer->getConnection()
         ), 'Performed At')
     ->addIndex($installer->getIdxName('dataflow/profile_history', array('profile_id')),
         array('profile_id'))
-    ->addForeignKey($installer->getFkName('dataflow/profile_history', 'profile_id', 'dataflow/profile', 'profile_id'),
+    ->addForeignKey($installer->getFkName('dataflow_profile_history', 'profile_id', 'dataflow/profile', 'profile_id'),
         'profile_id', $installer->getTable('dataflow_profile'), 'profile_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Dataflow Profile History');
@@ -186,10 +186,10 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addIndex($installer->getIdxName('dataflow/batch', array('created_at')),
         array('created_at'))
-    ->addForeignKey($installer->getFkName('dataflow/batch', 'profile_id', 'dataflow/profile', 'profile_id'),
+    ->addForeignKey($installer->getFkName('dataflow_batch', 'profile_id', 'dataflow/profile', 'profile_id'),
         'profile_id', $installer->getTable('dataflow_profile'), 'profile_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
-    ->addForeignKey($installer->getFkName('dataflow/batch', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('dataflow_batch', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Dataflow Batch');
@@ -220,7 +220,7 @@ $table = $installer->getConnection()
         ), 'Status')
     ->addIndex($installer->getIdxName('dataflow/batch_export', array('batch_id')),
         array('batch_id'))
-    ->addForeignKey($installer->getFkName('dataflow/batch_export', 'batch_id', 'dataflow/batch', 'batch_id'),
+    ->addForeignKey($installer->getFkName('dataflow_batch_export', 'batch_id', 'dataflow/batch', 'batch_id'),
         'batch_id', $installer->getTable('dataflow_batch'), 'batch_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Dataflow Batch Export');
@@ -251,7 +251,7 @@ $table = $installer->getConnection()
         ), 'Status')
     ->addIndex($installer->getIdxName('dataflow/batch_import', array('batch_id')),
         array('batch_id'))
-    ->addForeignKey($installer->getFkName('dataflow/batch_import', 'batch_id', 'dataflow/batch', 'batch_id'),
+    ->addForeignKey($installer->getFkName('dataflow_batch_import', 'batch_id', 'dataflow/batch', 'batch_id'),
         'batch_id', $installer->getTable('dataflow_batch'), 'batch_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Dataflow Batch Import');

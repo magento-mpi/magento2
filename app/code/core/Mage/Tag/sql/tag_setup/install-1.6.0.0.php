@@ -52,10 +52,10 @@ $table = $installer->getConnection()
     ->addColumn('first_store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'First Store Id')
-    ->addForeignKey($installer->getFkName('tag/tag', 'first_customer_id', 'customer/entity', 'entity_id'),
+    ->addForeignKey($installer->getFkName('tag', 'first_customer_id', 'customer/entity', 'entity_id'),
         'first_customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
-    ->addForeignKey($installer->getFkName('tag/tag', 'first_store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('tag', 'first_store_id', 'core/store', 'store_id'),
         'first_store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Tag');
@@ -107,16 +107,16 @@ $table = $installer->getConnection()
         array('customer_id'))
     ->addIndex($installer->getIdxName('tag/relation', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('tag/relation', 'customer_id', 'customer/entity', 'entity_id'),
+    ->addForeignKey($installer->getFkName('tag_relation', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('tag/relation', 'product_id', 'catalog/product', 'entity_id'),
+    ->addForeignKey($installer->getFkName('tag_relation', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('tag/relation', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('tag_relation', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('tag/relation', 'tag_id', 'tag/tag', 'tag_id'),
+    ->addForeignKey($installer->getFkName('tag_relation', 'tag_id', 'tag/tag', 'tag_id'),
         'tag_id', $installer->getTable('tag'), 'tag_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Tag Relation');
@@ -173,10 +173,10 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addIndex($installer->getIdxName('tag/summary', array('tag_id')),
         array('tag_id'))
-    ->addForeignKey($installer->getFkName('tag/summary', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('tag_summary', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('tag/summary', 'tag_id', 'tag/tag', 'tag_id'),
+    ->addForeignKey($installer->getFkName('tag_summary', 'tag_id', 'tag/tag', 'tag_id'),
         'tag_id', $installer->getTable('tag'), 'tag_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Tag Summary');
@@ -206,10 +206,10 @@ $table = $installer->getConnection()
         ), 'Base Popularity')
     ->addIndex($installer->getIdxName('tag/properties', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('tag/properties', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('tag_properties', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('tag/properties', 'tag_id', 'tag/tag', 'tag_id'),
+    ->addForeignKey($installer->getFkName('tag_properties', 'tag_id', 'tag/tag', 'tag_id'),
         'tag_id', $installer->getTable('tag'), 'tag_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Tag Properties');

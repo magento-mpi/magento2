@@ -67,7 +67,7 @@ $table = $installer->getConnection()
         array('user_id'))
     ->addIndex($installer->getIdxName('enterprise_logging/event', array('user')),
         array('user'))
-    ->addForeignKey($installer->getFkName('enterprise_logging/event', 'user_id', 'admin/user', 'user_id'),
+    ->addForeignKey($installer->getFkName('enterprise_logging_event', 'user_id', 'admin/user', 'user_id'),
         'user_id', $installer->getTable('admin_user'), 'user_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Logging Event');
@@ -95,7 +95,7 @@ $table = $installer->getConnection()
         ), 'Logged Result Data')
     ->addIndex($installer->getIdxName('enterprise_logging/event_changes', array('event_id')),
         array('event_id'))
-    ->addForeignKey($installer->getFkName('enterprise_logging/event_changes', 'event_id', 'enterprise_logging/event', 'log_id'),
+    ->addForeignKey($installer->getFkName('enterprise_logging_event_changes', 'event_id', 'enterprise_logging/event', 'log_id'),
         'event_id', $installer->getTable('enterprise_logging_event'), 'log_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Logging Event Changes');

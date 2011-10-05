@@ -149,10 +149,10 @@ $table = $installer->getConnection()
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('eav/entity', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('eav/entity', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
+    ->addForeignKey($installer->getFkName('eav_entity', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('eav/entity', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('eav_entity', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Entity');
@@ -643,7 +643,7 @@ $table = $installer->getConnection()
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('eav/attribute', array('entity_type_id')),
         array('entity_type_id'))
-    ->addForeignKey($installer->getFkName('eav/attribute', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
+    ->addForeignKey($installer->getFkName('eav_attribute', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Attribute');
@@ -680,10 +680,10 @@ $table = $installer->getConnection()
         array('entity_type_id'))
     ->addIndex($installer->getIdxName('eav/entity_store', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('eav/entity_store', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
+    ->addForeignKey($installer->getFkName('eav_entity_store', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('eav/entity_store', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('eav_entity_store', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Entity Store');
@@ -723,7 +723,7 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('eav/attribute_set', array('entity_type_id', 'sort_order')),
         array('entity_type_id', 'sort_order'))
-    ->addForeignKey($installer->getFkName('eav/attribute_set', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
+    ->addForeignKey($installer->getFkName('eav_attribute_set', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Attribute Set');
@@ -834,7 +834,7 @@ $table = $installer->getConnection()
         array('attribute_set_id', 'sort_order'))
     ->addIndex($installer->getIdxName('eav/entity_attribute', array('attribute_id')),
         array('attribute_id'))
-    ->addForeignKey($installer->getFkName('eav/entity_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
+    ->addForeignKey($installer->getFkName('eav_entity_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
@@ -872,7 +872,7 @@ $table = $installer->getConnection()
         ), 'Sort Order')
     ->addIndex($installer->getIdxName('eav/attribute_option', array('attribute_id')),
         array('attribute_id'))
-    ->addForeignKey($installer->getFkName('eav/attribute_option', 'attribute_id', 'eav/attribute', 'attribute_id'),
+    ->addForeignKey($installer->getFkName('eav_attribute_option', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Attribute Option');
@@ -908,11 +908,11 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('eav/attribute_option_value', array('store_id')),
         array('store_id'))
     ->addForeignKey(
-        $installer->getFkName('eav/attribute_option_value', 'option_id', 'eav/attribute_option', 'option_id'),
+        $installer->getFkName('eav_attribute_option_value', 'option_id', 'eav/attribute_option', 'option_id'),
         'option_id', $installer->getTable('eav_attribute_option'), 'option_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('eav/attribute_option_value', 'store_id', 'core/store', 'store_id'),
+        $installer->getFkName('eav_attribute_option_value', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Attribute Option Value');
@@ -949,10 +949,10 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addIndex($installer->getIdxName('eav/attribute_label', array('attribute_id', 'store_id')),
         array('attribute_id', 'store_id'))
-    ->addForeignKey($installer->getFkName('eav/attribute_label', 'attribute_id', 'eav/attribute', 'attribute_id'),
+    ->addForeignKey($installer->getFkName('eav_attribute_label', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('eav/attribute_label', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('eav_attribute_label', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Attribute Label');
@@ -996,7 +996,7 @@ $table = $installer->getConnection()
         array('code', 'theme', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('eav/form_type', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('eav/form_type', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('eav_form_type', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Form Type');
@@ -1028,7 +1028,7 @@ $table = $installer->getConnection()
         ),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('eav/form_type_entity', 'type_id', 'eav/form_type', 'type_id'),
+    ->addForeignKey($installer->getFkName('eav_form_type_entity', 'type_id', 'eav/form_type', 'type_id'),
         'type_id', $installer->getTable('eav_form_type'), 'type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Form Type Entity');
@@ -1065,7 +1065,7 @@ $table = $installer->getConnection()
         array('type_id', 'code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('eav/form_fieldset', array('type_id')),
         array('type_id'))
-    ->addForeignKey($installer->getFkName('eav/form_fieldset', 'type_id', 'eav/form_type', 'type_id'),
+    ->addForeignKey($installer->getFkName('eav_form_fieldset', 'type_id', 'eav/form_type', 'type_id'),
         'type_id', $installer->getTable('eav_form_type'), 'type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Form Fieldset');
@@ -1094,11 +1094,11 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('eav/form_fieldset_label', array('store_id')),
         array('store_id'))
     ->addForeignKey(
-        $installer->getFkName('eav/form_fieldset_label', 'fieldset_id', 'eav/form_fieldset', 'fieldset_id'),
+        $installer->getFkName('eav_form_fieldset_label', 'fieldset_id', 'eav/form_fieldset', 'fieldset_id'),
         'fieldset_id', $installer->getTable('eav_form_fieldset'), 'fieldset_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('eav/form_fieldset_label', 'store_id', 'core/store', 'store_id'),
+        $installer->getFkName('eav_form_fieldset_label', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Form Fieldset Label');
@@ -1143,13 +1143,13 @@ $table = $installer->getConnection()
         array('fieldset_id'))
     ->addIndex($installer->getIdxName('eav/form_element', array('attribute_id')),
         array('attribute_id'))
-    ->addForeignKey($installer->getFkName('eav/form_element', 'attribute_id', 'eav/attribute', 'attribute_id'),
+    ->addForeignKey($installer->getFkName('eav_form_element', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('eav/form_element', 'fieldset_id', 'eav/form_fieldset', 'fieldset_id'),
+    ->addForeignKey($installer->getFkName('eav_form_element', 'fieldset_id', 'eav/form_fieldset', 'fieldset_id'),
         'fieldset_id', $installer->getTable('eav_form_fieldset'), 'fieldset_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('eav/form_element', 'type_id', 'eav/form_type', 'type_id'),
+    ->addForeignKey($installer->getFkName('eav_form_element', 'type_id', 'eav/form_type', 'type_id'),
         'type_id', $installer->getTable('eav_form_type'), 'type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Eav Form Element');
