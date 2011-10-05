@@ -56,6 +56,6 @@ class Mage_Sales_Model_Resource_Order_Shipment_Grid_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->setMainTable('sales/shipment_grid');
+        $this->setMainTable('sales_flat_shipment_grid');
     }
 }

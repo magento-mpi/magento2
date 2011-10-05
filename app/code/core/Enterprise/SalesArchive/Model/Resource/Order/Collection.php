@@ -41,7 +41,7 @@ class Enterprise_SalesArchive_Model_Resource_Order_Collection extends Mage_Sales
     protected function _construct()
     {
         parent::_construct();
-        $this->setMainTable('enterprise_salesarchive/order_grid');
+        $this->setMainTable('enterprise_sales_order_grid_archive');
     }
 
     /**

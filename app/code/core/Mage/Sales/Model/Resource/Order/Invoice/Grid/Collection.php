@@ -55,6 +55,6 @@ class Mage_Sales_Model_Resource_Order_Invoice_Grid_Collection extends Mage_Sales
     protected function _construct()
     {
         parent::_construct();
-        $this->setMainTable('sales/invoice_grid');
+        $this->setMainTable('sales_flat_invoice_grid');
     }
 }
