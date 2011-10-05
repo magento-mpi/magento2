@@ -38,7 +38,7 @@ $table = $installer->getConnection()
         'primary'   => true,
         'default'   => '0',
         ), 'Entity Id')
-    ->addForeignKey($installer->getFkName('enterprise_customer_sales_flat_order', 'entity_id', 'sales/order', 'entity_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customer_sales_flat_order', 'entity_id', 'sales_flat_order', 'entity_id'),
         'entity_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Customer Sales Flat Order');
@@ -55,7 +55,7 @@ $table = $installer->getConnection()
         'primary'   => true,
         'default'   => '0',
         ), 'Entity Id')
-    ->addForeignKey($installer->getFkName('enterprise_customer_sales_flat_order_address', 'entity_id', 'sales/order_address', 'entity_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customer_sales_flat_order_address', 'entity_id', 'sales_flat_order_address', 'entity_id'),
         'entity_id', $installer->getTable('sales_flat_order_address'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Customer Sales Flat Order Address');
@@ -72,7 +72,7 @@ $table = $installer->getConnection()
         'primary'   => true,
         'default'   => '0',
         ), 'Entity Id')
-    ->addForeignKey($installer->getFkName('enterprise_customer_sales_flat_quote', 'entity_id', 'sales/quote', 'entity_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customer_sales_flat_quote', 'entity_id', 'sales_flat_quote', 'entity_id'),
         'entity_id', $installer->getTable('sales_flat_quote'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Customer Sales Flat Quote');
@@ -89,7 +89,7 @@ $table = $installer->getConnection()
         'primary'   => true,
         'default'   => '0',
         ), 'Entity Id')
-    ->addForeignKey($installer->getFkName('enterprise_customer_sales_flat_quote_address', 'entity_id', 'sales/quote_address', 'address_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customer_sales_flat_quote_address', 'entity_id', 'sales_flat_quote_address', 'address_id'),
         'entity_id', $installer->getTable('sales_flat_quote_address'), 'address_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Customer Sales Flat Quote Address');

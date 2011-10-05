@@ -60,7 +60,7 @@ $table = $installer->getConnection()
         ), 'Target country')
     ->addIndex($installer->getIdxName('googlebase_types', array('attribute_set_id')),
         array('attribute_set_id'))
-    ->addForeignKey($installer->getFkName('googlebase_types', 'attribute_set_id', 'eav/attribute_set', 'attribute_set_id'),
+    ->addForeignKey($installer->getFkName('googlebase_types', 'attribute_set_id', 'eav_attribute_set', 'attribute_set_id'),
         'attribute_set_id', $installer->getTable('eav_attribute_set'), 'attribute_set_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Google Base Item Types link Attribute Sets');
@@ -122,10 +122,10 @@ $table = $installer->getConnection()
         array('product_id'))
     ->addIndex($installer->getIdxName('googlebase_items', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('googlebase_items', 'product_id', 'catalog/product', 'entity_id'),
+    ->addForeignKey($installer->getFkName('googlebase_items', 'product_id', 'catalog_product_entity', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
-    ->addForeignKey($installer->getFkName('googlebase_items', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('googlebase_items', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Google Base Items Products');
@@ -156,10 +156,10 @@ $table = $installer->getConnection()
         array('attribute_id'))
     ->addIndex($installer->getIdxName('googlebase_attributes', array('type_id')),
         array('type_id'))
-    ->addForeignKey($installer->getFkName('googlebase_attributes', 'attribute_id', 'eav/attribute', 'attribute_id'),
+    ->addForeignKey($installer->getFkName('googlebase_attributes', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
-    ->addForeignKey($installer->getFkName('googlebase_attributes', 'type_id', 'googlebase/types', 'type_id'),
+    ->addForeignKey($installer->getFkName('googlebase_attributes', 'type_id', 'googlebase_types', 'type_id'),
         'type_id', $installer->getTable('googlebase_types'), 'type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Google Base Attributes link Product Attributes');

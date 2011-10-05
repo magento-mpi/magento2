@@ -112,10 +112,10 @@ $table = $installer->getConnection()
         ), 'Status')
     ->addIndex($installer->getIdxName('index_process_event', array('event_id')),
         array('event_id'))
-    ->addForeignKey($installer->getFkName('index_process_event', 'event_id', 'index/event', 'event_id'),
+    ->addForeignKey($installer->getFkName('index_process_event', 'event_id', 'index_event', 'event_id'),
         'event_id', $installer->getTable('index_event'), 'event_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('index_process_event', 'process_id', 'index/process', 'process_id'),
+    ->addForeignKey($installer->getFkName('index_process_event', 'process_id', 'index_process', 'process_id'),
         'process_id', $installer->getTable('index_process'), 'process_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Index Process Event');

@@ -169,7 +169,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('cataloginventory_stock_item', array('stock_id')),
         array('stock_id')
     )
-    ->addForeignKey($installer->getFkName('cataloginventory_stock_item', 'product_id', 'catalog/product', 'entity_id'),
+    ->addForeignKey($installer->getFkName('cataloginventory_stock_item', 'product_id', 'catalog_product_entity', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )
@@ -231,7 +231,7 @@ $table = $installer->getConnection()
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )
-    ->addForeignKey($installer->getFkName('cataloginventory_stock_status', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('cataloginventory_stock_status', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )

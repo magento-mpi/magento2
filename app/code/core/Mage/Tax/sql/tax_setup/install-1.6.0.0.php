@@ -145,16 +145,16 @@ $table = $installer->getConnection()
         array('product_tax_class_id'))
     ->addIndex($installer->getIdxName('tax_calculation', array('tax_calculation_rate_id', 'customer_tax_class_id', 'product_tax_class_id')),
         array('tax_calculation_rate_id', 'customer_tax_class_id', 'product_tax_class_id'))
-    ->addForeignKey($installer->getFkName('tax_calculation', 'product_tax_class_id', 'tax/tax_class', 'class_id'),
+    ->addForeignKey($installer->getFkName('tax_calculation', 'product_tax_class_id', 'tax_class', 'class_id'),
         'product_tax_class_id', $installer->getTable('tax_class'), 'class_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('tax_calculation', 'customer_tax_class_id', 'tax/tax_class', 'class_id'),
+    ->addForeignKey($installer->getFkName('tax_calculation', 'customer_tax_class_id', 'tax_class', 'class_id'),
         'customer_tax_class_id', $installer->getTable('tax_class'), 'class_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('tax_calculation', 'tax_calculation_rate_id', 'tax/tax_calculation_rate', 'tax_calculation_rate_id'),
+    ->addForeignKey($installer->getFkName('tax_calculation', 'tax_calculation_rate_id', 'tax_calculation_rate', 'tax_calculation_rate_id'),
         'tax_calculation_rate_id', $installer->getTable('tax_calculation_rate'), 'tax_calculation_rate_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('tax_calculation', 'tax_calculation_rule_id', 'tax/tax_calculation_rule', 'tax_calculation_rule_id'),
+    ->addForeignKey($installer->getFkName('tax_calculation', 'tax_calculation_rule_id', 'tax_calculation_rule', 'tax_calculation_rule_id'),
         'tax_calculation_rule_id', $installer->getTable('tax_calculation_rule'), 'tax_calculation_rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Tax Calculation');
@@ -186,10 +186,10 @@ $table = $installer->getConnection()
         array('tax_calculation_rate_id'))
     ->addIndex($installer->getIdxName('tax_calculation_rate_title', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('tax_calculation_rate_title', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('tax_calculation_rate_title', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('tax_calculation_rate_title', 'tax_calculation_rate_id', 'tax/tax_calculation_rate', 'tax_calculation_rate_id'),
+    ->addForeignKey($installer->getFkName('tax_calculation_rate_title', 'tax_calculation_rate_id', 'tax_calculation_rate', 'tax_calculation_rate_id'),
         'tax_calculation_rate_id', $installer->getTable('tax_calculation_rate'), 'tax_calculation_rate_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Tax Calculation Rate Title');
@@ -231,7 +231,7 @@ $table = $installer->getConnection()
         array('period', 'store_id', 'code', 'percent', 'order_status'), array('type' => 'unique'))
     ->addIndex($installer->getIdxName('tax_order_aggregated_created', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('tax_order_aggregated_created', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('tax_order_aggregated_created', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Tax Order Aggregation');

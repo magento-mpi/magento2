@@ -60,14 +60,14 @@ $table = $installer->getConnection()
     ))
     ->addIndex($installer->getIdxName('persistent_session', array('updated_at')), array('updated_at'))
     ->addForeignKey(
-        $installer->getFkName('persistent_session', 'customer_id', 'customer/entity', 'entity_id'),
+        $installer->getFkName('persistent_session', 'customer_id', 'customer_entity', 'entity_id'),
         'customer_id',
         $installer->getTable('customer_entity'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE
     )
     ->addForeignKey(
-        $installer->getFkName('persistent_session', 'website_id', 'core/website', 'website_id'),
+        $installer->getFkName('persistent_session', 'website_id', 'core_website', 'website_id'),
         'website_id',
         $installer->getTable('core_website'),
         'website_id',

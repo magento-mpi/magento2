@@ -131,7 +131,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('directory_country_region_name', array('region_id')),
         array('region_id'))
     ->addForeignKey(
-        $installer->getFkName('directory_country_region_name', 'region_id', 'directory/country_region', 'region_id'),
+        $installer->getFkName('directory_country_region_name', 'region_id', 'directory_country_region', 'region_id'),
         'region_id', $installer->getTable('directory_country_region'), 'region_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Directory Country Region Name');

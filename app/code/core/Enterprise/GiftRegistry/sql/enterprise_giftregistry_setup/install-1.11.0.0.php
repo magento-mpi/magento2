@@ -87,7 +87,7 @@ $table = $installer->getConnection()
         ),
         'type_id', $installer->getTable('enterprise_giftregistry_type'), 'type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_giftregistry_type_info', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('enterprise_giftregistry_type_info', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Info Table');
@@ -133,7 +133,7 @@ $table = $installer->getConnection()
         ),
         'type_id', $installer->getTable('enterprise_giftregistry_type'), 'type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_giftregistry_label', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('enterprise_giftregistry_label', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Label Table');

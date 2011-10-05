@@ -67,13 +67,13 @@ $table = $installer->getConnection()
         array('website_id'))
     ->addIndex($installer->getIdxName('enterprise_giftcard_amount', array('attribute_id')),
         array('attribute_id'))
-    ->addForeignKey($installer->getFkName('enterprise_giftcard_amount', 'entity_id', 'catalog/product', 'entity_id'),
+    ->addForeignKey($installer->getFkName('enterprise_giftcard_amount', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_giftcard_amount', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('enterprise_giftcard_amount', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_giftcard_amount', 'attribute_id', 'eav/attribute', 'attribute_id'),
+    ->addForeignKey($installer->getFkName('enterprise_giftcard_amount', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Giftcard Amount');

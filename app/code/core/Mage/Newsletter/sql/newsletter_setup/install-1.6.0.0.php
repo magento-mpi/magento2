@@ -74,7 +74,7 @@ $table = $installer->getConnection()
         array('customer_id'))
     ->addIndex($installer->getIdxName('newsletter_subscriber', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('newsletter_subscriber', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('newsletter_subscriber', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Newsletter Subscriber');
@@ -164,7 +164,7 @@ $table = $installer->getConnection()
         ), 'Queue Finish At')
     ->addIndex($installer->getIdxName('newsletter_queue', array('template_id')),
         array('template_id'))
-    ->addForeignKey($installer->getFkName('newsletter_queue', 'template_id', 'newsletter/template', 'template_id'),
+    ->addForeignKey($installer->getFkName('newsletter_queue', 'template_id', 'newsletter_template', 'template_id'),
         'template_id', $installer->getTable('newsletter_template'), 'template_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Newsletter Queue');
@@ -199,11 +199,11 @@ $table = $installer->getConnection()
         array('queue_id'))
     ->addIndex($installer->getIdxName('newsletter_queue_link', array('queue_id', 'letter_sent_at')),
         array('queue_id', 'letter_sent_at'))
-    ->addForeignKey($installer->getFkName('newsletter_queue_link', 'queue_id', 'newsletter/queue', 'queue_id'),
+    ->addForeignKey($installer->getFkName('newsletter_queue_link', 'queue_id', 'newsletter_queue', 'queue_id'),
         'queue_id', $installer->getTable('newsletter_queue'), 'queue_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('newsletter_queue_link', 'subscriber_id', 'newsletter/subscriber', 'subscriber_id'),
+        $installer->getFkName('newsletter_queue_link', 'subscriber_id', 'newsletter_subscriber', 'subscriber_id'),
         'subscriber_id', $installer->getTable('newsletter_subscriber'), 'subscriber_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Newsletter Queue Link');
@@ -228,10 +228,10 @@ $table = $installer->getConnection()
         ), 'Store Id')
     ->addIndex($installer->getIdxName('newsletter_queue_store_link', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('newsletter_queue_store_link', 'queue_id', 'newsletter/queue', 'queue_id'),
+    ->addForeignKey($installer->getFkName('newsletter_queue_store_link', 'queue_id', 'newsletter_queue', 'queue_id'),
         'queue_id', $installer->getTable('newsletter_queue'), 'queue_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('newsletter_queue_store_link', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('newsletter_queue_store_link', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Newsletter Queue Store Link');
@@ -266,11 +266,11 @@ $table = $installer->getConnection()
         array('subscriber_id'))
     ->addIndex($installer->getIdxName('newsletter_problem', array('queue_id')),
         array('queue_id'))
-    ->addForeignKey($installer->getFkName('newsletter_problem', 'queue_id', 'newsletter/queue', 'queue_id'),
+    ->addForeignKey($installer->getFkName('newsletter_problem', 'queue_id', 'newsletter_queue', 'queue_id'),
         'queue_id', $installer->getTable('newsletter_queue'), 'queue_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('newsletter_problem', 'subscriber_id', 'newsletter/subscriber', 'subscriber_id'),
+        $installer->getFkName('newsletter_problem', 'subscriber_id', 'newsletter_subscriber', 'subscriber_id'),
         'subscriber_id', $installer->getTable('newsletter_subscriber'), 'subscriber_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Newsletter Problems');
