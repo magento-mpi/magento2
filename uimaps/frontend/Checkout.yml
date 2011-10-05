@@ -157,26 +157,8 @@ onepage_checkout:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-review']
                         pageelements:
                             table_head: //table[@id='checkout-review-table']/thead/tr[contains(@class,'first')]
+                            price_totals: //table[@id='checkout-review-table']/tfoot
                             product_line:  //table[@id='checkout-review-table']/tbody/tr
-                            #Total, grand total, shipping, tax elements
-                            total_subtotal_excluding_tax: //tr[normalize-space(td)='Subtotal (Excl. Tax)']/td[span='%price%']
-                            total_subtotal_including_tax: //tr[normalize-space(td)='Subtotal (Incl. Tax)']/td[span='%price%']
-                            total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span='%price%']
-                            total_shipping_excluding_tax: //tr[normalize-space(td)='Shipping Excl. Tax (Flat Rate - Fixed)']/td[span='%price%']
-                            total_shipping_including_tax: //tr[normalize-space(td)='Shipping Incl. Tax (Flat Rate - Fixed)']/td[span='%price%']
-                            total_grand_total_excluding_tax: //tr[normalize-space(td)='Grand Total Excl. Tax']/td[strong='%price%']
-                            total_grand_total_including_tax: //tr[normalize-space(td)='Grand Total Incl. Tax']/td[strong='%price%']
-                            total_grand_total: //tr[normalize-space(td)='Grand Total']/td[strong='%price%']
-                            total_tax: //tr[normalize-space(td)='Tax']/td[span='%price%']
-                            ex_t_total_subtotal_excluding_tax: //tr[normalize-space(td)='Subtotal (Excl. Tax)']/td[span]
-                            ex_t_total_subtotal_including_tax: //tr[normalize-space(td)='Subtotal (Incl. Tax)']/td[span]
-                            ex_t_total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span]
-                            ex_t_total_shipping_excluding_tax: //tr[normalize-space(td)='Shipping Excl. Tax (Flat Rate - Fixed)']/td[span]
-                            ex_t_total_shipping_including_tax: //tr[normalize-space(td)='Shipping Incl. Tax (Flat Rate - Fixed)']/td[span]
-                            ex_t_total_grand_total_excluding_tax: //tr[normalize-space(td)='Grand Total Excl. Tax']/td[strong]
-                            ex_t_total_grand_total_including_tax: //tr[normalize-space(td)='Grand Total Incl. Tax']/td[strong]
-                            ex_t_total_grand_total: //tr[normalize-space(td)='Grand Total']/td[strong]
-                            ex_t_total_tax: //tr[normalize-space(td)='Tax']/td[span]
                         fields:
                             product_name: //table[@id='checkout-review-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]/td[h3[contains(.,'%productName%')]]
                             product_price: //table[@id='checkout-review-table']/tbody/tr[./td/h3[contains(.,'%productName%')]]/td[2]/span[contains(.,'%price%')]

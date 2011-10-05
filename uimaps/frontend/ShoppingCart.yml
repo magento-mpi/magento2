@@ -40,6 +40,7 @@ shopping_cart:
                             update_shopping_cart: //button[span='Update Shopping Cart']
                         pageelements:
                             table_head: //table[@id='shopping-cart-table']/thead/tr[contains(@class,'first')]
+                            price_totals: //table[@id='shopping-cart-totals-table']
                             product_line:  //table[@id='shopping-cart-table']/tbody/tr
                 -
                     estimate_shipping:

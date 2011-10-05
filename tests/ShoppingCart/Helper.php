@@ -101,7 +101,7 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
      */
     public function frontGetOrderPriceDataInShoppingCard()
     {
-        $setXpath = "//*[@id='shopping-cart-totals-table']/descendant::tr";
+        $setXpath = $this->_getControlXpath('pageelement', 'price_totals') . '/descendant::tr';
         $count = $this->getXpathCount($setXpath);
         $returnData = array();
         for ($i = $count; $i >= 1; $i--) {

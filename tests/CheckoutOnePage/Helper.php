@@ -36,11 +36,6 @@
  */
 class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
 {
-    const QTY = 'Qty';
-    const PRICE = 'Price';
-    const SUBTOTAL = 'Subtotal';
-    const EXCLTAX = '(Excl. Tax)';
-    const INCLTAX = '(Incl. Tax)';
 
     /**
      * Create checkout
@@ -514,92 +509,14 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Get all Products info in checkout order review
-     *
-     * @return array
-     */
-    public function frontGetProductInfoInOrderReview()
-    {
-        $xpath = $this->_getControlXpath('pageelement', 'table_head') . '/th';
-        $productLine = $this->_getControlXpath('pageelement', 'product_line');
-
-        $tableRowNames = $productValues = $returnData = array();
-
-        $rowCount = $this->getXpathCount($xpath);
-        for ($i = 1; $i <= $rowCount; $i++) {
-            $text = trim($this->getText($xpath . "[$i]"));
-            if ($text == self::PRICE) {
-                if ($this->getAttribute($xpath . "[$i]/@colspan") == 2) {
-                    $tableRowNames[$text . self::EXCLTAX] = $i;
-                    $tableRowNames[$text . self::INCLTAX] = $i + 1;
-                } else {
-                    $tableRowNames[$text] = $i;
-                }
-            } elseif ($text == self::SUBTOTAL) {
-                if ($this->getAttribute($xpath . "[$i]/@colspan") == 2) {
-                    $tableRowNames[$text . self::EXCLTAX] = $i + 1;
-                    $tableRowNames[$text . self::INCLTAX] = $i + 2;
-                } else {
-                    $tableRowNames[$text] = $i;
-                }
-            } else {
-                $tableRowNames[$text] = $i;
-            }
-        }
-        if (array_key_exists(self::PRICE . self::EXCLTAX, $tableRowNames) && array_key_exists(self::QTY,
-                        $tableRowNames)) {
-            $tableRowNames[self::QTY] = $tableRowNames[self::QTY] + 1;
-        }
-        $productCount = $this->getXpathCount($productLine);
-        for ($i = 1; $i <= $productCount; $i++) {
-            foreach ($tableRowNames as $key => $value) {
-                if ($key != '') {
-                    $productValues[$i - 1][$key] = $this->getText($productLine . "[$i]/td[$value]");
-                }
-            }
-        }
-        foreach ($productValues as $key => &$productData) {
-            $productData = array_diff($productData, array(''));
-            foreach ($productData as $field_key => $field_value) {
-                $field_key = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $field_key)), '_');
-                $returnData[$key][$field_key] = $field_value;
-            }
-        }
-        return $returnData;
-    }
-
-    /**
-     * Verify checkout info
+     * Verify checkout prices info
      *
      * @param string|array $productData
      * @param string|array $orderPriceData
      */
     public function frontVerifyCheckoutData($productData, $orderPriceData)
     {
-        if (is_string($productData)) {
-            $productData = $this->loadData($productData);
-        }
-        if (is_string($orderPriceData)) {
-            $orderPriceData = $this->loadData($orderPriceData);
-        }
-        //Get Products data and order prices data
-        $actualProductData = $this->frontGetProductInfoInOrderReview();
-        $this->myAccountHelper()->frontVerifyTotalPricesInOrder($orderPriceData);
-        //Verify Products data
-        $actualProductQty = count($actualProductData);
-        $expectedProductQty = count($productData);
-        if ($actualProductQty != $expectedProductQty) {
-            $this->messages['error'][] = "'" . $actualProductQty . "' product(s) added to order but must be '"
-                    . $expectedProductQty . "'";
-        } else {
-            for ($i = 0; $i < $actualProductQty; $i++) {
-                $this->ShoppingCartHelper()->
-                        compareArrays($actualProductData[$i], $productData[$i], $productData[$i]['product_name']);
-            }
-        }
-        //Verify order prices data
-        if (!empty($this->messages['error'])) {
-            $this->fail(implode("\n", $this->messages['error']));
-        }
+        $this->shoppingCartHelper()->frontVerifyShoppingCartData($productData, $orderPriceData);
     }
+
 }
