@@ -340,8 +340,8 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
                         array('attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order')
                     )
                     ->joinLeft(
-                        array('group' => $this->getTable('eav/attribute_group')),
-                        'entity.attribute_group_id = group.attribute_group_id',
+                        array('attribute_group' => $this->getTable('eav/attribute_group')),
+                        'entity.attribute_group_id = attribute_group.attribute_group_id',
                         array('group_sort_order' => 'sort_order')
                     )
                     ->where('attribute_id IN (?)', $attributeIds);

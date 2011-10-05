@@ -25,7 +25,7 @@
  */
 
 /**
- * GoogleBase install
+ * GoogleShopping install
  *
  * @category    Mage
  * @package     Mage_GoogleShopping
@@ -49,7 +49,7 @@ $table = $connection->newTable($this->getTable('googleshopping/types'))
         'unsigned' => true,
         'nullable' => false
         ), 'Attribute Set Id')
-    ->addColumn('target_country', Varien_Db_Ddl_Table::TYPE_CHAR, 2, array(
+    ->addColumn('target_country', Varien_Db_Ddl_Table::TYPE_TEXT, 2, array(
         'nullable' => false,
         'default' => 'US'
         ), 'Target country')
@@ -98,14 +98,8 @@ $table = $connection->newTable($this->getTable('googleshopping/items'))
         'nullable' => false,
         'unsigned' => true
         ), 'Store Id')
-    ->addColumn('published', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(
-        'nullable'  => false,
-        'default' => $installer->getConnection()->getSuggestedZeroDate()
-        ), 'Published date')
-    ->addColumn('expires', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(
-        'nullable'  => false,
-        'default' => $installer->getConnection()->getSuggestedZeroDate()
-        ), 'Expires date')
+    ->addColumn('published', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(), 'Published date')
+    ->addColumn('expires', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(), 'Expires date')
     ->addForeignKey(
         $installer->getFkName(
             'googleshopping/items',

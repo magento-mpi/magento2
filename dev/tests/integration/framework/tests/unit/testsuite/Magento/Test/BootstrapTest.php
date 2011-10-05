@@ -105,18 +105,15 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @expectedException Exception
      */
-    public function testGetSetInstance()
+    public function testGetInstance()
     {
-        $exceptionOccurred = false;
-        try {
-            Magento_Test_Bootstrap::getInstance();
-        } catch (Exception $e) {
-            $exceptionOccurred = true;
-        }
-        $this->assertTrue($exceptionOccurred, 'Expected occurrence of exception.');
+        Magento_Test_Bootstrap::getInstance();
+    }
 
+    public function testSetGetInstance()
+    {
         Magento_Test_Bootstrap::setInstance($this->_bootstrap);
         $this->assertSame($this->_bootstrap, Magento_Test_Bootstrap::getInstance());
     }

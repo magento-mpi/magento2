@@ -98,11 +98,8 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
      *
      * @var array
      */
-    protected $_imageIds = array('icon',
-        'ipad_loader_portrait_image',
-        'ipad_loader_landscape_image',
-        'ipad_logo',
-        'big_logo'
+    protected $_imageIds = array(
+        'icon', 'ipad_loader_portrait_image', 'ipad_loader_landscape_image', 'ipad_logo', 'big_logo'
     );
 
     /**
@@ -693,7 +690,7 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
      *
      * @throws Mage_Core_Exception
      * @param array $data
-     * @return void
+     * @return null
      */
     public function checkRequiredConfigFields($data)
     {
@@ -701,23 +698,17 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
             return;
         }
 
-        if (isset($data['navigationBar']['icon'])
-            && empty($data['navigationBar']['icon'])
-        ) {
+        if (isset($data['navigationBar']['icon']) && empty($data['navigationBar']['icon'])) {
             Mage::throwException(
                 Mage::helper('xmlconnect')->__('Logo in Header image missing.')
             );
         }
-        if (isset($data['body']['bannerIpadImage'])
-            && empty($data['body']['bannerIpadImage'])
-        ) {
+        if (isset($data['body']['bannerIpadImage']) && empty($data['body']['bannerIpadImage'])) {
             Mage::throwException(
                 Mage::helper('xmlconnect')->__('Banner on Home Screen (portrait mode) image missing.')
             );
         }
-        if (isset($data['body']['bannerIpadLandscapeImage'])
-            && empty($data['body']['bannerIpadLandscapeImage'])
-        ) {
+        if (isset($data['body']['bannerIpadLandscapeImage']) && empty($data['body']['bannerIpadLandscapeImage'])) {
             Mage::throwException(
                 Mage::helper('xmlconnect')->__('Banner on Home Screen (landscape mode) image missing.')
             );

@@ -68,7 +68,6 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
                 $itemXmlObj = $wishlistXmlObj->addChild('item');
 
                 $itemXmlObj->addChild('item_id', $item->getWishlistItemId());
-
                 $itemXmlObj->addChild('entity_id', $item->getProductId());
                 $itemXmlObj->addChild('entity_type_id', $item->getProduct()->getTypeId());
                 $itemXmlObj->addChild('name', $wishlistXmlObj->xmlentities($item->getName()));
@@ -97,8 +96,7 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
                 $itemXmlObj->addChild('added_date', $addedDate);
 
                 if ($this->getChild('product_price')) {
-                    $this->getChild('product_price')->setProduct($item->getProduct())
-                        ->setProductXmlObj($itemXmlObj)
+                    $this->getChild('product_price')->setProduct($item->getProduct())->setProductXmlObj($itemXmlObj)
                         ->collectProductPrices();
                 }
 

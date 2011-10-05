@@ -132,7 +132,7 @@ class Mage_Paypal_Model_Ipn
     {
             $sReq = '';
             foreach ($this->_request as $k => $v) {
-                $sReq .= '&'.$k.'='.urlencode(stripslashes($v));
+                $sReq .= '&'.$k.'='.urlencode($v);
             }
             $sReq .= "&cmd=_notify-validate";
             $sReq = substr($sReq, 1);

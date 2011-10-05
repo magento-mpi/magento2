@@ -127,9 +127,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Country
             $html .= PHP_EOL . '</tr>' . PHP_EOL;
         }
 
-        $html .= '</table>'
-            . PHP_EOL
-            . $this->getAfterElementHtml();
+        $html .= '</table>' . PHP_EOL . $this->getAfterElementHtml();
 
         return $html;
     }

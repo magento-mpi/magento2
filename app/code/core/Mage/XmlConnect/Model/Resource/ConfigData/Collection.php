@@ -58,8 +58,7 @@ class Mage_XmlConnect_Model_Resource_ConfigData_Collection
     public function addApplicationIdFilter($applicationId)
     {
         $this->_applicationFilter = true;
-        $this->getSelect()
-            ->where('application_id=?', $applicationId);
+        $this->getSelect()->where('application_id=?', $applicationId);
         return $this;
     }
 
@@ -73,11 +72,9 @@ class Mage_XmlConnect_Model_Resource_ConfigData_Collection
     public function addPathFilter($path, $like = true)
     {
         if ($like) {
-            $this->getSelect()
-                ->where('path like ?', $path . '/%');
+            $this->getSelect()->where('path like ?', $path . '/%');
         } else {
-            $this->getSelect()
-                ->where('path=?', $path);
+            $this->getSelect()->where('path=?', $path);
         }
         return $this;
     }

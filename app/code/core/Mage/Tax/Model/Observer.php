@@ -70,7 +70,31 @@ class Mage_Tax_Model_Observer
         $ratesIdQuoteItemId = array();
         foreach ($getTaxesForItems as $quoteItemId => $taxesArray) {
             foreach ($taxesArray as $rates) {
-                $ratesIdQuoteItemId[$rates['id']][] = $quoteItemId;
+                if (count($rates['rates']) == 1) {
+                    $ratesIdQuoteItemId[$rates['id']][] = array(
+                        'id'        => $quoteItemId,
+                        'percent'   => $rates['percent'],
+                        'code'      => $rates['rates'][0]['code']
+                    );
+                } else {
+                    $percentDelta   = $rates['percent'];
+                    $percentSum     = 0;
+                    foreach ($rates['rates'] as $rate) {
+                        $ratesIdQuoteItemId[$rates['id']][] = array(
+                            'id'        => $quoteItemId,
+                            'percent'   => $rate['percent'],
+                            'code'      => $rate['code']
+                        );
+                        $percentSum += $rate['percent'];
+                    }
+
+                    if ($percentDelta != $percentSum) {
+                        $delta = $percentDelta - $percentSum;
+                        foreach ($ratesIdQuoteItemId[$rates['id']] as &$rate) {
+                            $rate['percent'] = (($rate['percent'] / $percentSum) * $delta) + $rate['percent'];
+                        }
+                    }
+                }
             }
         }
 
@@ -100,21 +124,24 @@ class Mage_Tax_Model_Observer
                 );
 
                 $result = Mage::getModel('tax/sales_order_tax')->setData($data)->save();
+
                 if (isset($ratesIdQuoteItemId[$id])) {
                     foreach ($ratesIdQuoteItemId[$id] as $quoteItemId) {
-                        $item = $order->getItemByQuoteItemId($quoteItemId);
-                        if ($item) {
-                            $data = array(
-                                'item_id'   => $item->getId(),
-                                'tax_id'    => $result->getTaxId()
-                            );
-                            Mage::getModel('tax/sales_order_tax_item')->setData($data)->save();
+                        if ($quoteItemId['code'] == $tax['code']) {
+                            $item = $order->getItemByQuoteItemId($quoteItemId['id']);
+                            if ($item) {
+                                $data = array(
+                                    'item_id'       => $item->getId(),
+                                    'tax_id'        => $result->getTaxId(),
+                                    'tax_percent'   => $quoteItemId['percent']
+                                );
+                                Mage::getModel('tax/sales_order_tax_item')->setData($data)->save();
+                            }
                         }
                     }
                 }
             }
         }
-
 
         $order->setAppliedTaxIsSaved(true);
     }

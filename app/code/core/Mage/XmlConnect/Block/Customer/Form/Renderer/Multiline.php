@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Form_Renderer_Multiline
-    extends Enterprise_Customer_Block_Form_Renderer_Multiline
+class Mage_XmlConnect_Block_Customer_Form_Renderer_Multiline extends Enterprise_Customer_Block_Form_Renderer_Multiline
 {
     /**
      * Field type
@@ -61,9 +60,7 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_Multiline
             ->addTitleAndRequiredAttr($fieldsetXmlObj, $this);
 
         $fieldXmlObj = $fieldsetXmlObj->addField(
-            $this->_filedType . '_' . $this->getHtmlId(),
-            $this->_filedType,
-            $attributes
+            $this->_filedType . '_' . $this->getHtmlId(), $this->_filedType, $attributes
         );
 
         $validateRules = $this->getAttributeObject()->getValidateRules();
@@ -73,24 +70,16 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_Multiline
 
             if (!empty($validateRules['min_text_length'])) {
                 $minTextLength = (int) $validateRules['min_text_length'];
-                $validatorXmlObj->addRule(array (
-                    'type' => 'min_length',
-                    'value' => $minTextLength,
-                ));
+                $validatorXmlObj->addRule(array('type' => 'min_length', 'value' => $minTextLength));
             }
 
             if (!empty($validateRules['max_text_length'])) {
                 $maxTextLength = (int) $validateRules['max_text_length'];
-                $validatorXmlObj->addRule(array (
-                    'type' => 'max_length',
-                    'value' => $maxTextLength
-                ));
+                $validatorXmlObj->addRule(array('type' => 'max_length', 'value' => $maxTextLength));
             }
 
             if (!empty($validateRules['input_validation'])) {
-                $validatorXmlObj->addRule(array (
-                    'type' => $validateRules['input_validation']
-                ));
+                $validatorXmlObj->addRule(array('type' => $validateRules['input_validation']));
             }
         }
 
