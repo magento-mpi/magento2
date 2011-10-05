@@ -574,4 +574,113 @@ class Order_Helper extends Mage_Selenium_TestCase
         }
     }
 
+    /**
+     * Verifies the correctness of prices in the order
+     *
+     * @param array $verificationData
+     */
+    public function verifyPrices(array $verificationData)
+    {
+        foreach ($verificationData as $validate => $data) {
+            if (preg_match('/^product_/', $validate)) {
+                $this->verifyProductPrices($verificationData[$validate]);
+            } else {
+                $this->verifyTotalPrices($verificationData[$validate]);
+            }
+        }
+        if (!empty($this->messages['error'])) {
+            $this->fail(implode("\n", $this->messages['error']));
+        }
+    }
+
+    /**
+     * Verifies the prices in product row
+     *
+     * @param array $verificationData
+     */
+    public function verifyProductPrices(array $verificationData)
+    {
+        $page = $this->getCurrentLocationUimapPage();
+        $pageelements = get_object_vars($page->getAllPageelements());
+        $this->addParameter('productName', $verificationData['product_name']);
+        foreach ($verificationData['verification'] as $key => $value) {
+            $colIndex = $this->findColumnNumberByName($key);
+            $this->addParameter('price', $value);
+            $this->addParameter('colIndex', $colIndex);
+            $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
+            if (!$this->isElementPresent($xpathPrice)) {
+                $this->messages['error'][] = 'Could not find element ' . $key . ' with price (or qty) ' . $value;
+            }
+            unset($pageelements['ex_p_' . $key]);
+        }
+        foreach ($pageelements as $key => $value) {
+            if (preg_match('/^ex_p_/', $key)) {
+                $colIndex = $this->findColumnNumberByName($key);
+                $value = preg_replace('/\%productName\%/', $verificationData['product_name'], $value);
+                $value = preg_replace('/\%colIndex\%/', $colIndex, $value);
+                if ($this->isElementPresent($value)) {
+                    $this->messages['error'][] = 'Element ' . $key . ' is on the page';
+                }
+            }
+        }
+        return $this->messages['error'];
+    }
+
+    /**
+     * Verifies the prices in total row
+     *
+     * @param array $verificationData
+     */
+    public function verifyTotalPrices(array $verificationData)
+    {
+        $page = $this->getCurrentLocationUimapPage();
+        $pageelements = get_object_vars($page->getAllPageelements());
+        foreach ($verificationData as $key => $value) {
+            $this->addParameter('price', $value);
+            $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
+            if (!$this->isElementPresent($xpathPrice)) {
+                $this->messages['error'][] = 'Could not find element ' . $key . ' with price (or qty) ' . $value;
+            }
+            unset($pageelements['ex_t_' . $key]);
+        }
+        print_r($pageelements);
+        foreach ($pageelements as $key => $value) {
+            if (preg_match('/^ex_t_/', $key)) {
+                if ($this->isElementPresent($value)) {
+                    $this->messages['error'][] = 'Element ' . $key . ' is on the page';
+                }
+            }
+        }
+        return $this->messages['error'];
+    }
+
+    /**
+     * Find Column Number in table by Name
+     *
+     * @param type $columnName
+     * @return int
+     */
+    public function findColumnNumberByName($columnName)
+    {
+        if (preg_match('/price/', $columnName)) {
+            $columnName = 'Price';
+        } elseif (preg_match('/subtotal/', $columnName)) {
+            $columnName = 'Subtotal';
+        } elseif (preg_match('/row_subtotal/', $columnName)) {
+            $columnName = 'Row Subtotal';
+        } elseif (preg_match('/discount/', $columnName)) {
+            $columnName = 'Discount';
+        } elseif (preg_match('/qty/', $columnName)) {
+            $columnName = 'Qty';
+        }
+        $columnXpath = "//table[@class='data order-tables']//thead/tr/th";
+        $columnQty = $this->getXpathCount($columnXpath);
+        for ($i = 1; $i <= $columnQty; $i++) {
+            $text = $this->getText($columnXpath . "[$i]");
+            if ($text == $columnName) {
+                return $i + 1;
+            }
+        }
+        return 0;
+    }
 }
