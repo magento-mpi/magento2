@@ -97,7 +97,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $cachedDesign = Mage::app()->loadCache($cacheId);
         $cachedDesign = unserialize($cachedDesign);
 
-        $this->assertTrue(is_array($cachedDesign));
+        $this->assertArrayHasKey('design', $cachedDesign);
         $this->assertEquals($cachedDesign['design'], $design->getDesign());
 
         $design->setDesign('default/default/default')->save();
