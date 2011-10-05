@@ -38,7 +38,7 @@ class Enterprise_Staging_Model_Resource_Staging_Product_Unlinked extends Mage_Co
      */
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging_product_unlinked', 'product_id');
+        $this->_init('enterprise_staging_product_unlinked', 'product_id');
     }
 
     /**

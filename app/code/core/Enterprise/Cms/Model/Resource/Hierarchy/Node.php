@@ -82,7 +82,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/hierarchy_node', 'node_id');
+        $this->_init('enterprise_cms_hierarchy_node', 'node_id');
         $this->_metadataTable = $this->getTable('enterprise_cms_hierarchy_metadata');
     }
 

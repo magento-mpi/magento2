@@ -47,7 +47,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('eav/attribute', 'attribute_id');
+        $this->_init('eav_attribute', 'attribute_id');
     }
 
     /**

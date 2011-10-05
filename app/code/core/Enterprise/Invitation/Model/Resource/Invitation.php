@@ -40,7 +40,7 @@ class Enterprise_Invitation_Model_Resource_Invitation extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('enterprise_invitation/invitation', 'invitation_id');
+        $this->_init('enterprise_invitation', 'invitation_id');
     }
 
     /**

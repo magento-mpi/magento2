@@ -40,7 +40,7 @@ class Mage_Downloadable_Model_Resource_Link extends Mage_Core_Model_Resource_Db_
      */
     protected function _construct()
     {
-        $this->_init('downloadable/link', 'link_id');
+        $this->_init('downloadable_link', 'link_id');
     }
 
     /**

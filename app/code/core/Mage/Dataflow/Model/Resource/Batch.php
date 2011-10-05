@@ -40,6 +40,6 @@ class Mage_Dataflow_Model_Resource_Batch extends Mage_Core_Model_Resource_Db_Abs
      */
     protected function _construct()
     {
-        $this->_init('dataflow/batch', 'batch_id');
+        $this->_init('dataflow_batch', 'batch_id');
     }
 }

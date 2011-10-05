@@ -39,7 +39,7 @@ class Mage_Bundle_Model_Resource_Bundle extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('catalog/product', 'entity_id');
+        $this->_init('catalog_product_entity', 'entity_id');
     }
 
     /**

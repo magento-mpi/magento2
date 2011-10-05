@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Ma
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_super_attribute', 'product_super_attribute_id');
+        $this->_init('catalog_product_super_attribute', 'product_super_attribute_id');
         $this->_labelTable = $this->getTable('catalog_product_super_attribute_label');
         $this->_priceTable = $this->getTable('catalog_product_super_attribute_pricing');
     }

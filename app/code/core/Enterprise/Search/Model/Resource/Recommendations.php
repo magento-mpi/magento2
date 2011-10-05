@@ -44,7 +44,7 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('enterprise_search/recommendations', 'id');
+        $this->_init('catalogsearch_recommendations', 'id');
     }
 
     /**

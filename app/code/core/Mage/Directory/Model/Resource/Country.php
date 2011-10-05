@@ -40,7 +40,7 @@ class Mage_Directory_Model_Resource_Country extends Mage_Core_Model_Resource_Db_
      */
     protected function _construct()
     {
-        $this->_init('directory/country', 'country_id');
+        $this->_init('directory_country', 'country_id');
     }
 
     /**

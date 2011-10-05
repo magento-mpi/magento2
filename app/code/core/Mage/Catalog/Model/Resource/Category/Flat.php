@@ -103,7 +103,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('catalog/category_flat', 'entity_id');
+        $this->_init('catalog_category_flat', 'entity_id');
     }
 
     /**

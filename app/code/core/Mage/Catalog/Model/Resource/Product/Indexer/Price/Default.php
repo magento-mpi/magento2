@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_index_price', 'entity_id');
+        $this->_init('catalog_product_index_price', 'entity_id');
     }
 
     /**

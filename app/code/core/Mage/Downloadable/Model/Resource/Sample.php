@@ -40,7 +40,7 @@ class Mage_Downloadable_Model_Resource_Sample extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('downloadable/sample', 'sample_id');
+        $this->_init('downloadable_sample', 'sample_id');
     }
 
     /**

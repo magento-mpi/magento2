@@ -40,6 +40,6 @@ class Mage_XmlConnect_Model_Resource_Template extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/template', 'template_id');
+        $this->_init('xmlconnect_notification_template', 'template_id');
     }
 }

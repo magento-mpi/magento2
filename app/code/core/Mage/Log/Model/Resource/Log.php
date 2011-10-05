@@ -40,7 +40,7 @@ class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _construct()
     {
-        $this->_init('log/visitor', 'visitor_id');
+        $this->_init('log_visitor', 'visitor_id');
     }
 
     /**

@@ -81,7 +81,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
      */
     protected function _construct()
     {
-        $this->_init('enterprise_catalogpermissions/permission_index', 'category_id');
+        $this->_init('enterprise_catalogpermissions_index', 'category_id');
     }
 
     /**

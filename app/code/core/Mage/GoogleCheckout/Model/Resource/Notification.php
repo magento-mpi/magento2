@@ -41,7 +41,7 @@ class Mage_GoogleCheckout_Model_Resource_Notification extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('googlecheckout/notification', 'serial_number');
+        $this->_init('googlecheckout_notification', 'serial_number');
     }
 
     /**

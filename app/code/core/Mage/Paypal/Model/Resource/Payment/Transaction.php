@@ -48,7 +48,7 @@ class Mage_Paypal_Model_Resource_Payment_Transaction extends Mage_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('paypal/payment_transaction', 'transaction_id');
+        $this->_init('paypal_payment_transaction', 'transaction_id');
     }
 
     /**

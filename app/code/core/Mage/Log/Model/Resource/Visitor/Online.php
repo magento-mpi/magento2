@@ -40,7 +40,7 @@ class Mage_Log_Model_Resource_Visitor_Online extends Mage_Core_Model_Resource_Db
      */
     protected function _construct()
     {
-        $this->_init('log/visitor_online', 'visitor_id');
+        $this->_init('log_visitor_online', 'visitor_id');
     }
 
     /**

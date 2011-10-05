@@ -41,7 +41,7 @@ class Mage_GoogleBase_Model_Resource_Type extends Mage_Core_Model_Resource_Db_Ab
      */
     protected function _construct()
     {
-        $this->_init('googlebase/types', 'type_id');
+        $this->_init('googlebase_types', 'type_id');
     }
 
     /**

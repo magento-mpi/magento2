@@ -38,6 +38,6 @@ class Enterprise_Rma_Model_Resource_Rma_Status_History extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('enterprise_rma/rma_status_history', 'entity_id');
+        $this->_init('enterprise_rma_status_history', 'entity_id');
     }
 }

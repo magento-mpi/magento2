@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_option', 'option_id');
+        $this->_init('catalog_product_option', 'option_id');
     }
 
     /**

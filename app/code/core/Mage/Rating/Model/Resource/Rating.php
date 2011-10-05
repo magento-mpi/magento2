@@ -40,7 +40,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('rating/rating', 'rating_id');
+        $this->_init('rating', 'rating_id');
     }
 
     /**

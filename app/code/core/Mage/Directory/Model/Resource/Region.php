@@ -47,7 +47,7 @@ class Mage_Directory_Model_Resource_Region extends Mage_Core_Model_Resource_Db_A
      */
     protected function _construct()
     {
-        $this->_init('directory/country_region', 'region_id');
+        $this->_init('directory_country_region', 'region_id');
         $this->_regionNameTable = $this->getTable('directory_country_region_name');
     }
 

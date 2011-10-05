@@ -39,7 +39,7 @@ class Enterprise_Cms_Model_Resource_Page_Version extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/page_version', 'version_id');
+        $this->_init('enterprise_cms_page_version', 'version_id');
     }
 
     /**

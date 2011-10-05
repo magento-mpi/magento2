@@ -45,7 +45,7 @@ class Mage_ImportExport_Model_Resource_Import_Data
      */
     protected function _construct()
     {
-        $this->_init('importexport/importdata', 'id');
+        $this->_init('importexport_importdata', 'id');
     }
 
     /**

@@ -40,7 +40,7 @@ class Mage_Cron_Model_Resource_Schedule extends Mage_Core_Model_Resource_Db_Abst
      */
     public function _construct()
     {
-        $this->_init('cron/schedule', 'schedule_id');
+        $this->_init('cron_schedule', 'schedule_id');
     }
 
     /**

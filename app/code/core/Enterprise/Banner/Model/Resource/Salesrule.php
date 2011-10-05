@@ -40,6 +40,6 @@ class Enterprise_Banner_Model_Resource_Salesrule extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('enterprise_banner/salesrule', 'rule_id');
+        $this->_init('enterprise_banner_salesrule', 'rule_id');
     }
 }

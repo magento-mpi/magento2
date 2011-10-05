@@ -40,7 +40,7 @@ class Mage_Checkout_Model_Resource_Cart extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('sales/quote', 'entity_id');
+        $this->_init('sales_flat_quote', 'entity_id');
     }
 
     /**

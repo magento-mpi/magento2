@@ -40,7 +40,7 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
      */
     protected function _construct()
     {
-        $this->_init('tag/relation', 'tag_relation_id');
+        $this->_init('tag_relation', 'tag_relation_id');
     }
 
     /**

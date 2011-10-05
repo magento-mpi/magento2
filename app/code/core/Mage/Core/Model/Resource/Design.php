@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _construct()
     {
-        $this->_init('core/design_change', 'design_change_id');
+        $this->_init('design_change', 'design_change_id');
     }
 
     /**

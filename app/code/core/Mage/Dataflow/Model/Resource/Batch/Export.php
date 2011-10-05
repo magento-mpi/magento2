@@ -40,6 +40,6 @@ class Mage_Dataflow_Model_Resource_Batch_Export extends Mage_Dataflow_Model_Reso
      */
     protected function _construct()
     {
-        $this->_init('dataflow/batch_export', 'batch_export_id');
+        $this->_init('dataflow_batch_export', 'batch_export_id');
     }
 }

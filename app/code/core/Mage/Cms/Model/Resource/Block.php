@@ -40,7 +40,7 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _construct()
     {
-        $this->_init('cms/block', 'block_id');
+        $this->_init('cms_block', 'block_id');
     }
 
     /**

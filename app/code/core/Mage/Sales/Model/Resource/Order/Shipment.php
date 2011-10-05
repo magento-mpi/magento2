@@ -68,7 +68,7 @@ class Mage_Sales_Model_Resource_Order_Shipment extends Mage_Sales_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('sales/shipment', 'entity_id');
+        $this->_init('sales_flat_shipment', 'entity_id');
     }
 
     /**

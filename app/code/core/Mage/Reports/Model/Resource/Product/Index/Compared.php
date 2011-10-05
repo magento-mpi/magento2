@@ -40,6 +40,6 @@ class Mage_Reports_Model_Resource_Product_Index_Compared extends Mage_Reports_Mo
      */
     protected function _construct()
     {
-        $this->_init('reports/compared_product_index', 'index_id');
+        $this->_init('report_compared_product_index', 'index_id');
     }
 }

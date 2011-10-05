@@ -61,7 +61,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      */
     protected function _construct()
     {
-        $this->_init('bundle/price_index', 'entity_id');
+        $this->_init('catalog_product_bundle_price_index', 'entity_id');
     }
 
     /**

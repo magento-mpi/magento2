@@ -39,7 +39,7 @@ class Mage_Core_Model_Resource_File_Storage_Database extends Mage_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('core/file_storage', 'file_id');
+        $this->_init('core_file_storage', 'file_id');
     }
 
     /**

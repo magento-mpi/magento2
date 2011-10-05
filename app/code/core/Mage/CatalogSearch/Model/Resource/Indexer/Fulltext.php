@@ -39,7 +39,7 @@ class Mage_CatalogSearch_Model_Resource_Indexer_Fulltext extends Mage_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('catalogsearch/fulltext', 'product_id');
+        $this->_init('catalogsearch_fulltext', 'product_id');
     }
 
     /**

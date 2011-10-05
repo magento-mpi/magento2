@@ -40,7 +40,7 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('catalog/product', 'entity_id');
+        $this->_init('catalog_product_entity', 'entity_id');
     }
 
     /**

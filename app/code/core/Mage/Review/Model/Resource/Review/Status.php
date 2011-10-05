@@ -41,6 +41,6 @@ class Mage_Review_Model_Resource_Review_Status extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('review/review_status', 'status_id');
+        $this->_init('review_status', 'status_id');
     }
 }

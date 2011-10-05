@@ -46,7 +46,7 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('core/config_data', 'config_id');
+        $this->_init('core_config_data', 'config_id');
     }
 
     /**

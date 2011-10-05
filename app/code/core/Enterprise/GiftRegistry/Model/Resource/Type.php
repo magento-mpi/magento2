@@ -55,7 +55,7 @@ class Enterprise_GiftRegistry_Model_Resource_Type extends Mage_Core_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftregistry/type', 'type_id');
+        $this->_init('enterprise_giftregistry_type', 'type_id');
         $this->_infoTable  = $this->getTable('enterprise_giftregistry_type_info');
         $this->_labelTable = $this->getTable('enterprise_giftregistry_label');
     }

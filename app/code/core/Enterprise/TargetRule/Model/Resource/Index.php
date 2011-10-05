@@ -47,7 +47,7 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('enterprise_targetrule/index', 'entity_id');
+        $this->_init('enterprise_targetrule_index', 'entity_id');
     }
 
     /**

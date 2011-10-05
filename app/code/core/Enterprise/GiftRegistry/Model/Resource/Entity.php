@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_Model_Resource_Entity extends Mage_Core_Model_Reso
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftregistry/entity', 'entity_id');
+        $this->_init('enterprise_giftregistry_entity', 'entity_id');
         $this->_eventTable = $this->getTable('enterprise_giftregistry_data');
     }
 

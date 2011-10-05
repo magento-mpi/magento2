@@ -56,7 +56,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
      */
     protected function _construct()
     {
-        $this->_init('cataloginventory/stock_status', 'product_id');
+        $this->_init('cataloginventory_stock_status', 'product_id');
     }
 
     /**

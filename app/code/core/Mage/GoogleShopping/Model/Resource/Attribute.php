@@ -35,6 +35,6 @@ class Mage_GoogleShopping_Model_Resource_Attribute extends Mage_Core_Model_Resou
 {
     protected function _construct()
     {
-        $this->_init('googleshopping/attributes', 'id');
+        $this->_init('googleshopping_attributes', 'id');
     }
 }

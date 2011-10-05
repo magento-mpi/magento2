@@ -40,7 +40,7 @@ class Enterprise_CustomerSegment_Model_Resource_Customer extends Mage_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('enterprise_customersegment/customer', 'customer_id');
+        $this->_init('enterprise_customersegment_customer', 'customer_id');
     }
 
     /**

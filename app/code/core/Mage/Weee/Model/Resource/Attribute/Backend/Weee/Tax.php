@@ -40,7 +40,7 @@ class Mage_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Mage_Core_Mode
      */
     protected function _construct()
     {
-        $this->_init('weee/tax', 'value_id');
+        $this->_init('weee_tax', 'value_id');
     }
 
     /**

@@ -49,7 +49,7 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
      */
     protected function _construct()
     {
-        $this->_init('sales/payment_transaction', 'transaction_id');
+        $this->_init('sales_payment_transaction', 'transaction_id');
     }
 
     /**

@@ -47,6 +47,6 @@ class Enterprise_TargetRule_Model_Resource_Index_Upsell extends Enterprise_Targe
      */
     protected function _construct()
     {
-        $this->_init('enterprise_targetrule/index_upsell', 'entity_id');
+        $this->_init('enterprise_targetrule_index_upsell', 'entity_id');
     }
 }

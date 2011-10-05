@@ -40,6 +40,6 @@ class Mage_Paypal_Model_Resource_Report_Settlement_Row extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('paypal/settlement_report_row', 'row_id');
+        $this->_init('paypal_settlement_report_row', 'row_id');
     }
 }

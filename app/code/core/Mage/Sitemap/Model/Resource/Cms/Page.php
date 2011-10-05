@@ -40,7 +40,7 @@ class Mage_Sitemap_Model_Resource_Cms_Page extends Mage_Core_Model_Resource_Db_A
      */
     protected function _construct()
     {
-        $this->_init('cms/page', 'page_id');
+        $this->_init('cms_page', 'page_id');
     }
 
     /**

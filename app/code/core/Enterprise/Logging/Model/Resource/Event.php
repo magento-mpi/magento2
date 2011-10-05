@@ -40,7 +40,7 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('enterprise_logging/event', 'log_id');
+        $this->_init('enterprise_logging_event', 'log_id');
     }
 
     /**

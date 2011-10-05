@@ -40,7 +40,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
      */
     protected function _construct()
     {
-        $this->_init('sales/quote', 'entity_id');
+        $this->_init('sales_flat_quote', 'entity_id');
     }
 
     /**

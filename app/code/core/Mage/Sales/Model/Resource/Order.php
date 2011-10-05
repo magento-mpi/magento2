@@ -75,7 +75,7 @@ class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Ab
      */
     protected function _construct()
     {
-        $this->_init('sales/order', 'entity_id');
+        $this->_init('sales_flat_order', 'entity_id');
     }
 
     /**
