@@ -40,7 +40,7 @@ class Mage_XmlConnect_Model_Resource_History extends Mage_Core_Model_Resource_Db
      */
     protected function _construct()
     {
-        $this->_init('xmlconnect/history', 'history_id');
+        $this->_init('xmlconnect_history', 'history_id');
     }
 
     /**

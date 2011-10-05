@@ -40,7 +40,7 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Core_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('enterprise_targetrule/rule', 'rule_id');
+        $this->_init('enterprise_targetrule', 'rule_id');
     }
 
     /**

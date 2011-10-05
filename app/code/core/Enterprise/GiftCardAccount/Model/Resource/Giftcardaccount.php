@@ -40,7 +40,7 @@ class Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount extends Mage_Cor
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftcardaccount/giftcardaccount', 'giftcardaccount_id');
+        $this->_init('enterprise_giftcardaccount', 'giftcardaccount_id');
     }
 
     /**

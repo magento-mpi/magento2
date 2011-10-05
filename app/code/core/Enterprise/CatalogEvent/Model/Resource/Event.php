@@ -57,7 +57,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('enterprise_catalogevent/event', 'event_id');
+        $this->_init('enterprise_catalogevent_event', 'event_id');
         $this->addUniqueField(
             array(
                 'field' => 'category_id' , 

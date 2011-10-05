@@ -40,7 +40,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission extends Mage_Core_
      */
     protected function _construct()
     {
-        $this->_init('enterprise_catalogpermissions/permission', 'permission_id');
+        $this->_init('enterprise_catalogpermissions', 'permission_id');
     }
 
     /**

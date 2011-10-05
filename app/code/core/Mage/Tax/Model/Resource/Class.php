@@ -40,7 +40,7 @@ class Mage_Tax_Model_Resource_Class extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function _construct()
     {
-        $this->_init('tax/tax_class', 'class_id');
+        $this->_init('tax_class', 'class_id');
     }
 
     /**

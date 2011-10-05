@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_super_link', 'link_id');
+        $this->_init('catalog_product_super_link', 'link_id');
     }
 
     /**

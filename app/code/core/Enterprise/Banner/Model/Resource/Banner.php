@@ -89,7 +89,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('enterprise_banner/banner', 'banner_id');
+        $this->_init('enterprise_banner', 'banner_id');
         $this->_salesRuleTable       = $this->getTable('enterprise_banner_salesrule');
         $this->_catalogRuleTable     = $this->getTable('enterprise_banner_catalogrule');
         $this->_contentsTable        = $this->getTable('enterprise_banner_content');

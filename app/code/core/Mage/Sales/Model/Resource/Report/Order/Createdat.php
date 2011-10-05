@@ -40,7 +40,7 @@ class Mage_Sales_Model_Resource_Report_Order_Createdat extends Mage_Sales_Model_
      */
     protected function _construct()
     {
-        $this->_init('sales/order_aggregated_created', 'id');
+        $this->_init('sales_order_aggregated_created', 'id');
     }
 
     /**

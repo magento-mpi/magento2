@@ -40,7 +40,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
      */
     protected function _construct()
     {
-        $this->_init('widget/widget_instance', 'instance_id');
+        $this->_init('widget_instance', 'instance_id');
     }
 
     /**

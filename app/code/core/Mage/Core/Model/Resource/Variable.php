@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('core/variable', 'variable_id');
+        $this->_init('core_variable', 'variable_id');
     }
 
     /**

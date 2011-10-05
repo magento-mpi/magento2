@@ -42,7 +42,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_A
      */
     protected function _construct()
     {
-        $this->_init('catalogrule/rule', 'rule_id');
+        $this->_init('catalogrule', 'rule_id');
     }
 
     /**

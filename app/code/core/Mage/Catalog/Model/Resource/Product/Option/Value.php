@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_option_type_value', 'option_type_id');
+        $this->_init('catalog_product_option_type_value', 'option_type_id');
     }
 
     /**

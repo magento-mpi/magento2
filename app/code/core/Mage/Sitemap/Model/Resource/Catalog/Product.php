@@ -54,7 +54,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('catalog/product', 'entity_id');
+        $this->_init('catalog_product_entity', 'entity_id');
     }
 
     /**

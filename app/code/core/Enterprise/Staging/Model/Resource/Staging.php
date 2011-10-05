@@ -40,7 +40,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
      */
     protected function _construct()
     {
-        $this->_init('enterprise_staging/staging', 'staging_id');
+        $this->_init('enterprise_staging', 'staging_id');
     }
 
     /**

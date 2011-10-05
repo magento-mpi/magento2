@@ -40,7 +40,7 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('catalogsearch/search_query', 'query_id');
+        $this->_init('catalogsearch_query', 'query_id');
     }
 
     /**

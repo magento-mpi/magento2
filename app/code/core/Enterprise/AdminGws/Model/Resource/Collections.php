@@ -39,7 +39,7 @@ class Enterprise_AdminGws_Model_Resource_Collections extends Mage_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('admin/role', 'role_id');
+        $this->_init('admin_role', 'role_id');
     }
 
     /**

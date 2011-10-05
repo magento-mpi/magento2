@@ -95,7 +95,7 @@ class Mage_Rating_Model_Resource_Rating_Option extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('rating/rating_option', 'option_id');
+        $this->_init('rating_option', 'option_id');
 
         $this->_reviewTable         = $this->getTable('review');
         $this->_ratingOptionTable   = $this->getTable('rating_option');

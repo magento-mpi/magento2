@@ -82,7 +82,7 @@ class Mage_Log_Model_Resource_Customer extends Mage_Core_Model_Resource_Db_Abstr
      */
     protected function _construct()
     {
-        $this->_init('log/customer', 'log_id');
+        $this->_init('log_customer', 'log_id');
 
         $this->_visitorTable        = $this->getTable('log_visitor');
         $this->_visitorInfoTable    = $this->getTable('log_visitor_info');

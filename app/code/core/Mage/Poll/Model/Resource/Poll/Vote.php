@@ -40,7 +40,7 @@ class Mage_Poll_Model_Resource_Poll_Vote extends Mage_Core_Model_Resource_Db_Abs
      */
     protected function _construct()
     {
-        $this->_init('poll/poll_vote', 'vote_id');
+        $this->_init('poll_vote', 'vote_id');
     }
 
     /**

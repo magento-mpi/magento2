@@ -40,7 +40,7 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('bundle/option', 'option_id');
+        $this->_init('catalog_product_bundle_option', 'option_id');
     }
 
     /**

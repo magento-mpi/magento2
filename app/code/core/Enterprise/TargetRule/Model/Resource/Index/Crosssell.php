@@ -47,6 +47,6 @@ class Enterprise_TargetRule_Model_Resource_Index_Crosssell extends Enterprise_Ta
      */
     protected function _construct()
     {
-        $this->_init('enterprise_targetrule/index_crosssell', 'entity_id');
+        $this->_init('enterprise_targetrule_index_crosssell', 'entity_id');
     }
 }

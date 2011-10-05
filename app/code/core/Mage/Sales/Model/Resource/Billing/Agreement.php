@@ -40,7 +40,7 @@ class Mage_Sales_Model_Resource_Billing_Agreement extends Mage_Core_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('sales/billing_agreement', 'agreement_id');
+        $this->_init('sales_billing_agreement', 'agreement_id');
     }
 
     /**

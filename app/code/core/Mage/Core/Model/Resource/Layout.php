@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
      */
     protected function _construct()
     {
-        $this->_init('core/layout_update', 'layout_update_id');
+        $this->_init('core_layout_update', 'layout_update_id');
     }
 
     /**

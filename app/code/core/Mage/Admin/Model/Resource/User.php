@@ -40,7 +40,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      */
     protected function _construct()
     {
-        $this->_init('admin/user', 'user_id');
+        $this->_init('admin_user', 'user_id');
     }
 
     /**

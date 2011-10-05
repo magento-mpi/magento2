@@ -41,6 +41,6 @@ class Mage_GoogleBase_Model_Resource_Attribute extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('googlebase/attributes', 'id');
+        $this->_init('googlebase_attributes', 'id');
     }
 }

@@ -40,7 +40,7 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('eav/form_type', 'type_id');
+        $this->_init('eav_form_type', 'type_id');
         $this->addUniqueField(array(
             'field' => array('code', 'theme', 'store_id'),
             'title' => Mage::helper('eav')->__('Form Type with the same code')

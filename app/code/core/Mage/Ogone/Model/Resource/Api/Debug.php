@@ -37,6 +37,6 @@ class Mage_Ogone_Model_Resource_Api_Debug extends Mage_Core_Model_Resource_Db_Ab
      */
     protected function _construct()
     {
-        $this->_init('ogone/api_debug', 'debug_id');
+        $this->_init('ogone_api_debug', 'debug_id');
     }
 }

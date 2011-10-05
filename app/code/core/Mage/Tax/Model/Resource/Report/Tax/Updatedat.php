@@ -39,7 +39,7 @@ class Mage_Tax_Model_Resource_Report_Tax_Updatedat extends Mage_Tax_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('tax/tax_order_aggregated_updated', 'id');
+        $this->_init('tax_order_aggregated_updated', 'id');
     }
 
     /**

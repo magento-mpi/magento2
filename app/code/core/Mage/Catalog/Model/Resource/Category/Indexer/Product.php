@@ -82,7 +82,7 @@ class Mage_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Mo
      */
     protected function _construct()
     {
-        $this->_init('catalog/category_product_index', 'category_id');
+        $this->_init('catalog_category_product_index', 'category_id');
         $this->_categoryTable        = $this->getTable('catalog_category_entity');
         $this->_categoryProductTable = $this->getTable('catalog_category_product');
         $this->_productWebsiteTable  = $this->getTable('catalog_product_website');

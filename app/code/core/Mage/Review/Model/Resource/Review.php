@@ -89,7 +89,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('review/review', 'review_id');
+        $this->_init('review', 'review_id');
         $this->_reviewTable         = $this->getTable('review');
         $this->_reviewDetailTable   = $this->getTable('review_detail');
         $this->_reviewStatusTable   = $this->getTable('review_status');

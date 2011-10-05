@@ -46,6 +46,6 @@ class Enterprise_Customer_Model_Resource_Sales_Order extends Enterprise_Customer
      */
     protected function _construct()
     {
-        $this->_init('enterprise_customer/sales_order', 'entity_id');
+        $this->_init('enterprise_customer_sales_flat_order', 'entity_id');
     }
 }

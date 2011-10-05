@@ -39,7 +39,7 @@ class Mage_Tax_Model_Resource_Calculation_Rate extends Mage_Core_Model_Resource_
      */
     protected function _construct()
     {
-        $this->_init('tax/tax_calculation_rate', 'tax_calculation_rate_id');
+        $this->_init('tax_calculation_rate', 'tax_calculation_rate_id');
     }
 
     /**

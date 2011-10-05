@@ -47,6 +47,6 @@ class Mage_Sales_Model_Resource_Order_Creditmemo_Comment extends Mage_Sales_Mode
      */
     protected function _construct()
     {
-        $this->_init('sales/creditmemo_comment', 'entity_id');
+        $this->_init('sales_flat_creditmemo_comment', 'entity_id');
     }
 }

@@ -40,7 +40,7 @@ class Mage_SalesRule_Model_Resource_Coupon extends Mage_Core_Model_Resource_Db_A
      */
     protected function _construct()
     {
-        $this->_init('salesrule/coupon', 'coupon_id');
+        $this->_init('salesrule_coupon', 'coupon_id');
         $this->addUniqueField(array(
             'field' => 'code',
             'title' => Mage::helper('salesRule')->__('Coupon with the same code')

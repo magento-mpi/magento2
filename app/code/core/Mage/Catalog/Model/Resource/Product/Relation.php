@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Resource_Product_Relation extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_relation', 'parent_id');
+        $this->_init('catalog_product_relation', 'parent_id');
     }
 
     /**

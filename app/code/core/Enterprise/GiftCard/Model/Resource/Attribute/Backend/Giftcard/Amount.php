@@ -40,7 +40,7 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftcard/amount', 'value_id');
+        $this->_init('enterprise_giftcard_amount', 'value_id');
     }
 
     /**

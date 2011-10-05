@@ -42,7 +42,7 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('reports/event', 'event_id');
+        $this->_init('report_event', 'event_id');
     }
 
     /**

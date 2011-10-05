@@ -46,7 +46,7 @@ class Mage_Persistent_Model_Resource_Session extends Mage_Core_Model_Resource_Db
      */
     protected function _construct()
     {
-        $this->_init('persistent/session', 'persistent_id');
+        $this->_init('persistent_session', 'persistent_id');
     }
 
     /**

@@ -39,7 +39,7 @@ class Enterprise_Cms_Model_Resource_Increment extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/increment', 'increment_id');
+        $this->_init('enterprise_cms_increment', 'increment_id');
     }
 
     /**

@@ -40,7 +40,7 @@ class Enterprise_PageCache_Model_Resource_Crawler extends Mage_Core_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('core/url_rewrite', 'url_rewrite_id');
+        $this->_init('core_url_rewrite', 'url_rewrite_id');
     }
 
     /**

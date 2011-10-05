@@ -40,7 +40,7 @@ class Mage_SalesRule_Model_Resource_Rule_Customer extends Mage_Core_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('salesrule/rule_customer', 'rule_customer_id');
+        $this->_init('salesrule_customer', 'rule_customer_id');
     }
 
     /**

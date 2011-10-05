@@ -40,7 +40,7 @@ class Enterprise_GiftCardAccount_Model_Resource_Pool extends Enterprise_GiftCard
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftcardaccount/pool', 'code');
+        $this->_init('enterprise_giftcardaccount_pool', 'code');
     }
 
     /**

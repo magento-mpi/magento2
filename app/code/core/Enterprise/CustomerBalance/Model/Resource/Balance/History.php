@@ -40,7 +40,7 @@ class Enterprise_CustomerBalance_Model_Resource_Balance_History extends Mage_Cor
      */
     protected function _construct()
     {
-        $this->_init('enterprise_customerbalance/balance_history', 'history_id');
+        $this->_init('enterprise_customerbalance_history', 'history_id');
     }
 
     /**

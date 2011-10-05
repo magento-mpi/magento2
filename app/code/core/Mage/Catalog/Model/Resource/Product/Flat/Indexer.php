@@ -99,7 +99,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('catalog/product', 'entity_id');
+        $this->_init('catalog_product_entity', 'entity_id');
     }
 
     /**

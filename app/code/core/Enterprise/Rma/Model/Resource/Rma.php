@@ -37,6 +37,6 @@ class Enterprise_Rma_Model_Resource_Rma extends Mage_Core_Model_Resource_Db_Abst
      * Internal constructor
      */
     protected function _construct() {
-        $this->_init('enterprise_rma/rma', 'entity_id');
+        $this->_init('enterprise_rma', 'entity_id');
     }
 }

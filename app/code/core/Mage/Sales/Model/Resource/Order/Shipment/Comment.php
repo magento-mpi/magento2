@@ -47,6 +47,6 @@ class Mage_Sales_Model_Resource_Order_Shipment_Comment extends Mage_Sales_Model_
      */
     protected function _construct()
     {
-        $this->_init('sales/shipment_comment', 'entity_id');
+        $this->_init('sales_flat_shipment_comment', 'entity_id');
     }
 }

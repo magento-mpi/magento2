@@ -54,7 +54,7 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('core/resource', 'store_id');
+        $this->_init('core_resource', 'store_id');
     }
 
     /**

@@ -40,7 +40,7 @@ class Enterprise_Reward_Model_Resource_Reward extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('enterprise_reward/reward', 'reward_id');
+        $this->_init('enterprise_reward', 'reward_id');
     }
 
     /**

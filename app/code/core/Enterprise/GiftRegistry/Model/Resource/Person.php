@@ -40,7 +40,7 @@ class Enterprise_GiftRegistry_Model_Resource_Person extends Mage_Core_Model_Reso
      */
     protected function _construct()
     {
-        $this->_init('enterprise_giftregistry/person', 'person_id');
+        $this->_init('enterprise_giftregistry_person', 'person_id');
     }
 
     /**

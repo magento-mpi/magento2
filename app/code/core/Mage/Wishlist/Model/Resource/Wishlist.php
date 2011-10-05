@@ -53,7 +53,7 @@ class Mage_Wishlist_Model_Resource_Wishlist extends Mage_Core_Model_Resource_Db_
      */
     protected function _construct()
     {
-        $this->_init('wishlist/wishlist', 'wishlist_id');
+        $this->_init('wishlist', 'wishlist_id');
     }
 
     /**

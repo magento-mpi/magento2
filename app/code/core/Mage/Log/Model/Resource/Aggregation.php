@@ -40,7 +40,7 @@ class Mage_Log_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Ab
      */
     protected function _construct()
     {
-        $this->_init('log/summary_table', 'log_summary_id');
+        $this->_init('log_summary', 'log_summary_id');
     }
 
     /**

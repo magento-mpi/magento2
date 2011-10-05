@@ -47,7 +47,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('enterprise_reminder/rule', 'rule_id');
+        $this->_init('enterprise_reminder_rule', 'rule_id');
         $this->_websiteTable = $this->getTable('enterprise_reminder_rule_website');
     }
 

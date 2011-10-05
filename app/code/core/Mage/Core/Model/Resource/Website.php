@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
      */
     protected function _construct()
     {
-        $this->_init('core/website', 'website_id');
+        $this->_init('core_website', 'website_id');
     }
 
     /**

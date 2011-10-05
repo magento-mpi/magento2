@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Resource_Product_Website extends Mage_Core_Model_Resour
      */
     protected function _construct()
     {
-        $this->_init('catalog/product_website', 'product_id');
+        $this->_init('catalog_product_website', 'product_id');
     }
 
     /**

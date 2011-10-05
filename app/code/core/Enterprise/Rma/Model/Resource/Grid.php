@@ -38,6 +38,6 @@ class Enterprise_Rma_Model_Resource_Grid extends Mage_Core_Model_Resource_Db_Abs
      * Internal constructor
      */
     protected function _construct() {
-        $this->_init('enterprise_rma/rma_grid', 'entity_id');
+        $this->_init('enterprise_rma_grid', 'entity_id');
     }
 }

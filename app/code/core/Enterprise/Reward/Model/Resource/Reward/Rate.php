@@ -40,7 +40,7 @@ class Enterprise_Reward_Model_Resource_Reward_Rate extends Mage_Core_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('enterprise_reward/reward_rate', 'rate_id');
+        $this->_init('enterprise_reward_rate', 'rate_id');
     }
 
     /**

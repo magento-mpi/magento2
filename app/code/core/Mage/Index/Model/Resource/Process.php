@@ -40,7 +40,7 @@ class Mage_Index_Model_Resource_Process extends Mage_Core_Model_Resource_Db_Abst
      */
     protected function _construct()
     {
-        $this->_init('index/process', 'process_id');
+        $this->_init('index_process', 'process_id');
     }
 
     /**

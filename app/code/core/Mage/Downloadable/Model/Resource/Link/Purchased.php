@@ -40,6 +40,6 @@ class Mage_Downloadable_Model_Resource_Link_Purchased extends Mage_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('downloadable/link_purchased', 'purchased_id');
+        $this->_init('downloadable_link_purchased', 'purchased_id');
     }
 }

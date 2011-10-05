@@ -40,7 +40,7 @@ class Mage_Sales_Model_Resource_Recurring_Profile extends Mage_Sales_Model_Resou
      */
     protected function _construct()
     {
-        $this->_init('sales/recurring_profile', 'profile_id');
+        $this->_init('sales_recurring_profile', 'profile_id');
 
         $this->_serializableFields = array(
             'profile_vendor_info'    => array(null, array()),
