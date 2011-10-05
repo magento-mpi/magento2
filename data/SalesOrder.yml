@@ -327,7 +327,7 @@ associated_grouped: &groupedAssociatedProduct1
     associated_product_position: %noValue%
     associated_product_default_qty: %noValue%
 
-associated_grouped_data: &associatedProductsGroupedData
+order_associated_grouped_data: &associatedProductsGroupedData
     associated_grouped_1: %noValue%
     associated_grouped_2: %noValue%
     associated_grouped_3: %noValue%
@@ -360,7 +360,7 @@ product_to_bundle: &bundleProduct
     selection_item_position: %noValue%
     selection_item_default: %noValue%
 
-bundle_item_1: &itemMultipleSelect
+order_bundle_item_1: &itemMultipleSelect
     bundle_items_default_title: Multiple Select
     bundle_items_input_type: Multiple Select
     bundle_items_is_required: Yes
@@ -368,7 +368,7 @@ bundle_item_1: &itemMultipleSelect
     add_product_1: %noValue%
     add_product_2: %noValue%
 
-bundle_item_2: &itemDropdown
+order_bundle_item_2: &itemDropdown
     bundle_items_default_title: Drop-down
     bundle_items_input_type: Drop-down
     bundle_items_is_required: Yes
@@ -376,7 +376,7 @@ bundle_item_2: &itemDropdown
     add_product_1: %noValue%
     add_product_2: %noValue%
 
-bundle_item_3: &itemRadioButtons
+order_bundle_item_3: &itemRadioButtons
     bundle_items_default_title: Radio Buttons
     bundle_items_input_type: Radio Buttons
     bundle_items_is_required: Yes
@@ -384,7 +384,7 @@ bundle_item_3: &itemRadioButtons
     add_product_1: %noValue%
     add_product_2: %noValue%
 
-bundle_item_4: &itemCheckbox
+order_bundle_item_4: &itemCheckbox
     bundle_items_default_title: Checkbox
     bundle_items_input_type: Checkbox
     bundle_items_is_required: Yes
@@ -392,7 +392,7 @@ bundle_item_4: &itemCheckbox
     add_product_1: %noValue%
     add_product_2: %noValue%
 
-bundle_items_data: &bundleData
+order_bundle_items_data: &bundleData
     ship_bundle_items: Separately
     item_1: *itemMultipleSelect
     item_2: *itemDropdown
@@ -431,7 +431,7 @@ associated: &configurableAssociatedProduct1
     associated_product_price: %noValue%
     associated_product_price_type: %noValue%
 
-associated_configurable_data: &associatedProductsConfigurableData
+order_associated_configurable_data: &associatedProductsConfigurableData
     associated_configurable_1: %noValue%
     associated_configurable_2: %noValue%
     associated_configurable_3: %noValue%
