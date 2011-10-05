@@ -206,9 +206,9 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     public function removeEntityType($id)
     {
         if (is_numeric($id)) {
-            $this->deleteTableRow('eav/entity_type', 'entity_type_id', $id);
+            $this->deleteTableRow('eav_entity_type', 'entity_type_id', $id);
         } else {
-            $this->deleteTableRow('eav/entity_type', 'entity_type_code', (string)$id);
+            $this->deleteTableRow('eav_entity_type', 'entity_type_code', (string)$id);
         }
 
         return $this;
@@ -330,7 +330,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function removeAttributeSet($entityTypeId, $id)
     {
-        $this->deleteTableRow('eav/attribute_set', 'attribute_set_id', $this->getAttributeSetId($entityTypeId, $id));
+        $this->deleteTableRow('eav_attribute_set', 'attribute_set_id', $this->getAttributeSetId($entityTypeId, $id));
         return $this;
     }
 
@@ -988,7 +988,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         $mainTable  = $this->getTable('eav_attribute');
         $attribute  = $this->getAttribute($entityTypeId, $code);
         if ($attribute) {
-            $this->deleteTableRow('eav/attribute', 'attribute_id', $attribute['attribute_id']);
+            $this->deleteTableRow('eav_attribute', 'attribute_id', $attribute['attribute_id']);
             if (isset($this->_setupCache[$mainTable][$attribute['entity_type_id']][$attribute['attribute_code']])) {
                 unset($this->_setupCache[$mainTable][$attribute['entity_type_id']][$attribute['attribute_code']]);
             }
