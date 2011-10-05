@@ -97,7 +97,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     public function getRelationInfo()
     {
         $info = new Varien_Object();
-        $info->setTable('bundle/selection')
+        $info->setTable('catalog_product_bundle_selection')
             ->setParentFieldName('parent_product_id')
             ->setChildFieldName('product_id');
         return $info;
