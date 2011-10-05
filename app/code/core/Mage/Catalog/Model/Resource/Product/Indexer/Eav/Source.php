@@ -53,9 +53,9 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
     protected function _getIndexableAttributes($multiSelect)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from(array('ca' => $this->getTable('catalog/eav_attribute')), 'attribute_id')
+            ->from(array('ca' => $this->getTable('catalog_eav_attribute')), 'attribute_id')
             ->join(
-                array('ea' => $this->getTable('eav/attribute')),
+                array('ea' => $this->getTable('eav_attribute')),
                 'ca.attribute_id = ea.attribute_id',
                 array())
             ->where($this->_getIndexableAttributesCondition());
@@ -111,7 +111,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
         /**@var $subSelect Varien_Db_Select*/
         $subSelect = $adapter->select()
             ->from(
-                array('s' => $this->getTable('core/store')),
+                array('s' => $this->getTable('core_store')),
                 array('store_id', 'website_id')
             )
             ->joinLeft(
@@ -189,7 +189,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
         // load attribute options
         $options = array();
         $select  = $adapter->select()
-            ->from($this->getTable('eav/attribute_option'), array('attribute_id', 'option_id'))
+            ->from($this->getTable('eav_attribute_option'), array('attribute_id', 'option_id'))
             ->where('attribute_id IN(?)', $attrIds);
         $query = $select->query();
         while ($row = $query->fetch()) {
@@ -203,7 +203,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
                 array('pvd' => $this->getValueTable('catalog/product', 'varchar')),
                 array('entity_id', 'attribute_id'))
             ->join(
-                array('cs' => $this->getTable('core/store')),
+                array('cs' => $this->getTable('core_store')),
                 '',
                 array('store_id'))
             ->joinLeft(
@@ -286,8 +286,8 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
     public function getIdxTable($table = null)
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/product_eav_indexer_idx');
+            return $this->getTable('catalog_product_index_eav_idx');
         }
-        return $this->getTable('catalog/product_eav_indexer_tmp');
+        return $this->getTable('catalog_product_index_eav_tmp');
     }
 }

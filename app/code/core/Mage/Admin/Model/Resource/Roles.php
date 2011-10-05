@@ -56,8 +56,8 @@ class Mage_Admin_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstra
     {
         $this->_init('admin/role', 'role_id');
 
-        $this->_usersTable = $this->getTable('admin/user');
-        $this->_ruleTable = $this->getTable('admin/rule');
+        $this->_usersTable = $this->getTable('admin_user');
+        $this->_ruleTable = $this->getTable('admin_rule');
     }
 
     /**

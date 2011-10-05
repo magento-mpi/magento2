@@ -90,12 +90,12 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     protected function _construct()
     {
         $this->_init('review/review', 'review_id');
-        $this->_reviewTable         = $this->getTable('review/review');
-        $this->_reviewDetailTable   = $this->getTable('review/review_detail');
-        $this->_reviewStatusTable   = $this->getTable('review/review_status');
-        $this->_reviewEntityTable   = $this->getTable('review/review_entity');
-        $this->_reviewStoreTable    = $this->getTable('review/review_store');
-        $this->_aggregateTable      = $this->getTable('review/review_aggregate');
+        $this->_reviewTable         = $this->getTable('review');
+        $this->_reviewDetailTable   = $this->getTable('review_detail');
+        $this->_reviewStatusTable   = $this->getTable('review_status');
+        $this->_reviewEntityTable   = $this->getTable('review_entity');
+        $this->_reviewStoreTable    = $this->getTable('review_store');
+        $this->_aggregateTable      = $this->getTable('review_entity_summary');
     }
 
     /**
@@ -362,8 +362,8 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
             return array();
         }
         $select = $adapter->select()
-            ->from(array('v' => $this->getTable('rating/rating_option_vote')), 'r.rating_id')
-            ->joinInner(array('r' => $this->getTable('rating/rating')), 'v.rating_id=r.rating_id')
+            ->from(array('v' => $this->getTable('rating_option_vote')), 'r.rating_id')
+            ->joinInner(array('r' => $this->getTable('rating')), 'v.rating_id=r.rating_id')
             ->where('v.review_id = :revire_id');
         return $adapter->fetchCol($select, array(':revire_id' => $reviewId));
     }
@@ -432,7 +432,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
             'entity_pk_value=?' => $productId,
             'entity_id=?' => $this->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE)
         ));
-        $this->_getWriteAdapter()->delete($this->getTable('review/review_aggregate'), array(
+        $this->_getWriteAdapter()->delete($this->getTable('review_entity_summary'), array(
             'entity_pk_value=?' => $productId,
             'entity_type=?' => $this->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE)
         ));

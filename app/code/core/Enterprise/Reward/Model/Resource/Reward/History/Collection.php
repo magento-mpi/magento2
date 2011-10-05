@@ -61,7 +61,7 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
             return $this;
         }
         $this->getSelect()->joinInner(
-            array('reward_table' => $this->getTable('enterprise_reward/reward')),
+            array('reward_table' => $this->getTable('enterprise_reward')),
             'reward_table.reward_id = main_table.reward_id',
             array('customer_id', 'points_balance_total' => 'points_balance')
         );

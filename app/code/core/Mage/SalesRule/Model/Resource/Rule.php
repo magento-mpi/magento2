@@ -98,7 +98,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
     public function saveStoreLabels($ruleId, $labels)
     {
         $delete = array();
-        $table = $this->getTable('salesrule/label');
+        $table = $this->getTable('salesrule_label');
         $adapter = $this->_getWriteAdapter();
 
         foreach ($labels as $storeId => $label) {
@@ -128,7 +128,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
     public function getStoreLabels($ruleId)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('salesrule/label'), array('store_id', 'label'))
+            ->from($this->getTable('salesrule_label'), array('store_id', 'label'))
             ->where('rule_id = :rule_id');
         return $this->_getReadAdapter()->fetchPairs($select, array(':rule_id' => $ruleId));
     }
@@ -143,7 +143,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
     public function getStoreLabel($ruleId, $storeId)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('salesrule/label'), 'label')
+            ->from($this->getTable('salesrule_label'), 'label')
             ->where('rule_id = :rule_id')
             ->where('store_id IN(0, :store_id)')
             ->order('store_id DESC');
@@ -161,9 +161,9 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()
-            ->from(array('a' => $this->getTable('salesrule/product_attribute')),
+            ->from(array('a' => $this->getTable('salesrule_product_attribute')),
                 new Zend_Db_Expr('DISTINCT ea.attribute_code'))
-            ->joinInner(array('ea' => $this->getTable('eav/attribute')), 'ea.attribute_id = a.attribute_id', array());
+            ->joinInner(array('ea' => $this->getTable('eav_attribute')), 'ea.attribute_id = a.attribute_id', array());
         return $read->fetchAll($select);
     }
 
@@ -177,12 +177,12 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
     public function setActualProductAttributes($rule, $attributes)
     {
         $write = $this->_getWriteAdapter();
-        $write->delete($this->getTable('salesrule/product_attribute'), array('rule_id=?' => $rule->getId()));
+        $write->delete($this->getTable('salesrule_product_attribute'), array('rule_id=?' => $rule->getId()));
 
         //Getting attribute IDs for attribute codes
         $attributeIds = array();
         $select = $this->_getReadAdapter()->select()
-                ->from(array('a'=>$this->getTable('eav/attribute')), array('a.attribute_id'))
+                ->from(array('a'=>$this->getTable('eav_attribute')), array('a.attribute_id'))
                 ->where('a.attribute_code IN (?)', array($attributes));
         $attributesFound = $this->_getReadAdapter()->fetchAll($select);
         if ($attributesFound) {
@@ -203,7 +203,7 @@ class Mage_SalesRule_Model_Resource_Rule extends Mage_Core_Model_Resource_Db_Abs
                     }
                 }
             }
-            $write->insertMultiple($this->getTable('salesrule/product_attribute'), $data);
+            $write->insertMultiple($this->getTable('salesrule_product_attribute'), $data);
         }
         return $this;
     }

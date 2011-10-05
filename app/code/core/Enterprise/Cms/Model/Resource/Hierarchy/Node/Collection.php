@@ -52,7 +52,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
     {
         if (!$this->getFlag('cms_page_data_joined')) {
             $this->getSelect()->joinLeft(
-                array('page_table' => $this->getTable('cms/page')),
+                array('page_table' => $this->getTable('cms_page')),
                 'main_table.page_id = page_table.page_id',
                 array(
                     'page_title'        => 'title',
@@ -100,7 +100,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
     {
         if (!$this->getFlag('cms_page_in_stores_data_joined')) {
             $subSelect = $this->getConnection()->select();
-            $subSelect->from(array('store' => $this->getTable('cms/page_store')), array())
+            $subSelect->from(array('store' => $this->getTable('cms_page_store')), array())
                 ->where('store.page_id = main_table.page_id');
             $subSelect = Mage::getResourceHelper('core')->addGroupConcatColumn($subSelect, 'store_id', 'store_id');
             $this->getSelect()->columns(array('page_in_stores' => new Zend_Db_Expr('(' . $subSelect . ')')));
@@ -149,7 +149,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
     {
         if (!$this->getFlag('meta_data_joined')) {
             $this->getSelect()
-                ->joinLeft(array('metadata_table' => $this->getTable('enterprise_cms/hierarchy_metadata')),
+                ->joinLeft(array('metadata_table' => $this->getTable('enterprise_cms_hierarchy_metadata')),
                     'main_table.node_id = metadata_table.node_id',
                     array(
                         'meta_first_last',

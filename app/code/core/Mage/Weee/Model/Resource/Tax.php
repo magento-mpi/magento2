@@ -98,7 +98,7 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
         $adapter = $this->_getWriteAdapter();
 
         $select  = $this->_getReadAdapter()->select();
-        $select->from(array('data' => $this->getTable('catalogrule/rule_product')));
+        $select->from(array('data' => $this->getTable('catalogrule_product')));
 
         $deleteCondition = '';
         if ($productCondition) {
@@ -117,7 +117,7 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
             $select->where('(from_time <= ? OR from_time = 0)', $now)
                    ->where('(to_time >= ? OR to_time = 0)', $now);
         }
-        $adapter->delete($this->getTable('weee/discount'), $deleteCondition);
+        $adapter->delete($this->getTable('weee_discount'), $deleteCondition);
 
         $select->order(array('data.website_id', 'data.customer_group_id', 'data.product_id', 'data.sort_order'));
 
@@ -134,7 +134,7 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
 
             if ($prevKey && ($prevKey != $key)) {
                 foreach ($productData as $product) {
-                    $adapter->insert($this->getTable('weee/discount'), $product);
+                    $adapter->insert($this->getTable('weee_discount'), $product);
                 }
                 $productData = array();
             }
@@ -157,7 +157,7 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
             $prevKey = $key;
         }
         foreach ($productData as $product) {
-            $adapter->insert($this->getTable('weee/discount'), $product);
+            $adapter->insert($this->getTable('weee_discount'), $product);
         }
 
         return $this;
@@ -174,7 +174,7 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
     public function getProductDiscountPercent($productId, $websiteId, $customerGroupId)
     {
         $select = $this->_getReadAdapter()->select();
-        $select->from($this->getTable('weee/discount'), 'value')
+        $select->from($this->getTable('weee_discount'), 'value')
             ->where('website_id = ?', (int)$websiteId)
             ->where('entity_id = ?', (int)$productId)
             ->where('customer_group_id = ?', (int)$customerGroupId);

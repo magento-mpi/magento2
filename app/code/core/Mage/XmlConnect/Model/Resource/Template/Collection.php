@@ -65,7 +65,7 @@ class Mage_XmlConnect_Model_Resource_Template_Collection
     {
         $this->getSelect()
             ->joinLeft(
-                array('app' => $this->getTable('xmlconnect/application')),
+                array('app' => $this->getTable('xmlconnect_application')),
                 'app.application_id = main_table.application_id',
                 array('app_name' => 'app.name', 'app_code' => 'app.code')
         );

@@ -59,18 +59,18 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
 
         $this->getSelect()
             ->joinInner(
-                array('d' =>  $this->getTable('downloadable/link_purchased_item')),
+                array('d' =>  $this->getTable('downloadable_link_purchased_item')),
                 'e.entity_id = d.product_id',
                 array(
                     'purchases' => new Zend_Db_Expr('SUM(d.number_of_downloads_bought)'),
                     'downloads' => new Zend_Db_Expr('SUM(d.number_of_downloads_used)'),
                 ))
             ->joinInner(
-                array('l' => $this->getTable('downloadable/link_title')),
+                array('l' => $this->getTable('downloadable_link_title')),
                 'd.link_id = l.link_id',
                 array('l.link_id'))
             ->joinLeft(
-                array('l_store' => $this->getTable('downloadable/link_title')),
+                array('l_store' => $this->getTable('downloadable_link_title')),
                 $adapter->quoteInto('l.link_id = l_store.link_id AND l_store.store_id = ?', (int)$this->getStoreId()),
                 array('link_title' => $linkExpr))
             ->where(implode(' OR ', array(

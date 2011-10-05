@@ -67,7 +67,7 @@ $codes = array(
 
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
-$configDataTable = $installer->getTable('core/config_data');
+$configDataTable = $installer->getTable('core_config_data');
 $conn = $installer->getConnection();
 
 $select = $conn->select()

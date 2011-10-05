@@ -50,7 +50,7 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
      */
     public function addWishlistCount()
     {
-        $wishlistItemTable = $this->getTable('wishlist/item');
+        $wishlistItemTable = $this->getTable('wishlist_item');
         $this->getSelect()
             ->join(
                 array('wi' => $wishlistItemTable),
@@ -78,7 +78,7 @@ class Mage_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishl
 
         $this->getSelect()
             ->from(
-                array('wishlist' => $this->getTable('wishlist/wishlist')),
+                array('wishlist' => $this->getTable('wishlist')),
                 array(
                     'wishlist_cnt' => new Zend_Db_Expr('COUNT(wishlist.wishlist_id)'),
                     'wishlist.customer_id'

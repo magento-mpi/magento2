@@ -33,7 +33,7 @@ $installer->startSetup();
  * Create table 'dataflow/session'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('dataflow/session'))
+    ->newTable($installer->getTable('dataflow_session'))
     ->addColumn('session_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -59,7 +59,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'dataflow/import'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('dataflow/import'))
+    ->newTable($installer->getTable('dataflow_import_data'))
     ->addColumn('import_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -80,7 +80,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('dataflow/import', array('session_id')),
         array('session_id'))
     ->addForeignKey($installer->getFkName('dataflow/import', 'session_id', 'dataflow/session', 'session_id'),
-        'session_id', $installer->getTable('dataflow/session'), 'session_id',
+        'session_id', $installer->getTable('dataflow_session'), 'session_id',
         Varien_Db_Ddl_Table::ACTION_NO_ACTION, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Dataflow Import Data');
 $installer->getConnection()->createTable($table);
@@ -89,7 +89,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'dataflow/profile'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('dataflow/profile'))
+    ->newTable($installer->getTable('dataflow_profile'))
     ->addColumn('profile_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -124,7 +124,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'dataflow/profile_history'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('dataflow/profile_history'))
+    ->newTable($installer->getTable('dataflow_profile_history'))
     ->addColumn('history_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -148,7 +148,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('dataflow/profile_history', array('profile_id')),
         array('profile_id'))
     ->addForeignKey($installer->getFkName('dataflow/profile_history', 'profile_id', 'dataflow/profile', 'profile_id'),
-        'profile_id', $installer->getTable('dataflow/profile'), 'profile_id',
+        'profile_id', $installer->getTable('dataflow_profile'), 'profile_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Dataflow Profile History');
 $installer->getConnection()->createTable($table);
@@ -157,7 +157,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'dataflow/batch'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('dataflow/batch'))
+    ->newTable($installer->getTable('dataflow_batch'))
     ->addColumn('batch_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -187,10 +187,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('dataflow/batch', array('created_at')),
         array('created_at'))
     ->addForeignKey($installer->getFkName('dataflow/batch', 'profile_id', 'dataflow/profile', 'profile_id'),
-        'profile_id', $installer->getTable('dataflow/profile'), 'profile_id',
+        'profile_id', $installer->getTable('dataflow_profile'), 'profile_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->addForeignKey($installer->getFkName('dataflow/batch', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Dataflow Batch');
 $installer->getConnection()->createTable($table);
@@ -199,7 +199,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'dataflow/batch_export'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('dataflow/batch_export'))
+    ->newTable($installer->getTable('dataflow_batch_export'))
     ->addColumn('batch_export_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -221,7 +221,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('dataflow/batch_export', array('batch_id')),
         array('batch_id'))
     ->addForeignKey($installer->getFkName('dataflow/batch_export', 'batch_id', 'dataflow/batch', 'batch_id'),
-        'batch_id', $installer->getTable('dataflow/batch'), 'batch_id',
+        'batch_id', $installer->getTable('dataflow_batch'), 'batch_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Dataflow Batch Export');
 $installer->getConnection()->createTable($table);
@@ -230,7 +230,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'dataflow/batch_import'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('dataflow/batch_import'))
+    ->newTable($installer->getTable('dataflow_batch_import'))
     ->addColumn('batch_import_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -252,7 +252,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('dataflow/batch_import', array('batch_id')),
         array('batch_id'))
     ->addForeignKey($installer->getFkName('dataflow/batch_import', 'batch_id', 'dataflow/batch', 'batch_id'),
-        'batch_id', $installer->getTable('dataflow/batch'), 'batch_id',
+        'batch_id', $installer->getTable('dataflow_batch'), 'batch_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Dataflow Batch Import');
 $installer->getConnection()->createTable($table);

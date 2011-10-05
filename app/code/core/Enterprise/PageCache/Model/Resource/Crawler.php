@@ -53,7 +53,7 @@ class Enterprise_PageCache_Model_Resource_Crawler extends Mage_Core_Model_Resour
      */
     public function getUrlStmt($storeId)
     {
-        $table = $this->getTable('core/url_rewrite');
+        $table = $this->getTable('core_url_rewrite');
         $select = $this->_getReadAdapter()->select()
             ->from($table, array('store_id', 'request_path'))
             ->where('store_id = :store_id')
@@ -71,7 +71,7 @@ class Enterprise_PageCache_Model_Resource_Crawler extends Mage_Core_Model_Resour
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from($this->getTable('core/url_rewrite'), array('request_path'))
+            ->from($this->getTable('core_url_rewrite'), array('request_path'))
             ->where('store_id=?', $storeId)
             ->where('is_system=1');
         return $adapter->fetchCol($select);

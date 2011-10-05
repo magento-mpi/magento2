@@ -77,7 +77,7 @@ class Mage_Checkout_Model_Resource_Agreement_Collection extends Mage_Core_Model_
 
         // add filter
         $this->getSelect()->join(
-            array($alias => $this->getTable('checkout/agreement_store')),
+            array($alias => $this->getTable('checkout_agreement_store')),
             'main_table.agreement_id = ' . $alias . '.agreement_id',
             array()
         )

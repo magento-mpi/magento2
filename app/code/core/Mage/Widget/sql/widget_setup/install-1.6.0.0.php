@@ -32,9 +32,9 @@ $installer->startSetup();
 /**
  * Create table 'widget/widget'
  */
-if (!$installer->getConnection()->isTableExists($installer->getTable('widget/widget'))) {
+if (!$installer->getConnection()->isTableExists($installer->getTable('widget'))) {
     $table = $installer->getConnection()
-        ->newTable($installer->getTable('widget/widget'))
+        ->newTable($installer->getTable('widget'))
         ->addColumn('widget_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
             'identity'  => true,
             'unsigned'  => true,
@@ -54,12 +54,12 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('widget/wid
 } else {
 
     $installer->getConnection()->dropIndex(
-        $installer->getTable('widget/widget'),
+        $installer->getTable('widget'),
         'IDX_CODE'
     );
 
     $tables = array(
-        $installer->getTable('widget/widget') => array(
+        $installer->getTable('widget') => array(
             'columns' => array(
                 'widget_id' => array(
                     'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
@@ -82,7 +82,7 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('widget/wid
     $installer->getConnection()->modifyTables($tables);
 
     $installer->getConnection()->changeColumn(
-        $installer->getTable('widget/widget'),
+        $installer->getTable('widget'),
         'code',
         'widget_code',
         array(
@@ -93,7 +93,7 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('widget/wid
     );
 
     $installer->getConnection()->changeColumn(
-        $installer->getTable('widget/widget'),
+        $installer->getTable('widget'),
         'type',
         'widget_type',
         array(
@@ -104,7 +104,7 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('widget/wid
     );
 
     $installer->getConnection()->addIndex(
-        $installer->getTable('widget/widget'),
+        $installer->getTable('widget'),
         $installer->getIdxName('widget/widget', array('widget_code')),
         array('widget_code')
     );
@@ -114,7 +114,7 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('widget/wid
  * Create table 'widget/widget_instance'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('widget/widget_instance'))
+    ->newTable($installer->getTable('widget_instance'))
     ->addColumn('instance_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -145,7 +145,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'widget/widget_instance_page'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('widget/widget_instance_page'))
+    ->newTable($installer->getTable('widget_instance_page'))
     ->addColumn('page_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -171,7 +171,7 @@ $table = $installer->getConnection()
         ), 'Path to widget template')
     ->addIndex($installer->getIdxName('widget/widget_instance_page', 'instance_id'), 'instance_id')
     ->addForeignKey($installer->getFkName('widget/widget_instance_page', 'instance_id', 'widget/widget_instance', 'instance_id'),
-        'instance_id', $installer->getTable('widget/widget_instance'), 'instance_id',
+        'instance_id', $installer->getTable('widget_instance'), 'instance_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Instance of Widget on Page');
 $installer->getConnection()->createTable($table);
@@ -180,7 +180,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'widget/widget_instance_page_layout'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('widget/widget_instance_page_layout'))
+    ->newTable($installer->getTable('widget_instance_page_layout'))
     ->addColumn('page_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -197,10 +197,10 @@ $table = $installer->getConnection()
         array('layout_update_id', 'page_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey($installer->getFkName('widget/widget_instance_page_layout', 'page_id', 'widget/widget_instance_page', 'page_id'),
-        'page_id', $installer->getTable('widget/widget_instance_page'), 'page_id',
+        'page_id', $installer->getTable('widget_instance_page'), 'page_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('widget/widget_instance_page_layout', 'layout_update_id', 'core/layout_update', 'layout_update_id'),
-        'layout_update_id', $installer->getTable('core/layout_update'), 'layout_update_id',
+        'layout_update_id', $installer->getTable('core_layout_update'), 'layout_update_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Layout updates');
 $installer->getConnection()->createTable($table);

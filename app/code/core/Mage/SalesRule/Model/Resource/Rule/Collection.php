@@ -69,7 +69,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Reso
         if ($couponCode) {
             $this->getSelect()
                 ->joinLeft(
-                    array('rule_coupons' => $this->getTable('salesrule/coupon')),
+                    array('rule_coupons' => $this->getTable('salesrule_coupon')),
                     'main_table.rule_id = rule_coupons.rule_id ',
                     array('code')
                 );
@@ -119,7 +119,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Core_Model_Reso
         parent::_initSelect();
         $this->getSelect()
             ->joinLeft(
-                array('rule_coupons' => $this->getTable('salesrule/coupon')),
+                array('rule_coupons' => $this->getTable('salesrule_coupon')),
                 'main_table.rule_id = rule_coupons.rule_id AND rule_coupons.is_primary = 1',
                 array('code')
             );

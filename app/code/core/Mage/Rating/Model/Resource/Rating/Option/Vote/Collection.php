@@ -77,7 +77,7 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
     public function setStoreFilter($storeId)
     {
         $this->getSelect()
-            ->join(array('rstore'=>$this->getTable('review/review_store')),
+            ->join(array('rstore'=>$this->getTable('review_store')),
                 $this->getConnection()->quoteInto(
                     'main_table.review_id=rstore.review_id AND rstore.store_id=?',
                     (int)$storeId),
@@ -97,11 +97,11 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
         $ratingCodeCond = $adapter->getIfNullSql('title.value', 'rating.rating_code');
         $this->getSelect()
             ->join(
-                array('rating'    => $this->getTable('rating/rating')),
+                array('rating'    => $this->getTable('rating')),
                 'rating.rating_id = main_table.rating_id',
                 array('rating_code'))
             ->joinLeft(
-                array('title' => $this->getTable('rating/rating_title')),
+                array('title' => $this->getTable('rating_title')),
                 $adapter->quoteInto('main_table.rating_id=title.rating_id AND title.store_id = ?',
                     (int)Mage::app()->getStore()->getId()),
                 array('rating_code' => $ratingCodeCond));
@@ -137,7 +137,7 @@ class Mage_Rating_Model_Resource_Rating_Option_Vote_Collection extends Mage_Core
     public function addOptionInfo()
     {
         $this->getSelect()
-            ->join(array('rating_option' => $this->getTable('rating/rating_option')),
+            ->join(array('rating_option' => $this->getTable('rating_option')),
                 'main_table.option_id = rating_option.option_id');
         return $this;
     }

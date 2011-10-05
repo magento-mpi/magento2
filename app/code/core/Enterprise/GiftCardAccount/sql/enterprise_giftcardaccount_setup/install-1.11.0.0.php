@@ -32,7 +32,7 @@ $installer->startSetup();
  * Create table 'enterprise_giftcardaccount/giftcardaccount'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftcardaccount/giftcardaccount'))
+    ->newTable($installer->getTable('enterprise_giftcardaccount'))
     ->addColumn('giftcardaccount_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -70,7 +70,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_giftcardaccount/giftcardaccount', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('enterprise_giftcardaccount/giftcardaccount', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Giftcardaccount');
 $installer->getConnection()->createTable($table);
@@ -79,7 +79,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_giftcardaccount/pool'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftcardaccount/pool'))
+    ->newTable($installer->getTable('enterprise_giftcardaccount_pool'))
     ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         'primary'   => true,
@@ -95,7 +95,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_giftcardaccount/history'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_giftcardaccount/history'))
+    ->newTable($installer->getTable('enterprise_giftcardaccount_history'))
     ->addColumn('history_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -127,7 +127,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_giftcardaccount/history', array('giftcardaccount_id')),
         array('giftcardaccount_id'))
     ->addForeignKey($installer->getFkName('enterprise_giftcardaccount/history', 'giftcardaccount_id', 'enterprise_giftcardaccount/giftcardaccount', 'giftcardaccount_id'),
-        'giftcardaccount_id', $installer->getTable('enterprise_giftcardaccount/giftcardaccount'), 'giftcardaccount_id',
+        'giftcardaccount_id', $installer->getTable('enterprise_giftcardaccount'), 'giftcardaccount_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Giftcardaccount History');
 $installer->getConnection()->createTable($table);

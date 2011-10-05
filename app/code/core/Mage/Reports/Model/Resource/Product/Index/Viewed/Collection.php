@@ -42,6 +42,6 @@ class Mage_Reports_Model_Resource_Product_Index_Viewed_Collection
      */
     protected function _getTableName()
     {
-        return $this->getTable('reports/viewed_product_index');
+        return $this->getTable('report_viewed_product_index');
     }
 }

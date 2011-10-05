@@ -57,16 +57,16 @@ class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
 
         $rolesArr = $adapter->fetchAll(
             $adapter->select()
-                ->from($this->getTable('api/role'))
+                ->from($this->getTable('api_role'))
                 ->order(array('tree_level', 'role_type'))
         );
         $this->loadRoles($acl, $rolesArr);
 
         $rulesArr =  $adapter->fetchAll(
             $adapter->select()
-                ->from(array('r'=>$this->getTable('api/rule')))
+                ->from(array('r'=>$this->getTable('api_rule')))
                 ->joinLeft(
-                    array('a'=>$this->getTable('api/assert')),
+                    array('a'=>$this->getTable('api_assert')),
                     'a.assert_id=r.assert_id',
                     array('assert_type', 'assert_data')
                 ));

@@ -73,7 +73,7 @@ class Enterprise_Cms_Model_Resource_Page_Revision_Collection
             }
 
             $this->getSelect()->joinInner(
-                array('ver_table' => $this->getTable('enterprise_cms/page_version')),
+                array('ver_table' => $this->getTable('enterprise_cms_page_version')),
                 'ver_table.version_id = main_table.version_id',
                 $columns
             );

@@ -51,7 +51,7 @@ class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Mage_Core_Mode
     public function joinCalculationData($alias)
     {
         $this->getSelect()->joinLeft(
-            array($alias => $this->getTable('tax/tax_calculation')),
+            array($alias => $this->getTable('tax_calculation')),
             "main_table.tax_calculation_rule_id = {$alias}.tax_calculation_rule_id",
             array()
         );
@@ -80,7 +80,7 @@ class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Mage_Core_Mode
             $joinCondition = sprintf('item.%s = calculation.%s', $secondaryJoinField, $primaryJoinField);
             $select = $this->getConnection()->select()
                 ->from(
-                    array('calculation' => $this->getTable('tax/tax_calculation')),
+                    array('calculation' => $this->getTable('tax_calculation')),
                     array('calculation.tax_calculation_rule_id')
                 )
                 ->join(

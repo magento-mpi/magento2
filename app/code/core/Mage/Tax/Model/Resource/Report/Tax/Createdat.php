@@ -76,7 +76,7 @@ class Mage_Tax_Model_Resource_Report_Tax_Createdat extends Mage_Reports_Model_Re
         try {
             if ($from !== null || $to !== null) {
                 $subSelect = $this->_getTableDateRangeSelect(
-                    $this->getTable('sales/order'),
+                    $this->getTable('sales_flat_order'),
                     'created_at', 'updated_at', $from, $to
                 );
             } else {
@@ -87,7 +87,7 @@ class Mage_Tax_Model_Resource_Report_Tax_Createdat extends Mage_Reports_Model_Re
             // convert dates from UTC to current admin timezone
             $periodExpr = $writeAdapter->getDatePartSql(
                 $this->getStoreTZOffsetQuery(
-                    array('e' => $this->getTable('sales/order')),
+                    array('e' => $this->getTable('sales_flat_order')),
                     'e.' . $aggregationField,
                     $from, $to
                 )
@@ -104,8 +104,8 @@ class Mage_Tax_Model_Resource_Report_Tax_Createdat extends Mage_Reports_Model_Re
             );
 
             $select = $writeAdapter->select();
-            $select->from(array('tax' => $this->getTable('tax/sales_order_tax')), $columns)
-                ->joinInner(array('e' => $this->getTable('sales/order')), 'e.entity_id = tax.order_id', array())
+            $select->from(array('tax' => $this->getTable('sales_order_tax')), $columns)
+                ->joinInner(array('e' => $this->getTable('sales_flat_order')), 'e.entity_id = tax.order_id', array())
                 ->useStraightJoin();
 
             $select->where('e.state NOT IN (?)', array(

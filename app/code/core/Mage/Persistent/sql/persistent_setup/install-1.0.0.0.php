@@ -32,7 +32,7 @@ $installer->startSetup();
  * Create table 'persistent/session'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('persistent/session'))
+    ->newTable($installer->getTable('persistent_session'))
     ->addColumn('persistent_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity' => true,
         'primary'  => true,
@@ -62,14 +62,14 @@ $table = $installer->getConnection()
     ->addForeignKey(
         $installer->getFkName('persistent/session', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id',
-        $installer->getTable('customer/entity'),
+        $installer->getTable('customer_entity'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE
     )
     ->addForeignKey(
         $installer->getFkName('persistent/session', 'website_id', 'core/website', 'website_id'),
         'website_id',
-        $installer->getTable('core/website'),
+        $installer->getTable('core_website'),
         'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE
     )
@@ -83,7 +83,7 @@ $installer->getConnection()->createTable($table);
  */
 $installer->getConnection()
     ->addColumn(
-        $installer->getTable('sales/quote'),
+        $installer->getTable('sales_flat_quote'),
         'is_persistent',
         array(
             'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,

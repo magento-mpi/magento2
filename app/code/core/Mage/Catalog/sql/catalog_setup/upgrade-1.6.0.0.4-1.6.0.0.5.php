@@ -27,7 +27,7 @@
 $installer = $this;
 /** @var $installer Mage_Catalog_Model_Resource_Setup */
 $installer->getConnection()->modifyColumn(
-    $installer->getTable('catalog/category_product_index'),
+    $installer->getTable('catalog_category_product_index'),
     'position',
     array(
         'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,

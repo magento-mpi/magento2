@@ -43,7 +43,7 @@ $reviewEntityCodes = array(
 );
 foreach ($reviewEntityCodes as $entityCode) {
     $installer->getConnection()
-            ->insert($installer->getTable('review/review_entity'), array('entity_code' => $entityCode));
+            ->insert($installer->getTable('review_entity'), array('entity_code' => $entityCode));
 }
 
 //Fill table review/review_entity
@@ -57,5 +57,5 @@ foreach ($reviewStatuses as $k => $v) {
         'status_id'     => $k,
         'status_code'   => $v
     );
-    $installer->getConnection()->insertForce($installer->getTable('review/review_status'), $bind);
+    $installer->getConnection()->insertForce($installer->getTable('review_status'), $bind);
 }

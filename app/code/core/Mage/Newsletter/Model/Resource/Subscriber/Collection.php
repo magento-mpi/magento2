@@ -79,8 +79,8 @@ class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Mod
     {
         parent::_construct();
         $this->_init('newsletter/subscriber');
-        $this->_queueLinkTable = $this->getTable('newsletter/queue_link');
-        $this->_storeTable = $this->getTable('core/store');
+        $this->_queueLinkTable = $this->getTable('newsletter_queue_link');
+        $this->_storeTable = $this->getTable('core_store');
 
 
         // defining mapping for fields represented in several tables

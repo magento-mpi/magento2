@@ -170,7 +170,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
 
         $select = $this->_getReadAdapter()->select()
             ->from(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 array('entity_id', 'type_id')
             )
             ->where('entity_id IN(?)', $productIds);
@@ -189,7 +189,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
     {
         $select = $this->_getReadAdapter()->select()
             ->from(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 array('entity_id', 'type_id')
             )
             ->order('entity_id ASC')

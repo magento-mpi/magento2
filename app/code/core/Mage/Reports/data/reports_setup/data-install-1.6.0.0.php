@@ -61,7 +61,7 @@ $eventTypeData = array(
 );
 
 foreach ($eventTypeData as $row) {
-    $installer->getConnection()->insertForce($installer->getTable('reports/event_type'), $row);
+    $installer->getConnection()->insertForce($installer->getTable('report_event_types'), $row);
 }
 
 /**

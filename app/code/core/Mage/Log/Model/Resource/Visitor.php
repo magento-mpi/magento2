@@ -73,11 +73,11 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
             'url'    => Mage::helper('core/string')->substr($visitor->getUrl(), 0, 250),
             'referer'=> Mage::helper('core/string')->substr($visitor->getHttpReferer(), 0, 250)
         ));
-        $bind = $this->_prepareDataForTable($data, $this->getTable('log/url_info_table'));
+        $bind = $this->_prepareDataForTable($data, $this->getTable('log_url_info'));
 
-        $adapter->insert($this->getTable('log/url_info_table'), $bind);
+        $adapter->insert($this->getTable('log_url_info'), $bind);
 
-        $visitor->setLastUrlId($adapter->lastInsertId($this->getTable('log/url_info_table')));
+        $visitor->setLastUrlId($adapter->lastInsertId($this->getTable('log_url_info')));
 
         return $this;
     }
@@ -149,9 +149,9 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
             'server_addr'           => $visitor->getServerAddr(),
             'remote_addr'           => $visitor->getRemoteAddr(),
         ));
-        $bind = $this->_prepareDataForTable($data, $this->getTable('log/visitor_info'));
+        $bind = $this->_prepareDataForTable($data, $this->getTable('log_visitor_info'));
 
-        $adapter->insert($this->getTable('log/visitor_info'), $bind);
+        $adapter->insert($this->getTable('log_visitor_info'), $bind);
         return $this;
     }
 
@@ -168,9 +168,9 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
             'visitor_id'    => $visitor->getId(),
             'visit_time'    => Mage::getSingleton('core/date')->gmtDate()
         ));
-        $bind = $this->_prepareDataForTable($data, $this->getTable('log/url_table'));
+        $bind = $this->_prepareDataForTable($data, $this->getTable('log_url'));
 
-        $this->_getWriteAdapter()->insert($this->getTable('log/url_table'), $bind);
+        $this->_getWriteAdapter()->insert($this->getTable('log_url'), $bind);
         return $this;
     }
 
@@ -191,10 +191,10 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
                 'login_at'      => Mage::getSingleton('core/date')->gmtDate(),
                 'store_id'      => Mage::app()->getStore()->getId()
             ));
-            $bind = $this->_prepareDataForTable($data, $this->getTable('log/customer'));
+            $bind = $this->_prepareDataForTable($data, $this->getTable('log_customer'));
 
-            $adapter->insert($this->getTable('log/customer'), $bind);
-            $visitor->setCustomerLogId($adapter->lastInsertId($this->getTable('log/customer')));
+            $adapter->insert($this->getTable('log_customer'), $bind);
+            $visitor->setCustomerLogId($adapter->lastInsertId($this->getTable('log_customer')));
             $visitor->setDoCustomerLogin(false);
         }
 
@@ -204,13 +204,13 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
                 'store_id'  => (int)Mage::app()->getStore()->getId(),
             ));
 
-            $bind = $this->_prepareDataForTable($data, $this->getTable('log/customer'));
+            $bind = $this->_prepareDataForTable($data, $this->getTable('log_customer'));
 
             $condition = array(
                 'log_id = ?' => (int) $logId,
             );
 
-            $adapter->update($this->getTable('log/customer'), $bind, $condition);
+            $adapter->update($this->getTable('log_customer'), $bind, $condition);
 
             $visitor->setDoCustomerLogout(false);
             $visitor->setCustomerId(null);
@@ -236,9 +236,9 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
                 'created_at'    => Mage::getSingleton('core/date')->gmtDate()
             ));
 
-            $bind = $this->_prepareDataForTable($data, $this->getTable('log/quote_table'));
+            $bind = $this->_prepareDataForTable($data, $this->getTable('log_quote'));
 
-            $adapter->insert($this->getTable('log/quote_table'), $bind);
+            $adapter->insert($this->getTable('log_quote'), $bind);
 
             $visitor->setDoQuoteCreate(false);
         }
@@ -252,7 +252,7 @@ class Mage_Log_Model_Resource_Visitor extends Mage_Core_Model_Resource_Db_Abstra
                 'quote_id = ?' => (int) $visitor->getQuoteId(),
             );
 
-            $adapter->delete($this->getTable('log/quote_table'), $condition);
+            $adapter->delete($this->getTable('log_quote'), $condition);
 
             $visitor->setDoQuoteDestroy(false);
             $visitor->setQuoteId(null);

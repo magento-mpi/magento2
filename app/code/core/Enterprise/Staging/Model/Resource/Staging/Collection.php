@@ -87,7 +87,7 @@ class Enterprise_Staging_Model_Resource_Staging_Collection extends Mage_Core_Mod
     public function addWebsiteName()
     {
         $this->getSelect()->joinLeft(
-            array('site'=>$this->getTable('core/website')),
+            array('site'=>$this->getTable('core_website')),
             "main_table.staging_website_id = site.website_id",
             array('name' => 'site.name')
         );
@@ -106,7 +106,7 @@ class Enterprise_Staging_Model_Resource_Staging_Collection extends Mage_Core_Mod
 
         $subSelect = clone $this->getSelect();
         $subSelect->reset();
-        $subSelect = $helper->getLastStagingLogQuery($this->getTable('enterprise_staging/staging_log'), $subSelect);
+        $subSelect = $helper->getLastStagingLogQuery($this->getTable('enterprise_staging_log'), $subSelect);
 
         $this->getSelect()
             ->joinLeft(

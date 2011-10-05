@@ -69,7 +69,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         $attributeIds       = array();
         $select = $this->getConnection()->select()
             ->from(
-                array('ea' => $this->getTable('eav/attribute')),
+                array('ea' => $this->getTable('eav_attribute')),
                 array('entity_type_id', 'attribute_code', 'attribute_id'))
             ->where('ea.entity_type_id IN(?)', array($customer, $customerAddress));
         foreach ($this->getConnection()->fetchAll($select) as $row) {
@@ -127,7 +127,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         }
 
         if ($data) {
-            $this->getConnection()->insertMultiple($this->getTable('customer/form_attribute'), $data);
+            $this->getConnection()->insertMultiple($this->getTable('customer_form_attribute'), $data);
         }
     }
 

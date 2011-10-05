@@ -27,7 +27,7 @@
 /** @var $installer Enterprise_Rma_Model_Resource_Setup */
 $installer = $this;
 
-$tableName = $installer->getTable('sales/order_item');
+$tableName = $installer->getTable('sales_flat_order_item');
 
 $installer->startSetup();
 

@@ -55,7 +55,7 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
     protected function _construct()
     {
         $this->_init('directory/currency', 'currency_code');
-        $this->_currencyRateTable   = $this->getTable('directory/currency_rate');
+        $this->_currencyRateTable   = $this->getTable('directory_currency_rate');
     }
 
     /**
@@ -186,7 +186,7 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
         $adapter = $this->_getReadAdapter();
         $bind    = array(':config_path' => $path);
         $select  = $adapter->select()
-                ->from($this->getTable('core/config_data'))
+                ->from($this->getTable('core_config_data'))
                 ->where('path = :config_path');
         $result  = array();
         $rowSet  = $adapter->fetchAll($select, $bind);
@@ -234,7 +234,7 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
             ':currency_from' => $code
         );
         $select  = $adapter->select()
-            ->from($this->getTable('directory/currency_rate'), array('currency_to', 'rate'))
+            ->from($this->getTable('directory_currency_rate'), array('currency_to', 'rate'))
             ->where('currency_from = :currency_from')
             ->where('currency_to IN(?)', $toCurrencies);
         $rowSet  = $adapter->fetchAll($select, $bind);

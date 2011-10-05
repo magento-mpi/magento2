@@ -54,7 +54,7 @@ class Mage_Poll_Model_Resource_Poll_Vote extends Mage_Core_Model_Resource_Db_Abs
         /**
          * Increase answer votes
          */
-        $answerTable = $this->getTable('poll/poll_answer');
+        $answerTable = $this->getTable('poll_answer');
         $pollAnswerData = array('votes_count' => new Zend_Db_Expr('votes_count+1'));
         $condition = array("{$answerTable}.answer_id=?" => $object->getPollAnswerId());
         $this->_getWriteAdapter()->update($answerTable, $pollAnswerData, $condition);
@@ -62,7 +62,7 @@ class Mage_Poll_Model_Resource_Poll_Vote extends Mage_Core_Model_Resource_Db_Abs
         /**
          * Increase poll votes
          */
-        $pollTable = $this->getTable('poll/poll');
+        $pollTable = $this->getTable('poll');
         $pollData = array('votes_count' => new Zend_Db_Expr('votes_count+1'));
         $condition = array("{$pollTable}.poll_id=?" => $object->getPollId());
         $this->_getWriteAdapter()->update($pollTable, $pollData, $condition);

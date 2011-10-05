@@ -33,7 +33,7 @@ $installer->startSetup();
  * Create table 'admin/assert'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('admin/assert'))
+    ->newTable($installer->getTable('admin_assert'))
     ->addColumn('assert_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -53,7 +53,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'admin/role'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('admin/role'))
+    ->newTable($installer->getTable('admin_role'))
     ->addColumn('role_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -99,7 +99,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'admin/rule'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('admin/rule'))
+    ->newTable($installer->getTable('admin_rule'))
     ->addColumn('rule_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -132,7 +132,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('admin/rule', array('role_id', 'resource_id')),
         array('role_id', 'resource_id'))
     ->addForeignKey($installer->getFkName('admin/rule', 'role_id', 'admin/role', 'role_id'),
-        'role_id', $installer->getTable('admin/role'), 'role_id',
+        'role_id', $installer->getTable('admin_role'), 'role_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Admin Rule Table');
 $installer->getConnection()->createTable($table);
@@ -141,7 +141,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'admin/user'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('admin/user'))
+    ->newTable($installer->getTable('admin_user'))
     ->addColumn('user_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,

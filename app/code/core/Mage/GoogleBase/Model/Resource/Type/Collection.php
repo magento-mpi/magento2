@@ -65,7 +65,7 @@ class Mage_GoogleBase_Model_Resource_Type_Collection extends Mage_Core_Model_Res
     {
         $innerSelect = $this->getConnection()->select()
             ->from(
-                array('inner_items' => $this->getTable('googlebase/items')),
+                array('inner_items' => $this->getTable('googlebase_items')),
                 array('type_id', 'cnt' => new Zend_Db_Expr('COUNT(inner_items.item_id)'))
             )
             ->group('inner_items.type_id');
@@ -100,7 +100,7 @@ class Mage_GoogleBase_Model_Resource_Type_Collection extends Mage_Core_Model_Res
     {
         $this->getSelect()
             ->join(
-                array('a_set'=>$this->getTable('eav/attribute_set')),
+                array('a_set'=>$this->getTable('eav_attribute_set')),
                 'main_table.attribute_set_id=a_set.attribute_set_id',
                 array('attribute_set_name' => 'a_set.attribute_set_name'));
         return $this;

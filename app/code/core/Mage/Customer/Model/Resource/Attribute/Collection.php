@@ -61,6 +61,6 @@ class Mage_Customer_Model_Resource_Attribute_Collection extends Mage_Eav_Model_R
      */
     protected function _getEavWebsiteTable()
     {
-        return $this->getTable('customer/eav_attribute_website');
+        return $this->getTable('customer_eav_attribute_website');
     }
 }

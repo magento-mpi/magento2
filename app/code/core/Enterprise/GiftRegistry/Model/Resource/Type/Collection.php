@@ -58,7 +58,7 @@ class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_M
      */
     public function addStoreData($storeId = Mage_Core_Model_App::ADMIN_STORE_ID)
     {
-        $infoTable = $this->getTable('enterprise_giftregistry/info');
+        $infoTable = $this->getTable('enterprise_giftregistry_type_info');
         $adapter   = $this->getConnection();
 
         $select = $adapter->select();

@@ -66,7 +66,7 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
      */
     protected function _getBundleOptionTable()
     {
-        return $this->getTable('bundle/stock_index');
+        return $this->getTable('catalog_product_bundle_stock_index');
     }
 
     /**
@@ -82,18 +82,18 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
         $idxTable = $usePrimaryTable ? $this->getMainTable() : $this->getIdxTable();
         $adapter  = $this->_getWriteAdapter();
         $select   = $adapter->select()
-            ->from(array('bo' => $this->getTable('bundle/option')), array('parent_id'));
+            ->from(array('bo' => $this->getTable('catalog_product_bundle_option')), array('parent_id'));
         $this->_addWebsiteJoinToSelect($select, false);
         $status = new Zend_Db_Expr('MAX(' .
                 $adapter->getCheckSql('e.required_options = 0', 'i.stock_status', '0') . ')');
         $select->columns('website_id', 'cw')
             ->join(
-                array('cis' => $this->getTable('cataloginventory/stock')),
+                array('cis' => $this->getTable('cataloginventory_stock')),
                 '',
                 array('stock_id')
             )
             ->joinLeft(
-                array('bs' => $this->getTable('bundle/selection')),
+                array('bs' => $this->getTable('catalog_product_bundle_selection')),
                 'bs.option_id = bo.option_id',
                 array()
             )
@@ -103,7 +103,7 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
                 array()
             )
             ->joinLeft(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 'e.entity_id = bs.product_id',
                 array()
             )
@@ -146,17 +146,17 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
 
         $adapter = $this->_getWriteAdapter();
         $select  = $adapter->select()
-            ->from(array('e' => $this->getTable('catalog/product')), array('entity_id'));
+            ->from(array('e' => $this->getTable('catalog_product_entity')), array('entity_id'));
         $this->_addWebsiteJoinToSelect($select, true);
         $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
         $select->columns('cw.website_id')
             ->join(
-                array('cis' => $this->getTable('cataloginventory/stock')),
+                array('cis' => $this->getTable('cataloginventory_stock')),
                 '',
                 array('stock_id')
             )
             ->joinLeft(
-                array('cisi' => $this->getTable('cataloginventory/stock_item')),
+                array('cisi' => $this->getTable('cataloginventory_stock_item')),
                 'cisi.stock_id = cis.stock_id AND cisi.product_id = e.entity_id',
                 array()
             )

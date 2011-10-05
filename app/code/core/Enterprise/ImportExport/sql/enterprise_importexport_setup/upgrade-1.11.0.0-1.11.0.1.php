@@ -27,7 +27,7 @@
 $installer = $this;
 
 $installer->getConnection()
-        ->modifyColumn($installer->getTable('enterprise_importexport/scheduled_operation'), 'force_import', array(
+        ->modifyColumn($installer->getTable('enterprise_scheduled_operations'), 'force_import', array(
             'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
             'nullable' => false,
             'default'  => '0'

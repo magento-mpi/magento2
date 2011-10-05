@@ -65,7 +65,7 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
 //        try {
             $readAdapter  = $this->_getReadAdapter();
             $writeAdapter = $this->_getWriteAdapter();
-            $table = $this->getTable('enterprise_logging/event');
+            $table = $this->getTable('enterprise_logging_event');
 
             // get the latest log entry required to the moment
             $clearBefore = $this->formatDate(time() - $lifetime);
@@ -134,9 +134,9 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->distinct()
-            ->from(array('admins' => $this->getTable('admin/user')), 'username')
+            ->from(array('admins' => $this->getTable('admin_user')), 'username')
             ->joinInner(
-                array('events' => $this->getTable('enterprise_logging/event')),
+                array('events' => $this->getTable('enterprise_logging_event')),
                 'admins.username = events.' . $adapter->quoteIdentifier('user'),
                 array());
         return $adapter->fetchCol($select);
@@ -152,7 +152,7 @@ class Enterprise_Logging_Model_Resource_Event extends Mage_Core_Model_Resource_D
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from($this->getTable('enterprise_logging/event_changes'), array('id'))
+            ->from($this->getTable('enterprise_logging_event_changes'), array('id'))
             ->where('event_id = ?', $eventId);
         return $adapter->fetchCol($select);
     }

@@ -67,7 +67,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
         try {
             if ($from !== null || $to !== null) {
                 $subSelect = $this->_getTableDateRangeSelect(
-                    $this->getTable('sales/order'),
+                    $this->getTable('sales_flat_order'),
                     'created_at', 'updated_at', $from, $to
                 );
             } else {
@@ -78,7 +78,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
             // convert dates from UTC to current admin timezone
             $periodExpr = $adapter->getDatePartSql(
                 $this->getStoreTZOffsetQuery(
-                    array('source_table' => $this->getTable('sales/order')),
+                    array('source_table' => $this->getTable('sales_flat_order')),
                     'source_table.created_at', $from, $to
                 )
             );
@@ -124,11 +124,11 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
             $select
                 ->from(
                     array(
-                        'source_table' => $this->getTable('sales/order')),
+                        'source_table' => $this->getTable('sales_flat_order')),
                     $columns)
                 ->joinInner(
                     array(
-                        'order_item' => $this->getTable('sales/order_item')),
+                        'order_item' => $this->getTable('sales_flat_order_item')),
                     'order_item.order_id = source_table.entity_id',
                     array()
                 )
@@ -153,7 +153,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
             $joinExpr = implode(' AND ', $joinExpr);
             $select->joinInner(
                 array(
-                    'product' => $this->getTable('catalog/product')),
+                    'product' => $this->getTable('catalog_product_entity')),
                 $joinExpr,
                 array()
             );

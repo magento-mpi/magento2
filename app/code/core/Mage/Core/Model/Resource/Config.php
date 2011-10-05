@@ -59,7 +59,7 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
 
         $websites = array();
         $select = $read->select()
-            ->from($this->getTable('core/website'), array('website_id', 'code', 'name'));
+            ->from($this->getTable('core_website'), array('website_id', 'code', 'name'));
         $rowset = $read->fetchAssoc($select);
         foreach ($rowset as $w) {
             $xmlConfig->setNode('websites/'.$w['code'].'/system/website/id', $w['website_id']);
@@ -69,7 +69,7 @@ class Mage_Core_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstra
 
         $stores = array();
         $select = $read->select()
-            ->from($this->getTable('core/store'), array('store_id', 'code', 'name', 'website_id'))
+            ->from($this->getTable('core_store'), array('store_id', 'code', 'name', 'website_id'))
             ->order('sort_order ' . Varien_Db_Select::SQL_ASC);
         $rowset = $read->fetchAssoc($select);
         foreach ($rowset as $s) {

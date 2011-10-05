@@ -169,9 +169,9 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             );
 
             $select = $adapter->select()
-                ->from(array('main_table' => $this->getTable('eav/attribute')))
+                ->from(array('main_table' => $this->getTable('eav_attribute')))
                 ->join(
-                    array('additional_table' => $this->getTable('catalog/eav_attribute')),
+                    array('additional_table' => $this->getTable('catalog_eav_attribute')),
                     'additional_table.attribute_id = main_table.attribute_id'
                 )
                 ->where('main_table.entity_type_id = :entity_type_id');
@@ -292,7 +292,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      */
     public function getFlatTableName($storeId)
     {
-        return sprintf('%s_%s', $this->getTable('catalog/product_flat'), $storeId);
+        return sprintf('%s_%s', $this->getTable('catalog_product_flat'), $storeId);
     }
 
     /**
@@ -679,12 +679,12 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             }
 
             $table->addForeignKey($foreignEntityKey,
-                'entity_id', $this->getTable('catalog/product'), 'entity_id',
+                'entity_id', $this->getTable('catalog_product_entity'), 'entity_id',
                 Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);
 
             if ($this->getFlatHelper()->isAddChildData()) {
                 $table->addForeignKey($foreignChildKey,
-                    'child_id', $this->getTable('catalog/product'), 'entity_id',
+                    'child_id', $this->getTable('catalog_product_entity'), 'entity_id',
                     Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE);
             }
             $table->setComment("Catalog Product Flat (Store {$storeId})");
@@ -730,7 +730,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             $addConstraints = array();
             $addConstraints[$foreignEntityKey] = array(
                 'table_index'   => 'entity_id',
-                'ref_table'     => $this->getTable('catalog/product'),
+                'ref_table'     => $this->getTable('catalog_product_entity'),
                 'ref_index'     => 'entity_id',
                 'on_update'     => Varien_Db_Ddl_Table::ACTION_CASCADE,
                 'on_delete'     => Varien_Db_Ddl_Table::ACTION_CASCADE
@@ -749,7 +749,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
                 $addConstraints[$foreignChildKey] = array(
                     'table_index'   => 'child_id',
-                    'ref_table'     => $this->getTable('catalog/product'),
+                    'ref_table'     => $this->getTable('catalog_product_entity'),
                     'ref_index'     => 'entity_id',
                     'on_update'     => Varien_Db_Ddl_Table::ACTION_CASCADE,
                     'on_delete'     => Varien_Db_Ddl_Table::ACTION_CASCADE
@@ -845,9 +845,9 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
         $fieldExpr = $adapter->getCheckSql('t2.value_id > 0', 't2.value', 't1.value');
         $select     = $this->_getWriteAdapter()->select()
-            ->from(array('e' => $this->getTable('catalog/product')), $colsList)
+            ->from(array('e' => $this->getTable('catalog_product_entity')), $colsList)
             ->join(
-                array('wp' => $this->getTable('catalog/product_website')),
+                array('wp' => $this->getTable('catalog_product_website')),
                 'e.entity_id = wp.product_id AND wp.website_id = :website_id',
                 array())
             ->joinLeft(
@@ -913,7 +913,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
         $select = $adapter->select()
             ->from(array('e' => $this->getFlatTableName($storeId)), null)
             ->joinLeft(
-                array('wp' => $this->getTable('catalog/product_website')),
+                array('wp' => $this->getTable('catalog_product_website')),
                 implode(' AND ', $joinCondition),
                 array());
         if ($productIds !== null) {
@@ -956,7 +956,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
 
             $select = $adapter->select()
                 ->join(
-                    array('main_table' => $this->getTable('catalog/product')),
+                    array('main_table' => $this->getTable('catalog_product_entity')),
                     'main_table.entity_id = e.entity_id',
                     array($attribute->getAttributeCode() => 'main_table.' . $attribute->getAttributeCode())
                 );

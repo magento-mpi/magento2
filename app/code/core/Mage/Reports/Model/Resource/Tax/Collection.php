@@ -59,7 +59,7 @@ class Mage_Reports_Model_Resource_Tax_Collection extends Mage_Sales_Model_Entity
             ->addExpressionAttributeToSelect('orders', 'COUNT(DISTINCT({{entity_id}}))', array('entity_id'))
             ->getSelect()
             ->join(
-                array('tax_table' => $this->getTable('sales/order_tax')),
+                array('tax_table' => $this->getTable('sales_order_tax')),
                 'e.entity_id = tax_table.order_id')
             ->group('tax_table.code')
             ->order(array('process', 'priority'));

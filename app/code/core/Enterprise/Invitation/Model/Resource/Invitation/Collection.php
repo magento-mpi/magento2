@@ -102,7 +102,7 @@ class Enterprise_Invitation_Model_Resource_Invitation_Collection extends Mage_Co
     {
         $this->getSelect()
             ->joinInner(
-                array('w' => $this->getTable('core/store')),
+                array('w' => $this->getTable('core_store')),
                 'main_table.store_id = w.store_id',
                 'w.website_id'
             );
@@ -117,7 +117,7 @@ class Enterprise_Invitation_Model_Resource_Invitation_Collection extends Mage_Co
     public function addInviteeInformation()
     {
         $this->getSelect()->joinLeft(
-            array('c' => $this->getTable('customer/entity')),
+            array('c' => $this->getTable('customer_entity')),
             'main_table.referral_id = c.entity_id', array('invitee_email' => 'c.email')
         );
         return $this;

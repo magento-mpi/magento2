@@ -64,7 +64,7 @@ class Mage_Newsletter_Model_Resource_Problem_Collection extends Mage_Core_Model_
      */
     public function addSubscriberInfo()
     {
-        $this->getSelect()->joinLeft(array('subscriber'=>$this->getTable('newsletter/subscriber')),
+        $this->getSelect()->joinLeft(array('subscriber'=>$this->getTable('newsletter_subscriber')),
             'main_table.subscriber_id = subscriber.subscriber_id',
             array('subscriber_email','customer_id','subscriber_status')
         );
@@ -80,11 +80,11 @@ class Mage_Newsletter_Model_Resource_Problem_Collection extends Mage_Core_Model_
      */
     public function addQueueInfo()
     {
-        $this->getSelect()->joinLeft(array('queue'=>$this->getTable('newsletter/queue')),
+        $this->getSelect()->joinLeft(array('queue'=>$this->getTable('newsletter_queue')),
             'main_table.queue_id = queue.queue_id',
             array('queue_start_at', 'queue_finish_at')
         )
-        ->joinLeft(array('template'=>$this->getTable('newsletter/template')), 'main_table.queue_id = queue.queue_id',
+        ->joinLeft(array('template'=>$this->getTable('newsletter_template')), 'main_table.queue_id = queue.queue_id',
             array('template_subject','template_code','template_sender_name','template_sender_email')
         );
         return $this;

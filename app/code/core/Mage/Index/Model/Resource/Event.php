@@ -80,7 +80,7 @@ class Mage_Index_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstra
     {
         $processIds = $object->getProcessIds();
         if (is_array($processIds)) {
-            $processTable = $this->getTable('index/process_event');
+            $processTable = $this->getTable('index_process_event');
             if (empty($processIds)) {
                 $this->_getWriteAdapter()->delete($processTable);
             } else {

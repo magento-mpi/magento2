@@ -142,7 +142,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
         $adapter = $this->_getReadAdapter();
 
         $select = $adapter->select()
-            ->from($this->getTable('enterprise_rma/item_entity'), array())
+            ->from($this->getTable('enterprise_rma_item_entity'), array())
             ->where('rma_entity_id = ?', $rmaId)
             ->where('status = ?', Enterprise_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED)
             ->group(array('order_item_id', 'product_name'))
@@ -177,7 +177,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
 
         $subSelect = $adapter->select()
             ->from(
-                array('main' => $this->getTable('enterprise_rma/rma')),
+                array('main' => $this->getTable('enterprise_rma')),
                 array()
             )
             ->where('main.order_id = ?', $orderId)
@@ -190,7 +190,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
 
         $select = $adapter->select()
             ->from(
-                array('item_entity' => $this->getTable('enterprise_rma/item_entity')),
+                array('item_entity' => $this->getTable('enterprise_rma_item_entity')),
                 array('item_entity.order_item_id','item_entity.order_item_id')
             )
             ->exists($subSelect, 'main.entity_id = item_entity.rma_entity_id');

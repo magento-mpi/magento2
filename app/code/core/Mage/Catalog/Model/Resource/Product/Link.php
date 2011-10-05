@@ -47,7 +47,7 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
     protected function _construct()
     {
         $this->_init('catalog/product_link', 'link_id');
-        $this->_attributesTable = $this->getTable('catalog/product_link_attribute');
+        $this->_attributesTable = $this->getTable('catalog_product_link_attribute');
     }
 
     /**
@@ -201,7 +201,7 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
             ->where('link_type_id = :link_type_id');
         if ($typeId == Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED) {
             $select->join(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 'e.entity_id = l.linked_product_id AND e.required_options = 0',
                 array()
             );

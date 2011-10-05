@@ -73,8 +73,8 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
      */
     protected function _aggregateByOrderCreatedAt($from, $to)
     {
-        $table       = $this->getTable('sales/refunded_aggregated_order');
-        $sourceTable = $this->getTable('sales/order');
+        $table       = $this->getTable('sales_refunded_aggregated_order');
+        $sourceTable = $this->getTable('sales_flat_order');
         $adapter     = $this->_getWriteAdapter();
         $adapter->beginTransaction();
 
@@ -166,9 +166,9 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
      */
     protected function _aggregateByRefundCreatedAt($from, $to)
     {
-        $table       = $this->getTable('sales/refunded_aggregated');
-        $sourceTable = $this->getTable('sales/creditmemo');
-        $orderTable  = $this->getTable('sales/order');
+        $table       = $this->getTable('sales_refunded_aggregated');
+        $sourceTable = $this->getTable('sales_flat_creditmemo');
+        $orderTable  = $this->getTable('sales_flat_order');
         $adapter     = $this->_getWriteAdapter();
         $adapter->beginTransaction();
 

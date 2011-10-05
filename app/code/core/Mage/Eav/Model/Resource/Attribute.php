@@ -133,7 +133,7 @@ abstract class Mage_Eav_Model_Resource_Attribute extends Mage_Eav_Model_Resource
         if (!$object->isObjectNew() && $object->dataHasChangedFor('sort_order')) {
             $data  = array('sort_order' => $object->getSortOrder());
             $where = array('attribute_id=?' => (int)$object->getId());
-            $adapter->update($this->getTable('eav/entity_attribute'), $data, $where);
+            $adapter->update($this->getTable('eav_entity_attribute'), $data, $where);
         }
 
         // save scope attributes

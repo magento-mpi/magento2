@@ -33,7 +33,7 @@ $installer->startSetup();
  * Create table 'index/event'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('index/event'))
+    ->newTable($installer->getTable('index_event'))
     ->addColumn('event_id', Varien_Db_Ddl_Table::TYPE_BIGINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -64,7 +64,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'index/process'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('index/process'))
+    ->newTable($installer->getTable('index_process'))
     ->addColumn('process_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -95,7 +95,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'index/process_event'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('index/process_event'))
+    ->newTable($installer->getTable('index_process_event'))
     ->addColumn('process_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -113,10 +113,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('index/process_event', array('event_id')),
         array('event_id'))
     ->addForeignKey($installer->getFkName('index/process_event', 'event_id', 'index/event', 'event_id'),
-        'event_id', $installer->getTable('index/event'), 'event_id',
+        'event_id', $installer->getTable('index_event'), 'event_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('index/process_event', 'process_id', 'index/process', 'process_id'),
-        'process_id', $installer->getTable('index/process'), 'process_id',
+        'process_id', $installer->getTable('index_process'), 'process_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Index Process Event');
 $installer->getConnection()->createTable($table);

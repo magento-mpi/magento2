@@ -52,7 +52,7 @@ class Mage_Downloadable_Model_Resource_Sample extends Mage_Core_Model_Resource_D
     public function saveItemTitle($sampleObject)
     {
         $writeAdapter   = $this->_getWriteAdapter();
-        $sampleTitleTable = $this->getTable('downloadable/sample_title');
+        $sampleTitleTable = $this->getTable('downloadable_sample_title');
         $bind = array(
             ':sample_id' => $sampleObject->getId(),
             ':store_id'  => (int)$sampleObject->getStoreId()
@@ -107,7 +107,7 @@ class Mage_Downloadable_Model_Resource_Sample extends Mage_Core_Model_Resource_D
             $writeAdapter->delete(
                 $this->getMainTable(), $where);
             $writeAdapter->delete(
-                $this->getTable('downloadable/sample_title'), $where);
+                $this->getTable('downloadable_sample_title'), $where);
         }
         return $this;
     }
@@ -126,11 +126,11 @@ class Mage_Downloadable_Model_Resource_Sample extends Mage_Core_Model_Resource_D
         $select = $adapter->select()
             ->from(array('m' => $this->getMainTable()), null)
             ->join(
-                array('d' => $this->getTable('downloadable/sample_title')),
+                array('d' => $this->getTable('downloadable_sample_title')),
                 'd.sample_id=m.sample_id AND d.store_id=0',
                 array())
             ->joinLeft(
-                array('st' => $this->getTable('downloadable/sample_title')),
+                array('st' => $this->getTable('downloadable_sample_title')),
                 'st.sample_id=m.sample_id AND st.store_id=:store_id',
                 array('title' => $ifNullDefaultTitle))
             ->where('m.product_id=:product_id', $productId);

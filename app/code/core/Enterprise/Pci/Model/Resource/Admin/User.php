@@ -105,7 +105,7 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
     public function getOldPasswords($user, $retainLimit = 4)
     {
         $userId = (int)$user->getId();
-        $table  = $this->getTable('enterprise_pci/admin_passwords');
+        $table  = $this->getTable('enterprise_admin_passwords');
 
         // purge expired passwords, except that should retain
         $retainPasswordIds = $this->_getWriteAdapter()->fetchCol(
@@ -142,7 +142,7 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
     public function trackPassword($user, $passwordHash, $lifetime)
     {
         $now = time();
-        $this->_getWriteAdapter()->insert($this->getTable('enterprise_pci/admin_passwords'), array(
+        $this->_getWriteAdapter()->insert($this->getTable('enterprise_admin_passwords'), array(
             'user_id'       => $user->getId(),
             'password_hash' => $passwordHash,
             'expires'       => $now + $lifetime,
@@ -161,7 +161,7 @@ class Enterprise_Pci_Model_Resource_Admin_User extends Mage_Admin_Model_Resource
     {
         return $this->_getReadAdapter()->fetchRow(
             $this->_getReadAdapter()->select()
-                ->from($this->getTable('enterprise_pci/admin_passwords'))
+                ->from($this->getTable('enterprise_admin_passwords'))
                 ->where('user_id = :user_id')
                 ->order('password_id ' . Varien_Db_Select::SQL_DESC)
                 ->limit(1),

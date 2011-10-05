@@ -32,7 +32,7 @@ $installer->startSetup();
  * Create table 'enterprise_customerbalance/balance'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_customerbalance/balance'))
+    ->newTable($installer->getTable('enterprise_customerbalance'))
     ->addColumn('balance_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -58,10 +58,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_customerbalance/balance', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('enterprise_customerbalance/balance', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('enterprise_customerbalance/balance', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Customerbalance');
 $installer->getConnection()->createTable($table);
@@ -70,7 +70,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_customerbalance/balance_history'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_customerbalance/balance_history'))
+    ->newTable($installer->getTable('enterprise_customerbalance_history'))
     ->addColumn('history_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -107,7 +107,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_customerbalance/balance_history', array('balance_id')),
         array('balance_id'))
     ->addForeignKey($installer->getFkName('enterprise_customerbalance/balance_history', 'balance_id', 'enterprise_customerbalance/balance', 'balance_id'),
-        'balance_id', $installer->getTable('enterprise_customerbalance/balance'), 'balance_id',
+        'balance_id', $installer->getTable('enterprise_customerbalance'), 'balance_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Customerbalance History');
 $installer->getConnection()->createTable($table);

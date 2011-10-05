@@ -108,7 +108,7 @@ class Enterprise_TargetRule_Model_Resource_Rule_Collection extends Mage_Core_Mod
     public function addProductFilter($productId)
     {
         $this->getSelect()->join(
-            array('product_idx' => $this->getTable('enterprise_targetrule/product')),
+            array('product_idx' => $this->getTable('enterprise_targetrule_product')),
             'product_idx.rule_id = main_table.rule_id',
             array()
         );

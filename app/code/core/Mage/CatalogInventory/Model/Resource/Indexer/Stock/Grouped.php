@@ -71,24 +71,24 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Grouped
         $adapter  = $this->_getWriteAdapter();
         $idxTable = $usePrimaryTable ? $this->getMainTable() : $this->getIdxTable();
         $select   = $adapter->select()
-            ->from(array('e' => $this->getTable('catalog/product')), array('entity_id'));
+            ->from(array('e' => $this->getTable('catalog_product_entity')), array('entity_id'));
         $this->_addWebsiteJoinToSelect($select, true);
         $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
         $select->columns('cw.website_id')
             ->join(
-                array('cis' => $this->getTable('cataloginventory/stock')),
+                array('cis' => $this->getTable('cataloginventory_stock')),
                 '',
                 array('stock_id'))
             ->joinLeft(
-                array('cisi' => $this->getTable('cataloginventory/stock_item')),
+                array('cisi' => $this->getTable('cataloginventory_stock_item')),
                 'cisi.stock_id = cis.stock_id AND cisi.product_id = e.entity_id',
                 array())
             ->joinLeft(
-                array('l' => $this->getTable('catalog/product_link')),
+                array('l' => $this->getTable('catalog_product_link')),
                 'e.entity_id = l.product_id AND l.link_type_id=' . Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED,
                 array())
             ->joinLeft(
-                array('le' => $this->getTable('catalog/product')),
+                array('le' => $this->getTable('catalog_product_entity')),
                 'le.entity_id = l.linked_product_id',
                 array())
             ->joinLeft(

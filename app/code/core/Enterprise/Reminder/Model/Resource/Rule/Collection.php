@@ -92,7 +92,7 @@ class Enterprise_Reminder_Model_Resource_Rule_Collection extends Mage_Core_Model
         parent::_afterLoad();
         if ($this->getFlag('add_websites_to_result') && $this->_items) {
             $select = $this->getConnection()->select()
-                ->from($this->getTable('enterprise_reminder/website'), array(
+                ->from($this->getTable('enterprise_reminder_rule_website'), array(
                     'rule_id',
                     'website_id'
                 ))
@@ -136,7 +136,7 @@ class Enterprise_Reminder_Model_Resource_Rule_Collection extends Mage_Core_Model
         if (!$this->getFlag('is_website_table_joined')) {
             $this->setFlag('is_website_table_joined', true);
             $this->getSelect()->joinInner(
-                array('website' => $this->getTable('enterprise_reminder/website')),
+                array('website' => $this->getTable('enterprise_reminder_rule_website')),
                 'main_table.rule_id = website.rule_id',
                 array()
             );

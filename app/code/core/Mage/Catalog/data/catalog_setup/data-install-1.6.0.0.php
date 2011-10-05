@@ -163,7 +163,7 @@ $data = array(
 );
 
 foreach ($data as $bind) {
-    $installer->getConnection()->insertForce($installer->getTable('catalog/product_link_type'), $bind);
+    $installer->getConnection()->insertForce($installer->getTable('catalog_product_link_type'), $bind);
 }
 
 /**
@@ -197,17 +197,17 @@ $data = array(
     ),
 );
 
-$installer->getConnection()->insertMultiple($installer->getTable('catalog/product_link_attribute'), $data);
+$installer->getConnection()->insertMultiple($installer->getTable('catalog_product_link_attribute'), $data);
 
 /**
  * Remove Catalog specified attribute options (columns) from eav/attribute table
  *
  */
-$describe = $installer->getConnection()->describeTable($installer->getTable('catalog/eav_attribute'));
+$describe = $installer->getConnection()->describeTable($installer->getTable('catalog_eav_attribute'));
 foreach ($describe as $columnData) {
     if ($columnData['COLUMN_NAME'] == 'attribute_id') {
         continue;
     }
-    $installer->getConnection()->dropColumn($installer->getTable('eav/attribute'), $columnData['COLUMN_NAME']);
+    $installer->getConnection()->dropColumn($installer->getTable('eav_attribute'), $columnData['COLUMN_NAME']);
 }
 

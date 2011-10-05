@@ -84,10 +84,10 @@ class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
         while (true) {
             $select = $readAdapter->select()
                 ->from(
-                    array('visitor_table' => $this->getTable('log/visitor')),
+                    array('visitor_table' => $this->getTable('log_visitor')),
                     array('visitor_id' => 'visitor_table.visitor_id'))
                 ->joinLeft(
-                    array('customer_table' => $this->getTable('log/customer')),
+                    array('customer_table' => $this->getTable('log_customer')),
                     'visitor_table.visitor_id = customer_table.visitor_id AND customer_table.log_id IS NULL',
                     array())
                 ->where('visitor_table.last_visit_at < ?', $timeLimit)
@@ -102,16 +102,16 @@ class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
             $condition = array('visitor_id IN (?)' => $visitorIds);
             
             // remove visitors from log/quote
-            $writeAdapter->delete($this->getTable('log/quote_table'), $condition);
+            $writeAdapter->delete($this->getTable('log_quote'), $condition);
 
             // remove visitors from log/url
-            $writeAdapter->delete($this->getTable('log/url_table'), $condition);
+            $writeAdapter->delete($this->getTable('log_url'), $condition);
 
             // remove visitors from log/visitor_info
-            $writeAdapter->delete($this->getTable('log/visitor_info'), $condition);
+            $writeAdapter->delete($this->getTable('log_visitor_info'), $condition);
 
             // remove visitors from log/visitor
-            $writeAdapter->delete($this->getTable('log/visitor'), $condition);
+            $writeAdapter->delete($this->getTable('log_visitor'), $condition);
         }
 
         return $this;
@@ -133,7 +133,7 @@ class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
         // retrieve last active customer log id
         $lastLogId = $readAdapter->fetchOne(
             $readAdapter->select()
-                ->from($this->getTable('log/customer'), 'log_id')
+                ->from($this->getTable('log_customer'), 'log_id')
                 ->where('login_at < ?', $timeLimit)
                 ->order('log_id DESC')
                 ->limit(1)
@@ -146,10 +146,10 @@ class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
         // Order by desc log_id before grouping (within-group aggregates query pattern)
         $select = $readAdapter->select()
             ->from(
-                array('log_customer_main' => $this->getTable('log/customer')),
+                array('log_customer_main' => $this->getTable('log_customer')),
                 array('log_id'))
             ->joinLeft(
-                array('log_customer' => $this->getTable('log/customer')),
+                array('log_customer' => $this->getTable('log_customer')),
                 'log_customer_main.customer_id = log_customer.customer_id '
                     . 'AND log_customer_main.log_id < log_customer.log_id',
                 array())
@@ -167,7 +167,7 @@ class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
             $visitorIds = array();
             $select = $readAdapter->select()
                 ->from(
-                    $this->getTable('log/customer'),
+                    $this->getTable('log_customer'),
                     array('log_id', 'visitor_id'))
                 ->where('log_id > ?', $customerLogId)
                 ->where('log_id < ?', $lastLogId + 1)
@@ -192,19 +192,19 @@ class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
                 $condition = array('visitor_id IN (?)' => $visitorIds);
 
                 // remove visitors from log/quote
-                $writeAdapter->delete($this->getTable('log/quote_table'), $condition);
+                $writeAdapter->delete($this->getTable('log_quote'), $condition);
 
                 // remove visitors from log/url
-                $writeAdapter->delete($this->getTable('log/url_table'), $condition);
+                $writeAdapter->delete($this->getTable('log_url'), $condition);
 
                 // remove visitors from log/visitor_info
-                $writeAdapter->delete($this->getTable('log/visitor_info'), $condition);
+                $writeAdapter->delete($this->getTable('log_visitor_info'), $condition);
 
                 // remove visitors from log/visitor
-                $writeAdapter->delete($this->getTable('log/visitor'), $condition);
+                $writeAdapter->delete($this->getTable('log_visitor'), $condition);
 
                 // remove customers from log/customer
-                $writeAdapter->delete($this->getTable('log/customer'), $condition);
+                $writeAdapter->delete($this->getTable('log_customer'), $condition);
             }
 
             if ($customerLogId == $lastLogId) {
@@ -228,10 +228,10 @@ class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
         while (true) {
             $select = $readAdapter->select()
                 ->from(
-                    array('url_info_table' => $this->getTable('log/url_info_table')),
+                    array('url_info_table' => $this->getTable('log_url_info')),
                     array('url_id'))
                 ->joinLeft(
-                    array('url_table' => $this->getTable('log/url_table')),
+                    array('url_table' => $this->getTable('log_url')),
                     'url_info_table.url_id = url_table.url_id',
                     array())
                 ->where('url_table.url_id IS NULL')
@@ -244,7 +244,7 @@ class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
             }
 
             $writeAdapter->delete(
-                $this->getTable('log/url_info_table'),
+                $this->getTable('log_url_info'),
                 array('url_id IN (?)' => $urlIds)
             );
         }

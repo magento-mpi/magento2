@@ -129,7 +129,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
      */
     public function getConditionsSql($customer, $website)
     {
-        $table = $this->getResource()->getTable('newsletter/subscriber');
+        $table = $this->getResource()->getTable('newsletter_subscriber');
         $value = (int) $this->getValue();
 
         $select = $this->getResource()->createSelect()

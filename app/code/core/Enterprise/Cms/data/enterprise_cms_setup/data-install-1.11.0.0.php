@@ -44,21 +44,21 @@ $attributes = array(
 $adapter = $installer->getConnection();
 $select  = $adapter->select();
 
-$select->from(array('p' => $installer->getTable('cms/page')))
-    ->joinLeft(array('v' => $installer->getTable('enterprise_cms/page_version')), 'v.page_id = p.page_id', array())
+$select->from(array('p' => $installer->getTable('cms_page')))
+    ->joinLeft(array('v' => $installer->getTable('enterprise_cms_page_version')), 'v.page_id = p.page_id', array())
     ->where('v.page_id IS NULL');
 
 $resource = $adapter->query($select);
 
 while ($page = $resource->fetch(Zend_Db::FETCH_ASSOC)) {
-    $adapter->insert($installer->getTable('enterprise_cms/increment'), array(
+    $adapter->insert($installer->getTable('enterprise_cms_increment'), array(
         'increment_type'    => 0,
         'increment_node'    => $page['page_id'],
         'increment_level'   => 0,
         'last_id'           => 1
     ));
 
-    $adapter->insert($installer->getTable('enterprise_cms/page_version'), array(
+    $adapter->insert($installer->getTable('enterprise_cms_page_version'), array(
         'version_number'  => 1,
         'page_id'         => $page['page_id'],
         'access_level'    => Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC,
@@ -68,9 +68,9 @@ while ($page = $resource->fetch(Zend_Db::FETCH_ASSOC)) {
         'created_at'      => Mage::getSingleton('core/date')->gmtDate()
     ));
 
-    $versionId = $adapter->lastInsertId($installer->getTable('enterprise_cms/page_version'), 'version_id');
+    $versionId = $adapter->lastInsertId($installer->getTable('enterprise_cms_page_version'), 'version_id');
 
-    $adapter->insert($installer->getTable('enterprise_cms/increment'), array(
+    $adapter->insert($installer->getTable('enterprise_cms_increment'), array(
         'increment_type'    => 0,
         'increment_node'    => $versionId,
         'increment_level'   => 1,
@@ -92,7 +92,7 @@ while ($page = $resource->fetch(Zend_Db::FETCH_ASSOC)) {
     $_data['version_id']      = $versionId;
     $_data['page_id']         = $page['page_id'];
 
-    $adapter->insert($installer->getTable('enterprise_cms/page_revision'), $_data);
+    $adapter->insert($installer->getTable('enterprise_cms_page_revision'), $_data);
 }
 
 $adapter->query($select);

@@ -58,8 +58,8 @@ class Mage_Eav_Model_Resource_Form_Element extends Mage_Core_Model_Resource_Db_A
     {
         $select = parent::_getLoadSelect($field, $value, $object);
         $select->join(
-            $this->getTable('eav/attribute'),
-            $this->getTable('eav/attribute') . '.attribute_id = ' . $this->getMainTable() . '.attribute_id',
+            $this->getTable('eav_attribute'),
+            $this->getTable('eav_attribute') . '.attribute_id = ' . $this->getMainTable() . '.attribute_id',
             array('attribute_code', 'entity_type_id')
         );
 

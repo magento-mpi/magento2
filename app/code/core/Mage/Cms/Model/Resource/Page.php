@@ -62,7 +62,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
             'page_id = ?'     => (int) $object->getId(),
         );
 
-        $this->_getWriteAdapter()->delete($this->getTable('cms/page_store'), $condition);
+        $this->_getWriteAdapter()->delete($this->getTable('cms_page_store'), $condition);
 
         return parent::_beforeDelete($object);
     }
@@ -121,7 +121,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
         if (empty($newStores)) {
             $newStores = (array)$object->getStoreId();
         }
-        $table  = $this->getTable('cms/page_store');
+        $table  = $this->getTable('cms_page_store');
         $insert = array_diff($newStores, $oldStores);
         $delete = array_diff($oldStores, $newStores);
 
@@ -200,7 +200,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
         if ($object->getStoreId()) {
             $storeIds = array(Mage_Core_Model_App::ADMIN_STORE_ID, (int)$object->getStoreId());
             $select->join(
-                array('cms_page_store' => $this->getTable('cms/page_store')),
+                array('cms_page_store' => $this->getTable('cms_page_store')),
                 $this->getMainTable() . '.page_id = cms_page_store.page_id',
                 array())
                 ->where('is_active = ?', 1)
@@ -225,7 +225,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
         $select = $this->_getReadAdapter()->select()
             ->from(array('cp' => $this->getMainTable()))
             ->join(
-                array('cps' => $this->getTable('cms/page_store')),
+                array('cps' => $this->getTable('cms_page_store')),
                 'cp.page_id = cps.page_id',
                 array())
             ->where('cp.identifier = ?', $identifier)
@@ -386,7 +386,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
         $adapter = $this->_getReadAdapter();
 
         $select  = $adapter->select()
-            ->from($this->getTable('cms/page_store'), 'store_id')
+            ->from($this->getTable('cms_page_store'), 'store_id')
             ->where('page_id = ?',(int)$pageId);
 
         return $adapter->fetchCol($select);

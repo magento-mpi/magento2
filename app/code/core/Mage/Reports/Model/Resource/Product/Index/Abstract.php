@@ -168,7 +168,7 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
             $select = $this->_getReadAdapter()->select()
                 ->from(array('main_table' => $this->getMainTable()), array($this->getIdFieldName()))
                 ->joinLeft(
-                    array('visitor_table' => $this->getTable('log/visitor')),
+                    array('visitor_table' => $this->getTable('log_visitor')),
                     'main_table.visitor_id = visitor_table.visitor_id',
                     array())
                 ->where('main_table.visitor_id > ?', 0)

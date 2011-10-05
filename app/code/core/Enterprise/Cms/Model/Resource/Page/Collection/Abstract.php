@@ -131,7 +131,7 @@ abstract class Enterprise_Cms_Model_Resource_Page_Collection_Abstract
         if (!$this->getFlag('user_name_column_joined')) {
             $userField = $this->getConnection()->getIfNullSql('ut.username', '-1');
             $this->getSelect()->joinLeft(
-                array('ut' => $this->getTable('admin/user')),
+                array('ut' => $this->getTable('admin_user')),
                 'ut.user_id = main_table.user_id',
                 array('username' => $userField));
 

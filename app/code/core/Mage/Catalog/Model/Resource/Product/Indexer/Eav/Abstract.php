@@ -170,9 +170,9 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
         $idxTable   = $this->getIdxTable();
 
         $select = $write->select()
-            ->from(array('l' => $this->getTable('catalog/product_relation')), 'parent_id')
+            ->from(array('l' => $this->getTable('catalog_product_relation')), 'parent_id')
             ->join(
-                array('cs' => $this->getTable('core/store')),
+                array('cs' => $this->getTable('core_store')),
                 '',
                 array())
             ->join(

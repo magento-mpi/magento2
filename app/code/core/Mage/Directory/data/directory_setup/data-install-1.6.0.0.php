@@ -96,7 +96,7 @@ $data = array(
 );
 
 $columns = array('country_id', 'iso2_code', 'iso3_code');
-$installer->getConnection()->insertArray($installer->getTable('directory/country'), $columns, $data);
+$installer->getConnection()->insertArray($installer->getTable('directory_country'), $columns, $data);
 
 /**
  * Fill table directory/country_region
@@ -292,15 +292,15 @@ foreach ($data as $row) {
         'code'          => $row[1],
         'default_name'  => $row[2],
     );
-    $installer->getConnection()->insert($installer->getTable('directory/country_region'), $bind);
-    $regionId = $installer->getConnection()->lastInsertId($installer->getTable('directory/country_region'));
+    $installer->getConnection()->insert($installer->getTable('directory_country_region'), $bind);
+    $regionId = $installer->getConnection()->lastInsertId($installer->getTable('directory_country_region'));
 
     $bind = array(
         'locale'    => 'en_US',
         'region_id' => $regionId,
         'name'      => $row[2]
     );
-    $installer->getConnection()->insert($installer->getTable('directory/country_region_name'), $bind);
+    $installer->getConnection()->insert($installer->getTable('directory_country_region_name'), $bind);
 }
 
 /**
@@ -314,4 +314,4 @@ $data = array(
 );
 
 $columns = array('currency_from', 'currency_to', 'rate');
-$installer->getConnection()->insertArray($installer->getTable('directory/currency_rate'), $columns, $data);
+$installer->getConnection()->insertArray($installer->getTable('directory_currency_rate'), $columns, $data);

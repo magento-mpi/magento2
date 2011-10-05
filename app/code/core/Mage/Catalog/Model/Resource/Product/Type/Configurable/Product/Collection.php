@@ -48,7 +48,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Product_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_linkTable = $this->getTable('catalog/product_super_link');
+        $this->_linkTable = $this->getTable('catalog_product_super_link');
     }
 
     /**

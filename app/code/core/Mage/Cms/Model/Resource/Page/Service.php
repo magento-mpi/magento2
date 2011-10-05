@@ -58,7 +58,7 @@ class Mage_Cms_Model_Resource_Page_Service extends Mage_Core_Model_Resource_Db_A
     {
         $readAdapter = $this->_getReadAdapter();
 
-        $linkTable = $this->getTable('cms/page_store');
+        $linkTable = $this->getTable('cms_page_store');
         $mainTable = $this->getMainTable();
         $byLinkTable = $byLinkTable ? $byLinkTable : $linkTable;
 

@@ -848,7 +848,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         $categories = array();
 
         $select = $this->getConnection()->select();
-        $select->from($this->getTable('catalog/category'));
+        $select->from($this->getTable('catalog_category_entity'));
         $categories = $this->getConnection()->fetchAll($select);
 
         if (is_array($categories)) {
@@ -863,7 +863,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 $this
                     ->getConnection()
                     ->update(
-                        $this->getTable('catalog/category'),
+                        $this->getTable('catalog_category_entity'),
                         array('path' => $path),
                         array('entity_id = ?' => $category['entity_id'])
                     );
@@ -882,7 +882,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     {
         $select = $this->getConnection()->select();
 
-        $select->from($this->getTable('catalog/category'));
+        $select->from($this->getTable('catalog_category_entity'));
         $select->where('entity_id = :entity_id');
 
         return $this->getConnection()->fetchRow($select, array('entity_id' => $entityId));
@@ -919,14 +919,14 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     {
         $adapter = $this->getConnection();
         $select = $adapter->select()
-            ->from($this->getTable('catalog/category'));
+            ->from($this->getTable('catalog_category_entity'));
 
         $categories = $adapter->fetchAll($select);
 
         foreach ($categories as $category) {
             $level = count(explode('/', $category['path']))-1;
             $adapter->update(
-                $this->getTable('catalog/category'),
+                $this->getTable('catalog_category_entity'),
                 array('level' => $level),
                 array('entity_id = ?' => $category['entity_id'])
             );

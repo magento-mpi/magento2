@@ -94,7 +94,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
      */
     public function getConditionsSql($customer, $website)
     {
-        $table = $this->getResource()->getTable('wishlist/wishlist');
+        $table = $this->getResource()->getTable('wishlist');
 
         $select = $this->getResource()->createSelect();
         $select->from(array('list' => $table), array(new Zend_Db_Expr(1)));

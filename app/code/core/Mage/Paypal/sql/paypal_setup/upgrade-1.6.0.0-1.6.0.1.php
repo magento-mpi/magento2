@@ -31,7 +31,7 @@ $installer = $this;
  * Create table 'paypal/payment_transaction'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('paypal/payment_transaction'))
+    ->newTable($installer->getTable('paypal_payment_transaction'))
     ->addColumn('transaction_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,

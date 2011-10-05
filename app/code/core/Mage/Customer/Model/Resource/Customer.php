@@ -249,7 +249,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     {
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
-            ->from($this->getTable('customer/entity'), array('email', 'cnt' => 'COUNT(*)'))
+            ->from($this->getTable('customer_entity'), array('email', 'cnt' => 'COUNT(*)'))
             ->group('email')
             ->order('cnt DESC')
             ->limit(1);
@@ -271,7 +271,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
         $adapter = $this->_getReadAdapter();
         $bind    = array('entity_id' => (int)$customerId);
         $select  = $adapter->select()
-            ->from($this->getTable('customer/entity'), 'entity_id')
+            ->from($this->getTable('customer_entity'), 'entity_id')
             ->where('entity_id = :entity_id')
             ->limit(1);
 
@@ -293,7 +293,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
         $adapter = $this->_getReadAdapter();
         $bind    = array('entity_id' => (int)$customerId);
         $select  = $adapter->select()
-            ->from($this->getTable('customer/entity'), 'website_id')
+            ->from($this->getTable('customer_entity'), 'website_id')
             ->where('entity_id = :entity_id');
 
         return $adapter->fetchOne($select, $bind);

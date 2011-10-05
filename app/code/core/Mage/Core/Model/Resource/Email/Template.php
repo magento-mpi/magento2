@@ -129,7 +129,7 @@ class Mage_Core_Model_Resource_Email_Template extends Mage_Core_Model_Resource_D
         }
         $bind['template_id'] = $templateId;
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('core/config_data'), array('scope', 'scope_id', 'path'))
+            ->from($this->getTable('core_config_data'), array('scope', 'scope_id', 'path'))
             ->where('value LIKE :template_id')
             ->where(join(' OR ', $orWhere));
 

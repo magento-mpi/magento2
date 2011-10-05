@@ -36,7 +36,7 @@ $installer->startSetup();
  * Create table 'paypal/settlement_report'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('paypal/settlement_report'))
+    ->newTable($installer->getTable('paypal_settlement_report'))
     ->addColumn('report_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -60,7 +60,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'paypal/settlement_report_row'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('paypal/settlement_report_row'))
+    ->newTable($installer->getTable('paypal_settlement_report_row'))
     ->addColumn('row_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -111,7 +111,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('paypal/settlement_report_row', array('report_id')),
         array('report_id'))
     ->addForeignKey($installer->getFkName('paypal/settlement_report_row', 'report_id', 'paypal/settlement_report', 'report_id'),
-        'report_id', $installer->getTable('paypal/settlement_report'), 'report_id',
+        'report_id', $installer->getTable('paypal_settlement_report'), 'report_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Paypal Settlement Report Row Table');
 $installer->getConnection()->createTable($table);
@@ -120,7 +120,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'paypal/cert'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('paypal/cert'))
+    ->newTable($installer->getTable('paypal_cert'))
     ->addColumn('cert_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -139,7 +139,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('paypal/cert', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('paypal/cert', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Paypal Certificate Table');
 $installer->getConnection()->createTable($table);

@@ -183,10 +183,10 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             $countSelect = clone $this->getSelect();
             $countSelect->reset()
                 ->from(
-                    array('quote_item_table' => $this->getTable('sales/quote_item')),
+                    array('quote_item_table' => $this->getTable('sales_flat_quote_item')),
                     array('COUNT(DISTINCT quote_item_table.product_id)'))
                 ->join(
-                    array('quote_table' => $this->getTable('sales/quote')),
+                    array('quote_table' => $this->getTable('sales_flat_quote')),
                     'quote_table.entity_id = quote_item_table.quote_id AND quote_table.is_active = 1',
                     array()
                 );
@@ -215,8 +215,8 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
         $countSelect = clone $this->getSelect();
         $countSelect->reset();
 
-        $countSelect->from(array('quote_items' => $this->getTable('sales/quote_item')), 'COUNT(*)')
-            ->join(array('quotes' => $this->getTable('sales/quote')),
+        $countSelect->from(array('quote_items' => $this->getTable('sales_flat_quote_item')), 'COUNT(*)')
+            ->join(array('quotes' => $this->getTable('sales_flat_quote')),
                 'quotes.entity_id = quote_items.quote_id AND quotes.is_active = 1',
                 array())
             ->where("quote_items.product_id = e.entity_id");
@@ -238,7 +238,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function addOrdersCount($from = '', $to = '')
     {
-        $orderItemTableName = $this->getTable('sales/order_item');
+        $orderItemTableName = $this->getTable('sales_flat_order_item');
         $productFieldName   = sprintf('e.%s', $this->getProductEntityId());
 
         $this->getSelect()
@@ -296,13 +296,13 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
 
         $this->getSelect()->reset()
             ->from(
-                array('order_items' => $this->getTable('sales/order_item')),
+                array('order_items' => $this->getTable('sales_flat_order_item')),
                 array(
                     'ordered_qty' => 'SUM(order_items.qty_ordered)',
                     'order_items_name' => 'order_items.name'
                 ))
             ->joinInner(
-                array('order' => $this->getTable('sales/order')),
+                array('order' => $this->getTable('sales_flat_order')),
                 implode(' AND ', $orderJoinCondition),
                 array())
             ->joinLeft(
@@ -364,7 +364,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
 
         $this->getSelect()->reset()
             ->from(
-                array('report_table_views' => $this->getTable('reports/event')),
+                array('report_table_views' => $this->getTable('report_event')),
                 array('views' => 'COUNT(report_table_views.event_id)'))
             ->join(array('e' => $this->getProductEntityTableName()),
                 $this->getConnection()->quoteInto(
