@@ -297,7 +297,7 @@
         <layout>
             <updates>
                 <enterprise_customerbalance module="Enterprise_CustomerBalance">
-                    <file>customerbalance.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_customerbalance>
             </updates>
         </layout>

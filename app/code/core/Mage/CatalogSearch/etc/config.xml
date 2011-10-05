@@ -98,8 +98,8 @@
         </translate>
         <layout>
             <updates>
-                <catalogsearch>
-                    <file>catalogsearch.xml</file>
+                <catalogsearch module="Mage_CatalogSearch">
+                    <file>layout.xml</file>
                 </catalogsearch>
             </updates>
         </layout>

@@ -148,7 +148,7 @@
         <layout>
             <updates>
                 <enterprise_catalogevent module="Enterprise_CatalogEvent">
-                    <file>catalogevent.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_catalogevent>
             </updates>
         </layout>

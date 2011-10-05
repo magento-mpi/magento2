@@ -202,8 +202,8 @@
     <frontend>
         <layout>
             <updates>
-                <enterprise_search>
-                    <file>search.xml</file>
+                <enterprise_search module="Enterprise_Search">
+                    <file>layout.xml</file>
                 </enterprise_search>
             </updates>
         </layout>

@@ -109,8 +109,8 @@
         </translate>
         <layout>
             <updates>
-                <productalert>
-                    <file>productalert.xml</file>
+                <productalert module="Mage_ProductAlert">
+                    <file>layout.xml</file>
                 </productalert>
             </updates>
         </layout>

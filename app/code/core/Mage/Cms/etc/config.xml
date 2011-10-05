@@ -70,8 +70,8 @@
         </translate>
         <layout>
             <updates>
-                <cms>
-                    <file>cms.xml</file>
+                <cms module="Mage_Cms">
+                    <file>layout.xml</file>
                 </cms>
             </updates>
         </layout>

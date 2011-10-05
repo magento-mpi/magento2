@@ -386,8 +386,8 @@
     <frontend>
         <layout>
             <updates>
-                <enterprise_reward>
-                    <file>reward.xml</file>
+                <enterprise_reward module="Enterprise_Reward">
+                    <file>layout.xml</file>
                 </enterprise_reward>
             </updates>
         </layout>

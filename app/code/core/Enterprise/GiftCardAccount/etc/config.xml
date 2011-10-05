@@ -310,7 +310,7 @@
         <layout>
             <updates>
                 <enterprise_giftcardaccount module="Enterprise_GiftCardAccount">
-                    <file>giftcardaccount.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_giftcardaccount>
             </updates>
         </layout>

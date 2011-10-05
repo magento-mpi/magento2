@@ -138,7 +138,7 @@
         <layout>
             <updates>
                 <enterprise_giftcard module="Enterprise_GiftCard">
-                    <file>giftcard.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_giftcard>
             </updates>
         </layout>

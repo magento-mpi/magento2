@@ -127,8 +127,8 @@
         </translate>
         <layout>
             <updates>
-                <paypal>
-                    <file>paypal.xml</file>
+                <paypal module="Mage_Paypal">
+                    <file>layout.xml</file>
                 </paypal>
             </updates>
         </layout>

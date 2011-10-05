@@ -169,8 +169,8 @@
         </translate>
         <layout>
             <updates>
-                <core>
-                    <file>core.xml</file>
+                <core module="Mage_Core">
+                    <file>layout.xml</file>
                 </core>
             </updates>
         </layout>

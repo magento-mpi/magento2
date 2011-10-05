@@ -73,8 +73,8 @@
         </routers>
         <layout>
             <updates>
-                <persistent>
-                    <file>persistent.xml</file>
+                <persistent module="Mage_Persistent">
+                    <file>layout.xml</file>
                 </persistent>
             </updates>
         </layout>

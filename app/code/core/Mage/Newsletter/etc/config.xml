@@ -126,8 +126,8 @@
         </translate>
         <layout>
             <updates>
-                <newsletter>
-                    <file>newsletter.xml</file>
+                <newsletter module="Mage_Newsletter">
+                    <file>layout.xml</file>
                 </newsletter>
             </updates>
         </layout>

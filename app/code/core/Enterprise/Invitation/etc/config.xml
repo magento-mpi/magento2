@@ -121,8 +121,8 @@
         </enterprise>
         <layout>
             <updates>
-                <enterprise_invitation>
-                    <file>invitation.xml</file>
+                <enterprise_invitation module="Enterprise_Invitation">
+                    <file>layout.xml</file>
                 </enterprise_invitation>
             </updates>
         </layout>
