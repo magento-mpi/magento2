@@ -84,10 +84,10 @@ $table = $installer->getConnection()
         array('email', 'website_id'))
     ->addIndex($installer->getIdxName('customer/entity', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('customer/entity', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('customer_entity', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('customer/entity', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('customer_entity', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Customer Entity');
@@ -133,7 +133,7 @@ $table = $installer->getConnection()
         ), 'Is Active')
     ->addIndex($installer->getIdxName('customer/address_entity', array('parent_id')),
         array('parent_id'))
-    ->addForeignKey($installer->getFkName('customer/address_entity', 'parent_id', 'customer/entity', 'entity_id'),
+    ->addForeignKey($installer->getFkName('customer_address_entity', 'parent_id', 'customer/entity', 'entity_id'),
         'parent_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Customer Address Entity');
@@ -773,7 +773,7 @@ $table = $installer->getConnection()
         ), 'Sort Order')
     ->addColumn('data_model', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Data Model')
-    ->addForeignKey($installer->getFkName('customer/eav_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
+    ->addForeignKey($installer->getFkName('customer_eav_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Customer Eav Attribute');
@@ -795,7 +795,7 @@ $table = $installer->getConnection()
         ), 'Attribute Id')
     ->addIndex($installer->getIdxName('customer/form_attribute', array('attribute_id')),
         array('attribute_id'))
-    ->addForeignKey($installer->getFkName('customer/form_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
+    ->addForeignKey($installer->getFkName('customer_form_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Customer Form Attribute');
@@ -830,10 +830,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('customer/eav_attribute_website', array('website_id')),
         array('website_id'))
     ->addForeignKey(
-        $installer->getFkName('customer/eav_attribute_website', 'attribute_id', 'eav/attribute', 'attribute_id'),
+        $installer->getFkName('customer_eav_attribute_website', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('customer/eav_attribute_website', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('customer_eav_attribute_website', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Customer Eav Attribute Website');

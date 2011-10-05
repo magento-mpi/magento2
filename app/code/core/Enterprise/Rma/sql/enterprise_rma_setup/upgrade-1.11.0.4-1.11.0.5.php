@@ -59,7 +59,7 @@ $table = $installer->getConnection()
     ->addColumn('price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Price')
     ->addForeignKey(
-        $installer->getFkName('enterprise_rma/rma_shipping_label', 'rma_entity_id', 'enterprise_rma/rma', 'entity_id'),
+        $installer->getFkName('enterprise_rma_shipping_label', 'rma_entity_id', 'enterprise_rma/rma', 'entity_id'),
         'rma_entity_id',
         $installer->getTable('enterprise_rma'),
         'entity_id',

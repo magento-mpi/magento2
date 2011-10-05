@@ -66,13 +66,13 @@ $table = $installer->getConnection()
         array('website_id'))
     ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission', array('customer_group_id')),
         array('customer_group_id'))
-    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions/permission', 'category_id', 'catalog/category', 'entity_id'),
+    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions', 'category_id', 'catalog/category', 'entity_id'),
         'category_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions/permission', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
+    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions/permission', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Catalogpermissions');
@@ -107,13 +107,13 @@ $table = $installer->getConnection()
         array('website_id'))
     ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission_index', array('customer_group_id')),
         array('customer_group_id'))
-    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions/permission_index', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
+    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions_index', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions/permission_index', 'category_id', 'catalog/category', 'entity_id'),
+    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions_index', 'category_id', 'catalog/category', 'entity_id'),
         'category_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions/permission_index', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions_index', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Catalogpermissions Index');
@@ -157,16 +157,16 @@ $table = $installer->getConnection()
         array('customer_group_id'))
     ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission_index_product', array('category_id')),
         array('category_id'))
-    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions/permission_index_product', 'product_id', 'catalog/product', 'entity_id'),
+    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions_index_product', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions/permission_index_product', 'category_id', 'catalog/category', 'entity_id'),
+    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions_index_product', 'category_id', 'catalog/category', 'entity_id'),
         'category_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions/permission_index_product', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
+    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions_index_product', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions/permission_index_product', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('enterprise_catalogpermissions_index_product', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Catalogpermissions Index Product');

@@ -117,7 +117,7 @@ $table = $installer->getConnection()
         array('website_id'))
     ->addIndex($installer->getIdxName('core/store_group', array('default_store_id')),
         array('default_store_id'))
-    ->addForeignKey($installer->getFkName('core/store_group', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('core_store_group', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Store Groups');
@@ -167,10 +167,10 @@ $table = $installer->getConnection()
         array('is_active', 'sort_order'))
     ->addIndex($installer->getIdxName('core/store', array('group_id')),
         array('group_id'))
-    ->addForeignKey($installer->getFkName('core/store', 'group_id', 'core/store_group', 'group_id'),
+    ->addForeignKey($installer->getFkName('core_store', 'group_id', 'core/store_group', 'group_id'),
         'group_id', $installer->getTable('core_store_group'), 'group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('core/store', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('core_store', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Stores');
@@ -310,11 +310,11 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core/layout_link', array('layout_update_id')),
         array('layout_update_id'))
-    ->addForeignKey($installer->getFkName('core/layout_link', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('core_layout_link', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('core/layout_link', 'layout_update_id', 'core/layout_update', 'layout_update_id'),
+        $installer->getFkName('core_layout_link', 'layout_update_id', 'core/layout_update', 'layout_update_id'),
         'layout_update_id', $installer->getTable('core_layout_update'), 'layout_update_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )
@@ -372,7 +372,7 @@ $table = $installer->getConnection()
         array('store_id', 'locale', 'string'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core/translate', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('core/translate', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('core_translate', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Translations');
@@ -421,7 +421,7 @@ $table = $installer->getConnection()
         array('id_path'))
     ->addIndex($installer->getIdxName('core/url_rewrite', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('core/url_rewrite', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('core_url_rewrite', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Url Rewrites');
@@ -450,7 +450,7 @@ $table = $installer->getConnection()
         ), 'Last Date of Design Activity')
     ->addIndex($installer->getIdxName('core/design_change', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('core/design_change', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('design_change', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Design Changes');
@@ -508,10 +508,10 @@ $table = $installer->getConnection()
         array('variable_id'))
     ->addIndex($installer->getIdxName('core/variable_value', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('core/variable_value', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('core_variable_value', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('core/variable_value', 'variable_id', 'core/variable', 'variable_id'),
+    ->addForeignKey($installer->getFkName('core_variable_value', 'variable_id', 'core/variable', 'variable_id'),
         'variable_id', $installer->getTable('core_variable'), 'variable_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Variable Value');

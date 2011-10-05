@@ -69,7 +69,7 @@ $table = $installer->getConnection()
         ), 'Is Redeemable')
     ->addIndex($installer->getIdxName('enterprise_giftcardaccount/giftcardaccount', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('enterprise_giftcardaccount/giftcardaccount', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('enterprise_giftcardaccount', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Giftcardaccount');
@@ -126,7 +126,7 @@ $table = $installer->getConnection()
         ), 'Additional Info')
     ->addIndex($installer->getIdxName('enterprise_giftcardaccount/history', array('giftcardaccount_id')),
         array('giftcardaccount_id'))
-    ->addForeignKey($installer->getFkName('enterprise_giftcardaccount/history', 'giftcardaccount_id', 'enterprise_giftcardaccount/giftcardaccount', 'giftcardaccount_id'),
+    ->addForeignKey($installer->getFkName('enterprise_giftcardaccount_history', 'giftcardaccount_id', 'enterprise_giftcardaccount/giftcardaccount', 'giftcardaccount_id'),
         'giftcardaccount_id', $installer->getTable('enterprise_giftcardaccount'), 'giftcardaccount_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Giftcardaccount History');
