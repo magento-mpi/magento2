@@ -534,9 +534,11 @@ class Magento_Test_Bootstrap
     protected function _refreshIndexes()
     {
         if (defined('TESTS_REINDEX_ONSTART') && TESTS_REINDEX_ONSTART) {
+            /** @var $processCollection Mage_Index_Model_Mysql4_Process_Collection */
             $processCollection = Mage::getResourceModel('index/process_collection');
+            /** @var $process Mage_Index_Model_Process */
             foreach ($processCollection as $process) {
-                $process->reindexEverything();
+                $process->reindexAll();
             }
         }
     }
