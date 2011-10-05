@@ -584,16 +584,17 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         }
         //Get Products data and order prices data
         $actualProductData = $this->frontGetProductInfoInOrderReview();
-        $this->frontVerifyTotalPrices($orderPriceData);
+        $this->MyAccountHelper()->frontVerifyTotalPrices($orderPriceData);
         //Verify Products data
         $actualProductQty = count($actualProductData);
         $expectedProductQty = count($productData);
         if ($actualProductQty != $expectedProductQty) {
-            $this->messages['error'][] = "'" . $actualProductQty . "' product(s) added to Shopping cart but must be '"
+            $this->messages['error'][] = "'" . $actualProductQty . "' product(s) added to order but must be '"
                     . $expectedProductQty . "'";
         } else {
             for ($i = 0; $i < $actualProductQty; $i++) {
-                $this->frontCompareArrays($actualProductData[$i], $productData[$i], $productData[$i]['product_name']);
+                $this->ShoppingCartHelper()->
+                        compareArrays($actualProductData[$i], $productData[$i], $productData[$i]['product_name']);
             }
         }
         //Verify order prices data
@@ -601,71 +602,4 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->fail(implode("\n", $this->messages['error']));
         }
     }
-
-    /**
-     *
-     * @param array $actualArray
-     * @param array $expectedArray
-     * @param string $productName
-     */
-    public function frontCompareArrays($actualArray, $expectedArray, $productName = '')
-    {
-        foreach ($actualArray as $key => $value) {
-            if (array_key_exists($key, $expectedArray) && (strcmp($expectedArray[$key], $value) == 0)) {
-                unset($expectedArray[$key]);
-                unset($actualArray[$key]);
-            }
-        }
-
-        if ($productName) {
-            $productName = $productName . ': ';
-        }
-
-        if ($actualArray) {
-            $actualErrors = $productName . "Data is displayed on the page: \n";
-            foreach ($actualArray as $key => $value) {
-                $actualErrors .= "Field '$key': value '$value'\n";
-            }
-        }
-        if ($expectedArray) {
-            $expectedErrors = $productName . "Data should appear on the page: \n";
-            foreach ($expectedArray as $key => $value) {
-                $expectedErrors .= "Field '$key': value '$value'\n";
-            }
-        }
-        if (isset($actualErrors)) {
-            $this->messages['error'][] = trim($actualErrors, "\x00..\x1F");
-        }
-        if (isset($expectedErrors)) {
-            $this->messages['error'][] = trim($expectedErrors, "\x00..\x1F");
-        }
-    }
-
-    /**
-     * Verifies the prices in total row
-     *
-     * @param array $verificationData
-     */
-    public function frontVerifyTotalPrices(array $verificationData)
-    {
-        $page = $this->getCurrentLocationUimapPage();
-        $pageelements = get_object_vars($page->getAllPageelements());
-        foreach ($verificationData as $key => $value) {
-            $this->addParameter('price', $value);
-            $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
-            if (!$this->isElementPresent($xpathPrice)) {
-                $this->messages['error']['total'] = 'Could not find element ' . $key . ' with price ' . $value;
-            }
-            unset($pageelements['ex_t_' . $key]);
-        }
-        foreach ($pageelements as $key => $value) {
-            if (preg_match('/^ex_t_/', $key)) {
-                if ($this->isElementPresent($value)) {
-                    $this->messages['error']['total'] = 'Element ' . $key . ' is on the page';
-                }
-            }
-        }
-        return $this->messages['error'];
-    }
-
 }
