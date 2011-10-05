@@ -213,7 +213,7 @@ class Mage_Paypal_Model_Cart
 
     /**
      * Remove item from cart by identifier
-     * 
+     *
      * @param string $identifier
      * @return bool
      */
@@ -493,6 +493,6 @@ class Mage_Paypal_Model_Cart
     private function _applyHiddenTaxWorkaround($salesEntity)
     {
         $this->_totals[self::TOTAL_TAX] += (float)$salesEntity->getBaseHiddenTaxAmount();
-        $this->_totals[self::TOTAL_TAX] += (float)$salesEntity->getBaseShippingHiddenTaxAmount();
+        $this->_totals[self::TOTAL_TAX] += (float)$salesEntity->getBaseShippingHiddenTaxAmnt();
     }
 }

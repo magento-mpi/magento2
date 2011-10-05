@@ -241,7 +241,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCountryOptionsArray($isItunes = false)
     {
-        Varien_Profiler::start('TEST: ' . __METHOD__);
+        Magento_Profiler::start('TEST: ' . __METHOD__);
         $deviceType = $this->getDeviceType();
         switch ($deviceType) {
             case self::DEVICE_TYPE_IPHONE:
@@ -272,7 +272,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
                 Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
             }
         }
-        Varien_Profiler::stop('TEST: ' . __METHOD__);
+        Magento_Profiler::stop('TEST: ' . __METHOD__);
 
         if (count($options)) {
             $options[] = array('value' => 'NEW_COUNTRIES', 'label' => 'New Territories As Added');

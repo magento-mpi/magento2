@@ -131,7 +131,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
                 $joinAddress = true;
                 break;
             case 'store_credit':
-                $field = 'quote.base_customer_balance_amount_used';
+                $field = 'quote.base_customer_bal_amount_used';
                 break;
             case 'gift_card':
                 $field = 'quote.base_gift_cards_amount_used';

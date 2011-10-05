@@ -127,6 +127,6 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Adminhtm
      */
     public function getForcedShipmentCreate()
     {
-        return (int) $this->getOrder()->getForcedDoShipmentWithInvoice();
+        return (int) $this->getOrder()->getForcedShipmentWithInvoice();
     }
 }

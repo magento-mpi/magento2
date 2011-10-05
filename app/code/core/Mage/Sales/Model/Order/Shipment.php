@@ -102,17 +102,6 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     }
 
     /**
-     * Init mapping array of short fields to its full names
-     *
-     * @return Mage_Sales_Model_Order_Shipment
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('order_shipment');
-        return $this;
-    }
-
-    /**
      * Load shipment by increment id
      *
      * @param string $incrementId

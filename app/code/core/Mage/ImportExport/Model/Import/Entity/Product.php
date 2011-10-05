@@ -1476,7 +1476,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                             ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
                         );
                     }
-                    $stockItem->setStockStatusChangedAutomatically((int) !$stockItem->verifyStock());
+                    $stockItem->setStockStatusChangedAuto((int) !$stockItem->verifyStock());
                 } else {
                     $stockItem->setQty(0);
                 }

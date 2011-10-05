@@ -113,8 +113,8 @@
  * @method Mage_Sales_Model_Order_Creditmemo setBaseHiddenTaxAmount(float $value)
  * @method float getShippingHiddenTaxAmount()
  * @method Mage_Sales_Model_Order_Creditmemo setShippingHiddenTaxAmount(float $value)
- * @method float getBaseShippingHiddenTaxAmount()
- * @method Mage_Sales_Model_Order_Creditmemo setBaseShippingHiddenTaxAmount(float $value)
+ * @method float getBaseShippingHiddenTaxAmnt()
+ * @method Mage_Sales_Model_Order_Creditmemo setBaseShippingHiddenTaxAmnt(float $value)
  * @method float getShippingInclTax()
  * @method Mage_Sales_Model_Order_Creditmemo setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
@@ -167,17 +167,6 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     protected function _construct()
     {
         $this->_init('sales/order_creditmemo');
-    }
-
-    /**
-     * Init mapping array of short fields to its full names
-     *
-     * @return Mage_Sales_Model_Order_Creditmemo
-     */
-    protected function _initOldFieldsMap()
-    {
-        $this->_oldFieldsMap = Mage::helper('sales')->getOldFieldMap('order_creditmemo');
-        return $this;
     }
 
     /**

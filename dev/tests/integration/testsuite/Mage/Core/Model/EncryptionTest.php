@@ -18,7 +18,7 @@ class Mage_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Enterprise_Pci_Model_Encryption();
+        $this->_model = new Mage_Core_Model_Encryption();
     }
 
     public function testEncryptDecrypt()

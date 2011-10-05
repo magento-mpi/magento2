@@ -49,8 +49,9 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     /**
      * Initialize default values of the options
      */
-    protected function _construct()
+    public function __construct()
     {
+        parent::__construct();
         $appRoot= Mage::getRoot();
         $root   = dirname($appRoot);
 

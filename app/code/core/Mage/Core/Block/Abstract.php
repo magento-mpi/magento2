@@ -164,6 +164,16 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_sortInstructions = array();
 
     /**
+     * Constructor
+     */
+    public function __construct(array $data= array())
+    {
+        parent::__construct($data);
+        $this->_construct();
+
+    }
+
+    /**
      * Internal constructor, that is called from real constructor
      *
      * Please override this one instead of overriding real __construct constructor
@@ -1192,9 +1202,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         if (Mage::app()->useCache(self::CACHE_GROUP)) {
             Mage::app()->setUseSessionVar(false);
-            Varien_Profiler::start('CACHE_URL');
+            Magento_Profiler::start('CACHE_URL');
             $html = Mage::getSingleton($this->_getUrlModelClass())->sessionUrlVar($html);
-            Varien_Profiler::stop('CACHE_URL');
+            Magento_Profiler::stop('CACHE_URL');
         }
         return $html;
     }

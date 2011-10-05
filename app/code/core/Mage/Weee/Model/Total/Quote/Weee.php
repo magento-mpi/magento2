@@ -177,7 +177,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quote_
         $item->setWeeeTaxAppliedAmount($totalValue)
             ->setBaseWeeeTaxAppliedAmount($baseTotalValue)
             ->setWeeeTaxAppliedRowAmount($totalRowValue)
-            ->setBaseWeeeTaxAppliedRowAmount($baseTotalRowValue);
+            ->setBaseWeeeTaxAppliedRowAmnt($baseTotalRowValue);
 
         $this->_processTaxSettings($item, $totalValue, $baseTotalValue, $totalRowValue, $baseTotalRowValue)
             ->_processTotalAmount($address, $totalRowValue, $baseTotalRowValue)
@@ -287,7 +287,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quote_
         $item->setWeeeTaxRowDisposition(0);
 
         $item->setBaseWeeeTaxAppliedAmount(0);
-        $item->setBaseWeeeTaxAppliedRowAmount(0);
+        $item->setBaseWeeeTaxAppliedRowAmnt(0);
 
         $item->setWeeeTaxAppliedAmount(0);
         $item->setWeeeTaxAppliedRowAmount(0);
@@ -487,7 +487,7 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quote_
             );
 
             $item->setBaseWeeeTaxAppliedAmount($item->getBaseWeeeTaxAppliedAmount() + $baseValue);
-            $item->setBaseWeeeTaxAppliedRowAmount($item->getBaseWeeeTaxAppliedRowAmount() + $baseRowValue);
+            $item->setBaseWeeeTaxAppliedRowAmnt($item->getBaseWeeeTaxAppliedRowAmnt() + $baseRowValue);
 
             $item->setWeeeTaxAppliedAmount($item->getWeeeTaxAppliedAmount() + $value);
             $item->setWeeeTaxAppliedRowAmount($item->getWeeeTaxAppliedRowAmount() + $rowValue);
@@ -515,8 +515,8 @@ class Mage_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quote_
             $parent->setBaseWeeeTaxAppliedAmount(
                 $parent->getBaseWeeeTaxAppliedAmount() + $item->getBaseWeeeTaxAppliedAmount()
             );
-            $parent->setBaseWeeeTaxAppliedRowAmount(
-                $parent->getBaseWeeeTaxAppliedRowAmount() + $item->getBaseWeeeTaxAppliedRowAmount()
+            $parent->setBaseWeeeTaxAppliedRowAmnt(
+                $parent->getBaseWeeeTaxAppliedRowAmnt() + $item->getBaseWeeeTaxAppliedRowAmnt()
             );
 
             $parent->setWeeeTaxAppliedAmount(

@@ -168,7 +168,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
      */
     protected function _assignProducts()
     {
-        Varien_Profiler::start('QUOTE:'.__METHOD__);
+        Magento_Profiler::start('QUOTE:'.__METHOD__);
         $productIds = array();
         foreach ($this as $item) {
             $productIds[] = (int)$item->getProductId();
@@ -235,7 +235,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
         if ($recollectQuote && $this->_quote) {
             $this->_quote->collectTotals();
         }
-        Varien_Profiler::stop('QUOTE:'.__METHOD__);
+        Magento_Profiler::stop('QUOTE:'.__METHOD__);
 
         return $this;
     }

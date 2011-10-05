@@ -16,8 +16,10 @@ return array(
     'white_list' => array(
         "{$baseDir}/dev/tests/integration",
         "{$baseDir}/dev/tests/static",
-        "{$baseDir}/dev/tests/unit",
-        "{$baseDir}/dev/tools/batch_tests/batch.php"
+        "{$baseDir}/lib/Magento/Profiler",
+        "{$baseDir}/lib/Magento/Profiler.php",
+        "{$baseDir}/lib/Varien/Object.php",
+        "{$baseDir}/app/code/core/Mage/Index/Model/Indexer/Abstract.php",
     ),
     'black_list' => array(
         /* Files that intentionally violate the requirements for testing purposes */

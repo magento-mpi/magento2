@@ -18,22 +18,24 @@ class Magento_Profiler_Output_Html extends Magento_Profiler_OutputAbstract
      */
     public function display()
     {
-        $out  = '<table border="1" cellspacing="0" cellpadding="2">';
-        $out .= '<caption>' . $this->_renderCaption() . '</caption>';
-        $out .= '<tr>';
+        $out = array();
+        $out[] = '<table border="1" cellspacing="0" cellpadding="2">';
+        $out[] = '<caption>' . $this->_renderCaption() . '</caption>';
+        $out[] = '<tr>';
         foreach (array_keys($this->_getColumns()) as $columnLabel) {
-            $out .= '<th>' . $columnLabel . '</th>';
+            $out[] = '<th>' . $columnLabel . '</th>';
         }
-        $out .= '</tr>';
+        $out[] = '</tr>';
         foreach ($this->_getTimers() as $timerId) {
-            $out .= '<tr>';
+            $out[] = '<tr>';
             foreach ($this->_getColumns() as $columnId) {
-                $out .= '<td title="' . $timerId . '">' . $this->_renderColumnValue($timerId, $columnId) . '</td>';
+                $out[] = '<td title="' . $timerId . '">' . $this->_renderColumnValue($timerId, $columnId) . '</td>';
             }
-            $out .= '</tr>';
+            $out[] = '</tr>';
         }
-        $out .= '</table>';
-
+        $out[] = '</table>';
+        $out[] = '';
+        $out = implode("\n", $out);
         echo $out;
     }
 

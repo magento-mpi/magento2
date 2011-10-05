@@ -546,7 +546,7 @@ final class Maged_Controller
     }
 
     /**
-     * Retrieve path for Varien_Profiler
+     * Retrieve path for Magento_Profiler
      *
      * @return string
      */

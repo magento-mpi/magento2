@@ -551,7 +551,7 @@ class Mage_Core_Model_Locale
      */
     public function currency($currency)
     {
-        Varien_Profiler::start('locale/currency');
+        Magento_Profiler::start('locale/currency');
         if (!isset(self::$_currencyCache[$this->getLocaleCode()][$currency])) {
             try {
                 $currencyObject = new Zend_Currency($currency, $this->getLocale());
@@ -567,7 +567,7 @@ class Mage_Core_Model_Locale
 
             self::$_currencyCache[$this->getLocaleCode()][$currency] = $currencyObject;
         }
-        Varien_Profiler::stop('locale/currency');
+        Magento_Profiler::stop('locale/currency');
         return self::$_currencyCache[$this->getLocaleCode()][$currency];
     }
 

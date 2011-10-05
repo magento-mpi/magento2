@@ -135,10 +135,11 @@ abstract class Mage_Index_Model_Indexer_Abstract extends Mage_Core_Model_Abstrac
     public function callEventHandler(Mage_Index_Model_Event $event)
     {
         if ($event->getEntity()) {
-            $method = $this->_camelize($event->getEntity().'_'.$event->getType());
+            $method = $event->getEntity() . '_' . $event->getType();
         } else {
-            $method = $this->_camelize($event->getType());
+            $method = $event->getType();
         }
+        $method = str_replace(' ', '', ucwords(str_replace('_', ' ', $method)));
 
         if (method_exists($this->_getResource(), $method)) {
             $this->_getResource()->$method($event);

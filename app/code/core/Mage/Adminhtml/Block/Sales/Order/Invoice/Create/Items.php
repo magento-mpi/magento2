@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Adminht
                 break;
             }
         }
-        if ($this->getOrder()->getForcedDoShipmentWithInvoice()) {
+        if ($this->getOrder()->getForcedShipmentWithInvoice()) {
             $_submitLabel = Mage::helper('sales')->__('Submit Invoice and Shipment');
         } else {
             $_submitLabel = Mage::helper('sales')->__('Submit Invoice');

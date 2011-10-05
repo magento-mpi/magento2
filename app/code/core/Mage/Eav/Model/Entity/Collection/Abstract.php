@@ -858,31 +858,35 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         if ($this->isLoaded()) {
             return $this;
         }
-        Varien_Profiler::start('__EAV_COLLECTION_BEFORE_LOAD__');
+        Magento_Profiler::start('EAV:load_collection');
+
+        Magento_Profiler::start('before_load');
         Mage::dispatchEvent('eav_collection_abstract_load_before', array('collection' => $this));
         $this->_beforeLoad();
-        Varien_Profiler::stop('__EAV_COLLECTION_BEFORE_LOAD__');
+        Magento_Profiler::stop('before_load');
 
         $this->_renderFilters();
         $this->_renderOrders();
 
-        Varien_Profiler::start('__EAV_COLLECTION_LOAD_ENT__');
+        Magento_Profiler::start('load_entities');
         $this->_loadEntities($printQuery, $logQuery);
-        Varien_Profiler::stop('__EAV_COLLECTION_LOAD_ENT__');
-        Varien_Profiler::start('__EAV_COLLECTION_LOAD_ATTR__');
+        Magento_Profiler::stop('load_entities');
+        Magento_Profiler::start('load_attributes');
         $this->_loadAttributes($printQuery, $logQuery);
-        Varien_Profiler::stop('__EAV_COLLECTION_LOAD_ATTR__');
+        Magento_Profiler::stop('load_attributes');
 
-        Varien_Profiler::start('__EAV_COLLECTION_ORIG_DATA__');
+        Magento_Profiler::start('set_orig_data');
         foreach ($this->_items as $item) {
             $item->setOrigData();
         }
-        Varien_Profiler::stop('__EAV_COLLECTION_ORIG_DATA__');
+        Magento_Profiler::stop('set_orig_data');
 
         $this->_setIsLoaded();
-        Varien_Profiler::start('__EAV_COLLECTION_AFTER_LOAD__');
+        Magento_Profiler::start('after_load');
         $this->_afterLoad();
-        Varien_Profiler::stop('__EAV_COLLECTION_AFTER_LOAD__');
+        Magento_Profiler::stop('after_load');
+
+        Magento_Profiler::stop('EAV:load_collection');
         return $this;
     }
 

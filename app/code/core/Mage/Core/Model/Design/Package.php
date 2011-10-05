@@ -416,14 +416,14 @@ class Mage_Core_Model_Design_Package
      */
     public function getFilename($file, array $params)
     {
-        Varien_Profiler::start(__METHOD__);
+        Magento_Profiler::start(__METHOD__);
         $this->updateParamDefaults($params);
         $result = $this->_fallback($file, $params, array(
             array(),
             array('_theme' => $this->getFallbackTheme()),
             array('_theme' => self::DEFAULT_THEME),
         ));
-        Varien_Profiler::stop(__METHOD__);
+        Magento_Profiler::stop(__METHOD__);
         return $result;
     }
 
@@ -463,7 +463,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getSkinUrl($file = null, array $params = array())
     {
-        Varien_Profiler::start(__METHOD__);
+        Magento_Profiler::start(__METHOD__);
         if (empty($params['_type'])) {
             $params['_type'] = 'skin';
         }
@@ -479,7 +479,7 @@ class Mage_Core_Model_Design_Package
             ));
         }
         $result = $this->getSkinBaseUrl($params) . (empty($file) ? '' : $file);
-        Varien_Profiler::stop(__METHOD__);
+        Magento_Profiler::stop(__METHOD__);
         return $result;
     }
 
