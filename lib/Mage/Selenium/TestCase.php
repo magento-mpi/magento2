@@ -250,7 +250,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Qty elements in Table
      * @var string
      */
-    const qtyElementsInTable = "//table[@class='actions']//td[@class='pager']//span[@id]";
+    const qtyElementsInTable = "//td[@class='pager']//span[contains(@id,'total-count')]";
 
     /**
      * @var string
