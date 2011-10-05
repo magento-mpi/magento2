@@ -54,8 +54,8 @@ class Mage_Sales_Model_Resource_Order_Status extends Mage_Core_Model_Resource_Db
     {
         $this->_init('sales/order_status', 'status');
         $this->_isPkAutoIncrement = false;
-        $this->_labelsTable = $this->getTable('sales/order_status_label');
-        $this->_stateTable  = $this->getTable('sales/order_status_state');
+        $this->_labelsTable = $this->getTable('sales_order_status_label');
+        $this->_stateTable  = $this->getTable('sales_order_status_state');
     }
 
     /**

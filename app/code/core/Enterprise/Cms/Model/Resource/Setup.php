@@ -45,7 +45,7 @@ class Enterprise_Cms_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
         $connection = $this->getConnection();
         $nodes  = array();
         $select = $connection->select()->from(
-            $this->getTable('enterprise_cms/hierarchy_node'),
+            $this->getTable('enterprise_cms_hierarchy_node'),
             array('node_id', 'parent_node_id')
         );
         $rowSet = $select->query()->fetchAll();
@@ -80,7 +80,7 @@ class Enterprise_Cms_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
             $bind  = array('xpath' => $nodeXpath);
             $where = $adapter->quoteInto('node_id = ?', $nodeId);
 
-            $adapter->update($this->getTable('enterprise_cms/hierarchy_node'), $bind, $where);
+            $adapter->update($this->getTable('enterprise_cms_hierarchy_node'), $bind, $where);
             if (isset($nodes[$nodeId])) {
                 $this->_updateXpathCallback($nodes, $nodeXpath, $nodeId);
             }

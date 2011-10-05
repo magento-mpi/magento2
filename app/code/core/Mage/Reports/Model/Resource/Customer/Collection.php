@@ -127,7 +127,7 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
         }
 
         $this->getSelect()
-            ->joinLeft(array('orders' => $this->getTable('sales/order')),
+            ->joinLeft(array('orders' => $this->getTable('sales_flat_order')),
                 "orders.customer_id = e.entity_id".$dateFilter,
             array());
 
@@ -221,7 +221,7 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
                 : "orders.base_subtotal-{$baseSubtotalCanceled}-{$baseSubtotalRefunded}";
 
             $select = $this->getConnection()->select();
-            $select->from(array('orders'=>$this->getTable('sales/order')), array(
+            $select->from(array('orders'=>$this->getTable('sales_flat_order')), array(
                 'orders_avg_amount' => "AVG({$totalExpr})",
                 'orders_sum_amount' => "SUM({$totalExpr})",
                 'orders_count' => 'COUNT(orders.entity_id)',

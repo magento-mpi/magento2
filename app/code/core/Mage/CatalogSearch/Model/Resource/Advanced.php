@@ -150,9 +150,9 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Mage_Core_Model_Resourc
     public function addIndexableAttributeModifiedFilter($collection, $attribute, $value)
     {
         if ($attribute->getIndexType() == 'decimal') {
-            $table = $this->getTable('catalog/product_index_eav_decimal');
+            $table = $this->getTable('catalog_product_index_eav_decimal');
         } else {
-            $table = $this->getTable('catalog/product_index_eav');
+            $table = $this->getTable('catalog_product_index_eav');
         }
 
         $tableAlias = 'a_' . $attribute->getAttributeId();

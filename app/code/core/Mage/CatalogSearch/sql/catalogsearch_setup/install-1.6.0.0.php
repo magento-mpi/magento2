@@ -33,7 +33,7 @@ $installer->startSetup();
  * Create table 'catalogsearch/search_query'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalogsearch/search_query'))
+    ->newTable($installer->getTable('catalogsearch_query'))
     ->addColumn('query_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -78,7 +78,7 @@ $table = $installer->getConnection()
         array('query_text','store_id','popularity'))
     ->addIndex($installer->getIdxName('catalogsearch/search_query', 'store_id'), 'store_id')
     ->addForeignKey($installer->getFkName('catalogsearch/search_query', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog search query table');
 $installer->getConnection()->createTable($table);
@@ -87,7 +87,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'catalogsearch/result'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalogsearch/result'))
+    ->newTable($installer->getTable('catalogsearch_result'))
     ->addColumn('query_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -104,11 +104,11 @@ $table = $installer->getConnection()
         ), 'Relevance')
     ->addIndex($installer->getIdxName('catalogsearch/result', 'query_id'), 'query_id')
     ->addForeignKey($installer->getFkName('catalogsearch/result', 'query_id', 'catalogsearch/search_query', 'query_id'),
-        'query_id', $installer->getTable('catalogsearch/search_query'), 'query_id',
+        'query_id', $installer->getTable('catalogsearch_query'), 'query_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addIndex($installer->getIdxName('catalogsearch/result', 'product_id'), 'product_id')
     ->addForeignKey($installer->getFkName('catalogsearch/result', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Catalog search result table');
 $installer->getConnection()->createTable($table);
@@ -117,7 +117,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'catalogsearch/fulltext'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('catalogsearch/fulltext'))
+    ->newTable($installer->getTable('catalogsearch_fulltext'))
     ->addColumn('fulltext_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,

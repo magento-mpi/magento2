@@ -34,7 +34,7 @@ $installer->startSetup();
  * Create table 'core/resource'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/resource'))
+    ->newTable($installer->getTable('core_resource'))
     ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         'nullable'  => false,
         'primary'   => true,
@@ -50,7 +50,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/website'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/website'))
+    ->newTable($installer->getTable('core_website'))
     ->addColumn('website_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -88,7 +88,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/store_group'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/store_group'))
+    ->newTable($installer->getTable('core_store_group'))
     ->addColumn('group_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -118,7 +118,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('core/store_group', array('default_store_id')),
         array('default_store_id'))
     ->addForeignKey($installer->getFkName('core/store_group', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Store Groups');
 $installer->getConnection()->createTable($table);
@@ -127,7 +127,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/store'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/store'))
+    ->newTable($installer->getTable('core_store'))
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -168,10 +168,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('core/store', array('group_id')),
         array('group_id'))
     ->addForeignKey($installer->getFkName('core/store', 'group_id', 'core/store_group', 'group_id'),
-        'group_id', $installer->getTable('core/store_group'), 'group_id',
+        'group_id', $installer->getTable('core_store_group'), 'group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('core/store', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Stores');
 $installer->getConnection()->createTable($table);
@@ -180,7 +180,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/config_data'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/config_data'))
+    ->newTable($installer->getTable('core_config_data'))
     ->addColumn('config_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -210,7 +210,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/email_template'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/email_template'))
+    ->newTable($installer->getTable('core_email_template'))
     ->addColumn('template_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -257,7 +257,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/layout_update'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/layout_update'))
+    ->newTable($installer->getTable('core_layout_update'))
     ->addColumn('layout_update_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -281,7 +281,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/layout_link'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/layout_link'))
+    ->newTable($installer->getTable('core_layout_link'))
     ->addColumn('layout_link_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -311,11 +311,11 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('core/layout_link', array('layout_update_id')),
         array('layout_update_id'))
     ->addForeignKey($installer->getFkName('core/layout_link', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName('core/layout_link', 'layout_update_id', 'core/layout_update', 'layout_update_id'),
-        'layout_update_id', $installer->getTable('core/layout_update'), 'layout_update_id',
+        'layout_update_id', $installer->getTable('core_layout_update'), 'layout_update_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )
     ->setComment('Layout Link');
@@ -325,7 +325,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/session'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/session'))
+    ->newTable($installer->getTable('core_session'))
     ->addColumn('session_id', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         'primary'   => true,
@@ -345,7 +345,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/translate'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/translate'))
+    ->newTable($installer->getTable('core_translate'))
     ->addColumn('key_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -373,7 +373,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('core/translate', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('core/translate', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Translations');
 $installer->getConnection()->createTable($table);
@@ -382,7 +382,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/url_rewrite'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/url_rewrite'))
+    ->newTable($installer->getTable('core_url_rewrite'))
     ->addColumn('url_rewrite_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -422,7 +422,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('core/url_rewrite', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('core/url_rewrite', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Url Rewrites');
 $installer->getConnection()->createTable($table);
@@ -431,7 +431,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/design_change'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/design_change'))
+    ->newTable($installer->getTable('design_change'))
     ->addColumn('design_change_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -451,7 +451,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('core/design_change', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('core/design_change', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Design Changes');
 $installer->getConnection()->createTable($table);
@@ -460,7 +460,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/variable'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/variable'))
+    ->newTable($installer->getTable('core_variable'))
     ->addColumn('variable_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -480,7 +480,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/variable_value'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/variable_value'))
+    ->newTable($installer->getTable('core_variable_value'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -509,10 +509,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('core/variable_value', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('core/variable_value', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('core/variable_value', 'variable_id', 'core/variable', 'variable_id'),
-        'variable_id', $installer->getTable('core/variable'), 'variable_id',
+        'variable_id', $installer->getTable('core_variable'), 'variable_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Variable Value');
 $installer->getConnection()->createTable($table);
@@ -521,7 +521,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/cache'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/cache'))
+    ->newTable($installer->getTable('core_cache'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_TEXT, 200, array(
         'nullable'  => false,
         'primary'   => true,
@@ -543,7 +543,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/cache_tag'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/cache_tag'))
+    ->newTable($installer->getTable('core_cache_tag'))
     ->addColumn('tag', Varien_Db_Ddl_Table::TYPE_TEXT, 100, array(
         'nullable'  => false,
         'primary'   => true,
@@ -561,7 +561,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/cache_option'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/cache_option'))
+    ->newTable($installer->getTable('core_cache_option'))
     ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'primary'   => true,
@@ -575,7 +575,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'core/flag'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('core/flag'))
+    ->newTable($installer->getTable('core_flag'))
     ->addColumn('flag_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -605,7 +605,7 @@ $installer->getConnection()->createTable($table);
 /**
  * Insert core websites
  */
-$installer->getConnection()->insertForce($installer->getTable('core/website'), array(
+$installer->getConnection()->insertForce($installer->getTable('core_website'), array(
     'website_id'        => 0,
     'code'              => 'admin',
     'name'              => 'Admin',
@@ -613,7 +613,7 @@ $installer->getConnection()->insertForce($installer->getTable('core/website'), a
     'default_group_id'  => 0,
     'is_default'        => 0,
 ));
-$installer->getConnection()->insertForce($installer->getTable('core/website'), array(
+$installer->getConnection()->insertForce($installer->getTable('core_website'), array(
     'website_id'        => 1,
     'code'              => 'base',
     'name'              => 'Main Website',
@@ -625,14 +625,14 @@ $installer->getConnection()->insertForce($installer->getTable('core/website'), a
 /**
  * Insert core store groups
  */
-$installer->getConnection()->insertForce($installer->getTable('core/store_group'), array(
+$installer->getConnection()->insertForce($installer->getTable('core_store_group'), array(
     'group_id'          => 0,
     'website_id'        => 0,
     'name'              => 'Default',
     'root_category_id'  => 0,
     'default_store_id'  => 0
 ));
-$installer->getConnection()->insertForce($installer->getTable('core/store_group'), array(
+$installer->getConnection()->insertForce($installer->getTable('core_store_group'), array(
     'group_id'          => 1,
     'website_id'        => 1,
     'name'              => 'Main Website Store',
@@ -643,7 +643,7 @@ $installer->getConnection()->insertForce($installer->getTable('core/store_group'
 /**
  * Insert core stores
  */
-$installer->getConnection()->insertForce($installer->getTable('core/store'), array(
+$installer->getConnection()->insertForce($installer->getTable('core_store'), array(
     'store_id'      => 0,
     'code'          => 'admin',
     'website_id'    => 0,
@@ -652,7 +652,7 @@ $installer->getConnection()->insertForce($installer->getTable('core/store'), arr
     'sort_order'    => 0,
     'is_active'     => 1,
 ));
-$installer->getConnection()->insertForce($installer->getTable('core/store'), array(
+$installer->getConnection()->insertForce($installer->getTable('core_store'), array(
     'store_id'      => 1,
     'code'          => 'default',
     'website_id'    => 1,

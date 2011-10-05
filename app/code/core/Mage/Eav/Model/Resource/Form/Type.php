@@ -78,7 +78,7 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
         $adapter = $this->_getReadAdapter();
         $bind    = array(':type_id' => $objectId);
         $select  = $adapter->select()
-            ->from($this->getTable('eav/form_type_entity'), 'entity_type_id')
+            ->from($this->getTable('eav_form_type_entity'), 'entity_type_id')
             ->where('type_id = :type_id');
 
         return $adapter->fetchCol($select, $bind);
@@ -115,7 +115,7 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
                     );
                 }
                 if ($data) {
-                    $adapter->insertMultiple($this->getTable('eav/form_type_entity'), $data);
+                    $adapter->insertMultiple($this->getTable('eav_form_type_entity'), $data);
                 }
             }
 
@@ -124,7 +124,7 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
                     'entity_type_id IN (?)' => $delete,
                     'type_id = ?'           => $object->getId()
                 );
-                $adapter->delete($this->getTable('eav/form_type_entity'), $where);
+                $adapter->delete($this->getTable('eav_form_type_entity'), $where);
             }
         }
 
@@ -147,7 +147,7 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
         }
         $bind   = array(':attribute_id' => $attribute);
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('eav/form_element'))
+            ->from($this->getTable('eav_form_element'))
             ->where('attribute_id = :attribute_id');
 
         return $this->_getReadAdapter()->fetchAll($select, $bind);

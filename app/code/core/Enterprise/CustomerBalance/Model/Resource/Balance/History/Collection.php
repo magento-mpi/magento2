@@ -53,7 +53,7 @@ class Enterprise_CustomerBalance_Model_Resource_Balance_History_Collection
     {
         parent::_initSelect();
         $this->getSelect()
-            ->joinInner(array('b' => $this->getTable('enterprise_customerbalance/balance')),
+            ->joinInner(array('b' => $this->getTable('enterprise_customerbalance')),
                 'main_table.balance_id = b.balance_id', array('customer_id'         => 'b.customer_id',
                                                               'website_id'          => 'b.website_id',
                                                               'base_currency_code'  => 'b.base_currency_code'))

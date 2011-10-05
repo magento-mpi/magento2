@@ -33,7 +33,7 @@ $installer->startSetup();
  * Create table 'enterprise_reminder/rule'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_reminder/rule'))
+    ->newTable($installer->getTable('enterprise_reminder_rule'))
     ->addColumn('rule_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -72,7 +72,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_reminder/rule', array('salesrule_id')),
         array('salesrule_id'))
     ->addForeignKey($installer->getFkName('enterprise_reminder/rule', 'salesrule_id', 'salesrule/rule', 'rule_id'),
-        'salesrule_id', $installer->getTable('salesrule/rule'), 'rule_id',
+        'salesrule_id', $installer->getTable('salesrule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Reminder Rule');
 $installer->getConnection()->createTable($table);
@@ -81,7 +81,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_reminder/website'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_reminder/website'))
+    ->newTable($installer->getTable('enterprise_reminder_rule_website'))
     ->addColumn('rule_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -96,7 +96,7 @@ $table = $installer->getConnection()
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName('enterprise_reminder/website', 'rule_id', 'enterprise_reminder/rule', 'rule_id'),
-        'rule_id', $installer->getTable('enterprise_reminder/rule'), 'rule_id',
+        'rule_id', $installer->getTable('enterprise_reminder_rule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Reminder Rule Website');
 $installer->getConnection()->createTable($table);
@@ -105,7 +105,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_reminder/template'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_reminder/template'))
+    ->newTable($installer->getTable('enterprise_reminder_template'))
     ->addColumn('rule_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -128,11 +128,11 @@ $table = $installer->getConnection()
         array('template_id'))
     ->addForeignKey(
         $installer->getFkName('enterprise_reminder/template', 'template_id', 'core/email_template', 'template_id'),
-        'template_id', $installer->getTable('core/email_template'), 'template_id',
+        'template_id', $installer->getTable('core_email_template'), 'template_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName('enterprise_reminder/template', 'rule_id', 'enterprise_reminder/rule', 'rule_id'),
-        'rule_id', $installer->getTable('enterprise_reminder/rule'), 'rule_id',
+        'rule_id', $installer->getTable('enterprise_reminder_rule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Reminder Template');
 $installer->getConnection()->createTable($table);
@@ -141,7 +141,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_reminder/coupon'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_reminder/coupon'))
+    ->newTable($installer->getTable('enterprise_reminder_rule_coupon'))
     ->addColumn('rule_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -172,7 +172,7 @@ $table = $installer->getConnection()
         array('rule_id'))
     ->addForeignKey(
         $installer->getFkName('enterprise_reminder/coupon', 'rule_id', 'enterprise_reminder/rule', 'rule_id'),
-        'rule_id', $installer->getTable('enterprise_reminder/rule'), 'rule_id',
+        'rule_id', $installer->getTable('enterprise_reminder_rule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Reminder Rule Coupon');
 $installer->getConnection()->createTable($table);
@@ -181,7 +181,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_reminder/log'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_reminder/log'))
+    ->newTable($installer->getTable('enterprise_reminder_rule_log'))
     ->addColumn('log_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -204,7 +204,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_reminder/log', array('customer_id')),
         array('customer_id'))
     ->addForeignKey($installer->getFkName('enterprise_reminder/log', 'rule_id', 'enterprise_reminder/rule', 'rule_id'),
-        'rule_id', $installer->getTable('enterprise_reminder/rule'), 'rule_id',
+        'rule_id', $installer->getTable('enterprise_reminder_rule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Reminder Rule Log');
 $installer->getConnection()->createTable($table);

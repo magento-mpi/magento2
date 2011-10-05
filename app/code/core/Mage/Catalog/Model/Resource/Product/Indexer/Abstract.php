@@ -122,18 +122,18 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
         }
 
         $select->join(
-            array('cw' => $this->getTable('core/website')),
+            array('cw' => $this->getTable('core_website')),
             $joinCondition,
             array()
         );
 
         if ($store) {
             $select->join(
-                array('csg' => $this->getTable('core/store_group')),
+                array('csg' => $this->getTable('core_store_group')),
                 'csg.group_id = cw.default_group_id',
                 array())
             ->join(
-                array('cs' => $this->getTable('core/store')),
+                array('cs' => $this->getTable('core_store')),
                 'cs.store_id = csg.default_store_id',
                 array());
         }
@@ -153,7 +153,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
     protected function _addProductWebsiteJoinToSelect($select, $website, $product)
     {
         $select->join(
-            array('pw' => $this->getTable('catalog/product_website')),
+            array('pw' => $this->getTable('catalog_product_website')),
             "pw.product_id = {$product} AND pw.website_id = {$website}",
             array()
         );
@@ -171,7 +171,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
     {
         $write = $this->_getWriteAdapter();
         $select = $write->select()
-            ->from($this->getTable('catalog/product_relation'), 'parent_id')
+            ->from($this->getTable('catalog_product_relation'), 'parent_id')
             ->where('child_id IN(?)', $childIds);
 
         return $write->fetchCol($select);
@@ -193,7 +193,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage
         if (!empty($parentIds)) {
             $write = $this->_getWriteAdapter();
             $select = $write->select()
-                ->from($this->getTable('catalog/product_relation'), 'child_id')
+                ->from($this->getTable('catalog_product_relation'), 'child_id')
                 ->where('parent_id IN(?)', $parentIds);
             $result = $write->fetchCol($select);
         }

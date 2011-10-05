@@ -145,7 +145,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
         $tagsStores = array();
         if (sizeof($tagIds) > 0) {
             $select = $this->getConnection()->select()
-                ->from($this->getTable('tag/relation'), array('store_id', 'tag_id'))
+                ->from($this->getTable('tag_relation'), array('store_id', 'tag_id'))
                 ->where('tag_id IN(?)', $tagIds);
             $tagsRaw = $this->getConnection()->fetchAll($select);
             foreach ($tagsRaw as $tag) {
@@ -260,7 +260,7 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
      */
     public function addPopularity($tagId, $storeId = null)
     {
-        $tagRelationTable = $this->getTable('tag/relation');
+        $tagRelationTable = $this->getTable('tag_relation');
 
         $condition = array(
             'prelation.product_id=e.entity_id'
@@ -370,8 +370,8 @@ class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Reso
      */
     protected function _joinFields()
     {
-        $tagTable           = $this->getTable('tag/tag');
-        $tagRelationTable   = $this->getTable('tag/relation');
+        $tagTable           = $this->getTable('tag');
+        $tagRelationTable   = $this->getTable('tag_relation');
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('price')

@@ -33,7 +33,7 @@ $installer->startSetup();
  * Create table 'enterprise_catalogevent/event'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_catalogevent/event'))
+    ->newTable($installer->getTable('enterprise_catalogevent_event'))
     ->addColumn('event_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -59,7 +59,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_catalogevent/event', array('date_start', 'date_end')),
         array('date_start', 'date_end'))
     ->addForeignKey($installer->getFkName('enterprise_catalogevent/event', 'category_id', 'catalog/category', 'entity_id'),
-        'category_id', $installer->getTable('catalog/category'), 'entity_id',
+        'category_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Catalogevent Event');
 $installer->getConnection()->createTable($table);
@@ -68,7 +68,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_catalogevent/event_image'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_catalogevent/event_image'))
+    ->newTable($installer->getTable('enterprise_catalogevent_event_image'))
     ->addColumn('event_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -85,10 +85,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_catalogevent/event_image', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('enterprise_catalogevent/event_image', 'event_id', 'enterprise_catalogevent/event', 'event_id'),
-        'event_id', $installer->getTable('enterprise_catalogevent/event'), 'event_id',
+        'event_id', $installer->getTable('enterprise_catalogevent_event'), 'event_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('enterprise_catalogevent/event_image', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Catalogevent Event Image');
 $installer->getConnection()->createTable($table);

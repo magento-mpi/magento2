@@ -69,7 +69,7 @@ class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Mage_Catal
     public function addAppliedRuleFilter($websiteId, $customerGroupId)
     {
         $this->getSelect()
-            ->from(array('rule_group_website' => $this->getTable('catalogrule/rule_group_website')), array())
+            ->from(array('rule_group_website' => $this->getTable('catalogrule_group_website')), array())
             ->where('rule_group_website.customer_group_id = ?', $customerGroupId)
             ->where('rule_group_website.website_id = ?', $websiteId);
         return $this;
@@ -86,14 +86,14 @@ class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Mage_Catal
         if (!$this->_isBannerFilterAdded) {
             $select = $this->getSelect();
             $select->join(
-                array('rule_related_banners' => $this->getTable('enterprise_banner/catalogrule')),
+                array('rule_related_banners' => $this->getTable('enterprise_banner_catalogrule')),
                 'rule_related_banners.rule_id = rule_group_website.rule_id',
                 array('banner_id')
             );
 
             if ($enabledOnly) {
                 $select->join(
-                    array('banners' => $this->getTable('enterprise_banner/banner')),
+                    array('banners' => $this->getTable('enterprise_banner')),
                     'banners.banner_id = rule_related_banners.banner_id AND banners.is_enabled = 1',
                     array()
                 );
@@ -116,7 +116,7 @@ class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Mage_Catal
         if (!$this->_isCustomerSegmentFilterAdded && !empty($matchedCustomerSegments)) {
             $select = $this->getSelect();
             $select->joinLeft(
-                array('banner_segments' => $this->getTable('enterprise_banner/customersegment')),
+                array('banner_segments' => $this->getTable('enterprise_banner_customersegment')),
                 'banners.banner_id = banner_segments.banner_id',
                 array()
             );

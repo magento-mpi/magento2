@@ -249,11 +249,11 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
         $select = $this->_getWriteAdapter()->select()
             ->useStraightJoin(true)
             ->from(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 array_merge(array('entity_id', 'type_id'), $staticFields)
             )
             ->join(
-                array('website' => $this->getTable('catalog/product_website')),
+                array('website' => $this->getTable('catalog_product_website')),
                 $this->_getWriteAdapter()->quoteInto(
                     'website.product_id=e.entity_id AND website.website_id=?',
                     $store->getWebsiteId()
@@ -261,7 +261,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
                 array()
             )
             ->join(
-                array('stock_status' => $this->getTable('cataloginventory/stock_status')),
+                array('stock_status' => $this->getTable('cataloginventory_stock_status')),
                 $this->_getWriteAdapter()->quoteInto(
                     'stock_status.product_id=e.entity_id AND stock_status.website_id=?',
                     $store->getWebsiteId()
@@ -293,8 +293,8 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     public function resetSearchResults()
     {
         $adapter = $this->_getWriteAdapter();
-        $adapter->update($this->getTable('catalogsearch/search_query'), array('is_processed' => 0));
-        $adapter->delete($this->getTable('catalogsearch/result'));
+        $adapter->update($this->getTable('catalogsearch_query'), array('is_processed' => 0));
+        $adapter->delete($this->getTable('catalogsearch_result'));
 
         Mage::dispatchEvent('catalogsearch_reset_search_result');
 
@@ -355,7 +355,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             );
             $select = $adapter->select()
                 ->from(array($mainTableAlias => $this->getMainTable()), $fields)
-                ->joinInner(array('e' => $this->getTable('catalog/product')),
+                ->joinInner(array('e' => $this->getTable('catalog_product_entity')),
                     'e.entity_id = s.product_id',
                     array())
                 ->where($mainTableAlias.'.store_id = ?', (int)$query->getStoreId());
@@ -378,7 +378,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             }
 
             $sql = $adapter->insertFromSelect($select,
-                $this->getTable('catalogsearch/result'),
+                $this->getTable('catalogsearch_result'),
                 array(),
                 Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE);
             $adapter->query($sql, $bind);

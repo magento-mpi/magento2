@@ -58,7 +58,7 @@ class Mage_Index_Model_Resource_Process extends Mage_Core_Model_Resource_Db_Abst
             'process_id = ?' => $processId,
             'event_id = ?'   => $eventId
         );
-        $adapter->update($this->getTable('index/process_event'), array('status' => $status), $condition);
+        $adapter->update($this->getTable('index_process_event'), array('status' => $status), $condition);
         return $this;
     }
 

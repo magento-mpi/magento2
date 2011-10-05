@@ -67,7 +67,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule_Createdat extends Mage_Reports_M
     protected function _aggregateByOrder($aggregationField, $from, $to)
     {
         $table = $this->getMainTable();
-        $sourceTable = $this->getTable('sales/order');
+        $sourceTable = $this->getTable('sales_flat_order');
         $adapter = $this->_getWriteAdapter();
         $adapter->beginTransaction();
 

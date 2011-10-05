@@ -35,7 +35,7 @@ $installer->startSetup();
  * gws_websites     - comma-separated
  * gws_store_groups - comma-separated
  */
-$tableRoles = $installer->getTable('admin/role');
+$tableRoles = $installer->getTable('admin_role');
 $columns = array(
     'gws_is_all' => array(
         'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,

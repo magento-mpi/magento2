@@ -32,7 +32,7 @@ $installer->startSetup();
  * Create table 'enterprise_cms/page_version'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_cms/page_version'))
+    ->newTable($installer->getTable('enterprise_cms_page_version'))
     ->addColumn('version_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -66,10 +66,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_cms/page_version', array('version_number')),
         array('version_number'))
     ->addForeignKey($installer->getFkName('enterprise_cms/page_version', 'page_id', 'cms/page', 'page_id'),
-        'page_id', $installer->getTable('cms/page'), 'page_id',
+        'page_id', $installer->getTable('cms_page'), 'page_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('enterprise_cms/page_version', 'user_id', 'admin/user', 'user_id'),
-        'user_id', $installer->getTable('admin/user'), 'user_id',
+        'user_id', $installer->getTable('admin_user'), 'user_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Cms Page Version');
 $installer->getConnection()->createTable($table);
@@ -78,7 +78,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_cms/page_revision'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_cms/page_revision'))
+    ->newTable($installer->getTable('enterprise_cms_page_revision'))
     ->addColumn('revision_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -133,13 +133,13 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_cms/page_revision', array('revision_number')),
         array('revision_number'))
     ->addForeignKey($installer->getFkName('enterprise_cms/page_revision', 'page_id', 'cms/page', 'page_id'),
-        'page_id', $installer->getTable('cms/page'), 'page_id',
+        'page_id', $installer->getTable('cms_page'), 'page_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('enterprise_cms/page_revision', 'user_id', 'admin/user', 'user_id'),
-        'user_id', $installer->getTable('admin/user'), 'user_id',
+        'user_id', $installer->getTable('admin_user'), 'user_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('enterprise_cms/page_revision', 'version_id', 'enterprise_cms/page_version', 'version_id'),
-        'version_id', $installer->getTable('enterprise_cms/page_version'), 'version_id',
+        'version_id', $installer->getTable('enterprise_cms_page_version'), 'version_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Cms Page Revision');
 $installer->getConnection()->createTable($table);
@@ -148,7 +148,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_cms/increment'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_cms/increment'))
+    ->newTable($installer->getTable('enterprise_cms_increment'))
     ->addColumn('increment_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -182,7 +182,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_cms/hierarchy_node'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_cms/hierarchy_node'))
+    ->newTable($installer->getTable('enterprise_cms_hierarchy_node'))
     ->addColumn('node_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -217,10 +217,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_cms/hierarchy_node', array('page_id')),
         array('page_id'))
     ->addForeignKey($installer->getFkName('enterprise_cms/hierarchy_node', 'page_id', 'cms/page', 'page_id'),
-        'page_id', $installer->getTable('cms/page'), 'page_id',
+        'page_id', $installer->getTable('cms_page'), 'page_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('enterprise_cms/hierarchy_node', 'parent_node_id', 'enterprise_cms/hierarchy_node', 'node_id'),
-        'parent_node_id', $installer->getTable('enterprise_cms/hierarchy_node'), 'node_id',
+        'parent_node_id', $installer->getTable('enterprise_cms_hierarchy_node'), 'node_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Cms Hierarchy Node');
 $installer->getConnection()->createTable($table);
@@ -229,7 +229,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_cms/hierarchy_metadata'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_cms/hierarchy_metadata'))
+    ->newTable($installer->getTable('enterprise_cms_hierarchy_metadata'))
     ->addColumn('node_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -289,7 +289,7 @@ $table = $installer->getConnection()
     ->addColumn('menu_list_type', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         ), 'Menu List Type')
     ->addForeignKey($installer->getFkName('enterprise_cms/hierarchy_metadata', 'node_id', 'enterprise_cms/hierarchy_node', 'node_id'),
-        'node_id', $installer->getTable('enterprise_cms/hierarchy_node'), 'node_id',
+        'node_id', $installer->getTable('enterprise_cms_hierarchy_node'), 'node_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Cms Hierarchy Metadata');
 $installer->getConnection()->createTable($table);
@@ -298,7 +298,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_cms/hierarchy_lock'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_cms/hierarchy_lock'))
+    ->newTable($installer->getTable('enterprise_cms_hierarchy_lock'))
     ->addColumn('lock_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -322,7 +322,7 @@ $installer->getConnection()->createTable($table);
 
 // Add fields for cms/page table
 $installer->getConnection()
-    ->addColumn($installer->getTable('cms/page'), 'published_revision_id', array(
+    ->addColumn($installer->getTable('cms_page'), 'published_revision_id', array(
         'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
         'unsigned'  => true,
         'nullable'  => false,
@@ -330,7 +330,7 @@ $installer->getConnection()
         'comment'   => 'Published Revision Id'
     ));
 $installer->getConnection()
-    ->addColumn($installer->getTable('cms/page'), 'website_root', array(
+    ->addColumn($installer->getTable('cms_page'), 'website_root', array(
         'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
         'unsigned'  => true,
         'nullable'  => false,
@@ -338,7 +338,7 @@ $installer->getConnection()
         'comment'   => 'Website Root'
     ));
 $installer->getConnection()
-    ->addColumn($installer->getTable('cms/page'), 'under_version_control', array(
+    ->addColumn($installer->getTable('cms_page'), 'under_version_control', array(
         'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
         'unsigned'  => true,
         'nullable'  => false,

@@ -56,9 +56,9 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
 
         Mage::getSingleton('admin/config')->loadAclResources($acl);
 
-        $roleTable   = $this->getTable('admin/role');
-        $ruleTable   = $this->getTable('admin/rule');
-        $assertTable = $this->getTable('admin/assert');
+        $roleTable   = $this->getTable('admin_role');
+        $ruleTable   = $this->getTable('admin_rule');
+        $assertTable = $this->getTable('admin_assert');
 
         $adapter = $this->_getReadAdapter();
 

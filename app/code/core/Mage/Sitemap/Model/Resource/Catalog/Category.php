@@ -92,7 +92,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Category extends Mage_Core_Model_Resou
         $this->_select = $this->_getWriteAdapter()->select()
             ->from(array('e' => $this->getMainTable()), array($this->getIdFieldName()))
             ->joinLeft(
-                array('ur' => $this->getTable('core/url_rewrite')),
+                array('ur' => $this->getTable('core_url_rewrite')),
                 join(' AND ', $urConditions),
                 array('url'=>'request_path')
             )

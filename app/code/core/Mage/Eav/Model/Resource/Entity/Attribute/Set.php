@@ -122,10 +122,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
         if (count($attributeIds) > 0) {
             $select = $adapter->select()
                 ->from(
-                    array('entity' => $this->getTable('eav/entity_attribute')),
+                    array('entity' => $this->getTable('eav_entity_attribute')),
                     array('attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order'))
                 ->joinLeft(
-                    array('attribute_group' => $this->getTable('eav/attribute_group')),
+                    array('attribute_group' => $this->getTable('eav_attribute_group')),
                     'entity.attribute_group_id = attribute_group.attribute_group_id',
                     array('group_sort_order' => 'sort_order'))
                 ->where('entity.attribute_id IN (?)', $attributeIds);
@@ -168,7 +168,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
             'attribute_set_id' => (int)$setId
         );
         $select = $adapter->select()
-            ->from($this->getTable('eav/attribute_group'), 'attribute_group_id')
+            ->from($this->getTable('eav_attribute_group'), 'attribute_group_id')
             ->where('attribute_set_id = :attribute_set_id')
             ->where('default_id = 1')
             ->limit(1);

@@ -119,10 +119,10 @@ class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Ab
         $adapter = $this->getReadConnection();
         $select  = $adapter->select()
             ->from(
-                array('o' => $this->getTable('sales/order_item')),
+                array('o' => $this->getTable('sales_flat_order_item')),
                 array('o.product_type', new Zend_Db_Expr('COUNT(*)')))
             ->joinInner(
-                array('p' => $this->getTable('catalog/product')),
+                array('p' => $this->getTable('catalog_product_entity')),
                 'o.product_id=p.entity_id',
                 array())
             ->where('o.order_id=?', $orderId)

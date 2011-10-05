@@ -51,7 +51,7 @@ class Mage_Directory_Model_Resource_Currency_Collection extends Mage_Core_Model_
     {
         $this->_init('directory/currency');
 
-        $this->_currencyRateTable   = $this->getTable('directory/currency_rate');
+        $this->_currencyRateTable   = $this->getTable('directory_currency_rate');
     }
 
     /**

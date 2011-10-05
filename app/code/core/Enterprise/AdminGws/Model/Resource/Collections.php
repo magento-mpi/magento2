@@ -56,7 +56,7 @@ class Enterprise_AdminGws_Model_Resource_Collections extends Mage_Core_Model_Res
         if (!$isAll) {
             $select = $this->_getReadAdapter()->select();
             $select->from(
-                $this->getTable('admin/role'),
+                $this->getTable('admin_role'),
                 array(
                     'role_id',
                     'gws_is_all',
@@ -122,7 +122,7 @@ class Enterprise_AdminGws_Model_Resource_Collections extends Mage_Core_Model_Res
         $limitedRoles = $this->getRolesOutsideLimitedScope($isAll, $allowedWebsites, $allowedStoreGroups);
         if ($limitedRoles) {
             $select = $this->_getReadAdapter()->select();
-            $select->from($this->getTable('admin/role'), array('user_id'))
+            $select->from($this->getTable('admin_role'), array('user_id'))
                 ->where('parent_id IN (?)', $limitedRoles);
 
             $users = $this->_getReadAdapter()->fetchCol($select);

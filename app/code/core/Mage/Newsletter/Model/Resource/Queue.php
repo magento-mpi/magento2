@@ -62,7 +62,7 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
         $adapter = $this->_getWriteAdapter();
 
         $select = $adapter->select();
-        $select->from($this->getTable('newsletter/queue_link'), 'subscriber_id')
+        $select->from($this->getTable('newsletter_queue_link'), 'subscriber_id')
             ->where('queue_id = ?', $queue->getId())
             ->where('subscriber_id in (?)', $subscriberIds);
 
@@ -76,7 +76,7 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
                 $data = array();
                 $data['queue_id'] = $queue->getId();
                 $data['subscriber_id'] = $subscriberId;
-                $adapter->insert($this->getTable('newsletter/queue_link'), $data);
+                $adapter->insert($this->getTable('newsletter_queue_link'), $data);
             }
             $adapter->commit();
         }
@@ -95,7 +95,7 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
         $adapter = $this->_getWriteAdapter();
         try {
             $adapter->delete(
-                $this->getTable('newsletter/queue_link'),
+                $this->getTable('newsletter_queue_link'),
                 array(
                     'queue_id = ?' => $queue->getId(),
                     'letter_sent_at IS NULL'
@@ -119,7 +119,7 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->delete(
-            $this->getTable('newsletter/queue_store_link'),
+            $this->getTable('newsletter_queue_store_link'),
             array('queue_id = ?' => $queue->getId())
         );
 
@@ -132,7 +132,7 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
             $data = array();
             $data['store_id'] = $storeId;
             $data['queue_id'] = $queue->getId();
-            $adapter->insert($this->getTable('newsletter/queue_store_link'), $data);
+            $adapter->insert($this->getTable('newsletter_queue_store_link'), $data);
         }
         $this->removeSubscribersFromQueue($queue);
 
@@ -167,7 +167,7 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
     public function getStores(Mage_Newsletter_Model_Queue $queue)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()->from($this->getTable('newsletter/queue_store_link'), 'store_id')
+        $select = $adapter->select()->from($this->getTable('newsletter_queue_store_link'), 'store_id')
             ->where('queue_id = :queue_id');
 
         if (!($result = $adapter->fetchCol($select, array('queue_id'=>$queue->getId())))) {

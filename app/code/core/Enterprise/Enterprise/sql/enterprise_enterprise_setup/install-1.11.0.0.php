@@ -27,4 +27,4 @@
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-$installer->getConnection()->truncateTable($installer->getTable('adminnotification/inbox'));
+$installer->getConnection()->truncateTable($installer->getTable('adminnotification_inbox'));

@@ -82,7 +82,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
      */
     public function getConditionsSql($customer, $website)
     {
-        $table = $this->getResource()->getTable('sales/quote');
+        $table = $this->getResource()->getTable('sales_flat_quote');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();

@@ -74,7 +74,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
                 $resource->getConnection('catalog_read'),
                 $resource->getConnection('catalog_write')
             );
-        $this->_categoryProductTable = $this->getTable('catalog/category_product');
+        $this->_categoryProductTable = $this->getTable('catalog_category_product');
     }
 
     /**
@@ -269,7 +269,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
             'c_path'  => $path . '/%'
         );
         $select  = $adapter->select()
-            ->from($this->getTable('catalog/category'), 'MAX(' . $positionField . ')')
+            ->from($this->getTable('catalog_category_entity'), 'MAX(' . $positionField . ')')
             ->where($adapter->quoteIdentifier('path') . ' LIKE :c_path')
             ->where($adapter->quoteIdentifier('level') . ' = :c_level');
 
@@ -498,8 +498,8 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
                 'is_active'        => 'is_active',
             );
             $select = $this->_getReadAdapter()->select()
-                ->from(array('a'=>$this->getTable('eav/attribute')), array('attribute_id'))
-                ->join(array('t'=>$this->getTable('eav/entity_type')), 'a.entity_type_id = t.entity_type_id')
+                ->from(array('a'=>$this->getTable('eav_attribute')), array('attribute_id'))
+                ->join(array('t'=>$this->getTable('eav_entity_type')), 'a.entity_type_id = t.entity_type_id')
                 ->where('entity_type_code = :catalog_category')
                 ->where('attribute_code = :is_active');
 
@@ -729,7 +729,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
     public function isForbiddenToDelete($categoryId)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('core/store_group'), array('group_id'))
+            ->from($this->getTable('core_store_group'), array('group_id'))
             ->where('root_category_id = :root_category_id');
         $result = $this->_getReadAdapter()->fetchOne($select,  array('root_category_id' => $categoryId));
 

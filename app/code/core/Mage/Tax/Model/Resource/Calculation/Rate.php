@@ -77,7 +77,7 @@ class Mage_Tax_Model_Resource_Calculation_Rate extends Mage_Core_Model_Resource_
     {
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
-            ->from($this->getTable('tax/tax_calculation'), array('tax_calculation_rate_id'))
+            ->from($this->getTable('tax_calculation'), array('tax_calculation_rate_id'))
             ->where('tax_calculation_rate_id = ?', $rateId);
         return $adapter->fetchCol($select);
     }

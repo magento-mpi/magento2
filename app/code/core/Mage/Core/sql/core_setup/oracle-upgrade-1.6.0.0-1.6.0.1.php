@@ -30,7 +30,7 @@ $installer = $this;
 
 $connection = $installer->getConnection();
 
-$fileStorageTable = $installer->getTable('core/file_storage');
+$fileStorageTable = $installer->getTable('core_file_storage');
 if ($installer->tableExists($fileStorageTable)) {
     $temporaryColumnName = 'newcontent';
     $originColumnName = 'content';

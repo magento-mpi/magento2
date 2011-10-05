@@ -31,7 +31,7 @@ $installer = $this;
  * Create table 'enterprise_rma/rma_shipping_label'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_rma/rma_shipping_label'))
+    ->newTable($installer->getTable('enterprise_rma_shipping_label'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -61,7 +61,7 @@ $table = $installer->getConnection()
     ->addForeignKey(
         $installer->getFkName('enterprise_rma/rma_shipping_label', 'rma_entity_id', 'enterprise_rma/rma', 'entity_id'),
         'rma_entity_id',
-        $installer->getTable('enterprise_rma/rma'),
+        $installer->getTable('enterprise_rma'),
         'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)

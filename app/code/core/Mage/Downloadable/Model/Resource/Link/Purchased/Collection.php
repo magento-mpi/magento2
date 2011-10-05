@@ -51,7 +51,7 @@ class Mage_Downloadable_Model_Resource_Link_Purchased_Collection extends Mage_Co
     public function addPurchasedItemsToResult()
     {
         $this->getSelect()
-            ->join(array('pi'=>$this->getTable('downloadable/link_purchased_item')),
+            ->join(array('pi'=>$this->getTable('downloadable_link_purchased_item')),
                 'pi.purchased_id=main_table.purchased_id');
         return $this;
     }

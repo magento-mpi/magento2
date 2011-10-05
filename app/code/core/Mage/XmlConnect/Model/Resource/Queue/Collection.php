@@ -75,7 +75,7 @@ class Mage_XmlConnect_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     protected function _joinTemplateName()
     {
         $this->getSelect()->joinLeft(
-            array('t' => $this->getTable('xmlconnect/template')),
+            array('t' => $this->getTable('xmlconnect_notification_template')),
             't.template_id = main_table.template_id',
             array('template_name' => 't.name')
         );
@@ -90,7 +90,7 @@ class Mage_XmlConnect_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
     protected function _joinApplicationName()
     {
         $this->getSelect()->joinLeft(
-            array('app' => $this->getTable('xmlconnect/application')),
+            array('app' => $this->getTable('xmlconnect_application')),
             'app.application_id = t.application_id',
             array('application_name' => 'app.name')
         );

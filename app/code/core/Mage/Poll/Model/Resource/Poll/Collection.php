@@ -81,7 +81,7 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
     public function addStoreFilter($storeId, $withAdmin = true)
     {
         $this->getSelect()->join(
-            array('store_table' => $this->getTable('poll/poll_store')),
+            array('store_table' => $this->getTable('poll_store')),
             'main_table.poll_id = store_table.poll_id',
             array()
         )
@@ -108,7 +108,7 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
 
         if (count($pollIds) > 0) {
             $select = $this->getConnection()->select()
-                ->from($this->getTable('poll/poll_store'))
+                ->from($this->getTable('poll_store'))
                 ->where('poll_id IN(?)', $pollIds);
             $result = $this->getConnection()->fetchAll($select);
 
@@ -140,7 +140,7 @@ class Mage_Poll_Model_Resource_Poll_Collection extends Mage_Core_Model_Resource_
     {
         $pollId = $this->getId();
         $select = $this->getConnection()->select()
-            ->from($this->getTable('poll/poll_store'), array('stor_id'))
+            ->from($this->getTable('poll_store'), array('stor_id'))
             ->where('poll_id = :poll_id');
         $stores = $this->getConnection()->fetchCol($select, array(':poll_id' => $pollId));
         $this->setSelectStores($stores);

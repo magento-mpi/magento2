@@ -128,7 +128,7 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
 
         // walk through found data and re-encrypt it
         if ($paths) {
-            $table = $this->getTable('core/config_data');
+            $table = $this->getTable('core_config_data');
             $values = $this->_getReadAdapter()->fetchPairs($this->_getReadAdapter()->select()
                 ->from($table, array('config_id', 'value'))
                 ->where('path IN (?)', $paths)
@@ -149,7 +149,7 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
      */
     protected function _reEncryptCreditCardNumbers()
     {
-        $table = $this->getTable('sales/order_payment');
+        $table = $this->getTable('sales_flat_order_payment');
         $select = $this->_getWriteAdapter()->select()
             ->from($table, array('entity_id', 'cc_number_enc'));
 

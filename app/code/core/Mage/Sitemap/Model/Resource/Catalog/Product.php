@@ -150,13 +150,13 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
         $this->_select = $this->_getWriteAdapter()->select()
             ->from(array('e' => $this->getMainTable()), array($this->getIdFieldName()))
             ->join(
-                array('w' => $this->getTable('catalog/product_website')),
+                array('w' => $this->getTable('catalog_product_website')),
                 'e.entity_id=w.product_id',
                 array()
             )
             ->where('w.website_id=?', $store->getWebsiteId())
             ->joinLeft(
-                array('ur' => $this->getTable('core/url_rewrite')),
+                array('ur' => $this->getTable('core_url_rewrite')),
                 join(' AND ', $urCondions),
                 array('url' => 'request_path')
             );

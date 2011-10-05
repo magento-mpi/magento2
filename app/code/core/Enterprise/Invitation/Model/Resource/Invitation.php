@@ -56,7 +56,7 @@ class Enterprise_Invitation_Model_Resource_Invitation extends Mage_Core_Model_Re
                 'referral_id' => (int)$referralId
             );
         $this->_getWriteAdapter()->insertOnDuplicate(
-            $this->getTable('enterprise_invitation/invitation_track'),
+            $this->getTable('enterprise_invitation_track'),
             $data,
             array_keys($data)
         );

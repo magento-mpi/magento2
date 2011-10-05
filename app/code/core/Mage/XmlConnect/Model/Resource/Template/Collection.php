@@ -63,7 +63,7 @@ class Mage_XmlConnect_Model_Resource_Template_Collection extends Mage_Core_Model
     protected function _joinApplicationName()
     {
         $this->getSelect()->joinLeft(
-            array('app' => $this->getTable('xmlconnect/application')),
+            array('app' => $this->getTable('xmlconnect_application')),
             'app.application_id = main_table.application_id',
             array('app_name' => 'app.name', 'app_code' => 'app.code')
         );

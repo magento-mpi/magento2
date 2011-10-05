@@ -30,7 +30,7 @@ $installer = $this;
  * Create table 'enterprise_importexport/scheduled_operation'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_importexport/scheduled_operation'))
+    ->newTable($installer->getTable('enterprise_scheduled_operations'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,

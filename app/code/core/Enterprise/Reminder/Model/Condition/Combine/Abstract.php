@@ -96,7 +96,7 @@ abstract class Enterprise_Reminder_Model_Condition_Combine_Abstract extends Mage
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-        $table = $this->getResource()->getTable('customer/entity');
+        $table = $this->getResource()->getTable('customer_entity');
         $select->from($table, array(new Zend_Db_Expr(1)));
         $select->where($this->_createCustomerFilter($customer, 'entity_id'));
         return $select;
@@ -191,7 +191,7 @@ abstract class Enterprise_Reminder_Model_Condition_Combine_Abstract extends Mage
      */
     protected function _limitByStoreWebsite(Zend_Db_Select $select, $website, $storeIdField)
     {
-        $storeTable = $this->getResource()->getTable('core/store');
+        $storeTable = $this->getResource()->getTable('core_store');
         $select->join(array('store' => $storeTable), $storeIdField . '=store.store_id', array())
             ->where('store.website_id=?', $website);
         return $this;

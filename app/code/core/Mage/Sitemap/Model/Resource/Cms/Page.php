@@ -56,7 +56,7 @@ class Mage_Sitemap_Model_Resource_Cms_Page extends Mage_Core_Model_Resource_Db_A
         $select = $this->_getWriteAdapter()->select()
             ->from(array('main_table' => $this->getMainTable()), array($this->getIdFieldName(), 'identifier AS url'))
             ->join(
-                array('store_table' => $this->getTable('cms/page_store')),
+                array('store_table' => $this->getTable('cms_page_store')),
                 'main_table.page_id=store_table.page_id',
                 array()
             )

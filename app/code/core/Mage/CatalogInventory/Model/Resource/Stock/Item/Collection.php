@@ -93,7 +93,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
     {
         $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
         $this->getSelect()->joinLeft(
-            array('status_table' => $this->getTable('cataloginventory/stock_status')),
+            array('status_table' => $this->getTable('cataloginventory_stock_status')),
                 'main_table.product_id=status_table.product_id'
                 . ' AND main_table.stock_id=status_table.stock_id'
                 . $this->getConnection()->quoteInto(' AND status_table.website_id=?', $websiteId),
@@ -155,7 +155,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
     {
         return parent::_initSelect()->getSelect()
             ->join(
-                array('cp_table' => $this->getTable('catalog/product')),
+                array('cp_table' => $this->getTable('catalog_product_entity')),
                 'main_table.product_id = cp_table.entity_id',
                 array('type_id')
             );

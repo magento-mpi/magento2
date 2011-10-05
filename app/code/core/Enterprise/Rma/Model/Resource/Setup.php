@@ -203,7 +203,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
         $attributeIds       = array();
         $select = $this->getConnection()->select()
             ->from(
-                array('ea' => $this->getTable('eav/attribute')),
+                array('ea' => $this->getTable('eav_attribute')),
                 array('entity_type_id', 'attribute_code', 'attribute_id'))
             ->where('ea.entity_type_id = ?', $rma_item);
         foreach ($this->getConnection()->fetchAll($select) as $row) {
@@ -231,7 +231,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
         }
 
         if ($data) {
-            $this->getConnection()->insertMultiple($this->getTable('enterprise_rma/item_form_attribute'), $data);
+            $this->getConnection()->insertMultiple($this->getTable('enterprise_rma_item_form_attribute'), $data);
         }
     }
 }

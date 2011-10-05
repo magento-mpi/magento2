@@ -39,7 +39,7 @@ $installer->startSetup();
  * Create table 'productalert/price'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('productalert/price'))
+    ->newTable($installer->getTable('product_alert_price'))
     ->addColumn('alert_price_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -87,13 +87,13 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('productalert/price', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('productalert/price', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('productalert/price', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('productalert/price', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Product Alert Price');
 $installer->getConnection()->createTable($table);
@@ -102,7 +102,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'productalert/stock'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('productalert/stock'))
+    ->newTable($installer->getTable('product_alert_stock'))
     ->addColumn('alert_stock_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -146,13 +146,13 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('productalert/stock', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('productalert/stock', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('productalert/stock', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('productalert/stock', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Product Alert Stock');
 $installer->getConnection()->createTable($table);

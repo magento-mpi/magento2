@@ -154,11 +154,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
         switch ($this->getValue()) {
             case self::ORDERED:
                 $select->from(
-                    array('item' => $this->getResource()->getTable('sales/order_item')),
+                    array('item' => $this->getResource()->getTable('sales_flat_order_item')),
                     array(new Zend_Db_Expr(1))
                 );
                 $select->joinInner(
-                    array('sales_order' => $this->getResource()->getTable('sales/order')),
+                    array('sales_order' => $this->getResource()->getTable('sales_flat_order')),
                     'item.order_id = sales_order.entity_id',
                     array()
                 );
@@ -167,7 +167,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
                 break;
             default:
                 $select->from(
-                    array('item' => $this->getResource()->getTable('reports/viewed_product_index')),
+                    array('item' => $this->getResource()->getTable('report_viewed_product_index')),
                     array(new Zend_Db_Expr(1))
                 );
                 $select->where($this->_createCustomerFilter($customer, 'item.customer_id'));

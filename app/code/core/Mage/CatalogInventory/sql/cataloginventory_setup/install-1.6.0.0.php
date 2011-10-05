@@ -33,7 +33,7 @@ $installer->startSetup();
  * Create table 'cataloginventory_stock'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('cataloginventory/stock'))
+    ->newTable($installer->getTable('cataloginventory_stock'))
     ->addColumn('stock_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -49,7 +49,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'cataloginventory/stock_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('cataloginventory/stock_item'))
+    ->newTable($installer->getTable('cataloginventory_stock_item'))
     ->addColumn('item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -170,14 +170,14 @@ $table = $installer->getConnection()
         array('stock_id')
     )
     ->addForeignKey($installer->getFkName('cataloginventory/stock_item', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )
     ->addForeignKey(
         $installer->getFkName(
             'cataloginventory/stock_item', 'stock_id', 'cataloginventory/stock', 'stock_id'
         ),
-        'stock_id', $installer->getTable('cataloginventory/stock'), 'stock_id',
+        'stock_id', $installer->getTable('cataloginventory_stock'), 'stock_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )
     ->setComment('Cataloginventory Stock Item');
@@ -187,7 +187,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'cataloginventory/stock_status'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('cataloginventory/stock_status'))
+    ->newTable($installer->getTable('cataloginventory_stock_status'))
     ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -221,18 +221,18 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'cataloginventory/stock_status', 'stock_id', 'cataloginventory/stock', 'stock_id'
         ),
-        'stock_id', $installer->getTable('cataloginventory/stock'), 'stock_id',
+        'stock_id', $installer->getTable('cataloginventory_stock'), 'stock_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )
     ->addForeignKey(
         $installer->getFkName(
             'cataloginventory/stock_status', 'product_id', 'catalog/product', 'entity_id'
         ),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )
     ->addForeignKey($installer->getFkName('cataloginventory/stock_status', 'website_id', 'core/website', 'website_id'),
-        'website_id', $installer->getTable('core/website'), 'website_id',
+        'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )
     ->setComment('Cataloginventory Stock Status');
@@ -242,7 +242,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'cataloginventory/stock_status_indexer_idx'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('cataloginventory/stock_status_indexer_idx'))
+    ->newTable($installer->getTable('cataloginventory_stock_status_idx'))
     ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -279,7 +279,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'cataloginventory/stock_status_indexer_tmp'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('cataloginventory/stock_status_indexer_tmp'))
+    ->newTable($installer->getTable('cataloginventory_stock_status_tmp'))
     ->addColumn('product_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -314,7 +314,7 @@ $installer->getConnection()->createTable($table);
 
 $installer->endSetup();
 
-$installer->getConnection()->insertForce($installer->getTable('cataloginventory/stock'), array(
+$installer->getConnection()->insertForce($installer->getTable('cataloginventory_stock'), array(
     'stock_id'      => 1,
     'stock_name'    => 'Default'
 ));

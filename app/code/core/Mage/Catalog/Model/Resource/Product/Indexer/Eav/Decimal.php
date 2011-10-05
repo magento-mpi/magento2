@@ -72,7 +72,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
                 array('pdd' => $this->getValueTable('catalog/product', 'decimal')),
                 array('entity_id', 'attribute_id'))
             ->join(
-                array('cs' => $this->getTable('core/store')),
+                array('cs' => $this->getTable('core_store')),
                 '',
                 array('store_id'))
             ->joinLeft(
@@ -117,9 +117,9 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
     {
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
-            ->from(array('ca' => $this->getTable('catalog/eav_attribute')), 'attribute_id')
+            ->from(array('ca' => $this->getTable('catalog_eav_attribute')), 'attribute_id')
             ->join(
-                array('ea' => $this->getTable('eav/attribute')),
+                array('ea' => $this->getTable('eav_attribute')),
                 'ca.attribute_id = ea.attribute_id',
                 array())
             ->where('ea.attribute_code != ?', 'price')
@@ -138,8 +138,8 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
     public function getIdxTable($table = null)
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/product_eav_decimal_indexer_idx');
+            return $this->getTable('catalog_product_index_eav_decimal_idx');
         }
-        return $this->getTable('catalog/product_eav_decimal_indexer_tmp');
+        return $this->getTable('catalog_product_index_eav_decimal_tmp');
     }
 }

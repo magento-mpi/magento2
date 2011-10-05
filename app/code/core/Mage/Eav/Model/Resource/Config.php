@@ -91,7 +91,7 @@ class Mage_Eav_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstrac
             $adapter = $this->_getReadAdapter();
             $bind    = array('entity_type_id' => $typeId);
             $select  = $adapter->select()
-                ->from($this->getTable('eav/attribute'))
+                ->from($this->getTable('eav_attribute'))
                 ->where('entity_type_id = :entity_type_id');
 
             self::$_attributes[$typeId] = $adapter->fetchAll($select, $bind);

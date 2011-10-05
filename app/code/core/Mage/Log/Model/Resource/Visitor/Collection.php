@@ -118,14 +118,14 @@ class Mage_Log_Model_Resource_Visitor_Collection extends Mage_Core_Model_Resourc
     {
         $this->_init('log/visitor');
 
-        $this->_visitorTable     = $this->getTable('log/visitor');
-        $this->_visitorInfoTable = $this->getTable('log/visitor_info');
-        $this->_urlTable         = $this->getTable('log/url_table');
-        $this->_urlInfoTable     = $this->getTable('log/url_info_table');
-        $this->_customerTable    = $this->getTable('log/customer');
-        $this->_summaryTable     = $this->getTable('log/summary_table');
-        $this->_summaryTypeTable = $this->getTable('log/summary_type_table');
-        $this->_quoteTable       = $this->getTable('log/quote_table');
+        $this->_visitorTable     = $this->getTable('log_visitor');
+        $this->_visitorInfoTable = $this->getTable('log_visitor_info');
+        $this->_urlTable         = $this->getTable('log_url');
+        $this->_urlInfoTable     = $this->getTable('log_url_info');
+        $this->_customerTable    = $this->getTable('log_customer');
+        $this->_summaryTable     = $this->getTable('log_summary');
+        $this->_summaryTypeTable = $this->getTable('log_summary_type');
+        $this->_quoteTable       = $this->getTable('log_quote');
     }
 
     /**

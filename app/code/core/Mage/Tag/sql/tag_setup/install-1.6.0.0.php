@@ -33,7 +33,7 @@ $installer->startSetup();
  * Create table 'tag/tag'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('tag/tag'))
+    ->newTable($installer->getTable('tag'))
     ->addColumn('tag_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -53,10 +53,10 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'First Store Id')
     ->addForeignKey($installer->getFkName('tag/tag', 'first_customer_id', 'customer/entity', 'entity_id'),
-        'first_customer_id', $installer->getTable('customer/entity'), 'entity_id',
+        'first_customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->addForeignKey($installer->getFkName('tag/tag', 'first_store_id', 'core/store', 'store_id'),
-        'first_store_id', $installer->getTable('core/store'), 'store_id',
+        'first_store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_NO_ACTION)
     ->setComment('Tag');
 $installer->getConnection()->createTable($table);
@@ -65,7 +65,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'tag/relation'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('tag/relation'))
+    ->newTable($installer->getTable('tag_relation'))
     ->addColumn('tag_relation_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -108,16 +108,16 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('tag/relation', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('tag/relation', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('tag/relation', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('tag/relation', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('tag/relation', 'tag_id', 'tag/tag', 'tag_id'),
-        'tag_id', $installer->getTable('tag/tag'), 'tag_id',
+        'tag_id', $installer->getTable('tag'), 'tag_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Tag Relation');
 $installer->getConnection()->createTable($table);
@@ -126,7 +126,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'tag/summary'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('tag/summary'))
+    ->newTable($installer->getTable('tag_summary'))
     ->addColumn('tag_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -174,10 +174,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('tag/summary', array('tag_id')),
         array('tag_id'))
     ->addForeignKey($installer->getFkName('tag/summary', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('tag/summary', 'tag_id', 'tag/tag', 'tag_id'),
-        'tag_id', $installer->getTable('tag/tag'), 'tag_id',
+        'tag_id', $installer->getTable('tag'), 'tag_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Tag Summary');
 $installer->getConnection()->createTable($table);
@@ -186,7 +186,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'tag/properties'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('tag/properties'))
+    ->newTable($installer->getTable('tag_properties'))
     ->addColumn('tag_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -207,10 +207,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('tag/properties', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('tag/properties', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('tag/properties', 'tag_id', 'tag/tag', 'tag_id'),
-        'tag_id', $installer->getTable('tag/tag'), 'tag_id',
+        'tag_id', $installer->getTable('tag'), 'tag_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Tag Properties');
 $installer->getConnection()->createTable($table);

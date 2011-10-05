@@ -33,7 +33,7 @@ $installer->startSetup();
  * Create table 'directory/country'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('directory/country'))
+    ->newTable($installer->getTable('directory_country'))
     ->addColumn('country_id', Varien_Db_Ddl_Table::TYPE_TEXT, 2, array(
         'nullable'  => false,
         'primary'   => true,
@@ -54,7 +54,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'directory/country_format'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('directory/country_format'))
+    ->newTable($installer->getTable('directory_country_format'))
     ->addColumn('country_format_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -86,7 +86,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'directory/country_region'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('directory/country_region'))
+    ->newTable($installer->getTable('directory_country_region'))
     ->addColumn('region_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -112,7 +112,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'directory/country_region_name'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('directory/country_region_name'))
+    ->newTable($installer->getTable('directory_country_region_name'))
     ->addColumn('locale', Varien_Db_Ddl_Table::TYPE_TEXT, 8, array(
         'nullable'  => false,
         'primary'   => true,
@@ -132,7 +132,7 @@ $table = $installer->getConnection()
         array('region_id'))
     ->addForeignKey(
         $installer->getFkName('directory/country_region_name', 'region_id', 'directory/country_region', 'region_id'),
-        'region_id', $installer->getTable('directory/country_region'), 'region_id',
+        'region_id', $installer->getTable('directory_country_region'), 'region_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Directory Country Region Name');
 $installer->getConnection()->createTable($table);
@@ -141,7 +141,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'directory/currency_rate'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('directory/currency_rate'))
+    ->newTable($installer->getTable('directory_currency_rate'))
     ->addColumn('currency_from', Varien_Db_Ddl_Table::TYPE_TEXT, 3, array(
         'nullable'  => false,
         'primary'   => true,

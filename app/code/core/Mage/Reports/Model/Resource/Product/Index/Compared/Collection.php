@@ -42,6 +42,6 @@ class Mage_Reports_Model_Resource_Product_Index_Compared_Collection
      */
     protected function _getTableName()
     {
-        return $this->getTable('reports/compared_product_index');
+        return $this->getTable('report_compared_product_index');
     }
 }

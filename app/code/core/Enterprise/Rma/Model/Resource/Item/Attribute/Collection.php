@@ -53,6 +53,6 @@ class Enterprise_Rma_Model_Resource_Item_Attribute_Collection extends Mage_Eav_M
      */
     protected function _getEavWebsiteTable()
     {
-        return $this->getTable('enterprise_rma/item_eav_attribute_website');
+        return $this->getTable('enterprise_rma_item_eav_attribute_website');
     }
 }

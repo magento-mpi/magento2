@@ -32,7 +32,7 @@ $installer->startSetup();
  * Create table 'enterprise_staging/staging'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_staging/staging'))
+    ->newTable($installer->getTable('enterprise_staging'))
     ->addColumn('staging_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -81,7 +81,7 @@ $table = $installer->getConnection()
             'core/website',
             'website_id'
         ),
-        'master_website_id', $installer->getTable('core/website'), 'website_id',
+        'master_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
@@ -90,7 +90,7 @@ $table = $installer->getConnection()
             'core/website',
             'website_id'
         ),
-        'staging_website_id', $installer->getTable('core/website'), 'website_id',
+        'staging_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Staging');
 $installer->getConnection()->createTable($table);
@@ -99,7 +99,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_staging/staging_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_staging/staging_item'))
+    ->newTable($installer->getTable('enterprise_staging_item'))
     ->addColumn('staging_item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -131,7 +131,7 @@ $table = $installer->getConnection()
             'enterprise_staging/staging',
             'staging_id'
         ),
-        'staging_id', $installer->getTable('enterprise_staging/staging'), 'staging_id',
+        'staging_id', $installer->getTable('enterprise_staging'), 'staging_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Staging Item');
 $installer->getConnection()->createTable($table);
@@ -140,7 +140,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_staging/staging_action'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_staging/staging_action'))
+    ->newTable($installer->getTable('enterprise_staging_action'))
     ->addColumn('action_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -196,7 +196,7 @@ $table = $installer->getConnection()
             'core/website',
             'website_id'
         ),
-        'staging_website_id', $installer->getTable('core/website'), 'website_id',
+        'staging_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
@@ -205,7 +205,7 @@ $table = $installer->getConnection()
             'core/website',
             'website_id'
         ),
-        'master_website_id', $installer->getTable('core/website'), 'website_id',
+        'master_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Staging Action');
 $installer->getConnection()->createTable($table);
@@ -214,7 +214,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_staging/staging_log'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_staging/staging_log'))
+    ->newTable($installer->getTable('enterprise_staging_log'))
     ->addColumn('log_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -284,7 +284,7 @@ $table = $installer->getConnection()
             'core/website',
             'website_id'
         ),
-        'master_website_id', $installer->getTable('core/website'), 'website_id',
+        'master_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
@@ -293,28 +293,28 @@ $table = $installer->getConnection()
             'core/website',
             'website_id'
         ),
-        'staging_website_id', $installer->getTable('core/website'), 'website_id',
+        'staging_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Staging Log');
 $installer->getConnection()->createTable($table);
 
-$installer->getConnection()->addColumn($installer->getTable('core/website'), 'is_staging', array(
+$installer->getConnection()->addColumn($installer->getTable('core_website'), 'is_staging', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_BOOLEAN,
     'nullable'  => false,
     'default'   => 0,
     'comment'   => 'Is Staging Flag'
 ));
-$installer->getConnection()->addColumn($installer->getTable('core/website'), 'master_login', array(
+$installer->getConnection()->addColumn($installer->getTable('core_website'), 'master_login', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'    => 40,
     'comment'   => 'Master Login'
 ));
-$installer->getConnection()->addColumn($installer->getTable('core/website'), 'master_password', array(
+$installer->getConnection()->addColumn($installer->getTable('core_website'), 'master_password', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'    => 100,
     'comment'   => 'Master Password'
 ));
-$installer->getConnection()->addColumn($installer->getTable('core/website'), 'visibility', array(
+$installer->getConnection()->addColumn($installer->getTable('core_website'), 'visibility', array(
     'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'    => 40,
     'comment'   => 'Visibility'

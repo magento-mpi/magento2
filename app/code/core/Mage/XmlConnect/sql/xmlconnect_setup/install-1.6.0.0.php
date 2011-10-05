@@ -31,7 +31,7 @@ $installer->startSetup();
 /**
  * Create table 'xmlconnect_application'
  */
-$appTableName = $installer->getTable('xmlconnect/application');
+$appTableName = $installer->getTable('xmlconnect_application');
 $table = $installer->getConnection()
     ->newTable($appTableName)
     ->addColumn('application_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
@@ -73,9 +73,9 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
     )
     ->addForeignKey(
-        $installer->getFkName($appTableName, 'store_id', $installer->getTable('core/store'), 'store_id'),
+        $installer->getFkName($appTableName, 'store_id', $installer->getTable('core_store'), 'store_id'),
         'store_id',
-        $installer->getTable('core/store'),
+        $installer->getTable('core_store'),
         'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL,
         Varien_Db_Ddl_Table::ACTION_SET_NULL
@@ -86,7 +86,7 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'xmlconnect_config_data'
  */
-$configTableName = $installer->getTable('xmlconnect/configData');
+$configTableName = $installer->getTable('xmlconnect_config_data');
 $configTable = $installer->getConnection()
     ->newTable($configTableName)
     ->addColumn('application_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
@@ -126,7 +126,7 @@ $installer->getConnection()->createTable($configTable);
 /**
  * Create table 'xmlconnect_history'
  */
-$historyTableName = $installer->getTable('xmlconnect/history');
+$historyTableName = $installer->getTable('xmlconnect_history');
 $historyTable = $installer->getConnection()
     ->newTable($historyTableName)
     ->addColumn('history_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -187,7 +187,7 @@ $installer->addAttribute('catalog_category', 'thumbnail', array(
 /**
  * Create table 'xmlconnect_notification_template'
  */
-$templateTableName = $installer->getTable('xmlconnect/template');
+$templateTableName = $installer->getTable('xmlconnect_notification_template');
 $templateTable = $installer->getConnection()
     ->newTable($templateTableName)
     ->addColumn('template_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -231,7 +231,7 @@ $installer->getConnection()->createTable($templateTable);
 /**
  * Create table 'xmlconnect_queue'
  */
-$queueTableName = $installer->getTable('xmlconnect/queue');
+$queueTableName = $installer->getTable('xmlconnect_queue');
 $queueTable = $installer->getConnection()
     ->newTable($queueTableName)
     ->addColumn('queue_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(

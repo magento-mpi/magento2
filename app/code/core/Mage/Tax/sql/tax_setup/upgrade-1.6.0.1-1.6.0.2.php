@@ -31,7 +31,7 @@ $installer = $this;
  * Create table 'tax/sales_order_tax_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('tax/sales_order_tax_item'))
+    ->newTable($installer->getTable('sales_order_tax_item'))
     ->addColumn('tax_item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -65,7 +65,7 @@ $table = $installer->getConnection()
             'tax_id'
         ),
         'tax_id',
-        $installer->getTable('tax/sales_order_tax'),
+        $installer->getTable('sales_order_tax'),
         'tax_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE

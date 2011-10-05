@@ -115,7 +115,7 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
         $ordersSubSelect = clone $this->getSelect();
         $ordersSubSelect->reset()
             ->from(
-                array('oi' => $this->getTable('sales/order_item')),
+                array('oi' => $this->getTable('sales_flat_order_item')),
                 array(
                    'orders' => new Zend_Db_Expr('COUNT(1)'),
                    'product_id'))
@@ -125,11 +125,11 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
             ->useStraightJoin(true)
             ->reset(Zend_Db_Select::COLUMNS)
             ->joinInner(
-                array('quote_items' => $this->getTable('sales/quote_item')),
+                array('quote_items' => $this->getTable('sales_flat_quote_item')),
                 'quote_items.quote_id = main_table.entity_id',
                 null)
             ->joinInner(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 'e.entity_id = quote_items.product_id',
                 null)
             ->joinInner(

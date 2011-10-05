@@ -77,7 +77,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
             $join = ($isFilteredByWebsite ? 'joinInner' : 'joinLeft');
             $cols = ($isOrderedByWebsite ? array('website_ids' => 'website.website_id') : array());
             $this->getSelect()->$join(
-                array('website' => $this->getTable('enterprise_customersegment/website')),
+                array('website' => $this->getTable('enterprise_customersegment_website')),
                 'main_table.segment_id = website.segment_id',
                 $cols
             );
@@ -95,7 +95,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
         parent::_afterLoad();
         if ($this->getFlag('add_websites_to_result') && $this->_items) {
             $select = $this->getConnection()->select()
-                ->from($this->getTable('enterprise_customersegment/website'), array(
+                ->from($this->getTable('enterprise_customersegment_website'), array(
                     'segment_id',
                     'website_id'
                 ))
@@ -141,7 +141,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
         if (!$this->getFlag('is_event_table_joined')) {
             $this->setFlag('is_event_table_joined', true);
             $this->getSelect()->joinInner(
-                array('evt'=>$this->getTable('enterprise_customersegment/event')),
+                array('evt'=>$this->getTable('enterprise_customersegment_event')),
                 'main_table.segment_id = evt.segment_id',
                 array()
             );
@@ -223,7 +223,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
         $this->_customerCountAdded = true;
         $this->getSelect()
             ->joinLeft(
-                array('customer_count_table' => $this->getTable('enterprise_customersegment/customer')),
+                array('customer_count_table' => $this->getTable('enterprise_customersegment_customer')),
                 'customer_count_table.segment_id = main_table.segment_id',
                 array('customer_count' => new Zend_Db_Expr('COUNT(customer_count_table.customer_id)'))
             )

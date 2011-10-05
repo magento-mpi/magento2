@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sendfriend/sendfriend'))
+    ->newTable($installer->getTable('sendfriend_log'))
     ->addColumn('log_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,

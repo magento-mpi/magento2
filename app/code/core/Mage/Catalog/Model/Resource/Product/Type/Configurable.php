@@ -112,7 +112,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
         $select = $this->_getReadAdapter()->select()
             ->from(array('l' => $this->getMainTable()), array('product_id', 'parent_id'))
             ->join(
-                array('e' => $this->getTable('catalog/product')),
+                array('e' => $this->getTable('catalog_product_entity')),
                 'e.entity_id = l.product_id AND e.required_options = 0',
                 array()
             )
@@ -160,7 +160,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
             $select = $this->_getReadAdapter()->select()
                 ->from(
                     array(
-                        'super_attribute'       => $this->getTable('catalog/product_super_attribute')
+                        'super_attribute'       => $this->getTable('catalog_product_super_attribute')
                     ),
                     array(
                         'sku'                   => 'entity.sku',
@@ -172,19 +172,19 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
                     )
                 )->joinInner(
                     array(
-                        'product_link'          => $this->getTable('catalog/product_super_link')
+                        'product_link'          => $this->getTable('catalog_product_super_link')
                     ),
                     'product_link.parent_id = super_attribute.product_id',
                     array()
                 )->joinInner(
                     array(
-                        'attribute'             => $this->getTable('eav/attribute')
+                        'attribute'             => $this->getTable('eav_attribute')
                     ),
                     'attribute.attribute_id = super_attribute.attribute_id',
                     array()
                 )->joinInner(
                     array(
-                        'entity'                => $this->getTable('catalog/product')
+                        'entity'                => $this->getTable('catalog_product_entity')
                     ),
                     'entity.entity_id = product_link.product_id',
                     array()
@@ -205,7 +205,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
                     array()
                 )->joinLeft(
                     array(
-                        'option_value'          => $this->getTable('eav/attribute_option_value')
+                        'option_value'          => $this->getTable('eav_attribute_option_value')
                     ),
                     implode(' AND ', array(
                         'option_value.option_id = entity_value.value',
@@ -214,7 +214,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable extends Mage_Core_Mo
                     array()
                 )->joinLeft(
                     array(
-                        'attribute_pricing'     => $this->getTable('catalog/product_super_attribute_pricing')
+                        'attribute_pricing'     => $this->getTable('catalog_product_super_attribute_pricing')
                     ),
                     implode(' AND ', array(
                         'super_attribute.product_super_attribute_id = attribute_pricing.product_super_attribute_id',

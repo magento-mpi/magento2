@@ -197,7 +197,7 @@ class Mage_Core_Model_Resource_Store_Collection extends Mage_Core_Model_Resource
     {
         if (!$this->getFlag('core_store_group_table_joined')) {
             $this->getSelect()->join(
-                array('group_table' => $this->getTable('core/store_group')),
+                array('group_table' => $this->getTable('core_store_group')),
                 'main_table.group_id = group_table.group_id',
                 array('root_category_id')
             );

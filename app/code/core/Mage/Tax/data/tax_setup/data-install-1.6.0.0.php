@@ -46,7 +46,7 @@ $data = array(
     )
 );
 foreach ($data as $row) {
-    $installer->getConnection()->insertForce($installer->getTable('tax/tax_class'), $row);
+    $installer->getConnection()->insertForce($installer->getTable('tax_class'), $row);
 }
 
 /**
@@ -58,7 +58,7 @@ $data = array(
     'priority'                  => 1,
     'position'                  => 1
 );
-$installer->getConnection()->insertForce($installer->getTable('tax/tax_calculation_rule'), $data);
+$installer->getConnection()->insertForce($installer->getTable('tax_calculation_rule'), $data);
 
 /**
  * install tax calculation rates
@@ -82,7 +82,7 @@ $data = array(
     )
 );
 foreach ($data as $row) {
-    $installer->getConnection()->insertForce($installer->getTable('tax/tax_calculation_rate'), $row);
+    $installer->getConnection()->insertForce($installer->getTable('tax_calculation_rate'), $row);
 }
 
 /**
@@ -102,5 +102,5 @@ $data = array(
         'product_tax_class_id'      => 2
     )
 );
-$installer->getConnection()->insertMultiple($installer->getTable('tax/tax_calculation'), $data);
+$installer->getConnection()->insertMultiple($installer->getTable('tax_calculation'), $data);
 

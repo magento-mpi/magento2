@@ -187,11 +187,11 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
                 array('entity' => $this->getEntity()->getEntityTable()),
                 'attribute_set_id')
             ->join(
-                array('website' => $this->getTable('catalog/product_website')),
+                array('website' => $this->getTable('catalog_product_website')),
                 join(' AND ', $websiteConds),
                 array())
             ->join(
-                array('compare' => $this->getTable('catalog/compare_item')),
+                array('compare' => $this->getTable('catalog_compare_item')),
                 join(' AND ', $compareConds),
                 array()
             );
@@ -208,7 +208,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
     {
         $select = $this->getConnection()->select()
             ->distinct(true)
-            ->from($this->getTable('eav/entity_attribute'), 'attribute_id')
+            ->from($this->getTable('eav_entity_attribute'), 'attribute_id')
             ->where('attribute_set_id IN(?)', $setIds);
         return $this->getConnection()->fetchCol($select);
     }
@@ -227,13 +227,13 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
                 $attributeIds = $this->_getAttributeIdsBySetIds($setIds);
 
                 $select = $this->getConnection()->select()
-                    ->from(array('main_table' => $this->getTable('eav/attribute')))
+                    ->from(array('main_table' => $this->getTable('eav_attribute')))
                     ->join(
-                        array('additional_table' => $this->getTable('catalog/eav_attribute')),
+                        array('additional_table' => $this->getTable('catalog_eav_attribute')),
                         'additional_table.attribute_id=main_table.attribute_id'
                     )
                     ->joinLeft(
-                        array('al' => $this->getTable('eav/attribute_label')),
+                        array('al' => $this->getTable('eav_attribute_label')),
                         'al.attribute_id = main_table.attribute_id AND al.store_id = ' . (int) $this->getStoreId(),
                         array('store_label' => $this->getConnection()->getCheckSql('al.value IS NULL', 'main_table.frontend_label', 'al.value'))
                     )

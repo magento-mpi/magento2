@@ -104,7 +104,7 @@ class Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection
         $select = clone $this->getSelect();
         $select->reset();
         $select->from(
-            $this->getTable('enterprise_customersegment/customer'),
+            $this->getTable('enterprise_customersegment_customer'),
             'customer_id'
         )
         ->where('segment_id IN(?)', $segment)
@@ -123,7 +123,7 @@ class Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection
         $select = clone $this->getSelect();
         $select->reset();
         $select->from(
-            $this->getTable('enterprise_customersegment/customer'),
+            $this->getTable('enterprise_customersegment_customer'),
             'customer_id'
         )
         ->where('segment_id IN(?)', $segment)

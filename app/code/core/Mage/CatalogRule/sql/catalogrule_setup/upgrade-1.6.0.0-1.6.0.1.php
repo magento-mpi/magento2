@@ -27,7 +27,7 @@
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-$tableName = $installer->getTable('catalogrule/rule');
+$tableName = $installer->getTable('catalogrule');
 $columnOptions = array(
     'TYPE'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
     'UNSIGNED'  => true,

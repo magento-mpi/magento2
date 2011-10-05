@@ -61,8 +61,8 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
             $select = $read->select()
                 ->from($this->getMainTable())
                 ->join(
-                    $this->getTable('tag/tag'),
-                    $this->getTable('tag/tag') . '.tag_id = ' . $this->getMainTable() . '.tag_id'
+                    $this->getTable('tag'),
+                    $this->getTable('tag') . '.tag_id = ' . $this->getMainTable() . '.tag_id'
                 )
                 ->where($this->getMainTable() . '.tag_id = :tag_id')
                 ->where('customer_id = :customer_id');
@@ -110,10 +110,10 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
 
         if (!is_null($model->getStatusFilter())) {
             $select->join(
-                $this->getTable('tag/tag'),
-                $this->getTable('tag/tag') . '.tag_id = ' . $this->getMainTable() . '.tag_id'
+                $this->getTable('tag'),
+                $this->getTable('tag') . '.tag_id = ' . $this->getMainTable() . '.tag_id'
             )
-            ->where($this->getTable('tag/tag') . '.status = :t_status');
+            ->where($this->getTable('tag') . '.status = :t_status');
             $bind['t_status'] = $model->getStatusFilter();
         }
 

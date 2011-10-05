@@ -33,7 +33,7 @@ $installer->startSetup();
  * Create table 'shipping/tablerate'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('shipping/tablerate'))
+    ->newTable($installer->getTable('shipping_tablerate'))
     ->addColumn('pk', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,

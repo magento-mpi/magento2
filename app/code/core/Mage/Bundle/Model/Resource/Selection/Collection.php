@@ -49,7 +49,7 @@ class Mage_Bundle_Model_Resource_Selection_Collection extends Mage_Catalog_Model
     {
         parent::_construct();
         $this->setRowIdFieldName('selection_id');
-        $this->_selectionTable = $this->getTable('bundle/selection');
+        $this->_selectionTable = $this->getTable('catalog_product_bundle_selection');
     }
 
     /**
@@ -100,7 +100,7 @@ class Mage_Bundle_Model_Resource_Selection_Collection extends Mage_Catalog_Model
             'price.selection_price_value',
             'selection.selection_price_value'
         );
-        $this->getSelect()->joinLeft(array('price' => $this->getTable('bundle/selection_price')),
+        $this->getSelect()->joinLeft(array('price' => $this->getTable('catalog_product_bundle_selection_price')),
             'selection.selection_id = price.selection_id AND price.website_id = ' . (int)$websiteId,
             array(
                 'selection_price_type' => $priceType,

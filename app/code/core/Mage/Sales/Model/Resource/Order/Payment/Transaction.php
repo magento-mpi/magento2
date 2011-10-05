@@ -120,8 +120,8 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
         $adapter = $this->_getReadAdapter();
         $bind    = array(':entity_id' => $orderId);
         $select  = $adapter->select()
-            ->from(array('so' => $this->getTable('sales/order')), 'cs.website_id')
-            ->joinInner(array('cs' => $this->getTable('core/store')), 'cs.store_id = so.store_id')
+            ->from(array('so' => $this->getTable('sales_flat_order')), 'cs.website_id')
+            ->joinInner(array('cs' => $this->getTable('core_store')), 'cs.store_id = so.store_id')
             ->where('so.entity_id = :entity_id');
         return $adapter->fetchOne($select, $bind);
     }

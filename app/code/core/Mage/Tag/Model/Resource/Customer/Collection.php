@@ -238,8 +238,8 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
      */
     protected function _joinFields()
     {
-        $tagRelationTable = $this->getTable('tag/relation');
-        $tagTable = $this->getTable('tag/tag');
+        $tagRelationTable = $this->getTable('tag_relation');
+        $tagTable = $this->getTable('tag');
 
         //TODO: add full name logic
         $this->addAttributeToSelect('firstname')

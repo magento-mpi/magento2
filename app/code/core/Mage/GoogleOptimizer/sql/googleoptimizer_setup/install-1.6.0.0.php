@@ -40,7 +40,7 @@ $installer->startSetup();
  * Create table 'googleoptimizer/code'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('googleoptimizer/code'))
+    ->newTable($installer->getTable('googleoptimizer_code'))
     ->addColumn('code_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -70,7 +70,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('googleoptimizer/code', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('googleoptimizer/code', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Googleoptimizer code');
 $installer->getConnection()->createTable($table);

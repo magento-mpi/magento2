@@ -95,8 +95,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-        $quoteTable = $this->getResource()->getTable('sales/quote');
-        $quoteItemTable = $this->getResource()->getTable('sales/quote_item');
+        $quoteTable = $this->getResource()->getTable('sales_flat_quote');
+        $quoteItemTable = $this->getResource()->getTable('sales_flat_quote_item');
 
         $select->from(array('item' => $quoteItemTable), array(new Zend_Db_Expr(1)));
 

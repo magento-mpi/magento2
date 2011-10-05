@@ -32,7 +32,7 @@ $installer->startSetup();
  * Create table 'sales/order'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/order'))
+    ->newTable($installer->getTable('sales_flat_order'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -341,10 +341,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/order', array('updated_at')),
         array('updated_at'))
     ->addForeignKey($installer->getFkName('sales/order', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/order', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Order');
 $installer->getConnection()->createTable($table);
@@ -353,7 +353,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/order_grid'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/order_grid'))
+    ->newTable($installer->getTable('sales_flat_order_grid'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -421,13 +421,13 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/order_grid', array('updated_at')),
         array('updated_at'))
     ->addForeignKey($installer->getFkName('sales/order_grid', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/order_grid', 'entity_id', 'sales/order', 'entity_id'),
-        'entity_id', $installer->getTable('sales/order'), 'entity_id',
+        'entity_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/order_grid', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Order Grid');
 $installer->getConnection()->createTable($table);
@@ -437,7 +437,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/order_address'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/order_address'))
+    ->newTable($installer->getTable('sales_flat_order_address'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -488,7 +488,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/order_address', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales/order_address', 'parent_id', 'sales/order', 'entity_id'),
-        'parent_id', $installer->getTable('sales/order'), 'entity_id',
+        'parent_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Order Address');
 $installer->getConnection()->createTable($table);
@@ -498,7 +498,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/order_status_history'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/order_status_history'))
+    ->newTable($installer->getTable('sales_flat_order_status_history'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -527,7 +527,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/order_status_history', array('created_at')),
         array('created_at'))
     ->addForeignKey($installer->getFkName('sales/order_status_history', 'parent_id', 'sales/order', 'entity_id'),
-        'parent_id', $installer->getTable('sales/order'), 'entity_id',
+        'parent_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Order Status History');
 $installer->getConnection()->createTable($table);
@@ -537,7 +537,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/order_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/order_item'))
+    ->newTable($installer->getTable('sales_flat_order_item'))
     ->addColumn('item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -735,10 +735,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/order_item', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/order_item', 'order_id', 'sales/order', 'entity_id'),
-        'order_id', $installer->getTable('sales/order'), 'entity_id',
+        'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/order_item', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Order Item');
 $installer->getConnection()->createTable($table);
@@ -748,7 +748,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/order_payment'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/order_payment'))
+    ->newTable($installer->getTable('sales_flat_order_payment'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -866,7 +866,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/order_payment', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales/order_payment', 'parent_id', 'sales/order', 'entity_id'),
-        'parent_id', $installer->getTable('sales/order'), 'entity_id',
+        'parent_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Order Payment');
 $installer->getConnection()->createTable($table);
@@ -876,7 +876,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/shipment'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/shipment'))
+    ->newTable($installer->getTable('sales_flat_shipment'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -929,10 +929,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/shipment', array('updated_at')),
         array('updated_at'))
     ->addForeignKey($installer->getFkName('sales/shipment', 'order_id', 'sales/order', 'entity_id'),
-        'order_id', $installer->getTable('sales/order'), 'entity_id',
+        'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/shipment', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Shipment');
 $installer->getConnection()->createTable($table);
@@ -942,7 +942,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/shipment_grid'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/shipment_grid'))
+    ->newTable($installer->getTable('sales_flat_shipment_grid'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -993,10 +993,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/shipment_grid', array('shipping_name')),
         array('shipping_name'))
     ->addForeignKey($installer->getFkName('sales/shipment_grid', 'entity_id', 'sales/shipment', 'entity_id'),
-        'entity_id', $installer->getTable('sales/shipment'), 'entity_id',
+        'entity_id', $installer->getTable('sales_flat_shipment'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/shipment_grid', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Shipment Grid');
 $installer->getConnection()->createTable($table);
@@ -1006,7 +1006,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/shipment_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/shipment_item'))
+    ->newTable($installer->getTable('sales_flat_shipment_item'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1040,7 +1040,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/shipment_item', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales/shipment_item', 'parent_id', 'sales/shipment', 'entity_id'),
-        'parent_id', $installer->getTable('sales/shipment'), 'entity_id',
+        'parent_id', $installer->getTable('sales_flat_shipment'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Shipment Item');
 $installer->getConnection()->createTable($table);
@@ -1050,7 +1050,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/shipment_track'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/shipment_track'))
+    ->newTable($installer->getTable('sales_flat_shipment_track'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1088,7 +1088,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/shipment_track', array('created_at')),
         array('created_at'))
     ->addForeignKey($installer->getFkName('sales/shipment_track', 'parent_id', 'sales/shipment', 'entity_id'),
-        'parent_id', $installer->getTable('sales/shipment'), 'entity_id',
+        'parent_id', $installer->getTable('sales_flat_shipment'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Shipment Track');
 $installer->getConnection()->createTable($table);
@@ -1098,7 +1098,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/shipment_comment'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/shipment_comment'))
+    ->newTable($installer->getTable('sales_flat_shipment_comment'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1125,7 +1125,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/shipment_comment', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales/shipment_comment', 'parent_id', 'sales/shipment', 'entity_id'),
-        'parent_id', $installer->getTable('sales/shipment'), 'entity_id',
+        'parent_id', $installer->getTable('sales_flat_shipment'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Shipment Comment');
 $installer->getConnection()->createTable($table);
@@ -1135,7 +1135,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/invoice'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/invoice'))
+    ->newTable($installer->getTable('sales_flat_invoice'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -1250,10 +1250,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/invoice', array('created_at')),
         array('created_at'))
     ->addForeignKey($installer->getFkName('sales/invoice', 'order_id', 'sales/order', 'entity_id'),
-        'order_id', $installer->getTable('sales/order'), 'entity_id',
+        'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/invoice', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Invoice');
 $installer->getConnection()->createTable($table);
@@ -1263,7 +1263,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/invoice_grid'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/invoice_grid'))
+    ->newTable($installer->getTable('sales_flat_invoice_grid'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -1324,10 +1324,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/invoice_grid', array('billing_name')),
         array('billing_name'))
     ->addForeignKey($installer->getFkName('sales/invoice_grid', 'entity_id', 'sales/invoice', 'entity_id'),
-        'entity_id', $installer->getTable('sales/invoice'), 'entity_id',
+        'entity_id', $installer->getTable('sales_flat_invoice'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/invoice_grid', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Invoice Grid');
 $installer->getConnection()->createTable($table);
@@ -1337,7 +1337,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/invoice_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/invoice_item'))
+    ->newTable($installer->getTable('sales_flat_invoice_item'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1395,7 +1395,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/invoice_item', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales/invoice_item', 'parent_id', 'sales/invoice', 'entity_id'),
-        'parent_id', $installer->getTable('sales/invoice'), 'entity_id',
+        'parent_id', $installer->getTable('sales_flat_invoice'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Invoice Item');
 $installer->getConnection()->createTable($table);
@@ -1405,7 +1405,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/invoice_comment'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/invoice_comment'))
+    ->newTable($installer->getTable('sales_flat_invoice_comment'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1433,7 +1433,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/invoice_comment', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales/invoice_comment', 'parent_id', 'sales/invoice', 'entity_id'),
-        'parent_id', $installer->getTable('sales/invoice'), 'entity_id',
+        'parent_id', $installer->getTable('sales_flat_invoice'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Invoice Comment');
 $installer->getConnection()->createTable($table);
@@ -1443,7 +1443,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/creditmemo'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/creditmemo'))
+    ->newTable($installer->getTable('sales_flat_creditmemo'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1564,10 +1564,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/creditmemo', array('created_at')),
         array('created_at'))
     ->addForeignKey($installer->getFkName('sales/creditmemo', 'order_id', 'sales/order', 'entity_id'),
-        'order_id', $installer->getTable('sales/order'), 'entity_id',
+        'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/creditmemo', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Creditmemo');
 $installer->getConnection()->createTable($table);
@@ -1577,7 +1577,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/creditmemo_grid'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/creditmemo_grid'))
+    ->newTable($installer->getTable('sales_flat_creditmemo_grid'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -1654,10 +1654,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('billing_name')),
         array('billing_name'))
     ->addForeignKey($installer->getFkName('sales/creditmemo_grid', 'entity_id', 'sales/creditmemo', 'entity_id'),
-        'entity_id', $installer->getTable('sales/creditmemo'), 'entity_id',
+        'entity_id', $installer->getTable('sales_flat_creditmemo'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/creditmemo_grid', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Creditmemo Grid');
 $installer->getConnection()->createTable($table);
@@ -1667,7 +1667,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/creditmemo_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/creditmemo_item'))
+    ->newTable($installer->getTable('sales_flat_creditmemo_item'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1725,7 +1725,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/creditmemo_item', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales/creditmemo_item', 'parent_id', 'sales/creditmemo', 'entity_id'),
-        'parent_id', $installer->getTable('sales/creditmemo'), 'entity_id',
+        'parent_id', $installer->getTable('sales_flat_creditmemo'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Creditmemo Item');
 $installer->getConnection()->createTable($table);
@@ -1734,7 +1734,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/creditmemo_comment'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/creditmemo_comment'))
+    ->newTable($installer->getTable('sales_flat_creditmemo_comment'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1761,7 +1761,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/creditmemo_comment', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales/creditmemo_comment', 'parent_id', 'sales/creditmemo', 'entity_id'),
-        'parent_id', $installer->getTable('sales/creditmemo'), 'entity_id',
+        'parent_id', $installer->getTable('sales_flat_creditmemo'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Creditmemo Comment');
 $installer->getConnection()->createTable($table);
@@ -1771,7 +1771,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/quote'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/quote'))
+    ->newTable($installer->getTable('sales_flat_quote'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -1914,7 +1914,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/quote', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/quote', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Quote');
 $installer->getConnection()->createTable($table);
@@ -1924,7 +1924,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/quote_address'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/quote_address'))
+    ->newTable($installer->getTable('sales_flat_quote_address'))
     ->addColumn('address_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2088,7 +2088,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/quote_address', array('quote_id')),
         array('quote_id'))
     ->addForeignKey($installer->getFkName('sales/quote_address', 'quote_id', 'sales/quote', 'entity_id'),
-        'quote_id', $installer->getTable('sales/quote'), 'entity_id',
+        'quote_id', $installer->getTable('sales_flat_quote'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Quote Address');
 $installer->getConnection()->createTable($table);
@@ -2098,7 +2098,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/quote_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/quote_item'))
+    ->newTable($installer->getTable('sales_flat_quote_item'))
     ->addColumn('item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2232,16 +2232,16 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/quote_item', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/quote_item', 'parent_item_id', 'sales/quote_item', 'item_id'),
-        'parent_item_id', $installer->getTable('sales/quote_item'), 'item_id',
+        'parent_item_id', $installer->getTable('sales_flat_quote_item'), 'item_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/quote_item', 'product_id', 'catalog/product', 'entity_id'),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/quote_item', 'quote_id', 'sales/quote', 'entity_id'),
-        'quote_id', $installer->getTable('sales/quote'), 'entity_id',
+        'quote_id', $installer->getTable('sales_flat_quote'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/quote_item', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Quote Item');
 $installer->getConnection()->createTable($table);
@@ -2250,7 +2250,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/quote_address_item'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/quote_address_item'))
+    ->newTable($installer->getTable('sales_flat_quote_address_item'))
     ->addColumn('address_item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2374,7 +2374,7 @@ $table = $installer->getConnection()
             'sales/quote_address',
             'address_id'
         ),
-        'quote_address_id', $installer->getTable('sales/quote_address'), 'address_id',
+        'quote_address_id', $installer->getTable('sales_flat_quote_address'), 'address_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
@@ -2383,7 +2383,7 @@ $table = $installer->getConnection()
             'sales/quote_address_item',
             'address_item_id'
         ),
-        'parent_item_id', $installer->getTable('sales/quote_address_item'), 'address_item_id',
+        'parent_item_id', $installer->getTable('sales_flat_quote_address_item'), 'address_item_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
@@ -2392,7 +2392,7 @@ $table = $installer->getConnection()
             'sales/quote_item',
             'item_id'
         ),
-        'quote_item_id', $installer->getTable('sales/quote_item'), 'item_id',
+        'quote_item_id', $installer->getTable('sales_flat_quote_item'), 'item_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Quote Address Item');
 $installer->getConnection()->createTable($table);
@@ -2402,7 +2402,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/quote_item_option'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/quote_item_option'))
+    ->newTable($installer->getTable('sales_flat_quote_item_option'))
     ->addColumn('option_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2425,7 +2425,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/quote_item_option', array('item_id')),
         array('item_id'))
     ->addForeignKey($installer->getFkName('sales/quote_item_option', 'item_id', 'sales/quote_item', 'item_id'),
-        'item_id', $installer->getTable('sales/quote_item'), 'item_id',
+        'item_id', $installer->getTable('sales_flat_quote_item'), 'item_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Quote Item Option');
 $installer->getConnection()->createTable($table);
@@ -2435,7 +2435,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/quote_payment'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/quote_payment'))
+    ->newTable($installer->getTable('sales_flat_quote_payment'))
     ->addColumn('payment_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2494,7 +2494,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/quote_payment', array('quote_id')),
         array('quote_id'))
     ->addForeignKey($installer->getFkName('sales/quote_payment', 'quote_id', 'sales/quote', 'entity_id'),
-        'quote_id', $installer->getTable('sales/quote'), 'entity_id',
+        'quote_id', $installer->getTable('sales_flat_quote'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Quote Payment');
 $installer->getConnection()->createTable($table);
@@ -2504,7 +2504,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/quote_address_shipping_rate'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/quote_address_shipping_rate'))
+    ->newTable($installer->getTable('sales_flat_quote_shipping_rate'))
     ->addColumn('rate_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2549,7 +2549,7 @@ $table = $installer->getConnection()
             'sales/quote_address',
             'address_id'
         ),
-        'address_id', $installer->getTable('sales/quote_address'), 'address_id',
+        'address_id', $installer->getTable('sales_flat_quote_address'), 'address_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Flat Quote Shipping Rate');
 $installer->getConnection()->createTable($table);
@@ -2559,7 +2559,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/invoiced_aggregated'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/invoiced_aggregated'))
+    ->newTable($installer->getTable('sales_invoiced_aggregated'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2595,7 +2595,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/invoiced_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/invoiced_aggregated', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Invoiced Aggregated');
 $installer->getConnection()->createTable($table);
@@ -2605,7 +2605,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/invoiced_aggregated_order'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/invoiced_aggregated_order'))
+    ->newTable($installer->getTable('sales_invoiced_aggregated_order'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2643,7 +2643,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/invoiced_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/invoiced_aggregated_order', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Invoiced Aggregated Order');
 $installer->getConnection()->createTable($table);
@@ -2653,7 +2653,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/order_aggregated_created'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/order_aggregated_created'))
+    ->newTable($installer->getTable('sales_order_aggregated_created'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2743,7 +2743,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/order_aggregated_created', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/order_aggregated_created', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Order Aggregated Created');
 $installer->getConnection()->createTable($table);
@@ -2753,7 +2753,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/payment_transaction'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/payment_transaction'))
+    ->newTable($installer->getTable('sales_payment_transaction'))
     ->addColumn('transaction_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2802,7 +2802,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/payment_transaction', array('payment_id')),
         array('payment_id'))
     ->addForeignKey($installer->getFkName('sales/payment_transaction', 'order_id', 'sales/order', 'entity_id'),
-        'order_id', $installer->getTable('sales/order'), 'entity_id',
+        'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
@@ -2811,7 +2811,7 @@ $table = $installer->getConnection()
             'sales/payment_transaction',
             'transaction_id'
         ),
-        'parent_id', $installer->getTable('sales/payment_transaction'), 'transaction_id',
+        'parent_id', $installer->getTable('sales_payment_transaction'), 'transaction_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
@@ -2820,7 +2820,7 @@ $table = $installer->getConnection()
             'sales/order_payment',
             'entity_id'
         ),
-        'payment_id', $installer->getTable('sales/order_payment'), 'entity_id',
+        'payment_id', $installer->getTable('sales_flat_order_payment'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Payment Transaction');
 $installer->getConnection()->createTable($table);
@@ -2830,7 +2830,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/refunded_aggregated'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/refunded_aggregated'))
+    ->newTable($installer->getTable('sales_refunded_aggregated'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2867,7 +2867,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/refunded_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/refunded_aggregated', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Refunded Aggregated');
 $installer->getConnection()->createTable($table);
@@ -2877,7 +2877,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/refunded_aggregated_order'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/refunded_aggregated_order'))
+    ->newTable($installer->getTable('sales_refunded_aggregated_order'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2912,7 +2912,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/refunded_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/refunded_aggregated_order', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Refunded Aggregated Order');
 $installer->getConnection()->createTable($table);
@@ -2922,7 +2922,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/shipping_aggregated'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/shipping_aggregated'))
+    ->newTable($installer->getTable('sales_shipping_aggregated'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -2957,7 +2957,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/shipping_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/shipping_aggregated', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Shipping Aggregated');
 $installer->getConnection()->createTable($table);
@@ -2967,7 +2967,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/shipping_aggregated_order'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/shipping_aggregated_order'))
+    ->newTable($installer->getTable('sales_shipping_aggregated_order'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -3002,7 +3002,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/shipping_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/shipping_aggregated_order', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Shipping Aggregated Order');
 $installer->getConnection()->createTable($table);
@@ -3012,7 +3012,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/bestsellers_aggregated_daily'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/bestsellers_aggregated_daily'))
+    ->newTable($installer->getTable('sales_bestsellers_aggregated_daily'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -3055,7 +3055,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_daily', array('product_id')),
         array('product_id'))
     ->addForeignKey($installer->getFkName('sales/bestsellers_aggregated_daily', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
@@ -3064,7 +3064,7 @@ $table = $installer->getConnection()
             'catalog/product',
             'entity_id'
         ),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Bestsellers Aggregated Daily');
 $installer->getConnection()->createTable($table);
@@ -3074,7 +3074,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/bestsellers_aggregated_monthly'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/bestsellers_aggregated_monthly'))
+    ->newTable($installer->getTable('sales_bestsellers_aggregated_monthly'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -3123,7 +3123,7 @@ $table = $installer->getConnection()
             'core/store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
@@ -3132,7 +3132,7 @@ $table = $installer->getConnection()
             'catalog/product',
             'entity_id'
         ),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Bestsellers Aggregated Monthly');
 $installer->getConnection()->createTable($table);
@@ -3141,7 +3141,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/bestsellers_aggregated_yearly'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/bestsellers_aggregated_yearly'))
+    ->newTable($installer->getTable('sales_bestsellers_aggregated_yearly'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -3190,7 +3190,7 @@ $table = $installer->getConnection()
             'core/store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
@@ -3199,7 +3199,7 @@ $table = $installer->getConnection()
             'catalog/product',
             'entity_id'
         ),
-        'product_id', $installer->getTable('catalog/product'), 'entity_id',
+        'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Bestsellers Aggregated Yearly');
 $installer->getConnection()->createTable($table);
@@ -3209,7 +3209,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/billing_agreement'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/billing_agreement'))
+    ->newTable($installer->getTable('sales_billing_agreement'))
     ->addColumn('agreement_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -3244,10 +3244,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/billing_agreement', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/billing_agreement', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/billing_agreement', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Billing Agreement');
 $installer->getConnection()->createTable($table);
@@ -3257,7 +3257,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/billing_agreement_order'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/billing_agreement_order'))
+    ->newTable($installer->getTable('sales_billing_agreement_order'))
     ->addColumn('agreement_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -3277,10 +3277,10 @@ $table = $installer->getConnection()
             'sales/billing_agreement',
             'agreement_id'
         ),
-        'agreement_id', $installer->getTable('sales/billing_agreement'), 'agreement_id',
+        'agreement_id', $installer->getTable('sales_billing_agreement'), 'agreement_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/billing_agreement_order', 'order_id', 'sales/order', 'entity_id'),
-        'order_id', $installer->getTable('sales/order'), 'entity_id',
+        'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Billing Agreement Order');
 $installer->getConnection()->createTable($table);
@@ -3290,7 +3290,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/recurring_profile'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/recurring_profile'))
+    ->newTable($installer->getTable('sales_recurring_profile'))
     ->addColumn('profile_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -3399,10 +3399,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/recurring_profile', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/recurring_profile', 'customer_id', 'customer/entity', 'entity_id'),
-        'customer_id', $installer->getTable('customer/entity'), 'entity_id',
+        'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/recurring_profile', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Recurring Profile');
 $installer->getConnection()->createTable($table);
@@ -3412,7 +3412,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/recurring_profile_order'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/recurring_profile_order'))
+    ->newTable($installer->getTable('sales_recurring_profile_order'))
     ->addColumn('link_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -3445,7 +3445,7 @@ $table = $installer->getConnection()
             'sales/order',
             'entity_id'
         ),
-        'order_id', $installer->getTable('sales/order'), 'entity_id',
+        'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
@@ -3454,7 +3454,7 @@ $table = $installer->getConnection()
             'sales/recurring_profile',
             'profile_id'
         ),
-        'profile_id', $installer->getTable('sales/recurring_profile'), 'profile_id',
+        'profile_id', $installer->getTable('sales_recurring_profile'), 'profile_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Recurring Profile Order');
 $installer->getConnection()->createTable($table);
@@ -3464,7 +3464,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/order_tax'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/order_tax'))
+    ->newTable($installer->getTable('sales_order_tax'))
     ->addColumn('tax_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
@@ -3511,7 +3511,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/order_status'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/order_status'))
+    ->newTable($installer->getTable('sales_order_status'))
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'primary'   => true,
@@ -3527,7 +3527,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/order_status_state'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/order_status_state'))
+    ->newTable($installer->getTable('sales_order_status_state'))
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'primary'   => true,
@@ -3542,7 +3542,7 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Is Default')
     ->addForeignKey($installer->getFkName('sales/order_status_state', 'status', 'sales/order_status', 'status'),
-        'status', $installer->getTable('sales/order_status'), 'status',
+        'status', $installer->getTable('sales_order_status'), 'status',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Order Status Table');
 $installer->getConnection()->createTable($table);
@@ -3552,7 +3552,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'sales/order_status_label'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sales/order_status_label'))
+    ->newTable($installer->getTable('sales_order_status_label'))
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'primary'   => true,
@@ -3568,10 +3568,10 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('sales/order_status_label', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales/order_status_label', 'status', 'sales/order_status', 'status'),
-        'status', $installer->getTable('sales/order_status'), 'status',
+        'status', $installer->getTable('sales_order_status'), 'status',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('sales/order_status_label', 'store_id', 'core/store', 'store_id'),
-        'store_id', $installer->getTable('core/store'), 'store_id',
+        'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Sales Order Status Label Table');
 $installer->getConnection()->createTable($table);

@@ -99,7 +99,7 @@ class Enterprise_Staging_Model_Resource_Staging_Action_Collection
     {
         $this->getSelect()
             ->joinLeft(
-                array('staging' => $this->getTable('enterprise_staging/staging')),
+                array('staging' => $this->getTable('enterprise_staging')),
                 'main_table.staging_id=staging.staging_id',
                 array('staging_name'=>'name')
         );
@@ -116,12 +116,12 @@ class Enterprise_Staging_Model_Resource_Staging_Action_Collection
     {
         $this->getSelect()
             ->joinLeft(
-                array('core_website' => $this->getTable('core/website')),
+                array('core_website' => $this->getTable('core_website')),
                 'main_table.master_website_id=core_website.website_id',
                 array('master_website_id' => 'website_id',
                     'master_website_name' => 'name'))
             ->joinLeft(
-                array('staging_website' => $this->getTable('core/website')),
+                array('staging_website' => $this->getTable('core_website')),
                 'main_table.staging_website_id=staging_website.website_id',
                 array('staging_website_id' => 'website_id',
                     'staging_website_name' => 'name')

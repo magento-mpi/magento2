@@ -53,7 +53,7 @@ class Mage_Checkout_Model_Resource_Cart extends Mage_Core_Model_Resource_Db_Abst
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()
-            ->from(array('q'=>$this->getTable('sales/quote')), array('items_qty', 'items_count'))
+            ->from(array('q'=>$this->getTable('sales_flat_quote')), array('items_qty', 'items_count'))
             ->where('q.entity_id = :quote_id');
 
         $result = $read->fetchRow($select, array(':quote_id' => $quoteId));
@@ -70,7 +70,7 @@ class Mage_Checkout_Model_Resource_Cart extends Mage_Core_Model_Resource_Db_Abst
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()
-            ->from(array('qi'=>$this->getTable('sales/quote_item')),
+            ->from(array('qi'=>$this->getTable('sales_flat_quote_item')),
                 array('id'=>'item_id', 'product_id', 'super_product_id', 'qty', 'created_at'))
             ->where('qi.quote_id = :quote_id');
 
@@ -88,7 +88,7 @@ class Mage_Checkout_Model_Resource_Cart extends Mage_Core_Model_Resource_Db_Abst
     {
         $adapter = $this->_getReadAdapter();
         $exclusionSelect = $adapter->select()
-            ->from($this->getTable('sales/quote_item'), array('product_id'))
+            ->from($this->getTable('sales_flat_quote_item'), array('product_id'))
             ->where('quote_id = ?', $quoteId);
         $condition = $adapter->prepareSqlCondition('e.entity_id', array('nin' => $exclusionSelect));
         $collection->getSelect()->where($condition);

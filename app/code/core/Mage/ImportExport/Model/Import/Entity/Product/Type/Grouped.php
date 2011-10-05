@@ -74,14 +74,14 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_Grouped
         $connection    = Mage::getSingleton('core/resource')->getConnection('write');
         $resource      = Mage::getResourceModel('catalog/product_link');
         $mainTable     = $resource->getMainTable();
-        $relationTable = $resource->getTable('catalog/product_relation');
+        $relationTable = $resource->getTable('catalog_product_relation');
         $newSku        = $this->_entityModel->getNewSku();
         $oldSku        = $this->_entityModel->getOldSku();
         $attributes    = array();
 
         // pre-load attributes parameters
         $select = $connection->select()
-            ->from($resource->getTable('catalog/product_link_attribute'), array(
+            ->from($resource->getTable('catalog_product_link_attribute'), array(
                 'id'   => 'product_link_attribute_id',
                 'code' => 'product_link_attribute_code',
                 'type' => 'data_type'

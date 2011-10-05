@@ -64,7 +64,7 @@ class Mage_Sales_Model_Resource_Billing_Agreement_Collection extends Mage_Core_M
     public function addCustomerDetails()
     {
         $select = $this->getSelect()->joinInner(
-            array('ce' => $this->getTable('customer/entity')),
+            array('ce' => $this->getTable('customer_entity')),
             'ce.entity_id = main_table.customer_id',
             array('customer_email' => 'email')
         );

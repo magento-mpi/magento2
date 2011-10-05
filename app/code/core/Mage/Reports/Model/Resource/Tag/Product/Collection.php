@@ -52,7 +52,7 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
         $select = clone $this->getSelect();
         
         $select->reset()
-            ->from(array('rel' => $this->getTable('tag/relation')), 'COUNT(DISTINCT rel.tag_id)')
+            ->from(array('rel' => $this->getTable('tag_relation')), 'COUNT(DISTINCT rel.tag_id)')
             ->where('rel.product_id = e.entity_id');
 
         $this->getSelect()
@@ -154,11 +154,11 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
         $this->addAttributeToSelect('name');
         $this->getSelect()
             ->join(
-                array('relation' => $this->getTable('tag/relation')),
+                array('relation' => $this->getTable('tag_relation')),
                 'relation.product_id = e.entity_id',
                 array())
             ->join(
-                array('t' => $this->getTable('tag/tag')),
+                array('t' => $this->getTable('tag')),
                 't.tag_id = relation.tag_id',
                 array('tag_id',  'status', 'tag_name' => 'name')
             );

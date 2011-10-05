@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
         }
 
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('eav/entity_attribute'))
+            ->from($this->getTable('eav_entity_attribute'))
             ->where('entity_attribute_id = ?', (int)$object->getEntityAttributeId());
         $result = $this->_getReadAdapter()->fetchRow($select);
 
@@ -144,8 +144,8 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
     public function isUsedBySuperProducts(Mage_Core_Model_Abstract $object, $attributeSet = null)
     {
         $adapter      = $this->_getReadAdapter();
-        $attrTable    = $this->getTable('catalog/product_super_attribute');
-        $productTable = $this->getTable('catalog/product');
+        $attrTable    = $this->getTable('catalog_product_super_attribute');
+        $productTable = $this->getTable('catalog_product_entity');
 
         $bind = array('attribute_id' => $object->getAttributeId());
         $select = clone $adapter->select();

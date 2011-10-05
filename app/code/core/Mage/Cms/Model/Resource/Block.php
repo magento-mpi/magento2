@@ -55,7 +55,7 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
             'block_id = ?'     => (int) $object->getId(),
         );
 
-        $this->_getWriteAdapter()->delete($this->getTable('cms/block_store'), $condition);
+        $this->_getWriteAdapter()->delete($this->getTable('cms_block_store'), $condition);
 
         return parent::_beforeDelete($object);
     }
@@ -90,7 +90,7 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
         $oldStores = $this->lookupStoreIds($object->getId());
         $newStores = (array)$object->getStores();
 
-        $table  = $this->getTable('cms/block_store');
+        $table  = $this->getTable('cms_block_store');
         $insert = array_diff($newStores, $oldStores);
         $delete = array_diff($oldStores, $newStores);
 
@@ -172,7 +172,7 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
             );
 
             $select->join(
-                array('cbs' => $this->getTable('cms/block_store')),
+                array('cbs' => $this->getTable('cms_block_store')),
                 $this->getMainTable().'.block_id = cbs.block_id',
                 array('store_id')
             )->where('is_active = ?', 1)
@@ -201,7 +201,7 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
         $select = $this->_getReadAdapter()->select()
             ->from(array('cb' => $this->getMainTable()))
             ->join(
-                array('cbs' => $this->getTable('cms/block_store')),
+                array('cbs' => $this->getTable('cms_block_store')),
                 'cb.block_id = cbs.block_id',
                 array()
             )->where('cb.identifier = ?', $object->getData('identifier'))
@@ -229,7 +229,7 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
         $adapter = $this->_getReadAdapter();
 
         $select  = $adapter->select()
-            ->from($this->getTable('cms/block_store'), 'store_id')
+            ->from($this->getTable('cms_block_store'), 'store_id')
             ->where('block_id = :block_id');
 
         $binds = array(

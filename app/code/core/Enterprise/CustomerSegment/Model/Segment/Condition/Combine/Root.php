@@ -77,7 +77,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-        $table = array('root' => $this->getResource()->getTable('customer/entity'));
+        $table = array('root' => $this->getResource()->getTable('customer_entity'));
         $select->from($table, array('entity_id'));
         if ($customer) {
             $select->where($this->_createCustomerFilter($customer, 'entity_id'));

@@ -48,7 +48,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
     protected function _construct()
     {
         $this->_init('enterprise_customersegment/segment', 'segment_id');
-        $this->_websiteTable = $this->getTable('enterprise_customersegment/website');
+        $this->_websiteTable = $this->getTable('enterprise_customersegment_website');
     }
 
     /**
@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
     {
         $id = $object->getId();
         $this->_getWriteAdapter()->delete(
-            $this->getTable('enterprise_customersegment/event'),
+            $this->getTable('enterprise_customersegment_event'),
             array('segment_id = ?' => $id)
         );
         if ($object->getMatchedEvents() && is_array($object->getMatchedEvents())) {
@@ -84,7 +84,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
                     'segment_id' => $id,
                     'event'      => $event,
                 );
-                $this->_getWriteAdapter()->insert($this->getTable('enterprise_customersegment/event'), $data);
+                $this->_getWriteAdapter()->insert($this->getTable('enterprise_customersegment_event'), $data);
             }
         }
 
@@ -256,7 +256,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
     public function deleteSegmentCustomers($segment)
     {
         $this->_getWriteAdapter()->delete(
-            $this->getTable('enterprise_customersegment/customer'),
+            $this->getTable('enterprise_customersegment_customer'),
             array('segment_id=?' => $segment->getId())
         );
         return $this;
@@ -272,7 +272,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
      */
     public function saveCustomersFromSelect($segment, $websiteId, $select)
     {
-        $table = $this->getTable('enterprise_customersegment/customer');
+        $table = $this->getTable('enterprise_customersegment_customer');
         $adapter = $this->_getWriteAdapter();
         $segmentId = $segment->getId();
         $now = $this->formatDate(time());
@@ -312,7 +312,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
         $adapter = $this->_getReadAdapter();
         return (int)$adapter->fetchOne(
             $adapter->select()
-                ->from($this->getTable('enterprise_customersegment/customer'), array('COUNT(DISTINCT customer_id)'))
+                ->from($this->getTable('enterprise_customersegment_customer'), array('COUNT(DISTINCT customer_id)'))
                 ->where('segment_id = :segment_id'),
             array(':segment_id' => (int)$segmentId)
         );
@@ -329,7 +329,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Core_Model_
      */
     public function saveSegmentCustomersFromSelect($segment, $select)
     {
-        $table = $this->getTable('enterprise_customersegment/customer');
+        $table = $this->getTable('enterprise_customersegment_customer');
         $adapter = $this->_getWriteAdapter();
         $segmentId = $segment->getId();
         $now = $this->formatDate(time());

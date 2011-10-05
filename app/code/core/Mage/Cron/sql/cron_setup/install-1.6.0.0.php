@@ -35,7 +35,7 @@ $installer->startSetup();
  * Create table 'cron/schedule'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('cron/schedule'))
+    ->newTable($installer->getTable('cron_schedule'))
     ->addColumn('schedule_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,

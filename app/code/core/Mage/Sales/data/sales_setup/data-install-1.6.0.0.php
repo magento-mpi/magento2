@@ -39,7 +39,7 @@ foreach ($statuses as $code => $info) {
     );
 }
 $installer->getConnection()->insertArray(
-    $installer->getTable('sales/order_status'),
+    $installer->getTable('sales_order_status'),
     array('status', 'label'),
     $data
 );
@@ -62,7 +62,7 @@ foreach ($states as $code => $info) {
     }
 }
 $installer->getConnection()->insertArray(
-    $installer->getTable('sales/order_status_state'),
+    $installer->getTable('sales_order_status_state'),
     array('status', 'state', 'is_default'),
     $data
 );

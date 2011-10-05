@@ -72,8 +72,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity
      */
     public function getConditionsSql($customer, $website)
     {
-        $wishlistTable = $this->getResource()->getTable('wishlist/wishlist');
-        $wishlistItemTable = $this->getResource()->getTable('wishlist/item');
+        $wishlistTable = $this->getResource()->getTable('wishlist');
+        $wishlistItemTable = $this->getResource()->getTable('wishlist_item');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
         $value = (int) $this->getValue();
         $result = $this->getResource()->getReadConnection()->getCheckSql(

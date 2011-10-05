@@ -30,7 +30,7 @@ $installer = $this;
  * Create table 'enterprise_logging/event'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_logging/event'))
+    ->newTable($installer->getTable('enterprise_logging_event'))
     ->addColumn('log_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -68,7 +68,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_logging/event', array('user')),
         array('user'))
     ->addForeignKey($installer->getFkName('enterprise_logging/event', 'user_id', 'admin/user', 'user_id'),
-        'user_id', $installer->getTable('admin/user'), 'user_id',
+        'user_id', $installer->getTable('admin_user'), 'user_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Logging Event');
 $installer->getConnection()->createTable($table);
@@ -77,7 +77,7 @@ $installer->getConnection()->createTable($table);
  * Create table 'enterprise_logging/event_changes'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('enterprise_logging/event_changes'))
+    ->newTable($installer->getTable('enterprise_logging_event_changes'))
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -96,7 +96,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_logging/event_changes', array('event_id')),
         array('event_id'))
     ->addForeignKey($installer->getFkName('enterprise_logging/event_changes', 'event_id', 'enterprise_logging/event', 'log_id'),
-        'event_id', $installer->getTable('enterprise_logging/event'), 'log_id',
+        'event_id', $installer->getTable('enterprise_logging_event'), 'log_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Logging Event Changes');
 $installer->getConnection()->createTable($table);

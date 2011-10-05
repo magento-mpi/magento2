@@ -329,7 +329,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     {
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
-        $addressTable = $this->getResource()->getTable('customer/address_entity');
+        $addressTable = $this->getResource()->getTable('customer_address_entity');
 
         $select = $this->getResource()->createSelect();
         $select->from(array('main'=>$table), array(new Zend_Db_Expr(1)));

@@ -94,8 +94,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subselection
      */
     protected function _prepareConditionsSql($customer, $website)
     {
-        $wishlistTable = $this->getResource()->getTable('wishlist/wishlist');
-        $wishlistItemTable = $this->getResource()->getTable('wishlist/item');
+        $wishlistTable = $this->getResource()->getTable('wishlist');
+        $wishlistItemTable = $this->getResource()->getTable('wishlist_item');
 
         $select = $this->getResource()->createSelect();
         $select->from(array('item' => $wishlistItemTable), array(new Zend_Db_Expr(1)));

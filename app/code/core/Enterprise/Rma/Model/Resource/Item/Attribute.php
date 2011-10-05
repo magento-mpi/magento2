@@ -43,7 +43,7 @@ class Enterprise_Rma_Model_Resource_Item_Attribute extends Mage_Eav_Model_Resour
      */
     protected function _getEavWebsiteTable()
     {
-        return $this->getTable('enterprise_rma/item_eav_attribute_website');
+        return $this->getTable('enterprise_rma_item_eav_attribute_website');
     }
 
     /**
@@ -55,7 +55,7 @@ class Enterprise_Rma_Model_Resource_Item_Attribute extends Mage_Eav_Model_Resour
      */
     protected function _getFormAttributeTable()
     {
-        return $this->getTable('enterprise_rma/item_form_attribute');
+        return $this->getTable('enterprise_rma_item_form_attribute');
     }
 
 }

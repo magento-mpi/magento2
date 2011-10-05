@@ -238,7 +238,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
         }
         if($this->_hasLinkFilter) {
             $select->$joinType(
-                array('links' => $this->getTable('catalog/product_link')),
+                array('links' => $this->getTable('catalog_product_link')),
                 implode(' AND ', $joinCondition),
                 array('link_id')
             );
@@ -273,7 +273,7 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
     {
         $this->getSelect()
             ->joinLeft(
-                array('set' => $this->getTable('eav/attribute_set')),
+                array('set' => $this->getTable('eav_attribute_set')),
                 'e.attribute_set_id = set.attribute_set_id',
                 array('attribute_set_name')
             )

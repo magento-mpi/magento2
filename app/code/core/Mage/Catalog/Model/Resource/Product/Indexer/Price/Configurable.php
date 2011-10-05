@@ -75,9 +75,9 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
     protected function _getConfigurableOptionAggregateTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/product_price_indexer_cfg_option_aggregate_idx');
+            return $this->getTable('catalog_product_index_price_cfg_opt_agr_idx');
         }
-        return $this->getTable('catalog/product_price_indexer_cfg_option_aggregate_tmp');
+        return $this->getTable('catalog_product_index_price_cfg_opt_agr_tmp');
     }
 
     /**
@@ -88,9 +88,9 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
     protected function _getConfigurableOptionPriceTable()
     {
         if ($this->useIdxTable()) {
-            return $this->getTable('catalog/product_price_indexer_cfg_option_idx');
+            return $this->getTable('catalog_product_index_price_cfg_opt_idx');
         }
-        return $this->getTable('catalog/product_price_indexer_cfg_option_tmp');
+        return $this->getTable('catalog_product_index_price_cfg_opt_tmp');
     }
 
     /**
@@ -133,12 +133,12 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
         $select = $write->select()
             ->from(array('i' => $this->_getDefaultFinalPriceTable()), array())
             ->join(
-                array('l' => $this->getTable('catalog/product_super_link')),
+                array('l' => $this->getTable('catalog_product_super_link')),
                 'l.parent_id = i.entity_id',
                 array('parent_id', 'product_id'))
             ->columns(array('customer_group_id', 'website_id'), 'i')
             ->join(
-                array('a' => $this->getTable('catalog/product_super_attribute')),
+                array('a' => $this->getTable('catalog_product_super_attribute')),
                 'l.parent_id = a.product_id',
                 array())
             ->join(
@@ -146,17 +146,17 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
                 'l.product_id = cp.entity_id AND cp.attribute_id = a.attribute_id AND cp.store_id = 0',
                 array())
             ->joinLeft(
-                array('apd' => $this->getTable('catalog/product_super_attribute_pricing')),
+                array('apd' => $this->getTable('catalog_product_super_attribute_pricing')),
                 'a.product_super_attribute_id = apd.product_super_attribute_id'
                     . ' AND apd.website_id = 0 AND cp.value = apd.value_index',
                 array())
             ->joinLeft(
-                array('apw' => $this->getTable('catalog/product_super_attribute_pricing')),
+                array('apw' => $this->getTable('catalog_product_super_attribute_pricing')),
                 'a.product_super_attribute_id = apw.product_super_attribute_id'
                     . ' AND apw.website_id = i.website_id AND cp.value = apw.value_index',
                 array())
             ->join(
-                array('le' => $this->getTable('catalog/product')),
+                array('le' => $this->getTable('catalog_product_entity')),
                 'le.entity_id = l.product_id',
                 array())
 

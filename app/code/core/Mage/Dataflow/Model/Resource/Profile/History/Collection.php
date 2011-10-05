@@ -51,7 +51,7 @@ class Mage_Dataflow_Model_Resource_Profile_History_Collection extends Mage_Core_
     public function joinAdminUser()
     {
         $this->getSelect()->join(
-            array('u' => $this->getTable('admin/user')),
+            array('u' => $this->getTable('admin_user')),
             'u.user_id=main_table.user_id',
             array('firstname', 'lastname')
         );
