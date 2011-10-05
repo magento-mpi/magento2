@@ -95,7 +95,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     protected function _prepareSummaryLive($range, $customStart, $customEnd, $isFilter = 0)
     {
-        $this->setMainTable('sales/order');
+        $this->setMainTable('sales_flat_order');
         $adapter = $this->getConnection();
 
         /**
@@ -158,7 +158,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     protected function _prepareSummaryAggregated($range, $customStart, $customEnd)
     {
-        $this->setMainTable('sales/order_aggregated_created');
+        $this->setMainTable('sales_order_aggregated_created');
         /**
          * Reset all columns, because result will group only by 'created_at' field
          */
@@ -382,7 +382,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     protected function _calculateTotalsLive($isFilter = 0)
     {
-        $this->setMainTable('sales/order');
+        $this->setMainTable('sales_flat_order');
         $this->removeAllFieldsFromSelect();
 
         $adapter = $this->getConnection();
@@ -443,7 +443,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
      */
     protected function _calculateTotalsAggregated($isFilter = 0)
     {
-        $this->setMainTable('sales/order_aggregated_created');
+        $this->setMainTable('sales_order_aggregated_created');
         $this->removeAllFieldsFromSelect();
 
         $this->getSelect()->columns(array(
@@ -482,7 +482,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         $adapter = $this->getConnection();
 
         if (Mage::getStoreConfig('sales/dashboard/use_aggregated_data')) {
-            $this->setMainTable('sales/order_aggregated_created');
+            $this->setMainTable('sales_order_aggregated_created');
             $this->removeAllFieldsFromSelect();
             $averageExpr = $adapter->getCheckSql(
                 'SUM(main_table.orders_count) > 0',
@@ -500,7 +500,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
             }
             $this->getSelect()->where('main_table.order_status NOT IN(?)', $statuses);
         } else {
-            $this->setMainTable('sales/order');
+            $this->setMainTable('sales_flat_order');
             $this->removeAllFieldsFromSelect();
 
             $expr = sprintf('%s - %s - %s - (%s - %s - %s)',
