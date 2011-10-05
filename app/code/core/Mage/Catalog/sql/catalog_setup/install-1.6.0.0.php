@@ -69,11 +69,11 @@ $table = $installer->getConnection()
         ), 'Creation Time')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Update Time')
-    ->addIndex($installer->getIdxName('catalog/product', array('entity_type_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity', array('entity_type_id')),
         array('entity_type_id'))
-    ->addIndex($installer->getIdxName('catalog/product', array('attribute_set_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity', array('attribute_set_id')),
         array('attribute_set_id'))
-    ->addIndex($installer->getIdxName('catalog/product', array('sku')),
+    ->addIndex($installer->getIdxName('catalog_product_entity', array('sku')),
         array('sku'))
     ->addForeignKey(
         $installer->getFkName(
@@ -545,7 +545,7 @@ $table = $installer->getConnection()
     ->addColumn('children_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         ), 'Child Count')
-    ->addIndex($installer->getIdxName('catalog/category', array('level')),
+    ->addIndex($installer->getIdxName('catalog_category_entity', array('level')),
         array('level'))
     ->setComment('Catalog Category Table');
 $installer->getConnection()->createTable($table);
@@ -877,9 +877,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Position')
-/*    ->addIndex($installer->getIdxName('catalog/category_product', array('category_id')),
+/*    ->addIndex($installer->getIdxName('catalog_category_product', array('category_id')),
         array('category_id'))*/
-    ->addIndex($installer->getIdxName('catalog/category_product', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_category_product', array('product_id')),
         array('product_id'))
     ->addForeignKey($installer->getFkName('catalog_category_product', 'category_id', 'catalog/category', 'entity_id'),
         'category_id', $installer->getTable('catalog_category_entity'), 'entity_id',
@@ -979,15 +979,15 @@ $table = $installer->getConnection()
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Store ID')
-    ->addIndex($installer->getIdxName('catalog/compare_item', array('customer_id')),
+    ->addIndex($installer->getIdxName('catalog_compare_item', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('catalog/compare_item', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_compare_item', array('product_id')),
         array('product_id'))
-    ->addIndex($installer->getIdxName('catalog/compare_item', array('visitor_id', 'product_id')),
+    ->addIndex($installer->getIdxName('catalog_compare_item', array('visitor_id', 'product_id')),
         array('visitor_id', 'product_id'))
-    ->addIndex($installer->getIdxName('catalog/compare_item', array('customer_id', 'product_id')),
+    ->addIndex($installer->getIdxName('catalog_compare_item', array('customer_id', 'product_id')),
         array('customer_id', 'product_id'))
-    ->addIndex($installer->getIdxName('catalog/compare_item', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_compare_item', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('catalog_compare_item', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -1016,7 +1016,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Website ID')
-    ->addIndex($installer->getIdxName('catalog/product_website', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_website', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('catalog_product_website', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
@@ -1049,7 +1049,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Visibility')
-    ->addIndex($installer->getIdxName('catalog/product_enabled_index', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_enabled_index', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName('catalog_product_enabled_index', 'product_id', 'catalog/product', 'entity_id'),
@@ -1114,11 +1114,11 @@ $table = $installer->getConnection()
         ),
         array('link_type_id', 'product_id', 'linked_product_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_link', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link', array('product_id')),
         array('product_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link', array('linked_product_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link', array('linked_product_id')),
         array('linked_product_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link', array('link_type_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link', array('link_type_id')),
         array('link_type_id'))
     ->addForeignKey(
         $installer->getFkName('catalog_product_link', 'linked_product_id', 'catalog/product', 'entity_id'),
@@ -1159,7 +1159,7 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Data Type')
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute', array('link_type_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute', array('link_type_id')),
         array('link_type_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -1195,9 +1195,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_decimal', array('product_link_attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_decimal', array('product_link_attribute_id')),
         array('product_link_attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_decimal', array('link_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_decimal', array('link_id')),
         array('link_id'))
     ->addIndex(
         $installer->getIdxName(
@@ -1251,9 +1251,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_int', array('product_link_attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_int', array('product_link_attribute_id')),
         array('product_link_attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_int', array('link_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_int', array('link_id')),
         array('link_id'))
     ->addIndex(
         $installer->getIdxName(
@@ -1307,9 +1307,9 @@ $table = $installer->getConnection()
         ), 'Link ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_varchar', array('product_link_attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_varchar', array('product_link_attribute_id')),
         array('product_link_attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_link_attribute_varchar', array('link_id')),
+    ->addIndex($installer->getIdxName('catalog_product_link_attribute_varchar', array('link_id')),
         array('link_id'))
     ->addIndex(
         $installer->getIdxName(
@@ -1367,7 +1367,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Position')
-    ->addIndex($installer->getIdxName('catalog/product_super_attribute', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_attribute', array('product_id')),
         array('product_id'))
     ->addForeignKey(
         $installer->getFkName('catalog_product_super_attribute', 'product_id', 'catalog/product', 'entity_id'),
@@ -1411,9 +1411,9 @@ $table = $installer->getConnection()
         ),
         array('product_super_attribute_id', 'store_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_super_attribute_label', array('product_super_attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_attribute_label', array('product_super_attribute_id')),
         array('product_super_attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_super_attribute_label', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_attribute_label', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -1463,9 +1463,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Website ID')
-    ->addIndex($installer->getIdxName('catalog/product_super_attribute_pricing', array('product_super_attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_attribute_pricing', array('product_super_attribute_id')),
         array('product_super_attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_super_attribute_pricing', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_attribute_pricing', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -1511,9 +1511,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Parent ID')
-    ->addIndex($installer->getIdxName('catalog/product_super_link', array('parent_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_link', array('parent_id')),
         array('parent_id'))
-    ->addIndex($installer->getIdxName('catalog/product_super_link', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_product_super_link', array('product_id')),
         array('product_id'))
     ->addForeignKey($installer->getFkName('catalog_product_super_link', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
@@ -1569,11 +1569,11 @@ $table = $installer->getConnection()
         ),
         array('entity_id', 'all_groups', 'customer_group_id', 'qty', 'website_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_attribute_tier_price', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_tier_price', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_attribute_tier_price', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_tier_price', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_attribute_tier_price', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_tier_price', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -1628,9 +1628,9 @@ $table = $installer->getConnection()
         ), 'Entity ID')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_attribute_media_gallery', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_media_gallery', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_attribute_media_gallery', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_media_gallery', array('entity_id')),
         array('entity_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -1680,7 +1680,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Is Disabled')
-    ->addIndex($installer->getIdxName('catalog/product_attribute_media_gallery_value', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_entity_media_gallery_value', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -1745,7 +1745,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('catalog/product_option', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option', array('product_id')),
         array('product_id'))
     ->addForeignKey($installer->getFkName('catalog_product_option', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
@@ -1789,9 +1789,9 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('option_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_option_price', array('option_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_price', array('option_id')),
         array('option_id'))
-    ->addIndex($installer->getIdxName('catalog/product_option_price', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_price', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -1846,9 +1846,9 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('option_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_option_title', array('option_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_title', array('option_id')),
         array('option_id'))
-    ->addIndex($installer->getIdxName('catalog/product_option_title', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_title', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -1894,7 +1894,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('catalog/product_option_type_value', array('option_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_type_value', array('option_id')),
         array('option_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -1944,9 +1944,9 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('option_type_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_option_type_price', array('option_type_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_type_price', array('option_type_id')),
         array('option_type_id'))
-    ->addIndex($installer->getIdxName('catalog/product_option_type_price', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_type_price', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -2001,9 +2001,9 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('option_type_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalog/product_option_type_title', array('option_type_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_type_title', array('option_type_id')),
         array('option_type_id'))
-    ->addIndex($installer->getIdxName('catalog/product_option_type_title', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_option_type_title', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -2114,9 +2114,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Is Used For Promo Rules')
-    ->addIndex($installer->getIdxName('catalog/eav_attribute', array('used_for_sort_by')),
+    ->addIndex($installer->getIdxName('catalog_eav_attribute', array('used_for_sort_by')),
         array('used_for_sort_by'))
-    ->addIndex($installer->getIdxName('catalog/eav_attribute', array('used_in_product_listing')),
+    ->addIndex($installer->getIdxName('catalog_eav_attribute', array('used_in_product_listing')),
         array('used_in_product_listing'))
     ->addForeignKey($installer->getFkName('catalog_eav_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
@@ -2139,7 +2139,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Child ID')
-    ->addIndex($installer->getIdxName('catalog/product_relation', array('child_id')),
+    ->addIndex($installer->getIdxName('catalog_product_relation', array('child_id')),
         array('child_id'))
     ->addForeignKey($installer->getFkName('catalog_product_relation', 'child_id', 'catalog/product', 'entity_id'),
         'child_id', $installer->getTable('catalog_product_entity'), 'entity_id',
@@ -2175,13 +2175,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_index_eav', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav', array('value')),
         array('value'))
     ->addForeignKey(
         $installer->getFkName('catalog_product_index_eav', 'attribute_id', 'eav/attribute', 'attribute_id'),
@@ -2220,13 +2220,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_index_eav_decimal', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav_decimal', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav_decimal', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_eav_decimal', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal', array('value')),
         array('value'))
     ->addForeignKey(
         $installer->getFkName(
@@ -2292,11 +2292,11 @@ $table = $installer->getConnection()
         ), 'Max Price')
     ->addColumn('tier_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Tier Price')
-    ->addIndex($installer->getIdxName('catalog/product_index_price', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_price', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_price', array('min_price')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price', array('min_price')),
         array('min_price'))
     ->addForeignKey(
         $installer->getFkName(
@@ -2350,9 +2350,9 @@ $table = $installer->getConnection()
         ), 'Website ID')
     ->addColumn('min_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Min Price')
-    ->addIndex($installer->getIdxName('catalog/product_index_tier_price', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_tier_price', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_index_tier_price', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_tier_price', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -2399,7 +2399,7 @@ $table = $installer->getConnection()
     ->addColumn('rate', Varien_Db_Ddl_Table::TYPE_FLOAT, null, array(
         'default'   => '1.0000',
         ), 'Rate')
-    ->addIndex($installer->getIdxName('catalog/product_index_website', array('website_date')),
+    ->addIndex($installer->getIdxName('catalog_product_index_website', array('website_date')),
         array('website_date'))
     ->addForeignKey(
         $installer->getFkName('catalog_product_index_website', 'website_id', 'core/website', 'website_id'),
@@ -2761,13 +2761,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_idx', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_idx', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_idx', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_idx', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_idx', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_idx', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_idx', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_idx', array('value')),
         array('value'))
     ->setComment('Catalog Product EAV Indexer Index Table');
 $installer->getConnection()->createTable($table);
@@ -2797,13 +2797,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_tmp', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_tmp', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_tmp', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_tmp', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_tmp', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_tmp', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_indexer_tmp', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_tmp', array('value')),
         array('value'))
     ->setComment('Catalog Product EAV Indexer Temp Table');
 $installer->getConnection()->createTable($table);
@@ -2832,13 +2832,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_idx', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_idx', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_idx', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_idx', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_idx', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_idx', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_idx', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_idx', array('value')),
         array('value'))
     ->setComment('Catalog Product EAV Decimal Indexer Index Table');
 $installer->getConnection()->createTable($table);
@@ -2867,13 +2867,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Value')
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_tmp', array('entity_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_tmp', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_tmp', array('attribute_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_tmp', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_tmp', array('store_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_tmp', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('catalog/product_eav_decimal_indexer_tmp', array('value')),
+    ->addIndex($installer->getIdxName('catalog_product_index_eav_decimal_tmp', array('value')),
         array('value'))
     ->setComment('Catalog Product EAV Decimal Indexer Temp Table');
 $installer->getConnection()->createTable($table);
@@ -2912,11 +2912,11 @@ $table = $installer->getConnection()
         ), 'Max Price')
     ->addColumn('tier_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Tier Price')
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_idx', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_idx', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_idx', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_idx', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_idx', array('min_price')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_idx', array('min_price')),
         array('min_price'))
     ->setComment('Catalog Product Price Indexer Index Table');
 $installer->getConnection()->createTable($table);
@@ -2955,11 +2955,11 @@ $table = $installer->getConnection()
         ), 'Max Price')
     ->addColumn('tier_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Tier Price')
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_tmp', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_tmp', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_tmp', array('website_id')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_tmp', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('catalog/product_price_indexer_tmp', array('min_price')),
+    ->addIndex($installer->getIdxName('catalog_product_index_price_tmp', array('min_price')),
         array('min_price'))
     ->setComment('Catalog Product Price Indexer Temp Table');
 $installer->getConnection()->createTable($table);
@@ -3057,7 +3057,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Visibility')
-    ->addIndex($installer->getIdxName('catalog/category_product_enabled_indexer_idx', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_category_product_index_enbl_idx', array('product_id')),
         array('product_id'))
     ->setComment('Catalog Category Product Enabled Indexer Index Table');
 $installer->getConnection()->createTable($table);
@@ -3077,7 +3077,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Visibility')
-    ->addIndex($installer->getIdxName('catalog/category_product_enabled_indexer_tmp', array('product_id')),
+    ->addIndex($installer->getIdxName('catalog_category_product_index_enbl_tmp', array('product_id')),
         array('product_id'))
     ->setComment('Catalog Category Product Enabled Indexer Temp Table');
 $installer->getConnection()->createTable($table);
@@ -3096,7 +3096,7 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Path')
-    ->addIndex($installer->getIdxName('catalog/category_anchor_indexer_idx', array('category_id')),
+    ->addIndex($installer->getIdxName('catalog_category_anc_categs_index_idx', array('category_id')),
         array('category_id'))
     ->setComment('Catalog Category Anchor Indexer Index Table');
 $installer->getConnection()->createTable($table);
@@ -3115,7 +3115,7 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Path')
-    ->addIndex($installer->getIdxName('catalog/category_anchor_indexer_tmp', array('category_id')),
+    ->addIndex($installer->getIdxName('catalog_category_anc_categs_index_tmp', array('category_id')),
         array('category_id'))
     ->setComment('Catalog Category Anchor Indexer Temp Table');
 $installer->getConnection()->createTable($table);

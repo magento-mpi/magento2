@@ -59,11 +59,11 @@ $table = $installer->getConnection()
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Created At')
-    ->addIndex($installer->getIdxName('enterprise_cms/page_version', array('page_id')),
+    ->addIndex($installer->getIdxName('enterprise_cms_page_version', array('page_id')),
         array('page_id'))
-    ->addIndex($installer->getIdxName('enterprise_cms/page_version', array('user_id')),
+    ->addIndex($installer->getIdxName('enterprise_cms_page_version', array('user_id')),
         array('user_id'))
-    ->addIndex($installer->getIdxName('enterprise_cms/page_version', array('version_number')),
+    ->addIndex($installer->getIdxName('enterprise_cms_page_version', array('version_number')),
         array('version_number'))
     ->addForeignKey($installer->getFkName('enterprise_cms_page_version', 'page_id', 'cms/page', 'page_id'),
         'page_id', $installer->getTable('cms_page'), 'page_id',
@@ -124,13 +124,13 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Revision Number')
-    ->addIndex($installer->getIdxName('enterprise_cms/page_revision', array('version_id')),
+    ->addIndex($installer->getIdxName('enterprise_cms_page_revision', array('version_id')),
         array('version_id'))
-    ->addIndex($installer->getIdxName('enterprise_cms/page_revision', array('page_id')),
+    ->addIndex($installer->getIdxName('enterprise_cms_page_revision', array('page_id')),
         array('page_id'))
-    ->addIndex($installer->getIdxName('enterprise_cms/page_revision', array('user_id')),
+    ->addIndex($installer->getIdxName('enterprise_cms_page_revision', array('user_id')),
         array('user_id'))
-    ->addIndex($installer->getIdxName('enterprise_cms/page_revision', array('revision_number')),
+    ->addIndex($installer->getIdxName('enterprise_cms_page_revision', array('revision_number')),
         array('revision_number'))
     ->addForeignKey($installer->getFkName('enterprise_cms_page_revision', 'page_id', 'cms/page', 'page_id'),
         'page_id', $installer->getTable('cms_page'), 'page_id',
@@ -170,7 +170,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Last Id')
-    ->addIndex($installer->getIdxName('enterprise_cms/increment',
+    ->addIndex($installer->getIdxName('enterprise_cms_increment',
         array('increment_type', 'increment_node', 'increment_level'),
         Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('increment_type', 'increment_node', 'increment_level'),
@@ -210,11 +210,11 @@ $table = $installer->getConnection()
         ), 'Request Url')
     ->addColumn('xpath', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Xpath')
-    ->addIndex($installer->getIdxName('enterprise_cms/hierarchy_node', array('request_url'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('enterprise_cms_hierarchy_node', array('request_url'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('request_url'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('enterprise_cms/hierarchy_node', array('parent_node_id')),
+    ->addIndex($installer->getIdxName('enterprise_cms_hierarchy_node', array('parent_node_id')),
         array('parent_node_id'))
-    ->addIndex($installer->getIdxName('enterprise_cms/hierarchy_node', array('page_id')),
+    ->addIndex($installer->getIdxName('enterprise_cms_hierarchy_node', array('page_id')),
         array('page_id'))
     ->addForeignKey($installer->getFkName('enterprise_cms_hierarchy_node', 'page_id', 'cms/page', 'page_id'),
         'page_id', $installer->getTable('cms_page'), 'page_id',

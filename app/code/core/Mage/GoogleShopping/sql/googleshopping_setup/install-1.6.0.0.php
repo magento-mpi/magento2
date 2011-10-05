@@ -130,7 +130,7 @@ $table = $connection->newTable($this->getTable('googleshopping_items'))
         'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE
      )
-    ->addIndex($installer->getIdxName('googleshopping/items', array('product_id', 'store_id')),
+    ->addIndex($installer->getIdxName('googleshopping_items', array('product_id', 'store_id')),
          array('product_id', 'store_id'))
     ->setComment('Google Content Items Products');
 $installer->getConnection()->createTable($table);

@@ -73,7 +73,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Website Id')
-    ->addIndex($installer->getIdxName('enterprise_customersegment/website', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_customersegment_website', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('enterprise_customersegment_website', 'segment_id', 'enterprise_customersegment/segment', 'segment_id'),
         'segment_id', $installer->getTable('enterprise_customersegment_segment'), 'segment_id',
@@ -110,11 +110,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Website Id')
-    ->addIndex($installer->getIdxName('enterprise_customersegment/customer', array('segment_id', 'website_id', 'customer_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('enterprise_customersegment_customer', array('segment_id', 'website_id', 'customer_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('segment_id', 'website_id', 'customer_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('enterprise_customersegment/customer', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_customersegment_customer', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('enterprise_customersegment/customer', array('customer_id')),
+    ->addIndex($installer->getIdxName('enterprise_customersegment_customer', array('customer_id')),
         array('customer_id'))
     ->addForeignKey($installer->getFkName('enterprise_customersegment_customer', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
@@ -139,9 +139,9 @@ $table = $installer->getConnection()
         ), 'Segment Id')
     ->addColumn('event', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Event')
-    ->addIndex($installer->getIdxName('enterprise_customersegment/event', array('event')),
+    ->addIndex($installer->getIdxName('enterprise_customersegment_event', array('event')),
         array('event'))
-    ->addIndex($installer->getIdxName('enterprise_customersegment/event', array('segment_id')),
+    ->addIndex($installer->getIdxName('enterprise_customersegment_event', array('segment_id')),
         array('segment_id'))
     ->addForeignKey($installer->getFkName('enterprise_customersegment_event', 'segment_id', 'enterprise_customersegment/segment', 'segment_id'),
         'segment_id', $installer->getTable('enterprise_customersegment_segment'), 'segment_id',

@@ -53,9 +53,9 @@ $table = $installer->getConnection()
         ), 'Balance Amount')
     ->addColumn('base_currency_code', Varien_Db_Ddl_Table::TYPE_TEXT, 3, array(
         ), 'Base Currency Code')
-    ->addIndex($installer->getIdxName('enterprise_customerbalance/balance', array('customer_id', 'website_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('enterprise_customerbalance', array('customer_id', 'website_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('customer_id', 'website_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('enterprise_customerbalance/balance', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_customerbalance', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('enterprise_customerbalance', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
@@ -104,7 +104,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Is Customer Notified')
-    ->addIndex($installer->getIdxName('enterprise_customerbalance/balance_history', array('balance_id')),
+    ->addIndex($installer->getIdxName('enterprise_customerbalance_history', array('balance_id')),
         array('balance_id'))
     ->addForeignKey($installer->getFkName('enterprise_customerbalance_history', 'balance_id', 'enterprise_customerbalance/balance', 'balance_id'),
         'balance_id', $installer->getTable('enterprise_customerbalance'), 'balance_id',

@@ -46,9 +46,9 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Item Id')
-    ->addIndex($installer->getIdxName('tax/sales_order_tax_item', array('tax_id')),
+    ->addIndex($installer->getIdxName('sales_order_tax_item', array('tax_id')),
         array('tax_id'))
-    ->addIndex($installer->getIdxName('tax/sales_order_tax_item', array('item_id')),
+    ->addIndex($installer->getIdxName('sales_order_tax_item', array('item_id')),
         array('item_id'))
     ->addIndex(
         $installer->getIdxName(

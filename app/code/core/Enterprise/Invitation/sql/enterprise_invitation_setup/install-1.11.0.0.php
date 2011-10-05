@@ -67,13 +67,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 'new',
         ), 'Status')
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation', array('customer_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation', array('referral_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation', array('referral_id')),
         array('referral_id'))
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation', array('group_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation', array('group_id')),
         array('group_id'))
     ->addForeignKey($installer->getFkName('enterprise_invitation', 'group_id', 'customer/customer_group', 'customer_group_id'),
         'group_id', $installer->getTable('customer_group'), 'customer_group_id',
@@ -111,7 +111,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 'new',
         ), 'Invitation Status')
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation_history', array('invitation_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation_status_history', array('invitation_id')),
         array('invitation_id'))
     ->addForeignKey($installer->getFkName('enterprise_invitation_status_history', 'invitation_id', 'enterprise_invitation/invitation', 'invitation_id'),
         'invitation_id', $installer->getTable('enterprise_invitation'), 'invitation_id',
@@ -140,9 +140,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Referral Id')
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation_track', array('inviter_id', 'referral_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('enterprise_invitation_track', array('inviter_id', 'referral_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('inviter_id', 'referral_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('enterprise_invitation/invitation_track', array('referral_id')),
+    ->addIndex($installer->getIdxName('enterprise_invitation_track', array('referral_id')),
         array('referral_id'))
     ->addForeignKey($installer->getFkName('enterprise_invitation_track', 'inviter_id', 'customer/entity', 'entity_id'),
         'inviter_id', $installer->getTable('customer_entity'), 'entity_id',

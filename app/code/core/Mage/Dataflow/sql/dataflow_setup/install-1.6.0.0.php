@@ -77,7 +77,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Status')
-    ->addIndex($installer->getIdxName('dataflow/import', array('session_id')),
+    ->addIndex($installer->getIdxName('dataflow_import_data', array('session_id')),
         array('session_id'))
     ->addForeignKey($installer->getFkName('dataflow_import_data', 'session_id', 'dataflow/session', 'session_id'),
         'session_id', $installer->getTable('dataflow_session'), 'session_id',
@@ -145,7 +145,7 @@ $table = $installer->getConnection()
         ), 'User Id')
     ->addColumn('performed_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Performed At')
-    ->addIndex($installer->getIdxName('dataflow/profile_history', array('profile_id')),
+    ->addIndex($installer->getIdxName('dataflow_profile_history', array('profile_id')),
         array('profile_id'))
     ->addForeignKey($installer->getFkName('dataflow_profile_history', 'profile_id', 'dataflow/profile', 'profile_id'),
         'profile_id', $installer->getTable('dataflow_profile'), 'profile_id',
@@ -180,11 +180,11 @@ $table = $installer->getConnection()
         ), 'Parameters')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
-    ->addIndex($installer->getIdxName('dataflow/batch', array('profile_id')),
+    ->addIndex($installer->getIdxName('dataflow_batch', array('profile_id')),
         array('profile_id'))
-    ->addIndex($installer->getIdxName('dataflow/batch', array('store_id')),
+    ->addIndex($installer->getIdxName('dataflow_batch', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('dataflow/batch', array('created_at')),
+    ->addIndex($installer->getIdxName('dataflow_batch', array('created_at')),
         array('created_at'))
     ->addForeignKey($installer->getFkName('dataflow_batch', 'profile_id', 'dataflow/profile', 'profile_id'),
         'profile_id', $installer->getTable('dataflow_profile'), 'profile_id',
@@ -218,7 +218,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Status')
-    ->addIndex($installer->getIdxName('dataflow/batch_export', array('batch_id')),
+    ->addIndex($installer->getIdxName('dataflow_batch_export', array('batch_id')),
         array('batch_id'))
     ->addForeignKey($installer->getFkName('dataflow_batch_export', 'batch_id', 'dataflow/batch', 'batch_id'),
         'batch_id', $installer->getTable('dataflow_batch'), 'batch_id',
@@ -249,7 +249,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Status')
-    ->addIndex($installer->getIdxName('dataflow/batch_import', array('batch_id')),
+    ->addIndex($installer->getIdxName('dataflow_batch_import', array('batch_id')),
         array('batch_id'))
     ->addForeignKey($installer->getFkName('dataflow_batch_import', 'batch_id', 'dataflow/batch', 'batch_id'),
         'batch_id', $installer->getTable('dataflow_batch'), 'batch_id',

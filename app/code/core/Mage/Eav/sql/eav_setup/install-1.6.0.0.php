@@ -94,7 +94,7 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Entity Attribute Collection')
-    ->addIndex($installer->getIdxName('eav/entity_type', array('entity_type_code')),
+    ->addIndex($installer->getIdxName('eav_entity_type', array('entity_type_code')),
         array('entity_type_code'))
     ->setComment('Eav Entity Type');
 $installer->getConnection()->createTable($table);
@@ -145,9 +145,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '1',
         ), 'Defines Is Entity Active')
-    ->addIndex($installer->getIdxName('eav/entity', array('entity_type_id')),
+    ->addIndex($installer->getIdxName('eav_entity', array('entity_type_id')),
         array('entity_type_id'))
-    ->addIndex($installer->getIdxName('eav/entity', array('store_id')),
+    ->addIndex($installer->getIdxName('eav_entity', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('eav_entity', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
@@ -639,9 +639,9 @@ $table = $installer->getConnection()
         ),
         array('entity_type_id', 'attribute_code'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('eav/attribute', array('entity_type_id')),
+    ->addIndex($installer->getIdxName('eav_attribute', array('entity_type_id')),
         array('entity_type_id'))
-    ->addIndex($installer->getIdxName('eav/attribute', array('entity_type_id')),
+    ->addIndex($installer->getIdxName('eav_attribute', array('entity_type_id')),
         array('entity_type_id'))
     ->addForeignKey($installer->getFkName('eav_attribute', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
@@ -676,9 +676,9 @@ $table = $installer->getConnection()
     ->addColumn('increment_last_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         'nullable'  => true,
         ), 'Last Incremented Id')
-    ->addIndex($installer->getIdxName('eav/entity_store', array('entity_type_id')),
+    ->addIndex($installer->getIdxName('eav_entity_store', array('entity_type_id')),
         array('entity_type_id'))
-    ->addIndex($installer->getIdxName('eav/entity_store', array('store_id')),
+    ->addIndex($installer->getIdxName('eav_entity_store', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('eav_entity_store', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
@@ -721,7 +721,7 @@ $table = $installer->getConnection()
         ),
         array('entity_type_id', 'attribute_set_name'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('eav/attribute_set', array('entity_type_id', 'sort_order')),
+    ->addIndex($installer->getIdxName('eav_attribute_set', array('entity_type_id', 'sort_order')),
         array('entity_type_id', 'sort_order'))
     ->addForeignKey($installer->getFkName('eav_attribute_set', 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
@@ -765,7 +765,7 @@ $table = $installer->getConnection()
         ),
         array('attribute_set_id', 'attribute_group_name'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('eav/attribute_group', array('attribute_set_id', 'sort_order')),
+    ->addIndex($installer->getIdxName('eav_attribute_group', array('attribute_set_id', 'sort_order')),
         array('attribute_set_id', 'sort_order'))
     ->addForeignKey(
         $installer->getFkName(
@@ -830,9 +830,9 @@ $table = $installer->getConnection()
         ),
         array('attribute_group_id', 'attribute_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('eav/entity_attribute', array('attribute_set_id', 'sort_order')),
+    ->addIndex($installer->getIdxName('eav_entity_attribute', array('attribute_set_id', 'sort_order')),
         array('attribute_set_id', 'sort_order'))
-    ->addIndex($installer->getIdxName('eav/entity_attribute', array('attribute_id')),
+    ->addIndex($installer->getIdxName('eav_entity_attribute', array('attribute_id')),
         array('attribute_id'))
     ->addForeignKey($installer->getFkName('eav_entity_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
@@ -870,7 +870,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('eav/attribute_option', array('attribute_id')),
+    ->addIndex($installer->getIdxName('eav_attribute_option', array('attribute_id')),
         array('attribute_id'))
     ->addForeignKey($installer->getFkName('eav_attribute_option', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
@@ -903,9 +903,9 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Value')
-    ->addIndex($installer->getIdxName('eav/attribute_option_value', array('option_id')),
+    ->addIndex($installer->getIdxName('eav_attribute_option_value', array('option_id')),
         array('option_id'))
-    ->addIndex($installer->getIdxName('eav/attribute_option_value', array('store_id')),
+    ->addIndex($installer->getIdxName('eav_attribute_option_value', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName('eav_attribute_option_value', 'option_id', 'eav/attribute_option', 'option_id'),
@@ -943,11 +943,11 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Value')
-    ->addIndex($installer->getIdxName('eav/attribute_label', array('attribute_id')),
+    ->addIndex($installer->getIdxName('eav_attribute_label', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('eav/attribute_label', array('store_id')),
+    ->addIndex($installer->getIdxName('eav_attribute_label', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('eav/attribute_label', array('attribute_id', 'store_id')),
+    ->addIndex($installer->getIdxName('eav_attribute_label', array('attribute_id', 'store_id')),
         array('attribute_id', 'store_id'))
     ->addForeignKey($installer->getFkName('eav_attribute_label', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
@@ -994,7 +994,7 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('code', 'theme', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('eav/form_type', array('store_id')),
+    ->addIndex($installer->getIdxName('eav_form_type', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('eav_form_type', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -1017,7 +1017,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Entity Type Id')
-    ->addIndex($installer->getIdxName('eav/form_type_entity', array('entity_type_id')),
+    ->addIndex($installer->getIdxName('eav_form_type_entity', array('entity_type_id')),
         array('entity_type_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -1063,7 +1063,7 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('type_id', 'code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('eav/form_fieldset', array('type_id')),
+    ->addIndex($installer->getIdxName('eav_form_fieldset', array('type_id')),
         array('type_id'))
     ->addForeignKey($installer->getFkName('eav_form_fieldset', 'type_id', 'eav/form_type', 'type_id'),
         'type_id', $installer->getTable('eav_form_type'), 'type_id',
@@ -1089,9 +1089,9 @@ $table = $installer->getConnection()
     ->addColumn('label', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Label')
-    ->addIndex($installer->getIdxName('eav/form_fieldset_label', array('fieldset_id')),
+    ->addIndex($installer->getIdxName('eav_form_fieldset_label', array('fieldset_id')),
         array('fieldset_id'))
-    ->addIndex($installer->getIdxName('eav/form_fieldset_label', array('store_id')),
+    ->addIndex($installer->getIdxName('eav_form_fieldset_label', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName('eav_form_fieldset_label', 'fieldset_id', 'eav/form_fieldset', 'fieldset_id'),
@@ -1137,11 +1137,11 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('type_id', 'attribute_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('eav/form_element', array('type_id')),
+    ->addIndex($installer->getIdxName('eav_form_element', array('type_id')),
         array('type_id'))
-    ->addIndex($installer->getIdxName('eav/form_element', array('fieldset_id')),
+    ->addIndex($installer->getIdxName('eav_form_element', array('fieldset_id')),
         array('fieldset_id'))
-    ->addIndex($installer->getIdxName('eav/form_element', array('attribute_id')),
+    ->addIndex($installer->getIdxName('eav_form_element', array('attribute_id')),
         array('attribute_id'))
     ->addForeignKey($installer->getFkName('eav_form_element', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',

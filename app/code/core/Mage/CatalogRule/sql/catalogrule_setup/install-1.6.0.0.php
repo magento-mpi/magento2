@@ -77,7 +77,7 @@ $table = $installer->getConnection()
         ), 'Discount Amount')
     ->addColumn('website_ids', Varien_Db_Ddl_Table::TYPE_TEXT, 4000, array(
         ), 'Website Ids')
-    ->addIndex($installer->getIdxName('catalogrule/rule', array('is_active', 'sort_order', 'to_date', 'from_date')),
+    ->addIndex($installer->getIdxName('catalogrule', array('is_active', 'sort_order', 'to_date', 'from_date')),
         array('is_active', 'sort_order', 'to_date', 'from_date'))
 
     ->setComment('CatalogRule');
@@ -139,20 +139,20 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Website Id')
-    ->addIndex($installer->getIdxName('catalogrule/rule_product', array('rule_id', 'from_time', 'to_time', 'website_id', 'customer_group_id', 'product_id', 'sort_order'), true),
+    ->addIndex($installer->getIdxName('catalogrule_product', array('rule_id', 'from_time', 'to_time', 'website_id', 'customer_group_id', 'product_id', 'sort_order'), true),
         array('rule_id', 'from_time', 'to_time', 'website_id', 'customer_group_id', 'product_id', 'sort_order'), array('type' => 'unique'))
 
-    ->addIndex($installer->getIdxName('catalogrule/rule_product', array('rule_id')),
+    ->addIndex($installer->getIdxName('catalogrule_product', array('rule_id')),
         array('rule_id'))
-    ->addIndex($installer->getIdxName('catalogrule/rule_product', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalogrule_product', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalogrule/rule_product', array('website_id')),
+    ->addIndex($installer->getIdxName('catalogrule_product', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('catalogrule/rule_product', array('from_time')),
+    ->addIndex($installer->getIdxName('catalogrule_product', array('from_time')),
         array('from_time'))
-    ->addIndex($installer->getIdxName('catalogrule/rule_product', array('to_time')),
+    ->addIndex($installer->getIdxName('catalogrule_product', array('to_time')),
         array('to_time'))
-    ->addIndex($installer->getIdxName('catalogrule/rule_product', array('product_id')),
+    ->addIndex($installer->getIdxName('catalogrule_product', array('product_id')),
         array('product_id'))
 
     ->addForeignKey($installer->getFkName('catalogrule_product', 'product_id', 'catalog/product', 'entity_id'),
@@ -211,13 +211,13 @@ $table = $installer->getConnection()
     ->addColumn('earliest_end_date', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
         ), 'Earliest EndDate')
 
-    ->addIndex($installer->getIdxName('catalogrule/rule_product_price', array('rule_date', 'website_id', 'customer_group_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('catalogrule_product_price', array('rule_date', 'website_id', 'customer_group_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('rule_date', 'website_id', 'customer_group_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('catalogrule/rule_product_price', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalogrule_product_price', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalogrule/rule_product_price', array('website_id')),
+    ->addIndex($installer->getIdxName('catalogrule_product_price', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('catalogrule/rule_product_price', array('product_id')),
+    ->addIndex($installer->getIdxName('catalogrule_product_price', array('product_id')),
         array('product_id'))
 
     ->addForeignKey($installer->getFkName('catalogrule_product_price', 'product_id', 'catalog/product', 'entity_id'),
@@ -272,11 +272,11 @@ $table = $installer->getConnection()
         'primary'   => true,
         'default'   => '0',
         ), 'Website Id')
-    ->addIndex($installer->getIdxName('catalogrule/rule_group_website', array('rule_id')),
+    ->addIndex($installer->getIdxName('catalogrule_group_website', array('rule_id')),
         array('rule_id'))
-    ->addIndex($installer->getIdxName('catalogrule/rule_group_website', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('catalogrule_group_website', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('catalogrule/rule_group_website', array('website_id')),
+    ->addIndex($installer->getIdxName('catalogrule_group_website', array('website_id')),
         array('website_id'))
 
     ->addForeignKey($installer->getFkName('catalogrule_group_website', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),

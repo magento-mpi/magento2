@@ -317,11 +317,11 @@ $table = $installer->getConnection()
         ), 'Shipping Incl Tax')
     ->addColumn('base_shipping_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Shipping Incl Tax')
-    ->addIndex($installer->getIdxName('sales/order', array('status')),
+    ->addIndex($installer->getIdxName('sales_flat_order', array('status')),
         array('status'))
-    ->addIndex($installer->getIdxName('sales/order', array('state')),
+    ->addIndex($installer->getIdxName('sales_flat_order', array('state')),
         array('state'))
-    ->addIndex($installer->getIdxName('sales/order', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_flat_order', array('store_id')),
         array('store_id'))
     ->addIndex(
         $installer->getIdxName(
@@ -330,15 +330,15 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/order', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_order', array('created_at')),
         array('created_at'))
-    ->addIndex($installer->getIdxName('sales/order', array('customer_id')),
+    ->addIndex($installer->getIdxName('sales_flat_order', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('sales/order', array('ext_order_id')),
+    ->addIndex($installer->getIdxName('sales_flat_order', array('ext_order_id')),
         array('ext_order_id'))
-    ->addIndex($installer->getIdxName('sales/order', array('quote_id')),
+    ->addIndex($installer->getIdxName('sales_flat_order', array('quote_id')),
         array('quote_id'))
-    ->addIndex($installer->getIdxName('sales/order', array('updated_at')),
+    ->addIndex($installer->getIdxName('sales_flat_order', array('updated_at')),
         array('updated_at'))
     ->addForeignKey($installer->getFkName('sales_flat_order', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -391,17 +391,17 @@ $table = $installer->getConnection()
         ), 'Created At')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Updated At')
-    ->addIndex($installer->getIdxName('sales/order_grid', array('status')),
+    ->addIndex($installer->getIdxName('sales_flat_order_grid', array('status')),
         array('status'))
-    ->addIndex($installer->getIdxName('sales/order_grid', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_flat_order_grid', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('sales/order_grid', array('base_grand_total')),
+    ->addIndex($installer->getIdxName('sales_flat_order_grid', array('base_grand_total')),
         array('base_grand_total'))
-    ->addIndex($installer->getIdxName('sales/order_grid', array('base_total_paid')),
+    ->addIndex($installer->getIdxName('sales_flat_order_grid', array('base_total_paid')),
         array('base_total_paid'))
-    ->addIndex($installer->getIdxName('sales/order_grid', array('grand_total')),
+    ->addIndex($installer->getIdxName('sales_flat_order_grid', array('grand_total')),
         array('grand_total'))
-    ->addIndex($installer->getIdxName('sales/order_grid', array('total_paid')),
+    ->addIndex($installer->getIdxName('sales_flat_order_grid', array('total_paid')),
         array('total_paid'))
     ->addIndex(
         $installer->getIdxName(
@@ -410,15 +410,15 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/order_grid', array('shipping_name')),
+    ->addIndex($installer->getIdxName('sales_flat_order_grid', array('shipping_name')),
         array('shipping_name'))
-    ->addIndex($installer->getIdxName('sales/order_grid', array('billing_name')),
+    ->addIndex($installer->getIdxName('sales_flat_order_grid', array('billing_name')),
         array('billing_name'))
-    ->addIndex($installer->getIdxName('sales/order_grid', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_order_grid', array('created_at')),
         array('created_at'))
-    ->addIndex($installer->getIdxName('sales/order_grid', array('customer_id')),
+    ->addIndex($installer->getIdxName('sales_flat_order_grid', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('sales/order_grid', array('updated_at')),
+    ->addIndex($installer->getIdxName('sales_flat_order_grid', array('updated_at')),
         array('updated_at'))
     ->addForeignKey($installer->getFkName('sales_flat_order_grid', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -485,7 +485,7 @@ $table = $installer->getConnection()
         ), 'Suffix')
     ->addColumn('company', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Company')
-    ->addIndex($installer->getIdxName('sales/order_address', array('parent_id')),
+    ->addIndex($installer->getIdxName('sales_flat_order_address', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales_flat_order_address', 'parent_id', 'sales/order', 'entity_id'),
         'parent_id', $installer->getTable('sales_flat_order'), 'entity_id',
@@ -522,9 +522,9 @@ $table = $installer->getConnection()
         ), 'Status')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
-    ->addIndex($installer->getIdxName('sales/order_status_history', array('parent_id')),
+    ->addIndex($installer->getIdxName('sales_flat_order_status_history', array('parent_id')),
         array('parent_id'))
-    ->addIndex($installer->getIdxName('sales/order_status_history', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_order_status_history', array('created_at')),
         array('created_at'))
     ->addForeignKey($installer->getFkName('sales_flat_order_status_history', 'parent_id', 'sales/order', 'entity_id'),
         'parent_id', $installer->getTable('sales_flat_order'), 'entity_id',
@@ -730,9 +730,9 @@ $table = $installer->getConnection()
         ), 'Hidden Tax Canceled')
     ->addColumn('tax_refunded', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Tax Refunded')
-    ->addIndex($installer->getIdxName('sales/order_item', array('order_id')),
+    ->addIndex($installer->getIdxName('sales_flat_order_item', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('sales/order_item', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_flat_order_item', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_flat_order_item', 'order_id', 'sales/order', 'entity_id'),
         'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
@@ -863,7 +863,7 @@ $table = $installer->getConnection()
         ), 'Address Status')
     ->addColumn('additional_information', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Additional Information')
-    ->addIndex($installer->getIdxName('sales/order_payment', array('parent_id')),
+    ->addIndex($installer->getIdxName('sales_flat_order_payment', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales_flat_order_payment', 'parent_id', 'sales/order', 'entity_id'),
         'parent_id', $installer->getTable('sales_flat_order'), 'entity_id',
@@ -911,9 +911,9 @@ $table = $installer->getConnection()
         ), 'Created At')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Updated At')
-    ->addIndex($installer->getIdxName('sales/shipment', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('sales/shipment', array('total_qty')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment', array('total_qty')),
         array('total_qty'))
     ->addIndex(
         $installer->getIdxName(
@@ -922,11 +922,11 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/shipment', array('order_id')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('sales/shipment', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment', array('created_at')),
         array('created_at'))
-    ->addIndex($installer->getIdxName('sales/shipment', array('updated_at')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment', array('updated_at')),
         array('updated_at'))
     ->addForeignKey($installer->getFkName('sales_flat_shipment', 'order_id', 'sales/order', 'entity_id'),
         'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
@@ -969,13 +969,13 @@ $table = $installer->getConnection()
         ), 'Order Created At')
     ->addColumn('shipping_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Shipping Name')
-    ->addIndex($installer->getIdxName('sales/shipment_grid', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_grid', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('sales/shipment_grid', array('total_qty')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_grid', array('total_qty')),
         array('total_qty'))
-    ->addIndex($installer->getIdxName('sales/shipment_grid', array('order_id')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_grid', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('sales/shipment_grid', array('shipment_status')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_grid', array('shipment_status')),
         array('shipment_status'))
     ->addIndex(
         $installer->getIdxName(
@@ -984,13 +984,13 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/shipment_grid', array('order_increment_id')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_grid', array('order_increment_id')),
         array('order_increment_id'))
-    ->addIndex($installer->getIdxName('sales/shipment_grid', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_grid', array('created_at')),
         array('created_at'))
-    ->addIndex($installer->getIdxName('sales/shipment_grid', array('order_created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_grid', array('order_created_at')),
         array('order_created_at'))
-    ->addIndex($installer->getIdxName('sales/shipment_grid', array('shipping_name')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_grid', array('shipping_name')),
         array('shipping_name'))
     ->addForeignKey($installer->getFkName('sales_flat_shipment_grid', 'entity_id', 'sales/shipment', 'entity_id'),
         'entity_id', $installer->getTable('sales_flat_shipment'), 'entity_id',
@@ -1037,7 +1037,7 @@ $table = $installer->getConnection()
         ), 'Name')
     ->addColumn('sku', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Sku')
-    ->addIndex($installer->getIdxName('sales/shipment_item', array('parent_id')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_item', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales_flat_shipment_item', 'parent_id', 'sales/shipment', 'entity_id'),
         'parent_id', $installer->getTable('sales_flat_shipment'), 'entity_id',
@@ -1081,11 +1081,11 @@ $table = $installer->getConnection()
         ), 'Created At')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Updated At')
-    ->addIndex($installer->getIdxName('sales/shipment_track', array('parent_id')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_track', array('parent_id')),
         array('parent_id'))
-    ->addIndex($installer->getIdxName('sales/shipment_track', array('order_id')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_track', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('sales/shipment_track', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_track', array('created_at')),
         array('created_at'))
     ->addForeignKey($installer->getFkName('sales_flat_shipment_track', 'parent_id', 'sales/shipment', 'entity_id'),
         'parent_id', $installer->getTable('sales_flat_shipment'), 'entity_id',
@@ -1120,9 +1120,9 @@ $table = $installer->getConnection()
         ), 'Comment')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
-    ->addIndex($installer->getIdxName('sales/shipment_comment', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_comment', array('created_at')),
         array('created_at'))
-    ->addIndex($installer->getIdxName('sales/shipment_comment', array('parent_id')),
+    ->addIndex($installer->getIdxName('sales_flat_shipment_comment', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales_flat_shipment_comment', 'parent_id', 'sales/shipment', 'entity_id'),
         'parent_id', $installer->getTable('sales_flat_shipment'), 'entity_id',
@@ -1232,13 +1232,13 @@ $table = $installer->getConnection()
         ), 'Base Shipping Incl Tax')
     ->addColumn('base_total_refunded', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Total Refunded')
-    ->addIndex($installer->getIdxName('sales/invoice', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('sales/invoice', array('grand_total')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice', array('grand_total')),
         array('grand_total'))
-    ->addIndex($installer->getIdxName('sales/invoice', array('order_id')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('sales/invoice', array('state')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice', array('state')),
         array('state'))
     ->addIndex(
         $installer->getIdxName(
@@ -1247,7 +1247,7 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/invoice', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice', array('created_at')),
         array('created_at'))
     ->addForeignKey($installer->getFkName('sales_flat_invoice', 'order_id', 'sales/order', 'entity_id'),
         'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
@@ -1300,13 +1300,13 @@ $table = $installer->getConnection()
         ), 'Order Created At')
     ->addColumn('billing_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Billing Name')
-    ->addIndex($installer->getIdxName('sales/invoice_grid', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice_grid', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('sales/invoice_grid', array('grand_total')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice_grid', array('grand_total')),
         array('grand_total'))
-    ->addIndex($installer->getIdxName('sales/invoice_grid', array('order_id')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice_grid', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('sales/invoice_grid', array('state')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice_grid', array('state')),
         array('state'))
     ->addIndex(
         $installer->getIdxName(
@@ -1315,13 +1315,13 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/invoice_grid', array('order_increment_id')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice_grid', array('order_increment_id')),
         array('order_increment_id'))
-    ->addIndex($installer->getIdxName('sales/invoice_grid', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice_grid', array('created_at')),
         array('created_at'))
-    ->addIndex($installer->getIdxName('sales/invoice_grid', array('order_created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice_grid', array('order_created_at')),
         array('order_created_at'))
-    ->addIndex($installer->getIdxName('sales/invoice_grid', array('billing_name')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice_grid', array('billing_name')),
         array('billing_name'))
     ->addForeignKey($installer->getFkName('sales_flat_invoice_grid', 'entity_id', 'sales/invoice', 'entity_id'),
         'entity_id', $installer->getTable('sales_flat_invoice'), 'entity_id',
@@ -1392,7 +1392,7 @@ $table = $installer->getConnection()
         ), 'Hidden Tax Amount')
     ->addColumn('base_hidden_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Hidden Tax Amount')
-    ->addIndex($installer->getIdxName('sales/invoice_item', array('parent_id')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice_item', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales_flat_invoice_item', 'parent_id', 'sales/invoice', 'entity_id'),
         'parent_id', $installer->getTable('sales_flat_invoice'), 'entity_id',
@@ -1428,9 +1428,9 @@ $table = $installer->getConnection()
         ), 'Comment')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
-    ->addIndex($installer->getIdxName('sales/invoice_comment', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice_comment', array('created_at')),
         array('created_at'))
-    ->addIndex($installer->getIdxName('sales/invoice_comment', array('parent_id')),
+    ->addIndex($installer->getIdxName('sales_flat_invoice_comment', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales_flat_invoice_comment', 'parent_id', 'sales/invoice', 'entity_id'),
         'parent_id', $installer->getTable('sales_flat_invoice'), 'entity_id',
@@ -1546,11 +1546,11 @@ $table = $installer->getConnection()
         ), 'Shipping Incl Tax')
     ->addColumn('base_shipping_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Shipping Incl Tax')
-    ->addIndex($installer->getIdxName('sales/creditmemo', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('sales/creditmemo', array('order_id')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('sales/creditmemo', array('creditmemo_status')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo', array('creditmemo_status')),
         array('creditmemo_status'))
     ->addIndex(
         $installer->getIdxName(
@@ -1559,9 +1559,9 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/creditmemo', array('state')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo', array('state')),
         array('state'))
-    ->addIndex($installer->getIdxName('sales/creditmemo', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo', array('created_at')),
         array('created_at'))
     ->addForeignKey($installer->getFkName('sales_flat_creditmemo', 'order_id', 'sales/order', 'entity_id'),
         'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
@@ -1626,17 +1626,17 @@ $table = $installer->getConnection()
         ), 'Order Created At')
     ->addColumn('billing_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Billing Name')
-    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_grid', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('grand_total')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_grid', array('grand_total')),
         array('grand_total'))
-    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('base_grand_total')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_grid', array('base_grand_total')),
         array('base_grand_total'))
-    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('order_id')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_grid', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('creditmemo_status')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_grid', array('creditmemo_status')),
         array('creditmemo_status'))
-    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('state')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_grid', array('state')),
         array('state'))
     ->addIndex(
         $installer->getIdxName(
@@ -1645,13 +1645,13 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('increment_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('order_increment_id')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_grid', array('order_increment_id')),
         array('order_increment_id'))
-    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_grid', array('created_at')),
         array('created_at'))
-    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('order_created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_grid', array('order_created_at')),
         array('order_created_at'))
-    ->addIndex($installer->getIdxName('sales/creditmemo_grid', array('billing_name')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_grid', array('billing_name')),
         array('billing_name'))
     ->addForeignKey($installer->getFkName('sales_flat_creditmemo_grid', 'entity_id', 'sales/creditmemo', 'entity_id'),
         'entity_id', $installer->getTable('sales_flat_creditmemo'), 'entity_id',
@@ -1722,7 +1722,7 @@ $table = $installer->getConnection()
         ), 'Hidden Tax Amount')
     ->addColumn('base_hidden_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Hidden Tax Amount')
-    ->addIndex($installer->getIdxName('sales/creditmemo_item', array('parent_id')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_item', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales_flat_creditmemo_item', 'parent_id', 'sales/creditmemo', 'entity_id'),
         'parent_id', $installer->getTable('sales_flat_creditmemo'), 'entity_id',
@@ -1756,9 +1756,9 @@ $table = $installer->getConnection()
         ), 'Comment')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
-    ->addIndex($installer->getIdxName('sales/creditmemo_comment', array('created_at')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_comment', array('created_at')),
         array('created_at'))
-    ->addIndex($installer->getIdxName('sales/creditmemo_comment', array('parent_id')),
+    ->addIndex($installer->getIdxName('sales_flat_creditmemo_comment', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('sales_flat_creditmemo_comment', 'parent_id', 'sales/creditmemo', 'entity_id'),
         'parent_id', $installer->getTable('sales_flat_creditmemo'), 'entity_id',
@@ -1909,9 +1909,9 @@ $table = $installer->getConnection()
         ), 'Trigger Recollect')
     ->addColumn('ext_shipping_info', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Ext Shipping Info')
-    ->addIndex($installer->getIdxName('sales/quote', array('customer_id', 'store_id', 'is_active')),
+    ->addIndex($installer->getIdxName('sales_flat_quote', array('customer_id', 'store_id', 'is_active')),
         array('customer_id', 'store_id', 'is_active'))
-    ->addIndex($installer->getIdxName('sales/quote', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_flat_quote', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -2085,7 +2085,7 @@ $table = $installer->getConnection()
         ), 'Shipping Incl Tax')
     ->addColumn('base_shipping_incl_tax', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Shipping Incl Tax')
-    ->addIndex($installer->getIdxName('sales/quote_address', array('quote_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote_address', array('quote_id')),
         array('quote_id'))
     ->addForeignKey($installer->getFkName('sales_flat_quote_address', 'quote_id', 'sales/quote', 'entity_id'),
         'quote_id', $installer->getTable('sales_flat_quote'), 'entity_id',
@@ -2223,13 +2223,13 @@ $table = $installer->getConnection()
         ), 'Hidden Tax Amount')
     ->addColumn('base_hidden_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Hidden Tax Amount')
-    ->addIndex($installer->getIdxName('sales/quote_item', array('parent_item_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote_item', array('parent_item_id')),
         array('parent_item_id'))
-    ->addIndex($installer->getIdxName('sales/quote_item', array('product_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote_item', array('product_id')),
         array('product_id'))
-    ->addIndex($installer->getIdxName('sales/quote_item', array('quote_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote_item', array('quote_id')),
         array('quote_id'))
-    ->addIndex($installer->getIdxName('sales/quote_item', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote_item', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_flat_quote_item', 'parent_item_id', 'sales/quote_item', 'item_id'),
         'parent_item_id', $installer->getTable('sales_flat_quote_item'), 'item_id',
@@ -2361,11 +2361,11 @@ $table = $installer->getConnection()
         ), 'Hidden Tax Amount')
     ->addColumn('base_hidden_tax_amount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Base Hidden Tax Amount')
-    ->addIndex($installer->getIdxName('sales/quote_address_item', array('quote_address_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote_address_item', array('quote_address_id')),
         array('quote_address_id'))
-    ->addIndex($installer->getIdxName('sales/quote_address_item', array('parent_item_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote_address_item', array('parent_item_id')),
         array('parent_item_id'))
-    ->addIndex($installer->getIdxName('sales/quote_address_item', array('quote_item_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote_address_item', array('quote_item_id')),
         array('quote_item_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -2422,7 +2422,7 @@ $table = $installer->getConnection()
         ), 'Code')
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Value')
-    ->addIndex($installer->getIdxName('sales/quote_item_option', array('item_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote_item_option', array('item_id')),
         array('item_id'))
     ->addForeignKey($installer->getFkName('sales_flat_quote_item_option', 'item_id', 'sales/quote_item', 'item_id'),
         'item_id', $installer->getTable('sales_flat_quote_item'), 'item_id',
@@ -2491,7 +2491,7 @@ $table = $installer->getConnection()
         ), 'Cc Ss Issue')
     ->addColumn('additional_information', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Additional Information')
-    ->addIndex($installer->getIdxName('sales/quote_payment', array('quote_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote_payment', array('quote_id')),
         array('quote_id'))
     ->addForeignKey($installer->getFkName('sales_flat_quote_payment', 'quote_id', 'sales/quote', 'entity_id'),
         'quote_id', $installer->getTable('sales_flat_quote'), 'entity_id',
@@ -2540,7 +2540,7 @@ $table = $installer->getConnection()
         ), 'Error Message')
     ->addColumn('method_title', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Method Title')
-    ->addIndex($installer->getIdxName('sales/quote_address_shipping_rate', array('address_id')),
+    ->addIndex($installer->getIdxName('sales_flat_quote_shipping_rate', array('address_id')),
         array('address_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -2592,7 +2592,7 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('period', 'store_id', 'order_status'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/invoiced_aggregated', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_invoiced_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_invoiced_aggregated', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -2640,7 +2640,7 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('period', 'store_id', 'order_status'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/invoiced_aggregated_order', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_invoiced_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_invoiced_aggregated_order', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -2740,7 +2740,7 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('period', 'store_id', 'order_status'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/order_aggregated_created', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_order_aggregated_created', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_order_aggregated_created', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -2795,11 +2795,11 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('order_id', 'payment_id', 'txn_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/payment_transaction', array('order_id')),
+    ->addIndex($installer->getIdxName('sales_payment_transaction', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('sales/payment_transaction', array('parent_id')),
+    ->addIndex($installer->getIdxName('sales_payment_transaction', array('parent_id')),
         array('parent_id'))
-    ->addIndex($installer->getIdxName('sales/payment_transaction', array('payment_id')),
+    ->addIndex($installer->getIdxName('sales_payment_transaction', array('payment_id')),
         array('payment_id'))
     ->addForeignKey($installer->getFkName('sales_payment_transaction', 'order_id', 'sales/order', 'entity_id'),
         'order_id', $installer->getTable('sales_flat_order'), 'entity_id',
@@ -2864,7 +2864,7 @@ $table = $installer->getConnection()
         ),
         array('period', 'store_id', 'order_status'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/refunded_aggregated', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_refunded_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_refunded_aggregated', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -2909,7 +2909,7 @@ $table = $installer->getConnection()
         ),
         array('period', 'store_id', 'order_status'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/refunded_aggregated_order', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_refunded_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_refunded_aggregated_order', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -2954,7 +2954,7 @@ $table = $installer->getConnection()
         ),
         array('period', 'store_id', 'order_status', 'shipping_description'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/shipping_aggregated', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_shipping_aggregated', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_shipping_aggregated', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -2999,7 +2999,7 @@ $table = $installer->getConnection()
         ),
         array('period', 'store_id', 'order_status', 'shipping_description'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/shipping_aggregated_order', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_shipping_aggregated_order', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_shipping_aggregated_order', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -3050,9 +3050,9 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('period', 'store_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_daily', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_bestsellers_aggregated_daily', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_daily', array('product_id')),
+    ->addIndex($installer->getIdxName('sales_bestsellers_aggregated_daily', array('product_id')),
         array('product_id'))
     ->addForeignKey($installer->getFkName('sales_bestsellers_aggregated_daily', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -3112,9 +3112,9 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('period', 'store_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_monthly', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_bestsellers_aggregated_monthly', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_monthly', array('product_id')),
+    ->addIndex($installer->getIdxName('sales_bestsellers_aggregated_monthly', array('product_id')),
         array('product_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -3179,9 +3179,9 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('period', 'store_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_yearly', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_bestsellers_aggregated_yearly', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('sales/bestsellers_aggregated_yearly', array('product_id')),
+    ->addIndex($installer->getIdxName('sales_bestsellers_aggregated_yearly', array('product_id')),
         array('product_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -3239,9 +3239,9 @@ $table = $installer->getConnection()
         ), 'Store Id')
     ->addColumn('agreement_label', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Agreement Label')
-    ->addIndex($installer->getIdxName('sales/billing_agreement', array('customer_id')),
+    ->addIndex($installer->getIdxName('sales_billing_agreement', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('sales/billing_agreement', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_billing_agreement', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_billing_agreement', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -3268,7 +3268,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Order Id')
-    ->addIndex($installer->getIdxName('sales/billing_agreement_order', array('order_id')),
+    ->addIndex($installer->getIdxName('sales_billing_agreement_order', array('order_id')),
         array('order_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -3394,9 +3394,9 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('internal_reference_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/recurring_profile', array('customer_id')),
+    ->addIndex($installer->getIdxName('sales_recurring_profile', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('sales/recurring_profile', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_recurring_profile', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_recurring_profile', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -3436,7 +3436,7 @@ $table = $installer->getConnection()
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('profile_id', 'order_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('sales/recurring_profile_order', array('order_id')),
+    ->addIndex($installer->getIdxName('sales_recurring_profile_order', array('order_id')),
         array('order_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -3501,7 +3501,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Hidden')
-    ->addIndex($installer->getIdxName('sales/order_tax', array('order_id', 'priority', 'position')),
+    ->addIndex($installer->getIdxName('sales_order_tax', array('order_id', 'priority', 'position')),
         array('order_id', 'priority', 'position'))
     ->setComment('Sales Order Tax Table');
 $installer->getConnection()->createTable($table);
@@ -3565,7 +3565,7 @@ $table = $installer->getConnection()
     ->addColumn('label', Varien_Db_Ddl_Table::TYPE_TEXT, 128, array(
         'nullable'  => false,
         ), 'Label')
-    ->addIndex($installer->getIdxName('sales/order_status_label', array('store_id')),
+    ->addIndex($installer->getIdxName('sales_order_status_label', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('sales_order_status_label', 'status', 'sales/order_status', 'status'),
         'status', $installer->getTable('sales_order_status'), 'status',

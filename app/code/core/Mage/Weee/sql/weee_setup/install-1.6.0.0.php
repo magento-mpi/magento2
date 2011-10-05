@@ -65,13 +65,13 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Entity Type Id')
-    ->addIndex($installer->getIdxName('weee/tax', array('website_id')),
+    ->addIndex($installer->getIdxName('weee_tax', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('weee/tax', array('entity_id')),
+    ->addIndex($installer->getIdxName('weee_tax', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('weee/tax', array('country')),
+    ->addIndex($installer->getIdxName('weee_tax', array('country')),
         array('country'))
-    ->addIndex($installer->getIdxName('weee/tax', array('attribute_id')),
+    ->addIndex($installer->getIdxName('weee_tax', array('attribute_id')),
         array('attribute_id'))
     ->addForeignKey($installer->getFkName('weee_tax', 'country', 'directory/country', 'country_id'),
         'country', $installer->getTable('directory_country'), 'country_id',
@@ -111,11 +111,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Value')
-    ->addIndex($installer->getIdxName('weee/discount', array('website_id')),
+    ->addIndex($installer->getIdxName('weee_discount', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('weee/discount', array('entity_id')),
+    ->addIndex($installer->getIdxName('weee_discount', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('weee/discount', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('weee_discount', array('customer_group_id')),
         array('customer_group_id'))
     ->addForeignKey($installer->getFkName('weee_discount', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',

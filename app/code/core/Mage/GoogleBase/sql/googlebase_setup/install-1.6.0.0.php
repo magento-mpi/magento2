@@ -58,7 +58,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => 'US',
         ), 'Target country')
-    ->addIndex($installer->getIdxName('googlebase/types', array('attribute_set_id')),
+    ->addIndex($installer->getIdxName('googlebase_types', array('attribute_set_id')),
         array('attribute_set_id'))
     ->addForeignKey($installer->getFkName('googlebase_types', 'attribute_set_id', 'eav/attribute_set', 'attribute_set_id'),
         'attribute_set_id', $installer->getTable('eav_attribute_set'), 'attribute_set_id',
@@ -118,9 +118,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Hidden flag')
-    ->addIndex($installer->getIdxName('googlebase/items', array('product_id')),
+    ->addIndex($installer->getIdxName('googlebase_items', array('product_id')),
         array('product_id'))
-    ->addIndex($installer->getIdxName('googlebase/items', array('store_id')),
+    ->addIndex($installer->getIdxName('googlebase_items', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('googlebase_items', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
@@ -152,9 +152,9 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Type id')
-    ->addIndex($installer->getIdxName('googlebase/attributes', array('attribute_id')),
+    ->addIndex($installer->getIdxName('googlebase_attributes', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName('googlebase/attributes', array('type_id')),
+    ->addIndex($installer->getIdxName('googlebase_attributes', array('type_id')),
         array('type_id'))
     ->addForeignKey($installer->getFkName('googlebase_attributes', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',

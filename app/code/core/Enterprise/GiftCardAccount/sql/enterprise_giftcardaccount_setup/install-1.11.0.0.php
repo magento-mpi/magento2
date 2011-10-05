@@ -67,7 +67,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '1',
         ), 'Is Redeemable')
-    ->addIndex($installer->getIdxName('enterprise_giftcardaccount/giftcardaccount', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftcardaccount', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('enterprise_giftcardaccount', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
@@ -124,7 +124,7 @@ $table = $installer->getConnection()
         ), 'Balance Delta')
     ->addColumn('additional_info', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Additional Info')
-    ->addIndex($installer->getIdxName('enterprise_giftcardaccount/history', array('giftcardaccount_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftcardaccount_history', array('giftcardaccount_id')),
         array('giftcardaccount_id'))
     ->addForeignKey($installer->getFkName('enterprise_giftcardaccount_history', 'giftcardaccount_id', 'enterprise_giftcardaccount/giftcardaccount', 'giftcardaccount_id'),
         'giftcardaccount_id', $installer->getTable('enterprise_giftcardaccount'), 'giftcardaccount_id',

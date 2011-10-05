@@ -98,11 +98,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Status code')
-    ->addIndex($installer->getIdxName('review/review', array('entity_id')),
+    ->addIndex($installer->getIdxName('review', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('review/review', array('status_id')),
+    ->addIndex($installer->getIdxName('review', array('status_id')),
         array('status_id'))
-    ->addIndex($installer->getIdxName('review/review', array('entity_pk_value')),
+    ->addIndex($installer->getIdxName('review', array('entity_pk_value')),
         array('entity_pk_value'))
     ->addForeignKey($installer->getFkName('review', 'entity_id', 'review/review_entity', 'entity_id'),
         'entity_id', $installer->getTable('review_entity'), 'entity_id',
@@ -145,11 +145,11 @@ $table = $installer->getConnection()
     ->addColumn('customer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         ), 'Customer Id')
-    ->addIndex($installer->getIdxName('review/review_detail', array('review_id')),
+    ->addIndex($installer->getIdxName('review_detail', array('review_id')),
         array('review_id'))
-    ->addIndex($installer->getIdxName('review/review_detail', array('store_id')),
+    ->addIndex($installer->getIdxName('review_detail', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('review/review_detail', array('customer_id')),
+    ->addIndex($installer->getIdxName('review_detail', array('customer_id')),
         array('customer_id'))
     ->addForeignKey($installer->getFkName('review_detail', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -194,7 +194,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Store id')
-    ->addIndex($installer->getIdxName('review/review_aggregate', array('store_id')),
+    ->addIndex($installer->getIdxName('review_entity_summary', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('review_entity_summary', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -217,7 +217,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Store Id')
-    ->addIndex($installer->getIdxName('review/review_store', array('store_id')),
+    ->addIndex($installer->getIdxName('review_store', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('review_store', 'review_id', 'review/review', 'review_id'),
         'review_id', $installer->getTable('review'), 'review_id',

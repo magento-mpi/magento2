@@ -56,15 +56,15 @@ $table = $installer->getConnection()
     ->addColumn('added_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Added At')
-    ->addIndex($installer->getIdxName('reports/compared_product_index', array('visitor_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('report_compared_product_index', array('visitor_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('visitor_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('reports/compared_product_index', array('customer_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('report_compared_product_index', array('customer_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('customer_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('reports/compared_product_index', array('store_id')),
+    ->addIndex($installer->getIdxName('report_compared_product_index', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('reports/compared_product_index', array('added_at')),
+    ->addIndex($installer->getIdxName('report_compared_product_index', array('added_at')),
         array('added_at'))
-    ->addIndex($installer->getIdxName('reports/compared_product_index', array('product_id')),
+    ->addIndex($installer->getIdxName('report_compared_product_index', array('product_id')),
         array('product_id'))
     ->addForeignKey($installer->getFkName('report_compared_product_index', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -107,15 +107,15 @@ $table = $installer->getConnection()
     ->addColumn('added_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Added At')
-    ->addIndex($installer->getIdxName('reports/viewed_product_index', array('visitor_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('report_viewed_product_index', array('visitor_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('visitor_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('reports/viewed_product_index', array('customer_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('report_viewed_product_index', array('customer_id', 'product_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('customer_id', 'product_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('reports/viewed_product_index', array('store_id')),
+    ->addIndex($installer->getIdxName('report_viewed_product_index', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('reports/viewed_product_index', array('added_at')),
+    ->addIndex($installer->getIdxName('report_viewed_product_index', array('added_at')),
         array('added_at'))
-    ->addIndex($installer->getIdxName('reports/viewed_product_index', array('product_id')),
+    ->addIndex($installer->getIdxName('report_viewed_product_index', array('product_id')),
         array('product_id'))
     ->addForeignKey($installer->getFkName('report_viewed_product_index', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',

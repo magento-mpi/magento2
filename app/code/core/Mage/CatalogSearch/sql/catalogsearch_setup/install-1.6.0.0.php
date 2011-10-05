@@ -74,9 +74,9 @@ $table = $installer->getConnection()
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Updated at')
-    ->addIndex($installer->getIdxName('catalogsearch/search_query', array('query_text','store_id','popularity')),
+    ->addIndex($installer->getIdxName('catalogsearch_query', array('query_text','store_id','popularity')),
         array('query_text','store_id','popularity'))
-    ->addIndex($installer->getIdxName('catalogsearch/search_query', 'store_id'), 'store_id')
+    ->addIndex($installer->getIdxName('catalogsearch_query', 'store_id'), 'store_id')
     ->addForeignKey($installer->getFkName('catalogsearch_query', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -102,11 +102,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000'
         ), 'Relevance')
-    ->addIndex($installer->getIdxName('catalogsearch/result', 'query_id'), 'query_id')
+    ->addIndex($installer->getIdxName('catalogsearch_result', 'query_id'), 'query_id')
     ->addForeignKey($installer->getFkName('catalogsearch_result', 'query_id', 'catalogsearch/search_query', 'query_id'),
         'query_id', $installer->getTable('catalogsearch_query'), 'query_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('catalogsearch/result', 'product_id'), 'product_id')
+    ->addIndex($installer->getIdxName('catalogsearch_result', 'product_id'), 'product_id')
     ->addForeignKey($installer->getFkName('catalogsearch_result', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)

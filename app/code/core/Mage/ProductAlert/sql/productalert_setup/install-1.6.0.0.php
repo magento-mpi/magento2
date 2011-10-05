@@ -80,11 +80,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Product alert status')
-    ->addIndex($installer->getIdxName('productalert/price', array('customer_id')),
+    ->addIndex($installer->getIdxName('product_alert_price', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('productalert/price', array('product_id')),
+    ->addIndex($installer->getIdxName('product_alert_price', array('product_id')),
         array('product_id'))
-    ->addIndex($installer->getIdxName('productalert/price', array('website_id')),
+    ->addIndex($installer->getIdxName('product_alert_price', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('product_alert_price', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -139,11 +139,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Product alert status')
-    ->addIndex($installer->getIdxName('productalert/stock', array('customer_id')),
+    ->addIndex($installer->getIdxName('product_alert_stock', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('productalert/stock', array('product_id')),
+    ->addIndex($installer->getIdxName('product_alert_stock', array('product_id')),
         array('product_id'))
-    ->addIndex($installer->getIdxName('productalert/stock', array('website_id')),
+    ->addIndex($installer->getIdxName('product_alert_stock', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('product_alert_stock', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
