@@ -80,16 +80,4 @@ root_category_required:
     is_active: Yes
     available_product_listing_config: No
     available_product_listing: Best Value, Name, Price
-    
-validate_product_prices_in_category:
-    category: sub category
-    product_name: bciyk_Simple Product For Order
-    verification:
-        price_regular: %noValue%
-        price_excluding_tax: '$14.95'
-        price_including_tax: '$54.95'
-        price_old: %noValue%
-        price_special: %noValue%
-        price_special_excluding_tax: %noValue%
-        price_special_inlcuding_tax: %noValue%
-        as_low_as: %noValue%    
+
