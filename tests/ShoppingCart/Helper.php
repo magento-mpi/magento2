@@ -37,8 +37,6 @@
 class ShoppingCart_Helper extends Mage_Selenium_TestCase
 {
     const QTY = 'Qty';
-    const UNITPRICE = 'Unit Price';
-    const SUBTOTAL = 'Subtotal';
     const EXCLTAX = '(Excl. Tax)';
     const INCLTAX = '(Incl. Tax)';
 
@@ -53,30 +51,22 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         $productLine = $this->_getControlXpath('pageelement', 'product_line');
 
         $tableRowNames = $productValues = $returnData = array();
-
+        $isExclAndIncl = false;
+        $exclAndInclCounter = 0;
         $rowCount = $this->getXpathCount($xpath);
         for ($i = 1; $i <= $rowCount; $i++) {
             $text = trim($this->getText($xpath . "[$i]"));
-            if ($text == self::UNITPRICE) {
-                if ($this->getAttribute($xpath . "[$i]/@colspan") == 2) {
-                    $tableRowNames[$text . self::EXCLTAX] = $i;
-                    $tableRowNames[$text . self::INCLTAX] = $i + 1;
-                } else {
-                    $tableRowNames[$text] = $i;
-                }
-            } elseif ($text == self::SUBTOTAL) {
-                if ($this->getAttribute($xpath . "[$i]/@colspan") == 2) {
-                    $tableRowNames[$text . self::EXCLTAX] = $i + 1;
-                    $tableRowNames[$text . self::INCLTAX] = $i + 2;
-                } else {
-                    $tableRowNames[$text] = $i;
-                }
+            if ($this->isElementPresent($xpath . "[$i]/@colspan")
+                    && $this->getAttribute($xpath . "[$i]/@colspan") == 2) {
+                $tableRowNames[$text . self::EXCLTAX] = $i + $exclAndInclCounter;
+                $tableRowNames[$text . self::INCLTAX] = $i + $exclAndInclCounter + 1;
+                $exclAndInclCounter++;
+                $isExclAndIncl = true;
             } else {
                 $tableRowNames[$text] = $i;
             }
         }
-        if (array_key_exists(self::UNITPRICE . self::EXCLTAX, $tableRowNames) && array_key_exists(self::QTY,
-                        $tableRowNames)) {
+        if ($isExclAndIncl) {
             $tableRowNames[self::QTY] = $tableRowNames[self::QTY] + 1;
         }
 
@@ -84,11 +74,11 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         for ($i = 1; $i <= $productCount; $i++) {
             foreach ($tableRowNames as $key => $value) {
                 if ($key != '') {
-                    if ($key == self::QTY) {
-                        $productValues[$i - 1][$key] = $this->getAttribute($productLine .
-                                "[$i]/td[$value]/input/@value");
+                    $xpathValue = $productLine . "[$i]/td[$value]";
+                    if ($key == self::QTY && $this->isElementPresent($xpathValue . '/input/@value')) {
+                        $productValues[$i - 1][$key] = $this->getAttribute($xpathValue . '/input/@value');
                     } else {
-                        $productValues[$i - 1][$key] = $this->getText($productLine . "[$i]/td[$value]");
+                        $productValues[$i - 1][$key] = $this->getText($xpathValue);
                     }
                 }
             }
