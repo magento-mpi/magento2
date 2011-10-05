@@ -25,16 +25,7 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-#Test data for One Page Checkout(Frontend)
-#*********************************************
-#*         Checkout Method                   *
-#*********************************************
-
-#tax_titles_data: &dataForTitles
-#    store_name_1: Store View 1
-#    store_name_2: Store View 2
-#    tax_title_2: asd
-#    tax_data_2: 123456
+#Test data for Tax creating(Backend)
 
 new_tax_rate_required:
     tax_identifier: test_tax_id
@@ -44,7 +35,6 @@ new_tax_rate_required:
     rate_percent: 10
     tax_titles:
         Default Store View: Store View 1
-#        store_name_2: Store View 2
 
 new_tax_rule_required:
     name: test_tax_id
