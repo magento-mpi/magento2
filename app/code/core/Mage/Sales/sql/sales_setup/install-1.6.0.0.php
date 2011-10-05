@@ -3582,28 +3582,28 @@ $installer->getConnection()->createTable($table);
  */
 $installer->addEntityType('order', array(
     'entity_model'          => 'sales/order',
-    'table'                 => 'sales/order',
+    'table'                 => 'sales_flat_order',
     'increment_model'       => 'eav/entity_increment_numeric',
     'increment_per_store'   => true
 ));
 
 $installer->addEntityType('invoice', array(
     'entity_model'          => 'sales/order_invoice',
-    'table'                 => 'sales/invoice',
+    'table'                 => 'sales_flat_invoice',
     'increment_model'       => 'eav/entity_increment_numeric',
     'increment_per_store'   => true
 ));
 
 $installer->addEntityType('creditmemo', array(
     'entity_model'          => 'sales/order_creditmemo',
-    'table'                 => 'sales/creditmemo',
+    'table'                 => 'sales_flat_creditmemo',
     'increment_model'       => 'eav/entity_increment_numeric',
     'increment_per_store'   => true
 ));
 
 $installer->addEntityType('shipment', array(
     'entity_model'          => 'sales/order_shipment',
-    'table'                 => 'sales/shipment',
+    'table'                 => 'sales_flat_shipment',
     'increment_model'       => 'eav/entity_increment_numeric',
     'increment_per_store'   => true
 ));
