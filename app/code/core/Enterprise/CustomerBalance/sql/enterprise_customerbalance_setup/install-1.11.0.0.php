@@ -57,10 +57,10 @@ $table = $installer->getConnection()
         array('customer_id', 'website_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('enterprise_customerbalance', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('enterprise_customerbalance', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customerbalance', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_customerbalance', 'customer_id', 'customer/entity', 'entity_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customerbalance', 'customer_id', 'customer_entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Customerbalance');
@@ -106,7 +106,7 @@ $table = $installer->getConnection()
         ), 'Is Customer Notified')
     ->addIndex($installer->getIdxName('enterprise_customerbalance_history', array('balance_id')),
         array('balance_id'))
-    ->addForeignKey($installer->getFkName('enterprise_customerbalance_history', 'balance_id', 'enterprise_customerbalance/balance', 'balance_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customerbalance_history', 'balance_id', 'enterprise_customerbalance', 'balance_id'),
         'balance_id', $installer->getTable('enterprise_customerbalance'), 'balance_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Customerbalance History');

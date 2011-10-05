@@ -65,10 +65,10 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Relation Id')
-    ->addForeignKey($installer->getFkName('catalogsearch_recommendations', 'query_id', 'catalogsearch/search_query', 'query_id'),
+    ->addForeignKey($installer->getFkName('catalogsearch_recommendations', 'query_id', 'catalogsearch_query', 'query_id'),
         'query_id', $installer->getTable('catalogsearch_query'), 'query_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalogsearch_recommendations', 'relation_id', 'catalogsearch/search_query', 'query_id'),
+    ->addForeignKey($installer->getFkName('catalogsearch_recommendations', 'relation_id', 'catalogsearch_query', 'query_id'),
         'relation_id', $installer->getTable('catalogsearch_query'), 'query_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Search Recommendations');

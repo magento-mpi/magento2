@@ -59,7 +59,7 @@ $table = $installer->getConnection()
         array('customer_id', 'website_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('enterprise_reward', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('enterprise_reward', 'customer_id', 'customer/entity', 'entity_id'),
+    ->addForeignKey($installer->getFkName('enterprise_reward', 'customer_id', 'customer_entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Reward');
@@ -152,10 +152,10 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('enterprise_reward_history', 'reward_id', 'enterprise_reward', 'reward_id'),
         'reward_id', $installer->getTable('enterprise_reward'), 'reward_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_reward_history', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('enterprise_reward_history', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_reward_history', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('enterprise_reward_history', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Reward History');
@@ -200,7 +200,7 @@ $table = $installer->getConnection()
         array('website_id'))
     ->addIndex($installer->getIdxName('enterprise_reward_rate', array('customer_group_id')),
         array('customer_group_id'))
-    ->addForeignKey($installer->getFkName('enterprise_reward_rate', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('enterprise_reward_rate', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Reward Rate');
@@ -224,7 +224,7 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('enterprise_reward_salesrule', array('rule_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('rule_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addForeignKey($installer->getFkName('enterprise_reward_salesrule', 'rule_id', 'salesrule/rule', 'rule_id'),
+    ->addForeignKey($installer->getFkName('enterprise_reward_salesrule', 'rule_id', 'salesrule', 'rule_id'),
         'rule_id', $installer->getTable('salesrule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Reward Reward Salesrule');

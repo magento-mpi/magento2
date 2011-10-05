@@ -155,19 +155,19 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('catalogrule_product', array('product_id')),
         array('product_id'))
 
-    ->addForeignKey($installer->getFkName('catalogrule_product', 'product_id', 'catalog/product', 'entity_id'),
+    ->addForeignKey($installer->getFkName('catalogrule_product', 'product_id', 'catalog_product_entity', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
 
-    ->addForeignKey($installer->getFkName('catalogrule_product', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
+    ->addForeignKey($installer->getFkName('catalogrule_product', 'customer_group_id', 'customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
 
-    ->addForeignKey($installer->getFkName('catalogrule_product', 'rule_id', 'catalogrule/rule', 'rule_id'),
+    ->addForeignKey($installer->getFkName('catalogrule_product', 'rule_id', 'catalogrule', 'rule_id'),
         'rule_id', $installer->getTable('catalogrule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
 
-    ->addForeignKey($installer->getFkName('catalogrule_product', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('catalogrule_product', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
 
@@ -220,15 +220,15 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('catalogrule_product_price', array('product_id')),
         array('product_id'))
 
-    ->addForeignKey($installer->getFkName('catalogrule_product_price', 'product_id', 'catalog/product', 'entity_id'),
+    ->addForeignKey($installer->getFkName('catalogrule_product_price', 'product_id', 'catalog_product_entity', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
 
-    ->addForeignKey($installer->getFkName('catalogrule_product_price', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
+    ->addForeignKey($installer->getFkName('catalogrule_product_price', 'customer_group_id', 'customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
 
-    ->addForeignKey($installer->getFkName('catalogrule_product_price', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('catalogrule_product_price', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
 
@@ -279,15 +279,15 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('catalogrule_group_website', array('website_id')),
         array('website_id'))
 
-    ->addForeignKey($installer->getFkName('catalogrule_group_website', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
+    ->addForeignKey($installer->getFkName('catalogrule_group_website', 'customer_group_id', 'customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
 
-    ->addForeignKey($installer->getFkName('catalogrule_group_website', 'rule_id', 'catalogrule/rule', 'rule_id'),
+    ->addForeignKey($installer->getFkName('catalogrule_group_website', 'rule_id', 'catalogrule', 'rule_id'),
         'rule_id', $installer->getTable('catalogrule'), 'rule_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
 
-    ->addForeignKey($installer->getFkName('catalogrule_group_website', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('catalogrule_group_website', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('CatalogRule Group Website');

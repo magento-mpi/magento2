@@ -69,7 +69,7 @@ $table = $installer->getConnection()
         ), 'Google optimizer additional data')
     ->addIndex($installer->getIdxName('googleoptimizer_code', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('googleoptimizer_code', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('googleoptimizer_code', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Googleoptimizer code');

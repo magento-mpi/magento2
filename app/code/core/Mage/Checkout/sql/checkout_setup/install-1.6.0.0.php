@@ -73,10 +73,10 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Store Id')
-    ->addForeignKey($installer->getFkName('checkout_agreement_store', 'agreement_id', 'checkout/agreement', 'agreement_id'),
+    ->addForeignKey($installer->getFkName('checkout_agreement_store', 'agreement_id', 'checkout_agreement', 'agreement_id'),
         'agreement_id', $installer->getTable('checkout_agreement'), 'agreement_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('checkout_agreement_store', 'store_id', 'core/store', 'store_id'),
+    ->addForeignKey($installer->getFkName('checkout_agreement_store', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Checkout Agreement Store');

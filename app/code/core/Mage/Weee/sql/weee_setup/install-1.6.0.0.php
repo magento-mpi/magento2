@@ -73,16 +73,16 @@ $table = $installer->getConnection()
         array('country'))
     ->addIndex($installer->getIdxName('weee_tax', array('attribute_id')),
         array('attribute_id'))
-    ->addForeignKey($installer->getFkName('weee_tax', 'country', 'directory/country', 'country_id'),
+    ->addForeignKey($installer->getFkName('weee_tax', 'country', 'directory_country', 'country_id'),
         'country', $installer->getTable('directory_country'), 'country_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('weee_tax', 'entity_id', 'catalog/product', 'entity_id'),
+    ->addForeignKey($installer->getFkName('weee_tax', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('weee_tax', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('weee_tax', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('weee_tax', 'attribute_id', 'eav/attribute', 'attribute_id'),
+    ->addForeignKey($installer->getFkName('weee_tax', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Weee Tax');
@@ -117,13 +117,13 @@ $table = $installer->getConnection()
         array('entity_id'))
     ->addIndex($installer->getIdxName('weee_discount', array('customer_group_id')),
         array('customer_group_id'))
-    ->addForeignKey($installer->getFkName('weee_discount', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
+    ->addForeignKey($installer->getFkName('weee_discount', 'customer_group_id', 'customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('weee_discount', 'entity_id', 'catalog/product', 'entity_id'),
+    ->addForeignKey($installer->getFkName('weee_discount', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('weee_discount', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('weee_discount', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Weee Discount');

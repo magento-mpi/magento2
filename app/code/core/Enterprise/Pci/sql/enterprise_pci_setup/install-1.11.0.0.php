@@ -59,7 +59,7 @@ $table = $installer->getConnection()
         ), 'Last Updated')
     ->addIndex($installer->getIdxName('enterprise_admin_passwords', array('user_id')),
         array('user_id'))
-    ->addForeignKey($installer->getFkName('enterprise_admin_passwords', 'user_id', 'admin/user', 'user_id'),
+    ->addForeignKey($installer->getFkName('enterprise_admin_passwords', 'user_id', 'admin_user', 'user_id'),
         'user_id', $installer->getTable('admin_user'), 'user_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Admin Passwords');

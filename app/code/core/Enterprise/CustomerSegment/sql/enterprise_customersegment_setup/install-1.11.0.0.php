@@ -75,10 +75,10 @@ $table = $installer->getConnection()
         ), 'Website Id')
     ->addIndex($installer->getIdxName('enterprise_customersegment_website', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('enterprise_customersegment_website', 'segment_id', 'enterprise_customersegment/segment', 'segment_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customersegment_website', 'segment_id', 'enterprise_customersegment_segment', 'segment_id'),
         'segment_id', $installer->getTable('enterprise_customersegment_segment'), 'segment_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_customersegment_website', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customersegment_website', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Customersegment Website');
@@ -116,13 +116,13 @@ $table = $installer->getConnection()
         array('website_id'))
     ->addIndex($installer->getIdxName('enterprise_customersegment_customer', array('customer_id')),
         array('customer_id'))
-    ->addForeignKey($installer->getFkName('enterprise_customersegment_customer', 'website_id', 'core/website', 'website_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customersegment_customer', 'website_id', 'core_website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_customersegment_customer', 'customer_id', 'customer/entity', 'entity_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customersegment_customer', 'customer_id', 'customer_entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_customersegment_customer', 'segment_id', 'enterprise_customersegment/segment', 'segment_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customersegment_customer', 'segment_id', 'enterprise_customersegment_segment', 'segment_id'),
         'segment_id', $installer->getTable('enterprise_customersegment_segment'), 'segment_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Customersegment Customer');
@@ -143,7 +143,7 @@ $table = $installer->getConnection()
         array('event'))
     ->addIndex($installer->getIdxName('enterprise_customersegment_event', array('segment_id')),
         array('segment_id'))
-    ->addForeignKey($installer->getFkName('enterprise_customersegment_event', 'segment_id', 'enterprise_customersegment/segment', 'segment_id'),
+    ->addForeignKey($installer->getFkName('enterprise_customersegment_event', 'segment_id', 'enterprise_customersegment_segment', 'segment_id'),
         'segment_id', $installer->getTable('enterprise_customersegment_segment'), 'segment_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Customersegment Event');
