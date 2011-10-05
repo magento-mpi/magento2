@@ -117,6 +117,7 @@
                         <amazonpayments_asp_notification/>
                         <ideal_basic_notify/>
                         <authorizenet_directpost_payment_response/>
+                        <enterprise_pbridge_PbridgeIpn_index/>
                     </generic>
                     <register>
                         <customer_account_create/>
