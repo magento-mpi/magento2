@@ -14,6 +14,7 @@ $baseDir = realpath(__DIR__ . '/../../../../../');
 return array(
     'report_dir' => "{$baseDir}/dev/tests/static/report",
     'white_list' => array(
+        "{$baseDir}/app/code/core/Mage/Core/Model/Design.php",
         "{$baseDir}/dev/tests/integration",
         "{$baseDir}/dev/tests/static",
         "{$baseDir}/lib/Magento/Profiler",
@@ -25,6 +26,6 @@ return array(
         /* Files that intentionally violate the requirements for testing purposes */
         "{$baseDir}/dev/tests/static/testsuite/Php/Exemplar/_files/phpcs/input",
         "{$baseDir}/dev/tests/static/testsuite/Php/Exemplar/_files/phpmd/input",
-        "{$baseDir}/dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/TestSuite/_files"
+        "{$baseDir}/dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/TestSuite/_files",
     )
 );
