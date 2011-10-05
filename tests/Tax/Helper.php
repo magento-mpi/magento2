@@ -45,16 +45,19 @@ class Tax_Helper extends Mage_Selenium_TestCase
     public function createTaxRate(array $taxRateData)
     {
         $taxRateData = $this->arrayEmptyClear($taxRateData);
-        $storViewName = (isset($taxRateData['store_view_name'])) ? $taxRateData['store_view_name'] : NULL;
+        $taxTitles = (isset($taxRateData['tax_titles'])) ? $taxRateData['tax_titles'] : NULL;
         $this->clickButton('add_new_tax_rate');
+        $this->fillForm($taxRateData, 'tax_rate_info');
         $xpath = $this->_getControlXpath('fieldset', 'tax_titles');
-        if ($storViewName && $this->isElementPresent($xpath)) {
-            foreach ($storViewName as $key => $value) {
-                $this->addParameter('storeNumber', $key);
-                $this->fillForm(array('tax_title' => $value));
+        if ($taxTitles && $this->isElementPresent($xpath)) {
+            foreach ($taxTitles as $key => $value) {
+                if (preg_match('/^tax_title_/', $key)) {
+                    $this->addParameter('storeNumber', $this->findTaxTitleByName($value));
+                } else {
+                    $this->fillForm(array('tax_title' => $value));
+                }
             }
         }
-        $this->fillForm($taxRateData, 'tax_rate_info');
         $this->saveForm('save_rate');
     }
 
@@ -104,12 +107,20 @@ class Tax_Helper extends Mage_Selenium_TestCase
     /**
      * Search and Open Product rule
      *
-     * @param array|string $taxRuleSearchData
+     * @param string $taxTitleData
+     * @return int
      */
-    public function searchTaxRule($taxRuleSearchData)
+    public function findTaxTitleByName($taxTitleData)
     {
-
-        $this->searchAndOpen($taxRuleSearchData);
+        $taxTitleXpath = "//table[@class='form-list']//tbody/tr[@class='dynamic-grid']/th";
+        $taxTitleQty = $this->getXpathCount($taxTitleXpath);
+        for ($i = 1; $i <= $taxTitleQty; $i++) {
+            $text = $this->getText($taxTitleXpath . "[$i]");
+            if ($text == $taxTitleData) {
+                return $i;
+            }
+        }
+        return 0;
     }
 
 }

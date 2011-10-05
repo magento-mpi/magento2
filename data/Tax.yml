@@ -30,15 +30,19 @@
 #*         Checkout Method                   *
 #*********************************************
 
+tax_titles_data: &dataForTitles
+    tax_title_1: Default Store View
+    tax_data_1: 123
+    tax_title_2: asd
+    tax_data_2: 123456
+
 new_tax_rate_required:
     tax_identifier: test_tax_id
     country: United States
     state: Texas
     zip_is_range: %noValue%
     rate_percent: 10
-    store_view_name:
-        2: qweert
-        3: qwerty
+    tax_titles: *dataForTitles
 
 new_tax_rule_required:
     name: test_tax_id
