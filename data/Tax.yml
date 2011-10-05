@@ -30,11 +30,11 @@
 #*         Checkout Method                   *
 #*********************************************
 
-tax_titles_data: &dataForTitles
-    tax_title_1: Default Store View
-    tax_data_1: 123
-    tax_title_2: asd
-    tax_data_2: 123456
+#tax_titles_data: &dataForTitles
+#    store_name_1: Store View 1
+#    store_name_2: Store View 2
+#    tax_title_2: asd
+#    tax_data_2: 123456
 
 new_tax_rate_required:
     tax_identifier: test_tax_id
@@ -42,7 +42,9 @@ new_tax_rate_required:
     state: Texas
     zip_is_range: %noValue%
     rate_percent: 10
-    tax_titles: *dataForTitles
+    tax_titles:
+        Default Store View: Store View 1
+#        store_name_2: Store View 2
 
 new_tax_rule_required:
     name: test_tax_id

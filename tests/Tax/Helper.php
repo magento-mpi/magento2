@@ -40,10 +40,13 @@ class Tax_Helper extends Mage_Selenium_TestCase
     /**
      * Create new Tax rate
      *
-     * @param array $taxRateData
+     * @param array|string $taxRateData
      */
     public function createTaxRate(array $taxRateData)
     {
+        if (is_string($taxRateData)) {
+            $taxRateData = $this->loadData($taxRateData);
+        }
         $taxRateData = $this->arrayEmptyClear($taxRateData);
         $taxTitles = (isset($taxRateData['tax_titles'])) ? $taxRateData['tax_titles'] : NULL;
         $this->clickButton('add_new_tax_rate');
@@ -51,11 +54,8 @@ class Tax_Helper extends Mage_Selenium_TestCase
         $xpath = $this->_getControlXpath('fieldset', 'tax_titles');
         if ($taxTitles && $this->isElementPresent($xpath)) {
             foreach ($taxTitles as $key => $value) {
-                if (preg_match('/^tax_title_/', $key)) {
-                    $this->addParameter('storeNumber', $this->findTaxTitleByName($value));
-                } else {
-                    $this->fillForm(array('tax_title' => $value));
-                }
+                $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
+                $this->fillForm(array('tax_title' => $value));
             }
         }
         $this->saveForm('save_rate');
@@ -64,10 +64,13 @@ class Tax_Helper extends Mage_Selenium_TestCase
     /**
      * Create new Tax rule
      *
-     * @param array $taxRuleData
+     * @param array|string $taxRuleData
      */
     public function createTaxRule(array $taxRuleData)
     {
+        if (is_string($taxRuleData)) {
+            $taxRuleData = $this->loadData($taxRuleData);
+        }
         $taxRuleData = $this->arrayEmptyClear($taxRuleData);
         $this->clickButton('add_new_tax_rule');
         $this->fillForm($taxRuleData, 'tax_rule_info');
@@ -112,7 +115,7 @@ class Tax_Helper extends Mage_Selenium_TestCase
      */
     public function findTaxTitleByName($taxTitleData)
     {
-        $taxTitleXpath = "//table[@class='form-list']//tbody/tr[@class='dynamic-grid']/th";
+        $taxTitleXpath = $this->_getControlXpath('pageelement', 'tax_title_header');
         $taxTitleQty = $this->getXpathCount($taxTitleXpath);
         for ($i = 1; $i <= $taxTitleQty; $i++) {
             $text = $this->getText($taxTitleXpath . "[$i]");

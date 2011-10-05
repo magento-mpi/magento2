@@ -210,6 +210,8 @@ create_tax_rate:
                         xpath: //div[contains(h4,'Tax Titles')]/following-sibling::*[1]
                         fields:
                             tax_title: //td[%storeNumber%]/input
+                        pageelements:
+                            tax_title_header: //table[@class='form-list']//tbody/tr[@class='dynamic-grid']/th
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
