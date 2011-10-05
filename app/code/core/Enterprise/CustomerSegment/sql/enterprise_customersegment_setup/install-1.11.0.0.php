@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_customersegment/segment'
+ * Create table 'enterprise_customersegment_segment'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_customersegment_segment'))
@@ -59,7 +59,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_customersegment/website'
+ * Create table 'enterprise_customersegment_website'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_customersegment_website'))
@@ -85,7 +85,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_customersegment/customer'
+ * Create table 'enterprise_customersegment_customer'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_customersegment_customer'))
@@ -129,7 +129,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_customersegment/event'
+ * Create table 'enterprise_customersegment_event'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_customersegment_event'))

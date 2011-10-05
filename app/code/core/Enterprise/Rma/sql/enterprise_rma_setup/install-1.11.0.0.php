@@ -33,7 +33,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_rma/rma'
+ * Create table 'enterprise_rma'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_rma'))
@@ -95,7 +95,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/rma_grid'
+ * Create table 'enterprise_rma_grid'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_rma_grid'))
@@ -152,7 +152,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/rma_status_history'
+ * Create table 'enterprise_rma_status_history'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_rma_status_history'))
@@ -197,7 +197,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/item_entity'
+ * Create table 'enterprise_rma_item_entity'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_rma_item_entity'))
@@ -257,7 +257,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/item_eav_attribute'
+ * Create table 'enterprise_rma_item_eav_attribute'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_rma_item_eav_attribute'))
@@ -616,7 +616,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/item_form_attribute'
+ * Create table 'enterprise_rma_item_form_attribute'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_rma_item_form_attribute'))
@@ -642,7 +642,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_rma/item_eav_attribute_website'
+ * Create table 'enterprise_rma_item_eav_attribute_website'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_rma_item_eav_attribute_website'))

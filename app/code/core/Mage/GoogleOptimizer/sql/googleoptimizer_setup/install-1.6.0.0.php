@@ -37,7 +37,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'googleoptimizer/code'
+ * Create table 'googleoptimizer_code'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('googleoptimizer_code'))

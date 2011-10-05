@@ -27,7 +27,7 @@
 $installer = $this;
 
 /**
- * Create table 'enterprise_importexport/scheduled_operation'
+ * Create table 'enterprise_scheduled_operations'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_scheduled_operations'))

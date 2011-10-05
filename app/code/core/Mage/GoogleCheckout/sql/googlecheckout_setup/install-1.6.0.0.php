@@ -33,7 +33,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'googlecheckout/notification'
+ * Create table 'googlecheckout_notification'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('googlecheckout_notification'))

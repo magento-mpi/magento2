@@ -29,7 +29,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_giftcardaccount/giftcardaccount'
+ * Create table 'enterprise_giftcardaccount'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftcardaccount'))
@@ -76,7 +76,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftcardaccount/pool'
+ * Create table 'enterprise_giftcardaccount_pool'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftcardaccount_pool'))
@@ -92,7 +92,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftcardaccount/history'
+ * Create table 'enterprise_giftcardaccount_history'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftcardaccount_history'))

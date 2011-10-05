@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'admin/assert'
+ * Create table 'admin_assert'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('admin_assert'))
@@ -50,7 +50,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'admin/role'
+ * Create table 'admin_role'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('admin_role'))
@@ -96,7 +96,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'admin/rule'
+ * Create table 'admin_rule'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('admin_rule'))
@@ -138,7 +138,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'admin/user'
+ * Create table 'admin_user'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('admin_user'))

@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'log/customer'
+ * Create table 'log_customer'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('log_customer'))
@@ -62,7 +62,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/quote_table'
+ * Create table 'log_quote'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('log_quote'))
@@ -84,7 +84,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/summary_table'
+ * Create table 'log_summary'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('log_summary'))
@@ -116,7 +116,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/summary_type_table'
+ * Create table 'log_summary_type'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('log_summary_type'))
@@ -143,7 +143,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/url_table'
+ * Create table 'log_url'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('log_url'))
@@ -165,7 +165,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/url_info_table'
+ * Create table 'log_url_info'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('log_url_info'))
@@ -185,7 +185,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/visitor'
+ * Create table 'log_visitor'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('log_visitor'))
@@ -217,7 +217,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/visitor_info'
+ * Create table 'log_visitor_info'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('log_visitor_info'))
@@ -243,7 +243,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'log/visitor_online'
+ * Create table 'log_visitor_online'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('log_visitor_online'))

@@ -28,7 +28,7 @@
 $installer = $this;
 
 /**
- * Create table 'enterprise_staging/staging'
+ * Create table 'enterprise_staging'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_staging_product_unlinked'))

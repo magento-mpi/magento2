@@ -29,7 +29,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_banner/banner'
+ * Create table 'enterprise_banner'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_banner'))
@@ -50,7 +50,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_banner/content'
+ * Create table 'enterprise_banner_content'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_banner_content'))
@@ -82,7 +82,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_banner/customersegment'
+ * Create table 'enterprise_banner_customersegment'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_banner_customersegment'))
@@ -112,7 +112,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_banner/catalogrule'
+ * Create table 'enterprise_banner_catalogrule'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_banner_catalogrule'))
@@ -140,7 +140,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_banner/salesrule'
+ * Create table 'enterprise_banner_salesrule'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_banner_salesrule'))

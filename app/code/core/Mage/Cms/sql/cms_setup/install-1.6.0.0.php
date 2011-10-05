@@ -31,7 +31,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'cms/block'
+ * Create table 'cms_block'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('cms_block'))
@@ -60,7 +60,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'cms/block_store'
+ * Create table 'cms_block_store'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('cms_block_store'))
@@ -85,7 +85,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'cms/page'
+ * Create table 'cms_page'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('cms_page'))
@@ -151,7 +151,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'cms/page_store'
+ * Create table 'cms_page_store'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('cms_page_store'))

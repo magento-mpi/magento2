@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'catalogsearch/search_query'
+ * Create table 'catalogsearch_query'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalogsearch_query'))
@@ -84,7 +84,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalogsearch/result'
+ * Create table 'catalogsearch_result'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalogsearch_result'))
@@ -114,7 +114,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalogsearch/fulltext'
+ * Create table 'catalogsearch_fulltext'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalogsearch_fulltext'))

@@ -29,7 +29,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'importexport/importdata'
+ * Create table 'importexport_importdata'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('importexport_importdata'))

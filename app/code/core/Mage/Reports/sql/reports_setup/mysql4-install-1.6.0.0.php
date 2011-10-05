@@ -28,7 +28,7 @@
 $installer = $this;
 
 /**
- * Create table 'reports/compared_product_index'.
+ * Create table 'report_compared_product_index'.
  * In MySQL version this table comes with unique keys to implement insertOnDuplicate(), so that
  * only one record is added when customer/visitor compares same product again.
  */
@@ -79,7 +79,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'reports/viewed_product_index'
+ * Create table 'report_viewed_product_index'
  * In MySQL version this table comes with unique keys to implement insertOnDuplicate(), so that
  * only one record is added when customer/visitor views same product again.
  */

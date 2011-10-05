@@ -36,7 +36,7 @@ $installer = $this;
 
 $installer->startSetup();
 /**
- * Create table 'productalert/price'
+ * Create table 'product_alert_price'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('product_alert_price'))
@@ -99,7 +99,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'productalert/stock'
+ * Create table 'product_alert_stock'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('product_alert_stock'))

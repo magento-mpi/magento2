@@ -31,7 +31,7 @@ $installer = $this;
  */
 $installer->startSetup();
 /**
- * Create table 'reports/event_type'
+ * Create table 'report_event_types'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('report_event_types'))
@@ -53,7 +53,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'reports/event'
+ * Create table 'report_event'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('report_event'))
@@ -111,7 +111,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'reports/compared_product_index'.
+ * Create table 'report_compared_product_index'.
  * MySQL table differs by having unique keys on (customer/visitor, product) columns and is created
  * in separate install.
  */
@@ -166,7 +166,7 @@ if (!$installer->tableExists($tableName)) {
 
 
 /**
- * Create table 'reports/viewed_product_index'.
+ * Create table 'report_viewed_product_index'.
  * MySQL table differs by having unique keys on (customer/visitor, product) columns and is created
  * in separate install.
  */

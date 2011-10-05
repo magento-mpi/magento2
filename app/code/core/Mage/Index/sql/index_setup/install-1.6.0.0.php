@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'index/event'
+ * Create table 'index_event'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('index_event'))
@@ -61,7 +61,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'index/process'
+ * Create table 'index_process'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('index_process'))
@@ -92,7 +92,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'index/process_event'
+ * Create table 'index_process_event'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('index_process_event'))

@@ -33,7 +33,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_giftregistry/type'
+ * Create table 'enterprise_giftregistry_type'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry_type'))
@@ -52,7 +52,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/info'
+ * Create table 'enterprise_giftregistry_type_info'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry_type_info'))
@@ -94,7 +94,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/label'
+ * Create table 'enterprise_giftregistry_label'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry_label'))
@@ -140,7 +140,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/entity'
+ * Create table 'enterprise_giftregistry_entity'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry_entity'))
@@ -226,7 +226,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/item'
+ * Create table 'enterprise_giftregistry_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry_item'))
@@ -282,7 +282,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/person'
+ * Create table 'enterprise_giftregistry_person'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry_person'))
@@ -327,7 +327,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/data'
+ * Create table 'enterprise_giftregistry_data'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry_data'))
@@ -360,7 +360,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_giftregistry/item_option'
+ * Create table 'enterprise_giftregistry_item_option'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftregistry_item_option'))

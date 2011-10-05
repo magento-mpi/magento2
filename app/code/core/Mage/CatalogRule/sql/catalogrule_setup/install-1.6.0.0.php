@@ -32,7 +32,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'catalogrule/rule'
+ * Create table 'catalogrule'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalogrule'))
@@ -84,7 +84,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalogrule/rule_product'
+ * Create table 'catalogrule_product'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalogrule_product'))
@@ -175,7 +175,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalogrule/rule_product_price'
+ * Create table 'catalogrule_product_price'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalogrule_product_price'))
@@ -236,7 +236,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalogrule/affected_product'
+ * Create table 'catalogrule_affected_product'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalogrule_affected_product'))
@@ -250,7 +250,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalogrule/rule_group_website'
+ * Create table 'catalogrule_group_website'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalogrule_group_website'))

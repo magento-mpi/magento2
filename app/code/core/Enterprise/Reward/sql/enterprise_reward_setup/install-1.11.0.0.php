@@ -207,7 +207,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_reward/reward_salesrule'
+ * Create table 'enterprise_reward_salesrule'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_reward_salesrule'))

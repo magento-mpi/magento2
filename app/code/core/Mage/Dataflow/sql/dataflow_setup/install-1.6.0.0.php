@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'dataflow/session'
+ * Create table 'dataflow_session'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('dataflow_session'))
@@ -56,7 +56,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'dataflow/import'
+ * Create table 'dataflow_import_data'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('dataflow_import_data'))
@@ -86,7 +86,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'dataflow/profile'
+ * Create table 'dataflow_profile'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('dataflow_profile'))
@@ -121,7 +121,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'dataflow/profile_history'
+ * Create table 'dataflow_profile_history'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('dataflow_profile_history'))
@@ -154,7 +154,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'dataflow/batch'
+ * Create table 'dataflow_batch'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('dataflow_batch'))
@@ -196,7 +196,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'dataflow/batch_export'
+ * Create table 'dataflow_batch_export'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('dataflow_batch_export'))
@@ -227,7 +227,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'dataflow/batch_import'
+ * Create table 'dataflow_batch_import'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('dataflow_batch_import'))

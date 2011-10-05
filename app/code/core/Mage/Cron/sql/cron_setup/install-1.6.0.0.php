@@ -32,7 +32,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'cron/schedule'
+ * Create table 'cron_schedule'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('cron_schedule'))

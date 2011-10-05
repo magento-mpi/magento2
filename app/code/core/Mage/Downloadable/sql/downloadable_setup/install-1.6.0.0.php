@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'downloadable/link'
+ * Create table 'downloadable_link'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('downloadable_link'))
@@ -80,7 +80,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/link_price'
+ * Create table 'downloadable_link_price'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('downloadable_link_price'))
@@ -116,7 +116,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/link_purchased'
+ * Create table 'downloadable_link_purchased'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('downloadable_link_purchased'))
@@ -167,7 +167,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/link_purchased_item'
+ * Create table 'downloadable_link_purchased_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('downloadable_link_purchased_item'))
@@ -254,7 +254,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/link_title'
+ * Create table 'downloadable_link_title'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('downloadable_link_title'))
@@ -296,7 +296,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/sample'
+ * Create table 'downloadable_sample'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('downloadable_sample'))
@@ -330,7 +330,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/sample_title'
+ * Create table 'downloadable_sample_title'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('downloadable_sample_title'))
@@ -372,7 +372,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/product_price_indexer_idx'
+ * Create table 'catalog_product_index_price_downlod_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_downlod_idx'))
@@ -403,7 +403,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'downloadable/product_price_indexer_tmp'
+ * Create table 'catalog_product_index_price_downlod_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_downlod_tmp'))

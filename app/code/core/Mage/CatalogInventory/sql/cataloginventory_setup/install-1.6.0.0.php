@@ -46,7 +46,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'cataloginventory/stock_item'
+ * Create table 'cataloginventory_stock_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('cataloginventory_stock_item'))
@@ -184,7 +184,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'cataloginventory/stock_status'
+ * Create table 'cataloginventory_stock_status'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('cataloginventory_stock_status'))
@@ -239,7 +239,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'cataloginventory/stock_status_indexer_idx'
+ * Create table 'cataloginventory_stock_status_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('cataloginventory_stock_status_idx'))
@@ -276,7 +276,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'cataloginventory/stock_status_indexer_tmp'
+ * Create table 'cataloginventory_stock_status_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('cataloginventory_stock_status_tmp'))

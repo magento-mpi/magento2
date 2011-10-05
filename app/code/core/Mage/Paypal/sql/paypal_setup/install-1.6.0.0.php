@@ -33,7 +33,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'paypal/settlement_report'
+ * Create table 'paypal_settlement_report'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('paypal_settlement_report'))
@@ -57,7 +57,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'paypal/settlement_report_row'
+ * Create table 'paypal_settlement_report_row'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('paypal_settlement_report_row'))
@@ -117,7 +117,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'paypal/cert'
+ * Create table 'paypal_cert'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('paypal_cert'))

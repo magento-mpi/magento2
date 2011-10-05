@@ -28,7 +28,7 @@ $installer = $this;
 
 $installer->startSetup();
 /**
- * Create table 'find_feed/feed_import_codes'
+ * Create table 'find_feed_import_codes'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('find_feed_import_codes'))

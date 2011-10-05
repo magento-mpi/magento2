@@ -79,7 +79,7 @@ $installer->addAttribute('catalog_product', 'upsell_tgtr_position_behavior', arr
 ));
 
 /**
- * Create table 'enterprise_targetrule/rule'
+ * Create table 'enterprise_targetrule'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_targetrule'))
@@ -139,7 +139,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'enterprise_targetrule/customersegment'
+ * Create table 'enterprise_targetrule_customersegment'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_targetrule_customersegment'))
@@ -165,7 +165,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_targetrule/product'
+ * Create table 'enterprise_targetrule_product'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_targetrule_product'))
@@ -201,7 +201,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_targetrule/index'
+ * Create table 'enterprise_targetrule_index'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_targetrule_index'))
@@ -249,7 +249,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_targetrule/index_related'
+ * Create table 'enterprise_targetrule_index_related'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_targetrule_index_related'))
@@ -287,7 +287,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_targetrule/index_upsell'
+ * Create table 'enterprise_targetrule_index_upsell'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_targetrule_index_upsell'))
@@ -325,7 +325,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_targetrule/index_crosssell'
+ * Create table 'enterprise_targetrule_index_crosssell'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_targetrule_index_crosssell'))
