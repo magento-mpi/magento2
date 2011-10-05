@@ -36,7 +36,7 @@ $installer = $this;
 
 $installer->startSetup();
 /**
- * Create table 'review/review_entity'
+ * Create table 'review_entity'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('review_entity'))
@@ -53,7 +53,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'review/review_status'
+ * Create table 'review_status'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('review_status'))
@@ -70,7 +70,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'review/review'
+ * Create table 'review'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('review'))
@@ -114,7 +114,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'review/review_detail'
+ * Create table 'review_detail'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('review_detail'))
@@ -164,7 +164,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'review/review_aggregate'
+ * Create table 'review_entity_summary'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('review_entity_summary'))
@@ -203,7 +203,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'review/review_store'
+ * Create table 'review_store'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('review_store'))

@@ -29,7 +29,7 @@ $installer = $this;
 
 $installer->startSetup();
 /**
- * Create table 'checkout/agreement'
+ * Create table 'checkout_agreement'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('checkout_agreement'))
@@ -59,7 +59,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'checkout/agreement_store'
+ * Create table 'checkout_agreement_store'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('checkout_agreement_store'))

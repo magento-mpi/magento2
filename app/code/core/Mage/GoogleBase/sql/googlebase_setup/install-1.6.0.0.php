@@ -37,7 +37,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'googlebase/types'
+ * Create table 'googlebase_types'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('googlebase_types'))
@@ -67,7 +67,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'googlebase/items'
+ * Create table 'googlebase_items'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('googlebase_items'))
@@ -132,7 +132,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'googlebase/attributes'
+ * Create table 'googlebase_attributes'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('googlebase_attributes'))

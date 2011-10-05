@@ -29,7 +29,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_cms/page_version'
+ * Create table 'enterprise_cms_page_version'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_cms_page_version'))
@@ -75,7 +75,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_cms/page_revision'
+ * Create table 'enterprise_cms_page_revision'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_cms_page_revision'))
@@ -145,7 +145,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_cms/increment'
+ * Create table 'enterprise_cms_increment'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_cms_increment'))
@@ -179,7 +179,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_cms/hierarchy_node'
+ * Create table 'enterprise_cms_hierarchy_node'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_cms_hierarchy_node'))
@@ -226,7 +226,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_cms/hierarchy_metadata'
+ * Create table 'enterprise_cms_hierarchy_metadata'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_cms_hierarchy_metadata'))
@@ -295,7 +295,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_cms/hierarchy_lock'
+ * Create table 'enterprise_cms_hierarchy_lock'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_cms_hierarchy_lock'))

@@ -37,7 +37,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'rating/rating_entity'
+ * Create table 'rating_entity'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('rating_entity'))
@@ -56,7 +56,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating'
+ * Create table 'rating'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('rating'))
@@ -90,7 +90,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating_option'
+ * Create table 'rating_option'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('rating_option'))
@@ -127,7 +127,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating_option_vote'
+ * Create table 'rating_option_vote'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('rating_option_vote'))
@@ -183,7 +183,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating_vote_aggregated'
+ * Create table 'rating_option_vote_aggregated'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('rating_option_vote_aggregated'))
@@ -238,7 +238,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating_store'
+ * Create table 'rating_store'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('rating_store'))
@@ -266,7 +266,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'rating/rating_title'
+ * Create table 'rating_title'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('rating_title'))

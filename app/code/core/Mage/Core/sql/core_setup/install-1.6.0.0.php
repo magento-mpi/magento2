@@ -31,7 +31,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'core/resource'
+ * Create table 'core_resource'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_resource'))
@@ -47,7 +47,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/website'
+ * Create table 'core_website'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_website'))
@@ -85,7 +85,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/store_group'
+ * Create table 'core_store_group'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_store_group'))
@@ -124,7 +124,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/store'
+ * Create table 'core_store'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_store'))
@@ -177,7 +177,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/config_data'
+ * Create table 'core_config_data'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_config_data'))
@@ -207,7 +207,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/email_template'
+ * Create table 'core_email_template'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_email_template'))
@@ -254,7 +254,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/layout_update'
+ * Create table 'core_layout_update'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_layout_update'))
@@ -278,7 +278,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/layout_link'
+ * Create table 'core_layout_link'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_layout_link'))
@@ -322,7 +322,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/session'
+ * Create table 'core_session'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_session'))
@@ -342,7 +342,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/translate'
+ * Create table 'core_translate'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_translate'))
@@ -379,7 +379,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/url_rewrite'
+ * Create table 'core_url_rewrite'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_url_rewrite'))
@@ -428,7 +428,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/design_change'
+ * Create table 'design_change'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('design_change'))
@@ -457,7 +457,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/variable'
+ * Create table 'core_variable'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_variable'))
@@ -477,7 +477,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/variable_value'
+ * Create table 'core_variable_value'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_variable_value'))
@@ -518,7 +518,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/cache'
+ * Create table 'core_cache'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_cache'))
@@ -540,7 +540,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/cache_tag'
+ * Create table 'core_cache_tag'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_cache_tag'))
@@ -558,7 +558,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/cache_option'
+ * Create table 'core_cache_option'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_cache_option'))
@@ -572,7 +572,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core/flag'
+ * Create table 'core_flag'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_flag'))

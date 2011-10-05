@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_invitation/invitation'
+ * Create table 'enterprise_invitation'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_invitation'))
@@ -91,7 +91,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_invitation/invitation_history'
+ * Create table 'enterprise_invitation_status_history'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_invitation_status_history'))
@@ -120,7 +120,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_invitation/invitation_track'
+ * Create table 'enterprise_invitation_track'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_invitation_track'))

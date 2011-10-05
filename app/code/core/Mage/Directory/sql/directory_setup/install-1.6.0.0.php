@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'directory/country'
+ * Create table 'directory_country'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('directory_country'))
@@ -51,7 +51,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'directory/country_format'
+ * Create table 'directory_country_format'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('directory_country_format'))
@@ -83,7 +83,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'directory/country_region'
+ * Create table 'directory_country_region'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('directory_country_region'))
@@ -109,7 +109,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'directory/country_region_name'
+ * Create table 'directory_country_region_name'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('directory_country_region_name'))
@@ -138,7 +138,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'directory/currency_rate'
+ * Create table 'directory_currency_rate'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('directory_currency_rate'))

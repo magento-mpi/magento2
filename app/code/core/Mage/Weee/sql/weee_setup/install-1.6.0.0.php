@@ -27,7 +27,7 @@
 /** @var $installer Mage_Weee_Model_Resource_Setup */
 $installer = $this;
 /**
- * Create table 'weee/tax'
+ * Create table 'weee_tax'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('weee_tax'))
@@ -89,7 +89,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'weee/discount'
+ * Create table 'weee_discount'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('weee_discount'))

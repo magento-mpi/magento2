@@ -29,7 +29,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'sales/order'
+ * Create table 'sales_flat_order'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_order'))
@@ -350,7 +350,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'sales/order_grid'
+ * Create table 'sales_flat_order_grid'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_order_grid'))
@@ -434,7 +434,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/order_address'
+ * Create table 'sales_flat_order_address'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_order_address'))
@@ -495,7 +495,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/order_status_history'
+ * Create table 'sales_flat_order_status_history'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_order_status_history'))
@@ -534,7 +534,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/order_item'
+ * Create table 'sales_flat_order_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_order_item'))
@@ -745,7 +745,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/order_payment'
+ * Create table 'sales_flat_order_payment'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_order_payment'))
@@ -873,7 +873,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/shipment'
+ * Create table 'sales_flat_shipment'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_shipment'))
@@ -939,7 +939,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/shipment_grid'
+ * Create table 'sales_flat_shipment_grid'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_shipment_grid'))
@@ -1003,7 +1003,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/shipment_item'
+ * Create table 'sales_flat_shipment_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_shipment_item'))
@@ -1047,7 +1047,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/shipment_track'
+ * Create table 'sales_flat_shipment_track'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_shipment_track'))
@@ -1095,7 +1095,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/shipment_comment'
+ * Create table 'sales_flat_shipment_comment'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_shipment_comment'))
@@ -1132,7 +1132,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/invoice'
+ * Create table 'sales_flat_invoice'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_invoice'))
@@ -1260,7 +1260,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/invoice_grid'
+ * Create table 'sales_flat_invoice_grid'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_invoice_grid'))
@@ -1334,7 +1334,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/invoice_item'
+ * Create table 'sales_flat_invoice_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_invoice_item'))
@@ -1402,7 +1402,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/invoice_comment'
+ * Create table 'sales_flat_invoice_comment'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_invoice_comment'))
@@ -1440,7 +1440,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/creditmemo'
+ * Create table 'sales_flat_creditmemo'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_creditmemo'))
@@ -1574,7 +1574,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/creditmemo_grid'
+ * Create table 'sales_flat_creditmemo_grid'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_creditmemo_grid'))
@@ -1664,7 +1664,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/creditmemo_item'
+ * Create table 'sales_flat_creditmemo_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_creditmemo_item'))
@@ -1731,7 +1731,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'sales/creditmemo_comment'
+ * Create table 'sales_flat_creditmemo_comment'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_creditmemo_comment'))
@@ -1768,7 +1768,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/quote'
+ * Create table 'sales_flat_quote'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_quote'))
@@ -1921,7 +1921,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/quote_address'
+ * Create table 'sales_flat_quote_address'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_quote_address'))
@@ -2095,7 +2095,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/quote_item'
+ * Create table 'sales_flat_quote_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_quote_item'))
@@ -2247,7 +2247,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'sales/quote_address_item'
+ * Create table 'sales_flat_quote_address_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_quote_address_item'))
@@ -2399,7 +2399,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/quote_item_option'
+ * Create table 'sales_flat_quote_item_option'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_quote_item_option'))
@@ -2432,7 +2432,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/quote_payment'
+ * Create table 'sales_flat_quote_payment'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_quote_payment'))
@@ -2501,7 +2501,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/quote_address_shipping_rate'
+ * Create table 'sales_flat_quote_shipping_rate'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_flat_quote_shipping_rate'))
@@ -2556,7 +2556,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/invoiced_aggregated'
+ * Create table 'sales_invoiced_aggregated'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_invoiced_aggregated'))
@@ -2602,7 +2602,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/invoiced_aggregated_order'
+ * Create table 'sales_invoiced_aggregated_order'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_invoiced_aggregated_order'))
@@ -2650,7 +2650,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/order_aggregated_created'
+ * Create table 'sales_order_aggregated_created'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_order_aggregated_created'))
@@ -2750,7 +2750,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/payment_transaction'
+ * Create table 'sales_payment_transaction'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_payment_transaction'))
@@ -2827,7 +2827,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/refunded_aggregated'
+ * Create table 'sales_refunded_aggregated'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_refunded_aggregated'))
@@ -2874,7 +2874,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/refunded_aggregated_order'
+ * Create table 'sales_refunded_aggregated_order'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_refunded_aggregated_order'))
@@ -2919,7 +2919,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/shipping_aggregated'
+ * Create table 'sales_shipping_aggregated'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_shipping_aggregated'))
@@ -2964,7 +2964,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/shipping_aggregated_order'
+ * Create table 'sales_shipping_aggregated_order'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_shipping_aggregated_order'))
@@ -3009,7 +3009,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/bestsellers_aggregated_daily'
+ * Create table 'sales_bestsellers_aggregated_daily'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_bestsellers_aggregated_daily'))
@@ -3071,7 +3071,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/bestsellers_aggregated_monthly'
+ * Create table 'sales_bestsellers_aggregated_monthly'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_bestsellers_aggregated_monthly'))
@@ -3138,7 +3138,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'sales/bestsellers_aggregated_yearly'
+ * Create table 'sales_bestsellers_aggregated_yearly'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_bestsellers_aggregated_yearly'))
@@ -3206,7 +3206,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/billing_agreement'
+ * Create table 'sales_billing_agreement'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_billing_agreement'))
@@ -3254,7 +3254,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/billing_agreement_order'
+ * Create table 'sales_billing_agreement_order'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_billing_agreement_order'))
@@ -3287,7 +3287,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/recurring_profile'
+ * Create table 'sales_recurring_profile'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_recurring_profile'))
@@ -3409,7 +3409,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/recurring_profile_order'
+ * Create table 'sales_recurring_profile_order'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_recurring_profile_order'))
@@ -3461,7 +3461,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/order_tax'
+ * Create table 'sales_order_tax'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_order_tax'))
@@ -3508,7 +3508,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/order_status'
+ * Create table 'sales_order_status'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_order_status'))
@@ -3524,7 +3524,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/order_status_state'
+ * Create table 'sales_order_status_state'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_order_status_state'))
@@ -3549,7 +3549,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'sales/order_status_label'
+ * Create table 'sales_order_status_label'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_order_status_label'))

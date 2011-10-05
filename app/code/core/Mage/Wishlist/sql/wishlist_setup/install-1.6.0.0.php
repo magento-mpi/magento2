@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'wishlist/wishlist'
+ * Create table 'wishlist'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('wishlist'))
@@ -66,7 +66,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'wishlist/item'
+ * Create table 'wishlist_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('wishlist_item'))
@@ -113,7 +113,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'wishlist/item_option'
+ * Create table 'wishlist_item_option'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('wishlist_item_option'))

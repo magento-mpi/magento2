@@ -29,7 +29,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'persistent/session'
+ * Create table 'persistent_session'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('persistent_session'))

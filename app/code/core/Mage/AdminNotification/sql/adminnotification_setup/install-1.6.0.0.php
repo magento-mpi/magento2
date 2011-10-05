@@ -36,7 +36,7 @@ $installer = $this;
 
 $installer->startSetup();
 /**
- * Create table 'adminnotification/inbox'
+ * Create table 'adminnotification_inbox'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('adminnotification_inbox'))

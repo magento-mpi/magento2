@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'eav/entity_type'
+ * Create table 'eav_entity_type'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_entity_type'))
@@ -100,7 +100,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/entity'
+ * Create table 'eav_entity'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_entity'))
@@ -573,7 +573,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/attribute'
+ * Create table 'eav_attribute'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_attribute'))
@@ -650,7 +650,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/entity_store'
+ * Create table 'eav_entity_store'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_entity_store'))
@@ -690,7 +690,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/attribute_set'
+ * Create table 'eav_attribute_set'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_attribute_set'))
@@ -730,7 +730,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/attribute_group'
+ * Create table 'eav_attribute_group'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_attribute_group'))
@@ -780,7 +780,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/entity_attribute'
+ * Create table 'eav_entity_attribute'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_entity_attribute'))
@@ -850,7 +850,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/attribute_option'
+ * Create table 'eav_attribute_option'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_attribute_option'))
@@ -879,7 +879,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/attribute_option_value'
+ * Create table 'eav_attribute_option_value'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_attribute_option_value'))
@@ -919,7 +919,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/attribute_label'
+ * Create table 'eav_attribute_label'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_attribute_label'))
@@ -959,7 +959,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/form_type'
+ * Create table 'eav_form_type'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_form_type'))
@@ -1003,7 +1003,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/form_type_entity'
+ * Create table 'eav_form_type_entity'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_form_type_entity'))
@@ -1035,7 +1035,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/form_fieldset'
+ * Create table 'eav_form_fieldset'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_form_fieldset'))
@@ -1072,7 +1072,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/form_fieldset_label'
+ * Create table 'eav_form_fieldset_label'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_form_fieldset_label'))
@@ -1105,7 +1105,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'eav/form_element'
+ * Create table 'eav_form_element'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('eav_form_element'))

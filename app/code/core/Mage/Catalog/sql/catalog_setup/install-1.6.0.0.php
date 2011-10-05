@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'catalog/product'
+ * Create table 'catalog_product_entity'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_entity'))
@@ -503,7 +503,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category'
+ * Create table 'catalog_category_entity'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_category_entity'))
@@ -857,7 +857,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product'
+ * Create table 'catalog_category_product'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_category_product'))
@@ -891,7 +891,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product_index'
+ * Create table 'catalog_category_product_index'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_category_product_index'))
@@ -953,7 +953,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/compare_item'
+ * Create table 'catalog_compare_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_compare_item'))
@@ -1002,7 +1002,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_website'
+ * Create table 'catalog_product_website'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_website'))
@@ -1028,7 +1028,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_enabled_index'
+ * Create table 'catalog_product_enabled_index'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_enabled_index'))
@@ -1063,7 +1063,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link_type'
+ * Create table 'catalog_product_link_type'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_link_type'))
@@ -1081,7 +1081,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link'
+ * Create table 'catalog_product_link'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_link'))
@@ -1136,7 +1136,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link_attribute'
+ * Create table 'catalog_product_link_attribute'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_link_attribute'))
@@ -1174,7 +1174,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link_attribute_decimal'
+ * Create table 'catalog_product_link_attribute_decimal'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_link_attribute_decimal'))
@@ -1230,7 +1230,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link_attribute_int'
+ * Create table 'catalog_product_link_attribute_int'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_link_attribute_int'))
@@ -1286,7 +1286,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_link_attribute_varchar'
+ * Create table 'catalog_product_link_attribute_varchar'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_link_attribute_varchar'))
@@ -1342,7 +1342,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_super_attribute'
+ * Create table 'catalog_product_super_attribute'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_super_attribute'))
@@ -1377,7 +1377,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_super_attribute_label'
+ * Create table 'catalog_product_super_attribute_label'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_super_attribute_label'))
@@ -1433,7 +1433,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_super_attribute_pricing'
+ * Create table 'catalog_product_super_attribute_pricing'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_super_attribute_pricing'))
@@ -1491,7 +1491,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_super_link'
+ * Create table 'catalog_product_super_link'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_super_link'))
@@ -1525,7 +1525,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_attribute_tier_price'
+ * Create table 'catalog_product_entity_tier_price'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_entity_tier_price'))
@@ -1606,7 +1606,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_attribute_media_gallery'
+ * Create table 'catalog_product_entity_media_gallery'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_entity_media_gallery'))
@@ -1654,7 +1654,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_attribute_media_gallery_value'
+ * Create table 'catalog_product_entity_media_gallery_value'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_entity_media_gallery_value'))
@@ -1704,7 +1704,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option'
+ * Create table 'catalog_product_option'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_option'))
@@ -1754,7 +1754,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option_price'
+ * Create table 'catalog_product_option_price'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_option_price'))
@@ -1815,7 +1815,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option_title'
+ * Create table 'catalog_product_option_title'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_option_title'))
@@ -1872,7 +1872,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option_type_value'
+ * Create table 'catalog_product_option_type_value'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_option_type_value'))
@@ -1909,7 +1909,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option_type_price'
+ * Create table 'catalog_product_option_type_price'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_option_type_price'))
@@ -1970,7 +1970,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_option_type_title'
+ * Create table 'catalog_product_option_type_title'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_option_type_title'))
@@ -2021,7 +2021,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/eav_attribute'
+ * Create table 'catalog_eav_attribute'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_eav_attribute'))
@@ -2125,7 +2125,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_relation'
+ * Create table 'catalog_product_relation'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_relation'))
@@ -2151,7 +2151,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_index_eav'
+ * Create table 'catalog_product_index_eav'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_eav'))
@@ -2197,7 +2197,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_index_eav_decimal'
+ * Create table 'catalog_product_index_eav_decimal'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_eav_decimal'))
@@ -2259,7 +2259,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_index_price'
+ * Create table 'catalog_product_index_price'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price'))
@@ -2329,7 +2329,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_index_tier_price'
+ * Create table 'catalog_product_index_tier_price'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_tier_price'))
@@ -2385,7 +2385,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_index_website'
+ * Create table 'catalog_product_index_website'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_website'))
@@ -2409,7 +2409,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_cfg_option_aggregate_idx'
+ * Create table 'catalog_product_index_price_cfg_opt_agr_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_cfg_opt_agr_idx'))
@@ -2441,7 +2441,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_cfg_option_aggregate_tmp'
+ * Create table 'catalog_product_index_price_cfg_opt_agr_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_cfg_opt_agr_tmp'))
@@ -2473,7 +2473,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_cfg_option_idx'
+ * Create table 'catalog_product_index_price_cfg_opt_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_cfg_opt_idx'))
@@ -2502,7 +2502,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_cfg_option_tmp'
+ * Create table 'catalog_product_index_price_cfg_opt_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_cfg_opt_tmp'))
@@ -2531,7 +2531,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_final_idx'
+ * Create table 'catalog_product_index_price_final_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_final_idx'))
@@ -2570,7 +2570,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_final_tmp'
+ * Create table 'catalog_product_index_price_final_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_final_tmp'))
@@ -2609,7 +2609,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_option_idx'
+ * Create table 'catalog_product_index_price_opt_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_opt_idx'))
@@ -2638,7 +2638,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_option_tmp'
+ * Create table 'catalog_product_index_price_opt_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_opt_tmp'))
@@ -2667,7 +2667,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_option_aggregate_idx'
+ * Create table 'catalog_product_index_price_opt_agr_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_opt_agr_idx'))
@@ -2702,7 +2702,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_option_aggregate_tmp'
+ * Create table 'catalog_product_index_price_opt_agr_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_opt_agr_tmp'))
@@ -2737,7 +2737,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_eav_indexer_idx'
+ * Create table 'catalog_product_index_eav_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_eav_idx'))
@@ -2773,7 +2773,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_eav_indexer_tmp'
+ * Create table 'catalog_product_index_eav_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_eav_tmp'))
@@ -2809,7 +2809,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_eav_decimal_indexer_idx'
+ * Create table 'catalog_product_index_eav_decimal_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_eav_decimal_idx'))
@@ -2844,7 +2844,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_eav_decimal_indexer_tmp'
+ * Create table 'catalog_product_index_eav_decimal_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_eav_decimal_tmp'))
@@ -2879,7 +2879,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_idx'
+ * Create table 'catalog_product_index_price_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_idx'))
@@ -2922,7 +2922,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/product_price_indexer_tmp'
+ * Create table 'catalog_product_index_price_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_product_index_price_tmp'))
@@ -2965,7 +2965,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product_indexer_idx'
+ * Create table 'catalog_category_product_index_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_category_product_index_idx'))
@@ -3007,7 +3007,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product_indexer_tmp'
+ * Create table 'catalog_category_product_index_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_category_product_index_tmp'))
@@ -3043,7 +3043,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product_enabled_indexer_idx'
+ * Create table 'catalog_category_product_index_enbl_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_category_product_index_enbl_idx'))
@@ -3063,7 +3063,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_product_enabled_indexer_tmp'
+ * Create table 'catalog_category_product_index_enbl_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_category_product_index_enbl_tmp'))
@@ -3083,7 +3083,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_anchor_indexer_idx'
+ * Create table 'catalog_category_anc_categs_index_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_category_anc_categs_index_idx'))
@@ -3102,7 +3102,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_anchor_indexer_tmp'
+ * Create table 'catalog_category_anc_categs_index_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_category_anc_categs_index_tmp'))
@@ -3121,7 +3121,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_anchor_products_indexer_idx'
+ * Create table 'catalog_category_anc_products_index_idx'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_category_anc_products_index_idx'))
@@ -3142,7 +3142,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'catalog/category_anchor_products_indexer_tmp'
+ * Create table 'catalog_category_anc_products_index_tmp'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('catalog_category_anc_products_index_tmp'))

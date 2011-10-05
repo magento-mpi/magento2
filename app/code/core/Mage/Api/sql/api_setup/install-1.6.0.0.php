@@ -37,7 +37,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'api/assert'
+ * Create table 'api_assert'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('api_assert'))
@@ -55,7 +55,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'api/role'
+ * Create table 'api_role'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('api_role'))
@@ -99,7 +99,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'api/rule'
+ * Create table 'api_rule'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('api_rule'))
@@ -138,7 +138,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'api/user'
+ * Create table 'api_user'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('api_user'))
@@ -180,7 +180,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'api/session'
+ * Create table 'api_session'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('api_session'))

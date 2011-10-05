@@ -29,7 +29,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_staging/staging'
+ * Create table 'enterprise_staging'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_staging'))
@@ -96,7 +96,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_staging/staging_item'
+ * Create table 'enterprise_staging_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_staging_item'))
@@ -137,7 +137,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_staging/staging_action'
+ * Create table 'enterprise_staging_action'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_staging_action'))
@@ -211,7 +211,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_staging/staging_log'
+ * Create table 'enterprise_staging_log'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_staging_log'))

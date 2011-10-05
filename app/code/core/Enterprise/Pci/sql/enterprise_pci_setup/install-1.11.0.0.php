@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_pci/admin_passwords'
+ * Create table 'enterprise_admin_passwords'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_admin_passwords'))

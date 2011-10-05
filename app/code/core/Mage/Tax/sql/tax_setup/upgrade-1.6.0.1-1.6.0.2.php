@@ -28,7 +28,7 @@
 $installer = $this;
 
 /**
- * Create table 'tax/sales_order_tax_item'
+ * Create table 'sales_order_tax_item'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('sales_order_tax_item'))

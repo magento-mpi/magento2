@@ -28,7 +28,7 @@ $installer = $this;
 /* @var $installer Enterprise_GiftWrapping_Model_Resource_Setup */
 
 /**
- * Create table 'enterprise_giftwrapping/wrapping'
+ * Create table 'enterprise_giftwrapping'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftwrapping'))
@@ -54,7 +54,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'enterprise_giftwrapping/attribute'
+ * Create table 'enterprise_giftwrapping_store_attributes'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftwrapping_store_attributes'))
@@ -96,7 +96,7 @@ $installer->getConnection()->createTable($table);
 
 
 /**
- * Create table 'enterprise_giftwrapping/website'
+ * Create table 'enterprise_giftwrapping_website'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftwrapping_website'))

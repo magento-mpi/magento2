@@ -29,7 +29,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'salesrule/rule'
+ * Create table 'salesrule'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('salesrule'))
@@ -121,7 +121,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/coupon'
+ * Create table 'salesrule_coupon'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('salesrule_coupon'))
@@ -166,7 +166,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/coupon_usage'
+ * Create table 'salesrule_coupon_usage'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('salesrule_coupon_usage'))
@@ -199,7 +199,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/rule_customer'
+ * Create table 'salesrule_customer'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('salesrule_customer'))
@@ -238,7 +238,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/label'
+ * Create table 'salesrule_label'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('salesrule_label'))
@@ -274,7 +274,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/product_attribute'
+ * Create table 'salesrule_product_attribute'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('salesrule_product_attribute'))
@@ -320,7 +320,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/coupon_aggregated'
+ * Create table 'coupon_aggregated'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('coupon_aggregated'))
@@ -379,7 +379,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'salesrule/coupon_aggregated_order'
+ * Create table 'coupon_aggregated_order'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('coupon_aggregated_order'))

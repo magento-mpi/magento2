@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_catalogevent/event'
+ * Create table 'enterprise_catalogevent_event'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_catalogevent_event'))
@@ -65,7 +65,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_catalogevent/event_image'
+ * Create table 'enterprise_catalogevent_event_image'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_catalogevent_event_image'))

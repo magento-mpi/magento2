@@ -27,7 +27,7 @@
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 /**
- * Create table 'enterprise_logging/event'
+ * Create table 'enterprise_logging_event'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_logging_event'))
@@ -74,7 +74,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_logging/event_changes'
+ * Create table 'enterprise_logging_event_changes'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_logging_event_changes'))

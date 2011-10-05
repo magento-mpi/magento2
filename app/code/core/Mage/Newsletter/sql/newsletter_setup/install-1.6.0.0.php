@@ -38,7 +38,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'newsletter/subscriber'
+ * Create table 'newsletter_subscriber'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('newsletter_subscriber'))
@@ -81,7 +81,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'newsletter/template'
+ * Create table 'newsletter_template'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('newsletter_template'))
@@ -126,7 +126,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'newsletter/queue'
+ * Create table 'newsletter_queue'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('newsletter_queue'))
@@ -171,7 +171,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'newsletter/queue_link'
+ * Create table 'newsletter_queue_link'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('newsletter_queue_link'))
@@ -210,7 +210,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'newsletter/queue_store_link'
+ * Create table 'newsletter_queue_store_link'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('newsletter_queue_store_link'))
@@ -238,7 +238,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'newsletter/problem'
+ * Create table 'newsletter_problem'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('newsletter_problem'))

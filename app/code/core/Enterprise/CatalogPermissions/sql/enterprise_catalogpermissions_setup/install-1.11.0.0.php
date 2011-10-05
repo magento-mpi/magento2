@@ -31,7 +31,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_catalogpermissions/permission'
+ * Create table 'enterprise_catalogpermissions'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_catalogpermissions'))
@@ -79,7 +79,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_catalogpermissions/permission_index'
+ * Create table 'enterprise_catalogpermissions_index'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_catalogpermissions_index'))
@@ -120,7 +120,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_catalogpermissions/permission_index_product'
+ * Create table 'enterprise_catalogpermissions_index_product'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_catalogpermissions_index_product'))

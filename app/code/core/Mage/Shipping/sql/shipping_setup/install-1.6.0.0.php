@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'shipping/tablerate'
+ * Create table 'shipping_tablerate'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('shipping_tablerate'))

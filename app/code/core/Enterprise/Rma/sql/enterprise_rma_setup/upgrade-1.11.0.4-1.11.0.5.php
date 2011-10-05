@@ -28,7 +28,7 @@
 $installer = $this;
 
 /**
- * Create table 'enterprise_rma/rma_shipping_label'
+ * Create table 'enterprise_rma_shipping_label'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_rma_shipping_label'))

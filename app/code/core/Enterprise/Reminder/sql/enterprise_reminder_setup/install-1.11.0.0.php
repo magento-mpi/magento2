@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_reminder/rule'
+ * Create table 'enterprise_reminder_rule'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_reminder_rule'))
@@ -78,7 +78,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_reminder/website'
+ * Create table 'enterprise_reminder_rule_website'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_reminder_rule_website'))
@@ -102,7 +102,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_reminder/template'
+ * Create table 'enterprise_reminder_template'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_reminder_template'))
@@ -138,7 +138,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_reminder/coupon'
+ * Create table 'enterprise_reminder_rule_coupon'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_reminder_rule_coupon'))
@@ -178,7 +178,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_reminder/log'
+ * Create table 'enterprise_reminder_rule_log'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_reminder_rule_log'))

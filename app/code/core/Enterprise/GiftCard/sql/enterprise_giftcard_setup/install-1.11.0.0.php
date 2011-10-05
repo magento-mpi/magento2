@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_giftcard/amount'
+ * Create table 'enterprise_giftcard_amount'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_giftcard_amount'))

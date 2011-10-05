@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'widget/widget'
+ * Create table 'widget'
  */
 if (!$installer->getConnection()->isTableExists($installer->getTable('widget'))) {
     $table = $installer->getConnection()
@@ -111,7 +111,7 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('widget')))
 }
 
 /**
- * Create table 'widget/widget_instance'
+ * Create table 'widget_instance'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('widget_instance'))
@@ -142,7 +142,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'widget/widget_instance_page'
+ * Create table 'widget_instance_page'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('widget_instance_page'))
@@ -177,7 +177,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'widget/widget_instance_page_layout'
+ * Create table 'widget_instance_page_layout'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('widget_instance_page_layout'))

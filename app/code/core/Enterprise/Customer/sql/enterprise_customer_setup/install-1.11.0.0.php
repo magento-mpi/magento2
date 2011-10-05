@@ -28,7 +28,7 @@
 $installer = $this;
 
 /**
- * Create table 'enterprise_customer/sales_order'
+ * Create table 'enterprise_customer_sales_flat_order'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_customer_sales_flat_order'))
@@ -45,7 +45,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_customer/sales_order_address'
+ * Create table 'enterprise_customer_sales_flat_order_address'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_customer_sales_flat_order_address'))
@@ -62,7 +62,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_customer/sales_quote'
+ * Create table 'enterprise_customer_sales_flat_quote'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_customer_sales_flat_quote'))
@@ -79,7 +79,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_customer/sales_quote_address'
+ * Create table 'enterprise_customer_sales_flat_quote_address'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_customer_sales_flat_quote_address'))

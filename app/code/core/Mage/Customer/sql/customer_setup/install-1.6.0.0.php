@@ -29,7 +29,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'customer/entity'
+ * Create table 'customer_entity'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('customer_entity'))
@@ -94,7 +94,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'customer/address_entity'
+ * Create table 'customer_address_entity'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('customer_address_entity'))
@@ -737,7 +737,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'customer/eav_attribute'
+ * Create table 'customer_eav_attribute'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('customer_eav_attribute'))
@@ -780,7 +780,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'customer/form_attribute'
+ * Create table 'customer_form_attribute'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('customer_form_attribute'))
@@ -802,7 +802,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'customer/eav_attribute_website'
+ * Create table 'customer_eav_attribute_website'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('customer_eav_attribute_website'))

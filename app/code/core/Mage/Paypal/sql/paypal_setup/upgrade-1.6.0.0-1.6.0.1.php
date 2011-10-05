@@ -28,7 +28,7 @@
 $installer = $this;
 
 /**
- * Create table 'paypal/payment_transaction'
+ * Create table 'paypal_payment_transaction'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('paypal_payment_transaction'))

@@ -29,7 +29,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'enterprise_customerbalance/balance'
+ * Create table 'enterprise_customerbalance'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_customerbalance'))
@@ -67,7 +67,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'enterprise_customerbalance/balance_history'
+ * Create table 'enterprise_customerbalance_history'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('enterprise_customerbalance_history'))

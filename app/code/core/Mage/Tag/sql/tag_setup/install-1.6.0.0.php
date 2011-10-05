@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'tag/tag'
+ * Create table 'tag'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('tag'))
@@ -62,7 +62,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'tag/relation'
+ * Create table 'tag_relation'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('tag_relation'))
@@ -123,7 +123,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'tag/summary'
+ * Create table 'tag_summary'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('tag_summary'))
@@ -183,7 +183,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'tag/properties'
+ * Create table 'tag_properties'
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('tag_properties'))
