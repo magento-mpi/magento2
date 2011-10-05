@@ -85,11 +85,11 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         $setIds = $this->getAllAttributeSetIds();
         foreach ($this->defaultGroupIdAssociations as $defaultGroupName => $defaultGroupId) {
             foreach ($setIds as $set) {
-                $groupId = $this->getTableRow('eav/attribute_group',
+                $groupId = $this->getTableRow('eav_attribute_group',
                     'attribute_group_name', $defaultGroupName, 'attribute_group_id', 'attribute_set_id', $set
                 );
                 if (!$groupId) {
-                    $groupId = $this->getTableRow('eav/attribute_group',
+                    $groupId = $this->getTableRow('eav_attribute_group',
                         'attribute_set_id', $set, 'attribute_group_id'
                     );
                 }
@@ -174,7 +174,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function getEntityType($id, $field = null)
     {
-        return $this->getTableRow('eav/entity_type',
+        return $this->getTableRow('eav_entity_type',
             is_numeric($id) ? 'entity_type_id' : 'entity_type_code', $id, $field
         );
     }
@@ -294,7 +294,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function getAttributeSet($entityTypeId, $id, $field = null)
     {
-        return $this->getTableRow('eav/attribute_set',
+        return $this->getTableRow('eav_attribute_set',
             is_numeric($id) ? 'attribute_set_id' : 'attribute_set_name', $id,
             $field,
             'entity_type_id', $this->getEntityTypeId($entityTypeId)
@@ -494,7 +494,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             }
         }
 
-        return $this->getTableRow('eav/attribute_group',
+        return $this->getTableRow('eav_attribute_group',
             $searchField, $searchId, $field,
             'attribute_set_id', $this->getAttributeSetId($entityTypeId, $setId)
         );
@@ -883,7 +883,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         $entityTypeId       = $this->getEntityTypeId($entityTypeId);
         $idField            = is_numeric($id) ? 'attribute_id' : 'attribute_code';
         if (!$additionalTable) {
-            return $this->getTableRow('eav/attribute', $idField, $id, $field, 'entity_type_id', $entityTypeId);
+            return $this->getTableRow('eav_attribute', $idField, $id, $field, 'entity_type_id', $entityTypeId);
         }
 
         $mainTable          = $this->getTable('eav_attribute');
