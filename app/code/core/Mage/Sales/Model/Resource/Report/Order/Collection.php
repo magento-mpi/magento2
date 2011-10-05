@@ -46,7 +46,7 @@ class Mage_Sales_Model_Resource_Report_Order_Collection extends Mage_Sales_Model
      *
      * @var string
      */
-    protected $_aggregationTable = 'sales/order_aggregated_created';
+    protected $_aggregationTable = 'sales_order_aggregated_created';
 
     /**
      * Selected columns

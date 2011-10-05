@@ -40,5 +40,5 @@ class Mage_SalesRule_Model_Resource_Report_Updatedat_Collection
      *
      * @var string
      */
-    protected $_aggregationTable = 'salesrule/coupon_aggregated_updated';
+    protected $_aggregationTable = 'coupon_aggregated_updated';
 }
