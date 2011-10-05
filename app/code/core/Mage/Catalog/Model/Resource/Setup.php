@@ -80,8 +80,8 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'catalog_category'               => array(
                 'entity_model'                   => 'catalog/category',
                 'attribute_model'                => 'catalog/resource_eav_attribute',
-                'table'                          => 'catalog/category',
-                'additional_attribute_table'     => 'catalog/eav_attribute',
+                'table'                          => 'catalog_category_entity',
+                'additional_attribute_table'     => 'catalog_eav_attribute',
                 'entity_attribute_collection'    => 'catalog/category_attribute_collection',
                 'default_group'                  => 'General Information',
                 'attributes'                     => array(
@@ -367,8 +367,8 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'catalog_product'                => array(
                 'entity_model'                   => 'catalog/product',
                 'attribute_model'                => 'catalog/resource_eav_attribute',
-                'table'                          => 'catalog/product',
-                'additional_attribute_table'     => 'catalog/eav_attribute',
+                'table'                          => 'catalog_product_entity',
+                'additional_attribute_table'     => 'catalog_eav_attribute',
                 'entity_attribute_collection'    => 'catalog/product_attribute_collection',
                 'attributes'                     => array(
                     'name'               => array(
