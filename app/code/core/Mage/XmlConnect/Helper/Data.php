@@ -48,9 +48,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @var array
      */
-    protected $_excludedXmlConfigKeys = array(
-        'notifications/applicationMasterSecret',
-    );
+    protected $_excludedXmlConfigKeys = array('notifications/applicationMasterSecret');
 
     /**
      * Application names array
@@ -238,9 +236,10 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      * Retrieve device specific country options array
      *
      * @throws Mage_Core_Exception
+     * @param bool $isItunes deprecated after 1.6.0.0
      * @return array
      */
-    public function getCountryOptionsArray()
+    public function getCountryOptionsArray($isItunes = false)
     {
         Magento_Profiler::start('TEST: ' . __METHOD__);
         $deviceType = $this->getDeviceType();
@@ -265,10 +264,8 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
             $options = unserialize($cache);
         } else {
             if (isset($deviceCountries)) {
-                $options = Mage::getModel('directory/country')
-                    ->getResourceCollection()
-                    ->addFieldToFilter('country_id', array('in' => $deviceCountries))
-                    ->loadByStore()
+                $options = Mage::getModel('directory/country')->getResourceCollection()
+                    ->addFieldToFilter('country_id', array('in' => $deviceCountries))->loadByStore()
                     ->toOptionArray(false);
             }
             if (Mage::app()->useCache('config')) {
@@ -278,10 +275,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
         Magento_Profiler::stop('TEST: ' . __METHOD__);
 
         if (count($options)) {
-            $options[] = array(
-                'value' => 'NEW_COUNTRIES',
-                'label' => 'New Territories As Added'
-            );
+            $options[] = array('value' => 'NEW_COUNTRIES', 'label' => 'New Territories As Added');
         }
 
         return $options;
@@ -574,19 +568,12 @@ EOT;
         $options = array();
         /** @var $app Mage_XmlConnect_Model_Application */
         foreach (Mage::getModel('xmlconnect/application')->getCollection() as $app) {
-            $options[] = array(
-                'value' => $app->getCode(),
-                'label' => $app->getName()
-            );
+            $options[] = array('value' => $app->getCode(), 'label' => $app->getName());
         }
         if (count($options) > 1) {
-            array_unshift(
-                $options,
-                array(
-                    'value' => '',
-                    'label' => Mage::helper('xmlconnect')->__('Please Select Application')
-                )
-            );
+            array_unshift($options, array(
+                'value' => '', 'label' => Mage::helper('xmlconnect')->__('Please Select Application')
+            ));
         }
         return $options;
     }
@@ -607,6 +594,18 @@ EOT;
             }
         }
         return $apps;
+    }
+
+    /**
+     * Check if creating AirMail template for the application is allowed
+     *
+     * @param Mage_XmlConnect_Model_Application $application
+     * @deprecated after 1.6.0.0
+     * @return boolean
+     */
+    public static function isTemplateAllowedForApplication($application = null)
+    {
+        return true;
     }
 
     /**
@@ -830,10 +829,8 @@ EOT;
      */
     public function validateConfFieldNotEmpty($field, $native)
     {
-        if (($native === false)
-            || (!isset($native['body']) || !is_array($native['body'])
-            || !isset($native['body'][$field])
-            || !Zend_Validate::is($native['body'][$field], 'NotEmpty'))
+        if (($native === false) || (!isset($native['body']) || !is_array($native['body'])
+            || !isset($native['body'][$field]) || !Zend_Validate::is($native['body'][$field], 'NotEmpty'))
         ) {
             return false;
         }
@@ -867,5 +864,16 @@ EOT;
         );
         $params = array_merge($defaultParams, $params);
         return Mage::getUrl($action, $params);
+    }
+
+    /**
+     * Remove trilling line breaks
+     *
+     * @param string $string
+     * @return string
+     */
+    public function trimLineBreaks($string)
+    {
+        return preg_replace(array('@\r@', '@\n+@'), array('', PHP_EOL), $string);
     }
 }

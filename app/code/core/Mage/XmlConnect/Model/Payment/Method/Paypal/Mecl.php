@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl
-    extends Mage_Paypal_Model_Express
+class Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl extends Mage_Paypal_Model_Express
 {
     /**
      * Store MECL payment method code
@@ -44,7 +43,7 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl
      *
      * @var string
      */
-    protected $_code  = self::MECL_METHOD_CODE;
+    protected $_code = self::MECL_METHOD_CODE;
 
     /**
      * Can use method for a frontend checkout
@@ -53,9 +52,18 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl
      */
     protected $_canUseCheckout = false;
 
-    protected $_canUseInternal          = false;
-    protected $_canUseForMultishipping  = false;
-    protected $_isInitializeNeeded      = false;
+    /**
+     * Can method be used for multishipping checkout type
+     *
+     * @var bool
+     */
+    protected $_canUseForMultishipping = false;
+
+    /**
+     * Can method manage recurring profiles
+     *
+     * @var bool
+     */
     protected $_canManageRecurringProfiles = false;
 
     /**
@@ -69,7 +77,7 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl
         $storeId = false;
         $model = Mage::registry('current_app');
 
-        if (($model instanceof Mage_XmlConnect_Model_Application)) {
+        if ($model instanceof Mage_XmlConnect_Model_Application) {
             $storeId = $model->getStoreId();
         }
 
@@ -77,8 +85,7 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mecl
             $storeId = $quote ? $quote->getStoreId() : Mage::app()->getStore()->getId();
         }
 
-        return (bool) Mage::getModel('paypal/config')
-            ->setStoreId($storeId)
+        return (bool) Mage::getModel('paypal/config')->setStoreId($storeId)
             ->isMethodAvailable(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
     }
 

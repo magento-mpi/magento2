@@ -19,6 +19,8 @@ return array(
         "{$baseDir}/dev/tests/static",
         "{$baseDir}/lib/Magento/Profiler",
         "{$baseDir}/lib/Magento/Profiler.php",
+        "{$baseDir}/lib/Varien/Object.php",
+        "{$baseDir}/app/code/core/Mage/Index/Model/Indexer/Abstract.php",
     ),
     'black_list' => array(
         /* Files that intentionally violate the requirements for testing purposes */

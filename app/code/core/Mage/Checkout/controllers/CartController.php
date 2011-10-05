@@ -272,7 +272,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 
         if (!$quoteItem) {
             $this->_getSession()->addError($this->__('Quote item is not found.'));
-            $this->_goBack();
+            $this->_redirect('checkout/cart');
             return;
         }
 
@@ -481,7 +481,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 ->collectTotals()
                 ->save();
 
-            if ($couponCode) {
+            if (strlen($couponCode)) {
                 if ($couponCode == $this->_getQuote()->getCouponCode()) {
                     $this->_getSession()->addSuccess(
                         $this->__('Coupon code "%s" was applied.', Mage::helper('core')->htmlEscape($couponCode))

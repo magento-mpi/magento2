@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Form_Renderer_Date
-    extends Enterprise_Customer_Block_Form_Renderer_Date
+class Mage_XmlConnect_Block_Customer_Form_Renderer_Date extends Enterprise_Customer_Block_Form_Renderer_Date
 {
     /**
      * Field type
@@ -48,26 +47,22 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_Date
      */
     protected function _prepareValues()
     {
-        return array(
-            'day' => array(
-                'id' => $this->getHtmlId('day'),
-                'title' => $this->__('Day'),
-                'label' => $this->__('DD'),
-                'value' => $this->getDay()
-            ),
-            'month' => array(
-                'id' => $this->getHtmlId('month'),
-                'title' => $this->__('Month'),
-                'label' => $this->__('MM'),
-                'value' => $this->getMonth()
-            ),
-            'year' => array(
-                'id' => $this->getHtmlId('year'),
-                'title' => $this->__('Year'),
-                'label' => $this->__('YYYY'),
-                'value' => $this->getYear()
-            )
-        );
+        return array('day' => array(
+            'id' => $this->getHtmlId('day'),
+            'title' => $this->__('Day'),
+            'label' => $this->__('DD'),
+            'value' => $this->getDay()
+        ), 'month' => array(
+            'id' => $this->getHtmlId('month'),
+            'title' => $this->__('Month'),
+            'label' => $this->__('MM'),
+            'value' => $this->getMonth()
+        ), 'year' => array(
+            'id' => $this->getHtmlId('year'),
+            'title' => $this->__('Year'),
+            'label' => $this->__('YYYY'),
+            'value' => $this->getYear()
+        ));
     }
 
     /**
@@ -81,27 +76,19 @@ class Mage_XmlConnect_Block_Customer_Form_Renderer_Date
         $attributes = array(
             'label' => $this->getLabel(),
             'name'  => $this->getFieldName(),
-            'format'  => $this->getDateFormat(),
+            'format'=> $this->getDateFormat(),
             'value' => $this->_prepareValues()
         );
 
         $attributes += Mage::helper('xmlconnect/customer_form_renderer')
             ->addTitleAndRequiredAttr($fieldsetXmlObj, $this);
-
-        $fieldXmlObj = $fieldsetXmlObj->addField(
-            $this->getHtmlId('full'),
-            $this->_filedType,
-            $attributes
-        );
-
+        $fieldXmlObj = $fieldsetXmlObj->addField($this->getHtmlId('full'), $this->_filedType, $attributes);
         $validateRules = $this->getAttributeObject()->getValidateRules();
 
         if (!empty($validateRules)) {
             $validatorXmlObj = $fieldXmlObj->addValidator();
             if (!empty($validateRules['input_validation'])) {
-                $validatorXmlObj->addRule(array (
-                    'type' => $validateRules['input_validation']
-                ));
+                $validatorXmlObj->addRule(array('type' => $validateRules['input_validation']));
             }
         }
 

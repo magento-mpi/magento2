@@ -336,9 +336,11 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function commentsHistoryAction()
     {
         $this->_initOrder();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_history')->toHtml()
-        );
+        $html = $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_history')->toHtml();
+        /* @var $translate Mage_Core_Model_Translate_Inline */
+        $translate = Mage::getModel('core/translate_inline');
+        $translate->isAllowed() && $translate->processResponseBody($html);
+        $this->getResponse()->setBody($html);
     }
 
     /**

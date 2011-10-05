@@ -257,15 +257,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     /**
      * Initialize application
      *
-     * @return void
+     * @return null
      */
     protected function _construct()
     {
         $this->_init('xmlconnect/application');
         $this->_configModel = Mage::getModel('xmlconnect/configData');
-        $this->_configModel->setDeleteOnUpdate(
-            $this->getDeleteOnUpdateConfig()
-        );
+        $this->_configModel->setDeleteOnUpdate($this->getDeleteOnUpdateConfig());
     }
 
     /**
@@ -345,7 +343,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     /**
      * Set default configuration data
      *
-     * @return void
+     * @return null
      */
     public function loadDefaultConfiguration()
     {
@@ -471,8 +469,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             ->getStore($this->getStoreId())->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
         $result['general']['magentoVersion'] = Mage::getVersion();
         $result['general']['copyright'] = Mage::getStoreConfig(
-            self::XML_PATH_DESIGN_FOOTER_COPYRIGHT,
-            $this->getStoreId()
+            self::XML_PATH_DESIGN_FOOTER_COPYRIGHT, $this->getStoreId()
         );
         $result['general']['xmlconnectVersion'] = Mage::getConfig()->getNode(self::XML_PATH_MODULE_VERSION);
 
@@ -564,10 +561,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function getSecureBaseUrl()
     {
-        return Mage::getStoreConfig(
-            self::XML_PATH_SECURE_BASE_LINK_URL,
-            $this->getStoreId()
-        );
+        return Mage::getStoreConfig(self::XML_PATH_SECURE_BASE_LINK_URL, $this->getStoreId());
     }
 
     /**
@@ -577,9 +571,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function getUseSecureURLInFrontend()
     {
-        return (int) Mage::getStoreConfigFlag(
-            Mage_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND
-        );
+        return (int) Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND);
     }
 
     /**
@@ -633,9 +625,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (!empty($value)) {
                 if (is_array($value)) {
                     $subtree[$key] = $this->_absPath($value);
-                } elseif (strtolower(substr($key, -4)) == 'icon'
-                    || strtolower(substr($key, -5)) == 'image'
-                ) {
+                } elseif (strtolower(substr($key, -4)) == 'icon' || strtolower(substr($key, -5)) == 'image') {
                     $subtree[$key] = Mage::getBaseUrl('media') . 'xmlconnect/' . $value;
                 }
             }
@@ -673,9 +663,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->setUpdatedAt(
-            Mage::getSingleton('core/date')->gmtDate()
-        );
+        $this->setUpdatedAt(Mage::getSingleton('core/date')->gmtDate());
         return $this;
     }
 
@@ -701,9 +689,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         $configuration = $this->getData('config_data');
         if (is_array($configuration)) {
-            $this->getConfigModel()
-                ->setConfigData($this->getId(), $configuration)
-                ->initSaveConfig();
+            $this->getConfigModel()->setConfigData($this->getId(), $configuration)->initSaveConfig();
         }
         return $this;
     }
@@ -719,9 +705,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $deprecatedConfig = $this->getData('conf');
         if (is_array($deprecatedConfig)) {
             $this->getConfigModel()->saveConfig(
-                $this->getId(),
-                $this->convertOldConfing($deprecatedConfig),
-                self::DEPRECATED_CONFIG_FLAG
+                $this->getId(), $this->convertOldConfing($deprecatedConfig), self::DEPRECATED_CONFIG_FLAG
             );
         }
         return $this;
@@ -758,8 +742,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         if (!$this->_isConfigurationLoaded) {
             if ($this->getId()) {
-                $this->_loadDeprecatedConfig()
-                    ->_loadConfigData();
+                $this->_loadDeprecatedConfig()->_loadConfigData();
                 $this->_isConfigurationLoaded = true;
             }
         }
@@ -774,15 +757,11 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     protected function _loadConfigData()
     {
-        $configuration = $this->getConfigModel()
-            ->getCollection()
-            ->addArrayFilter(
-                array(
-                    'application_id' => $this->getId(),
-                    'category' => 'payment'
-                )
-            )
-        ->toOptionArray();
+        $configuration = $this->getConfigModel()->getCollection()->addArrayFilter(array(
+            'application_id' => $this->getId(),
+            'category' => 'payment'
+        ))->toOptionArray();
+
         $this->setData('config_data', $configuration);
         return $this;
     }
@@ -796,15 +775,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     private function _loadDeprecatedConfig()
     {
         $configuration = $this->_convertConfig(
-            $this->getConfigModel()
-                ->getCollection()
-                ->addArrayFilter(
-                    array(
-                        'application_id' => $this->getId(),
-                        'category' => self::DEPRECATED_CONFIG_FLAG
-                    )
-                )
-                ->toOptionArray()
+            $this->getConfigModel()->getCollection()->addArrayFilter(array(
+                'application_id' => $this->getId(),
+                'category' => self::DEPRECATED_CONFIG_FLAG
+            ))->toOptionArray()
         );
         $this->setData('conf', $configuration);
         return $this;
@@ -1047,9 +1021,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $params['code'] = $this->getCode();
             $params['type'] = $this->getType();
             $params['url'] = Mage::getUrl('xmlconnect/configuration/index', array(
-                '_store' => $this->getStoreId(),
-                '_nosid' => true,
-                'app_code' => $this->getCode()
+                '_store' => $this->getStoreId(), '_nosid' => true, 'app_code' => $this->getCode()
             ));
 
             $params['magentoversion'] = Mage::getVersion();
@@ -1079,9 +1051,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 $submitRestore = $this->_data['conf']['submit_restore'];
             }
 
-            $deviceImages = Mage::helper('xmlconnect')
-                ->getDeviceHelper()
-                ->getSubmitImages();
+            $deviceImages = Mage::helper('xmlconnect')->getDeviceHelper()->getSubmitImages();
 
             foreach ($deviceImages as $id) {
                 if (isset($submit[$id])) {

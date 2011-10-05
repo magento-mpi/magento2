@@ -101,10 +101,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Abstract extends Varien_Object
     protected function _prepareXmlObject()
     {
         $this->setXmlObject(
-            Mage::getModel(
-                'xmlconnect/simplexml_element',
-                '<' . $this->_mainNode . '></' . $this->_mainNode . '>'
-            )
+            Mage::getModel('xmlconnect/simplexml_element', '<' . $this->_mainNode . '></' . $this->_mainNode . '>')
         );
         return $this;
     }
@@ -185,7 +182,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Abstract extends Varien_Object
     public function getElements()
     {
         if (empty($this->_elements)) {
-            $this->_elements = new Mage_XmlConnect_Model_Simplexml_Form_Element_Collection($this);
+            $this->_elements = Mage::getModel('xmlconnect/simplexml_form_element_collection');
         }
         return $this->_elements;
     }
@@ -194,10 +191,10 @@ class Mage_XmlConnect_Model_Simplexml_Form_Abstract extends Varien_Object
      * Add form element
      *
      * @param Mage_XmlConnect_Model_Simplexml_Form_Element_Abstract $element
-     * @param $after
+     * @param bool|string $after
      * @return Mage_XmlConnect_Model_Simplexml_Form_Abstract
      */
-    public function addElement(Mage_XmlConnect_Model_Simplexml_Form_Element_Abstract $element, $after = null)
+    public function addElement(Mage_XmlConnect_Model_Simplexml_Form_Element_Abstract $element, $after = false)
     {
         $element->setForm($this);
         $this->getElements()->add($element, $after);
@@ -225,7 +222,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Abstract extends Varien_Object
             $className = 'Mage_XmlConnect_Model_Simplexml_Form_Element_' . uc_words($type);
         }
 
-        $element = new $className($config);
+        $element = Mage::getModel($className, $config);
         $element->setId($elementId);
         $this->addElement($element, $after);
         return $element;
@@ -253,7 +250,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Abstract extends Varien_Object
      */
     public function addFieldset($elementId, $config = array(), $after = false)
     {
-        $element = new Mage_XmlConnect_Model_Simplexml_Form_Element_Fieldset($config);
+        $element = Mage::getModel('xmlconnect/simplexml_form_element_fieldset', $config);
         $element->setId($elementId);
         $this->addElement($element, $after);
         return $element;
@@ -268,7 +265,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Abstract extends Varien_Object
      */
     public function addValidator($config = array(), $after = false)
     {
-        $element = new Mage_XmlConnect_Model_Simplexml_Form_Element_Validator($config);
+        $element = Mage::getModel('xmlconnect/simplexml_form_element_validator', $config);
         $element->setId($this->getXmlId());
         $this->addElement($element, $after);
         return $element;
@@ -394,9 +391,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Abstract extends Varien_Object
             } elseif(null !== $defValue){
                 $xmlObj->addAttribute($attribute, $xmlObj->xmlAttribute($defValue));
             } else {
-                Mage::throwException(
-                    Mage::helper('xmlconnect')->__('%s attribute is required.', $attribute)
-                );
+                Mage::throwException(Mage::helper('xmlconnect')->__('%s attribute is required.', $attribute));
             }
         }
         return $this;
@@ -511,7 +506,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Abstract extends Varien_Object
     /**
      * Check value and return as array - attribute => value
      *
-     * @param $attribute
+     * @param string $attribute
      * @param mixed $value
      * @return array
      */

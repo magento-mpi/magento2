@@ -64,6 +64,12 @@ class Mage_XmlConnect_Block_Cart_Paypal_Mep_Totals extends Mage_Checkout_Block_C
                         Mage::helper('xmlconnect')->formatPriceForXml($subtotal)
                     );
                     break;
+                case 'tax':
+                    $paypalTotals->addAttribute(
+                        $code,
+                        Mage::helper('xmlconnect')->formatPriceForXml($total->getValue())
+                    );
+                    break;
                 case 'shipping':
                     $paypalTotals->addAttribute(
                         $code,

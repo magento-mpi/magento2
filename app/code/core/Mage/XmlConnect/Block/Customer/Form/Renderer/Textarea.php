@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Form_Renderer_Textarea
-    extends Mage_XmlConnect_Block_Customer_Form_Renderer_Text
+class Mage_XmlConnect_Block_Customer_Form_Renderer_Textarea extends Mage_XmlConnect_Block_Customer_Form_Renderer_Text
 {
     /**
      * Field type

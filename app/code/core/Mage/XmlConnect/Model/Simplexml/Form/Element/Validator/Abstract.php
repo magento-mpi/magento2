@@ -111,9 +111,7 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Validator_Abstract
             } elseif(null !== $defValue){
                 $xmlObj->addAttribute($attribute, $xmlObj->xmlAttribute($defValue));
             } else {
-                Mage::throwException(
-                    Mage::helper('xmlconnect')->__('%s attribute is required.', $attribute)
-                );
+                Mage::throwException(Mage::helper('xmlconnect')->__('%s attribute is required.', $attribute));
             }
         }
         $this->_addMessage($xmlObj);
@@ -178,12 +176,9 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Validator_Abstract
      * @param array $validatorTypeMessages
      * @return Mage_XmlConnect_Model_Simplexml_Form_Element_Validator_Abstract
      */
-    public function setValidatorTypeMessages(array $validatorTypeMessages)
+    public function addValidatorTypeMessages(array $validatorTypeMessages)
     {
-        $this->_validatorTypeMessages = array_merge(
-            $this->_validatorTypeMessages,
-            $validatorTypeMessages
-        );
+        $this->_validatorTypeMessages = array_merge($this->_validatorTypeMessages, $validatorTypeMessages);
         return $this;
     }
 }

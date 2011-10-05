@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Payment_Method_Paypal_Config
-    extends Mage_Paypal_Model_Config
+class Mage_XmlConnect_Model_Payment_Method_Paypal_Config extends Mage_Paypal_Model_Config
 {
     /**
      * PayPal Website Payments Pro - PayPal Mobile Express Checkout Library
@@ -47,9 +46,6 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Config
      */
     public function getExpressCheckoutStartUrl($token)
     {
-        return $this->getPaypalUrl(array(
-            'cmd'   => '_express-checkout-mobile',
-            'token' => $token,
-        ));
+        return $this->getPaypalUrl(array('cmd' => '_express-checkout-mobile', 'token' => $token));
     }
 }
