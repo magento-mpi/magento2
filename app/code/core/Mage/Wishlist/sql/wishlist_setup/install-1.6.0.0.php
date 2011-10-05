@@ -54,9 +54,9 @@ $table = $installer->getConnection()
         ), 'Sharing encrypted code')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Last updated date')
-    ->addIndex($installer->getIdxName('wishlist/wishlist', 'shared'), 'shared')
+    ->addIndex($installer->getIdxName('wishlist', 'shared'), 'shared')
     ->addIndex(
-        $installer->getIdxName('wishlist/wishlist', 'customer_id', Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        $installer->getIdxName('wishlist', 'customer_id', Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         'customer_id',
         array('type'=>Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey($installer->getFkName('wishlist', 'customer_id', 'customer/entity', 'entity_id'),
@@ -97,15 +97,15 @@ $table = $installer->getConnection()
     ->addColumn('qty', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         ), 'Qty')
-    ->addIndex($installer->getIdxName('wishlist/item', 'wishlist_id'), 'wishlist_id')
+    ->addIndex($installer->getIdxName('wishlist_item', 'wishlist_id'), 'wishlist_id')
     ->addForeignKey($installer->getFkName('wishlist_item', 'wishlist_id', 'wishlist/wishlist', 'wishlist_id'),
         'wishlist_id', $installer->getTable('wishlist'), 'wishlist_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('wishlist/item', 'product_id'), 'product_id')
+    ->addIndex($installer->getIdxName('wishlist_item', 'product_id'), 'product_id')
     ->addForeignKey($installer->getFkName('wishlist_item', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('wishlist/item', 'store_id'), 'store_id')
+    ->addIndex($installer->getIdxName('wishlist_item', 'store_id'), 'store_id')
     ->addForeignKey($installer->getFkName('wishlist_item', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)

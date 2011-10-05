@@ -70,9 +70,9 @@ $table = $installer->getConnection()
     ->addColumn('subscriber_confirm_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'default'   => 'NULL',
         ), 'Subscriber Confirm Code')
-    ->addIndex($installer->getIdxName('newsletter/subscriber', array('customer_id')),
+    ->addIndex($installer->getIdxName('newsletter_subscriber', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('newsletter/subscriber', array('store_id')),
+    ->addIndex($installer->getIdxName('newsletter_subscriber', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('newsletter_subscriber', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -116,11 +116,11 @@ $table = $installer->getConnection()
         ), 'Added At')
     ->addColumn('modified_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Modified At')
-    ->addIndex($installer->getIdxName('newsletter/template', array('template_actual')),
+    ->addIndex($installer->getIdxName('newsletter_template', array('template_actual')),
         array('template_actual'))
-    ->addIndex($installer->getIdxName('newsletter/template', array('added_at')),
+    ->addIndex($installer->getIdxName('newsletter_template', array('added_at')),
         array('added_at'))
-    ->addIndex($installer->getIdxName('newsletter/template', array('modified_at')),
+    ->addIndex($installer->getIdxName('newsletter_template', array('modified_at')),
         array('modified_at'))
     ->setComment('Newsletter Template');
 $installer->getConnection()->createTable($table);
@@ -162,7 +162,7 @@ $table = $installer->getConnection()
         ), 'Queue Start At')
     ->addColumn('queue_finish_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Queue Finish At')
-    ->addIndex($installer->getIdxName('newsletter/queue', array('template_id')),
+    ->addIndex($installer->getIdxName('newsletter_queue', array('template_id')),
         array('template_id'))
     ->addForeignKey($installer->getFkName('newsletter_queue', 'template_id', 'newsletter/template', 'template_id'),
         'template_id', $installer->getTable('newsletter_template'), 'template_id',
@@ -193,11 +193,11 @@ $table = $installer->getConnection()
         ), 'Subscriber Id')
     ->addColumn('letter_sent_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Letter Sent At')
-    ->addIndex($installer->getIdxName('newsletter/queue_link', array('subscriber_id')),
+    ->addIndex($installer->getIdxName('newsletter_queue_link', array('subscriber_id')),
         array('subscriber_id'))
-    ->addIndex($installer->getIdxName('newsletter/queue_link', array('queue_id')),
+    ->addIndex($installer->getIdxName('newsletter_queue_link', array('queue_id')),
         array('queue_id'))
-    ->addIndex($installer->getIdxName('newsletter/queue_link', array('queue_id', 'letter_sent_at')),
+    ->addIndex($installer->getIdxName('newsletter_queue_link', array('queue_id', 'letter_sent_at')),
         array('queue_id', 'letter_sent_at'))
     ->addForeignKey($installer->getFkName('newsletter_queue_link', 'queue_id', 'newsletter/queue', 'queue_id'),
         'queue_id', $installer->getTable('newsletter_queue'), 'queue_id',
@@ -226,7 +226,7 @@ $table = $installer->getConnection()
         'primary'   => true,
         'default'   => '0',
         ), 'Store Id')
-    ->addIndex($installer->getIdxName('newsletter/queue_store_link', array('store_id')),
+    ->addIndex($installer->getIdxName('newsletter_queue_store_link', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('newsletter_queue_store_link', 'queue_id', 'newsletter/queue', 'queue_id'),
         'queue_id', $installer->getTable('newsletter_queue'), 'queue_id',
@@ -262,9 +262,9 @@ $table = $installer->getConnection()
         ), 'Problem Error Code')
     ->addColumn('problem_error_text', Varien_Db_Ddl_Table::TYPE_TEXT, 200, array(
         ), 'Problem Error Text')
-    ->addIndex($installer->getIdxName('newsletter/problem', array('subscriber_id')),
+    ->addIndex($installer->getIdxName('newsletter_problem', array('subscriber_id')),
         array('subscriber_id'))
-    ->addIndex($installer->getIdxName('newsletter/problem', array('queue_id')),
+    ->addIndex($installer->getIdxName('newsletter_problem', array('queue_id')),
         array('queue_id'))
     ->addForeignKey($installer->getFkName('newsletter_problem', 'queue_id', 'newsletter/queue', 'queue_id'),
         'queue_id', $installer->getTable('newsletter_queue'), 'queue_id',

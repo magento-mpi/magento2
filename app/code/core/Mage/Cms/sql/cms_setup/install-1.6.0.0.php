@@ -73,7 +73,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Store ID')
-    ->addIndex($installer->getIdxName('cms/block_store', array('store_id')),
+    ->addIndex($installer->getIdxName('cms_block_store', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('cms_block_store', 'block_id', 'cms/block', 'block_id'),
         'block_id', $installer->getTable('cms_block'), 'block_id',
@@ -145,7 +145,7 @@ $table = $installer->getConnection()
     ->addColumn('custom_theme_to', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
         'nullable'  => true,
         ), 'Page Custom Theme Active To Date')
-    ->addIndex($installer->getIdxName('cms/page', array('identifier')),
+    ->addIndex($installer->getIdxName('cms_page', array('identifier')),
         array('identifier'))
     ->setComment('CMS Page Table');
 $installer->getConnection()->createTable($table);
@@ -164,7 +164,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Store ID')
-    ->addIndex($installer->getIdxName('cms/page_store', array('store_id')),
+    ->addIndex($installer->getIdxName('cms_page_store', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('cms_page_store', 'page_id', 'cms/page', 'page_id'),
         'page_id', $installer->getTable('cms_page'), 'page_id',

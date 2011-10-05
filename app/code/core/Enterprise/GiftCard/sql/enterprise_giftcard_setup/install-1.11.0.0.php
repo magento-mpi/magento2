@@ -61,11 +61,11 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Attribute Id')
-    ->addIndex($installer->getIdxName('enterprise_giftcard/amount', array('entity_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftcard_amount', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('enterprise_giftcard/amount', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftcard_amount', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('enterprise_giftcard/amount', array('attribute_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftcard_amount', array('attribute_id')),
         array('attribute_id'))
     ->addForeignKey($installer->getFkName('enterprise_giftcard_amount', 'entity_id', 'catalog/product', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',

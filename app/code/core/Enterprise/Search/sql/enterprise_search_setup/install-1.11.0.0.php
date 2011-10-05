@@ -38,13 +38,13 @@ $installer->getConnection()
         'comment'   => 'Search Weight',
     ));
 $installer->getConnection()->addIndex($installer->getTable('catalogsearch_query'),
-    $installer->getIdxName('catalogsearch/search_query', array('num_results')),
+    $installer->getIdxName('catalogsearch_query', array('num_results')),
     'num_results');
 $installer->getConnection()->addIndex($installer->getTable('catalogsearch_query'),
-    $installer->getIdxName('catalogsearch/search_query', array('query_text')),
+    $installer->getIdxName('catalogsearch_query', array('query_text')),
     'query_text');
 $installer->getConnection()->addIndex($installer->getTable('catalogsearch_query'),
-    $installer->getIdxName('catalogsearch/search_query', array('query_text', 'store_id', 'num_results')),
+    $installer->getIdxName('catalogsearch_query', array('query_text', 'store_id', 'num_results')),
     array('query_text', 'store_id', 'num_results'));
 
 $table = $installer->getConnection()

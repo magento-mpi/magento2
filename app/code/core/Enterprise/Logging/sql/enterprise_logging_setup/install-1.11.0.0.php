@@ -63,9 +63,9 @@ $table = $installer->getConnection()
         ), 'Full action description')
     ->addColumn('error_message', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Error Message')
-    ->addIndex($installer->getIdxName('enterprise_logging/event', array('user_id')),
+    ->addIndex($installer->getIdxName('enterprise_logging_event', array('user_id')),
         array('user_id'))
-    ->addIndex($installer->getIdxName('enterprise_logging/event', array('user')),
+    ->addIndex($installer->getIdxName('enterprise_logging_event', array('user')),
         array('user'))
     ->addForeignKey($installer->getFkName('enterprise_logging_event', 'user_id', 'admin/user', 'user_id'),
         'user_id', $installer->getTable('admin_user'), 'user_id',
@@ -93,7 +93,7 @@ $table = $installer->getConnection()
         ), 'Logged Original Data')
     ->addColumn('result_data', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Logged Result Data')
-    ->addIndex($installer->getIdxName('enterprise_logging/event_changes', array('event_id')),
+    ->addIndex($installer->getIdxName('enterprise_logging_event_changes', array('event_id')),
         array('event_id'))
     ->addForeignKey($installer->getFkName('enterprise_logging_event_changes', 'event_id', 'enterprise_logging/event', 'log_id'),
         'event_id', $installer->getTable('enterprise_logging_event'), 'log_id',

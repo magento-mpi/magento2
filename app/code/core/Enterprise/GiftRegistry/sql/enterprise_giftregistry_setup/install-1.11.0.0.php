@@ -76,7 +76,7 @@ $table = $installer->getConnection()
     ->addColumn('sort_order', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/info', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_type_info', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -120,9 +120,9 @@ $table = $installer->getConnection()
         ), 'Option Code')
     ->addColumn('label', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Label')
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/label', array('type_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_label', array('type_id')),
         array('type_id'))
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/label', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_label', array('store_id')),
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -188,11 +188,11 @@ $table = $installer->getConnection()
         ), 'Is Active')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/entity', array('customer_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_entity', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/entity', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_entity', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/entity', array('type_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_entity', array('type_id')),
         array('type_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -256,9 +256,9 @@ $table = $installer->getConnection()
         ), 'Added At')
     ->addColumn('custom_options', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Custom Options')
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/item', array('entity_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_item', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/item', array('product_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_item', array('product_id')),
         array('product_id'))
     ->addForeignKey(
         $installer->getFkName(
@@ -312,7 +312,7 @@ $table = $installer->getConnection()
     ->addColumn('custom_values', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => false,
         ), 'Custom Values')
-    ->addIndex($installer->getIdxName('enterprise_giftregistry/person', array('entity_id')),
+    ->addIndex($installer->getIdxName('enterprise_giftregistry_person', array('entity_id')),
         array('entity_id'))
     ->addForeignKey(
         $installer->getFkName(

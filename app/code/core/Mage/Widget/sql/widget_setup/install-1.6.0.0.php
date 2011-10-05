@@ -48,7 +48,7 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('widget')))
         ->addColumn('parameters', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
             'nullable'  => true,
             ), 'Parameters')
-        ->addIndex($installer->getIdxName('widget/widget', 'widget_code'), 'widget_code')
+        ->addIndex($installer->getIdxName('widget', 'widget_code'), 'widget_code')
         ->setComment('Preconfigured Widgets');
     $installer->getConnection()->createTable($table);
 } else {
@@ -105,7 +105,7 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('widget')))
 
     $installer->getConnection()->addIndex(
         $installer->getTable('widget'),
-        $installer->getIdxName('widget/widget', array('widget_code')),
+        $installer->getIdxName('widget', array('widget_code')),
         array('widget_code')
     );
 }
@@ -169,7 +169,7 @@ $table = $installer->getConnection()
         ), 'Catalog entities (comma separated)')
     ->addColumn('page_template', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Path to widget template')
-    ->addIndex($installer->getIdxName('widget/widget_instance_page', 'instance_id'), 'instance_id')
+    ->addIndex($installer->getIdxName('widget_instance_page', 'instance_id'), 'instance_id')
     ->addForeignKey($installer->getFkName('widget_instance_page', 'instance_id', 'widget/widget_instance', 'instance_id'),
         'instance_id', $installer->getTable('widget_instance'), 'instance_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -191,9 +191,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Layout Update Id')
-    ->addIndex($installer->getIdxName('widget/widget_instance_page_layout', 'page_id'), 'page_id')
-    ->addIndex($installer->getIdxName('widget/widget_instance_page_layout', 'layout_update_id'), 'layout_update_id')
-    ->addIndex($installer->getIdxName('widget/widget_instance_page_layout', array('layout_update_id', 'page_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('widget_instance_page_layout', 'page_id'), 'page_id')
+    ->addIndex($installer->getIdxName('widget_instance_page_layout', 'layout_update_id'), 'layout_update_id')
+    ->addIndex($installer->getIdxName('widget_instance_page_layout', array('layout_update_id', 'page_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('layout_update_id', 'page_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey($installer->getFkName('widget_instance_page_layout', 'page_id', 'widget/widget_instance_page', 'page_id'),

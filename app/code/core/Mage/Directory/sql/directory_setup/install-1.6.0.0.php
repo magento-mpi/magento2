@@ -103,7 +103,7 @@ $table = $installer->getConnection()
         ), 'Region code')
     ->addColumn('default_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Region Name')
-    ->addIndex($installer->getIdxName('directory/country_region', array('country_id')),
+    ->addIndex($installer->getIdxName('directory_country_region', array('country_id')),
         array('country_id'))
     ->setComment('Directory Country Region');
 $installer->getConnection()->createTable($table);
@@ -128,7 +128,7 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Region Name')
-    ->addIndex($installer->getIdxName('directory/country_region_name', array('region_id')),
+    ->addIndex($installer->getIdxName('directory_country_region_name', array('region_id')),
         array('region_id'))
     ->addForeignKey(
         $installer->getFkName('directory_country_region_name', 'region_id', 'directory/country_region', 'region_id'),
@@ -156,7 +156,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.000000000000',
         ), 'Currency Conversion Rate')
-    ->addIndex($installer->getIdxName('directory/currency_rate', array('currency_to')),
+    ->addIndex($installer->getIdxName('directory_currency_rate', array('currency_to')),
         array('currency_to'))
     ->setComment('Directory Currency Rate');
 $installer->getConnection()->createTable($table);

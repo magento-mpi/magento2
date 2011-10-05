@@ -70,8 +70,8 @@ $table = $installer->getConnection()
         ), 'Sample File')
     ->addColumn('sample_type', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
         ), 'Sample Type')
-    ->addIndex($installer->getIdxName('downloadable/link', 'product_id'), 'product_id')
-    ->addIndex($installer->getIdxName('downloadable/link', array('product_id','sort_order')),
+    ->addIndex($installer->getIdxName('downloadable_link', 'product_id'), 'product_id')
+    ->addIndex($installer->getIdxName('downloadable_link', array('product_id','sort_order')),
         array('product_id','sort_order'))
     ->addForeignKey($installer->getFkName('downloadable_link', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
@@ -104,11 +104,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Price')
-    ->addIndex($installer->getIdxName('downloadable/link_price', 'link_id'), 'link_id')
+    ->addIndex($installer->getIdxName('downloadable_link_price', 'link_id'), 'link_id')
     ->addForeignKey($installer->getFkName('downloadable_link_price', 'link_id', 'downloadable/link', 'link_id'),
         'link_id', $installer->getTable('downloadable_link'), 'link_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('downloadable/link_price', 'website_id'), 'website_id')
+    ->addIndex($installer->getIdxName('downloadable_link_price', 'website_id'), 'website_id')
     ->addForeignKey($installer->getFkName('downloadable_link_price', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -154,9 +154,9 @@ $table = $installer->getConnection()
         ), 'Product sku')
     ->addColumn('link_section_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Link_section_title')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased', 'order_id'), 'order_id')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased', 'order_item_id'), 'order_item_id')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased', 'customer_id'), 'customer_id')
+    ->addIndex($installer->getIdxName('downloadable_link_purchased', 'order_id'), 'order_id')
+    ->addIndex($installer->getIdxName('downloadable_link_purchased', 'order_item_id'), 'order_item_id')
+    ->addIndex($installer->getIdxName('downloadable_link_purchased', 'customer_id'), 'customer_id')
     ->addForeignKey($installer->getFkName('downloadable_link_purchased', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -229,9 +229,9 @@ $table = $installer->getConnection()
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Update Time')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'link_hash'), 'link_hash')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'order_item_id'), 'order_item_id')
-    ->addIndex($installer->getIdxName('downloadable/link_purchased_item', 'purchased_id'), 'purchased_id')
+    ->addIndex($installer->getIdxName('downloadable_link_purchased_item', 'link_hash'), 'link_hash')
+    ->addIndex($installer->getIdxName('downloadable_link_purchased_item', 'order_item_id'), 'order_item_id')
+    ->addIndex($installer->getIdxName('downloadable_link_purchased_item', 'purchased_id'), 'purchased_id')
     ->addForeignKey(
         $installer->getFkName(
             'downloadable/link_purchased_item',
@@ -284,11 +284,11 @@ $table = $installer->getConnection()
         ),
         array('link_id', 'store_id'),
         array('type'=>Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('downloadable/link_title', 'link_id'), 'link_id')
+    ->addIndex($installer->getIdxName('downloadable_link_title', 'link_id'), 'link_id')
     ->addForeignKey($installer->getFkName('downloadable_link_title', 'link_id', 'downloadable/link', 'link_id'),
         'link_id', $installer->getTable('downloadable_link'), 'link_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('downloadable/link_title', 'store_id'), 'store_id')
+    ->addIndex($installer->getIdxName('downloadable_link_title', 'store_id'), 'store_id')
     ->addForeignKey($installer->getFkName('downloadable_link_title', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -322,7 +322,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Sort Order')
-    ->addIndex($installer->getIdxName('downloadable/sample', 'product_id'), 'product_id')
+    ->addIndex($installer->getIdxName('downloadable_sample', 'product_id'), 'product_id')
     ->addForeignKey($installer->getFkName('downloadable_sample', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -360,11 +360,11 @@ $table = $installer->getConnection()
         ),
         array('sample_id', 'store_id'),
         array('type'=>Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('downloadable/sample_title', 'sample_id'), 'sample_id')
+    ->addIndex($installer->getIdxName('downloadable_sample_title', 'sample_id'), 'sample_id')
     ->addForeignKey($installer->getFkName('downloadable_sample_title', 'sample_id', 'downloadable/sample', 'sample_id'),
         'sample_id', $installer->getTable('downloadable_sample'), 'sample_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addIndex($installer->getIdxName('downloadable/sample_title', 'store_id'), 'store_id')
+    ->addIndex($installer->getIdxName('downloadable_sample_title', 'store_id'), 'store_id')
     ->addForeignKey($installer->getFkName('downloadable_sample_title', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)

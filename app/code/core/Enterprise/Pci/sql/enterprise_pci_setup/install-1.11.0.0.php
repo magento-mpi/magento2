@@ -57,7 +57,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Last Updated')
-    ->addIndex($installer->getIdxName('enterprise_pci/admin_passwords', array('user_id')),
+    ->addIndex($installer->getIdxName('enterprise_admin_passwords', array('user_id')),
         array('user_id'))
     ->addForeignKey($installer->getFkName('enterprise_admin_passwords', 'user_id', 'admin/user', 'user_id'),
         'user_id', $installer->getTable('admin_user'), 'user_id',

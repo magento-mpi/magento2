@@ -76,13 +76,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '1',
         ), 'Is Active')
-    ->addIndex($installer->getIdxName('customer/entity', array('store_id')),
+    ->addIndex($installer->getIdxName('customer_entity', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('customer/entity', array('entity_type_id')),
+    ->addIndex($installer->getIdxName('customer_entity', array('entity_type_id')),
         array('entity_type_id'))
-    ->addIndex($installer->getIdxName('customer/entity', array('email', 'website_id')),
+    ->addIndex($installer->getIdxName('customer_entity', array('email', 'website_id')),
         array('email', 'website_id'))
-    ->addIndex($installer->getIdxName('customer/entity', array('website_id')),
+    ->addIndex($installer->getIdxName('customer_entity', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('customer_entity', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -131,7 +131,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '1',
         ), 'Is Active')
-    ->addIndex($installer->getIdxName('customer/address_entity', array('parent_id')),
+    ->addIndex($installer->getIdxName('customer_address_entity', array('parent_id')),
         array('parent_id'))
     ->addForeignKey($installer->getFkName('customer_address_entity', 'parent_id', 'customer/entity', 'entity_id'),
         'parent_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -793,7 +793,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Attribute Id')
-    ->addIndex($installer->getIdxName('customer/form_attribute', array('attribute_id')),
+    ->addIndex($installer->getIdxName('customer_form_attribute', array('attribute_id')),
         array('attribute_id'))
     ->addForeignKey($installer->getFkName('customer_form_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
@@ -827,7 +827,7 @@ $table = $installer->getConnection()
     ->addColumn('multiline_count', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Multiline Count')
-    ->addIndex($installer->getIdxName('customer/eav_attribute_website', array('website_id')),
+    ->addIndex($installer->getIdxName('customer_eav_attribute_website', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName('customer_eav_attribute_website', 'attribute_id', 'eav/attribute', 'attribute_id'),

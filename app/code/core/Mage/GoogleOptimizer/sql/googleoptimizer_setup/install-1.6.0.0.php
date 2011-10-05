@@ -67,7 +67,7 @@ $table = $installer->getConnection()
         ), 'Google optimizer conversion page')
     ->addColumn('additional_data', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Google optimizer additional data')
-    ->addIndex($installer->getIdxName('googleoptimizer/code', array('store_id')),
+    ->addIndex($installer->getIdxName('googleoptimizer_code', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('googleoptimizer_code', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',

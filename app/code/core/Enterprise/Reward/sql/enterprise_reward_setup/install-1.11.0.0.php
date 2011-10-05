@@ -55,9 +55,9 @@ $table = $installer->getConnection()
         ), 'Points Balance')
     ->addColumn('website_currency_code', Varien_Db_Ddl_Table::TYPE_TEXT, 3, array(
         ), 'Website Currency Code')
-    ->addIndex($installer->getIdxName('enterprise_reward/reward', array('customer_id', 'website_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('enterprise_reward', array('customer_id', 'website_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('customer_id', 'website_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('enterprise_reward/reward', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_reward', array('website_id')),
         array('website_id'))
     ->addForeignKey($installer->getFkName('enterprise_reward', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -143,11 +143,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Notification Sent')
-    ->addIndex($installer->getIdxName('enterprise_reward/reward_history', array('reward_id')),
+    ->addIndex($installer->getIdxName('enterprise_reward_history', array('reward_id')),
         array('reward_id'))
-    ->addIndex($installer->getIdxName('enterprise_reward/reward_history', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_reward_history', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('enterprise_reward/reward_history', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_reward_history', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('enterprise_reward_history', 'reward_id', 'enterprise_reward', 'reward_id'),
         'reward_id', $installer->getTable('enterprise_reward'), 'reward_id',
@@ -194,11 +194,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Currency Amount')
-    ->addIndex($installer->getIdxName('enterprise_reward/reward_rate', array('website_id', 'customer_group_id', 'direction'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('enterprise_reward_rate', array('website_id', 'customer_group_id', 'direction'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('website_id', 'customer_group_id', 'direction'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('enterprise_reward/reward_rate', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_reward_rate', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('enterprise_reward/reward_rate', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('enterprise_reward_rate', array('customer_group_id')),
         array('customer_group_id'))
     ->addForeignKey($installer->getFkName('enterprise_reward_rate', 'website_id', 'core/website', 'website_id'),
         'website_id', $installer->getTable('core_website'), 'website_id',
@@ -221,7 +221,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Points Delta')
-    ->addIndex($installer->getIdxName('enterprise_reward/reward_salesrule', array('rule_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('enterprise_reward_salesrule', array('rule_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('rule_id'),
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey($installer->getFkName('enterprise_reward_salesrule', 'rule_id', 'salesrule/rule', 'rule_id'),

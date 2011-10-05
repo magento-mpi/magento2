@@ -124,15 +124,15 @@ $table = $installer->getConnection()
         ), 'Action Select')
     ->addColumn('action_select_bind', Varien_Db_Ddl_Table::TYPE_TEXT, '64K', array(
         ), 'Action Select Bind')
-    ->addIndex($installer->getIdxName('enterprise_targetrule/rule', array('is_active')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule', array('is_active')),
         array('is_active'))
-    ->addIndex($installer->getIdxName('enterprise_targetrule/rule', array('apply_to')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule', array('apply_to')),
         array('apply_to'))
-    ->addIndex($installer->getIdxName('enterprise_targetrule/rule', array('sort_order')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule', array('sort_order')),
         array('sort_order'))
-    ->addIndex($installer->getIdxName('enterprise_targetrule/rule', array('use_customer_segment')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule', array('use_customer_segment')),
         array('use_customer_segment'))
-    ->addIndex($installer->getIdxName('enterprise_targetrule/rule', array('from_date', 'to_date')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule', array('from_date', 'to_date')),
         array('from_date', 'to_date'))
     ->setComment('Enterprise Targetrule');
 $installer->getConnection()->createTable($table);
@@ -153,7 +153,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Segment Id')
-    ->addIndex($installer->getIdxName('enterprise_targetrule/customersegment', array('segment_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_customersegment', array('segment_id')),
         array('segment_id'))
     ->addForeignKey($installer->getFkName('enterprise_targetrule_customersegment', 'rule_id', 'enterprise_targetrule/rule', 'rule_id'),
         'rule_id', $installer->getTable('enterprise_targetrule'), 'rule_id',
@@ -184,9 +184,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Store Id')
-    ->addIndex($installer->getIdxName('enterprise_targetrule/product', array('product_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_product', array('product_id')),
         array('product_id'))
-    ->addIndex($installer->getIdxName('enterprise_targetrule/product', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_product', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('enterprise_targetrule_product', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -230,11 +230,11 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '1',
         ), 'Flag')
-    ->addIndex($installer->getIdxName('enterprise_targetrule/index', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_index', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('enterprise_targetrule/index', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_index', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('enterprise_targetrule/index', array('type_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_index', array('type_id')),
         array('type_id'))
     ->addForeignKey($installer->getFkName('enterprise_targetrule_index', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
@@ -270,9 +270,9 @@ $table = $installer->getConnection()
         ), 'Customer Group Id')
     ->addColumn('product_ids', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Related Product Ids')
-    ->addIndex($installer->getIdxName('enterprise_targetrule/index_related', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_index_related', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('enterprise_targetrule/index_related', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_index_related', array('customer_group_id')),
         array('customer_group_id'))
     ->addForeignKey($installer->getFkName('enterprise_targetrule_index_related', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
@@ -308,9 +308,9 @@ $table = $installer->getConnection()
         ), 'Customer Group Id')
     ->addColumn('product_ids', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Upsell Product Ids')
-    ->addIndex($installer->getIdxName('enterprise_targetrule/index_upsell', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_index_upsell', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('enterprise_targetrule/index_upsell', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_index_upsell', array('customer_group_id')),
         array('customer_group_id'))
     ->addForeignKey($installer->getFkName('enterprise_targetrule_index_upsell', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
@@ -346,9 +346,9 @@ $table = $installer->getConnection()
         ), 'Customer Group Id')
     ->addColumn('product_ids', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'CrossSell Product Ids')
-    ->addIndex($installer->getIdxName('enterprise_targetrule/index_crosssell', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_index_crosssell', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('enterprise_targetrule/index_crosssell', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('enterprise_targetrule_index_crosssell', array('customer_group_id')),
         array('customer_group_id'))
     ->addForeignKey($installer->getFkName('enterprise_targetrule_index_crosssell', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',

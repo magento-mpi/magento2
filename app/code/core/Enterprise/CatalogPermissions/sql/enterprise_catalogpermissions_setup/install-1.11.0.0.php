@@ -60,11 +60,11 @@ $table = $installer->getConnection()
     ->addColumn('grant_checkout_items', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         ), 'Grant Checkout Items')
-    ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission', array('category_id', 'website_id', 'customer_group_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('enterprise_catalogpermissions', array('category_id', 'website_id', 'customer_group_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('category_id', 'website_id', 'customer_group_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_catalogpermissions', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('enterprise_catalogpermissions', array('customer_group_id')),
         array('customer_group_id'))
     ->addForeignKey($installer->getFkName('enterprise_catalogpermissions', 'category_id', 'catalog/category', 'entity_id'),
         'category_id', $installer->getTable('catalog_category_entity'), 'entity_id',
@@ -101,11 +101,11 @@ $table = $installer->getConnection()
         ), 'Grant Catalog Product Price')
     ->addColumn('grant_checkout_items', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         ), 'Grant Checkout Items')
-    ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission_index', array('category_id')),
+    ->addIndex($installer->getIdxName('enterprise_catalogpermissions_index', array('category_id')),
         array('category_id'))
-    ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission_index', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_catalogpermissions_index', array('website_id')),
         array('website_id'))
-    ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission_index', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('enterprise_catalogpermissions_index', array('customer_group_id')),
         array('customer_group_id'))
     ->addForeignKey($installer->getFkName('enterprise_catalogpermissions_index', 'customer_group_id', 'customer/customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
@@ -149,13 +149,13 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'default'   => '0',
         ), 'Is Config')
-    ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission_index_product', array('product_id', 'store_id', 'category_id', 'customer_group_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('enterprise_catalogpermissions_index_product', array('product_id', 'store_id', 'category_id', 'customer_group_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('product_id', 'store_id', 'category_id', 'customer_group_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission_index_product', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_catalogpermissions_index_product', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission_index_product', array('customer_group_id')),
+    ->addIndex($installer->getIdxName('enterprise_catalogpermissions_index_product', array('customer_group_id')),
         array('customer_group_id'))
-    ->addIndex($installer->getIdxName('enterprise_catalogpermissions/permission_index_product', array('category_id')),
+    ->addIndex($installer->getIdxName('enterprise_catalogpermissions_index_product', array('category_id')),
         array('category_id'))
     ->addForeignKey($installer->getFkName('enterprise_catalogpermissions_index_product', 'product_id', 'catalog/product', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',

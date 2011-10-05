@@ -52,13 +52,13 @@ $table = $installer->getConnection()
     ), 'Website ID')
     ->addColumn('info', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(), 'Session Data')
     ->addColumn('updated_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(), 'Updated At')
-    ->addIndex($installer->getIdxName('persistent/session', array('key')), array('key'), array(
+    ->addIndex($installer->getIdxName('persistent_session', array('key')), array('key'), array(
         'type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE,
     ))
-    ->addIndex($installer->getIdxName('persistent/session', array('customer_id')), array('customer_id'), array(
+    ->addIndex($installer->getIdxName('persistent_session', array('customer_id')), array('customer_id'), array(
         'type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE,
     ))
-    ->addIndex($installer->getIdxName('persistent/session', array('updated_at')), array('updated_at'))
+    ->addIndex($installer->getIdxName('persistent_session', array('updated_at')), array('updated_at'))
     ->addForeignKey(
         $installer->getFkName('persistent_session', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id',

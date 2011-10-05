@@ -97,15 +97,15 @@ $table = $installer->getConnection()
         ), 'Active')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
-    ->addIndex($installer->getIdxName('tag/relation', array('tag_id', 'customer_id', 'product_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+    ->addIndex($installer->getIdxName('tag_relation', array('tag_id', 'customer_id', 'product_id', 'store_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
         array('tag_id', 'customer_id', 'product_id', 'store_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addIndex($installer->getIdxName('tag/relation', array('product_id')),
+    ->addIndex($installer->getIdxName('tag_relation', array('product_id')),
         array('product_id'))
-    ->addIndex($installer->getIdxName('tag/relation', array('tag_id')),
+    ->addIndex($installer->getIdxName('tag_relation', array('tag_id')),
         array('tag_id'))
-    ->addIndex($installer->getIdxName('tag/relation', array('customer_id')),
+    ->addIndex($installer->getIdxName('tag_relation', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('tag/relation', array('store_id')),
+    ->addIndex($installer->getIdxName('tag_relation', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('tag_relation', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -169,9 +169,9 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Base Popularity')
-    ->addIndex($installer->getIdxName('tag/summary', array('store_id')),
+    ->addIndex($installer->getIdxName('tag_summary', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('tag/summary', array('tag_id')),
+    ->addIndex($installer->getIdxName('tag_summary', array('tag_id')),
         array('tag_id'))
     ->addForeignKey($installer->getFkName('tag_summary', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -204,7 +204,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Base Popularity')
-    ->addIndex($installer->getIdxName('tag/properties', array('store_id')),
+    ->addIndex($installer->getIdxName('tag_properties', array('store_id')),
         array('store_id'))
     ->addForeignKey($installer->getFkName('tag_properties', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',

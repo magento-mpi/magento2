@@ -69,21 +69,21 @@ $table = $installer->getConnection()
         ), 'Customer Id')
     ->addColumn('customer_custom_email', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Customer Custom Email')
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('status')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('status')),
         array('status'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('is_active')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('is_active')),
         array('is_active'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('increment_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('increment_id')),
         array('increment_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('date_requested')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('date_requested')),
         array('date_requested'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('order_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('order_increment_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('order_increment_id')),
         array('order_increment_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma', array('customer_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma', array('customer_id')),
         array('customer_id'))
     ->addForeignKey($installer->getFkName('enterprise_rma', 'customer_id', 'customer/entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
@@ -127,23 +127,23 @@ $table = $installer->getConnection()
         ), 'Customer Id')
     ->addColumn('customer_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Customer Billing Name')
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('status')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('status')),
         array('status'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('increment_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('increment_id')),
         array('increment_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('date_requested')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('date_requested')),
         array('date_requested'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('order_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('order_id')),
         array('order_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('order_increment_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('order_increment_id')),
         array('order_increment_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('order_date')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('order_date')),
         array('order_date'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('store_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('customer_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('customer_id')),
         array('customer_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_grid', array('customer_name')),
+    ->addIndex($installer->getIdxName('enterprise_rma_grid', array('customer_name')),
         array('customer_name'))
     ->addForeignKey($installer->getFkName('enterprise_rma_grid', 'entity_id', 'enterprise_rma/rma', 'entity_id'),
         'entity_id', $installer->getTable('enterprise_rma'), 'entity_id',
@@ -182,9 +182,9 @@ $table = $installer->getConnection()
         ), 'Created At')
     ->addColumn('is_admin', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         ), 'Is this Merchant Comment')
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_status_history', array('rma_entity_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_status_history', array('rma_entity_id')),
         array('rma_entity_id'))
-    ->addIndex($installer->getIdxName('enterprise_rma/rma_status_history', array('created_at')),
+    ->addIndex($installer->getIdxName('enterprise_rma_status_history', array('created_at')),
         array('created_at'))
     ->addForeignKey(
         $installer->getFkName('enterprise_rma_status_history', 'rma_entity_id', 'enterprise_rma/rma', 'entity_id'),
@@ -244,7 +244,7 @@ $table = $installer->getConnection()
         ), 'Product Name')
     ->addColumn('product_sku', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Product Sku')
-    ->addIndex($installer->getIdxName('enterprise_rma/item_entity', array('entity_type_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_item_entity', array('entity_type_id')),
         array('entity_type_id'))
     ->addForeignKey(
         $installer->getFkName('enterprise_rma_item_entity', 'rma_entity_id', 'enterprise_rma/rma', 'entity_id'),
@@ -629,7 +629,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Attribute Id')
-    ->addIndex($installer->getIdxName('enterprise_rma/item_form_attribute', array('attribute_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_item_form_attribute', array('attribute_id')),
         array('attribute_id'))
     ->addForeignKey(
         $installer->getFkName('enterprise_rma_item_form_attribute', 'attribute_id', 'eav/attribute', 'attribute_id'),
@@ -667,7 +667,7 @@ $table = $installer->getConnection()
     ->addColumn('multiline_count', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Multiline Count')
-    ->addIndex($installer->getIdxName('enterprise_rma/item_eav_attribute_website', array('website_id')),
+    ->addIndex($installer->getIdxName('enterprise_rma_item_eav_attribute_website', array('website_id')),
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
