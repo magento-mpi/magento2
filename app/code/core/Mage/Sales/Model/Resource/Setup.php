@@ -201,7 +201,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
     {
         return array(
             'quote'=>array(
-                'entity_model'  => 'sales/quote',
+                'entity_model'  => 'sales_flat_quote',
                 'table'         => 'sales_flat_quote',
                 'attributes' => array(
                     'entity_id'             => array('type'=>'static'),
@@ -254,7 +254,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'quote_item' => array(
-                'entity_model'  => 'sales/quote_item',
+                'entity_model'  => 'sales_flat_quote_item',
                 'table'         => 'sales_flat_quote_item',
                 'attributes'    => array(
                     'product_id'                => array('type'=>'static'),
@@ -291,7 +291,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'quote_address' => array(
-                'entity_model'  => 'sales/quote_address',
+                'entity_model'  => 'sales_flat_quote_address',
                 'table'         => 'sales_flat_quote_address',
                 'attributes'    => array(
                     'address_type'              => array('type'=>'static'),
@@ -344,7 +344,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'quote_address_item' => array(
-                'entity_model'  => 'sales/quote_address_item',
+                'entity_model'  => 'sales_flat_quote_address_item',
                 'table'         =>'sales/quote_entity',
                 'attributes'            => array(
                     'quote_item_id'             => array('type'=>'int'),
@@ -394,7 +394,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'quote_payment' => array(
-                'entity_model'  => 'sales/quote_payment',
+                'entity_model'  => 'sales_flat_quote_payment',
                 'table'         =>'sales/quote_entity',
                 'attributes'    => array(
                     'method'            => array(),
@@ -414,7 +414,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'order' => array(
-                'entity_model'          => 'sales/order',
+                'entity_model'          => 'sales_flat_order',
                 'table'                 => 'sales_flat_order',
                 'increment_model'       => 'eav/entity_increment_numeric',
                 'increment_per_store'   =>true,
@@ -548,7 +548,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'order_address'     => array(
-                'entity_model'      => 'sales/order_address',
+                'entity_model'      => 'sales_flat_order_address',
                 'table'             =>'sales_order_entity',
                 'attributes'         => array(
                     'parent_id'             => array('type'=>'static', 'backend'=>'sales_entity/order_attribute_backend_child'),
@@ -575,7 +575,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'order_item'        => array(
-                'entity_model'      => 'sales/order_item',
+                'entity_model'      => 'sales_flat_order_item',
                 'table'             =>'sales_order_entity',
                 'attributes'        => array(
                     'parent_id'                 => array(
@@ -635,7 +635,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 ),
             ),
             'order_payment' => array(
-                'entity_model'      => 'sales/order_payment',
+                'entity_model'      => 'sales_flat_order_payment',
                 'table'=>'sales_order_entity',
                 'attributes' => array(
                     'parent_id' => array(
@@ -700,7 +700,7 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             ),
 
             'order_status_history' => array(
-                'entity_model'      => 'sales/order_status_history',
+                'entity_model'      => 'sales_flat_order_status_history',
                 'table'=>'sales_order_entity',
                 'attributes' => array(
                     'parent_id' => array(
