@@ -83,7 +83,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     public function __construct()
     {
         $resource = Mage::getSingleton('core/resource');
-        $this->_sessionTable = $resource->getTableName('core/session');
+        $this->_sessionTable = $resource->getTableName('core_session');
         $this->_read         = $resource->getConnection('core_read');
         $this->_write        = $resource->getConnection('core_write');
     }

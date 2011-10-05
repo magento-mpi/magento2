@@ -408,7 +408,7 @@ class Enterprise_Staging_Model_Staging_Config
     {
         $coreResource = Mage::getSingleton('core/resource');
         $connection  = $coreResource->getConnection('core_read');
-        $select = $connection->select()->from($coreResource->getTableName('core/resource'), array('code' , 'version'));
+        $select = $connection->select()->from($coreResource->getTableName('core_resource'), array('code' , 'version'));
         $result = $connection->fetchPairs($select);
         if (is_array($result) && count($result)>0) {
             return $result;

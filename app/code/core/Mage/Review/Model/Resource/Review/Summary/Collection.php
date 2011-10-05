@@ -51,7 +51,7 @@ class Mage_Review_Model_Resource_Review_Summary_Collection extends Varien_Data_C
         $this->_setIdFieldName('primary_id');
 
         parent::__construct($resources->getConnection('review_read'));
-        $this->_summaryTable = $resources->getTableName('review/review_aggregate');
+        $this->_summaryTable = $resources->getTableName('review_entity_summary');
 
         $this->_select->from($this->_summaryTable);
 

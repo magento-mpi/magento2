@@ -230,7 +230,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         }
         $resource = Mage::getSingleton('core/resource');
         $select = $this->_connection->select()
-            ->from($resource->getTableName('catalog/product_attribute_tier_price'))
+            ->from($resource->getTableName('catalog_product_entity_tier_price'))
             ->where('entity_id IN(?)', $productIds);
 
         $rowTierPrices = array();
@@ -264,14 +264,14 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         $resource = Mage::getSingleton('core/resource');
         $select = $this->_connection->select()
                 ->from(
-                        array('mg' => $resource->getTableName('catalog/product_attribute_media_gallery')),
+                        array('mg' => $resource->getTableName('catalog_product_entity_media_gallery')),
                         array(
                             'mg.entity_id', 'mg.attribute_id', 'filename' => 'mg.value', 'mgv.label',
                             'mgv.position', 'mgv.disabled'
                         )
                 )
                 ->joinLeft(
-                        array('mgv' => $resource->getTableName('catalog/product_attribute_media_gallery_value')),
+                        array('mgv' => $resource->getTableName('catalog_product_entity_media_gallery_value')),
                         '(mg.value_id = mgv.value_id AND mgv.store_id = 0)',
                         array()
                 )
@@ -335,19 +335,19 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         $adapter = $this->_connection;
         $select = $adapter->select()
             ->from(
-                array('cpl' => $resource->getTableName('catalog/product_link')),
+                array('cpl' => $resource->getTableName('catalog_product_link')),
                 array(
                     'cpl.product_id', 'cpe.sku', 'cpl.link_type_id',
                     'position' => 'cplai.value', 'default_qty' => 'cplad.value'
                 )
             )
             ->joinLeft(
-                array('cpe' => $resource->getTableName('catalog/product')),
+                array('cpe' => $resource->getTableName('catalog_product_entity')),
                 '(cpe.entity_id = cpl.linked_product_id)',
                 array()
             )
             ->joinLeft(
-                array('cpla' => $resource->getTableName('catalog/product_link_attribute')),
+                array('cpla' => $resource->getTableName('catalog_product_link_attribute')),
                 $adapter->quoteInto(
                     '(cpla.link_type_id = cpl.link_type_id AND cpla.product_link_attribute_code = ?)',
                     'position'
@@ -355,7 +355,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 array()
             )
             ->joinLeft(
-                array('cplaq' => $resource->getTableName('catalog/product_link_attribute')),
+                array('cplaq' => $resource->getTableName('catalog_product_link_attribute')),
                 $adapter->quoteInto(
                     '(cplaq.link_type_id = cpl.link_type_id AND cplaq.product_link_attribute_code = ?)',
                     'qty'
@@ -363,12 +363,12 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 array()
             )
             ->joinLeft(
-                array('cplai' => $resource->getTableName('catalog/product_link_attribute_int')),
+                array('cplai' => $resource->getTableName('catalog_product_link_attribute_int')),
                 '(cplai.link_id = cpl.link_id AND cplai.product_link_attribute_id = cpla.product_link_attribute_id)',
                 array()
             )
             ->joinLeft(
-                array('cplad' => $resource->getTableName('catalog/product_link_attribute_decimal')),
+                array('cplad' => $resource->getTableName('catalog_product_link_attribute_decimal')),
                 '(cplad.link_id = cpl.link_id AND cplad.product_link_attribute_id = cplaq.product_link_attribute_id)',
                 array()
             )
@@ -409,11 +409,11 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         $resource = Mage::getSingleton('core/resource');
         $select = $this->_connection->select()
             ->from(
-                array('cpsl' => $resource->getTableName('catalog/product_super_link')),
+                array('cpsl' => $resource->getTableName('catalog_product_super_link')),
                 array('cpsl.parent_id', 'cpe.sku')
             )
             ->joinLeft(
-                array('cpe' => $resource->getTableName('catalog/product')),
+                array('cpe' => $resource->getTableName('catalog_product_entity')),
                 '(cpe.entity_id = cpsl.product_id)',
                 array()
             )
@@ -443,23 +443,23 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         $resource = Mage::getSingleton('core/resource');
         $select = $this->_connection->select()
             ->from(
-                array('cpsa' => $resource->getTableName('catalog/product_super_attribute')),
+                array('cpsa' => $resource->getTableName('catalog_product_super_attribute')),
                 array(
                     'cpsa.product_id', 'ea.attribute_code', 'eaov.value', 'cpsap.pricing_value', 'cpsap.is_percent'
                 )
             )
             ->joinLeft(
-                array('cpsap' => $resource->getTableName('catalog/product_super_attribute_pricing')),
+                array('cpsap' => $resource->getTableName('catalog_product_super_attribute_pricing')),
                 '(cpsap.product_super_attribute_id = cpsa.product_super_attribute_id)',
                 array()
             )
             ->joinLeft(
-                array('ea' => $resource->getTableName('eav/attribute')),
+                array('ea' => $resource->getTableName('eav_attribute')),
                 '(ea.attribute_id = cpsa.attribute_id)',
                 array()
             )
             ->joinLeft(
-                array('eaov' => $resource->getTableName('eav/attribute_option_value')),
+                array('eaov' => $resource->getTableName('eav_attribute_option_value')),
                 '(eaov.option_id = cpsap.value_index AND store_id = 0)',
                 array()
             )

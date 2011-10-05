@@ -580,13 +580,13 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _saveCustomOptions()
     {
-        $productTable   = Mage::getSingleton('core/resource')->getTableName('catalog/product');
-        $optionTable    = Mage::getSingleton('core/resource')->getTableName('catalog/product_option');
-        $priceTable     = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_price');
-        $titleTable     = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_title');
-        $typePriceTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_type_price');
-        $typeTitleTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_type_title');
-        $typeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_option_type_value');
+        $productTable   = Mage::getSingleton('core/resource')->getTableName('catalog_product_entity');
+        $optionTable    = Mage::getSingleton('core/resource')->getTableName('catalog_product_option');
+        $priceTable     = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_price');
+        $titleTable     = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_title');
+        $typePriceTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_price');
+        $typeTitleTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_title');
+        $typeValueTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_option_type_value');
         $nextOptionId   = Mage::getResourceHelper('importexport')->getNextAutoincrement($optionTable);
         $nextValueId    = Mage::getResourceHelper('importexport')->getNextAutoincrement($typeValueTable);
         $priceIsGlobal  = Mage::helper('catalog')->isPriceGlobal();

@@ -84,7 +84,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
 
         parent::__construct(
             $resource->getConnection('catalog_write'),
-            $resource->getTableName('catalog/category'),
+            $resource->getTableName('catalog_category_entity'),
             array(
                 Varien_Data_Tree_Dbp::ID_FIELD       => 'entity_id',
                 Varien_Data_Tree_Dbp::PATH_FIELD     => 'path',
@@ -273,8 +273,8 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
                 'attribute_code'   => 'is_active'
             );
             $select = $this->_conn->select()
-                ->from(array('a'=>$resource->getTableName('eav/attribute')), array('attribute_id'))
-                ->join(array('t'=>$resource->getTableName('eav/entity_type')), 'a.entity_type_id = t.entity_type_id')
+                ->from(array('a'=>$resource->getTableName('eav_attribute')), array('attribute_id'))
+                ->join(array('t'=>$resource->getTableName('eav_entity_type')), 'a.entity_type_id = t.entity_type_id')
                 ->where('entity_type_code = :entity_type_code')
                 ->where('attribute_code = :attribute_code');
 
@@ -613,8 +613,8 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
         }
 
         // count children products qty plus self products qty
-        $categoriesTable         = Mage::getSingleton('core/resource')->getTableName('catalog/category');
-        $categoriesProductsTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
+        $categoriesTable         = Mage::getSingleton('core/resource')->getTableName('catalog_category_entity');
+        $categoriesProductsTable = Mage::getSingleton('core/resource')->getTableName('catalog_category_product');
 
         $subConcat = $this->_conn->getConcatSql(array('e.path', $this->_conn->quote('/%')));
         $subSelect = $this->_conn->select()

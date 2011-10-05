@@ -252,7 +252,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      */
     public function addStoreData()
     {
-        $storeTable = Mage::getSingleton('core/resource')->getTableName('core/store');
+        $storeTable = Mage::getSingleton('core/resource')->getTableName('core_store');
         $this->getSelect()->join(array('store'=>$storeTable), 'main_table.store_id=store.store_id', array(
             'store_name'=>'name',
             'item_store_id' => 'store_id'
