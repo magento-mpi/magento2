@@ -68,6 +68,9 @@ class Mage_Tax_Model_Observer
         $taxes              = $order->getAppliedTaxes();
 
         $ratesIdQuoteItemId = array();
+        if (!is_array($getTaxesForItems)) {
+            $getTaxesForItems = array();
+        }
         foreach ($getTaxesForItems as $quoteItemId => $taxesArray) {
             foreach ($taxesArray as $rates) {
                 if (count($rates['rates']) == 1) {
