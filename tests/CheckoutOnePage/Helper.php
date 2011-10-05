@@ -584,7 +584,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         }
         //Get Products data and order prices data
         $actualProductData = $this->frontGetProductInfoInOrderReview();
-        $this->MyAccountHelper()->frontVerifyTotalPrices($orderPriceData);
+        $this->myAccountHelper()->frontVerifyTotalPricesInOrder($orderPriceData);
         //Verify Products data
         $actualProductQty = count($actualProductData);
         $expectedProductQty = count($productData);
