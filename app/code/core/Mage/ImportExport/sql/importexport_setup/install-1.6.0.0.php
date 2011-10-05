@@ -67,7 +67,7 @@ $installer->getConnection()->addIndex(
 );
 
 /**
- * Add unique key for 'catalog/product_super_attribute' table
+ * Add unique key for 'catalog_product_super_attribute' table
  */
 $installer->getConnection()->addIndex(
     $installer->getTable('catalog_product_super_attribute'),
@@ -81,7 +81,7 @@ $installer->getConnection()->addIndex(
 );
 
 /**
- * Add unique key for 'catalog/product_super_attribute_pricing' table
+ * Add unique key for 'catalog_product_super_attribute_pricing' table
  */
 $installer->getConnection()->addIndex(
     $installer->getTable('catalog_product_super_attribute_pricing'),
@@ -95,7 +95,7 @@ $installer->getConnection()->addIndex(
 );
 
 /**
- * Add unique key for 'catalog/product_link_attribute_int' table
+ * Add unique key for 'catalog_product_link_attribute_int' table
  */
 $installer->getConnection()->addIndex(
     $installer->getTable('catalog_product_link_attribute_int'),
