@@ -78,7 +78,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
     public function getRelationInfo()
     {
         $info = new Varien_Object();
-        $info->setTable('catalog/product_link')
+        $info->setTable('catalog_product_link')
             ->setParentFieldName('product_id')
             ->setChildFieldName('linked_product_id')
             ->setWhere('link_type_id=' . Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);

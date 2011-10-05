@@ -101,7 +101,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     public function getRelationInfo()
     {
         $info = new Varien_Object();
-        $info->setTable('catalog/product_super_link')
+        $info->setTable('catalog_product_super_link')
             ->setParentFieldName('parent_id')
             ->setChildFieldName('product_id');
         return $info;
