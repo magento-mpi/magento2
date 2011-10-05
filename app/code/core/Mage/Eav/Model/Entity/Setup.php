@@ -93,7 +93,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                         'attribute_set_id', $set, 'attribute_group_id'
                     );
                 }
-                $this->updateTableRow('eav/attribute_group',
+                $this->updateTableRow('eav_attribute_group',
                     'attribute_group_id', $groupId, 'default_id', $defaultGroupId
                 );
             }
@@ -159,7 +159,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function updateEntityType($code, $field, $value = null)
     {
-        $this->updateTableRow('eav/entity_type',
+        $this->updateTableRow('eav_entity_type',
             'entity_type_id', $this->getEntityTypeId($code), $field, $value
         );
         return $this;
@@ -276,7 +276,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function updateAttributeSet($entityTypeId, $id, $field, $value = null)
     {
-        $this->updateTableRow('eav/attribute_set',
+        $this->updateTableRow('eav_attribute_set',
             'attribute_set_id', $this->getAttributeSetId($entityTypeId, $id),
             $field, $value,
             'entity_type_id', $this->getEntityTypeId($entityTypeId)
@@ -462,7 +462,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function updateAttributeGroup($entityTypeId, $setId, $id, $field, $value = null)
     {
-        $this->updateTableRow('eav/attribute_group',
+        $this->updateTableRow('eav_attribute_group',
             'attribute_group_id', $this->getAttributeGroupId($entityTypeId, $setId, $id),
             $field, $value,
             'attribute_set_id', $this->getAttributeSetId($entityTypeId, $setId)
@@ -793,7 +793,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     protected function _updateAttribute($entityTypeId, $id, $field, $value = null, $sortOrder = null)
     {
         if ($sortOrder !== null) {
-            $this->updateTableRow('eav/entity_attribute',
+            $this->updateTableRow('eav_entity_attribute',
                 'attribute_id', $this->getAttributeId($entityTypeId, $id),
                 'sort_order', $sortOrder
             );
@@ -817,7 +817,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             }
         }
 
-        $this->updateTableRow('eav/attribute',
+        $this->updateTableRow('eav_attribute',
             'attribute_id', $this->getAttributeId($entityTypeId, $id),
             $field, $value,
             'entity_type_id', $this->getEntityTypeId($entityTypeId)
