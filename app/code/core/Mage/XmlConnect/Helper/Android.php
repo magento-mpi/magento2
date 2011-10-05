@@ -582,8 +582,7 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
     public function validateConfig($native)
     {
         $errors = array();
-        if ($native === false
-            || !isset($native['navigationBar']['icon'])
+        if ($native === false || !isset($native['navigationBar']['icon'])
             || !Zend_Validate::is($native['navigationBar']['icon'], 'NotEmpty')
         ) {
             $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Logo in Header" field from Design Tab.');
@@ -692,7 +691,7 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
      *
      * @throws Mage_Core_Exception
      * @param array $data
-     * @return void
+     * @return null
      */
     public function checkRequiredConfigFields($data)
     {
@@ -701,15 +700,11 @@ class Mage_XmlConnect_Helper_Android extends Mage_Core_Helper_Abstract
         }
 
         if (isset($data['navigationBar']['icon']) && empty($data['navigationBar']['icon'])) {
-            Mage::throwException(
-                Mage::helper('xmlconnect')->__('Logo in Header image missing.')
-            );
+            Mage::throwException(Mage::helper('xmlconnect')->__('Logo in Header image missing.'));
         }
 
         if (isset($data['body']['bannerAndroidImage']) && empty($data['body']['bannerAndroidImage'])) {
-            Mage::throwException(
-                Mage::helper('xmlconnect')->__('Banner on Home Screen image missing.')
-            );
+            Mage::throwException(Mage::helper('xmlconnect')->__('Banner on Home Screen image missing.'));
         }
     }
 

@@ -244,7 +244,8 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
                     $column = $field;
                 }
 
-                if (($alias !== null && in_array($alias, $columnsToSelect)) || // If field already joined from another table
+                if (($alias !== null && in_array($alias, $columnsToSelect)) ||
+                    // If field already joined from another table
                     ($alias === null && isset($alias, $columnsToSelect))) {
                     continue;
                 }
@@ -567,7 +568,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
                 $cond,
                 $cols
             );
-            $this->_joinedTables[$table] = true;
+            $this->_joinedTables[$alias] = true;
         }
         return $this;
     }

@@ -436,11 +436,18 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $order->place();
         $order->save();
         $order->sendNewOrderEmail();
+        Mage::dispatchEvent('googlecheckout_save_order_after', array('order' => $order));
 
         $quote->setIsActive(false)->save();
 
         if ($emailAllowed) {
-            Mage::getModel('newsletter/subscriber')->subscribe($order->getCustomerEmail());
+            $customer = $quote->getCustomer();
+            if ($customer && $customer->getId()) {
+                $customer->setIsSubscribed(true);
+                Mage::getModel('newsletter/subscriber')->subscribeCustomer($customer);
+            } else {
+                Mage::getModel('newsletter/subscriber')->subscribe($order->getCustomerEmail());
+            }
         }
 
         Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));

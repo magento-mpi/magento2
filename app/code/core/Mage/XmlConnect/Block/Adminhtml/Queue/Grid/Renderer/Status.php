@@ -64,6 +64,6 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Status
             $str = $this->__('Undefined');
         }
 
-        return $this->htmlEscape($str);
+        return $this->escapeHtml($str);
      }
 }

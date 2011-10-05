@@ -58,7 +58,7 @@ abstract class Mage_XmlConnect_Model_Preview_Abstract extends Varien_Object
      * Internal constructor not depended on params.
      * It's used for application object initialization
      *
-     * @return void
+     * @return null
      */
     final function _construct()
     {

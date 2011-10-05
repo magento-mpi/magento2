@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Catalog_Product_Options_Grouped
-    extends Mage_XmlConnect_Block_Catalog_Product_Options
+class Mage_XmlConnect_Block_Catalog_Product_Options_Grouped extends Mage_XmlConnect_Block_Catalog_Product_Options
 {
     /**
      * Generate bundle product options xml
@@ -84,16 +83,10 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Grouped
 
             if ($productPrice != 0) {
                 $productPrice = Mage::helper('xmlconnect')->formatPriceForXml($productPrice);
-                $optionNode->addAttribute(
-                    'price',
-                    Mage::helper('xmlconnect')->formatPriceForXml(
-                        Mage::helper('core')->currency($productPrice, false, false)
-                    )
-                );
-                $optionNode->addAttribute(
-                    'formated_price',
-                    $this->_formatPriceString($productPrice, $product)
-                );
+                $optionNode->addAttribute('price', Mage::helper('xmlconnect')->formatPriceForXml(
+                    Mage::helper('core')->currency($productPrice, false, false)
+                ));
+                $optionNode->addAttribute('formated_price', $this->_formatPriceString($productPrice, $product));
             }
         }
 

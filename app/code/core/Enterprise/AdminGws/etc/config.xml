@@ -247,7 +247,15 @@
                     </enterprise_admingws>
                 </observers>
             </store_group_save_after>
-            <adminhtml_catalog_product_edit_tab_attributes_create_html_before>
+            <adminhtml_catalog_product_grid_prepare_massaction>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/observer</class>
+                        <method>catalogProductPrepareMassAction</method>
+                    </enterprise_admingws>
+                </observers>
+            </adminhtml_catalog_product_grid_prepare_massaction>
+          <adminhtml_catalog_product_edit_tab_attributes_create_html_before>
                 <observers>
                     <enterprise_admingws>
                         <class>enterprise_admingws/blocks</class>
@@ -457,6 +465,8 @@
                     <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__>
                     <adminhtml__catalog_product__>validateCatalogProduct</adminhtml__catalog_product__>
                     <adminhtml__catalog_product__edit>validateCatalogProductEdit</adminhtml__catalog_product__edit>
+                    <adminhtml__catalog_product__massStatus>validateCatalogProductMassActions</adminhtml__catalog_product__massStatus>
+                    <adminhtml__catalog_product_action_attribute__edit>validateCatalogProductMassActions</adminhtml__catalog_product_action_attribute__edit>
                     <adminhtml__promo_catalog__>validatePromoCatalog</adminhtml__promo_catalog__>
                     <adminhtml__promo_catalog__applyRules>validatePromoCatalogApplyRules</adminhtml__promo_catalog__applyRules>
                     <adminhtml__promo_quote__>validatePromoQuote</adminhtml__promo_quote__>

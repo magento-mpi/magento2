@@ -57,7 +57,8 @@ class Mage_GoogleShopping_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function cleanAtomAttribute($string)
     {
-        return Mage::helper('core/string')->substr(preg_replace('/[\pC¢€•—™°½]|shipping/ui', '', $string), 0, 3500);
+        return Mage::helper('core/string')
+            ->substr(preg_replace('/[\pC¢€•—™°½]|shipping/ui', '', $string), 0, 3500);
     }
 
     /**
@@ -77,13 +78,22 @@ class Mage_GoogleShopping_Helper_Data extends Mage_Core_Helper_Abstract
      * Parse Exception Response Body
      *
      * @param string $message Exception message to parse
+     * @param null|Mage_Catalog_Model_Product $product
      * @return string
      */
-    public function parseGdataExceptionMessage($message)
+    public function parseGdataExceptionMessage($message, $product = null)
     {
         $result = array();
         foreach (explode("\n", $message) as $row) {
+            if (trim($row) == '') {
+                continue;
+            }
+
             if (strip_tags($row) == $row) {
+                $row = preg_replace('/@ (.*)/', $this->__("See '\\1'"), $row);
+                if (!is_null($product)) {
+                    $row .= ' ' . $this->__("for product '%s' (in '%s' store)", $product->getName(), Mage::app()->getStore($product->getStoreId())->getName());
+                }
                 $result[] = $row;
                 continue;
             }
