@@ -37,6 +37,34 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Core_Model_Layout_Update();
     }
 
+    public function testGetFileLayoutUpdatesXmlFromTheme()
+    {
+        $this->_replaceConfigLayoutUpdates('
+            <core module="Mage_Core">
+                <file>layout.xml</file>
+            </core>
+        ');
+        $expectedXmlStr = $this->_readLayoutFileContents(
+            __DIR__ . '/../_files/design/frontend/test/default/Mage_Core/layout.xml'
+        );
+        $actualXml = $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
+        $this->assertXmlStringEqualsXmlString($expectedXmlStr, $actualXml->asNiceXml());
+    }
+
+    public function testGetFileLayoutUpdatesXmlFromModule()
+    {
+        $this->_replaceConfigLayoutUpdates('
+            <page module="Mage_Page">
+                <file>layout.xml</file>
+            </page>
+        ');
+        $expectedXmlStr = $this->_readLayoutFileContents(
+            __DIR__ . '/../../../../../../../../app/code/core/Mage/Page/view/frontend/layout.xml'
+        );
+        $actualXml = $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
+        $this->assertXmlStringEqualsXmlString($expectedXmlStr, $actualXml->asNiceXml());
+    }
+
     /**
      * Replace configuration XML node <area>/layout/updates with the desired content
      *
@@ -78,18 +106,35 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         return '<layouts>' . $text . '</layouts>';
     }
 
-    public function testGetFileLayoutUpdatesXmlFromTheme()
+    /**
+     * @expectedException Exception
+     * @dataProvider getFileLayoutUpdatesXmlExceptionDataProvider
+     */
+    public function testGetFileLayoutUpdatesXmlException($configFixture)
     {
-        $this->_replaceConfigLayoutUpdates('
-            <core module="Mage_Core">
-                <file>core.xml</file>
-            </core>
-        ');
-        $expectedXmlStr = $this->_readLayoutFileContents(
-            __DIR__ . '/../_files/design/frontend/test/default/layout/core.xml'
+        $this->_replaceConfigLayoutUpdates($configFixture);
+        $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
+    }
+
+    public function getFileLayoutUpdatesXmlExceptionDataProvider()
+    {
+        return array(
+            'non-existing layout file' => array('
+                <core module="Mage_Core">
+                    <file>non_existing_layout.xml</file>
+                </core>
+            '),
+            'module attribute absence' => array('
+                <core>
+                    <file>layout.xml</file>
+                </core>
+            '),
+            'non-existing module'      => array('
+                <core module="Non_ExistingModule">
+                    <file>layout.xml</file>
+                </core>
+            '),
         );
-        $actualXml = $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
-        $this->assertXmlStringEqualsXmlString($expectedXmlStr, $actualXml->asNiceXml());
     }
 
     /**
@@ -100,17 +145,17 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     {
         $this->_replaceConfigLayoutUpdates('
             <catalog module="Mage_Catalog">
-                <file>catalog.xml</file>
+                <file>layout.xml</file>
             </catalog>
             <core module="Mage_Core">
-                <file>core.xml</file>
+                <file>layout.xml</file>
             </core>
             <page module="Mage_Page">
-                <file>page.xml</file>
+                <file>layout.xml</file>
             </page>
         ');
         $expectedXmlStr = $this->_readLayoutFileContents(
-            __DIR__ . '/../_files/design/frontend/test/default/layout/core.xml'
+            __DIR__ . '/../_files/design/frontend/test/default/Mage_Core/layout.xml'
         );
         $actualXml = $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
         $this->assertXmlStringEqualsXmlString($expectedXmlStr, $actualXml->asNiceXml());

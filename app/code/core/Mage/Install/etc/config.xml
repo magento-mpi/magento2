@@ -72,13 +72,6 @@
                 </extensions>
             </mysql4>
         </databases>
-        <layout>
-            <updates>
-                <main>
-                    <file>main.xml</file>
-                </main>
-            </updates>
-        </layout>
         <events>
             <controller_action_predispatch>
                 <observers>
@@ -116,8 +109,8 @@
         </translate>
         <layout>
             <updates>
-                <install>
-                    <file>main.xml</file>
+                <install module="Mage_Install">
+                    <file>layout.xml</file>
                 </install>
             </updates>
         </layout>

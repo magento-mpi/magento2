@@ -283,13 +283,4 @@
             </adminhtml>
         </routers>
     </admin>
-    <frontend>
-        <layout>
-            <updates>
-                <enterprise_customer module="Enterprise_Customer">
-                    <file>enterprise_customer.xml</file>
-                </enterprise_customer>
-            </updates>
-        </layout>
-    </frontend>
 </config>

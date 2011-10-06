@@ -127,7 +127,7 @@
         <layout>
             <updates>
                 <newsletter module="Mage_Newsletter">
-                    <file>layout.xml</file>
+                    <file>newsletter.xml</file>
                 </newsletter>
             </updates>
         </layout>
@@ -172,7 +172,7 @@
         <layout>
             <updates>
                 <newsletter module="Mage_Newsletter">
-                    <file>newsletter.xml</file>
+                    <file>layout.xml</file>
                 </newsletter>
             </updates>
         </layout>
