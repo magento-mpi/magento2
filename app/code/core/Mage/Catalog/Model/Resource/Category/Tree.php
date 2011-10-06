@@ -296,7 +296,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Varien_Data_Tree_Dbp
         $attributeId = $this->_getIsActiveAttributeId();
 
         $conditionSql = $this->_conn->getCheckSql('c.value_id > 0', 'c.value', 'd.value');
-        $table = Mage::getSingleton('core/resource')->getTableName(array('catalog/category', 'int'));
+        $table = Mage::getSingleton('core/resource')->getTableName('catalog_category_entity_int');
         $bind = array(
             'attribute_id' => $attributeId,
             'store_id'     => $storeId,
