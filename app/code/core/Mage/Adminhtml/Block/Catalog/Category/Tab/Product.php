@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             ->addAttributeToSelect('price')
             ->addStoreFilter($this->getRequest()->getParam('store'))
             ->joinField('position',
-                'catalog/category_product',
+                'catalog_category_product',
                 'position',
                 'product_id=entity_id',
                 'category_id='.(int) $this->getRequest()->getParam('id', 0),

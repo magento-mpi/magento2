@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
             $collection->joinField('qty',
-                'cataloginventory/stock_item',
+                'cataloginventory_stock_item',
                 'qty',
                 'product_id=entity_id',
                 '{{table}}.stock_id=1',
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         if ($this->getCollection()) {
             if ($column->getId() == 'websites') {
                 $this->getCollection()->joinField('websites',
-                    'catalog/product_website',
+                    'catalog_product_website',
                     'website_id',
                     'product_id=entity_id',
                     null,

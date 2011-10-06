@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
             ->joinAttribute('billing_regione', 'customer_address/region', 'default_billing', null, 'left')
             ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left')
-            ->joinField('store_name', 'core/store', 'name', 'store_id=store_id', null, 'left');
+            ->joinField('store_name', 'core_store', 'name', 'store_id=store_id', null, 'left');
 
         $this->setCollection($collection);
 

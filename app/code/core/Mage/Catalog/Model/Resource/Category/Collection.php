@@ -322,7 +322,7 @@ class Mage_Catalog_Model_Resource_Category_Collection extends Mage_Catalog_Model
     {
         $storeId = Mage::app()->getStore()->getId();
         $this->joinTable(
-            'core/url_rewrite',
+            'core_url_rewrite',
             'category_id=entity_id',
             array('request_path'),
             "{{table}}.is_system=1"

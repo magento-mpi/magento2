@@ -92,13 +92,13 @@ class Mage_Sales_Model_Resource_Order extends Mage_Sales_Model_Resource_Order_Ab
         $concatAddress = $adapter->getConcatSql(array($ifnullFirst, $adapter->quote(' '), $ifnullLast));
         $this->addVirtualGridColumn(
                 'billing_name',
-                'sales/order_address',
+                'sales_flat_order_address',
                 array('billing_address_id' => 'entity_id'),
                 $concatAddress
             )
             ->addVirtualGridColumn(
                 'shipping_name',
-                'sales/order_address',
+                'sales_flat_order_address',
                  array('shipping_address_id' => 'entity_id'),
                  $concatAddress
             );
