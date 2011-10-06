@@ -236,7 +236,7 @@ HTML;
         }
 
         try {
-            $includeFilePath = realpath($this->_viewDir . DS . $fileName);
+            $includeFilePath = $fileName;
             if (strpos($includeFilePath, realpath($this->_viewDir)) === 0 || $this->_getAllowSymlinks()) {
                 include $includeFilePath;
             } else {

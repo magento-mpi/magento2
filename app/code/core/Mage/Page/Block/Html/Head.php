@@ -127,7 +127,10 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addItem($type, $name, $params=null, $if=null, $cond=null)
     {
-        if ($type==='skin_css' && empty($params)) {
+        if (empty($name)) {
+            throw new Exception('File name must be not empty.');
+        }
+        if (empty($params) && in_array($type, array('skin_css', 'js_css'))) {
             $params = 'media="all"';
         }
         $this->_data['items'][$type.'/'.$name] = array(
@@ -153,191 +156,100 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         return $this;
     }
 
-    /**
-     * Get HEAD HTML with CSS/JS/RSS definitions
-     * (actually it also renders other elements, TODO: fix it up or rename this method)
-     *
-     * @return string
-     */
     public function getCssJsHtml()
     {
-        // separate items by types
-        $lines  = array();
+        $lines = array();
+        $meta  = array();
         foreach ($this->_data['items'] as $item) {
-            if (!is_null($item['cond']) && !$this->getData($item['cond']) || !isset($item['name'])) {
+            if (!is_null($item['cond']) && !$this->getData($item['cond'])) {
                 continue;
             }
-            $if     = !empty($item['if']) ? $item['if'] : '';
-            $params = !empty($item['params']) ? $item['params'] : '';
-            switch ($item['type']) {
-                case 'js':        // js/*.js
-                case 'skin_js':   // skin/*/*.js
-                case 'js_css':    // js/*.css
-                case 'skin_css':  // skin/*/*.css
-                    $lines[$if][$item['type']][$params][$item['name']] = $item['name'];
-                    break;
-                default:
-                    $this->_separateOtherHtmlHeadElements($lines, $if, $item['type'], $params, $item['name'], $item);
-                    break;
+            $contentType = $this->_mapToContentType($item['type']);
+            if ($contentType == 'css') {
+                $item['params'] .= ' rel="stylesheet" type="text/css"';
+            } elseif ($item['type'] == 'rss') {
+                $item['params'] .= ' rel="alternate" type="application/rss+xml"';
             }
+            $group = $item['if'] . '|' . (empty($item['params']) ? '_' : $item['params']) . '|' . $contentType;
+            $meta[$group] = array($item['if'], (string)$item['params'], $contentType);
+            $lines[$group][$item['name']] = $this->_mapToStaticType($item['type']);
         }
 
-        // prepare HTML
-        $shouldMergeJs = Mage::getStoreConfigFlag('dev/js/merge_files');
-        $shouldMergeCss = Mage::getStoreConfigFlag('dev/css/merge_css_files');
         $html   = '';
-        foreach ($lines as $if => $items) {
-            if (empty($items)) {
-                continue;
+        foreach ($lines as $group => $items) {
+            list($if, $params, $contentType) = $meta[$group];
+            if (!empty($if)) {
+                $html .= '<!--[if ' . $if .']>'."\n";
+            }
+            if ($params) {
+                $params = ' ' . trim($params);
+            }
+            switch ($contentType) {
+                case 'css':
+                    foreach (Mage::getDesign()->getOptimalCssUrls($items) as $url) {
+                        $html .= sprintf('<link%s href="%s" />' . "\n", $params, $url);
+                    }
+                break;
+                case 'js':
+                    foreach (Mage::getDesign()->getOptimalJsUrls($items) as $url) {
+                        $html .= sprintf('<script%s type="text/javascript" src="%s"></script>' . "\n", $params, $url);
+                    }
+                break;
+                case 'link':
+                    foreach ($items as $file => $type) {
+                        $html .= sprintf('<link%s href="%s" />' . "\n", $params, $file);
+                    }
+                break;
             }
             if (!empty($if)) {
-                $html .= '<!--[if '.$if.']>'."\n";
-            }
-
-            // static and skin css
-            $html .= $this->_prepareStaticAndSkinElements('<link rel="stylesheet" type="text/css" href="%s"%s />' . "\n",
-                empty($items['js_css']) ? array() : $items['js_css'],
-                empty($items['skin_css']) ? array() : $items['skin_css'],
-                $shouldMergeCss ? array(Mage::getDesign(), 'getMergedCssUrl') : null
-            );
-
-            // static and skin javascripts
-            $html .= $this->_prepareStaticAndSkinElements('<script type="text/javascript" src="%s"%s></script>' . "\n",
-                empty($items['js']) ? array() : $items['js'],
-                empty($items['skin_js']) ? array() : $items['skin_js'],
-                $shouldMergeJs ? array(Mage::getDesign(), 'getMergedJsUrl') : null
-            );
-
-            // other stuff
-            if (!empty($items['other'])) {
-                $html .= $this->_prepareOtherHtmlHeadElements($items['other']) . "\n";
-            }
-
-            if (!empty($if)) {
-                $html .= '<![endif]-->'."\n";
+                $html .= '<![endif]-->' . "\n";
             }
         }
         return $html;
     }
 
     /**
-     * Merge static and skin files of the same format into 1 set of HEAD directives or even into 1 directive
+     * Map block types to design model static types
      *
-     * Will attempt to merge into 1 directive, if merging callback is provided. In this case it will generate
-     * filenames, rather than render urls.
-     * The merger callback is responsible for checking whether files exist, merging them and giving result URL
-     *
-     * @param string $format - HTML element format for sprintf('<element src="%s"%s />', $src, $params)
-     * @param array $staticItems - array of relative names of static items to be grabbed from js/ folder
-     * @param array $skinItems - array of relative names of skin items to be found in skins according to design config
-     * @param callback $mergeCallback
+     * @param string $type
      * @return string
      */
-    protected function &_prepareStaticAndSkinElements($format, array $staticItems, array $skinItems, $mergeCallback = null)
+    protected function _mapToStaticType($type)
     {
-        $designPackage = Mage::getDesign();
-        $baseJsUrl = Mage::getBaseUrl('js');
-        $items = array();
-        if ($mergeCallback && !is_callable($mergeCallback)) {
-            $mergeCallback = null;
+        switch ($type) {
+            case 'js_css':
+            case 'js':
+                return Mage_Core_Model_Design_Package::STATIC_TYPE_LIB;
+            case 'skin_css':
+            case 'skin_js':
+                return Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN;
+            default:
+                return '';
         }
-
-        // get static files from the js folder, no need in lookups
-        foreach ($staticItems as $params => $rows) {
-            foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? Mage::getBaseDir() . DS . 'js' . DS . $name : $baseJsUrl . $name;
-            }
-        }
-
-        // lookup each file basing on current theme configuration
-        foreach ($skinItems as $params => $rows) {
-            foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? $designPackage->getFilename($name, array('_type' => 'skin'))
-                    : $designPackage->getSkinUrl($name, array());
-            }
-        }
-
-        $html = '';
-        foreach ($items as $params => $rows) {
-            // attempt to merge
-            $mergedUrl = false;
-            if ($mergeCallback) {
-                $mergedUrl = call_user_func($mergeCallback, $rows);
-            }
-            // render elements
-            $params = trim($params);
-            $params = $params ? ' ' . $params : '';
-            if ($mergedUrl) {
-                $html .= sprintf($format, $mergedUrl, $params);
-            } else {
-                foreach ($rows as $src) {
-                    $html .= sprintf($format, $src, $params);
-                }
-            }
-        }
-        return $html;
     }
 
     /**
-     * Classify HTML head item and queue it into "lines" array
+     * Map block types to content types
      *
-     * @see self::getCssJsHtml()
-     * @param array &$lines
-     * @param string $itemIf
-     * @param string $itemType
-     * @param string $itemParams
-     * @param string $itemName
-     * @param array $itemThe
+     * @param string $type
+     * @return string
+     * @throws Exception on unsupported type
      */
-    protected function _separateOtherHtmlHeadElements(&$lines, $itemIf, $itemType, $itemParams, $itemName, $itemThe)
+    protected function _mapToContentType($type)
     {
-        $params = $itemParams ? ' ' . $itemParams : '';
-        $href   = $itemName;
-        switch ($itemType) {
+        switch ($type) {
+            case 'js_css':
+            case 'skin_css':
+                return 'css';
+            case 'js':
+            case 'skin_js':
+                return 'js';
             case 'rss':
-                $lines[$itemIf]['other'][] = sprintf('<link href="%s"%s rel="alternate" type="application/rss+xml" />',
-                    $href, $params
-                );
-                break;
             case 'link_rel':
-                $lines[$itemIf]['other'][] = sprintf('<link%s href="%s" />', $params, $href);
-                break;
+                return 'link';
+            default:
+                throw new Exception("Unknown type: '{$type}'.");
         }
-    }
-
-    /**
-     * Render arbitrary HTML head items
-     *
-     * @see self::getCssJsHtml()
-     * @param array $items
-     * @return string
-     */
-    protected function _prepareOtherHtmlHeadElements($items)
-    {
-        return implode("\n", $items);
-    }
-
-    /**
-     * Retrieve Chunked Items
-     *
-     * @param array $items
-     * @param string $prefix
-     * @param int $maxLen
-     * @return array
-     */
-    public function getChunkedItems($items, $prefix = '', $maxLen = 450)
-    {
-        $chunks = array();
-        $chunk  = $prefix;
-        foreach ($items as $item) {
-            if (strlen($chunk.','.$item)>$maxLen) {
-                $chunks[] = $chunk;
-                $chunk = $prefix;
-            }
-            $chunk .= ','.$item;
-        }
-        $chunks[] = $chunk;
-        return $chunks;
     }
 
     /**

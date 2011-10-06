@@ -1453,7 +1453,7 @@ tr.summary-details-excluded { font-style:italic; }
 
 
 /* Remember Me Popup ===================================================================== */
-.window-overlay { background:url(../images/window_overlay.png) repeat; background:rgba(0, 0, 0, 0.35); position:absolute; top:0; left:0; height:100%; width:100%; z-index:990; }
+.window-overlay { background:rgba(0, 0, 0, 0.35); position:absolute; top:0; left:0; height:100%; width:100%; z-index:990; }
 
 .remember-me label { float:none; margin:0 6px; }
 .remember-me-popup { background:#fff; border:1px solid #ccc; left:50%; top:50%; position:absolute; margin:-85px 0 0 -200px; width:400px; text-align:left; -moz-box-shadow:0 0 6px #ccc; -webkit-box-shadow:0 0 6px #ccc; -box-shadow:0 0 6px #ccc; z-index:1000; }

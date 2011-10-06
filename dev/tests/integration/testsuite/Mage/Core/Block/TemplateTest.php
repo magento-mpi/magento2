@@ -42,22 +42,20 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTemplateFile()
     {
-        $this->assertStringStartsWith('frontend', $this->_block->getTemplateFile());
-
         Mage::app()->getConfig()->getOptions()->setDesignDir(__DIR__ . DIRECTORY_SEPARATOR . '_files');
 
         // with template
         $template = 'dummy.phtml';
         $this->_block->setTemplate($template);
         $file = $this->_block->getTemplateFile();
-        $this->assertStringStartsWith('frontend', $file);
+        $this->assertContains('frontend', $file);
         $this->assertStringEndsWith($template, $file);
 
 
         // change area
         $this->_block->setArea('adminhtml');
         $file = $this->_block->getTemplateFile();
-        $this->assertStringStartsWith('adminhtml', $file);
+        $this->assertContains('adminhtml', $file);
         $this->assertStringEndsWith($template, $file);
     }
 
@@ -79,7 +77,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 
         $this->_block->assign(array('varOne' => 'value1', 'varTwo' => 'value2'))
             ->setScriptPath(__DIR__ . DIRECTORY_SEPARATOR . '_files');
-        $template = 'template_test_assign.phtml';
+        $template = __DIR__ . DIRECTORY_SEPARATOR . '_files/template_test_assign.phtml';
         $this->assertEquals('value1, value2', $this->_block->fetchView($template));
     }
 

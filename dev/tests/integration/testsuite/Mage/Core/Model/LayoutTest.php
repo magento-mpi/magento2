@@ -82,7 +82,9 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
             'cache_notifications',
             'notification_survey',
             'notification_security',
-            'messages'
+            'messages',
+            'index_notifications',
+            'index_notifications_copy'
         );
         $this->_model->generateBlocks();
 

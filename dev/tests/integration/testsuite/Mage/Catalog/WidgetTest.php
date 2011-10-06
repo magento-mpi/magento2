@@ -16,6 +16,7 @@ class Mage_Catalog_WidgetTest extends PHPUnit_Framework_TestCase
 {
     public function testNewProductsWidget()
     {
+        $this->markTestIncomplete('MAGETWO-521: require widget.xml files refactoring');
         $model = new Mage_Widget_Model_Widget_Instance;
         $config = $model->setType('catalog/product_widget_new')->getWidgetConfig();
         $templates = $config->xpath('parameters/template/values');

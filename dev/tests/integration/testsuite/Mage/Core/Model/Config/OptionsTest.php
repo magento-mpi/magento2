@@ -27,6 +27,7 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
         'etc_dir'     => 'etc',
         'lib_dir'     => 'lib',
         'locale_dir'  => 'locale',
+        'js_dir'      => 'js',
         'media_dir'   => 'media',
         'skin_dir'    => 'skin',
         'var_dir'     => 'var',
