@@ -499,7 +499,7 @@ simple_product:
 
 duplicate_simple:
     product_attribute_set: Default
-    general_name: Simple Product
+    general_name: Duplicate Simple Product
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
     general_sku: simple_sku
@@ -544,6 +544,9 @@ duplicate_simple:
     gift_options_allow_gift_message: Yes
     websites: Main Website
     categories: Default Category
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData    
     custom_options_data: *customOptionsData
 
 #*********************************************
@@ -633,7 +636,7 @@ virtual_product:
 
 duplicate_virtual:
     product_attribute_set: Default
-    general_name: Virtual Product
+    general_name: Duplicate Virtual Product
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
     general_sku: virtual_sku
@@ -676,6 +679,9 @@ duplicate_virtual:
     gift_options_allow_gift_message: Yes
     websites: Main Website
     categories: Default Category
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData    
     custom_options_data: *customOptionsData
 
 #*********************************************
@@ -809,7 +815,7 @@ fixed_bundle:
 
 duplicate_fixed_bundle:
     product_attribute_set: Default
-    general_name: Bundle(Fixed) Product
+    general_name: Duplicate Bundle(Fixed) Product
     general_description: Description for Bundle(Fixed) Product
     general_short_description: Short Description for Bundle(Fixed) Product
     general_sku_type: Fixed
@@ -876,7 +882,7 @@ duplicate_fixed_bundle:
 
 duplicate_dynamic_bundle:
     product_attribute_set: Default
-    general_name: Bundle(Dynamic) Product
+    general_name: Duplicate Bundle(Dynamic) Product
     general_description: Description for Bundle(Dynamic) Product
     general_short_description: Short Description for Bundle(Dynamic) Product
     general_sku_type: Dynamic
@@ -989,7 +995,7 @@ grouped_product:
 
 duplicate_grouped:
     product_attribute_set: Default
-    general_name: Grouped Product
+    general_name: Duplicate Grouped Product
     general_description: Description for Grouped Product
     general_short_description: Short Description for Grouped Product
     general_sku: grouped_sku
@@ -1099,7 +1105,7 @@ configurable_product:
 duplicate_configurable:
     product_attribute_set: Default
     configurable_attribute_title: %noValue%
-    general_name: Configurable Product
+    general_name: Duplicate Configurable Product
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
     general_sku: configurable_sku
@@ -1211,7 +1217,7 @@ downloadable_product:
 
 duplicate_downloadable:
     product_attribute_set: Default
-    general_name: Downloadable Product
+    general_name: Duplicate Downloadable Product
     general_description: Description for Downloadable Product
     general_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku
@@ -1240,6 +1246,9 @@ duplicate_downloadable:
     gift_options_allow_gift_message: Yes
     websites: Main Website
     categories: Default Category
+    related_data: *relatedProductsData
+    up_sells_data: *upSellsProductsData
+    cross_sells_data: *crossSellsProductsData    
     custom_options_data: *customOptionsData
     downloadable_information_data:
         downloadable_samples_title: Samples Title
