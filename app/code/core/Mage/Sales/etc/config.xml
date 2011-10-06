@@ -642,13 +642,6 @@
                 </Mage_Sales>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <sales>
-                    <file>sales.xml</file>
-                </sales>
-            </updates>
-        </layout>
         <events>
             <catalog_product_delete_before>
                 <observers>

@@ -94,8 +94,8 @@
         </translate>
         <layout>
             <updates>
-                <widget>
-                    <file>widget.xml</file>
+                <widget module="Mage_Widget">
+                    <file>layout.xml</file>
                 </widget>
             </updates>
         </layout>

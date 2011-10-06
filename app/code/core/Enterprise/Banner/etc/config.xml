@@ -102,8 +102,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_banner>
-                    <file>enterprise/banner.xml</file>
+                <enterprise_banner module="Enterprise_Banner">
+                    <file>layout.xml</file>
                 </enterprise_banner>
             </updates>
         </layout>

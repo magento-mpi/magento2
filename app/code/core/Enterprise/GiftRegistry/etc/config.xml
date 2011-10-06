@@ -137,8 +137,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_giftregistry>
-                    <file>enterprise/giftregistry.xml</file>
+                <enterprise_giftregistry module="Enterprise_GiftRegistry">
+                    <file>layout.xml</file>
                 </enterprise_giftregistry>
             </updates>
         </layout>

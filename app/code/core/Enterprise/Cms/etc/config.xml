@@ -134,8 +134,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_cms>
-                    <file>enterprise/cms.xml</file>
+                <enterprise_cms module="Enterprise_Cms">
+                    <file>layout.xml</file>
                 </enterprise_cms>
             </updates>
         </layout>

@@ -122,8 +122,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_customersegment>
-                    <file>enterprise/customersegment.xml</file>
+                <enterprise_customersegment module="Enterprise_CustomerSegment">
+                    <file>layout.xml</file>
                 </enterprise_customersegment>
             </updates>
         </layout>

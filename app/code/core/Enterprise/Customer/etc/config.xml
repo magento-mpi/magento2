@@ -255,8 +255,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_customer>
-                    <file>enterprise/customer.xml</file>
+                <enterprise_customer module="Enterprise_Customer">
+                    <file>layout.xml</file>
                 </enterprise_customer>
             </updates>
         </layout>

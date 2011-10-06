@@ -229,8 +229,8 @@
         </translate>
         <layout>
             <updates>
-                <bundle>
-                    <file>bundle.xml</file>
+                <bundle module="Mage_Bundle">
+                    <file>layout.xml</file>
                 </bundle>
             </updates>
         </layout>

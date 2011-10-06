@@ -118,8 +118,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_reminder>
-                    <file>enterprise/reminder.xml</file>
+                <enterprise_reminder module="Enterprise_Reminder">
+                    <file>layout.xml</file>
                 </enterprise_reminder>
             </updates>
         </layout>

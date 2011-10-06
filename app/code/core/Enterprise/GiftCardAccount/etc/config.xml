@@ -348,8 +348,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_giftcardaccount>
-                    <file>enterprise/giftcardaccount.xml</file>
+                <enterprise_giftcardaccount module="Enterprise_GiftCardAccount">
+                    <file>layout.xml</file>
                 </enterprise_giftcardaccount>
             </updates>
         </layout>

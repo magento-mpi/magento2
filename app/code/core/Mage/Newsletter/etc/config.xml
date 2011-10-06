@@ -124,13 +124,6 @@
                 </Mage_Newsletter>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <newsletter module="Mage_Newsletter">
-                    <file>newsletter.xml</file>
-                </newsletter>
-            </updates>
-        </layout>
     </adminhtml>
     <frontend>
         <events>
