@@ -1974,7 +1974,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 .account-create {}
 
-.window-overlay { background:url(../images/window_overlay.png) repeat; background:rgba(0, 0, 0, 0.35); position:absolute; top:0; left:0; height:100%; width:100%; z-index:990; }
+.window-overlay { background:rgba(0, 0, 0, 0.35); position:absolute; top:0; left:0; height:100%; width:100%; z-index:990; }
 
 .remember-me input { margin-right:6px; }
 
