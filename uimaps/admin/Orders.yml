@@ -506,6 +506,24 @@ view_order:
                                         qty_refunded: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Refunded'][td/strong='%refundedQty%']
                                     links:
                                         gift_options: //tbody[@class][tr[contains(.,'%sku%')]]//a[text()='Gift Options']
+                                    pageelements:
+                                        item_status: //tr[td[div/div/h5='%productName%']]/td[%colNumber%][normalize-space(text())='%price%']
+                                        original_price: //tr[td[div/div/h5='%productName%']]/td[%colNumber%]//span[@class='price' and normalize-space(text())='%price%']
+                                        price: //tr[td[div/div/h5='%productName%']]/td[%colNumber%]//span[@class='price' and not(contains(.,normalize-space('Incl. Tax:'))) and not(contains(.,normalize-space('Excl. Tax:')))][text()='%price%']
+                                        price_excl_tax: //tr[td[div/div/h5='%productName%']]/td[%colNumber%]//span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1][text()='%price%']
+                                        price_incl_tax: //tr[td[div/div/h5='%productName%']]/td[%colNumber%]//span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1][text()='%price%']
+                                        qty_ordered: //tbody[@class][tr[contains(.,'%productName%')]]//tr[td='Ordered'][td/strong='%price%']
+                                        qty_invoiced: //tbody[@class][tr[contains(.,'%productName%')]]//tr[td='Invoiced'][td/strong='%price%']
+                                        qty_shipped: //tbody[@class][tr[contains(.,'%productName%')]]//tr[td='Shipped'][td/strong='%price%']
+                                        qty_refunded: //tbody[@class][tr[contains(.,'%productName%')]]//tr[td='Refunded'][td/strong='%price%']
+                                        qty_canceled: //tbody[@class][tr[contains(.,'%productName%')]]//tr[td='Canceled'][td/strong='%price%']
+                                        subtotal: //tr[td[div/div/h5='%productName%']]/td[%colNumber%]//span[@class='price' and not(contains(.,normalize-space('Incl. Tax:'))) and not(contains(.,normalize-space('Excl. Tax:')))][text()='%price%']
+                                        subtotal_excl_tax: //tr[td[div/div/h5='%productName%']]/td[%colNumber%]//span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1][text()='%price%']
+                                        subtotal_incl_tax: //tr[td[div/div/h5='%productName%']]/td[%colNumber%]//span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1][text()='%price%']
+                                        tax_amount: //tr[td[div/div/h5='%productName%']]/td[%colNumber%]//span[@class='price' and normalize-space(text())='%price%']
+                                        tax_percent: //tr[td[div/div/h5='%productName%']]/td[%colNumber%][@class='a-right' and normalize-space(text())='%price%']
+                                        discount_amount: //tr[td[div/div/h5='%productName%']]/td[%colNumber%]//span[@class='price' and normalize-space(text())='%price%']
+                                        row_total: //tr[td[div/div/h5='%productName%']]/td[%colNumber%]//span[@class='price' and normalize-space(text())='%price%']
                             -
                                 gift_options: *giftMessage
                             -
@@ -525,6 +543,20 @@ view_order:
                             -
                                 order_totals:
                                     xpath: //div[@class='order-totals']
+                                    pageelements:
+                                        totals_subtotal: //tr[normalize-space(td)='Subtotal' and not(contains(.,normalize-space(text()='Incl. Tax:'))) and not(contains(.,normalize-space(text()='Excl. Tax:')))]/td[span='%price%']
+                                        totals_subtotal_excl_tax: //tr[normalize-space(td)='Subtotal (Excl.Tax)']/td[span='%price%']
+                                        totals_subtotal_incl_tax: //tr[normalize-space(td)='Subtotal (Incl.Tax)']/td[span='%price%']
+                                        totals_shipping_handling: //tr[normalize-space(td)='Shipping & Handling' and not(contains(.,normalize-space(text()='Incl. Tax:'))) and not(contains(.,normalize-space(text()='Excl. Tax:')))]/td[span='%price%']
+                                        totals_shipping_handling_excl_tax: //tr[normalize-space(td)='Shipping & Handling (Excl.Tax)']/td[span='%price%']
+                                        totals_shipping_handling_incl_tax: //tr[normalize-space(td)='Shipping & Handling (Incl.Tax)']/td[span='%price%']
+                                        totals_grand_total: //tr[normalize-space(td)='Grand Total' and not(contains(.,normalize-space(text()='Incl. Tax:'))) and not(contains(.,normalize-space(text()='Excl. Tax:')))]/td[strong='%price%']
+                                        totals_grand_total_excl_tax: //tr[normalize-space(td)='Grand Total (Excl.Tax)']/td[strong='%price%']
+                                        totals_total_tax: //tr[normalize-space(td)='Total Tax']/td[span='%price%']
+                                        totals_grand_total_incl_tax: //tr[normalize-space(td)='Grand Total (Incl.Tax)']/td[strong='%price%']
+                                        totals_total_paid: //tr[normalize-space(td)='Total Paid']/td[strong='%price%']
+                                        totals_total_refunded: //tr[normalize-space(td)='Total Refunded']/td[strong='%price%']
+                                        totals_total_due: //tr[normalize-space(td)='Total Due']/td[strong='%price%']
                 -
                     invoices:
                         xpath: //a[@name='order_invoices']/span
