@@ -41,7 +41,6 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
     {
         parent::__construct();
         $this->setTemplate('media/editor.phtml');
-        $this->getConfig()->setImage($this->getSkinUrl('images/image.jpg'));
         $this->getConfig()->setParams();
     }
 
