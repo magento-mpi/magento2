@@ -62,6 +62,7 @@ class Mage_Core_Model_Config_Options extends Varien_Object
         $this->_data['etc_dir']     = $appRoot.DS.'etc';
         $this->_data['lib_dir']     = $root.DS.'lib';
         $this->_data['locale_dir']  = $appRoot.DS.'locale';
+        $this->_data['js_dir']      = $root.DS.'js';
         $this->_data['media_dir']   = $root.DS.'media';
         $this->_data['skin_dir']    = $root.DS.'skin';
         $this->_data['var_dir']     = $this->getVarDir();
@@ -123,6 +124,11 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     {
         //return $this->getDataSetDefault('locale_dir', $this->getAppDir().DS.'locale');
         return $this->_data['locale_dir'];
+    }
+
+    public function getJsDir()
+    {
+        return $this->_data['js_dir'];
     }
 
     public function getMediaDir()

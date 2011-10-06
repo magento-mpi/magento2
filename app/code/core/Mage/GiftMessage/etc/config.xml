@@ -231,12 +231,5 @@
                 </Mage_GiftMessage>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <giftmessage>
-                    <file>giftmessage.xml</file>
-                </giftmessage>
-            </updates>
-        </layout>
     </frontend>
 </config>

@@ -225,6 +225,9 @@
     </install>
     <default>
         <design>
+            <theme>
+                <allow_skin_files_duplication>1</allow_skin_files_duplication>
+            </theme>
             <package>
                 <area>frontend</area>
                 <default_theme>default</default_theme>

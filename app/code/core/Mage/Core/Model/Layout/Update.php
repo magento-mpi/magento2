@@ -396,6 +396,12 @@ class Mage_Core_Model_Layout_Update
         if (null === $storeId) {
             $storeId = Mage::app()->getStore()->getId();
         }
+        $layoutParams = array(
+            '_area'    => $area,
+            '_package' => $package,
+            '_theme'   => $theme,
+        );
+
         /* @var $design Mage_Core_Model_Design_Package */
         $design = Mage::getSingleton('core/design_package');
         $layoutXml = null;
@@ -409,18 +415,24 @@ class Mage_Core_Model_Layout_Update
                 if ($module && Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $module, $storeId)) {
                     continue;
                 }
-                $updateFiles[] = (string)$updateNode->file;
+                $filename = $design->getLayoutFilename(
+                    (string)$updateNode->file, $layoutParams + array('_module' => $module)
+                );
+                if (!is_readable($filename)) {
+//                    throw new Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
+                }
+                $updateFiles[] = $filename;
             }
         }
         // custom local layout updates file - load always last
-        $updateFiles[] = 'local.xml';
+        $filename = $design->getLayoutFilename('local.xml', $layoutParams);
+        if (is_readable($filename)) {
+            $updateFiles[] = $filename;
+        }
+
         $layoutStr = '';
-        foreach ($updateFiles as $file) {
-            $filename = $design->getLayoutFilename($file, array(
-                '_area'    => $area,
-                '_package' => $package,
-                '_theme'   => $theme
-            ));
+        foreach ($updateFiles as $filename) {
+            // legacy
             if (!is_readable($filename)) {
                 continue;
             }

@@ -82,17 +82,13 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetProcessedTemplate()
     {
         $this->_model->setTemplateText('{{skin url="favicon.ico"}}');
-        $this->assertStringEndsWith('default/favicon.ico',
-            $this->_model->getProcessedTemplate()
-        );
+        $this->assertStringEndsWith('favicon.ico', $this->_model->getProcessedTemplate());
     }
 
     public function testGetProcessedTemplateSubject()
     {
         $this->_model->setTemplateSubject('{{skin url="favicon.ico"}}');
-        $this->assertStringEndsWith('default/favicon.ico',
-            $this->_model->getProcessedTemplateSubject(array())
-        );
+        $this->assertStringEndsWith('favicon.ico', $this->_model->getProcessedTemplateSubject(array()));
     }
 
     /**

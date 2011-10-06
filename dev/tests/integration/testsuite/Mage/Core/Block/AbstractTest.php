@@ -364,7 +364,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetSkinUrl()
     {
         //$this->assertStringStartsWith('http://localhost/pub/skin/frontend/', $this->_block->getSkinUrl());
-        $this->assertStringStartsWith('http://localhost/skin/frontend/', $this->_block->getSkinUrl());
+        $this->assertStringStartsWith('http://localhost/media/skin/frontend/', $this->_block->getSkinUrl());
         $this->assertStringEndsWith('css/styles.css', $this->_block->getSkinUrl('css/styles.css'));
     }
 

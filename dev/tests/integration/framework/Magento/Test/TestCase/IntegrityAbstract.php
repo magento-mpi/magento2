@@ -62,18 +62,35 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
      */
     protected function _getDesignSkins()
     {
-        $result = array();
-        $areas = array('adminhtml', 'frontend', 'install');
-        foreach ($areas as $area) {
-            $entities = Mage::getDesign()->getDesignEntitiesStructure($area, false);
-            foreach ($entities as $package => $themes) {
-                foreach ($themes as $theme => $skins) {
-                    foreach (array_keys($skins) as $skin) {
-                        $result[] = "{$area}/{$package}/{$theme}/{$skin}";
-                    }
-                }
-            }
-        }
+        $result = array(
+            'adminhtml/default/default/default',
+            'adminhtml/default/default/enterprise',
+            'adminhtml/default/default/pro',
+            'frontend/default/default/blank',
+            'frontend/default/default/blue',
+            'frontend/default/default/default',
+            'frontend/default/default/french',
+            'frontend/default/default/german',
+            'frontend/default/iphone/iphone',
+            'frontend/default/modern/modern',
+            'frontend/enterprise/default/default',
+            'frontend/pro/default/default',
+            'install/default/default/default',
+            'install/default/enterprise/enterprise',
+            'install/default/pro/pro',
+        );
+
+//        $areas = array('adminhtml', 'frontend', 'install');
+//        foreach ($areas as $area) {
+//            $entities = Mage::getDesign()->getDesignEntitiesStructure($area, false);
+//            foreach ($entities as $package => $themes) {
+//                foreach ($themes as $theme => $skins) {
+//                    foreach (array_keys($skins) as $skin) {
+//                        $result[] = "{$area}/{$package}/{$theme}/{$skin}";
+//                    }
+//                }
+//            }
+//        }
         return $result;
     }
 

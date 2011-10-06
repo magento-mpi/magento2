@@ -71,22 +71,18 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     {
         /* Load & render XML to get rid of comments and replace root node name from <layout> to <layouts> */
         $xml = simplexml_load_file($filename, 'Varien_Simplexml_Element');
-        $text = '';
-        foreach ($xml->children() as $child) {
-            $text .= $child->asNiceXml();
-        }
-        return '<layouts>' . $text . '</layouts>';
+        return '<layouts>' . $xml->innerXml() . '</layouts>';
     }
 
     public function testGetFileLayoutUpdatesXmlFromTheme()
     {
         $this->_replaceConfigLayoutUpdates('
             <core module="Mage_Core">
-                <file>core.xml</file>
+                <file>layout.xml</file>
             </core>
         ');
         $expectedXmlStr = $this->_readLayoutFileContents(
-            __DIR__ . '/../_files/design/frontend/test/default/layout/core.xml'
+            __DIR__ . '/../_files/design/frontend/test/default/Mage_Core/layout.xml'
         );
         $actualXml = $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
         $this->assertXmlStringEqualsXmlString($expectedXmlStr, $actualXml->asNiceXml());
@@ -100,17 +96,17 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     {
         $this->_replaceConfigLayoutUpdates('
             <catalog module="Mage_Catalog">
-                <file>catalog.xml</file>
+                <file>layout.xml</file>
             </catalog>
             <core module="Mage_Core">
-                <file>core.xml</file>
+                <file>layout.xml</file>
             </core>
             <page module="Mage_Page">
-                <file>page.xml</file>
+                <file>layout.xml</file>
             </page>
         ');
         $expectedXmlStr = $this->_readLayoutFileContents(
-            __DIR__ . '/../_files/design/frontend/test/default/layout/core.xml'
+            __DIR__ . '/../_files/design/frontend/test/default/Mage_Core/layout.xml'
         );
         $actualXml = $this->_model->getFileLayoutUpdatesXml('frontend', 'test', 'default');
         $this->assertXmlStringEqualsXmlString($expectedXmlStr, $actualXml->asNiceXml());
