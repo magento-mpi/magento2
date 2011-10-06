@@ -80,9 +80,9 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/info',
+            'enterprise_giftregistry_type_info',
             'type_id',
-            'enterprise_giftregistry/type',
+            'enterprise_giftregistry_type',
             'type_id'
         ),
         'type_id', $installer->getTable('enterprise_giftregistry_type'), 'type_id',
@@ -126,9 +126,9 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/label',
+            'enterprise_giftregistry_label',
             'type_id',
-            'enterprise_giftregistry/type',
+            'enterprise_giftregistry_type',
             'type_id'
         ),
         'type_id', $installer->getTable('enterprise_giftregistry_type'), 'type_id',
@@ -196,27 +196,27 @@ $table = $installer->getConnection()
         array('type_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'type_id',
-            'enterprise_giftregistry/type',
+            'enterprise_giftregistry_type',
             'type_id'
         ),
         'type_id', $installer->getTable('enterprise_giftregistry_type'), 'type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'customer_id',
-            'customer/entity',
+            'customer_entity',
             'entity_id'
         ),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
         'website_id', $installer->getTable('core_website'), 'website_id',
@@ -262,18 +262,18 @@ $table = $installer->getConnection()
         array('product_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/item',
+            'enterprise_giftregistry_item',
             'entity_id',
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'entity_id'
         ),
         'entity_id', $installer->getTable('enterprise_giftregistry_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/item',
+            'enterprise_giftregistry_item',
             'product_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
@@ -316,9 +316,9 @@ $table = $installer->getConnection()
         array('entity_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/person',
+            'enterprise_giftregistry_person',
             'entity_id',
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'entity_id'
         ),
         'entity_id', $installer->getTable('enterprise_giftregistry_entity'), 'entity_id',
@@ -349,9 +349,9 @@ $table = $installer->getConnection()
         ), 'Event Location')
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/data',
+            'enterprise_giftregistry_data',
             'entity_id',
-            'enterprise_giftregistry/entity',
+            'enterprise_giftregistry_entity',
             'entity_id'
         ),
         'entity_id', $installer->getTable('enterprise_giftregistry_entity'), 'entity_id',
@@ -386,9 +386,9 @@ $table = $installer->getConnection()
         ), 'Value')
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftregistry/item_option',
+            'enterprise_giftregistry_item_option',
             'item_id',
-            'enterprise_giftregistry/item',
+            'enterprise_giftregistry_item',
             'item_id'
         ),
         'item_id', $installer->getTable('enterprise_giftregistry_item'), 'item_id',

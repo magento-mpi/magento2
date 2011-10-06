@@ -75,18 +75,18 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftwrapping/attribute',
+            'enterprise_giftwrapping_store_attributes',
             'wrapping_id',
-            'enterprise_giftwrapping/wrapping',
+            'enterprise_giftwrapping',
             'wrapping_id'
         ),
         'wrapping_id', $installer->getTable('enterprise_giftwrapping'), 'wrapping_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftwrapping/attribute',
+            'enterprise_giftwrapping_store_attributes',
             'store_id',
-            'core/store',
+            'core_store',
             'store_id'
         ),
         'store_id', $installer->getTable('core_store'), 'store_id',
@@ -114,18 +114,18 @@ $table = $installer->getConnection()
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftwrapping/website',
+            'enterprise_giftwrapping_website',
             'wrapping_id',
-            'enterprise_giftwrapping/wrapping',
+            'enterprise_giftwrapping',
             'wrapping_id'
         ),
         'wrapping_id', $installer->getTable('enterprise_giftwrapping'), 'wrapping_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_giftwrapping/website',
+            'enterprise_giftwrapping_website',
             'website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
         'website_id', $installer->getTable('core_website'), 'website_id',

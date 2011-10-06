@@ -351,7 +351,7 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'enterprise_rma_item_entity_datetime',
             'entity_id',
-            'enterprise_rma/item_entity',
+            'enterprise_rma_item_entity',
             'entity_id'),
         'entity_id', $installer->getTable('enterprise_rma_item_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -359,7 +359,7 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'enterprise_rma_item_entity_datetime',
             'entity_type_id',
-            'eav/entity_type',
+            'eav_entity_type',
             'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -418,7 +418,7 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'enterprise_rma_item_entity_decimal',
             'entity_id',
-            'enterprise_rma/item_entity',
+            'enterprise_rma_item_entity',
             'entity_id'),
         'entity_id', $installer->getTable('enterprise_rma_item_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -426,7 +426,7 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'enterprise_rma_item_entity_decimal',
             'entity_type_id',
-            'eav/entity_type',
+            'eav_entity_type',
             'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -539,7 +539,7 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'enterprise_rma_item_entity_text',
             'entity_id',
-            'enterprise_rma/item_entity',
+            'enterprise_rma_item_entity',
             'entity_id'),
         'entity_id', $installer->getTable('enterprise_rma_item_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -600,7 +600,7 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'enterprise_rma_item_entity_varchar',
             'entity_id',
-            'enterprise_rma/item_entity',
+            'enterprise_rma_item_entity',
             'entity_id'),
         'entity_id', $installer->getTable('enterprise_rma_item_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -608,7 +608,7 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'enterprise_rma_item_entity_varchar',
             'entity_type_id',
-            'eav/entity_type',
+            'eav_entity_type',
             'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
@@ -671,9 +671,9 @@ $table = $installer->getConnection()
         array('website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_rma/item_eav_attribute_website',
+            'enterprise_rma_item_eav_attribute_website',
             'attribute_id',
-            'eav/attribute',
+            'eav_attribute',
             'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)

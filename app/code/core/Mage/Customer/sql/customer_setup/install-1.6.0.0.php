@@ -196,7 +196,7 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'customer_address_entity_datetime',
             'entity_type_id',
-            'eav/entity_type',
+            'eav_entity_type',
             'entity_type_id'
         ),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
