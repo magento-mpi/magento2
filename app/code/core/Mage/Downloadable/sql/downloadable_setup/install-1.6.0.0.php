@@ -234,18 +234,18 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('downloadable_link_purchased_item', 'purchased_id'), 'purchased_id')
     ->addForeignKey(
         $installer->getFkName(
-            'downloadable/link_purchased_item',
+            'downloadable_link_purchased_item',
             'purchased_id',
-            'downloadable/link_purchased',
+            'downloadable_link_purchased',
             'purchased_id'
         ),
         'purchased_id', $installer->getTable('downloadable_link_purchased'), 'purchased_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'downloadable/link_purchased_item',
+            'downloadable_link_purchased_item',
             'order_item_id',
-            'sales/order_item',
+            'sales_flat_order_item',
             'item_id'
         ),
         'order_item_id', $installer->getTable('sales_flat_order_item'), 'item_id',
@@ -278,7 +278,7 @@ $table = $installer->getConnection()
         ), 'Title')
     ->addIndex(
         $installer->getIdxName(
-            'downloadable/link_title',
+            'downloadable_link_title',
             array('link_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -354,7 +354,7 @@ $table = $installer->getConnection()
         ), 'Title')
     ->addIndex(
         $installer->getIdxName(
-            'downloadable/sample_title',
+            'downloadable_sample_title',
             array('sample_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),

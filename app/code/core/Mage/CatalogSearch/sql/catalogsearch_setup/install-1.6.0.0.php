@@ -136,7 +136,7 @@ $table = $installer->getConnection()
         ), 'Data index')
     ->addIndex(
         $installer->getIdxName(
-            'catalogsearch/fulltext',
+            'catalogsearch_fulltext',
             array('product_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -144,7 +144,7 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addIndex(
         $installer->getIdxName(
-            'catalogsearch/fulltext',
+            'catalogsearch_fulltext',
             'data_index',
             Varien_Db_Adapter_Interface::INDEX_TYPE_FULLTEXT
          ),

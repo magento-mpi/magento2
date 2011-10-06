@@ -46,7 +46,7 @@ $table = $installer->getConnection()
         ), 'Created At')
     ->addIndex(
         $installer->getIdxName(
-            'paypal/payment_transaction',
+            'paypal_payment_transaction',
             array('txn_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),

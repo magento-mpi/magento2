@@ -55,9 +55,9 @@ $table = $connection->newTable($this->getTable('googleshopping_types'))
         ), 'Target country')
     ->addForeignKey(
         $installer->getFkName(
-            'googleshopping/types',
+            'googleshopping_types',
             'attribute_set_id',
-            'eav/attribute_set',
+            'eav_attribute_set',
             'attribute_set_id'
         ),
         'attribute_set_id',
@@ -66,7 +66,7 @@ $table = $connection->newTable($this->getTable('googleshopping_types'))
         Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addIndex(
         $installer->getIdxName(
-            'googleshopping/types',
+            'googleshopping_types',
             array('attribute_set_id', 'target_country'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -102,9 +102,9 @@ $table = $connection->newTable($this->getTable('googleshopping_items'))
     ->addColumn('expires', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(), 'Expires date')
     ->addForeignKey(
         $installer->getFkName(
-            'googleshopping/items',
+            'googleshopping_items',
             'product_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
         'product_id',
@@ -114,9 +114,9 @@ $table = $connection->newTable($this->getTable('googleshopping_items'))
      )
     ->addForeignKey(
         $installer->getFkName(
-            'googleshopping/items',
+            'googleshopping_items',
             'store_id',
-            'core/store',
+            'core_store',
             'store_id'
         ),
         'store_id',
@@ -149,9 +149,9 @@ $table = $connection->newTable($this->getTable('googleshopping_attributes'))
         ), 'Type Id')
     ->addForeignKey(
         $installer->getFkName(
-            'googleshopping/attributes',
+            'googleshopping_attributes',
             'attribute_id',
-            'eav/attribute',
+            'eav_attribute',
             'attribute_id'
         ),
         'attribute_id',
@@ -161,9 +161,9 @@ $table = $connection->newTable($this->getTable('googleshopping_attributes'))
      )
     ->addForeignKey(
         $installer->getFkName(
-            'googleshopping/attributes',
+            'googleshopping_attributes',
             'type_id',
-            'googleshopping/types',
+            'googleshopping_types',
             'type_id'
         ),
         'type_id',

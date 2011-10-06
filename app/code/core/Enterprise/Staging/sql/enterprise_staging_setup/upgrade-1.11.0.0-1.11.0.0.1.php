@@ -44,18 +44,18 @@ $table = $installer->getConnection()
         ), 'Website Id')
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_product_unlinked',
+            'enterprise_staging_product_unlinked',
             'product_id',
-            'catalog/product',
+            'catalog_product_entity',
             'entity_id'
         ),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_product_unlinked',
+            'enterprise_staging_product_unlinked',
             'website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
         'website_id', $installer->getTable('core_website'), 'website_id',

@@ -76,18 +76,18 @@ $table = $installer->getConnection()
         array('staging_website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging',
+            'enterprise_staging',
             'master_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
         'master_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging',
+            'enterprise_staging',
             'staging_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
         'staging_website_id', $installer->getTable('core_website'), 'website_id',
@@ -117,7 +117,7 @@ $table = $installer->getConnection()
         ), 'Sort Order')
     ->addIndex(
         $installer->getIdxName(
-            'enterprise_staging/staging_item',
+            'enterprise_staging_item',
             array('staging_id', 'code'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -126,9 +126,9 @@ $table = $installer->getConnection()
         array('staging_id', 'sort_order'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_item',
+            'enterprise_staging_item',
             'staging_id',
-            'enterprise_staging/staging',
+            'enterprise_staging',
             'staging_id'
         ),
         'staging_id', $installer->getTable('enterprise_staging'), 'staging_id',
@@ -191,18 +191,18 @@ $table = $installer->getConnection()
         array('type'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_action',
+            'enterprise_staging_action',
             'staging_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
         'staging_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_action',
+            'enterprise_staging_action',
             'master_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
         'master_website_id', $installer->getTable('core_website'), 'website_id',
@@ -279,18 +279,18 @@ $table = $installer->getConnection()
         array('staging_website_id'))
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_log',
+            'enterprise_staging_log',
             'master_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
         'master_website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            'enterprise_staging/staging_log',
+            'enterprise_staging_log',
             'staging_website_id',
-            'core/website',
+            'core_website',
             'website_id'
         ),
         'staging_website_id', $installer->getTable('core_website'), 'website_id',

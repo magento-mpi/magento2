@@ -74,7 +74,7 @@ $table = $installer->getConnection()
         ), 'Country Format')
     ->addIndex(
         $installer->getIdxName(
-            'directory/country_format',
+            'directory_country_format',
             array('country_id', 'type'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),

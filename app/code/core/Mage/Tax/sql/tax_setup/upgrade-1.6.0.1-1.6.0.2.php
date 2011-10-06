@@ -52,16 +52,16 @@ $table = $installer->getConnection()
         array('item_id'))
     ->addIndex(
         $installer->getIdxName(
-            'tax/sales_order_tax_item', array('tax_id', 'item_id'),
+            'sales_order_tax_item', array('tax_id', 'item_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
         array('tax_id', 'item_id'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
     )
     ->addForeignKey(
         $installer->getFkName(
-            'tax/sales_order_tax_item',
+            'sales_order_tax_item',
             'tax_id',
-            'tax/sales_order_tax',
+            'sales_order_tax',
             'tax_id'
         ),
         'tax_id',
@@ -72,7 +72,7 @@ $table = $installer->getConnection()
     )
     ->addForeignKey(
         $installer->getFkName(
-            'tax/sales_order_tax_item',
+            'sales_order_tax_item',
             'item_id',
             'sales_flat_order_item',
             'item_id'
