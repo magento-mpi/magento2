@@ -222,8 +222,8 @@
     <frontend>
         <layout>
             <updates>
-                <enterprise_rma>
-                    <file>rma.xml</file>
+                <enterprise_rma module="Enterprise_Rma">
+                    <file>layout.xml</file>
                 </enterprise_rma>
             </updates>
         </layout>

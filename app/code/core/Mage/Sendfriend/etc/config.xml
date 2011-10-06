@@ -102,8 +102,8 @@
         </routers>
         <layout>
             <updates>
-                <sendfriend>
-                    <file>sendfriend.xml</file>
+                <sendfriend module="Mage_Sendfriend">
+                    <file>layout.xml</file>
                 </sendfriend>
             </updates>
         </layout>

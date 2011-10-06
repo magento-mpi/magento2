@@ -124,7 +124,7 @@
         <layout>
             <updates>
                 <wishlist module="Mage_Wishlist">
-                    <file>wishlist.xml</file>
+                    <file>layout.xml</file>
                 </wishlist>
             </updates>
         </layout>

@@ -48,9 +48,11 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
         $helper = Mage::helper('catalogsearch');
         if (method_exists($helper, 'getEngine')) {
             $engine = Mage::helper('catalogsearch')->getEngine();
-            $isLayeredNavigationAllowed = ($engine instanceof Varien_Object)
-                ? $engine->isLeyeredNavigationAllowed()
-                : true;
+            if ($engine instanceof Varien_Object) {
+                $isLayeredNavigationAllowed = $engine->isLeyeredNavigationAllowed();
+            } else {
+                $isLayeredNavigationAllowed = true;
+            }
         } else {
             $isLayeredNavigationAllowed = true;
         }
@@ -64,8 +66,7 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
         if ($productListBlock) {
             $layer = Mage::getSingleton('catalogsearch/layer');
             $productsXmlObj = $productListBlock->setLayer($layer)
-                ->setNeedBlockApplyingFilters(!$isLayeredNavigationAllowed)
-                ->getProductsXmlObject();
+                ->setNeedBlockApplyingFilters(!$isLayeredNavigationAllowed)->getProductsXmlObject();
             $searchXmlObject->appendChild($productsXmlObj);
             $hasMoreProductItems = (int)$productListBlock->getHasProductItems();
         }
@@ -107,8 +108,7 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
                     $value = $values->addChild('value');
                     $value->addChild('id', $valueItem->getValueString());
                     $value->addChild(
-                        'label',
-                        $searchXmlObject->xmlentities(strip_tags($valueItem->getLabel()))
+                        'label', $searchXmlObject->xmlentities(strip_tags($valueItem->getLabel()))
                     );
                     $value->addChild('count', $count);
                 }

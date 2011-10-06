@@ -172,6 +172,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
         }
 
         try {
+            $typeModel->setCategory($this->getRequest()->getParam('category'));
             if ($typeModel->getId()) {
                 $collection = Mage::getResourceModel('googleshopping/attribute_collection')
                     ->addTypeFilter($typeModel->getId())
@@ -181,11 +182,12 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
                 }
             } else {
                 $typeModel->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
-                    ->setTargetCountry($this->getRequest()->getParam('target_country'))
-                    ->save();
+                    ->setTargetCountry($this->getRequest()->getParam('target_country'));
             }
+            $typeModel->save();
 
             $attributes = $this->getRequest()->getParam('attributes');
+            $requiredAttributes = Mage::getSingleton('googleshopping/config')->getRequiredAttributes();
             if (is_array($attributes)) {
                 $typeId = $typeModel->getId();
                 foreach ($attributes as $attrInfo) {
@@ -197,10 +199,15 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
                         ->setGcontentAttribute($attrInfo['gcontent_attribute'])
                         ->setTypeId($typeId)
                         ->save();
+                    unset($requiredAttributes[$attrInfo['gcontent_attribute']]);
                 }
             }
 
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('googleshopping')->__('The attribute mapping has been saved.'));
+            if (!empty($requiredAttributes)) {
+                Mage::getSingleton('adminhtml/session')
+                    ->addSuccess(Mage::helper('googleshopping/category')->getMessage());
+            }
         } catch (Exception $e) {
             Mage::logException($e);
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('googleshopping')->__("Can't save Attribute Set Mapping."));

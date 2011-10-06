@@ -179,8 +179,8 @@
         </translate>
         <layout>
             <updates>
-                <enterprise_giftwrapping>
-                    <file>giftwrapping.xml</file>
+                <enterprise_giftwrapping module="Enterprise_GiftWrapping">
+                    <file>layout.xml</file>
                 </enterprise_giftwrapping>
             </updates>
         </layout>

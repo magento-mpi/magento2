@@ -132,8 +132,8 @@
         </translate>
         <layout>
             <updates>
-                <checkout>
-                    <file>checkout.xml</file>
+                <checkout module="Mage_Checkout">
+                    <file>layout.xml</file>
                 </checkout>
             </updates>
         </layout>

@@ -210,7 +210,7 @@
         <layout>
             <updates>
                 <downloadable module="Mage_Downloadable">
-                    <file>downloadable.xml</file>
+                    <file>layout.xml</file>
                 </downloadable>
             </updates>
         </layout>

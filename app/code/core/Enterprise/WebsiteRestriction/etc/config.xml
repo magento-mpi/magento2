@@ -109,6 +109,7 @@
                         <paypal_ipn_index/>
                         <paypaluk_ipn_express/>
                         <paypaluk_ipn_direct/>
+                        <paypal_payflow_silentPost/>
                         <googlecheckout_api_index/>
                         <googlecheckout_api_beacon/>
                     </generic>
@@ -121,8 +122,8 @@
         </enterprise>
         <layout>
             <updates>
-                <enterprise_websiterestriction>
-                    <file>websiterestriction.xml</file>
+                <enterprise_websiterestriction module="Enterprise_WebsiteRestriction">
+                    <file>layout.xml</file>
                 </enterprise_websiterestriction>
             </updates>
         </layout>

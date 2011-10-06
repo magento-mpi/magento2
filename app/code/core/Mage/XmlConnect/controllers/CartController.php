@@ -36,7 +36,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
     /**
      * Shopping cart display action
      *
-     * @return void
+     * @return null
      */
     public function indexAction()
     {
@@ -64,7 +64,6 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
              * as modified bc he can has checkout page in another window.
              */
             $this->_getSession()->setCartWasUpdated(true);
-
             $this->loadLayout(false)->getLayout()->getBlock('xmlconnect.cart')->setMessages($messages);
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
@@ -78,7 +77,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
     /**
      * Update shoping cart data action
      *
-     * @return void
+     * @return null
      */
     public function updateAction()
     {
@@ -94,11 +93,10 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
                     }
                 }
                 $cart = $this->_getCart();
-                if (! $cart->getCustomerSession()->getCustomer()->getId() && $cart->getQuote()->getCustomerId()) {
+                if (!$cart->getCustomerSession()->getCustomer()->getId() && $cart->getQuote()->getCustomerId()) {
                     $cart->getQuote()->setCustomerId(null);
                 }
-                $cart->updateItems($cartData)
-                    ->save();
+                $cart->updateItems($cartData)->save();
             }
             $this->_getSession()->setCartWasUpdated(true);
             $this->_message($this->__('Cart has been updated.'), parent::MESSAGE_STATUS_SUCCESS);
@@ -136,7 +134,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
     /**
      * Add product to shopping cart action
      *
-     * @return void
+     * @return null
      */
     public function addAction()
     {
@@ -153,8 +151,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             $product = null;
             $productId = (int) $this->getRequest()->getParam('product');
             if ($productId) {
-                $_product = Mage::getModel('catalog/product')
-                    ->setStoreId(Mage::app()->getStore()->getId())
+                $_product = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId())
                     ->load($productId);
                 if ($_product->getId()) {
                     $product = $_product;
@@ -173,7 +170,6 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             if ($product->isConfigurable()) {
 
                 $request = $this->_getProductRequest($params);
-
                 /**
                  * Hardcoded Configurable product default
                  * Set min required qty for a product if it's need
@@ -198,7 +194,6 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
             }
 
             $cart->save();
-
             $this->_getSession()->setCartWasUpdated(true);
 
             if (isset($params['whishlist_id'])) {
@@ -235,7 +230,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
                 if (isset($wishlistMessage)) {
                     $this->_message($wishlistMessage, self::MESSAGE_STATUS_ERROR);
                 } else {
-                    $productName = Mage::helper('core')->htmlEscape($product->getName());
+                    $productName = Mage::helper('core')->escapeHtml($product->getName());
                     $message = $this->__('%s has been added to your cart.', $productName);
                     if ($cart->getQuote()->getHasError()) {
                         $message .= $this->__(' But cart has some errors.');
@@ -259,7 +254,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
     /**
      * Delete shoping cart item action
      *
-     * @return void
+     * @return null
      */
     public function deleteAction()
     {
@@ -280,7 +275,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
     /**
      * Initialize coupon
      *
-     * @return void
+     * @return null
      */
     public function couponAction()
     {
@@ -305,9 +300,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
 
         try {
             $this->_getQuote()->getShippingAddress()->setCollectShippingRates(true);
-            $this->_getQuote()->setCouponCode(strlen($couponCode) ? $couponCode : '')
-                ->collectTotals()
-                ->save();
+            $this->_getQuote()->setCouponCode(strlen($couponCode) ? $couponCode : '')->collectTotals()->save();
 
             if ($couponCode) {
                 if ($couponCode == $this->_getQuote()->getCouponCode()) {
@@ -336,7 +329,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
     /**
      * Add Gift Card action
      *
-     * @return void
+     * @return null
      */
     public function addGiftcardAction()
     {
@@ -352,25 +345,17 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
         if (!empty($data['giftcard_code'])) {
             $code = $data['giftcard_code'];
             try {
-                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
-                    ->loadByCode($code)
-                    ->addToCart();
+                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($code)->addToCart();
                 $this->_message(
-                    $this->__('Gift Card "%s" was added.', Mage::helper('core')->htmlEscape($code)),
+                    $this->__('Gift Card "%s" was added.', Mage::helper('core')->escapeHtml($code)),
                     self::MESSAGE_STATUS_SUCCESS
                 );
                 return;
             } catch (Mage_Core_Exception $e) {
                 Mage::dispatchEvent('enterprise_giftcardaccount_add', array('status' => 'fail', 'code' => $code));
-                $this->_message(
-                    $e->getMessage(),
-                    self::MESSAGE_STATUS_ERROR
-                );
+                $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
             } catch (Exception $e) {
-                $this->_message(
-                    $this->__('Cannot apply gift card.'),
-                    self::MESSAGE_STATUS_ERROR
-                );
+                $this->_message($this->__('Cannot apply gift card.'), self::MESSAGE_STATUS_ERROR);
                 Mage::logException($e);
             }
         } else {
@@ -382,17 +367,16 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
     /**
      * Remove Gift Card action
      *
-     * @return void
+     * @return null
      */
     public function removeGiftcardAction()
     {
-        if ($code = $this->getRequest()->getParam('giftcard_code')) {
+        $code = $this->getRequest()->getParam('giftcard_code');
+        if ($code) {
             try {
-                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
-                    ->loadByCode($code)
-                    ->removeFromCart();
+                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($code)->removeFromCart();
                 $this->_message(
-                    $this->__('Gift Card "%s" was removed.', Mage::helper('core')->htmlEscape($code)),
+                    $this->__('Gift Card "%s" was removed.', Mage::helper('core')->escapeHtml($code)),
                     self::MESSAGE_STATUS_SUCCESS
                 );
             } catch (Mage_Core_Exception $e) {
@@ -410,15 +394,12 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
     /**
      * Remove Store Credit action
      *
-     * @return void
+     * @return null
      */
     public function removeStoreCreditAction()
     {
         if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
-            $this->_message(
-                $this->__('Customer balance is disabled for current store'),
-                self::MESSAGE_STATUS_ERROR
-            );
+            $this->_message($this->__('Customer balance is disabled for current store'), self::MESSAGE_STATUS_ERROR);
             return;
         }
 
@@ -443,7 +424,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
     /**
      * Get shopping cart summary and flag is_virtual
      *
-     * @return void
+     * @return null
      */
     public function infoAction()
     {

@@ -52,8 +52,8 @@
         </translate>
         <layout>
             <updates>
-                <contact>
-                    <file>contacts.xml</file>
+                <contact module="Mage_Contacts">
+                    <file>layout.xml</file>
                 </contact>
             </updates>
         </layout>

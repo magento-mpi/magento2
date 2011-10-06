@@ -175,7 +175,7 @@
         <layout>
             <updates>
                 <customer module="Mage_Customer">
-                    <file>customer.xml</file>
+                    <file>layout.xml</file>
                 </customer>
             </updates>
         </layout>

@@ -111,8 +111,8 @@
         </translate>
         <layout>
             <updates>
-                <directory>
-                    <file>directory.xml</file>
+                <directory module="Mage_Directory">
+                    <file>layout.xml</file>
                 </directory>
             </updates>
         </layout>

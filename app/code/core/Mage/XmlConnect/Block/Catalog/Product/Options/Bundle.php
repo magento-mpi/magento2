@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Catalog_Product_Options_Bundle
-    extends Mage_XmlConnect_Block_Catalog_Product_Options
+class Mage_XmlConnect_Block_Catalog_Product_Options_Bundle extends Mage_XmlConnect_Block_Catalog_Product_Options
 {
     /**
      * Generate bundle product options xml
@@ -43,7 +42,6 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Bundle
      */
     public function getProductOptionsXml(Mage_Catalog_Model_Product $product, $isObject = false)
     {
-
         $xmlModel = $this->getProductCustomOptionsXmlObject($product);
         $optionsXmlObj = $xmlModel->options;
 
@@ -57,8 +55,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Bundle
         $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
         $optionCollection = $product->getTypeInstance(true)->getOptionsCollection($product);
         $selectionCollection = $product->getTypeInstance(true)->getSelectionsCollection(
-            $product->getTypeInstance(true)->getOptionsIds($product),
-            $product
+            $product->getTypeInstance(true)->getOptionsIds($product), $product
         );
         $bundleOptions = $optionCollection->appendSelections($selectionCollection, false, false);
         if (!sizeof($bundleOptions)) {
@@ -88,8 +85,6 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Bundle
                 $optionNode->addAttribute('is_required', 1);
             }
 
-//            $_default = $_option->getDefaultSelection();
-
             foreach ($selections as $_selection) {
                 if (!$_selection->isSaleable()) {
                     continue;
@@ -114,7 +109,6 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Bundle
                     ));
                     $valueNode->addAttribute('formated_price', $this->_formatPriceString($price, $product));
                 }
-//              $_selection->getIsDefault();
             }
         }
 

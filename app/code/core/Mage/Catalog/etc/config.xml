@@ -498,11 +498,11 @@
         </translate>
         <layout>
             <updates>
-                <catalog>
-                    <file>catalog.xml</file>
+                <catalog module="Mage_Catalog">
+                    <file>layout.xml</file>
                 </catalog>
-                <map>
-                    <file>catalog_msrp.xml</file>
+                <map module="Mage_Catalog">
+                    <file>msrp.xml</file>
                 </map>
             </updates>
         </layout>

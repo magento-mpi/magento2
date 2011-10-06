@@ -71,10 +71,9 @@ class Mage_XmlConnect_Model_Simplexml_Form_Element_Multiselect
             }
 
             $valuesXmlObj->addCustomChild('item', null, array(
-                    'label' => $option['label'],
-                    'value' => $option['value']
-                ) + $selected
-            );
+                'label' => $option['label'],
+                'value' => $option['value']
+            ) + $selected);
         }
 
         return $this;

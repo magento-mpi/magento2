@@ -120,7 +120,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission
     {
         $app = Mage::helper('xmlconnect')->getApplication();
         if ($app && $app->getId()) {
-            return $this->__('Submit App "%s"', $this->htmlEscape($app->getName()));
+            return $this->__('Submit App "%s"', $this->escapeHtml($app->getName()));
         }
         return '';
     }

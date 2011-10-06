@@ -85,8 +85,8 @@
         </translate>
         <layout>
             <updates>
-                <page>
-                    <file>page.xml</file>
+                <page module="Mage_Page">
+                    <file>layout.xml</file>
                 </page>
             </updates>
         </layout>

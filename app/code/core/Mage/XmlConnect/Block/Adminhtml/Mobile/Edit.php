@@ -134,7 +134,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit
         }
 
         if (isset($app) && $app->getId()) {
-            return $this->__('Edit App "%s"', $this->htmlEscape($app->getName()));
+            return $this->__('Edit App "%s"', $this->escapeHtml($app->getName()));
         } else {
             return $this->__('New App');
         }

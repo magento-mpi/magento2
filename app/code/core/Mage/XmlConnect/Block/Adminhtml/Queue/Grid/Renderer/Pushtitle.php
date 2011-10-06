@@ -42,6 +42,6 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid_Renderer_Pushtitle
      */
     public function render(Varien_Object $row)
     {
-        return $this->htmlEscape($row->getPushTitle());
+        return $this->escapeHtml($row->getPushTitle());
     }
 }

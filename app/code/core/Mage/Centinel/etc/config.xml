@@ -83,8 +83,8 @@
         </routers>
         <layout>
             <updates>
-                <centinel>
-                    <file>centinel.xml</file>
+                <centinel module="Mage_Centinel">
+                    <file>layout.xml</file>
                 </centinel>
             </updates>
         </layout>

@@ -396,35 +396,47 @@ class Mage_Core_Model_Layout_Update
         if (null === $storeId) {
             $storeId = Mage::app()->getStore()->getId();
         }
+        /* @var $design Mage_Core_Model_Design_Package */
+        $design = Mage::getSingleton('core/design_package');
+
         $layoutParams = array(
             '_area'    => $area,
             '_package' => $package,
             '_theme'   => $theme,
         );
 
-        /* @var $design Mage_Core_Model_Design_Package */
-        $design = Mage::getSingleton('core/design_package');
-        $layoutXml = null;
-        $elementClass = $this->getElementClass();
-        $updatesRoot = Mage::app()->getConfig()->getNode($area.'/layout/updates');
+        /*
+         * Allow to modify declared layout updates.
+         * For example, the module can remove all its updates to not participate in rendering depending on settings.
+         */
+        $updatesRoot = Mage::app()->getConfig()->getNode($area . '/layout/updates');
         Mage::dispatchEvent('core_layout_update_updates_get_after', array('updates' => $updatesRoot));
+
+        /* Layout update files declared in configuration */
         $updateFiles = array();
         foreach ($updatesRoot->children() as $updateNode) {
             if ($updateNode->file) {
                 $module = $updateNode->getAttribute('module');
+                if (!$module && ($area == 'frontend' || $area == 'install')) {
+                    $updateNodePath = $area . '/layout/updates/' . $updateNode->getName();
+                    throw new Exception("Layout update instruction '{$updateNodePath}' must specify the module.");
+                }
                 if ($module && Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $module, $storeId)) {
                     continue;
                 }
+                /* Resolve layout update filename with fallback to the module */
                 $filename = $design->getLayoutFilename(
-                    (string)$updateNode->file, $layoutParams + array('_module' => $module)
+                    (string)$updateNode->file,
+                    $layoutParams + array('_module' => $module)
                 );
                 if (!is_readable($filename)) {
-//                    throw new Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
+                    throw new Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
                 }
                 $updateFiles[] = $filename;
             }
         }
-        // custom local layout updates file - load always last
+
+        /* Custom local layout updates file for the current theme */
         $filename = $design->getLayoutFilename('local.xml', $layoutParams);
         if (is_readable($filename)) {
             $updateFiles[] = $filename;
@@ -432,19 +444,17 @@ class Mage_Core_Model_Layout_Update
 
         $layoutStr = '';
         foreach ($updateFiles as $filename) {
-            // legacy
-            if (!is_readable($filename)) {
-                continue;
-            }
             $fileStr = file_get_contents($filename);
             $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
-            $fileXml = simplexml_load_string($fileStr, $elementClass);
+            $fileXml = simplexml_load_string($fileStr, $this->getElementClass());
             if (!$fileXml instanceof SimpleXMLElement) {
                 continue;
             }
             $layoutStr .= $fileXml->innerXml();
         }
-        $layoutXml = simplexml_load_string('<layouts>'.$layoutStr.'</layouts>', $elementClass);
+        $layoutStr = '<layouts>' . $layoutStr . '</layouts>';
+
+        $layoutXml = simplexml_load_string($layoutStr, $this->getElementClass());
         return $layoutXml;
     }
 }

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="Magento2" basedir="../../" default="clean">
+    <property environment="env"/>
     <property name="dir.build_base" location="${basedir}/dev/build"/>
     <property name="dir.build_report" location="${basedir}/dev/build/report"/>
 
     <!-- Copy the build customization files -->
-    <target name="init">
-        <copy todir="${basedir}/../" failonerror="true">
-            <fileset dir="${basedir}/dev/build/customization" />
+    <target name="init" if="env.build_customization_dir">
+        <copy todir="${basedir}" failonerror="true">
+            <fileset dir="${basedir}/${env.build_customization_dir}" />
         </copy>
     </target>
 

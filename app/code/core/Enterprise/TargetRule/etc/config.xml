@@ -126,7 +126,7 @@
         <layout>
             <updates>
                 <enterprise_targetrule module="Enterprise_TargetRule">
-                    <file>targetrule.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_targetrule>
             </updates>
         </layout>
