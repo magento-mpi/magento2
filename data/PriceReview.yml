@@ -30,16 +30,16 @@ validate_prices_during_order_creation:
     product_1:
         product_name: %noValue%
         verification:
-            price_excluding_tax: $54.95
-            price_including_tax: $54.95
+            price_excl_tax: $54.95
+            price_incl_tax: $54.95
             #price: $54.95
             qty: 1
-            subtotal_excluding_tax: $54.95
-            subtotal_including_tax: $54.95
+            subtotal_excl_tax: $54.95
+            subtotal_incl_tax: $54.95
             #subtotal: $54.95
             discount: $0.00
-            row_subtotal_excluding_tax: $54.95
-            row_subtotal_including_tax: $54.95
+            row_subtotal_excl_tax: $54.95
+            row_subtotal_incl_tax: $54.95
             #row_subtotal: $54.95
     total_products_verification:
         product_total_subtotal: $54.95

@@ -190,6 +190,7 @@ class MyAccount_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
+        return $this->messages['error'];
     }
 
     /**
