@@ -38,7 +38,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
      */
     protected function _construct()
     {
-        $this->setTemplate('enterprise/giftregistry/form/renderer/element.phtml');
+        $this->setTemplate('form/renderer/element.phtml');
     }
 
     /**

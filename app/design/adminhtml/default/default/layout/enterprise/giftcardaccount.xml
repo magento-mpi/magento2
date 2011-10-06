@@ -39,7 +39,7 @@
 
     <adminhtml_sales_order_view>
         <reference name="order_totals">
-            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/order/totals/giftcardaccount.phtml">
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="Enterprise_GiftCardAccount::sales/order/totals/giftcardaccount.phtml">
                 <action method="setBeforeCondition"><param>customerbalance</param></action>
             </block>
         </reference>
@@ -47,7 +47,7 @@
 
     <adminhtml_sales_order_invoice_new>
         <reference name="invoice_totals">
-            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/invoice/totals/giftcardaccount.phtml">
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="Enterprise_GiftCardAccount::sales/invoice/totals/giftcardaccount.phtml">
                 <action method="setBeforeCondition"><param>customerbalance</param></action>
             </block>
         </reference>
@@ -55,7 +55,7 @@
 
     <adminhtml_sales_order_invoice_updateqty>
         <reference name="invoice_totals">
-            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/invoice/totals/giftcardaccount.phtml">
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="Enterprise_GiftCardAccount::sales/invoice/totals/giftcardaccount.phtml">
                 <action method="setBeforeCondition"><param>customerbalance</param></action>
             </block>
         </reference>
@@ -63,7 +63,7 @@
 
     <adminhtml_sales_order_invoice_view>
         <reference name="invoice_totals">
-            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/invoice/totals/giftcardaccount.phtml" />
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="Enterprise_GiftCardAccount::sales/invoice/totals/giftcardaccount.phtml" />
         </reference>
     </adminhtml_sales_order_invoice_view>
 
@@ -71,28 +71,28 @@
 
     <adminhtml_sales_order_create_load_block_items>
         <reference name="items_grid">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="sales/order/create/items.phtml" name="giftcardaccount" after="-" />
         </reference>
     </adminhtml_sales_order_create_load_block_items>
 
     <adminhtml_sales_order_create_load_block_data>
         <reference name="items_grid">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="sales/order/create/items.phtml" name="giftcardaccount" after="-" />
         </reference>
     </adminhtml_sales_order_create_load_block_data>
 
     <adminhtml_sales_order_create_index>
         <reference name="js">
-            <block type="adminhtml/template" template="enterprise/giftcardaccount/sales/order/create/js.phtml" name="giftcardaccount_js" />
+            <block type="adminhtml/template" template="Enterprise_GiftCardAccount::sales/order/create/js.phtml" name="giftcardaccount_js" />
         </reference>
         <reference name="items_grid">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="sales/order/create/items.phtml" name="giftcardaccount" after="-" />
         </reference>
     </adminhtml_sales_order_create_index>
 
     <adminhtml_sales_order_creditmemo_new>
         <reference name="creditmemo_totals">
-            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/totals/giftcardaccount.phtml" after="-">
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="Enterprise_GiftCardAccount::sales/creditmemo/totals/giftcardaccount.phtml" after="-">
                 <action method="setBeforeCondition"><param>customerbalance</param></action>
             </block>
         </reference>
@@ -100,7 +100,7 @@
 
     <adminhtml_sales_order_creditmemo_updateqty>
         <reference name="invoice_totals">
-            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/totals/giftcardaccount.phtml" after="-">
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="Enterprise_GiftCardAccount::sales/creditmemo/totals/giftcardaccount.phtml" after="-">
                 <action method="setBeforeCondition"><param>customerbalance</param></action>
             </block>
         </reference>
@@ -108,7 +108,7 @@
 
     <adminhtml_sales_order_creditmemo_view>
         <reference name="invoice_totals">
-            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/totals/view.phtml" after="-">
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="Enterprise_GiftCardAccount::sales/creditmemo/totals/view.phtml" after="-">
                 <action method="setBeforeCondition"><param>customerbalance</param></action>
             </block>
         </reference>
@@ -116,13 +116,13 @@
 
     <!-- adminhtml_sales_order_creditmemo_new>
         <reference name="submit_before">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_controls" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/controls.phtml" />
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_controls" name="giftcardaccount" template="sales/creditmemo/controls.phtml" />
         </reference>
     </adminhtml_sales_order_creditmemo_new>
 
     <adminhtml_sales_order_creditmemo_updateqty>
         <reference name="submit_before">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_controls" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/controls.phtml" />
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_controls" name="giftcardaccount" template="sales/creditmemo/controls.phtml" />
         </reference>
     </adminhtml_sales_order_creditmemo_updateqty -->
 </layout>

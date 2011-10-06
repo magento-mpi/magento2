@@ -52,7 +52,7 @@
                     <name>enterprise_customer_formtype_edit_tab_general</name>
                     <block>enterprise_customer_formtype_edit_tab_general</block>
                 </action>
-                <block type="enterprise_customer/adminhtml_customer_formtype_edit_tab_tree" name="enterprise_customer_formtype_edit_tab_tree" template="enterprise/customer/formtype/edit/tab/tree.phtml"></block>
+                <block type="enterprise_customer/adminhtml_customer_formtype_edit_tab_tree" name="enterprise_customer_formtype_edit_tab_tree" template="formtype/edit/tab/tree.phtml"></block>
                 <action method="addTab">
                     <name>enterprise_customer_formtype_edit_tab_tree</name>
                     <block>enterprise_customer_formtype_edit_tab_tree</block>
@@ -63,9 +63,9 @@
 
     <!-- shared scope (website) switcher -->
     <scope_switcher>
-        <block type="enterprise_customer/adminhtml_form_renderer_fieldset_element" name="fieldset_element_renderer" template="enterprise/customer/form/renderer/fieldset/element.phtml" />
+        <block type="enterprise_customer/adminhtml_form_renderer_fieldset_element" name="fieldset_element_renderer" template="form/renderer/fieldset/element.phtml" />
         <reference name="left">
-            <block type="adminhtml/store_switcher" name="website_switcher" before="-" template="enterprise/customer/website/switcher.phtml">
+            <block type="adminhtml/store_switcher" name="website_switcher" before="-" template="Enterprise_Customer::website/switcher.phtml">
                 <action method="setStoreVarName"><value>website</value></action>
                 <action method="setDefaultStoreName" translate="name"><name>Default Values</name></action>
             </block>
@@ -93,7 +93,7 @@
             </block>
         </reference>
         <reference name="js">
-            <block type="enterprise_customer/adminhtml_customer_attribute_edit_js" template="enterprise/customer/attribute/js.phtml" />
+            <block type="enterprise_customer/adminhtml_customer_attribute_edit_js" template="attribute/js.phtml" />
         </reference>
     </adminhtml_customer_attribute_edit>
 
@@ -122,7 +122,7 @@
             </block>
         </reference>
         <reference name="js">
-            <block type="enterprise_customer/adminhtml_customer_attribute_edit_js" template="enterprise/customer/attribute/js.phtml" />
+            <block type="enterprise_customer/adminhtml_customer_attribute_edit_js" template="attribute/js.phtml" />
         </reference>
     </adminhtml_customer_address_attribute_edit>
 

@@ -29,7 +29,7 @@
 <layout>
     <adminhtml_targetrule_index>
         <reference name="content">
-            <block type="enterprise_targetrule/adminhtml_targetrule" name="enterprise.targetrule.targetrule" template="widget/grid/container.phtml">
+            <block type="enterprise_targetrule/adminhtml_targetrule" name="enterprise.targetrule.targetrule" template="Mage_Adminhtml::widget/grid/container.phtml">
                 <block type="enterprise_targetrule/adminhtml_targetrule_grid" name="enterprise.targetrule.grid"/>
                 <action method="setHeaderText" translate="text">
                     <text>Rule-Based Product Relations</text>
@@ -44,7 +44,7 @@
 
     <adminhtml_catalog_product_related>
         <reference name="root">
-            <block type="enterprise_targetrule/adminhtml_product" name="targetrule.adminhtml.product" template="enterprise/targetrule/product.phtml" before="catalog.product.edit.tab.related">
+            <block type="enterprise_targetrule/adminhtml_product" name="targetrule.adminhtml.product" template="product.phtml" before="catalog.product.edit.tab.related">
                 <action method="setFormPrefix"><params>related</params></action>
             </block>
         </reference>
@@ -52,7 +52,7 @@
 
     <adminhtml_catalog_product_upsell>
         <reference name="root">
-            <block type="enterprise_targetrule/adminhtml_product" name="targetrule.adminhtml.product" template="enterprise/targetrule/product.phtml" before="catalog.product.edit.tab.upsell">
+            <block type="enterprise_targetrule/adminhtml_product" name="targetrule.adminhtml.product" template="product.phtml" before="catalog.product.edit.tab.upsell">
                 <action method="setFormPrefix"><params>upsell</params></action>
             </block>
         </reference>

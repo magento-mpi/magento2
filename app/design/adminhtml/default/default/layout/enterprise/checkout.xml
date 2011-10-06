@@ -33,7 +33,7 @@
             </block>
         </reference>
     </adminhtml_customer_edit>
-    
+
     <adminhtml_checkout_index>
         <reference name="head">
             <action method="addJs"><file>mage/adminhtml/product/composite/configure.js</file></action>
@@ -42,10 +42,10 @@
         </reference>
         <reference name="content">
             <block type="adminhtml/catalog_product_composite_configure" name="configure.popup"/>
-            <block type="enterprise_checkout/adminhtml_manage" name="ID" template="enterprise/checkout/manage.phtml">
+            <block type="enterprise_checkout/adminhtml_manage" name="ID" template="manage.phtml">
                 <block type="enterprise_checkout/adminhtml_manage_store_switcher" name="checkout.store.switcher"/>
                 <block type="enterprise_checkout/adminhtml_manage_messages" name="checkout.message"/>
-                <block type="enterprise_checkout/adminhtml_manage_items" name="checkout.items" template="enterprise/checkout/manage/items.phtml"/>
+                <block type="enterprise_checkout/adminhtml_manage_items" name="checkout.items" template="manage/items.phtml"/>
                 <block type="enterprise_checkout/adminhtml_manage_accordion" name="checkout.accordion">
                     <block type="enterprise_checkout/adminhtml_manage_accordion_products" name="products"/>
                     <block type="enterprise_checkout/adminhtml_manage_accordion_wishlist" name="wishlist"/>
@@ -54,7 +54,7 @@
                     <block type="enterprise_checkout/adminhtml_manage_accordion_rviewed" name="rviewed"/>
                     <block type="enterprise_checkout/adminhtml_manage_accordion_ordered" name="ordered"/>
                 </block>
-                <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="enterprise/checkout/form/coupon.phtml" name="checkout.form_coupon"/>
+                <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="form/coupon.phtml" name="checkout.form_coupon"/>
             </block>
             <block type="adminhtml/catalog_product_composite_configure" name="configure.popup"/>
         </reference>
@@ -62,17 +62,17 @@
 
     <adminhtml_checkout_cart>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_items" name="checkout.items" template="enterprise/checkout/manage/items.phtml" output="toHtml"/>
+        <block type="enterprise_checkout/adminhtml_manage_items" name="checkout.items" template="manage/items.phtml" output="toHtml"/>
     </adminhtml_checkout_cart>
 
     <adminhtml_checkout_applycoupon>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="enterprise/checkout/form/coupon.phtml" name="form_coupon" output="toHtml"/>
+        <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="form/coupon.phtml" name="form_coupon" output="toHtml"/>
     </adminhtml_checkout_applycoupon>
 
     <adminhtml_checkout_coupon>
         <remove name="root"/>
-        <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="enterprise/checkout/form/coupon.phtml" name="form_coupon" output="toHtml"/>
+        <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="form/coupon.phtml" name="form_coupon" output="toHtml"/>
     </adminhtml_checkout_coupon>
 
     <adminhtml_checkout_products>
