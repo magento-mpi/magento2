@@ -431,7 +431,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
             ->storeDate(Mage::app()->getStore(), Varien_Date::toTimestamp($date), true);
 
         return Mage::helper('core')
-            ->formatDateRespectTimezone($storeDate, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            ->formatDate($storeDate, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
     }
 
     /**
