@@ -34,9 +34,7 @@
 
     <adminhtml_invitation_view>
         <reference name="content">
-            <block name="invitation_view_page" type="enterprise_invitation/adminhtml_invitation_view" template="enterprise/invitation/view.phtml">
-                
-            </block>
+            <block name="invitation_view_page" type="enterprise_invitation/adminhtml_invitation_view" template="view.phtml"/>
         </reference>
         <reference name="left">
             <block name="invitation_view_tabs" as="tabs" type="enterprise_invitation/adminhtml_invitation_view_tabs">

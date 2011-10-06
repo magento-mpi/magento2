@@ -62,7 +62,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
 
                     $formBlock = $editBlock->getChild('form');
                     if ($formBlock) {
-                        $formBlock->setTemplate('enterprise/cms/page/edit/form.phtml');
+                        $formBlock->setTemplate('Enterprise_Cms::page/edit/form.phtml');
                         if ($page->getUnderVersionControl()) {
                             $tabId = $this->getRequest()->getParam('tab');
                             if ($tabId) {

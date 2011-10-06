@@ -36,7 +36,7 @@
     <adminhtml_cms_page_edit>
         <reference name="cms_page_edit_tabs">
             <block type="enterprise_cms/adminhtml_cms_page_edit" name="cms_page_edit_extender" />
-            <block type="enterprise_cms/adminhtml_cms_page_edit_tab_hierarchy" name="cms_page_edit_tab_hierarchy" template="enterprise/cms/page/tab/hierarchy.phtml"></block>
+            <block type="enterprise_cms/adminhtml_cms_page_edit_tab_hierarchy" name="cms_page_edit_tab_hierarchy" template="page/tab/hierarchy.phtml"></block>
             <action method="addTab"><name>hierarchy</name><block>cms_page_edit_tab_hierarchy</block></action>
         </reference>
     </adminhtml_cms_page_edit>
@@ -75,7 +75,7 @@
         </reference>
         <reference name="content">
             <block type="enterprise_cms/adminhtml_cms_page_revision_edit" name="cms_page_revision_edit">
-                <block type="enterprise_cms/adminhtml_cms_page_revision_edit_info" name="revision_info" template="enterprise/cms/page/revision/info.phtml" />
+                <block type="enterprise_cms/adminhtml_cms_page_revision_edit_info" name="revision_info" template="page/revision/info.phtml" />
             </block>
         </reference>
         <reference name="left">
@@ -92,11 +92,11 @@
 -->
     <adminhtml_cms_page_revision_preview>
         <reference name="root">
-            <action method="setTemplate"><template>enterprise/cms/page/preview.phtml</template></action>
+            <action method="setTemplate"><template>Enterprise_Cms::page/preview.phtml</template></action>
             <block type="enterprise_cms/adminhtml_cms_page_preview_form" name="preview_form" />
             <block type="core/text_list" name="tools" as="tools">
-                <block type="enterprise_cms/adminhtml_cms_page_preview_store" name="store_switcher" template="enterprise/cms/page/preview/store.phtml" />
-                <block type="enterprise_cms/adminhtml_cms_page_preview_revision" name="revision_switcher" template="enterprise/cms/page/preview/revision.phtml" />
+                <block type="enterprise_cms/adminhtml_cms_page_preview_store" name="store_switcher" template="page/preview/store.phtml" />
+                <block type="enterprise_cms/adminhtml_cms_page_preview_revision" name="revision_switcher" template="page/preview/revision.phtml" />
                 <block type="enterprise_cms/adminhtml_cms_page_preview_buttons" name="preview_control_buttons" />
             </block>
         </reference>

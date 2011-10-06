@@ -45,7 +45,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/cms/hierarchy/edit.phtml');
+        $this->setTemplate('hierarchy/edit.phtml');
         $this->_currentStore = $this->getRequest()->getParam('store');
     }
 
@@ -409,7 +409,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         $c = count($nodes);
         for ($i = 0; $i < $c; $i++) {
             if (isset($nodes[$i]['meta_chapter']) && isset($nodes[$i]['meta_section'])
-                && $nodes[$i]['meta_chapter'] && $nodes[$i]['meta_section']) 
+                && $nodes[$i]['meta_chapter'] && $nodes[$i]['meta_section'])
             {
                 $nodes[$i]['meta_chapter_section'] = 'both';
             } elseif (isset($nodes[$i]['meta_chapter']) && $nodes[$i]['meta_chapter']) {
