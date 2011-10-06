@@ -395,4 +395,19 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
         }
         return $this->_quote;
     }
+
+    /**
+     * Redirect to login page
+     *
+     */
+    public function redirectLogin()
+    {
+        $this->setFlag('', 'no-dispatch', true);
+        $this->getResponse()->setRedirect(
+            Mage::helper('core/url')->addRequestParam(
+                Mage::helper('customer')->getLoginUrl(),
+                array('context' => 'checkout')
+            )
+        );
+    }
 }

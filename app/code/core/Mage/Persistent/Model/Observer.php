@@ -347,7 +347,16 @@ class Mage_Persistent_Model_Observer
         /** @var $controllerAction Mage_Core_Controller_Front_Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
         if (is_callable(array($controllerAction, 'redirectLogin'))) {
+            Mage::getSingleton('core/session')->addNotice(
+                Mage::helper('persistent')->__('To proceed to Checkout, please log in using your email address.')
+            );
             $controllerAction->redirectLogin();
+            if ($controllerAction instanceof Mage_GoogleCheckout_RedirectController
+                || $controllerAction instanceof Mage_Paypal_Controller_Express_Abstract
+            ) {
+                Mage::getSingleton('customer/session')
+                    ->setBeforeAuthUrl(Mage::getUrl('persistent/index/expressCheckout'));
+            }
         }
     }
 
