@@ -143,7 +143,6 @@
                 <password backend_model="adminhtml/system_config_backend_encrypted"/>
                 <passphrase backend_model="adminhtml/system_config_backend_encrypted"/>
                 <payment_action>authorize</payment_action>
-                <cctypes>VI</cctypes>
                 <useccv>1</useccv>
             </pbridge_ogone_direct>
         </payment>
