@@ -583,14 +583,43 @@ class Order_Helper extends Mage_Selenium_TestCase
     {
         foreach ($verificationData as $validate => $data) {
             if (preg_match('/^product_/', $validate)) {
-                $this->verifyProductPrices($verificationData[$validate]);
+                $this->verifyProductPrices($data);
+            } elseif (preg_match('/^total_products/', $validate)) {
+                $this->verifyProductsTotal($data);
             } else {
-                $this->verifyTotalPrices($verificationData[$validate]);
+                $this->verifyTotalPrices($data);
             }
         }
         if (!empty($this->messages['error'])) {
             $this->fail(implode("\n", $this->messages['error']));
         }
+    }
+
+    /**
+     * Verifies the prices in product row
+     *
+     * @param array $verificationData
+     */
+    public function verifyProductsTotal(array $verificationData)
+    {
+        $page = $this->getCurrentLocationUimapPage();
+        $pageelements = get_object_vars($page->getAllPageelements());
+        foreach ($verificationData as $key => $value) {
+            $this->addParameter('price', $value);
+            $xpathPrice = $this->getCurrentLocationUimapPage()->getMainForm()->findPageelement($key);
+            if (!$this->isElementPresent($xpathPrice)) {
+                $this->messages['error'][] = 'Could not find element ' . $key . ' with price (or qty) ' . $value;
+            }
+            unset($pageelements['ex_pt_' . $key]);
+        }
+        foreach ($pageelements as $key => $value) {
+            if (preg_match('/^ex_pt_/', $key)) {
+                if ($this->isElementPresent($value)) {
+                    $this->messages['error'][] = 'Element ' . $key . ' is on the page';
+                }
+            }
+        }
+        return $this->messages['error'];
     }
 
     /**
@@ -643,7 +672,6 @@ class Order_Helper extends Mage_Selenium_TestCase
             }
             unset($pageelements['ex_t_' . $key]);
         }
-        print_r($pageelements);
         foreach ($pageelements as $key => $value) {
             if (preg_match('/^ex_t_/', $key)) {
                 if ($this->isElementPresent($value)) {

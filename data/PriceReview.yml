@@ -30,17 +30,21 @@ validate_prices_during_order_creation:
     product_1:
         product_name: %noValue%
         verification:
-            #price_excluding_tax: $54.95
-            #price_including_tax: $54.95
-            price: $54.95
+            price_excluding_tax: $54.95
+            price_including_tax: $54.95
+            #price: $54.95
             qty: 1
-            #subtotal_excluding_tax: $54.95
-            #subtotal_including_tax: $54.95
-            subtotal: $54.95
+            subtotal_excluding_tax: $54.95
+            subtotal_including_tax: $54.95
+            #subtotal: $54.95
             discount: $0.00
-            #row_subtotal_excluding_tax: $54.95
-            #row_subtotal_including_tax: $54.95
-            row_subtotal: $54.95
+            row_subtotal_excluding_tax: $54.95
+            row_subtotal_including_tax: $54.95
+            #row_subtotal: $54.95
+    total_products_verification:
+        product_total_subtotal: $54.95
+        product_total_discount: $0.00
+        product_total_row_subtotal: $54.95
     total_verification:
         total_subtotal_excluding_tax: $54.95
         total_subtotal_including_tax: $54.95
@@ -233,4 +237,3 @@ unit_price_excl_shipping_excl_order:
     grand_total_excl_tax: $440.00
     tax: $42.49
     grand_total_incl_tax: $482.49
-    
