@@ -153,8 +153,8 @@
         </sales>
         <layout>
             <updates>
-                <downloadable>
-                    <file>downloadable.xml</file>
+                <downloadable module="Mage_Downloadable">
+                    <file>layout.xml</file>
                 </downloadable>
             </updates>
         </layout>

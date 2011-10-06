@@ -328,8 +328,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_customerbalance>
-                    <file>enterprise/customerbalance.xml</file>
+                <enterprise_customerbalance module="Enterprise_CustomerBalance">
+                    <file>layout.xml</file>
                 </enterprise_customerbalance>
             </updates>
         </layout>

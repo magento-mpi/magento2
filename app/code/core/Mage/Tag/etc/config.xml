@@ -151,12 +151,5 @@
                 </Mage_Tag>
             </modules>
         </translate>
-        <layout>
-            <updates>
-                <tag>
-                    <file>tag.xml</file>
-                </tag>
-            </updates>
-        </layout>
     </adminhtml>
 </config>

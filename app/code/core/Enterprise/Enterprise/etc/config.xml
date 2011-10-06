@@ -98,8 +98,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_adminhtml>
-                    <file>enterprise/adminhtml.xml</file>
+                <enterprise_adminhtml module="Enterprise_Enterprise">
+                    <file>layout.xml</file>
                 </enterprise_adminhtml>
             </updates>
         </layout>

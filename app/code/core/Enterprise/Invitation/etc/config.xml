@@ -94,7 +94,7 @@
         <layout>
             <updates>
                 <enterprise_invitation module="Enterprise_Invitation">
-                    <file>enterprise/invitation.xml</file>
+                    <file>layout.xml</file>
                 </enterprise_invitation>
             </updates>
         </layout>

@@ -417,7 +417,7 @@ class Mage_Core_Model_Layout_Update
         foreach ($updatesRoot->children() as $updateNode) {
             if ($updateNode->file) {
                 $module = $updateNode->getAttribute('module');
-                if (!$module && ($area == 'frontend' || $area == 'install')) {
+                if (!$module) {
                     $updateNodePath = $area . '/layout/updates/' . $updateNode->getName();
                     throw new Exception("Layout update instruction '{$updateNodePath}' must specify the module.");
                 }

@@ -96,8 +96,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_pbridge>
-                    <file>enterprise/pbridge.xml</file>
+                <enterprise_pbridge module="Enterprise_Pbridge">
+                    <file>layout.xml</file>
                 </enterprise_pbridge>
             </updates>
         </layout>

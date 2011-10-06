@@ -93,6 +93,13 @@
                 </admin>
             </resources>
         </acl>
+        <layout>
+            <updates>
+                <find_feed module="Find_Feed">
+                    <file>layout.xml</file>
+                </find_feed>
+            </updates>
+        </layout>
     </adminhtml>
     <crontab>
         <jobs>
@@ -126,15 +133,6 @@
             </design>
         </admin>
     </stores>
-    <adminhtml>
-        <layout>
-            <updates>
-                <find_feed>
-                    <file>feed.xml</file>
-                </find_feed>
-            </updates>
-        </layout>
-    </adminhtml>
     <find_feed_attributes>
         <title>
             <required>1</required>

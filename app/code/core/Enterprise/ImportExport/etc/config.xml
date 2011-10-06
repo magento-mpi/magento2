@@ -97,8 +97,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_importexport>
-                    <file>enterprise/importexport.xml</file>
+                <enterprise_importexport module="Enterprise_ImportExport">
+                    <file>layout.xml</file>
                 </enterprise_importexport>
             </updates>
         </layout>

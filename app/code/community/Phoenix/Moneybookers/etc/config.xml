@@ -114,8 +114,8 @@
         </translate>
         <layout>
             <updates>
-                <moneybookers>
-                    <file>moneybookers.xml</file>
+                <moneybookers module="Phoenix_Moneybookers">
+                    <file>layout.xml</file>
                 </moneybookers>
             </updates>
         </layout>

@@ -173,8 +173,8 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_giftcard>
-                    <file>enterprise/giftcard.xml</file>
+                <enterprise_giftcard module="Enterprise_GiftCard">
+                    <file>layout.xml</file>
                 </enterprise_giftcard>
             </updates>
         </layout>
