@@ -535,7 +535,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     public function removeAttributeGroup($entityTypeId, $setId, $id)
     {
         $this->deleteTableRow(
-            'eav/attribute_group',
+            'eav_attribute_group',
             'attribute_group_id',
             $this->getAttributeGroupId($entityTypeId, $setId, $id)
         );

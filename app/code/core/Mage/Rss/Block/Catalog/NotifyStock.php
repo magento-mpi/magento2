@@ -96,7 +96,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Rss_Block_Abstract
 
         $collection
             ->addAttributeToSelect('name', true)
-            ->joinTable('cataloginventory/stock_item', 'product_id=entity_id',
+            ->joinTable('cataloginventory_stock_item', 'product_id=entity_id',
                 array(
                      'qty'=>'qty',
                      'notify_stock_qty'=>'notify_stock_qty',

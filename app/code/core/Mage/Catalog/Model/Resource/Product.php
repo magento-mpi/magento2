@@ -502,7 +502,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
     {
         $collection = Mage::getResourceModel('catalog/category_collection')
             ->joinField('product_id',
-                'catalog/category_product',
+                'catalog_category_product',
                 'product_id',
                 'category_id = entity_id',
                 null)
@@ -568,7 +568,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
 
         // duplicate EAV store values
         foreach ($eavTables as $suffix) {
-            $tableName = $this->getTable(array('catalog/product', $suffix));
+            $tableName = $this->getTable(array('catalog_product_entity', $suffix));
 
             $select = $adapter->select()
                 ->from($tableName, array(

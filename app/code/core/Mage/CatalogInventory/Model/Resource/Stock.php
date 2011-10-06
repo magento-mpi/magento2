@@ -196,7 +196,7 @@ class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resourc
 
         $collection->joinField(
             'inventory_in_stock',
-            'cataloginventory/stock_item',
+            'cataloginventory_stock_item',
             'is_in_stock',
             'product_id=entity_id',
             '(' . join(') OR (', $cond) . ')'
