@@ -159,10 +159,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('eav/entity_value_prefix', 'datetime')
+ * Create table 'eav_entity_datetime'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('eav/entity_value_prefix', 'datetime')))
+    ->newTable($installer->getTable('eav_entity_datetime'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -192,13 +192,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default' => $installer->getConnection()->getSuggestedZeroDate()
         ), 'Attribute Value')
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'datetime'), array('entity_type_id')),
+    ->addIndex($installer->getIdxName('eav_entity_datetime', array('entity_type_id')),
         array('entity_type_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'datetime'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('eav_entity_datetime', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'datetime'), array('store_id')),
+    ->addIndex($installer->getIdxName('eav_entity_datetime', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'datetime'), array('entity_id')),
+    ->addIndex($installer->getIdxName('eav_entity_datetime', array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'datetime'), array('attribute_id', 'value')),
         array('attribute_id', 'value'))
@@ -206,7 +206,7 @@ $table = $installer->getConnection()
         array('entity_type_id', 'value'))
     ->addIndex(
         $installer->getIdxName(
-            array('eav/entity_value_prefix', 'datetime'),
+            'eav_entity_datetime',
             array('entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -214,7 +214,7 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'datetime'),
+            'eav_entity_datetime',
             'entity_id',
             'eav/entity',
             'entity_id'
@@ -223,7 +223,7 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'datetime'),
+            'eav_entity_datetime',
             'entity_type_id',
             'eav/entity_type',
             'entity_type_id'
@@ -232,7 +232,7 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'datetime'),
+            'eav_entity_datetime',
             'store_id',
             'core/store',
             'store_id'
@@ -243,10 +243,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('eav/entity_value_prefix', 'decimal')
+ * Create table 'eav_entity_decimal'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('eav/entity_value_prefix', 'decimal')))
+    ->newTable($installer->getTable('eav_entity_decimal'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -276,13 +276,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0.0000',
         ), 'Attribute Value')
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'decimal'), array('entity_type_id')),
+    ->addIndex($installer->getIdxName('eav_entity_decimal', array('entity_type_id')),
         array('entity_type_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'decimal'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('eav_entity_decimal', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'decimal'), array('store_id')),
+    ->addIndex($installer->getIdxName('eav_entity_decimal', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'decimal'), array('entity_id')),
+    ->addIndex($installer->getIdxName('eav_entity_decimal', array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'decimal'), array('attribute_id', 'value')),
         array('attribute_id', 'value'))
@@ -290,7 +290,7 @@ $table = $installer->getConnection()
         array('entity_type_id', 'value'))
     ->addIndex(
         $installer->getIdxName(
-            array('eav/entity_value_prefix', 'decimal'),
+            'eav_entity_decimal',
             array('entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -298,7 +298,7 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'decimal'),
+            'eav_entity_decimal',
             'entity_id',
             'eav/entity',
             'entity_id'
@@ -307,7 +307,7 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'decimal'),
+            'eav_entity_decimal',
             'entity_type_id',
             'eav/entity_type',
             'entity_type_id'
@@ -316,7 +316,7 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'decimal'),
+            'eav_entity_decimal',
             'store_id',
             'core/store',
             'store_id'
@@ -327,10 +327,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('eav/entity_value_prefix', 'int')
+ * Create table 'eav_entity_int'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('eav/entity_value_prefix', 'int')))
+    ->newTable($installer->getTable('eav_entity_int'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -360,13 +360,13 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Attribute Value')
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'int'), array('entity_type_id')),
+    ->addIndex($installer->getIdxName('eav_entity_int', array('entity_type_id')),
         array('entity_type_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'int'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('eav_entity_int', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'int'), array('store_id')),
+    ->addIndex($installer->getIdxName('eav_entity_int', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'int'), array('entity_id')),
+    ->addIndex($installer->getIdxName('eav_entity_int', array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'int'), array('attribute_id', 'value')),
         array('attribute_id', 'value'))
@@ -374,7 +374,7 @@ $table = $installer->getConnection()
         array('entity_type_id', 'value'))
     ->addIndex(
         $installer->getIdxName(
-            array('eav/entity_value_prefix', 'int'),
+            'eav_entity_int',
             array('entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -382,7 +382,7 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'int'),
+            'eav_entity_int',
             'entity_id',
             'eav/entity',
             'entity_id'
@@ -391,7 +391,7 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'int'),
+            'eav_entity_int',
             'entity_type_id',
             'eav/entity_type',
             'entity_type_id'
@@ -400,7 +400,7 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'int'),
+            'eav_entity_int',
             'store_id',
             'core/store',
             'store_id'
@@ -411,10 +411,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('eav/entity_value_prefix', 'text')
+ * Create table 'eav_entity_text'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('eav/entity_value_prefix', 'text')))
+    ->newTable($installer->getTable('eav_entity_text'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -443,17 +443,17 @@ $table = $installer->getConnection()
     ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         'nullable'  => false,
         ), 'Attribute Value')
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'text'), array('entity_type_id')),
+    ->addIndex($installer->getIdxName('eav_entity_text', array('entity_type_id')),
         array('entity_type_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'text'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('eav_entity_text', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'text'), array('store_id')),
+    ->addIndex($installer->getIdxName('eav_entity_text', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'text'), array('entity_id')),
+    ->addIndex($installer->getIdxName('eav_entity_text', array('entity_id')),
         array('entity_id'))
     ->addIndex(
         $installer->getIdxName(
-            array('eav/entity_value_prefix', 'text'),
+            'eav_entity_text',
             array('entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -461,7 +461,7 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'text'),
+            'eav_entity_text',
             'entity_id',
             'eav/entity',
             'entity_id'
@@ -470,7 +470,7 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'text'),
+            'eav_entity_text',
             'entity_type_id',
             'eav/entity_type',
             'entity_type_id'
@@ -479,7 +479,7 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'text'),
+            'eav_entity_text',
             'store_id',
             'core/store',
             'store_id'
@@ -490,10 +490,10 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table array('eav/entity_value_prefix', 'varchar')
+ * Create table 'eav_entity_varchar'
  */
 $table = $installer->getConnection()
-    ->newTable($installer->getTable(array('eav/entity_value_prefix', 'varchar')))
+    ->newTable($installer->getTable('eav_entity_varchar'))
     ->addColumn('value_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'nullable'  => false,
@@ -523,13 +523,13 @@ $table = $installer->getConnection()
         'nullable'  => true,
         'default'   => null,
         ), 'Attribute Value')
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'varchar'), array('entity_type_id')),
+    ->addIndex($installer->getIdxName('eav_entity_varchar', array('entity_type_id')),
         array('entity_type_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'varchar'), array('attribute_id')),
+    ->addIndex($installer->getIdxName('eav_entity_varchar', array('attribute_id')),
         array('attribute_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'varchar'), array('store_id')),
+    ->addIndex($installer->getIdxName('eav_entity_varchar', array('store_id')),
         array('store_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'varchar'), array('entity_id')),
+    ->addIndex($installer->getIdxName('eav_entity_varchar', array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'varchar'), array('attribute_id', 'value')),
         array('attribute_id', 'value'))
@@ -537,7 +537,7 @@ $table = $installer->getConnection()
         array('entity_type_id', 'value'))
     ->addIndex(
         $installer->getIdxName(
-            array('eav/entity_value_prefix', 'varchar'),
+            'eav_entity_varchar',
             array('entity_id', 'attribute_id', 'store_id'),
             Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
         ),
@@ -545,7 +545,7 @@ $table = $installer->getConnection()
         array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'varchar'),
+            'eav_entity_varchar',
             'entity_id',
             'eav/entity',
             'entity_id'
@@ -553,7 +553,7 @@ $table = $installer->getConnection()
         'entity_id', $installer->getTable('eav_entity'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName(
-            array('eav/entity_value_prefix', 'varchar'),
+            'eav_entity_varchar',
             'entity_type_id',
             'eav/entity_type',
             'entity_type_id'
@@ -562,7 +562,7 @@ $table = $installer->getConnection()
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(
-            array('eav/entity_value_prefix', 'varchar'),
+            'eav_entity_varchar',
             'store_id',
             'core/store',
             'store_id'

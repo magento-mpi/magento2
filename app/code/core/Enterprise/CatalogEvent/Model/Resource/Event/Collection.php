@@ -141,7 +141,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
                     array()
                 )
                 ->joinLeft(array(
-                    'category_varchar' => $this->getTable(array('catalog/category', 'varchar'))), 
+                    'category_varchar' => $this->getTable('catalog_category_entity_varchar')), 
                     'category_varchar.entity_id = category.entity_id
                     AND category_varchar.attribute_id = category_name_attribute.attribute_id
                     AND category_varchar.store_id = 0', 
