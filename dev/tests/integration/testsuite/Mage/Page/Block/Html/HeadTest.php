@@ -72,7 +72,8 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             . '</script>' . "\n"
             . '<link media="all" rel="stylesheet" type="text/css" href="http://localhost/js/three.css" />' . "\n"
             . '<link media="all" rel="stylesheet" type="text/css" '
-                . 'href="http://localhost/media/skin/frontend/' . $package . '/default/default/en_US/css/styles.css" />' . "\n"
+                . 'href="http://localhost/media/skin/frontend/' . $package . '/default/default/en_US/css/styles.css" />'
+                . "\n"
             . '<link rel="alternate" type="application/rss+xml" href="http://example.com/feed.xml" />' . "\n"
             . '<link rel="next" href="http://example.com/page1.html" />' . "\n"
             . '<!--[if ie6]>' . "\n"

@@ -16,7 +16,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 {
     protected static $_pubJslib;
 
-    protected static $_cssMaterializationFiles = array(
+    protected static $_cssFiles = array(
         'css/file.css',
         'recursive.css',
         'recursive.gif',
@@ -44,11 +44,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         mkdir(self::$_pubJslib, 0777);
         copy($fixtureDir . '/skin/file.css', self::$_pubJslib . '/file.css');
         copy($fixtureDir . '/skin/script.js', self::$_pubJslib . '/script.js');
-    }
-
-    public static function tearDownAfterClass()
-    {
-//        Magento_Test_Bootstrap::getInstance()->cleanupDir('media_dir');
     }
 
     protected function setUp()
@@ -81,15 +76,16 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             array('fallback.phtml', array('_package' => 'package', '_theme' => 'custom_theme')),
         );
     }
+    /*
+    public function testGetThemeLocaleFile()
+    {
+        $this->assertFileExists($this->_model->getThemeLocaleFile('translate.csv'));
+        $this->assertFileExists($this->_model->getThemeLocaleFile('fallback.csv', array(
+            '_package' => 'package', '_theme' => 'custom_theme'
+        )));
+    }
+    */
 
-//    public function testGetThemeLocaleFile()
-//    {
-//        $this->assertFileExists($this->_model->getThemeLocaleFile('translate.csv'));
-//        $this->assertFileExists($this->_model->getThemeLocaleFile('fallback.csv', array(
-//            '_package' => 'package', '_theme' => 'custom_theme'
-//        )));
-//    }
-//
     /**
      * @param string $skinFile
      * @param array $designParams
@@ -111,43 +107,44 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
     public function getSkinFileDataProvider()
     {
+        $prefix = '%s/design/frontend/package/';
         return array(
             'skin file inside theme' => array(
                 'fixture_script.js',
                 array('_skin' => 'theme_nested_skin'),
-                '%s/design/frontend/package/custom_theme/skin/theme_nested_skin/fixture_script.js',
+                $prefix . 'custom_theme/skin/theme_nested_skin/fixture_script.js',
             ),
             'localized skin file inside theme' => array(
                 'fixture_script.js',
                 array('_skin' => 'theme_nested_skin'),
-                '%s/design/frontend/package/custom_theme/skin/theme_nested_skin/locale/ru_RU/fixture_script.js',
+                $prefix . 'custom_theme/skin/theme_nested_skin/locale/ru_RU/fixture_script.js',
                 'ru_RU',
             ),
             'modular skin file inside theme' => array(
                 'fixture_script.js',
                 array('_skin' => 'theme_nested_skin', '_module' => 'Fixture_Module'),
-                '%s/design/frontend/package/custom_theme/skin/theme_nested_skin/Fixture_Module/fixture_script.js',
+                $prefix . 'custom_theme/skin/theme_nested_skin/Fixture_Module/fixture_script.js',
             ),
             'localized modular skin file inside theme' => array(
                 'fixture_script.js',
                 array('_skin' => 'theme_nested_skin', '_module' => 'Fixture_Module'),
-                '%s/design/frontend/package/custom_theme/skin/theme_nested_skin/locale/ru_RU/Fixture_Module/fixture_script.js',
+                $prefix . 'custom_theme/skin/theme_nested_skin/locale/ru_RU/Fixture_Module/fixture_script.js',
                 'ru_RU',
             ),
             'primary fallback - same theme & default skin' => array(
                 'fixture_script_two.js',
                 array('_skin' => 'theme_nested_skin'),
-                '%s/design/frontend/package/custom_theme/skin/default/fixture_script_two.js',
+                $prefix . 'custom_theme/skin/default/fixture_script_two.js',
             ),
             'secondary fallback - default theme & same skin' => array(
                 'fixture_script_three.js',
                 array('_skin' => 'theme_nested_skin'),
-                '%s/design/frontend/package/default/skin/theme_nested_skin/fixture_script_three.js',
+                $prefix . 'default/skin/theme_nested_skin/fixture_script_three.js',
             ),
             'final fallback - default theme & default skin' => array(
                 'fixture_script_four.js',
                 array('_skin' => 'theme_nested_skin'),
-                '%s/design/frontend/package/default/skin/default/fixture_script_four.js',
+                $prefix . 'default/skin/default/fixture_script_four.js',
             ),
         );
     }
@@ -214,10 +211,12 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 'skin/frontend/test/default/skin/default/locale/fr_FR/logo.gif',
                 'fr_FR',
             ),
-//            'modular file' => array(
-//                'Mage_Page::favicon.ico',
-//                'skin/_module/Mage_Page/frontend/favicon.ico',
-//            ),
+            /*
+            'modular file' => array(
+                'Mage_Page::favicon.ico',
+                'skin/_module/Mage_Page/frontend/favicon.ico',
+            ),
+            */
         );
     }
 
@@ -344,7 +343,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('frontend', 'test', 'default', 'default', 'images/logo_email.gif'),
-//            array('frontend', 'test', 'default', 'default', 'Mage_Page::print.css'),
+            //array('frontend', 'test', 'default', 'default', 'Mage_Page::print.css'),
         );
     }
 
@@ -359,86 +358,87 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             '_package' => 'package',
             '_skin' => 'theme',
         ));
-        foreach (self::$_cssMaterializationFiles as $file) {
+        foreach (self::$_cssFiles as $file) {
             $this->assertFileExists("{$materializedDir}/{$file}");
         }
         $this->assertFileNotExists("{$materializedDir}/absolute.gif");
         $this->assertFileNotExists(dirname($materializedDir) . '/access_violation.php');
     }
 
-//    /**
-//     * Materialization of CSS files located in the module
-//     * @dataProvider materializeCssFileFromModuleDataProvider
-//     */
-//    public function testMaterializeCssFileFromModule(
-//        $cssSkinFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
-//    ) {
-//        Magento_Test_Bootstrap::getInstance()->cleanupDir('skin_dir');
-//        $baseDir = Mage::getBaseDir('skin');
-//
-//        $this->_model->getSkinUrl($cssSkinFile, $designParams);
-//
-//        $expectedCssFile = $baseDir . '/' . $expectedCssFile;
-//        $this->assertFileExists($expectedCssFile);
-//        $actualCssContent = file_get_contents($expectedCssFile);
-//
-//        $this->assertNotRegExp(
-//            '/url\(.*?' . Mage_Core_Model_Design_Package::SCOPE_SEPARATOR . '.*?\)/',
-//            $actualCssContent,
-//            'Materialized CSS file must not contain scope separators in URLs.'
-//        );
-//
-//        foreach ($expectedCssContent as $expectedCssSubstring) {
-//            $this->assertContains($expectedCssSubstring, $actualCssContent);
-//        }
-//
-//        foreach ($expectedRelatedFiles as $expectedFile) {
-//            $expectedFile = $baseDir . '/' . $expectedFile;
-//            $this->assertFileExists($expectedFile);
-//        }
-//
-//    }
-//
-//    public function materializeCssFileFromModuleDataProvider()
-//    {
-//        return array(
-//            'frontend' => array(
-//                'widgets.css',
-//                array(
-//                    '_area'    => 'frontend',
-//                    '_package' => 'default',
-//                    '_skin'    => 'default',
-//                    '_module'  => 'Mage_Reports',
-//                ),
-//                'frontend/default/default/default/en_US/Mage_Reports/widgets.css',
-//                array(
-//                    'url(../Mage_Catalog/images/widgets/i_block-list.gif)',
-//                ),
-//                array(
-//                    'frontend/default/default/default/en_US/Mage_Catalog/images/widgets/i_block-list.gif',
-//                ),
-//            ),
-//            'adminhtml' => array(
-//                'Mage_Paypal::boxes.css',
-//                array(
-//                    '_area'    => 'adminhtml',
-//                    '_package' => 'package',
-//                    '_theme'   => 'test',
-//                    '_skin'    => 'default',
-//                    '_module'  => false,
-//                ),
-//                'adminhtml/package/test/default/en_US/Mage_Paypal/boxes.css',
-//                array(
-//                    'url(logo.gif)',
-//                    'url(section.png)',
-//                ),
-//                array(
-//                    'adminhtml/package/test/default/en_US/Mage_Paypal/logo.gif',
-//                    'adminhtml/package/test/default/en_US/Mage_Paypal/section.png',
-//                ),
-//            ),
-//        );
-//    }
+    /**
+     * Materialization of CSS files located in the module
+     * @dataProvider materializeCssFileFromModuleDataProvider
+     */
+    public function testMaterializeCssFileFromModule(
+        $cssSkinFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
+    ) {
+        $this->markTestIncomplete('MAGETWO-520: test requires modular skins');
+        Magento_Test_Bootstrap::getInstance()->cleanupDir('skin_dir');
+        $baseDir = Mage::getBaseDir('skin');
+
+        $this->_model->getSkinUrl($cssSkinFile, $designParams);
+
+        $expectedCssFile = $baseDir . '/' . $expectedCssFile;
+        $this->assertFileExists($expectedCssFile);
+        $actualCssContent = file_get_contents($expectedCssFile);
+
+        $this->assertNotRegExp(
+            '/url\(.*?' . Mage_Core_Model_Design_Package::SCOPE_SEPARATOR . '.*?\)/',
+            $actualCssContent,
+            'Materialized CSS file must not contain scope separators in URLs.'
+        );
+
+        foreach ($expectedCssContent as $expectedCssSubstring) {
+            $this->assertContains($expectedCssSubstring, $actualCssContent);
+        }
+
+        foreach ($expectedRelatedFiles as $expectedFile) {
+            $expectedFile = $baseDir . '/' . $expectedFile;
+            $this->assertFileExists($expectedFile);
+        }
+
+    }
+
+    public function materializeCssFileFromModuleDataProvider()
+    {
+        return array(
+            'frontend' => array(
+                'widgets.css',
+                array(
+                    '_area'    => 'frontend',
+                    '_package' => 'default',
+                    '_skin'    => 'default',
+                    '_module'  => 'Mage_Reports',
+                ),
+                'frontend/default/default/default/en_US/Mage_Reports/widgets.css',
+                array(
+                    'url(../Mage_Catalog/images/widgets/i_block-list.gif)',
+                ),
+                array(
+                    'frontend/default/default/default/en_US/Mage_Catalog/images/widgets/i_block-list.gif',
+                ),
+            ),
+            'adminhtml' => array(
+                'Mage_Paypal::boxes.css',
+                array(
+                    '_area'    => 'adminhtml',
+                    '_package' => 'package',
+                    '_theme'   => 'test',
+                    '_skin'    => 'default',
+                    '_module'  => false,
+                ),
+                'adminhtml/package/test/default/en_US/Mage_Paypal/boxes.css',
+                array(
+                    'url(logo.gif)',
+                    'url(section.png)',
+                ),
+                array(
+                    'adminhtml/package/test/default/en_US/Mage_Paypal/logo.gif',
+                    'adminhtml/package/test/default/en_US/Mage_Paypal/section.png',
+                ),
+            ),
+        );
+    }
 
     public function testGetOptimalCssUrls()
     {
@@ -472,7 +472,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                     'css/styles.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
                     'calendar/calendar-blue.css ' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
                 ),
-                array('http://localhost/media/skin/_merged/2c4d7c31ccd9d157e2dbc7aec94395dc.css')
+                array('http://localhost/media/skin/_merged/3bb83a02eeb7603f09ca0f886ef951f4.css')
             ),
             array(
                 array('css/styles.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,),
@@ -514,7 +514,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                     'js/tabs.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
                     'calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
                 ),
-                array('http://localhost/media/skin/_merged/e1578bf32c5d5153db9702b60a4d873d.js',)
+                array('http://localhost/media/skin/_merged/c5a9f4afba4ff0ff979445892214fc8b.js',)
             ),
             array(
                 array('calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,),
@@ -526,6 +526,9 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testGetStaticLibUrl()
     {
         $this->assertEquals('http://localhost/js/', $this->_model->getStaticLibUrl(''));
-        $this->assertEquals('http://localhost/js/calendar/calendar.js', $this->_model->getStaticLibUrl('calendar/calendar.js'));
+        $this->assertEquals(
+            'http://localhost/js/calendar/calendar.js',
+            $this->_model->getStaticLibUrl('calendar/calendar.js')
+        );
     }
 }

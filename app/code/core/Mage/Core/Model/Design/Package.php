@@ -30,7 +30,6 @@ class Mage_Core_Model_Design_Package
     const DEFAULT_AREA    = 'frontend';
     const DEFAULT_PACKAGE = 'default';
     const DEFAULT_THEME   = 'default';
-    const BASE_PACKAGE    = 'base';
 
     const SCOPE_SEPARATOR = '::';
 
@@ -352,7 +351,6 @@ class Mage_Core_Model_Design_Package
         }
         if (!array_key_exists('_skin', $params)) {
             $params['_skin'] = $this->getSkin();
-            //$params['_skin'] = $this->getSkin();
         }
         if (empty($params['_default'])) {
             $params['_default'] = false;
@@ -365,7 +363,7 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * @todo replace method usage with getFilename
+     * @todo replace method usage with getFilename (MAGETWO-521)
      */
     public function getBaseDir(array $params)
     {
@@ -376,7 +374,7 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * @todo replace method usage with getSkinFile/getSkinUrl
+     * @todo replace method usage with getSkinFile/getSkinUrl (MAGETWO-521)
      */
     public function getSkinBaseDir(array $params=array())
     {
@@ -385,18 +383,6 @@ class Mage_Core_Model_Design_Package
         $baseDir = (empty($params['_relative']) ? Mage::getBaseDir('skin').DS : '').
             $params['_area'].DS.$params['_package'].DS.$params['_theme'];
         return $baseDir;
-    }
-
-    /**
-     * @todo replace method usage with getSkinUrl
-     */
-    public function getSkinBaseUrl(array $params=array())
-    {
-        $params['_type'] = 'skin';
-        $this->_updateParamDefaults($params);
-        $baseUrl = Mage::getBaseUrl('skin', isset($params['_secure'])?(bool)$params['_secure']:null)
-            .$params['_area'].'/'.$params['_package'].'/'.$params['_theme'].'/';
-        return $baseUrl;
     }
 
     /**
@@ -447,7 +433,6 @@ class Mage_Core_Model_Design_Package
      *
      * $params['_type'] is required
      *
-     * @todo make method as protected and replace usages with get*Filename
      * @param string $file
      * @param array $params
      * @return string
@@ -466,10 +451,12 @@ class Mage_Core_Model_Design_Package
 
         do {
             $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}";
-            $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}/{$params['_type']}"; // legacy
+            /* Legacy path that should be removed after all template and layout files relocation */
+            $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}/{$params['_type']}";
             $theme = $this->_getInheritedTheme($theme);
         } while ($theme);
-        $dirs[] = "{$dir}/{$area}/base/default/{$params['_type']}"; // legacy
+        /* Legacy path that should be removed after all template and layout files relocation */
+        $dirs[] = "{$dir}/{$area}/base/default/{$params['_type']}";
 
         $moduleDir = $module ? array(Mage::getConfig()->getModuleDir('view', $module) . "/{$area}") : array();
         Magento_Profiler::stop(__METHOD__);
@@ -709,14 +696,17 @@ class Mage_Core_Model_Design_Package
         do {
             $dirs[] = "{$dir}/{$area}/{$package}/{$theme}/skin/{$skin}/locale/{$locale}";
             $dirs[] = "{$dir}/{$area}/{$package}/{$theme}/skin/{$skin}";
-            $dirs[] = "{$skinDir}/{$area}/{$package}/{$theme}";
+            /* Legacy path that should be removed after skin files relocation */
+            $dirs[] = "{$skinDir}/{$area}/{$package}/{$skin}";
             if ($skin != $defaultSkin) {
                 $dirs[] = "{$dir}/{$area}/{$package}/{$theme}/skin/{$defaultSkin}/locale/{$locale}";
                 $dirs[] = "{$dir}/{$area}/{$package}/{$theme}/skin/{$defaultSkin}";
+                /* Legacy path that should be removed after skin files relocation */
                 $dirs[] = "{$skinDir}/{$area}/{$package}/{$defaultSkin}";
             }
             $theme = $this->_getInheritedTheme($theme);
         } while ($theme);
+        /* Legacy path that should be removed after skin files relocation */
         $dirs[] = "{$skinDir}/{$area}/base/{$defaultSkin}";
 
         return $this->_fallback(
@@ -1074,15 +1064,17 @@ class Mage_Core_Model_Design_Package
         $filesToMerge = array();
         $mergedFile = array();
         $jsDir = Mage::getBaseDir('js');
+        $publicDir = $this->_buildPublicSkinFilename('');
         foreach ($files as $file => $fileType) {
             if ($fileType == self::STATIC_TYPE_LIB) {
                 $filesToMerge[$file] = $jsDir . DIRECTORY_SEPARATOR . $file;
+                $mergedFile[] = str_replace('\\', '/', str_replace($jsDir, '', $filesToMerge[$file]));
             } else {
                 $params = array();
                 $this->_updateParamDefaults($params);
                 $filesToMerge[$file] = $this->_publishSkinFile($file, $params);
+                $mergedFile[] = str_replace('\\', '/', str_replace($publicDir, '', $filesToMerge[$file]));
             }
-            $mergedFile[] = str_replace('\\', '/', str_replace($jsDir, '', $filesToMerge[$file]));
         }
         $mergedFile = self::PUBLIC_MERGE_DIR . DIRECTORY_SEPARATOR . md5(implode('|', $mergedFile)) . ".{$contentType}";
         $mergedFile = $this->_buildPublicSkinFilename($mergedFile);

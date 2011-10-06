@@ -55,9 +55,8 @@ class Mage_Core_Helper_JsTest extends PHPUnit_Framework_TestCase
 
     public function testIncludeSkinScript()
     {
-        $this->assertStringMatchesFormat(
-            '<script type="text/javascript" src="http://localhost/media/skin/frontend/%s/%s/%s/%s/images/spacer.gif"></script>',
-            $this->_helper->includeSkinScript('images/spacer.gif')
-        );
+        $script = '<script type="text/javascript" '
+            . 'src="http://localhost/media/skin/frontend/%s/%s/%s/%s/images/spacer.gif"></script>';
+        $this->assertStringMatchesFormat($script, $this->_helper->includeSkinScript('images/spacer.gif'));
     }
 }
