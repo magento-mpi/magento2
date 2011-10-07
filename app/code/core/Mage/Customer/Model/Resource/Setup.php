@@ -315,7 +315,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'               => 'int',
                         'label'              => 'Gender',
                         'input'              => 'select',
-                        'source'             => 'eav/entity_attribute_source_table',
+                        'source'             => 'eav_entity_attribute_source_table',
                         'required'           => false,
                         'sort_order'         => 110,
                         'visible'            => false,

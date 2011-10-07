@@ -69,14 +69,14 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Decimal
         $productValueExpression = $write->getCheckSql('pds.value_id > 0', 'pds.value', 'pdd.value');
         $select = $write->select()
             ->from(
-                array('pdd' => $this->getValueTable('catalog_product_entity', 'decimal')),
+                array('pdd' => $this->getTable('catalog_product_entity_decimal')),
                 array('entity_id', 'attribute_id'))
             ->join(
                 array('cs' => $this->getTable('core_store')),
                 '',
                 array('store_id'))
             ->joinLeft(
-                array('pds' => $this->getValueTable('catalog_product_entity', 'decimal')),
+                array('pds' => $this->getTable('catalog_product_entity_decimal')),
                 'pds.entity_id = pdd.entity_id AND pds.attribute_id = pdd.attribute_id'
                     . ' AND pds.store_id=cs.store_id',
                 array('value' => $productValueExpression))

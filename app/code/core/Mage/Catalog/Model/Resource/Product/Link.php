@@ -174,7 +174,7 @@ class Mage_Catalog_Model_Resource_Product_Link extends Mage_Core_Model_Resource_
      */
     public function getAttributeTypeTable($type)
     {
-        return $this->getTable('catalog/product_link_attribute_' . $type);
+        return $this->getTable('catalog_product_link_attribute_' . $type);
     }
 
     /**
