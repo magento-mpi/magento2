@@ -50,9 +50,14 @@
 
 <?php if (!$_product->isGrouped()): ?>
     <?php $_weeeTaxAmount = $_weeeHelper->getAmountForDisplay($_product); ?>
-    <?php if ($_weeeHelper->typeOfDisplay($_product, array(1,2,4))): ?>
+    <?php if ($_weeeHelper->typeOfDisplay($_product, array(Mage_Weee_Model_Tax::DISPLAY_INCL_DESCR, Mage_Weee_Model_Tax::DISPLAY_EXCL_DESCR_INCL, 4))): ?>
         <?php $_weeeTaxAmount = $_weeeHelper->getAmount($_product); ?>
         <?php $_weeeTaxAttributes = $_weeeHelper->getProductWeeeAttributesForDisplay($_product); ?>
+    <?php endif; ?>
+    <?php $_weeeTaxAmountInclTaxes = $_weeeTaxAmount; ?>
+    <?php if ($_weeeHelper->isTaxable()): ?>
+        <?php $_attributes = $_weeeHelper->getProductWeeeAttributesForRenderer($_product, null, null, null, true); ?>
+        <?php $_weeeTaxAmountInclTaxes = $_weeeHelper->getAmountInclTaxes($_attributes); ?>
     <?php endif; ?>
 
     <div class="price-box">
@@ -73,7 +78,7 @@
                 <span class="price-including-tax">
                     <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmount,true,false) ?>
+                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmountInclTaxes,true,false) ?>
                     </span>
                 </span>
             <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 1)): // incl. + weee ?>
@@ -86,7 +91,7 @@
                 <span class="price-including-tax">
                     <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmount,true,false) ?>
+                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmountInclTaxes,true,false) ?>
                     </span>
                     <span class="weee">(
                         <?php foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
@@ -106,7 +111,7 @@
                 <span class="price-including-tax">
                     <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmount,true,false) ?>
+                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmountInclTaxes,true,false) ?>
                     </span>
                     <span class="weee">(
                         <?php foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
@@ -131,7 +136,7 @@
                 <span class="price-including-tax">
                     <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmount,true,false) ?>
+                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmountInclTaxes,true,false) ?>
                     </span>
                 </span>
             <?php else: ?>
@@ -214,7 +219,7 @@
                 <span class="price-including-tax">
                     <span class="label"><?php echo $_taxHelper->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmount,true,false) ?>
+                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmountInclTaxes,true,false) ?>
                     </span>
                 </span>
                 </p>
@@ -253,7 +258,7 @@
             <span class="price-including-tax">
                 <span class="label"><?php echo $_taxHelper->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                    <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmount,true,false) ?>
+                    <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmountInclTaxes,true,false) ?>
                 </span>
             </span>
             </p>
@@ -283,7 +288,7 @@
             <span class="price-including-tax">
                 <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                    <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmount,true,false) ?>
+                    <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmountInclTaxes,true,false) ?>
                 </span>
             </span>
             </p>
@@ -311,7 +316,7 @@
                 <span class="price-including-tax">
                     <span class="label"><?php echo $this->helper('tax')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmount,true,false) ?>
+                        <?php echo $_coreHelper->currency($_finalPriceInclTax+$_weeeTaxAmountInclTaxes,true,false) ?>
                     </span>
                 </span>
             </p>

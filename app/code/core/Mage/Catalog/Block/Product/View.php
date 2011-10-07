@@ -183,10 +183,11 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             'idSuffix'            => '_clone',
             'oldPlusDisposition'  => 0,
             'plusDisposition'     => 0,
+            'plusDispositionTax'  => 0,
             'oldMinusDisposition' => 0,
             'minusDisposition'    => 0,
             'tierPrices'          => $_tierPrices,
-            'tierPricesInclTax'    => $_tierPricesInclTax,
+            'tierPricesInclTax'   => $_tierPricesInclTax,
         );
 
         $responseObject = new Varien_Object();

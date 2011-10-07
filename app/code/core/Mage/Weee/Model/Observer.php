@@ -115,7 +115,8 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
                 array()
             );
         }
-        $checkDiscountField = $select->getAdapter()->getCheckSql('discount_percent.value IS NULL', 0, 'discount_percent.value');
+        $checkDiscountField = $select->getAdapter()->getCheckSql(
+            'discount_percent.value IS NULL', 0, 'discount_percent.value');
         foreach ($attributes as $attribute) {
             $fieldAlias = sprintf('weee_%s_table.value', $attribute);
             $checkAdditionalCalculation = $select->getAdapter()->getCheckSql("{$fieldAlias} IS NULL", 0, $fieldAlias);
@@ -132,7 +133,8 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
 
         $attributes  = Mage::getSingleton('weee/tax')->getWeeeTaxAttributeCodes();
         foreach ($attributes as $attribute) {
-            $attributeId = (int)Mage::getSingleton('eav/entity_attribute')->getIdByCode(Mage_Catalog_Model_Product::ENTITY, $attribute);
+            $attributeId = (int)Mage::getSingleton('eav/entity_attribute')
+                ->getIdByCode(Mage_Catalog_Model_Product::ENTITY, $attribute);
             $tableAlias  = sprintf('weee_%s_table', $attribute);
             $quotedTableAlias = $select->getAdapter()->quoteTableAs($tableAlias, null);
             $attributeSelect  = $this->_getSelect();
@@ -278,7 +280,9 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function updateCofigurableProductOptions(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('weee')->isEnabled()) {
+        /* @var $weeeHelper Mage_Weee_Helper_Data */
+        $weeeHelper = Mage::helper('weee');
+        if (!$weeeHelper->isEnabled()) {
             return $this;
         }
 
@@ -289,14 +293,18 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         if (!$_product) {
             return $this;
         }
-        if (!Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+        if (!$weeeHelper->typeOfDisplay($_product, array(0, 1, 4))) {
             return $this;
         }
-        $amount     = Mage::helper('weee')->getAmount($_product);
-        $origAmount = Mage::helper('weee')->getOriginalAmount($_product);
+        $amount          = $weeeHelper->getAmount($_product);
+        $origAmount      = $weeeHelper->getOriginalAmount($_product);
+        $attributes      = $weeeHelper->getProductWeeeAttributes($_product, null, null, null, $weeeHelper->isTaxable());
+        $amountInclTaxes = $weeeHelper->getAmountInclTaxes($attributes);
+        $taxes           = $amountInclTaxes - $amount;
 
         $options['oldPlusDisposition'] = $origAmount;
-        $options['plusDisposition'] = $amount;
+        $options['plusDisposition']    = $amount;
+        $options['plusDispositionTax'] = ($taxes < 0) ? 0 : $taxes;
 
         $response->setAdditionalOptions($options);
 
