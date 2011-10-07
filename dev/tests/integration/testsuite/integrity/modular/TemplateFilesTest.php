@@ -58,9 +58,10 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
         foreach ($this->_getEnabledModules() as $module) {
             $blocks = $this->_getModuleBlocks($module);
             foreach ($blocks as $blockClass) {
-                if (strpos($blockClass, 'Abstract') === false && strpos($blockClass, 'Interface') === false
-                    && !in_array($blockClass, $excludeList)
-                ) {
+                $isClassValid = strpos($blockClass, 'Abstract') === false
+                    && strpos($blockClass, 'Interface') === false
+                    && !in_array($blockClass, $excludeList);
+                if ($isClassValid) {
                     $class = new ReflectionClass($blockClass);
                     if ($class->isAbstract()) {
                         continue;
@@ -70,9 +71,9 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
                         $template = $block->getTemplate();
                         if ($template && !$this->_isFileForDisabledModule($template)) {
                             $area = $module == 'Mage_Install' ? 'install' : 'frontend';
-                            if ($module == 'Mage_Adminhtml' || strpos($blockClass, '_Adminhtml_')
-                                || ($block instanceof Mage_Adminhtml_Block_Template)
-                            ) {
+                            $useAdminArea = $module == 'Mage_Adminhtml' || strpos($blockClass, '_Adminhtml_')
+                                || ($block instanceof Mage_Adminhtml_Block_Template);
+                            if ($useAdminArea) {
                                 $area = 'adminhtml';
                             }
                             $templates[] = array($module, $template, $blockClass, $area);
@@ -172,10 +173,10 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
         foreach ($allBlocks as $blockInfo) {
             $block = $blockInfo[0];
             if (preg_match('/^(.*?)_Block/', $block, $matches)) {
-               $module = $matches[1];
-               if (!isset($enabledModules[$module])) {
-                   continue;
-               }
+                $module = $matches[1];
+                if (!isset($enabledModules[$module])) {
+                    continue;
+                }
             }
             $result[] = $blockInfo;
         }

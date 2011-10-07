@@ -27,5 +27,7 @@ return array(
         "{$baseDir}/dev/tests/static/testsuite/Php/Exemplar/_files/phpcs/input",
         "{$baseDir}/dev/tests/static/testsuite/Php/Exemplar/_files/phpmd/input",
         "{$baseDir}/dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/TestSuite/_files",
+        "{$baseDir}/dev/tests/integration/testsuite/Integrity/modular/TemplateFilesTest.php",
+        "{$baseDir}/dev/tests/integration/testsuite/Integrity/theme/TemplateFilesTest.php",
     )
 );

@@ -57,6 +57,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
             }
         }
         if (!$file) {
+            $this->_isBaseFilePlaceholder = true;
             // check if placeholder defined in config
             $isConfigPlaceholder = Mage::getStoreConfig(
                 'catalog/placeholder/' . $this->getDestinationSubdir() . '_placeholder'
@@ -65,23 +66,9 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
             if ($isConfigPlaceholder && file_exists($baseDir . $configPlaceholder)) {
                 $file = $configPlaceholder;
             } else {
-                // replace file with skin or default skin placeholder
-                $skinBaseDir     = Mage::getDesign()->getSkinBaseDir();
-                $skinPlaceholder = '/images/xmlconnect/catalog/category/placeholder/' . $this->getDestinationSubdir()
-                    . '.jpg';
-
-                $file = $skinPlaceholder;
-                if (file_exists($skinBaseDir . $file)) {
-                    $baseDir = $skinBaseDir;
-                } else {
-                    $baseDir = Mage::getDesign()->getSkinBaseDir(array('_theme' => 'default'));
-                    if (!file_exists($baseDir . $file)) {
-                        $baseDir = Mage::getDesign()
-                            ->getSkinBaseDir(array('_theme' => 'default', '_package' => 'base'));
-                    }
-                }
+                $this->_newFile = true;
+                return $this;
             }
-            $this->_isBaseFilePlaceholder = true;
         }
 
         $baseFile = $baseDir . $file;
@@ -149,9 +136,9 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
         } elseif (file_exists($baseDir . '/watermark/' . $file)) {
             $filePath = $baseDir . '/watermark/' . $file;
         } else {
-            $baseDir = Mage::getDesign()->getSkinBaseDir();
-            if (file_exists($baseDir . $file)) {
-                $filePath = $baseDir . $file;
+            $skinFile = Mage::getDesign()->getSkinFile($file);
+            if (file_exists($skinFile)) {
+                $filePath = $skinFile;
             }
         }
 
@@ -187,5 +174,21 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
             }
         }
         return implode($result);
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        if ($this->_newFile === true) {
+            $url = Mage::getDesign()->getSkinUrl(
+                'images/xmlconnect/catalog/category/placeholder/' . $this->getDestinationSubdir(). '.jpg'
+            );
+        } else {
+            $url = parent::getUrl();
+        }
+
+        return $url;
     }
 }

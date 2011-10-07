@@ -28,7 +28,7 @@ class Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
         $moduleViewDir = Mage::getConfig()->getModuleDir('view', $module);
         $moduleLayoutDir = $moduleViewDir . DIRECTORY_SEPARATOR . $area;
 
-        $this->assertFileExists($moduleViewDir,   'Expected existence of the module view directory.');
+        $this->assertFileExists($moduleViewDir, 'Expected existence of the module view directory.');
         $this->assertFileExists($moduleLayoutDir, 'Expected existence of the module layout directory.');
 
         $params = array(

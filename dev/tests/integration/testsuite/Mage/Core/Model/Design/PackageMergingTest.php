@@ -87,7 +87,9 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
         $this->assertEquals($expectedFilename, basename($result[0]));
         if ($related) {
             foreach ($related as $file) {
-                $this->assertFileExists(Mage::getBaseDir('media') . "/skin/frontend/package/default/theme/en_US/{$file}");
+                $this->assertFileExists(
+                    Mage::getBaseDir('media') . "/skin/frontend/package/default/theme/en_US/{$file}"
+                );
             }
         }
     }
@@ -104,7 +106,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
                     'calendar/calendar-blue.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
                     'css/file.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
                 ),
-                'fc6694e073ee53a2092354b5c3fa8b4c.css',
+                'ba1ea83ef061c58d4ceef66018beb4f2.css',
                 array(
                     'css/file.css',
                     'recursive.css',
@@ -125,7 +127,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
                     'calendar/calendar.js' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
                     'scripts.js'  => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
                 ),
-                '144cd17cd3d16ef7128afd18dd24ed85.js',
+                '916b1b8161a8f61422b432009f47f267.js',
             ),
         );
     }
@@ -141,7 +143,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
             'scripts.js'  => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
         );
 
-        $resultingFile = "{$this->_pubMerged}/144cd17cd3d16ef7128afd18dd24ed85.js";
+        $resultingFile = "{$this->_pubMerged}/916b1b8161a8f61422b432009f47f267.js";
         $this->assertFileNotExists($resultingFile);
 
         // merge first time

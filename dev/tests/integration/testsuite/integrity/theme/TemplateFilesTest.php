@@ -32,7 +32,7 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
                 $templateFilename = Mage::getDesign()->getTemplateFilename($file, $params);
                 $this->assertFileExists($templateFilename);
             } catch (PHPUnit_Framework_ExpectationFailedException $e) {
-                if ('frontend' == $area && (0 === strpos($file, 'banner')  || 0 === strpos($file, 'catalogevent')
+                if ('frontend' == $area && (0 === strpos($file, 'banner') || 0 === strpos($file, 'catalogevent')
                     || 0 === strpos($file, 'customerbalance') || 0 === strpos($file, 'giftcard')
                     || 0 === strpos($file, 'giftcardaccount') || 0 === strpos($file, 'giftregistry')
                     || 0 === strpos($file, 'giftwrapping') || 0 === strpos($file, 'invitation')
