@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Widget_View_Container extends Mage_Adminhtml_Block_Wi
     {
         parent::__construct();
 
-        $this->setTemplate('widget/view/container.phtml');
+        $this->setTemplate('Mage_Adminhtml::widget/view/container.phtml');
 
         $this->_addButton('back', array(
             'label'     => Mage::helper('adminhtml')->__('Back'),

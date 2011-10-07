@@ -50,7 +50,7 @@
 
     <adminhtml_report_customer_customersegment_detail>
         <reference name="content">
-            <block type="enterprise_customersegment/adminhtml_report_customer_segment_detail" name="report.customersegment.detail.grid.container" template="enterprise/customersegment/report/detail/grid/container.phtml" />
+            <block type="enterprise_customersegment/adminhtml_report_customer_segment_detail" name="report.customersegment.detail.grid.container" template="report/detail/grid/container.phtml" />
         </reference>
     </adminhtml_report_customer_customersegment_detail>
 </layout>

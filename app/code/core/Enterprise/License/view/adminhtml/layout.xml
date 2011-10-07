@@ -29,7 +29,7 @@
 <layout>
     <default>
         <reference name="notifications">
-            <block type="enterprise_license/adminhtml_checker" name="license_checker" as="license_checker" template="enterprise/license/checker/reminder.phtml"></block>
+            <block type="enterprise_license/adminhtml_checker" name="license_checker" as="license_checker" template="checker/reminder.phtml"></block>
         </reference>
     </default>
 </layout>

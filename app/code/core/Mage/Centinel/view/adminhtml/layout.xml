@@ -41,7 +41,7 @@
             <action method="addJs"><script>mage/adminhtml/sales/centinel.js</script></action>
         </reference>
         <reference name="data">
-            <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="sales/order/create/abstract.phtml">
+            <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="Mage_Adminhtml::sales/order/create/abstract.phtml">
                 <block type="centinel/adminhtml_validation_form" template="centinel/validation/form.phtml" name="form" />
             </block>
         </reference>
@@ -53,7 +53,7 @@
 
     <adminhtml_sales_order_create_load_block_data>
         <reference name="data">
-            <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="sales/order/create/abstract.phtml">
+            <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="Mage_Adminhtml::sales/order/create/abstract.phtml">
                 <block type="centinel/adminhtml_validation_form" template="centinel/validation/form.phtml" name="form" />
             </block>
         </reference>
@@ -61,7 +61,7 @@
 
     <adminhtml_sales_order_create_load_block_card_validation>
         <reference name="content">
-            <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="sales/order/create/abstract.phtml">
+            <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="Mage_Adminhtml::sales/order/create/abstract.phtml">
                 <block type="centinel/adminhtml_validation_form" template="centinel/validation/form.phtml" name="form" />
             </block>
         </reference>

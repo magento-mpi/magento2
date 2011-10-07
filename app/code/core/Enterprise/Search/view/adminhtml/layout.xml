@@ -28,7 +28,7 @@
 <layout>
     <adminhtml_catalog_product_attribute_edit>
         <reference name="js">
-            <block type="enterprise_search/adminhtml_catalog_attribute_edit" template="enterprise/search/js.phtml" />
+            <block type="enterprise_search/adminhtml_catalog_attribute_edit" template="js.phtml" />
         </reference>
     </adminhtml_catalog_product_attribute_edit>
     <adminhtml_catalog_search_edit>
@@ -50,7 +50,7 @@
                 </reference>
             </block>
         </reference>
-    </adminhtml_catalog_search_edit>  
+    </adminhtml_catalog_search_edit>
     <adminhtml_catalog_search_relatedgrid>
         <remove name="root" />
         <block type="enterprise_search/adminhtml_search_grid" name="relatedGrid" output="toHtml" />

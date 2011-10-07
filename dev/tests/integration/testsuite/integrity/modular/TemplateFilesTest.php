@@ -23,12 +23,15 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
      */
     public function testAllTemplates($module, $template, $class, $area)
     {
-        if ((strpos($class, 'Enterprise') === 0 && strpos($class, '_Adminhtml') === false)
-            || (strpos($class, 'Mage_XmlConnect') === 0 && strpos($template, 'pbridge') === 0)) {
+        if ((strpos($class, 'Enterprise') === 0 && strpos($class, '_Adminhtml') === false) || $area == 'frontend') {
             $package = 'enterprise';
         } else {
             $package = 'default';
         }
+        if ($area == 'frontend' && in_array($module, array('Enterprise_Pbridge', 'Mage_XmlConnect'))) {
+            $this->markTestIncomplete('MAGETWO-513');
+        }
+
         $params = array(
             '_area'     => $area,
             '_package'  => $package,
@@ -55,9 +58,10 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
         foreach ($this->_getEnabledModules() as $module) {
             $blocks = $this->_getModuleBlocks($module);
             foreach ($blocks as $blockClass) {
-                if (strpos($blockClass, 'Abstract') === false && strpos($blockClass, 'Interface') === false
-                    && !in_array($blockClass, $excludeList)
-                ) {
+                $isClassValid = strpos($blockClass, 'Abstract') === false
+                    && strpos($blockClass, 'Interface') === false
+                    && !in_array($blockClass, $excludeList);
+                if ($isClassValid) {
                     $class = new ReflectionClass($blockClass);
                     if ($class->isAbstract()) {
                         continue;
@@ -67,9 +71,9 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
                         $template = $block->getTemplate();
                         if ($template && !$this->_isFileForDisabledModule($template)) {
                             $area = $module == 'Mage_Install' ? 'install' : 'frontend';
-                            if ($module == 'Mage_Adminhtml' || strpos($blockClass, '_Adminhtml_')
-                                || ($block instanceof Mage_Adminhtml_Block_Template)
-                            ) {
+                            $useAdminArea = $module == 'Mage_Adminhtml' || strpos($blockClass, '_Adminhtml_')
+                                || ($block instanceof Mage_Adminhtml_Block_Template);
+                            if ($useAdminArea) {
                                 $area = 'adminhtml';
                             }
                             $templates[] = array($module, $template, $blockClass, $area);
@@ -169,10 +173,10 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
         foreach ($allBlocks as $blockInfo) {
             $block = $blockInfo[0];
             if (preg_match('/^(.*?)_Block/', $block, $matches)) {
-               $module = $matches[1];
-               if (!isset($enabledModules[$module])) {
-                   continue;
-               }
+                $module = $matches[1];
+                if (!isset($enabledModules[$module])) {
+                    continue;
+                }
             }
             $result[] = $blockInfo;
         }

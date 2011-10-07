@@ -41,7 +41,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('enterprise/reward/customer/edit/management.phtml');
+        $this->setTemplate('customer/edit/management.phtml');
     }
 
     /**

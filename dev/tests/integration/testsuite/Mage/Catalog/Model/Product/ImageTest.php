@@ -21,8 +21,19 @@ class Mage_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
     {
         $model = new Mage_Catalog_Model_Product_Image;
         $model->setDestinationSubdir('image')->setBaseFile('');
-        $this->assertNotEmpty($model->getBaseFile());
+        $this->assertEmpty($model->getBaseFile());
         return $model;
+    }
+
+    /**
+     * @param Mage_Catalog_Model_Product_Image $model
+     * @depends testSetBaseFilePlaceholder
+     */
+    public function testSaveFilePlaceholder($model)
+    {
+        $processor = $this->getMock('Varien_Image', array('save'));
+        $processor->expects($this->exactly(0))->method('save');
+        $model->setImageProcessor($processor)->saveFile();
     }
 
     /**
@@ -32,7 +43,7 @@ class Mage_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
     public function testGetUrlPlaceholder($model)
     {
         $this->assertStringMatchesFormat(
-            'http://%s/media/catalog/product/cache/%s/image/%s/images/catalog/product/placeholder/image.jpg',
+            'http://localhost/media/skin/frontend/%s/catalog/product/placeholder/image.jpg',
             $model->getUrl()
         );
     }

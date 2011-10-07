@@ -80,17 +80,19 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
             'install/default/pro/pro',
         );
 
-//        $areas = array('adminhtml', 'frontend', 'install');
-//        foreach ($areas as $area) {
-//            $entities = Mage::getDesign()->getDesignEntitiesStructure($area, false);
-//            foreach ($entities as $package => $themes) {
-//                foreach ($themes as $theme => $skins) {
-//                    foreach (array_keys($skins) as $skin) {
-//                        $result[] = "{$area}/{$package}/{$theme}/{$skin}";
-//                    }
-//                }
-//            }
-//        }
+        /*
+        $areas = array('adminhtml', 'frontend', 'install');
+        foreach ($areas as $area) {
+            $entities = Mage::getDesign()->getDesignEntitiesStructure($area, false);
+            foreach ($entities as $package => $themes) {
+                foreach ($themes as $theme => $skins) {
+                    foreach (array_keys($skins) as $skin) {
+                        $result[] = "{$area}/{$package}/{$theme}/{$skin}";
+                    }
+                }
+            }
+        }
+        */
         return $result;
     }
 
@@ -113,13 +115,15 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
             'install/default/pro',
         );
 
-//        $skins = $this->_getDesignSkins();
-//        foreach ($skins as $skin) {
-//            list ($area, $package, $theme) = explode('/', $skin);
-//            $view = "{$area}/{$package}/{$theme}";
-//            $result[$view] = $view;
-//        }
-//        $result = array_values($result); // Return flat array without some special keys
+        /*
+        $skins = $this->_getDesignSkins();
+        foreach ($skins as $skin) {
+            list ($area, $package, $theme) = explode('/', $skin);
+            $view = "{$area}/{$package}/{$theme}";
+            $result[$view] = $view;
+        }
+        $result = array_values($result); // Return flat array without some special keys
+        */
         return $result;
     }
 }

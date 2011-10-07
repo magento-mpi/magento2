@@ -29,12 +29,12 @@
 
     <adminhtml_sales_order_create_index>
         <reference name="js">
-            <block type="adminhtml/template" name="pbridge.js" template="enterprise/pbridge/sales/order/create/js.phtml" />
+            <block type="adminhtml/template" name="pbridge.js" template="Enterprise_Pbridge::sales/order/create/js.phtml" />
         </reference>
     </adminhtml_sales_order_create_index>
 
     <adminhtml_pbridge_result>
-        <block type="enterprise_pbridge/adminhtml_sales_order_create_result" name="pbridge.sales.order.create.result" template="enterprise/pbridge/sales/order/create/result.phtml" output="toHtml" />
+        <block type="enterprise_pbridge/adminhtml_sales_order_create_result" name="pbridge.sales.order.create.result" template="sales/order/create/result.phtml" output="toHtml" />
     </adminhtml_pbridge_result>
 
 </layout>

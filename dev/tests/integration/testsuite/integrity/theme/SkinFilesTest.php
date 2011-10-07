@@ -41,7 +41,7 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
                 $path = $this->_getNotRelativePath($relativePath, $file);
                 $pathFile = Mage::getDesign()->getSkinFile($path, $params);
                 if (!file_exists($pathFile)) {
-                   $errors[] = $relativePath;
+                    $errors[] = $relativePath;
                 }
             }
             if (!empty($errors)) {
@@ -103,19 +103,21 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
                 }
             }
 
+            /* MAGETWO-520: functionality requires skin files relocation (fails after layouts relocation)'); */
+            /*
             // Collect "addCss" and "addItem" from theme layout
             $layout = Mage::app()->getLayout()->getUpdate()->getFileLayoutUpdatesXml(
                 $area, $package, $theme
             );
-            /* MAGETWO-520: functionality requires skin files relocation (fails after layouts relocation)'); */
-//            foreach ($layout->xpath('//action[@method="addCss"]/*[1] '
-//                . '| //action[@method="addItem"][*[1][text()="skin_js" or text()="skin_css"]]/*[2]') as $filenameNode) {
-//                $skinFile = (string) $filenameNode;
-//                if ($this->_isFileForDisabledModule($skinFile)) {
-//                    continue;
-//                }
-//                $files[$area][$package][$theme][] = $skinFile;
-//            }
+            foreach ($layout->xpath('//action[@method="addCss"]/*[1] '
+                . '| //action[@method="addItem"][*[1][text()="skin_js" or text()="skin_css"]]/*[2]') as $filenameNode) {
+                $skinFile = (string) $filenameNode;
+                if ($this->_isFileForDisabledModule($skinFile)) {
+                    continue;
+                }
+                $files[$area][$package][$theme][] = $skinFile;
+            }
+            */
         }
 
         // Populate data provider in correspondence of skins to views
@@ -174,26 +176,4 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         }
         return $result;
     }
-
-//    /**
-//     * @param string $file
-//     * @dataProvider staticLibsDataProvider
-//     */
-//    public function testStaticLibs($file)
-//    {
-//        $this->assertFileExists(Mage::getBaseDir('js') . DIRECTORY_SEPARATOR . $file);
-//    }
-//
-//    /**
-//     * @return array
-//     */
-//    public function staticLibsDataProvider()
-//    {
-//        return array(
-//            array('media/editor.swf'),
-//            array('media/flex.swf'), // looks like this one is not used anywhere
-//            array('media/uploader.swf'),
-//            array('media/uploaderSingle.swf'),
-//        );
-//    }
 }

@@ -28,7 +28,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
 {
     public function __construct()
     {
-        $this->setTemplate('enterprise/customerbalance/balance/history.phtml');
+        $this->setTemplate('balance/history.phtml');
     }
 
     protected function _prepareLayout()

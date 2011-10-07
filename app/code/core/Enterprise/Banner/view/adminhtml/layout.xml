@@ -38,7 +38,7 @@
             <block type="enterprise_banner/adminhtml_banner_edit_tabs" name="banner_edit_tabs">
                 <block type="enterprise_banner/adminhtml_banner_edit_tab_properties" name="banner_edit_tab_properties"/>
                 <block type="enterprise_banner/adminhtml_banner_edit_tab_content" name="banner_edit_tab_content"/>
-                <block type="enterprise_banner/adminhtml_banner_edit_tab_promotions" name="banner_edit_tab_promotions" template="enterprise/banner/edit/tab/promotions.phtml">
+                <block type="enterprise_banner/adminhtml_banner_edit_tab_promotions" name="banner_edit_tab_promotions" template="edit/tab/promotions.phtml">
                     <block type="enterprise_banner/adminhtml_banner_edit_tab_promotions_salesrule" name="banner_salesrule_grid"/>
                     <block type="adminhtml/widget_grid_serializer" name="salesrule_grid_serializer">
                         <reference name="salesrule_grid_serializer">
