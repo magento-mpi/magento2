@@ -90,11 +90,6 @@ class Mage_Core_Model_Design_Package
     protected $_theme;
 
     /**
-     * @var string
-     */
-    protected $_skin;
-
-    /**
      * Package root directory
      *
      * @var string
@@ -253,7 +248,7 @@ class Mage_Core_Model_Design_Package
     {
         switch (func_num_args()) {
             case 1:
-                foreach (array('layout', 'template', 'locale') as $type) {
+                foreach (array('layout', 'template', 'locale', 'skin') as $type) {
                     $this->_theme[$type] = func_get_arg(0);
                 }
                 $this->setSkin(func_get_arg(0));
@@ -313,7 +308,7 @@ class Mage_Core_Model_Design_Package
      */
     public function setSkin($skin)
     {
-        $this->_skin = $skin;
+        $this->setTheme('skin', $skin);
         return $this;
     }
 
@@ -324,10 +319,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getSkin()
     {
-        if (!$this->_skin) {
-            $this->_skin = self::DEFAULT_SKIN_NAME;
-        }
-        return $this->_skin;
+        return $this->getTheme('skin');
     }
 
     /**
@@ -348,11 +340,10 @@ class Mage_Core_Model_Design_Package
             $params['_package'] = $this->getPackageName();
         }
         if (!array_key_exists('_theme', $params)) {
-            $params['_theme'] = $this->getTheme( (isset($params['_type'])) ? $params['_type'] : '' );
+            $params['_theme'] = $this->getTheme('theme');
         }
         if (!array_key_exists('_skin', $params)) {
             $params['_skin'] = $this->getSkin();
-            //$params['_skin'] = $this->getSkin();
         }
         if (empty($params['_default'])) {
             $params['_default'] = false;
