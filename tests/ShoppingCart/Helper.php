@@ -41,44 +41,92 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
     const INCLTAX = '(Incl. Tax)';
 
     /**
+     * Get table column names and column numbers
+     *
+     * @param string $tableHeadName
+     * @return array
+     */
+    public function getColumnNamesAndNumbers($tableHeadName = 'product_table_head', $transforKeys = true)
+    {
+        $headXpath = $this->_getControlXpath('pageelement', $tableHeadName);
+        $isExlAndInclInHead = false;
+        $lineQty = $this->getXpathCount($headXpath . '/tr');
+        if ($lineQty == 2) {
+            $isExlAndInclInHead = true;
+            $headXpath .= "/tr[contains(@class,'first')]";
+        }
+        $columnXpath = $headXpath . '//th';
+        $columnQty = $this->getXpathCount($columnXpath);
+        $returnData = array();
+        $y = 1;
+        for ($i = 1; $i <= $columnQty; $i++) {
+            if ($this->isElementPresent($columnXpath . "[$i][@colspan]")) {
+                $text = $this->getText($columnXpath . "[$i]");
+                if ($isExlAndInclInHead && $this->getAttribute($columnXpath . "[$i]/@colspan") == 2) {
+                    $returnData[$y] = $text . self::EXCLTAX;
+                    $returnData[$y + 1] = $text . self::INCLTAX;
+                } else {
+                    $returnData[$y] = $text;
+                }
+                $y = $y + $this->getAttribute($columnXpath . "[$i]/@colspan");
+            } else {
+                $text = $this->getText($columnXpath . "[$i]");
+                $returnData[$y++] = $text;
+            }
+        }
+        $returnData = array_diff($returnData, array(''));
+        if ($transforKeys) {
+            foreach ($returnData as $key => &$value) {
+                $value = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
+            }
+        }
+
+        return array_flip($returnData);
+    }
+
+    /**
      * Get all Products info in Shopping Cart
      *
      * @return array
      */
-    public function frontGetProductInfoInShoppingCart()
+    public function getProductInfoInTable()
     {
-        $xpath = $this->_getControlXpath('pageelement', 'table_head') . '/th';
-        $productLine = $this->_getControlXpath('pageelement', 'product_line');
+        $productValues = array();
 
-        $tableRowNames = $productValues = $returnData = array();
-        $isExclAndIncl = false;
-        $exclAndInclCounter = 0;
-        $rowCount = $this->getXpathCount($xpath);
-        for ($i = 1; $i <= $rowCount; $i++) {
-            $text = trim($this->getText($xpath . "[$i]"));
-            if ($this->isElementPresent($xpath . "[$i]/@colspan")
-                    && $this->getAttribute($xpath . "[$i]/@colspan") == 2) {
-                $tableRowNames[$text . self::EXCLTAX] = $i + $exclAndInclCounter;
-                $tableRowNames[$text . self::INCLTAX] = $i + $exclAndInclCounter + 1;
-                $exclAndInclCounter++;
-                $isExclAndIncl = true;
-            } else {
-                $tableRowNames[$text] = $i;
-            }
-        }
-        if ($isExclAndIncl) {
-            $tableRowNames[self::QTY] = $tableRowNames[self::QTY] + 1;
-        }
+        $tableRowNames = $this->getColumnNamesAndNumbers();
+        $productLine = $this->_getControlXpath('pageelement', 'product_line');
 
         $productCount = $this->getXpathCount($productLine);
         for ($i = 1; $i <= $productCount; $i++) {
             foreach ($tableRowNames as $key => $value) {
-                if ($key != '') {
-                    $xpathValue = $productLine . "[$i]/td[$value]";
-                    if ($key == self::QTY && $this->isElementPresent($xpathValue . '/input/@value')) {
-                        $productValues[$i - 1][$key] = $this->getAttribute($xpathValue . '/input/@value');
+                $xpathValue = $productLine . "[$i]//td[$value]";
+                if ($key == 'qty' && $this->isElementPresent($xpathValue . '/input/@value')) {
+                    $productValues['product_' . $i][$key] = $this->getAttribute($xpathValue . '/input/@value');
+                } else {
+                    $text = $this->getText($xpathValue);
+                    if (preg_match('/Excl. Tax/', $text)) {
+                        $text = preg_replace("/ \\n/", ':', $text);
+                        $values = explode(':', $text);
+                        $values = array_map('trim', $values);
+                        foreach ($values as $k => $v) {
+                            if ($v == 'Excl. Tax' && isset($values[$k + 1])) {
+                                $productValues['product_' . $i][$key . '_excl_tax'] = $values[$k + 1];
+                            }
+                            if ($v == 'Incl. Tax' && isset($values[$k + 1])) {
+                                $productValues['product_' . $i][$key . '_incl_tax'] = $values[$k + 1];
+                            }
+                        }
+                    } elseif (preg_match('/Ordered/', $text)) {
+                        $text = preg_replace("/\\n/", ':', $text);
+                        $values = explode(':', $text);
+                        $values = array_map('trim', $values);
+                        foreach ($values as $k => $v) {
+                            if (isset($values[$k + 1]) && preg_match('/[0-9]+/', $values[$k + 1])) {
+                                $productValues['product_' . $i][$key . '_' . strtolower($v)] = $values[$k + 1];
+                            }
+                        }
                     } else {
-                        $productValues[$i - 1][$key] = $this->getText($xpathValue);
+                        $productValues['product_' . $i][$key] = trim($text);
                     }
                 }
             }
@@ -86,12 +134,9 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
 
         foreach ($productValues as $key => &$productData) {
             $productData = array_diff($productData, array(''));
-            foreach ($productData as $field_key => $field_value) {
-                $field_key = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $field_key)), '_');
-                $returnData[$key][$field_key] = $field_value;
-            }
         }
-        return $returnData;
+
+        return $productValues;
     }
 
     /**
@@ -99,29 +144,29 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
      *
      * @return type
      */
-    public function frontGetOrderPriceDataInShoppingCard()
+    public function getOrderPriceData()
     {
         $setXpath = $this->_getControlXpath('pageelement', 'price_totals') . '/descendant::tr';
         $count = $this->getXpathCount($setXpath);
         $returnData = array();
         for ($i = $count; $i >= 1; $i--) {
-            $fieldName = $this->getText($setXpath . "[$i]/*[@style][1]");
+            $fieldName = $this->getText($setXpath . "[$i]/*[1]");
             if (!preg_match('/\(([\d]+\.[\d]+)|([\d]+)\%\)/', $fieldName)) {
                 $fieldName = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $fieldName)), '_');
             }
-            $fielValue = $this->getText($setXpath . "[$i]/*[@style][2]");
-            $returnData[$fieldName] = $fielValue;
+            $fielValue = $this->getText($setXpath . "[$i]/*[2]");
+            $returnData[$fieldName] = trim($fielValue, "\x00..\x1F");
         }
         return $returnData;
     }
 
     /**
-     * Verify Shopping Cart info
+     * Verify prices data on page
      *
      * @param string|array $productData
      * @param string|array $orderPriceData
      */
-    public function frontVerifyShoppingCartData($productData, $orderPriceData)
+    public function verifyPricesDataOnPage($productData, $orderPriceData)
     {
         if (is_string($productData)) {
             $productData = $this->loadData($productData);
@@ -130,8 +175,8 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
             $orderPriceData = $this->loadData($orderPriceData);
         }
         //Get Products data and order prices data
-        $actualProductData = $this->frontGetProductInfoInShoppingCart();
-        $actualOrderPriceData = $this->frontGetOrderPriceDataInShoppingCard();
+        $actualProductData = $this->getProductInfoInTable();
+        $actualOrderPriceData = $this->getOrderPriceData();
         //Verify Products data
         $actualProductQty = count($actualProductData);
         $expectedProductQty = count($productData);
