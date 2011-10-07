@@ -51,42 +51,56 @@ class Order_BufferTest extends Mage_Selenium_TestCase
         $this->addParameter('id', '0');
     }
 
+//    /**
+//     * Create Simple Product for tests
+//     *
+//     * @test
+//     */
+//    public function createSimpleProduct()
+//    {
+//        //Data
+//        $simpleSku = $this->loadData('simple_product_for_order_prices_validation',
+//                NULL, array('general_name', 'general_sku'));
+//        //Steps
+//        $this->navigate('manage_products');
+//        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
+//        $this->productHelper()->createProduct($simpleSku);
+//        //Verifying
+//        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+//
+//        return $simpleSku;
+//    }
+//
+//    /**
+//     * @depends createSimpleProduct
+//     * @test
+//     */
+//    public function newCustomerWithoutAddress($simpleSku)
+//    {
+//        //Data
+//        $orderData = $this->loadData('order_for_validating_prices',
+//                array('filter_sku' => $simpleSku['general_sku'],
+//                    'customer_email' => $this->generate('email', 32, 'valid')));
+//        $verificationData = $this->loadData('validate_prices_during_order_creation',
+//                array('product_name' => $simpleSku['general_name']));
+//        //Steps
+//        $this->navigate('manage_sales_orders');
+//        //NOTE: You need to turn off pressing 'Submit Order' button in helper for running this test
+//        $this->orderHelper()->createOrder($orderData);
+//        $this->orderHelper()->verifyPrices($verificationData);
+//
+//    }
+
     /**
-     * Create Simple Product for tests
-     *
      * @test
      */
-    public function createSimpleProduct()
+    public function newCustomerWithoutAddress1()
     {
-        //Data
-        $simpleSku = $this->loadData('simple_product_for_order_prices_validation',
-                NULL, array('general_name', 'general_sku'));
-        //Steps
-        $this->navigate('manage_products');
-        $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
-        $this->productHelper()->createProduct($simpleSku);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-
-        return $simpleSku;
-    }
-
-    /**
-     * @depends createSimpleProduct
-     * @test
-     */
-    public function newCustomerWithoutAddress($simpleSku)
-    {
-        //Data
-        $orderData = $this->loadData('order_for_validating_prices',
-                array('filter_sku' => $simpleSku['general_sku'],
-                    'customer_email' => $this->generate('email', 32, 'valid')));
-        $verificationData = $this->loadData('validate_prices_during_order_creation',
-                array('product_name' => $simpleSku['general_name']));
+        $verificationData = $this->loadData('validate_prices_in_order_review',
+                array('product_name' => 'kuwpa_Simple Product For Order'));
         //Steps
         $this->navigate('manage_sales_orders');
-        //NOTE: You need to turn off pressing 'Submit Order' button in helper for running this test
-        $this->orderHelper()->createOrder($orderData);
+        $this->searchAndOpen(array('filter_order_id' => '300000001'));
         $this->orderHelper()->verifyPrices($verificationData);
 
     }

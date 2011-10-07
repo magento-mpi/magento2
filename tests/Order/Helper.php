@@ -587,12 +587,10 @@ class Order_Helper extends Mage_Selenium_TestCase
             } elseif (preg_match('/^total_products/', $validate)) {
                 $this->verifyProductsTotal($data);
             } else {
-                if (!empty($this->messages['error'])) {
-                    $this->messages['error'] = array_merge($this->myAccountHelper()->
-                            frontVerifyTotalPricesInOrder($data), $this->messages['error']);
-                } else {
-                    $this->messages['error'] = $this->myAccountHelper()->frontVerifyTotalPricesInOrder($data);
-                }
+                $result = $this->myAccountHelper()->frontVerifyTotalPricesInOrder($data) ;
+                $result = is_array($result) ? $result : array();
+                $this->messages['error'] = (!empty($this->messages['error']))
+                        ? array_merge($this->messages['error'], $result) : $result;
             }
         }
         if (!empty($this->messages['error'])) {

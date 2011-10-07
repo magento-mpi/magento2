@@ -237,3 +237,33 @@ unit_price_excl_shipping_excl_order:
     grand_total_excl_tax: $440.00
     tax: $42.49
     grand_total_incl_tax: $482.49
+
+#<--------Test Data for Price review in order review on the backend------------>
+validate_prices_in_order_review:
+    product_1:
+        product_name: %noValue%
+        verification:
+            item_status: Ordered
+            original_price: $54.95
+            price_excl_tax: $54.95
+            price_incl_tax: $54.95
+            #price: $54.95
+            qty_ordered: 1
+            subtotal_excl_tax: $54.95
+            subtotal_incl_tax: $54.95
+            tax_amount: $0.00
+            tax_percent: 0%
+            #subtotal: $54.95
+            discount_amount: $0.00
+            row_total: $54.95
+    total_verification:
+        total_subtotal_excl_tax: $54.95
+        total_subtotal_incl_tax: $54.95
+        total_shipping_excl_tax: $5.00
+        total_shipping_incl_tax: $5.00
+        total_total_tax: $0.00
+        total_grand_total_excl_tax: $59.95
+        total_grand_total_incl_tax: $59.95
+        total_total_paid: $0.00
+        total_total_refunded: $0.00
+        total_total_due: $59.95
