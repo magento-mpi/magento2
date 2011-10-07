@@ -111,7 +111,10 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
         $emailTemplate = $this->_getData('email_template');
         if ($emailTemplate) {
             $this->unsetData('email_template');
-            $this->_setEmailTemplate($emailTemplate);
+            if (!($emailTemplate instanceof Mage_Core_Model_Email_Template)) {
+                throw new Exception('Instance of Mage_Core_Model_Email_Template is expected.');
+            }
+            $this->_emailTemplate = $emailTemplate;
         }
         $this->_init('newsletter/queue');
     }
@@ -204,7 +207,8 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
             ->setCurPage(1)
             ->load();
 
-        $sender = $this->_getEmailTemplate();
+        /** @var Mage_Core_Model_Email_Template $sender */
+        $sender = $this->_emailTemplate ?: createObject('Mage_Core_Model_Email_Template');
         $sender->setSenderName($this->getNewsletterSenderName())
             ->setSenderEmail($this->getNewsletterSenderEmail())
             ->setTemplateType(self::TYPE_HTML)
@@ -381,25 +385,5 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
     public function getType()
     {
         return $this->getNewsletterType();
-    }
-
-    /**
-     * Setter for email template instance
-     *
-     * @param Mage_Core_Model_Email_Template $template
-     */
-    protected function _setEmailTemplate(Mage_Core_Model_Email_Template $template)
-    {
-        $this->_emailTemplate = $template;
-    }
-
-    /**
-     * Get either current email template or instantiate new
-     *
-     * @return Mage_Core_Model_Email_Template
-     */
-    protected function _getEmailTemplate()
-    {
-        return $this->_emailTemplate ?: Mage::getModel('core/email_template');
     }
 }
