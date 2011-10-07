@@ -120,20 +120,20 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
         if (is_array($setId)) {
             if (!empty($setId)) {
                 $this->join(
-                    'entity_attribute',
-                    'entity_attribute.attribute_id = main_table.attribute_id',
+                    'eav_entity_attribute',
+                    'eav_entity_attribute.attribute_id = main_table.attribute_id',
                     'attribute_id'
                 );
-                $this->addFieldToFilter('entity_attribute.attribute_set_id', array('in' => $setId));
+                $this->addFieldToFilter('eav_entity_attribute.attribute_set_id', array('in' => $setId));
                 $this->addAttributeGrouping();
                 $this->_useAnalyticFunction = true;
             }
         } elseif ($setId) {
             $this->join(
-                'entity_attribute',
-                'entity_attribute.attribute_id = main_table.attribute_id'
+                'eav_entity_attribute',
+                'eav_entity_attribute.attribute_id = main_table.attribute_id'
             );
-            $this->addFieldToFilter('entity_attribute.attribute_set_id', $setId);
+            $this->addFieldToFilter('eav_entity_attribute.attribute_set_id', $setId);
             $this->setOrder('sort_order', self::SORT_ORDER_ASC);
         }
 

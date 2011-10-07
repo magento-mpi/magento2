@@ -115,7 +115,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
                 array('store_id', 'website_id')
             )
             ->joinLeft(
-                array('d' => $this->getValueTable('catalog_product_entity', 'int')),
+                array('d' => $this->getTable('catalog_product_entity_int')),
                 '1 = 1 AND d.store_id = 0',
                 array('entity_id', 'attribute_id', 'value')
             )
@@ -128,7 +128,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
                 array()
             )
             ->joinLeft(
-                array('pis' => $this->getValueTable('catalog_product_entity', 'int')),
+                array('pis' => $this->getTable('catalog_product_entity_int')),
                 'pis.entity_id = pid.entity_id AND pis.attribute_id = pid.attribute_id AND pis.store_id = pid.store_id',
                 array()
             )
@@ -200,14 +200,14 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Source
         $productValueExpression = $adapter->getCheckSql('pvs.value_id > 0', 'pvs.value', 'pvd.value');
         $select = $adapter->select()
             ->from(
-                array('pvd' => $this->getValueTable('catalog_product_entity', 'varchar')),
+                array('pvd' => $this->getTable('catalog_product_entity_varchar')),
                 array('entity_id', 'attribute_id'))
             ->join(
                 array('cs' => $this->getTable('core_store')),
                 '',
                 array('store_id'))
             ->joinLeft(
-                array('pvs' => $this->getValueTable('catalog_product_entity', 'varchar')),
+                array('pvs' => $this->getTable('catalog_product_entity_varchar')),
                 'pvs.entity_id = pvd.entity_id AND pvs.attribute_id = pvd.attribute_id'
                     . ' AND pvs.store_id=cs.store_id',
                 array('value' => $productValueExpression))
