@@ -125,7 +125,7 @@
     
     <adminhtml_checkout_manage_load_block_items>
         <reference name="content">
-            <block type="enterprise_checkout/adminhtml_manage_items" name="items" template="enterprise/checkout/manage/items.phtml"/>
+            <block type="enterprise_checkout/adminhtml_manage_items" name="items" template="manage/items.phtml"/>
         </reference>
     </adminhtml_checkout_manage_load_block_items>
 </layout>

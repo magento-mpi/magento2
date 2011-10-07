@@ -23,12 +23,15 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
      */
     public function testAllTemplates($module, $template, $class, $area)
     {
-        if ((strpos($class, 'Enterprise') === 0 && strpos($class, '_Adminhtml') === false)
-            || (strpos($class, 'Mage_XmlConnect') === 0 && strpos($template, 'pbridge') === 0)) {
+        if ((strpos($class, 'Enterprise') === 0 && strpos($class, '_Adminhtml') === false) || $area == 'frontend') {
             $package = 'enterprise';
         } else {
             $package = 'default';
         }
+        if ($area == 'frontend' && in_array($module, array('Enterprise_Pbridge', 'Mage_XmlConnect'))) {
+            $this->markTestIncomplete('MAGETWO-513');
+        }
+
         $params = array(
             '_area'     => $area,
             '_package'  => $package,
