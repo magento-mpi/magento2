@@ -172,14 +172,8 @@ class Mage_XmlConnect_Model_Theme
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = Mage::helper('core');
 
-        $themeFileName = $themesHelper->getMediaThemePath()
-            . DS
-            .$themesHelper->getCustomThemeName()
-            . '_'
-            . time()
-            . '_'
-            . $coreHelper->getRandomString(10, 'abcdefghijklmnopqrstuvwxyz0123456789')
-            . '.xml';
+        $themeFileName = $themesHelper->getMediaThemePath() . DS .$themesHelper->getCustomThemeName() . '_' . time()
+            . '_' . $coreHelper->getRandomString(10, 'abcdefghijklmnopqrstuvwxyz0123456789') . '.xml';
         return $themeFileName;
     }
 
@@ -298,7 +292,7 @@ class Mage_XmlConnect_Model_Theme
      *
      * @param SimpleXMLElement $parent
      * @param array $data
-     * @return void
+     * @return null
      */
     protected function _buildRecursive($parent, $data)
     {
@@ -315,7 +309,7 @@ class Mage_XmlConnect_Model_Theme
      * Import data into theme form $data array, and save XML to file
      *
      * @param array $data
-     * @return void
+     * @return null
      */
     public function importAndSaveData($data)
     {
@@ -325,9 +319,7 @@ class Mage_XmlConnect_Model_Theme
         if (is_writeable($this->_file)) {
             file_put_contents($this->_file, $xml->asXML());
         } else {
-            Mage::throwException(
-                Mage::helper('xmlconnect')->__('Can\'t write to file "%s".', $this->_file)
-            );
+            Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t write to file "%s".', $this->_file));
         }
     }
 }

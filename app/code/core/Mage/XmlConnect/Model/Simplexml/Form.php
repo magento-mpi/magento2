@@ -68,7 +68,7 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
     {
         parent::__construct($attributes);
         $this->setType('form');
-        $this->_allElements = new Mage_XmlConnect_Model_Simplexml_Form_Element_Collection($this);
+        $this->_allElements = Mage::getModel('xmlconnect/simplexml_form_element_collection', $this);
     }
 
     /**
@@ -76,12 +76,11 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
      *
      * @static $_defaultElementRenderer
      * @param Mage_XmlConnect_Model_Simplexml_Form_Element_Renderer_Interface $renderer
-     * @return void
+     * @return null
      */
     public static function setElementRenderer(
         Mage_XmlConnect_Model_Simplexml_Form_Element_Renderer_Interface $renderer
-    )
-    {
+    ) {
         self::$_defaultElementRenderer = $renderer;
     }
 
@@ -90,12 +89,11 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
      *
      * @static $_defaultValidatorRenderer
      * @param Mage_XmlConnect_Model_Simplexml_Form_Element_Renderer_Interface $renderer
-     * @return void
+     * @return null
      */
     public static function setValidatorRenderer(
         Mage_XmlConnect_Model_Simplexml_Form_Element_Renderer_Interface $renderer
-    )
-    {
+    ) {
         self::$_defaultValidatorRenderer = $renderer;
     }
 
@@ -104,12 +102,11 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
      *
      * @static $_defaultValidatorRuleRenderer
      * @param Mage_XmlConnect_Model_Simplexml_Form_Element_Renderer_Interface $renderer
-     * @return void
+     * @return null
      */
     public static function setValidatorRuleRenderer(
         Mage_XmlConnect_Model_Simplexml_Form_Element_Renderer_Interface $renderer
-    )
-    {
+    ) {
         self::$_defaultValidatorRuleRenderer = $renderer;
     }
 
@@ -118,12 +115,11 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
      *
      * @static $_defaultFieldsetRenderer
      * @param Mage_XmlConnect_Model_Simplexml_Form_Element_Renderer_Interface $renderer
-     * @return void
+     * @return null
      */
     public static function setFieldsetRenderer(
         Mage_XmlConnect_Model_Simplexml_Form_Element_Renderer_Interface $renderer
-    )
-    {
+    ) {
         self::$_defaultFieldsetRenderer = $renderer;
     }
 
@@ -132,12 +128,11 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
      *
      * @static $_defaultFieldsetElementRenderer
      * @param Mage_XmlConnect_Model_Simplexml_Form_Element_Renderer_Interface $renderer
-     * @return void
+     * @return null
      */
     public static function setFieldsetElementRenderer(
         Mage_XmlConnect_Model_Simplexml_Form_Element_Renderer_Interface $renderer
-    )
-    {
+    ) {
         self::$_defaultFieldsetElementRenderer = $renderer;
     }
 
@@ -203,10 +198,7 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
      * @param bool $after
      * @return Mage_XmlConnect_Model_Simplexml_Form
      */
-    public function addElement(
-        Mage_XmlConnect_Model_Simplexml_Form_Element_Abstract $element,
-        $after = false
-    )
+    public function addElement(Mage_XmlConnect_Model_Simplexml_Form_Element_Abstract $element, $after = false)
     {
         $this->checkElementId($element->getId());
         parent::addElement($element, $after);
@@ -248,9 +240,7 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
     public function checkElementId($elementId)
     {
         if ($this->_elementIdExists($elementId)) {
-            throw new Exception(
-                Mage::helper('xmlconnect')->__('Element with id %s already exists', $elementId)
-            );
+            throw new Exception(Mage::helper('xmlconnect')->__('Element with id %s already exists', $elementId));
         }
         return true;
     }
@@ -310,7 +300,8 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
         }
 
         foreach ($values as $elementId => $value) {
-            if ($element = $this->getElement($elementId)) {
+            $element = $this->getElement($elementId);
+            if ($element) {
                 $element->setValue($value);
             }
         }
@@ -392,9 +383,6 @@ class Mage_XmlConnect_Model_Simplexml_Form extends Mage_XmlConnect_Model_Simplex
         if ($this->getUseContainer()) {
             return $this->toXmlObject()->asNiceXml();
         }
-
-        Mage::throwException(
-            Mage::helper('xmlconnect')->__('Container is not defined.')
-        );
+        Mage::throwException(Mage::helper('xmlconnect')->__('Container is not defined.'));
     }
 }

@@ -113,10 +113,10 @@
             }
             var e = null;
             try {
-                var originalImg = $$('.product-image img')[0];
-                originalImg.up().insert(originalImg.clone().addClassName('cloned'));
-                originalImg.addClassName('animate');
-                $$('.product-image img')[0].observe('webkitTransitionEnd', function(e) {
+                var originalImg = $$('.product-image-wrap .product-image img')[0];
+                originalImg.up('.product-image-wrap').insert(originalImg.clone().addClassName('cloned'));
+                setTimeout(function () {$$('.cloned')[0].addClassName('animate');}, 1);
+                $$('.product-image-wrap .cloned')[0].observe('webkitTransitionEnd', function(e) {
                     this.form.submit();
                 }.bind(this));
             } catch (e) {

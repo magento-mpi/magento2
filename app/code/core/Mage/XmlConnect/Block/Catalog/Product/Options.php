@@ -97,25 +97,15 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
              */
             $price = $option->getPrice();
             if ($price) {
-                $optionNode->addAttribute(
-                    'price',
-                    Mage::helper('xmlconnect')->formatPriceForXml($price)
-                );
-                $formattedPrice = Mage::app()->getStore(
-                    $product->getStoreId())->formatPrice($price, false
-                );
+                $optionNode->addAttribute('price', Mage::helper('xmlconnect')->formatPriceForXml($price));
+                $formattedPrice = Mage::app()->getStore($product->getStoreId())->formatPrice($price, false);
                 $optionNode->addAttribute('formated_price', $formattedPrice);
             }
-            if ($type == self::OPTION_TYPE_CHECKBOX
-                || $type == self::OPTION_TYPE_SELECT
-            ) {
+            if ($type == self::OPTION_TYPE_CHECKBOX || $type == self::OPTION_TYPE_SELECT) {
                 foreach ($option->getValues() as $value) {
                     $valueNode = $optionNode->addChild('value');
                     $valueNode->addAttribute('code', $value->getId());
-                    $valueNode->addAttribute(
-                        'label',
-                        $xmlModel->xmlentities($value->getTitle())
-                    );
+                    $valueNode->addAttribute('label', $xmlModel->xmlentities($value->getTitle()));
 
                     if ($value->getPrice() != 0) {
                         $price = Mage::helper('xmlconnect')->formatPriceForXml($value->getPrice());
@@ -142,12 +132,9 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
         $priceIncTax    = Mage::helper('tax')->getPrice($product, $price, true);
 
         if (Mage::helper('tax')->displayBothPrices() && $priceTax != $priceIncTax) {
-            $formatted = Mage::helper('core')->currency($priceTax, true, false)
-                . ' (+'
-                . Mage::helper('core')->currency($priceIncTax, true, false)
-                . ' '
-                . Mage::helper('tax')->__('Incl. Tax')
-                . ')';
+            $formatted = Mage::helper('core')->currency($priceTax, true, false) . ' (+'
+                . Mage::helper('core')->currency($priceIncTax, true, false) . ' '
+                . Mage::helper('tax')->__('Incl. Tax') . ')';
         } else {
             $formatted = $this->helper('core')->currency($priceTax, true, false);
         }
@@ -209,8 +196,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
     protected function _toHtml()
     {
         $productId = $this->getRequest()->getParam('id', null);
-        $product = Mage::getModel('catalog/product')
-            ->setStoreId(Mage::app()->getStore()->getId());
+        $product = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId());
 
         if ($productId) {
             $product->load($productId);

@@ -44,28 +44,6 @@ class Mage_Core_Model_Resource_Url_Rewrite_Collection extends Mage_Core_Model_Re
     }
 
     /**
-     * Add filter for tags (combined by OR)
-     *
-     * @param string|array $tags
-     * @return Mage_Core_Model_Resource_Url_Rewrite_Collection
-     */
-    public function addTagsFilter($tags)
-    {
-        $tags = is_array($tags) ? $tags : explode(',', $tags);
-
-        if (!$this->getFlag('tag_table_joined')) {
-            $this->join(
-                array('curt' => $this->getTable('core_url_rewrite_tag')),
-                'main_table.url_rewrite_id = curt.url_rewrite_id',
-                array());
-            $this->setFlag('tag_table_joined', true);
-        }
-
-        $this->addFieldToFilter('curt.tag', array('in' => $tags));
-        return $this;
-    }
-
-    /**
      * Filter collections by stores
      *
      * @param mixed $store

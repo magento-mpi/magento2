@@ -31,8 +31,7 @@
  * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Catalog_Product_Attributes
-    extends Mage_Catalog_Block_Product_View_Attributes
+class Mage_XmlConnect_Block_Catalog_Product_Attributes extends Mage_Catalog_Block_Product_View_Attributes
 {
     /**
      * Add additional information (attributes) to current product xml object
@@ -41,10 +40,8 @@ class Mage_XmlConnect_Block_Catalog_Product_Attributes
      * @param Mage_XmlConnect_Model_Simplexml_Element $productXmlObject
      */
     public function addAdditionalData(
-        Mage_Catalog_Model_Product $product,
-        Mage_XmlConnect_Model_Simplexml_Element $productXmlObject
-    )
-    {
+        Mage_Catalog_Model_Product $product, Mage_XmlConnect_Model_Simplexml_Element $productXmlObject
+    ) {
         if ($product && $productXmlObject && $product->getId()) {
             $this->_product = $product;
             $additionalData = $this->getAdditionalData();

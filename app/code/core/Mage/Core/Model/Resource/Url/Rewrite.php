@@ -35,20 +35,12 @@
 class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Tag table
-     *
-     * @var string
-     */
-    protected $_tagTable;
-
-    /**
      * Define main table
      *
      */
     protected function _construct()
     {
         $this->_init('core_url_rewrite', 'url_rewrite_id');
-        $this->_tagTable = $this->getTable('url_rewrite_tag');
     }
 
     /**

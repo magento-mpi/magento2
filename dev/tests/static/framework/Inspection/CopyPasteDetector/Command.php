@@ -75,13 +75,42 @@ class Inspection_CopyPasteDetector_Command extends Inspection_CommandAbstract
         ;
     }
 
+    /**
+     * Runs command and produces report in html format
+     *
+     * @return bool
+     */
     public function run()
     {
         $result = parent::run();
-        if ($result && $this->_execShellCmd('xsltproc --version')) {
-            $xsltFile = __DIR__ . '/html_report.xslt';
-            $result = $this->_execShellCmd("xsltproc {$xsltFile} {$this->_reportFile} > {$this->_reportFile}.html");
+        if ($result) {
+            $generateHtmlResult = $this->_generateHtmlReport();
+            if ($generateHtmlResult === false) {
+                $result = false;
+            }
         }
+        return $result;
+    }
+
+    /**
+     * Under Unix platform creates one more report in html-format.
+     * The report is generated based on already existing report in xml format and XSLT conversion scheme
+     * in "html_report.xslt". Returns null, if conversion tool was not found, otherwise returns true/false as a result
+     * of conversion tool execution.
+     *
+     * @return bool|null
+     */
+    protected function _generateHtmlReport()
+    {
+        $isWindows = strncasecmp(PHP_OS, 'win', 3) == 0;
+        if ($isWindows) {
+            return null;
+        }
+        if (!$this->_execShellCmd('xsltproc --version')) {
+            return null;
+        }
+        $xsltFile = __DIR__ . '/html_report.xslt';
+        $result = $this->_execShellCmd("xsltproc {$xsltFile} {$this->_reportFile} > {$this->_reportFile}.html");
         return $result;
     }
 }

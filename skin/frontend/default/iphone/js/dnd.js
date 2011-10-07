@@ -462,7 +462,7 @@ var webkit_draggable = function(r, ip)
         //boost zIndex
         rs.zIndex = p.zIndex;
         webkit_drop.prepare();
-        p.onStart(event);
+        p.onStart(r, event);
     }
 
     this.touchMove = function(event)
@@ -521,7 +521,7 @@ var webkit_draggable = function(r, ip)
         }
 
         r.style.zIndex = this.p.z;
-        this.p.onEnd();
+        this.p.onEnd(r, event);
     }
 
     this.getPosition = function()

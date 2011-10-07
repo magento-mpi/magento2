@@ -78,7 +78,7 @@ class Mage_GoogleShopping_Model_Observer
     }
 
     /**
-     * Get items which are availabled for update/delete when product is saved
+     * Get items which are available for update/delete when product is saved
      *
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_GoogleShopping_Model_Resource_Item_Collection
@@ -87,6 +87,9 @@ class Mage_GoogleShopping_Model_Observer
     {
         $items = Mage::getResourceModel('googleshopping/item_collection')
             ->addProductFilterId($product->getId());
+        if ($product->getStoreId()) {
+            $items->addStoreFilter($product->getStoreId());
+        }
 
         foreach ($items as $item) {
             if (!Mage::getStoreConfigFlag('google/googleshopping/observed', $item->getStoreId())) {

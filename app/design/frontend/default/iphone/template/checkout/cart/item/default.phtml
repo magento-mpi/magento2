@@ -162,7 +162,7 @@
 
     <?php endif; //Can apply MSRP ?>
 
-    <td class="a-center">
+    <td class="a-center item-qty">
         <b><?php echo $this->__('Qty'); ?></b><input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
     </td>
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>

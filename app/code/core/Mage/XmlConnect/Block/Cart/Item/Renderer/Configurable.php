@@ -32,8 +32,8 @@
  */
 class Mage_XmlConnect_Block_Cart_Item_Renderer_Configurable extends Mage_XmlConnect_Block_Cart_Item_Renderer
 {
-    const CONFIGURABLE_PRODUCT_IMAGE= 'checkout/cart/configurable_product_image';
-    const USE_PARENT_IMAGE          = 'parent';
+    const CONFIGURABLE_PRODUCT_IMAGE = 'checkout/cart/configurable_product_image';
+    const USE_PARENT_IMAGE           = 'parent';
 
     /**
      * Get item configurable product
@@ -42,7 +42,8 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer_Configurable extends Mage_XmlConn
      */
     public function getConfigurableProduct()
     {
-        if ($option = $this->getItem()->getOptionByCode('product_type')) {
+        $option = $this->getItem()->getOptionByCode('product_type');
+        if ($option) {
             return $option->getProduct();
         }
         return $this->getProduct();
@@ -55,7 +56,8 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer_Configurable extends Mage_XmlConn
      */
     public function getChildProduct()
     {
-        if ($option = $this->getItem()->getOptionByCode('simple_product')) {
+        $option = $this->getItem()->getOptionByCode('simple_product');
+        if ($option) {
             return $option->getProduct();
         }
         return $this->getProduct();
@@ -72,7 +74,7 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer_Configurable extends Mage_XmlConn
     }
 
     /**
-     * Get list of all otions for product
+     * Get list of all options for product
      *
      * @return array
      */
@@ -80,7 +82,6 @@ class Mage_XmlConnect_Block_Cart_Item_Renderer_Configurable extends Mage_XmlConn
     {
         /* @var $helper Mage_Catalog_Helper_Product_Configuration */
         $helper = Mage::helper('catalog/product_configuration');
-        $options = $helper->getConfigurableOptions($this->getItem());
-        return $options;
+        return $helper->getConfigurableOptions($this->getItem());
     }
 }
