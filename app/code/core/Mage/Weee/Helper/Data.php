@@ -344,4 +344,26 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig(self::XML_PATH_FPT_ENABLED, $store);
     }
+
+    /**
+     * Returns all summed WEEE taxes with all local taxes applied
+     *
+     * @throws Mage_Exception
+     * @param array $attributes Array of Varien_Object, result from getProductWeeeAttributes()
+     * @return float
+     */
+    public function getAmountInclTaxes($attributes)
+    {
+        if (is_array($attributes)) {
+            $amount = 0;
+            foreach ($attributes as $attribute) {
+                /* @var $attribute Varien_Object */
+                $amount += $attribute->getAmount() + $attribute->getTaxAmount();
+            }
+        } else {
+            throw new Mage_Exception('$attributes must be an array');
+        }
+
+        return (float)$amount;
+    }
 }
