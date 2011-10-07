@@ -34,7 +34,7 @@
     </checkout_onepage_index>
     <checkout_onepage_review>
         <reference name="checkout.onepage.review.info.items.after">
-            <block type="directpost/form" name="payment.form.directpost" template="authorizenet/directpost/form.phtml">
+            <block type="directpost/form" name="payment.form.directpost" template="directpost/form.phtml">
                 <action method="setMethodInfo"></action>
             </block>
         </reference>

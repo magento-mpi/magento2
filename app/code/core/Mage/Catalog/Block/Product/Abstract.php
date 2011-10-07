@@ -43,9 +43,9 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     protected $_block = 'catalog/product_price';
 
-    protected $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
+    protected $_priceBlockDefaultTemplate = 'product/price.phtml';
 
-    protected $_tierPriceDefaultTemplate  = 'catalog/product/view/tierprices.phtml';
+    protected $_tierPriceDefaultTemplate  = 'product/view/tierprices.phtml';
 
     protected $_priceBlockTypes = array();
 

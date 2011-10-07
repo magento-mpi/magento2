@@ -47,7 +47,7 @@ class Mage_Authorizenet_Block_Directpost_Iframe extends Mage_Core_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('authorizenet/directpost/iframe.phtml');
+        $this->setTemplate('directpost/iframe.phtml');
     }
 
     /**
