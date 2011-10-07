@@ -456,14 +456,15 @@ class Product_Helper extends Mage_Selenium_TestCase
      * @param type $fieldSetName
      * @return int
      */
-    public function findColumnNumberByName($columnName, $fieldSetName = null)
+    public function findColumnNumberByName($columnName, $fieldSetName = null,
+                                           $xpath = "//table[@class='data']//tr[@class='headings']")
     {
         if ($fieldSetName != null) {
-            $fieldSetXpath = $this->getCurrentUimapPage()->getMainForm()->findFieldset($fieldSetName)->getXpath();
+            $fieldSetXpath = $this->_getControlXpath('fieldset', $fieldSetName);
         } else {
             $fieldSetXpath = '';
         }
-        $columnXpath = $fieldSetXpath . "//table[@class='data']//tr[@class='headings']/th";
+        $columnXpath = $fieldSetXpath . $xpath . "//th";
         $columnQty = $this->getXpathCount($columnXpath);
         for ($i = 1; $i <= $columnQty; $i++) {
             $text = $this->getText($columnXpath . "[$i]");
