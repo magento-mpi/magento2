@@ -911,40 +911,67 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             } elseif (isset($response->TrackDetails)) {
                 $trackInfo = $response->TrackDetails;
                 $resultArray['status'] = (string)$trackInfo->StatusDescription;
-                $resultArray['service'] = (string)$trackInfo->ServiceCommitMessage;
-                $timestamp = $trackInfo->EstimatedDeliveryTimestamp ?
+                $resultArray['service'] = (string)$trackInfo->ServiceInfo;
+                $timestamp = isset($trackInfo->EstimatedDeliveryTimestamp) ?
                     $trackInfo->EstimatedDeliveryTimestamp : $trackInfo->ActualDeliveryTimestamp;
-                $resultArray['deliverydate'] = date('Y-m-d', (int)$timestamp);
-                $resultArray['deliverytime'] = date('H:i:s', (int)$timestamp);
-                $resultArray['deliverylocation'] = (string)$trackInfo->DeliveryLocationDescription;
+                $timestamp = strtotime((string)$timestamp);
+                if ($timestamp) {
+                    $resultArray['deliverydate'] = date('Y-m-d', $timestamp);
+                    $resultArray['deliverytime'] = date('H:i:s', $timestamp);
+                }
+
+                $deliveryLocation = isset($trackInfo->EstimatedDeliveryAddress) ?
+                    $trackInfo->EstimatedDeliveryAddress : $trackInfo->ActualDeliveryAddress;
+                $deliveryLocationArray = array();
+                if (isset($deliveryLocation->City)) {
+                    $deliveryLocationArray[] = (string)$deliveryLocation->City;
+                }
+                if (isset($deliveryLocation->StateOrProvinceCode)) {
+                    $deliveryLocationArray[] = (string)$deliveryLocation->StateOrProvinceCode;
+                }
+                if (isset($deliveryLocation->CountryCode)) {
+                    $deliveryLocationArray[] = (string)$deliveryLocation->CountryCode;
+                }
+                if ($deliveryLocationArray) {
+                    $resultArray['deliverylocation'] = implode(', ', $deliveryLocationArray);
+                }
+
                 $resultArray['signedby'] = (string)$trackInfo->DeliverySignatureName;
                 $resultArray['shippeddate'] = date('Y-m-d', (int)$trackInfo->ShipTimestamp);
-                $weight = (string)$trackInfo->PackageWeight;
-                $unit = (string)$trackInfo->Units;
-                $resultArray['weight'] = "{$weight} {$unit}";
+                if (isset($trackInfo->PackageWeight) && isset($trackInfo->Units)) {
+                    $weight = (string)$trackInfo->PackageWeight;
+                    $unit = (string)$trackInfo->Units;
+                    $resultArray['weight'] = "{$weight} {$unit}";
+                }
 
                 $packageProgress = array();
                 if (isset($trackInfo->Events)) {
-                    foreach ($trackInfo->Events as $event) {
+                    $events = $trackInfo->Events;
+                    if (isset($events->Address)) {
+                        $events = array($events);
+                    }
+                    foreach ($events as $event) {
                         $tempArray = array();
                         $tempArray['activity'] = (string)$event->EventDescription;
-                        $timestamp = (int)$event->Timestamp;
-                        $tempArray['deliverydate'] = date('Y-m-d', $timestamp);
-                        $tempArray['deliverytime'] = date('H:i:s', $timestamp);
+                        $timestamp = strtotime((string)$event->Timestamp);
+                        if ($timestamp) {
+                            $tempArray['deliverydate'] = date('Y-m-d', $timestamp);
+                            $tempArray['deliverytime'] = date('H:i:s', $timestamp);
+                        }
                         if (isset($event->Address)) {
                             $addressArray = array();
                             $address = $event->Address;
                             if (isset($address->City)) {
-                              $addressArray[] = (string)$address->City;
+                                $addressArray[] = (string)$address->City;
                             }
                             if (isset($address->StateOrProvinceCode)) {
-                              $addressArray[] = (string)$address->StateOrProvinceCode;
+                                $addressArray[] = (string)$address->StateOrProvinceCode;
                             }
                             if (isset($address->CountryCode)) {
-                              $addressArray[] = (string)$address->CountryCode;
+                                $addressArray[] = (string)$address->CountryCode;
                             }
                             if ($addressArray) {
-                              $tempArray['deliverylocation']=implode(', ',$addressArray);
+                                $tempArray['deliverylocation'] = implode(', ', $addressArray);
                             }
                         }
                         $packageProgress[] = $tempArray;
