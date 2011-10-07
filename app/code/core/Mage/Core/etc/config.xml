@@ -32,59 +32,6 @@
         </Mage_Core>
     </modules>
     <global>
-        <models>
-            <core_resource>
-                <entities>
-                    <website>
-                        <table>core_website</table>
-                    </website>
-                    <store_group>
-                        <table>core_store_group</table>
-                    </store_group>
-                    <store>
-                        <table>core_store</table>
-                    </store>
-                    <config_field>
-                        <table>core_config_field</table>
-                    </config_field>
-                    <config_data>
-                        <table>core_config_data</table>
-                    </config_data>
-                    <email_template>
-                        <table>core_email_template</table>
-                    </email_template>
-                    <variable>
-                        <table>core_variable</table>
-                    </variable>
-                    <variable_value>
-                        <table>core_variable_value</table>
-                    </variable_value>
-                    <translate>
-                        <table>core_translate</table>
-                    </translate>
-                    <session>
-                        <table>core_session</table>
-                    </session>
-                    <layout_update>
-                        <table>core_layout_update</table>
-                    </layout_update>
-                    <layout_link>
-                        <table>core_layout_link</table>
-                    </layout_link>
-                    <url_rewrite>
-                        <table>core_url_rewrite</table>
-                    </url_rewrite>
-                    <design_change>
-                        <table>design_change</table>
-                    </design_change>
-                    <flag>
-                        <table>core_flag</table>
-                    </flag>
-                    <file_storage><table>core_file_storage</table></file_storage>
-                    <directory_storage><table>core_directory_storage</table></directory_storage>
-                </entities>
-            </core_resource>
-        </models>
         <blocks>
             <core>
                 <class>Mage_Core_Block</class>

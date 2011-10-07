@@ -44,23 +44,6 @@
             </catalogrule>
             <catalogrule_resource>
                 <class>Mage_CatalogRule_Model_Resource</class>
-                <entities>
-                    <rule>
-                        <table>catalogrule</table>
-                    </rule>
-                    <rule_product>
-                        <table>catalogrule_product</table>
-                    </rule_product>
-                    <rule_product_price>
-                        <table>catalogrule_product_price</table>
-                    </rule_product_price>
-                    <affected_product>
-                        <table>catalogrule_affected_product</table>
-                    </affected_product>
-                    <rule_group_website>
-                        <table>catalogrule_group_website</table>
-                    </rule_group_website>
-                </entities>
             </catalogrule_resource>
         </models>
         <resources>

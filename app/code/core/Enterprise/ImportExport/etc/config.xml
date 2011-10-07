@@ -39,11 +39,6 @@
             </enterprise_importexport>
             <enterprise_importexport_resource>
                 <class>Enterprise_ImportExport_Model_Resource</class>
-                <entities>
-                    <scheduled_operation>
-                        <table>enterprise_scheduled_operations</table>
-                    </scheduled_operation>
-                </entities>
             </enterprise_importexport_resource>
         </models>
         <blocks>

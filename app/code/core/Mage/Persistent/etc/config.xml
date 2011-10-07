@@ -41,11 +41,6 @@
 
             <persistent_resource>
                 <class>Mage_Persistent_Model_Resource</class>
-                <entities>
-                    <session>
-                        <table>persistent_session</table>
-                    </session>
-                </entities>
             </persistent_resource>
         </models>
 

@@ -39,14 +39,6 @@
             </productalert>
             <productalert_resource>
                 <class>Mage_ProductAlert_Model_Resource</class>
-                <entities>
-                    <price>
-                        <table>product_alert_price</table>
-                    </price>
-                    <stock>
-                        <table>product_alert_stock</table>
-                    </stock>
-                </entities>
             </productalert_resource>
         </models>
         <helpers>

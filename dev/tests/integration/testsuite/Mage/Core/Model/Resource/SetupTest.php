@@ -81,4 +81,37 @@ class Mage_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
         $this->_model->deleteConfigData('my/test/path');
         $this->assertEmpty($this->_model->getConnection()->fetchRow($select));
     }
+
+    /**
+     * @expectedException Zend_Db_Statement_Exception
+     */
+    public function testGetTableRow()
+    {
+        $this->_model->getTableRow('core/resource', 'code', 'core_setup');
+        $this->assertNotEmpty($this->_model->getTableRow('core_resource', 'code', 'core_setup'));
+    }
+
+    /**
+     * @expectedException Zend_Db_Statement_Exception
+     */
+    public function testDeleteTableRow()
+    {
+        $this->_model->deleteTableRow('core/resource', 'code', 'integration_test_fixture_setup');
+    }
+
+    /**
+     * @covers Mage_Core_Model_Resource_Setup::updateTableRow
+     * @expectedException Zend_Db_Statement_Exception
+     */
+    public function testUpdateTableRowNameConversion()
+    {
+        $original = $this->_model->getTableRow('core_resource', 'code', 'core_setup', 'version');
+        $this->_model->updateTableRow('core/resource', 'code', 'core_setup', 'version', $original);
+    }
+
+    public function testTableExists()
+    {
+        $this->assertTrue($this->_model->tableExists('core_website'));
+        $this->assertFalse($this->_model->tableExists('core/website'));
+    }
 }

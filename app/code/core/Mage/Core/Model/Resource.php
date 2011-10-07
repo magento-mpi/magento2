@@ -217,19 +217,6 @@ class Mage_Core_Model_Resource
         return $this->_connectionTypes[$type];
     }
 
-    /**
-     * Get resource entity
-     *
-     * @param string $model
-     * @param string $entity
-     * @return Varien_Simplexml_Config
-     */
-    public function getEntity($model, $entity)
-    {
-        $modelsNode = Mage::getConfig()->getNode()->global->models;
-        $entityConfig = $modelsNode->$model->entities->{$entity};
-        return $entityConfig;
-    }
 
     /**
      * Get resource table name, validated by db adapter
@@ -244,23 +231,7 @@ class Mage_Core_Model_Resource
             list($modelEntity, $tableSuffix) = $modelEntity;
         }
 
-        $parts = explode('/', $modelEntity);
-        if (isset($parts[1])) {
-            list($model, $entity) = $parts;
-            $entityConfig = false;
-            if (!empty(Mage::getConfig()->getNode()->global->models->{$model}->resourceModel)) {
-                $resourceModel = (string)Mage::getConfig()->getNode()->global->models->{$model}->resourceModel;
-                $entityConfig  = $this->getEntity($resourceModel, $entity);
-            }
-
-            if ($entityConfig && !empty($entityConfig->table)) {
-                $tableName = (string)$entityConfig->table;
-            } else {
-                Mage::throwException(Mage::helper('core')->__('Can\'t retrieve entity config: %s', $modelEntity));
-            }
-        } else {
-            $tableName = $modelEntity;
-        }
+        $tableName = $modelEntity;
 
         Mage::dispatchEvent('resource_get_tablename', array(
             'resource'      => $this,
@@ -274,10 +245,12 @@ class Mage_Core_Model_Resource
             $tableName = $mappedTableName;
         } else {
             $tablePrefix = (string)Mage::getConfig()->getTablePrefix();
-            $tableName = $tablePrefix . $tableName;
+            if ($tablePrefix && strpos($tableName, $tablePrefix) !== 0) {
+                $tableName = $tablePrefix . $tableName;
+            }
         }
 
-        if (!is_null($tableSuffix)) {
+        if ($tableSuffix) {
             $tableName .= '_' . $tableSuffix;
         }
         return $this->getConnection(self::DEFAULT_READ_RESOURCE)->getTableName($tableName);

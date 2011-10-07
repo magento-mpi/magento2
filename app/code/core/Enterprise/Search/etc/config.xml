@@ -39,11 +39,6 @@
              </enterprise_search>
              <enterprise_search_resource>
                  <class>Enterprise_Search_Model_Resource</class>
-                 <entities>
-                    <recommendations>
-                        <table>catalogsearch_recommendations</table>
-                    </recommendations>
-                </entities>
              </enterprise_search_resource>
         </models>
         <helpers>

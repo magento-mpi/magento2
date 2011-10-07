@@ -39,29 +39,6 @@
             </enterprise_targetrule>
             <enterprise_targetrule_resource>
                 <class>Enterprise_TargetRule_Model_Resource</class>
-                <entities>
-                    <rule>
-                        <table>enterprise_targetrule</table>
-                    </rule>
-                    <customersegment>
-                        <table>enterprise_targetrule_customersegment</table>
-                    </customersegment>
-                    <product>
-                        <table>enterprise_targetrule_product</table>
-                    </product>
-                    <index>
-                        <table>enterprise_targetrule_index</table>
-                    </index>
-                    <index_related>
-                        <table>enterprise_targetrule_index_related</table>
-                    </index_related>
-                    <index_crosssell>
-                        <table>enterprise_targetrule_index_crosssell</table>
-                    </index_crosssell>
-                    <index_upsell>
-                        <table>enterprise_targetrule_index_upsell</table>
-                    </index_upsell>
-                </entities>
             </enterprise_targetrule_resource>
         </models>
         <resources>

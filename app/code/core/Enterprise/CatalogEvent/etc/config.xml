@@ -39,14 +39,6 @@
             </enterprise_catalogevent>
             <enterprise_catalogevent_resource>
                 <class>Enterprise_CatalogEvent_Model_Resource</class>
-                <entities>
-                    <event>
-                        <table>enterprise_catalogevent_event</table>
-                    </event>
-                    <event_image>
-                        <table>enterprise_catalogevent_event_image</table>
-                    </event_image>
-                </entities>
             </enterprise_catalogevent_resource>
         </models>
         <helpers>

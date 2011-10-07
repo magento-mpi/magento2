@@ -48,14 +48,6 @@
             </googlecheckout>
             <googlecheckout_resource>
                 <class>Mage_GoogleCheckout_Model_Resource</class>
-                <entities>
-                    <api_debug>
-                        <table>googlecheckout_api_debug</table>
-                    </api_debug>
-                    <notification>
-                        <table>googlecheckout_notification</table>
-                    </notification>
-                </entities>
             </googlecheckout_resource>
         </models>
         <helpers>

@@ -39,17 +39,6 @@
             </enterprise_catalogpermissions>
             <enterprise_catalogpermissions_resource>
                 <class>Enterprise_CatalogPermissions_Model_Resource</class>
-                <entities>
-                    <permission>
-                        <table>enterprise_catalogpermissions</table>
-                    </permission>
-                    <permission_index>
-                        <table>enterprise_catalogpermissions_index</table>
-                    </permission_index>
-                    <permission_index_product>
-                        <table>enterprise_catalogpermissions_index_product</table>
-                    </permission_index_product>
-                </entities>
             </enterprise_catalogpermissions_resource>
         </models>
         <helpers>

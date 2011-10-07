@@ -39,11 +39,6 @@
             </sendfriend>
             <sendfriend_resource>
                 <class>Mage_Sendfriend_Model_Resource</class>
-                <entities>
-                    <sendfriend>
-                        <table>sendfriend_log</table>
-                    </sendfriend>
-                </entities>
             </sendfriend_resource>
         </models>
         <resources>

@@ -144,20 +144,6 @@
             </cms>
             <cms_resource>
                 <class>Mage_Cms_Model_Resource</class>
-                <entities>
-                    <page>
-                        <table>cms_page</table>
-                    </page>
-                    <page_store>
-                        <table>cms_page_store</table>
-                    </page_store>
-                    <block>
-                        <table>cms_block</table>
-                    </block>
-                    <block_store>
-                        <table>cms_block_store</table>
-                    </block_store>
-                </entities>
             </cms_resource>
         </models>
         <resources>
