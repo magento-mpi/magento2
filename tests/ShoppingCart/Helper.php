@@ -78,6 +78,9 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         if ($transforKeys) {
             foreach ($returnData as $key => &$value) {
                 $value = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
+                if ($value == 'action') {
+                    unset($returnData[$key]);
+                }
             }
         }
 
@@ -117,12 +120,12 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
                             }
                         }
                     } elseif (preg_match('/Ordered/', $text)) {
-                        $text = preg_replace("/\\n/", ':', $text);
-                        $values = explode(':', $text);
+                        $values = explode(' ', $text);
                         $values = array_map('trim', $values);
                         foreach ($values as $k => $v) {
-                            if (isset($values[$k + 1]) && preg_match('/[0-9]+/', $values[$k + 1])) {
-                                $productValues['product_' . $i][$key . '_' . strtolower($v)] = $values[$k + 1];
+                            if ($k % 2 != 0 && isset($values[$k - 1])) {
+                                $productValues['product_' . $i][$key . '_' . strtolower(preg_replace('#[^0-9a-z]+#i',
+                                                        '', $values[$k - 1]))] = $v;
                             }
                         }
                     } else {
@@ -134,6 +137,15 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
 
         foreach ($productValues as $key => &$productData) {
             $productData = array_diff($productData, array(''));
+            foreach ($productData as $fieldName => &$fieldValue) {
+                if (preg_match('/([\d]+\.[\d]+)|([\d]+)/', $fieldValue)) {
+                    preg_match_all('/^-?.([\d]+\.[\d]+)|([\d]+)/', $fieldValue, $price);
+                    $fieldValue = $price[0][0];
+                }
+                if (preg_match('/SKU:/', $fieldValue)) {
+                    $fieldValue = substr($fieldValue, 0, strpos($fieldValue, ':') - 3);
+                }
+            }
         }
 
         return $productValues;
@@ -151,7 +163,7 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         $returnData = array();
         for ($i = $count; $i >= 1; $i--) {
             $fieldName = $this->getText($setXpath . "[$i]/*[1]");
-            if (!preg_match('/\(([\d]+\.[\d]+)|([\d]+)\%\)/', $fieldName)) {
+            if (!preg_match('/\$\(([\d]+\.[\d]+)|([\d]+)\%\)/', $fieldName)) {
                 $fieldName = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $fieldName)), '_');
             }
             $fielValue = $this->getText($setXpath . "[$i]/*[2]");
