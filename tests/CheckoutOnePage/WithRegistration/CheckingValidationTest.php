@@ -229,7 +229,6 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $checkoutData = $this->loadData('checkout_data_billing_empty_fields',
                 array('general_name' => $productData, 'billing_password' => $billingPassword,
                       'billing_confirm_password' => $billingPassword), array('billing_email'));
-        print_r($checkoutData);
         //Steps
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));
@@ -262,7 +261,6 @@ class CheckoutOnePage_WithRegistration_CheckingValidationTest extends Mage_Selen
         $checkoutData = $this->loadData('checkout_data_register',
                 array('general_name' => $productData, $invalidValues => $this->generate('string', 32, ':punct:')),
                 array('billing_email'));
-        print_r($checkoutData);
         //Steps
         $this->assertTrue($this->logoutCustomer());
         $this->assertTrue($this->frontend('home'));

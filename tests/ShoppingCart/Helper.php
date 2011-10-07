@@ -162,14 +162,17 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         $count = $this->getXpathCount($setXpath);
         $returnData = array();
         for ($i = $count; $i >= 1; $i--) {
-            $fieldName = $this->getText($setXpath . "[$i]/*[1]");
-            if (!preg_match('/\$\(([\d]+\.[\d]+)|([\d]+)\%\)/', $fieldName)) {
-                $fieldName = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $fieldName)), '_');
+            if ($this->getXpathCount($setXpath . "[$i]/*") > 1) {
+                $fieldName = $this->getText($setXpath . "[$i]/*[1]");
+                if (!preg_match('/\$\(([\d]+\.[\d]+)|([\d]+)\%\)/', $fieldName)) {
+                    $fieldName = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $fieldName)), '_');
+                }
+                $fielValue = $this->getText($setXpath . "[$i]/*[2]");
+                $returnData[$fieldName] = trim($fielValue, "\x00..\x1F");
             }
-            $fielValue = $this->getText($setXpath . "[$i]/*[2]");
-            $returnData[$fieldName] = trim($fielValue, "\x00..\x1F");
         }
-        return $returnData;
+
+        return array_diff($returnData, array(''));
     }
 
     /**
@@ -244,6 +247,7 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         if (isset($expectedErrors)) {
             $this->messages['error'][] = trim($expectedErrors, "\x00..\x1F");
         }
+        return $this->messages;
     }
 
     /**
