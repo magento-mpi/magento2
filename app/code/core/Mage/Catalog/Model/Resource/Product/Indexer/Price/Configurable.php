@@ -142,7 +142,7 @@ class Mage_Catalog_Model_Resource_Product_Indexer_Price_Configurable
                 'l.parent_id = a.product_id',
                 array())
             ->join(
-                array('cp' => $this->getValueTable('catalog/product', 'int')),
+                array('cp' => $this->getValueTable('catalog_product_entity', 'int')),
                 'l.product_id = cp.entity_id AND cp.attribute_id = a.attribute_id AND cp.store_id = 0',
                 array())
             ->joinLeft(

@@ -301,7 +301,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
      */
     public function getValueTable($entityName, $valueType)
     {
-        return $this->getTable(array($entityName, $valueType));
+        return $this->getTable($entityName . '_' . $valueType);
     }
 
     /**

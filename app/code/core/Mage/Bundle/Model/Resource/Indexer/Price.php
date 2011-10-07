@@ -524,7 +524,7 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
 
         $select  = $adapter->select()
             ->from(
-                array('tp' => $this->getValueTable('catalog/product', 'tier_price')),
+                array('tp' => $this->getValueTable('catalog_product_entity', 'tier_price')),
                 array('entity_id')
             )
             ->join(

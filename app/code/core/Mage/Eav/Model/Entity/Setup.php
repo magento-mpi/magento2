@@ -120,7 +120,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             'entity_type_code'              => $code,
             'entity_model'                  => $params['entity_model'],
             'attribute_model'               => $this->_getValue($params, 'attribute_model'),
-            'entity_table'                  => $this->_getValue($params, 'table', 'eav/entity'),
+            'entity_table'                  => $this->_getValue($params, 'table', 'eav_entity'),
             'value_table_prefix'            => $this->_getValue($params, 'table_prefix'),
             'entity_id_field'               => $this->_getValue($params, 'id_field'),
             'increment_model'               => $this->_getValue($params, 'increment_model'),
@@ -1258,10 +1258,10 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                     array('entity_type_id'))
                 ->addIndex($this->getIdxName($baseTableName, array('store_id')),
                     array('store_id'))
-                ->addForeignKey($this->getFkName($baseTableName, 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
+                ->addForeignKey($this->getFkName($baseTableName, 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
                     'entity_type_id', $this->getTable('eav_entity_type'), 'entity_type_id',
                     Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-                ->addForeignKey($this->getFkName($baseTableName, 'store_id', 'core/store', 'store_id'),
+                ->addForeignKey($this->getFkName($baseTableName, 'store_id', 'core_store', 'store_id'),
                     'store_id', $this->getTable('core_store'), 'store_id',
                     Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
                 ->setComment('Eav Entity Main Table');
@@ -1341,10 +1341,10 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                 ->addForeignKey($this->getFkName($eavTableName, 'entity_id', $baseTableName, 'entity_id'),
                     'entity_id', $this->getTable($baseTableName), 'entity_id',
                     Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-                ->addForeignKey($this->getFkName($eavTableName, 'entity_type_id', 'eav/entity_type', 'entity_type_id'),
+                ->addForeignKey($this->getFkName($eavTableName, 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
                     'entity_type_id', $this->getTable('eav_entity_type'), 'entity_type_id',
                     Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-                ->addForeignKey($this->getFkName($eavTableName, 'store_id', 'core/store', 'store_id'),
+                ->addForeignKey($this->getFkName($eavTableName, 'store_id', 'core_store', 'store_id'),
                     'store_id', $this->getTable('core_store'), 'store_id',
                     Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
                 ->setComment('Eav Entity Value Table');

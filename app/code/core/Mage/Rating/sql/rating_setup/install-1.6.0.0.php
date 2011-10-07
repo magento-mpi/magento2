@@ -298,7 +298,7 @@ $installer->getConnection()->createTable($table);
 
 /**
  * Review/Rating module upgrade.
- * Create FK for 'rating/rating_option_vote'
+ * Create FK for 'rating_option_vote'
  */
 $table = $installer->getConnection()->addForeignKey(
     $installer->getFkName('rating_option_vote', 'review_id', 'review', 'review_id'),

@@ -34,8 +34,8 @@
  */
 class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_Core_Model_Resource_Db_Abstract
 {
-    const GALLERY_TABLE       = 'catalog/product_attribute_media_gallery';
-    const GALLERY_VALUE_TABLE = 'catalog/product_attribute_media_gallery_value';
+    const GALLERY_TABLE       = 'catalog_product_entity_media_gallery';
+    const GALLERY_VALUE_TABLE = 'catalog_product_entity_media_gallery_value';
     const GALLERY_IMAGE_TABLE = 'catalog/product_attribute_media_gallery_image';
 
     /**
