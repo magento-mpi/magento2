@@ -31,7 +31,7 @@ class Mage_Payment_Block_Form_Ccsave extends Mage_Payment_Block_Form_Cc
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('payment/form/ccsave.phtml');
+        $this->setTemplate('form/ccsave.phtml');
     }
 
 }

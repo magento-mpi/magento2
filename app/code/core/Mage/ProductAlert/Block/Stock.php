@@ -34,7 +34,7 @@ class Mage_ProductAlert_Block_Stock extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('productalert/stock.phtml');
+        $this->setTemplate('stock.phtml');
     }
 
     public function isShow()

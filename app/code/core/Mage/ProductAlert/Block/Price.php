@@ -33,7 +33,7 @@ class Mage_ProductAlert_Block_Price extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('productalert/price.phtml');
+        $this->setTemplate('price.phtml');
     }
 
     public function isShow()

@@ -30,6 +30,6 @@ class Mage_Payment_Block_Form_Purchaseorder extends Mage_Payment_Block_Form
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('payment/form/purchaseorder.phtml');
+        $this->setTemplate('form/purchaseorder.phtml');
     }
 }

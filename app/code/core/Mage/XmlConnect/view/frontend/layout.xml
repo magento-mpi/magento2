@@ -121,11 +121,11 @@
     <!-- Shopping Cart -->
     <xmlconnect_cart_index>
         <block type="xmlconnect/cart" name="xmlconnect.cart" output="toHtml">
-            <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
-            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/item/default.phtml</template></action>
-            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
-            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/item/default.phtml</template></action>
-            <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>cart/item/default.phtml</template></action>
 
             <block type="xmlconnect/cart_crosssell" name="xmlconnect.cart.crosssell" as="crosssell">
                 <block type="xmlconnect/catalog_product_price" name="xmlconnect.catalog.product.price" as="product_price" output="">
@@ -249,11 +249,11 @@
     <xmlconnect_checkout_orderreview>
         <block type="xmlconnect/checkout_order_review" name="xmlconnect.checkout.order.review" output="toHtml">
             <block type="xmlconnect/checkout_order_review_info" name="xmlconnect.checkout.order.info" as="order_products">
-                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
-                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/onepage/review/item.phtml</template></action>
-                <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/onepage/review/item.phtml</template></action>
-                <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>onepage/review/item.phtml</template></action>
             </block>
 
             <block type="xmlconnect/cart_totals" name="xmlconnect.checkout.order.review.totals" as="totals"/>
@@ -297,7 +297,7 @@
     <!-- Payment bridge -->
 
     <xmlconnect_pbridge_result>
-        <block type="xmlconnect/checkout_pbridge_result" name="xmlconnect.checkout.pbridge.result" template="xmlconnect/pbridge/result.phtml" output="toHtml" />
+        <block type="xmlconnect/checkout_pbridge_result" name="xmlconnect.checkout.pbridge.result" template="pbridge/result.phtml" output="toHtml" />
     </xmlconnect_pbridge_result>
 
     <!-- Product review -->

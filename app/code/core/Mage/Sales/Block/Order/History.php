@@ -38,7 +38,7 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('sales/order/history.phtml');
+        $this->setTemplate('order/history.phtml');
 
         $orders = Mage::getResourceModel('sales/order_collection')
             ->addFieldToSelect('*')

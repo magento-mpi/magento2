@@ -40,7 +40,7 @@ class Mage_Payment_Block_Info extends Mage_Core_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('payment/info/default.phtml');
+        $this->setTemplate('info/default.phtml');
     }
 
     /**
@@ -73,7 +73,7 @@ class Mage_Payment_Block_Info extends Mage_Core_Block_Template
      */
     public function toPdf()
     {
-        $this->setTemplate('payment/info/pdf/default.phtml');
+        $this->setTemplate('info/pdf/default.phtml');
         return $this->toHtml();
     }
 

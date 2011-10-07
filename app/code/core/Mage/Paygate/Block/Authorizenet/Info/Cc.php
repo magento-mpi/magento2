@@ -38,7 +38,7 @@ class Mage_Paygate_Block_Authorizenet_Info_Cc extends Mage_Payment_Block_Info_Cc
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('paygate/info/cc.phtml');
+        $this->setTemplate('info/cc.phtml');
     }
 
     /**
@@ -48,7 +48,7 @@ class Mage_Paygate_Block_Authorizenet_Info_Cc extends Mage_Payment_Block_Info_Cc
      */
     public function toPdf()
     {
-        $this->setTemplate('paygate/info/pdf.phtml');
+        $this->setTemplate('info/pdf.phtml');
         return $this->toHtml();
     }
 

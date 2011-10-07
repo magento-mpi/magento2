@@ -30,20 +30,20 @@
     <sales_billing_agreement_index>
         <update handle="customer_account"/>
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setTemplate"><template>2columns-left.phtml</template></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="sales/billing_agreements" name="customer.account.billing.agreement" template="sales/billing/agreements.phtml"/>
+            <block type="sales/billing_agreements" name="customer.account.billing.agreement" template="billing/agreements.phtml"/>
         </reference>
     </sales_billing_agreement_index>
 
     <sales_billing_agreement_view>
         <update handle="customer_account"/>
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setTemplate"><template>2columns-left.phtml</template></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="sales/billing_agreement_view" name="customer.account.billing.agreement" template="sales/billing/agreement/view.phtml"/>
+            <block type="sales/billing_agreement_view" name="customer.account.billing.agreement" template="billing/agreement/view.phtml"/>
         </reference>
     </sales_billing_agreement_view>
 

@@ -34,7 +34,7 @@ class Mage_Payment_Block_Info_Checkmo extends Mage_Payment_Block_Info
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('payment/info/checkmo.phtml');
+        $this->setTemplate('info/checkmo.phtml');
     }
 
     /**
@@ -80,10 +80,10 @@ class Mage_Payment_Block_Info_Checkmo extends Mage_Payment_Block_Info
         }
         return $this;
     }
-    
+
     public function toPdf()
     {
-        $this->setTemplate('payment/info/pdf/checkmo.phtml');
+        $this->setTemplate('info/pdf/checkmo.phtml');
         return $this->toHtml();
     }
 
