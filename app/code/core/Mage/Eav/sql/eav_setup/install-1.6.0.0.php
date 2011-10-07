@@ -200,9 +200,9 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addIndex($installer->getIdxName('eav_entity_datetime', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'datetime'), array('attribute_id', 'value')),
+    ->addIndex($installer->getIdxName('eav_entity_datetime', array('attribute_id', 'value')),
         array('attribute_id', 'value'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'datetime'), array('entity_type_id', 'value')),
+    ->addIndex($installer->getIdxName('eav_entity_datetime', array('entity_type_id', 'value')),
         array('entity_type_id', 'value'))
     ->addIndex(
         $installer->getIdxName(
@@ -284,9 +284,9 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addIndex($installer->getIdxName('eav_entity_decimal', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'decimal'), array('attribute_id', 'value')),
+    ->addIndex($installer->getIdxName('eav_entity_decimal', array('attribute_id', 'value')),
         array('attribute_id', 'value'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'decimal'), array('entity_type_id', 'value')),
+    ->addIndex($installer->getIdxName('eav_entity_decimal', array('entity_type_id', 'value')),
         array('entity_type_id', 'value'))
     ->addIndex(
         $installer->getIdxName(
@@ -368,9 +368,9 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addIndex($installer->getIdxName('eav_entity_int', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'int'), array('attribute_id', 'value')),
+    ->addIndex($installer->getIdxName('eav_entity_int', array('attribute_id', 'value')),
         array('attribute_id', 'value'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'int'), array('entity_type_id', 'value')),
+    ->addIndex($installer->getIdxName('eav_entity_int', array('entity_type_id', 'value')),
         array('entity_type_id', 'value'))
     ->addIndex(
         $installer->getIdxName(
@@ -531,9 +531,9 @@ $table = $installer->getConnection()
         array('store_id'))
     ->addIndex($installer->getIdxName('eav_entity_varchar', array('entity_id')),
         array('entity_id'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'varchar'), array('attribute_id', 'value')),
+    ->addIndex($installer->getIdxName('eav_entity_varchar', array('attribute_id', 'value')),
         array('attribute_id', 'value'))
-    ->addIndex($installer->getIdxName(array('eav/entity_value_prefix', 'varchar'), array('entity_type_id', 'value')),
+    ->addIndex($installer->getIdxName('eav_entity_varchar', array('entity_type_id', 'value')),
         array('entity_type_id', 'value'))
     ->addIndex(
         $installer->getIdxName(

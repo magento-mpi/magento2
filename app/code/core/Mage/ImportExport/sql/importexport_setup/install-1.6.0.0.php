@@ -109,7 +109,7 @@ $installer->getConnection()->addIndex(
 );
 
 /**
- * Add foreign keys for 'catalog/product_link_attribute_int' table
+ * Add foreign keys for 'catalog_product_link_attribute_int' table
  */
 $installer->getConnection()->addForeignKey(
     $installer->getFkName(

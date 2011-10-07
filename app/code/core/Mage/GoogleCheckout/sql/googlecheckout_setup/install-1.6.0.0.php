@@ -52,7 +52,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Add 'disable_googlecheckout' attribute to the 'eav/attribute' table
+ * Add 'disable_googlecheckout' attribute to the 'eav_attribute' table
  */
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'enable_googlecheckout', array(
     'group'             => 'Prices',

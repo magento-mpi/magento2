@@ -94,7 +94,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
         $stockExpr = $adapter->getCheckSql("({$stockExpr} = 1)", 'cisi.is_in_stock', '1');
 
         $productCollection->joinTable(
-            array('cisi' => 'cataloginventory/stock_item'),
+            array('cisi' => 'cataloginventory_stock_item'),
             'product_id=entity_id',
             array(
                 'is_saleable' => new Zend_Db_Expr($stockExpr),

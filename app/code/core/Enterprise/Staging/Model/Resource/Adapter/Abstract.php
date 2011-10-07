@@ -72,8 +72,8 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      * @var mixed
      */
     protected $_flatTables     = array(
-        'catalog/category_flat' => true,
-        'catalog/product_flat'  => true
+        'catalog_category_flat' => true,
+        'catalog_product_flat'  => true
     );
 
     /**
@@ -82,12 +82,12 @@ abstract class Enterprise_Staging_Model_Resource_Adapter_Abstract extends Mage_C
      * @var mixed
      */
     protected $_eavModels      = array(
-        'catalog/product'           => 'catalog',
-        'catalog/category'          => 'catalog',
-        'sales/order'               => 'sales',
-        'sales/order_entity'        => 'sales',
-        'customer/entity'           => 'customer',
-        'customer/address_entity'   => 'customer',
+        'catalog_product_entity'           => 'catalog',
+        'catalog_category_entity'          => 'catalog',
+        'sales_flat_order'               => 'sales',
+        'sales_order_entity'        => 'sales',
+        'customer_entity'           => 'customer',
+        'customer_address_entity'   => 'customer',
     );
 
     /**

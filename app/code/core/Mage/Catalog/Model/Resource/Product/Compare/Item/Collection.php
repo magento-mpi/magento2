@@ -137,7 +137,7 @@ class Mage_Catalog_Model_Resource_Product_Compare_Item_Collection
     public function _addJoinToSelect()
     {
         $this->joinTable(
-            array('t_compare' => 'catalog/compare_item'),
+            array('t_compare' => 'catalog_compare_item'),
             'product_id=entity_id',
             array(
                 'product_id'    => 'product_id',

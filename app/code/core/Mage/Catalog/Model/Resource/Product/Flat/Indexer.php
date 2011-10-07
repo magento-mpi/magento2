@@ -651,8 +651,8 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
         $indexesNeed = array_combine($indexKeys, $indexProps); // Array with index names as keys, except for primary
 
         // Foreign keys
-        $foreignEntityKey = $this->getFkName($tableName, 'entity_id', 'catalog/product', 'entity_id');
-        $foreignChildKey  = $this->getFkName($tableName, 'child_id', 'catalog/product', 'entity_id');
+        $foreignEntityKey = $this->getFkName($tableName, 'entity_id', 'catalog_product_entity', 'entity_id');
+        $foreignChildKey  = $this->getFkName($tableName, 'child_id', 'catalog_product_entity', 'entity_id');
 
         // Create table or modify existing one
         if (!$this->_isFlatTableExists($storeId)) {

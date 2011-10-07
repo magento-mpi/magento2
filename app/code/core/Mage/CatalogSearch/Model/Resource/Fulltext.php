@@ -499,7 +499,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
         $ifStoreValue = $adapter->getCheckSql('t_store.value_id > 0', 't_store.value', 't_default.value');
         foreach ($atributeTypes as $backendType => $attributeIds) {
             if ($attributeIds) {
-                $tableName = $this->getTable(array('catalog/product', $backendType));
+                $tableName = $this->getTable('catalog_product_entity_' . $backendType);
                 $selects[] = $adapter->select()
                     ->from(
                         array('t_default' => $tableName),

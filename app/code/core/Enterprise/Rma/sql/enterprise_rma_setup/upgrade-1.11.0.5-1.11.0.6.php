@@ -28,7 +28,7 @@
 $installer = $this;
 
 /**
- * Add new field to 'enterprise_rma/rma_shipping_label'
+ * Add new field to 'enterprise_rma_shipping_label'
  */
 $installer->getConnection()
     ->addColumn(

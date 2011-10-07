@@ -154,7 +154,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
         }
         if ($this->getUseStoreTables() && $storeId) {
             $suffix = sprintf('store_%d', $storeId);
-            $table = $this->getTable(array('catalog/category_flat', $suffix));
+            $table = $this->getTable('catalog_category_flat_' . $suffix);
         } else {
             $table = parent::getMainTable();
         }
@@ -799,11 +799,11 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Core_Model_Resource
     {
         $select = $this->_getWriteAdapter()->select()
             ->from(
-                array('def' => $this->getTable(array('catalog/category', $type))),
+                array('def' => $this->getTable('catalog_category_entity_' . $type)),
                 array('entity_id', 'attribute_id')
             )
             ->joinLeft(
-                array('store' => $this->getTable(array('catalog/category', $type))),
+                array('store' => $this->getTable('catalog_category_entity_' . $type)),
                 'store.entity_id = def.entity_id AND store.attribute_id = def.attribute_id AND store.store_id = '.$sid,
                 array('value' => $this->_getWriteAdapter()->getCheckSql('store.value_id > 0',
                     $this->_getWriteAdapter()->quoteIdentifier('store.value'),
