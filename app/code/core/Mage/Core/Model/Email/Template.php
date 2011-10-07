@@ -86,7 +86,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     /**
      * @var Exception|null
      */
-    public $sendException = null;
+    protected $_sendingException = null;
 
     static protected $_defaultTemplates;
 
@@ -419,19 +419,29 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         $mail->setFrom($this->getSenderEmail(), $this->getSenderName());
 
         $result = false;
-        $this->sendException = null;
+        $this->_sendingException = null;
         try {
             $mail->send();
             $result = true;
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->sendException = $e;
+            $this->_sendingException = $e;
         }
         $this->_bcc = array();
         $this->_returnPath = '';
         $this->_replyTo = '';
 
         return $result;
+    }
+
+    /**
+     * Get exception, generated during send() method
+     *
+     * @return Exception|null
+     */
+    public function getSendingException()
+    {
+        return $this->_sendingException;
     }
 
     /**

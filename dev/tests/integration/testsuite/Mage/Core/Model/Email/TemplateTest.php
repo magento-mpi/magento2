@@ -128,7 +128,9 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $exception = new Exception('test');
         $this->_mail->expects($this->once())->method('send')->will($this->throwException($exception));
 
+        $this->assertNull($this->_model->getSendingException());
         $this->assertFalse($this->_model->send('test@example.com'));
+        $this->assertSame($exception, $this->_model->getSendingException());
     }
 
     public function testSendTransactional()

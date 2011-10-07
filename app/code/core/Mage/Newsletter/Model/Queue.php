@@ -233,8 +233,9 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
                 $problem = Mage::getModel('newsletter/problem');
                 $problem->addSubscriberData($item);
                 $problem->addQueueData($this);
-                if ($sender->sendException) {
-                    $problem->addErrorData($sender->sendException);
+                $e = $sender->getSendingException();
+                if ($e) {
+                    $problem->addErrorData($e);
                 }
                 $problem->save();
                 $item->received($this);
