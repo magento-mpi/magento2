@@ -92,6 +92,10 @@ create_credit_memo:
                             return_to_stock: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@name,'[back_to_stock]')]
                         fields:
                             qty_to_refund: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[contains(@name,'[qty]')]
+                        pageelements:
+                            product_table_head: //table[@class='data order-tables']/thead
+                            price_totals: //div[./div/h4='Refund Totals' or ./div/h4='Credit Memo Totals']//table/tbody
+                            product_line:  //table[@class='data order-tables']/tbody
                 -
                     product_line_to_refund:
                         xpath: //div[@class='grid np']//tbody[@class]

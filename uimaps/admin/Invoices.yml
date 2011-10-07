@@ -91,6 +91,10 @@ create_invoice:
                             qty_to_invoice: //tbody[@class='even'][tr/td/div[contains(.,'%sku%')]]//input[@class='input-text qty-input']
                         buttons:
                             update_qty: //button[span[contains(text(),'Update Qty')]]
+                        pageelements:
+                            product_table_head: //table[@class='data order-tables']/thead
+                            price_totals: //div[@id='invoice_totals']//table/tbody
+                            product_line:  //table[@class='data order-tables']/tbody
                 -
                     product_line_to_invoice:
                         xpath: //div[@id='invoice_item_container']/div[@class='grid np']//tbody[@class]
@@ -146,6 +150,10 @@ view_invoice:
                 -
                     items_invoiced:
                         xpath: //div[@id='invoice_item_container']/div[@class='grid np']
+                        pageelements:
+                            product_table_head: //table[@class='data order-tables']/thead
+                            price_totals: //div[@id='history_form']//table/tbody
+                            product_line:  //table[@class='data order-tables']/tbody
                 -
                     invoice_history:
                         xpath: //div[@class='box-left entry-edit'][./div/h4='Invoice History']

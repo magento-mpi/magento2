@@ -179,35 +179,10 @@ create_order_for_new_customer:
                     order_items_ordered: &orderItemsOrdered
                         xpath: //div[@id='order-items']
                         pageelements:
-                            table_head: //table[@class='data order-tables']
-                            price_excl_tax: //tr[td[h5='%productName%']]/td[%priceIndex%]/span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1][text()='%price%']
-                            price_incl_tax: //tr[td[h5='%productName%']]/td[%priceIndex%]/span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1][text()='%price%']
-                            price: //tr[td[h5='%productName%']]/td[%priceIndex%][not(contains(.,'Tax'))]/span[@class='price'][text()='%price%']
-                            qty: //tr[td[h5='%productName%']]/td[%qtyIndex%]/input[@value='%price%']
-                            subtotal_excl_tax: //tr[td[h5='%productName%']]/td[%subtotalIndex%]/span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1][text()='%price%']
-                            subtotal_incl_tax: //tr[td[h5='%productName%']]/td[%subtotalIndex%]/span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1][text()='%price%']
-                            subtotal: //tr[td[h5='%productName%']]/td[%subtotalIndex%][not(contains(.,'Tax'))]/span[@class='price'][text()='%price%']
-                            discount: //tr[td[h5='%productName%']]/td[%discountIndex%]/span[@class='price'][text()='%price%']
-                            row_subtotal_excl_tax: //tr[td[h5='%productName%']]/td[%row_subtotalIndex%]/span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1][text()='%price%']
-                            row_subtotal_incl_tax: //tr[td[h5='%productName%']]/td[%row_subtotalIndex%]/span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1][text()='%price%']
-                            row_subtotal: //tr[td[h5='%productName%']]/td[%row_subtotalIndex%][not(contains(.,'Tax'))]/span[@class='price'][text()='%price%']
-                            product_total_subtotal: //tfoot/tr[td='Subtotal:']/td[3]/strong[span='%price%']
-                            product_total_discount: //tfoot/tr[td='Subtotal:']/td[4]/strong[span='%price%']
-                            product_total_row_subtotal: //tfoot/tr[td='Subtotal:']/td[5]/strong[span='%price%']
-                            ex_p_price_excl_tax: //tr[td[h5='%productName%']]/td[%priceIndex%]/span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1]
-                            ex_p_price_incl_tax: //tr[td[h5='%productName%']]/td[%priceIndex%]/span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1]
-                            ex_p_price: //tr[td[h5='%productName%']]/td[%priceIndex%][not(contains(.,'Tax'))]/span[@class='price']
-                            ex_p_qty: //tr[td[h5='%productName%']]/td[%qtyIndex%]/input
-                            ex_p_subtotal_excl_tax: //tr[td[h5='%productName%']]/td[%subtotalIndex%]/span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1]
-                            ex_p_subtotal_incl_tax: //tr[td[h5='%productName%']]/td[%subtotalIndex%]/span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1]
-                            ex_p_subtotal: //tr[td[h5='%productName%']]/td[%subtotalIndex%][not(contains(.,'Tax'))]/span[@class='price']
-                            ex_p_discount: //tr[td[h5='%productName%']]/td[%discountIndex%]/span[@class='price']
-                            ex_p_row_subtotal_excl_tax: //tr[td[h5='%productName%']]/td[%row_subtotalIndex%]/span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1]
-                            ex_p_row_subtotal_incl_tax: //tr[td[h5='%productName%']]/td[%row_subtotalIndex%]/span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1]
-                            ex_p_row_subtotal: //tr[td[h5='%productName%']]/td[%row_subtotalIndex%][not(contains(.,'Tax'))]/span[@class='price']
-                            ex_pt_product_total_subtotal: //tfoot/tr[td='Subtotal:']/td[3]/strong
-                            ex_pt_product_total_discount: //tfoot/tr[td='Subtotal:']/td[4]/strong
-                            ex_pt_product_total_row_subtotal: //tfoot/tr[td='Subtotal:']/td[5]/strong
+                            product_table_head: //table[@class='data order-tables']/thead
+                            product_table_tfoot: //*[@id='order-items_grid']/table/tfoot
+                            price_totals: //*[@id='order-totals']//table/tbody
+                            product_line:  //table[@class='data order-tables']/tbody
                         buttons:
                             add_products: //button[span='Add Products']
                             configure: //tr[td/@class='first'][contains(.,'%sku%')]//button[span='Configure']
@@ -508,41 +483,9 @@ view_order:
                                     links:
                                         gift_options: //tbody[@class][tr[contains(.,'%sku%')]]//a[text()='Gift Options']
                                     pageelements:
-                                        table_head: //table[@class='data order-tables']
-                                        item_status: //tr[.//span='%productName%']/td[%item_statusIndex%][normalize-space(text())='%price%']
-                                        original_price: //tr[.//span='%productName%']/td[%original_priceIndex%]//span[@class='price' and normalize-space(text())='%price%']
-                                        price: //tr[.//span='%productName%']/td[%priceIndex%][not(contains(.,'Tax'))]//span[@class='price'][text()='%price%']
-                                        price_excl_tax: //tr[.//span='%productName%']/td[%priceIndex%]//span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1][text()='%price%']
-                                        price_incl_tax: //tr[.//span='%productName%']/td[%priceIndex%]//span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1][text()='%price%']
-                                        qty_ordered: //tr[.//span='%productName%']//tr[td='Ordered'][td/strong='%price%']
-                                        qty_invoiced: //tr[.//span='%productName%']//tr[td='Invoiced'][td/strong='%price%']
-                                        qty_shipped: //tr[.//span='%productName%']//tr[td='Shipped'][td/strong='%price%']
-                                        qty_refunded: //tr[.//span='%productName%']//tr[td='Refunded'][td/strong='%price%']
-                                        qty_canceled: //tr[.//span='%productName%']//tr[td='Canceled'][td/strong='%price%']
-                                        subtotal: //tr[.//span='%productName%']/td[%subtotalIndex%][not(contains(.,'Tax'))]//span[@class='price'][text()='%price%']
-                                        subtotal_excl_tax: //tr[.//span='%productName%']/td[%subtotalIndex%]//span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1][text()='%price%']
-                                        subtotal_incl_tax: //tr[.//span='%productName%']/td[%subtotalIndex%]//span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1][text()='%price%']
-                                        tax_amount: //tr[.//span='%productName%']/td[%tax_amountIndex%]//span[@class='price' and normalize-space(text())='%price%']
-                                        tax_percent: //tr[.//span='%productName%']/td[%tax_percentIndex%][@class='a-right' and normalize-space(text())='%price%']
-                                        discount_amount: //tr[.//span='%productName%']/td[%discount_amountIndex%]//span[@class='price' and normalize-space(text())='%price%']
-                                        row_total: //tr[.//span='%productName%']/td[%row_totalIndex%]//span[@class='price' and normalize-space(text())='%price%']
-                                        ex_p_item_status: //tr[.//span='%productName%']/td[%item_statusIndex%]
-                                        ex_p_original_price: //tr[.//span='%productName%']/td[%original_priceIndex%][not(contains(.,'Tax'))]//span[@class='price']
-                                        ex_p_price: //tr[.//span='%productName%']/td[%priceIndex%][not(contains(.,'Tax'))]//span[@class='price']
-                                        ex_p_price_excl_tax: //tr[.//span='%productName%']/td[%priceIndex%]//span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1]
-                                        ex_p_price_incl_tax: //tr[.//span='%productName%']/td[%priceIndex%]//span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1]
-                                        ex_p_qty_ordered: //tr[.//span='%productName%']//tr[td='Ordered']
-                                        ex_p_qty_invoiced: //tr[.//span='%productName%']//tr[td='Invoiced']
-                                        ex_p_qty_shipped: //tr[.//span='%productName%']//tr[td='Shipped']
-                                        ex_p_qty_refunded: //tr[.//span='%productName%']//tr[td='Refunded']
-                                        ex_p_qty_canceled: //tr[.//span='%productName%']//tr[td='Canceled']
-                                        ex_p_subtotal: //tr[.//span='%productName%']/td[%subtotalIndex%][not(contains(.,'Tax'))]//span[@class='price']
-                                        ex_p_subtotal_excl_tax: //tr[.//span='%productName%']/td[%subtotalIndex%]//span[@class='label' and normalize-space(text())='Excl. Tax:']/following-sibling::span[1]
-                                        ex_p_subtotal_incl_tax: //tr[.//span='%productName%']/td[%subtotalIndex%]//span[@class='label' and normalize-space(text())='Incl. Tax:']/following-sibling::span[1]
-                                        ex_p_tax_amount: //tr[.//span='%productName%']/td[%tax_amountIndex%]//span[@class='price']
-                                        ex_p_tax_percent: //tr[.//span='%productName%']/td[%tax_percentIndex%][@class='a-right']
-                                        ex_p_discount_amount: //tr[.//span='%productName%']/td[%discount_amountIndex%]//span[@class='price']
-                                        ex_p_row_total: //tr[.//span='%productName%']/td[%row_totalIndex%]//span[@class='price']
+                                        product_table_head: //table[@class='data order-tables']/thead
+                                        price_totals: //div[@class='order-totals']/table
+                                        product_line:  //table[@class='data order-tables']/tbody
                             -
                                 gift_options: *giftMessage
                             -
