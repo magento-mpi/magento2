@@ -39,7 +39,7 @@ shopping_cart:
                             continue_shopping: //button[span='Continue Shopping']
                             update_shopping_cart: //button[span='Update Shopping Cart']
                         pageelements:
-                            table_head: //table[@id='shopping-cart-table']/thead/tr[contains(@class,'first')]
+                            product_table_head: //table[@id='shopping-cart-table']/thead
                             price_totals: //table[@id='shopping-cart-totals-table']
                             product_line:  //table[@id='shopping-cart-table']/tbody/tr
                 -

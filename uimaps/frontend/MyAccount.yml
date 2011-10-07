@@ -65,35 +65,6 @@ view_order:
                             print_order: //a[text()='Print Order']
                             back_to_my_orders: //p[@class='back-link']/a
                         pageelements:
-                            order_status: //h1[text()='Order #%orderId% - %orderStatus%']
-                            #Table elements
-                            price_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price' and text()='%price%']
-                            price_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price' and text()='%price%']
-                            subtotal_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price' and text()='%price%']
-                            subtotal_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price' and text()='%price%']
-                            qty: //tr[td[h3='%productName%']]/td[%colIndex%]/span[normalize-space(text()='Ordered:')]/strong[text()='%price%']
-                            ex_p_qty: //tr[td[h3='%productName%']]/td[%colIndex%]/span[normalize-space(text()='Ordered:')]/strong
-                            ex_p_price_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price']
-                            ex_p_price_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price']
-                            ex_p_subtotal_excluding_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-excl-tax']//span[@class='price']
-                            ex_p_subtotal_including_tax: //tr[td[h3='%productName%']]/td[%colIndex%]/span[@class='price-incl-tax']//span[@class='price']
-                            #Total, grand total, shipping, tax elements
-                            total_subtotal_excluding_tax: //tr[normalize-space(td)='Subtotal (Excl.Tax)']/td[span='%price%']
-                            total_subtotal_including_tax: //tr[normalize-space(td)='Subtotal (Incl.Tax)']/td[span='%price%']
-                            total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span='%price%']
-                            total_shipping_excluding_tax: //tr[normalize-space(td)='Shipping & Handling (Excl.Tax)']/td[span='%price%']
-                            total_shipping_including_tax: //tr[normalize-space(td)='Shipping & Handling (Incl.Tax)']/td[span='%price%']
-                            total_grand_total_excluding_tax: //tr[normalize-space(td)='Grand Total (Excl.Tax)']/td[strong='%price%']
-                            total_grand_total_including_tax: //tr[normalize-space(td)='Grand Total (Incl.Tax)']/td[strong='%price%']
-                            total_grand_total: //tr[normalize-space(td)='Grand Total']/td[strong='%price%']
-                            total_tax: //tr[normalize-space(td)='Tax']/td[span='%price%']
-                            ex_t_total_subtotal_excluding_tax: //tr[normalize-space(td)='Subtotal (Excl.Tax)']/td[span]
-                            ex_t_total_subtotal_including_tax: //tr[normalize-space(td)='Subtotal (Incl.Tax)']/td[span]
-                            ex_t_total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span]
-                            ex_t_total_shipping_excluding_tax: //tr[normalize-space(td)='Shipping & Handling (Excl.Tax)']/td[span]
-                            ex_t_total_shipping_including_tax: //tr[normalize-space(td)='Shipping & Handling (Incl.Tax)']/td[span]
-                            ex_t_total_grand_total_excluding_tax: //tr[normalize-space(td)='Grand Total (Excl.Tax)']/td[strong]
-                            ex_t_total_grand_total_including_tax: //tr[normalize-space(td)='Grand Total (Incl.Tax)']/td[strong]
-                            ex_t_total_grand_total: //tr[normalize-space(td)='Grand Total']/td[strong]
-                            ex_t_total_tax: //tr[normalize-space(td)='Tax']/td[span]
-
+                            product_table_head: //table[@id='my-orders-table']/thead
+                            price_totals: //table[@id='my-orders-table']/tfoot
+                            product_line:  //table[@id='my-orders-table']/tbodys

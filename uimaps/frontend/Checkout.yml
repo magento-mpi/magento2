@@ -156,7 +156,7 @@ onepage_checkout:
                     order_review:
                         xpath: //ol[@id='checkoutSteps']//li[@id='opc-review']
                         pageelements:
-                            table_head: //table[@id='checkout-review-table']/thead/tr[contains(@class,'first')]
+                            product_table_head: //table[@id='checkout-review-table']/thead
                             price_totals: //table[@id='checkout-review-table']/tfoot
                             product_line:  //table[@id='checkout-review-table']/tbody/tr
                         fields:
