@@ -79,7 +79,7 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
         }
         parent::__construct();
         if (!$this->getTemplate()) {
-            $this->setTemplate('system/config/form/field/array.phtml');
+            $this->setTemplate('Mage_Adminhtml::system/config/form/field/array.phtml');
         }
     }
 
