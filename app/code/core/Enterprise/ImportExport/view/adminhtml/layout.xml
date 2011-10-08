@@ -41,7 +41,7 @@
     </adminhtml_scheduled_operation_new>
     <adminhtml_scheduled_operation_edit>
         <reference name="content">
-            <block type="adminhtml/template" template="importexport/export/form/before.phtml" name="export.form.before" alias="form_before"/>
+            <block type="adminhtml/template" template="Mage_ImportExport::export/form/before.phtml" name="export.form.before" alias="form_before"/>
             <block type="enterprise_importexport/adminhtml_scheduled_operation_edit" name="operation.edit" />
             <block type="adminhtml/template" template="Enterprise_ImportExport::scheduled/form/after.phtml" name="operation.form.after" />
         </reference>
