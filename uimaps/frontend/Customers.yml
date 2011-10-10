@@ -71,7 +71,7 @@ customer_login:
                     new_account:
                         xpath: //div[normalize-space(@class)='col-1 new-users']
                         buttons:
-                            create_account: //button[span='Create an Account']
+                            create_account: //button[span='Create an Account' or span='Register']
                 -
                     log_in_customer:
                         xpath: //div[normalize-space(@class)='col-2 registered-users']
