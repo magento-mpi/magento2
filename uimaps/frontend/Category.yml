@@ -48,7 +48,7 @@ category_page:
                         buttons:
                             add_to_cart: %productNameXpath%/../following-sibling::*/button[span='Add to Cart']
                         pageelements:
-                            product_name: //a[text()='%productName%']
+                            product_name_header: //a[text()='%productName%']
                             price_regular: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
                             price_excluding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-excluding-tax']/span[@class='price' and normalize-space(text())='%price%']
                             price_including_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-including-tax']/span[@class='price' and normalize-space(text())='%price%']
