@@ -42,13 +42,13 @@ category_page:
                             list: //a[@class='list']
                             grid: //a[@class='grid']
                             next_page: //a[@title='Next']
-                            product_name: //a[text()='%productName%']
                             learn_more: %productNameXpath%/../following-sibling::*//a[@class='link-learn']
                             add_to_wish_list: %productNameXpath%/../following-sibling::*//a[@class='link-wishlist']
                             add_to_compare: %productNameXpath%/../following-sibling::*//a[@class='link-compare']
                         buttons:
                             add_to_cart: %productNameXpath%/../following-sibling::*/button[span='Add to Cart']
                         pageelements:
+                            product_name: //a[text()='%productName%']
                             price_regular: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
                             price_excluding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-excluding-tax']/span[@class='price' and normalize-space(text())='%price%']
                             price_including_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-including-tax']/span[@class='price' and normalize-space(text())='%price%']
