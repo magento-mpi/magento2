@@ -46,11 +46,25 @@ product_page:
                             first_review: //a[text()='Be the first to review this product']
                         pageelements:
                             product_name: //div[@class='product-name']/h1
-                            old_price: //*[@class='old-price']//span[@class='price']
-                            price: //*[@class='regular-price']//span[@class='price']
-                            special_price: //*[@class='special-price']//span[@class='price']
-                            availability: //*[@class='availability in-stock']/span
-                            short_descriprion: //div[@class='short-description']//div[@class='std']
+                            product_name_header: //div[@class='product-name']/h1[text()='%productName%']
+                            price_regular: %productNameXpath%/following-sibling::div[@class='price-box']/span[@class='regular-price']/span[@class='price' and normalize-space(text())='%price%']
+                            price_excluding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-excluding-tax']/span[@class='price' and normalize-space(text())='%price%']
+                            price_including_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-including-tax']/span[@class='price' and normalize-space(text())='%price%']
+                            price_old: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='old-price' and normalize-space(text())='%price%']
+                            price_special: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price' and normalize-space(text())='%price%']
+                            price_special_excluding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price']/span[@class='price-excluding-tax' and normalize-space(text())='%price%']
+                            price_special_inlcuding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price']/span[@class='price-including-tax' and normalize-space(text())='%price%']
+                            as_low_as: %productNameXpath%/../following-sibling::div[@class='price-box']/a[@class='minimal-price-link']/span[@class='price' and normalize-space(text())='%price%']
+                            qty: //input[@class='input-text qty'][@value='%price%']
+                            ex_qty: //input[@class='input-text qty']
+                            ex_price_regular: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='regular-price']
+                            ex_price_excluding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-excluding-tax']/span[@class='price']
+                            ex_price_including_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/span[@class='price-including-tax']/span[@class='price']
+                            ex_price_old: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='old-price']
+                            ex_price_special: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price']
+                            ex_price_special_excluding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price']/span[@class='price-excluding-tax']
+                            ex_price_special_inlcuding_tax: %productNameXpath%/../following-sibling::div[@class='price-box']/p[@class='special-price']/span[@class='price-including-tax']
+                            ex_as_low_as: %productNameXpath%/../following-sibling::div[@class='price-box']/a[@class='minimal-price-link']/span[@class='price']
                 -
                     product_custom_options:
                         xpath: //div[@id='product-options-wrapper']

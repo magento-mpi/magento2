@@ -267,3 +267,11 @@ validate_prices_in_order_review:
         total_total_paid: $0.00
         total_total_refunded: $0.00
         total_total_due: $59.95
+
+#<---------Prices Review on Product Info Page on the frontend------------------------>
+product_page_review_prices:
+    verification:
+        price_regular: %noValue%
+        price_excluding_tax: $100.00
+        price_including_tax: $100.00
+        qty: 1
