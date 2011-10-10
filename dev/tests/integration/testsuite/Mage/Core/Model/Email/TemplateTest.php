@@ -79,16 +79,53 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoConfigFixture fixturestore_store design/package/name  default
+     * @magentoConfigFixture fixturestore_store design/theme/default default
+     * @magentoConfigFixture fixturestore_store design/theme/skin    blue
+     */
     public function testGetProcessedTemplate()
     {
-        $this->_model->setTemplateText('{{skin url="favicon.ico"}}');
-        $this->assertStringEndsWith('favicon.ico', $this->_model->getProcessedTemplate());
+        $expectedSkinUrl = 'skin/frontend/default/default/blue/en_US/Mage_Page/favicon.ico';
+        $this->_model->setTemplateText('{{skin url="Mage_Page::favicon.ico"}}');
+        $this->assertStringEndsNotWith($expectedSkinUrl, $this->_model->getProcessedTemplate());
+        $this->_model->setDesignConfig(array(
+            'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
+        ));
+        $this->assertStringEndsWith($expectedSkinUrl, $this->_model->getProcessedTemplate());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Core/_files/design_change.php
+     */
+    public function testGetProcessedTemplateDesignChange()
+    {
+        $this->_model->setTemplateText('{{skin url="Mage_Page::favicon.ico"}}');
+        $this->assertStringEndsWith(
+            'skin/frontend/default/modern/modern/en_US/Mage_Page/favicon.ico',
+            $this->_model->getProcessedTemplate()
+        );
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoConfigFixture fixturestore_store design/package/name  default
+     * @magentoConfigFixture fixturestore_store design/theme/default default
+     * @magentoConfigFixture fixturestore_store design/theme/skin    blue
+     */
     public function testGetProcessedTemplateSubject()
     {
-        $this->_model->setTemplateSubject('{{skin url="favicon.ico"}}');
-        $this->assertStringEndsWith('favicon.ico', $this->_model->getProcessedTemplateSubject(array()));
+        $expectedSkinUrl = 'skin/frontend/default/default/blue/en_US/Mage_Page/favicon.ico';
+        $this->_model->setTemplateSubject('{{skin url="Mage_Page::favicon.ico"}}');
+        $this->assertStringEndsNotWith($expectedSkinUrl, $this->_model->getProcessedTemplateSubject(array()));
+        $this->_model->setDesignConfig(array(
+            'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
+        ));
+        $this->assertStringEndsWith($expectedSkinUrl, $this->_model->getProcessedTemplateSubject(array()));
     }
 
     /**

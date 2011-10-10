@@ -247,10 +247,9 @@ class Mage_Core_Model_Design_Package
     {
         switch (func_num_args()) {
             case 1:
-                foreach (array('layout', 'template', 'locale', 'skin') as $type) {
+                foreach (array('default', 'layout', 'template', 'locale', 'skin') as $type) {
                     $this->_theme[$type] = func_get_arg(0);
                 }
-                $this->setSkin(func_get_arg(0));
                 break;
 
             case 2:
@@ -272,18 +271,15 @@ class Mage_Core_Model_Design_Package
     public function getTheme($type)
     {
         if (empty($this->_theme[$type])) {
-            $this->_theme[$type] = Mage::getStoreConfig('design/theme/'.$type, $this->getStore());
-            if ($type!=='default' && empty($this->_theme[$type])) {
-                $this->_theme[$type] = $this->getTheme('default');
-                if (empty($this->_theme[$type])) {
+            $this->_theme[$type] = Mage::getStoreConfig('design/theme/' . $type, $this->getStore());
+            if (empty($this->_theme[$type])) {
+                if ($type === 'default') {
                     $this->_theme[$type] = self::DEFAULT_THEME;
+                } else {
+                    $this->_theme[$type] = $this->getTheme('default');
                 }
-
-                // "locale", "layout", "template"
             }
         }
-
-        // + "default", "skin"
 
         // set exception value for theme, if defined in config
         $customThemeType = $this->_checkUserAgentAgainstRegexps("design/theme/{$type}_ua_regexp");
@@ -339,7 +335,8 @@ class Mage_Core_Model_Design_Package
             $params['_package'] = $this->getPackageName();
         }
         if (!array_key_exists('_theme', $params)) {
-            $params['_theme'] = $this->getTheme('theme');
+            $isThemeType = isset($params['_type']) && $params['_type'] != 'skin';
+            $params['_theme'] = $this->getTheme($isThemeType ? $params['_type'] : '');
         }
         if (!array_key_exists('_skin', $params)) {
             $params['_skin'] = $this->getSkin();
@@ -517,9 +514,10 @@ class Mage_Core_Model_Design_Package
         $dir = Mage::getBaseDir('design');
         $locale = Mage::app()->getLocale()->getLocaleCode();
         $dirs = array();
+        $theme = $params['_theme'];
         do {
-            $dirs[] = "{$dir}/{$params['_area']}/{$params['_package']}/{$params['_theme']}/locale/{$locale}";
-            $theme = $this->_getInheritedTheme($params['_theme']);
+            $dirs[] = "{$dir}/{$params['_area']}/{$params['_package']}/{$theme}/locale/{$locale}";
+            $theme = $this->_getInheritedTheme($theme);
         } while ($theme);
 
         return $this->_fallback($file, $dirs, false, array());
