@@ -55,7 +55,7 @@ class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
      */
     protected function _construct()
     {
-        $this->setTemplate('page/template/links.phtml');
+        $this->setTemplate('template/links.phtml');
     }
 
     /**

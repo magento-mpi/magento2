@@ -39,7 +39,7 @@ class Enterprise_Rma_Block_Return_Tracking extends Mage_Core_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('rma/return/tracking.phtml');
+        $this->setTemplate('return/tracking.phtml');
         $this->setRma(Mage::registry('current_rma'));
     }
 

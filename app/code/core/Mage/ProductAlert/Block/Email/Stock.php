@@ -41,7 +41,7 @@ class Mage_ProductAlert_Block_Email_Stock extends Mage_ProductAlert_Block_Email_
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('email/productalert/stock.phtml');
+        $this->setTemplate('email/stock.phtml');
     }
 
     /**

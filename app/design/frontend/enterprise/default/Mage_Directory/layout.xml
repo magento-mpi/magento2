@@ -34,21 +34,21 @@ default layout
 
     <default>
         <reference name="top.switches">
-            <block type="directory/currency" name="currency" before="store_language" template="directory/currency.phtml"/>
+            <block type="directory/currency" name="currency" before="store_language" template="currency.phtml"/>
         </reference>
         <reference name="head">
-            <block type="core/template" name="optional_zip_countries" as="optional_zip_countries" template="directory/js/optional_zip_countries.phtml" />
+            <block type="core/template" name="optional_zip_countries" as="optional_zip_countries" template="Mage_Directory::js/optional_zip_countries.phtml" />
         </reference>
     </default>
 
-    
+
 <!--
 Category default layout
 -->
 
 <!--     <catalog_category_default>
         <reference name="top.switches">
-            <block type="directory/currency" name="currency" after="store_language" template="directory/currency.phtml"/>
+            <block type="directory/currency" name="currency" after="store_language" template="currency.phtml"/>
         </reference>
     </catalog_category_default> -->
 
@@ -58,7 +58,7 @@ Category layered navigation layout
 
 <!--     <catalog_category_layered>
         <reference name="top.switches">
-            <block type="directory/currency" name="currency" after="store_language" template="directory/currency.phtml"/>
+            <block type="directory/currency" name="currency" after="store_language" template="currency.phtml"/>
         </reference>
     </catalog_category_layered> -->
 
@@ -68,19 +68,19 @@ Catalog Search layout
 
 <!--     <catalogsearch_advanced_index>
         <reference name="top.switches">
-            <block type="directory/currency" name="right_currency" after="store_language" template="directory/currency.phtml"/>
+            <block type="directory/currency" name="right_currency" after="store_language" template="currency.phtml"/>
         </reference>
     </catalogsearch_advanced_index>
 
     <catalogsearch_result_index>
         <reference name="top.switches">
-            <block type="directory/currency" name="currency" after="store_language" template="directory/currency.phtml"/>
+            <block type="directory/currency" name="currency" after="store_language" template="currency.phtml"/>
         </reference>
     </catalogsearch_result_index>
 
     <catalogsearch_advanced_result>
         <reference name="top.switches">
-            <block type="directory/currency" name="right_currency" after="store_language" template="directory/currency.phtml"/>
+            <block type="directory/currency" name="right_currency" after="store_language" template="currency.phtml"/>
         </reference>
     </catalogsearch_advanced_result> -->
 
