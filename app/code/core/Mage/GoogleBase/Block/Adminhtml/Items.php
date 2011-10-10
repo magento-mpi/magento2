@@ -37,7 +37,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Widget_
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('googlebase/items.phtml');
+        $this->setTemplate('items.phtml');
     }
 
     protected function _prepareLayout()

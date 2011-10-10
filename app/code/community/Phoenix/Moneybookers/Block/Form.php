@@ -39,7 +39,7 @@ class Phoenix_Moneybookers_Block_Form extends Mage_Payment_Block_Form
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('moneybookers/form.phtml');
+        $this->setTemplate('form.phtml');
     }
 
     /**

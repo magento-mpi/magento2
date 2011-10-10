@@ -30,7 +30,7 @@
 
     <default>
         <reference name="top.bar">
-            <block type="core/template" name="top.search" as="topSearch" template="catalogsearch/form.mini.phtml"/>
+            <block type="core/template" name="top.search" as="topSearch" template="Mage_CatalogSearch::form.mini.phtml"/>
         </reference>
         <reference name="footer_links">
             <action method="addLink" translate="label title" module="catalogsearch" ifconfig="catalog/seo/search_terms">
@@ -50,15 +50,15 @@
         <label>Quick Search Form</label>
         <update handle="page_two_columns_left" />
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setTemplate"><template>2columns-left.phtml</template></action>
         </reference>
         <reference name="left">
-            <block type="catalogsearch/layer" name="catalogsearch.leftnav" after="currency" template="catalog/layer/view.phtml"/>
+            <block type="catalogsearch/layer" name="catalogsearch.leftnav" after="currency" template="Mage_Catalog::layer/view.phtml"/>
         </reference>
         <reference name="content">
-            <block type="catalogsearch/result" name="search.result" template="catalogsearch/result.phtml">
-                <block type="catalog/product_list" name="search_result_list" template="catalog/product/list.phtml">
-                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+            <block type="catalogsearch/result" name="search.result" template="result.phtml">
+                <block type="catalog/product_list" name="search_result_list" template="product/list.phtml">
+                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
                         <block type="page/html_pager" name="product_list_toolbar_pager"/>
                     </block>
                     <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
@@ -79,7 +79,7 @@
         <label>Advanced Search Form</label>
         <!-- Mage_Catalogsearch -->
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setTemplate"><template>2columns-left.phtml</template></action>
         </reference>
         <reference name="head">
             <action method="setTitle" translate="title" module="catalogsearch"><title>Advanced Search</title></action>
@@ -88,8 +88,8 @@
             <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
         </reference>
         <reference name="content">
-            <block type="catalogsearch/advanced_form" name="catalogsearch_advanced_form" template="catalogsearch/advanced/form.phtml"/>
-            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <block type="catalogsearch/advanced_form" name="catalogsearch_advanced_form" template="advanced/form.phtml"/>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="Mage_Page::js/calendar.phtml"/>
         </reference>
     </catalogsearch_advanced_index>
 
@@ -102,12 +102,12 @@ Advanced search results
         <update handle="page_two_columns_left" />
         <!-- Mage_Catalogsearch -->
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setTemplate"><template>2columns-left.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="catalogsearch/advanced_result" name="catalogsearch_advanced_result" template="catalogsearch/advanced/result.phtml">
-                <block type="catalog/product_list" name="search_result_list" template="catalog/product/list.phtml">
-                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+            <block type="catalogsearch/advanced_result" name="catalogsearch_advanced_result" template="advanced/result.phtml">
+                <block type="catalog/product_list" name="search_result_list" template="product/list.phtml">
+                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
                         <block type="page/html_pager" name="product_list_toolbar_pager"/>
                     </block>
                     <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
@@ -133,10 +133,10 @@ Advanced search results
             <action method="setTitle" translate="title" module="catalogsearch"><title>Search Terms</title></action>
         </reference>
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="catalogsearch/term" name="seo.searchterm" template="catalogsearch/term.phtml"/>
+            <block type="catalogsearch/term" name="seo.searchterm" template="term.phtml"/>
         </reference>
     </catalogsearch_term_popular>
 

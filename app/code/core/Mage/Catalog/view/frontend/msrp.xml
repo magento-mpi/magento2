@@ -82,27 +82,27 @@ Default layout, loads most of the pages
             <action method="addItem" ifconfig="sales/msrp/enabled"><type>skin_js</type><name>Mage_Catalog::msrp.js</name></action>
         </reference>
         <reference name="content">
-            <block type="core/template" template="catalog/msrp/popup.phtml" name="product.tooltip"></block>
+            <block type="core/template" template="Mage_Catalog::msrp/popup.phtml" name="product.tooltip"></block>
         </reference>
     </MAP_popup>
     <MAP_price_msrp_item>
         <reference name="catalog_product_price_template">
-            <action method="addPriceBlockType"><type>msrp</type><block>catalog/product_price</block><template>catalog/product/price_msrp_item.phtml</template></action>
+            <action method="addPriceBlockType"><type>msrp</type><block>catalog/product_price</block><template>product/price_msrp_item.phtml</template></action>
         </reference>
         <reference name="product.clone_prices">
-            <action method="addPriceBlockType"><type>msrp</type><block>catalog/product_price</block><template>catalog/product/price_msrp_item.phtml</template></action>
+            <action method="addPriceBlockType"><type>msrp</type><block>catalog/product_price</block><template>product/price_msrp_item.phtml</template></action>
         </reference>
     </MAP_price_msrp_item>
     <MAP_price_msrp_wishlist_item>
         <reference name="catalog_product_price_template">
-            <action method="addPriceBlockType"><type>msrp</type><block>catalog/product_price</block><template>wishlist/render/item/price_msrp_item.phtml</template></action>
+            <action method="addPriceBlockType"><type>msrp</type><block>catalog/product_price</block><template>Mage_Wishlist::render/item/price_msrp_item.phtml</template></action>
         </reference>
     </MAP_price_msrp_wishlist_item>
     <default>
         <reference name="catalog_product_price_template">
-            <action method="addPriceBlockType"><type>msrp</type><block>catalog/product_price</block><template>catalog/product/price_msrp.phtml</template></action>
-            <action method="addPriceBlockType"><type>msrp_item</type><block>catalog/product_price</block><template>catalog/product/price_msrp_item.phtml</template></action>
-            <action method="addPriceBlockType"><type>msrp_noform</type><block>catalog/product_price</block><template>catalog/product/price_msrp_noform.phtml</template></action>
+            <action method="addPriceBlockType"><type>msrp</type><block>catalog/product_price</block><template>product/price_msrp.phtml</template></action>
+            <action method="addPriceBlockType"><type>msrp_item</type><block>catalog/product_price</block><template>product/price_msrp_item.phtml</template></action>
+            <action method="addPriceBlockType"><type>msrp_noform</type><block>catalog/product_price</block><template>product/price_msrp_noform.phtml</template></action>
         </reference>
     </default>
 </layout>

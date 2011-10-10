@@ -44,16 +44,28 @@
                 <visible>1</visible>
                 <label>Template</label>
                 <type>select</type>
-                <value>catalog/product/widget/new/content/new_grid.phtml</value>
+                <value>product/widget/new/content/new_grid.phtml</value>
                 <values>
                     <default translate="label">
-                        <value>catalog/product/widget/new/content/new_grid.phtml</value>
+                        <value>product/widget/new/content/new_grid.phtml</value>
                         <label>New Products Grid Template</label>
                     </default>
                     <list translate="label">
-                        <value>catalog/product/widget/new/content/new_list.phtml</value>
+                        <value>product/widget/new/content/new_list.phtml</value>
                         <label>New Products List Template</label>
                     </list>
+                    <list_default translate="label">
+                        <value>product/widget/new/column/new_default_list.phtml</value>
+                        <label>New Products Images and Names Template</label>
+                    </list_default>
+                    <list_names translate="label">
+                        <value>product/widget/new/column/new_names_list.phtml</value>
+                        <label>New Products Names Only Template</label>
+                    </list_names>
+                    <list_images translate="label">
+                        <value>product/widget/new/column/new_images_list.phtml</value>
+                        <label>New Products Images Only Template</label>
+                    </list_images>
                 </values>
             </template>
             <cache_lifetime translate="label description">
@@ -63,6 +75,31 @@
                 <type>text</type>
             </cache_lifetime>
         </parameters>
+        <supported_blocks>
+            <left_column>
+                <block_name>left</block_name>
+                <template>
+                    <default>list_default</default>
+                    <names_only>list_names</names_only>
+                    <images_only>list_images</images_only>
+                </template>
+            </left_column>
+            <main_content>
+                <block_name>content</block_name>
+                <template>
+                    <grid>default</grid>
+                    <list>list</list>
+                </template>
+            </main_content>
+            <right_column>
+                <block_name>right</block_name>
+                <template>
+                    <default>list_default</default>
+                    <names_only>list_names</names_only>
+                    <images_only>list_images</images_only>
+                </template>
+            </right_column>
+        </supported_blocks>
     </new_products>
 
     <catalog_product_link type="catalog/product_widget_link" translate="name description" module="catalog">
@@ -101,14 +138,14 @@
                 <label>Template</label>
                 <visible>1</visible>
                 <type>select</type>
-                <value>catalog/product/widget/link/link_block.phtml</value>
+                <value>product/widget/link/link_block.phtml</value>
                 <values>
                     <default translate="label">
-                        <value>catalog/product/widget/link/link_block.phtml</value>
+                        <value>product/widget/link/link_block.phtml</value>
                         <label>Product Link Block Template</label>
                     </default>
                     <link_inline translate="label">
-                        <value>catalog/product/widget/link/link_inline.phtml</value>
+                        <value>product/widget/link/link_inline.phtml</value>
                         <label>Product Link Inline Template</label>
                     </link_inline>
                 </values>
@@ -152,14 +189,14 @@
                 <label>Template</label>
                 <visible>1</visible>
                 <type>select</type>
-                <value>catalog/category/widget/link/link_block.phtml</value>
+                <value>category/widget/link/link_block.phtml</value>
                 <values>
                     <default translate="label">
-                        <value>catalog/category/widget/link/link_block.phtml</value>
+                        <value>category/widget/link/link_block.phtml</value>
                         <label>Category Link Block Template</label>
                     </default>
                     <link_inline translate="label">
-                        <value>catalog/category/widget/link/link_inline.phtml</value>
+                        <value>category/widget/link/link_inline.phtml</value>
                         <label>Category Link Inline Template</label>
                     </link_inline>
                 </values>
