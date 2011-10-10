@@ -30,6 +30,7 @@
         <name>CMS Page Link</name>
         <description>Link to a CMS Page</description>
         <is_email_compatible>1</is_email_compatible>
+        <placeholder_image>Mage_Cms::images/widget_page_link.gif</placeholder_image>
         <parameters>
             <page_id type="complex" translate="label">
                 <visible>1</visible>
@@ -78,6 +79,7 @@
     <cms_static_block type="cms/widget_block" translate="name description" module="cms">
         <name>CMS Static Block</name>
         <description>Contents of a Static Block</description>
+        <placeholder_image>Mage_Cms::images/widget_block.gif</placeholder_image>
         <parameters>
             <block_id type="complex" translate="label">
                 <visible>1</visible>

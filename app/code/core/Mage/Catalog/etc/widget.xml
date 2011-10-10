@@ -30,6 +30,7 @@
         <name>Catalog New Products List</name>
         <description>List of Products that are set as New</description>
         <is_email_compatible>1</is_email_compatible>
+        <placeholder_image>Mage_Catalog::images/product_widget_new.gif</placeholder_image>
         <parameters>
             <products_count translate="label">
                 <required>1</required>
@@ -68,6 +69,7 @@
         <name>Catalog Product Link</name>
         <description>Link to a Specified Product</description>
         <is_email_compatible>1</is_email_compatible>
+        <placeholder_image>Mage_Catalog::images/product_widget_link.gif</placeholder_image>
         <parameters>
             <id_path translate="label">
                 <visible>1</visible>
@@ -118,6 +120,7 @@
         <name>Catalog Category Link</name>
         <description>Link to a Specified Category</description>
         <is_email_compatible>1</is_email_compatible>
+        <placeholder_image>Mage_Catalog::images/category_widget_link.gif</placeholder_image>
         <parameters>
             <id_path translate="label">
                 <visible>1</visible>

@@ -684,30 +684,20 @@ class Mage_Core_Model_Design_Package
         $skin = $params['_skin'];
         $module = $params['_module'];
         $dir = Mage::getBaseDir('design');
-        $moduleDir = $module ? Mage::getConfig()->getModuleDir('skin', $module) : '';
+        $moduleDir = $module ? Mage::getConfig()->getModuleDir('view', $module) : '';
         $defaultSkin = self::DEFAULT_SKIN_NAME;
         $locale = Mage::app()->getLocale()->getLocaleCode();
 
-        /**
-         * Legacy fallback to skin dir
-         */
-        $skinDir = Mage::getBaseDir('skin');
         $dirs = array();
         do {
             $dirs[] = "{$dir}/{$area}/{$package}/{$theme}/skin/{$skin}/locale/{$locale}";
             $dirs[] = "{$dir}/{$area}/{$package}/{$theme}/skin/{$skin}";
-            /* Legacy path that should be removed after skin files relocation */
-            $dirs[] = "{$skinDir}/{$area}/{$package}/{$skin}";
             if ($skin != $defaultSkin) {
                 $dirs[] = "{$dir}/{$area}/{$package}/{$theme}/skin/{$defaultSkin}/locale/{$locale}";
                 $dirs[] = "{$dir}/{$area}/{$package}/{$theme}/skin/{$defaultSkin}";
-                /* Legacy path that should be removed after skin files relocation */
-                $dirs[] = "{$skinDir}/{$area}/{$package}/{$defaultSkin}";
             }
             $theme = $this->_getInheritedTheme($theme);
         } while ($theme);
-        /* Legacy path that should be removed after skin files relocation */
-        $dirs[] = "{$skinDir}/{$area}/base/{$defaultSkin}";
 
         return $this->_fallback(
             $file,
@@ -935,7 +925,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _extractCssRelativeUrls($cssContent)
     {
-        preg_match_all('#url\([\'"]?(?!http://|https://|/)(.+?)[\'"]?\)#', $cssContent, $matches);
+        preg_match_all('#url\([\'"]?(?!http://|https://|/)(.+?)(?:[\#\?].*|[\'"])?\)#', $cssContent, $matches);
         if (!empty($matches[0]) && !empty($matches[1])) {
             return array_combine($matches[0], $matches[1]);
         }

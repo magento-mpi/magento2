@@ -127,25 +127,26 @@ class Mage_XmlConnect_Helper_Ipad extends Mage_Core_Helper_Abstract
     public function getDefaultDesignTabs()
     {
         if (!isset($this->_tabs)) {
+            $design = Mage::getDesign();
             $this->_tabs = array(
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Home'),
-                    'image' => 'tab_home.png',
+                    'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_home.png'),
                     'action' => 'Home',
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Search'),
-                    'image' => 'tab_search.png',
+                    'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_search.png'),
                     'action' => 'Search',
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Cart'),
-                    'image' => 'tab_cart.png',
+                    'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_cart.png'),
                     'action' => 'Cart',
                 ),
                 array(
                     'label' => Mage::helper('xmlconnect')->__('Account'),
-                    'image' => 'tab_account_ipad.png',
+                    'image' => $design->getSkinUrl('Mage_XmlConnect::images/tab_account_ipad.png'),
                     'action' => 'Account',
                 ),
             );

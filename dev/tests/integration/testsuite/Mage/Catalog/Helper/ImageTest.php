@@ -187,7 +187,7 @@ class Mage_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
         $model = new Mage_Catalog_Model_Product;
         $this->_helper->init($model, 'image');
         $placeholder = $this->_helper->getPlaceholder();
-        $this->assertEquals('images/catalog/product/placeholder/image.jpg', $placeholder);
+        $this->assertEquals('Mage_Catalog::images/product/placeholder/image.jpg', $placeholder);
 
         // test that placeholder doesn't change, once initialized
         $model->setDestinationSubDir('other_image');

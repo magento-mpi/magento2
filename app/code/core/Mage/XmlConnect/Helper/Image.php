@@ -277,7 +277,7 @@ class Mage_XmlConnect_Helper_Image extends Mage_Core_Helper_Abstract
      */
     public function getSkinImagesUrl($name = null)
     {
-        return Mage::getDesign()->getSkinUrl('images/xmlconnect/' . $name);
+        return Mage::getDesign()->getSkinUrl('Mage_XmlConnect::images/' . $name);
     }
 
     /**

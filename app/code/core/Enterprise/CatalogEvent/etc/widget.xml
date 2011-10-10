@@ -29,6 +29,7 @@
     <event_lister type="enterprise_catalogevent/widget_lister" translate="name description" module="enterprise_catalogevent">
         <name>Catalog Events Carousel</name>
         <description>List all open Catalog Events as a Paginated Carousel</description>
+        <placeholder_image>Enterprise_CatalogEvent::widget_lister.gif</placeholder_image>
         <parameters>
             <limit translate="label description">
                 <required>1</required>

@@ -484,7 +484,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     {
         if ($this->_newFile === true) {
             $url = Mage::getDesign()->getSkinUrl(
-                "images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg"
+                "Mage_Catalog::images/product/placeholder/{$this->getDestinationSubdir()}.jpg"
             );
         } else {
             $baseDir = Mage::getBaseDir('media');

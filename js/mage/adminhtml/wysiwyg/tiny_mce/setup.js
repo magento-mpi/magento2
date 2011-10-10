@@ -170,7 +170,7 @@ tinyMceWysiwygSetup.prototype =
     openFileBrowser: function(o) {
         var typeTitle;
         var storeId = this.config.store_id !== null ? this.config.store_id : 0;
-        var wUrl = this.config.files_browser_window_url + 
+        var wUrl = this.config.files_browser_window_url +
                    'target_element_id/' + this.id + '/' +
                    'store/' + storeId + '/';
 
@@ -280,11 +280,7 @@ tinyMceWysiwygSetup.prototype =
         return content.gsub(/\{\{widget(.*?)\}\}/i, function(match){
             var attributes = this.parseAttributesString(match[1]);
             if (attributes.type) {
-                var placeholderFilename = attributes.type.replace(/\//g, "__") + ".gif";
-                if (!this.widgetPlaceholderExist(placeholderFilename)) {
-                    placeholderFilename = 'default.gif';
-                }
-                var imageSrc = this.config.widget_images_url + placeholderFilename;
+                var imageSrc = this.config.widget_placeholders[attributes.type];
                 var imageHtml = '<img';
                     imageHtml+= ' id="' + Base64.idEncode(match[0]) + '"';
                     imageHtml+= ' src="' + imageSrc + '"';
@@ -343,9 +339,5 @@ tinyMceWysiwygSetup.prototype =
         } else if (this.config.add_directives) {
             o.content = this.decodeDirectives(o.content);
         }
-    },
-
-    widgetPlaceholderExist: function(filename) {
-        return this.config.widget_placeholders.indexOf(filename) != -1;
     }
 }

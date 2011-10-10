@@ -29,7 +29,7 @@
 <layout>
     <default>
         <reference name="head">
-            <action method="addCss"><name>xmlconnect/boxes.css</name></action>
+            <action method="addCss"><name>Mage_XmlConnect::css/boxes.css</name></action>
         </reference>
     </default>
 
@@ -138,8 +138,8 @@
             <block type="xmlconnect/adminhtml_mobile_edit" name="mobile_edit_content"/>
         </reference>
         <reference name="head">
-            <action method="addCss"><name>xmlconnect/dropdown.css</name></action>
-            <action method="addCss"><name>xmlconnect/styles.css</name></action>
+            <action method="addCss"><name>Mage_XmlConnect::css/dropdown.css</name></action>
+            <action method="addCss"><name>Mage_XmlConnect::css/styles.css</name></action>
         </reference>
     </adminhtml_mobile_edit>
 
@@ -162,7 +162,7 @@
             <block type="xmlconnect/adminhtml_mobile_submission" name="mobile_submission_content"/>
         </reference>
         <reference name="head">
-            <action method="addCss"><name>xmlconnect/styles.css</name></action>
+            <action method="addCss"><name>Mage_XmlConnect::css/styles.css</name></action>
         </reference>
     </adminhtml_mobile_submission>
 

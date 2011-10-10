@@ -27,9 +27,9 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
     public function testSkinDirective()
     {
         $url = $this->_model->skinDirective(array(
-            '{{skin url="favicon.ico"}}',
+            '{{skin url="Mage_Page::favicon.ico"}}',
             'skin',
-            ' url="favicon.ico"', // note leading space
+            ' url="Mage_Page::favicon.ico"', // note leading space
         ));
         $this->assertStringEndsWith('favicon.ico', $url);
     }

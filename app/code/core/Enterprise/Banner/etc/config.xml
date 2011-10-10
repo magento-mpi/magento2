@@ -88,6 +88,15 @@
             </banner>
         </enterprise>
     </global>
+    <frontend>
+        <layout>
+            <updates>
+                <enterprise_banner module="Enterprise_Banner">
+                    <file>layout.xml</file>
+                </enterprise_banner>
+            </updates>
+        </layout>
+    </frontend>
     <admin>
         <routers>
             <adminhtml>

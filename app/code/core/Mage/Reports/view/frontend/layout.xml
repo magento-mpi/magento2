@@ -28,12 +28,21 @@
 -->
 <layout version="0.1.0">
     <default>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Reports::widgets.css</stylesheet></action>
+        </reference>
         <!-- Mage_Reports -->
         <reference name="right">
             <block type="reports/product_viewed" before="right.permanent.callout" name="right.reports.product.viewed" template="reports/product_viewed.phtml" />
             <block type="reports/product_compared" before="right.permanent.callout" name="right.reports.product.compared" template="reports/product_compared.phtml" />
         </reference>
     </default>
+
+    <print>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Reports::widgets.css</stylesheet></action>
+        </reference>
+    </print>
 
     <catalog_category_layered_nochildren translate="label">
         <label>Catalog Category (Without Subcategories)</label>

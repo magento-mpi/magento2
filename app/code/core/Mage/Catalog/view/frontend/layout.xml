@@ -43,7 +43,9 @@ Default layout, loads most of the pages
 -->
 
     <default>
-
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Catalog::widgets.css</stylesheet></action>
+        </reference>
         <!-- Mage_Catalog -->
         <reference name="top.menu">
             <block type="catalog/navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
@@ -68,6 +70,11 @@ Default layout, loads most of the pages
         <block type="catalog/product_price_template" name="catalog_product_price_template" />
     </default>
 
+    <print>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Catalog::widgets.css</stylesheet></action>
+        </reference>
+    </print>
 
 <!--
 Category default layout

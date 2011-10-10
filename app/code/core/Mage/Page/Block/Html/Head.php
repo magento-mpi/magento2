@@ -407,7 +407,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         if(!is_null($storeConfig) && $this->_isFile($absolutePath)) {
             $url = $faviconFile;
         } else {
-            $url = $this->getSkinUrl('favicon.ico');
+            $url = $this->getSkinUrl('Mage_Page::favicon.ico');
         }
         return $url;
     }

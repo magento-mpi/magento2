@@ -164,6 +164,13 @@
                 </Mage_Paypal>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <paypal module="Mage_Paypal">
+                    <file>layout.xml</file>
+                </paypal>
+            </updates>
+        </layout>
     </adminhtml>
     <default>
         <paypal>
