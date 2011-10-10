@@ -272,6 +272,22 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
         return false;
     }
 
+    /**
+     * Returns credit memo item by its order id
+     *
+     * @param $orderId
+     * @return Mage_Sales_Model_Order_Creditmemo_Item|bool
+     */
+    public function getItemByOrderId($orderId)
+    {
+        foreach ($this->getItemsCollection() as $item) {
+            if ($item->getOrderItemId() == $orderId) {
+                return $item;
+            }
+        }
+        return false;
+    }
+
     public function addItem(Mage_Sales_Model_Order_Creditmemo_Item $item)
     {
         $item->setCreditmemo($this)
