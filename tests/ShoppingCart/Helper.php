@@ -199,8 +199,15 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
             $this->messages['error'][] = "'" . $actualProductQty . "' product(s) added to Shopping cart but must be '"
                     . $expectedProductQty . "'";
         } else {
-            for ($i = 0; $i < $actualProductQty; $i++) {
-                $this->compareArrays($actualProductData[$i], $productData[$i], $productData[$i]['product_name']);
+            for ($i = 1; $i <= $actualProductQty; $i++) {
+                $productName = '';
+                foreach ($actualProductData['product_' . $i] as $key => $value) {
+                    if (preg_match('/^product/', $key)) {
+                        $productName = $value;
+                        break;
+                    }
+                }
+                $this->compareArrays($actualProductData['product_' . $i], $productData['product_' . $i], $productName);
             }
         }
         //Verify order prices data
@@ -219,7 +226,7 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
     public function compareArrays($actualArray, $expectedArray, $productName = '')
     {
         foreach ($actualArray as $key => $value) {
-            if (array_key_exists($key, $expectedArray) && (strcmp($expectedArray[$key], $value) == 0)) {
+            if (array_key_exists($key, $expectedArray) && (strcmp($expectedArray[$key], trim($value)) == 0)) {
                 unset($expectedArray[$key]);
                 unset($actualArray[$key]);
             }

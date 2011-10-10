@@ -101,6 +101,9 @@ class Order_Helper extends Mage_Selenium_TestCase
         $paymentMethod = (isset($orderData['payment_data'])) ? $orderData['payment_data'] : NULL;
         $shippingMethod = (isset($orderData['shipping_data'])) ? $orderData['shipping_data'] : NULL;
         $giftMessages = (isset($orderData['gift_messages'])) ? $orderData['gift_messages'] : array();
+        $verProduct = (isset($orderData['prod_verification'])) ? $orderData['prod_verification'] : NULL;
+        $verPrTotal = (isset($orderData['prod_total_verification'])) ? $orderData['prod_total_verification'] : NULL;
+        $verTotal = (isset($orderData['total_verification'])) ? $orderData['total_verification'] : NULL;
 
         $this->navigateToCreateOrderPage($customer, $storeView);
         $this->fillForm($account, 'order_account_information');
@@ -125,6 +128,12 @@ class Order_Helper extends Mage_Selenium_TestCase
         }
         $this->selectPaymentMethod($paymentMethod, $validate);
         $this->addGiftMessage($giftMessages);
+        if ($verProduct && $verTotal) {
+            $this->shoppingCartHelper()->verifyPricesDataOnPage($verProduct, $verTotal);
+        }
+        if ($verPrTotal) {
+            $this->verifyProductsTotal($verPrTotal);
+        }
 
         $this->saveForm('submit_order');
     }
@@ -587,7 +596,7 @@ class Order_Helper extends Mage_Selenium_TestCase
         $xpath = $this->_getControlXpath('pageelement', 'product_table_tfoot');
         $tableHead = $this->_getControlXpath('pageelement', 'product_table_head');
         foreach ($needColumnNames as $value) {
-            $number = $this->productHelper()->findColumnNumberByName($value, null, $tableHead);
+            $number = $this->productHelper()->findColumnNumberByName($value, NULL, $tableHead);
             if ($value != 'Product') {
                 $number -= 1;
             }

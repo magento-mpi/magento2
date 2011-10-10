@@ -25,54 +25,61 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-#<--------Test Data for Price review during order creation on the backend------>
-validate_prices_during_order_creation:
-    product_1:
-        product_name: %noValue%
-        verification:
-            price_excl_tax: $54.95
-            price_incl_tax: $54.95
-            #price: $54.95
-            qty: 1
-            subtotal_excl_tax: $54.95
-            subtotal_incl_tax: $54.95
-            #subtotal: $54.95
-            discount: $0.00
-            row_subtotal_excl_tax: $54.95
-            row_subtotal_incl_tax: $54.95
-            #row_subtotal: $54.95
-    total_products_verification:
-        product_total_subtotal: $54.95
-        product_total_discount: $0.00
-        product_total_row_subtotal: $54.95
-    total_verification:
-        total_subtotal_excluding_tax: $54.95
-        total_subtotal_including_tax: $54.95
-        total_shipping_excluding_tax: $5.00
-        total_shipping_including_tax: $5.00
-        total_tax: $0.00
-        total_grand_total_excluding_tax: $59.95
-        total_grand_total_including_tax: $59.95
-
-
-simple_product_for_order_prices_validation:
+#<-----------------------------Preconditions----------------------------------->
+simple_product_for_prices_validation:
     product_attribute_set: Default
-    general_name: Simple Product For Order
+    general_name: Simple Product For Prices Validation
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
-    general_sku: simple_sku_order
+    general_sku: simple_sku_price_validation
     general_weight: 18.56
     general_status: Enabled
     prices_price: 54.95
-    prices_tax_class: None
+    prices_special_price: 49.99
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 12/9/12
+    prices_tax_class: Taxable Goods
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 120
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category/test
-    custom_options_data: %noValue%
+    categories: %noValue%
 
+virtual_product_for_prices_validation:
+    product_attribute_set: Default
+    general_name: Virtual Product for Prices Validation
+    general_description: Description for Virtual Product
+    general_short_description: Short Description for Virtual Product
+    general_sku: virtual_sku_price_validation
+    general_status: Enabled
+    prices_price: 14.95
+    prices_special_price: 13.99
+    prices_special_price_from: 5/5/11
+    prices_special_price_to: 12/9/12
+    prices_tax_class: Taxable Goods
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 120
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: %noValue%
+
+customer_account_for_prices_validation:
+    associate_to_website: Main Website
+    group: General
+    first_name: First Name
+    last_name: Last Name
+    email: test_user@example.com
+    password: 123123q
+
+sub_category_for_prices_validation:
+    name: Prices Validation
+    is_active: Yes
+    available_product_listing_config: No
+    available_product_listing: Best Value, Name, Price
+
+#<-----------------------------Order Creation---------------------------------->
 billing_address_req_prices_validation: &billingReq
     address_choice: new
     billing_first_name: 'billing_Steven'
@@ -97,35 +104,65 @@ shipping_address_req_prices_validation: &shippingReq
     shipping_zip_code: '90064'
     shipping_telephone: '(310) 954-8012'
 
+validate_product_prices: &validateProductPrices
+    product_1:
+        product: %noValue%
+        price_excl_tax: $46.18
+        price_incl_tax: $49.99
+        #price: $54.95
+        qty: 1
+        subtotal_excl_tax: $46.18
+        subtotal_incl_tax: $49.99
+        #subtotal: $54.95
+        discount: $0.00
+        row_subtotal_excl_tax: $46.18
+        row_subtotal_incl_tax: $49.99
+        #row_subtotal: $54.95
+    product_2:
+        product: %noValue%
+        price_excl_tax: $12.92
+        price_incl_tax: $13.99
+        #price: $54.95
+        qty: 1
+        subtotal_excl_tax: $12.92
+        subtotal_incl_tax: $13.99
+        #subtotal: $54.95
+        discount: $0.00
+        row_subtotal_excl_tax: $12.92
+        row_subtotal_incl_tax: $13.99
+        #row_subtotal: $54.95
+
+total_products_verification: &validateProductTotals
+    product: Total 2 product(s)
+    subtotal: $63.98
+    discount: $0.00
+    row_subtotal: $63.98
+
+total_verification: &validateTotals
+    subtotal_incl_tax: $63.98
+    subtotal_excl_tax: $59.10
+    shipping_incl_tax_flat_rate_fixed: $5.00
+    shipping_excl_tax_flat_rate_fixed: $5.00
+    tax: $4.88
+    US-CA-*-Rate 1 (8.25%): $4.88
+    grand_total_excl_tax: $64.10
+    grand_total_incl_tax: $68.98
 
 order_for_validating_prices:
     customer_data:
-        id: %noValue%
-        name: %noValue%
         email: %noValue%
-        telephone: %noValue%
-        zip_code: %noValue%
-        country: %noValue%
-        region: %noValue%
         store_name: %noValue%
-    store_view: some
+    store_view: Default Store View
     account_data:
         customer_group: General
         customer_email: %noValue%
     products_to_add:
-        product_1: &product
-            filter_id: %noValue%
+        product_1:
             filter_name: %noValue%
             filter_sku: %noValue%
-            filter_price_from: %noValue%
-            filter_price_to: %noValue%
-            qty_to_add: %noValue%
-            configurable_options: %noValue%
-            custom_price_use: %noValue%
-            custom_price: %noValue%
-            product_qty: %noValue%
-            apply: %noValue%
-        product_2: %noValue%
+        product_2:
+            filter_name: %noValue%
+            filter_sku: %noValue%
     coupons:
         coupon_1: %noValue%
     billing_addr_data: *billingReq
@@ -136,12 +173,14 @@ order_for_validating_prices:
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
-
+    prod_verification: *validateProductPrices
+    prod_total_verification: *validateProductTotals
+    total_verification: *validateTotals
 
 #<------------Test Data for prices validation on the category (frontend)------->
 validate_product_prices_in_category:
-    category: sub category
-    product_name: bciyk_Simple Product For Order
+    category: %noValue%
+    product_name: %noValue%
     verification:
         price_regular: %noValue%
         price_excluding_tax: '$14.95'
@@ -156,9 +195,9 @@ validate_product_prices_in_category:
 #<----Test data for product validation in order details (frontend)------------->
 product_data_information_template:
     login:
-        email: ashugaev@gmail.com
+        email: %noValue%
         password: 123123q
-    order_id: 100000001
+    order_id: %noValue%
     validate:
         product_1:
             product_name: rfsth_Virtual Product For Oreder
@@ -214,14 +253,14 @@ estimate_shipping:
 
 unit_price_excl_shipping_excl_products:
     0:
-        product_name: gqycp_Simple Product For Order
+        product_name: %noValue%
         unit_price_excl_tax: $100.00
         unit_price_incl_tax: $108.25
         qty: 1
         subtotal_excl_tax: $100.00
         subtotal_incl_tax: $108.25
     1:
-        product_name: 123_Simple Product For Order
+        product_name: %noValue%
         unit_price_excl_tax: $200.00
         unit_price_incl_tax: $216.50
         qty: 2
