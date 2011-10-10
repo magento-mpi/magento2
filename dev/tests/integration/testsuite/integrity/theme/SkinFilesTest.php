@@ -86,7 +86,6 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
             $searchDir = Mage::getBaseDir('design') . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR . $package
                 . DIRECTORY_SEPARATOR . $theme;
             $dirLength = strlen($searchDir);
-            if ($searchDir)
             foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($searchDir)) as $fileInfo) {
                 if (!$fileInfo->isFile() || !preg_match('/\.phtml$/', $fileInfo->getFilename())) {
                     continue;
