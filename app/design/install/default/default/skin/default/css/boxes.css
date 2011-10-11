@@ -170,7 +170,7 @@ p.required {
     border-color:#f16048;
     color:#df280a;
     background-color:#faebe7;
-    background-image:url(../../../../../app/design/install/default/default/skin/default/images/error_msg_icon.gif);
+    background-image:url(../images/error_msg_icon.gif);
     }
 .success-msg {
     border-color:#446423;
