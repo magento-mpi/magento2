@@ -55,7 +55,7 @@
             <action method="setActive"><path>rma/return/history/</path></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="enterprise_rma/return_create" as="create" name="rma.return.create" template="rma/return/create.phtml">
+            <block type="enterprise_rma/return_create" as="create" name="rma.return.create" template="return/create.phtml">
                 <action method="setFormCode"><code>default</code></action>
                 <action method="setEntityModelClass"><code>enterprise_rma/item</code></action>
             </block>
@@ -69,22 +69,22 @@
                 <action method="addRenderer">
                     <type>text</type>
                     <renderer_block>enterprise_eav/form_renderer_text</renderer_block>
-                    <template>rma/form/renderer/text.phtml</template>
+                    <template>Enterprise_Rma::form/renderer/text.phtml</template>
                 </action>
                 <action method="addRenderer">
                     <type>textarea</type>
                     <renderer_block>enterprise_eav/form_renderer_textarea</renderer_block>
-                    <template>rma/form/renderer/textarea.phtml</template>
+                    <template>Enterprise_Rma::form/renderer/textarea.phtml</template>
                 </action>
                 <action method="addRenderer">
                     <type>select</type>
                     <renderer_block>enterprise_rma/form_renderer_select</renderer_block>
-                    <template>rma/form/renderer/select.phtml</template>
+                    <template>form/renderer/select.phtml</template>
                 </action>
                 <action method="addRenderer">
                     <type>image</type>
                     <renderer_block>enterprise_rma/form_renderer_image</renderer_block>
-                    <template>rma/form/renderer/image.phtml</template>
+                    <template>form/renderer/image.phtml</template>
                 </action>
             </block>
         </reference>
@@ -114,7 +114,7 @@
                 <action method="addRenderer">
                     <type>image</type>
                     <renderer_block>enterprise_rma/form_renderer_image</renderer_block>
-                    <template>rma/form/view/image.phtml</template>
+                    <template>form/view/image.phtml</template>
                 </action>
             </block>
         </reference>
@@ -126,7 +126,7 @@
         <reference name="my.account.wrapper">
             <block type="sales/order_info" as="info" name="sales.order.info">
                 <block type="sales/order_info_buttons" as="buttons" name="sales.order.info.buttons">
-                    <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
+                    <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
                 </block>
             </block>
             <block type="enterprise_rma/return_returns" name="rma.return.returns" />
@@ -148,7 +148,7 @@
         <reference name="content">
             <block type="enterprise_rma/return_info" as="info" name="sales.order.info">
                 <block type="sales/order_info_buttons" as="buttons" name="sales.order.info.buttons">
-                    <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
+                    <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
                 </block>
             </block>
             <block type="enterprise_rma/return_returns" name="rma.return.returns" />
@@ -174,7 +174,7 @@
         <reference name="content">
             <block type="enterprise_rma/return_info" as="info" name="sales.order.info">
                 <block type="sales/order_info_buttons" as="buttons" name="sales.order.info.buttons">
-                    <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
+                    <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
                 </block>
             </block>
             <block type="enterprise_rma/return_view" name="rma.return.history">
@@ -203,7 +203,7 @@
         <update handle="customer_account"/>
         <reference name="content">
             <block type="enterprise_rma/return_info" as="info" name="sales.order.info" />
-            <block type="enterprise_rma/return_create" as="create" name="rma.return.create" template="rma/return/create.phtml">
+            <block type="enterprise_rma/return_create" as="create" name="rma.return.create" template="return/create.phtml">
                 <action method="setFormCode"><code>default</code></action>
                 <action method="setEntityModelClass"><code>enterprise_rma/item</code></action>
             </block>
@@ -223,7 +223,7 @@
             <block type="enterprise_rma/order_info" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
+            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_order_view>
     <sales_order_invoice>
@@ -231,7 +231,7 @@
             <block type="enterprise_rma/order_info" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
+            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_order_invoice>
     <sales_order_shipment>
@@ -239,7 +239,7 @@
             <block type="enterprise_rma/order_info" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
+            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_order_shipment>
     <sales_order_creditmemo>
@@ -247,7 +247,7 @@
             <block type="enterprise_rma/order_info" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
+            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_order_creditmemo>
 
@@ -256,7 +256,7 @@
             <block type="enterprise_rma/order_guest" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
+            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_view>
     <sales_guest_invoice translate="label">
@@ -264,7 +264,7 @@
             <block type="enterprise_rma/order_guest" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
+            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_invoice>
     <sales_guest_shipment translate="label">
@@ -272,7 +272,7 @@
             <block type="enterprise_rma/order_guest" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
+            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_shipment>
     <sales_guest_creditmemo translate="label">
@@ -280,26 +280,26 @@
             <block type="enterprise_rma/order_guest" name="enterprise.rma.info" />
         </reference>
         <reference name="sales.order.info.buttons">
-            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="rma/order/button.phtml" />
+            <block type="enterprise_rma/order_button" name="enterprise.rma.info.button" template="order/button.phtml" />
         </reference>
     </sales_guest_creditmemo>
 
     <enterprise_rma_email_rma_items>
-        <block type="enterprise_rma/email_items" name="enterprise_rma_email_items" template="rma/email/items.phtml" />
+        <block type="enterprise_rma/email_items" name="enterprise_rma_email_items" template="email/items.phtml" />
     </enterprise_rma_email_rma_items>
 
     <enterprise_rma_return_addlabel>
-        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="rma/return/tracking.phtml" />
+        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_return_addlabel>
     <enterprise_rma_return_dellabel>
-        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="rma/return/tracking.phtml" />
+        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_return_dellabel>
 
     <enterprise_rma_guest_addlabel>
-        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="rma/return/tracking.phtml" />
+        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_guest_addlabel>
     <enterprise_rma_guest_dellabel>
-        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="rma/return/tracking.phtml" />
+        <block type="enterprise_rma/return_tracking" name="enterprise_rma_return_tracking" template="return/tracking.phtml" />
     </enterprise_rma_guest_dellabel>
 
     <enterprise_rma_tracking_popup translate="label">
@@ -318,7 +318,7 @@
             <action method="setTemplate"><template>popup.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_rma/return_tracking_package" name="rma.tracking.popup" template="rma/return/popup/package.phtml" />
+            <block type="enterprise_rma/return_tracking_package" name="rma.tracking.popup" template="return/popup/package.phtml" />
         </reference>
     </enterprise_rma_tracking_package>
 
@@ -328,7 +328,7 @@
             <action method="setTemplate"><template>popup.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_rma/return_tracking_package" name="rma.tracking.popup" template="rma/return/popup/package.phtml" />
+            <block type="enterprise_rma/return_tracking_package" name="rma.tracking.popup" template="return/popup/package.phtml" />
         </reference>
     </enterprise_rma_tracking_packageprint>
 
@@ -338,7 +338,7 @@
             <action method="setTemplate"><template>popup.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_rma/return_tracking_package" name="rma.tracking.popup" template="rma/return/popup/package.phtml" />
+            <block type="enterprise_rma/return_tracking_package" name="rma.tracking.popup" template="return/popup/package.phtml" />
         </reference>
     </enterprise_rma_tracking_printlabel>
 

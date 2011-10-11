@@ -62,14 +62,14 @@
                 <label>Template</label>
                 <visible>1</visible>
                 <type>select</type>
-                <value>cms/hierarchy/widget/link/link_block.phtml</value>
+                <value>hierarchy/widget/link/link_block.phtml</value>
                 <values>
                     <default translate="label">
-                        <value>cms/hierarchy/widget/link/link_block.phtml</value>
+                        <value>hierarchy/widget/link/link_block.phtml</value>
                         <label>CMS Page Link Block Template</label>
                     </default>
                     <link_inline translate="label">
-                        <value>cms/hierarchy/widget/link/link_inline.phtml</value>
+                        <value>hierarchy/widget/link/link_inline.phtml</value>
                         <label>CMS Page Link Inline Template</label>
                     </link_inline>
                 </values>

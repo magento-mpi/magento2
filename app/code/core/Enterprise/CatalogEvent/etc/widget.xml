@@ -55,10 +55,10 @@
             </width>
             <template>
                 <required>1</required>
-                <value>catalogevent/widget/lister.phtml</value>
+                <value>widget/lister.phtml</value>
                 <values>
                     <default translate="label">
-                        <value>catalogevent/widget/lister.phtml</value>
+                        <value>widget/lister.phtml</value>
                         <label>Catalog Events Carousel Default Template</label>
                     </default>
                 </values>

@@ -43,9 +43,9 @@ class Mage_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('widget_placeholders', $settings);
         $this->assertArrayHasKey('widget_window_url', $settings);
 
-        $js = $settings['widget_plugin_src'];
-        $this->assertStringStartsWith('http://localhost/js/', $js);
-        $this->assertStringEndsWith('editor_plugin.js', $js);
+        $jsFilename = $settings['widget_plugin_src'];
+        $this->assertStringStartsWith('http://localhost/js/', $jsFilename);
+        $this->assertStringEndsWith('editor_plugin.js', $jsFilename);
 
         $this->assertInternalType('array', $settings['widget_placeholders']);
 
