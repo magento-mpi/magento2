@@ -132,6 +132,23 @@ Advanced search results
         </reference>
         <reference name="content">
             <block type="catalogsearch/term" name="seo.searchterm" template="catalogsearch/term.phtml"/>
+            <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
+                <action method="addCrumb" translate="crumbName" module="catalog">
+                    <crumbName>home</crumbName>
+                    <crumbInfo>
+                        <label>Home</label>
+                        <title>Home</title>
+                        <link>/</link>
+                    </crumbInfo>
+                </action>
+                <action method="addCrumb" translate="crumbName" module="catalog">
+                    <crumbName>categories</crumbName>
+                    <crumbInfo>
+                        <label>Categories</label>
+                        <title>Categories</title>
+                    </crumbInfo>
+                </action>
+            </block>
         </reference>
     </catalogsearch_term_popular>
 
