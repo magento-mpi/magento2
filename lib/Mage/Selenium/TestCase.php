@@ -247,6 +247,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const xpathAdminLogo = "//img[@class='logo' and contains(@src,'logo.gif')]";
 
     /**
+     * Incoming Message Close button Xpath
+     *
+     * @var string
+     */
+    const xpathIncomingMessageClose = "//*[@id='message-popup-window' and @class='message-popup show']//a[span='close']";
+
+    /**
+     * 'Go to notifications' xpath in 'Latest Message' block
+     *
+     * @var string
+     */
+    const xpathGoToNotifications = "//a[text()='Go to notifications']";
+
+    /**
      * Qty elements in Table
      * @var string
      */
@@ -1759,7 +1773,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     if (!$this->checkCurrentPage($this->_firstPageAfterAdminLogin)) {
                         throw new PHPUnit_Framework_Exception('Admin was not logged in');
                     }
-                    $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+                    if ($this->isElementPresent(self::xpathGoToNotifications)) {
+                        if ($this->waitForElement(self::xpathIncomingMessageClose, 10)) {
+                            $this->click(self::xpathIncomingMessageClose);
+                        }
+                    }
+                    $this->_currentPage = $this->_firstPageAfterAdminLogin;
                 } else {
                     throw new PHPUnit_Framework_Exception('Wrong page was opened');
                 }
