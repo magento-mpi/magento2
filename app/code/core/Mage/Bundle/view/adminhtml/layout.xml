@@ -47,55 +47,55 @@ Layout handle for budle products
 
     <adminhtml_sales_order_view>
         <reference name="order_items">
-            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_view_items_renderer</block><template>Mage_Bundle::sales/order/view/items/renderer.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_view_items_renderer</block><template>sales/order/view/items/renderer.phtml</template></action>
         </reference>
     </adminhtml_sales_order_view>
 
     <adminhtml_sales_order_invoice_new>
         <reference name="order_items">
-            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>Mage_Bundle::sales/invoice/create/items/renderer.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>sales/invoice/create/items/renderer.phtml</template></action>
         </reference>
     </adminhtml_sales_order_invoice_new>
 
     <adminhtml_sales_order_invoice_updateqty>
         <reference name="order_items">
-            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>Mage_Bundle::sales/invoice/create/items/renderer.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>sales/invoice/create/items/renderer.phtml</template></action>
         </reference>
     </adminhtml_sales_order_invoice_updateqty>
 
     <adminhtml_sales_order_invoice_view>
         <reference name="invoice_items">
-            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>Mage_Bundle::sales/invoice/view/items/renderer.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>sales/invoice/view/items/renderer.phtml</template></action>
         </reference>
     </adminhtml_sales_order_invoice_view>
 
     <adminhtml_sales_order_shipment_new>
         <reference name="order_items">
-            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>Mage_Bundle::sales/shipment/create/items/renderer.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>sales/shipment/create/items/renderer.phtml</template></action>
         </reference>
     </adminhtml_sales_order_shipment_new>
 
     <adminhtml_sales_order_shipment_view>
         <reference name="shipment_items">
-            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>Mage_Bundle::sales/shipment/view/items/renderer.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>sales/shipment/view/items/renderer.phtml</template></action>
         </reference>
     </adminhtml_sales_order_shipment_view>
 
     <adminhtml_sales_order_creditmemo_new>
         <reference name="order_items">
-            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>Mage_Bundle::sales/creditmemo/create/items/renderer.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>sales/creditmemo/create/items/renderer.phtml</template></action>
         </reference>
     </adminhtml_sales_order_creditmemo_new>
 
     <adminhtml_sales_order_creditmemo_updateqty>
         <reference name="order_items">
-            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>Mage_Bundle::sales/creditmemo/create/items/renderer.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>sales/creditmemo/create/items/renderer.phtml</template></action>
         </reference>
     </adminhtml_sales_order_creditmemo_updateqty>
 
     <adminhtml_sales_order_creditmemo_view>
         <reference name="creditmemo_items">
-            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>Mage_Bundle::sales/creditmemo/view/items/renderer.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/adminhtml_sales_order_items_renderer</block><template>sales/creditmemo/view/items/renderer.phtml</template></action>
         </reference>
     </adminhtml_sales_order_creditmemo_view>
     
