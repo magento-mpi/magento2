@@ -26,8 +26,8 @@ class Mage_Core_Model_Resource_CacheTest extends PHPUnit_Framework_TestCase
 
     public function testGetTable()
     {
-        $this->assertEquals('core_cache_option', $this->_model->getTable('core/cache_option'));
-        $this->assertEquals('core_cache_option', $this->_model->getTable(array('cache', 'option')));
+        $this->assertEquals('core_cache_option', $this->_model->getTable('core_cache_option'));
+        $this->assertEquals('core_cache_option', $this->_model->getTable(array('core_cache', 'option')));
     }
 
     public function testUniqueFields()
