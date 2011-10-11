@@ -40,9 +40,9 @@ category_all:
     name: Category
     is_active: Yes
     url_key: %noValue%
-    thumbnail_image: %noValue%#local/path/to/image.jpg
+    thumbnail_image: %noValue%
     description: Subcategory Description
-    image: %noValue%#local/path/to/image.jpg
+    image: %noValue%
     page_title: Subcategory Page Title
     meta_keywords: Subcategory Meta Keywords
     meta_description: Subcategory Meta Description
