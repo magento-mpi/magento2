@@ -965,7 +965,7 @@ grouped_product:
     general_url_key: grouped-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
-    general_country_manufacture: Albania
+    general_country_manufacture: %noValue%
 #    general_in_feed: Yes
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Grouped Product
@@ -1004,7 +1004,7 @@ duplicate_grouped:
     general_url_key: grouped-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
-    general_country_manufacture: Albania
+    general_country_manufacture: %noValue%
 #    general_in_feed: Yes
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Grouped Product
@@ -1065,7 +1065,7 @@ configurable_product:
     general_url_key: configurable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
-    general_country_manufacture: Albania
+    general_country_manufacture: %noValue%
 #    general_in_feed: Yes
     prices_price: 4.95
     prices_special_price: 3.99
@@ -1114,7 +1114,7 @@ duplicate_configurable:
     general_url_key: configurable-product-url-key
     general_status: Enabled
     general_visibility: Catalog, Search
-    general_country_manufacture: Albania
+    general_country_manufacture: %noValue%
 #    general_in_feed: Yes
     prices_price: 4.95
     prices_special_price: 3.99

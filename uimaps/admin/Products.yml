@@ -73,7 +73,7 @@ manage_products:
             incorrect_sku_length: //div[@class='validation-advice' and text()='SKU length should be 64 characters maximum.']
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             enter_valid_number: "//div[@id='advice-validate-number-%fieldId%' and not(contains(@style,'display: none;'))]"
-            existing_sku: //div[@class='validation-advice' and text()='The value of attribute "SKU" must be unique']
+            existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
 
