@@ -82,6 +82,15 @@
             </related_cache_types>
         </widget>
     </global>
+    <frontend>
+        <layout>
+            <updates>
+                <widget module="Mage_Widget">
+                    <file>layout.xml</file>
+                </widget>
+            </updates>
+        </layout>
+    </frontend>
     <adminhtml>
         <translate>
             <modules>

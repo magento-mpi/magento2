@@ -107,32 +107,32 @@
     </enterprise_giftregistry_search_results>
 
     <enterprise_giftregistry_search_advanced>
-        <block type="enterprise_giftregistry/search_advanced" name="root" template="giftregistry/search/advanced.phtml"></block>
+        <block type="enterprise_giftregistry/search_advanced" name="root" template="search/advanced.phtml"></block>
     </enterprise_giftregistry_search_advanced>
 
     <enterprise_giftregistry_view_index>
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="enterprise_giftregistry/view" name="enterprise.giftregistry.view" template="giftregistry/view.phtml">
-                <block type="enterprise_giftregistry/items" name="giftregistry_items" template="giftregistry/view/items.phtml">
-                    <block type="catalog/product_price" template="catalog/product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price" />
+            <block type="enterprise_giftregistry/view" name="enterprise.giftregistry.view" template="view.phtml">
+                <block type="enterprise_giftregistry/items" name="giftregistry_items" template="view/items.phtml">
+                    <block type="catalog/product_price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price" />
 
-                    <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
-                    <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>giftregistry/view/items/default.phtml</template></action>
-                    <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>giftregistry/view/items/default.phtml</template></action>
-                    <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
-                    <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>Enterprise_GiftRegistry::view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>Enterprise_GiftRegistry::view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>Enterprise_GiftRegistry::view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>Enterprise_GiftRegistry::view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>Enterprise_GiftRegistry::view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>Enterprise_GiftRegistry::view/items/default.phtml</template></action>
                 </block>
-                <block type="enterprise_giftregistry/customer_items" name="giftregistry.view.items" template="giftregistry/view/items.phtml"/>
+                <block type="enterprise_giftregistry/customer_items" name="giftregistry.view.items" template="view/items.phtml"/>
             </block>
         </reference>
         <update handle="MAP_popup" />
         <reference name="product.tooltip">
             <block type="page/html_wrapper" name="product.info.addtocart.paypal.wrapper" translate="label">
-                <block type="paypal/express_shortcut" name="product.info.addtocart.paypal" template="paypal/express/shortcut.phtml" module="paypal">
+                <block type="paypal/express_shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml" module="paypal">
                     <action method="setIsInCatalogProduct"><value>1</value></action>
                     <action method="setShowOrPosition"><value>after</value></action>
                 </block>
@@ -159,33 +159,33 @@
             <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
         </reference>
         <reference name="content">
-            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="Mage_Page::js/calendar.phtml"/>
         </reference>
     </calendar>
 
     <checkout_onepage_index>
         <reference name="content">
-            <block type="enterprise_giftregistry/customer_checkout" name="giftregistry.customer.checkout" template="giftregistry/customer/checkout/onepage.phtml"/>
+            <block type="enterprise_giftregistry/customer_checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml"/>
         </reference>
     </checkout_onepage_index>
 
     <checkout_multishipping_addresses>
         <reference name="content">
-            <block type="enterprise_giftregistry/customer_checkout" name="giftregistry.customer.checkout" template="giftregistry/customer/checkout/multishipping.phtml"/>
+            <block type="enterprise_giftregistry/customer_checkout" name="giftregistry.customer.checkout" template="customer/checkout/multishipping.phtml"/>
         </reference>
         <reference name="additional.product.info">
-            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
+            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
         </reference>
     </checkout_multishipping_addresses>
 
     <checkout_multishipping_shipping>
         <reference name="additional.product.info">
-            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
+            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
         </reference>
     </checkout_multishipping_shipping>
     <checkout_multishipping_overview>
         <reference name="additional.product.info">
-            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
+            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
         </reference>
     </checkout_multishipping_overview>
 
@@ -196,7 +196,7 @@
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="enterprise_giftregistry/customer_edit" name="giftregistry_addselect" template="giftregistry/edit/addselect.phtml"></block>
+            <block type="enterprise_giftregistry/customer_edit" name="giftregistry_addselect" template="edit/addselect.phtml"></block>
         </reference>
     </enterprise_giftregistry_index_addselect>
 
@@ -208,23 +208,23 @@
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="enterprise_giftregistry/customer_edit" name="giftregistry_edit" template="giftregistry/edit/edit.phtml">
-                <action method="addInputTypeTemplate"><type>text</type><template>giftregistry/attributes/text.phtml</template></action>
-                <action method="addInputTypeTemplate"><type>region</type><template>giftregistry/attributes/region.phtml</template></action>
-                <block type="enterprise_giftregistry/customer_edit_registry" name="giftregistry_edit_registry" template="giftregistry/edit/registry.phtml"/>
-                <block type="enterprise_giftregistry/customer_edit_registrants" name="giftregistry_edit_registrants" template="giftregistry/edit/registrants.phtml"/>
-                <block type="enterprise_giftregistry/customer_address_edit" name="giftregistry_address_edit" template="giftregistry/address/edit.phtml"/>
+            <block type="enterprise_giftregistry/customer_edit" name="giftregistry_edit" template="edit/edit.phtml">
+                <action method="addInputTypeTemplate"><type>text</type><template>attributes/text.phtml</template></action>
+                <action method="addInputTypeTemplate"><type>region</type><template>attributes/region.phtml</template></action>
+                <block type="enterprise_giftregistry/customer_edit_registry" name="giftregistry_edit_registry" template="edit/registry.phtml"/>
+                <block type="enterprise_giftregistry/customer_edit_registrants" name="giftregistry_edit_registrants" template="edit/registrants.phtml"/>
+                <block type="enterprise_giftregistry/customer_address_edit" name="giftregistry_address_edit" template="address/edit.phtml"/>
             </block>
         </reference>
     </enterprise_giftregistry_index_edit>
 
     <checkout_onepage_review>
         <reference name="additional.product.info">
-            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
+            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
         </reference>
     </checkout_onepage_review>
 
     <enterprise_giftregistry_email_entity_items>
-        <block type="enterprise_giftregistry/email_items" name="giftregistry.email.items" template="giftregistry/email/items.phtml"></block>
+        <block type="enterprise_giftregistry/email_items" name="giftregistry.email.items" template="email/items.phtml"></block>
     </enterprise_giftregistry_email_entity_items>
 </layout>

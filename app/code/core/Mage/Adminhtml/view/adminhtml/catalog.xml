@@ -53,7 +53,7 @@
         </reference>
         <reference name="js">
             <block type="adminhtml/catalog_product_edit_js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
-            <block type="core/template" template="catalog/wysiwyg/js.phtml"/>
+            <block type="core/template" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml"/>
         </reference>
     </adminhtml_catalog_product_new>
 
@@ -68,7 +68,7 @@
         </reference>
         <reference name="js">
             <block type="adminhtml/catalog_product_edit_js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
-            <block type="core/template" name="catalog.wysiwyg.js" template="catalog/wysiwyg/js.phtml"/>
+            <block type="core/template" name="catalog.wysiwyg.js" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml"/>
         </reference>
     </adminhtml_catalog_product_edit>
 
@@ -290,18 +290,18 @@ Layout handle for configurable products
             <block name="category.edit"  type="adminhtml/catalog_category_edit" template="catalog/category/edit.phtml" />
         </reference>
         <reference name="js">
-            <block type="core/template" template="catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js" />
+            <block type="core/template" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js" />
         </reference>
     </adminhtml_catalog_category_edit>
 
     <ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE>
         <block type="adminhtml/catalog_product_composite_fieldset" name="product.composite.fieldset" output="toHtml">
             <block name="product.composite.fieldset.options" type="adminhtml/catalog_product_composite_fieldset_options" template="catalog/product/composite/fieldset/options.phtml">
-                <action method="addOptionRenderer"><type>text</type><block>catalog/product_view_options_type_text</block><template>catalog/product/composite/fieldset/options/type/text.phtml</template></action>
-                <action method="addOptionRenderer"><type>file</type><block>catalog/product_view_options_type_file</block><template>catalog/product/composite/fieldset/options/type/file.phtml</template></action>
-                <action method="addOptionRenderer"><type>select</type><block>catalog/product_view_options_type_select</block><template>catalog/product/composite/fieldset/options/type/select.phtml</template></action>
-                <action method="addOptionRenderer"><type>date</type><block>catalog/product_view_options_type_date</block><template>catalog/product/composite/fieldset/options/type/date.phtml</template></action>
-                <block type="core/template" name="product.composite.fieldset.options.js" as="options_js" template="catalog/product/composite/fieldset/options/js.phtml"/>
+                <action method="addOptionRenderer"><type>text</type><block>catalog/product_view_options_type_text</block><template>Mage_Adminhtml::catalog/product/composite/fieldset/options/type/text.phtml</template></action>
+                <action method="addOptionRenderer"><type>file</type><block>catalog/product_view_options_type_file</block><template>Mage_Adminhtml::catalog/product/composite/fieldset/options/type/file.phtml</template></action>
+                <action method="addOptionRenderer"><type>select</type><block>catalog/product_view_options_type_select</block><template>Mage_Adminhtml::catalog/product/composite/fieldset/options/type/select.phtml</template></action>
+                <action method="addOptionRenderer"><type>date</type><block>catalog/product_view_options_type_date</block><template>Mage_Adminhtml::catalog/product/composite/fieldset/options/type/date.phtml</template></action>
+                <block type="core/template" name="product.composite.fieldset.options.js" as="options_js" template="Mage_Adminhtml::catalog/product/composite/fieldset/options/js.phtml"/>
             </block>
             <block type="adminhtml/catalog_product_composite_fieldset_qty" name="product.composite.fieldset.qty" template="catalog/product/composite/fieldset/qty.phtml"/>
         </block>

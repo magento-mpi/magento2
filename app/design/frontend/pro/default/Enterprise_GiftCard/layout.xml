@@ -29,7 +29,7 @@
         <reference name="product.info">
             <block type="enterprise_giftcard/catalog_product_view_type_giftcard" name="product.info.giftcard" as="product_type_data" template="giftcard/catalog/product/view/type/giftcard.phtml">
                 <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>giftcard/catalog/product/price.phtml</template></action>
-                <block type="cataloginventory/stockqty_default" name="product.info.giftcard.extra" as="product_type_data_extra" template="cataloginventory/stockqty/default.phtml"/>
+                <block type="cataloginventory/stockqty_default" name="product.info.giftcard.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
             </block>
         </reference>
         <reference name="product.clone_prices">
@@ -152,7 +152,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/checkout_cart_item_renderer</block>
-                <template>checkout/cart/item/default.phtml</template>
+                <template>Mage_Checkout::cart/item/default.phtml</template>
             </action>
         </reference>
     </checkout_cart_index>
@@ -164,7 +164,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/checkout_cart_item_renderer</block>
-                <template>checkout/cart/item/default.phtml</template>
+                <template>Mage_Checkout::cart/item/default.phtml</template>
             </action>
         </reference-->
     </default>
@@ -174,7 +174,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/checkout_cart_item_renderer</block>
-                <template>checkout/onepage/review/item.phtml</template>
+                <template>Mage_Checkout::onepage/review/item.phtml</template>
             </action>
         </reference>
     </checkout_onepage_review>
@@ -184,7 +184,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/checkout_cart_item_renderer</block>
-                <template>checkout/multishipping/item/default.phtml</template>
+                <template>Mage_Checkout::multishipping/item/default.phtml</template>
             </action>
         </reference>
     </checkout_multishipping_addresses>
@@ -194,14 +194,14 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/checkout_cart_item_renderer</block>
-                <template>checkout/multishipping/item/default.phtml</template>
+                <template>Mage_Checkout::multishipping/item/default.phtml</template>
             </action>
         </reference>
         <reference name="checkout_billing_items">
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/checkout_cart_item_renderer</block>
-                <template>checkout/multishipping/item/default.phtml</template>
+                <template>Mage_Checkout::multishipping/item/default.phtml</template>
             </action>
         </reference>
     </checkout_multishipping_shipping>
@@ -211,19 +211,19 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/checkout_cart_item_renderer</block>
-                <template>checkout/multishipping/item/default.phtml</template>
+                <template>Mage_Checkout::multishipping/item/default.phtml</template>
             </action>
         </reference>
     </checkout_multishipping_overview>
 
     <paypal_express_review>
         <reference name="paypal.express.review.details">
-            <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>Mage_Checkout::onepage/review/item.phtml</template></action>
         </reference>
     </paypal_express_review>
     <paypal_express_review_details>
         <reference name="root">
-            <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>Mage_Checkout::onepage/review/item.phtml</template></action>
         </reference>
     </paypal_express_review_details>
 
@@ -232,7 +232,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer</block>
-                <template>sales/order/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_order_view>
@@ -243,7 +243,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer</block>
-                <template>sales/order/invoice/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/invoice/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_order_invoice>
@@ -253,7 +253,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer</block>
-                <template>sales/order/shipment/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/shipment/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_order_shipment>
@@ -263,7 +263,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer</block>
-                <template>sales/order/creditmemo/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/creditmemo/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_order_creditmemo>
@@ -274,7 +274,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>sales/order/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_order_print>
@@ -284,7 +284,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>sales/order/invoice/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/invoice/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_order_printinvoice>
@@ -294,7 +294,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>sales/order/shipment/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/shipment/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_order_printshipment>
@@ -304,7 +304,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>sales/order/creditmemo/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/creditmemo/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_order_printcreditmemo>
@@ -317,7 +317,7 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer</block>
-                <template>sales/order/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_guest_view>
@@ -327,7 +327,7 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer</block>
-                <template>sales/order/invoice/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/invoice/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_guest_invoice>
@@ -337,7 +337,7 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer</block>
-                <template>sales/order/shipment/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/shipment/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_guest_shipment>
@@ -347,7 +347,7 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer</block>
-                <template>sales/order/creditmemo/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/creditmemo/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_guest_creditmemo>
@@ -357,7 +357,7 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>sales/order/items/renderer/default.phtml</template>
+                <template>Mage_Sales::/order/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_guest_print>
@@ -367,7 +367,7 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>sales/order/invoice/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/invoice/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_guest_printinvoice>
@@ -377,7 +377,7 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>sales/order/shipment/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/shipment/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_guest_printshipment>
@@ -387,7 +387,7 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>sales/order/creditmemo/items/renderer/default.phtml</template>
+                <template>Mage_Sales::order/creditmemo/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_guest_printcreditmemo>
@@ -397,7 +397,7 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>email/order/items/order/default.phtml</template>
+                <template>Mage_Sales::email/items/order/default.phtml</template>
             </action>
         </reference>
     </sales_email_order_items>
@@ -407,7 +407,7 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>email/order/items/invoice/default.phtml</template>
+                <template>Mage_Sales::email/items/invoice/default.phtml</template>
             </action>
         </reference>
     </sales_email_order_invoice_items>
@@ -417,7 +417,7 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>email/order/items/shipment/default.phtml</template>
+                <template>Mage_Sales::email/items/shipment/default.phtml</template>
             </action>
         </reference>
     </sales_email_order_shipment_items>
@@ -427,24 +427,24 @@ For guests
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
-                <template>email/order/items/creditmemo/default.phtml</template>
+                <template>Mage_Sales::email/items/creditmemo/default.phtml</template>
             </action>
         </reference>
     </sales_email_order_creditmemo_items>
 
     <rss_catalog_category>
         <reference name="rss.catalog.category">
-            <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>giftcard/rss/catalog/product/price.phtml</template></action>
+            <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>rss/catalog/product/price.phtml</template></action>
         </reference>
     </rss_catalog_category>
     <rss_catalog_new>
         <reference name="rss.catalog.new">
-            <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>giftcard/rss/catalog/product/price.phtml</template></action>
+            <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>rss/catalog/product/price.phtml</template></action>
         </reference>
     </rss_catalog_new>
     <rss_catalog_tag>
         <reference name="rss.catalog.tag">
-            <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>giftcard/rss/catalog/product/price.phtml</template></action>
+            <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>rss/catalog/product/price.phtml</template></action>
         </reference>
     </rss_catalog_tag>
 </layout>

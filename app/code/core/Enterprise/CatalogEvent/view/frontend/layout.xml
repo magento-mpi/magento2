@@ -26,35 +26,44 @@
  */
 -->
 <layout version="0.1.0">
-    
+
     <default>
         <reference name="head">
-            <action method="addItem"><type>skin_js</type><name>js/enterprise/catalogevent.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>Enterprise_CatalogEvent::catalogevent.js</name></action>
         </reference>
+        <action method="addCss" ifconfig="catalog/enterprise_catalogevent/enabled">
+            <stylesheet>Enterprise_CatalogEvent::widgets.css</stylesheet>
+        </action>
     </default>
-    
+
+    <print>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Enterprise_CatalogEvent::widgets.css</stylesheet></action>
+        </reference>
+    </print>
+
     <catalog_category_view>
         <reference name="top.container">
             <block after="-" name="catalog_category_event" type="enterprise_catalogevent/catalog_category_event" template="catalogevent/catalog/category/event.phtml"/>
         </reference>
     </catalog_category_view>
-    
+
     <catalog_product_view>
         <reference name="top.container">
             <block after="-" name="product_category_event" type="enterprise_catalogevent/catalog_product_event" template="catalogevent/catalog/product/event.phtml"/>
         </reference>
     </catalog_product_view>
-    
+
     <review_product_list>
         <reference name="top.container">
             <block after="-" name="product_category_event" type="enterprise_catalogevent/catalog_product_event" template="catalogevent/catalog/product/event.phtml"/>
         </reference>
     </review_product_list>
-    
+
     <review_product_view>
         <reference name="top.container">
             <block after="-" name="product_category_event" type="enterprise_catalogevent/catalog_product_event" template="catalogevent/catalog/product/event.phtml"/>
         </reference>
     </review_product_view>
-    
+
 </layout>

@@ -29,7 +29,7 @@
     <!-- stub-page for a closed website -->
     <restriction_index_stub translate="label" module="enterprise_websiterestriction">
         <label>Website Closed Stub Page</label>
-        <block type="page/html" name="root" output="toHtml" template="page/1column.phtml">
+        <block type="page/html" name="root" output="toHtml" template="1column.phtml">
             <block type="page/html_head" name="head" as="head">
                 <action method="addJs"><script>prototype/prototype.js</script></action>
                 <action method="addJs"><script>lib/ccard.js</script></action>
@@ -39,7 +39,6 @@
                 <action method="addItem"><type>skin_js</type><name>js/scripts.js</name></action>
                 <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
                 <action method="addItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>lt IE 8</if></action>
-                <action method="addItem"><type>skin_js</type><name>js/iehover-fix.js</name><params/><if>lt IE 7</if></action>
                 <action method="addCss"><stylesheet>css/print.css</stylesheet><params>media="print"</params></action>
             </block>
             <block type="core/messages" name="global_messages" as="global_messages"/>
@@ -52,7 +51,7 @@
                     <block type="enterprise_websiterestriction/cms_stub" name="cms_page" />
                 </block>
             </block>
-            <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml"/>
+            <block type="page/html_footer" name="footer" as="footer" template="html/footer.phtml"/>
         </block>
     </restriction_index_stub>
 

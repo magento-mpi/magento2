@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
     public function testGetUrlPlaceholder($model)
     {
         $this->assertStringMatchesFormat(
-            'http://localhost/media/skin/frontend/%s/catalog/product/placeholder/image.jpg',
+            'http://localhost/media/skin/frontend/%s/Mage_Catalog/images/product/placeholder/image.jpg',
             $model->getUrl()
         );
     }

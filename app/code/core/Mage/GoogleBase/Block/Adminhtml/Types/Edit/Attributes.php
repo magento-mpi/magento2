@@ -35,7 +35,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
 {
     public function __construct()
     {
-        $this->setTemplate('googlebase/types/edit/attributes.phtml');
+        $this->setTemplate('types/edit/attributes.phtml');
     }
 
     protected function _prepareLayout()

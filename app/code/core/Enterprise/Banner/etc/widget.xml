@@ -29,6 +29,7 @@
     <enterprise_banner type="enterprise_banner/widget_banner" translate="name description" module="enterprise_banner">
         <name>Banner Rotator</name>
         <description>Displays Specified or Promotion Banners</description>
+        <placeholder_image>Enterprise_Banner::widget_banner.gif</placeholder_image>
         <parameters>
             <display_mode translate="label">
                 <required>1</required>

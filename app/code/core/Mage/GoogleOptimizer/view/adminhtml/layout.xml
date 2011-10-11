@@ -38,7 +38,7 @@ Layout handle for products
             <action method="addTab"><name>googleoptimizer</name><block>tab_googleoptimizer</block></action>
         </reference>
         <reference name="js">
-            <block type="googleoptimizer/js" template="googleoptimizer/js.phtml" name="googleoptimizer_js"></block>
+            <block type="googleoptimizer/js" template="js.phtml" name="googleoptimizer_js"></block>
         </reference>
     </adminhtml_catalog_product_edit>
 
@@ -48,13 +48,13 @@ Layout handle for products
             <action method="addTab"><name>googleoptimizer</name><block>tab_googleoptimizer</block></action>
         </reference>
         <reference name="js">
-            <block type="googleoptimizer/js" template="googleoptimizer/js.phtml" name="googleoptimizer_js"></block>
+            <block type="googleoptimizer/js" template="js.phtml" name="googleoptimizer_js"></block>
         </reference>
     </adminhtml_catalog_product_new>
 
     <adminhtml_catalog_category_edit>
         <reference name="js">
-            <block type="googleoptimizer/js" template="googleoptimizer/js.phtml" name="googleoptimizer_js"></block>
+            <block type="googleoptimizer/js" template="js.phtml" name="googleoptimizer_js"></block>
         </reference>
     </adminhtml_catalog_category_edit>
 
@@ -78,7 +78,7 @@ Layout handle for cms page
                     <name>googleoptimizer_js</name>
                     <type>googleoptimizer/js</type>
                     <attributes>
-                        <template>googleoptimizer/js.phtml</template>
+                        <template>js.phtml</template>
                     </attributes>
                 </action>
             </block>

@@ -35,7 +35,7 @@
         <remove name="right"/>
         <remove name="left"/>
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
             <block type="enterprise_giftcardaccount/check" template="giftcardaccount/cart/check.phtml" name="check">

@@ -57,7 +57,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     {
         $this->_block->addItem('js', 'zero.js', null, null, 'nonexisting_condition')
             ->addItem('js', 'one.js')
-            ->addItem('skin_js', 'js/bundle.js')
+            ->addItem('skin_js', 'Mage_Bundle::bundle.js')
             ->addItem('js_css', 'three.css')
             ->addItem('skin_css', 'css/styles.css')
             ->addItem('rss', 'http://example.com/feed.xml')
@@ -68,7 +68,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             '<script type="text/javascript" src="http://localhost/js/one.js"></script>' . "\n"
             . '<script type="text/javascript" '
-            . 'src="http://localhost/media/skin/frontend/' . $package . '/default/default/en_US/js/bundle.js">'
+            . 'src="http://localhost/media/skin/frontend/' . $package . '/default/default/en_US/Mage_Bundle/bundle.js">'
             . '</script>' . "\n"
             . '<link media="all" rel="stylesheet" type="text/css" href="http://localhost/js/three.css" />' . "\n"
             . '<link media="all" rel="stylesheet" type="text/css" '

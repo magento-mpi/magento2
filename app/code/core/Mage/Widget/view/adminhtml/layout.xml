@@ -63,7 +63,7 @@
             </block>
         </reference>
         <reference name="js">
-            <block type="adminhtml/template" template="widget/instance/js.phtml" name="widget_instance_js"></block>
+            <block type="adminhtml/template" template="Mage_Widget::instance/js.phtml" name="widget_instance_js"></block>
         </reference>
     </adminhtml_widget_instance_edit>
 </layout>

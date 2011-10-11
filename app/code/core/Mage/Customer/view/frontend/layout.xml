@@ -88,10 +88,10 @@ Layout for customer login page
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="customer/form_login" name="customer_form_login" template="customer/form/login.phtml"/>
+            <block type="customer/form_login" name="customer_form_login" template="form/login.phtml"/>
         </reference>
     </customer_account_login>
 
@@ -106,10 +106,10 @@ Layout for customer log out page
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="customer_logout" template="customer/logout.phtml"/>
+            <block type="core/template" name="customer_logout" template="Mage_Customer::logout.phtml"/>
         </reference>
     </customer_account_logoutsuccess>
 
@@ -124,10 +124,10 @@ New customer registration
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="customer/form_register" name="customer_form_register" template="customer/form/register.phtml">
+            <block type="customer/form_register" name="customer_form_register" template="form/register.phtml">
                 <block type="page/html_wrapper" name="customer.form.register.fields.before" as="form_fields_before" translate="label">
                     <label>Form Fields Before</label>
                 </block>
@@ -144,12 +144,11 @@ New customer registration
             <action method="setTitle" translate="title" module="customer"><title>Forgot Your Password</title></action>
         </reference>
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
             <action method="setHeaderTitle" translate="title" module="customer"><title>Password forgotten</title></action>
         </reference>
         <reference name="content">
-            <!--<block type="core/template" name="forgotPassword" template="customer/form/forgotpassword.phtml"/>-->
-            <block type="customer/account_forgotpassword" name="forgotPassword" template="customer/form/forgotpassword.phtml"/>
+            <block type="customer/account_forgotpassword" name="forgotPassword" template="form/forgotpassword.phtml"/>
         </reference>
     </customer_account_forgotpassword>
 
@@ -165,14 +164,14 @@ New customer registration
         </reference>
         <reference name="root">
             <action method="setTemplate">
-                <template>page/1column.phtml</template>
+                <template>1column.phtml</template>
             </action>
             <action method="setHeaderTitle" translate="title" module="customer">
                 <title>Reset a Password</title>
             </action>
         </reference>
         <reference name="content">
-            <block type="customer/account_resetpassword" name="resetPassword" template="customer/form/resetforgottenpassword.phtml"/>
+            <block type="customer/account_resetpassword" name="resetPassword" template="form/resetforgottenpassword.phtml"/>
         </reference>
     </customer_account_resetpassword>
 
@@ -181,11 +180,11 @@ New customer registration
         <remove name="left"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate"><template>1column.phtml</template></action>
             <action method="setHeaderTitle" translate="title" module="customer"><title>Send confirmation link</title></action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="accountConfirmation" template="customer/form/confirmation.phtml"/>
+            <block type="core/template" name="accountConfirmation" template="Mage_Customer::form/confirmation.phtml"/>
         </reference>
     </customer_account_confirmation>
 
@@ -196,7 +195,7 @@ New customer registration
             <action method="setHeaderTitle" translate="title" module="customer"><title>Edit Account Info</title></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="customer/form_edit" name="customer_edit" template="customer/form/edit.phtml"/>
+            <block type="customer/form_edit" name="customer_edit" template="form/edit.phtml"/>
         </reference>
 
         <reference name="left">
@@ -214,7 +213,7 @@ Customer account pages, rendered for all tabs in dashboard
         <remove name="sale.reorder.sidebar"/-->
         <!-- Mage_Customer -->
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setTemplate"><template>2columns-left.phtml</template></action>
         </reference>
 
         <reference name="content">
@@ -225,17 +224,17 @@ Customer account pages, rendered for all tabs in dashboard
         </reference>
 
         <reference name="left">
-            <block type="customer/account_navigation" name="customer_account_navigation" before="-" template="customer/account/navigation.phtml">
+            <block type="customer/account_navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
                 <action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
                 <action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label></action>
                 <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
             </block>
-            <block type="checkout/cart_sidebar" name="cart_sidebar" template="checkout/cart/sidebar.phtml">
-                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
-                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
+            <block type="checkout/cart_sidebar" name="cart_sidebar" template="cart/sidebar.phtml">
+                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>cart/sidebar/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>cart/sidebar/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>cart/sidebar/default.phtml</template></action>
             </block>
-            <block type="catalog/product_compare_sidebar" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
+            <block type="catalog/product_compare_sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
             <remove name="tags_popular"/>
 
         </reference>
@@ -250,15 +249,15 @@ Customer account home dashboard layout
         <update handle="customer_account"/>
         <!-- Mage_Customer -->
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <action method="setTemplate"><template>2columns-left.phtml</template></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="customer/account_dashboard" name="customer_account_dashboard" template="customer/account/dashboard.phtml">
-                <block type="customer/account_dashboard_hello" name="customer_account_dashboard_hello" as="hello" template="customer/account/dashboard/hello.phtml"/>
+            <block type="customer/account_dashboard" name="customer_account_dashboard" template="account/dashboard.phtml">
+                <block type="customer/account_dashboard_hello" name="customer_account_dashboard_hello" as="hello" template="account/dashboard/hello.phtml"/>
                 <block type="core/template" name="customer_account_dashboard_top" as="top" />
-                <block type="customer/account_dashboard_info" name="customer_account_dashboard_info" as="info" template="customer/account/dashboard/info.phtml"/>
-                <block type="customer/account_dashboard_newsletter" name="customer_account_dashboard_newsletter" as="newsletter" template="customer/account/dashboard/newsletter.phtml"/>
-                <block type="customer/account_dashboard_address" name="customer_account_dashboard_address" as="address" template="customer/account/dashboard/address.phtml"/>
+                <block type="customer/account_dashboard_info" name="customer_account_dashboard_info" as="info" template="account/dashboard/info.phtml"/>
+                <block type="customer/account_dashboard_newsletter" name="customer_account_dashboard_newsletter" as="newsletter" template="account/dashboard/newsletter.phtml"/>
+                <block type="customer/account_dashboard_address" name="customer_account_dashboard_address" as="address" template="account/dashboard/address.phtml"/>
             </block>
         </reference>
 
@@ -273,7 +272,7 @@ Customer account address book
         <!-- Mage_Customer -->
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="customer/address_book" name="address_book" template="customer/address/book.phtml"/>
+            <block type="customer/address_book" name="address_book" template="address/book.phtml"/>
         </reference>
     </customer_address_index>
 
@@ -286,7 +285,7 @@ Customer account address edit page
         <!-- Mage_Customer -->
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="customer/address_edit" name="customer_address_edit" template="customer/address/edit.phtml"/>
+            <block type="customer/address_edit" name="customer_address_edit" template="address/edit.phtml"/>
         </reference>
     </customer_address_form>
 

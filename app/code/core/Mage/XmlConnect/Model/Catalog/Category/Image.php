@@ -183,7 +183,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
     {
         if ($this->_newFile === true) {
             $url = Mage::getDesign()->getSkinUrl(
-                'images/xmlconnect/catalog/category/placeholder/' . $this->getDestinationSubdir(). '.jpg'
+                'Mage_XmlConnect::images/catalog/category/placeholder/' . $this->getDestinationSubdir(). '.jpg'
             );
         } else {
             $url = parent::getUrl();

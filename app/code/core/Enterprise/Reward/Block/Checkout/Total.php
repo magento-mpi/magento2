@@ -25,7 +25,7 @@
  */
 class Enterprise_Reward_Block_Checkout_Total extends Mage_Checkout_Block_Total_Default
 {
-    protected $_template = 'reward/checkout/total.phtml';
+    protected $_template = 'checkout/total.phtml';
 
     /**
      * Return url to remove reward points from totals calculation
