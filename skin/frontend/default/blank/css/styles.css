@@ -515,6 +515,9 @@ tr.summary-details-excluded { font-style:italic; }
 .mini-products-list .product-image { float:left; width:50px; padding:5px; border:1px solid #ddd; }
 .mini-products-list .product-details { margin-left:75px; }
 .mini-products-list .product-details h4 { font-size:1em; font-weight:bold; margin:0; }
+.block-cart .mini-products-list .product-details .product-name,
+.block-cart .mini-products-list .product-details .nobr small { word-wrap:break-word; }
+.block-cart .mini-products-list .product-details .nobr { white-space:normal !important; }
 
 /* Block: Account */
 .block-account {}

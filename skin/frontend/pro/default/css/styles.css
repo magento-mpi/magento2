@@ -623,6 +623,9 @@ tr.summary-details-excluded { font-style:italic; }
 .mini-products-list .product-image { float:left; width:50px; padding:13px; margin:-3px 0 0 -5px; background:url(../images/bkg_placeholder.gif) 0 0 no-repeat; position:relative; z-index:1; }
 .mini-products-list .product-details { margin-left:80px; }
 .mini-products-list .price-box { margin:5px 0 2px; }
+.block-cart .mini-products-list .product-details .product-name,
+.block-cart .mini-products-list .product-details .nobr small { word-wrap:break-word; }
+.block-cart .mini-products-list .product-details .nobr { white-space:normal !important; }
 
 /* Block: Account */
 .block-account .block-content li a { display:block; border-bottom:1px solid #ddd; padding:3px 0; color:#5f5d5c; text-decoration:none !important; }
