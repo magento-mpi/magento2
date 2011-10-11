@@ -175,7 +175,7 @@ class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Res
                 (int) $archiveAge,
                 Varien_Db_Adapter_Interface::INTERVAL_DAY
             );
-            $select->where($archivePeriodExpr . ' <= updated_at');
+            $select->where($archivePeriodExpr . ' >= updated_at');
         }
 
         return $select;
