@@ -382,8 +382,8 @@
 
 <?php else: /* if (!$_product->isGrouped()): */ ?>
     <?php
-    $_exclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax = null);
-    $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax = true);
+    $_exclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue);
+    $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, true);
     ?>
     <?php if ($this->getDisplayMinimalPrice() && $_minimalPriceValue): ?>
         <div class="price-box">
