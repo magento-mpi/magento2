@@ -32,23 +32,12 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
                 $templateFilename = Mage::getDesign()->getTemplateFilename($file, $params);
                 $this->assertFileExists($templateFilename);
             } catch (PHPUnit_Framework_ExpectationFailedException $e) {
-                if ('frontend' == $area && (0 === strpos($file, 'banner') || 0 === strpos($file, 'catalogevent')
-                    || 0 === strpos($file, 'customerbalance') || 0 === strpos($file, 'giftcard')
-                    || 0 === strpos($file, 'giftcardaccount') || 0 === strpos($file, 'giftregistry')
-                    || 0 === strpos($file, 'giftwrapping') || 0 === strpos($file, 'invitation')
-                    || 0 === strpos($file, 'pagecache') || 0 === strpos($file, 'pbridge')
-                    || 0 === strpos($file, 'reward') || 0 === strpos($file, 'salespool')
-                    || 0 === strpos($file, 'targetrule') || 0 === strpos($file, 'rma')
-                )) {
-                    continue; // temporary crutch-fix, while templates weren't relocated under modules
-                }
                 $invalidTemplates[] = "{$templateFilename}\n"
                     . "Parameters: {$area}/{$package}/{$theme} {$module}::{$file}\nLayout update: {$xml}";
             }
         }
 
         $this->assertEmpty($invalidTemplates, "Invalid templates found:\n\n" . implode("\n-----\n", $invalidTemplates));
-        $this->markTestIncomplete('Remove crutch-fix in MAGETWO-513');
     }
 
     public function templatesDataProvider()

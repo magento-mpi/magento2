@@ -28,9 +28,6 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
         } else {
             $package = 'default';
         }
-        if ($area == 'frontend' && in_array($module, array('Enterprise_Pbridge', 'Mage_XmlConnect'))) {
-            $this->markTestIncomplete('MAGETWO-513');
-        }
 
         $params = array(
             '_area'     => $area,

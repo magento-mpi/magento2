@@ -40,7 +40,7 @@
             <action method="setActive"><path>enterprise_invitation/index/index</path></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="core/template" name="invitationForm" template="invitation/form.phtml">
+            <block type="core/template" name="invitationForm" template="Enterprise_Invitation::form.phtml">
                 <block type="page/html_wrapper" name="invitations.form.form.before" as="form_before" translate="label">
                     <label>Invitation Form Before</label>
                     <!--action method="setMayBeInvisible"><value>1</value></action-->
@@ -54,7 +54,7 @@
         <label>Customer My Account Invitations List</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="enterprise_invitation/customer_list" name="invitations_list" template="invitation/list.phtml">
+            <block type="enterprise_invitation/customer_list" name="invitations_list" template="list.phtml">
                 <block type="page/html_wrapper" name="invitations.list.list.before" as="list_before" translate="label">
                     <label>Invitation List Before</label>
                     <!--action method="setMayBeInvisible"><value>1</value></action-->

@@ -29,13 +29,13 @@
     <PRODUCT_TYPE_giftcard translate="label" module="enterprise_giftcard">
         <label>Catalog Product View (Gift Card)</label>
         <reference name="product.info">
-            <block type="enterprise_giftcard/catalog_product_view_type_giftcard" name="product.info.giftcard" as="product_type_data" template="giftcard/catalog/product/view/type/giftcard.phtml">
-                <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>giftcard/catalog/product/price.phtml</template></action>
+            <block type="enterprise_giftcard/catalog_product_view_type_giftcard" name="product.info.giftcard" as="product_type_data" template="catalog/product/view/type/giftcard.phtml">
+                <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>catalog/product/price.phtml</template></action>
                 <block type="cataloginventory/stockqty_default" name="product.info.giftcard.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
             </block>
         </reference>
         <reference name="product.clone_prices">
-            <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>giftcard/catalog/product/price.phtml</template></action>
+            <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>catalog/product/price.phtml</template></action>
         </reference>
     </PRODUCT_TYPE_giftcard>
 
@@ -44,7 +44,7 @@
             <action method="addPriceBlockType">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
+                <template>catalog/product/price.phtml</template>
             </action>
         </reference>
     </catalog_category_default>
@@ -54,7 +54,7 @@
             <action method="addPriceBlockType">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
+                <template>catalog/product/price.phtml</template>
             </action>
         </reference>
     </catalog_category_view>
@@ -64,7 +64,7 @@
             <action method="addPriceBlockType">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
+                <template>catalog/product/price.phtml</template>
             </action>
         </reference>
     </catalog_category_layered>
@@ -74,7 +74,7 @@
             <action method="addPriceBlockType">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
+                <template>catalog/product/price.phtml</template>
             </action>
         </reference>
     </catalog_product_compare_index>
@@ -84,7 +84,7 @@
             <action method="addPriceBlockType">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
+                <template>catalog/product/price.phtml</template>
             </action>
         </reference>
     </catalogsearch_result_index>
@@ -94,7 +94,7 @@
             <action method="addPriceBlockType">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
+                <template>catalog/product/price.phtml</template>
             </action>
         </reference>
     </catalogsearch_advanced_result>
@@ -104,7 +104,7 @@
             <action method="addPriceBlockType">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
+                <template>catalog/product/price.phtml</template>
             </action>
         </reference>
     </tag_product_list>
@@ -114,14 +114,14 @@
             <action method="addPriceBlockType">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
+                <template>catalog/product/price.phtml</template>
             </action>
         </reference>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
+                <template>catalog/product/price.phtml</template>
             </action>
         </reference>
     </default>
@@ -137,7 +137,7 @@
             <action method="addPriceBlockType">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
+                <template>catalog/product/price.phtml</template>
             </action>
         </reference>
     </catalog_product_view>
@@ -147,7 +147,7 @@
             <action method="addPriceBlockType">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/catalog_product_price</block>
-                <template>giftcard/catalog/product/price.phtml</template>
+                <template>catalog/product/price.phtml</template>
             </action>
         </reference>
         <reference name="checkout.cart">

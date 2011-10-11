@@ -29,15 +29,15 @@
 <layout version="0.1.0">
     <checkout_cart_index>
         <reference name="checkout.cart.methods">
-            <block type="enterprise_giftregistry/cart_link" name="giftregistry.cart.link" template="giftregistry/cart/link.phtml"/>
+            <block type="enterprise_giftregistry/cart_link" name="giftregistry.cart.link" template="cart/link.phtml"/>
         </reference>
         <reference name="additional.product.info">
-            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
+            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
         </reference>
     </checkout_cart_index>
 
     <wishlist_index_index>
-        <block type="enterprise_giftregistry/wishlist_view" name="giftregistry.customer.wishlist" template="giftregistry/wishlist/view.phtml">
+        <block type="enterprise_giftregistry/wishlist_view" name="giftregistry.customer.wishlist" template="wishlist/view.phtml">
             <block type="wishlist/customer_wishlist_item_options" name="customer.wishlist.item.options" as="item_options"/>
         </block>
     </wishlist_index_index>
@@ -45,7 +45,7 @@
     <enterprise_giftregistry_index_index>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="enterprise_giftregistry/customer_list" name="giftregistry.customer.list" template="giftregistry/customer/list.phtml"></block>
+            <block type="enterprise_giftregistry/customer_list" name="giftregistry.customer.list" template="customer/list.phtml"></block>
         </reference>
     </enterprise_giftregistry_index_index>
 
@@ -55,7 +55,7 @@
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="enterprise_giftregistry/customer_share" name="giftregistry.customer.share" template="giftregistry/customer/share.phtml"></block>
+            <block type="enterprise_giftregistry/customer_share" name="giftregistry.customer.share" template="customer/share.phtml"></block>
         </reference>
     </enterprise_giftregistry_index_share>
 
@@ -65,13 +65,13 @@
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="enterprise_giftregistry/items" name="giftregistry.customer.items" template="giftregistry/customer/items.phtml">
-                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
-                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
-                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>giftregistry/customer/items/default.phtml</template></action>
-                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>giftregistry/customer/items/default.phtml</template></action>
-                <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
-                <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template>
+            <block type="enterprise_giftregistry/items" name="giftregistry.customer.items" template="customer/items.phtml">
+                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>Enterprise_GiftRegistry::customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>Enterprise_GiftRegistry::customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>Enterprise_GiftRegistry::customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>Enterprise_GiftRegistry::customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>Enterprise_GiftRegistry::customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>giftcard</type><block>enterprise_giftcard/checkout_cart_item_renderer</block><template>Enterprise_GiftRegistry::customer/items/default.phtml</template>
             </action>
             </block>
         </reference>
@@ -91,7 +91,7 @@
             <remove name="giftregistry.quick.search" />
         </reference>
         <reference name="content">
-            <block type="enterprise_giftregistry/search_form" name="giftregistry.search.form" template="giftregistry/search/form.phtml"></block>
+            <block type="enterprise_giftregistry/search_form" name="giftregistry.search.form" template="search/form.phtml"></block>
         </reference>
     </enterprise_giftregistry_search_index>
 
@@ -101,8 +101,8 @@
             <remove name="giftregistry.quick.search" />
         </reference>
         <reference name="content">
-            <block type="enterprise_giftregistry/search_form" name="giftregistry.search.form" template="giftregistry/search/form.phtml"></block>
-            <block type="enterprise_giftregistry/search_results" name="giftregistry.search.results" template="giftregistry/search/results.phtml"></block>
+            <block type="enterprise_giftregistry/search_form" name="giftregistry.search.form" template="search/form.phtml"></block>
+            <block type="enterprise_giftregistry/search_results" name="giftregistry.search.results" template="search/results.phtml"></block>
         </reference>
     </enterprise_giftregistry_search_results>
 

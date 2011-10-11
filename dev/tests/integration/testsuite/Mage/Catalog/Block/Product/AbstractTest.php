@@ -112,7 +112,7 @@ class Mage_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetTierPriceTemplate()
     {
-        $this->assertEquals('catalog/product/view/tierprices.phtml', $this->_block->getTierPriceTemplate());
+        $this->assertEquals('product/view/tierprices.phtml', $this->_block->getTierPriceTemplate());
         $this->_block->setData('tier_price_template', 'test.phtml');
         $this->assertEquals('test.phtml', $this->_block->getTierPriceTemplate());
     }
