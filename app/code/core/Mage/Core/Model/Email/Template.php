@@ -79,7 +79,14 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
 
     protected $_templateFilter;
     protected $_preprocessFlag = false;
-    protected $_mail;
+    protected $_bcc = array();
+    protected $_returnPath = '';
+    protected $_replyTo = '';
+
+    /**
+     * @var Exception|null
+     */
+    protected $_sendingException = null;
 
     static protected $_defaultTemplates;
 
@@ -93,16 +100,13 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     }
 
     /**
-     * Retrieve mail object instance
+     * Get new Zend_Mail instance
      *
      * @return Zend_Mail
      */
-    public function getMail()
+    protected function _getMail()
     {
-        if (is_null($this->_mail)) {
-            $this->_mail = new Zend_Mail('utf-8');
-        }
-        return $this->_mail;
+        return new Zend_Mail('utf-8');
     }
 
     /**
@@ -369,7 +373,16 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         ini_set('SMTP', Mage::getStoreConfig('system/smtp/host'));
         ini_set('smtp_port', Mage::getStoreConfig('system/smtp/port'));
 
-        $mail = $this->getMail();
+        $mail = $this->_getMail();
+        foreach ($this->_bcc as $bcc) {
+            $mail->addBcc($bcc);
+        }
+        if ($this->_returnPath) {
+            $mail->setReturnPath($this->_returnPath);
+        }
+        if ($this->_replyTo) {
+            $mail->setReplyTo($this->_replyTo);
+        }
 
         $setReturnPath = Mage::getStoreConfig(self::XML_PATH_SENDING_SET_RETURN_PATH);
         switch ($setReturnPath) {
@@ -396,7 +409,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         $this->setUseAbsoluteLinks(true);
         $text = $this->getProcessedTemplate($variables, true);
 
-        if($this->isPlain()) {
+        if ($this->isPlain()) {
             $mail->setBodyText($text);
         } else {
             $mail->setBodyHTML($text);
@@ -405,17 +418,30 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         $mail->setSubject('=?utf-8?B?' . base64_encode($this->getProcessedTemplateSubject($variables)) . '?=');
         $mail->setFrom($this->getSenderEmail(), $this->getSenderName());
 
+        $result = false;
+        $this->_sendingException = null;
         try {
             $mail->send();
-            $this->_mail = null;
-        }
-        catch (Exception $e) {
-            $this->_mail = null;
+            $result = true;
+        } catch (Exception $e) {
             Mage::logException($e);
-            return false;
+            $this->_sendingException = $e;
         }
+        $this->_bcc = array();
+        $this->_returnPath = '';
+        $this->_replyTo = '';
 
-        return true;
+        return $result;
+    }
+
+    /**
+     * Get exception, generated during send() method
+     *
+     * @return Exception|null
+     */
+    public function getSendingException()
+    {
+        return $this->_sendingException;
     }
 
     /**
@@ -491,16 +517,15 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         return $processedResult;
     }
 
+    /**
+     * Add email BCC
+     *
+     * @param string|array $bcc
+     * @return Mage_Core_Model_Email_Template
+     */
     public function addBcc($bcc)
     {
-        if (is_array($bcc)) {
-            foreach ($bcc as $email) {
-                $this->getMail()->addBcc($email);
-            }
-        }
-        elseif ($bcc) {
-            $this->getMail()->addBcc($bcc);
-        }
+        $this->_bcc[] = $bcc;
         return $this;
     }
 
@@ -510,9 +535,9 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      * @param string $email
      * @return Mage_Core_Model_Email_Template
      */
-    public  function setReturnPath($email)
+    public function setReturnPath($email)
     {
-        $this->getMail()->setReturnPath($email);
+        $this->_returnPath = $email;
         return $this;
     }
 
@@ -524,7 +549,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      */
     public function setReplyTo($email)
     {
-        $this->getMail()->setReplyTo($email);
+        $this->_replyTo = $email;
         return $this;
     }
 

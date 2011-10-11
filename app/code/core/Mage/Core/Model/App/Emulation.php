@@ -129,8 +129,21 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
             'store'   => $storeId,
             'area'    => $area
         ));
+
+        if ($area == Mage_Core_Model_App_Area::AREA_FRONTEND) {
+            $designChange = Mage::getSingleton('core/design')
+                ->loadChange($storeId);
+            if ($designChange->getData()) {
+                Mage::getDesign()
+                    ->setPackageName($designChange->getPackage())
+                    ->setTheme($designChange->getTheme());
+                return $initialDesign;
+            }
+        }
+
         Mage::getDesign()->setTheme('');
         Mage::getDesign()->setPackageName('');
+
         return $initialDesign;
     }
 

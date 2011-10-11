@@ -57,23 +57,30 @@ class Mage_Core_Model_Config_Options extends Varien_Object
 
         $this->_data['app_dir']     = $appRoot;
         $this->_data['base_dir']    = $root;
-        $this->_data['code_dir']    = $appRoot.DS.'code';
-        $this->_data['design_dir']  = $appRoot.DS.'design';
-        $this->_data['etc_dir']     = $appRoot.DS.'etc';
-        $this->_data['lib_dir']     = $root.DS.'lib';
-        $this->_data['locale_dir']  = $appRoot.DS.'locale';
-        $this->_data['js_dir']      = $root.DS.'js';
-        $this->_data['media_dir']   = $root.DS.'media';
-        $this->_data['skin_dir']    = $root.DS.'skin';
+        $this->_data['code_dir']    = $appRoot . DIRECTORY_SEPARATOR . 'code';
+        $this->_data['design_dir']  = $appRoot . DIRECTORY_SEPARATOR . 'design';
+        $this->_data['etc_dir']     = $appRoot . DIRECTORY_SEPARATOR . 'etc';
+        $this->_data['lib_dir']     = $root . DIRECTORY_SEPARATOR . 'lib';
+        $this->_data['locale_dir']  = $appRoot . DIRECTORY_SEPARATOR . 'locale';
+        $this->_data['js_dir']      = $root . DIRECTORY_SEPARATOR . 'js';
+        $this->_data['media_dir']   = $root . DIRECTORY_SEPARATOR . 'media';
+        $this->_data['skin_dir']    = $root . DIRECTORY_SEPARATOR . 'skin';
         $this->_data['var_dir']     = $this->getVarDir();
-        $this->_data['tmp_dir']     = $this->_data['var_dir'].DS.'tmp';
-        $this->_data['cache_dir']   = $this->_data['var_dir'].DS.'cache';
-        $this->_data['log_dir']     = $this->_data['var_dir'].DS.'log';
-        $this->_data['session_dir'] = $this->_data['var_dir'].DS.'session';
-        $this->_data['upload_dir']  = $this->_data['media_dir'].DS.'upload';
-        $this->_data['export_dir']  = $this->_data['var_dir'].DS.'export';
+        $this->_data['tmp_dir']     = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'tmp';
+        $this->_data['cache_dir']   = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'cache';
+        $this->_data['log_dir']     = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'log';
+        $this->_data['session_dir'] = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'session';
+        $this->_data['upload_dir']  = $this->_data['media_dir'] . DIRECTORY_SEPARATOR . 'upload';
+        $this->_data['export_dir']  = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'export';
     }
 
+    /**
+     * Directory getter that returm path to directory based on path
+     *
+     * @throws Mage_Core_Exception
+     * @param string $type
+     * @return string
+     */
     public function getDir($type)
     {
         $method = 'get'.ucwords($type).'Dir';
@@ -84,77 +91,127 @@ class Mage_Core_Model_Config_Options extends Varien_Object
         return $dir;
     }
 
+    /**
+     * Application folder paths getter
+     *
+     * @return string
+     */
     public function getAppDir()
     {
-        //return $this->getDataSetDefault('app_dir', Mage::getRoot());
         return $this->_data['app_dir'];
     }
 
+    /**
+     * Base folder paths getter
+     *
+     * @return string
+     */
     public function getBaseDir()
     {
-        //return $this->getDataSetDefault('base_dir', dirname($this->getAppDir()));
         return $this->_data['base_dir'];
     }
 
+    /**
+     * Code folder paths getter
+     *
+     * @return string
+     */
     public function getCodeDir()
     {
-        //return $this->getDataSetDefault('code_dir', $this->getAppDir().DS.'code');
         return $this->_data['code_dir'];
     }
 
+    /**
+     * Design folder paths getter
+     *
+     * @return string
+     */
     public function getDesignDir()
     {
-        //return $this->getDataSetDefault('design_dir', $this->getAppDir().DS.'design');
         return $this->_data['design_dir'];
     }
 
+    /**
+     * Configuration (etc) folder paths getter
+     *
+     * @return string
+     */
     public function getEtcDir()
     {
-        //return $this->getDataSetDefault('etc_dir', $this->getAppDir().DS.'etc');
         return $this->_data['etc_dir'];
     }
 
+    /**
+     * Libraries folder paths getter
+     *
+     * @return string
+     */
     public function getLibDir()
     {
-        //return $this->getDataSetDefault('lib_dir', $this->getBaseDir().DS.'lib');
         return $this->_data['lib_dir'];
     }
 
+    /**
+     * Locale folder paths getter
+     *
+     * @return string
+     */
     public function getLocaleDir()
     {
-        //return $this->getDataSetDefault('locale_dir', $this->getAppDir().DS.'locale');
         return $this->_data['locale_dir'];
     }
 
+    /**
+     * JS libraries folder paths getter
+     *
+     * @return string
+     */
     public function getJsDir()
     {
         return $this->_data['js_dir'];
     }
 
+    /**
+     * Media folder paths getter
+     *
+     * @return string
+     */
     public function getMediaDir()
     {
-        //return $this->getDataSetDefault('media_dir', $this->getBaseDir().DS.'media');
         return $this->_data['media_dir'];
     }
 
+    /**
+     * Skins folder paths getter
+     *
+     * @return string
+     */
     public function getSkinDir()
     {
-        //return $this->getDataSetDefault('skin_dir', $this->getBaseDir().DS.'skin');
         return $this->_data['skin_dir'];
     }
 
+    /**
+     * System temporary folder paths getter
+     *
+     * @return string
+     */
     public function getSysTmpDir()
     {
         return sys_get_temp_dir();
     }
 
+    /**
+     * Var folder paths getter
+     *
+     * @return string
+     */
     public function getVarDir()
     {
-        //$dir = $this->getDataSetDefault('var_dir', $this->getBaseDir().DS.'var');
         $dir = isset($this->_data['var_dir']) ? $this->_data['var_dir']
             : $this->_data['base_dir'] . DS . self::VAR_DIRECTORY;
         if (!$this->createDirIfNotExists($dir)) {
-            $dir = $this->getSysTmpDir().DS.'magento'.DS.'var';
+            $dir = $this->getSysTmpDir() . DIRECTORY_SEPARATOR . 'magento' . DIRECTORY_SEPARATOR . 'var';
             if (!$this->createDirIfNotExists($dir)) {
                 throw new Mage_Core_Exception('Unable to find writable var_dir');
             }
@@ -162,12 +219,16 @@ class Mage_Core_Model_Config_Options extends Varien_Object
         return $dir;
     }
 
+    /**
+     * Temporary folder paths getter
+     *
+     * @return string
+     */
     public function getTmpDir()
     {
-        //$dir = $this->getDataSetDefault('tmp_dir', $this->getVarDir().DS.'tmp');
         $dir = $this->_data['tmp_dir'];
         if (!$this->createDirIfNotExists($dir)) {
-            $dir = $this->getSysTmpDir().DS.'magento'.DS.'tmp';
+            $dir = $this->getSysTmpDir() . DIRECTORY_SEPARATOR . 'magento' . DIRECTORY_SEPARATOR . 'tmp';
             if (!$this->createDirIfNotExists($dir)) {
                 throw new Mage_Core_Exception('Unable to find writable tmp_dir');
             }
@@ -175,46 +236,72 @@ class Mage_Core_Model_Config_Options extends Varien_Object
         return $dir;
     }
 
+    /**
+     * Cache folder paths getter
+     *
+     * @return string
+     */
     public function getCacheDir()
     {
-        //$dir = $this->getDataSetDefault('cache_dir', $this->getVarDir().DS.'cache');
         $dir = $this->_data['cache_dir'];
         $this->createDirIfNotExists($dir);
         return $dir;
     }
 
+    /**
+     * Log folder paths getter
+     *
+     * @return string
+     */
     public function getLogDir()
     {
-        //$dir = $this->getDataSetDefault('log_dir', $this->getVarDir().DS.'log');
         $dir = $this->_data['log_dir'];
         $this->createDirIfNotExists($dir);
         return $dir;
     }
 
+    /**
+     * Session folder paths getter
+     *
+     * @return string
+     */
     public function getSessionDir()
     {
-        //$dir = $this->getDataSetDefault('session_dir', $this->getVarDir().DS.'session');
         $dir = $this->_data['session_dir'];
         $this->createDirIfNotExists($dir);
         return $dir;
     }
 
+    /**
+     * Files upload folder paths getter
+     *
+     * @return string
+     */
     public function getUploadDir()
     {
-        //$dir = $this->getDataSetDefault('upload_dir', $this->getMediaDir().DS.'upload');
         $dir = $this->_data['upload_dir'];
         $this->createDirIfNotExists($dir);
         return $dir;
     }
 
+    /**
+     * Export files folder paths getter
+     *
+     * @return string
+     */
     public function getExportDir()
     {
-        //$dir = $this->getDataSetDefault('export_dir', $this->getVarDir().DS.'export');
         $dir = $this->_data['export_dir'];
         $this->createDirIfNotExists($dir);
         return $dir;
     }
 
+    /**
+     * Create writable directory if it not exists
+     *
+     * @param string
+     * @return bool
+     */
     public function createDirIfNotExists($dir)
     {
         if (!empty($this->_dirExists[$dir])) {

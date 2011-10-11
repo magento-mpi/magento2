@@ -29,8 +29,8 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->_mail = $this->getMock(
             'Zend_Mail', array('send', 'addTo', 'addBcc', 'setReturnPath', 'setReplyTo'), array('utf-8')
         );
-        $this->_model = $this->getMock('Mage_Core_Model_Email_Template', array('getMail'));
-        $this->_model->expects($this->any())->method('getMail')->will($this->returnCallback(array($this, 'getMail')));
+        $this->_model = $this->getMock('Mage_Core_Model_Email_Template', array('_getMail'));
+        $this->_model->expects($this->any())->method('_getMail')->will($this->returnCallback(array($this, 'getMail')));
         $this->_model->setSenderName('sender')->setSenderEmail('sender@example.com')->setTemplateSubject('Subject');
     }
 
@@ -79,16 +79,53 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoConfigFixture fixturestore_store design/package/name  default
+     * @magentoConfigFixture fixturestore_store design/theme/default default
+     * @magentoConfigFixture fixturestore_store design/theme/skin    blue
+     */
     public function testGetProcessedTemplate()
     {
+        $expectedSkinUrl = 'skin/frontend/default/default/blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateText('{{skin url="Mage_Page::favicon.ico"}}');
-        $this->assertStringEndsWith('favicon.ico', $this->_model->getProcessedTemplate());
+        $this->assertStringEndsNotWith($expectedSkinUrl, $this->_model->getProcessedTemplate());
+        $this->_model->setDesignConfig(array(
+            'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
+        ));
+        $this->assertStringEndsWith($expectedSkinUrl, $this->_model->getProcessedTemplate());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Core/_files/design_change.php
+     */
+    public function testGetProcessedTemplateDesignChange()
+    {
+        $this->_model->setTemplateText('{{skin url="Mage_Page::favicon.ico"}}');
+        $this->assertStringEndsWith(
+            'skin/frontend/default/modern/modern/en_US/Mage_Page/favicon.ico',
+            $this->_model->getProcessedTemplate()
+        );
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoConfigFixture fixturestore_store design/package/name  default
+     * @magentoConfigFixture fixturestore_store design/theme/default default
+     * @magentoConfigFixture fixturestore_store design/theme/skin    blue
+     */
     public function testGetProcessedTemplateSubject()
     {
+        $expectedSkinUrl = 'skin/frontend/default/default/blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateSubject('{{skin url="Mage_Page::favicon.ico"}}');
-        $this->assertStringEndsWith('favicon.ico', $this->_model->getProcessedTemplateSubject(array()));
+        $this->assertStringEndsNotWith($expectedSkinUrl, $this->_model->getProcessedTemplateSubject(array()));
+        $this->_model->setDesignConfig(array(
+            'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
+        ));
+        $this->assertStringEndsWith($expectedSkinUrl, $this->_model->getProcessedTemplateSubject(array()));
     }
 
     /**
@@ -128,7 +165,9 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $exception = new Exception('test');
         $this->_mail->expects($this->once())->method('send')->will($this->throwException($exception));
 
+        $this->assertNull($this->_model->getSendingException());
         $this->assertFalse($this->_model->send('test@example.com'));
+        $this->assertSame($exception, $this->_model->getSendingException());
     }
 
     public function testSendTransactional()
