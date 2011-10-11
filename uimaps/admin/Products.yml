@@ -540,8 +540,8 @@ new_product:
                                         downloadable_link_row_sample_url: //input[@name='downloadable[link][%rowId%][sample][url]']
                                         downloadable_link_row_file_url: //input[@name='downloadable[link][%rowId%][link_url]']
                                         downloadable_link_row_sort_order: //input[@name='downloadable[link][%rowId%][sort_order]']
-                                        downloadable_link_row_price: //input[@id='downloadable_link_%rowId%_price_value']
-                                        downloadable_link_max_downloads: //input[@id='downloadable_link_%rowId%_downloads']
+                                        downloadable_link_row_price: //input[@name='downloadable[link][%rowId%][price]']
+                                        downloadable_link_max_downloads: //input[@name='downloadable[link][%rowId%][number_of_downloads]']
                                     radiobuttons:
                                         downloadable_link_row_sample_url_radiobutton: //input[@id='downloadable_link_%rowId%_sample_url_type']
                                         downloadable_link_row_url_radiobutton: //input[@id='downloadable_link_%rowId%_url_type']
@@ -560,7 +560,7 @@ edit_product:
         form:
             tabs:
                 -
-                    configurable_product_settings: *configurableProductsettings              
+                    configurable_product_settings: *configurableProductsettings
                 -
                     general: *generalTab
                 -
