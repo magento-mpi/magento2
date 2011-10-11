@@ -115,38 +115,38 @@ system_configuration:
                                     links:
                                         unsecure_link: //a[text()='Unsecure']
                                     fields:
-                                        base_url: //input[@name='groups[unsecure][fields][base_url][value]']
-                                        base_link_url: //input[@name='groups[unsecure][fields][base_link_url][value]']
-                                        base_skin_url: //input[@name='groups[unsecure][fields][base_skin_url][value]']
-                                        base_media_url: //input[@name='groups[unsecure][fields][base_media_url][value]']
-                                        base_javasript_url: //input[@name='groups[unsecure][fields][base_js_url][value]']
+                                        unsecure_base_url: //input[@name='groups[unsecure][fields][base_url][value]']
+                                        unsecure_base_link_url: //input[@name='groups[unsecure][fields][base_link_url][value]']
+                                        unsecure_base_skin_url: //input[@name='groups[unsecure][fields][base_skin_url][value]']
+                                        unsecure_base_media_url: //input[@name='groups[unsecure][fields][base_media_url][value]']
+                                        unsecure_base_javasript_url: //input[@name='groups[unsecure][fields][base_js_url][value]']
                                     checboxes:
-                                        base_url_use_default: //input[@name='groups[unsecure][fields][base_url][inherit]']
-                                        base_link_url_use_default: //input[@name='groups[unsecure][fields][base_link_url][inherit]']
-                                        base_skin_url_use_default: //input[@name='groups[unsecure][fields][base_skin_url][inherit]']
-                                        base_media_url_use_default: //input[@name='groups[unsecure][fields][base_media_url][inherit]']
-                                        base_javasript_url_use_default: //input[@name='groups[unsecure][fields][base_js_url][inherit]']
+                                        unsecure_base_url_use_default: //input[@name='groups[unsecure][fields][base_url][inherit]']
+                                        unsecure_base_link_url_use_default: //input[@name='groups[unsecure][fields][base_link_url][inherit]']
+                                        unsecure_base_skin_url_use_default: //input[@name='groups[unsecure][fields][base_skin_url][inherit]']
+                                        unsecure_base_media_url_use_default: //input[@name='groups[unsecure][fields][base_media_url][inherit]']
+                                        unsecure_base_javasript_url_use_default: //input[@name='groups[unsecure][fields][base_js_url][inherit]']
                             -
                                 secure:
                                     xpath: //div/fieldset[legend='Secure']
                                     links:
                                         secure_link: //a[text()='Secure']
                                     fields:
-                                        base_url: //input[@name='groups[secure][fields][base_url][value]']
-                                        base_link_url: //input[@name='groups[secure][fields][base_link_url][value]']
-                                        base_skin_url: //input[@name='groups[secure][fields][base_skin_url][value]']
-                                        base_media_url: //input[@name='groups[secure][fields][base_media_url][value]']
-                                        base_javascript_url: //input[@name='groups[secure][fields][base_js_url][value]']
+                                        secure_base_url: //input[@name='groups[secure][fields][base_url][value]']
+                                        secure_base_link_url: //input[@name='groups[secure][fields][base_link_url][value]']
+                                        secure_base_skin_url: //input[@name='groups[secure][fields][base_skin_url][value]']
+                                        secure_base_media_url: //input[@name='groups[secure][fields][base_media_url][value]']
+                                        secure_base_javascript_url: //input[@name='groups[secure][fields][base_js_url][value]']
                                         offloader_header: //input[@name='groups[secure][fields][offloader_header][value]']
                                     dropdowns:
                                         use_secure_urls_in_frontend: //select[@name='groups[secure][fields][use_in_frontend][value]']
                                         use_secure_urls_in_admin: //select[@name='groups[secure][fields][use_in_adminhtml][value]']
                                     checkboxes:
-                                        base_url_use_default: //input[@name='groups[secure][fields][base_url][inherit]']
-                                        base_link_url_use_default: //input[@name='groups[secure][fields][base_link_url][inherit]']
-                                        base_skin_url_use_default: //input[@name='groups[secure][fields][base_skin_url][inherit]']
-                                        base_media_url_use_default: //input[@name='groups[secure][fields][base_media_url][inherit]']
-                                        base_javascript_url_use_default: //input[@name='groups[secure][fields][base_js_url][inherit]']
+                                        secure_base_url_use_default: //input[@name='groups[secure][fields][base_url][inherit]']
+                                        secure_base_link_url_use_default: //input[@name='groups[secure][fields][base_link_url][inherit]']
+                                        secure_base_skin_url_use_default: //input[@name='groups[secure][fields][base_skin_url][inherit]']
+                                        secure_base_media_url_use_default: //input[@name='groups[secure][fields][base_media_url][inherit]']
+                                        secure_base_javascript_url_use_default: //input[@name='groups[secure][fields][base_js_url][inherit]']
                                         use_secure_urls_in_frontend_use_default: //input[@name='groups[secure][fields][use_in_frontend][inherit]']
                             -
                                 default_pages:
