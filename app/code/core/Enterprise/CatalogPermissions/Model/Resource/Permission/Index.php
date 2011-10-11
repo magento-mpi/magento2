@@ -329,7 +329,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             // Select for per category product index (without anchor category usage)
             ->columns('category_id', 'category_product_index')
             ->join(
-                array('permission_index'=>$this->getTable('permission_index')),
+                array('permission_index'=>$this->getTable('enterprise_catalogpermissions_index')),
                 'category_product_index.category_id = permission_index.category_id'
                 . ' AND store.website_id = permission_index.website_id',
                 array(
@@ -366,7 +366,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         $selectAnchorCategory = $readAdapter->select();
         $selectAnchorCategory
             ->from(
-                array('permission_index_product'=>$this->getTable('permission_index_product')),
+                array('permission_index_product'=>$this->getTable('enterprise_catalogpermissions_index_product')),
                 array('product_id','store_id'))
             ->join(
                 array('category_product_index' => $this->getTable('catalog_category_product_index')),
@@ -417,10 +417,10 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             'grant_checkout_items'
         );
 
-        $writeAdapter->delete($this->getTable('permission_index_product'), $condition);
-        $writeAdapter->query($selectCategory->insertFromSelect($this->getTable('permission_index_product'), $fields));
+        $writeAdapter->delete($this->getTable('enterprise_catalogpermissions_index_product'), $condition);
+        $writeAdapter->query($selectCategory->insertFromSelect($this->getTable('enterprise_catalogpermissions_index_product'), $fields));
         $writeAdapter->query(
-            $selectAnchorCategory->insertFromSelect($this->getTable('permission_index_product'), $fields)
+            $selectAnchorCategory->insertFromSelect($this->getTable('enterprise_catalogpermissions_index_product'), $fields)
         );
 
         $this->reindexProductsStandalone($productIds);
@@ -451,13 +451,13 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                 array('category_product_index' => $this->getTable('catalog_category_product_index')),
                 array())
             ->join(
-                array('permission_index_product'=>$this->getTable('permission_index_product')),
+                array('permission_index_product'=>$this->getTable('enterprise_catalogpermissions_index_product')),
                 'permission_index_product.product_id = category_product_index.product_id'
                 . ' AND permission_index_product.store_id = category_product_index.store_id'
                 . ' AND permission_index_product.is_config = 0',
                 array('product_id', 'store_id'))
             ->joinLeft(
-                array('permission_idx_product_exists'=>$this->getTable('permission_index_product')),
+                array('permission_idx_product_exists'=>$this->getTable('enterprise_catalogpermissions_index_product')),
                 'permission_idx_product_exists.product_id = permission_index_product.product_id'
                 . ' AND permission_idx_product_exists.store_id = permission_index_product.store_id'
                 . ' AND permission_idx_product_exists.customer_group_id=permission_index_product.customer_group_id'
@@ -504,7 +504,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         // Select for standalone product index
         $selectStandalone = $readAdapter->select();
         $selectStandalone
-            ->from(array('permission_index_product'=>$this->getTable('permission_index_product')),
+            ->from(array('permission_index_product'=>$this->getTable('enterprise_catalogpermissions_index_product')),
                 array(
                     'product_id',
                     'store_id'
@@ -544,9 +544,9 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             'grant_checkout_items', 'is_config'
         );
 
-        $writeAdapter->delete($this->getTable('permission_index_product'), $condition);
-        $writeAdapter->query($selectConfig->insertFromSelect($this->getTable('permission_index_product'), $fields));
-        $writeAdapter->query($selectStandalone->insertFromSelect($this->getTable('permission_index_product'), $fields));
+        $writeAdapter->delete($this->getTable('enterprise_catalogpermissions_index_product'), $condition);
+        $writeAdapter->query($selectConfig->insertFromSelect($this->getTable('enterprise_catalogpermissions_index_product'), $fields));
+        $writeAdapter->query($selectStandalone->insertFromSelect($this->getTable('enterprise_catalogpermissions_index_product'), $fields));
         // Fix inherited permissions
         $deny = (int) Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
 
@@ -561,7 +561,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
                 $deny,
                 'grant_catalog_product_price')
         );
-        $writeAdapter->update($this->getTable('permission_index_product'), $data, $condition);
+        $writeAdapter->update($this->getTable('enterprise_catalogpermissions_index_product'), $data, $condition);
 
         return $this;
     }
@@ -792,7 +792,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
 
         if (!isset($parts['permission_index_product'])) {
             $select->joinLeft(
-                array('permission_index_product'=>$this->getTable('permission_index_product')),
+                array('permission_index_product'=>$this->getTable('enterprise_catalogpermissions_index_product')),
                 'permission_index_product.category_id IS NULL'
                 . ' AND permission_index_product.product_id = ' . $data->getTable() .'.entity_id'
                 . ' AND ' . $adapter->quoteInto('permission_index_product.store_id = ?', $data->getStoreId())
@@ -833,7 +833,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
 
         $collection->getProductCountSelect()
             ->joinLeft(
-                array('permission_index_product_count'=>$this->getTable('permission_index_product')),
+                array('permission_index_product_count'=>$this->getTable('enterprise_catalogpermissions_index_product')),
                 'permission_index_product_count.category_id = count_table.category_id'
                 . ' AND permission_index_product_count.product_id = count_table.product_id'
                 . ' AND permission_index_product_count.store_id = count_table.store_id'
@@ -873,7 +873,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         }
 
         $collection->getSelect()->joinLeft(
-            array('permission_index'=>$this->getTable('permission_index')),
+            array('permission_index'=>$this->getTable('enterprise_catalogpermissions_index')),
             'permission_index.category_id = ' . $tableAlias . '.entity_id'
             . ' AND ' . $adapter->quoteInto('permission_index.website_id = ?', $websiteId)
             . ' AND ' . $adapter->quoteInto('permission_index.customer_group_id = ?', $customerGroupId),
@@ -928,7 +928,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         } else {
             $collection->getSelect()
                 ->joinLeft(
-                    array('permission_index_product' => $this->getTable('permission_index_product')),
+                    array('permission_index_product' => $this->getTable('enterprise_catalogpermissions_index_product')),
                     $condition,
                     array('grant_catalog_category_view',
                         'grant_catalog_product_price',
@@ -1000,7 +1000,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     {
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
-            ->from($this->getTable('permission_index_product'),
+            ->from($this->getTable('enterprise_catalogpermissions_index_product'),
                 array(
                     'grant_catalog_category_view',
                     'grant_catalog_product_price',
@@ -1047,7 +1047,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
         }
 
         $select = $adapter->select()
-            ->from($this->getTable('permission_index_product'),
+            ->from($this->getTable('enterprise_catalogpermissions_index_product'),
                 array(
                     'product_id',
                     'grant_catalog_category_view',
