@@ -42,7 +42,7 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
     {
         $info = $this->_model->getRelationInfo();
         $this->assertInstanceOf('Varien_Object', $info);
-        $this->assertEquals('catalog/product_super_link', $info->getTable());
+        $this->assertEquals('catalog_product_super_link', $info->getTable());
         $this->assertEquals('parent_id', $info->getParentFieldName());
         $this->assertEquals('product_id', $info->getChildFieldName());
     }
