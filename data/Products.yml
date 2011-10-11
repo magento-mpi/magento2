@@ -1072,9 +1072,9 @@ configurable_product:
     prices_special_price_from: 5/5/11
     prices_special_price_to: 9/9/11
     prices_tier_price_data: *tierPriceData
-    prices_apply_map: Yes
-    prices_display_actual_price: In Cart
-    prices_manu_suggested_retail_price: 3.90
+    prices_apply_map: %noValue%
+    prices_display_actual_price: %noValue%
+    prices_manu_suggested_retail_price: %noValue%
     prices_tax_class: None
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Configurable Product
@@ -1121,9 +1121,9 @@ duplicate_configurable:
     prices_special_price_from: 5/5/11
     prices_special_price_to: 9/9/11
     prices_tier_price_data: *tierPriceData
-    prices_apply_map: Yes
-    prices_display_actual_price: In Cart
-    prices_manu_suggested_retail_price: 3.90
+    prices_apply_map: %noValue%
+    prices_display_actual_price: %noValue%
+    prices_manu_suggested_retail_price: %noValue%
     prices_tax_class: None
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Configurable Product

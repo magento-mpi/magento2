@@ -122,7 +122,6 @@ class Order_VoidAuthorizationTest extends Mage_Selenium_TestCase
             array('paypaldirect'),
             array('authorizenet'),
             array('paypaldirectuk'),
-            array('payflowpro')
         );
     }
 

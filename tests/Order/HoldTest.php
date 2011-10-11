@@ -97,7 +97,7 @@ class Order_HoldTest extends Mage_Selenium_TestCase
         if ($payment != 'checkmoney') {
             $payment .= '_without_3Dsecure';
         }
-        if ($payment == 'paypaldirect' || $payment == 'paypaldirectuk' || $payment == 'payflowpro') {
+        if ($payment == 'paypaldirect' || $payment == 'paypaldirectuk') {
             $this->systemConfigurationHelper()->configure('paypal_enable');
         }
         $this->systemConfigurationHelper()->configure($payment);
@@ -122,7 +122,6 @@ class Order_HoldTest extends Mage_Selenium_TestCase
             array('savedcc'),
             array('paypaldirectuk'),
             array('checkmoney'),
-            array('payflowpro'),
             array('authorizenet')
         );
     }

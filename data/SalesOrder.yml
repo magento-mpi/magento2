@@ -611,6 +611,13 @@ else_jcb: &jcbElse
     expiration_year: '2020'
     card_verification_number: '1234'
 
+else_jcb_3d: &jcbElse3D
+    card_type: 'JCB'
+    card_number: '3000000000000004'
+    expiration_month: '07 - July'
+    expiration_year: '2020'
+    card_verification_number: '1234'
+
 else_solo: &soloElse
     card_type: 'Solo'
     card_number: '6767705369846419'

@@ -145,41 +145,6 @@ class Order_Create_WithDifferentCreditCardTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Create order with PayFlowPro Verisign using all types of credit card
-     *
-     * @param type $simpleSku
-     *
-     * @depends createSimple
-     * @dataProvider dataCardPayFlowProVerisign
-     * @test
-     */
-    public function differentCardInPayFlowProVerisign($card, $simpleSku)
-    {
-        //Data
-        $orderData = $this->loadData('order_newcustmoer_payflowpro_flatrate', array('filter_sku' => $simpleSku));
-        $orderData['payment_data']['payment_info'] = $this->loadData($card);
-        //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('paypal_enable');
-        $this->systemConfigurationHelper()->configure('payflowpro_without_3Dsecure');
-        $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-    }
-
-    public function dataCardPayFlowProVerisign()
-    {
-        return array(
-            array('else_american_express'),
-            array('else_visa'),
-            array('else_mastercard'),
-            array('else_discover'),
-            array('else_jcb')
-        );
-    }
-
-    /**
      * Create order with PayPal Direct using all types of credit card
      *
      * @param type $simpleSku
