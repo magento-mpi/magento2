@@ -38,4 +38,12 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->assertSame(array(), Mage::getConfig()->getNode()->xpath('/config/global/models/*/deprecatedNode'));
     }
+
+    /**
+     * Verification that there no table definition in configuration
+     */
+    public function testTableDefinitionExistence()
+    {
+        $this->assertSame(array(), Mage::getConfig()->getNode()->xpath('/config/global/models/*/entities/*/table'));
+    }
 }
