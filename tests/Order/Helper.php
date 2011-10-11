@@ -404,7 +404,7 @@ class Order_Helper extends Mage_Selenium_TestCase
             $this->waitForElement("//div//iframe[@id='centinel_authenticate_iframe'" .
                     " and normalize-space(@style)='display: block;']");
             $this->waitForElement("//body[@onbeforeunload and @onload]");
-            if ($this->isElementPresent("//input[@name='external.field.password']")) {
+            if ($this->waitForElement("//input[@name='external.field.password']", 5)) {
                 $this->type("//input[@name='external.field.password']", $password);
                 $this->click("//input[@value='Submit']");
                 $a = "//font//b[text()='Incorrect, Please try again']";
@@ -412,14 +412,8 @@ class Order_Helper extends Mage_Selenium_TestCase
                 $this->waitForElement(array($a, $b));
                 $this->assertElementPresent("//html/body/h1[text()='Verification Successful']");
             } else {
-                $this->fail('wrong card');
+                $this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
-//            $xpath = $this->_getControlXpath('field', '3d_password');
-//            $this->waitForElement($xpath);
-//            $this->type($xpath, $password);
-//            $this->clickButton('3d_submit', FALSE);
-//            $this->waitForElementNotPresent($xpath);
-//            $this->pleaseWait();
         }
     }
 

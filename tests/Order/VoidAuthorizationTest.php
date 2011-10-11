@@ -119,7 +119,6 @@ class Order_VoidAuthorizationTest extends Mage_Selenium_TestCase
     public function dataPaymentMethods()
     {
         return array(
-            array('paypaldirect'),
             array('authorizenet'),
             array('paypaldirectuk'),
         );
