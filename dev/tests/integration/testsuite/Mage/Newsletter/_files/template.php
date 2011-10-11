@@ -26,7 +26,7 @@
  */
 
 $template = new Mage_Newsletter_Model_Template;
-$template->setTemplateCode('Test Design And Locale')
+$template->setTemplateCode('fixture_tpl')
     ->setTemplateText('<p>Follow this link to unsubscribe</p>
 <!-- This tag is for unsubscribe link  -->
 <p><a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a></p>')
