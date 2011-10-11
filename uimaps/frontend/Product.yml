@@ -62,12 +62,12 @@ product_page:
                             short_description: //div[@class='short-description']//div[@class='std']
                             ex_qty: //input[@class='input-text qty']
                             ex_price_regular: //span[@class='regular-price']
-                            ex_price_excluding_tax: //span[@class='price-excluding-tax']/span[@class='price']
-                            ex_price_including_tax: //span[@class='price-including-tax']/span[@class='price']
+                            ex_price_excluding_tax: //div[@class='price-box']/span[@class='price-excluding-tax']/span[@class='price']
+                            ex_price_including_tax: //div[@class='price-box']/span[@class='price-including-tax']/span[@class='price']
                             ex_price_old: //p[@class='old-price']
-                            ex_price_special: //p[@class='special-price']
-                            ex_price_special_excluding_tax: //p[@class='special-price']/span[@class='price-excluding-tax']
-                            ex_price_special_inlcuding_tax: //p[@class='special-price']/span[@class='price-including-tax']
+                            ex_price_special: //p[@class='special-price']/span[@class='price']
+                            ex_price_special_excluding_tax: //p[@class='special-price']/span[@class='price-excluding-tax']/span[@class='price']
+                            ex_price_special_inlcuding_tax: //p[@class='special-price']/span[@class='price-including-tax']/span[@class='price']
                             ex_as_low_as: //a[@class='minimal-price-link']/span[@class='price']
                 -
                     product_custom_options:

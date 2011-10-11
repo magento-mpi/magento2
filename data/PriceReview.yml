@@ -311,6 +311,10 @@ validate_prices_in_order_review:
 product_page_review_prices:
     verification:
         price_regular: %noValue%
-        price_excluding_tax: $100.00
-        price_including_tax: $100.00
+        price_excluding_tax: %noValue%
+        price_including_tax: %noValue%
+        price_old: $200.00
+        price_special: $150.00
+        price_special_excluding_tax: %noValue%
+        price_special_inlcuding_tax: %noValue%
         qty: 1
