@@ -137,7 +137,6 @@ class Order_ReorderTest extends Mage_Selenium_TestCase
     public function dataPaymentMethods()
     {
         return array(
-            array('savedcc'),
             array('checkmoney'),
         );
     }
