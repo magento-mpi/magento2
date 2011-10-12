@@ -449,7 +449,7 @@ total_cat_in_ship_ex:
             enable_fpt: No
 
 unit_cat_in_ship_in:
-    configuration_scope: Default Config\
+    configuration_scope: Default Config
     tab_1:
         tab_name: sales_shipping_methods
         configuration:
