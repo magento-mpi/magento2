@@ -435,7 +435,9 @@ class Order_Helper extends Mage_Selenium_TestCase
         } else {
             $this->addParameter('shipService', $shipService);
             $this->addParameter('shipMethod', $shipMethod);
-            if ($this->errorMessage('ship_method_unavailable') || $this->errorMessage('no_shipping')) {
+            $methodUnavailable = $this->_getControlXpath('message', 'ship_method_unavailable');
+            $noShipping = $this->_getControlXpath('message', 'no_shipping');
+            if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
                 $this->messages['error'][] = 'No Shipping Method is available for this order';
             } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
                 $method = $this->_getControlXpath('radiobutton', 'ship_method');
