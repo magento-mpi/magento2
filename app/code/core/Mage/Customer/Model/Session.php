@@ -285,6 +285,8 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         $url = Mage::helper('core/url')
             ->removeRequestParam($url, Mage::getSingleton('core/session')->getSessionIdQueryParam());
+        // Add correct session ID to URL if needed
+        $url = Mage::getModel('core/url')->getRebuiltUrl($url);
         return $this->setData($key, $url);
     }
 
@@ -321,5 +323,17 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function setAfterAuthUrl($url)
     {
         return $this->_setAuthUrl('after_auth_url', $url);
+    }
+
+    /**
+     * Reset core session hosts after reseting session ID
+     *
+     * @return Mage_Customer_Model_Session
+     */
+    public function renewSession() {
+        parent::renewSession();
+        Mage::getSingleton('core/session')->unsSessionHosts();
+
+        return $this;
     }
 }

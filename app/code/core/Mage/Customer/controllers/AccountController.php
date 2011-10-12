@@ -193,7 +193,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 )) {
                     $referer = $this->getRequest()->getParam(Mage_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME);
                     if ($referer) {
-                        $referer = Mage::helper('core')->urlDecode($referer);
+                        // Rebuild referer URL to handle the case when SID was changed
+                        $referer = Mage::getModel('core/url')
+                            ->getRebuiltUrl(Mage::helper('core')->urlDecode($referer));
                         if ($this->_isUrlInternal($referer)) {
                             $session->setBeforeAuthUrl($referer);
                         }
