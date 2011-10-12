@@ -265,12 +265,9 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
             $tableName .= '_' . $entitySuffix;
         }
 
-        if (isset($this->_tables[$cacheName])) {
-            return $this->_tables[$cacheName];
+        if (!isset($this->_tables[$cacheName])) {
+            $this->_tables[$cacheName] = $this->_resources->getTableName($tableName);
         }
-
-        $this->_tables[$cacheName] = $this->_resources->getTableName($tableName);
-
         return $this->_tables[$cacheName];
     }
 

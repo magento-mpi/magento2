@@ -42,7 +42,7 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * Verification that there no table definition in configuration
      */
-    public function testTableDefinitionExistence()
+    public function testTableDefinitionRemoval()
     {
         $this->assertSame(array(), Mage::getConfig()->getNode()->xpath('/config/global/models/*/entities/*/table'));
     }
