@@ -83,7 +83,7 @@
             <email>
                 <giftcard_email_template translate="label" module="enterprise_giftcard">
                     <label>Gift Card(s) Purchase</label>
-                    <file>giftcards_generated_email.html</file>
+                    <file>email/giftcards_generated_email.html</file>
                     <type>html</type>
                 </giftcard_email_template>
             </email>

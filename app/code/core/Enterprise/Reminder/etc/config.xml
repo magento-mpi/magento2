@@ -80,7 +80,7 @@
             <email>
                 <enterprise_reminder_email_template translate="label" module="enterprise_reminder">
                     <label>Promotion Notification/Reminder</label>
-                    <file>promo_email.html</file>
+                    <file>email/promo_email.html</file>
                     <type>html</type>
                 </enterprise_reminder_email_template>
             </email>
