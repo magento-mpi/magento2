@@ -90,8 +90,7 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetters()
     {
-        $this->markTestSkipped('Should be fixed in scope of MAGETWO-517');
-
+        $this->markTestIncomplete('Should be fixed in scope of MAGETWO-517');
         $this->assertTrue(is_dir($this->_model->getAppDir()), "App directory does not exist.");
         $this->assertTrue(is_dir($this->_model->getBaseDir()), "Base directory does not exist.");
         $this->assertTrue(is_dir($this->_model->getCodeDir()), "Code directory does not exist.");
