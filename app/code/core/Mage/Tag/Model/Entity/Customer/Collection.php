@@ -42,7 +42,7 @@ class Mage_Tag_Model_Entity_Customer_Collection extends Mage_Customer_Model_Reso
         $resource = Mage::getSingleton('core/resource');
         parent::__construct();
         $this->_tagTable = $resource->getTableName('tag');
-        $this->_tagRelTable = $resource->getTableName('tag/tag_relation');
+        $this->_tagRelTable = $resource->getTableName('tag_relation');
 
 //        $this->joinField('tag_total_used', $this->_tagRelTable, 'count(_table_tag_total_used.tag_relations_id)', 'entity_val_id=entity_id', array('entity_id' => '2'));
 //        $this->getSelect()->group('tag_tag_id');
