@@ -25,9 +25,8 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-unit_cat_ex_ship_ex:
-    configuration_scope: Default Config
-    tab_1:
+flat_rate_for_price_verification:
+    tab_1: &flatRateForPriceVerification
         tab_name: sales_shipping_methods
         configuration:
             flat_rate_enabled: Yes
@@ -42,6 +41,11 @@ unit_cat_ex_ship_ex:
             flat_rate_ship_to_specific_countries: %noValue%
             flat_rate_show_method_if_not_applicable: %noValue%
             flat_rate_sort_order: %noValue%
+
+
+unit_cat_ex_ship_ex:
+    configuration_scope: Default Config
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
@@ -74,21 +78,7 @@ unit_cat_ex_ship_ex:
 
 row_cat_ex_ship_ex:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_shipping_methods
-        configuration:
-            flat_rate_enabled: Yes
-            flat_rate_title: Flat Rate
-            flat_rate_method_name: Fixed
-            flat_rate_type: Per Item
-            flat_rate_price: 1.00
-            flat_rate_calculate_handling_fee: Fixed
-            flat_rate_handling_fee: %noValue%
-            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-            flat_rate_ship_to_applicable_countries: All Allowed Countries
-            flat_rate_ship_to_specific_countries: %noValue%
-            flat_rate_show_method_if_not_applicable: %noValue%
-            flat_rate_sort_order: %noValue%
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
@@ -121,21 +111,7 @@ row_cat_ex_ship_ex:
 
 total_cat_ex_ship_ex:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_shipping_methods
-        configuration:
-            flat_rate_enabled: Yes
-            flat_rate_title: Flat Rate
-            flat_rate_method_name: Fixed
-            flat_rate_type: Per Item
-            flat_rate_price: 1.00
-            flat_rate_calculate_handling_fee: Fixed
-            flat_rate_handling_fee: %noValue%
-            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-            flat_rate_ship_to_applicable_countries: All Allowed Countries
-            flat_rate_ship_to_specific_countries: %noValue%
-            flat_rate_show_method_if_not_applicable: %noValue%
-            flat_rate_sort_order: %noValue%
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
@@ -168,21 +144,7 @@ total_cat_ex_ship_ex:
 
 unit_cat_ex_ship_in:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_shipping_methods
-        configuration:
-            flat_rate_enabled: Yes
-            flat_rate_title: Flat Rate
-            flat_rate_method_name: Fixed
-            flat_rate_type: Per Item
-            flat_rate_price: 1.00
-            flat_rate_calculate_handling_fee: Fixed
-            flat_rate_handling_fee: %noValue%
-            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-            flat_rate_ship_to_applicable_countries: All Allowed Countries
-            flat_rate_ship_to_specific_countries: %noValue%
-            flat_rate_show_method_if_not_applicable: %noValue%
-            flat_rate_sort_order: %noValue%
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
@@ -215,21 +177,7 @@ unit_cat_ex_ship_in:
 
 row_cat_ex_ship_in:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_shipping_methods
-        configuration:
-            flat_rate_enabled: Yes
-            flat_rate_title: Flat Rate
-            flat_rate_method_name: Fixed
-            flat_rate_type: Per Item
-            flat_rate_price: 1.00
-            flat_rate_calculate_handling_fee: Fixed
-            flat_rate_handling_fee: %noValue%
-            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-            flat_rate_ship_to_applicable_countries: All Allowed Countries
-            flat_rate_ship_to_specific_countries: %noValue%
-            flat_rate_show_method_if_not_applicable: %noValue%
-            flat_rate_sort_order: %noValue%
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
@@ -262,21 +210,7 @@ row_cat_ex_ship_in:
 
 total_cat_ex_ship_in:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_shipping_methods
-        configuration:
-            flat_rate_enabled: Yes
-            flat_rate_title: Flat Rate
-            flat_rate_method_name: Fixed
-            flat_rate_type: Per Item
-            flat_rate_price: 1.00
-            flat_rate_calculate_handling_fee: Fixed
-            flat_rate_handling_fee: %noValue%
-            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-            flat_rate_ship_to_applicable_countries: All Allowed Countries
-            flat_rate_ship_to_specific_countries: %noValue%
-            flat_rate_show_method_if_not_applicable: %noValue%
-            flat_rate_sort_order: %noValue%
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
@@ -309,21 +243,7 @@ total_cat_ex_ship_in:
 
 unit_cat_in_ship_ex:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_shipping_methods
-        configuration:
-            flat_rate_enabled: Yes
-            flat_rate_title: Flat Rate
-            flat_rate_method_name: Fixed
-            flat_rate_type: Per Item
-            flat_rate_price: 1.00
-            flat_rate_calculate_handling_fee: Fixed
-            flat_rate_handling_fee: %noValue%
-            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-            flat_rate_ship_to_applicable_countries: All Allowed Countries
-            flat_rate_ship_to_specific_countries: %noValue%
-            flat_rate_show_method_if_not_applicable: %noValue%
-            flat_rate_sort_order: %noValue%
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
@@ -356,21 +276,7 @@ unit_cat_in_ship_ex:
 
 row_cat_in_ship_ex:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_shipping_methods
-        configuration:
-            flat_rate_enabled: Yes
-            flat_rate_title: Flat Rate
-            flat_rate_method_name: Fixed
-            flat_rate_type: Per Item
-            flat_rate_price: 1.00
-            flat_rate_calculate_handling_fee: Fixed
-            flat_rate_handling_fee: %noValue%
-            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-            flat_rate_ship_to_applicable_countries: All Allowed Countries
-            flat_rate_ship_to_specific_countries: %noValue%
-            flat_rate_show_method_if_not_applicable: %noValue%
-            flat_rate_sort_order: %noValue%
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
@@ -403,21 +309,7 @@ row_cat_in_ship_ex:
 
 total_cat_in_ship_ex:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_shipping_methods
-        configuration:
-            flat_rate_enabled: Yes
-            flat_rate_title: Flat Rate
-            flat_rate_method_name: Fixed
-            flat_rate_type: Per Item
-            flat_rate_price: 1.00
-            flat_rate_calculate_handling_fee: Fixed
-            flat_rate_handling_fee: %noValue%
-            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-            flat_rate_ship_to_applicable_countries: All Allowed Countries
-            flat_rate_ship_to_specific_countries: %noValue%
-            flat_rate_show_method_if_not_applicable: %noValue%
-            flat_rate_sort_order: %noValue%
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
@@ -450,21 +342,7 @@ total_cat_in_ship_ex:
 
 unit_cat_in_ship_in:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_shipping_methods
-        configuration:
-            flat_rate_enabled: Yes
-            flat_rate_title: Flat Rate
-            flat_rate_method_name: Fixed
-            flat_rate_type: Per Item
-            flat_rate_price: 1.00
-            flat_rate_calculate_handling_fee: Fixed
-            flat_rate_handling_fee: %noValue%
-            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-            flat_rate_ship_to_applicable_countries: All Allowed Countries
-            flat_rate_ship_to_specific_countries: %noValue%
-            flat_rate_show_method_if_not_applicable: %noValue%
-            flat_rate_sort_order: %noValue%
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
@@ -497,21 +375,7 @@ unit_cat_in_ship_in:
 
 row_cat_in_ship_in:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_shipping_methods
-        configuration:
-            flat_rate_enabled: Yes
-            flat_rate_title: Flat Rate
-            flat_rate_method_name: Fixed
-            flat_rate_type: Per Item
-            flat_rate_price: 1.00
-            flat_rate_calculate_handling_fee: Fixed
-            flat_rate_handling_fee: %noValue%
-            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-            flat_rate_ship_to_applicable_countries: All Allowed Countries
-            flat_rate_ship_to_specific_countries: %noValue%
-            flat_rate_show_method_if_not_applicable: %noValue%
-            flat_rate_sort_order: %noValue%
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
@@ -544,21 +408,7 @@ row_cat_in_ship_in:
 
 total_cat_in_ship_in:
     configuration_scope: Default Config
-    tab_1:
-        tab_name: sales_shipping_methods
-        configuration:
-            flat_rate_enabled: Yes
-            flat_rate_title: Flat Rate
-            flat_rate_method_name: Fixed
-            flat_rate_type: Per Item
-            flat_rate_price: 1.00
-            flat_rate_calculate_handling_fee: Fixed
-            flat_rate_handling_fee: %noValue%
-            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-            flat_rate_ship_to_applicable_countries: All Allowed Countries
-            flat_rate_ship_to_specific_countries: %noValue%
-            flat_rate_show_method_if_not_applicable: %noValue%
-            flat_rate_sort_order: %noValue%
+    tab_1: *flatRateForPriceVerification
     tab_2:
         tab_name: sales_tax
         configuration:
