@@ -96,9 +96,6 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $orderData = $this->loadData('order_newcustmoer_' . $payment . '_flatrate', array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('system_configuration');
-        if ($payment == 'paypaldirectuk') {
-            $this->systemConfigurationHelper()->configure('paypal_enable');
-        }
         if ($payment != 'checkmoney') {
             $payment .= '_without_3Dsecure';
         }
@@ -113,7 +110,6 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         return array(
             array('savedcc'),
-            array('paypaldirectuk'),
             array('checkmoney'),
             array('authorizenet')
         );
@@ -147,9 +143,6 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         $orderData = $this->loadData('order_newcustmoer_' . $payment . '_flatrate', array('filter_sku' => $simpleSku));
         //Steps
         $this->navigate('system_configuration');
-        if ($payment == 'paypaldirectuk') {
-            $this->systemConfigurationHelper()->configure('paypal_enable');
-        }
         $this->systemConfigurationHelper()->configure($payment . '_with_3Dsecure');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -161,7 +154,6 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         return array(
             array('savedcc'),
-            array('paypaldirectuk'),
             array('authorizenet')
         );
     }

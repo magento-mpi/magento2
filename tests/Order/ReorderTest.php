@@ -106,9 +106,6 @@ class Order_ReorderTest extends Mage_Selenium_TestCase
         if ($payment != 'checkmoney') {
             $payment .= '_without_3Dsecure';
         }
-        if ($payment == 'paypaldirectuk') {
-            $this->systemConfigurationHelper()->configure('paypal_enable');
-        }
         $this->systemConfigurationHelper()->configure($payment);
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -141,7 +138,6 @@ class Order_ReorderTest extends Mage_Selenium_TestCase
     {
         return array(
             array('savedcc'),
-            array('paypaldirectuk'),
             array('checkmoney'),
             array('authorizenet')
         );
