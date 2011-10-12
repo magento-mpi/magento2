@@ -692,10 +692,15 @@ document.observe("dom:loaded", function() {
             }, options || {});
 
             this.gallery = gallery;
+            this.counter  = this.gallery.insert({after : new Element('div', {'class' : 'counter'})}).next();
+            this.wrap = this.gallery.down();
             this.scale = 1.0;
             this.dimensions;
             this.items    = gallery.select('img');
             this.itemsLength = this.items.size();
+            this.pos = 0;
+            this.step = 100/this.itemsLength;
+            this.lastPos = this.step * this.itemsLength;
             this.originalCoord = { x: 0, y: 0 };
             this.finalCoord    = { x: 0, y: 0 };
             this.offset = { x: 0, y: 0 };
@@ -708,11 +713,65 @@ document.observe("dom:loaded", function() {
                 item.observe('gesturechange', this.gestureChange.bind(this));
                 item.observe('gestureend', this.gestureEnd.bind(this));
             }.bind(this));
+            
+            this.wrap.setStyle({
+                'width' : this.itemsLength * 100 + '%'
+            });
+            
+            this.drawCounter();
         },
-        moveRight: function () {
-            //console.log('moveRight()');
+        drawCounter: function () {
+            if (this.itemsLength > 1) {
+                for (var i = 0; i < this.itemsLength; i++) {
+                    if (i === 0) {
+                        this.counter.insert(new Element('span', {'class': 'active'}));
+                    } else {
+                    this.counter.insert(new Element('span'));
+                    }
+                };
+            }
         },
-        moveLeft: function () {
+        moveRight: function (elem) {
+            //alert('move right');
+            
+            if (this.pos !== this.lastPos - this.step) {
+                                
+                elem.setStyle({
+                    'webkitTransition' : '300ms linear',
+                    'webkitTransform' : 'scale3d(1, 1, 1)'
+                });
+                
+                this.scale = 1.0;
+            
+                this.pos += this.step;
+                this.wrap.setStyle({
+                    'webkitTransition' : '300ms linear',
+                    'webkitTransform' : 'translate3d(' + this.pos*-1 + '%, 0, 0)'
+                });
+                
+                this.counter.select('.active')[0].removeClassName('active').next().addClassName('active');
+                
+            }
+        },
+        moveLeft: function (elem) {
+            
+            if (this.pos !== 0) {
+                                
+                elem.setStyle({
+                    'webkitTransition' : '300ms linear',
+                    'webkitTransform' : 'scale3d(1, 1, 1)'
+                });
+                
+                this.scale = 1.0;
+            
+                this.pos -= this.step;
+                this.wrap.setStyle({
+                    'webkitTransition' : '300ms linear',
+                    'webkitTransform' : 'translate3d(' + this.pos*-1 + '%, 0, 0)'
+                });
+                
+                this.counter.select('.active')[0].removeClassName('active').previous().addClassName('active');
+            }
             //console.log('moveLeft()');
         },
         gestureStart : function (e) {
@@ -806,16 +865,14 @@ document.observe("dom:loaded", function() {
                 timeDelta = this.t2 - this.t1;
             
             if(changeX > this.options.threshold.x && Math.abs(changeY) < 30 && timeDelta < 200) {
-                console.log(1);
-                alert('move right');
-                //this.moveRight();
+                this.moveRight($this);
             }
             if(changeX < this.options.threshold.x * -1 && Math.abs(changeY) < 30 && timeDelta < 200) {
-                alert('move left');
-                //this.moveLeft();
+                
+                this.moveLeft($this);
             }
             
-        }
+        },
     });
     
 });
