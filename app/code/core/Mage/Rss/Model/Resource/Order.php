@@ -155,8 +155,8 @@ class Mage_Rss_Model_Resource_Order
         );
         $commentSelects = array();
         foreach (array('invoice', 'shipment', 'creditmemo') as $entityTypeCode) {
-            $mainTable  = $res->getTableName('sales/' . $entityTypeCode);
-            $slaveTable = $res->getTableName('sales/' . $entityTypeCode . '_comment');
+            $mainTable  = $res->getTableName('sales_flat_' . $entityTypeCode);
+            $slaveTable = $res->getTableName('sales_flat_' . $entityTypeCode . '_comment');
             $select = $read->select()
                 ->from(array('main' => $mainTable), array(
                     'entity_id' => 'order_id',

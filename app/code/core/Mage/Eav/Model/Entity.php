@@ -41,7 +41,6 @@ class Mage_Eav_Model_Entity extends Mage_Eav_Model_Entity_Abstract
 
     const DEFAULT_ENTITY_TABLE      = 'eav_entity';
     const DEFAULT_ENTITY_ID_FIELD   = 'entity_id';
-    const DEFAULT_VALUE_TABLE_PREFIX= 'eav/entity_attribute';
 
     /**
      * Resource initialization
