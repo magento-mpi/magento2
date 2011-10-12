@@ -111,7 +111,6 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
         return array(
             array('savedcc'),
             array('checkmoney'),
-            array('authorizenet')
         );
     }
 
@@ -154,7 +153,6 @@ class Order_Create_PaymentMethodsTest extends Mage_Selenium_TestCase
     {
         return array(
             array('savedcc'),
-            array('authorizenet')
         );
     }
 

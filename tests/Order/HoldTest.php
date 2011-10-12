@@ -117,7 +117,6 @@ class Order_HoldTest extends Mage_Selenium_TestCase
         return array(
             array('savedcc'),
             array('checkmoney'),
-            array('authorizenet')
         );
     }
 

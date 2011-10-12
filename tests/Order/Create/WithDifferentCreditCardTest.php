@@ -110,38 +110,4 @@ class Order_Create_WithDifferentCreditCardTest extends Mage_Selenium_TestCase
         );
     }
 
-    /**
-     * Create order with AuthorizeNet using all types of credit card
-     *
-     * @param type $simpleSku
-     *
-     * @depends createSimple
-     * @dataProvider dataCardAuthorizeNet
-     * @test
-     */
-    public function differentCardInAuthorizeNet($card, $simpleSku)
-    {
-        //Data
-        $orderData = $this->loadData('order_newcustmoer_authorizenet_flatrate', array('filter_sku' => $simpleSku));
-        $orderData['payment_data']['payment_info'] = $this->loadData($card);
-        //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('authorizenet_without_3Dsecure');
-        $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
-        //Verifying
-        $this->assertTrue($this->successMessage('success_created_order'), $this->messages);
-    }
-
-    public function dataCardAuthorizeNet()
-    {
-        return array(
-            array('else_american_express'),
-            array('else_visa'),
-            array('else_mastercard'),
-            array('else_discover'),
-            array('else_other')
-        );
-    }
-
 }

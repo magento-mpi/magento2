@@ -139,7 +139,6 @@ class Order_ReorderTest extends Mage_Selenium_TestCase
         return array(
             array('savedcc'),
             array('checkmoney'),
-            array('authorizenet')
         );
     }
 
