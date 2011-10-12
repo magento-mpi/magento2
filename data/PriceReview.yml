@@ -41,7 +41,7 @@ simple_product_for_prices_validation_1:
     inventory_qty: 120
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: %noValue%
+    categories: Default Category
 
 simple_product_for_prices_validation_2:
     product_attribute_set: Default
@@ -58,7 +58,7 @@ simple_product_for_prices_validation_2:
     inventory_qty: 120
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: %noValue%
+    categories: Default Category
 
 simple_product_for_prices_validation_3:
     product_attribute_set: Default
@@ -75,7 +75,7 @@ simple_product_for_prices_validation_3:
     inventory_qty: 120
     inventory_stock_availability: In Stock
     websites: Main Website
-    categories: %noValue%
+    categories: Default Category
 
 customer_account_for_prices_validation:
     associate_to_website: Main Website
@@ -85,42 +85,24 @@ customer_account_for_prices_validation:
     email: test_user@example.com
     password: 123123q
 
-sub_category_for_prices_validation:
-    name: Prices Validation
-    is_active: Yes
-    available_product_listing_config: No
-    available_product_listing: Best Value, Name, Price
+customer_account_address_for_prices_validation:
+    first_name: First Name
+    last_name: Last Name
+    street_address_line_1: 10441 Jefferson Blvd
+    street_address_line_2: Suite 200
+    city: Culver City
+    country: United States
+    state: California
+    zip_code: 90232
+    telephone: 530-918-3581
+    default_billing_address: Yes
+    default_shipping_address: Yes
 
 ################################################################################
 #                                                                              #
 #                            Backend Verification                              #
 #                                                                              #
 ################################################################################
-#<-----------------------Order Creation and validation------------------------->
-billing_address_req_prices_validation: &billingReq
-    address_choice: new
-    billing_first_name: 'billing_Steven'
-    billing_last_name: 'billing_Stevenson'
-    billing_street_address_1: '11832 W. Pico Blvd'
-    billing_city: 'Los Angeles'
-    billing_country: 'United States'
-    billing_state: California
-    billing_region: %noValue%
-    billing_zip_code: '90064'
-    billing_telephone: '(310) 954-8012'
-
-shipping_address_req_prices_validation: &shippingReq
-    address_choice: new
-    shipping_first_name: 'shipping_Steven'
-    shipping_last_name: 'shipping_Stevenson'
-    shipping_street_address_1: '11832 W. Pico Blvd'
-    shipping_city: 'Los Angeles'
-    shipping_country: 'United States'
-    shipping_state: California
-    shipping_region: %noValue%
-    shipping_zip_code: '90064'
-    shipping_telephone: '(310) 954-8012'
-
 ################################################################################
 #                                                                              #
 #   Calc Type - Unit, Catalog Price - Excluding, Shipping Price - Excluding    #
@@ -195,8 +177,6 @@ unit_cat_ex_ship_ex_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -694,8 +674,6 @@ row_cat_ex_ship_ex_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -1193,8 +1171,6 @@ total_cat_ex_ship_ex_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -1692,8 +1668,6 @@ unit_cat_ex_ship_in_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -2191,8 +2165,6 @@ row_cat_ex_ship_in_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -2690,8 +2662,6 @@ total_cat_ex_ship_in_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -3189,8 +3159,6 @@ unit_cat_in_ship_ex_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -3688,8 +3656,6 @@ row_cat_in_ship_ex_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -4187,8 +4153,6 @@ total_cat_in_ship_ex_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -4686,8 +4650,6 @@ unit_cat_in_ship_in_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -5185,8 +5147,6 @@ row_cat_in_ship_in_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
@@ -5684,8 +5644,6 @@ total_cat_in_ship_in_backend_create_order:
             filter_name: %noValue%
             filter_sku: %noValue%
             product_qty: 5
-    billing_addr_data: *billingReq
-    shipping_addr_data: *shippingReq
     payment_data:
         payment_method: Check / Money order
         payment_info: %noValue%
