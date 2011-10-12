@@ -1496,16 +1496,23 @@ section .category-title { display:none; }
 }
 
 .catalog-product-gallery .product-gallery {
-    height:300px;
     padding:10px 0 0;
     position:relative;
     overflow:hidden;
+    height:300px;
+    width:100%;
+}
+
+.catalog-product-gallery .product-gallery ul {
+    display:table;
+    width:200%;
 }
 .catalog-product-gallery .product-gallery li {
+    display:table-cell;
     padding:0;
-    overflow:hidden;
     text-align:center;
-    width:100%;
+    overflow:hidden;
+    max-width:100%;
 }
 .catalog-product-gallery .product-gallery li img {
     vertical-align:bottom;
@@ -1665,10 +1672,10 @@ section .category-title { display:none; }
     
     .counter span:before {
         content:'\2022';
-        color:#c4c4c4;
+        color:#ddd;
         font-size:20px;
         display:inline-block;
-        -webkit-text-stroke:1px #c4c4c4;
+        -webkit-text-stroke:1px #ddd;
     }
     
     .counter span.active:before {

@@ -35,16 +35,14 @@
     </div>
     <a href="<?php echo $this->helper('checkout/cart')->getAddUrl($_product) ?>" class="add-to-cart">Add to Cart</a>
     <div class="product-gallery" id="product-gallery">
-        <span class="next">Next</span>
-        <span class="prev">Prev</span>
         <ul>
-                <li>
-                    <img src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(300) ?>" height="300" alt="<?php echo $this->htmlEscape($this->getImageLabel()) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel()) ?>" />
-                </li>
+            <li>
+                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(300) ?>" height="300" alt="<?php echo $this->htmlEscape($this->getImageLabel()) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel()) ?>" />
+            </li>
             <?php foreach ($this->getProduct()->getMediaGalleryImages() as $_image): ?>
-                <li>
-                    <img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(300); ?>" height="300" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" />
-                </li>
+            <li>
+                <img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(300); ?>" height="300" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" />
+            </li>
             <?php endforeach; ?>
         </ul>
     </div>
