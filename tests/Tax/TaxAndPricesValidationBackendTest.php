@@ -40,6 +40,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
     }
+
     protected function assertPreConditions()
     {
         $this->addParameter('id', '0');
@@ -57,7 +58,7 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
         $addressData = $this->loadData('customer_account_address_for_prices_validation');
         //Steps
         $this->navigate('manage_customers');
-        $this->CustomerHelper()->createCustomer($userData, $addressData);
+        $this->customerHelper()->createCustomer($userData, $addressData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
 
@@ -133,21 +134,21 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
         //Verify prices before creating Invoice
         $this->clickButton('invoice');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceBefInvCr, $totBefInvCr);
-        //Verify prices after creating Invoice on order page
+        //Verify prices after creating invoice on order page
         $this->clickButton('submit_invoice');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftInvCr, $totAftInvCr);
-        //Verify prices after creating Shipment on order page
+        //Verify prices after creating shipment on order page
         $this->clickButton('ship');
         $this->clickButton('submit_shipment');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftShipCr, $totAftShipCr);
-        //Verify prices before creating Refund on refund page
+        //Verify prices before creating refund on refund page
         $this->clickButton('credit_memo');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceBefRefCr, $totBefRefCr);
-        //Verify prices after creating Refund on order page
+        //Verify prices after creating refund on order page
         $this->clickButton('refund_offline');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftRefCr, $totAftRefCr);
-        //Verify prices after creating Invoice on invoice page
-        $this->navigate('manage_sales_invoices'); //move to the end of order creation
+        //Verify prices after creating invoice on invoice page
+        $this->navigate('manage_sales_invoices');
         $this->searchAndOpen(array('filter_order_id' => $orderId));
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftInvCrOnInv, $totAftInvCrOnInv);
         //Verify prices after creating Refund on Refund page
