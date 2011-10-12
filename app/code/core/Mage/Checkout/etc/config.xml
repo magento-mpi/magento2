@@ -66,7 +66,7 @@
             <email>
                 <checkout_payment_failed_template translate="label" module="checkout">
                     <label>Payment Failed</label>
-                    <file>payment_failed_email.html</file>
+                    <file>email/payment_failed_email.html</file>
                     <type>html</type>
                 </checkout_payment_failed_template>
             </email>
