@@ -84,7 +84,7 @@
             <email>
                 <currency_import_error_email_template translate="label" module="directory">
                     <label>Currency Update Warnings</label>
-                    <file>currency_update_warning.html</file>
+                    <file>currency_update_warning_email.html</file>
                     <type>text</type>
                 </currency_import_error_email_template>
             </email>

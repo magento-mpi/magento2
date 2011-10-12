@@ -62,8 +62,8 @@
         <template>
             <email>
                 <sendfriend_email_template translate="label" module="sendfriend">
-                    <label>Send product to a friend</label>
-                    <file>product_share.html</file>
+                    <label>Send Product Link to Friend</label>
+                    <file>product_share_email.html</file>
                     <type>html</type>
                 </sendfriend_email_template>
             </email>

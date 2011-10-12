@@ -35,12 +35,6 @@
 class Mage_Adminhtml_Model_System_Config_Source_Email_Template extends Varien_Object
 {
     /**
-     * Config xpath to email template node
-     *
-     */
-    const XML_PATH_TEMPLATE_EMAIL = 'global/template/email/';
-
-    /**
      * Generate list of email templates
      *
      * @return array
@@ -54,12 +48,15 @@ class Mage_Adminhtml_Model_System_Config_Source_Email_Template extends Varien_Ob
             Mage::register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();
-        $templateName = Mage::helper('adminhtml')->__('Default Template from Locale');
+        $templateName = Mage::helper('adminhtml')->__('Default Template');
         $nodeName = str_replace('/', '_', $this->getPath());
-        $templateLabelNode = Mage::app()->getConfig()->getNode(self::XML_PATH_TEMPLATE_EMAIL . $nodeName . '/label');
+        $templateLabelNode = Mage::app()->getConfig()->getNode(
+            Mage_Core_Model_Email_Template::XML_PATH_TEMPLATE_EMAIL . '/' . $nodeName . '/label'
+        );
         if ($templateLabelNode) {
-            $templateName = Mage::helper('adminhtml')->__((string)$templateLabelNode);
-            $templateName = Mage::helper('adminhtml')->__('%s (Default Template from Locale)', $templateName);
+            $module = (string)$templateLabelNode->getParent()->getAttribute('module');
+            $templateName = Mage::helper($module)->__((string)$templateLabelNode);
+            $templateName = Mage::helper('adminhtml')->__('%s (Default)', $templateName);
         }
         array_unshift(
             $options,

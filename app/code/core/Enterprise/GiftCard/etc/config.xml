@@ -82,8 +82,8 @@
         <template>
             <email>
                 <giftcard_email_template translate="label" module="enterprise_giftcard">
-                    <label>Gift Card Accounts Generated From Gift Card</label>
-                    <file>enterprise/giftcard_generated.html</file>
+                    <label>Gift Card(s) Purchase</label>
+                    <file>giftcards_generated_email.html</file>
                     <type>html</type>
                 </giftcard_email_template>
             </email>

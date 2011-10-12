@@ -48,11 +48,11 @@
         </blocks>
         <template>
             <email>
-               <moneybookers_activateemail>
-                   <label>Moneybookers activate email</label>
-                   <file>moneybookers_activateemail.html</file>
-                   <type>html</type>
-               </moneybookers_activateemail>
+                <moneybookers_activateemail translate="label" module="moneybookers">
+                    <label>Activation of Payment Configuration</label>
+                    <file>activate_email.html</file>
+                    <type>html</type>
+                </moneybookers_activateemail>
             </email>
         </template>
         <payment>

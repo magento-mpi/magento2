@@ -110,6 +110,18 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     }
 
     /**
+     * Setter for mail sender
+     *
+     * @param Zend_Mail $mail
+     * @return Mage_Core_Model_Email_Template
+     */
+    public function setMail(Zend_Mail $mail)
+    {
+        $this->_mail = $mail;
+        return $this;
+    }
+
+    /**
      * Declare template processing filter
      *
      * @param   Varien_Filter_Template $filter
@@ -122,7 +134,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     }
 
     /**
-     * Get filter object for template processing logi
+     * Get filter object for template processing log
      *
      * @return Mage_Core_Model_Email_Template_Filter
      */
@@ -149,12 +161,12 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     }
 
     /**
-     * Load default email template from locale translate
+     * Load default email template
      *
      * @param string $templateId
      * @param string $locale
      */
-    public function loadDefault($templateId, $locale=null)
+    public function loadDefault($templateId)
     {
         $defaultTemplates = self::getDefaultTemplates();
         if (!isset($defaultTemplates[$templateId])) {
@@ -164,9 +176,8 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         $data = &$defaultTemplates[$templateId];
         $this->setTemplateType($data['type']=='html' ? self::TYPE_HTML : self::TYPE_TEXT);
 
-        $templateText = Mage::app()->getTranslator()->getTemplateFile(
-            $data['file'], 'email', $locale
-        );
+        $module = Mage::getConfig()->determineOmittedNamespace($data['@']['module'], true);
+        $templateText = $this->loadBaseContents($module, $data['file']);
 
         if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $templateText, $matches)) {
             $this->setTemplateSubject($matches[1]);
@@ -195,6 +206,24 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     }
 
     /**
+     * Look for base template and read its contents
+     *
+     * @param string $module A fully qualified module name (<Namespace>_<Name>)
+     * @param string $filename File path relative to module/view folder
+     * @return string
+     * @throws Exception if the requested filename is not found
+     */
+    public function loadBaseContents($module, $filename)
+    {
+        $includeFilename = Mage::getConfig()->getModuleDir('view', $module) . DIRECTORY_SEPARATOR . $filename;
+        $contents = file_get_contents($includeFilename);
+        if (!$contents) {
+            throw new Exception(sprintf('Failed to include file "%s".', $includeFilename));
+        }
+        return $contents;
+    }
+
+    /**
      * Retrive default templates from config
      *
      * @return array
@@ -209,29 +238,31 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     }
 
     /**
-     * Retrive default templates as options array
+     * Get default templates as options array
      *
      * @return array
      */
     static public function getDefaultTemplatesAsOptionsArray()
     {
-        $options = array(
-            array('value'=>'', 'label'=> '')
-        );
-
-        $idLabel = array();
+        $options = array(array('value'=> '', 'label'=> '', 'group' => ''));
+        $groups = array();
         foreach (self::getDefaultTemplates() as $templateId => $row) {
-            if (isset($row['@']) && isset($row['@']['module'])) {
-                $module = $row['@']['module'];
-            } else {
-                $module = 'adminhtml';
+            $module = $row['@']['module'];
+            $moduleFullName = Mage::getConfig()->determineOmittedNamespace($module, true);
+            $options[] = array(
+                'value' => $templateId,
+                'label' => Mage::helper($module)->__($row['label']),
+                'group' => $moduleFullName,
+            );
+            $groups[$module] = 1;
+        }
+        uasort($options, function($a, $b) {
+            $key = 'label';
+            if ($a[$key] == $b[$key]) {
+                return 0;
             }
-            $idLabel[$templateId] = Mage::helper($module)->__($row['label']);
-        }
-        asort($idLabel);
-        foreach ($idLabel as $templateId => $label) {
-            $options[] = array('value' => $templateId, 'label' => $label);
-        }
+            return ($a[$key] < $b[$key]) ? -1 : 1;
+        });
 
         return $options;
     }
@@ -447,11 +478,11 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     /**
      * Send transactional email to recipient
      *
-     * @param   int $templateId
-     * @param   string|array $sender sneder informatio, can be declared as part of config path
+     * @param   int|string $templateId
+     * @param   string|array $sender sender information, can be declared as part of config path
      * @param   string $email recipient email
      * @param   string $name recipient name
-     * @param   array $vars varianles which can be used in template
+     * @param   array $vars variables which can be used in template
      * @param   int|null $storeId
      * @return  Mage_Core_Model_Email_Template
      */
@@ -465,12 +496,11 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         if (is_numeric($templateId)) {
             $this->load($templateId);
         } else {
-            $localeCode = Mage::getStoreConfig('general/locale/code', $storeId);
-            $this->loadDefault($templateId, $localeCode);
+            $this->loadDefault($templateId);
         }
 
         if (!$this->getId()) {
-            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid transactional email code: '.$templateId));
+            Mage::throwException(Mage::helper('core')->__('Invalid transactional email code: "%s"', $templateId));
         }
 
         if (!is_array($sender)) {

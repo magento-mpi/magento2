@@ -68,8 +68,8 @@
         <template>
             <email>
                 <wishlist_email_email_template translate="label" module="wishlist">
-                    <label>Share Wishlist</label>
-                    <file>wishlist_share.html</file>
+                    <label>Wishlist Sharing</label>
+                    <file>share_email.html</file>
                     <type>html</type>
                 </wishlist_email_email_template>
             </email>
