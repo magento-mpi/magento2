@@ -66,63 +66,76 @@ class Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Create Simple Products for tests
+     *
+     * @test
+     */
+    public function createProducts()
+    {
+        $products = array();
+        $this->navigate('manage_products');
+        for ($i=1; $i <= 3; $i++) {
+            $simpleProductData = $this->loadData("simple_product_for_prices_validation_$i",
+                NULL, array('general_name', 'general_sku'));
+            $products['sku'][$i] = $simpleProductData['general_sku'];
+            $products['name'][$i] = $simpleProductData['general_name'];
+            $this->productHelper()->createProduct($simpleProductData);
+            $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        }
+        return $products;
+    }
+
+    /**
      * Create Order on the backend and validate prices with taxes
      *
      * @dataProvider dataSystemConfiguration
      * @depends createCustomer
+     * @depends createProducts
      *
      * @test
      */
-    public function createOrderBackend($dataProv, $customer)
+    public function createOrderBackend($dataProv, $customer, $products)
     {
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($dataProv);
         //Data for order creation
-        $crOrder = $this->loadData($dataProv .
-                '_backend_create_order', array('email' => $customer));
+        $crOrder = $this->loadData($dataProv . '_backend_create_order', array('email' => $customer));
         //Data for prices and total verification after order creation
-        $priceAftOrdCr = $this->loadData($dataProv . '_backend_product_prices_after_order_creation');
-        $totAftOrdCr = $this->loadData($dataProv . '_backend_total_after_order_creation');
+        $priceAftOrdCr = $this->loadData($dataProv . '_backend_product_prices_after_order');
+        $totAftOrdCr = $this->loadData($dataProv . '_backend_total_after_order');
         //Data for prices and total verification before invoice creation
-        $priceBefInvCr = $this->loadData($dataProv . '_backend_product_prices_before_invoice_creation');
-        $totBefInvCr = $this->loadData($dataProv . '_backend_total_before_invoice_creation');
+        $priceBefInvCr = $this->loadData($dataProv . '_backend_product_prices_before_invoice');
+        $totBefInvCr = $this->loadData($dataProv . '_backend_total_before_invoice');
         //Data for prices and total verification after invoice creation on order page
-        $priceAftInvCr = $this->loadData($dataProv . '_backend_product_prices_after_invoice_creation');
-        $totAftInvCr = $this->loadData($dataProv . '_backend_total_after_invoice_creation');
+        $priceAftInvCr = $this->loadData($dataProv . '_backend_product_prices_after_invoice');
+        $totAftInvCr = $this->loadData($dataProv . '_backend_total_after_invoice');
         //Data for prices and total verification after invoice creation on invoice page
-        $priceAftInvCrOnInv = $this->loadData($dataProv .'_backend_product_prices_after_invoice_creation_invoice_page');
-        $totAftInvCrOnInv = $this->loadData($dataProv . '_backend_total_after_invoice_creation_invoice_page');
+        $priceAftInvCrOnInv = $this->loadData($dataProv . '_backend_product_prices_after_invoice_on_invoice');
+        $totAftInvCrOnInv = $this->loadData($dataProv . '_backend_total_after_invoice_on_invoice');
         //Data for prices and total verification after invoice creation on invoice page
-        $priceAftShipCr = $this->loadData($dataProv . '_backend_product_prices_after_shipment_creation');
-        $totAftShipCr = $this->loadData($dataProv . '_backend_total_after_shipment_creation');
+        $priceAftShipCr = $this->loadData($dataProv . '_backend_product_prices_after_shipment');
+        $totAftShipCr = $this->loadData($dataProv . '_backend_total_after_shipment');
         //Data for prices and total verification before refund creation on refund page
-        $priceBefRefCr = $this->loadData($dataProv . '_backend_product_prices_before_refund_creation');
-        $totBefRefCr = $this->loadData($dataProv . '_backend_total_before_refund_creation');
+        $priceBefRefCr = $this->loadData($dataProv . '_backend_product_prices_before_refund');
+        $totBefRefCr = $this->loadData($dataProv . '_backend_total_before_refund');
         //Data for prices and total verification after refund creation on order page
-        $priceAftRefCr = $this->loadData($dataProv . '_backend_product_prices_after_refund_creation');
-        $totAftRefCr = $this->loadData($dataProv . '_backend_total_after_refund_creation');
+        $priceAftRefCr = $this->loadData($dataProv . '_backend_product_prices_after_refund');
+        $totAftRefCr = $this->loadData($dataProv . '_backend_total_after_refund');
         //Data for prices and total verification after refund creation on refund page
-        $priceAftRefCrOnRef = $this->loadData($dataProv . '_backend_product_prices_after_refund_creation_refund_page');
-        $totAftRefCrOnRef = $this->loadData($dataProv . '_backend_total_after_refund_creation_refund_page');
-        $this->navigate('manage_products');
+        $priceAftRefCrOnRef = $this->loadData($dataProv . '_backend_product_prices_after_refund_on_refund');
+        $totAftRefCrOnRef = $this->loadData($dataProv . '_backend_total_after_refund_on_refund');
         for ($i=1; $i <= 3; $i++) {
-            $simpleProductData = $this->loadData("simple_product_for_prices_validation_$i",
-                NULL, array('general_name', 'general_sku'));
-            $sku = $simpleProductData['general_sku'];
-            $name = $simpleProductData['general_name'];
-            $this->productHelper()->createProduct($simpleProductData);
-            $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
-            $crOrder['products_to_add']['product_' . $i]['filter_sku'] = $sku;
-            $crOrder['prod_verification']['product_' . $i]['product'] = $name;
-            $priceAftOrdCr['product_' . $i]['product'] = $name;
-            $priceBefInvCr['product_' . $i]['product'] = $name;
-            $priceAftInvCr['product_' . $i]['product'] = $name;
-            $priceAftInvCrOnInv['product_' . $i]['product'] = $name;
-            $priceAftShipCr['product_' . $i]['product'] = $name;
-            $priceBefRefCr['product_' . $i]['product'] = $name;
-            $priceAftRefCr['product_' . $i]['product'] = $name;
-            $priceAftRefCrOnRef['product_' . $i]['product'] = $name;
+            $crOrder['products_to_add']['product_' . $i]['filter_sku'] = $products['sku'][$i];
+            $crOrder['prod_verification']['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftOrdCr['product_' . $i]['product'] = $products['name'][$i];
+            $priceBefInvCr['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftInvCr['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftInvCrOnInv['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftShipCr['product_' . $i]['product'] = $products['name'][$i];
+            $priceBefRefCr['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftRefCr['product_' . $i]['product'] = $products['name'][$i];
+            $priceAftRefCrOnRef['product_' . $i]['product'] = $products['name'][$i];
         }
         //Create Order and validate prices during order creation
         $this->navigate('manage_sales_orders');

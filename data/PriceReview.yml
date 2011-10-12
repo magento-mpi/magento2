@@ -38,7 +38,7 @@ simple_product_for_prices_validation_1:
     prices_tax_class: Taxable Goods
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
-    inventory_qty: 120
+    inventory_qty: 500
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
@@ -55,7 +55,7 @@ simple_product_for_prices_validation_2:
     prices_tax_class: Taxable Goods
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
-    inventory_qty: 120
+    inventory_qty: 500
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
@@ -72,7 +72,7 @@ simple_product_for_prices_validation_3:
     prices_tax_class: Taxable Goods
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
-    inventory_qty: 120
+    inventory_qty: 500
     inventory_stock_availability: In Stock
     websites: Main Website
     categories: Default Category
@@ -108,7 +108,7 @@ customer_account_address_for_prices_validation:
 #   Calc Type - Unit, Catalog Price - Excluding, Shipping Price - Excluding    #
 #                                                                              #
 ################################################################################
-unit_cat_ex_ship_ex_backend_product_prices_before_order_creation: &unitCatExShipExBackendProductPricesBeforeOrderCreation
+unit_cat_ex_ship_ex_backend_product_prices_before_order: &unitCatExShipExBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -140,13 +140,13 @@ unit_cat_ex_ship_ex_backend_product_prices_before_order_creation: &unitCatExShip
         row_subtotal_excl_tax: $77.55
         row_subtotal_incl_tax: $83.95
 
-unit_cat_ex_ship_ex_backend_products_total_before_order_creation: &unitCatExShipExBackendProductsTotalBeforeOrderCreation
+unit_cat_ex_ship_ex_backend_products_total_before_order: &unitCatExShipExBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $649.26
     discount: $0.00
     row_subtotal: $649.26
 
-unit_cat_ex_ship_ex_backend_total_before_order_creation: &unitCatExShipExBackendTotalBeforeOrderCreation
+unit_cat_ex_ship_ex_backend_total_before_order: &unitCatExShipExBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -188,7 +188,7 @@ unit_cat_ex_ship_ex_backend_create_order:
     total_verification: *unitCatExShipExBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-unit_cat_ex_ship_ex_backend_product_prices_after_order_creation:
+unit_cat_ex_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -226,7 +226,7 @@ unit_cat_ex_ship_ex_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_ex_backend_total_after_order_creation:
+unit_cat_ex_ship_ex_backend_total_after_order:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -240,7 +240,7 @@ unit_cat_ex_ship_ex_backend_total_after_order_creation:
     total_due: $660.09
 
 #<---------------Test Data for Price review during invoice creation------------>
-unit_cat_ex_ship_ex_backend_product_prices_before_invoice_creation:
+unit_cat_ex_ship_ex_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -272,7 +272,7 @@ unit_cat_ex_ship_ex_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_ex_backend_total_before_invoice_creation:
+unit_cat_ex_ship_ex_backend_total_before_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -283,7 +283,7 @@ unit_cat_ex_ship_ex_backend_total_before_invoice_creation:
     grand_total_incl_tax: $660.09
 
 #<-------Test Data for Price review after invoice creation on order page------->
-unit_cat_ex_ship_ex_backend_product_prices_after_invoice_creation:
+unit_cat_ex_ship_ex_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -327,7 +327,7 @@ unit_cat_ex_ship_ex_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_ex_backend_total_after_invoice_creation:
+unit_cat_ex_ship_ex_backend_total_after_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -341,7 +341,7 @@ unit_cat_ex_ship_ex_backend_total_after_invoice_creation:
     total_paid: $660.09
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-unit_cat_ex_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
+unit_cat_ex_ship_ex_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -373,7 +373,7 @@ unit_cat_ex_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_ex_backend_total_after_invoice_creation_invoice_page:
+unit_cat_ex_ship_ex_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -384,7 +384,7 @@ unit_cat_ex_ship_ex_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $660.09
 
 #<-------Test Data for Price review after shipment creation on order page------>
-unit_cat_ex_ship_ex_backend_product_prices_after_shipment_creation:
+unit_cat_ex_ship_ex_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -431,7 +431,7 @@ unit_cat_ex_ship_ex_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_ex_backend_total_after_shipment_creation:
+unit_cat_ex_ship_ex_backend_total_after_shipment:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -445,7 +445,7 @@ unit_cat_ex_ship_ex_backend_total_after_shipment_creation:
     total_paid: $660.09
 
 #<-------Test Data for Price review before refund creation on refund page------>
-unit_cat_ex_ship_ex_backend_product_prices_before_refund_creation:
+unit_cat_ex_ship_ex_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -483,7 +483,7 @@ unit_cat_ex_ship_ex_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_ex_backend_total_before_refund_creation:
+unit_cat_ex_ship_ex_backend_total_before_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     grand_total_excl_tax: $609.77
@@ -492,7 +492,7 @@ unit_cat_ex_ship_ex_backend_total_before_refund_creation:
     grand_total_incl_tax: $660.09
 
 #<-------Test Data for Price review after refund creation on order page-------->
-unit_cat_ex_ship_ex_backend_product_prices_after_refund_creation:
+unit_cat_ex_ship_ex_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -542,7 +542,7 @@ unit_cat_ex_ship_ex_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_ex_backend_total_after_refund_creation:
+unit_cat_ex_ship_ex_backend_total_after_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -556,7 +556,7 @@ unit_cat_ex_ship_ex_backend_total_after_refund_creation:
     total_paid: $660.09
 
 #<-------Test Data for Price review after refund creation on refund page------->
-unit_cat_ex_ship_ex_backend_product_prices_after_refund_creation_refund_page:
+unit_cat_ex_ship_ex_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -588,7 +588,7 @@ unit_cat_ex_ship_ex_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_ex_backend_total_after_refund_creation_refund_page:
+unit_cat_ex_ship_ex_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -605,7 +605,7 @@ unit_cat_ex_ship_ex_backend_total_after_refund_creation_refund_page:
 #   Calc Type - Row, Catalog Price - Excluding, Shipping Price - Excluding     #
 #                                                                              #
 ################################################################################
-row_cat_ex_ship_ex_backend_product_prices_before_order_creation: &rowCatExShipExBackendProductPricesBeforeOrderCreation
+row_cat_ex_ship_ex_backend_product_prices_before_order: &rowCatExShipExBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -637,13 +637,13 @@ row_cat_ex_ship_ex_backend_product_prices_before_order_creation: &rowCatExShipEx
         row_subtotal_excl_tax: $77.55
         row_subtotal_incl_tax: $83.95
 
-row_cat_ex_ship_ex_backend_products_total_before_order_creation: &rowCatExShipExBackendProductsTotalBeforeOrderCreation
+row_cat_ex_ship_ex_backend_products_total_before_order: &rowCatExShipExBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $649.25
     discount: $0.00
     row_subtotal: $649.25
 
-row_cat_ex_ship_ex_backend_total_before_order_creation: &rowCatExShipExBackendTotalBeforeOrderCreation
+row_cat_ex_ship_ex_backend_total_before_order: &rowCatExShipExBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -685,7 +685,7 @@ row_cat_ex_ship_ex_backend_create_order:
     total_verification: *rowCatExShipExBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-row_cat_ex_ship_ex_backend_product_prices_after_order_creation:
+row_cat_ex_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -723,7 +723,7 @@ row_cat_ex_ship_ex_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_ex_backend_total_after_order_creation:
+row_cat_ex_ship_ex_backend_total_after_order:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
@@ -737,7 +737,7 @@ row_cat_ex_ship_ex_backend_total_after_order_creation:
     total_due: $660.08
 
 #<---------------Test Data for Price review during invoice creation------------>
-row_cat_ex_ship_ex_backend_product_prices_before_invoice_creation:
+row_cat_ex_ship_ex_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -769,7 +769,7 @@ row_cat_ex_ship_ex_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_ex_backend_total_before_invoice_creation:
+row_cat_ex_ship_ex_backend_total_before_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
@@ -780,7 +780,7 @@ row_cat_ex_ship_ex_backend_total_before_invoice_creation:
     grand_total_incl_tax: $660.08
 
 #<-------Test Data for Price review after invoice creation on order page------->
-row_cat_ex_ship_ex_backend_product_prices_after_invoice_creation:
+row_cat_ex_ship_ex_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -824,7 +824,7 @@ row_cat_ex_ship_ex_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_ex_backend_total_after_invoice_creation:
+row_cat_ex_ship_ex_backend_total_after_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
@@ -838,7 +838,7 @@ row_cat_ex_ship_ex_backend_total_after_invoice_creation:
     total_paid: $660.08
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-row_cat_ex_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
+row_cat_ex_ship_ex_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -870,7 +870,7 @@ row_cat_ex_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_ex_backend_total_after_invoice_creation_invoice_page:
+row_cat_ex_ship_ex_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
@@ -881,7 +881,7 @@ row_cat_ex_ship_ex_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $660.08
 
 #<-------Test Data for Price review after shipment creation on order page------>
-row_cat_ex_ship_ex_backend_product_prices_after_shipment_creation:
+row_cat_ex_ship_ex_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -928,7 +928,7 @@ row_cat_ex_ship_ex_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_ex_backend_total_after_shipment_creation:
+row_cat_ex_ship_ex_backend_total_after_shipment:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
@@ -942,7 +942,7 @@ row_cat_ex_ship_ex_backend_total_after_shipment_creation:
     total_paid: $660.08
 
 #<-------Test Data for Price review before refund creation on refund page------>
-row_cat_ex_ship_ex_backend_product_prices_before_refund_creation:
+row_cat_ex_ship_ex_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -980,7 +980,7 @@ row_cat_ex_ship_ex_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_ex_backend_total_before_refund_creation:
+row_cat_ex_ship_ex_backend_total_before_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     grand_total_excl_tax: $609.77
@@ -989,7 +989,7 @@ row_cat_ex_ship_ex_backend_total_before_refund_creation:
     grand_total_incl_tax: $660.08
 
 #<-------Test Data for Price review after refund creation on order page-------->
-row_cat_ex_ship_ex_backend_product_prices_after_refund_creation:
+row_cat_ex_ship_ex_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -1039,7 +1039,7 @@ row_cat_ex_ship_ex_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_ex_backend_total_after_refund_creation:
+row_cat_ex_ship_ex_backend_total_after_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
@@ -1053,7 +1053,7 @@ row_cat_ex_ship_ex_backend_total_after_refund_creation:
     total_paid: $660.08
 
 #<-------Test Data for Price review after refund creation on refund page------->
-row_cat_ex_ship_ex_backend_product_prices_after_refund_creation_refund_page:
+row_cat_ex_ship_ex_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -1085,7 +1085,7 @@ row_cat_ex_ship_ex_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_ex_backend_total_after_refund_creation_refund_page:
+row_cat_ex_ship_ex_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
@@ -1102,7 +1102,7 @@ row_cat_ex_ship_ex_backend_total_after_refund_creation_refund_page:
 #   Calc Type - Total, Catalog Price - Excluding, Shipping Price - Excluding   #
 #                                                                              #
 ################################################################################
-total_cat_ex_ship_ex_backend_product_prices_before_order_creation: &totalCatExShipExBackendProductPricesBeforeOrderCreation
+total_cat_ex_ship_ex_backend_product_prices_before_order: &totalCatExShipExBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -1134,13 +1134,13 @@ total_cat_ex_ship_ex_backend_product_prices_before_order_creation: &totalCatExSh
         row_subtotal_excl_tax: $77.55
         row_subtotal_incl_tax: $83.95
 
-total_cat_ex_ship_ex_backend_products_total_before_order_creation: &totalCatExShipExBackendProductsTotalBeforeOrderCreation
+total_cat_ex_ship_ex_backend_products_total_before_order: &totalCatExShipExBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $649.26
     discount: $0.00
     row_subtotal: $649.26
 
-total_cat_ex_ship_ex_backend_total_before_order_creation: &totalCatExShipExBackendTotalBeforeOrderCreation
+total_cat_ex_ship_ex_backend_total_before_order: &totalCatExShipExBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -1182,7 +1182,7 @@ total_cat_ex_ship_ex_backend_create_order:
     total_verification: *totalCatExShipExBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-total_cat_ex_ship_ex_backend_product_prices_after_order_creation:
+total_cat_ex_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -1220,7 +1220,7 @@ total_cat_ex_ship_ex_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_ex_backend_total_after_order_creation:
+total_cat_ex_ship_ex_backend_total_after_order:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -1234,7 +1234,7 @@ total_cat_ex_ship_ex_backend_total_after_order_creation:
     total_due: $660.08
 
 #<---------------Test Data for Price review during invoice creation------------>
-total_cat_ex_ship_ex_backend_product_prices_before_invoice_creation:
+total_cat_ex_ship_ex_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -1266,7 +1266,7 @@ total_cat_ex_ship_ex_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_ex_backend_total_before_invoice_creation:
+total_cat_ex_ship_ex_backend_total_before_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -1277,7 +1277,7 @@ total_cat_ex_ship_ex_backend_total_before_invoice_creation:
     grand_total_incl_tax: $660.08
 
 #<-------Test Data for Price review after invoice creation on order page------->
-total_cat_ex_ship_ex_backend_product_prices_after_invoice_creation:
+total_cat_ex_ship_ex_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -1321,7 +1321,7 @@ total_cat_ex_ship_ex_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_ex_backend_total_after_invoice_creation:
+total_cat_ex_ship_ex_backend_total_after_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -1335,7 +1335,7 @@ total_cat_ex_ship_ex_backend_total_after_invoice_creation:
     total_paid: $660.08
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-total_cat_ex_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
+total_cat_ex_ship_ex_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -1367,7 +1367,7 @@ total_cat_ex_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_ex_backend_total_after_invoice_creation_invoice_page:
+total_cat_ex_ship_ex_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -1378,7 +1378,7 @@ total_cat_ex_ship_ex_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $660.08
 
 #<-------Test Data for Price review after shipment creation on order page------>
-total_cat_ex_ship_ex_backend_product_prices_after_shipment_creation:
+total_cat_ex_ship_ex_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -1425,7 +1425,7 @@ total_cat_ex_ship_ex_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_ex_backend_total_after_shipment_creation:
+total_cat_ex_ship_ex_backend_total_after_shipment:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -1439,7 +1439,7 @@ total_cat_ex_ship_ex_backend_total_after_shipment_creation:
     total_paid: $660.08
 
 #<-------Test Data for Price review before refund creation on refund page------>
-total_cat_ex_ship_ex_backend_product_prices_before_refund_creation:
+total_cat_ex_ship_ex_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -1477,7 +1477,7 @@ total_cat_ex_ship_ex_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_ex_backend_total_before_refund_creation:
+total_cat_ex_ship_ex_backend_total_before_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     grand_total_excl_tax: $609.77
@@ -1486,7 +1486,7 @@ total_cat_ex_ship_ex_backend_total_before_refund_creation:
     grand_total_incl_tax: $660.08
 
 #<-------Test Data for Price review after refund creation on order page-------->
-total_cat_ex_ship_ex_backend_product_prices_after_refund_creation:
+total_cat_ex_ship_ex_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -1536,7 +1536,7 @@ total_cat_ex_ship_ex_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_ex_backend_total_after_refund_creation:
+total_cat_ex_ship_ex_backend_total_after_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -1550,7 +1550,7 @@ total_cat_ex_ship_ex_backend_total_after_refund_creation:
     total_paid: $660.08
 
 #<-------Test Data for Price review after refund creation on refund page------->
-total_cat_ex_ship_ex_backend_product_prices_after_refund_creation_refund_page:
+total_cat_ex_ship_ex_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -1582,7 +1582,7 @@ total_cat_ex_ship_ex_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_ex_backend_total_after_refund_creation_refund_page:
+total_cat_ex_ship_ex_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_handling_excl_tax: $10.00
@@ -1599,7 +1599,7 @@ total_cat_ex_ship_ex_backend_total_after_refund_creation_refund_page:
 #   Calc Type - Unit, Catalog Price - Excluding, Shipping Price - Including    #
 #                                                                              #
 ################################################################################
-unit_cat_ex_ship_in_backend_product_prices_before_order_creation: &unitCatExShipInBackendProductPricesBeforeOrderCreation
+unit_cat_ex_ship_in_backend_product_prices_before_order: &unitCatExShipInBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -1631,13 +1631,13 @@ unit_cat_ex_ship_in_backend_product_prices_before_order_creation: &unitCatExShip
         row_subtotal_excl_tax: $77.55
         row_subtotal_incl_tax: $83.95
 
-unit_cat_ex_ship_in_backend_products_total_before_order_creation: &unitCatExShipInBackendProductsTotalBeforeOrderCreation
+unit_cat_ex_ship_in_backend_products_total_before_order: &unitCatExShipInBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $649.25
     discount: $0.00
     row_subtotal: $649.25
 
-unit_cat_ex_ship_in_backend_total_before_order_creation: &unitCatExShipInBackendTotalBeforeOrderCreation
+unit_cat_ex_ship_in_backend_total_before_order: &unitCatExShipInBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_excl_tax_flat_rate_fixed: $9.24
@@ -1679,7 +1679,7 @@ unit_cat_ex_ship_in_backend_create_order:
     total_verification: *unitCatExShipInBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-unit_cat_ex_ship_in_backend_product_prices_after_order_creation:
+unit_cat_ex_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -1717,7 +1717,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_in_backend_total_after_order_creation:
+unit_cat_ex_ship_in_backend_total_after_order:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -1731,7 +1731,7 @@ unit_cat_ex_ship_in_backend_total_after_order_creation:
     total_due: $657.60
 
 #<---------------Test Data for Price review during invoice creation------------>
-unit_cat_ex_ship_in_backend_product_prices_before_invoice_creation:
+unit_cat_ex_ship_in_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -1763,7 +1763,7 @@ unit_cat_ex_ship_in_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_in_backend_total_before_invoice_creation:
+unit_cat_ex_ship_in_backend_total_before_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -1774,7 +1774,7 @@ unit_cat_ex_ship_in_backend_total_before_invoice_creation:
     grand_total_incl_tax: $657.60
 
 #<-------Test Data for Price review after invoice creation on order page------->
-unit_cat_ex_ship_in_backend_product_prices_after_invoice_creation:
+unit_cat_ex_ship_in_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -1818,7 +1818,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_in_backend_total_after_invoice_creation:
+unit_cat_ex_ship_in_backend_total_after_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -1832,7 +1832,7 @@ unit_cat_ex_ship_in_backend_total_after_invoice_creation:
     total_paid: $657.60
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-unit_cat_ex_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
+unit_cat_ex_ship_in_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -1864,7 +1864,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_in_backend_total_after_invoice_creation_invoice_page:
+unit_cat_ex_ship_in_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -1875,7 +1875,7 @@ unit_cat_ex_ship_in_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $657.60
 
 #<-------Test Data for Price review after shipment creation on order page------>
-unit_cat_ex_ship_in_backend_product_prices_after_shipment_creation:
+unit_cat_ex_ship_in_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -1922,7 +1922,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_in_backend_total_after_shipment_creation:
+unit_cat_ex_ship_in_backend_total_after_shipment:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -1936,7 +1936,7 @@ unit_cat_ex_ship_in_backend_total_after_shipment_creation:
     total_paid: $657.60
 
 #<-------Test Data for Price review before refund creation on refund page------>
-unit_cat_ex_ship_in_backend_product_prices_before_refund_creation:
+unit_cat_ex_ship_in_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -1974,7 +1974,7 @@ unit_cat_ex_ship_in_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_in_backend_total_before_refund_creation:
+unit_cat_ex_ship_in_backend_total_before_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     grand_total_excl_tax: $609.01
@@ -1983,7 +1983,7 @@ unit_cat_ex_ship_in_backend_total_before_refund_creation:
     grand_total_incl_tax: $657.60
 
 #<-------Test Data for Price review after refund creation on order page-------->
-unit_cat_ex_ship_in_backend_product_prices_after_refund_creation:
+unit_cat_ex_ship_in_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -2033,7 +2033,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_in_backend_total_after_refund_creation:
+unit_cat_ex_ship_in_backend_total_after_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2047,7 +2047,7 @@ unit_cat_ex_ship_in_backend_total_after_refund_creation:
     total_paid: $657.60
 
 #<-------Test Data for Price review after refund creation on refund page------->
-unit_cat_ex_ship_in_backend_product_prices_after_refund_creation_refund_page:
+unit_cat_ex_ship_in_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -2079,7 +2079,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $83.95
 
-unit_cat_ex_ship_in_backend_total_after_refund_creation_refund_page:
+unit_cat_ex_ship_in_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2096,7 +2096,7 @@ unit_cat_ex_ship_in_backend_total_after_refund_creation_refund_page:
 #   Calc Type - Row, Catalog Price - Excluding, Shipping Price - Including     #
 #                                                                              #
 ################################################################################
-row_cat_ex_ship_in_backend_product_prices_before_order_creation: &rowCatExShipInBackendProductPricesBeforeOrderCreation
+row_cat_ex_ship_in_backend_product_prices_before_order: &rowCatExShipInBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -2128,13 +2128,13 @@ row_cat_ex_ship_in_backend_product_prices_before_order_creation: &rowCatExShipIn
         row_subtotal_excl_tax: $77.55
         row_subtotal_incl_tax: $83.95
 
-row_cat_ex_ship_in_backend_products_total_before_order_creation: &rowCatExShipInBackendProductsTotalBeforeOrderCreation
+row_cat_ex_ship_in_backend_products_total_before_order: &rowCatExShipInBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $649.25
     discount: $0.00
     row_subtotal: $649.25
 
-row_cat_ex_ship_in_backend_total_before_order_creation: &rowCatExShipInBackendTotalBeforeOrderCreation
+row_cat_ex_ship_in_backend_total_before_order: &rowCatExShipInBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_excl_tax_flat_rate_fixed: $9.24
@@ -2176,7 +2176,7 @@ row_cat_ex_ship_in_backend_create_order:
     total_verification: *rowCatExShipInBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-row_cat_ex_ship_in_backend_product_prices_after_order_creation:
+row_cat_ex_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -2214,7 +2214,7 @@ row_cat_ex_ship_in_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_in_backend_total_after_order_creation:
+row_cat_ex_ship_in_backend_total_after_order:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2228,7 +2228,7 @@ row_cat_ex_ship_in_backend_total_after_order_creation:
     total_due: $659.25
 
 #<---------------Test Data for Price review during invoice creation------------>
-row_cat_ex_ship_in_backend_product_prices_before_invoice_creation:
+row_cat_ex_ship_in_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -2260,7 +2260,7 @@ row_cat_ex_ship_in_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_in_backend_total_before_invoice_creation:
+row_cat_ex_ship_in_backend_total_before_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2271,7 +2271,7 @@ row_cat_ex_ship_in_backend_total_before_invoice_creation:
     grand_total_incl_tax: $659.25
 
 #<-------Test Data for Price review after invoice creation on order page------->
-row_cat_ex_ship_in_backend_product_prices_after_invoice_creation:
+row_cat_ex_ship_in_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -2315,7 +2315,7 @@ row_cat_ex_ship_in_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_in_backend_total_after_invoice_creation:
+row_cat_ex_ship_in_backend_total_after_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2329,7 +2329,7 @@ row_cat_ex_ship_in_backend_total_after_invoice_creation:
     total_paid: $659.25
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-row_cat_ex_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
+row_cat_ex_ship_in_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -2361,7 +2361,7 @@ row_cat_ex_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_in_backend_total_after_invoice_creation_invoice_page:
+row_cat_ex_ship_in_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2372,7 +2372,7 @@ row_cat_ex_ship_in_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $659.25
 
 #<-------Test Data for Price review after shipment creation on order page------>
-row_cat_ex_ship_in_backend_product_prices_after_shipment_creation:
+row_cat_ex_ship_in_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -2419,7 +2419,7 @@ row_cat_ex_ship_in_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_in_backend_total_after_shipment_creation:
+row_cat_ex_ship_in_backend_total_after_shipment:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2433,7 +2433,7 @@ row_cat_ex_ship_in_backend_total_after_shipment_creation:
     total_paid: $659.25
 
 #<-------Test Data for Price review before refund creation on refund page------>
-row_cat_ex_ship_in_backend_product_prices_before_refund_creation:
+row_cat_ex_ship_in_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -2471,7 +2471,7 @@ row_cat_ex_ship_in_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_in_backend_total_before_refund_creation:
+row_cat_ex_ship_in_backend_total_before_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     grand_total_excl_tax: $609.01
@@ -2480,7 +2480,7 @@ row_cat_ex_ship_in_backend_total_before_refund_creation:
     grand_total_incl_tax: $659.25
 
 #<-------Test Data for Price review after refund creation on order page-------->
-row_cat_ex_ship_in_backend_product_prices_after_refund_creation:
+row_cat_ex_ship_in_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -2530,7 +2530,7 @@ row_cat_ex_ship_in_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_in_backend_total_after_refund_creation:
+row_cat_ex_ship_in_backend_total_after_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2544,7 +2544,7 @@ row_cat_ex_ship_in_backend_total_after_refund_creation:
     total_paid: $659.25
 
 #<-------Test Data for Price review after refund creation on refund page------->
-row_cat_ex_ship_in_backend_product_prices_after_refund_creation_refund_page:
+row_cat_ex_ship_in_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -2576,7 +2576,7 @@ row_cat_ex_ship_in_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $83.95
 
-row_cat_ex_ship_in_backend_total_after_refund_creation_refund_page:
+row_cat_ex_ship_in_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2593,7 +2593,7 @@ row_cat_ex_ship_in_backend_total_after_refund_creation_refund_page:
 #   Calc Type - Total, Catalog Price - Excluding, Shipping Price - Including   #
 #                                                                              #
 ################################################################################
-total_cat_ex_ship_in_backend_product_prices_before_order_creation: &totalCatExShipInBackendProductPricesBeforeOrderCreation
+total_cat_ex_ship_in_backend_product_prices_before_order: &totalCatExShipInBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -2625,13 +2625,13 @@ total_cat_ex_ship_in_backend_product_prices_before_order_creation: &totalCatExSh
         row_subtotal_excl_tax: $77.55
         row_subtotal_incl_tax: $83.95
 
-total_cat_ex_ship_in_backend_products_total_before_order_creation: &totalCatExShipInBackendProductsTotalBeforeOrderCreation
+total_cat_ex_ship_in_backend_products_total_before_order: &totalCatExShipInBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $649.25
     discount: $0.00
     row_subtotal: $649.25
 
-total_cat_ex_ship_in_backend_total_before_order_creation: &totalCatExShipInBackendTotalBeforeOrderCreation
+total_cat_ex_ship_in_backend_total_before_order: &totalCatExShipInBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_excl_tax_flat_rate_fixed: $9.24
@@ -2673,7 +2673,7 @@ total_cat_ex_ship_in_backend_create_order:
     total_verification: *totalCatExShipInBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-total_cat_ex_ship_in_backend_product_prices_after_order_creation:
+total_cat_ex_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -2711,7 +2711,7 @@ total_cat_ex_ship_in_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_in_backend_total_after_order_creation:
+total_cat_ex_ship_in_backend_total_after_order:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2725,7 +2725,7 @@ total_cat_ex_ship_in_backend_total_after_order_creation:
     total_due: $659.25
 
 #<---------------Test Data for Price review during invoice creation------------>
-total_cat_ex_ship_in_backend_product_prices_before_invoice_creation:
+total_cat_ex_ship_in_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -2757,7 +2757,7 @@ total_cat_ex_ship_in_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_in_backend_total_before_invoice_creation:
+total_cat_ex_ship_in_backend_total_before_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2768,7 +2768,7 @@ total_cat_ex_ship_in_backend_total_before_invoice_creation:
     grand_total_incl_tax: $659.25
 
 #<-------Test Data for Price review after invoice creation on order page------->
-total_cat_ex_ship_in_backend_product_prices_after_invoice_creation:
+total_cat_ex_ship_in_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -2812,7 +2812,7 @@ total_cat_ex_ship_in_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_in_backend_total_after_invoice_creation:
+total_cat_ex_ship_in_backend_total_after_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2826,7 +2826,7 @@ total_cat_ex_ship_in_backend_total_after_invoice_creation:
     total_paid: $659.25
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-total_cat_ex_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
+total_cat_ex_ship_in_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -2858,7 +2858,7 @@ total_cat_ex_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_in_backend_total_after_invoice_creation_invoice_page:
+total_cat_ex_ship_in_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2869,7 +2869,7 @@ total_cat_ex_ship_in_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $659.25
 
 #<-------Test Data for Price review after shipment creation on order page------>
-total_cat_ex_ship_in_backend_product_prices_after_shipment_creation:
+total_cat_ex_ship_in_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -2916,7 +2916,7 @@ total_cat_ex_ship_in_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_in_backend_total_after_shipment_creation:
+total_cat_ex_ship_in_backend_total_after_shipment:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -2930,7 +2930,7 @@ total_cat_ex_ship_in_backend_total_after_shipment_creation:
     total_paid: $659.25
 
 #<-------Test Data for Price review before refund creation on refund page------>
-total_cat_ex_ship_in_backend_product_prices_before_refund_creation:
+total_cat_ex_ship_in_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -2968,7 +2968,7 @@ total_cat_ex_ship_in_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_in_backend_total_before_refund_creation:
+total_cat_ex_ship_in_backend_total_before_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     grand_total_excl_tax: $609.01
@@ -2977,7 +2977,7 @@ total_cat_ex_ship_in_backend_total_before_refund_creation:
     grand_total_incl_tax: $659.25
 
 #<-------Test Data for Price review after refund creation on order page-------->
-total_cat_ex_ship_in_backend_product_prices_after_refund_creation:
+total_cat_ex_ship_in_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -3027,7 +3027,7 @@ total_cat_ex_ship_in_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_in_backend_total_after_refund_creation:
+total_cat_ex_ship_in_backend_total_after_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -3041,7 +3041,7 @@ total_cat_ex_ship_in_backend_total_after_refund_creation:
     total_paid: $659.25
 
 #<-------Test Data for Price review after refund creation on refund page------->
-total_cat_ex_ship_in_backend_product_prices_after_refund_creation_refund_page:
+total_cat_ex_ship_in_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $111.11
@@ -3073,7 +3073,7 @@ total_cat_ex_ship_in_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $83.95
 
-total_cat_ex_ship_in_backend_total_after_refund_creation_refund_page:
+total_cat_ex_ship_in_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $9.24
@@ -3090,7 +3090,7 @@ total_cat_ex_ship_in_backend_total_after_refund_creation_refund_page:
 #   Calc Type - Unit, Catalog Price - Including, Shipping Price - Excluding    #
 #                                                                              #
 ################################################################################
-unit_cat_in_ship_ex_backend_product_prices_before_order_creation: &unitCatInShipExBackendProductPricesBeforeOrderCreation
+unit_cat_in_ship_ex_backend_product_prices_before_order: &unitCatInShipExBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -3122,13 +3122,13 @@ unit_cat_in_ship_ex_backend_product_prices_before_order_creation: &unitCatInShip
         row_subtotal_excl_tax: $71.65
         row_subtotal_incl_tax: $77.55
 
-unit_cat_in_ship_ex_backend_products_total_before_order_creation: &unitCatInShipExBackendProductsTotalBeforeOrderCreation
+unit_cat_in_ship_ex_backend_products_total_before_order: &unitCatInShipExBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $599.77
     discount: $0.00
     row_subtotal: $599.77
 
-unit_cat_in_ship_ex_backend_total_before_order_creation: &unitCatInShipExBackendTotalBeforeOrderCreation
+unit_cat_in_ship_ex_backend_total_before_order: &unitCatInShipExBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -3170,7 +3170,7 @@ unit_cat_in_ship_ex_backend_create_order:
     total_verification: *unitCatInShipExBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-unit_cat_in_ship_ex_backend_product_prices_after_order_creation:
+unit_cat_in_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -3208,7 +3208,7 @@ unit_cat_in_ship_ex_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_ex_backend_total_after_order_creation:
+unit_cat_in_ship_ex_backend_total_after_order:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3222,7 +3222,7 @@ unit_cat_in_ship_ex_backend_total_after_order_creation:
     total_due: $610.60
 
 #<---------------Test Data for Price review during invoice creation------------>
-unit_cat_in_ship_ex_backend_product_prices_before_invoice_creation:
+unit_cat_in_ship_ex_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -3254,7 +3254,7 @@ unit_cat_in_ship_ex_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_ex_backend_total_before_invoice_creation:
+unit_cat_in_ship_ex_backend_total_before_invoice:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3265,7 +3265,7 @@ unit_cat_in_ship_ex_backend_total_before_invoice_creation:
     grand_total_incl_tax: $610.60
 
 #<-------Test Data for Price review after invoice creation on order page------->
-unit_cat_in_ship_ex_backend_product_prices_after_invoice_creation:
+unit_cat_in_ship_ex_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -3309,7 +3309,7 @@ unit_cat_in_ship_ex_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_ex_backend_total_after_invoice_creation:
+unit_cat_in_ship_ex_backend_total_after_invoice:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3323,7 +3323,7 @@ unit_cat_in_ship_ex_backend_total_after_invoice_creation:
     total_paid: $610.60
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-unit_cat_in_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
+unit_cat_in_ship_ex_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -3355,7 +3355,7 @@ unit_cat_in_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_ex_backend_total_after_invoice_creation_invoice_page:
+unit_cat_in_ship_ex_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3366,7 +3366,7 @@ unit_cat_in_ship_ex_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $610.60
 
 #<-------Test Data for Price review after shipment creation on order page------>
-unit_cat_in_ship_ex_backend_product_prices_after_shipment_creation:
+unit_cat_in_ship_ex_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -3413,7 +3413,7 @@ unit_cat_in_ship_ex_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_ex_backend_total_after_shipment_creation:
+unit_cat_in_ship_ex_backend_total_after_shipment:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3427,7 +3427,7 @@ unit_cat_in_ship_ex_backend_total_after_shipment_creation:
     total_paid: $610.60
 
 #<-------Test Data for Price review before refund creation on refund page------>
-unit_cat_in_ship_ex_backend_product_prices_before_refund_creation:
+unit_cat_in_ship_ex_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -3465,7 +3465,7 @@ unit_cat_in_ship_ex_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_ex_backend_total_before_refund_creation:
+unit_cat_in_ship_ex_backend_total_before_refund:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     grand_total_excl_tax: $564.07
@@ -3474,7 +3474,7 @@ unit_cat_in_ship_ex_backend_total_before_refund_creation:
     grand_total_incl_tax: $610.60
 
 #<-------Test Data for Price review after refund creation on order page-------->
-unit_cat_in_ship_ex_backend_product_prices_after_refund_creation:
+unit_cat_in_ship_ex_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -3524,7 +3524,7 @@ unit_cat_in_ship_ex_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_ex_backend_total_after_refund_creation:
+unit_cat_in_ship_ex_backend_total_after_refund:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3538,7 +3538,7 @@ unit_cat_in_ship_ex_backend_total_after_refund_creation:
     total_paid: $610.60
 
 #<-------Test Data for Price review after refund creation on refund page------->
-unit_cat_in_ship_ex_backend_product_prices_after_refund_creation_refund_page:
+unit_cat_in_ship_ex_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -3570,7 +3570,7 @@ unit_cat_in_ship_ex_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_ex_backend_total_after_refund_creation_refund_page:
+unit_cat_in_ship_ex_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3587,7 +3587,7 @@ unit_cat_in_ship_ex_backend_total_after_refund_creation_refund_page:
 #   Calc Type - Row, Catalog Price - Including, Shipping Price - Excluding     #
 #                                                                              #
 ################################################################################
-row_cat_in_ship_ex_backend_product_prices_before_order_creation: &rowCatInShipExBackendProductPricesBeforeOrderCreation
+row_cat_in_ship_ex_backend_product_prices_before_order: &rowCatInShipExBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -3619,13 +3619,13 @@ row_cat_in_ship_ex_backend_product_prices_before_order_creation: &rowCatInShipEx
         row_subtotal_excl_tax: $71.64
         row_subtotal_incl_tax: $77.55
 
-row_cat_in_ship_ex_backend_products_total_before_order_creation: &rowCatInShipExBackendProductsTotalBeforeOrderCreation
+row_cat_in_ship_ex_backend_products_total_before_order: &rowCatInShipExBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $599.77
     discount: $0.00
     row_subtotal: $599.77
 
-row_cat_in_ship_ex_backend_total_before_order_creation: &rowCatInShipExBackendTotalBeforeOrderCreation
+row_cat_in_ship_ex_backend_total_before_order: &rowCatInShipExBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -3667,7 +3667,7 @@ row_cat_in_ship_ex_backend_create_order:
     total_verification: *rowCatInShipExBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-row_cat_in_ship_ex_backend_product_prices_after_order_creation:
+row_cat_in_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -3705,7 +3705,7 @@ row_cat_in_ship_ex_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_ex_backend_total_after_order_creation:
+row_cat_in_ship_ex_backend_total_after_order:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3719,7 +3719,7 @@ row_cat_in_ship_ex_backend_total_after_order_creation:
     total_due: $610.60
 
 #<---------------Test Data for Price review during invoice creation------------>
-row_cat_in_ship_ex_backend_product_prices_before_invoice_creation:
+row_cat_in_ship_ex_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -3751,7 +3751,7 @@ row_cat_in_ship_ex_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_ex_backend_total_before_invoice_creation:
+row_cat_in_ship_ex_backend_total_before_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3762,7 +3762,7 @@ row_cat_in_ship_ex_backend_total_before_invoice_creation:
     grand_total_incl_tax: $610.60
 
 #<-------Test Data for Price review after invoice creation on order page------->
-row_cat_in_ship_ex_backend_product_prices_after_invoice_creation:
+row_cat_in_ship_ex_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -3806,7 +3806,7 @@ row_cat_in_ship_ex_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_ex_backend_total_after_invoice_creation:
+row_cat_in_ship_ex_backend_total_after_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3820,7 +3820,7 @@ row_cat_in_ship_ex_backend_total_after_invoice_creation:
     total_paid: $610.60
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-row_cat_in_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
+row_cat_in_ship_ex_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -3852,7 +3852,7 @@ row_cat_in_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_ex_backend_total_after_invoice_creation_invoice_page:
+row_cat_in_ship_ex_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3863,7 +3863,7 @@ row_cat_in_ship_ex_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $610.60
 
 #<-------Test Data for Price review after shipment creation on order page------>
-row_cat_in_ship_ex_backend_product_prices_after_shipment_creation:
+row_cat_in_ship_ex_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -3910,7 +3910,7 @@ row_cat_in_ship_ex_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_ex_backend_total_after_shipment_creation:
+row_cat_in_ship_ex_backend_total_after_shipment:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -3924,7 +3924,7 @@ row_cat_in_ship_ex_backend_total_after_shipment_creation:
     total_paid: $610.60
 
 #<-------Test Data for Price review before refund creation on refund page------>
-row_cat_in_ship_ex_backend_product_prices_before_refund_creation:
+row_cat_in_ship_ex_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -3962,7 +3962,7 @@ row_cat_in_ship_ex_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_ex_backend_total_before_refund_creation:
+row_cat_in_ship_ex_backend_total_before_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     grand_total_excl_tax: $564.06
@@ -3971,7 +3971,7 @@ row_cat_in_ship_ex_backend_total_before_refund_creation:
     grand_total_incl_tax: $610.60
 
 #<-------Test Data for Price review after refund creation on order page-------->
-row_cat_in_ship_ex_backend_product_prices_after_refund_creation:
+row_cat_in_ship_ex_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -4021,7 +4021,7 @@ row_cat_in_ship_ex_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_ex_backend_total_after_refund_creation:
+row_cat_in_ship_ex_backend_total_after_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -4035,7 +4035,7 @@ row_cat_in_ship_ex_backend_total_after_refund_creation:
     total_paid: $610.60
 
 #<-------Test Data for Price review after refund creation on refund page------->
-row_cat_in_ship_ex_backend_product_prices_after_refund_creation_refund_page:
+row_cat_in_ship_ex_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -4067,7 +4067,7 @@ row_cat_in_ship_ex_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_ex_backend_total_after_refund_creation_refund_page:
+row_cat_in_ship_ex_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -4084,7 +4084,7 @@ row_cat_in_ship_ex_backend_total_after_refund_creation_refund_page:
 #   Calc Type - Total, Catalog Price - Including, Shipping Price - Excluding   #
 #                                                                              #
 ################################################################################
-total_cat_in_ship_ex_backend_product_prices_before_order_creation: &totalCatInShipExBackendProductPricesBeforeOrderCreation
+total_cat_in_ship_ex_backend_product_prices_before_order: &totalCatInShipExBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -4116,13 +4116,13 @@ total_cat_in_ship_ex_backend_product_prices_before_order_creation: &totalCatInSh
         row_subtotal_excl_tax: $71.64
         row_subtotal_incl_tax: $77.55
 
-total_cat_in_ship_ex_backend_products_total_before_order_creation: &totalCatInShipExBackendProductsTotalBeforeOrderCreation
+total_cat_in_ship_ex_backend_products_total_before_order: &totalCatInShipExBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $599.77
     discount: $0.00
     row_subtotal: $599.77
 
-total_cat_in_ship_ex_backend_total_before_order_creation: &totalCatInShipExBackendTotalBeforeOrderCreation
+total_cat_in_ship_ex_backend_total_before_order: &totalCatInShipExBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -4164,7 +4164,7 @@ total_cat_in_ship_ex_backend_create_order:
     total_verification: *totalCatInShipExBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-total_cat_in_ship_ex_backend_product_prices_after_order_creation:
+total_cat_in_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -4202,7 +4202,7 @@ total_cat_in_ship_ex_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_ex_backend_total_after_order_creation:
+total_cat_in_ship_ex_backend_total_after_order:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -4216,7 +4216,7 @@ total_cat_in_ship_ex_backend_total_after_order_creation:
     total_due: $610.53
 
 #<---------------Test Data for Price review during invoice creation------------>
-total_cat_in_ship_ex_backend_product_prices_before_invoice_creation:
+total_cat_in_ship_ex_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -4248,7 +4248,7 @@ total_cat_in_ship_ex_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_ex_backend_total_before_invoice_creation:
+total_cat_in_ship_ex_backend_total_before_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -4259,7 +4259,7 @@ total_cat_in_ship_ex_backend_total_before_invoice_creation:
     grand_total_incl_tax: $610.53
 
 #<-------Test Data for Price review after invoice creation on order page------->
-total_cat_in_ship_ex_backend_product_prices_after_invoice_creation:
+total_cat_in_ship_ex_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -4303,7 +4303,7 @@ total_cat_in_ship_ex_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_ex_backend_total_after_invoice_creation:
+total_cat_in_ship_ex_backend_total_after_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -4317,7 +4317,7 @@ total_cat_in_ship_ex_backend_total_after_invoice_creation:
     total_paid: $610.53
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-total_cat_in_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
+total_cat_in_ship_ex_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -4349,7 +4349,7 @@ total_cat_in_ship_ex_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_ex_backend_total_after_invoice_creation_invoice_page:
+total_cat_in_ship_ex_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -4360,7 +4360,7 @@ total_cat_in_ship_ex_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $610.53
 
 #<-------Test Data for Price review after shipment creation on order page------>
-total_cat_in_ship_ex_backend_product_prices_after_shipment_creation:
+total_cat_in_ship_ex_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -4407,7 +4407,7 @@ total_cat_in_ship_ex_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_ex_backend_total_after_shipment_creation:
+total_cat_in_ship_ex_backend_total_after_shipment:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -4421,7 +4421,7 @@ total_cat_in_ship_ex_backend_total_after_shipment_creation:
     total_paid: $610.53
 
 #<-------Test Data for Price review before refund creation on refund page------>
-total_cat_in_ship_ex_backend_product_prices_before_refund_creation:
+total_cat_in_ship_ex_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -4459,7 +4459,7 @@ total_cat_in_ship_ex_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_ex_backend_total_before_refund_creation:
+total_cat_in_ship_ex_backend_total_before_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     grand_total_excl_tax: $564.06
@@ -4468,7 +4468,7 @@ total_cat_in_ship_ex_backend_total_before_refund_creation:
     grand_total_incl_tax: $610.53
 
 #<-------Test Data for Price review after refund creation on order page-------->
-total_cat_in_ship_ex_backend_product_prices_after_refund_creation:
+total_cat_in_ship_ex_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -4518,7 +4518,7 @@ total_cat_in_ship_ex_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_ex_backend_total_after_refund_creation:
+total_cat_in_ship_ex_backend_total_after_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -4532,7 +4532,7 @@ total_cat_in_ship_ex_backend_total_after_refund_creation:
     total_paid: $610.53
 
 #<-------Test Data for Price review after refund creation on refund page------->
-total_cat_in_ship_ex_backend_product_prices_after_refund_creation_refund_page:
+total_cat_in_ship_ex_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -4564,7 +4564,7 @@ total_cat_in_ship_ex_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_ex_backend_total_after_refund_creation_refund_page:
+total_cat_in_ship_ex_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $10.00
@@ -4581,7 +4581,7 @@ total_cat_in_ship_ex_backend_total_after_refund_creation_refund_page:
 #   Calc Type - Unit, Catalog Price - Including, Shipping Price - Including    #
 #                                                                              #
 ################################################################################
-unit_cat_in_ship_in_backend_product_prices_before_order_creation: &unitCatInShipInBackendProductPricesBeforeOrderCreation
+unit_cat_in_ship_in_backend_product_prices_before_order: &unitCatInShipInBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -4613,13 +4613,13 @@ unit_cat_in_ship_in_backend_product_prices_before_order_creation: &unitCatInShip
         row_subtotal_excl_tax: $71.65
         row_subtotal_incl_tax: $77.55
 
-unit_cat_in_ship_in_backend_products_total_before_order_creation: &unitCatInShipInBackendProductsTotalBeforeOrderCreation
+unit_cat_in_ship_in_backend_products_total_before_order: &unitCatInShipInBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $599.77
     discount: $0.00
     row_subtotal: $599.77
 
-unit_cat_in_ship_in_backend_total_before_order_creation: &unitCatInShipInBackendTotalBeforeOrderCreation
+unit_cat_in_ship_in_backend_total_before_order: &unitCatInShipInBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $9.24
@@ -4661,7 +4661,7 @@ unit_cat_in_ship_in_backend_create_order:
     total_verification: *unitCatInShipInBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-unit_cat_in_ship_in_backend_product_prices_after_order_creation:
+unit_cat_in_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -4699,7 +4699,7 @@ unit_cat_in_ship_in_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_in_backend_total_after_order_creation:
+unit_cat_in_ship_in_backend_total_after_order:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -4713,7 +4713,7 @@ unit_cat_in_ship_in_backend_total_after_order_creation:
     total_due: $609.77
 
 #<---------------Test Data for Price review during invoice creation------------>
-unit_cat_in_ship_in_backend_product_prices_before_invoice_creation:
+unit_cat_in_ship_in_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -4745,7 +4745,7 @@ unit_cat_in_ship_in_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_in_backend_total_before_invoice_creation:
+unit_cat_in_ship_in_backend_total_before_invoice:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -4756,7 +4756,7 @@ unit_cat_in_ship_in_backend_total_before_invoice_creation:
     grand_total_incl_tax: $609.77
 
 #<-------Test Data for Price review after invoice creation on order page------->
-unit_cat_in_ship_in_backend_product_prices_after_invoice_creation:
+unit_cat_in_ship_in_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -4800,7 +4800,7 @@ unit_cat_in_ship_in_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_in_backend_total_after_invoice_creation:
+unit_cat_in_ship_in_backend_total_after_invoice:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -4814,7 +4814,7 @@ unit_cat_in_ship_in_backend_total_after_invoice_creation:
     total_paid: $609.77
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-unit_cat_in_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
+unit_cat_in_ship_in_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -4846,7 +4846,7 @@ unit_cat_in_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_in_backend_total_after_invoice_creation_invoice_page:
+unit_cat_in_ship_in_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -4857,7 +4857,7 @@ unit_cat_in_ship_in_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $609.77
 
 #<-------Test Data for Price review after shipment creation on order page------>
-unit_cat_in_ship_in_backend_product_prices_after_shipment_creation:
+unit_cat_in_ship_in_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -4904,7 +4904,7 @@ unit_cat_in_ship_in_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_in_backend_total_after_shipment_creation:
+unit_cat_in_ship_in_backend_total_after_shipment:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -4918,7 +4918,7 @@ unit_cat_in_ship_in_backend_total_after_shipment_creation:
     total_paid: $609.77
 
 #<-------Test Data for Price review before refund creation on refund page------>
-unit_cat_in_ship_in_backend_product_prices_before_refund_creation:
+unit_cat_in_ship_in_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -4956,7 +4956,7 @@ unit_cat_in_ship_in_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_in_backend_total_before_refund_creation:
+unit_cat_in_ship_in_backend_total_before_refund:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     grand_total_excl_tax: $563.31
@@ -4965,7 +4965,7 @@ unit_cat_in_ship_in_backend_total_before_refund_creation:
     grand_total_incl_tax: $609.77
 
 #<-------Test Data for Price review after refund creation on order page-------->
-unit_cat_in_ship_in_backend_product_prices_after_refund_creation:
+unit_cat_in_ship_in_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -5015,7 +5015,7 @@ unit_cat_in_ship_in_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_in_backend_total_after_refund_creation:
+unit_cat_in_ship_in_backend_total_after_refund:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -5029,7 +5029,7 @@ unit_cat_in_ship_in_backend_total_after_refund_creation:
     total_paid: $609.77
 
 #<-------Test Data for Price review after refund creation on refund page------->
-unit_cat_in_ship_in_backend_product_prices_after_refund_creation_refund_page:
+unit_cat_in_ship_in_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -5061,7 +5061,7 @@ unit_cat_in_ship_in_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $77.55
 
-unit_cat_in_ship_in_backend_total_after_refund_creation_refund_page:
+unit_cat_in_ship_in_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -5078,7 +5078,7 @@ unit_cat_in_ship_in_backend_total_after_refund_creation_refund_page:
 #   Calc Type - Row, Catalog Price - Including, Shipping Price - Including     #
 #                                                                              #
 ################################################################################
-row_cat_in_ship_in_backend_product_prices_before_order_creation: &rowCatInShipInBackendProductPricesBeforeOrderCreation
+row_cat_in_ship_in_backend_product_prices_before_order: &rowCatInShipInBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -5110,13 +5110,13 @@ row_cat_in_ship_in_backend_product_prices_before_order_creation: &rowCatInShipIn
         row_subtotal_excl_tax: $71.64
         row_subtotal_incl_tax: $77.55
 
-row_cat_in_ship_in_backend_products_total_before_order_creation: &rowCatInShipInBackendProductsTotalBeforeOrderCreation
+row_cat_in_ship_in_backend_products_total_before_order: &rowCatInShipInBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $599.77
     discount: $0.00
     row_subtotal: $599.77
 
-row_cat_in_ship_in_backend_total_before_order_creation: &rowCatInShipInBackendTotalBeforeOrderCreation
+row_cat_in_ship_in_backend_total_before_order: &rowCatInShipInBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $9.24
@@ -5158,7 +5158,7 @@ row_cat_in_ship_in_backend_create_order:
     total_verification: *rowCatInShipInBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-row_cat_in_ship_in_backend_product_prices_after_order_creation:
+row_cat_in_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -5196,7 +5196,7 @@ row_cat_in_ship_in_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_in_backend_total_after_order_creation:
+row_cat_in_ship_in_backend_total_after_order:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -5210,7 +5210,7 @@ row_cat_in_ship_in_backend_total_after_order_creation:
     total_due: $609.77
 
 #<---------------Test Data for Price review during invoice creation------------>
-row_cat_in_ship_in_backend_product_prices_before_invoice_creation:
+row_cat_in_ship_in_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -5242,7 +5242,7 @@ row_cat_in_ship_in_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_in_backend_total_before_invoice_creation:
+row_cat_in_ship_in_backend_total_before_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -5253,7 +5253,7 @@ row_cat_in_ship_in_backend_total_before_invoice_creation:
     grand_total_incl_tax: $609.77
 
 #<-------Test Data for Price review after invoice creation on order page------->
-row_cat_in_ship_in_backend_product_prices_after_invoice_creation:
+row_cat_in_ship_in_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -5297,7 +5297,7 @@ row_cat_in_ship_in_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_in_backend_total_after_invoice_creation:
+row_cat_in_ship_in_backend_total_after_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -5311,7 +5311,7 @@ row_cat_in_ship_in_backend_total_after_invoice_creation:
     total_paid: $609.77
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-row_cat_in_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
+row_cat_in_ship_in_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -5343,7 +5343,7 @@ row_cat_in_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_in_backend_total_after_invoice_creation_invoice_page:
+row_cat_in_ship_in_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -5354,7 +5354,7 @@ row_cat_in_ship_in_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $609.77
 
 #<-------Test Data for Price review after shipment creation on order page------>
-row_cat_in_ship_in_backend_product_prices_after_shipment_creation:
+row_cat_in_ship_in_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -5401,7 +5401,7 @@ row_cat_in_ship_in_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_in_backend_total_after_shipment_creation:
+row_cat_in_ship_in_backend_total_after_shipment:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -5415,7 +5415,7 @@ row_cat_in_ship_in_backend_total_after_shipment_creation:
     total_paid: $609.77
 
 #<-------Test Data for Price review before refund creation on refund page------>
-row_cat_in_ship_in_backend_product_prices_before_refund_creation:
+row_cat_in_ship_in_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -5453,7 +5453,7 @@ row_cat_in_ship_in_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_in_backend_total_before_refund_creation:
+row_cat_in_ship_in_backend_total_before_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     grand_total_excl_tax: $563.30
@@ -5462,7 +5462,7 @@ row_cat_in_ship_in_backend_total_before_refund_creation:
     grand_total_incl_tax: $609.77
 
 #<-------Test Data for Price review after refund creation on order page-------->
-row_cat_in_ship_in_backend_product_prices_after_refund_creation:
+row_cat_in_ship_in_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -5512,7 +5512,7 @@ row_cat_in_ship_in_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_in_backend_total_after_refund_creation:
+row_cat_in_ship_in_backend_total_after_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -5526,7 +5526,7 @@ row_cat_in_ship_in_backend_total_after_refund_creation:
     total_paid: $609.77
 
 #<-------Test Data for Price review after refund creation on refund page------->
-row_cat_in_ship_in_backend_product_prices_after_refund_creation_refund_page:
+row_cat_in_ship_in_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -5558,7 +5558,7 @@ row_cat_in_ship_in_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $77.55
 
-row_cat_in_ship_in_backend_total_after_refund_creation_refund_page:
+row_cat_in_ship_in_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $9.24
@@ -5575,7 +5575,7 @@ row_cat_in_ship_in_backend_total_after_refund_creation_refund_page:
 #   Calc Type - Total, Catalog Price - Including, Shipping Price - Including   #
 #                                                                              #
 ################################################################################
-total_cat_in_ship_in_backend_product_prices_before_order_creation: &totalCatInShipInBackendProductPricesBeforeOrderCreation
+total_cat_in_ship_in_backend_product_prices_before_order: &totalCatInShipInBackendProductPricesBeforeOrderCreation
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -5607,13 +5607,13 @@ total_cat_in_ship_in_backend_product_prices_before_order_creation: &totalCatInSh
         row_subtotal_excl_tax: $71.64
         row_subtotal_incl_tax: $77.55
 
-total_cat_in_ship_in_backend_products_total_before_order_creation: &totalCatInShipInBackendProductsTotalBeforeOrderCreation
+total_cat_in_ship_in_backend_products_total_before_order: &totalCatInShipInBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
     subtotal: $599.77
     discount: $0.00
     row_subtotal: $599.77
 
-total_cat_in_ship_in_backend_total_before_order_creation: &totalCatInShipInBackendTotalBeforeOrderCreation
+total_cat_in_ship_in_backend_total_before_order: &totalCatInShipInBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $3.33
@@ -5655,7 +5655,7 @@ total_cat_in_ship_in_backend_create_order:
     total_verification: *totalCatInShipInBackendTotalBeforeOrderCreation
 
 #<--------Test Data for Price review in order review on the backend------------>
-total_cat_in_ship_in_backend_product_prices_after_order_creation:
+total_cat_in_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
         original_price: $111.11
@@ -5693,7 +5693,7 @@ total_cat_in_ship_in_backend_product_prices_after_order_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_in_backend_total_after_order_creation:
+total_cat_in_ship_in_backend_total_after_order:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $3.33
@@ -5707,7 +5707,7 @@ total_cat_in_ship_in_backend_total_after_order_creation:
     total_due: $609.77
 
 #<---------------Test Data for Price review during invoice creation------------>
-total_cat_in_ship_in_backend_product_prices_before_invoice_creation:
+total_cat_in_ship_in_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -5739,7 +5739,7 @@ total_cat_in_ship_in_backend_product_prices_before_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_in_backend_total_before_invoice_creation:
+total_cat_in_ship_in_backend_total_before_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $3.33
@@ -5750,7 +5750,7 @@ total_cat_in_ship_in_backend_total_before_invoice_creation:
     grand_total_incl_tax: $609.77
 
 #<-------Test Data for Price review after invoice creation on order page------->
-total_cat_in_ship_in_backend_product_prices_after_invoice_creation:
+total_cat_in_ship_in_backend_product_prices_after_invoice:
     product_1:
         product: %noValue%
         item_status: Invoiced
@@ -5794,7 +5794,7 @@ total_cat_in_ship_in_backend_product_prices_after_invoice_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_in_backend_total_after_invoice_creation:
+total_cat_in_ship_in_backend_total_after_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $3.33
@@ -5808,7 +5808,7 @@ total_cat_in_ship_in_backend_total_after_invoice_creation:
     total_paid: $609.77
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
-total_cat_in_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
+total_cat_in_ship_in_backend_product_prices_after_invoice_on_invoice:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -5840,7 +5840,7 @@ total_cat_in_ship_in_backend_product_prices_after_invoice_creation_invoice_page:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_in_backend_total_after_invoice_creation_invoice_page:
+total_cat_in_ship_in_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $3.33
@@ -5851,7 +5851,7 @@ total_cat_in_ship_in_backend_total_after_invoice_creation_invoice_page:
     grand_total_incl_tax: $609.77
 
 #<-------Test Data for Price review after shipment creation on order page------>
-total_cat_in_ship_in_backend_product_prices_after_shipment_creation:
+total_cat_in_ship_in_backend_product_prices_after_shipment:
     product_1:
         product: %noValue%
         item_status: Mixed
@@ -5898,7 +5898,7 @@ total_cat_in_ship_in_backend_product_prices_after_shipment_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_in_backend_total_after_shipment_creation:
+total_cat_in_ship_in_backend_total_after_shipment:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $3.33
@@ -5912,7 +5912,7 @@ total_cat_in_ship_in_backend_total_after_shipment_creation:
     total_paid: $609.77
 
 #<-------Test Data for Price review before refund creation on refund page------>
-total_cat_in_ship_in_backend_product_prices_before_refund_creation:
+total_cat_in_ship_in_backend_product_prices_before_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -5950,7 +5950,7 @@ total_cat_in_ship_in_backend_product_prices_before_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_in_backend_total_before_refund_creation:
+total_cat_in_ship_in_backend_total_before_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     grand_total_excl_tax: $557.39
@@ -5959,7 +5959,7 @@ total_cat_in_ship_in_backend_total_before_refund_creation:
     grand_total_incl_tax: $609.77
 
 #<-------Test Data for Price review after refund creation on order page-------->
-total_cat_in_ship_in_backend_product_prices_after_refund_creation:
+total_cat_in_ship_in_backend_product_prices_after_refund:
     product_1:
         product: %noValue%
         item_status: Refunded
@@ -6009,7 +6009,7 @@ total_cat_in_ship_in_backend_product_prices_after_refund_creation:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_in_backend_total_after_refund_creation:
+total_cat_in_ship_in_backend_total_after_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $3.33
@@ -6023,7 +6023,7 @@ total_cat_in_ship_in_backend_total_after_refund_creation:
     total_paid: $609.77
 
 #<-------Test Data for Price review after refund creation on refund page------->
-total_cat_in_ship_in_backend_product_prices_after_refund_creation_refund_page:
+total_cat_in_ship_in_backend_product_prices_after_refund_on_refund:
     product_1:
         product: %noValue%
         price_excl_tax: $102.64
@@ -6055,7 +6055,7 @@ total_cat_in_ship_in_backend_product_prices_after_refund_creation_refund_page:
         discount_amount: $0.00
         row_total: $77.55
 
-total_cat_in_ship_in_backend_total_after_refund_creation_refund_page:
+total_cat_in_ship_in_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_handling_excl_tax: $3.33
