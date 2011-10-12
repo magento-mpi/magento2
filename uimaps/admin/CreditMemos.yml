@@ -133,3 +133,49 @@ create_credit_memo_for_invoice:
     title: New Memo for %invoiceId% / Credit Memos / Sales / Magento Admin
     uimap:
         form: *orderCreditmemo
+
+view_credit_memo:
+    mca: sales_creditmemo/view/creditmemo_id/%id%/
+    title: View Memo / Credit Memos / Sales / Magento Admin
+    uimap:
+        form: &viewCreditmemo
+            fieldsets:
+                -
+                    order_number:
+                        xpath: //div[@class='entry-edit'][./div/a[contains(.,'Order #')]]
+                -
+                    account_information:
+                        xpath: //div[@class='entry-edit'][./div/h4='Account Information']
+                -
+                    billing_address:
+                        xpath: //div[@class='entry-edit'][./div/h4='Billing Address']
+                -
+                    shipping_address:
+                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Address']
+                -
+                    payment_information:
+                        xpath: //div[@class='entry-edit'][./div/h4='Payment Information']
+                -
+                    shipping_information:
+                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Information']
+                -
+                    items_refunded:
+                        xpath: //div[@id='creditmemo_items_container']/div[@class='grid np']
+                        pageelements:
+                            product_table_head: //table[@class='data order-tables']/thead
+                            price_totals: //div[@id='history_form']//table/tbody
+                            product_line:  //table[@class='data order-tables']/tbody
+                -
+                    credit_memo_history:
+                        xpath: //div[@class='box-left entry-edit'][./div/h4='Credit Memo History']
+                        fields:
+                            credit_memo_comments: //textarea[@name='comment[comment]']
+                        buttons:
+                            submit_comment: //button[span='Submit Comment']
+                -
+                    credit_memo_totals:
+                        xpath: //div[@class='box-right entry-edit'][./div/h4='Credit Memo Totals']
+        buttons:
+            back: //p[@class='form-buttons']//button[span='Back']
+            send_email: //p[@class='form-buttons']//button[span='Send Email']
+            print: //p[@class='form-buttons']//button[span='Print']

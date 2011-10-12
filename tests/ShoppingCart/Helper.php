@@ -139,7 +139,7 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
             $productData = array_diff($productData, array(''));
             foreach ($productData as $fieldName => &$fieldValue) {
                 if (preg_match('/([\d]+\.[\d]+)|([\d]+)/', $fieldValue)) {
-                    preg_match_all('/^-?.([\d]+\.[\d]+)|([\d]+)/', $fieldValue, $price);
+                    preg_match_all('/^-?.?([\d]+\.[\d]+(\%)?)|([\d]+(\%)?)/', $fieldValue, $price);
                     $fieldValue = $price[0][0];
                 }
                 if (preg_match('/SKU:/', $fieldValue)) {
