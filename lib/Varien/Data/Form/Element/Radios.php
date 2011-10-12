@@ -74,7 +74,7 @@ class Varien_Data_Form_Element_Radios extends Varien_Data_Form_Element_Abstract
         }
         elseif ($option instanceof Varien_Object) {
         	$html.= 'id="'.$this->getHtmlId().$option->getValue().'"'.$option->serialize(array('label', 'title', 'value', 'class', 'style'));
-        	if (in_array($option->getValue(), $selected, true)) {
+        	if (in_array($option->getValue(), $selected)) {
         	    $html.= ' checked="checked"';
         	}
         	$html.= ' />';
