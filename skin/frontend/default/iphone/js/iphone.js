@@ -704,6 +704,7 @@ document.observe("dom:loaded", function() {
             this.originalCoord = { x: 0, y: 0 };
             this.finalCoord    = { x: 0, y: 0 };
             this.offset = { x: 0, y: 0 };
+            this.ret = { x: 0, y: 0 };
 
             this.items.each(function (item) {
                 item.observe('touchstart', this.touchStart.bind(this));            
@@ -786,7 +787,7 @@ document.observe("dom:loaded", function() {
             e.preventDefault();
             var $this = e.target
             
-            if ( (e.scale * this.scale) > 3 )
+            if ( (e.scale * this.scale) > 2 )
                 return
             
             $this.setStyle({
@@ -824,6 +825,8 @@ document.observe("dom:loaded", function() {
             
             this.originalCoord.x = e.targetTouches[0].clientX;
             this.originalCoord.y = e.targetTouches[0].clientY;
+            
+            $this.setStyle({ 'webkitTransition' : '' });
         },
         touchMove: function (e) {
         
@@ -838,11 +841,9 @@ document.observe("dom:loaded", function() {
             var $this = e.target;
 
             var changeX = this.offset.x + this.finalCoord.x - this.originalCoord.x,
-                changeY = this.offset.y + this.finalCoord.y - this.originalCoord.y;
-                
-            if ( (this.dimensions.width * (this.scale - 1)) / 2 < Math.abs(changeX) || (this.dimensions.height * (this.scale - 1)) / 2 < Math.abs(changeY) ) {
-                return false
-            }
+                changeY = this.offset.y + this.finalCoord.y - this.originalCoord.y,
+                topX = (this.dimensions.width  * (this.scale - 1))/2,
+                topY = (this.dimensions.height * (this.scale - 1))/2;
             
             $this.setStyle({
                 'webkitTransform' : 'translate3d(' + changeX + 'px,' + changeY + 'px, 0) scale3d(' + this.scale + ',' + this.scale  + ',1)'
@@ -850,19 +851,13 @@ document.observe("dom:loaded", function() {
 
         },
         touchEnd: function (e) {
-            var $this = e.target;
-            
+        
             this.t2 = Date.now();
-            
-            if (e.targetTouches.length > 0)
-                return false;
-            
-            this.offset.x += this.finalCoord.x - this.originalCoord.x;
-            this.offset.y += this.finalCoord.y - this.originalCoord.y;
-            
-            var changeX = this.originalCoord.x - this.finalCoord.x,
-                changeY = this.originalCoord.y - this.finalCoord.y,
-                timeDelta = this.t2 - this.t1;
+        
+            var $this = e.target,
+                timeDelta = this.t2 - this.t1,
+                changeX = this.originalCoord.x - this.finalCoord.x,
+                changeY = this.originalCoord.y - this.finalCoord.y;
             
             if(changeX > this.options.threshold.x && Math.abs(changeY) < 30 && timeDelta < 200) {
                 this.moveRight($this);
@@ -870,6 +865,51 @@ document.observe("dom:loaded", function() {
             if(changeX < this.options.threshold.x * -1 && Math.abs(changeY) < 30 && timeDelta < 200) {
                 
                 this.moveLeft($this);
+            }
+            
+            if (e.targetTouches.length > 0 || this.gestureStart || timeDelta < 100)
+                return false;
+            
+            this.offset.x += this.finalCoord.x - this.originalCoord.x;
+            this.offset.y += this.finalCoord.y - this.originalCoord.y;
+            
+            var topX = (this.dimensions.width  * (this.scale - 1))/2,
+                topY = (this.dimensions.height * (this.scale - 1))/2,
+                moved = false;
+
+            if ( Math.abs(this.offset.x) > topX ) {
+            
+                moved = true;
+                $this.setStyle({
+                    'webkitTransition' : '-webkit-transform 100ms ease-out',
+                    'webkitTransform' : 'translate3d(' + (this.offset.x  < 0 ? topX*-1 : topX) + 'px,' + this.offset.y + 'px, 0) scale3d(' + this.scale + ',' + this.scale  + ',1)'
+                });
+                
+                this.offset.x = this.offset.x  < 0 ? topX*-1 : topX;
+                
+            }
+            
+            if ( Math.abs(this.offset.y) > topY ) {
+                moved = true;
+                $this.setStyle({
+                    'webkitTransition' : '-webkit-transform 100ms ease-out',
+                    'webkitTransform' : 'translate3d(' + this.offset.x + 'px,' + (this.offset.y  < 0 ? topY*-1 : topY) + 'px, 0) scale3d(' + this.scale + ',' + this.scale  + ',1)'
+                });
+                
+                this.offset.y = this.offset.y  < 0 ? topY*-1 : topY;
+                
+            }
+            
+            if ( Math.abs(this.offset.x) > topX && Math.abs(this.offset.y) > topY && !moved ) {
+                
+                $this.setStyle({
+                    'webkitTransition' : '-webkit-transform 100ms ease-out',
+                    'webkitTransform' : 'translate3d(' + (this.offset.x  < 0 ? topX*-1 : topX) + 'px,' + (this.offset.y  < 0 ? topY*-1 : topY) + 'px, 0) scale3d(' + this.scale + ',' + this.scale  + ',1)'
+                });
+                
+                this.offset.x = this.offset.x  < 0 ? topX*-1 : topX;
+                this.offset.y = this.offset.y  < 0 ? topY*-1 : topY;
+                
             }
             
         },
