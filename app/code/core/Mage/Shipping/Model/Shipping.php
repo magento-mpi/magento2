@@ -147,12 +147,13 @@ class Mage_Shipping_Model_Shipping
     /**
      * Collect rates of given carrier
      *
-     * @param string $carrierCode
+     * @param string                           $carrierCode
      * @param Mage_Shipping_Model_Rate_Request $request
      * @return Mage_Shipping_Model_Shipping
      */
     public function collectCarrierRates($carrierCode, $request)
     {
+        /* @var $carrier Mage_Shipping_Model_Carrier_Abstract */
         $carrier = $this->getCarrierByCode($carrierCode, $request->getStoreId());
         if (!$carrier) {
             return $this;
@@ -160,11 +161,11 @@ class Mage_Shipping_Model_Shipping
         $carrier->setActiveFlag($this->_availabilityConfigField);
         $result = $carrier->checkAvailableShipCountries($request);
         if (false !== $result && !($result instanceof Mage_Shipping_Model_Rate_Result_Error)) {
-            $result = $carrier->proccessAdditionalValidation($request);
+            $result = $carrier->processAdditionalValidation($request);
         }
         /*
         * Result will be false if the admin set not to show the shipping module
-        * if the devliery country is not within specific countries
+        * if the delivery country is not within specific countries
         */
         if (false !== $result){
             if (!$result instanceof Mage_Shipping_Model_Rate_Result_Error) {

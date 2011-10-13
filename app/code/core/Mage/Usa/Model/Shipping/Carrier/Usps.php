@@ -140,12 +140,12 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      * @param Mage_Shipping_Model_Rate_Request $request
      * @return Mage_Shipping_Model_Carrier_Abstract|Mage_Shipping_Model_Rate_Result_Error|boolean
      */
-    public function proccessAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
+    public function processAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
     {
         // zip code required for US
         $this->_isZipCodeRequired = $this->_isUSCountry($request->getDestCountryId());
 
-        return parent::proccessAdditionalValidation($request);
+        return parent::processAdditionalValidation($request);
     }
 
     /**
