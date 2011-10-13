@@ -1321,15 +1321,27 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             return null;
         }
 
+        $waitAjax = true;
         if ($fieldSetName) {
-            $fieldSet = $this->getCurrentLocationUimapPage()->findFieldset($fieldSetName);
-            $xpath = $fieldSet->getXpath();
-            $this->click($xpath . $fieldSet->findButton('reset_filter'));
+            $xpathContainer = $this->getCurrentLocationUimapPage()->findFieldset($fieldSetName);
+            $xpath = $xpathContainer->getXpath();
         } else {
+            $xpathContainer = $this->getCurrentLocationUimapPage();
             $xpath = '';
-            $this->clickButton('reset_filter', false);
         }
-        $this->pleaseWait(3, 10);
+        $resetXpath = $xpath . $xpathContainer->findButton('reset_filter');
+        $jsName = $this->getAttribute($resetXpath . '/@onclick');
+        $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
+        $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
+        if ($this->isElementPresent($scriptXpath)) {
+            $waitAjax = false;
+        }
+        $this->click($resetXpath);
+        if ($waitAjax) {
+            $this->pleaseWait();
+        } else {
+            $this->waitForPageToLoad();
+        }
 
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
         $totalCount = intval($this->getText($xpath . self::qtyElementsInTable));
