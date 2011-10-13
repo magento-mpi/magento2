@@ -34,8 +34,10 @@ simple_product_for_prices_validation_1:
     general_sku: simple_sku_price_validation
     general_weight: 18.56
     general_status: Enabled
+    general_visibility: Catalog, Search
     prices_price: 111.11
     prices_tax_class: Taxable Goods
+    recurring_profile_enable_recurring_profile: No
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 500
@@ -51,8 +53,10 @@ simple_product_for_prices_validation_2:
     general_sku: simple_sku_price_validation
     general_weight: 18.56
     general_status: Enabled
+    general_visibility: Catalog, Search
     prices_price: 100
     prices_tax_class: Taxable Goods
+    recurring_profile_enable_recurring_profile: No
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 500
@@ -68,8 +72,10 @@ simple_product_for_prices_validation_3:
     general_sku: simple_sku_price_validation
     general_weight: 18.56
     general_status: Enabled
+    general_visibility: Catalog, Search
     prices_price: 15.51
     prices_tax_class: Taxable Goods
+    recurring_profile_enable_recurring_profile: No
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 500
@@ -6078,18 +6084,37 @@ total_cat_in_ship_in_backend_total_after_refund_on_refund:
 
 
 #<------------Test Data for prices validation on the category (frontend)------->
-validate_product_prices_in_category_simple:
+perform_login_for_tax_validation:
+    email: %noValue%
+    password: 123123q
+
+unit_cat_ex_ship_ex_frontend_price_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_regular: $50.76
-        #price_excluding_tax: $46.18
-        #price_including_tax: $46.18
-        #price_old: %noValue%
-        #price_special: %noValue%
-        price_special_excluding_tax: $46.18
-        price_special_inlcuding_tax: $46.18
-        #as_low_as: %noValue%
+        price_excluding_tax: $111.11
+        price_including_tax: $120.28
+
+unit_cat_ex_ship_ex_frontend_price_in_category_simple_2:
+    category: %noValue%
+    product_name: %noValue%
+    verification:
+        price_excluding_tax: $100.00
+        price_including_tax: $108.25
+
+unit_cat_ex_ship_ex_frontend_price_in_category_simple_3:
+    category: %noValue%
+    product_name: %noValue%
+    verification:
+        price_excluding_tax: $15.51
+        price_including_tax: $16.79
+
+
+
+
+
+
+
 
 validate_product_prices_in_category_virtual:
     category: %noValue%

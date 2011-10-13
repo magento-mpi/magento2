@@ -269,7 +269,7 @@ class Category_Helper extends Mage_Selenium_TestCase
         $this->addParameter('productName', $productName);
         $this->frontend('category_page');
         $xpathNext = $this->_getControlXpath('link', 'next_page');
-        $xpathProduct = $this->_getControlXpath('link', 'product_name');
+        $xpathProduct = $this->_getControlXpath('pageelement', 'product_name_header');
 
         $i = 1;
         for (;;) {
