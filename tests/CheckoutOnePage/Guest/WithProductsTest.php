@@ -156,12 +156,9 @@ class CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_TestCase
      * <p>1. Fill in Checkout Method tab</p>
      * <p>2. Click 'Continue' button.</p>
      * <p>3. Fill in Billing Information tab</p>
-     * <p>4. Select "Ship to this address" option</p>
-     * <p>5. Click 'Continue' button.</p>
-     * <p>6. Select Shipping Method option</p>
-     * <p>7. Click 'Continue' button.</p>
-     * <p>8. Select Payment Method option</p>
-     * <p>9. Click 'Continue' button.</p>
+     * <p>4. Click 'Continue' button.</p>
+     * <p>5. Select Payment Method option</p>
+     * <p>6. Click 'Continue' button.</p>
      * <p>Verify information into "Order Review" tab</p>
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
