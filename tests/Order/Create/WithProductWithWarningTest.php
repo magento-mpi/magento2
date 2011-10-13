@@ -93,8 +93,10 @@ class Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->validationMessage($message), 'No Validation Message for Product');
         $this->orderHelper()->fillOrderAddress($billingAddr, $billingAddr['address_choice'], 'billing');
         $this->orderHelper()->fillOrderAddress($shippingAddr, $shippingAddr['address_choice'], 'shipping');
-        $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
+        $this->clickControl('link', 'get_shipping_methods_and_rates', FALSE);
+        $this->pleaseWait();
         $this->orderHelper()->selectShippingMethod($orderData['shipping_data']);
+        $this->orderHelper()->selectPaymentMethod($orderData['payment_data']);
         $this->saveForm('submit_order');
         //Verifying
         $this->assertTrue($this->successMessage('success_created_order'), $this->messages);

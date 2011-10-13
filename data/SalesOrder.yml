@@ -1104,6 +1104,7 @@ coupon_fixed_amount:
     rule_name: some_name
     description: some_desc
     status: Active
+    websites: Main Website
     customer_groups: General, NOT LOGGED IN
     coupon: Specific Coupon
     coupon_code: coupon_code
@@ -1127,6 +1128,7 @@ coupon_percent:
     rule_name: 123
     description: some_desc
     status: Active
+    websites: Main Website
     customer_groups: General
     coupon: Specific Coupon
     coupon_code: coupon_code

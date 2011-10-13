@@ -87,6 +87,7 @@ create_shopping_cart_price_rules:
                                         public_in_rss_feed: //select[@name='is_rss']
                                     multiselects:
                                         customer_groups: //select[@name='customer_group_ids[]']
+                                        websites: //select[@id='rule_website_ids']
                 -
                     conditions:
                         xpath: //a[@title='Conditions']

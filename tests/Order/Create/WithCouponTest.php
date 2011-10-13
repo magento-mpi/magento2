@@ -56,7 +56,8 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
     public function createSimpleProduct()
     {
         //Data
-        $productData = $this->loadData('simple_product_for_order', NULL, array('general_name', 'general_sku'));
+        $productData = $this->loadData('simple_product_for_order', NULL,
+                array('general_name', 'general_sku'));
         //Steps
         $this->navigate('manage_products');
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
@@ -92,6 +93,12 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $this->clickButton('add_new_rule');
+        if (array_key_exists('websites', $coupon)) {
+            $xpath = $this->_getControlXpath('multiselect', 'websites');
+            if (!$this->isElementPresent($xpath)) {
+                unset($coupon['websites']);
+            }
+        }
         $this->fillForm($coupon);
         $this->saveForm('save_rule');
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
@@ -126,6 +133,12 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $this->clickButton('add_new_rule');
+        if (array_key_exists('websites', $coupon)) {
+            $xpath = $this->_getControlXpath('multiselect', 'websites');
+            if (!$this->isElementPresent($xpath)) {
+                unset($coupon['websites']);
+            }
+        }
         $this->fillForm($coupon);
         $this->saveForm('save_rule');
         $this->assertTrue($this->successMessage('success_saved_rule'), $this->messages);
@@ -150,7 +163,8 @@ class Order_Create_WithCouponTest extends Mage_Selenium_TestCase
     public function wrongCode($simpleSku)
     {
         //Data
-        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate', array('filter_sku' => $simpleSku));
+        $orderData = $this->loadData('order_newcustmoer_checkmoney_flatrate',
+                array('filter_sku' => $simpleSku));
         $orderData = $this->arrayEmptyClear($orderData);
         //Steps
         $this->navigate('manage_sales_orders');
