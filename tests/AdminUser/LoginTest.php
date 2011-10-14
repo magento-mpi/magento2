@@ -110,7 +110,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>1.Fill in fields with incorrect data;</p>
      * <p>2. Click "Login" button;</p>
      * <p>Expected result:</p>
-     * <p>Error message appears - "Invalid username or password."</p>
+     * <p>Error message appears - "Invalid User Name or Password."</p>
      *
      * @depends loginValidUser
      * @test
@@ -131,7 +131,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>1.Fill "Username" field with correct data and "Password" with incorrect data;</p>
      * <p>2. Click "Login" button;</p>
      * <p>Expected result:</p>
-     * <p>Error message appears - "Invalid username or password."</p>
+     * <p>Error message appears - "Invalid User Name or Password."</p>
      *
      * @depends loginValidUser
      * @test
@@ -182,7 +182,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>Login without any permissions</p>
      * <p>Steps</p>
      * <p>Pre-Conditions:</p>
-     * <p>Inactive Admin User is created</p>
+     * <p>Create a new user without Adminstrators role</p>
      * <p>1.Fill in "Username" and "Password" fields with correct data;</p>
      * <p>2. Click "Login" button;</p>
      * <p>Expected result:</p>
@@ -238,9 +238,9 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>1. Goto Login page;</p>
      * <p>2. Click "Forgot Your password" link;</p>
      * <p>3. Enter non-existing e-mail into "Email Address" field;</p>
-     * <p>4. "Cannot find the email address." message appears;</p>
+     * <p>4. Click "Retrieve Password" button;</p>
      * <p>Expected result:</p>
-     * <p>"This is a required field" message appears;</p>
+     * <p>"If there is an account associated.." message appears;</p>
      *
      * @test
      */
@@ -263,8 +263,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>1.Fill in "Forgot password" field with correct data;</p>
      * <p>2. Click "Retriewe password" button;</p>
      * <p>Expected result:</p>
-     * <p>Success message appears -</p>
-     * <p>"A new password was sent to your email address.</p>
+     * <p>Success message "If there is an account associated.." appears.</p>
      * <p>Please check your email and click Back to Login."</p>
      *
      * @test
@@ -302,7 +301,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
      * <p>3. Click "Back to Login" link</p>
      * <p>4. Try to login using old credentials</p>
      * <p>Expected result:</p>
-     * <p>Error message "Invalid Username or Password."  appears.</p>
+     * <p>User still can login, since the password hasn't been reset.</p>
      *
      * @test
      */
