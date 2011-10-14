@@ -110,18 +110,6 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     }
 
     /**
-     * Setter for mail sender
-     *
-     * @param Zend_Mail $mail
-     * @return Mage_Core_Model_Email_Template
-     */
-    public function setMail(Zend_Mail $mail)
-    {
-        $this->_mail = $mail;
-        return $this;
-    }
-
-    /**
      * Declare template processing filter
      *
      * @param   Varien_Filter_Template $filter
