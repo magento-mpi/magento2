@@ -169,6 +169,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <frontend_class>validate-per-page-value-list</frontend_class>
                             <depends><enable_qty_increments>1</enable_qty_increments></depends>
                        </qty_increments>
                     </fields>
