@@ -716,6 +716,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $stockItem = $product->getStockItem();
         if ($stockItem && $stockItem->getIsQtyDecimal()) {
             $product->setIsQtyDecimal(1);
+        } else {
+            $config->setQty((int) $config->getQty());
         }
 
         $product->setCartQty($config->getQty());
