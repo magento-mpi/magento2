@@ -37,7 +37,7 @@
     <div class="menu-wrapper">
         <dl id="menu">
             <dt class="search dropdown"><a href="#">Search</a></dt>
-            <dd class="search-box" style="display:none;">
+            <dd class="search-box">
                <?php echo $this->getChildHtml('topSearch') ?>
             </dd>
             <dt class="cart">
@@ -45,7 +45,7 @@
                 <?php echo $_cartItems > 0 ? '<span>'.$_cartItems.'</span>' : ''; ?>
             </dt>
             <dt class="menu dropdown"><a href="#">Menu</a></dt>
-            <dd class="menu-box" style="display:none;">
+            <dd class="menu-box">
                 <ul>
                     <li class="welcome-msg"><?php echo $this->getWelcome() ?> <?php echo $this->getAdditionalHtml() ?></li>
                     <?php echo $this->getChildHtml('topLinks') ?>

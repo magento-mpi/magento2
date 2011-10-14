@@ -258,27 +258,29 @@ document.observe("dom:loaded", function() {
 
 
     //iPhone header menu
-    $('menu').on('click', 'dt.dropdown a', function(e, elem) {
-        var parent = elem.up();
-        if (parent.hasClassName('active')) {
-            parent.removeClassName('active');
-            $$('#menu dd').each(function(elem) {
-                elem.hide();
-            })
-        }
-        else {
-            $$('#menu dt').each(function (elem){
-                elem.removeClassName('active');
-                elem.next('dd').hide();
-            });
-            parent.addClassName('active');
-            parent.next().show();
-            if ( cartDrag ) {
-                cartDrag.cartHide();
+    $$('dt.dropdown a').each(function (elem) {
+        elem.observe('click', function(e) {
+            var parent = elem.up();
+            if (parent.hasClassName('active')) {
+                parent.removeClassName('active');
+                $$('#menu dd').each(function(elem) {
+                    elem.setStyle({'webkitTransform' : 'translate3d(0, -100%, -1px)', 'visibility' : 'hidden'});
+                })
             }
-        };
-        e.preventDefault();
-    });
+            else {
+                $$('#menu dt').each(function (elem){
+                    elem.removeClassName('active');
+                    elem.next('dd').setStyle({'webkitTransform' : 'translate3d(0, -100%, -1px)', 'visibility' : 'hidden'});
+                });
+                parent.addClassName('active');
+                parent.next().setStyle({'webkitTransform' : 'translate3d(0, 0, -1px)', 'visibility' : 'visible'});
+                if ( cartDrag ) {
+                    cartDrag.cartHide();
+                }
+            };
+            e.preventDefault();
+        });  
+    })
 
     //iPhone header menu switchers
     if( $$('#language-switcher li.selected a')[0] ) {
@@ -580,7 +582,7 @@ document.observe("dom:loaded", function() {
                 elem.removeClassName('active');
             });
             $$('#menu dd').each(function(elem) {
-                elem.hide();
+                elem.setStyle({'webkitTransform' : 'translate3d(0, -100%, -1px)', 'visibility' : 'hidden'});
             });
 
             this.originalCoord.x = event.targetTouches[0].pageX;
