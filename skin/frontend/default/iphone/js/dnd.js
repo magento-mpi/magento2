@@ -491,7 +491,7 @@ var webkit_draggable = function(r, ip)
             var delX = curX - p.tx;
             var delY = curY - p.ty;
 
-            rs.webkitTransform = 'translate3d(' + (p.rx + delX) + 'px,' + (p.ry + delY) + 'px, 0)';
+            rs.webkitTransform = 'translate3d(' + (p.rx + delX) + 'px,' + (p.ry + delY) + 'px, 1px)';
 
             //scroll window
             if(p.scroll)
@@ -525,7 +525,7 @@ var webkit_draggable = function(r, ip)
             {
                 //revert root
                 var rs = r.style;
-                rs.webkitTransform = 'translate3d(' + p.rx + 'px,' + p.ry + 'px, 0)';
+                rs.webkitTransform = 'translate3d(' + p.rx + 'px,' + p.ry + 'px, 1px)';
                 //rs.top = (p.ry + 'px');
                 //rs.left = (p.rx + 'px');
             }
