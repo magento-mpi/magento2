@@ -292,16 +292,15 @@ class Category_Helper extends Mage_Selenium_TestCase
      */
     public function frontVerifyProductPricesInCategory($productName, array $verificationData, $pageName='category_page')
     {
+        $this->_currentPage = $pageName;
         $this->addParameter('productName', $productName);
         $xpathProduct = $this->_getControlXpath('pageelement', 'product_name_header');
         $this->addParameter('productNameXpath', $xpathProduct);
-
-        $pageelements = $this->getUimapPage($this->getArea(), $pageName)->getAllPageelements();
+        $pageelements = $this->getCurrentUimapPage()->getMainForm()->getAllPageelements();
         $verificationData = $this->arrayEmptyClear($verificationData);
         foreach ($verificationData as $key => $value) {
             $this->addParameter('price', $value);
             $xpathPrice = $this->_getControlXpath('pageelement', $key);
-            print_r($xpathPrice);
             if (!$this->isElementPresent($xpathPrice)) {
                 $this->messages['error'][] = 'Could not find element ' . $key . ' with price ' . $value;
             }
