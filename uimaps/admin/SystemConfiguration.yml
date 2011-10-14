@@ -1475,7 +1475,7 @@ system_configuration:
                                         shopping_cart_display_settings_link: //a[text()='Shopping Cart Display Settings']
                                     dropdowns:
                                         sc_display_prices: //select[@name='groups[cart_display][fields][price][value]']
-                                        sc_display_subtotal: //select[@name='groups[cart_display][fields][shipping][value]']
+                                        sc_display_subtotal: //select[@name='groups[cart_display][fields][subtotal][value]']
                                         sc_display_shipping_amount: //select[@name='groups[cart_display][fields][shipping][value]']
                                         sc_include_tax_in_grand_total: //select[@name='groups[cart_display][fields][grandtotal][value]']
                                         sc_display_full_tax_summary: //select[@name='groups[cart_display][fields][full_summary][value]']
