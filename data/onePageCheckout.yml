@@ -344,6 +344,13 @@ visa: &visaElse
     expiration_year: '2020'
     card_verification_number: '123'
 
+visa: &visaSample
+    card_type: 'Visa'
+    card_number: '4111111111111111'
+    expiration_month: '07 - July'
+    expiration_year: '2015'
+    card_verification_number: '123'
+
 master_card: &masterCardElse
     card_type: 'MasterCard'
     card_number: '5287349085445470'
@@ -394,7 +401,7 @@ payment_paypal_direct: &paypalDirectMaster
 
 payment_payflow_pro: &payflowProMaster
     payment_method: Payflow Pro
-    payment_info: *masterCardElse
+    payment_info: *visaSample
 
 payment_authorize: &authorizeNetVisa
     payment_method: Credit Card (Authorize.net)
