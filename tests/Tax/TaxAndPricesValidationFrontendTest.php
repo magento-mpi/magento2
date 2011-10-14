@@ -43,8 +43,10 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
 
     protected function assertPreConditions()
     {
+
         $this->loginAdminUser();
-//        $this->addParameter('id', '0');
+        $this->addParameter('productUrl', '');
+        $this->addParameter('productName', '');
     }
 
     /**
@@ -62,8 +64,8 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         $this->customerHelper()->createCustomer($userData, $addressData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
-
-        return $userData['email'];
+        $customer = array('email' => $userData['email'], 'password' => $userData['password']);
+        return $customer;
     }
 
     /**
@@ -83,7 +85,6 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
         $this->categoryHelper()->checkCategoriesPage();
-
         return $rootCat . '/' . $categoryData['name'];
     }
     /**
@@ -103,6 +104,7 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
             $this->productHelper()->createProduct($simpleProductData);
             $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         }
+        print_r($products);
         return $products;
     }
 
@@ -121,14 +123,11 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         //Preconditions
 //        $this->navigate('system_configuration');
 //        $this->systemConfigurationHelper()->configure($dataProv);
-        $performLogin = $this->loadData('perform_login_for_tax_validation', array('email' => $customer));
-        $this->logoutCustomer();
-        $this->clickControl('link', 'log_in');
-        $this->fillForm($performLogin);
-        $this->clickButton('login');
+        $this->customerHelper()->frontLoginCustomer($customer);
         $nodes = explode('/', $category);
+        $productQty = count($products);
         //Data
-        for ($i = 1; $i <= 1; $i++) {
+        for ($i = 1; $i <= $productQty; $i++) {
             $priceInCategory = $this->loadData($dataProv . '_frontend_price_in_category_simple_' . $i);
             $priceInCategory['product_name'] = $products['name'][$i];
             $priceInCategory['category'] = $nodes[1];
@@ -141,27 +140,12 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
             $this->productHelper()->frontOpenProduct($priceInCategory['product_name']);
             $this->categoryHelper()->frontVerifyProductPricesInCategory($priceInCategory['product_name'],
                     $priceInCategory['verification']);
-//            $this->categoryHelper()->frontValidateProductInCategory($priceInCategory);
-
-
-
-
-//             for($j=1; $j <=3; $j++){
-//            //Verifying prices on product Page
-//
-//            $priceInProductPage = $this->loadData($dataProv . '_frontend_price_on_product_details_simple_' . $j);
-//            $priceInProductPage['general_name'] = $products['name'][$j];
-//            print_r($priceInProductPage);
-//            $this->productHelper()->frontOpenProduct($priceInProductPage['general_name']);
-//
-//            $this->categoryHelper()->frontVerifyProductPricesInCategory($priceInProductPage['general_name'],
-//            $priceInProductPage['verification']);
-//            $this->categoryHelper()->frontSearchAndOpenPageWithProduct($priceInProductPage['general_name'],
-//            $priceInCategory['category']);
-//        }
-
+            $this->categoryHelper()->frontValidateProductInCategory($priceInCategory);
+            $this->productHelper()->frontAddProductToCart($priceInCategory['product_name']);
 
         }
+        $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'fixed');
+//        $this->shoppingCartHelper()->verifyPricesDataOnPage();
 
     }
 

@@ -6001,6 +6001,26 @@ unit_cat_ex_ship_ex_frontend_price_in_category_simple_3:
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
+unit_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products:
+    product_1:
+        product_name: %noValue%
+        unit_price_excl_tax: $111.11
+        unit_price_incl_tax: $120.28
+        qty: 1
+        subtotal_excl_tax: $111.11
+        subtotal_incl_tax: $120.28
+    product_2:
+        product_name: %noValue%
+        unit_price_excl_tax: $100.00
+        unit_price_incl_tax: $108.25
+        subtotal_excl_tax: $100.00
+        subtotal_incl_tax: $108.25
+    product_3:
+        product_name: %noValue%
+        unit_price_excl_tax: $15.51
+        unit_price_incl_tax: $16.79
+        subtotal_excl_tax: $15.51
+        subtotal_incl_tax: $16.79
 
 
 
@@ -6097,14 +6117,14 @@ unit_price_excl_shipping_excl_products:
         subtotal_incl_tax: $433.00
 
 unit_price_excl_shipping_excl_order:
-    subtotal_excl_tax: $500.00
-    subtotal_incl_tax: $541.25
-    discount: -$75.00
-    shipping_excl_tax_flat_rate_fixed: $15.00
-    shipping_incl_tax_flat_rate_fixed: $16.24
-    grand_total_excl_tax: $440.00
-    tax: $42.49
-    grand_total_incl_tax: $482.49
+    subtotal_excl_tax: $226.62
+    subtotal_incl_tax: $245.32
+    discount: %noValue%
+    shipping_excl_tax_flat_rate_fixed: $3.00
+    shipping_incl_tax_flat_rate_fixed: $3.25
+    grand_total_excl_tax: $229.62
+    tax: $18.95
+    grand_total_incl_tax: $248.57
 
 #<---------Prices Review on Product Info Page on the frontend------------------------>
 product_page_review_prices:

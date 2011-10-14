@@ -296,11 +296,12 @@ class Category_Helper extends Mage_Selenium_TestCase
         $xpathProduct = $this->_getControlXpath('pageelement', 'product_name_header');
         $this->addParameter('productNameXpath', $xpathProduct);
 
-        $pageelements = $this->getCurrentLocationUimapPage()->getAllPageelements();
+        $pageelements = $this->getCurrentUimapPage()->getAllPageelements();
         $verificationData = $this->arrayEmptyClear($verificationData);
         foreach ($verificationData as $key => $value) {
             $this->addParameter('price', $value);
             $xpathPrice = $this->_getControlXpath('pageelement', $key);
+            print_r($xpathPrice);
             if (!$this->isElementPresent($xpathPrice)) {
                 $this->messages['error'][] = 'Could not find element ' . $key . ' with price ' . $value;
             }
