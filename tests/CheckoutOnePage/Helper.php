@@ -91,7 +91,6 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->answerOnNextPrompt('OK');
             $this->clickButton('place_order', FALSE);
             $this->waitForAjax();
-            $text = $this->_getControlXpath('message', 'paypal_alert');
             $alert = $this->isAlertPresent();
             if ($alert) {
                 $this->fail($this->getAlert());
