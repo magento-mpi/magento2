@@ -66,13 +66,13 @@ unit_cat_ex_ship_ex:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
 
@@ -99,13 +99,13 @@ row_cat_ex_ship_ex:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
 
@@ -132,13 +132,13 @@ total_cat_ex_ship_ex:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
 
@@ -165,13 +165,13 @@ unit_cat_ex_ship_in:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
 
@@ -198,13 +198,13 @@ row_cat_ex_ship_in:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
 
@@ -231,13 +231,13 @@ total_cat_ex_ship_in:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
 
@@ -264,13 +264,13 @@ unit_cat_in_ship_ex:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
 
@@ -297,13 +297,13 @@ row_cat_in_ship_ex:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
 
@@ -330,13 +330,13 @@ total_cat_in_ship_ex:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
 
@@ -363,13 +363,13 @@ unit_cat_in_ship_in:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
 
@@ -396,13 +396,13 @@ row_cat_in_ship_in:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
 
@@ -429,12 +429,12 @@ total_cat_in_ship_in:
             sc_display_subtotal: Including and Excluding Tax
             sc_display_shipping_amount: Including and Excluding Tax
             sc_include_tax_in_grand_total: Yes
-            sc_display_full_tax_summary: Yes
+            sc_display_full_tax_summary: No
             sc_display_zero_tax_subtotal: Yes
             oic_display_prices: Including and Excluding Tax
             oic_display_subtotal: Including and Excluding Tax
             oic_display_shipping_amount: Including and Excluding Tax
             oic_include_tax_in_grand_total: Yes
-            oic_display_full_tax_summary: Yes
+            oic_display_full_tax_summary: No
             oic_display_zero_tax_subtotal: Yes
             enable_fpt: No
