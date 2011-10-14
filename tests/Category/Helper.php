@@ -290,13 +290,13 @@ class Category_Helper extends Mage_Selenium_TestCase
      *
      * @param array $verificationData
      */
-    public function frontVerifyProductPricesInCategory($productName, array $verificationData)
+    public function frontVerifyProductPricesInCategory($productName, array $verificationData, $pageName='category_page')
     {
         $this->addParameter('productName', $productName);
         $xpathProduct = $this->_getControlXpath('pageelement', 'product_name_header');
         $this->addParameter('productNameXpath', $xpathProduct);
 
-        $pageelements = $this->getCurrentUimapPage()->getAllPageelements();
+        $pageelements = $this->getUimapPage($this->getArea(), $pageName)->getAllPageelements();
         $verificationData = $this->arrayEmptyClear($verificationData);
         foreach ($verificationData as $key => $value) {
             $this->addParameter('price', $value);
