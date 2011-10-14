@@ -26,7 +26,7 @@ var varienForm = new Class.create();
 
 varienForm.prototype = {
     initialize : function(formId, validationUrl){
-        this.formId = formId;
+        this.formId = $(formId);
         this.validationUrl = validationUrl;
         this.submitUrl = false;
 
