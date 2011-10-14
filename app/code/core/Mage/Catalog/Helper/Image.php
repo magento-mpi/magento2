@@ -234,7 +234,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     {
         if (!$this->_placeholder) {
             $attr = $this->_getModel()->getDestinationSubdir();
-            $this->_placeholder = 'Mage_Catalog::images/product/placeholder/'.$attr.'.jpg';
+            $this->_placeholder = 'Mage_Catalog::images/product/placeholder/' . $attr . '.jpg';
         }
         return $this->_placeholder;
     }
