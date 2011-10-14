@@ -316,4 +316,26 @@ class Category_Helper extends Mage_Selenium_TestCase
         }
     }
 
+    /**
+     * Moves categories
+     *
+     * @param string $whatCatName
+     * @param string $whereCatName
+     */
+    public function moveCategory($whatCatName, $whereCatName)
+    {
+        $xpathWhatCatName = "//span[contains(.,'" . $whatCatName . "')]";
+        $xpathWhereCatName = "//span[contains(.,'" . $whereCatName . "')]";
+        if ($this->isElementPresent($xpathWhatCatName) && $this->isElementPresent($xpathWhereCatName)) {
+            $this->clickAt($xpathWhatCatName, '5,2');
+            $this->waitForAjax();
+            $this->mouseDownAt($xpathWhatCatName, '5,2');
+            $this->mouseMoveAt($xpathWhereCatName, '20,10');
+            $this->waitForAjax();
+            $this->mouseUpAt($xpathWhereCatName, '20,10');
+        } else {
+            $this->fail('Cannot find elements to move');
+        }
+    }
+
 }
