@@ -343,7 +343,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('frontend', 'test', 'default', 'default', 'images/logo_email.gif'),
-            //array('frontend', 'test', 'default', 'default', 'Mage_Page::print.css'),
+            array('frontend', 'test', 'default', 'default', 'Mage_Page::favicon.ico'),
         );
     }
 

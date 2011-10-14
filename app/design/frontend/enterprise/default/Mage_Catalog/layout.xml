@@ -67,8 +67,16 @@ Default layout, loads most of the pages
             <action method="addLink" translate="label title" module="catalog" ifconfig="catalog/seo/site_map"><label>Site Map</label><url helper="catalog/map/getCategoryUrl" /><title>Site Map</title></action>
         </reference>
         <block type="catalog/product_price_template" name="catalog_product_price_template" />
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Catalog::widgets.css</stylesheet></action>
+        </reference>
     </default>
 
+    <print>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Catalog::widgets.css</stylesheet></action>
+        </reference>
+    </print>
 
 <!--
 Category default layout
@@ -260,6 +268,13 @@ Product view
                 </block>
                 <action method="unsetCallChild"><child>container1</child><call>ifEquals</call><if>0</if><key>alias_in_layout</key><key>options_container</key></action>
                 <action method="unsetCallChild"><child>container2</child><call>ifEquals</call><if>0</if><key>alias_in_layout</key><key>options_container</key></action>
+            </block>
+        </reference>
+        <reference name="before_body_end">
+            <block type="core/text" name="product_view_js_tabs">
+                <action method="addText">
+                    <text><![CDATA[<script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>]]></text>
+                </action>
             </block>
         </reference>
     </catalog_product_view>
