@@ -804,6 +804,8 @@ document.observe("dom:loaded", function() {
                     'webkitTransform' : 'scale3d(1, 1, 1)'
                 });
                 this.scale = 1.0;
+            } else if ( e.scale > 2 ) {
+                this.scale = 2;
             } else {
                 this.scale *= e.scale;
             }
@@ -843,7 +845,24 @@ document.observe("dom:loaded", function() {
             var changeX = this.offset.x + this.finalCoord.x - this.originalCoord.x,
                 changeY = this.offset.y + this.finalCoord.y - this.originalCoord.y,
                 topX = (this.dimensions.width  * (this.scale - 1))/2,
-                topY = (this.dimensions.height * (this.scale - 1))/2;
+                topY = (this.dimensions.height * (this.scale - 1))/2,
+                tension = 1.55;
+            
+            if ( topX < Math.abs(changeX) ) {
+                if ( changeX < 0 ) {
+                    changeX = changeX - (changeX + topX)/tension;
+                } else {
+                    changeX = changeX - (changeX - topX)/tension;
+                }
+            }
+            
+            if ( topY < Math.abs(changeY) ) {
+                if ( changeY < 0 ) {
+                    changeY = changeY - (changeY + topY)/tension;
+                } else {
+                    changeY = changeY - (changeY - topY)/tension;
+                }
+            }
             
             $this.setStyle({
                 'webkitTransform' : 'translate3d(' + changeX + 'px,' + changeY + 'px, 0) scale3d(' + this.scale + ',' + this.scale  + ',1)'

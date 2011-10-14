@@ -1516,6 +1516,7 @@ section .category-title { display:none; }
 }
 .catalog-product-gallery .product-gallery li img {
     vertical-align:bottom;
+    -webkit-box-shadow:0 0 6px rgba(0, 0, 0, 0.25);
 }
 .catalog-product-gallery .product-gallery .prev,
 .catalog-product-gallery .product-gallery .next {
