@@ -278,8 +278,8 @@
         <template>
             <email>
                 <giftcard_giftcardaccount_email_template translate="label" module="enterprise_giftcardaccount">
-                    <label>Gift Card Account Sent From Edit Page</label>
-                    <file>enterprise/giftcardaccount.html</file>
+                    <label>Gift Card Code/Balance</label>
+                    <file>email/card_email.html</file>
                     <type>html</type>
                 </giftcard_giftcardaccount_email_template>
             </email>

@@ -208,7 +208,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
             ->load();
 
         /** @var Mage_Core_Model_Email_Template $sender */
-        $sender = $this->_emailTemplate ?: createObject('Mage_Core_Model_Email_Template');
+        $sender = $this->_emailTemplate ?: Mage::getModel('core/email_template');
         $sender->setSenderName($this->getNewsletterSenderName())
             ->setSenderEmail($this->getNewsletterSenderEmail())
             ->setTemplateType(self::TYPE_HTML)

@@ -30,9 +30,9 @@ class Phoenix_Moneybookers_Block_PaymentTest extends PHPUnit_Framework_TestCase
     public function getMoneybookersLogoSrcDataProvider()
     {
         return array(
-            array('en_US', 'banner_120_int.png'),
+            array('en_US', 'banner_120_int.gif'),
             array('de_DE', 'banner_120_de.png'),
-            array('br_PT', 'banner_120_int.png'),
+            array('br_PT', 'banner_120_int.gif'),
         );
     }
 }

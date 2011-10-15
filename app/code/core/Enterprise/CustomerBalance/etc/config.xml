@@ -71,7 +71,7 @@
             <email>
                 <customer_enterprise_customerbalance_email_template translate="label" module="enterprise_customerbalance">
                     <label>Store Credit Update</label>
-                    <file>enterprise/customerbalance_update.html</file>
+                    <file>email/update_email.html</file>
                     <type>html</type>
                 </customer_enterprise_customerbalance_email_template>
             </email>

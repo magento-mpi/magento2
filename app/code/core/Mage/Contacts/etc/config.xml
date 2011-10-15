@@ -70,7 +70,7 @@
             <email>
                 <contacts_email_email_template translate="label" module="contacts">
                     <label>Contact Form</label>
-                    <file>contact_form.html</file>
+                    <file>email/contact_form_email.html</file>
                     <type>text</type>
                 </contacts_email_email_template>
             </email>

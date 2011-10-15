@@ -79,8 +79,8 @@
         <template>
             <email>
                 <enterprise_reminder_email_template translate="label" module="enterprise_reminder">
-                    <label>Rule Reminder</label>
-                    <file>enterprise/reminder.html</file>
+                    <label>Promotion Notification/Reminder</label>
+                    <file>email/promo_email.html</file>
                     <type>html</type>
                 </enterprise_reminder_email_template>
             </email>

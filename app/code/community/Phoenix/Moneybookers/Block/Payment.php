@@ -32,6 +32,6 @@ class Phoenix_Moneybookers_Block_Payment extends Mage_Core_Block_Template
             return Mage::getDesign()->getSkinUrl($file);
         }
 
-        return $this->getSkinUrl('Phoenix_Moneybookers::images/banner_120_int.png');
+        return $this->getSkinUrl('Phoenix_Moneybookers::images/banner_120_int.gif');
     }
 }
