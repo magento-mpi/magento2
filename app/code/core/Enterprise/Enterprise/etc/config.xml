@@ -57,6 +57,18 @@
                 </observers>
             </admin_session_user_login_success>
         </events>
+        <layout>
+            <updates>
+                <enterprise_adminhtml module="Enterprise_Enterprise">
+                    <file>layout.xml</file>
+                </enterprise_adminhtml>
+            </updates>
+        </layout>
+        <design>
+            <theme>
+                <full_name>default/default/enterprise</full_name>
+            </theme>
+        </design>
     </adminhtml>
     <install>
         <eula_file>LICENSE_EE.html</eula_file>
@@ -72,7 +84,7 @@
         </events>
         <design>
             <theme>
-                <default>enterprise</default>
+                <full_name>default/enterprise/default</full_name>
             </theme>
         </design>
     </install>
@@ -95,22 +107,4 @@
             </adminnotification>
         </system>
     </default>
-    <adminhtml>
-        <layout>
-            <updates>
-                <enterprise_adminhtml module="Enterprise_Enterprise">
-                    <file>layout.xml</file>
-                </enterprise_adminhtml>
-            </updates>
-        </layout>
-    </adminhtml>
-    <stores>
-        <admin>
-            <design>
-                <theme>
-                    <full_name>default/default/enterprise</full_name>
-                </theme>
-            </design>
-        </admin>
-    </stores>
 </config>

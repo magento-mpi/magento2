@@ -102,7 +102,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
         if (is_null($storeId)) {
             $newTranslateInline = false;
         } else {
-            if ($area == Mage_Core_Model_App_Area::AREA_ADMINHTML) {
+            if ($area == Mage_Core_Model_App_Area::AREA_ADMIN) {
                 $newTranslateInline = Mage::getStoreConfigFlag('dev/translate_inline/active_admin', $storeId);
             } else {
                 $newTranslateInline = Mage::getStoreConfigFlag('dev/translate_inline/active', $storeId);
@@ -196,7 +196,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
      *
      * @return Mage_Core_Model_App_Emulation
      */
-    protected function _restoreInitialLocale($initialLocaleCode, $initialArea = Mage_Core_Model_App_Area::AREA_ADMINHTML)
+    protected function _restoreInitialLocale($initialLocaleCode, $initialArea = Mage_Core_Model_App_Area::AREA_ADMIN)
     {
         Mage::app()->getLocale()->setLocaleCode($initialLocaleCode);
         Mage::getSingleton('core/translate')->setLocale($initialLocaleCode)->init($initialArea, true);
