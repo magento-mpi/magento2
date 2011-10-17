@@ -44,7 +44,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
      */
     protected function _construct()
     {
-        $this->_init('sales/bestsellers_aggregated_' . self::AGGREGATION_DAILY, 'id');
+        $this->_init('sales_bestsellers_aggregated_' . self::AGGREGATION_DAILY, 'id');
     }
 
     /**
