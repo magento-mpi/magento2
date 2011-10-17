@@ -360,7 +360,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
             $this->_widgetConfigXml = Mage::getSingleton('widget/widget')
                 ->getXmlElementByType($this->getType());
             if ($this->_widgetConfigXml) {
-                $configFile = Mage::getDesign()->getThemeFile('widget.xml', array(
+                $configFile = Mage::getDesign()->getFilename('widget.xml', array(
                     '_area'    => $this->getArea(),
                     '_package' => $this->getPackage(),
                     '_theme'   => $this->getTheme(),
