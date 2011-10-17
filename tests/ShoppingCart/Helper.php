@@ -311,5 +311,19 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         }
     }
 
+    /**
+     * Open and clear Shopping Cart
+     */
+    public function frontClearShoppingCart()
+    {
+        if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'shopping_cart') {
+            $this->frontend('shopping_cart');
+        }
+        $removeItemXpath = $this->_getControlXpath('link', 'remove_item');
+        while ($this->isElementPresent($removeItemXpath)) {
+            $this->clickAndWait($removeItemXpath);
+        }
+    }
+
 }
 
