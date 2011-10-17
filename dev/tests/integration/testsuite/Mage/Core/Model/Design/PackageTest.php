@@ -532,4 +532,30 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             $this->_model->getStaticLibUrl('calendar/calendar.js')
         );
     }
+
+    public function testGetDesignEntitiesStructure()
+    {
+        $expectedResult = array(
+            'package_one' => array(
+                'theme_one' => array(
+                    'skin_one' => true,
+                    'skin_two' => true
+                )
+            )
+        );
+        $this->assertSame($expectedResult, $this->_model->getDesignEntitiesStructure('design_area'));
+    }
+
+    public function testGetThemeConfig()
+    {
+        $frontend = $this->_model->getThemeConfig('frontend');
+        $this->assertInstanceOf('Magento_Config_Theme', $frontend);
+        $this->assertSame($frontend, $this->_model->getThemeConfig('frontend'));
+    }
+
+    public function testIsThemeCompatible()
+    {
+        $this->assertFalse($this->_model->isThemeCompatible('frontend', 'package', 'custom_theme', '1.0.0.0'));
+        $this->assertTrue($this->_model->isThemeCompatible('frontend', 'package', 'custom_theme', '2.0.0.0'));
+    }
 }

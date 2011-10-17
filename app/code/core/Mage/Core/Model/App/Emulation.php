@@ -124,25 +124,21 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
      */
     protected function _emulateDesign($storeId, $area = Mage_Core_Model_App_Area::AREA_FRONTEND)
     {
-        $initialDesign = Mage::getDesign()->setAllGetOld(array(
-            'package' => Mage::getStoreConfig('design/package/name', $storeId),
-            'store'   => $storeId,
-            'area'    => $area
-        ));
+        $design = Mage::getDesign();
+        $initialDesign = array(
+            'area' => $design->getArea(),
+            'theme' => $design->getDesignTheme(),
+            'store' => Mage::app()->getStore()
+        );
+        $storeTheme = Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME, $storeId);
+        $design->setDesignTheme($storeTheme);
 
         if ($area == Mage_Core_Model_App_Area::AREA_FRONTEND) {
-            $designChange = Mage::getSingleton('core/design')
-                ->loadChange($storeId);
+            $designChange = Mage::getSingleton('core/design')->loadChange($storeId);
             if ($designChange->getData()) {
-                Mage::getDesign()
-                    ->setPackageName($designChange->getPackage())
-                    ->setTheme($designChange->getTheme());
-                return $initialDesign;
+                $design->setDesignTheme($designChange->getDesign());
             }
         }
-
-        Mage::getDesign()->setTheme('');
-        Mage::getDesign()->setPackageName('');
 
         return $initialDesign;
     }
@@ -187,9 +183,8 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
      */
     protected function _restoreInitialDesign(array $initialDesign)
     {
-        Mage::getDesign()->setAllGetOld($initialDesign);
-        Mage::getDesign()->setTheme('');
-        Mage::getDesign()->setPackageName('');
+        Mage::getDesign()->setArea($initialDesign['area']);
+        Mage::getDesign()->setDesignTheme($initialDesign['theme']);
         return $this;
     }
 

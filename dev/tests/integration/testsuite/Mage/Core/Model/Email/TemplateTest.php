@@ -87,9 +87,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store design/package/name  default
-     * @magentoConfigFixture fixturestore_store design/theme/default default
-     * @magentoConfigFixture fixturestore_store design/theme/skin    blue
+     * @magentoConfigFixture fixturestore_store design/theme/full_name default/default/blue
      */
     public function testGetProcessedTemplate()
     {
@@ -110,7 +108,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setTemplateText('{{skin url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsWith(
-            'skin/frontend/default/modern/modern/en_US/Mage_Page/favicon.ico',
+            'skin/frontend/default/modern/default/en_US/Mage_Page/favicon.ico',
             $this->_model->getProcessedTemplate()
         );
     }
@@ -118,9 +116,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store design/package/name  default
-     * @magentoConfigFixture fixturestore_store design/theme/default default
-     * @magentoConfigFixture fixturestore_store design/theme/skin    blue
+     * @magentoConfigFixture fixturestore_store design/theme/full_name default/default/blue
      */
     public function testGetProcessedTemplateSubject()
     {

@@ -57,6 +57,8 @@ class Mage_Core_Model_Design_Package
      */
     const PUBLIC_CACHE_TAG = 'design_public';
 
+    const XML_PATH_THEME = 'design/theme/full_name';
+
     private static $_regexMatchCache      = array();
     private static $_customThemeTypeCache = array();
 
@@ -89,6 +91,13 @@ class Mage_Core_Model_Design_Package
     protected $_theme;
 
     /**
+     * Package skin
+     *
+     * @var string
+     */
+    protected $_skin;
+
+    /**
      * Package root directory
      *
      * @var string
@@ -103,6 +112,13 @@ class Mage_Core_Model_Design_Package
     protected $_callbackFileDir;
 
     protected $_config = null;
+
+    /**
+     * List of theme configuration objects per area
+     *
+     * @var array
+     */
+    protected $_themeConfigs = array();
 
     /**
      * Published file cache storages
@@ -171,16 +187,8 @@ class Mage_Core_Model_Design_Package
     public function setPackageName($name = '')
     {
         if (empty($name)) {
-            // see, if exceptions for user-agents defined in config
-            $customPackage = $this->_checkUserAgentAgainstRegexps('design/package/ua_regexp');
-            if ($customPackage) {
-                $this->_name = $customPackage;
-            }
-            else {
-                $this->_name = Mage::getStoreConfig('design/package/name', $this->getStore());
-            }
-        }
-        else {
+            $this->_name = self::DEFAULT_PACKAGE;
+        } else {
             $this->_name = $name;
         }
         // make sure not to crash, if wrong package specified
@@ -188,33 +196,6 @@ class Mage_Core_Model_Design_Package
             $this->_name = self::DEFAULT_PACKAGE;
         }
         return $this;
-    }
-
-    /**
-     * Set store/package/area at once, and get respective values, that were before
-     *
-     * $storePackageArea must be assoc array. The keys may be:
-     * 'store', 'package', 'area'
-     *
-     * @param array $storePackageArea
-     * @return array
-     */
-    public function setAllGetOld($storePackageArea)
-    {
-        $oldValues = array();
-        if (array_key_exists('store', $storePackageArea)) {
-            $oldValues['store'] = $this->getStore();
-            $this->setStore($storePackageArea['store']);
-        }
-        if (array_key_exists('area', $storePackageArea)) {
-            $oldValues['area'] = $this->getArea();
-            $this->setArea($storePackageArea['area']);
-        }
-        if (array_key_exists('package', $storePackageArea)) {
-            $oldValues['package'] = $this->getPackageName();
-            $this->setPackageName($storePackageArea['package']);
-        }
-        return $oldValues;
     }
 
     /**
@@ -236,58 +217,38 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Declare design package theme params
-     * Polymorph method:
-     * 1) if 1 parameter specified, sets everything to this value
-     * 2) if 2 parameters, treats 1st as key and 2nd as value
+     * Design theme setter
      *
+     * @param string $theme
      * @return Mage_Core_Model_Design_Package
      */
-    public function setTheme()
+    public function setTheme($theme)
     {
-        switch (func_num_args()) {
-            case 1:
-                foreach (array('default', 'layout', 'template', 'locale', 'skin') as $type) {
-                    $this->_theme[$type] = func_get_arg(0);
-                }
-                break;
-
-            case 2:
-                $this->_theme[func_get_arg(0)] = func_get_arg(1);
-                break;
-
-            default:
-                throw Mage::exception(Mage::helper('core')->__('Wrong number of arguments for %s', __METHOD__));
-        }
+        $this->_theme = $theme;
         return $this;
     }
 
     /**
      * Package theme getter
      *
-     * @param string $type
      * @return string
      */
-    public function getTheme($type)
+    public function getTheme()
     {
-        if (empty($this->_theme[$type])) {
-            $this->_theme[$type] = Mage::getStoreConfig('design/theme/' . $type, $this->getStore());
-            if (empty($this->_theme[$type])) {
-                if ($type === 'default') {
-                    $this->_theme[$type] = self::DEFAULT_THEME;
-                } else {
-                    $this->_theme[$type] = $this->getTheme('default');
-                }
+        if (!$this->_theme) {
+            $this->_theme = Mage::getStoreConfig('design/theme/default', $this->getStore());
+            if (empty($this->_theme)) {
+                $this->_theme = self::DEFAULT_THEME;
             }
         }
 
         // set exception value for theme, if defined in config
-        $customThemeType = $this->_checkUserAgentAgainstRegexps("design/theme/{$type}_ua_regexp");
+        $customThemeType = $this->_checkUserAgentAgainstRegexps("design/theme/default_ua_regexp");
         if ($customThemeType) {
-            $this->_theme[$type] = $customThemeType;
+            $this->_theme = $customThemeType;
         }
 
-        return $this->_theme[$type];
+        return $this->_theme;
     }
 
     public function getDefaultTheme()
@@ -303,7 +264,7 @@ class Mage_Core_Model_Design_Package
      */
     public function setSkin($skin)
     {
-        $this->setTheme('skin', $skin);
+        $this->_skin = $skin;
         return $this;
     }
 
@@ -314,7 +275,47 @@ class Mage_Core_Model_Design_Package
      */
     public function getSkin()
     {
-        return $this->getTheme('skin');
+        if (!$this->_skin) {
+            $this->_skin = self::DEFAULT_SKIN_NAME;
+        }
+        return $this->_skin;
+    }
+
+    /**
+     * Set package, theme and skin for current area
+     *
+     * $fullDesign name must contain package, theme and skin names separated by "/"
+     *
+     * @param string $themePath
+     * @param string $area
+     * @return Mage_Core_Model_Design_Package
+     */
+    public function setDesignTheme($themePath, $area = null)
+    {
+        $parts = explode('/', $themePath);
+        if (3 !== count($parts)) {
+            Mage::throwException(
+                Mage::helper('core')->__('Invalid fully qualified design name: "%s".', $themePath)
+            );
+        }
+        list($package, $theme, $skin) = $parts;
+        if ($area) {
+            $this->setArea($area);
+        }
+        $this->setPackageName($package);
+        $this->setTheme($theme);
+        $this->setSkin($skin);
+        return $this;
+    }
+
+    /**
+     * Design theme full name getter
+     *
+     * @return string
+     */
+    public function getDesignTheme()
+    {
+        return $this->getPackageName() . '/' . $this->getTheme() . '/' . $this->getSkin();
     }
 
     /**
@@ -335,8 +336,7 @@ class Mage_Core_Model_Design_Package
             $params['_package'] = $this->getPackageName();
         }
         if (!array_key_exists('_theme', $params)) {
-            $isThemeType = isset($params['_type']) && $params['_type'] != 'skin';
-            $params['_theme'] = $this->getTheme($isThemeType ? $params['_type'] : '');
+            $params['_theme'] = $this->getTheme();
         }
         if (!array_key_exists('_skin', $params)) {
             $params['_skin'] = $this->getSkin();
@@ -1252,4 +1252,144 @@ class Mage_Core_Model_Design_Package
             }
         }
     }
+
+    /**
+     * Get the structure for area with all possible design combinations
+     *
+     * The format of the result is a multidimensional array with following structure
+     * array (
+     *     'package_name' => array (
+     *         'theme_name' => array (
+     *             'skin_name' => true
+     *          )
+     *     )
+     * )
+     *
+     * @param string $area
+     * @param bool $addInheritedSkins
+     * @return array
+     */
+    public function getDesignEntitiesStructure($area, $addInheritedSkins = true)
+    {
+        $areaStructure = $this->_getDesignEntitiesFilesystemStructure($area);
+
+        foreach ($areaStructure as $packageName => &$themes) {
+            foreach ($themes as $themeName => &$skins) {
+
+                /**
+                 * Join to theme inherited skins
+                 */
+                if ($addInheritedSkins) {
+                    $currentTheme = $themeName;
+                    while ($inheritedTheme = $this->_getInheritedTheme($currentTheme)) {
+                        if (!isset($areaStructure[$packageName][$inheritedTheme])) {
+                            break;
+                        }
+                        $areaStructure[$packageName][$themeName] = array_merge(
+                            $areaStructure[$packageName][$themeName],
+                            $areaStructure[$packageName][$inheritedTheme]
+                        );
+                        $currentTheme = $inheritedTheme;
+                    }
+                }
+
+                /**
+                 * Delete themes without skins or sort skins
+                 */
+                if (empty($areaStructure[$packageName][$themeName])) {
+                    unset($areaStructure[$packageName][$themeName]);
+                } else {
+                    ksort($skins);
+                }
+            }
+            /**
+             * Delete packages without themes or sort themes
+             */
+            if (empty($areaStructure[$packageName])) {
+                unset($areaStructure[$packageName]);
+            }
+            ksort($themes);
+        }
+
+        ksort($areaStructure);
+        return $areaStructure;
+    }
+
+    /**
+     * Get entities file system structure of area
+     *
+     * The format of the result is a multidimensional array with following structure
+     * array (
+     *     'package_name' => array (
+     *         'theme_name' => array (
+     *             'skin_name' => true
+     *          )
+     *     )
+     * )
+     *
+     * @param string $area
+     * @return array
+     */
+    protected function _getDesignEntitiesFilesystemStructure($area)
+    {
+        $areaDirPath = Mage::app()->getConfig()->getOptions()->getDesignDir() . DIRECTORY_SEPARATOR . $area;
+        $structure = array();
+
+        $themePaths = glob($areaDirPath . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
+        foreach ($themePaths as $themePath) {
+            $themePath = str_replace(DIRECTORY_SEPARATOR, '/', $themePath);
+            if (preg_match('/\/([^\/.]+)\/([^\/.]+)\/([^\/.]+)$/i', $themePath, $packageThemeMatches)) {
+                list (, , $packageName, $themeName) = $packageThemeMatches;
+                $structure[$packageName][$themeName] = array();
+            } else {
+                continue;
+            }
+            $skinPaths = glob($areaDirPath . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR .
+                $themeName . DIRECTORY_SEPARATOR . 'skin' . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
+            foreach ($skinPaths as $skinPath) {
+                $skinPath = str_replace(DIRECTORY_SEPARATOR, '/', $skinPath);
+                if (preg_match('/\/([^\/.]+)$/i', $skinPath, $skinMatches)) {
+                    $structure[$packageName][$themeName][$skinMatches[1]] = true;
+                }
+            }
+        }
+
+        return $structure;
+    }
+
+    /**
+     * Get theme configuration for specified area
+     *
+     * @param string $area
+     * @return Magento_Config_Theme
+     */
+    public function getThemeConfig($area)
+    {
+        if (!isset($this->_themeConfigs[$area])) {
+            $themeConfigFiles = glob(Mage::getBaseDir('design') . "/{$area}/*/*/theme.xml", GLOB_NOSORT);
+            $this->_themeConfigs[$area] = new Magento_Config_Theme($themeConfigFiles);
+        }
+        return $this->_themeConfigs[$area];
+    }
+
+    /**
+     * Check if the theme from the specified area is compatible with specific Magento version
+     *
+     * @param string $area
+     * @param string $package
+     * @param string $theme
+     * @param string $version
+     * @return bool
+     */
+    public function isThemeCompatible($area, $package, $theme, $version)
+    {
+        $versions = $this->getThemeConfig($area)->getCompatibleVersions($package, $theme);
+        if (version_compare($version, $versions['from'], '>=')) {
+            if ($versions['to'] == '*' || version_compare($version, $versions['from'], '<=')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

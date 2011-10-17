@@ -413,8 +413,12 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                             $optionArray = $sourceModel->$method();
                         } else {
                             $optionArray = array();
-                            foreach ($sourceModel->$method() as $value => $label) {
-                                $optionArray[] = array('label' => $label, 'value' => $value);
+                            foreach ($sourceModel->$method() as $key => $value) {
+                                if (is_array($value)) {
+                                    $optionArray[] = $value;
+                                } else {
+                                    $optionArray[] = array('label' => $value, 'value' => $key);
+                                }
                             }
                         }
                     } else {
