@@ -73,7 +73,7 @@
             <email>
                 <enterprise_invitation_email_template translate="label" module="enterprise_invitation">
                     <label>Customer Invitation</label>
-                    <file>email/invitation_email.html</file>
+                    <file>email/invitation.html</file>
                     <type>html</type>
                 </enterprise_invitation_email_template>
             </email>
