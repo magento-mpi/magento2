@@ -3581,7 +3581,7 @@ $installer->getConnection()->createTable($table);
  * Install eav entity types to the eav/entity_type table
  */
 $installer->addEntityType('order', array(
-    'entity_model'          => 'sales_flat_order',
+    'entity_model'          => 'sales/order',
     'table'                 => 'sales_flat_order',
     'increment_model'       => 'eav/entity_increment_numeric',
     'increment_per_store'   => true
