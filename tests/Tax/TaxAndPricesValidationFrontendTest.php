@@ -126,26 +126,42 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         $this->customerHelper()->frontLoginCustomer($customer);
         $nodes = explode('/', $category);
         $productQty = count($products);
+        $checkoutData = $this->loadData('checkout_data');
         //Data
         for ($i = 1; $i <= $productQty; $i++) {
             $priceInCategory = $this->loadData($dataProv . '_frontend_price_in_category_simple_' . $i);
+            $priceInProdDetails =  $this->loadData($dataProv . '_frontend_price_in_prod_details_simple_' . $i);
             $priceInCategory['product_name'] = $products['name'][$i];
+            $priceInProdDetails['product_name'] = $products['name'][$i];
             $priceInCategory['category'] = $nodes[1];
-
+            print_r($priceInCategory);
 
             //Verifying prices in category
             $this->categoryHelper()->frontValidateProductInCategory($priceInCategory);
 
-            $this->frontend();
             $this->productHelper()->frontOpenProduct($priceInCategory['product_name']);
-            $this->categoryHelper()->frontVerifyProductPricesInCategory($priceInCategory['product_name'],
-                    $priceInCategory['verification']);
-            $this->categoryHelper()->frontValidateProductInCategory($priceInCategory);
+            $this->categoryHelper()->frontVerifyProductPricesInCategory($priceInProdDetails['product_name'],
+                    $priceInProdDetails['verification'], 'product_page');
+            $this->productHelper()->frontOpenProduct($priceInCategory['product_name']);
             $this->productHelper()->frontAddProductToCart($priceInCategory['product_name']);
 
         }
-        $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'fixed');
-//        $this->shoppingCartHelper()->verifyPricesDataOnPage();
+        $priceTotal = $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'fixed');
+        $this->shoppingCartHelper()->verifyPricesDataOnPage(
+                'unit_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products',
+                'unit_price_excl_shipping_excl_order');
+        $this->checkoutOnePageHelper()->createCheckout('checkout_data');
+        $this->checkoutOnePageHelper()->frontVerifyCheckoutData(
+                'unit_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products',
+                'unit_price_excl_shipping_excl_order');
+        $this->clickButton('place_order');
+        $orderId = $this->_getControlXpath('link', 'order_number')->$this->getText();
+        $this->addParameter('orderId', $orderId);
+        $this->clickControl('link', 'order_number');
+        $this->$this->shoppingCartHelper()->verifyPricesDataOnPage(
+                'unit_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products',
+                'unit_price_excl_shipping_excl_order');
+
 
     }
 
