@@ -225,7 +225,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
      *     Example:
      *         array(
      *            'alias'     => 'alias_table',
-     *            'attribute' => 'table_name', //table name, must be used path of table like 'module/table_name'
+     *            'attribute' => 'table_name', //table name
      *            'field'     => 'field_name', //selected field name (optional)
      *            //bind main condition
      *            //left field use for joined table

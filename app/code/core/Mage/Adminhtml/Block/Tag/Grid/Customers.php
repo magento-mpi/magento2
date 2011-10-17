@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
 //            ->joinAttribute('billing_city', 'customer_address/city', 'default_billing')
 //            ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing')
 //            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing')
-//            ->joinField('billing_country_name', 'directory/country_name', 'name', 'country_id=billing_country_id', array('language_code'=>'en'))
+//            ->joinField('billing_country_name', 'directory_country_name', 'name', 'country_id=billing_country_id', array('language_code'=>'en'))
         ;
 
         if ($productId = $this->getRequest()->getParam('product_id')) {
