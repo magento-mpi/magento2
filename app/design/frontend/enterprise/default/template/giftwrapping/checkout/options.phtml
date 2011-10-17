@@ -175,7 +175,7 @@ var giftWrapping = {
             imageBox.src = this.designsInfo[value].path;
             imageBox.removeClassName('no-display');
         } else {
-            imageBox.src = '';
+            imageBox.src = '<?php echo $this->getSkinUrl('images/spacer.gif')?>';
             imageBox.addClassName('no-display');
         }
         imageBox.up().removeClassName('no-display');
