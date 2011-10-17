@@ -302,8 +302,6 @@ class Category_Helper extends Mage_Selenium_TestCase
             $this->addParameter('price', $value);
             $method = 'find' . ucfirst(strtolower('pageelement'));
             $xpathPrice = $this->getCurrentUimapPage()->$method($key);
-            print_r($xpathPrice);
-            //$xpathPrice = $xpath->getXPath();
             if (!$this->isElementPresent($xpathPrice)) {
                 $this->messages['error'][] = 'Could not find element ' . $key . ' with price ' . $value;
             }
