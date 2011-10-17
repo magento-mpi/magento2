@@ -294,8 +294,6 @@ class Category_Helper extends Mage_Selenium_TestCase
     {
         $this->_currentPage = $pageName;
         $this->addParameter('productName', $productName);
-        $xpathProduct = $this->_getControlXpath('pageelement', 'product_name_header');
-        $this->addParameter('productNameXpath', $xpathProduct);
         $pageelements = $this->getCurrentUimapPage()->getMainForm()->getAllPageelements();
         $verificationData = $this->arrayEmptyClear($verificationData);
         foreach ($verificationData as $key => $value) {
