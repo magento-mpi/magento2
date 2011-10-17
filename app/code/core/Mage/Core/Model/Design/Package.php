@@ -352,29 +352,6 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * @todo replace method usage with getFilename (MAGETWO-521)
-     */
-    public function getBaseDir(array $params)
-    {
-        $this->_updateParamDefaults($params);
-        $baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
-            $params['_area'].DS.$params['_package'].DS.$params['_theme'].DS.$params['_type'];
-        return $baseDir;
-    }
-
-    /**
-     * @todo replace method usage with getSkinFile/getSkinUrl (MAGETWO-521)
-     */
-    public function getSkinBaseDir(array $params=array())
-    {
-        $params['_type'] = 'skin';
-        $this->_updateParamDefaults($params);
-        $baseDir = (empty($params['_relative']) ? Mage::getBaseDir('skin').DS : '').
-            $params['_area'].DS.$params['_package'].DS.$params['_theme'];
-        return $baseDir;
-    }
-
-    /**
      * Go through specified directories and try to locate the file
      *
      * Returns the first found file or last file from the list as absolute path
@@ -441,11 +418,11 @@ class Mage_Core_Model_Design_Package
         do {
             $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}";
             /* Legacy path that should be removed after all template and layout files relocation */
-            $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}/{$params['_type']}";
+            $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}/{$params['_module']}";
             $theme = $this->_getInheritedTheme($theme);
         } while ($theme);
         /* Legacy path that should be removed after all template and layout files relocation */
-        $dirs[] = "{$dir}/{$area}/base/default/{$params['_type']}";
+        $dirs[] = "{$dir}/{$area}/base/default/{$params['_module']}";
 
         $moduleDir = $module ? array(Mage::getConfig()->getModuleDir('view', $module) . "/{$area}") : array();
         Magento_Profiler::stop(__METHOD__);
