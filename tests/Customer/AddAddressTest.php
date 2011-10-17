@@ -163,7 +163,6 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
             array('street_address_line_1'),
             array('city'),
             array('country'),
-            array('state'),
             array('zip_code'),
             array('telephone')
         );
