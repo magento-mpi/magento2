@@ -146,12 +146,6 @@
         </reference>
     </catalog_product_view>
 
-    <PRODUCT_TYPE_bundle>
-        <reference name="product.info">
-            <block type="enterprise_giftregistry/product_view" name="product.customize.button"/>
-        </reference>
-    </PRODUCT_TYPE_bundle>
-
     <calendar>
         <reference name="head">
             <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>

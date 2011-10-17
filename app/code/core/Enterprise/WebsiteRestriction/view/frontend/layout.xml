@@ -32,11 +32,9 @@
         <block type="page/html" name="root" output="toHtml" template="1column.phtml">
             <block type="page/html_head" name="head" as="head">
                 <action method="addJs"><script>prototype/prototype.js</script></action>
-                <action method="addJs"><script>lib/ccard.js</script></action>
                 <action method="addJs"><script>prototype/validation.js</script></action>
                 <action method="addJs"><script>varien/js.js</script></action>
                 <action method="addJs"><script>mage/translate.js</script></action>
-                <action method="addItem"><type>skin_js</type><name>js/scripts.js</name></action>
             </block>
             <block type="core/messages" name="global_messages" as="global_messages"/>
             <block type="core/messages" name="messages" as="messages"/>
