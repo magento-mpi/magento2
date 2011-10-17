@@ -1149,9 +1149,9 @@ total_cat_ex_ship_ex_backend_products_total_before_order: &totalCatExShipExBacke
 
 total_cat_ex_ship_ex_backend_total_before_order: &totalCatExShipExBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $599.77
-    subtotal_incl_tax: $649.26
+    subtotal_incl_tax: $649.25
     shipping_excl_tax_flat_rate_fixed: $10.00
-    shipping_incl_tax_flat_rate_fixed: $10.82
+    shipping_incl_tax_flat_rate_fixed: $10.83
     grand_total_excl_tax: $609.77
     tax: $50.31
     grand_total_incl_tax: $660.08
@@ -1228,9 +1228,9 @@ total_cat_ex_ship_ex_backend_product_prices_after_order:
 
 total_cat_ex_ship_ex_backend_total_after_order:
     subtotal_excl_tax: $599.77
-    subtotal_incl_tax: $649.26
+    subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
-    shipping_handling_incl_tax: $10.82
+    shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $609.77
     tax: $50.31
     grand_total_incl_tax: $660.08
@@ -1273,9 +1273,9 @@ total_cat_ex_ship_ex_backend_product_prices_before_invoice:
 
 total_cat_ex_ship_ex_backend_total_before_invoice:
     subtotal_excl_tax: $599.77
-    subtotal_incl_tax: $649.26
+    subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
-    shipping_handling_incl_tax: $10.82
+    shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $609.77
     tax: $50.31
     grand_total_incl_tax: $660.08
@@ -1327,9 +1327,9 @@ total_cat_ex_ship_ex_backend_product_prices_after_invoice:
 
 total_cat_ex_ship_ex_backend_total_after_invoice:
     subtotal_excl_tax: $599.77
-    subtotal_incl_tax: $649.26
+    subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
-    shipping_handling_incl_tax: $10.82
+    shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $609.77
     tax: $50.31
     grand_total_incl_tax: $660.08
@@ -1372,9 +1372,9 @@ total_cat_ex_ship_ex_backend_product_prices_after_invoice_on_invoice:
 
 total_cat_ex_ship_ex_backend_total_after_invoice_on_invoice:
     subtotal_excl_tax: $599.77
-    subtotal_incl_tax: $649.26
+    subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
-    shipping_handling_incl_tax: $10.82
+    shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $609.77
     tax: $50.31
     grand_total_incl_tax: $660.08
@@ -1429,9 +1429,9 @@ total_cat_ex_ship_ex_backend_product_prices_after_shipment:
 
 total_cat_ex_ship_ex_backend_total_after_shipment:
     subtotal_excl_tax: $599.77
-    subtotal_incl_tax: $649.26
+    subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
-    shipping_handling_incl_tax: $10.82
+    shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $609.77
     tax: $50.31
     grand_total_incl_tax: $660.08
@@ -1480,7 +1480,7 @@ total_cat_ex_ship_ex_backend_product_prices_before_refund:
 
 total_cat_ex_ship_ex_backend_total_before_refund:
     subtotal_excl_tax: $599.77
-    subtotal_incl_tax: $649.26
+    subtotal_incl_tax: $649.25
     grand_total_excl_tax: $609.77
     tax: $50.31
     grand_total_incl_tax: $660.08
@@ -1538,9 +1538,9 @@ total_cat_ex_ship_ex_backend_product_prices_after_refund:
 
 total_cat_ex_ship_ex_backend_total_after_refund:
     subtotal_excl_tax: $599.77
-    subtotal_incl_tax: $649.26
+    subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
-    shipping_handling_incl_tax: $10.82
+    shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $609.77
     tax: $50.31
     grand_total_incl_tax: $660.08
@@ -1583,9 +1583,9 @@ total_cat_ex_ship_ex_backend_product_prices_after_refund_on_refund:
 
 total_cat_ex_ship_ex_backend_total_after_refund_on_refund:
     subtotal_excl_tax: $599.77
-    subtotal_incl_tax: $649.26
+    subtotal_incl_tax: $649.25
     shipping_handling_excl_tax: $10.00
-    shipping_handling_incl_tax: $10.82
+    shipping_handling_incl_tax: $10.83
     adjustment_refund: $0.00
     adjustment_fee: $0.00
     grand_total_excl_tax: $609.77
@@ -1641,8 +1641,8 @@ unit_cat_ex_ship_in_backend_total_before_order: &unitCatExShipInBackendTotalBefo
     shipping_excl_tax_flat_rate_fixed: $9.24
     shipping_incl_tax_flat_rate_fixed: $10.00
     grand_total_excl_tax: $609.01
-    tax: $48.59
-    grand_total_incl_tax: $657.60
+    tax: $50.25
+    grand_total_incl_tax: $659.26
 
 unit_cat_ex_ship_in_backend_create_order:
     customer_data:
@@ -1720,8 +1720,8 @@ unit_cat_ex_ship_in_backend_total_after_order:
     shipping_handling_excl_tax: $9.24
     shipping_handling_incl_tax: $10.00
     grand_total_excl_tax: $609.01
-    tax: $48.59
-    grand_total_incl_tax: $657.60
+    tax: $50.25
+    grand_total_incl_tax: $659.26
     total_paid: $0.00
     total_refunded: $0.00
     total_due: $657.60
@@ -1765,8 +1765,8 @@ unit_cat_ex_ship_in_backend_total_before_invoice:
     shipping_handling_excl_tax: $9.24
     shipping_handling_incl_tax: $10.00
     grand_total_excl_tax: $609.01
-    tax: $48.59
-    grand_total_incl_tax: $657.60
+    tax: $50.25
+    grand_total_incl_tax: $659.26
 
 #<-------Test Data for Price review after invoice creation on order page------->
 unit_cat_ex_ship_in_backend_product_prices_after_invoice:
@@ -1819,8 +1819,8 @@ unit_cat_ex_ship_in_backend_total_after_invoice:
     shipping_handling_excl_tax: $9.24
     shipping_handling_incl_tax: $10.00
     grand_total_excl_tax: $609.01
-    tax: $48.59
-    grand_total_incl_tax: $657.60
+    tax: $50.25
+    grand_total_incl_tax: $659.26
     total_due: $0.00
     total_refunded: $0.00
     total_paid: $657.60
@@ -1864,8 +1864,8 @@ unit_cat_ex_ship_in_backend_total_after_invoice_on_invoice:
     shipping_handling_excl_tax: $9.24
     shipping_handling_incl_tax: $10.00
     grand_total_excl_tax: $609.01
-    tax: $48.59
-    grand_total_incl_tax: $657.60
+    tax: $50.25
+    grand_total_incl_tax: $659.26
 
 #<-------Test Data for Price review after shipment creation on order page------>
 unit_cat_ex_ship_in_backend_product_prices_after_shipment:
@@ -1921,8 +1921,8 @@ unit_cat_ex_ship_in_backend_total_after_shipment:
     shipping_handling_excl_tax: $9.24
     shipping_handling_incl_tax: $10.00
     grand_total_excl_tax: $609.01
-    tax: $48.59
-    grand_total_incl_tax: $657.60
+    tax: $50.25
+    grand_total_incl_tax: $659.26
     total_due: $0.00
     total_refunded: $0.00
     total_paid: $657.60
@@ -1970,8 +1970,8 @@ unit_cat_ex_ship_in_backend_total_before_refund:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     grand_total_excl_tax: $609.01
-    tax: $48.59
-    grand_total_incl_tax: $657.60
+    tax: $50.25
+    grand_total_incl_tax: $659.26
 
 #<-------Test Data for Price review after refund creation on order page-------->
 unit_cat_ex_ship_in_backend_product_prices_after_refund:
@@ -2030,8 +2030,8 @@ unit_cat_ex_ship_in_backend_total_after_refund:
     shipping_handling_excl_tax: $9.24
     shipping_handling_incl_tax: $10.00
     grand_total_excl_tax: $609.01
-    tax: $48.59
-    grand_total_incl_tax: $657.60
+    tax: $50.25
+    grand_total_incl_tax: $659.26
     total_due: $0.00
     total_refunded: $657.60
     total_paid: $657.60
@@ -2077,8 +2077,8 @@ unit_cat_ex_ship_in_backend_total_after_refund_on_refund:
     adjustment_refund: $0.00
     adjustment_fee: $0.00
     grand_total_excl_tax: $609.01
-    tax: $48.59
-    grand_total_incl_tax: $657.60
+    tax: $50.25
+    grand_total_incl_tax: $659.26
 
 ################################################################################
 #                                                                              #
@@ -3105,7 +3105,7 @@ unit_cat_in_ship_ex_backend_total_before_order: &unitCatInShipExBackendTotalBefo
     shipping_excl_tax_flat_rate_fixed: $10.00
     shipping_incl_tax_flat_rate_fixed: $10.83
     grand_total_excl_tax: $564.07
-    tax: $46.54
+    tax: $46.53
     grand_total_incl_tax: $610.60
 
 unit_cat_in_ship_ex_backend_create_order:
@@ -3184,7 +3184,7 @@ unit_cat_in_ship_ex_backend_total_after_order:
     shipping_handling_excl_tax: $10.00
     shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $564.07
-    tax: $46.54
+    tax: $46.53
     grand_total_incl_tax: $610.60
     total_paid: $0.00
     total_refunded: $0.00
@@ -3229,7 +3229,7 @@ unit_cat_in_ship_ex_backend_total_before_invoice:
     shipping_handling_excl_tax: $10.00
     shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $564.07
-    tax: $46.54
+    tax: $46.53
     grand_total_incl_tax: $610.60
 
 #<-------Test Data for Price review after invoice creation on order page------->
@@ -3283,7 +3283,7 @@ unit_cat_in_ship_ex_backend_total_after_invoice:
     shipping_handling_excl_tax: $10.00
     shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $564.07
-    tax: $46.54
+    tax: $46.53
     grand_total_incl_tax: $610.60
     total_due: $0.00
     total_refunded: $0.00
@@ -3328,7 +3328,7 @@ unit_cat_in_ship_ex_backend_total_after_invoice_on_invoice:
     shipping_handling_excl_tax: $10.00
     shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $564.07
-    tax: $46.54
+    tax: $46.53
     grand_total_incl_tax: $610.60
 
 #<-------Test Data for Price review after shipment creation on order page------>
@@ -3385,7 +3385,7 @@ unit_cat_in_ship_ex_backend_total_after_shipment:
     shipping_handling_excl_tax: $10.00
     shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $564.07
-    tax: $46.54
+    tax: $46.53
     grand_total_incl_tax: $610.60
     total_due: $0.00
     total_refunded: $0.00
@@ -3434,7 +3434,7 @@ unit_cat_in_ship_ex_backend_total_before_refund:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     grand_total_excl_tax: $564.07
-    tax: $46.54
+    tax: $46.53
     grand_total_incl_tax: $610.60
 
 #<-------Test Data for Price review after refund creation on order page-------->
@@ -3494,7 +3494,7 @@ unit_cat_in_ship_ex_backend_total_after_refund:
     shipping_handling_excl_tax: $10.00
     shipping_handling_incl_tax: $10.83
     grand_total_excl_tax: $564.07
-    tax: $46.54
+    tax: $46.53
     grand_total_incl_tax: $610.60
     total_due: $0.00
     total_refunded: $610.60
@@ -3541,7 +3541,7 @@ unit_cat_in_ship_ex_backend_total_after_refund_on_refund:
     adjustment_refund: $0.00
     adjustment_fee: $0.00
     grand_total_excl_tax: $564.07
-    tax: $46.54
+    tax: $46.53
     grand_total_incl_tax: $610.60
 
 ################################################################################
@@ -5125,7 +5125,7 @@ row_cat_in_ship_in_backend_product_prices_after_order:
         qty_ordered: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.91
+        tax_amount: $5.90
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -5171,7 +5171,7 @@ row_cat_in_ship_in_backend_product_prices_before_invoice:
         qty_ordered: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.91
+        tax_amount: $5.90
         discount_amount: $0.00
         row_total: $77.55
 
@@ -5224,7 +5224,7 @@ row_cat_in_ship_in_backend_product_prices_after_invoice:
         qty_invoiced: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.91
+        tax_amount: $5.90
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -5270,7 +5270,7 @@ row_cat_in_ship_in_backend_product_prices_after_invoice_on_invoice:
         qty: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.91
+        tax_amount: $5.90
         discount_amount: $0.00
         row_total: $77.55
 
@@ -5326,7 +5326,7 @@ row_cat_in_ship_in_backend_product_prices_after_shipment:
         qty_shipped: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.91
+        tax_amount: $5.90
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -5378,7 +5378,7 @@ row_cat_in_ship_in_backend_product_prices_before_refund:
         qty_shipped: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.91
+        tax_amount: $5.90
         discount_amount: $0.00
         row_total: $77.55
 
@@ -5435,7 +5435,7 @@ row_cat_in_ship_in_backend_product_prices_after_refund:
         qty_refunded: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.91
+        tax_amount: $5.90
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -5481,7 +5481,7 @@ row_cat_in_ship_in_backend_product_prices_after_refund_on_refund:
         qty: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.91
+        tax_amount: $5.90
         discount_amount: $0.00
         row_total: $77.55
 
