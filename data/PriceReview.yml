@@ -91,7 +91,7 @@ customer_account_for_prices_validation:
     email: test_user@example.com
     password: 123123q
 
-customer_account_address_for_prices_validation:
+customer_account_address_for_prices_validation: &addressData
     first_name: First Name
     last_name: Last Name
     street_address_line_1: 10441 Jefferson Blvd
@@ -5987,11 +5987,69 @@ total_cat_in_ship_in_backend_total_after_refund_on_refund:
 
 
 
+#<-----------------------------Preconditions (frontend)----------------------------------->
+simple_product_for_prices_validation_front_1:
+    product_attribute_set: Default
+    general_name: Simple Product For Prices Validation
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_price_validation
+    general_weight: 18.56
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 111.11
+    prices_tax_class: Taxable Goods
+    recurring_profile_enable_recurring_profile: No
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 500
+    inventory_min_allowed_qty_default: No
+    inventory_min_allowed_qty: 2
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
 
+simple_product_for_prices_validation_front_2:
+    product_attribute_set: Default
+    general_name: Simple Product For Prices Validation
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_price_validation
+    general_weight: 18.56
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 100
+    prices_tax_class: Taxable Goods
+    recurring_profile_enable_recurring_profile: No
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 500
+    inventory_min_allowed_qty_default: No
+    inventory_min_allowed_qty: 3
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
 
-
-
-
+simple_product_for_prices_validation_front_3:
+    product_attribute_set: Default
+    general_name: Simple Product For Prices Validation
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_price_validation
+    general_weight: 18.56
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 15.51
+    prices_tax_class: Taxable Goods
+    recurring_profile_enable_recurring_profile: No
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
+    inventory_qty: 500
+    inventory_min_allowed_qty_default: No
+    inventory_min_allowed_qty: 5
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
 
 
 #<------------Test Data for prices validation on the category (frontend)------->
@@ -6022,72 +6080,153 @@ unit_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products:
         product_name: %noValue%
         unit_price_excl_tax: $111.11
         unit_price_incl_tax: $120.28
-        qty: 1
-        subtotal_excl_tax: $111.11
-        subtotal_incl_tax: $120.28
+        qty: 2
+        subtotal_excl_tax: $222.22
+        subtotal_incl_tax: $240.56
     product_2:
         product_name: %noValue%
         unit_price_excl_tax: $100.00
         unit_price_incl_tax: $108.25
-        qty: 1
-        subtotal_excl_tax: $100.00
-        subtotal_incl_tax: $108.25
+        qty: 3
+        subtotal_excl_tax: $300.00
+        subtotal_incl_tax: $324.75
     product_3:
         product_name: %noValue%
         unit_price_excl_tax: $15.51
         unit_price_incl_tax: $16.79
-        qty: 1
-        subtotal_excl_tax: $15.51
-        subtotal_incl_tax: $16.79
+        qty: 5
+        subtotal_excl_tax: $77.55
+        subtotal_incl_tax: $83.95
 
 unit_cat_ex_ship_ex_frontend_price_in_prod_details_simple_1:
-    category: %noValue%
     product_name: %noValue%
     verification:
-        qty: 1
+        qty: 2
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
 unit_cat_ex_ship_ex_frontend_price_in_prod_details_simple_2:
-    category: %noValue%
     product_name: %noValue%
     verification:
-        qty: 1
+        qty: 3
         price_excluding_tax: $100.00
         price_including_tax: $108.25
 
 
 unit_cat_ex_ship_ex_frontend_price_in_prod_details_simple_3:
-    category: %noValue%
     product_name: %noValue%
     verification:
-        qty: 1
+        qty: 5
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-unit_cat_ex_shipping_ex_order:
-    subtotal_excl_tax: $226.62
-    subtotal_incl_tax: $245.32
-    discount: %noValue%
-    shipping_excl_tax_flat_rate_fixed: $3.00
-    shipping_incl_tax_flat_rate_fixed: $3.25
-    grand_total_excl_tax: $229.62
-    tax: $18.95
-    grand_total_incl_tax: $248.57
+unit_cat_ex_ship_ex_order:
+    subtotal_excl_tax: $599.77
+    subtotal_incl_tax: $649.26
+    shipping_excl_tax_flat_rate_fixed: $10.00
+    shipping_incl_tax_flat_rate_fixed: $10.83
+    grand_total_excl_tax: $609.77
+    tax: $50.32
+    grand_total_incl_tax: $660.09
 
 
-validate_product_prices_in_category_virtual:
-    category: %noValue%
-    product_name: %noValue%
-    verification:
-        price_regular: $13.81
-        #price_excluding_tax: $12.92
-        #price_including_tax: $12.92
-        #price_old: %noValue%
-        #price_special: %noValue%
-        price_special_excluding_tax: $12.92
-        price_special_inlcuding_tax: $12.92
-        #as_low_as: %noValue%
+unit_cat_ex_ship_ex_checkout_data:
+    billing_address_data:
+        billing_address_select: New Address
+        billing_first_name: billing_Steven
+        billing_last_name: billing_Stevenson
+        billing_street_address_1: billing street address
+        billing_city: Palo Alto
+        billing_country: United States
+        billing_state: California
+        billing_zip_code: 94306
+        billing_telephone: 091019019 billing
+    ship_to_this_address: Yes
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Check / Money order
+    validate_prod_data:
+        product_1:
+            product_name: %noValue%
+            price_excl_tax: $111.11
+            price_incl_tax: $120.28
+            qty: 2
+            subtotal_excl_tax: $222.22
+            subtotal_incl_tax: $240.56
+        product_2:
+            product_name: %noValue%
+            price_excl_tax: $100.00
+            price_incl_tax: $108.25
+            qty: 3
+            subtotal_excl_tax: $300.00
+            subtotal_incl_tax: $324.75
+        product_3:
+            product_name: %noValue%
+            price_excl_tax: $15.51
+            price_incl_tax: $16.79
+            qty: 5
+            subtotal_excl_tax: $77.55
+            subtotal_incl_tax: $83.95
+    validate_total_data:
+        subtotal_excl_tax: $599.77
+        subtotal_incl_tax: $649.26
+        shipping_excl_tax_flat_rate_fixed: $10.00
+        shipping_incl_tax_flat_rate_fixed: $10.83
+        grand_total_excl_tax: $609.77
+        tax: $50.32
+        grand_total_incl_tax: $660.09
+
+unit_cat_ex_ship_ex_order_details:
+    validate_prod_data:
+        product_1:
+            product_name: %noValue%
+            sku: %noValue%
+            price_excl_tax: $111.11
+            price_incl_tax: $120.28
+            qty_ordered: 2
+            subtotal_excl_tax: $222.22
+            subtotal_incl_tax: $240.56
+        product_2:
+            product_name: %noValue%
+            sku: %noValue%
+            price_excl_tax: $100.00
+            price_incl_tax: $108.25
+            qty_ordered: 3
+            subtotal_excl_tax: $300.00
+            subtotal_incl_tax: $324.75
+        product_3:
+            product_name: %noValue%
+            sku: %noValue%
+            price_excl_tax: $15.51
+            price_incl_tax: $16.79
+            qty_ordered: 5
+            subtotal_excl_tax: $77.55
+            subtotal_incl_tax: $83.95
+    validate_total_data:
+        subtotal_excl_tax: $599.77
+        subtotal_incl_tax: $649.26
+        shipping_handling_excl_tax: $10.00
+        shipping_handling_incl_tax: $10.83
+        grand_total_excl_tax: $609.77
+        tax: $50.32
+        grand_total_incl_tax: $660.09
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #<----Test data for product validation in order details (frontend)------------->
 product_data_information_template:

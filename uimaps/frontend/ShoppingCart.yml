@@ -38,6 +38,8 @@ shopping_cart:
                         buttons:
                             continue_shopping: //button[span='Continue Shopping']
                             update_shopping_cart: //button[span='Update Shopping Cart']
+                        links:
+                            remove_item: //a[@title='Remove item']
                         pageelements:
                             product_table_head: //table[@id='shopping-cart-table']/thead
                             price_totals: //table[@id='shopping-cart-totals-table']

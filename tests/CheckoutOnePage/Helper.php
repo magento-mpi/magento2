@@ -56,14 +56,14 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $shippingAddr = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : NULL;
         $shippingMethod = (isset($checkoutData['shipping_data'])) ? $checkoutData['shipping_data'] : NULL;
         $paymentMethod = (isset($checkoutData['payment_data'])) ? $checkoutData['payment_data'] : NULL;
+        $validateProdData = (isset($checkoutData['validate_prod_data'])) ? $checkoutData['validate_prod_data'] : NULL;
+        $validateTotalData = (isset($checkoutData['validate_total_data'])) ? $checkoutData['validate_total_data']: NULL;
         if ($products) {
             foreach ($products as $product => $data) {
                 $this->productHelper()->frontOpenProduct($data['general_name']);
                 $this->productHelper()->frontAddProductToCart($data['general_name']);
             }
             $this->clickButton('proceed_to_checkout');
-        } else {
-            $this->fail('You should specify products for adding to shopping cart');
         }
         if ($customer) {
             $this->frontSelectCheckoutMethod($customer);
@@ -85,6 +85,10 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->frontSelectPaymentMethod($paymentMethod, $validate);
             $this->verifyNotPresetAlert($validate);
         }
+        if ($validateProdData && $validateTotalData) {
+            $this->frontVerifyCheckoutData($validateProdData, $validateTotalData);
+        }
+
         $xpath = $this->_getControlXpath('fieldset', 'order_review') . "[contains(@class,'active')]";
         if ($this->isElementPresent($xpath)) {
             $this->frontOrderReview($checkoutData);
@@ -515,7 +519,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function frontVerifyCheckoutData($productData, $orderPriceData)
     {
-        $this->shoppingCartHelper()->frontVerifyShoppingCartData($productData, $orderPriceData);
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($productData, $orderPriceData);
     }
 
 }

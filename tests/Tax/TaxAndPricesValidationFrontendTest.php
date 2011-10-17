@@ -97,14 +97,14 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
     {
         $products = array();
         $this->navigate('manage_products');
-        for ($i = 1; $i <= 1; $i++) {
-            $simpleProductData = $this->loadData('simple_product_for_prices_validation_' . $i,
+        for ($i = 1; $i <= 3; $i++) {
+            $simpleProductData = $this->loadData('simple_product_for_prices_validation_front_' . $i,
                     array('categories' => $category), array('general_name', 'general_sku'));
-            $products[$i] = $simpleProductData['general_name'];
+            $products['sku'][$i] = $simpleProductData['general_sku'];
+            $products['name'][$i] = $simpleProductData['general_name'];
             $this->productHelper()->createProduct($simpleProductData);
             $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         }
-
         return $products;
     }
 
@@ -124,11 +124,20 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         $category = substr($category, strpos($category, '/') + 1);
         $checkoutData = $this->loadData('checkout_data');
         //Preconditions
-//        $this->navigate('system_configuration');
-//        $this->systemConfigurationHelper()->configure($dataProv);
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($dataProv);
         $this->customerHelper()->frontLoginCustomer($customer);
+        $this->frontend('shopping_cart');
+        $removeItemXpath = $this->_getControlXpath('link', 'remove_item');
+        while ($this->isElementPresent($removeItemXpath)):
+            $this->clickControl('link', 'remove_item');
+            $this->waitForPageToLoad();
+        endwhile;
         //Verify and add products to shopping cart
-        foreach ($products as $key => $productName) {
+        $productValidateData = $this->loadData($dataProv . '_frontend_price_in_shopping_cart_simple_products');
+        $checkoutValidateData = $this->loadData($dataProv . '_checkout_data');
+        $orderDetailsData = $this->loadData($dataProv . '_order_details');
+        foreach ($products['name'] as $key => $productName) {
             $priceInCategory = $this->loadData($dataProv . '_frontend_price_in_category_simple_' . $key,
                     array('product_name' => $productName, 'category' => $category));
             $priceInProdDetails = $this->loadData($dataProv . '_frontend_price_in_prod_details_simple_' . $key,
@@ -138,23 +147,24 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
             $this->categoryHelper()->frontVerifyProductPricesInCategory($productName,
                     $priceInProdDetails['verification'], 'product_page');
             $this->productHelper()->frontAddProductToCart();
+            $productValidateData["product_$key"]['product_name'] = $productName;
+            $checkoutValidateData['validate_prod_data']["product_$key"]['product_name'] = $productName;
+            $orderDetailsData['validate_prod_data']["product_$key"]['product_name'] = $productName;
         }
-        //
-//        $priceTotal = $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'fixed');
-//        $this->shoppingCartHelper()->verifyPricesDataOnPage(
-//                'unit_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products',
-//                'unit_price_excl_shipping_excl_order');
-//        $this->checkoutOnePageHelper()->createCheckout('checkout_data');
-//        $this->checkoutOnePageHelper()->frontVerifyCheckoutData(
-//                'unit_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products',
-//                'unit_price_excl_shipping_excl_order');
-//        $this->clickButton('place_order');
-//        $orderId = $this->_getControlXpath('link', 'order_number')->$this->getText();
-//        $this->addParameter('orderId', $orderId);
-//        $this->clickControl('link', 'order_number');
-//        $this->$this->shoppingCartHelper()->verifyPricesDataOnPage(
-//                'unit_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products',
-//                'unit_price_excl_shipping_excl_order');
+        foreach ($products['sku'] as $key => $productSku) {
+            $orderDetailsData['validate_prod_data']["product_$key"]['sku'] = $productSku;
+        }
+        $priceTotal = $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'shipping_flatrate');
+
+
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($productValidateData, $dataProv . '_order');
+        $this->clickButton('proceed_to_checkout');
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutValidateData, FALSE);
+        $this->clickControl('link', 'order_number');
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($orderDetailsData['validate_prod_data'],
+                $orderDetailsData['validate_total_data']);
+
+
     }
 
     public function dataSystemConfiguration()

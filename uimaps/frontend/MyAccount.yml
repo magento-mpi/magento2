@@ -67,4 +67,4 @@ view_order:
                         pageelements:
                             product_table_head: //table[@id='my-orders-table']/thead
                             price_totals: //table[@id='my-orders-table']/tfoot
-                            product_line:  //table[@id='my-orders-table']/tbodys
+                            product_line:  //table[@id='my-orders-table']/tbody

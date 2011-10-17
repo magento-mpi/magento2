@@ -219,6 +219,8 @@ onepage_checkout_success:
         form: &successForm
         messages:
             success_checkout: //h1[contains(.,'Your order has been received')]
+        links:
+            order_number: //a[contains(@href, '/sales/order/view/order_id/')]
 
 checkout_multishipping:
     mca: checkout/multishipping/addresses/
