@@ -61,8 +61,8 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         parent::__construct($config);
 
         $this->_fileHelper = new Mage_Selenium_Helper_File($this->_config);
-       // $this->_loadUimapData('admin');
-      //  $this->_loadUimapData('frontend');
+        $this->_loadUimapData('admin');
+        $this->_loadUimapData('frontend');
     }
 
     /**
@@ -107,7 +107,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
      * @param string $Key page identifier
      * @return Mage_Selenium_TestConfiguration
      */
-    protected function _loadUimapPage($area, $Key)
+    protected function _loadUimapPage($area, $key)
     {
         $files = SELENIUM_TESTS_BASEDIR
                  . DIRECTORY_SEPARATOR
@@ -119,8 +119,8 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
 
         $pages = $this->_fileHelper->loadYamlFiles($files);
         foreach ($pages as $pageKey => $pageContent) {
-            if ((!empty($pageContent))&&(!strcmp($pageKey, $Key))) {
-            $this->_uimapData[$area][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $pageContent);
+            if ((!empty($pageContent))&&(!strcmp($pageKey, $key))) {
+            $this->_uimapData[$area][$pageKey] = new Mage_Selenium_Uimap_Page($key, $pageContent);
             }
         }
         return $this;
@@ -227,7 +227,6 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                     }
                 }
             }
-            return $this->_loadUimapMca($area, $mca,$paramsDecorator );
         }
         return $this->_loadUimapMca($area, $mca,$paramsDecorator );
     }
