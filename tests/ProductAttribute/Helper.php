@@ -155,7 +155,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
                             $actualText = $this->getValue($fieldXpath);
                             $var = array_flip(get_html_translation_table());
                             $actualText = strtr($actualText, $var);
-                            $this->assertEquals($actualText, $storeViewValue, 'Stored data not equals to specified');
+                            $this->assertEquals($storeViewValue, $actualText, 'Stored data not equals to specified');
                             break;
                     }
                 } else {
