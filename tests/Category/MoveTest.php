@@ -74,6 +74,7 @@ class Category_MoveTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->createRootCategory($categoryDataTo);
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
         $this->categoryHelper()->moveCategory($categoryDataFrom['name'], $categoryDataTo['name']);
+        //Verification
         $this->categoryHelper()->selectCategory($categoryDataTo['name'] . '/' . $categoryDataFrom['name']);
     }
 
@@ -100,6 +101,7 @@ class Category_MoveTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->createRootCategory($categoryDataTo);
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
         $this->categoryHelper()->moveCategory($categoryDataFrom['name'], $categoryDataTo['name']);
+        //Verification
         $this->categoryHelper()->selectCategory($categoryDataTo['name'] .
                 '/' . $categoryDataFrom['name'] . '/' . $categoryDataSub['name']);
     }
@@ -129,6 +131,7 @@ class Category_MoveTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
         $this->categoryHelper()->createSubCategory($categoryDataTo['name'], $categoryDataSubTo);
         $this->categoryHelper()->moveCategory($categoryDataSubFrom['name'], $categoryDataSubTo['name']);
+        //Verification
         $this->categoryHelper()->selectCategory($categoryDataTo['name'] .
                 '/' . $categoryDataSubTo['name'] . '/' . $categoryDataSubFrom['name']);
     }
@@ -171,7 +174,7 @@ class Category_MoveTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->createRootCategory($categoryDataTo);
         $this->assertTrue($this->successMessage('success_saved_category'), $this->messages);
         $this->categoryHelper()->moveCategory($categoryDataFrom['name'], $categoryDataTo['name']);
-
-        //$this->categoryHelper()->selectCategory($categoryDataTo['name'] . '/' . $categoryDataFrom['name']);
+        //Verification
+        $this->categoryHelper()->selectCategory($categoryDataFrom['name']);
     }
 }
