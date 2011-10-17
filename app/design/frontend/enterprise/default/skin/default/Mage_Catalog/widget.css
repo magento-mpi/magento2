@@ -1,0 +1,51 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+.widget .widget-products { margin:0 -20px 0; }
+.cms-home .col1-layout .widget .widget-products,
+.cms-index-index .col1-layout .widget .widget-products { margin:0 0 20px; }
+.col-main > .widget { display:block; margin:40px 0 0; }
+.col-main > .widget + .widget { margin-top:20px; }
+
+/* std class reset */
+.widget .products-grid { list-style:none; margin-bottom:0; padding-left:20px; }
+.widget .products-grid p,
+.widget .products-list p { margin-bottom:0; }
+.widget .products-list { list-style:none; margin-bottom:0; padding-left:0; }
+.widget .add-to-links { list-style:none; padding-left:0; margin:5px 0; }
+
+/* Widget New Proructs */
+.widget-new-products { display:block; margin:10px 0; }
+.checkout-cart-index .col1-layout .widget-new-products { display:block; padding:0 20px; }
+
+/* Widget Product Link */
+.widget-product-link-inline { display:inline; }
+
+.col-main .widget-product-link { display:block; text-align:right; margin:7px 0; }
+.col-main .widget-product-link a { font-size:12px; background:url(images/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; color:#333; text-decoration:underline; }
+.col-main .widget-product-link a:hover { color:#333; text-decoration:none; }
+
+.sidebar .widget-product-link { display:block; margin:10px 0; padding:0 17px/* 0 37px*/; }
+.sidebar .widget-product-link a { font-size:12px; background:url(images/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; color:#333; text-decoration:underline; }
+.sidebar .widget-product-link a:hover { color:#333; text-decoration:none; }
+
+/* Widget Category Link */
+.widget-category-link-inline { display:inline; }
+
+.top-container .widget-category-link { border-bottom:0; }
+.top-container .widget-category-link a { border-color:#ca3934; color:#d53c00; background-image:url(bkg_widget-links2.gif); background-color:#f9d2c1; }
+.top-container .widget-category-link a:hover { color:#fff; }
+
+.col-main .widget-category-link { display:block; text-align:right; margin:7px 0; }
+.col-main .widget-category-link a { font-size:12px; background:url(images/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; color:#333; text-decoration:underline; }
+.col-main .widget-category-link a:hover { color:#333; text-decoration:none; }
+
+.sidebar .widget-category-link { display:block; margin:10px 0; padding:0 17px/* 0 37px*/; }
+.sidebar .widget-category-link a { font-size:12px; background:url(images/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; color:#333; text-decoration:underline; }
+.sidebar .widget-category-link a:hover { color:#333; text-decoration:none; }

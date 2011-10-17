@@ -41,7 +41,16 @@ Default layout, loads most of the pages
                 <action method="setBlockId"><block_id>footer_links</block_id></action>
             </block>
         </reference>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Cms::widgets.css</stylesheet></action>
+        </reference>
     </default>
+
+    <print>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Cms::widgets.css</stylesheet></action>
+        </reference>
+    </print>
 
     <cms_page translate="label">
         <label>CMS Pages (All)</label>

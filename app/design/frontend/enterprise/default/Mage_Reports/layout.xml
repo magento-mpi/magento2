@@ -33,7 +33,16 @@
             <block type="reports/product_viewed" name="right.reports.product.viewed" template="product_viewed.phtml" />
             <block type="reports/product_compared" name="right.reports.product.compared" template="product_compared.phtml" />
         </reference>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Reports::widgets.css</stylesheet></action>
+        </reference>
     </default>
+
+    <print>
+        <reference name="head">
+            <action method="addCss"><stylesheet>Mage_Reports::widgets.css</stylesheet></action>
+        </reference>
+    </print>
 
     <catalog_category_layered_nochildren translate="label">
         <label>Catalog Category (Without Subcategories)</label>

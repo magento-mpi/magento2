@@ -38,7 +38,7 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
     public function skinFilesFromModulesViewDataProvider()
     {
         $files = array();
-        foreach($this->_getEnabledModules() as $moduleName) {
+        foreach ($this->_getEnabledModules() as $moduleName) {
             $moduleViewDir = Mage::getConfig()->getModuleDir('view', $moduleName);
             if (!is_dir($moduleViewDir)) {
                 continue;
@@ -104,10 +104,14 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
      */
     public function testSkinFilesFromModulesCode($application, $file)
     {
-        $this->assertFileExists(Mage::getDesign()->getSkinFile(
-            $file,
-            array('_area' => $application, '_package' => 'default'))
+        $params = array('_area' => $application,
+            // other legacy params, caused by cramped Mage_Core_Model_Design_Package
+            // expected defaults: default/default/default
+            '_package' => 'default',
+            '_theme' => 'default',
+            '_skin' => 'default',
         );
+        $this->assertFileExists(Mage::getDesign()->getSkinFile($file, $params));
     }
 
     /**
@@ -117,6 +121,8 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
     {
         // All possible files to test
         $allFiles = array(
+            array('frontend', 'Enterprise_Reward::images/payment.gif'),
+            array('frontend', 'Enterprise_Reward::images/my_account.gif'),
             array('adminhtml', 'images/ajax-loader.gif'),
             array('adminhtml', 'images/error_msg_icon.gif'),
             array('adminhtml', 'images/fam_bullet_disk.gif'),
@@ -131,10 +137,26 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
             array('adminhtml', 'Mage_Cms::images/wysiwyg_skin_image.png'),
             array('adminhtml', 'Mage_Core::fam_book_open.png'),
             array('adminhtml', 'Mage_Page::favicon.ico'),
-            array('frontend',  'Mage_Core::calendar.gif'),
-            array('frontend',  'Mage_Core::fam_book_open.png'),
-            array('frontend',  'Mage_Page::favicon.ico'),
-            array('install',   'Mage_Page::favicon.ico'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_account.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_account_android.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_account_ipad.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_cart.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_cart_android.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_home.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_home_android.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_info_android.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_more.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_page.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_search.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_search_android.png'),
+            array('adminhtml', 'Mage_XmlConnect::images/tab_shop_android.png'),
+            array('frontend', 'Mage_Cms::images/about_us_img.jpg'),
+            array('frontend', 'Mage_Core::calendar.gif'),
+            array('frontend', 'Mage_Core::fam_book_open.png'),
+            array('frontend', 'Mage_Page::favicon.ico'),
+            array('frontend', 'Mage_Catalog::images/product/placeholder/image.jpg'),
+            array('frontend', 'Mage_Catalog::images/product/placeholder/small_image.jpg'),
+            array('install',  'Mage_Page::favicon.ico'),
         );
 
         return $this->_removeDisabledModulesFiles($allFiles);
