@@ -93,7 +93,7 @@
             <email>
                 <system_log_error_email_template translate="label" module="log">
                     <label>Log Cleanup Warnings</label>
-                    <file>email/cleanup_warning_email.html</file>
+                    <file>email/cleanup_warning.html</file>
                     <type>text</type>
                 </system_log_error_email_template>
             </email>
