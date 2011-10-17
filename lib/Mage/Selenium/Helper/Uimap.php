@@ -61,11 +61,21 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         parent::__construct($config);
 
         $this->_fileHelper = new Mage_Selenium_Helper_File($this->_config);
-        $this->_loadUimapData('admin');
-        $this->_loadUimapData('frontend');
+       // $this->_loadUimapData('admin');
+      //  $this->_loadUimapData('frontend');
     }
 
     /**
+     * Clean UIMap memory storage
+     *
+     * @return Mage_Selenium_TestConfiguration
+     */
+    public function cleanUimapData()
+    {
+        $_uimapData = array();
+        return $this;
+    }
+     /**
      * Load and merge data files
      *
      * @param string $area Application area ('frontend'|'admin')
@@ -91,7 +101,66 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
 
         return $this;
     }
+    /**
+     * Load and merge data files by it's page key
+     * @param string $area Application area ('frontend'|'admin')
+     * @param string $Key page identifier
+     * @return Mage_Selenium_TestConfiguration
+     */
+    protected function _loadUimapPage($area, $Key)
+    {
+        $files = SELENIUM_TESTS_BASEDIR
+                 . DIRECTORY_SEPARATOR
+                 . 'uimaps'
+                 . DIRECTORY_SEPARATOR
+                 . $area
+                 . DIRECTORY_SEPARATOR
+                 . '*.yml';
 
+        $pages = $this->_fileHelper->loadYamlFiles($files);
+        foreach ($pages as $pageKey => $pageContent) {
+            if ((!empty($pageContent))&&(!strcmp($pageKey, $Key))) {
+            $this->_uimapData[$area][$pageKey] = new Mage_Selenium_Uimap_Page($pageKey, $pageContent);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Load and merge data files by MCA
+     *
+     * @param string $area Application area ('frontend'|'admin')
+     * @param string $pageKey UIMap page key
+     * @param Mage_Selenium_Helper_Params $paramsDecorator Params decorator instance
+     *
+     * @return Mage_Selenium_TestConfiguration
+     */
+    protected function _loadUimapMca($area, $mca,$paramsDecorator = null)
+    {
+        $files = SELENIUM_TESTS_BASEDIR
+                 . DIRECTORY_SEPARATOR
+                 . 'uimaps'
+                 . DIRECTORY_SEPARATOR
+                 . $area
+                 . DIRECTORY_SEPARATOR
+                 . '*.yml';
+
+        $pages = $this->_fileHelper->loadYamlFiles($files);
+        foreach ($pages as $pageKey => $pageContent) {
+                $page=new Mage_Selenium_Uimap_Page($pageKey, $pageContent);
+                $page_mca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
+                if ($page_mca !== false && $page_mca !== null) {
+                    if ($paramsDecorator) {
+                        $page_mca = $paramsDecorator->replaceParametersWithRegexp($page_mca);
+                    }
+                    if (preg_match(';^'.$page_mca.'$;', $mca)) {
+                        $page->assignParams($paramsDecorator);
+                        $this->_uimapData[$area][$pageKey] = $page;
+                        return $this->_uimapData[$area][$pageKey];
+                    }
+            }
+    }
+  }
     /**
      * Retrieve array with uimap data
      *
@@ -102,9 +171,8 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
     public function &getUimap($area)
     {
         if(!array_key_exists($area, $this->_uimapData)) {
-            throw new OutOfRangeException();
+             throw new OutOfRangeException();
         }
-
         return $this->_uimapData[$area];
     }
 
@@ -122,6 +190,13 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         $page = isset($this->_uimapData[$area][$pageKey]) ? $this->_uimapData[$area][$pageKey] : null;
         if ($page && $paramsDecorator) {
             $page->assignParams($paramsDecorator);
+        }
+        if(!$page){
+            $this->_loadUimapPage($area,$pageKey,$paramsDecorator);
+            $page = isset($this->_uimapData[$area][$pageKey]) ? $this->_uimapData[$area][$pageKey] : null;
+            if ($page && $paramsDecorator) {
+             $page->assignParams($paramsDecorator);
+            }
         }
         return $page;
     }
@@ -152,6 +227,8 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                     }
                 }
             }
+            return $this->_loadUimapMca($area, $mca,$paramsDecorator );
         }
+        return $this->_loadUimapMca($area, $mca,$paramsDecorator );
     }
 }

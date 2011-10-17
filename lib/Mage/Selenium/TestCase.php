@@ -309,6 +309,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_dataGenerator = $this->_testConfig->getDataGenerator();
         $this->_applicationHelper = $this->_testConfig->getApplicationHelper();
         $this->_pageHelper = $this->_testConfig->getPageHelper($this, $this->_applicationHelper);
+        $this->_testConfig->getUimapHelper()->cleanUimapData();
         $this->_uimapHelper = $this->_testConfig->getUimapHelper();
 
         if ($name !== null) {
