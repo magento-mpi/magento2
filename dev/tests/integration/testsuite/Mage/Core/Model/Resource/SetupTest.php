@@ -87,8 +87,8 @@ class Mage_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTableRow()
     {
-        $this->_model->getTableRow('core/resource', 'code', 'core_setup');
         $this->assertNotEmpty($this->_model->getTableRow('core_resource', 'code', 'core_setup'));
+        $this->_model->getTableRow('core/resource', 'code', 'core_setup');
     }
 
     /**
