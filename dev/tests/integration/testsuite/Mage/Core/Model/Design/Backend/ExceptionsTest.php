@@ -31,7 +31,7 @@ class Mage_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework_Te
      * Basic test, checks that saved value contains all required entries and is saved as an array
      * @magentoDataFixture emptyFixture
      */
-    public function testSaveValueIsFormedNicely($value, $regexp)
+    public function testSaveValueIsFormedNicely()
     {
         $value = array(
             '1' => array('search' => '/Opera/', 'value' => 'default/default/blank'),
@@ -166,5 +166,6 @@ class Mage_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework_Te
      * Empty fixture that guarantee data isolation
      */
     public static function emptyFixture()
-    {}
+    {
+    }
 }

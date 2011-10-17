@@ -189,7 +189,7 @@
         </reference>
     </checkout_multishipping_overview>
 
-    <enterprise_giftregistry_index_addselect translate="label">
+    <enterprise_giftregistry_index_addselect translate="label" module="enterprise_giftregistry">
         <label>Customer My Account GiftRegistry Add</label>
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
@@ -200,7 +200,7 @@
         </reference>
     </enterprise_giftregistry_index_addselect>
 
-    <enterprise_giftregistry_index_edit translate="label">
+    <enterprise_giftregistry_index_edit translate="label" module="enterprise_giftregistry">
         <label>Customer My Account GiftRegistry Edit</label>
         <update handle="customer_account"/>
         <update handle="calendar"/>

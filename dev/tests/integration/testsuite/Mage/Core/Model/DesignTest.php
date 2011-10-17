@@ -66,7 +66,8 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
                 $model->setId(null);
                 $model->save();
                 $this->fail('A validation failure is expected.');
-            } catch (Mage_Core_Exception $e) {}
+            } catch (Mage_Core_Exception $e) {
+            }
 
             $this->_model->delete();
         } catch (Exception $e) {

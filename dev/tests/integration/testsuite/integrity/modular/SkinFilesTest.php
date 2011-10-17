@@ -43,23 +43,7 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
             if (!is_dir($moduleViewDir)) {
                 continue;
             }
-            foreach (new DirectoryIterator($moduleViewDir) as $viewAppDir) {
-                $area = $viewAppDir->getFilename();
-                if (0 === strpos($area, '.') || !$viewAppDir->isDir()) {
-                    continue;
-                }
-                foreach (new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator($viewAppDir->getRealPath())) as $fileInfo
-                ) {
-                    $references = $this->_findReferencesToSkinFile($fileInfo);
-                    if (!isset($files[$area])) {
-                        $files[$area] = $references;
-                    } else {
-                        $files[$area] = array_merge($files[$area], $references);
-                    }
-                    $files[$area] = array_unique($files[$area]);
-                }
-            }
+            $this->_findSkinFilesInViewFolder($moduleViewDir, $files);
         }
         $result = array();
         foreach ($files as $area => $references) {
@@ -68,6 +52,34 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
             }
         }
         return $result;
+    }
+
+    /**
+     * Find skin file references per area in declared modules.
+     *
+     * @param string $moduleViewDir
+     * @param array $files
+     * @return null
+     */
+    protected function _findSkinFilesInViewFolder($moduleViewDir, &$files)
+    {
+        foreach (new DirectoryIterator($moduleViewDir) as $viewAppDir) {
+            $area = $viewAppDir->getFilename();
+            if (0 === strpos($area, '.') || !$viewAppDir->isDir()) {
+                continue;
+            }
+            foreach (new RecursiveIteratorIterator(
+                         new RecursiveDirectoryIterator($viewAppDir->getRealPath())) as $fileInfo
+            ) {
+                $references = $this->_findReferencesToSkinFile($fileInfo);
+                if (!isset($files[$area])) {
+                    $files[$area] = $references;
+                } else {
+                    $files[$area] = array_merge($files[$area], $references);
+                }
+                $files[$area] = array_unique($files[$area]);
+            }
+        }
     }
 
     /**

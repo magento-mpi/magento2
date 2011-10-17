@@ -42,7 +42,7 @@
         <update handle="SHORTCUT_uk_popup" />
     </checkout_cart_index>
 
-    <paypaluk_express_review translate="label">
+    <paypaluk_express_review translate="label" module="paypaluk">
         <label>PayPal Express Order Review Form</label>
         <remove name="right"/>
         <remove name="left"/>

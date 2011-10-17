@@ -29,7 +29,7 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
     public function themeConfigFileExistsDataProvider()
     {
         $result = array();
-        foreach(glob(Mage::getRoot() . '/design/*/*/*', GLOB_ONLYDIR) as $themeDir) {
+        foreach (glob(Mage::getRoot() . '/design/*/*/*', GLOB_ONLYDIR) as $themeDir) {
             $result[] = array($themeDir);
         }
         return $result;

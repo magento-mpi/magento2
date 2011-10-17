@@ -265,9 +265,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             case 'wrapline':
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_wrapline';
                 break;
-            case 'theme':
-                $rendererClass = 'adminhtml/widget_grid_column_renderer_theme';
-                break;
             default:
                 $rendererClass = 'adminhtml/widget_grid_column_renderer_text';
                 break;
