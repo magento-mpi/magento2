@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Mage
  * @package     Mage_Adminhtml
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -144,16 +128,42 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
         $element = $this->getElement();
         if ($element->getValue() && is_array($element->getValue())) {
             foreach ($element->getValue() as $rowId => $row) {
+                $rowColumnValues = array();
                 foreach ($row as $key => $value) {
                     $row[$key] = $this->htmlEscape($value);
+                    $rowColumnValues[$this->_getCellInputElementId($rowId, $key)] = $row[$key];
                 }
                 $row['_id'] = $rowId;
+                $row['column_values'] = $rowColumnValues;
                 $result[$rowId] = new Varien_Object($row);
                 $this->_prepareArrayRow($result[$rowId]);
             }
         }
         $this->_arrayRowsCache = $result;
         return $this->_arrayRowsCache;
+    }
+
+    /**
+     * Get name for cell element
+     *
+     * @param string $rowId
+     * @param string $columnName
+     * @return string
+     */
+    protected function _getCellInputElementId($rowId, $columnName)
+    {
+        return $rowId . '_' . $columnName;
+    }
+
+    /**
+     * Get id for cell element
+     *
+     * @param string $columnName
+     * @return string
+     */
+    protected function _getCellInputElementName($columnName)
+    {
+        return $this->getElement()->getName() . '[#{_id}][' . $columnName . ']';
     }
 
     /**
@@ -168,14 +178,18 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
             throw new Exception('Wrong column name specified.');
         }
         $column     = $this->_columns[$columnName];
-        $inputName  = $this->getElement()->getName() . '[#{_id}][' . $columnName . ']';
+        $inputName  = $this->_getCellInputElementName($columnName);
 
         if ($column['renderer']) {
-            return $column['renderer']->setInputName($inputName)->setColumnName($columnName)->setColumn($column)
+            return $column['renderer']->setInputName($inputName)
+                ->setInputId($this->_getCellInputElementId('#{_id}', $columnName))
+                ->setColumnName($columnName)
+                ->setColumn($column)
                 ->toHtml();
         }
 
-        return '<input type="text" name="' . $inputName . '" value="#{' . $columnName . '}" ' .
+        return '<input type="text" id="' . $this->_getCellInputElementId('#{_id}', $columnName) .'"' .
+            ' name="' . $inputName . '" value="#{' . $columnName . '}" ' .
             ($column['size'] ? 'size="' . $column['size'] . '"' : '') . ' class="' .
             (isset($column['class']) ? $column['class'] : 'input-text') . '"'.
             (isset($column['style']) ? ' style="'.$column['style'] . '"' : '') . '/>';

@@ -180,7 +180,7 @@ class Mage_Core_Model_Translate
             $this->_config[self::CONFIG_KEY_DESIGN_PACKAGE] = Mage::getDesign()->getPackageName();
         }
         if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
-            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = Mage::getDesign()->getTheme('locale');
+            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = Mage::getDesign()->getTheme();
         }
         return $this;
     }

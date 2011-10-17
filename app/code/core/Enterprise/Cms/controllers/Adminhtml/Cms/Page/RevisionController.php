@@ -328,8 +328,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 ->loadChange($selectedStoreId);
 
             if ($designChange->getData()) {
-                Mage::getDesign()->setPackageName($designChange->getPackage())
-                    ->setTheme($designChange->getTheme());
+                Mage::getDesign()->setDesignTheme($designChange->getDesign());
             }
 
             Mage::helper('cms/page')->renderPageExtended($this);

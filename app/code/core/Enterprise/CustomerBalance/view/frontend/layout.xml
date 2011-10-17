@@ -36,7 +36,7 @@
         </reference>
     </customer_account>
 
-    <enterprise_customerbalance_info_index translate="label">
+    <enterprise_customerbalance_info_index translate="label" module="enterprise_customerbalance">
         <label>Customer My Account Store Credit</label>
         <update handle="customer_account"/>
 

@@ -360,12 +360,15 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
             $this->_widgetConfigXml = Mage::getSingleton('widget/widget')
                 ->getXmlElementByType($this->getType());
             if ($this->_widgetConfigXml) {
-                $configFile = Mage::getSingleton('core/design_package')->getBaseDir(array(
+                $configFile = Mage::getDesign()->getFilename('widget.xml', array(
                     '_area'    => $this->getArea(),
                     '_package' => $this->getPackage(),
                     '_theme'   => $this->getTheme(),
-                    '_type'    => 'etc'
-                )) . DS . 'widget.xml';
+                    '_module'  => Mage::getConfig()->determineOmittedNamespace(
+                        preg_replace('/^(.+?)\/.+$/', '\\1', $this->getType()), true
+                    ),
+                ));
+
                 if (is_readable($configFile)) {
                     $themeWidgetsConfig = new Varien_Simplexml_Config();
                     $themeWidgetsConfig->loadFile($configFile);

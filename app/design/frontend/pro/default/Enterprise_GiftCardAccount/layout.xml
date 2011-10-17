@@ -30,7 +30,7 @@
         </reference>
     </checkout_cart_index>
 
-    <enterprise_giftcardaccount_cart_check translate="label">
+    <enterprise_giftcardaccount_cart_check translate="label" module="enterprise_giftcardaccount">
         <label>Gift Card Balance Check Form</label>
         <remove name="right"/>
         <remove name="left"/>
@@ -110,7 +110,7 @@
         </reference>
     </checkout_onepage_paymentmethod>
 
-    <enterprise_giftcardaccount_customer_index translate="label">
+    <enterprise_giftcardaccount_customer_index translate="label" module="enterprise_giftcardaccount">
         <label>Customer My Account Gift Card Check Form</label>
         <update handle="customer_account"/>
 
