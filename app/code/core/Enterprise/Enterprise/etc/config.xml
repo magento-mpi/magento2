@@ -78,9 +78,9 @@
     </install>
     <default>
         <design>
-            <package>
-                <name>enterprise</name>
-            </package>
+            <theme>
+                <full_name>enterprise/default/default</full_name>
+            </theme>
             <head>
                 <default_title>Magento Enterprise Edition</default_title>
                 <default_keywords>Magento, Varien, E-commerce</default_keywords>
@@ -108,7 +108,7 @@
         <admin>
             <design>
                 <theme>
-                    <skin>enterprise</skin>
+                    <full_name>default/default/enterprise</full_name>
                 </theme>
             </design>
         </admin>
