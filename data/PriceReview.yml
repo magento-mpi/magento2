@@ -104,6 +104,25 @@ customer_account_address_for_prices_validation:
     default_billing_address: Yes
     default_shipping_address: Yes
 
+checkout_data:
+    billing_address_data:
+        billing_address_select: New Address
+        billing_first_name: billing_Steven
+        billing_last_name: billing_Stevenson
+        billing_street_address_1: billing street address
+        billing_city: Palo Alto
+        billing_country: United States
+        billing_state: California
+        billing_zip_code: 94306
+        billing_telephone: 091019019 billing
+    ship_to_this_address: Yes
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    payment_data:
+        payment_method: Check / Money order
+
+
 ################################################################################
 #                                                                              #
 #                            Backend Verification                              #
@@ -5976,9 +5995,6 @@ total_cat_in_ship_in_backend_total_after_refund_on_refund:
 
 
 #<------------Test Data for prices validation on the category (frontend)------->
-perform_login_for_tax_validation:
-    email: %noValue%
-    password: 123123q
 
 unit_cat_ex_ship_ex_frontend_price_in_category_simple_1:
     category: %noValue%
@@ -6013,19 +6029,51 @@ unit_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products:
         product_name: %noValue%
         unit_price_excl_tax: $100.00
         unit_price_incl_tax: $108.25
+        qty: 1
         subtotal_excl_tax: $100.00
         subtotal_incl_tax: $108.25
     product_3:
         product_name: %noValue%
         unit_price_excl_tax: $15.51
         unit_price_incl_tax: $16.79
+        qty: 1
         subtotal_excl_tax: $15.51
         subtotal_incl_tax: $16.79
 
+unit_cat_ex_ship_ex_frontend_price_in_prod_details_simple_1:
+    category: %noValue%
+    product_name: %noValue%
+    verification:
+        qty: 1
+        price_excluding_tax: $111.11
+        price_including_tax: $120.28
+
+unit_cat_ex_ship_ex_frontend_price_in_prod_details_simple_2:
+    category: %noValue%
+    product_name: %noValue%
+    verification:
+        qty: 1
+        price_excluding_tax: $100.00
+        price_including_tax: $108.25
 
 
+unit_cat_ex_ship_ex_frontend_price_in_prod_details_simple_3:
+    category: %noValue%
+    product_name: %noValue%
+    verification:
+        qty: 1
+        price_excluding_tax: $15.51
+        price_including_tax: $16.79
 
-
+unit_cat_ex_shipping_ex_order:
+    subtotal_excl_tax: $226.62
+    subtotal_incl_tax: $245.32
+    discount: %noValue%
+    shipping_excl_tax_flat_rate_fixed: $3.00
+    shipping_incl_tax_flat_rate_fixed: $3.25
+    grand_total_excl_tax: $229.62
+    tax: $18.95
+    grand_total_incl_tax: $248.57
 
 
 validate_product_prices_in_category_virtual:
