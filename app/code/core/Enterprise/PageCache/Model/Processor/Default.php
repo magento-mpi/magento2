@@ -103,6 +103,7 @@ class Enterprise_PageCache_Model_Processor_Default
          */
         if ($container && !Mage::getIsDeveloperMode()) {
             $container = new $container($this->_placeholder);
+            $container->setProcessor(Mage::getSingleton('enterprise_pagecache/processor'));
             $blockContent = $matches[1];
             $container->saveCache($blockContent);
         }
