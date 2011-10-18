@@ -331,7 +331,7 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 break;
             case 'exist':
                 $addressLine = $this->orderHelper()->defineAddressToChoose($addressData, $addressType);
-                $this->fillForm(array($addressType . '_address_choice' => 'label=' . $addressLine));
+                $this->fillForm(array($addressType . '_address_choice' => $addressLine));
                 break;
             default:
                 $this->fail('error');
