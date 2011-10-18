@@ -196,7 +196,7 @@ Additional block for bundle product type
     <PRODUCT_TYPE_bundle translate="label" module="bundle">
         <label>Catalog Product View (Bundle)</label>
         <reference name="head">
-            <action method="addItem"><type>skin_js</type><name>js/bundle.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Bundle::bundle.js</name></action>
         </reference>
         <reference name="product.info">
             <action method="setTemplate"><template>Mage_Bundle::catalog/product/view.phtml</template></action>
@@ -216,10 +216,10 @@ Additional block for bundle product type
         <reference name="product.info.options.wrapper">
             <block type="catalog/product_view" name="bundle.product.view.options.notice" template="Mage_Bundle::catalog/product/view/options/notice.phtml" />
             <block type="bundle/catalog_product_view_type_bundle" name="product.info.bundle.options" as="type_bundle_options" template="catalog/product/view/type/bundle/options.phtml">
-                <action method="addRenderer"><type>select</type><block>catalog_product_view_type_bundle_option_select</block></action>
-                <action method="addRenderer"><type>multi</type><block>catalog_product_view_type_bundle_option_multi</block></action>
-                <action method="addRenderer"><type>radio</type><block>catalog_product_view_type_bundle_option_radio</block></action>
-                <action method="addRenderer"><type>checkbox</type><block>catalog_product_view_type_bundle_option_checkbox</block></action>
+                <action method="addRenderer"><type>select</type><block>bundle/catalog_product_view_type_bundle_option_select</block></action>
+                <action method="addRenderer"><type>multi</type><block>bundle/catalog_product_view_type_bundle_option_multi</block></action>
+                <action method="addRenderer"><type>radio</type><block>bundle/catalog_product_view_type_bundle_option_radio</block></action>
+                <action method="addRenderer"><type>checkbox</type><block>bundle/catalog_product_view_type_bundle_option_checkbox</block></action>
             </block>
             <action method="insert"><block>product.info.bundle.options</block></action>
         </reference>

@@ -29,10 +29,15 @@
 
     <default>
         <reference name="head">
-            <action method="addItem"><type>skin_js</type><name>Enterprise_CatalogEvent::catalogevent.js</name></action>
+            <action method="addItem" ifconfig="catalog/enterprise_catalogevent/enabled">
+                <type>skin_js</type><name>Enterprise_CatalogEvent::ticker.js</name>
+            </action>
         </reference>
         <action method="addCss" ifconfig="catalog/enterprise_catalogevent/enabled">
             <stylesheet>Enterprise_CatalogEvent::widgets.css</stylesheet>
+        </action>
+        <action method="addItem" ifconfig="catalog/enterprise_catalogevent/enabled">
+            <type>skin_js</type><name>Enterprise_CatalogEvent::slider.js</name>
         </action>
     </default>
 

@@ -44,12 +44,12 @@ class Enterprise_GiftRegistry_Block_Product_View extends Mage_Catalog_Block_Prod
     {
         $block = $this->getLayout()->getBlock('customize.button');
         if ($block && $this->_isGiftRegistryRedirect()) {
-            $block->setTemplate('giftregistry/product/customize.phtml');
+            $block->setTemplate('Enterprise_GiftRegistry::product/customize.phtml');
         }
 
         $block = $this->getLayout()->getBlock('product.info.addtocart');
         if ($block && $this->_isGiftRegistryRedirect()) {
-            $block->setTemplate('giftregistry/product/addtocart.phtml');
+            $block->setTemplate('Enterprise_GiftRegistry::product/addtocart.phtml');
             $block->setAddToGiftregistryUrl($this->getAddToGiftregistryUrl());
         }
         return parent::_prepareLayout();

@@ -15,6 +15,10 @@
             <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
             <action method="addItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>lt IE 8</if></action>
             <action method="addCss"><stylesheet>css/print.css</stylesheet><params>media="print"</params></action>
+
+            <action method="addItem"><type>skin_js</type><name>js/checkout_topcart.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/popup_menu.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/validation.js</name></action>
         </reference>
     </default>
     <print>
@@ -24,4 +28,27 @@
             <action method="addCss"><stylesheet>css/print.css</stylesheet><params>media="print"</params></action>
         </reference>
     </print>
+
+    <restriction_index_stub>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
+            <action method="addItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>lt IE 8</if></action>
+            <action method="addCss"><stylesheet>css/print.css</stylesheet><params>media="print"</params></action>
+        </reference>
+    </restriction_index_stub>
+
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/tabs.js</name></action>
+        </reference>
+    </catalog_product_view>
+
+    <PRODUCT_TYPE_bundle>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/bundle_product_view.js</name></action>
+        </reference>
+        <reference name="product.info">
+            <block type="enterprise_giftregistry/product_view" name="product.customize.button"/>
+        </reference>
+    </PRODUCT_TYPE_bundle>
 </layout>

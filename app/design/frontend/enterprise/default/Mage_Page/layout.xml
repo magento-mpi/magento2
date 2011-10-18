@@ -50,8 +50,6 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>mage/cookies.js</script></action>
 
                 <block type="page/js_cookie" name="js_cookies" template="js/cookie.phtml"/>
-
-                <action method="addItem"><type>skin_js</type><name>js/scripts.js</name></action>
             </block>
 
             <block type="core/text_list" name="after_body_start" as="after_body_start" translate="label">
@@ -126,7 +124,6 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>lib/ccard.js</script></action>
                 <action method="addJs"><script>prototype/validation.js</script></action>
                 <action method="addJs"><script>varien/js.js</script></action>
-                <action method="addItem"><type>skin_js</type><name>js/scripts.js</name></action>
             </block>
 
             <block type="core/text_list" name="content" as="content" translate="label">
