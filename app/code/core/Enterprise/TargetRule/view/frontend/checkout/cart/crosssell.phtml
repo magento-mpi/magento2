@@ -31,7 +31,7 @@
     <ul>
     <?php foreach ($this->getItemCollection() as $_item): ?>
         <li class="item">
-            <a class="product-image" href="<?php echo $this->getProductUrl($_item) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(75); ?>" width="75" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
+            <a class="product-image" href="<?php echo $this->getProductUrl($_item) ?>"><img src="<?php echo $this->getThumbnailUrl($_item); ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
             <div class="product-shop">
                 <h3 class="product-name"><a href="<?php echo $this->getProductUrl($_item) ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h3>
                 <?php echo $this->getPriceHtml($_item, true) ?>

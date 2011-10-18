@@ -207,7 +207,7 @@ billing.onSave = function(evt){
              <p class="number"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
              <div class="product-img-box">
                  <p class="product-image">
-                     <img src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(75); ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($_product->getName()) ?>"title="<?php echo $this->htmlEscape($_product->getName()) ?>" />
+                     <img src="<?php echo $this->getThumbnailUrl($_product); ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>"title="<?php echo $this->htmlEscape($_product->getName()) ?>" />
                  </p>
                  <h5 class="product-name"><?php echo $this->htmlEscape($_product->getName()) ?></h5>
              </div>
@@ -356,7 +356,7 @@ billing.onSave = function(evt){
                  <li class="gift-item">
                      <p class="number"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
                      <div class="product-img-box">
-                         <p class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(75); ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" /></p>
+                         <p class="product-image"><img src="<?php echo $this->getThumbnailUrl($_product); ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" /></p>
                          <h5 class="product-name"><?php echo $this->htmlEscape($_product->getName()) ?></h5>
                      </div>
                      <div class="fieldset">

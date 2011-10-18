@@ -26,7 +26,7 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-    <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->escapeHtml($this->getProductName()) ?>"><?php endif;?><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
+    <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->escapeHtml($this->getProductName()) ?>"><?php endif;?><img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
     <td>
         <h2 class="product-name">
         <?php if ($this->hasProductUrl()):?>

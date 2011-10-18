@@ -34,7 +34,7 @@
         <?php /* @var $_product Mage_Catalog_Model_Product */ ?>
         <?php $_product = $item->getProduct(); ?>
         <td width="32%">
-            <p align="center" style="font-size:12px;"><a href="<?php echo $this->getProductUrl($_product) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>" style="border:1px solid #ccc;" width="135" height="135" alt="" /></a></p>
+            <p align="center" style="font-size:12px;"><a href="<?php echo $this->getProductUrl($_product) ?>"><img src="<?php echo $this->getSmallImageUrl($_product); ?>" width="<?php echo $this->getSmallImageSize()?>" height="<?php echo $this->getSmallImageSize()?>" style="border:1px solid #ccc;" alt="" /></a></p>
             <p align="center" style="font-size:12px;"><a href="<?php echo $this->getProductUrl($_product) ?>" style="color:#203548;"><strong><?php echo $this->escapeHtml($_product->getName()) ?></strong></a></p>
             <?php if($this->hasDescription($_product)): ?><p align="center" style="font-size:12px;"><?php echo $this->__('Comment') ?>:<br /><?php echo $this->getEscapedDescription($_product) ?></p><?php endif; ?>
             <p align="center" style="font-size:12px;"><a href="<?php echo $this->getProductUrl($_product) ?>" style="color:#1E7EC8;"><?php echo $this->__('View Product') ?></a> <small>

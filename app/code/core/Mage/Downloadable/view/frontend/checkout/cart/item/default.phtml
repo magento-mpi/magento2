@@ -29,7 +29,7 @@
     $canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
 ?>
 <tr>
-    <td><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->htmlEscape($this->getProductName()) ?>"><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a></td>
+    <td><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->htmlEscape($this->getProductName()) ?>"><img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a></td>
     <td>
         <h2 class="product-name"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->htmlEscape($this->getProductName()) ?></a></h2>
         <?php if ($_options = $this->getOptionList()):?>

@@ -60,7 +60,7 @@
                     <th class="label">&nbsp;</th>
                 <?php endif; ?>
                 <td>
-                    <a class="product-image" href="#" onclick="setPLocation('<?php echo $_item->getProductUrl() ?>', true)" title="<?php echo $this->stripTags($_item->getName(), null, true) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->stripTags($_item->getName(), null, true) ?>" /></a>
+                    <a class="product-image" href="#" onclick="setPLocation('<?php echo $_item->getProductUrl() ?>', true)" title="<?php echo $this->stripTags($_item->getName(), null, true) ?>"><img src="<?php echo $this->getSmallImageUrl($_item); ?>" width="<?php echo $this->getSmallImageSize()?>" height="<?php echo $this->getSmallImageSize()?>" alt="<?php echo $this->stripTags($_item->getName(), null, true) ?>" /></a>
                     <h3 class="product-name"><a href="#" onclick="setPLocation('<?php echo $_item->getProductUrl() ?>', true)" title="<?php echo $this->stripTags($_item->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_item, $_item->getName(), 'name') ?></a></h3>
                     <?php echo $this->getReviewsSummaryHtml($_item, 'short') ?>
                     <?php echo $this->getPriceHtml($_item, true, '-compare-list-top') ?>
@@ -94,7 +94,7 @@
                             <?php echo $this->getPriceHtml($_item, true, '-compare-list-' . $_attribute->getCode()) ?>
                             <?php break;
                         case "small_image": ?>
-                            <img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->stripTags($_item->getName(), null, true) ?>" />
+                            <img src="<?php echo $this->getSmallImageUrl($_item); ?>" width="<?php echo $this->getSmallImageSize()?>" height="<?php echo $this->getSmallImageSize()?>" alt="<?php echo $this->stripTags($_item->getName(), null, true) ?>" />
                             <?php break;
                         default: ?>
                             <?php echo $_helper->productAttribute($_item, $this->getProductAttributeValue($_item, $_attribute), $_attribute->getAttributeCode()) ?>
