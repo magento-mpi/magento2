@@ -61,7 +61,7 @@ manage_products:
         buttons:
             add_new_product: //button[span='Add Product']
         messages: &productMesssages
-            invalid_custom_option_price: //div[contains(@id,'product_option_%optionId%_type_')][@class='grid tier form-list']//div[@class='validation-advice' and contains(text(),'Please enter')]
+            invalid_custom_option_price: //div[contains(@id,'product_option_%optionId%_type_')][@class='grid tier form-list']//div[@class='validation-advice' and contains(text(),'Please enter a valid number in this field.')]
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedProducts% record(s) have been deleted.')]
             enter_greater_than_zero: "//div[@id='advice-validate-greater-than-zero-%fieldId%' and not(contains(@style,'display: none;'))]"
             success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been deleted.')]

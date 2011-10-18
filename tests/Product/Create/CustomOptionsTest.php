@@ -293,7 +293,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 //            array('custom_options_field', 'g3648GJHghj'),
 //            array('custom_options_field', '-128'),
 //            array('custom_options_file', $this->generate('string', 9, ':punct:')),
-            array('custom_options_file', $this->generate('string', 9, ':alpha:')),
+            array('custom_options_file', $this->generate('string', 9, ':alpha:')), // Fails because of MAGE-4609
 //            array('custom_options_file', 'g3648GJHghj'),
 //            array('custom_options_file', '-128'),
 //            array('custom_options_dropdown', $this->generate('string', 9, ':punct:')),
@@ -303,7 +303,7 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
 //            array('custom_options_date', $this->generate('string', 9, ':punct:')),
 //            array('custom_options_date', $this->generate('string', 9, ':alpha:')),
 //            array('custom_options_date', 'g3648GJHghj'),
-            array('custom_options_date', '-128')
+            array('custom_options_date', '-128') // Fails because of MAGE-4621
         );
     }
 
