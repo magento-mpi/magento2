@@ -163,6 +163,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
             array('street_address_line_1'),
             array('city'),
             array('country'),
+            array('state'), // Fails because of MAGE-1424 // Should be required only if country='United States'
             array('zip_code'),
             array('telephone')
         );
