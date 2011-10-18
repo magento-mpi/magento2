@@ -279,8 +279,6 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-//        $this->addFieldIdToMessage('field', 'custom_options_price');
-//        $this->assertTrue($this->validationMessage('enter_zero_or_greater'), $this->messages);
         $this->assertTrue($this->validationMessage('invalid_custom_option_price'), $this->messages);
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
@@ -289,21 +287,61 @@ class Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     {
         return array(
             array('custom_options_field', $this->generate('string', 9, ':punct:')),
-//            array('custom_options_field', $this->generate('string', 9, ':alpha:')),
-//            array('custom_options_field', 'g3648GJHghj'),
-//            array('custom_options_field', '-128'),
-//            array('custom_options_file', $this->generate('string', 9, ':punct:')),
+            array('custom_options_field', $this->generate('string', 9, ':alpha:')),
+            array('custom_options_field', 'g3648GJHghj'),
+            array('custom_options_file', $this->generate('string', 9, ':punct:')), // Fails because of MAGE-4609
             array('custom_options_file', $this->generate('string', 9, ':alpha:')), // Fails because of MAGE-4609
-//            array('custom_options_file', 'g3648GJHghj'),
-//            array('custom_options_file', '-128'),
-//            array('custom_options_dropdown', $this->generate('string', 9, ':punct:')),
-//            array('custom_options_dropdown', $this->generate('string', 9, ':alpha:')),
+            array('custom_options_file', 'g3648GJHghj'),                           // Fails because of MAGE-4609
+            array('custom_options_dropdown', $this->generate('string', 9, ':punct:')),
+            array('custom_options_dropdown', $this->generate('string', 9, ':alpha:')),
             array('custom_options_dropdown', 'g3648GJHghj'),
-//            array('custom_options_dropdown', '-128'),
-//            array('custom_options_date', $this->generate('string', 9, ':punct:')),
-//            array('custom_options_date', $this->generate('string', 9, ':alpha:')),
-//            array('custom_options_date', 'g3648GJHghj'),
-            array('custom_options_date', '-128') // Fails because of MAGE-4621
+            array('custom_options_date', $this->generate('string', 9, ':punct:')),
+            array('custom_options_date', $this->generate('string', 9, ':alpha:')),
+            array('custom_options_date', 'g3648GJHghj'),
+        );
+    }
+
+    /**
+     * <p>Create product with Custom Option: Use negative number for field 'Price'</p>
+     * <p>Steps</p>
+     * <p>1. Click "Add Product" button;</p>
+     * <p>2. Fill in "Attribute Set", "Product Type" fields;</p>
+     * <p>3. Click "Continue" button;</p>
+     * <p>4. Fill in required fields with correct data;</p>
+     * <p>5. Click "Custom Options" tab;</p>
+     * <p>6. Click "Add New Option" button;</p>
+     * <p>7. Select "Multipleselect" into "Input Type" field;</p>
+     * <p>8. Fill in "Price" field with incorrect data;</p>
+     * <p>9. Click "Save" button;</p>
+     * <p>Expected result:</p>
+     * <p>Product is created, success message appears;</p>
+     *
+     * @dataProvider dataNegativePrice
+     * @test
+     */
+    public function negativePriceInCustomOptions($optionDataName)
+    {
+        //Data
+        $productData = $this->loadData('simple_product_required', null, 'general_sku');
+        $productData['custom_options_data'][] = $this->loadData($optionDataName, array('custom_options_price' => -128));
+        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($productData);
+    }
+
+    public function dataNegativePrice()
+    {
+        return array(
+            array('custom_options_field'),
+            array('custom_options_file'),
+            array('custom_options_dropdown'),
+            array('custom_options_date') // Fails because of MAGE-4621
         );
     }
 
