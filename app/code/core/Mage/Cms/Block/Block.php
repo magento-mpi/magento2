@@ -44,14 +44,16 @@ class Mage_Cms_Block_Block extends Mage_Core_Block_Abstract
         $blockId = $this->getBlockId();
         $html = '';
         if ($blockId) {
+            $storeId = Mage::app()->getStore()->getId();
             $block = Mage::getModel('cms/block')
-                ->setStoreId(Mage::app()->getStore()->getId())
+                ->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
                 /* @var $helper Mage_Cms_Helper_Data */
                 $helper = Mage::helper('cms');
                 $processor = $helper->getBlockTemplateProcessor();
-                $html = $processor->filter($block->getContent());
+                $html = $processor->setStoreId($storeId)
+                    ->filter($block->getContent());
             }
         }
         return $html;

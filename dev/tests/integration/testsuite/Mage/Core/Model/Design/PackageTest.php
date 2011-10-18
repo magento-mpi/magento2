@@ -49,10 +49,51 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new Mage_Core_Model_Design_Package();
-        $this->_model->setArea('frontend')
-            ->setPackageName('test')
-            ->setTheme('default')
-            ->setSkin('default');
+        $this->_model->setDesignTheme('test/default/default', 'frontend');
+    }
+
+    public function testSetGetArea()
+    {
+        $this->assertEquals(Mage_Core_Model_Design_Package::DEFAULT_AREA, $this->_model->getArea());
+        $this->_model->setArea('test');
+        $this->assertEquals('test', $this->_model->getArea());
+    }
+
+    public function testGetPackageName()
+    {
+        $this->assertEquals('test', $this->_model->getPackageName());
+    }
+
+    public function testGetTheme()
+    {
+        $this->assertEquals('default', $this->_model->getTheme());
+    }
+
+    public function testGetSkin()
+    {
+        $this->assertEquals('default', $this->_model->getSkin());
+    }
+
+    public function testSetDesignTheme()
+    {
+        $this->_model->setDesignTheme('test/test/test', 'test');
+        $this->assertEquals('test', $this->_model->getArea());
+        $this->assertEquals('test', $this->_model->getPackageName());
+        $this->assertEquals('test', $this->_model->getSkin());
+        $this->assertEquals('test', $this->_model->getSkin());
+    }
+
+    /**
+     * @expectedException Mage_Core_Exception
+     */
+    public function testSetDesignThemeException()
+    {
+        $this->_model->setDesignTheme('test/test');
+    }
+
+    public function testGetDesignTheme()
+    {
+        $this->assertEquals('test/default/default', $this->_model->getDesignTheme());
     }
 
     /**
