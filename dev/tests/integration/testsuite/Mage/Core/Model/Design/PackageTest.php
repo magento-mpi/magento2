@@ -595,4 +595,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isThemeCompatible('frontend', 'package', 'custom_theme', '1.0.0.0'));
         $this->assertTrue($this->_model->isThemeCompatible('frontend', 'package', 'custom_theme', '2.0.0.0'));
     }
+
+    public function testGetViewConfig()
+    {
+        $config = $this->_model->getViewConfig();
+        $this->assertInstanceOf('Magento_Config_View', $config);
+        $this->assertEquals(array('var1' => 'value1', 'var2' => 'value2'), $config->getVars('Namespace_Module'));
+    }
 }

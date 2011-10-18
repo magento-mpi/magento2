@@ -114,6 +114,13 @@ class Mage_Core_Model_Design_Package
     protected $_themeConfigs = array();
 
     /**
+     * List of view configuration objects per theme
+     *
+     * @var array
+     */
+    protected $_viewConfigs = array();
+
+    /**
      * Published file cache storages
      *
      * @var array
@@ -1225,4 +1232,27 @@ class Mage_Core_Model_Design_Package
         return false;
     }
 
+    /**
+     * Render view config object for current package and theme
+     *
+     * @return Magento_Config_View
+     */
+    public function getViewConfig()
+    {
+        $key = "{$this->_name}/{$this->_theme}";
+        if (isset($this->_viewConfigs[$key])) {
+            return $this->_viewConfigs[$key];
+        }
+
+        $files = Mage::getConfig()->getModuleConfigurationFiles('view.xml');
+        $themeFile = $this->getFilename('view.xml', array());
+        if (file_exists($themeFile)) {
+            $files[] = $themeFile;
+        }
+
+        /** @var Magento_Config_View $config */
+        $config = new Magento_Config_View($files);
+        $this->_viewConfigs[$key] = $config;
+        return $config;
+    }
 }
