@@ -502,7 +502,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetOptimalCssUrlsMerged($files, $expectedFiles)
     {
-        $this->markTestIncomplete('Should be fixed in scope of MAGETWO-517');
         $this->assertEquals($expectedFiles, $this->_model->getOptimalCssUrls($files));
     }
 
