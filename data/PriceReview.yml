@@ -106,7 +106,7 @@ customer_account_address_for_prices_validation: &addressData
 
 checkout_data:
     billing_address_data:
-        billing_address_select: New Address
+        billing_address_choice: New Address
         billing_first_name: billing_Steven
         billing_last_name: billing_Stevenson
         billing_street_address_1: billing street address
@@ -6132,7 +6132,7 @@ unit_cat_ex_ship_ex_order:
 
 unit_cat_ex_ship_ex_checkout_data:
     billing_address_data:
-        billing_address_select: New Address
+        billing_address_choice: New Address
         billing_first_name: billing_Steven
         billing_last_name: billing_Stevenson
         billing_street_address_1: billing street address

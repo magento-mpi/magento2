@@ -321,15 +321,15 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     {
         switch ($addressChoise) {
             case 'New Address':
-                $xpath = $this->_getControlXpath('dropdown', $addressType . '_address_select');
+                $xpath = $this->_getControlXpath('dropdown', $addressType . '_address_choice');
                 if (!$this->isElementPresent($xpath)) {
-                    unset($addressData[$addressType . '_address_select']);
+                    unset($addressData[$addressType . '_address_choice']);
                 }
                 $this->fillForm($addressData);
                 break;
             case 'exist':
                 $addressLine = $this->orderHelper()->defineAddressToChoose($addressData, $addressType);
-                $this->fillForm(array($addressType . '_address_select' => 'label=' . $addressLine));
+                $this->fillForm(array($addressType . '_address_choice' => 'label=' . $addressLine));
                 break;
             default:
                 $this->fail('error');
@@ -353,8 +353,8 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         } else {
             $checkoutMethod = 'login';
         }
-        $addressChoise = (isset($addressData[$addressType . '_address_select']))
-                            ? $addressData[$addressType . '_address_select']
+        $addressChoise = (isset($addressData[$addressType . '_address_choice']))
+                            ? $addressData[$addressType . '_address_choice']
                             : 'exist';
         if ($checkoutMethod == 'guest_or_register' && $addressChoise == 'exist') {
             $this->fail('Cannot choose existing address for guest');
@@ -424,8 +424,8 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             }
         }
         if ($billingAddr) {
-            if (array_key_exists('billing_address_select', $billingAddr)) {
-                unset($billingAddr['billing_address_select']);
+            if (array_key_exists('billing_address_choice', $billingAddr)) {
+                unset($billingAddr['billing_address_choice']);
             }
             if (array_key_exists('billing_email', $billingAddr)) {
                 unset($billingAddr['billing_email']);
@@ -452,8 +452,8 @@ class CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             }
         }
         if ($shippingAddr) {
-            if (array_key_exists('shipping_address_select', $shippingAddr)) {
-                unset($shippingAddr['shipping_address_select']);
+            if (array_key_exists('shipping_address_choice', $shippingAddr)) {
+                unset($shippingAddr['shipping_address_choice']);
             }
             if (array_key_exists('shipping_save_in_address_book', $shippingAddr)) {
                 unset($shippingAddr['shipping_save_in_address_book']);

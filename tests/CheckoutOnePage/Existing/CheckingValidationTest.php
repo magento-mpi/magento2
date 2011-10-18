@@ -227,7 +227,7 @@ class CheckoutOnePage_Existing_CheckingValidationTest extends Mage_Selenium_Test
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $longValues = array(
-            'billing_address_select'    => 'New Address',
+            'billing_address_choice'    => 'New Address',
             'billing_first_name'        => $this->generate('string', 255, ':alnum:'),
             'billing_last_name'         => $this->generate('string', 255, ':alnum:'),
             'billing_street_address_1'  => $this->generate('string', 255, ':alnum:'),
@@ -276,7 +276,7 @@ class CheckoutOnePage_Existing_CheckingValidationTest extends Mage_Selenium_Test
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $specValues = array(
-            'billing_address_select'    => 'New Address',
+            'billing_address_choice'    => 'New Address',
             'billing_first_name'        => $this->generate('string', 32, ':punct:'),
             'billing_last_name'         => $this->generate('string', 32, ':punct:'),
             'billing_street_address_1'  => $this->generate('string', 32, ':punct:'),
@@ -392,7 +392,7 @@ class CheckoutOnePage_Existing_CheckingValidationTest extends Mage_Selenium_Test
         $this->assertTrue($this->successMessage('success_saved_config'), $this->messages);
         //Data
         $specValues = array(
-            'shipping_address_select'    => 'New Address',
+            'shipping_address_choice'    => 'New Address',
             'shipping_first_name'        => $this->generate('string', 32, ':punct:'),
             'shipping_last_name'         => $this->generate('string', 32, ':punct:'),
             'shipping_street_address_1'  => $this->generate('string', 32, ':punct:'),
@@ -448,7 +448,7 @@ class CheckoutOnePage_Existing_CheckingValidationTest extends Mage_Selenium_Test
                 array('general_name' => $productData, 'email_address' => $customerData['email'],
                     'password' => $customerData['password']));
         unset($checkoutData['shipping_address_data']);
-        $checkoutData['shipping_address_data'] = array('shipping_address_select' => 'New Address',
+        $checkoutData['shipping_address_data'] = array('shipping_address_choice' => 'New Address',
                                                     'use_billing_address' => 'Yes');
         //Steps
         $this->logoutCustomer();

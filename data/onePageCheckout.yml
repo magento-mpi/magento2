@@ -50,7 +50,7 @@ perform_login:
 
 #<--------------GUEST---------------->
 billing_guest_req: &billingGuestReq
-    billing_address_select: New Address
+    billing_address_choice: New Address
     billing_first_name: billing_Steven
     billing_last_name: billing_Stevenson
     billing_email: billing_guest@example.com
@@ -66,7 +66,7 @@ billing_guest_req: &billingGuestReq
     billing_save_in_address_book: %noValue%
 
 billing_guest_all: &billingGuestAll
-    billing_address_select: New Address
+    billing_address_choice: New Address
     billing_prefix: %noValue%
     billing_first_name: 'Steven(billing)'
     billing_middle_name: %noValue%
@@ -87,7 +87,7 @@ billing_guest_all: &billingGuestAll
     billing_save_in_address_book: %noValue%
 
 billing_guest_req_with_shipping: &billingGuestReqWithShipping
-    billing_address_select: New Address
+    billing_address_choice: New Address
     billing_first_name: billing_Steven
     billing_last_name: billing_Stevenson
     billing_email: billing_guest@example.com
@@ -103,7 +103,7 @@ billing_guest_req_with_shipping: &billingGuestReqWithShipping
     billing_save_in_address_book: %noValue%
 
 billing_guest_empty_fields: &billingGuestReqEmptyFields
-    billing_address_select: New Address
+    billing_address_choice: New Address
     billing_first_name: billing_Steven
     billing_last_name: billing_Stevenson
     billing_email: billing_guest@example.com
@@ -115,7 +115,7 @@ billing_guest_empty_fields: &billingGuestReqEmptyFields
     billing_telephone: 091019019 billing
 #<--------------REGISTER---------------->
 billing_register_req: &billingRegisterReq
-    billing_address_select: New Address
+    billing_address_choice: New Address
     billing_first_name: billing_Steven
     billing_last_name: billing_Stevenson
     billing_email: billing_guest@example.com
@@ -132,7 +132,7 @@ billing_register_req: &billingRegisterReq
     ship_to_different_address: Yes
 
 billing_register_all: &billingRegisterAll
-    billing_address_select: New Address
+    billing_address_choice: New Address
     billing_prefix: %noValue%
     billing_first_name: 'Steven(billing)'
     billing_middle_name: %noValue%
@@ -154,7 +154,7 @@ billing_register_all: &billingRegisterAll
     ship_to_different_address: Yes
 
 billing_register_for_virtual: &billingRegisterForVirtual
-    billing_address_select: New Address
+    billing_address_choice: New Address
     billing_first_name: billing_Steven
     billing_last_name: billing_Stevenson
     billing_email: billing_guest@example.com
@@ -169,7 +169,7 @@ billing_register_for_virtual: &billingRegisterForVirtual
     billing_confirm_password: 11111111
 #<--------------LOGIN---------------->
 billing_registered_req: &billingRegisteredReq
-    billing_address_select: New Address
+    billing_address_choice: New Address
     billing_first_name: billing_Steven
     billing_last_name: billing_Stevenson
     billing_street_address_1: billing street address
@@ -182,7 +182,7 @@ billing_registered_req: &billingRegisteredReq
     ship_to_different_address: Yes
 
 billing_registered_req_virtual_product: &billingRegisteredReqVirtual
-    billing_address_select: New Address
+    billing_address_choice: New Address
     billing_first_name: billing_Steven
     billing_last_name: billing_Stevenson
     billing_street_address_1: billing street address
@@ -193,7 +193,7 @@ billing_registered_req_virtual_product: &billingRegisteredReqVirtual
     billing_telephone: 091019019 billing
 
 billing_registered_req_with_shipping: &billingRegisteredReqWithShipping
-    billing_address_select: New Address
+    billing_address_choice: New Address
     billing_first_name: billing_Steven
     billing_last_name: billing_Stevenson
     billing_street_address_1: billing street address
@@ -212,7 +212,7 @@ billing_registered_req_with_shipping: &billingRegisteredReqWithShipping
 
 #<--------------GUEST---------------->
 shipping_guest_req: &shippingGuestReq
-    shipping_address_select: New Address
+    shipping_address_choice: New Address
     shipping_first_name: shipping_Steven
     shipping_last_name: shipping_Stevenson
     shipping_street_address_1: shipping street address
@@ -226,7 +226,7 @@ shipping_guest_req: &shippingGuestReq
     shipping_save_in_address_book: %noValue%
 
 shipping_guest_all: &shippingGuestAll
-    shipping_address_select: New Address
+    shipping_address_choice: New Address
     shipping_prefix: %noValue%
     shipping_first_name: 'Steven(shipping)'
     shipping_middle_name: %noValue%
@@ -245,7 +245,7 @@ shipping_guest_all: &shippingGuestAll
     shipping_save_in_address_book: %noValue%
 
 shipping_guest_empty_fields: &shippingGuestReqEmptyFields
-    shipping_address_select: New Address
+    shipping_address_choice: New Address
     shipping_first_name: shipping_Steven
     shipping_last_name: shipping_Stevenson
     shipping_street_address_1: shipping street address
@@ -260,7 +260,7 @@ shipping_guest_empty_fields: &shippingGuestReqEmptyFields
 
 #<--------------REGISTER---------------->
 shipping_register_req: &shippingRegisterReq
-    shipping_address_select: New Address
+    shipping_address_choice: New Address
     shipping_first_name: shipping_Steven
     shipping_last_name: shipping_Stevenson
     shipping_email: shipping_guest@example.com
@@ -274,7 +274,7 @@ shipping_register_req: &shippingRegisterReq
     use_billing_address: %noValue%
 
 shipping_register_all: &shippingRegisterAll
-    shipping_address_select: New Address
+    shipping_address_choice: New Address
     shipping_first_name: 'Steven(shipping)'
     shipping_middle_name: %noValue%
     shipping_last_name: 'Stevenson(shipping)'
@@ -291,11 +291,11 @@ shipping_register_all: &shippingRegisterAll
     use_billing_address: %noValue%
 
 shipping_register_use_billing: &shippingRegisterUseBilling
-    shipping_address_select: New Address
+    shipping_address_choice: New Address
     use_billing_address: Yes
 #<--------------LOGIN---------------->
 shipping_registered_req: &shippingRegisteredReq
-    shipping_address_select: New Address
+    shipping_address_choice: New Address
     shipping_first_name: shipping_Steven
     shipping_last_name: shipping_Stevenson
     shipping_street_address_1: shipping street address

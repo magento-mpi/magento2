@@ -237,7 +237,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $performLogin = $this->loadData('perform_login',
                 array('email' => $customerData['email'], 'password' => $customerData['password']));
         $longValues = array(
-            'billing_address_select'    => 'New Address',
+            'billing_address_choice'    => 'New Address',
             'billing_first_name'        => $this->generate('string', 255, ':alnum:'),
             'billing_last_name'         => $this->generate('string', 255, ':alnum:'),
             'billing_street_address_1'  => $this->generate('string', 255, ':alnum:'),
@@ -290,7 +290,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $performLogin = $this->loadData('perform_login',
                 array('email' => $customerData['email'], 'password' => $customerData['password']));
         $specValues = array(
-            'billing_address_select'    => 'New Address',
+            'billing_address_choice'    => 'New Address',
             'billing_first_name'        => $this->generate('string', 32, ':punct:'),
             'billing_last_name'         => $this->generate('string', 32, ':punct:'),
             'billing_street_address_1'  => $this->generate('string', 32, ':punct:'),
@@ -414,7 +414,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $performLogin = $this->loadData('perform_login',
                 array('email' => $customerData['email'], 'password' => $customerData['password']));
         $specValues = array(
-            'shipping_address_select'    => 'New Address',
+            'shipping_address_choice'    => 'New Address',
             'shipping_first_name'        => $this->generate('string', 32, ':punct:'),
             'shipping_last_name'         => $this->generate('string', 32, ':punct:'),
             'shipping_street_address_1'  => $this->generate('string', 32, ':punct:'),
@@ -473,7 +473,7 @@ class CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Selenium_Test
         $checkoutData = $this->loadData('checkout_data_saved_cc_loggedin',
                 array('general_name' => $productData));
         unset($checkoutData['shipping_address_data']);
-        $checkoutData['shipping_address_data'] = array('shipping_address_select' => 'New Address',
+        $checkoutData['shipping_address_data'] = array('shipping_address_choice' => 'New Address',
                                                     'use_billing_address' => 'Yes');
         //Steps
         $this->logoutCustomer();
