@@ -199,8 +199,8 @@ class Order_Helper extends Mage_Selenium_TestCase
         $needKeys = array('first_name', 'last_name', 'street_address_1', 'street_address_2', 'city', 'zip_code',
             'country', 'state', 'region');
         foreach ($needKeys as $value) {
-            if (array_key_exists($addressType . '_' . $key, $addressData)) {
-                $inString[$addressType . '_' . $key] = $addressData[$addressType . '_' . $key];
+            if (array_key_exists($addressType . '_' . $value, $addressData)) {
+                $inString[$addressType . '_' . $value] = $addressData[$addressType . '_' . $value];
             }
         }
 
