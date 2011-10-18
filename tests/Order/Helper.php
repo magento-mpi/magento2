@@ -477,7 +477,8 @@ class Order_Helper extends Mage_Selenium_TestCase
 
         $page = $this->getCurrentLocationUimapPage();
         $storeSelectorXpath = $page->findFieldset('order_store_selector')->getXpath();
-        if ($this->isElementPresent($storeSelectorXpath . "[not(normalize-space(@style)='display:none')]")) {
+        // Select a store if there is more then one default store
+        if ($this->isElementPresent($storeSelectorXpath . "[not(contains(@style,'display: none'))]")) {
             if ($storeView) {
                 $this->addParameter('storeName', $storeView);
                 $this->clickControl('radiobutton', 'choose_main_store', FALSE);
