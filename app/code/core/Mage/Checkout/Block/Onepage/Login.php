@@ -81,4 +81,22 @@ class Mage_Checkout_Block_Onepage_Login extends Mage_Checkout_Block_Onepage_Abst
     {
         return Mage::getSingleton('customer/session')->getUsername(true);
     }
+
+    /**
+     * Check if user must be logged during checkout process
+     *
+     * @return boolean
+     */
+    public function isCustomerMustBeLogged(){
+        return Mage::getStoreConfigFlag('customer/create_account/customer_must_be_logged');
+    }
+
+    /**
+     * Url to Registration Page
+     *
+     * @return string
+     */
+    public function getRegistrationUrl(){
+        return $this->getUrl('customer/account/create');
+    }
 }
