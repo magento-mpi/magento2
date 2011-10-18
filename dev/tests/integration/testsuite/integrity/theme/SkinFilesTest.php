@@ -33,6 +33,10 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         $skinFile = Mage::getDesign()->getSkinFile($file, $params);
         $this->assertFileExists($skinFile);
 
+        $fileParts = explode(Mage_Core_Model_Design_Package::SCOPE_SEPARATOR, $file);
+        if (count($fileParts)>1) {
+            $params['_module'] = $fileParts[0];
+        }
         if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
             $errors = array();
             $content = file_get_contents($skinFile);
@@ -103,8 +107,6 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
                 }
             }
 
-            /* MAGETWO-520: functionality requires skin files relocation (fails after layouts relocation)'); */
-            /*
             // Collect "addCss" and "addItem" from theme layout
             $layout = Mage::app()->getLayout()->getUpdate()->getFileLayoutUpdatesXml(
                 $area, $package, $theme
@@ -117,7 +119,6 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
                 }
                 $files[$area][$package][$theme][] = $skinFile;
             }
-            */
         }
 
         // Populate data provider in correspondence of skins to views
