@@ -47,6 +47,9 @@
             }
         }
     }
+if (window.top==window.self) {
+    window.location = "<?php echo $this->getUrl('checkout/cart') ?>";
+}
 var window_name = '<?php echo Mage::getBaseUrl(); ?>';
 var window_top = window.top;
 var allowed_domain = false;

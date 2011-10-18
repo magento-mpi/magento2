@@ -176,6 +176,16 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     }
 
     /**
+     * Check whether order review has enough data to initialize
+     *
+     * @param $token
+     * @throws Mage_Core_Exception
+     */
+    public function prepareOrderReview($token = null)
+    {
+    }
+
+    /**
      * Authorize payment
      *
      * @param Mage_Sales_Model_Order_Payment | Mage_Sales_Model_Quote_Payment $payment
