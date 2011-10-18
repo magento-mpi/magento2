@@ -88,7 +88,7 @@ class Mage_Checkout_Block_Onepage_Login extends Mage_Checkout_Block_Onepage_Abst
      * @return boolean
      */
     public function isCustomerMustBeLogged(){
-        return Mage::getStoreConfigFlag('customer/create_account/customer_must_be_logged');
+        return Mage::getStoreConfigFlag('checkout/options/customer_must_be_logged');
     }
 
     /**
