@@ -270,17 +270,9 @@ class Mage_Core_Model_Design_Package
         // add modules to lookup
         $dirs = $themeDirs;
         if ($module) {
-            /*
             array_walk($themeDirs, function(&$dir) use ($module) {
                 $dir = "{$dir}/{$module}";
-            });*/
-            /* Legacy code that not replace lookup dirs. After migration uncomment code above and remove foreach*/
-            $dirs = array();
-            foreach ($themeDirs as $dir) {
-                $dirs[] = "{$dir}/{$module}";
-                $dirs[] = $dir;
-            }
-            $themeDirs = $dirs;
+            });
             $dirs = array_merge($themeDirs, $moduleDirs);
         }
         // look for files
@@ -319,12 +311,8 @@ class Mage_Core_Model_Design_Package
 
         do {
             $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}";
-            /* Legacy path that should be removed after all template and layout files relocation */
-            $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}/{$params['_module']}";
             $theme = $this->_getInheritedTheme($theme);
         } while ($theme);
-        /* Legacy path that should be removed after all template and layout files relocation */
-        $dirs[] = "{$dir}/{$area}/base/default/{$params['_module']}";
 
         $moduleDir = $module ? array(Mage::getConfig()->getModuleDir('view', $module) . "/{$area}") : array();
         Magento_Profiler::stop(__METHOD__);
