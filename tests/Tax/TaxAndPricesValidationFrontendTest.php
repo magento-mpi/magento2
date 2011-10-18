@@ -39,12 +39,12 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
 
     public function setUpBeforeTests()
     {
-        $this->loginAdminUser();
+
     }
 
     protected function assertPreConditions()
     {
-
+        $this->loginAdminUser();
 //        $this->addParameter('productUrl', '');
 //        $this->addParameter('productName', '');
     }
@@ -126,17 +126,14 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($dataProv);
+        $this->logoutCustomer();
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->frontend('shopping_cart');
-        $removeItemXpath = $this->_getControlXpath('link', 'remove_item');
-        while ($this->isElementPresent($removeItemXpath)):
-            $this->clickControl('link', 'remove_item');
-            $this->waitForPageToLoad();
-        endwhile;
+        $this->shoppingCartHelper()->frontClearShoppingCart();
         //Verify and add products to shopping cart
         $productValidateData = $this->loadData($dataProv . '_frontend_price_in_shopping_cart_simple_products');
         $checkoutValidateData = $this->loadData($dataProv . '_checkout_data');
-        $orderDetailsData = $this->loadData($dataProv . '_order_details');
+        $orderDetailsData = $this->loadData($dataProv . '_on_order_details');
         foreach ($products['name'] as $key => $productName) {
             $priceInCategory = $this->loadData($dataProv . '_frontend_price_in_category_simple_' . $key,
                     array('product_name' => $productName, 'category' => $category));
@@ -157,31 +154,29 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         $priceTotal = $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'shipping_flatrate');
 
 
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($productValidateData, $dataProv . '_order');
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($productValidateData, $dataProv . '_during_checkout');
         $this->clickButton('proceed_to_checkout');
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutValidateData, FALSE);
         $this->clickControl('link', 'order_number');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($orderDetailsData['validate_prod_data'],
                 $orderDetailsData['validate_total_data']);
-
-
     }
 
     public function dataSystemConfiguration()
     {
         return array(
             array('unit_cat_ex_ship_ex'),
-//            array('row_cat_ex_ship_ex'),
-//            array('total_cat_ex_ship_ex'),
-//            array('unit_cat_ex_ship_in'),
-//            array('row_cat_ex_ship_in'),
-//            array('total_cat_ex_ship_in'),
-//            array('unit_cat_in_ship_ex'),
-//            array('row_cat_in_ship_ex'),
-//            array('total_cat_in_ship_ex'),
-//            array('unit_cat_in_ship_in'),
-//            array('row_cat_in_ship_in'),
-//            array('total_cat_in_ship_in')
+            array('row_cat_ex_ship_ex'),
+            array('total_cat_ex_ship_ex'),
+            array('unit_cat_ex_ship_in'),
+            array('row_cat_ex_ship_in'),
+            array('total_cat_ex_ship_in'),
+            array('unit_cat_in_ship_ex'),
+            array('row_cat_in_ship_ex'),
+            array('total_cat_in_ship_ex'),
+            array('unit_cat_in_ship_in'),
+            array('row_cat_in_ship_in'),
+            array('total_cat_in_ship_in')
         );
     }
 
