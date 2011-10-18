@@ -511,7 +511,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             array(
                 array(
                     'css/styles.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
-                    'calendar/calendar-blue.css ' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
+                    'calendar/calendar-blue.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
                 ),
                 array('http://localhost/media/skin/_merged/3bb83a02eeb7603f09ca0f886ef951f4.css')
             ),
