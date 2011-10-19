@@ -38,7 +38,7 @@
 
     <adminhtml_sales_order_create_index>
         <reference name="head">
-            <action method="addJs"><script>mage/adminhtml/sales/centinel.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Centinel::order_create.js</name></action>
         </reference>
         <reference name="data">
             <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="Mage_Adminhtml::sales/order/create/abstract.phtml">

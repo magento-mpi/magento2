@@ -76,7 +76,7 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>mage/adminhtml/accordion.js</script></action>
                 <action method="addJs"><script>mage/adminhtml/tools.js</script></action>
                 <action method="addJs"><script>mage/adminhtml/uploader.js</script></action>
-                <action method="addJs"><script>mage/adminhtml/product.js</script></action>
+                <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::catalog/product.js</name></action>
 
                 <action method="addItem"><type>js</type><name>lib/ds-sleight.js</name><params>defer</params><if>lt IE 7</if></action>
 
@@ -90,7 +90,7 @@ Default layout, loads most of the pages
                 <action method="addItem"><type>js_css</type><name>extjs/resources/css/ext-all.css</name><params/><if/><condition>can_load_ext_js</condition></action>
                 <action method="addItem"><type>js_css</type><name>extjs/resources/css/ytheme-magento.css</name><params/><if/><condition>can_load_ext_js</condition></action>
 
-                <action method="addItem"><type>js</type><name>mage/adminhtml/rules.js</name><params/><if/><condition>can_load_rules_js</condition></action>
+                <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::promo/rules.js</name><params/><if/><condition>can_load_rules_js</condition></action>
 
                 <action method="addItem"><type>js</type><name>mage/adminhtml/wysiwyg/tiny_mce/setup.js</name><params/><if/><condition>can_load_tiny_mce</condition></action>
 
@@ -151,7 +151,7 @@ Layout for editor element
     <editor>
         <reference name="head">
             <action method="setCanLoadExtJs"><flag>1</flag></action>
-            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::variables.js</name></action>
             <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
             <action method="addJs"><script>lib/flex.js</script></action>
             <action method="addJs"><script>lib/FABridge.js</script></action>

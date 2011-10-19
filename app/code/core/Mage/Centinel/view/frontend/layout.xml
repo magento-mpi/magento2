@@ -37,7 +37,7 @@
 
     <checkout_multishipping_overview>
         <reference name="head">
-            <action method="addJs"><script>mage/centinel.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Centinel::checkout.js</name></action>
         </reference>
         <reference name="checkout.multishipping.overview.items.after">
             <block type="centinel/authentication" name="centinel.frame" template="authentication.phtml">
@@ -59,7 +59,7 @@
 
     <checkout_onepage_index>
         <reference name="head">
-            <action method="addJs"><script>mage/centinel.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Centinel::checkout.js</name></action>
         </reference>
     </checkout_onepage_index>
 </layout>

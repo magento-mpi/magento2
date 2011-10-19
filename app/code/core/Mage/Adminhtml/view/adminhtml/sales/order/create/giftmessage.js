@@ -268,4 +268,4 @@ GiftMessageSet.prototype = {
             order.loadArea(['items'], true, data.toObject());
         }
     }
-}
+};

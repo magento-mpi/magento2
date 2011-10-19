@@ -50,7 +50,7 @@
             <block type="enterprise_staging/adminhtml_staging_edit_tabs" name="enterprise_staging_edit_tabs"></block>
         </reference>
         <reference name="head">
-            <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Enterprise_Staging::staging.js</name></action>
         </reference>
     </adminhtml_staging_manage_edit>
 
@@ -61,7 +61,7 @@
             </block>
         </reference>
         <reference name="head">
-            <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Enterprise_Staging::staging.js</name></action>
         </reference>
     </adminhtml_staging_manage_merge>
 
@@ -70,7 +70,7 @@
             <block type="enterprise_staging/adminhtml_backup"  name="enterprise_staging_backup" />
         </reference>
         <reference name="head">
-            <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Enterprise_Staging::staging.js</name></action>
         </reference>
     </adminhtml_staging_backup_index>
 
@@ -84,10 +84,10 @@
             <block type="enterprise_staging/adminhtml_backup_edit"  name="enterprise_staging_backup_edit" />
         </reference>
         <reference name="left">
-            <block type="enterprise_staging/adminhtml_backup_edit_tabs" name="enterprise_staging_backup_edit_tabs"></block>
+            <block type="enterprise_staging/adminhtml_backup_edit_tabs" name="enterprise_staging_backup_edit_tabs"/>
         </reference>
         <reference name="head">
-            <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Enterprise_Staging::staging.js</name></action>
         </reference>
     </adminhtml_staging_backup_edit>
 

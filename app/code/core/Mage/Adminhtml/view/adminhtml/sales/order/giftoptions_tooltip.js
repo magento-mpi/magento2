@@ -206,6 +206,6 @@ GiftOptionsTooltip.prototype = {
     {
         this._tooltipWindowContent.update(content);
     }
-}
+};
 
 giftOptionsTooltip = new GiftOptionsTooltip();

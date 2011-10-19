@@ -58,8 +58,8 @@
 
     <adminhtml_rma_edit>
         <reference name="head">
-            <action method="addJs"><file>mage/adminhtml/sales/packaging.js</file></action>
-            <action method="addJs"><file>enterprise/adminhtml/rma.js</file></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::sales/order/shipment/packaging.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>Enterprise_Rma::rma.js</name></action>
         </reference>
         <reference name="content">
             <block type="enterprise_rma/adminhtml_rma_edit" name="enterprise_rma_edit" />
@@ -124,7 +124,7 @@
 
     <adminhtml_rma_new>
         <reference name="head">
-            <action method="addJs"><script>enterprise/adminhtml/rma.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Enterprise_Rma::rma.js</name></action>
         </reference>
         <reference name="content">
             <block type="enterprise_rma/adminhtml_rma_new" name="enterprise_rma_new" />

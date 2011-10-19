@@ -340,4 +340,4 @@ tinyMceWysiwygSetup.prototype =
             o.content = this.decodeDirectives(o.content);
         }
     }
-}
+};
