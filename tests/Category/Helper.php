@@ -235,7 +235,7 @@ class Category_Helper extends Mage_Selenium_TestCase
      * @param array|string $productsInfo
      * @return bool
      */
-    public function frontValidateProductInCategory($productsInfo)
+    public function frontOpenCategoryAndValidateProduct($productsInfo)
     {
         if (is_string($productsInfo)) {
             $productsInfo = $this->loadData($productsInfo);
@@ -245,13 +245,13 @@ class Category_Helper extends Mage_Selenium_TestCase
         $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : NULL;
         $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : array();
 
-        if ($category != NULL && $productName != NULL) {
+        if ($category && $productName) {
             $foundIt = $this->frontSearchAndOpenPageWithProduct($productName, $category);
             if (!$foundIt) {
                 $this->fail('Could not find the product');
             }
+            $this->frontVerifyProductPrices($verificationData, $productName);
         }
-        $this->frontVerifyProductPricesInCategory($productName, $verificationData);
     }
 
     /**
@@ -289,17 +289,21 @@ class Category_Helper extends Mage_Selenium_TestCase
      * Verifies the correctness of prices in the category
      *
      * @param array $verificationData
+     * @param string $productName
      */
-    public function frontVerifyProductPricesInCategory($productName, array $verificationData, $pageName='category_page')
+    public function frontVerifyProductPrices(array $verificationData, $productName = '')
     {
-        $this->_currentPage = $pageName;
-        $this->addParameter('productName', $productName);
-        $pageelements = $this->getCurrentUimapPage()->getMainForm()->getAllPageelements();
+        if ($productName) {
+            $this->_currentPage = 'category_page';
+            $this->addParameter('productName', $productName);
+        } else {
+            $this->_currentPage = 'product_page';
+        }
+        $pageelements = $this->getCurrentUimapPage()->getAllPageelements();
         $verificationData = $this->arrayEmptyClear($verificationData);
         foreach ($verificationData as $key => $value) {
             $this->addParameter('price', $value);
-            $method = 'find' . ucfirst(strtolower('pageelement'));
-            $xpathPrice = $this->getCurrentUimapPage()->$method($key);
+            $xpathPrice = $this->getCurrentUimapPage()->findPageelement($key);
             if (!$this->isElementPresent($xpathPrice)) {
                 $this->messages['error'][] = 'Could not find element ' . $key . ' with price ' . $value;
             }
