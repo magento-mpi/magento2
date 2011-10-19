@@ -45,7 +45,7 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>scriptaculous/slider.js</script></action>
                 <action method="addJs"><script>varien/js.js</script></action>
                 <action method="addJs"><script>varien/form.js</script></action>
-                <action method="addJs"><script>varien/menu.js</script></action>
+                <action method="addItem"><type>skin_js</type><name>Mage_Page::menu.js</name></action>
                 <action method="addJs"><script>mage/translate.js</script></action>
                 <action method="addItem"><type>skin_js</type><name>Mage_Page::js/cookies.js</name></action>
 
