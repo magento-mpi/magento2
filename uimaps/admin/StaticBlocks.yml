@@ -1,0 +1,107 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# 'Static Blocks' page
+manage_static_blocks:
+    mca: cms_block/
+    click_xpath: //div[@class='nav-bar']//a[span='Static Blocks']
+    title: Static Blocks / CMS / Magento Admin
+    uimap:
+        form: &searchStaticBlocksGrid
+            fieldsets:
+                -
+                    static_blocks_grid:
+                        xpath: //div[@id='cmsBlockGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            block_status: //select[@name='is_active']
+                        fields:
+                            block_title: //input[@name='title']
+                            block_identifier: //input[@name='identifier']
+                            block_created_from: //input[@name='creation_time[from]']
+                            block_created_to: //input[@name='creation_time[to]']
+                            block_modified_from: //input[@name='update_time[from]']
+                            block_modified_to: //input[@name='update_time[to]']
+
+        buttons:
+            add_new_block: //button[span='Add New Block']
+        messages: &staticBlockMessages
+             success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'The block has been saved.')]
+             success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.,'The block has been deleted.')]
+             no_records_found: //td[normalize-space(@class)='empty-text a-center' and text()='No records found.']
+             confirmation_for_delete: Are you sure you want to do this?
+             specify_title: "//div[@id='advice-required-entry-block_title' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]"
+             specify_identifier: "//div[@id='advice-required-entry-block_identifier' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]"
+             specify_content: "//div[@id='advice-required-entry-block_content' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]"
+             specify_valid_xml_identifier: "//div[@id='advice-validate-xml-identifier-block_identifier' and not(contains(@style,'display: none'))]"
+
+
+# 'Edit Block %blockName%' page
+edit_static_block:
+    mca: cms_block/edit/block_id/%id%/
+    title: %blockName% / Static Blocks / CMS / Magento Admin
+    uimap:
+        form: &editStaticBlockForm
+            fieldsets:
+                -
+                    general_information:
+                        xpath: //div[@class='entry-edit']
+                        buttons:
+                            show_hide_editor: //button[@id='toggleblock_content']
+                            insert_widget: "//button[@class='scalable add-widget plugin' and not(@style='display: none;')]"
+                            insert_image: "//button[@class='scalable add-image plugin' and not(@style='display: none;')]"
+                            insert_variable: "//button[@class='scalable add-variable plugin' and not(@style='display: none;')]"
+                        dropdowns:
+                            block_status: //select[@name='is_active']
+                        fields:
+                            block_title: //input[@name='title']
+                            block_identifier: //input[@name='identifier']
+                            editor: //iframe[@id='block_content_ifr']
+                            text_editor: "//textarea[@name='content' and not(@style='display: none;')]"
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            delete_block: //button[span='Delete Block']
+            save_block: //button[span='Save Block']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *staticBlockMessages
+
+
+# 'New Block' page
+create_static_block:
+    mca: cms_block/new/
+    title: New Block / Static Blocks / CMS / Magento Admin
+    uimap:
+        form: *editStaticBlockForm
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_block: //button[span='Save Block']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *staticBlockMessages
