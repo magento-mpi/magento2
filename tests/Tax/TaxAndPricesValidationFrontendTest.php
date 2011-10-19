@@ -131,13 +131,13 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         $this->frontend('shopping_cart');
         $this->shoppingCartHelper()->frontClearShoppingCart();
         //Verify and add products to shopping cart
-        $productValidateData = $this->loadData($dataProv . '_frontend_price_in_shopping_cart_simple_products');
-        $checkoutValidateData = $this->loadData($dataProv . '_checkout_data');
-        $orderDetailsData = $this->loadData($dataProv . '_on_order_details');
+        $productValidateData = $this->loadData($dataProv . '_front_prices_in_cart_simple');
+        $checkoutValidateData = $this->loadData($dataProv . '_front_prices_checkout_data');
+        $orderDetailsData = $this->loadData($dataProv . '_front_prices_on_order_details');
         foreach ($products['name'] as $key => $productName) {
-            $priceInCategory = $this->loadData($dataProv . '_frontend_price_in_category_simple_' . $key,
+            $priceInCategory = $this->loadData($dataProv . '_front_prices_in_category_simple_' . $key,
                     array('product_name' => $productName, 'category' => $category));
-            $priceInProdDetails = $this->loadData($dataProv . '_frontend_price_in_prod_details_simple_' . $key,
+            $priceInProdDetails = $this->loadData($dataProv . '_front_prices_in_product_simple_' . $key,
                     array('product_name' => $productName));
             $this->categoryHelper()->frontValidateProductInCategory($priceInCategory);
             $this->productHelper()->frontOpenProduct($productName);
@@ -154,7 +154,8 @@ class Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_TestCase
         $priceTotal = $this->shoppingCartHelper()->frontEstimateShipping('estimate_shipping', 'shipping_flatrate');
 
 
-        $this->shoppingCartHelper()->verifyPricesDataOnPage($productValidateData, $dataProv . '_during_checkout');
+        $this->shoppingCartHelper()->verifyPricesDataOnPage($productValidateData,
+                $dataProv . '_front_prices_during_checkout');
         $this->clickButton('proceed_to_checkout');
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutValidateData, FALSE);
         $this->clickControl('link', 'order_number');

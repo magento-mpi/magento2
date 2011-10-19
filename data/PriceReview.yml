@@ -6074,28 +6074,28 @@ billing_data_for_price_review: &billingAddress
 #  Frontend - Calc Type - Unit, Catalog Price - Excluding, Shipping Price - Excluding #
 #                                                                                     #
 #######################################################################################
-unit_cat_ex_ship_ex_frontend_price_in_category_simple_1:
+unit_cat_ex_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-unit_cat_ex_ship_ex_frontend_price_in_category_simple_2:
+unit_cat_ex_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $100.00
         price_including_tax: $108.25
 
-unit_cat_ex_ship_ex_frontend_price_in_category_simple_3:
+unit_cat_ex_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-unit_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products:
+unit_cat_ex_ship_ex_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $111.11
@@ -6118,14 +6118,14 @@ unit_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $77.55
         subtotal_incl_tax: $83.95
 
-unit_cat_ex_ship_ex_frontend_price_in_prod_details_simple_1:
+unit_cat_ex_ship_ex_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-unit_cat_ex_ship_ex_frontend_price_in_prod_details_simple_2:
+unit_cat_ex_ship_ex_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -6133,14 +6133,14 @@ unit_cat_ex_ship_ex_frontend_price_in_prod_details_simple_2:
         price_including_tax: $108.25
 
 
-unit_cat_ex_ship_ex_frontend_price_in_prod_details_simple_3:
+unit_cat_ex_ship_ex_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-unit_cat_ex_ship_ex_during_checkout:
+unit_cat_ex_ship_ex_front_prices_during_checkout:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.26
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -6150,7 +6150,7 @@ unit_cat_ex_ship_ex_during_checkout:
     grand_total_incl_tax: $660.09
 
 
-unit_cat_ex_ship_ex_checkout_data:
+unit_cat_ex_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -6189,7 +6189,7 @@ unit_cat_ex_ship_ex_checkout_data:
         tax: $50.32
         grand_total_incl_tax: $660.09
 
-unit_cat_ex_ship_ex_on_order_details:
+unit_cat_ex_ship_ex_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -6229,28 +6229,28 @@ unit_cat_ex_ship_ex_on_order_details:
 #  Frontend - Calc Type - Row, Catalog Price - Excluding, Shipping Price - Excluding  #
 #                                                                                     #
 #######################################################################################
-row_cat_ex_ship_ex_frontend_price_in_category_simple_1:
+row_cat_ex_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-row_cat_ex_ship_ex_frontend_price_in_category_simple_2:
+row_cat_ex_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $100.00
         price_including_tax: $108.25
 
-row_cat_ex_ship_ex_frontend_price_in_category_simple_3:
+row_cat_ex_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-row_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products:
+row_cat_ex_ship_ex_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $111.11
@@ -6273,14 +6273,14 @@ row_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $77.55
         subtotal_incl_tax: $83.95
 
-row_cat_ex_ship_ex_frontend_price_in_prod_details_simple_1:
+row_cat_ex_ship_ex_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-row_cat_ex_ship_ex_frontend_price_in_prod_details_simple_2:
+row_cat_ex_ship_ex_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -6288,14 +6288,14 @@ row_cat_ex_ship_ex_frontend_price_in_prod_details_simple_2:
         price_including_tax: $108.25
 
 
-row_cat_ex_ship_ex_frontend_price_in_prod_details_simple_3:
+row_cat_ex_ship_ex_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-row_cat_ex_ship_ex_during_checkout:
+row_cat_ex_ship_ex_front_prices_during_checkout:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -6305,7 +6305,7 @@ row_cat_ex_ship_ex_during_checkout:
     grand_total_incl_tax: $660.08
 
 
-row_cat_ex_ship_ex_checkout_data:
+row_cat_ex_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -6344,7 +6344,7 @@ row_cat_ex_ship_ex_checkout_data:
         tax: $50.31
         grand_total_incl_tax: $660.08
 
-row_cat_ex_ship_ex_on_order_details:
+row_cat_ex_ship_ex_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -6384,28 +6384,28 @@ row_cat_ex_ship_ex_on_order_details:
 #  Frontend - Calc Type - Total, Catalog Price - Excluding, Shipping Price - Excluding  #
 #                                                                                       #
 #########################################################################################
-total_cat_ex_ship_ex_frontend_price_in_category_simple_1:
+total_cat_ex_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-total_cat_ex_ship_ex_frontend_price_in_category_simple_2:
+total_cat_ex_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $100.00
         price_including_tax: $108.25
 
-total_cat_ex_ship_ex_frontend_price_in_category_simple_3:
+total_cat_ex_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-total_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products:
+total_cat_ex_ship_ex_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $111.11
@@ -6428,14 +6428,14 @@ total_cat_ex_ship_ex_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $77.55
         subtotal_incl_tax: $83.95
 
-total_cat_ex_ship_ex_frontend_price_in_prod_details_simple_1:
+total_cat_ex_ship_ex_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-total_cat_ex_ship_ex_frontend_price_in_prod_details_simple_2:
+total_cat_ex_ship_ex_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -6443,14 +6443,14 @@ total_cat_ex_ship_ex_frontend_price_in_prod_details_simple_2:
         price_including_tax: $108.25
 
 
-total_cat_ex_ship_ex_frontend_price_in_prod_details_simple_3:
+total_cat_ex_ship_ex_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-total_cat_ex_ship_ex_during_checkout:
+total_cat_ex_ship_ex_front_prices_during_checkout:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -6460,7 +6460,7 @@ total_cat_ex_ship_ex_during_checkout:
     grand_total_incl_tax: $660.08
 
 
-total_cat_ex_ship_ex_checkout_data:
+total_cat_ex_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -6499,7 +6499,7 @@ total_cat_ex_ship_ex_checkout_data:
         tax: $50.31
         grand_total_incl_tax: $660.08
 
-total_cat_ex_ship_ex_on_order_details:
+total_cat_ex_ship_ex_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -6539,28 +6539,28 @@ total_cat_ex_ship_ex_on_order_details:
 #  Frontend - Calc Type - Unit, Catalog Price - Excluding, Shipping Price - Including #
 #                                                                                     #
 #######################################################################################
-unit_cat_ex_ship_in_frontend_price_in_category_simple_1:
+unit_cat_ex_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-unit_cat_ex_ship_in_frontend_price_in_category_simple_2:
+unit_cat_ex_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $100.00
         price_including_tax: $108.25
 
-unit_cat_ex_ship_in_frontend_price_in_category_simple_3:
+unit_cat_ex_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-unit_cat_ex_ship_in_frontend_price_in_shopping_cart_simple_products:
+unit_cat_ex_ship_in_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $111.11
@@ -6583,14 +6583,14 @@ unit_cat_ex_ship_in_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $77.55
         subtotal_incl_tax: $83.95
 
-unit_cat_ex_ship_in_frontend_price_in_prod_details_simple_1:
+unit_cat_ex_ship_in_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-unit_cat_ex_ship_in_frontend_price_in_prod_details_simple_2:
+unit_cat_ex_ship_in_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -6598,14 +6598,14 @@ unit_cat_ex_ship_in_frontend_price_in_prod_details_simple_2:
         price_including_tax: $108.25
 
 
-unit_cat_ex_ship_in_frontend_price_in_prod_details_simple_3:
+unit_cat_ex_ship_in_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-unit_cat_ex_ship_in_during_checkout:
+unit_cat_ex_ship_in_front_prices_during_checkout:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_excl_tax_flat_rate_fixed: $9.24
@@ -6615,7 +6615,7 @@ unit_cat_ex_ship_in_during_checkout:
     grand_total_incl_tax: $659.26
 
 
-unit_cat_ex_ship_in_checkout_data:
+unit_cat_ex_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -6654,7 +6654,7 @@ unit_cat_ex_ship_in_checkout_data:
         tax: $50.25
         grand_total_incl_tax: $659.26
 
-unit_cat_ex_ship_in_on_order_details:
+unit_cat_ex_ship_in_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -6694,28 +6694,28 @@ unit_cat_ex_ship_in_on_order_details:
 #  Frontend - Calc Type - Row, Catalog Price - Excluding, Shipping Price - Including  #
 #                                                                                     #
 #######################################################################################
-row_cat_ex_ship_in_frontend_price_in_category_simple_1:
+row_cat_ex_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-row_cat_ex_ship_in_frontend_price_in_category_simple_2:
+row_cat_ex_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $100.00
         price_including_tax: $108.25
 
-row_cat_ex_ship_in_frontend_price_in_category_simple_3:
+row_cat_ex_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-row_cat_ex_ship_in_frontend_price_in_shopping_cart_simple_products:
+row_cat_ex_ship_in_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $111.11
@@ -6738,14 +6738,14 @@ row_cat_ex_ship_in_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $77.55
         subtotal_incl_tax: $83.95
 
-row_cat_ex_ship_in_frontend_price_in_prod_details_simple_1:
+row_cat_ex_ship_in_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-row_cat_ex_ship_in_frontend_price_in_prod_details_simple_2:
+row_cat_ex_ship_in_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -6753,14 +6753,14 @@ row_cat_ex_ship_in_frontend_price_in_prod_details_simple_2:
         price_including_tax: $108.25
 
 
-row_cat_ex_ship_in_frontend_price_in_prod_details_simple_3:
+row_cat_ex_ship_in_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-row_cat_ex_ship_in_during_checkout:
+row_cat_ex_ship_in_front_prices_during_checkout:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_excl_tax_flat_rate_fixed: $9.24
@@ -6770,7 +6770,7 @@ row_cat_ex_ship_in_during_checkout:
     grand_total_incl_tax: $659.25
 
 
-row_cat_ex_ship_in_checkout_data:
+row_cat_ex_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -6809,7 +6809,7 @@ row_cat_ex_ship_in_checkout_data:
         tax: $50.24
         grand_total_incl_tax: $659.25
 
-row_cat_ex_ship_in_on_order_details:
+row_cat_ex_ship_in_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -6849,28 +6849,28 @@ row_cat_ex_ship_in_on_order_details:
 #  Frontend - Calc Type - Total, Catalog Price - Excluding, Shipping Price - Including  #
 #                                                                                       #
 #########################################################################################
-total_cat_ex_ship_in_frontend_price_in_category_simple_1:
+total_cat_ex_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-total_cat_ex_ship_in_frontend_price_in_category_simple_2:
+total_cat_ex_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $100.00
         price_including_tax: $108.25
 
-total_cat_ex_ship_in_frontend_price_in_category_simple_3:
+total_cat_ex_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-total_cat_ex_ship_in_frontend_price_in_shopping_cart_simple_products:
+total_cat_ex_ship_in_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $111.11
@@ -6893,14 +6893,14 @@ total_cat_ex_ship_in_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $77.55
         subtotal_incl_tax: $83.95
 
-total_cat_ex_ship_in_frontend_price_in_prod_details_simple_1:
+total_cat_ex_ship_in_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $111.11
         price_including_tax: $120.28
 
-total_cat_ex_ship_in_frontend_price_in_prod_details_simple_2:
+total_cat_ex_ship_in_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -6908,14 +6908,14 @@ total_cat_ex_ship_in_frontend_price_in_prod_details_simple_2:
         price_including_tax: $108.25
 
 
-total_cat_ex_ship_in_frontend_price_in_prod_details_simple_3:
+total_cat_ex_ship_in_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $15.51
         price_including_tax: $16.79
 
-total_cat_ex_ship_in_during_checkout:
+total_cat_ex_ship_in_front_prices_during_checkout:
     subtotal_excl_tax: $599.77
     subtotal_incl_tax: $649.25
     shipping_excl_tax_flat_rate_fixed: $9.24
@@ -6925,7 +6925,7 @@ total_cat_ex_ship_in_during_checkout:
     grand_total_incl_tax: $659.25
 
 
-total_cat_ex_ship_in_checkout_data:
+total_cat_ex_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -6964,7 +6964,7 @@ total_cat_ex_ship_in_checkout_data:
         tax: $50.24
         grand_total_incl_tax: $659.25
 
-total_cat_ex_ship_in_on_order_details:
+total_cat_ex_ship_in_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -7004,28 +7004,28 @@ total_cat_ex_ship_in_on_order_details:
 #  Frontend - Calc Type - Unit, Catalog Price - Including, Shipping Price - Excluding   #
 #                                                                                       #
 #########################################################################################
-unit_cat_in_ship_ex_frontend_price_in_category_simple_1:
+unit_cat_in_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-unit_cat_in_ship_ex_frontend_price_in_category_simple_2:
+unit_cat_in_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $92.38
         price_including_tax: $100.00
 
-unit_cat_in_ship_ex_frontend_price_in_category_simple_3:
+unit_cat_in_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-unit_cat_in_ship_ex_frontend_price_in_shopping_cart_simple_products:
+unit_cat_in_ship_ex_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $102.64
@@ -7048,14 +7048,14 @@ unit_cat_in_ship_ex_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $71.65
         subtotal_incl_tax: $77.55
 
-unit_cat_in_ship_ex_frontend_price_in_prod_details_simple_1:
+unit_cat_in_ship_ex_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-unit_cat_in_ship_ex_frontend_price_in_prod_details_simple_2:
+unit_cat_in_ship_ex_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -7063,14 +7063,14 @@ unit_cat_in_ship_ex_frontend_price_in_prod_details_simple_2:
         price_including_tax: $100.00
 
 
-unit_cat_in_ship_ex_frontend_price_in_prod_details_simple_3:
+unit_cat_in_ship_ex_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-unit_cat_in_ship_ex_during_checkout:
+unit_cat_in_ship_ex_front_prices_during_checkout:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -7080,7 +7080,7 @@ unit_cat_in_ship_ex_during_checkout:
     grand_total_incl_tax: $610.60
 
 
-unit_cat_in_ship_ex_checkout_data:
+unit_cat_in_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -7119,7 +7119,7 @@ unit_cat_in_ship_ex_checkout_data:
         tax: $46.53
         grand_total_incl_tax: $610.60
 
-unit_cat_in_ship_ex_on_order_details:
+unit_cat_in_ship_ex_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -7159,28 +7159,28 @@ unit_cat_in_ship_ex_on_order_details:
 #  Frontend - Calc Type - Row, Catalog Price - Including, Shipping Price - Excluding    #
 #                                                                                       #
 #########################################################################################
-row_cat_in_ship_ex_frontend_price_in_category_simple_1:
+row_cat_in_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-row_cat_in_ship_ex_frontend_price_in_category_simple_2:
+row_cat_in_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $92.38
         price_including_tax: $100.00
 
-row_cat_in_ship_ex_frontend_price_in_category_simple_3:
+row_cat_in_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-row_cat_in_ship_ex_frontend_price_in_shopping_cart_simple_products:
+row_cat_in_ship_ex_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $102.64
@@ -7203,14 +7203,14 @@ row_cat_in_ship_ex_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
 
-row_cat_in_ship_ex_frontend_price_in_prod_details_simple_1:
+row_cat_in_ship_ex_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-row_cat_in_ship_ex_frontend_price_in_prod_details_simple_2:
+row_cat_in_ship_ex_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -7218,14 +7218,14 @@ row_cat_in_ship_ex_frontend_price_in_prod_details_simple_2:
         price_including_tax: $100.00
 
 
-row_cat_in_ship_ex_frontend_price_in_prod_details_simple_3:
+row_cat_in_ship_ex_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-row_cat_in_ship_ex_during_checkout:
+row_cat_in_ship_ex_front_prices_during_checkout:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -7235,7 +7235,7 @@ row_cat_in_ship_ex_during_checkout:
     grand_total_incl_tax: $610.60
 
 
-row_cat_in_ship_ex_checkout_data:
+row_cat_in_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -7274,7 +7274,7 @@ row_cat_in_ship_ex_checkout_data:
         tax: $46.54
         grand_total_incl_tax: $610.60
 
-row_cat_in_ship_ex_on_order_details:
+row_cat_in_ship_ex_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -7314,28 +7314,28 @@ row_cat_in_ship_ex_on_order_details:
 #  Frontend - Calc Type - Total, Catalog Price - Including, Shipping Price - Excluding  #
 #                                                                                       #
 #########################################################################################
-total_cat_in_ship_ex_frontend_price_in_category_simple_1:
+total_cat_in_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-total_cat_in_ship_ex_frontend_price_in_category_simple_2:
+total_cat_in_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $92.38
         price_including_tax: $100.00
 
-total_cat_in_ship_ex_frontend_price_in_category_simple_3:
+total_cat_in_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-total_cat_in_ship_ex_frontend_price_in_shopping_cart_simple_products:
+total_cat_in_ship_ex_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $102.64
@@ -7358,14 +7358,14 @@ total_cat_in_ship_ex_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
 
-total_cat_in_ship_ex_frontend_price_in_prod_details_simple_1:
+total_cat_in_ship_ex_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-total_cat_in_ship_ex_frontend_price_in_prod_details_simple_2:
+total_cat_in_ship_ex_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -7373,14 +7373,14 @@ total_cat_in_ship_ex_frontend_price_in_prod_details_simple_2:
         price_including_tax: $100.00
 
 
-total_cat_in_ship_ex_frontend_price_in_prod_details_simple_3:
+total_cat_in_ship_ex_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-total_cat_in_ship_ex_during_checkout:
+total_cat_in_ship_ex_front_prices_during_checkout:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $10.00
@@ -7390,7 +7390,7 @@ total_cat_in_ship_ex_during_checkout:
     grand_total_incl_tax: $610.60
 
 
-total_cat_in_ship_ex_checkout_data:
+total_cat_in_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -7429,7 +7429,7 @@ total_cat_in_ship_ex_checkout_data:
         tax: $46.54
         grand_total_incl_tax: $610.60
 
-total_cat_in_ship_ex_on_order_details:
+total_cat_in_ship_ex_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -7469,28 +7469,28 @@ total_cat_in_ship_ex_on_order_details:
 #  Frontend - Calc Type - Unit, Catalog Price - Including, Shipping Price - Including   #
 #                                                                                       #
 #########################################################################################
-unit_cat_in_ship_in_frontend_price_in_category_simple_1:
+unit_cat_in_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-unit_cat_in_ship_in_frontend_price_in_category_simple_2:
+unit_cat_in_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $92.38
         price_including_tax: $100.00
 
-unit_cat_in_ship_in_frontend_price_in_category_simple_3:
+unit_cat_in_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-unit_cat_in_ship_in_frontend_price_in_shopping_cart_simple_products:
+unit_cat_in_ship_in_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $102.64
@@ -7513,14 +7513,14 @@ unit_cat_in_ship_in_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $71.65
         subtotal_incl_tax: $77.55
 
-unit_cat_in_ship_in_frontend_price_in_prod_details_simple_1:
+unit_cat_in_ship_in_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-unit_cat_in_ship_in_frontend_price_in_prod_details_simple_2:
+unit_cat_in_ship_in_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -7528,14 +7528,14 @@ unit_cat_in_ship_in_frontend_price_in_prod_details_simple_2:
         price_including_tax: $100.00
 
 
-unit_cat_in_ship_in_frontend_price_in_prod_details_simple_3:
+unit_cat_in_ship_in_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-unit_cat_in_ship_in_during_checkout:
+unit_cat_in_ship_in_front_prices_during_checkout:
     subtotal_excl_tax: $554.07
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $9.24
@@ -7545,7 +7545,7 @@ unit_cat_in_ship_in_during_checkout:
     grand_total_incl_tax: $609.77
 
 
-unit_cat_in_ship_in_checkout_data:
+unit_cat_in_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -7584,7 +7584,7 @@ unit_cat_in_ship_in_checkout_data:
         tax: $46.46
         grand_total_incl_tax: $609.77
 
-unit_cat_in_ship_in_on_order_details:
+unit_cat_in_ship_in_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -7624,28 +7624,28 @@ unit_cat_in_ship_in_on_order_details:
 #  Frontend - Calc Type - Row, Catalog Price - Including, Shipping Price - Including    #
 #                                                                                       #
 #########################################################################################
-row_cat_in_ship_in_frontend_price_in_category_simple_1:
+row_cat_in_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-row_cat_in_ship_in_frontend_price_in_category_simple_2:
+row_cat_in_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $92.38
         price_including_tax: $100.00
 
-row_cat_in_ship_in_frontend_price_in_category_simple_3:
+row_cat_in_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-row_cat_in_ship_in_frontend_price_in_shopping_cart_simple_products:
+row_cat_in_ship_in_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $102.64
@@ -7668,14 +7668,14 @@ row_cat_in_ship_in_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
 
-row_cat_in_ship_in_frontend_price_in_prod_details_simple_1:
+row_cat_in_ship_in_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-row_cat_in_ship_in_frontend_price_in_prod_details_simple_2:
+row_cat_in_ship_in_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -7683,14 +7683,14 @@ row_cat_in_ship_in_frontend_price_in_prod_details_simple_2:
         price_including_tax: $100.00
 
 
-row_cat_in_ship_in_frontend_price_in_prod_details_simple_3:
+row_cat_in_ship_in_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-row_cat_in_ship_in_during_checkout:
+row_cat_in_ship_in_front_prices_during_checkout:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $9.24
@@ -7700,7 +7700,7 @@ row_cat_in_ship_in_during_checkout:
     grand_total_incl_tax: $609.77
 
 
-row_cat_in_ship_in_checkout_data:
+row_cat_in_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -7739,7 +7739,7 @@ row_cat_in_ship_in_checkout_data:
         tax: $46.47
         grand_total_incl_tax: $609.77
 
-row_cat_in_ship_in_on_order_details:
+row_cat_in_ship_in_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -7779,28 +7779,28 @@ row_cat_in_ship_in_on_order_details:
 #  Frontend - Calc Type - Total, Catalog Price - Including, Shipping Price - Including  #
 #                                                                                       #
 #########################################################################################
-total_cat_in_ship_in_frontend_price_in_category_simple_1:
+total_cat_in_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-total_cat_in_ship_in_frontend_price_in_category_simple_2:
+total_cat_in_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $92.38
         price_including_tax: $100.00
 
-total_cat_in_ship_in_frontend_price_in_category_simple_3:
+total_cat_in_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-total_cat_in_ship_in_frontend_price_in_shopping_cart_simple_products:
+total_cat_in_ship_in_front_prices_in_cart_simple:
     product_1:
         product_name: %noValue%
         unit_price_excl_tax: $102.64
@@ -7823,14 +7823,14 @@ total_cat_in_ship_in_frontend_price_in_shopping_cart_simple_products:
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
 
-total_cat_in_ship_in_frontend_price_in_prod_details_simple_1:
+total_cat_in_ship_in_front_prices_in_product_simple_1:
     product_name: %noValue%
     verification:
         qty: 2
         price_excluding_tax: $102.64
         price_including_tax: $111.11
 
-total_cat_in_ship_in_frontend_price_in_prod_details_simple_2:
+total_cat_in_ship_in_front_prices_in_product_simple_2:
     product_name: %noValue%
     verification:
         qty: 3
@@ -7838,14 +7838,14 @@ total_cat_in_ship_in_frontend_price_in_prod_details_simple_2:
         price_including_tax: $100.00
 
 
-total_cat_in_ship_in_frontend_price_in_prod_details_simple_3:
+total_cat_in_ship_in_front_prices_in_product_simple_3:
     product_name: %noValue%
     verification:
         qty: 5
         price_excluding_tax: $14.33
         price_including_tax: $15.51
 
-total_cat_in_ship_in_during_checkout:
+total_cat_in_ship_in_front_prices_during_checkout:
     subtotal_excl_tax: $554.06
     subtotal_incl_tax: $599.77
     shipping_excl_tax_flat_rate_fixed: $9.24
@@ -7855,7 +7855,7 @@ total_cat_in_ship_in_during_checkout:
     grand_total_incl_tax: $609.77
 
 
-total_cat_in_ship_in_checkout_data:
+total_cat_in_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
     ship_to_this_address: Yes
     shipping_data:
@@ -7894,7 +7894,7 @@ total_cat_in_ship_in_checkout_data:
         tax: $46.47
         grand_total_incl_tax: $609.77
 
-total_cat_in_ship_in_on_order_details:
+total_cat_in_ship_in_front_prices_on_order_details:
     validate_prod_data:
         product_1:
             product_name: %noValue%
@@ -7928,4 +7928,4 @@ total_cat_in_ship_in_on_order_details:
         grand_total_excl_tax: $563.30
         tax: $46.47
         grand_total_incl_tax: $609.77
-        
+
