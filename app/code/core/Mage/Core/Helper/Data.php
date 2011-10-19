@@ -39,6 +39,15 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_CACHE_BETA_TYPES             = 'global/cache/betatypes';
     const XML_PATH_CONNECTION_TYPE              = 'global/resources/default_setup/connection/type';
 
+    const CHARS_LOWERS                          = 'abcdefghijklmnopqrstuvwxyz';
+    const CHARS_UPPERS                          = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const CHARS_DIGITS                          = '0123456789';
+    const CHARS_SPECIALS                        = '!$*+-.=?@^_|~';
+    const CHARS_PASSWORD_LOWERS                 = 'abcdefghjkmnpqrstuvwxyz';
+    const CHARS_PASSWORD_UPPERS                 = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+    const CHARS_PASSWORD_DIGITS                 = '23456789';
+    const CHARS_PASSWORD_SPECIALS               = '!$*-.=?@_';
+
     /**
      * @var Mage_Core_Model_Encryption
      */
@@ -227,10 +236,10 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->getEncryptor()->validateKey($key);
     }
 
-    public function getRandomString($len, $chars=null)
+    public function getRandomString($len, $chars = null)
     {
         if (is_null($chars)) {
-            $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            $chars = self::CHARS_LOWERS . self::CHARS_UPPERS . self::CHARS_DIGITS;
         }
         mt_srand(10000000*(double)microtime());
         for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < $len; $i++) {
