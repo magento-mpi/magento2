@@ -755,7 +755,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _extractCssRelativeUrls($cssContent)
     {
-        preg_match_all('#url\([\'"]?(?!http://|https://|/)(.+?)(?:[\#\?].*?|[\'"])?\)#', $cssContent, $matches);
+        preg_match_all('#url\([\'"]?(?!http://|https://|/|data:)(.+?)(?:[\#\?].*?|[\'"])?\)#', $cssContent, $matches);
         if (!empty($matches[0]) && !empty($matches[1])) {
             return array_combine($matches[0], $matches[1]);
         }
