@@ -41,4 +41,13 @@ home:
                             my_cart: //a[@title='My Cart']
                             checkout: //a[@title='Checkout']
                             log_in: //a[@title='Log In']
+                -
+                    community_poll:
+                        xpath: //div[@class='block block-poll']
+                        pageelements:
+                          poll_title: //p[@class='block-subtitle' and contains(text(),'%pollTitle%')]
+                        buttons:
+                          vote: //button[span='Vote']
+                        radiobuttons:
+                            vote: //input[@type='radio']/following-sibling::*//label[contains(text(),'%answer%')]
         messages:
