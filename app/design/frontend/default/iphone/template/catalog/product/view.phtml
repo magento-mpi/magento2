@@ -51,15 +51,20 @@
                         <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                         <?php echo $this->getChildHtml('product_type_data') ?>
                         <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
-                        <?php if ($_product->getTypeId() != Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) :?>
-                        <fieldset class="add-to-cart-box">
-                            <?php if($_product->isSaleable()): ?>
-                                <?php echo $this->getChildHtml('addtocart') ?>
+                        <?php if (!$this->hasOptions()):?>
+                            <?php if ($_product->getTypeId() != Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) :?>
+                            <fieldset class="add-to-cart-box">
+                                <?php if($_product->isSaleable()): ?>
+                                    <?php echo $this->getChildHtml('addtocart') ?>
+                                <?php endif; ?>
+                            </fieldset>
                             <?php endif; ?>
-                        </fieldset>
                         <?php endif; ?>
                     </div>
                 </div>
+                <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                    <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                <?php endif;?>
                 <?php if (!$this->hasOptions() && $_product->getTypeId() != Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) :?>
                     <?php echo $this->getChildHtml('addto') ?>
                 <?php endif; ?>

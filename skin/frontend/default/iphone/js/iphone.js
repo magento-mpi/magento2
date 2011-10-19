@@ -92,6 +92,10 @@ document.observe("dom:loaded", function() {
         var cartGroup = new groupItems($$('section .cart-table-wrap')[0], $('remove-all'), '.product-image img', $('shopping-cart-form'));
     }
     
+    if ( $$('.cart-table-wrap')[0] ) {
+        var cartHeaderGroup = new groupItems($$('.cart-table-wrap')[0], $('remove-all'), '.product-image img', $('shopping-cart-form'));
+    }
+    
     if ( $$('.wishlist-wrap')[0] ) {
         var wishlistGroup = new groupItems($$('.wishlist-wrap')[0], $('remove-all'), 'li > a', $('wishlist-view-form'));
     }
@@ -167,7 +171,7 @@ document.observe("dom:loaded", function() {
                     diff = e.timeStamp - last
                 }
                 last = e.timeStamp;
-                if (diff && diff < 300) {
+                if (diff && diff < 200) {
                     return
                 }
                 if (!this.clonedSubmenuList.firstDescendant().hasClassName('subcategory-header')) {
@@ -185,7 +189,7 @@ document.observe("dom:loaded", function() {
                             diff = e.timeStamp - last
                         }
                         last = e.timeStamp;
-                        if (diff && diff < 300) {
+                        if (diff && diff < 200) {
                             return
                         }
                         $("nav-container").setStyle({"-webkit-transform" : "translate3d(" + (document.body.offsetWidth + sliderPosition) + "px, 0, 0)"});
@@ -264,13 +268,13 @@ document.observe("dom:loaded", function() {
             if (parent.hasClassName('active')) {
                 parent.removeClassName('active');
                 $$('#menu dd').each(function(elem) {
-                    elem.setStyle({'webkitTransform' : 'translate3d(0, -100%, -1px)', 'visibility' : 'hidden'});
+                    elem.setStyle({'webkitTransform' : 'translate3d(0, -100%, -1px)'});
                 })
             }
             else {
                 $$('#menu dt').each(function (elem){
                     elem.removeClassName('active');
-                    elem.next('dd').setStyle({'webkitTransform' : 'translate3d(0, -100%, -1px)', 'visibility' : 'hidden'});
+                    elem.next('dd').setStyle({'webkitTransform' : 'translate3d(0, -100%, -1px)'});
                 });
                 parent.addClassName('active');
                 parent.next().setStyle({'webkitTransform' : 'translate3d(0, 0, -1px)', 'visibility' : 'visible'});
@@ -279,8 +283,27 @@ document.observe("dom:loaded", function() {
                 }
             };
             e.preventDefault();
-        });  
+        });
     })
+    
+    if ( $$('.top-link-cart')[0] ) {
+        $$('.top-link-cart')[0].observe('click', function (e) {
+            if ( cartDrag ) {
+                cartDrag.cartShow();
+                $$('#menu dt.menu')[0].removeClassName('active');
+                $$('#menu dd.menu-box')[0].setStyle({'webkitTransform' : 'translate3d(0, -100%, -1px)'})
+                e.preventDefault();
+            }
+        });
+    }
+    
+    $('menu').select('dd').each(function (elem) {
+        elem.observe('webkitTransitionEnd', function (e) {
+            if ( !elem.previous().hasClassName('active') ) {
+                elem.setStyle({'visibility' : 'hidden'});
+            }
+        });
+    });
 
     //iPhone header menu switchers
     if( $$('#language-switcher li.selected a')[0] ) {
@@ -572,7 +595,10 @@ document.observe("dom:loaded", function() {
             this.cart.observe('touchend', this.touchEnd.bind(this));
             this.cartHolder.observe('webkitTransitionEnd', this.transitionEnd.bind(this));
 
-            this.cartHolder.setStyle({'webkitTransform':'translate3d(0,' + this.startMax + 'px, 0)', 'visibility':'visible'});
+            this.cartHolder.setStyle({'webkitTransform':'translate3d(0,' + this.startMax + 'px, 0)'});
+            setTimeout(function () {
+                this.cartHolder.setStyle({'visibility': 'visible'});
+            }.bind(this), 100);
             
         },
         touchStart : function (e) {
@@ -582,7 +608,7 @@ document.observe("dom:loaded", function() {
                 elem.removeClassName('active');
             });
             $$('#menu dd').each(function(elem) {
-                elem.setStyle({'webkitTransform' : 'translate3d(0, -100%, -1px)', 'visibility' : 'hidden'});
+                elem.setStyle({'webkitTransform' : 'translate3d(0, -100%, -1px)'});
             });
 
             this.originalCoord.x = event.targetTouches[0].pageX;
@@ -607,6 +633,7 @@ document.observe("dom:loaded", function() {
             this.range = (this.startMin + this.finalCoord.y - this.originalCoord.y);
             if ( (this.minHeight + this.headerHeight - this.range) < this.minHeight || Math.abs(this.finalCoord.y - this.originalCoord.y) > document.viewport.getHeight()/2 ) {
                 this.range = this.headerHeight;
+                this.cart.addClassName('active');
                 this.cartHolder.removeClassName('cart-short').addClassName('animate');
                 this.visible = true;
             }
@@ -627,15 +654,23 @@ document.observe("dom:loaded", function() {
             }
         },
         cartHide : function () {
-            this.cartHolder.setStyle({'webkitTransform':'translate3d(0,' + this.startMax + 'px, 0)'});
+            this.cart.removeClassName('active');
+            this.cartHolder.setStyle({'webkitTransform':'translate3d(0,' + this.startMax + 'px, 0)', 'top': '0px'});
             this.visible = false;
         },
         cartShow : function () {
             this.visible = true;
+            this.cart.addClassName('active');
             this.cartHolder.removeClassName('cart-short').setStyle({'webkitTransform':'translate3d(0,' + this.startMax + 'px, 0)'});
             this.cartHolder.addClassName('animate').setStyle({'webkitTransform':'translate3d(0,' + this.headerHeight + 'px, 0)'});
         },
         transitionEnd : function (e) {
+            if ( this.visible ) {
+                this.cartHolder.removeClassName('animate').setStyle({'webkitTransform': 'translate3d(0, ' + (this.headerHeight-1) + 'px, 0)', 'top': '1px'});
+                setTimeout(function () {
+                    this.cartHolder.addClassName('animate')
+                }.bind(this), 100);
+            }
         }
     });
     
