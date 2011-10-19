@@ -34,7 +34,7 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         $this->assertFileExists($skinFile);
 
         $fileParts = explode(Mage_Core_Model_Design_Package::SCOPE_SEPARATOR, $file);
-        if (count($fileParts)>1) {
+        if (count($fileParts) > 1) {
             $params['_module'] = $fileParts[0];
         }
         if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
