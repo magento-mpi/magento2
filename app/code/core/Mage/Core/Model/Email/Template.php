@@ -319,10 +319,11 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
             ->setVariables($variables);
 
         $this->_applyDesignConfig();
+        $storeId = $this->getDesignConfig()->getStore();
         try {
-            $processedResult = $processor->filter($this->getPreparedTemplateText());
-        }
-        catch (Exception $e)   {
+            $processedResult = $processor->setStoreId($storeId)
+                ->filter($this->getPreparedTemplateText());
+        } catch (Exception $e) {
             $this->_cancelDesignConfig();
             throw $e;
         }
@@ -524,8 +525,10 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         $processor->setVariables($variables);
 
         $this->_applyDesignConfig();
+        $storeId = $this->getDesignConfig()->getStore();
         try{
-            $processedResult = $processor->filter($this->getTemplateSubject());
+            $processedResult = $processor->setStoreId($storeId)
+                ->filter($this->getTemplateSubject());
         }
         catch (Exception $e) {
             $this->_cancelDesignConfig();

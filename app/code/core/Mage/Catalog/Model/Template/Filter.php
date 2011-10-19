@@ -140,6 +140,6 @@ class Mage_Catalog_Model_Template_Filter extends Varien_Filter_Template
             unset($params['url']);
         }
 
-        return Mage::app()->getStore(Mage::getDesign()->getStore())->getUrl($path, $params);
+        return Mage::app()->getStore()->getUrl($path, $params);
     }
 }

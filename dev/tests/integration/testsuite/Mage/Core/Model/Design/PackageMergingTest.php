@@ -41,9 +41,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
 
         $this->_model = new Mage_Core_Model_Design_Package();
         $this->_model->setArea('frontend')
-            ->setPackageName('package')
-            ->setTheme('default')
-            ->setSkin('theme');
+            ->setDesignTheme('package/default/theme');
 
         $pub = Mage::getBaseDir('media');
         $this->_pubMerged = "{$pub}/skin/_merged";

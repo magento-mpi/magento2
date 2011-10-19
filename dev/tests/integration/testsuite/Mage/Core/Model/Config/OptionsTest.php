@@ -90,7 +90,6 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetters()
     {
-        $this->markTestIncomplete('Should be fixed in scope of MAGETWO-517');
         $this->assertTrue(is_dir($this->_model->getAppDir()), "App directory does not exist.");
         $this->assertTrue(is_dir($this->_model->getBaseDir()), "Base directory does not exist.");
         $this->assertTrue(is_dir($this->_model->getCodeDir()), "Code directory does not exist.");
@@ -99,7 +98,6 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_dir($this->_model->getLibDir()), "Lib directory does not exist.");
         $this->assertTrue(is_dir($this->_model->getLocaleDir()), "Locale directory does not exist.");
         $this->assertTrue(is_dir($this->_model->getMediaDir()), "Media directory does not exist.");
-        $this->assertTrue(is_dir($this->_model->getSkinDir()), "Skin directory does not exist.");
         $this->assertTrue(is_dir($this->_model->getSysTmpDir()), "System temporary directory does not exist.");
         $this->assertTrue(is_dir($this->_model->getVarDir()), "Var directory does not exist.");
         $this->assertTrue(is_dir($this->_model->getTmpDir()), "Temporary directory does not exist.");

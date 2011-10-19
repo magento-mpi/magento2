@@ -21,9 +21,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        Mage::getDesign()->setArea('frontend')
-            ->setPackageName('default')
-            ->setTheme('default');
+        Mage::getDesign()->setDesignTheme('default/default/default', 'frontend');
     }
 
     protected function setUp()

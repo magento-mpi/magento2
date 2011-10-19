@@ -25,8 +25,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         Mage::getConfig()->setOptions(array(
             'design_dir' => dirname(__DIR__) . '/_files/design',
         ));
-        Mage::getDesign()->setPackageName('test')
-            ->setTheme('default');
+        Mage::getDesign()->setDesignTheme('test/default/default');
 
         /* Disable loading and saving layout cache */
         Mage::app()->getCacheInstance()->banUse('layout');

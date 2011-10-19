@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     enterprise_theme
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<view>
+    <vars module="Mage_Catalog">
+        <var name="product_small_image_sidebar_size">100</var>  <!-- Override for small product image -->
+        <var name="product_base_image_size">275</var>           <!-- Override for base product image -->
+        <var name="product_base_image_icon_size">48</var>       <!-- Base product image icon size -->
+
+        <var name="product_list_image_size">166</var>           <!-- New Product image size used in product list -->
+        <var name="product_zoom_image_size">370</var>           <!-- New Product image size used for zooming -->
+    </vars>
+    <vars module="Mage_Bundle">
+        <var name="product_summary_image_size">58</var>         <!-- New Product image size used for summary block-->
+    </vars>
+</view>

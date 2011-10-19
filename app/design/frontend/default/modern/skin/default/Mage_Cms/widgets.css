@@ -11,7 +11,7 @@
 .widget-cms-link-inline { display:inline; }
 
 .col-main .widget-cms-link { display:block; font-size:12px; text-align:right; margin:7px 0; }
-.col-main .widget-cms-link a { background:url(imagesi_widget-link.gif) 100% 3px no-repeat; padding-right:15px; }
+.col-main .widget-cms-link a { background:url(images/i_widget-link.gif) 100% 3px no-repeat; padding-right:15px; }
 
 .sidebar .widget-cms-link { display:block; margin:0 0 15px; padding:0 10px; }
 .sidebar .widget-cms-link a { background:url(images/i_widget-link.gif) 100% 3px no-repeat; padding:0 15px 0 0; }

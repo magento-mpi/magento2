@@ -63,13 +63,6 @@ class Mage_Core_Model_Design_Package
     private static $_customThemeTypeCache = array();
 
     /**
-     * Current Store for generation ofr base_dir and base_url
-     *
-     * @var string|integer|Mage_Core_Model_Store
-     */
-    protected $_store = null;
-
-    /**
      * Package area
      *
      * @var string
@@ -121,36 +114,18 @@ class Mage_Core_Model_Design_Package
     protected $_themeConfigs = array();
 
     /**
+     * List of view configuration objects per theme
+     *
+     * @var array
+     */
+    protected $_viewConfigs = array();
+
+    /**
      * Published file cache storages
      *
      * @var array
      */
     protected $_publicCache = array();
-
-    /**
-     * Set store
-     *
-     * @param  string|integer|Mage_Core_Model_Store $store
-     * @return Mage_Core_Model_Design_Package
-     */
-    public function setStore($store)
-    {
-        $this->_store = $store;
-        return $this;
-    }
-
-    /**
-     * Retrieve store
-     *
-     * @return string|integer|Mage_Core_Model_Store
-     */
-    public function getStore()
-    {
-        if ($this->_store === null) {
-            return Mage::app()->getStore();
-        }
-        return $this->_store;
-    }
 
     /**
      * Set package area
@@ -178,54 +153,16 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Set package name
-     * In case of any problem, the default will be set.
-     *
-     * @param  string $name
-     * @return Mage_Core_Model_Design_Package
-     */
-    public function setPackageName($name = '')
-    {
-        if (empty($name)) {
-            $this->_name = self::DEFAULT_PACKAGE;
-        } else {
-            $this->_name = $name;
-        }
-        // make sure not to crash, if wrong package specified
-        if (!$this->designPackageExists($this->_name, $this->getArea())) {
-            $this->_name = self::DEFAULT_PACKAGE;
-        }
-        return $this;
-    }
-
-    /**
      * Retrieve package name
      *
      * @return string
      */
     public function getPackageName()
     {
-        if (null === $this->_name) {
-            $this->setPackageName();
+        if (!$this->_name) {
+            $this->_name = self::DEFAULT_PACKAGE;
         }
         return $this->_name;
-    }
-
-    public function designPackageExists($packageName, $area = self::DEFAULT_AREA)
-    {
-        return is_dir(Mage::getBaseDir('design') . DS . $area . DS . $packageName);
-    }
-
-    /**
-     * Design theme setter
-     *
-     * @param string $theme
-     * @return Mage_Core_Model_Design_Package
-     */
-    public function setTheme($theme)
-    {
-        $this->_theme = $theme;
-        return $this;
     }
 
     /**
@@ -236,36 +173,10 @@ class Mage_Core_Model_Design_Package
     public function getTheme()
     {
         if (!$this->_theme) {
-            $this->_theme = Mage::getStoreConfig('design/theme/default', $this->getStore());
-            if (empty($this->_theme)) {
-                $this->_theme = self::DEFAULT_THEME;
-            }
-        }
-
-        // set exception value for theme, if defined in config
-        $customThemeType = $this->_checkUserAgentAgainstRegexps("design/theme/default_ua_regexp");
-        if ($customThemeType) {
-            $this->_theme = $customThemeType;
+            $this->_theme = self::DEFAULT_THEME;
         }
 
         return $this->_theme;
-    }
-
-    public function getDefaultTheme()
-    {
-        return self::DEFAULT_THEME;
-    }
-
-    /**
-     * Skin setter
-     *
-     * @param string $skin
-     * @return Mage_Core_Model_Design_Package
-     */
-    public function setSkin($skin)
-    {
-        $this->_skin = $skin;
-        return $this;
     }
 
     /**
@@ -302,9 +213,10 @@ class Mage_Core_Model_Design_Package
         if ($area) {
             $this->setArea($area);
         }
-        $this->setPackageName($package);
-        $this->setTheme($theme);
-        $this->setSkin($skin);
+
+        $this->_name = $package;
+        $this->_theme = $theme;
+        $this->_skin = $skin;
         return $this;
     }
 
@@ -326,9 +238,6 @@ class Mage_Core_Model_Design_Package
      */
     protected function _updateParamDefaults(array &$params)
     {
-        if ($this->getStore()) {
-            $params['_store'] = $this->getStore();
-        }
         if (empty($params['_area'])) {
             $params['_area'] = $this->getArea();
         }
@@ -368,17 +277,9 @@ class Mage_Core_Model_Design_Package
         // add modules to lookup
         $dirs = $themeDirs;
         if ($module) {
-            /*
             array_walk($themeDirs, function(&$dir) use ($module) {
                 $dir = "{$dir}/{$module}";
-            });*/
-            /* Legacy code that not replace lookup dirs. After migration uncomment code above and remove foreach*/
-            $dirs = array();
-            foreach ($themeDirs as $dir) {
-                $dirs[] = "{$dir}/{$module}";
-                $dirs[] = $dir;
-            }
-            $themeDirs = $dirs;
+            });
             $dirs = array_merge($themeDirs, $moduleDirs);
         }
         // look for files
@@ -417,12 +318,8 @@ class Mage_Core_Model_Design_Package
 
         do {
             $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}";
-            /* Legacy path that should be removed after all template and layout files relocation */
-            $dirs[] = "{$dir}/{$area}/{$params['_package']}/{$theme}/{$params['_module']}";
             $theme = $this->_getInheritedTheme($theme);
         } while ($theme);
-        /* Legacy path that should be removed after all template and layout files relocation */
-        $dirs[] = "{$dir}/{$area}/base/default/{$params['_module']}";
 
         $moduleDir = $module ? array(Mage::getConfig()->getModuleDir('view', $module) . "/{$area}") : array();
         Magento_Profiler::stop(__METHOD__);
@@ -558,40 +455,6 @@ class Mage_Core_Model_Design_Package
         }
 
         return $result;
-    }
-
-    /**
-     * Get regex rules from config and check user-agent against them
-     *
-     * Rules must be stored in config as a serialized array(['regexp']=>'...', ['value'] => '...')
-     * Will return false or found string.
-     *
-     * @param string $regexpsConfigPath
-     * @return mixed
-     */
-    protected function _checkUserAgentAgainstRegexps($regexpsConfigPath)
-    {
-        if (empty($_SERVER['HTTP_USER_AGENT'])) {
-            return false;
-        }
-
-        if (!empty(self::$_customThemeTypeCache[$regexpsConfigPath])) {
-            return self::$_customThemeTypeCache[$regexpsConfigPath];
-        }
-
-        $configValueSerialized = Mage::getStoreConfig($regexpsConfigPath, $this->getStore());
-
-        if (!$configValueSerialized) {
-            return false;
-        }
-
-        $regexps = @unserialize($configValueSerialized);
-
-        if (empty($regexps)) {
-            return false;
-        }
-
-        return self::getPackageByUserAgent($regexps, $regexpsConfigPath);
     }
 
     /**
@@ -1369,4 +1232,27 @@ class Mage_Core_Model_Design_Package
         return false;
     }
 
+    /**
+     * Render view config object for current package and theme
+     *
+     * @return Magento_Config_View
+     */
+    public function getViewConfig()
+    {
+        $key = "{$this->_name}/{$this->_theme}";
+        if (isset($this->_viewConfigs[$key])) {
+            return $this->_viewConfigs[$key];
+        }
+
+        $files = Mage::getConfig()->getModuleConfigurationFiles('view.xml');
+        $themeFile = $this->getFilename('view.xml', array());
+        if (file_exists($themeFile)) {
+            $files[] = $themeFile;
+        }
+
+        /** @var Magento_Config_View $config */
+        $config = new Magento_Config_View($files);
+        $this->_viewConfigs[$key] = $config;
+        return $config;
+    }
 }

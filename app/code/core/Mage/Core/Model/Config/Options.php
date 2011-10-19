@@ -182,16 +182,6 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     }
 
     /**
-     * Skins folder paths getter
-     *
-     * @return string
-     */
-    public function getSkinDir()
-    {
-        return $this->_data['skin_dir'];
-    }
-
-    /**
      * System temporary folder paths getter
      *
      * @return string

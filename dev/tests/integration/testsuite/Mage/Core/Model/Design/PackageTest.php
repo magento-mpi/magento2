@@ -49,10 +49,51 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new Mage_Core_Model_Design_Package();
-        $this->_model->setArea('frontend')
-            ->setPackageName('test')
-            ->setTheme('default')
-            ->setSkin('default');
+        $this->_model->setDesignTheme('test/default/default', 'frontend');
+    }
+
+    public function testSetGetArea()
+    {
+        $this->assertEquals(Mage_Core_Model_Design_Package::DEFAULT_AREA, $this->_model->getArea());
+        $this->_model->setArea('test');
+        $this->assertEquals('test', $this->_model->getArea());
+    }
+
+    public function testGetPackageName()
+    {
+        $this->assertEquals('test', $this->_model->getPackageName());
+    }
+
+    public function testGetTheme()
+    {
+        $this->assertEquals('default', $this->_model->getTheme());
+    }
+
+    public function testGetSkin()
+    {
+        $this->assertEquals('default', $this->_model->getSkin());
+    }
+
+    public function testSetDesignTheme()
+    {
+        $this->_model->setDesignTheme('test/test/test', 'test');
+        $this->assertEquals('test', $this->_model->getArea());
+        $this->assertEquals('test', $this->_model->getPackageName());
+        $this->assertEquals('test', $this->_model->getSkin());
+        $this->assertEquals('test', $this->_model->getSkin());
+    }
+
+    /**
+     * @expectedException Mage_Core_Exception
+     */
+    public function testSetDesignThemeException()
+    {
+        $this->_model->setDesignTheme('test/test');
+    }
+
+    public function testGetDesignTheme()
+    {
+        $this->assertEquals('test/default/default', $this->_model->getDesignTheme());
     }
 
     /**
@@ -372,13 +413,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     public function testMaterializeCssFileFromModule(
         $cssSkinFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
     ) {
-        $this->markTestIncomplete('MAGETWO-520: test requires modular skins');
-        Magento_Test_Bootstrap::getInstance()->cleanupDir('skin_dir');
-        $baseDir = Mage::getBaseDir('skin');
+        $baseDir = Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'skin' . DIRECTORY_SEPARATOR;
 
         $this->_model->getSkinUrl($cssSkinFile, $designParams);
 
-        $expectedCssFile = $baseDir . '/' . $expectedCssFile;
+        $expectedCssFile = $baseDir . $expectedCssFile;
         $this->assertFileExists($expectedCssFile);
         $actualCssContent = file_get_contents($expectedCssFile);
 
@@ -396,7 +435,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             $expectedFile = $baseDir . '/' . $expectedFile;
             $this->assertFileExists($expectedFile);
         }
-
     }
 
     public function materializeCssFileFromModuleDataProvider()
@@ -412,10 +450,10 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 ),
                 'frontend/default/default/default/en_US/Mage_Reports/widgets.css',
                 array(
-                    'url(../Mage_Catalog/images/widgets/i_block-list.gif)',
+                    'url(../Mage_Catalog/images/i_block-list.gif)',
                 ),
                 array(
-                    'frontend/default/default/default/en_US/Mage_Catalog/images/widgets/i_block-list.gif',
+                    'frontend/default/default/default/en_US/Mage_Catalog/images/i_block-list.gif',
                 ),
             ),
             'adminhtml' => array(
@@ -461,7 +499,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetOptimalCssUrlsMerged($files, $expectedFiles)
     {
-        $this->markTestIncomplete('Should be fixed in scope of MAGETWO-517');
         $this->assertEquals($expectedFiles, $this->_model->getOptimalCssUrls($files));
     }
 
@@ -471,9 +508,9 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             array(
                 array(
                     'css/styles.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,
-                    'calendar/calendar-blue.css ' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
+                    'calendar/calendar-blue.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_LIB,
                 ),
-                array('http://localhost/media/skin/_merged/3bb83a02eeb7603f09ca0f886ef951f4.css')
+                array('http://localhost/media/skin/_merged/5594035976651f0a40d65ed577700fb5.css')
             ),
             array(
                 array('css/styles.css' => Mage_Core_Model_Design_Package::STATIC_TYPE_SKIN,),
@@ -557,5 +594,12 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_model->isThemeCompatible('frontend', 'package', 'custom_theme', '1.0.0.0'));
         $this->assertTrue($this->_model->isThemeCompatible('frontend', 'package', 'custom_theme', '2.0.0.0'));
+    }
+
+    public function testGetViewConfig()
+    {
+        $config = $this->_model->getViewConfig();
+        $this->assertInstanceOf('Magento_Config_View', $config);
+        $this->assertEquals(array('var1' => 'value1', 'var2' => 'value2'), $config->getVars('Namespace_Module'));
     }
 }

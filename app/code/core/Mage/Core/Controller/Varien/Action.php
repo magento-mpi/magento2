@@ -506,8 +506,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
         Mage::app()->loadArea($this->getLayout()->getArea());
         $areaDesign = $this->_areaDesign ?: Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME);
-        $design = Mage::getDesign()->setArea($this->getLayout()->getArea());
-        $design->setDesignTheme($areaDesign);
+        $design = Mage::getDesign()->setDesignTheme($areaDesign, $this->getLayout()->getArea());
 
         if ($this->_currentArea == Mage_Core_Model_App_Area::AREA_FRONTEND) {
             if (!$this->_applyUserAgentDesignException($design)) {
