@@ -109,4 +109,4 @@ Accordion.prototype = {
             this.closeSection(this.currentSection);
         }
     }
-}
+};
