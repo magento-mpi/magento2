@@ -1057,4 +1057,4 @@ AdminOrder.prototype = {
             left: parentPos[0] + 'px'
         });
     }
-}
+};

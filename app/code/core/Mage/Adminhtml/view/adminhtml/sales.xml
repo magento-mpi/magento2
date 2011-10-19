@@ -74,8 +74,8 @@
 
     <adminhtml_sales_order_view>
         <reference name="head">
-            <action method="addJs"><file>mage/adminhtml/giftmessage.js</file></action>
-            <action method="addJs"><file>mage/adminhtml/giftoptions/tooltip.js</file></action>
+            <action method="addItem"><type>skin_js</type><file>Mage_Adminhtml::sales/order/create/giftmessage.js</file></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::sales/order/giftoptions_tooltip.js</name></action>
         </reference>
         <reference name="content">
             <block type="adminhtml/sales_order_view" name="sales_order_edit"></block>
@@ -290,7 +290,7 @@
 
     <adminhtml_sales_order_shipment_new>
         <reference name="head">
-            <action method="addJs"><file>mage/adminhtml/sales/packaging.js</file></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::sales/order/shipment/packaging.js</name></action>
         </reference>
         <reference name="content">
             <block type="adminhtml/sales_order_shipment_create" name="sales_shipment_create">
@@ -326,7 +326,7 @@
 
     <adminhtml_sales_order_shipment_view>
         <reference name="head">
-            <action method="addJs"><file>mage/adminhtml/sales/packaging.js</file></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::sales/order/shipment/packaging.js</name></action>
         </reference>
         <reference name="content">
             <block type="adminhtml/sales_order_shipment_view" name="sales_shipment_view">
@@ -508,11 +508,11 @@
             <action method="setIsCollapsed"><value>true</value></action>
         </reference>
         <reference name="head">
-            <action method="addJs"><file>mage/adminhtml/sales.js</file></action>
-            <action method="addJs"><file>mage/adminhtml/giftmessage.js</file></action>
-            <action method="addJs"><file>mage/adminhtml/product/composite/configure.js</file></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::sales/order/create/scripts.js</name></action>
+            <action method="addItem"><type>skin_js</type><file>Mage_Adminhtml::sales/order/create/giftmessage.js</file></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::catalog/product/composite/configure.js</name></action>
             <action method="addJs"><file>varien/configurable.js</file></action>
-            <action method="addJs"><file>mage/adminhtml/giftoptions/tooltip.js</file></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::sales/order/giftoptions_tooltip.js</name></action>
             <block type="adminhtml/template" name="optional_zip_countries" as="optional_zip_countries" template="Mage_Directory::js/optional_zip_countries.phtml" />
         </reference>
         <reference name="js">

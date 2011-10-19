@@ -72,7 +72,7 @@
     <adminhtml_mobile_edittemplate>
          <reference name="head">
             <action method="setCanLoadExtJs"><flag>1</flag></action>
-            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Mage_Adminhtml::variables.js</name></action>
             <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
             <action method="addJs"><script>lib/flex.js</script></action>
             <action method="addJs"><script>lib/FABridge.js</script></action>

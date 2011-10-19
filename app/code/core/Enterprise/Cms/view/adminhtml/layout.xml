@@ -45,7 +45,7 @@
 -->
     <adminhtml_cms_page_edit_changes>
         <reference name="head">
-            <action method="addJs"><script>enterprise/adminhtml/cms.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Enterprise_Cms::cms.js</name></action>
         </reference>
         <reference name="cms_page_edit_tabs">
             <action method="removeTab"><name>content_section</name></action>
@@ -71,7 +71,7 @@
     <adminhtml_cms_page_revision_edit>
         <update handle="editor"/>
         <reference name="head">
-            <action method="addJs"><script>enterprise/adminhtml/cms.js</script></action>
+            <action method="addItem"><type>skin_js</type><name>Enterprise_Cms::cms.js</name></action>
         </reference>
         <reference name="content">
             <block type="enterprise_cms/adminhtml_cms_page_revision_edit" name="cms_page_revision_edit">
