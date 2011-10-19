@@ -75,6 +75,16 @@ category_page:
                 -
                     recently_viewed:
                         xpath: //div[@class[contains(.,'block-viewed')]]
+                        
+                -
+                    community_poll:
+                        xpath: //div[@class='block block-poll']
+                        pageelements:
+                          poll_title: //p[@class='block-subtitle' and contains(text(),'%pollTitle%')]
+                        buttons:
+                          vote: //button[span='Vote']
+                        radiobuttons:
+                            vote: //li[span/label='%answer%']/input
 
 category_page_index:
     mca: %categoryUrl%.html%param%

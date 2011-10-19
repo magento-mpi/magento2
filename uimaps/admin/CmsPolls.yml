@@ -97,7 +97,7 @@ new_poll:
                                         answer_title: //input[@id='answer_%answerId%']
                                         votes_count: //input[@id='answer_votes_%answerId%']
                                     buttons:
-                                        delete: //button[span='Delete']
+                                        delete: //div[@id='poll_answer_fieldset_%answerId%']//button[span='Delete']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

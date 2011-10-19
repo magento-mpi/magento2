@@ -49,5 +49,5 @@ home:
                         buttons:
                           vote: //button[span='Vote']
                         radiobuttons:
-                            vote: //input[@type='radio']/following-sibling::*//label[contains(text(),'%answer%')]
+                            vote: //li[span/label='%answer%']/input
         messages:
