@@ -26,7 +26,8 @@
  */
 
 class Mage_Wishlist_Block_AbstractTestAbstract extends Mage_Wishlist_Block_Abstract
-{}
+{
+}
 
 class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
 {

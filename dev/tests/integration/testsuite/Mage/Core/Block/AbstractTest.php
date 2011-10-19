@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Block_AbstractTestAbstract extends Mage_Core_Block_Abstract {}
+class Mage_Core_Block_AbstractTestAbstract extends Mage_Core_Block_Abstract
+{
+}
 
 /**
  * @group module:Mage_Core
@@ -440,8 +442,8 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testJsQuoteEscape()
     {
-        $js = "var s = 'text';";
-        $this->assertEquals('var s = \\\'text\\\';', $this->_block->jsQuoteEscape($js));
+        $script = "var s = 'text';";
+        $this->assertEquals('var s = \\\'text\\\';', $this->_block->jsQuoteEscape($script));
     }
 
     public function testCountChildren()

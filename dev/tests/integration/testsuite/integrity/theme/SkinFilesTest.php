@@ -91,13 +91,9 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
                 . DIRECTORY_SEPARATOR . $theme;
             $dirLength = strlen($searchDir);
             foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($searchDir)) as $fileInfo) {
-                if (!$fileInfo->isFile() || !preg_match('/\.phtml$/', $fileInfo->getFilename())) {
-                    continue;
-                }
-
-                // Check that file path includes only enabled modules
+                // Check that file path is valid
                 $relativePath = substr($fileInfo->getPath(), $dirLength);
-                if ($this->_isPathForDisabledModule($relativePath)) {
+                if (!$this->_validateTemplatePath($relativePath)) {
                     continue;
                 }
 
@@ -140,8 +136,11 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
      * @param string $relativePath
      * @return bool
      */
-    protected function _isPathForDisabledModule($relativePath)
+    protected function _validateTemplatePath($relativePath)
     {
+        if (!preg_match('/\.phtml$/', $relativePath)) {
+            return false;
+        }
         $relativePath = trim($relativePath, '/\\');
         $parts = explode(DIRECTORY_SEPARATOR, $relativePath);
         $enabledModules = $this->_getEnabledModules();
@@ -150,10 +149,10 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
                 continue;
             }
             if (!isset($enabledModules[$part])) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
