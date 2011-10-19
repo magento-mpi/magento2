@@ -161,6 +161,26 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Facebook Api Remove Session
+     *
+     * @return Social_Facebook_Model_Facebook
+     */
+    public function removeSessionApi()
+    {
+        Mage::getSingleton('core/session')
+            ->unsetData('product_url')
+            ->unsetData('facebook_action')
+            ->unsetData('product_og_url')
+            ->unsetData('access_token')
+            ->unsetData('facebook_id')
+        ;
+
+        $this->_accessToken = false;
+
+        return $this;
+    }
+
+    /**
      * Get Access Token
      *
      * @return mixed
@@ -291,5 +311,4 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
 
         return $user;
     }
-
 }

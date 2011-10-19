@@ -28,7 +28,7 @@ class Social_Facebook_Block_Head extends Mage_Core_Block_Template
     protected function _construct()
     {
         $helper = Mage::helper('social_facebook');
-        if ($helper->isEnabled()) {
+        if (!$helper->isEnabled()) {
             return;
         }
         parent::_construct();
