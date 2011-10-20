@@ -58,7 +58,7 @@ create_cms_widget:
     mca: widget_instance/new/
     title: New Instance / Widgets / CMS / Magento Admin
     uimap:
-        form: &createWidget
+        form:
             tabs:
                 -
                     settings:
@@ -72,6 +72,18 @@ create_cms_widget:
                                         design_package_theme: //select[@name='package_theme']
                                     buttons:
                                         continue: //button[span='Continue']
+
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+
+
+add_widget_options:
+    mca: widget_instance/edit/type/%type%/package/%package%/theme/%theme%/
+    title: New Instance / Widgets / CMS / Magento Admin
+    uimap:
+        form: &addWidgetOptions
+            tabs:
                 -
                     frontend_properties:
                         xpath: //a[@title='Frontend Properties']
@@ -192,28 +204,25 @@ create_cms_widget:
                                     links:
                                         root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-        buttons: &widgetButtons
+        buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save: //button[span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-            delete: //button[span='Delete']
-        messages: &widgetMessages
+        messages:
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-            confirmation_for_delete: Are you sure you want to do this?
+
 
 edit_cms_widget:
     mca: widget_instance/edit/instance_id/%id%/
     title: %widgetName% / Widgets / CMS / Magento Admin
     uimap:
-        form: *createWidget
-        buttons: *widgetButtons
-        messages: *widgetMessages
-
-add_widget_options:
-    mca: widget_instance/edit/type/%type%/package/%package%/theme/%theme%/
-    title: New Instance / Widgets / CMS / Magento Admin
-    uimap:
-        form: *createWidget
-        buttons: *widgetButtons
-        messages: *widgetMessages
+        form: *addWidgetOptions
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save: //button[span='Save']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+            delete: //button[span='Delete']
+        messages:
+            confirmation_for_delete: Are you sure you want to do this?
