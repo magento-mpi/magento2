@@ -940,7 +940,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
         $method = 'find' . ucfirst(strtolower($controlType));
 
-        $xpath = $uipage->$method($controlName);
+        try {
+            $xpath = $uipage->$method($controlName);
+        } catch (Exception $e) {
+            $errorMessage = 'Current location url: ' . $this->getLocation() . "\n"
+                    . 'Current page "' . $this->_findCurrentPageFromUrl($this->getLocation()) . '": '
+                    . $e->getMessage() . ' - "' . $controlName . '"';
+            $this->fail($errorMessage);
+        }
 
         if (is_object($xpath) && method_exists($xpath, 'getXPath')) {
             $xpath = $xpath->getXPath();
