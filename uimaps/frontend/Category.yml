@@ -75,7 +75,6 @@ category_page:
                 -
                     recently_viewed:
                         xpath: //div[@class[contains(.,'block-viewed')]]
-                        
                 -
                     community_poll:
                         xpath: //div[@class='block block-poll']
