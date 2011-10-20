@@ -72,6 +72,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
             $tax->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
+                //<![CDATA[
                 function changeTaxClassId() {
                     if ($('price_type').value == '" . Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC . "') {
                         $('tax_class_id').disabled = true;
@@ -86,10 +87,13 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
                     }
                 }
 
-                if ($('price_type')) {
-                    $('price_type').observe('change', changeTaxClassId);
-                    changeTaxClassId();
-                }
+                document.observe('dom:loaded', function() {
+                    if ($('price_type')) {
+                        $('price_type').observe('change', changeTaxClassId);
+                        changeTaxClassId();
+                    }
+                });
+                //]]>
                 "
                 . '</script>'
             );
