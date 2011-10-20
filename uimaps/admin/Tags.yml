@@ -1,0 +1,171 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# All Tags page
+all_tags:
+    mca: tag/
+    click_xpath: //div[@class='nav-bar']//a[span='All Tags']
+    title: All Tags / Tags / Catalog / Magento Admin
+    uimap:
+        form: &searchTagsGrid
+            fieldsets:
+                -
+                    tags_grid:
+                        xpath: //div[@id='tag_tag_grid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                            submit: //button[span='Submit']
+                        dropdowns:
+                            tags_massaction: //select[@id='tag_tag_grid_massaction-select']
+                            filter_massaction: //select[@name='massaction']
+                            tags_status: //select[@name='status']
+                        fields:
+                            tag_name: //input[@name='name']
+                            product_price_from: //input[@name='products[from]']
+                            product_price_to: //input[@name='products[to]']
+                            product_qty_from: //input[@name='customers[from]']
+                            product_qty_to: //input[@name='customers[to]']
+        buttons:
+            add_new_tag: //button[span='Add New Tag']
+        messages: &tagsMesssages
+            success_created_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been created.')]
+            success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been deleted.')]
+            success_changed_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been updated.')]
+
+# New Tag page
+new_tag:
+    mca: tag/edit/store/%storeId%
+    click_xpath: //div[@class='nav-bar']//a[span='All Tags']
+    title: New Tag / Tags / Catalog / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    general_info:
+                        xpath: //form[@id='edit_form']
+                        dropdowns:
+                            tag_status: //select[@name='tag_status']
+                        fields:
+                            tag_name: //input[@name='name']
+                            base_popularity: //input[@id='base_popularity']
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_tag: //button[span='Save Tag']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *tagsMesssages
+
+# Edit Tag Page
+edit_tag:
+    mca: tag/edit/store/%storeId%/tag_id/%tagId%
+    title: %tagName% / Tags / Catalog / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    general_info:
+                        xpath: //div[@class='entry-edit']
+                        dropdowns:
+                            general_tag_status: //select[@name='tag_status']
+                        fields:
+                            general_tag_name: //input[@name='name']
+                            general_base_popularity: //input[@id='base_popularity']
+                -
+                    products_tagged_by_admins:
+                        xpath: //dl[@id='tag_assigned_grid']
+                        buttons:
+                            prod_tag_admin_reset_filter: //dl[@id='tag_assigned_grid']//button[span='Reset Filter']
+                            prod_tag_admin_search: //dl[@id='tag_assigned_grid']//button[span='Search']
+                        dropdowns:
+                            prod_tag_admin_tags_massaction: //select[@id='tag_assigned_product_grid_filter_in_products']
+                            prod_tag_admin_type: //select[@id='tag_assigned_product_grid_filter_type']
+                            prod_tag_admin_attribute_set_name: //select[@id='tag_assigned_product_grid_filter_set_name']
+                            prod_tag_admin_price_in: //select[@id='tag_assigned_product_grid_filter_price_currency']
+                            prod_tag_admin_visibility: //select[@id='tag_assigned_product_grid_filter_visibility']
+                            prod_tag_admin_status: //select[@id='tag_assigned_product_grid_filter_status']
+                        fields:
+                            prod_tag_admin_id_from: //input[@id='tag_assigned_product_grid_filter_entity_id_from']
+                            prod_tag_admin_id_to: //input[@id='tag_assigned_product_grid_filter_entity_id_to']
+                            prod_tag_admin_name: //input[@id='tag_assigned_product_grid_filter_name']
+                            prod_tag_admin_name_in_default_sore_view: //input[@id='tag_assigned_product_grid_filter_custom_name']
+                            prod_tag_admin_sku: //input[@id='tag_assigned_product_grid_filter_sku']
+                            prod_tag_admin_price_from: //input[@id='tag_assigned_product_grid_filter_price_from']
+                            prod_tag_admin_price_to: //input[@id='tag_assigned_product_grid_filter_entity_id_to']
+                -
+                    customers_submitted_tags:
+                        xpath: //dd[@id='dd-tag_customer']
+                        buttons:
+                            customers_submit_tag_reset_filter: //dd[@id='dd-tag_customer']//button[span='Reset Filter']
+                            customers_submit_tag_search: //dd[@id='dd-tag_customer']//button[span='Search']
+                        fields:
+                            customers_submit_tag_id: //input[@name='customer_id']
+                            customers_submit_tag_first_name: //input[@name='firstname']
+                            customers_submit_tag_last_name: //input[@name='lastname']
+                -
+                    products_tagged_by_customers:
+                        xpath: //dd[@id='dd-tag_product']
+                        buttons:
+                            prod_tag_customer_reset_filter: //dd[@id='dd-tag_product']//button[span='Reset Filter']
+                            prod_tag_customer_search: //dd[@id='dd-tag_product']//button[span='Search']
+                        fields:
+                            prod_tag_customer_id: //input[@name='product_id']
+                            prod_tag_customer_product_name: //dd[@id='dd-tag_product']//input[@name='name']
+                            prod_tag_customer_number_of_users_from: //input[@name='popularity[from]']
+                            prod_tag_customer_number_of_users_to: //input[@name='popularity[to]']
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            delete_tag: //button[span='Delete Tag']
+            save_tag: //button[span='Save Tag']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *tagsMesssages
+
+# Pending Tags page
+pending_tags:
+    mca: tag/pending
+    click_xpath: //div[@class='nav-bar']//a[span='Pending Tags']
+    title: Pending Tags / Tags / Catalog / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    pending_tags_grid:
+                        xpath: //div[@id='pending_grid']
+                        buttons:
+                            pending_reset_filter: //button[span='Reset Filter']
+                            pending_search: //button[span='Search']
+                            pending_submit: //button[span='Submit']
+                        dropdowns:
+                            pending_actions: //select[@id='pending_grid_massaction-select']
+                            pending_select_massaction: //select[@id='pending_grid_filter_massaction']
+                        fields:
+                            pending_tag_name: //input[@id='pending_grid_filter_name']
+                            pending_products_from: //input[@id='pending_grid_filter_products_from']
+                            pending_products_to: //input[@id='pending_grid_filter_products_to']
+                            pending_customers_from: //input[@id='pending_grid_filter_customers_from']
+                            pending_customers_to: //input[@id='pending_grid_filter_customers_to']
