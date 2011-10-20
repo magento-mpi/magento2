@@ -319,13 +319,17 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'shopping_cart') {
             $this->frontend('shopping_cart');
         }
-        $removeItemXpath = $this->_getControlXpath('link', 'remove_item');
-        while ($this->isElementPresent($removeItemXpath)) {
-            $this->clickAndWait($removeItemXpath);
-            if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'shopping_cart') {
-                $this->frontend('shopping_cart');
+        $productLine = $this->_getControlXpath('pageelement', 'product_line');
+        if ($this->isElementPresent($productLine)) {
+            echo "da\n";
+            $productCount = $this->getXpathCount($productLine);
+            for ($i = 1; $i <= $productCount; $i++) {
+                $this->addParameter('productXpath', $productLine . "[$i]");
+                $this->type($this->_getControlXpath('field', 'product_qty'), 0);
             }
+            $this->clickButton('update_shopping_cart');
         }
+        $this->assertTrue($this->successMessage('shopping_cart_is_empty'), 'Shopping cart is not empty');
     }
 
 }
