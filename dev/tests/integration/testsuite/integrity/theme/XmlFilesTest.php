@@ -15,6 +15,27 @@
 class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @param string $file
+     * @dataProvider viewConfigFileDataProvider
+     */
+    public function testViewConfigFile($file)
+    {
+        $this->_validateConfigFile($file, Mage::getBaseDir('lib') . '/Magento/Config/view.xsd');
+    }
+
+    /**
+     * @return array
+     */
+    public function viewConfigFileDataProvider()
+    {
+        $result = array();
+        foreach (glob(Mage::getRoot() . '/design/*/*/*/view.xml') as $file) {
+            $result[] = array($file);
+        }
+        return $result;
+    }
+
+    /**
      * @param string $themeDir
      * @dataProvider themeConfigFileExistsDataProvider
      */

@@ -35,7 +35,7 @@ class Magento_Config_XsdTest extends PHPUnit_Framework_TestCase
     public function invalidXmlFileDataProvider()
     {
         return array(
-//            array('view.xsd', 'view_invalid.xml', 2),
+            array('view.xsd', 'view_invalid.xml', 2),
             array('theme.xsd', 'theme_invalid.xml', 2),
         );
     }
