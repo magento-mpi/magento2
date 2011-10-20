@@ -52,8 +52,8 @@ manage_static_blocks:
         buttons:
             add_new_block: //button[span='Add New Block']
         messages: &staticBlockMessages
-             success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'The block has been saved.')]
-             success_deleted_product: //li[normalize-space(@class)='success-msg' and contains(.,'The block has been deleted.')]
+             success_saved_block: //li[normalize-space(@class)='success-msg' and contains(.,'The block has been saved.')]
+             success_deleted_block: //li[normalize-space(@class)='success-msg' and contains(.,'The block has been deleted.')]
              no_records_found: //td[normalize-space(@class)='empty-text a-center' and text()='No records found.']
              confirmation_for_delete: Are you sure you want to do this?
              specify_title: "//div[@id='advice-required-entry-block_title' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]"
@@ -82,8 +82,107 @@ edit_static_block:
                         fields:
                             block_title: //input[@name='title']
                             block_identifier: //input[@name='identifier']
-                            editor: //iframe[@id='block_content_ifr']
                             text_editor: "//textarea[@name='content' and not(@style='display: none;')]"
+                -
+#                   TODO: add elements if needed
+                    wysiwyg_editor_buttons:
+                        xpath: //span[@id='block_content_parent']
+                        links:
+                            wysiwyg_insert_widget: //a[@id='block_content_magentowidget']
+
+                -
+#                   TODO: add elements if needed
+                    wysiwyg_editor_content:
+                        xpath: //iframe[@id='block_content_ifr']
+
+                -
+                    widget_insertion:
+                        xpath: //div[@id='widget_window']
+                        dropdowns:
+                            widget_type: //select[@name='widget_type']
+                            template: //select[@name='parameters[template]']
+                        fields:
+                            anchor_custom_text: //input[@name='parameters[anchor_text]']
+                            anchor_custom_title: //input[@name='parameters[title]']
+                            number_of_products_to_display: //input[@name='parameters[products_count]']
+                            number_of_products_to_display_compared_and_viewed: //input[@name='parameters[page_size]']
+                            cache_lifetime: //input[@name='parameters[cache_lifetime]']
+                        buttons:
+                            insert_widget: //button[span='Insert Widget']
+                            select_page: //button[span='Select Page...']
+                            select_block: //button[span='Select Block...']
+                            select_category: //button[span='Select Category...']
+                        pageelements:
+                            chosen_option: //label[@class='widget-option-label' and normalize-space(text()='%elementName%')]
+                -
+                    select_page:
+                        xpath: //div[@id='widget-chooser' and //div[text()='Select Page...']]
+                        fields:
+                            page: //input[@name='page']
+                            filter_id: //input[@name='chooser_id']
+                            filter_title: //input[@name='chooser_title']
+                            filter_url_key: //input[@name='chooser_identifier']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            filter_layout: //select[@name='chooser_root_template']
+                            filter_status: //select[@name='chooser_is_active']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                -
+                    select_block:
+                        xpath: //div[@id='widget-chooser' and //div[text()='Select Block...']]
+                        fields:
+                            page: //input[@name='page']
+                            filter_id: //input[@name='chooser_id']
+                            filter_title: //input[@name='chooser_title']
+                            filter_identifier: //input[@name='chooser_identifier']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            filter_status: //select[@name='chooser_is_active']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                -
+                    select_category:
+                        xpath: //div[@id='widget-chooser' and //div[text()='Select Category...']]
+                        links:
+                            root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                            sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                -
+                    select_product:
+                        xpath: //div[@id='widget-chooser' and //div[text()='Select Product...']]
+                        fields:
+                            page: //input[@name='page']
+                            filter_id: //input[@name='entity_id']
+                            filter_sku: //input[@name='chooser_sku']
+                            filter_product_name: //input[@name='chooser_name']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        links:
+                            root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                            sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                -
+                    file_insertion:
+                        xpath: //div[@id='browser_window' and //div[text()='Insert File...']]
+                        buttons:
+                            browse_files: #TODO flash
+                            template: #TODO flash
+                            create_folder: //button[span='Create Folder...']
+                        links:
+                            collapse_all: //a[text()='Collapse All']
+                            expand_all: //a[text()='Expand All']
+                            root_storage: //li[contains(div/a/span,'%rootName%')]
+                            sub_storage: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                -
+                    variable_insertion:
+                        xpath: //div[@id='variables-chooser' and //div[text()='Insert Variable...']]
+                        links:
+                            variable: //a[text()='%variableName%']
+
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

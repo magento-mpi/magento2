@@ -1,0 +1,80 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    tests
+ * @package     selenium
+ * @subpackage  tests
+ * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Attribute Set creation tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+class CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase {
+
+    /**
+     * <p>Log in to Backend.</p>
+     */
+    public function setUpBeforeTests() {
+        $this->loginAdminUser();
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     * <p>Navigate to CMS -> Static Blocks</p>
+     */
+    protected function assertPreConditions() {
+        $this->navigate('manage_static_blocks');
+        $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
+    }
+
+    /**
+     * <p>Delete a static block</p>
+     * <p>Steps:</p>
+     * <p>1. Create a new block</p>
+     * <p>2. Open the block</p>
+     * <p>3. Delete the block</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the block has been deleted.</p>
+     *
+     * @test
+     */
+    public function deleteNew() {
+        //Data
+        $setData = $this->loadData('static_block', null, array('block_title', 'block_identifier'));
+        //Steps
+        $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
+        //Verify
+        $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
+        //Steps
+        $this->cmsStaticBlocksHelper()->openStaticBlock($setData);
+        $this->cmsStaticBlocksHelper()->deleteStaticBlock();
+        //Verify
+        $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
+        $this->assertTrue($this->successMessage('success_deleted_block'), $this->messages);
+    }
+
+}
