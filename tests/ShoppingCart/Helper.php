@@ -322,6 +322,9 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         $removeItemXpath = $this->_getControlXpath('link', 'remove_item');
         while ($this->isElementPresent($removeItemXpath)) {
             $this->clickAndWait($removeItemXpath);
+            if ($this->_findCurrentPageFromUrl($this->getLocation()) != 'shopping_cart') {
+                $this->frontend('shopping_cart');
+            }
         }
     }
 
