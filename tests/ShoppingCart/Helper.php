@@ -321,7 +321,6 @@ class ShoppingCart_Helper extends Mage_Selenium_TestCase
         }
         $productLine = $this->_getControlXpath('pageelement', 'product_line');
         if ($this->isElementPresent($productLine)) {
-            echo "da\n";
             $productCount = $this->getXpathCount($productLine);
             for ($i = 1; $i <= $productCount; $i++) {
                 $this->addParameter('productXpath', $productLine . "[$i]");
