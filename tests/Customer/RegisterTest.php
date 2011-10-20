@@ -132,7 +132,7 @@ class Customer_RegisterTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_registration'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('customer_account'), $this->messages);
         //Steps
-        $this->clickControl('tab', 'account_information');
+        $this->navigate('edit_account_info');
         //Verifying
         $this->assertTrue($this->verifyForm($userData, null, array('password', 'password_confirmation')),
                 $this->messages);
