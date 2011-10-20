@@ -58,9 +58,6 @@ manage_cms_pages:
                 successfully_saved_page: //li[normalize-space(@class)='success-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
                 successfully_deleted_page: //li[normalize-space(@class)='success-msg' and contains(.,'The page has been deleted.')]
 
-
-
-
 create_cms_page:
     mca: cms_page/new/
     title: New Page / Manage Content / Pages / CMS / Magento Admin
@@ -231,11 +228,8 @@ create_cms_page:
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
-
 edit_cms_page:
     mca: cms_page/edit/page_id/%id%/
     title: %pageName% / Manage Content / Pages / CMS / Magento Admin
     uimap:
         form: *createPage
-
-
