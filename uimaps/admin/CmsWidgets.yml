@@ -209,3 +209,11 @@ edit_cms_widget:
         form: *createWidget
         buttons: *widgetButtons
         messages: *widgetMessages
+
+add_widget_options:
+    mca: widget_instance/edit/type/%type%/package/%package%/theme/%theme%/
+    title: New Instance / Widgets / CMS / Magento Admin
+    uimap:
+        form: *createWidget
+        buttons: *widgetButtons
+        messages: *widgetMessages
