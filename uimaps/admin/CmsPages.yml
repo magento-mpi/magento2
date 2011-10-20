@@ -218,12 +218,13 @@ create_cms_page:
                                     fields:
                                         keywords: //textarea[@name='meta_keywords']
                                         description: //textarea[@name='meta_description']
-        buttons:
+        buttons: &pageButtons
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_page: //button[span='Save Page']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages:
+            delete_page: //button[span='Delete Page']
+        messages: &pageMessages
             invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
@@ -233,3 +234,5 @@ edit_cms_page:
     title: %pageName% / Manage Content / Pages / CMS / Magento Admin
     uimap:
         form: *createPage
+        buttons: *pageButtons
+        messages: *pageMessages
