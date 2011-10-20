@@ -54,10 +54,11 @@ poll_manager:
         buttons:
             add_new_poll: //button[span='Add New Poll']
         messages: &pollMesssages
-            success_saved_poll: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been saved.')]
+            success_saved_poll: //li[normalize-space(@class)='success-msg' and contains(.,'The poll has been saved.')]
             success_deleted_poll: //li[normalize-space(@class)='success-msg' and contains(.,'The poll has been deleted.')]
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             existing_poll: //li[normalize-space(@class)='error-msg' and contains(.,'Poll with the same question already exists.')]
+            dublicate_poll_answer: //li[normalize-space(@class)='error-msg' and contains(.,'Your answers contain duplicates.')]
             add_answers: //li[normalize-space(@class)='error-msg' and contains(.,'Please, add some answers to this poll first.')]
             confirmation_for_delete: Are you sure you want to do this?
 
@@ -94,8 +95,8 @@ new_poll:
                                 assigned_answers_set:
                                     xpath: //div[@class='fieldset fieldset-wide']
                                     fields:
-                                        answer_title: //input[@id='answer_%answerId%']
-                                        votes_count: //input[@id='answer_votes_%answerId%']
+                                        answer_title: //input[@id='answer_-%answerId%']
+                                        votes_count: //input[@id='answer_votes_-%answerId%']
                                     buttons:
                                         delete: //div[@id='poll_answer_fieldset_%answerId%']//button[span='Delete']
         buttons:
