@@ -33,12 +33,14 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase {
+class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
+{
 
     /**
      * <p>Log in to Backend.</p>
      */
-    public function setUpBeforeTests() {
+    public function setUpBeforeTests()
+    {
         $this->loginAdminUser();
     }
 
@@ -46,7 +48,8 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase {
      * <p>Preconditions:</p>
      * <p>Navigate to CMS -> Static Blocks</p>
      */
-    protected function assertPreConditions() {
+    protected function assertPreConditions()
+    {
         $this->navigate('manage_static_blocks');
         $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
     }
@@ -62,7 +65,8 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function createNew() {
+    public function createNew()
+    {
         //Data
         $setData = $this->loadData('static_block', null, array('block_title', 'block_identifier'));
         //Steps
@@ -71,6 +75,37 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
         $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
         return $setData;
+    }
+
+    /**
+     * <p>Creating a new static block with special values (long, special chars).</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Block"</p>
+     * <p>2. Fill in the fields</p>
+     * <p>3. Click button "Save Block"</p>
+     * <p>4. Open the block</p>
+     * <p>Expected result:</p>
+     * <p>All fields has the same values.</p>
+     *
+     * @dataProvider dataSpecialValues
+     * @depends createNew
+     * @test
+     */
+    public function withSpecialValues($field, $value)
+    {
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
+        );
+    }
+
+    public function dataSpecialValues()
+    {
+        return array(
+            array('block_title', $this->generate('string', 257)),
+            array('block_identifier', $this->generate('string', 257)),
+            array('block_title', $this->generate('string', 50, ':punct:')),
+            array('block_identifier', $this->generate('string', 50, ':punct:'))
+        );
     }
 
     /**
@@ -85,7 +120,8 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase {
      * @dataProvider dataEmptyRequiredFields
      * @test
      */
-    public function withEmptyRequiredFields($emptyField, $validationMessage) {
+    public function withEmptyRequiredFields($emptyField, $validationMessage)
+    {
         //Data
         $setData = $this->loadData('static_block', array($emptyField => ''));
         //Steps
@@ -95,7 +131,8 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function dataEmptyRequiredFields() {
+    public function dataEmptyRequiredFields()
+    {
         return array(
             array('block_title', 'specify_title'),
             array('block_identifier', 'specify_identifier'),
@@ -115,7 +152,8 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase {
      * @dataProvider dataInvalidXmlIdentifier
      * @test
      */
-    public function withInvalidXmlIdentifier($invalidValue) {
+    public function withInvalidXmlIdentifier($invalidValue)
+    {
         //Data
         $setData = $this->loadData('static_block', array('block_identifier' => $invalidValue));
         //Steps
@@ -125,10 +163,12 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase {
         $this->assertTrue($this->verifyMessagesCount(), $this->messages);
     }
 
-    public function dataInvalidXmlIdentifier() {
+    public function dataInvalidXmlIdentifier()
+    {
         return array(
             array($this->generate('string', 12, ':digit:')),
-            array($this->generate('string', 12, ':punct:'))
+            array($this->generate('string', 12, ':punct:')),
+            array("with_a_space " . $this->generate('string', 12, ':alpha:'))
         );
     }
 

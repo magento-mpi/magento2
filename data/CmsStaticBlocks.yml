@@ -33,8 +33,14 @@ static_block:
     block_status: Enabled
     text_editor: Default content
 
-search_block:
-    block_title: test_static_block
-    block_identifier: test_static_block_identifier
-    block_status: %noValue%
-    text_editor: %noValue%
+deleted_block:
+    block_title: deleted_static_block
+    block_identifier: deleted_static_block_identifier
+    block_status: Enabled
+    text_editor: This block will be deleted.
+
+dates:
+    block_created_from: %noValue%
+    block_created_to: %noValue%
+    block_modified_from: %noValue%
+    block_modified_to: %noValue%

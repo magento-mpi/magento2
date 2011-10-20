@@ -33,18 +33,58 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase {
+class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
+{
+
+    /**
+     * Checks if the WYSIWYG Editor is open now. Can be configured in System->Configuration.
+     */
+    protected function _isWysiwygEditorOpen()
+    {
+        return $this->controlIsPresent('link', 'wysiwyg_insert_widget');
+    }
+
+    /**
+     * Checks if the WYSIWYG Editor can be opened. Can be configured in System->Configuration.
+     */
+    protected function _isWysiwygEditorAvailable()
+    {
+        return $this->buttonIsPresent('show_hide_editor');
+    }
+
+    /**
+     * Open WYSIWYG Editor.
+     */
+    protected function _openWysiwygEditor()
+    {
+        if (!($this->_isWysiwygEditorAvailable()))
+            $this->fail("The WYSIWYG Editor cannot be opened due to System configuration.");
+        if (!($this->_isWysiwygEditorOpen()))
+            $this->clickButton('show_hide_editor', false);
+        $this->assertTrue(_isWysiwygEditorAvailable());
+    }
+
+    /**
+     * Open Text Editor.
+     */
+    protected function _openTextEditor()
+    {
+        if ($this->_isWysiwygEditorOpen())
+            $this->clickButton('show_hide_editor', false);
+        $this->assertFalse($this->_isWysiwygEditorOpen());
+    }
 
     /**
      * Create new Static Block
      *
      * @param array $attrSet Array which contains DataSet for filling of the current form
      */
-    public function createStaticBlock(array $attrSet) {
+    public function createStaticBlock(array $attrSet)
+    {
         $attrSet = $this->arrayEmptyClear($attrSet);
         $this->clickButton('add_new_block');
-        //Switch to simple text editor
-        $this->clickButton('show_hide_editor', false);
+        // TODO: Change to use WYSIWYG Editor
+        $this->_openTextEditor();
         $this->fillForm($attrSet, 'general_information');
         $this->saveForm('save_block');
     }
@@ -53,29 +93,40 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase {
      * Open Static Block
      *
      * @param string|array $block Block to open. Either a dataset name (string) or the whole data set (array).
+     * @param array $dates Dates created/modified. Additional search fields.
+     *                     Note, that dates should be specified as in the grid, e.g. "Oct 19".
      */
-    public function openStaticBlock($block) {
+    public function openStaticBlock($block = null, array $dates = null)
+    {
+        $block = isset($block) ? $block : array();
+        $dates = isset($dates) ? $dates : array();
         // Load data if needed.
         if (is_string($block))
             $block = $this->loadData($block);
-        // Remove the values that should not be used for searching.
-        $blockDataPattern = $this->loadData('search_block');
-        foreach ($blockDataPattern as $key => $value) {
-            if ($value == '%noValue%')
+        // Remove fields not used in search grid.
+        foreach ($block as $key => $value) {
+            if ($key !== 'block_title' and $key !== 'block_identifier')
                 $block[$key] = '%noValue%';
         }
+        //Append additional search fields.
+        if (isset($dates))
+            $searchBlock = array_merge($block, $dates);
+        if (empty($searchBlock))
+            $this->fail('Nothing to open');
+
         // Open the search page.
         $this->navigate('manage_static_blocks');
         // Search for the element.
-        $this->assertTrue($this->searchAndOpen($block), "Static Block with name '$block[block_title]' is not found");
+        $this->assertTrue($this->searchAndOpen($searchBlock), "Block with name '$searchBlock[block_title]' not found");
     }
 
     /**
      * Delete a Static Block
      *
      */
-    public function deleteStaticBlock() {
-        $this->clickButton('delete_block');
+    public function deleteStaticBlock()
+    {
+        $this->clickButtonAndConfirm('delete_block', 'confirmation_for_delete');
     }
 
 }

@@ -33,12 +33,14 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase {
+class CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase
+{
 
     /**
      * <p>Log in to Backend.</p>
      */
-    public function setUpBeforeTests() {
+    public function setUpBeforeTests()
+    {
         $this->loginAdminUser();
     }
 
@@ -46,7 +48,8 @@ class CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase {
      * <p>Preconditions:</p>
      * <p>Navigate to CMS -> Static Blocks</p>
      */
-    protected function assertPreConditions() {
+    protected function assertPreConditions()
+    {
         $this->navigate('manage_static_blocks');
         $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
     }
@@ -62,7 +65,8 @@ class CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function deleteNew() {
+    public function deleteNew()
+    {
         //Data
         $setData = $this->loadData('static_block', null, array('block_title', 'block_identifier'));
         //Steps
