@@ -88,3 +88,4 @@ product_page:
                         fields:
                             input_new_tags: //input[@id='productTagName']
         messages:
+            tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.//span,'%tagQty% tag(s) have been accepted for moderation.')]

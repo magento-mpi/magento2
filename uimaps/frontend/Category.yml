@@ -84,6 +84,12 @@ category_page:
                           vote: //button[span='Vote']
                         radiobuttons:
                             vote: //li[span/label='%answer%']/input
+                -
+                    popular_tags:
+                        xpath: //div[@class[contains(.,'block block-tags')]]
+                        links:
+                            tag_name: //ul[@class='tags-list']/li/a[text()='%tagName%']
+                            view_all_tags: //a[text()='View All Tags']
 
 category_page_index:
     mca: %categoryUrl%.html%param%

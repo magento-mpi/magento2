@@ -68,3 +68,16 @@ view_order:
                             product_table_head: //table[@id='my-orders-table']/thead
                             price_totals: //table[@id='my-orders-table']/tfoot
                             product_line:  //table[@id='my-orders-table']/tbody
+
+my_recent_tags:
+    mca: customer/account/
+    title: My Account
+    uimap:
+        form:
+            fieldsets:
+                -
+                    recent_tags:
+                        xpath: //div[@class='box-account box-tags']
+                        links:
+                            tag_name: //li[*/h3[a='%productName%']]//div/ul/li/a[text()='%tagName%']
+                            view_all_tags: //a[text()='View All Tags']
