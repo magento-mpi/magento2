@@ -1264,7 +1264,6 @@ section .category-title { display:none; }
     left:0;
     height:100%;
     width:100%;
-    background:#f30;
     opacity:0;
     padding:0;
 }
@@ -1304,9 +1303,7 @@ section .category-title { display:none; }
 .c-grid .flip-block .back {
     background:-webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#eee));
     position:absolute;
-}
-.c-grid .flip-block .back {
-    -webkit-transform:rotateY(180deg);
+    -webkit-transform:rotateY(180deg) translate3d(0, 0, 1px);
 }
 .c-grid .back-face { padding:10px; }
 .c-grid .back-face .rating-box { display:inline-block; }

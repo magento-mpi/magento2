@@ -179,10 +179,10 @@
 
                 $$('.c-grid .cloned-wrap').each(function(n) {
                     new webkit_draggable(n, { handle : n.up('.cell').select('.product-image')[1], revert : true, scroll : true, onStart : function(r, e) {
-                            r.setStyle({'opacity':'100'}).down('.wrap').addClassName('drop-start');
+                            r.setStyle({'opacity':'100', 'visibility':'visible'}).down('.wrap').addClassName('drop-start');
                         },
                         onEnd : function(r, e) {
-                            r.setStyle({'opacity':'0'}).down('.wrap').removeClassName('drop-start');
+                            r.setStyle({'opacity':'0', 'visibility':'hidden'}).down('.wrap').removeClassName('drop-start');
                         }
                     });
                 });
