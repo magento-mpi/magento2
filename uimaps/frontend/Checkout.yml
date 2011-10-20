@@ -206,12 +206,6 @@ onepage_checkout:
                 payment_alert: Please specify payment method.
                 billing_long_values_data_alert: '"First Name" length must be equal or less than 255 characters. "Last Name" length must be equal or less than 255 characters. "Street Address" length must be equal or less than 255 characters. "City" length must be equal or less than 255 characters. "Telephone" length must be equal or less than 255 characters.'
 
-onepage_checkout_logged_in:
-    mca: checkout/onepage/index/
-    title: Checkout
-    uimap:
-        form: *checkoutForm
-
 onepage_checkout_success:
     mca: checkout/onepage/success/
     title: Magento Commerce

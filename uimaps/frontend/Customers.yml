@@ -87,28 +87,6 @@ customer_login:
             invalid_mail: //div[@id='advice-validate-email-email']
             invalid_login_or_password: //li[normalize-space(@class)='error-msg' and contains(.//span,'Invalid login or password.')]
 
-customer_account:
-    mca: customer/account/index/
-    title: My Account
-    uimap:
-        form: &customerAccount
-            tabs:
-                -
-                    account_dashboard:
-                        xpath: //a[text()='Account Dashboard']
-                -
-                    account_information:
-                        xpath: //a[text()='Account Information']
-        messages:
-            success_registration: //li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering with')]
-            success_saved: //li[normalize-space(@class)='success-msg' and contains(.//span,'The account information has been saved.')]
-
-customer_account_relogged_in:
-    mca: customer/account/
-    title: My Account
-    uimap:
-        form: *customerAccount
-
 edit_account_info:
     mca: customer/account/edit/
     title: Account Information

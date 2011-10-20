@@ -37,35 +37,3 @@ all_tags:
                         xpath: //ul[@class='tags-list']
                         links:
                             tag_name: //ul[@class='tags-list']/li/a[text()='%tagName%']
-
-my_tags:
-    mca: tag/customer
-    title: My Tags
-    uimap:
-        form:
-            fieldsets:
-                -
-                    tags:
-                        xpath: //div[@class='my-account']
-                        links:
-                            tag_name: //a[text()='%tagName%']
-                            back: //a[text()='Back']
-
-my_tags_view:
-    mca: tag/customer/view/tagId/%tagId%
-    title: My Tags
-    uimap:
-        form:
-            fieldsets:
-                -
-                    my_tags:
-                        xpath: //div[@class='my-account']
-                        buttons:
-                            add_to_cart: //tr[*/h2[a='%productName%']]//button[span='Add to Cart']
-                        dropdowns:
-                            show_per_page: //div[@class='pager']/div[@class='limiter']/select
-                        links:
-                            delete_tag: //p[@class='my-tag-edit']/a[span='Delete']
-                            add_to_wishlist: //tr[*/h2[a='%productName%']]//a[text()='Add to Wishlist']
-                            product_name: //h2[a='%productName%']
-                            back_to_tags_list: //p[@class='back-link']/a[@href]

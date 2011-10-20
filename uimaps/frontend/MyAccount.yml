@@ -69,15 +69,55 @@ view_order:
                             price_totals: //table[@id='my-orders-table']/tfoot
                             product_line:  //table[@id='my-orders-table']/tbody
 
-my_recent_tags:
+customer_account:
     mca: customer/account/
     title: My Account
     uimap:
         form:
             fieldsets:
                 -
-                    recent_tags:
+                    my_recent_tags:
                         xpath: //div[@class='box-account box-tags']
                         links:
-                            tag_name: //li[*/h3[a='%productName%']]//div/ul/li/a[text()='%tagName%']
+                            product_with_tag: //li[*//strong='Tags:'][*//a='%tagName%']//h3
+                            tag_name: //li[*/h3[a='%productName%']]//div[strong='Tags:']//a[text()='%tagName%']
                             view_all_tags: //a[text()='View All Tags']
+        messages:
+            success_registration: //li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering with')]
+            success_saved: //li[normalize-space(@class)='success-msg' and contains(.//span,'The account information has been saved.')]
+
+my_account_view_tag:
+    mca: tag/customer/view/tagId/%id%
+    title: My Tags
+    uimap:
+        form:
+            fieldsets:
+                -
+                    my_tags:
+                        xpath: //div[@class='my-account']
+                        buttons:
+                            add_to_cart: //tr[*//a='%productName%']//button[span='Add to Cart']
+                        dropdowns:
+                            show_per_page: //div[@class='pager']/div[@class='limiter']/select
+                        links:
+                            delete_tag: //p[@class='my-tag-edit']/a[span='Delete']
+                            add_to_wishlist: //tr[*//a='%productName%']//a[text()='Add to Wishlist']
+                            product_name: //h2[a='%productName%']
+                            back_to_tags_list: //p[@class='back-link']/a[@href]
+        messages:
+            confirmation_for_delete: Are you sure you want to delete this tag?
+
+my_account_my_tags:
+    mca: tag/customer
+    title: My Tags
+    uimap:
+        form:
+            fieldsets:
+                -
+                    tags:
+                        xpath: //div[@class='my-account']
+                        links:
+                            tag_name: //a[text()='%tagName%']
+                            back: //a[text()='Back']
+        messages:
+            success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
