@@ -19,10 +19,6 @@ class Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testLayoutFilesFromModules($area, $module, $file)
     {
-        $this->markTestIncomplete('Method getThemeFile() is not implemented properly.
-            It is not replaceable with Mage_Core_Model_Design_Package::getFilename()
-            See MAGETWO-510 and MAGETWO-511'
-        );
         $this->assertNotEmpty($module);
 
         $moduleViewDir = Mage::getConfig()->getModuleDir('view', $module);

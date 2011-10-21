@@ -125,6 +125,9 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
      */
     public function setDesignConfig(array $config)
     {
+        if (!isset($config['area']) || !isset($config['store'])) {
+            throw new Exception(Mage::helper('core')->__('Design config must have area and store.'));
+        }
         $this->getDesignConfig()->setData($config);
         return $this;
     }

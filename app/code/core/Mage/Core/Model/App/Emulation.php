@@ -130,6 +130,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
             'theme' => $design->getDesignTheme(),
             'store' => Mage::app()->getStore()
         );
+
         $storeTheme = Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME, $storeId);
         $design->setDesignTheme($storeTheme);
 

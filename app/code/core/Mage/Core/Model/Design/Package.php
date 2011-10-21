@@ -195,7 +195,7 @@ class Mage_Core_Model_Design_Package
     /**
      * Set package, theme and skin for current area
      *
-     * $fullDesign name must contain package, theme and skin names separated by "/"
+     * $themePath name must contain package, theme and skin names separated by "/"
      *
      * @param string $themePath
      * @param string $area

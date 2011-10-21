@@ -253,7 +253,6 @@ class Mage_Core_Model_Translate_Inline
 
         ob_start();
 ?>
-<!-- script type="text/javascript" src="<?php echo $baseJsUrl ?>prototype/effects.js"></script -->
 <script type="text/javascript" src="<?php echo $baseJsUrl ?>prototype/window.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $baseJsUrl ?>prototype/windows/themes/default.css"/>
 <link rel="stylesheet" type="text/css" href="<?php echo $baseJsUrl ?>prototype/windows/themes/magento.css"/>

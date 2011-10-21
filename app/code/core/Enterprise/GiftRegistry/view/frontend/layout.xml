@@ -203,8 +203,8 @@
         </reference>
         <reference name="my.account.wrapper">
             <block type="enterprise_giftregistry/customer_edit" name="giftregistry_edit" template="edit/edit.phtml">
-                <action method="addInputTypeTemplate"><type>text</type><template>attributes/text.phtml</template></action>
-                <action method="addInputTypeTemplate"><type>region</type><template>attributes/region.phtml</template></action>
+                <action method="addInputTypeTemplate"><type>text</type><template>Enterprise_GiftRegistry::attributes/text.phtml</template></action>
+                <action method="addInputTypeTemplate"><type>region</type><template>Enterprise_GiftRegistry::attributes/region.phtml</template></action>
                 <block type="enterprise_giftregistry/customer_edit_registry" name="giftregistry_edit_registry" template="edit/registry.phtml"/>
                 <block type="enterprise_giftregistry/customer_edit_registrants" name="giftregistry_edit_registrants" template="edit/registrants.phtml"/>
                 <block type="enterprise_giftregistry/customer_address_edit" name="giftregistry_address_edit" template="address/edit.phtml"/>

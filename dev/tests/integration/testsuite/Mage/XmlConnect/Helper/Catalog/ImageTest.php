@@ -12,7 +12,7 @@
 /**
  * @group module:Mage_Xmlconnect
  */
-class Mage_XmlConnect_Helper_Catalog_Category_ImageTest extends PHPUnit_Framework_TestCase
+class Mage_XmlConnect_Helper_Catalog_ImageTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $name
