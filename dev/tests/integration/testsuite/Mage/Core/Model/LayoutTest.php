@@ -137,6 +137,12 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
                 array('type' => 'core/text'),
                 '/^some_block_name$/'
             ),
+            'named block full class' => array(
+                'Mage_Core_Block_Template',
+                'some_block_name_full_class',
+                array('type' => 'Mage_Core_Block_Template'),
+                '/^some_block_name_full_class$/'
+            ),
             'anonymous block' => array(
                 'core/text_list',
                 '',
@@ -186,6 +192,10 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $block = $this->_model->getBlockSingleton('core/text');
         $this->assertInstanceOf('Mage_Core_Block_Text', $block);
         $this->assertSame($block, $this->_model->getBlockSingleton('core/text'));
+
+        $block = $this->_model->getBlockSingleton('Mage_Core_Block_Text');
+        $this->assertInstanceOf('Mage_Core_Block_Text', $block);
+        $this->assertSame($block, $this->_model->getBlockSingleton('Mage_Core_Block_Text'));
     }
 
     public function testHelper()

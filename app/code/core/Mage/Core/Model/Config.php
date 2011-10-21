@@ -1212,11 +1212,58 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Retrieve class name by class group
      *
      * @param   string $groupType currently supported model, block, helper
-     * @param   string $classId slash separated class identifier, ex. group/class
+     * @param   string $classId slash separated class identifier, ex. group/class or direct class name
      * @param   string $groupRootNode optional config path for group config
      * @return  string
      */
     public function getGroupedClassName($groupType, $classId, $groupRootNode=null)
+    {
+        if ($this->_isClassAlias($classId)) {
+            $classId = $this->_getGroupedClassName($groupType, $classId, $groupRootNode);
+        }
+        return $this->applyClassRewrites($classId);
+    }
+
+    /**
+     * Checks that $classString is a class alias, not direct class name
+     * FIXME: MAGETWO-548 temporary method, must be removed in MAGETWO-554
+     *
+     * @param string $classString
+     * @return bool
+     *
+     */
+    protected function _isClassAlias($classString)
+    {
+        return strpos($classString, '/') !== false;
+    }
+
+    /**
+     * Check rewrite section and apply rewrites to $className, if any
+     *
+     * @param   string $className
+     * @return  string
+     */
+    public function applyClassRewrites($className)
+    {
+        if (!isset($this->_classNameCache[$className])) {
+            if (isset($this->_xml->global->rewrites->$className)) {
+                $className = (string) $this->_xml->global->rewrites->$className;
+            }
+            $this->_classNameCache[$className] = $className;
+        }
+
+        return $this->_classNameCache[$className];
+    }
+
+    /**
+     * Retrieve class name by class group
+     *
+     * @param   string $groupType currently supported model, block, helper
+     * @param   string $classId slash separated class identifier, ex. group/class
+     * @param   string $groupRootNode optional config path for group config
+     * @return  string
+     */
+    protected function _getGroupedClassName($groupType, $classId, $groupRootNode=null)
     {
         if (empty($groupRootNode)) {
             $groupRootNode = 'global/'.$groupType.'s';
@@ -1264,9 +1311,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getBlockClassName($blockType)
     {
-        if (strpos($blockType, '/')===false) {
-            return $blockType;
-        }
         return $this->getGroupedClassName('block', $blockType);
     }
 
@@ -1278,7 +1322,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getHelperClassName($helperName)
     {
-        if (strpos($helperName, '/') === false) {
+        if (preg_match('/^[a-z]/', $helperName) && strpos($helperName, '/') === false) {
             $helperName .= '/data';
         }
         return $this->getGroupedClassName('helper', $helperName);
@@ -1315,9 +1359,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getModelClassName($modelClass)
     {
         $modelClass = trim($modelClass);
-        if (strpos($modelClass, '/')===false) {
-            return $modelClass;
-        }
         return $this->getGroupedClassName('model', $modelClass);
     }
 
@@ -1370,11 +1411,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceModelInstance($modelClass='', $constructArguments=array())
     {
-        $factoryName = $this->_getResourceModelFactoryClassName($modelClass);
-        if (!$factoryName) {
-            return false;
+        if ($this->_isClassAlias($modelClass)) {
+            $modelClass = $this->_getResourceModelFactoryClassName($modelClass);
+            if (!$modelClass) {
+                return false;
+            }
         }
-        return $this->getModelInstance($factoryName, $constructArguments);
+        return $this->getModelInstance($modelClass, $constructArguments);
     }
 
     /**

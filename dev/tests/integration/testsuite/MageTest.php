@@ -36,4 +36,25 @@ class MageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('frontend', $design->getArea());
         $this->assertSame(Mage::getDesign(), $design);
     }
+
+    public function testGetModel()
+    {
+        $this->assertInstanceOf('Mage_Core_Model_Config', Mage::getModel('core/config'));
+        $this->assertInstanceOf('Mage_Core_Model_Config', Mage::getModel('Mage_Core_Model_Config'));
+    }
+
+    public function testGetResourceModel()
+    {
+        $this->assertInstanceOf('Mage_Core_Model_Resource_Config', Mage::getResourceModel('core/config'));
+        $this->assertInstanceOf(
+            'Mage_Core_Model_Resource_Config', Mage::getResourceModel('Mage_Core_Model_Resource_Config')
+        );
+    }
+
+    public function testHelper()
+    {
+        $this->assertInstanceOf('Mage_Core_Helper_Data', Mage::helper('core'));
+        $this->assertInstanceOf('Mage_Core_Helper_Http', Mage::helper('core/http'));
+        $this->assertInstanceOf('Mage_Core_Helper_Js', Mage::helper('Mage_Core_Helper_Js'));
+    }
 }
