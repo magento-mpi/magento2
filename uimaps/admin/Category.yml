@@ -30,7 +30,7 @@
 manage_categories:
     mca: catalog_category/
     click_xpath: //div[@class='nav-bar']//a[span='Manage Categories']
-    title: New Category/ Manage Categories / Categories / Catalog / Magento Admin
+    title: New Category / Manage Categories / Categories / Catalog / Magento Admin
     uimap: &categoryUimap
         form:
             fieldsets:
@@ -143,5 +143,5 @@ manage_categories:
 edit_manage_categories:
     mca: catalog_category/edit/store/0/
     click_xpath: //div[@class='nav-bar']//a[span='Manage Categories']
-    title: New Category/ Manage Categories / Categories / Catalog / Magento Admin
+    title: New Category / Manage Categories / Categories / Catalog / Magento Admin
     uimap: *categoryUimap
