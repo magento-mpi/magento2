@@ -36,6 +36,8 @@
 class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
 {
 
+    protected static $blockToBeDeleted = null;
+
     /**
      * <p>Log in to Backend.</p>
      */
@@ -52,6 +54,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_static_blocks');
         $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
+        $this->addParameter('id', '0');
     }
 
     /**
@@ -74,7 +77,8 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
         $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
-        return $setData;
+        //Cleanup
+        self::$blockToBeDeleted = $setData;
     }
 
     /**
@@ -91,20 +95,27 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * @depends createNew
      * @test
      */
-    public function withSpecialValues($field, $value)
+    public function withSpecialValues($specialValue)
     {
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        //Data
+        $setData = $this->loadData('static_block', $specialValue);
+        //Steps
+        $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
+        //Verifying
+        $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
+        $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
+        $this->cmsStaticBlocksHelper()->openStaticBlock($setData);
+        $this->verifyForm($setData, null, array('text_editor'));
+        //Cleanup
+        self::$blockToBeDeleted = $setData;
     }
 
     public function dataSpecialValues()
     {
         return array(
-            array('block_title', $this->generate('string', 257)),
-            array('block_identifier', $this->generate('string', 257)),
-            array('block_title', $this->generate('string', 50, ':punct:')),
-            array('block_identifier', $this->generate('string', 50, ':punct:'))
+            array(array('block_title' => $this->generate('string', 255))),
+            array(array('block_identifier' => $this->generate('string', 255, ':alpha:'))),
+            array(array('block_title' => $this->generate('string', 50, ':punct:'))),
         );
     }
 
@@ -170,6 +181,15 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
             array($this->generate('string', 12, ':punct:')),
             array("with_a_space " . $this->generate('string', 12, ':alpha:'))
         );
+    }
+
+    protected function tearDown()
+    {
+        if (isset(self::$blockToBeDeleted)) {
+            $this->cmsStaticBlocksHelper()->openStaticBlock(self::$blockToBeDeleted);
+            $this->cmsStaticBlocksHelper()->deleteStaticBlock();
+            self::$blockToBeDeleted = null;
+        }
     }
 
 }

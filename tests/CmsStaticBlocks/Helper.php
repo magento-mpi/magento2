@@ -122,7 +122,6 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
 
     /**
      * Delete a Static Block
-     *
      */
     public function deleteStaticBlock()
     {
