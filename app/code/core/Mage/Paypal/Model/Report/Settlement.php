@@ -259,10 +259,10 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
     {
         $this->_rows = array();
 
-        $section_columns = $this->_csvColumns[$format]['section_columns'];
-        $rowmap = $this->_csvColumns[$format]['rowmap'];
+        $sectionColumns = $this->_csvColumns[$format]['section_columns'];
+        $rowMap = $this->_csvColumns[$format]['rowmap'];
 
-        $flipped_section_columns = array_flip($section_columns);
+        $flippedSectionColumns = array_flip($sectionColumns);
         $fp = fopen($localCsv, 'r');
         while($line = fgetcsv($fp)) {
             if (empty($line)) { // The line was empty, so skip it.
@@ -286,16 +286,16 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
                     // In case ever the column order is changed, we will have the items recorded properly
                     // anyway. We have named, not numbered columns.
                     for ($i = 1; $i < count($line); $i++) {
-                        $section_columns[$line[$i]] = $i;
+                        $sectionColumns[$line[$i]] = $i;
                     }
-                    $flipped_section_columns = array_flip($section_columns);
+                    $flippedSectionColumns = array_flip($sectionColumns);
                     break;
                 case 'SB': // Section body.
-                    $bodyitem = array();
+                    $bodyItem = array();
                     for($i = 1; $i < count($line); $i++) {
-                        $bodyitem[$rowmap[$flipped_section_columns[$i]]] = $line[$i];
+                        $bodyItem[$rowMap[$flippedSectionColumns[$i]]] = $line[$i];
                     }
-                    $this->_rows[] = $bodyitem;
+                    $this->_rows[] = $bodyItem;
                     break;
                 case 'SC': // Section records count.
                 case 'RC': // Report records count.
