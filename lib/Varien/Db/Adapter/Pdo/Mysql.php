@@ -2083,10 +2083,23 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                 }
 
                 $columns = array();
+                $columnsDefinition = $table->getColumns();
                 foreach ($indexData['COLUMNS'] as $columnData) {
+                    $columnCode = strtoupper($columnData['NAME']);
                     $column = $this->quoteIdentifier($columnData['NAME']);
                     if (!empty($columnData['SIZE'])) {
                         $column .= sprintf('(%d)', $columnData['SIZE']);
+                    } else if (isset($columnsDefinition[$columnCode]['DATA_TYPE'])
+                               && in_array($columnsDefinition[$columnCode]['DATA_TYPE'],
+                                           array(Varien_Db_Ddl_Table::TYPE_BLOB, Varien_Db_Ddl_Table::TYPE_TEXT))
+                    ) {
+                        if (!empty($columnsDefinition[$columnCode]['LENGTH'])
+                            && is_numeric($columnsDefinition[$columnCode]['LENGTH'])
+                        ) {
+                            $column .= "({$columnsDefinition[$columnCode]['LENGTH']})";
+                        } else {
+                            $column .= '(255)';
+                        }
                     }
                     $columns[] = $column;
                 }
@@ -2429,7 +2442,19 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
                     $field, $tableName);
                 throw new Zend_Db_Exception($msg);
             }
-            $fieldSql[] = $this->quoteIdentifier($field);
+            $prefix = '';
+            $fieldUpperCase = strtoupper($field);
+            if (isset($columns[$fieldUpperCase]['DATA_TYPE'])
+                && in_array($columns[$fieldUpperCase]['DATA_TYPE'],
+                            array(Varien_Db_Ddl_Table::TYPE_BLOB, Varien_Db_Ddl_Table::TYPE_TEXT))
+            ) {
+                if (!empty($columns[$fieldUpperCase]['LENGTH']) && is_numeric($columns[$fieldUpperCase]['LENGTH'])) {
+                    $prefix .= "({$columns[$fieldUpperCase]['LENGTH']})";
+                } else {
+                    $prefix .= '(255)';
+                }
+            }
+            $fieldSql[] = $this->quoteIdentifier($field) . $prefix;
         }
         $fieldSql = implode(',', $fieldSql);
 

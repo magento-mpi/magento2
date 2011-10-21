@@ -245,7 +245,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                     !$_item->getParentItem() &&
                     !$_item->getMultishippingQty()
                 ) {
-                    $_item->delete();
+                    $quote->removeItem($_item->getId());
                 }
             }
 
@@ -268,7 +268,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                         $quote->getBillingAddress()->addItem($_item);
                     } else {
                         $_item->setQty(0);
-                        $_item->delete();
+                        $quote->removeItem($_item->getId());
                     }
                  }
 
@@ -296,13 +296,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
         if ($addressId && $quoteItem) {
             /**
-             * Decrease quote item QTY if address item has QTY 0 and skip this item processing
+             * Skip item processing if qty 0
              */
             if ($qty === 0) {
-                $quoteItemQty = $quoteItem->getQty();
-                if ($quoteItemQty > 0) {
-                    $quoteItem->setQty($quoteItemQty-1);
-                }
                 return $this;
             }
             $quoteItem->setMultishippingQty((int)$quoteItem->getMultishippingQty()+$qty);

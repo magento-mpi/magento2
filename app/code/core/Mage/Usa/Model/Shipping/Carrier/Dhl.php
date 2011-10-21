@@ -855,14 +855,12 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                     $rate->setPrice($data['price_total']);
                     $result->append($rate);
                 }
-            } else {
-                foreach ($this->_errors as $errorText) {
-                    $error = Mage::getModel('shipping/rate_result_error');
-                    $error->setCarrier('dhl');
-                    $error->setCarrierTitle($this->getConfigData('title'));
-                    $error->setErrorMessage($this->getConfigData('specificerrmsg'));
-                    $result->append($error);
-                }
+            } else if (!empty($this->_errors)) {
+                $error = Mage::getModel('shipping/rate_result_error');
+                $error->setCarrier('dhl');
+                $error->setCarrierTitle($this->getConfigData('title'));
+                $error->setErrorMessage($this->getConfigData('specificerrmsg'));
+                $result->append($error);
             }
             return $result;
         }

@@ -69,8 +69,10 @@ class Mage_Catalog_Model_Product_Type_Price
 
         $finalPrice = $product->getData('final_price');
         $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
+        $finalPrice = max(0, $finalPrice);
+        $product->setFinalPrice($finalPrice);
 
-        return max(0, $finalPrice);
+        return $finalPrice;
     }
 
     public function getChildFinalPrice($product, $productQty, $childProduct, $childProductQty)
@@ -200,7 +202,9 @@ class Mage_Catalog_Model_Product_Type_Price
      */
     protected function _applySpecialPrice($product, $finalPrice)
     {
-        return $this->calculateSpecialPrice($finalPrice, $product->getSpecialPrice(), $product->getSpecialFromDate(), $product->getSpecialToDate(), $product->getStore());
+        return $this->calculateSpecialPrice($finalPrice, $product->getSpecialPrice(), $product->getSpecialFromDate(),
+                        $product->getSpecialToDate(), $product->getStore()
+        );
     }
 
     /**
@@ -227,7 +231,9 @@ class Mage_Catalog_Model_Product_Type_Price
         $price = $product->getTierPrice($qty);
         if (is_array($price)) {
             foreach ($price as $index => $value) {
-                $price[$index]['formated_price'] = Mage::app()->getStore()->convertPrice($price[$index]['website_price'], true);
+                $price[$index]['formated_price'] = Mage::app()->getStore()->convertPrice(
+                        $price[$index]['website_price'], true
+                );
             }
         }
         else {
@@ -289,7 +295,8 @@ class Mage_Catalog_Model_Product_Type_Price
      * @param   null|int $productId
      * @return  float
      */
-    public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice = false, $wId = null, $gId = null, $productId = null)
+    public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
+            $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
         Magento_Profiler::start('__PRODUCT_CALCULATE_PRICE__');
         if ($wId instanceof Mage_Core_Model_Store) {
@@ -331,7 +338,8 @@ class Mage_Catalog_Model_Product_Type_Price
      * @param mixed $store
      * @return float
      */
-    public static function calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $store = null)
+    public static function calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
+            $store = null)
     {
         if (!is_null($specialPrice) && $specialPrice != false) {
             if (Mage::app()->getLocale()->isStoreDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {

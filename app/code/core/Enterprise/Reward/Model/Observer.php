@@ -288,10 +288,15 @@ class Enterprise_Reward_Model_Observer
      */
     protected function _isOrderPaidNow($order)
     {
-        return ((float)$order->getBaseTotalPaid() > 0)
-            && (($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled()) - $order->getBaseTotalPaid()) < 0.0001
-            && (($order->getOrigData('base_grand_total') - $order->getOrigData('base_subtotal_canceled')) -
-                    $order->getOrigData('base_total_paid')) >= 0.0001;
+        $isOrderPaid = (float)$order->getBaseTotalPaid() > 0
+            && ($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled() - $order->getBaseTotalPaid()) < 0.0001;
+
+        if (!$order->getOrigData('base_grand_total')) {//New order with "Sale" payment action
+            return $isOrderPaid;
+        }
+
+        return $isOrderPaid && ($order->getOrigData('base_grand_total') - $order->getOrigData('base_subtotal_canceled')
+            - $order->getOrigData('base_total_paid')) >= 0.0001;
     }
 
     /**

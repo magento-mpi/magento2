@@ -45,7 +45,6 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>scriptaculous/slider.js</script></action>
                 <action method="addJs"><script>varien/js.js</script></action>
                 <action method="addJs"><script>varien/form.js</script></action>
-                <action method="addJs"><script>varien/menu.js</script></action>
                 <action method="addJs"><script>mage/translate.js</script></action>
                 <action method="addJs"><script>mage/cookies.js</script></action>
                 <action method="addItem"><type>skin_js</type><name>js/iphone.js</name></action>
@@ -72,8 +71,8 @@ Default layout, loads most of the pages
                     <action method="setElementClass"><value>top-container</value></action>
                 </block>
                 <block type="checkout/cart" name="checkout.cart" as="topCart">
-                    <action method="setCartTemplate"><value>checkout/cart.phtml</value></action>
-                    <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
+                    <action method="setCartTemplate"><value>checkout/cartheader.phtml</value></action>
+                    <action method="setEmptyTemplate"><value>checkout/cart/noItemsHeader.phtml</value></action>
                     <action method="chooseTemplate"/>
                     <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
                     <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/item/default.phtml</template></action>

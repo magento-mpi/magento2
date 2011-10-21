@@ -1166,7 +1166,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                     $attrTable = $attribute->getBackend()->getTable();
                     $storeIds  = array(0);
 
-                    if ('datetime' == $attribute->getBackendType()) {
+                    if ('datetime' == $attribute->getBackendType() && strtotime($attrValue)) {
                         $attrValue = gmstrftime($strftimeFormat, strtotime($attrValue));
                     } elseif ($backModel) {
                         $attribute->getBackend()->beforeSave($product);
