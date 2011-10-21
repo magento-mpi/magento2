@@ -700,9 +700,11 @@ class Mage_CatalogInventory_Model_Observer
      */
     public function refundOrderInventory($observer)
     {
+        /* @var $creditmemo Mage_Sales_Model_Order_Creditmemo */
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $items = array();
         foreach ($creditmemo->getAllItems() as $item) {
+            /* @var $item Mage_Sales_Model_Order_Creditmemo_Item */
             $return = false;
             if ($item->hasBackToStock()) {
                 if ($item->getBackToStock() && $item->getQty()) {
@@ -712,11 +714,15 @@ class Mage_CatalogInventory_Model_Observer
                 $return = true;
             }
             if ($return) {
+                $parentOrderId = $item->getOrderItem()->getParentItemId();
+                /* @var $parentItem Mage_Sales_Model_Order_Creditmemo_Item */
+                $parentItem = $parentOrderId ? $creditmemo->getItemByOrderId($parentOrderId) : false;
+                $qty = $parentItem ? ($parentItem->getQty() * $item->getQty()) : $item->getQty();
                 if (isset($items[$item->getProductId()])) {
-                    $items[$item->getProductId()]['qty'] += $item->getQty();
+                    $items[$item->getProductId()]['qty'] += $qty;
                 } else {
                     $items[$item->getProductId()] = array(
-                        'qty' => $item->getQty(),
+                        'qty' => $qty,
                         'item'=> null,
                     );
                 }

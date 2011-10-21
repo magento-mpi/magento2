@@ -99,6 +99,11 @@
                         <label>Catalog Categories</label>
                         <resource_adapter>enterprise_staging/adapter_item_category</resource_adapter>
                     </category>
+                    <catalog_permissions translate="label">
+                        <module>Enterprise_CatalogPermissions</module>
+                        <model>enterprise_catalogpermissions</model>
+                        <label>Category Permissions</label>
+                    </catalog_permissions>
                     <product>
                         <module>Mage_Catalog</module>
                         <model>catalog</model>

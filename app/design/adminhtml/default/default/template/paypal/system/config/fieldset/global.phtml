@@ -57,10 +57,10 @@
             </td>
             <td class="paypal-selection-info">
                 <?php if ($url = $this->getElementOriginalData($element, 'demo_url')):?>
-                    <a href="<?php echo $this->escapeHtml($url) ?>"><?php echo Mage::helper('paypal')->__('View Demo')?></a> |
+                    <a id="<?php echo $element->getHtmlId()?>_demo_url" href="<?php echo $this->escapeHtml($url) ?>"><?php echo Mage::helper('paypal')->__('View Demo')?></a> |
                 <?php endif;?>
                 <?php if ($url = $this->getElementOriginalData($element, 'more_url')):?>
-                    <a href="<?php echo $this->escapeHtml($url) ?>"><?php echo Mage::helper('paypal')->__('Learn More')?></a>
+                    <a id="<?php echo $element->getHtmlId()?>_more_url" href="<?php echo $this->escapeHtml($url) ?>"><?php echo Mage::helper('paypal')->__('Learn More')?></a>
                 <?php endif;?>
             </td>
         <?php endif;?>
@@ -214,6 +214,16 @@ PaypalConfig.prototype = {
     {
         var switcherValueId = 'paypal_global_' + this.getMethod(method).get('switcher') + '_label_text';
         return $(switcherValueId);
+    },
+
+    getMethodLinkDemoUrl: function(method)
+    {
+        return $('paypal_global_' + this.getMethod(method).get('switcher') + '_demo_url');
+    },
+
+    getMethodLinkMoreUrl: function(method)
+    {
+        return $('paypal_global_' + this.getMethod(method).get('switcher') + '_more_url');
     },
 
     getMethodSwitcherInherit: function(method)
@@ -370,6 +380,41 @@ PaypalConfig.prototype = {
             }
             switcherLabelElement.update(labelConfig['switcher']);
             fieldsetLabelElement.update(labelConfig['fieldset']);
+        }
+
+        var urls = config.get('urls');
+        if (urls) {
+            var linkMoreUrl = this.getMethodLinkMoreUrl(methodKey);
+            if (linkMoreUrl) {
+                if (!urls['more_url']) {
+                    urls['more_url'] = linkMoreUrl.readAttribute('href');
+                }
+
+                var moreUrl = urls[country];
+                if (!moreUrl && urls['more_url']) {
+                    var moreUrl = {
+                        more_url: urls['more_url']
+                    };
+                }
+
+                linkMoreUrl.writeAttribute('href', moreUrl['more_url']);
+            }
+
+            var linkDemoUrl = this.getMethodLinkDemoUrl(methodKey);
+            if (linkDemoUrl) {
+                if (!urls['demo_url']) {
+                    urls['demo_url'] = linkDemoUrl.readAttribute('href');
+                }
+
+                var demoUrl = urls[country];
+                if (!demoUrl && urls['demo_url']) {
+                    var demoUrl = {
+                        demo_url: urls['demo_url']
+                    };
+                }
+
+                linkDemoUrl.writeAttribute('href', demoUrl['demo_url']);
+            }
         }
     },
 

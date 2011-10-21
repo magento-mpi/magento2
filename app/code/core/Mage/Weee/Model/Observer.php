@@ -189,7 +189,9 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function updateCofigurableProductOptions(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('weee')->isEnabled()) {
+        /* @var $weeeHelper Mage_Weee_Helper_Data */
+        $weeeHelper = Mage::helper('weee');
+        if (!$weeeHelper->isEnabled()) {
             return $this;
         }
 
@@ -200,14 +202,18 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         if (!$_product) {
             return $this;
         }
-        if (!Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+        if (!$weeeHelper->typeOfDisplay($_product, array(0, 1, 4))) {
             return $this;
         }
-        $amount     = Mage::helper('weee')->getAmount($_product);
-        $origAmount = Mage::helper('weee')->getOriginalAmount($_product);
+        $amount          = $weeeHelper->getAmount($_product);
+        $origAmount      = $weeeHelper->getOriginalAmount($_product);
+        $attributes      = $weeeHelper->getProductWeeeAttributes($_product, null, null, null, $weeeHelper->isTaxable());
+        $amountInclTaxes = $weeeHelper->getAmountInclTaxes($attributes);
+        $taxes           = $amountInclTaxes - $amount;
 
         $options['oldPlusDisposition'] = $origAmount;
-        $options['plusDisposition'] = $amount;
+        $options['plusDisposition']    = $amount;
+        $options['plusDispositionTax'] = ($taxes < 0) ? 0 : $taxes;
 
         $response->setAdditionalOptions($options);
 
@@ -247,4 +253,3 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         return $this;
     }
 }
-

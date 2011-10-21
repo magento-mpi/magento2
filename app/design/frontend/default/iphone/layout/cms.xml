@@ -46,7 +46,6 @@ Default layout, loads most of the pages
         <label>CMS Pages (All)</label>
         <reference name="content">
             <block type="core/template" name="page_content_heading" template="cms/content_heading.phtml"/>
-            <block type="catalog/navigation" name="hp_nav" template="catalog/navigation/top.phtml" />
             <block type="page/html_wrapper" name="cms.wrapper" translate="label">
                 <label>CMS Content Wrapper</label>
                 <action method="setElementClass"><value>std</value></action>
@@ -57,6 +56,10 @@ Default layout, loads most of the pages
 
     <cms_index_index translate="label">
         <label>CMS Home Page</label>
+        <reference name="content">
+            <block type="catalog/navigation" name="hp_nav" template="catalog/navigation/top.phtml" />
+        </reference>
+        <remove name="cms.wrapper"/>
     </cms_index_index>
 
     <cms_index_defaultindex>

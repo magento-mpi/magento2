@@ -317,7 +317,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $orderIsNotified = $stateObject->getIsNotified();
         } else {
             $orderStatus = $methodInstance->getConfigData('order_status');
-            if (!$orderStatus || $order->getIsVirtual()) {
+            if (!$orderStatus) {
                 $orderStatus = $order->getConfig()->getStateDefaultStatus($orderState);
             }
         }
