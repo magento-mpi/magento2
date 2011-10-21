@@ -148,7 +148,9 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
     {
         $currencyCode = $this->getPayment()->getOrder()->getBaseCurrencyCode();
         if (!$this->_currenciesNumbers) {
-            $this->_currenciesNumbers = simplexml_load_file(Mage::getBaseDir().'/app/code/core/Mage/Paybox/etc/currency.xml');
+            $this->_currenciesNumbers = simplexml_load_file(
+                Mage::getBaseDir().'/app/code/core/Mage/Paybox/etc/currency.xml'
+            );
         }
         if ($this->_currenciesNumbers->$currencyCode) {
             return (string)$this->_currenciesNumbers->$currencyCode;
@@ -194,9 +196,12 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         } else {
             $e = $this->getError();
             if (isset($e['message'])) {
-                $message = Mage::helper('paybox')->__('There has been an error processing your payment. ') . $e['message'];
+                $message = Mage::helper('paybox')->__('There has been an error processing your payment. ');
+                $message .= $e['message'];
             } else {
-                $message = Mage::helper('paybox')->__('There has been an error processing your payment. Please try later or contact us for help.');
+                $message = Mage::helper('paybox')->__(
+                    'There has been an error processing your payment. Please try later or contact us for help.'
+                );
             }
             Mage::throwException($message);
         }
@@ -224,9 +229,12 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         } else {
             $e = $this->getError();
             if (isset($e['message'])) {
-                $message = Mage::helper('paybox')->__('There has been an error processing your payment. ') . $e['message'];
+                $message = Mage::helper('paybox')->__('There has been an error processing your payment. ');
+                $message .= $e['message'];
             } else {
-                $message = Mage::helper('paybox')->__('There has been an error processing your payment. Please try later or contact us for help.');
+                $message = Mage::helper('paybox')->__(
+                    'There has been an error processing your payment. Please try later or contact us for help.'
+                );
             }
             Mage::throwException($message);
         }
@@ -296,7 +304,10 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
             'DEVISE' => $this->getCurrencyNumb(),
             'REFERENCE' => base64_encode($payment->getOrder()->getRealOrderId()),
             'PORTEUR' => $payment->getCcNumber(),
-            'DATEVAL' => Mage::getModel('core/date')->date('my', mktime(0,0,0,$payment->getCcExpMonth(),1,$payment->getCcExpYear())),
+            'DATEVAL' => Mage::getModel('core/date')->date(
+                'my',
+                mktime(0,0,0,$payment->getCcExpMonth(),1,$payment->getCcExpYear())
+            ),
             'CVV' => $payment->getCcCid(),
             'ACTIVITE' => self::PBX_ACTIVITE_VALUE,
         );
@@ -385,7 +396,9 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
             'DEVISE' => (string)$this->getCurrencyNumb(),
             'REFERENCE' => base64_encode($payment->getOrder()->getRealOrderId()),
             'PORTEUR' => $payment->getCcNumber(),
-            'DATEVAL' => Mage::getModel('core/date')->date('my', mktime(0,0,0,$payment->getCcExpMonth(),1,$payment->getCcExpYear())),
+            'DATEVAL' => Mage::getModel('core/date')->date(
+                'my', mktime(0,0,0,$payment->getCcExpMonth(),1,$payment->getCcExpYear())
+            ),
             'NUMAPPEL' => '',
             'NUMTRANS' => '',
         );
@@ -435,16 +448,17 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
             $response = trim($response[1]);
 
             if ($http->getErrno()) {
-                $http->close();
-
                 $debugData['result'] = $response;
                 $this->_debug($debugData);
-
                 $this->setError(array(
                     'message' => $http->getError()
                 ));
+                $http->close();
+
                 return false;
             }
+
+            // cUrl resource must be closed after checking it for errors
             $http->close();
 
             $parsedResArr = $this->parseResponseStr($response);

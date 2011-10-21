@@ -276,12 +276,15 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         $this->_debug($debugData);
 
         if ($http->getErrno()) {
-            $http->close();
             $this->setError(array(
                 'message' => $http->getError()
             ));
+            $http->close();
+
             return false;
         }
+
+        // cUrl resource must be closed after checking it for errors
         $http->close();
 
         $parsedResArr = $this->parseXmlResponse($response);

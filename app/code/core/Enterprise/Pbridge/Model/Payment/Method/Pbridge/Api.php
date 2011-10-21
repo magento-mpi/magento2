@@ -56,9 +56,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
             $http = new Varien_Http_Adapter_Curl();
             $config = array('timeout' => 30);
             $http->setConfig($config);
-            $http->write(Zend_Http_Client::POST, $this->getPbridgeEndpoint(), '1.1', array(), $this->_prepareRequestParams($request));
+            $http->write(
+                Zend_Http_Client::POST,
+                $this->getPbridgeEndpoint(),
+                '1.1', array(),
+                $this->_prepareRequestParams($request)
+            );
             $response = $http->read();
-            $http->close();
         } catch (Exception $e) {
             $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $this->_debug($debugData);
@@ -83,6 +87,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
                     Mage::helper('enterprise_pbridge')->__('Unable to communicate with Payment Bridge service.')
                 );
             }
+
+            // cUrl resource must be closed after checking it for errors
+            $http->close();
+
             if (isset($response['status']) && $response['status'] == 'Success') {
                 $this->_response = $response;
                 return true;

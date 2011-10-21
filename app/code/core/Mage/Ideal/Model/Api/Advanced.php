@@ -192,7 +192,10 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
             $token = $this->_security->createCertFingerprint($this->_conf["PRIVATECERT"]);
 
             //sign the part of the message that need to be signed
-            $tokenCode = $this->_security->signMessage($this->_conf["PRIVATEKEY"], $this->_conf["PRIVATEKEYPASS"], $message);
+            $tokenCode = $this->_security->signMessage(
+                $this->_conf["PRIVATEKEY"], $this->_conf["PRIVATEKEYPASS"],
+                $message
+            );
 
             //encode with base64
             $tokenCode = base64_encode($tokenCode);
@@ -291,7 +294,10 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
             $token = $this->_security->createCertFingerprint($this->_conf["PRIVATECERT"]);
 
             //sign the message
-            $tokenCode = $this->_security->signMessage($this->_conf["PRIVATEKEY"], $this->_conf["PRIVATEKEYPASS"], $message);
+            $tokenCode = $this->_security->signMessage(
+                $this->_conf["PRIVATEKEY"], $this->_conf["PRIVATEKEYPASS"],
+                $message
+            );
             //encode it with base64
             $tokenCode = base64_encode($tokenCode);
         }
@@ -301,14 +307,18 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
                 . "<createDateTimeStamp>" . utf8_encode($timestamp) .  "</createDateTimeStamp>\n"
                 . "<Issuer>" . "<issuerID>" . utf8_encode(htmlspecialchars($request->getIssuerId())) . "</issuerID>\n"
                 . "</Issuer>\n"
-                . "<Merchant>" . "<merchantID>" . utf8_encode(htmlspecialchars($request->getMerchantId())) . "</merchantID>\n"
+                . "<Merchant>"
+                . "<merchantID>" . utf8_encode(htmlspecialchars($request->getMerchantId())) . "</merchantID>\n"
                 . "<subID>" . utf8_encode($request->getSubId()) . "</subID>\n"
                 . "<authentication>" . utf8_encode($request->getAuthentication()) . "</authentication>\n"
                 . "<token>" . utf8_encode($token) . "</token>\n"
                 . "<tokenCode>" . utf8_encode($tokenCode) . "</tokenCode>\n"
-                . "<merchantReturnURL>" . utf8_encode(htmlspecialchars($request->getMerchantReturnUrl())) . "</merchantReturnURL>\n"
+                . "<merchantReturnURL>"
+                . utf8_encode(htmlspecialchars($request->getMerchantReturnUrl()))
+                . "</merchantReturnURL>\n"
                 . "</Merchant>\n"
-                . "<Transaction>" . "<purchaseID>" . utf8_encode(htmlspecialchars($request->getPurchaseId())) . "</purchaseID>\n"
+                . "<Transaction>"
+                . "<purchaseID>" . utf8_encode(htmlspecialchars($request->getPurchaseId())) . "</purchaseID>\n"
                 . "<amount>" . utf8_encode($request->getAmount()) . "</amount>\n"
                 . "<currency>" . utf8_encode($request->getCurrency()) . "</currency>\n"
                 . "<expirationPeriod>" . utf8_encode($request->getExpirationPeriod()) . "</expirationPeriod>\n"
@@ -373,20 +383,25 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
             //create fingerprint of your own certificate
             $token = $this->_security->createCertFingerprint($this->_conf["PRIVATECERT"]);
             //sign the message
-            $tokenCode = $this->_security->signMessage( $this->_conf["PRIVATEKEY"], $this->_conf["PRIVATEKEYPASS"], $message );
+            $tokenCode = $this->_security->signMessage(
+                $this->_conf["PRIVATEKEY"], $this->_conf["PRIVATEKEYPASS"],
+                $message
+            );
             //encode with base64
             $tokenCode = base64_encode($tokenCode);
         }
         $reqMsg = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             . "<AcquirerStatusReq xmlns=\"http://www.idealdesk.com/Message\" version=\"1.1.0\">\n"
             . "<createDateTimeStamp>" . utf8_encode($timestamp) . "</createDateTimeStamp>\n"
-            . "<Merchant>" . "<merchantID>" . utf8_encode(htmlspecialchars($request->getMerchantId())) . "</merchantID>\n"
+            . "<Merchant>"
+            . "<merchantID>" . utf8_encode(htmlspecialchars($request->getMerchantId())) . "</merchantID>\n"
             . "<subID>" . utf8_encode($request->getSubId()) . "</subID>\n"
             . "<authentication>" . utf8_encode($request->getAuthentication()) . "</authentication>\n"
             . "<token>" . utf8_encode($token) . "</token>\n"
             . "<tokenCode>" . utf8_encode($tokenCode) . "</tokenCode>\n"
             . "</Merchant>\n"
-            . "<Transaction>" . "<transactionID>" . utf8_encode(htmlspecialchars($request->getTransactionId())) . "</transactionID>\n"
+            . "<Transaction>"
+            . "<transactionID>" . utf8_encode(htmlspecialchars($request->getTransactionId())) . "</transactionID>\n"
             . "</Transaction>" . "</AcquirerStatusReq>";
 
         $response = $this->_post($this->_conf["ACQUIRERURL"], $this->_conf["ACQUIRERTIMEOUT"], $reqMsg);
@@ -483,11 +498,15 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
         $response = trim($response[1]);
 
         if ($this->_http->getErrno()) {
-            $this->_http->close();
             $this->setError($this->_http->getErrno() . ':' . $this->_http->getError());
+            $this->_http->close();
+
             return false;
         }
+
+        // cUrl resource must be closed after checking it for errors
         $this->_http->close();
+
         return $response;
     }
 
