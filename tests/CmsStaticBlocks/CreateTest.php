@@ -52,8 +52,8 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->navigate('manage_static_blocks');
-        $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
+        $this->navigate('manage_cms_static_blocks');
+        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
         $this->addParameter('id', '0');
     }
 
@@ -75,7 +75,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
         $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
         //Cleanup
         self::$blockToBeDeleted = $setData;
@@ -102,7 +102,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
         $this->assertTrue($this->successMessage('success_saved_block'), $this->messages);
         $this->cmsStaticBlocksHelper()->openStaticBlock($setData);
         $this->verifyForm($setData, null, array('text_editor'));
@@ -147,7 +147,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         return array(
             array('block_title', 'specify_title'),
             array('block_identifier', 'specify_identifier'),
-            array('text_editor', 'specify_content')
+            array('simple_editor_content', 'specify_content')
         );
     }
 

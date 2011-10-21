@@ -50,8 +50,9 @@ class CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->navigate('manage_static_blocks');
-        $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
+        $this->navigate('manage_cms_static_blocks');
+        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
+        $this->addParameter('id', '0');
     }
 
     /**
@@ -77,7 +78,7 @@ class CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase
         $this->cmsStaticBlocksHelper()->openStaticBlock($setData);
         $this->cmsStaticBlocksHelper()->deleteStaticBlock();
         //Verify
-        $this->assertTrue($this->checkCurrentPage('manage_static_blocks'), $this->messages);
+        $this->assertTrue($this->checkCurrentPage('manage_cms_static_blocks'), $this->messages);
         $this->assertTrue($this->successMessage('success_deleted_block'), $this->messages);
     }
 

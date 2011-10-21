@@ -67,11 +67,27 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
     /**
      * Open Text Editor.
      */
-    protected function _openTextEditor()
+    protected function _openSimpleEditor()
     {
         if ($this->_isWysiwygEditorOpen())
             $this->clickButton('show_hide_editor', false);
         $this->assertFalse($this->_isWysiwygEditorOpen());
+    }
+
+    /**
+     * Add a variable to the Static Block
+     *
+     * @param string $varName Name of the variable to insert.
+     */
+    public function insertVariable($varName)
+    {
+        if ($this->_isWysiwygEditorOpen()) {
+            $this->clickControl('link','wysiwyg_insert_variable',false);
+        } else {
+            $this->clickButton('insert_variable');
+        }
+        $this->addParameter('variableName', $varName);
+        $this->clickControl('link', 'variable', false);
     }
 
     /**
@@ -84,7 +100,7 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
         $attrSet = $this->arrayEmptyClear($attrSet);
         $this->clickButton('add_new_block');
         // TODO: Change to use WYSIWYG Editor
-        $this->_openTextEditor();
+        $this->_openSimpleEditor();
         $this->fillForm($attrSet, 'general_information');
         $this->saveForm('save_block');
     }
@@ -115,13 +131,14 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
             $this->fail('Nothing to open');
 
         // Open the search page.
-        $this->navigate('manage_static_blocks');
+        $this->navigate('manage_cms_static_blocks');
         // Search for the element.
         $this->assertTrue($this->searchAndOpen($searchBlock), "Block with name '$searchBlock[block_title]' not found");
     }
 
     /**
-     * Delete a Static Block
+     * Delete a Static Block.
+     * The static block needs to be opened first.
      */
     public function deleteStaticBlock()
     {

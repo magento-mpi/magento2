@@ -26,7 +26,7 @@
 #
 ---
 # 'Static Blocks' page
-manage_static_blocks:
+manage_cms_static_blocks:
     mca: cms_block/
     click_xpath: //div[@class='nav-bar']//a[span='Static Blocks']
     title: Static Blocks / CMS / Magento Admin
@@ -63,7 +63,7 @@ manage_static_blocks:
 
 
 # 'Edit Block %blockName%' page
-edit_static_block:
+edit_cms_static_block:
     mca: cms_block/edit/block_id/%id%/
     title: %blockName% / Static Blocks / CMS / Magento Admin
     uimap:
@@ -74,21 +74,27 @@ edit_static_block:
                         xpath: //div[@class='entry-edit']
                         buttons:
                             show_hide_editor: //button[@id='toggleblock_content']
-                            insert_widget: "//button[@class='scalable add-widget plugin' and not(@style='display: none;')]"
-                            insert_image: "//button[@class='scalable add-image plugin' and not(@style='display: none;')]"
-                            insert_variable: "//button[@class='scalable add-variable plugin' and not(@style='display: none;')]"
                         dropdowns:
                             block_status: //select[@name='is_active']
                         fields:
                             block_title: //input[@name='title']
                             block_identifier: //input[@name='identifier']
-                            text_editor: "//textarea[@name='content' and not(@style='display: none;')]"
+                -
+                    simple_editor:
+                        xpath: //div[@id='buttonsblock_content']/parent::td
+                        buttons:
+                            insert_widget: "//button[@class='scalable add-widget plugin' and not(@style='display: none;')]"
+                            insert_image: "//button[@class='scalable add-image plugin' and not(@style='display: none;')]"
+                            insert_variable: "//button[@class='scalable add-variable plugin' and not(@style='display: none;')]"
+                        fields:
+                            simple_editor_content: "//textarea[@name='content' and not(@style='display: none;')]"
                 -
 #                   TODO: add elements if needed
                     wysiwyg_editor_buttons:
                         xpath: //span[@id='block_content_parent']
                         links:
                             wysiwyg_insert_widget: //a[@id='block_content_magentowidget']
+                            wysiwyg_insert_variable: //a[@id='block_content_magentovariable']
 
                 -
 #                   TODO: add elements if needed
@@ -193,7 +199,7 @@ edit_static_block:
 
 
 # 'New Block' page
-create_static_block:
+create_cms_static_block:
     mca: cms_block/new/
     title: New Block / Static Blocks / CMS / Magento Admin
     uimap:

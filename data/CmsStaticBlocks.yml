@@ -31,13 +31,13 @@ static_block:
     block_title: test_static_block
     block_identifier: test_static_block_identifier
     block_status: Enabled
-    text_editor: Default content
+    simple_editor_content: Default content
 
 deleted_block:
     block_title: deleted_static_block
     block_identifier: deleted_static_block_identifier
     block_status: Enabled
-    text_editor: This block will be deleted.
+    simple_editor_content: This block will be deleted.
 
 dates:
     block_created_from: %noValue%
