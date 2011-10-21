@@ -121,16 +121,19 @@ add_widget_options:
                                         all_categories_products_radio: //input[@name='widget_instance[%index%][%layout%][for]' and @value='all']
                                         specific_categories_products_radio: //input[@name='widget_instance[%index%][%layout%][for]' and @value='specific']
                                     links:
-                                        open_chooser: //div[@id='page_group_container_%index%']//a[@title='Open Chooser']
-                                        apply: //div[@id='page_group_container_%index%']//a[@title='Apply']
-                                        select_category_anchor: //div[@id='page_group_container_%index%']//a[span='%categoryName%']
-                                    checkboxes:
-                                        select_category_non_anchor: //div[@id='page_group_container_%index%']//div[./a[span='%categoryName%']]//input[@type='checkbox']
+                                        open_chooser: //div[@id='%layout%_ids_%index%']//a[@title='Open Chooser']
+                                        apply: //div[@id='%layout%_ids_%index%']//a[@title='Apply']
+#                                        select_category_anchor: //div[@id='page_group_container_%index%']//a[span='%categoryName%']
+                                        root_category: %param%//ul/div/li[contains(div/a/span,'%rootName%')]
+                                        sub_category: %param%//*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        expand_category: %param%//*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+#                                    checkboxes:
+#                                        select_category_non_anchor: //div[@id='page_group_container_%index%']//div[./a[span='%categoryName%']]//input[@type='checkbox']
                                     buttons:
                                         remove_layout_update: //div[@id='page_group_container_%index%']//button[span='Remove Layout Update']
                 -
                     widgets_options:
-                        xpath: //a[@title='Widgets Options']
+                        xpath: //a[@title='Widget Options']
                         fieldsets:
                             -
                                 widget_options_fieldset:
@@ -183,8 +186,9 @@ add_widget_options:
                                 select_category:
                                     xpath: //div[@id='widget-chooser' and //div[text()='Select Category...']]
                                     links:
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        root_category: %param%//ul/div/li[contains(div/a/span,'%rootName%')]
+                                        sub_category: %param%//*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        expand_category: %param%//*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
                                     buttons:
                                         close_category_insertion: //div[@id='widget-chooser_close']
                             -
@@ -202,8 +206,9 @@ add_widget_options:
                                         search: //button[span='Search']
                                         close_product_insertion: //div[@id='widget-chooser_close']
                                     links:
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        root_category: %param%//ul/div/li[contains(div/a/span,'%rootName%')]
+                                        sub_category: %param%//*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        expand_category: %param%//*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
