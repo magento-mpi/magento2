@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
         Mage::getResourceModel('core/resource')->setDbVersion('adminnotification_setup', false);
         Mage::getResourceModel('core/resource')->setDataVersion('adminnotification_setup', false);
         $this->_model->deleteTableRow('core_resource', 'code', 'adminnotification_setup');
-        $this->_model->getConnection()->dropTable('adminnotification_inbox');
+        $this->_model->getConnection()->dropTable($this->_model->getTable('adminnotification_inbox'));
         try {
             $this->_model->applyAllUpdates();
             $this->_model->applyAllDataUpdates();
@@ -69,7 +69,7 @@ class Mage_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
     public function testSetDeleteConfigData()
     {
         $select = $this->_model->getConnection()->select()
-            ->from('core_config_data', 'value')
+            ->from($this->_model->getTable('core_config_data'), 'value')
             ->where('path=?', 'my/test/path');
 
         $this->_model->setConfigData('my/test/path', 'test_value');

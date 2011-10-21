@@ -38,10 +38,5 @@ class Mage_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
         $this->assertContains($tableNameOrig, $tableName);
 
         Mage::getConfig()->setNode('global/resources/db/table_prefix', $tablePrefixOrig);
-
-        $tableNameOrig = 'core/website';
-        $tableName = $this->_model->getTableName($tableNameOrig);
-
-        $this->assertContains('/', $tableName);
     }
 }

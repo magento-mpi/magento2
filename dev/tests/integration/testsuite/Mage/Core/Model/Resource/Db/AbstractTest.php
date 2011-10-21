@@ -50,12 +50,12 @@ class Mage_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_TestCas
 
     public function testSetMainTable()
     {
-        $tableName = 'core/website';
-        $this->_model->setMainTable($tableName);
-        $this->assertContains('/', $this->_model->getMainTable());
-
-        $tableName = 'core_website';
+        $tableName = $this->_model->getTable('core_website');
         $idFieldName = 'website_id';
+
+        $this->_model->setMainTable($tableName);
+        $this->assertEquals($tableName, $this->_model->getMainTable());
+
         $this->_model->setMainTable($tableName, $idFieldName);
         $this->assertEquals($tableName, $this->_model->getMainTable());
         $this->assertEquals($idFieldName, $this->_model->getIdFieldName());
@@ -63,13 +63,9 @@ class Mage_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_TestCas
 
     public function testGetTableName()
     {
-        $tableName = 'core/website';
-        $this->assertContains('/', $this->_model->getTable($tableName));
-
-        $tableNameOrig = 'core/website';
+        $tableNameOrig = $this->_model->getTable('core_website');
         $tableSuffix = '_suffix';
         $tableName = $this->_model->getTable(array($tableNameOrig, $tableSuffix));
-        $this->assertContains('/', $tableName);
         $this->assertContains($tableSuffix, $tableName);
     }
 }
