@@ -644,13 +644,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Page identifier must be described in the UIMAp. Opens "Home page" by default.
      *
      * @param string $page Page identifier (by default = 'home')
+     * @param boolean $validatePage
      *
      * @return Mage_Selenium_TestCase
      */
-    public function frontend($page='home')
+    public function frontend($page='home', $validatePage = true)
     {
         $this->setArea('frontend');
-        $this->navigate($page);
+        $this->navigate($page, $validatePage);
         return $this;
     }
 
@@ -659,13 +660,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Page identifier must be described in the UIMAp. Opens "Dashboard" page by default.
      *
      * @param string $page Page identifier (by default = 'dashboard')
+     * @param boolean $validatePage
      *
      * @return Mage_Selenium_TestCase
      */
-    public function admin($page='dashboard')
+    public function admin($page='dashboard', $validatePage = true)
     {
         $this->setArea('admin');
-        $this->navigate($page);
+        $this->navigate($page, $validatePage);
         return $this;
     }
 
@@ -674,10 +676,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Page identifier must be described in the UIMAp.
      *
      * @param string $page Page identifier
+     * @param boolean $validatePage
      *
      * @return Mage_Selenium_TestCase
      */
-    public function navigate($page)
+    public function navigate($page, $validatePage = true)
     {
         try {
             $clickXpath = $this->getPageClickXpath($page);
@@ -688,16 +691,36 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             } else {
                 $this->open($this->getPageUrl($page));
             }
-            $this->assertTextNotPresent('Fatal error:', 'Fatal error on page ');
-            $this->assertTextNotPresent('There has been an error processing your request',
-                    'There has been an error processing your request');
-            $this->_pageHelper->validateCurrentPage();
-            $this->_currentPage = $page;
+            if ($validatePage) {
+                $this->validatePage($page);
+            }
         } catch (PHPUnit_Framework_Exception $e) {
             $this->_error = true;
         }
 
         return $this;
+    }
+
+    /**
+     * Validates current page properties
+     */
+    public function validatePage($page = '')
+    {
+        if (!$page) {
+            $page = $this->_currentPage;
+        }
+        $this->assertTextNotPresent('Fatal error', 'Fatal error on page');
+        $this->assertTextNotPresent('There has been an error processing your request',
+                'Fatal error on page: \'There has been an error processing your request\'');
+        $this->assertTextNotPresent('Notice', 'Notice error on page');
+        $this->assertTextNotPresent('Parse error', 'Parse error on page');
+        $this->assertTextNotPresent('Warning', 'Warning on page');
+        $this->assertTextNotPresent('was not found', 'Something was not found:)');
+        $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
+        $this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
+        $this->assertEquals($this->getUimapPage(self::$_area, $page)->getTitle($this->_paramsHelper), $this->getTitle(),
+                'Page title is unexpected');
+        $this->_currentPage = $page;
     }
 
     /**
@@ -977,11 +1000,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
             if ($willChangePage) {
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->assertTextNotPresent('Fatal error:', 'Fatal error on page ');
-                $this->assertTextNotPresent('There has been an error processing your request',
-                        'There has been an error processing your request');
                 $this->addParameter('id', $this->defineIdFromUrl());
-                $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+                $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $this->fail($e->getMessage());
@@ -1341,6 +1361,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->pleaseWait();
         } else {
             $this->waitForPageToLoad();
+            $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
         }
 
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
@@ -1401,7 +1422,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->addParameter('id', $itemId);
                 $this->click($xpathTR . "/td[contains(text(),'" . $data[array_rand($data)] . "')]");
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+                $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
             } else {
                 $this->click($xpathTR . "/td[contains(text(),'" . $data[array_rand($data)] . "')]");
                 $this->waitForAjax($this->_browserTimeoutPeriod);
@@ -1768,11 +1789,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function loginAdminUser()
     {
         try {
-            $this->admin('log_in_to_admin');
+            $this->admin('log_in_to_admin', false);
 
             $currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
             if ($currentPage != $this->_firstPageAfterAdminLogin) {
                 if ($currentPage == 'log_in_to_admin') {
+                    $this->validatePage('log_in_to_admin');
                     $loginData = array(
                         'user_name' => $this->_applicationHelper->getDefaultAdminUsername(),
                         'password' => $this->_applicationHelper->getDefaultAdminPassword()
@@ -1790,7 +1812,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                             $this->click(self::xpathIncomingMessageClose);
                         }
                     }
-                    $this->_currentPage = $this->_firstPageAfterAdminLogin;
+                    $this->validatePage($this->_firstPageAfterAdminLogin);
                 } else {
                     throw new PHPUnit_Framework_Exception('Wrong page was opened');
                 }
@@ -1812,7 +1834,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if ($this->isElementPresent(self::xpathLogOutAdmin)) {
                 $this->click(self::xpathLogOutAdmin);
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+                $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
                 if (!$this->checkCurrentPage('log_in_to_admin')) {
                     throw new PHPUnit_Framework_Exception('Admin was not logged out');
                 }
@@ -1911,8 +1933,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->click($buttonXpath);
                     $this->getConfirmation();
                     $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                    $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-
+                    $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
                     return true;
                 } else {
                     $this->messages['error'][] = "The confirmation text incorrect: {$text}\n";
@@ -1920,8 +1941,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             } else {
                 $this->messages['error'][] = "The confirmation does not appear\n";
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-
+                $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
                 return true;
             }
         } else {
@@ -2007,17 +2027,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->clickButton($buttonName, false);
         $this->waitForElement(array($success, $error, $validation));
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->assertTextNotPresent('Fatal error:', 'Fatal error on page');
-        $this->assertTextNotPresent('There has been an error processing your request',
-                    'There has been an error processing your request');
-        $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
-        $this->getCurrentLocationUimapPage()->assignParams($this->_paramsHelper);
-//        $this->clickButton($buttonName, false);
-//        $this->waitForElement(array(self::xpathErrorMessage,
-//                                    self::xpathValidationMessage,
-//                                    self::xpathSuccessMessage));
-//        $this->addParameter('id', $this->defineIdFromUrl());
-//        $this->_currentPage = $this->_findCurrentPageFromUrl($this->getLocation());
+        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
 
         return $this;
     }
