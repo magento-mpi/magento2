@@ -46,6 +46,7 @@
             <directory suffix="Test.php">tests/Product</directory>
             <directory suffix="Test.php">tests/Customer</directory>
             <directory suffix="Test.php">tests/Order</directory>
+            <directory suffix="TaxAndPricesValidation">tests/Tax</directory>
         </testsuite>
     </testsuites>
     <logging>
