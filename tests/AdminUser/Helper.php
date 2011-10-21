@@ -46,6 +46,10 @@ class AdminUser_Helper extends Mage_Selenium_TestCase
         $userData = $this->arrayEmptyClear($userData);
         $this->clickButton('add_new_admin_user');
         $this->fillForm($userData, 'user_info');
+        $first = (isset($userData['first_name'])) ? $userData['first_name'] : '';
+        $last = (isset($userData['last_name'])) ? $userData['last_name'] : '';
+        $param = $first . ' ' . $last;
+        $this->addParameter('user_first_last_name', $param);
         if (array_key_exists('role_name', $userData)) {
             $this->clickControl('tab', 'user_role', false);
             $this->searchAndChoose(array('role_name' => $userData['role_name']), 'permissions_user_roles');

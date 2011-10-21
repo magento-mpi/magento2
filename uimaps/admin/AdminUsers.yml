@@ -67,7 +67,7 @@ manage_admin_users:
 # 'New User' page
 new_admin_user:
     mca: permissions_user/new/
-    title: New Users / Users / Permissions / System / Magento Admin
+    title: New User / Users / Permissions / System / Magento Admin
     uimap:
         form: &adminUserForm
             tabs:
@@ -127,7 +127,7 @@ edit_admin_user:
 
 new_admin_user_with_error:
     mca: permissions_user/edit/
-    title: New Users / Users / Permissions / System / Magento Admin
+    title: New User / Users / Permissions / System / Magento Admin
     uimap:
         form: *adminUserForm
         buttons:
