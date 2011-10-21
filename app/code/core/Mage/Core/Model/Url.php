@@ -1041,7 +1041,8 @@ class Mage_Core_Model_Url extends Varien_Object
      * @param string $url
      * @return string
      */
-    public function getRebuiltUrl($url){
+    public function getRebuiltUrl($url)
+    {
         $this->parseUrl($url);
         $port = $this->getPort();
         if ($port) {
