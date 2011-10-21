@@ -66,8 +66,10 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>User successfully deleted.</p>
      * <p>Message "The user has been deleted." is displayed.</p>
+     *
+     * @test
      */
-    public function test_DeleteAdminUser_Deletable()
+    public function DeleteAdminUserDeletable()
     {
         //Data
         $userData = $this->loadData('generic_admin_user', null, array('email', 'user_name'));
@@ -86,8 +88,10 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Delete logged in as Admin User</p>
+     *
+     * @test
      */
-    public function test_DeleteAdminUser_Current()
+    public function DeleteAdminUserCurrent()
     {
         //Data
         $searchData = $this->loadData('search_admin_user');
@@ -104,6 +108,8 @@ class AdminUser_DeleteTest extends Mage_Selenium_TestCase
             }
         }
         $this->navigate('manage_admin_users');
+        $this->addParameter('user_first_last_name',
+                $searchDataCurrentUser['first_name'] . ' ' . $searchDataCurrentUser['last_name']);
         $this->assertTrue($this->searchAndOpen($searchDataCurrentUser), 'Admin User is not found');
         //Verifying
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');

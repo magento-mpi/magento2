@@ -44,7 +44,7 @@ class AdminUser_LoginTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->setArea('admin');
-        $this->navigate('log_in_to_admin');
+        $this->navigate('log_in_to_admin', false);
         if (!$this->checkCurrentPage('log_in_to_admin') && $this->isElementPresent(self::xpathLogOutAdmin)) {
             $this->logoutAdminUser();
         }
