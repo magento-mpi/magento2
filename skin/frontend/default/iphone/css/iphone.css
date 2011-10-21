@@ -905,6 +905,109 @@ input[type="text"] {
 -----------------------------*/
 section .category-title { display:none; }
 
+.filters-block ol,
+.filters-block li,
+.filters-block dl,
+.filters-block dt,
+.filters-block dd {
+    margin:0;
+    padding:0;
+}
+
+.filters-block-wrap {
+}
+
+.filters-block {
+    background:url(../images/fabric.jpg) no-repeat 0 0;
+    border-top:1px solid #ccc;
+    font-size:13px;
+    margin:10px -10px -10px;
+    padding:10px 10px 15px;
+}
+
+.filters-block dl {
+    display:inline-block;
+    vertical-align:top;
+    width:49%;
+}
+
+@media(orientation:landscape) {
+    .filters-block dl {
+        width:33%;
+    }    
+}
+
+.filters-block dt {
+    color:#555;
+    font-size:13px;
+    font-weight:bold;
+    text-shadow:0 1px 0 #f6f6f6;
+    text-transform:uppercase;
+    margin:8px 0 0;
+}
+
+.filters-block h3 {
+    color:#444;
+    font-size:15px;
+    text-shadow:0 1px 0 #f6f6f6;
+}
+
+.filters-block .currently {
+    position:relative;
+    z-index:2;
+}
+
+.filters-block .currently .block-subtitle {
+    color:#555;
+    font-weight:bold;
+    font-size:13px;
+    text-shadow:0 1px 0 #f6f6f6;
+    text-transform:uppercase;
+    margin:5px 0 0;
+}
+
+.filters-block .currently .btn-remove {
+    background-image:url(../images/btn_trash.png);
+    background-size:10px 10px;
+    background-repeat:no-repeat;
+    background-position:center;
+    float:none;
+    display:inline-block;
+    vertical-align:middle;
+    top:-2px;
+    text-indent:-9999px;
+    margin-right:2px;
+}
+
+.filters-block .currently .actions {
+    float:right;
+    margin:-24px 0 0;
+}
+
+.filters-block .currently ol {
+    font-size:14px;
+    line-height:16px;
+}
+
+.filters-block .currently li {
+    padding:5px 0;
+}
+
+
+.filters-block dd {
+}
+
+.filters-block ol {
+    list-style:none;
+}
+
+.filters-block li {
+    text-shadow:0 1px 0 #f6f6f6;
+}
+
+.filters-block a {
+    color:#fb6b36;
+}
 .toolbar {
     background:#d7d7d7;
     color:#707070;
