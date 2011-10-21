@@ -38,7 +38,7 @@ class Social_Facebook_Model_Resource_Facebook extends Mage_Core_Model_Resource_D
      */
     protected function _construct()
     {
-        $this->_init('social_facebook/facebook', 'entity_id');
+        $this->_init('social_facebook_actions', 'entity_id');
     }
 
     /**
