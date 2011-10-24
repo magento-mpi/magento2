@@ -113,4 +113,11 @@
             <arg line="--log-junit ${dir.build_report}/static-tests.xml" />
         </exec>
     </target>
+
+    <target name="performance_tests" description="Performance Tests" depends="init,clean">
+        <exec executable="php" failonerror="true">
+            <arg value="${basedir}/dev/build/performance.php" />
+        </exec>
+    </target>
+
 </project>
