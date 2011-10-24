@@ -61,11 +61,14 @@ class Mage_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_TestCas
         $this->assertEquals($idFieldName, $this->_model->getIdFieldName());
     }
 
+    /**
+     * @magentoConfigFixture global/resources/db/table_prefix prefix_
+     */
     public function testGetTableName()
     {
-        $tableNameOrig = $this->_model->getTable('core_website');
-        $tableSuffix = '_suffix';
+        $tableNameOrig = 'core_website';
+        $tableSuffix = 'suffix';
         $tableName = $this->_model->getTable(array($tableNameOrig, $tableSuffix));
-        $this->assertContains($tableSuffix, $tableName);
+        $this->assertEquals('prefix_core_website_suffix', $tableName);
     }
 }
