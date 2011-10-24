@@ -37,24 +37,67 @@ class MageTest extends PHPUnit_Framework_TestCase
         $this->assertSame(Mage::getDesign(), $design);
     }
 
-    public function testGetModel()
+    /**
+     * @param string $classId
+     * @param string $expectedClassName
+     * @dataProvider testGetModelDataProvider
+     */
+    public function testGetModel($classId, $expectedClassName)
     {
-        $this->assertInstanceOf('Mage_Core_Model_Config', Mage::getModel('core/config'));
-        $this->assertInstanceOf('Mage_Core_Model_Config', Mage::getModel('Mage_Core_Model_Config'));
+        $this->assertInstanceOf($expectedClassName, Mage::getModel($classId));
     }
 
-    public function testGetResourceModel()
+    /**
+     * @return array
+     */
+    public function testGetModelDataProvider()
     {
-        $this->assertInstanceOf('Mage_Core_Model_Resource_Config', Mage::getResourceModel('core/config'));
-        $this->assertInstanceOf(
-            'Mage_Core_Model_Resource_Config', Mage::getResourceModel('Mage_Core_Model_Resource_Config')
+        return array(
+            array('core/config', 'Mage_Core_Model_Config'),
+            array('Mage_Core_Model_Config', 'Mage_Core_Model_Config')
         );
     }
 
-    public function testHelper()
+    /**
+     * @param string $classId
+     * @param string $expectedClassName
+     * @dataProvider testGetResourceModelDataProvider
+     */
+    public function testGetResourceModel($classId, $expectedClassName)
     {
-        $this->assertInstanceOf('Mage_Core_Helper_Data', Mage::helper('core'));
-        $this->assertInstanceOf('Mage_Core_Helper_Http', Mage::helper('core/http'));
-        $this->assertInstanceOf('Mage_Core_Helper_Js', Mage::helper('Mage_Core_Helper_Js'));
+        $this->assertInstanceOf($expectedClassName, Mage::getResourceModel($classId));
+    }
+
+    /**
+     * @return array
+     */
+    public function testGetResourceModelDataProvider()
+    {
+        return array(
+            array('core/config', 'Mage_Core_Model_Resource_Config'),
+            array('Mage_Core_Model_Resource_Config', 'Mage_Core_Model_Resource_Config')
+        );
+    }
+
+    /**
+     * @param string $classId
+     * @param string $expectedClassName
+     * @dataProvider testHelperDataProvider
+     */
+    public function testHelper($classId, $expectedClassName)
+    {
+        $this->assertInstanceOf($expectedClassName, Mage::helper($classId));
+    }
+
+    /**
+     * @return array
+     */
+    public function testHelperDataProvider()
+    {
+        return array(
+            array('core', 'Mage_Core_Helper_Data'),
+            array('core/http', 'Mage_Core_Helper_Http'),
+            array('Mage_Core_Helper_Js', 'Mage_Core_Helper_Js'),
+        );
     }
 }

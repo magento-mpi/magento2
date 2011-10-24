@@ -292,7 +292,7 @@ class Magento_Test_Bootstrap
     protected function _shutdown()
     {
         if (self::$_shutdownMethod) {
-            call_user_func(array($this, self::$_shutdownMethod));
+            //call_user_func(array($this, self::$_shutdownMethod));
         }
     }
 

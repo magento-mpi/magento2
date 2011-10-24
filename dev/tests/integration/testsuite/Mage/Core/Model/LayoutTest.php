@@ -187,15 +187,24 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Block_Messages', $this->_model->getMessagesBlock());
     }
 
-    public function testGetBlockSingleton()
+    /**
+     * @param string $blockType
+     * @param string $expectedClassName
+     * @dataProvider testGetBlockSingletonDataProvider
+     */
+    public function testGetBlockSingleton($blockType, $expectedClassName)
     {
-        $block = $this->_model->getBlockSingleton('core/text');
-        $this->assertInstanceOf('Mage_Core_Block_Text', $block);
-        $this->assertSame($block, $this->_model->getBlockSingleton('core/text'));
+        $block = $this->_model->getBlockSingleton($blockType);
+        $this->assertInstanceOf($expectedClassName, $block);
+        $this->assertSame($block, $this->_model->getBlockSingleton($blockType));
+    }
 
-        $block = $this->_model->getBlockSingleton('Mage_Core_Block_Text');
-        $this->assertInstanceOf('Mage_Core_Block_Text', $block);
-        $this->assertSame($block, $this->_model->getBlockSingleton('Mage_Core_Block_Text'));
+    public function testGetBlockSingletonDataProvider()
+    {
+        return array(
+            array('core/text', 'Mage_Core_Block_Text'),
+            array('Mage_Core_Block_Text', 'Mage_Core_Block_Text')
+        );
     }
 
     public function testHelper()

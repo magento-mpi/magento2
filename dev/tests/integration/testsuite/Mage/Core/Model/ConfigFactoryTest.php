@@ -102,19 +102,20 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
      * @param string $configPath
      * @param string $node
      * @param string $nodeValue
-     * @param string $expectedInstance
+     * @param string $expectedInstanceClass
      *
      * @dataProvider testGetNodeClassInstanceDataProvider
      */
-    public function testGetNodeClassInstance($configPath, $node, $nodeValue, $expectedInstance)
+    public function testGetNodeClassInstance($configPath, $node, $nodeValue, $expectedInstanceClass)
     {
         $nodePath = $configPath . '/' . $node;
         $oldValue = Mage::getConfig()->getNode($nodePath);
+
         Mage::getConfig()->setNode($nodePath, $nodeValue);
-
-        $this->assertInstanceOf($expectedInstance, $this->_model->getNodeClassInstance($configPath));
-
+        $actualInstance = $this->_model->getNodeClassInstance($configPath);
         Mage::getConfig()->setNode($nodePath, $oldValue);
+
+        $this->assertInstanceOf($expectedInstanceClass, $actualInstance);
     }
 
     /**
