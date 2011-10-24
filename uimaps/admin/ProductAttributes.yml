@@ -53,7 +53,7 @@ manage_attributes:
                             use_in_layered_navigation:  //select[@id='is_filterable']
                             comparable: //select[@name='is_comparable']
                         pageelements:
-                            attributes_grid_head: //div[@id='attributeGrid']/thead/tr[@class='headings']
+                            attributes_grid_head: //div[@id='attributeGrid']//thead/tr[@class='headings']
         buttons:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &productAttributeMessages
