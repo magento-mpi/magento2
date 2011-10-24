@@ -135,7 +135,16 @@ class Mage_Index_Model_Indexer
             return $this;
         }
 
-        $this->_runAll('indexEvents', array($entity, $type));
+        /** @var $resourceModel Mage_Index_Model_Resource_Process */
+        $resourceModel = Mage::getResourceSingleton('index/process');
+        $resourceModel->beginTransaction();
+        try {
+            $this->_runAll('indexEvents', array($entity, $type));
+            $resourceModel->commit();
+        } catch (Exception $e) {
+            $resourceModel->rollBack();
+            throw $e;
+        }
         return $this;
     }
 
@@ -151,7 +160,7 @@ class Mage_Index_Model_Indexer
             return $this;
         }
 
-        $this->_runAll('processEvent', array($event));
+        $this->_runAll('safeProcessEvent', array($event));
         return $this;
     }
 

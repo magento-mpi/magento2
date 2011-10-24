@@ -32,7 +32,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_Resource_Abstract
 {
     const XML_NODE_MAX_INDEX_COUNT  = 'global/catalog/product/flat/max_index_count';
     const XML_NODE_ATTRIBUTE_NODES  = 'global/catalog/product/flat/attribute_nodes';
@@ -92,6 +92,13 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      * @var array
      */
     protected $_existsFlatTables     = array();
+
+    /**
+     * Flat tables which were prepared
+     *
+     * @var array
+     */
+    protected $_preparedFlatTables   = array();
 
     /**
      * Initialize connection
@@ -608,6 +615,9 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
      */
     public function prepareFlatTable($storeId)
     {
+        if (isset($this->_preparedFlatTables[$storeId])) {
+            return $this;
+        }
         $adapter   = $this->_getWriteAdapter();
         $tableName = $this->getFlatTableName($storeId);
 
@@ -806,6 +816,8 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
                 );
             }
         }
+
+        $this->_preparedFlatTables[$storeId] = true;
 
         return $this;
     }
@@ -1365,5 +1377,38 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
             }
         }
         return false;
+    }
+
+    /**
+     * Prepare flat tables for all stores
+     *
+     * @return Mage_Catalog_Model_Resource_Product_Flat_Indexer
+     */
+    public function prepareFlatTables()
+    {
+        foreach (Mage::app()->getStores() as $store) {
+            $storeId = (int)Mage::app()->getStore($store)->getId();
+            $this->prepareFlatTable($storeId);
+        }
+        return $this;
+    }
+
+    /**
+     * Transactional rebuild Catalog Product Flat Data
+     *
+     * @return Mage_Catalog_Model_Resource_Product_Flat_Indexer
+     */
+    public function reindexAll()
+    {
+        $this->prepareFlatTables();
+        $this->beginTransaction();
+        try {
+            $this->rebuild();
+            $this->commit();
+        } catch (Exception $e) {
+            $this->rollBack();
+            throw $e;
+        }
+        return $this;
     }
 }

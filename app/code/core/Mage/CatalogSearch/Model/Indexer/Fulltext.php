@@ -34,6 +34,8 @@
  */
 class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer_Abstract
 {
+    const EVENT_MATCH_RESULT_KEY = 'catalogsearch_fulltext_match_result';
+
     /**
      * Retrieve resource instance
      *
@@ -127,20 +129,20 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
     public function matchEvent(Mage_Index_Model_Event $event)
     {
         $data       = $event->getNewData();
-        $resultKey  = 'catalogsearch_fulltext_match_result';
-        if (isset($data[$resultKey])) {
-            return $data[$resultKey];
+        if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
+            return $data[self::EVENT_MATCH_RESULT_KEY];
         }
 
-        $result = null;
         $entity = $event->getEntity();
         if ($entity == Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
             /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             $attribute      = $event->getDataObject();
 
-            if ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
+            if (!$attribute) {
+                $result = false;
+            } elseif ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
                 $result = $attribute->dataHasChangedFor('is_searchable');
-            } else if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
+            } elseif ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
                 $result = $attribute->getIsSearchable();
             } else {
                 $result = false;
@@ -151,7 +153,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
             } else {
                 /* @var $store Mage_Core_Model_Store */
                 $store = $event->getDataObject();
-                if ($store->isObjectNew()) {
+                if ($store && $store->isObjectNew()) {
                     $result = true;
                 } else {
                     $result = false;
@@ -160,14 +162,14 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
         } else if ($entity == Mage_Core_Model_Store_Group::ENTITY) {
             /* @var $storeGroup Mage_Core_Model_Store_Group */
             $storeGroup = $event->getDataObject();
-            if ($storeGroup->dataHasChangedFor('website_id')) {
+            if ($storeGroup && $storeGroup->dataHasChangedFor('website_id')) {
                 $result = true;
             } else {
                 $result = false;
             }
         } else if ($entity == Mage_Core_Model_Config_Data::ENTITY) {
             $data = $event->getDataObject();
-            if (in_array($data->getPath(), $this->_relatedConfigSettings)) {
+            if ($data && in_array($data->getPath(), $this->_relatedConfigSettings)) {
                 $result = $data->isValueChanged();
             } else {
                 $result = false;
@@ -176,7 +178,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
             $result = parent::matchEvent($event);
         }
 
-        $event->addNewData($resultKey, $result);
+        $event->addNewData(self::EVENT_MATCH_RESULT_KEY, $result);
 
         return $result;
     }
@@ -188,6 +190,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     protected function _registerEvent(Mage_Index_Model_Event $event)
     {
+        $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         switch ($event->getEntity()) {
             case Mage_Catalog_Model_Product::ENTITY:
                 $this->_registerCatalogProductEvent($event);
@@ -392,6 +395,14 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     public function reindexAll()
     {
-        $this->_getIndexer()->rebuildIndex();
+        $resourceModel = $this->_getIndexer()->getResource();
+        $resourceModel->beginTransaction();
+        try {
+            $this->_getIndexer()->rebuildIndex();
+            $resourceModel->commit();
+        } catch (Exception $e) {
+            $resourceModel->rollBack();
+            throw $e;
+        }
     }
 }
