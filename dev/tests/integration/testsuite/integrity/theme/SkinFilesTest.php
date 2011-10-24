@@ -176,4 +176,27 @@ class Integrity_Theme_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         }
         return $result;
     }
+
+    /**
+     * @param string $file
+     * @dataProvider staticLibsDataProvider
+     */
+    public function testStaticLibs($file)
+    {
+        $this->markTestIncomplete('Should be fixed when static when we have static folder jslib implemented');
+        $this->assertFileExists(Mage::getBaseDir('jslib') . DIRECTORY_SEPARATOR . $file);
+    }
+
+    /**
+     * @return array
+     */
+    public function staticLibsDataProvider()
+    {
+        return array(
+            array('media/editor.swf'),
+            array('media/flex.swf'), // looks like this one is not used anywhere
+            array('media/uploader.swf'),
+            array('media/uploaderSingle.swf'),
+        );
+    }
 }
