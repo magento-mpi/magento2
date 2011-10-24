@@ -24,14 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * GoogleShopping upgrade
- *
- * @category    Mage
- * @package     Mage_GoogleShopping
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 $installer->startSetup();
@@ -80,7 +72,6 @@ $installer->getConnection()->dropIndex(
 /**
  * Change columns
  */
-
 $tables = array(
     $installer->getTable('googleshopping/types') => array(
         'columns' => array(
