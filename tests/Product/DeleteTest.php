@@ -191,7 +191,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
-        $this->assertTrue($this->searchAndOpen($productSearch), 'Cant\'t find item in grig');
+        $this->productHelper()->openProduct($productSearch);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);
@@ -240,7 +240,7 @@ class Product_DeleteTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->successMessage('success_saved_product'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_products'), $this->messages);
         //Steps
-        $this->assertTrue($this->searchAndOpen($productSearch), 'Cant\'t find item in grig');
+        $this->productHelper()->openProduct($productSearch);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_product'), $this->messages);

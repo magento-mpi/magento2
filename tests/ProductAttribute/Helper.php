@@ -62,7 +62,18 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
      */
     public function openAttribute($searchData)
     {
-        $this->assertTrue($this->searchAndOpen($searchData, true, 'attributes_grid'), 'Attribute is not found');
+        $this->_prepareDataForSearch($searchData);
+        $xpathTR = $this->search($searchData, 'attributes_grid');
+        $this->assertNotEquals(null, $xpathTR, 'Attribute is not found');
+        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('attributes_grid_head', false);
+        if (array_key_exists('Attribute Label', $names)) {
+            $text = $this->getText($xpathTR . '//td[' . $names['Attribute Label'] . ']');
+            $this->addParameter('attribute_code', $text);
+        }
+        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+        $this->click($xpathTR . "//a[text()='Edit']");
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
     }
 
     /**
