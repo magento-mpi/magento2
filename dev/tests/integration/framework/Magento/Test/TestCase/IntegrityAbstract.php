@@ -62,27 +62,8 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
      */
     protected function _getDesignSkins()
     {
-        $result = array(
-            'adminhtml/default/default/default',
-            'adminhtml/default/default/enterprise',
-            'adminhtml/default/default/pro',
-            'frontend/default/default/blank',
-            'frontend/default/default/blue',
-            'frontend/default/default/default',
-            'frontend/default/default/french',
-            'frontend/default/default/german',
-            'frontend/default/iphone/iphone',
-            'frontend/default/modern/modern',
-            'frontend/enterprise/default/default',
-            'frontend/pro/default/default',
-            'install/default/default/default',
-            'install/default/enterprise/enterprise',
-            'install/default/pro/pro',
-        );
-
-        /*
-        $areas = array('adminhtml', 'frontend', 'install');
-        foreach ($areas as $area) {
+        $result = array();
+        foreach (array('adminhtml', 'frontend', 'install') as $area) {
             $entities = Mage::getDesign()->getDesignEntitiesStructure($area, false);
             foreach ($entities as $package => $themes) {
                 foreach ($themes as $theme => $skins) {
@@ -92,7 +73,6 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
                 }
             }
         }
-        */
         return $result;
     }
 
@@ -103,27 +83,13 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
      */
     protected function _getDesignThemes()
     {
-        $result = array(
-            'adminhtml/default/default',
-            'frontend/default/default',
-            'frontend/default/iphone',
-            'frontend/default/modern',
-            'frontend/enterprise/default',
-            'frontend/pro/default',
-            'install/default/default',
-            'install/default/enterprise',
-            'install/default/pro',
-        );
-
-        /*
-        $skins = $this->_getDesignSkins();
-        foreach ($skins as $skin) {
+        $result = array();
+        foreach ($this->_getDesignSkins() as $skin) {
             list ($area, $package, $theme) = explode('/', $skin);
             $view = "{$area}/{$package}/{$theme}";
             $result[$view] = $view;
         }
         $result = array_values($result); // Return flat array without some special keys
-        */
         return $result;
     }
 }

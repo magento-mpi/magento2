@@ -136,22 +136,7 @@ New customer registration
             <!--action method="setMayBeInvisible"><value>1</value></action-->
             <action method="setElementClass"><value>rewards</value></action>
         </block>
-        <block type="enterprise_customer/form" template="form/userattributes.phtml" name="customer_form_user_attributes">
-            <action method="setFormCode"><code>customer_account_create</code></action>
-            <action method="setEntityModelClass"><code>customer/customer</code></action>
-        </block>
-        <block type="enterprise_customer/form" template="form/userattributes.phtml" name="customer_form_address_user_attributes">
-            <action method="setFormCode"><code>customer_register_address</code></action>
-            <action method="setEntityModelClass"><code>customer/address</code></action>
-        </block>
-        <reference name="content">
-            <block type="customer/form_register" name="customer_form_register" template="form/register.phtml">
-                <action method="append"><block>customer.form.register.fields.before</block><alias>form_fields_before</alias></action>
-                <action method="append"><block>customer_form_user_attributes</block></action>
-                <action method="append"><block>customer_form_address_user_attributes</block></action>
-            </block>
-        </reference>
-        <update handle="customer_form_template_handle"/>
+        <!-- reference to "content" block is removed intentionally, see Enterprise_Customer -->
     </customer_account_create>
 
     <customer_account_forgotpassword translate="label">
@@ -214,18 +199,12 @@ New customer registration
             <action method="setHeaderTitle" translate="title" module="customer"><title>Edit Account Info</title></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="customer/form_edit" name="customer_edit" template="form/edit.phtml">
-                <block type="enterprise_customer/form" template="form/userattributes.phtml" name="customer_form_user_attributes">
-                    <action method="setFormCode"><code>customer_account_edit</code></action>
-                </block>
-            </block>
+            <block type="customer/form_edit" name="customer_edit" template="form/edit.phtml"/>
         </reference>
 
         <reference name="left">
           <action method="unsetChild"><name>left.permanent.callout</name></action>
         </reference>
-
-        <update handle="customer_form_template_handle"/>
     </customer_account_edit>
 
 <!--
@@ -305,64 +284,8 @@ Customer account address edit page
         <!-- Mage_Customer -->
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="customer/address_edit" name="customer_address_edit" template="address/edit.phtml">
-                <block type="enterprise_customer/form" template="form/userattributes.phtml" name="customer_form_user_attributes">
-                    <action method="setFormCode"><code>customer_address_edit</code></action>
-                </block>
-            </block>
+            <block type="customer/address_edit" name="customer_address_edit" template="address/edit.phtml"/>
         </reference>
-        <update handle="customer_form_template_handle"/>
     </customer_address_form>
 
-    <customer_form_template_handle>
-        <reference name="content">
-            <block name="customer_form_template" type="enterprise_customer/form_template">
-                <action method="addRenderer">
-                    <type>text</type>
-                    <renderer_block>enterprise_customer/form_renderer_text</renderer_block>
-                    <template>customer/form/renderer/text.phtml</template>
-                </action>
-                <action method="addRenderer">
-                    <type>textarea</type>
-                    <renderer_block>enterprise_customer/form_renderer_textarea</renderer_block>
-                    <template>customer/form/renderer/textarea.phtml</template>
-                </action>
-                <action method="addRenderer">
-                    <type>multiline</type>
-                    <renderer_block>enterprise_customer/form_renderer_multiline</renderer_block>
-                    <template>customer/form/renderer/multiline.phtml</template>
-                </action>
-                <action method="addRenderer">
-                    <type>date</type>
-                    <renderer_block>enterprise_customer/form_renderer_date</renderer_block>
-                    <template>customer/form/renderer/date.phtml</template>
-                </action>
-                <action method="addRenderer">
-                    <type>select</type>
-                    <renderer_block>enterprise_customer/form_renderer_select</renderer_block>
-                    <template>customer/form/renderer/select.phtml</template>
-                </action>
-                <action method="addRenderer">
-                    <type>multiselect</type>
-                    <renderer_block>enterprise_customer/form_renderer_multiselect</renderer_block>
-                    <template>customer/form/renderer/multiselect.phtml</template>
-                </action>
-                <action method="addRenderer">
-                    <type>boolean</type>
-                    <renderer_block>enterprise_customer/form_renderer_boolean</renderer_block>
-                    <template>customer/form/renderer/boolean.phtml</template>
-                </action>
-                <action method="addRenderer">
-                    <type>file</type>
-                    <renderer_block>enterprise_customer/form_renderer_file</renderer_block>
-                    <template>customer/form/renderer/file.phtml</template>
-                </action>
-                <action method="addRenderer">
-                    <type>image</type>
-                    <renderer_block>enterprise_customer/form_renderer_image</renderer_block>
-                    <template>customer/form/renderer/image.phtml</template>
-                </action>
-            </block>
-        </reference>
-    </customer_form_template_handle>
 </layout>
