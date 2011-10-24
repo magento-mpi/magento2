@@ -215,6 +215,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     const xpathErrorMessage = "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]";
 
     /**
+     * Notice message Xpath
+     *
+     * @var string
+     */
+    const xpathNoticeMessage = "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]";
+
+    /**
      * Error message Xpath
      *
      * @var string
@@ -714,7 +721,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 'Fatal error on page: \'There has been an error processing your request\'');
         $this->assertTextNotPresent('Notice', 'Notice error on page');
         $this->assertTextNotPresent('Parse error', 'Parse error on page');
-        $this->assertTextNotPresent('Warning', 'Warning on page');
+        if (!$this->isElementPresent(self::xpathNoticeMessage)) {
+            $this->assertTextNotPresent('Warning', 'Warning on page');
+        }
         $this->assertTextNotPresent('was not found', 'Something was not found:)');
         $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
         $this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
