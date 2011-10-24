@@ -57,6 +57,8 @@ manage_customers:
                             state: //input[@name='billing_region']
                         links:
                             open_customer_by_value:
+                        pageelements:
+                            customer_grid_head: //table[@id='customerGrid_table']/thead/tr[@class='headings']
         buttons:
             add_new_customer: //button[span='Add New Customer' or span='Add New']
         messages: &customerMessages

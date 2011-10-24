@@ -58,6 +58,8 @@ manage_products:
                             product_price_to: //input[@name='price[to]']
                             product_qty_from: //input[@name='qty[from]']
                             product_qty_to: //input[@name='qty[to]']
+                        pageelements:
+                            product_grid_head: //div[@id='productGrid']//thead/tr[@class='headings']
         buttons:
             add_new_product: //button[span='Add Product']
         messages: &productMesssages
