@@ -454,6 +454,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                         $child->getBaseTaxAmount(),
                         $rate
                     );
+                    $child->setTaxRates($applied);
                 }
                 $this->_recalculateParent($item);
             }
@@ -474,6 +475,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                     $item->getBaseTaxAmount(),
                     $rate
                 );
+                $item->setTaxRates($applied);
             }
         }
 

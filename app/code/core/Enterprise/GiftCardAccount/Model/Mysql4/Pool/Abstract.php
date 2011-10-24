@@ -32,7 +32,7 @@
  * @package     Enterprise_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftCardAccount_Model_Mysql4_Pool_Abstract
+abstract class Enterprise_GiftCardAccount_Model_Mysql4_Pool_Abstract
     extends Enterprise_GiftCardAccount_Model_Resource_Pool_Abstract
 {
 }

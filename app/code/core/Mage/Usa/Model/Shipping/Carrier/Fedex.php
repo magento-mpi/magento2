@@ -698,6 +698,11 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                                 'STANDARD_OVERNIGHT',
                                 'PRIORITY_OVERNIGHT',
                                 'FIRST_OVERNIGHT',
+                                'FEDEX_FREIGHT',
+                                'FEDEX_1_DAY_FREIGHT',
+                                'FEDEX_2_DAY_FREIGHT',
+                                'FEDEX_3_DAY_FREIGHT',
+                                'FEDEX_NATIONAL_FREIGHT',
                             )
                         ),
                         'from_us' => array(

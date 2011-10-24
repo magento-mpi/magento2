@@ -593,8 +593,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if (!isset($this->_cacheSections[$section])) {
             return false;
         }
-        $sectioPath = array_slice($path, 0, $this->_cacheSections[$section]+1);
-        $sectionKey = implode('_', $sectioPath);
+        $sectionPath = array_slice($path, 0, $this->_cacheSections[$section]+1);
+        $sectionKey = implode('_', $sectionPath);
 
         if (!isset($this->_cacheLoadedSections[$sectionKey])) {
             Varien_Profiler::start('init_config_section:' . $sectionKey);
@@ -618,7 +618,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $section    = $path[0];
         $config     = $this->_getSectionConfig($path);
-        $path       = array_slice($path, $this->_cacheSections[$section]+1);
+        $path       = array_slice($path, $this->_cacheSections[$section] + 1);
         if ($config) {
             return $config->descend($path);
         }

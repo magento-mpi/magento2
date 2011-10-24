@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-include('Enterprise/Cms/controllers/Adminhtml/Cms/PageController.php');
+require_once('Enterprise/Cms/controllers/Adminhtml/Cms/PageController.php');
 
 class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms_Adminhtml_Cms_PageController
 {

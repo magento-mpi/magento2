@@ -703,6 +703,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                                 '14', // Next Day Air Early AM
                                 '02', // 2nd Day Air
                                 '59', // 2nd Day Air AM
+                                '13', // Next Day Air Saver
                             )
                         ),
                         'from_us' => array(
