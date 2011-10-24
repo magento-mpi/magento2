@@ -47,6 +47,8 @@ manage_cms_widgets:
                             filter_widget_id: //input[@name='instance_id']
                             filter_title: //input[@name='title']
                             filter_sort_order: //input[@name='sort_order']
+                        pageelements:
+                            widget_grid_head: //div[@id='widgetInstanceGrid']//thead/tr[@class='headings']
             buttons:
                 add_new_widget_instance: //button[span='Add New Widget Instance']
             messages:
@@ -97,6 +99,8 @@ add_widget_options:
                                     fields:
                                         widget_instance_title: //input[@name='title']
                                         sort_order: //input[@name='sort_order']
+                                    multiselects:
+                                        assign_to_store_views: //select[@name='store_ids[]']
                             -
                                 layout_updates_header:
                                     xpath: //div[@class='entry-edit-head' and h4='Layout Updates']

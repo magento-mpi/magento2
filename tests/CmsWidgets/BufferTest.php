@@ -50,9 +50,9 @@ class CmsWidgets_BufferTest extends Mage_Selenium_TestCase
     public function buff()
     {
         $this->navigate('manage_cms_widgets');
-        $this->cmsWidgetsHelper()->createWidget('catalog_product_link_widget_template');
-        //$search = array('filter_widget_id' => '19', 'filter_title' => 'test');
-        //$this->cmsWidgetsHelper()->deleteWidget($search);
+        $this->cmsWidgetsHelper()->createWidget('catalog_product_link_widget');
+//        $search = array('filter_widget_id' => '10', 'filter_title' => 'test');
+//        $this->cmsWidgetsHelper()->deleteWidget($search);
 
         //You can use https://kd.varien.com/dev/artem.shugayev/16/index.php/admin/  admin/123123q for testing
     }

@@ -37,30 +37,6 @@
 class CmsWidgets_Helper extends Mage_Selenium_TestCase
 {
 
-    private static $LAYOUTS = array(
-        'anchor_categories' => 'Anchor Categories',
-        'notanchor_categories' => 'Non-Anchor Categories',
-        'all_products' => 'All Product Types',
-        'simple_products' => 'Simple Product',
-        'grouped_products' => 'Grouped Product',
-        'configurable_products' => 'Configurable Product',
-        'virtual_products' => 'Virtual Product',
-        'bundle_products' => 'Bundle Product',
-        'downloadable_products' => 'Downloadable Product',
-        'all_pages' => 'All Pages',
-        'pages' => 'Specified Page'
-    );
-    private static $TYPES = array(
-        'cms-widget_page_link' => 'CMS Page Link',
-        'cms-widget_block' => 'CMS Static Block',
-        'catalog-category_widget_link' => 'Catalog Category Link',
-        'catalog-product_widget_new' => 'Catalog New Products List',
-        'catalog-product_widget_link' => 'Catalog Product Link',
-        'sales-widget_guest_form' => 'Orders and Returns',
-        'reports-product_widget_compared' => 'Recently Compared Products',
-        'reports-product_widget_viewed' => 'Recently Viewed Products'
-    );
-
     /**
      * Creates widget
      *
@@ -82,7 +58,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
             $this->fillSettings($settings);
         }
         if ($frontProperties) {
-            $this->fillForm($frontProperties);
+            $this->fillProperties($frontProperties);
         }
         if ($layoutUpdates) {
             $this->fillLayoutUpdates($layoutUpdates);
@@ -91,6 +67,26 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
             $this->fillWidgetOptions($widgetOptions);
         }
         $this->saveForm('save');
+    }
+
+    /**
+     * Fills frontend properties
+     *
+     * @param array $frontProperties
+     */
+    public function fillProperties(array $frontProperties, $validate = FALSE)
+    {
+        $xpath = $this->_getControlXpath('multiselect', 'assign_to_store_views');
+        if ($this->isElementPresent($xpath) && $validate == FALSE) {
+            if (!array_key_exists('assign_to_store_views', $frontProperties)) {
+                $frontProperties['assign_to_store_views'] = 'All Store Views';
+            }
+        } elseif (!$this->isElementPresent($xpath) && $validate == FALSE) {
+            if (array_key_exists('assign_to_store_views', $frontProperties)) {
+                unset($frontProperties['assign_to_store_views']);
+            }
+        }
+        $this->fillForm($frontProperties);
     }
 
     /**
@@ -104,16 +100,11 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
             $settings = $this->loadData($settings);
             $settings = $this->arrayEmptyClear($settings);
         }
-        $type = FALSE;
-        foreach (self::$TYPES as $key => $value) {
-            $type = (preg_match('/^' . $settings['type'] . '/', $value)) ? $key : $type;
-        }
-        if ($type != FALSE) {
-            $this->addParameter('type', $type);
-        } else {
-            $this->fail('Could not map ' . $settings['type'] . ' with any type of widget');
-        }
-        $packageTheme = explode('/', $settings['design_package_theme']);
+        $xpath = $this->_getControlXpath('dropdown', 'type');
+        $type = $this->getValue($xpath . '/option[text()="' . $settings['type'] . '"]');
+        $type = str_replace('/', '-', $type);
+        $this->addParameter('type', $type);
+        $packageTheme = explode('/', str_replace(' ', '', $settings['design_package_theme']));
         $this->addParameter('package', $packageTheme[0]);
         $this->addParameter('theme', $packageTheme[1]);
         $this->fillForm($settings);
@@ -133,30 +124,24 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         }
         $count = 0;
         foreach ($layoutData as $key => $value) {
-            $layoutName = FALSE;
-            foreach (self::$LAYOUTS as $layout => $data) {
-                $layoutName = (preg_match('/^' . $value['select_display_on'] . '/', $data)) ? $layout : $layoutName;
-            }
-            if ($layoutName != FALSE) {
-                $this->addParameter('layout', $layoutName);
-                $this->addParameter('param', "//div[@id='" . $layoutName . '_ids_' . $count . "']");
-                $this->addParameter('index', $count++);
-                $this->clickButton('add_layout_update', FALSE);
-                $this->fillForm($value);
-                $xpathOptionsAll = $this->_getControlXpath('radiobutton', 'all_categories_products_radio');
-                if (array_key_exists('choose_options', $value)) {
-                    if (preg_match('/anchor_categories/', $layoutName)) {
-                        $this->chooseLayoutOptions($value['choose_options'], 'categories');
-                    } else {
-                        $this->chooseLayoutOptions($value['choose_options']);
-                    }
+            $this->clickButton('add_layout_update', FALSE);
+            $this->addParameter('index', $count);
+            $xpath = $this->_getControlXpath('dropdown', 'select_display_on');
+            $layoutName = $this->getValue($xpath . '//option[text()="' . $value['select_display_on'] . '"]');
+            $this->addParameter('layout', $layoutName);
+            $this->addParameter('param', "//div[@id='" . $layoutName . '_ids_' . $count++ . "']");
+            $this->fillForm($value);
+            $xpathOptionsAll = $this->_getControlXpath('radiobutton', 'all_categories_products_radio');
+            if (array_key_exists('choose_options', $value)) {
+                if (preg_match('/anchor_categories/', $layoutName)) {
+                    $this->chooseLayoutOptions($value['choose_options'], 'categories');
                 } else {
-                    if ($this->isElementPresent($xpathOptionsAll)) {
-                        $this->check($xpathOptionsAll);
-                    }
+                    $this->chooseLayoutOptions($value['choose_options']);
                 }
             } else {
-                $this->fail('Could not map ' . $value['select_display_on'] . ' with any type of layout');
+                if ($this->isElementPresent($xpathOptionsAll)) {
+                    $this->check($xpathOptionsAll);
+                }
             }
         }
     }
@@ -172,17 +157,16 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         $this->clickControl('radiobutton', 'specific_categories_products_radio', FALSE);
         $this->clickControl('link', 'open_chooser', FALSE);
         $this->pleaseWait();
-        switch ($layoutName) {
-            case 'categories':
-                foreach ($layoutOptions as $key => $value) {
-                    $this->selectCategory($value);
-                }
-                break;
-            default:
-                foreach ($layoutOptions as $key => $value) {
-                    $this->searchAndChoose(array($key => $value));
-                }
-                break;
+        if ($layoutName == 'categories') {
+            foreach ($layoutOptions as $key => $value) {
+                $this->categoryHelper()->selectCategory($value);
+            }
+        } elseif ($layoutName == 'products') {
+            foreach ($layoutOptions as $key => $value) {
+                $this->searchAndChoose(array($key => $value));
+            }
+        } else {
+            return;
         }
         $this->clickControl('link', 'apply', FALSE);
     }
@@ -220,7 +204,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
                     $this->clickButton('select_category', FALSE);
                     $this->pleaseWait();
                     $this->addParameter('param', "//div[@id='widget-chooser_content']");
-                    $this->selectCategory($options['category_path']);
+                    $this->categoryHelper()->selectCategory($options['category_path']);
                     $this->checkChosenOption($options['title']);
                     break;
                 case 'catalog-product_widget_link':
@@ -228,7 +212,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
                     $this->pleaseWait();
                     if (array_key_exists('category_path', $options)) {
                         $this->addParameter('param', "//div[@id='widget-chooser_content']");
-                        $this->selectCategory($options['category_path']);
+                        $this->categoryHelper()->selectCategory($options['category_path']);
                         $this->waitForAjax();
                     }
                     $this->searchAndOpen(array('filter_sku' => $options['filter_sku']), FALSE);
@@ -253,43 +237,24 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Selects the category
-     *
-     * @param string $categoryPath
-     */
-    public function selectCategory($categoryPath)
-    {
-        $nodes = explode('/', $categoryPath);
-        $rootCat = array_shift($nodes);
-        $correctRoot = $this->categoryHelper()->defineCorrectCategory($rootCat);
-        foreach ($nodes as $value) {
-            $correctSubCat = array();
-            foreach ($correctRoot as $v) {
-                $correctSubCat = array_merge($correctSubCat,
-                        $this->categoryHelper()->defineCorrectCategory($value, $v));
-            }
-            $correctRoot = $correctSubCat;
-        }
-        if ($correctRoot) {
-            $this->click('//*[@id=\'' . array_shift($correctRoot) . '\']');
-            if ($nodes) {
-                $pageName = end($nodes);
-            } else {
-                $pageName = $rootCat;
-            }
-        } else {
-            $this->fail("Category with path='$categoryPath' could not be selected");
-        }
-    }
-
-    /**
      * Opens widget
      *
      * @param array $searchWidget
      */
     public function openWidget(array $searchWidget)
     {
-        $this->assertTrue($this->searchAndOpen($searchWidget), 'Widget is not found');
+        $this->_prepareDataForSearch($searchWidget);
+        $xpathTR = $this->search($searchWidget, 'cms_widgets_grid');
+        $this->assertNotEquals(NULL, $xpathTR, 'Widget is not found');
+        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('widget_grid_head', FALSE);
+        if (array_key_exists('Widget Instance Title', $names)) {
+            $text = $this->getText($xpathTR . '//td[' . $names['Widget Instance Title'] . ']');
+            $this->addParameter('widgetName', $text);
+        }
+        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+        $this->click($xpathTR);
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
     }
 
     /**

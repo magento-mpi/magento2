@@ -26,11 +26,12 @@
 #
 ---
 #<-------------------------------CMS Page Link Widget-------------------------->
-cms_page_link_widget_template:
+cms_page_link_widget:
     settings:
         type: CMS Page Link
         design_package_theme: base / default
     frontend_properties:
+        assign_to_store_views: All Store Views
         widget_instance_title: test
         sort_order: %noValue%
     layout_updates:
@@ -97,11 +98,12 @@ cms_page_link_widget_template:
             title: 404 Not Found 1
 
 #<----------------------------CMS Static Block Widget-------------------------->
-cms_static_block_widget_template:
+cms_static_block_widget:
     settings:
         type: CMS Static Block
         design_package_theme: base / default
     frontend_properties:
+        assign_to_store_views: All Store Views
         widget_instance_title: test
         sort_order: %noValue%
     layout_updates:
@@ -156,11 +158,12 @@ cms_static_block_widget_template:
             title: Footer Links
 
 #<-------------------------Catalog Category Link Widget------------------------>
-catalog_category_link_widget_template:
+catalog_category_link_widget:
     settings:
         type: Catalog Category Link
         design_package_theme: base / default
     frontend_properties:
+        assign_to_store_views: All Store Views
         widget_instance_title: test
         sort_order: %noValue%
     layout_updates:
@@ -227,11 +230,12 @@ catalog_category_link_widget_template:
             title: clehh_Sub Category Required
 
 #<-------------------------Catalog New Products List--------------------------->
-catalog_new_products_list_widget_template:
+catalog_new_products_list_widget:
     settings:
         type: Catalog New Products List
         design_package_theme: base / default
     frontend_properties:
+        assign_to_store_views: All Store Views
         widget_instance_title: test
         sort_order: %noValue%
     layout_updates:
@@ -295,11 +299,12 @@ catalog_new_products_list_widget_template:
         cache_lifetime: 10
 
 #<-------------------------Catalog Product Link--------------------------->
-catalog_product_link_widget_template:
+catalog_product_link_widget:
     settings:
         type: Catalog Product Link
         design_package_theme: base / default
     frontend_properties:
+#        assign_to_store_views: All Store Views
         widget_instance_title: test
         sort_order: %noValue%
     layout_updates:
@@ -367,11 +372,12 @@ catalog_product_link_widget_template:
             title: nevio_Sub Category Required / grouped
 
 #<-------------------------Catalog Product Link--------------------------->
-orders_and_returns_widget_template:
+orders_and_returns_widget:
     settings:
         type: Orders and Returns
         design_package_theme: base / default
     frontend_properties:
+        assign_to_store_views: All Store Views
         widget_instance_title: test
         sort_order: %noValue%
     layout_updates:
@@ -422,11 +428,12 @@ orders_and_returns_widget_template:
     widget_options: %noValue%
 
 #<-------------------------Recently Compared Products-------------------------->
-recently_compared_products_widget_template:
+recently_compared_products_widget:
     settings:
         type: Recently Compared Products
         design_package_theme: base / default
     frontend_properties:
+        assign_to_store_views: All Store Views
         widget_instance_title: test
         sort_order: %noValue%
     layout_updates:
@@ -490,11 +497,12 @@ recently_compared_products_widget_template:
 
 
 #<-------------------------Recently Viewed Products---------------------------->
-recently_viewed_products_widget_template:
+recently_viewed_products_widget:
     settings:
         type: Recently Viewed Products
         design_package_theme: base / default
     frontend_properties:
+        assign_to_store_views: All Store Views
         widget_instance_title: test
         sort_order: %noValue%
     layout_updates:
