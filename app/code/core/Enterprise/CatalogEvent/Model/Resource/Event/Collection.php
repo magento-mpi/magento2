@@ -130,21 +130,21 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
         if (!$this->_categoryDataAdded) {
              $this->getSelect()
                 ->joinLeft(array(
-                    'category' => $this->getTable('catalog/category')), 
-                    'category.entity_id = main_table.category_id', 
+                    'category' => $this->getTable('catalog/category')),
+                    'category.entity_id = main_table.category_id',
                     array('category_position' => 'position')
                  )
                 ->joinLeft(array(
-                    'category_name_attribute' => $this->getTable('eav/attribute')), 
+                    'category_name_attribute' => $this->getTable('eav/attribute')),
                     'category_name_attribute.entity_type_id = category.entity_type_id
-                    AND category_name_attribute.attribute_code = \'name\'', 
+                    AND category_name_attribute.attribute_code = \'name\'',
                     array()
                 )
                 ->joinLeft(array(
-                    'category_varchar' => $this->getTable(array('catalog/category', 'varchar'))), 
+                    'category_varchar' => $this->getTable(array('catalog/category', 'varchar'))),
                     'category_varchar.entity_id = category.entity_id
                     AND category_varchar.attribute_id = category_name_attribute.attribute_id
-                    AND category_varchar.store_id = 0', 
+                    AND category_varchar.store_id = 0',
                     array('category_name' => 'value')
                 );
             $this->_map['fields']['category_name'] = 'category_varchar.value';
@@ -190,7 +190,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
                 'event_image.event_id = main_table.event_id',
                 $adapter->quoteInto('event_image.store_id = ?', Mage::app()->getStore()->getId())
             )),
-            array('image' => 
+            array('image' =>
                 $adapter->getCheckSql('event_image.image IS NULL', 'event_image_default.image', 'event_image.image')
             )
         )
@@ -270,7 +270,8 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
         return $adapter->getCaseSql('',
             array(
                 "({$dateStart1} AND {$dateEnd1})" => $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_OPEN),
-                "({$dateStart2} AND {$dateEnd2})" => $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING),
+                "({$dateStart2} AND {$dateEnd2})" => $adapter
+                    ->quote(Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING),
             ),
             $adapter->quote(Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED)
         );
