@@ -2010,7 +2010,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @return Mage_Selenium_TestCase
      */
-    public function saveForm($buttonName)
+    public function saveForm($buttonName, $wait=false)
     {
         $this->messages = array();
         $this->_parseMessages();
@@ -2030,7 +2030,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 ${$message} .= $exclude;
             }
         }
-        $this->clickButton($buttonName, false);
+        $this->clickButton($buttonName, $wait);
         $this->waitForElement(array($success, $error, $validation));
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
