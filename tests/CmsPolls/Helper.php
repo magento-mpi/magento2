@@ -78,6 +78,7 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase {
      * @param string $pollTitle "Poll Question"
      */
     public function openPoll($pollTitle) {
+        $this->addParameter('pollName', $pollTitle);
         $searchData = array('poll_question' => $pollTitle);
         $this->assertTrue($this->searchAndOpen($searchData), "Poll with name '$pollTitle' is not found");
     }
