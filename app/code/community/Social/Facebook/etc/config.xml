@@ -39,11 +39,6 @@
             </social_facebook>
             <social_facebook_resource>
                 <class>Social_Facebook_Model_Resource</class>
-                <entities>
-                    <facebook>
-                        <table>social_facebook_actions</table>
-                    </facebook>
-                </entities>
             </social_facebook_resource>
         </models>
         <resources>
