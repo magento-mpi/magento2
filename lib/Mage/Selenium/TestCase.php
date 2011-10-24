@@ -1772,9 +1772,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
                 $this->frontend('home');
             }
-            if ($this->validatePage()) {
-                throw new PHPUnit_Framework_Exception('Home page was not opened');
-            }
         } catch (PHPUnit_Framework_Exception $e) {
             $this->fail($e->getMessage());
         }
