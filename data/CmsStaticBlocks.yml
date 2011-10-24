@@ -32,6 +32,7 @@ static_block:
     block_identifier: test_static_block_identifier
     block_status: Enabled
     simple_editor_content: Default content
+    store_views: All Store Views
 
 deleted_block:
     block_title: deleted_static_block

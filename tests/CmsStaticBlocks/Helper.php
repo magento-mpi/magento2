@@ -37,6 +37,13 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
 {
 
     /**
+     * List of fields that are used for searching.
+     *
+     * @var array
+     */
+    protected $_searchFields = array('block_title', 'block_identifier', 'store_views');
+
+    /**
      * Checks if the WYSIWYG Editor is open now. Can be configured in System->Configuration.
      */
     protected function _isWysiwygEditorOpen()
@@ -82,12 +89,30 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
     public function insertVariable($varName)
     {
         if ($this->_isWysiwygEditorOpen()) {
-            $this->clickControl('link','wysiwyg_insert_variable',false);
+            $this->clickControl('link', 'wysiwyg_insert_variable', false);
         } else {
-            $this->clickButton('insert_variable');
+            $this->clickButton('editor_insert_variable');
         }
         $this->addParameter('variableName', $varName);
         $this->clickControl('link', 'variable', false);
+    }
+
+    /**
+     * Fill settings for a Static Block
+     *
+     * @param string|array $settings Refers to/Contains DataSet for filling of the current form
+     */
+    public function fillSettings($settings)
+    {
+        if (is_string($settings))
+            $attrSet = $this->loadData($settings);
+        $settings = $this->arrayEmptyClear($settings);
+        $this->clickButton('add_new_block');
+        $this->_openSimpleEditor();
+        // Check if Store Views is present on the page
+        if (!($this->isElementPresent($this->_getControlXpath('multiselect', 'store_views'))))
+            unset($settings['store_views']);
+        $this->fillForm($settings, 'general_information');
     }
 
     /**
@@ -97,11 +122,7 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
      */
     public function createStaticBlock(array $attrSet)
     {
-        $attrSet = $this->arrayEmptyClear($attrSet);
-        $this->clickButton('add_new_block');
-        // TODO: Change to use WYSIWYG Editor
-        $this->_openSimpleEditor();
-        $this->fillForm($attrSet, 'general_information');
+        $this->fillSettings($attrSet);
         $this->saveForm('save_block');
     }
 
@@ -121,7 +142,7 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
             $block = $this->loadData($block);
         // Remove fields not used in search grid.
         foreach ($block as $key => $value) {
-            if ($key !== 'block_title' and $key !== 'block_identifier')
+            if (!(in_array($key, $this->_searchFields)))
                 $block[$key] = '%noValue%';
         }
         //Append additional search fields.

@@ -60,6 +60,7 @@ manage_cms_static_blocks:
              specify_identifier: "//div[@id='advice-required-entry-block_identifier' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]"
              specify_content: "//div[@id='advice-required-entry-block_content' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]"
              specify_valid_xml_identifier: "//div[@id='advice-validate-xml-identifier-block_identifier' and not(contains(@style,'display: none'))]"
+             already_existing_identifier: "//li[@class='error-msg' and contains(.,'A block identifier with the same properties already exists in the selected store.']"
 
 
 # 'Edit Block %blockName%' page
@@ -79,13 +80,15 @@ edit_cms_static_block:
                         fields:
                             block_title: //input[@name='title']
                             block_identifier: //input[@name='identifier']
+                        multiselects:
+                            store_views: //select[@id='block_store_id']
                 -
                     simple_editor:
                         xpath: //div[@id='buttonsblock_content']/parent::td
                         buttons:
-                            insert_widget: "//button[@class='scalable add-widget plugin' and not(@style='display: none;')]"
-                            insert_image: "//button[@class='scalable add-image plugin' and not(@style='display: none;')]"
-                            insert_variable: "//button[@class='scalable add-variable plugin' and not(@style='display: none;')]"
+                            editor_insert_widget: "//button[@class='scalable add-widget plugin' and not(@style='display: none;')]"
+                            editor_insert_image: "//button[@class='scalable add-image plugin' and not(@style='display: none;')]"
+                            editor_insert_variable: "//button[@class='scalable add-variable plugin' and not(@style='display: none;')]"
                         fields:
                             simple_editor_content: "//textarea[@name='content' and not(@style='display: none;')]"
                 -
@@ -197,6 +200,12 @@ edit_cms_static_block:
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *staticBlockMessages
 
+# Default edit page. Opens when an error happens during creating a new block.
+edit_cms_static_block_general:
+    mca: cms_block/edit/
+    title: New Block / Static Blocks / CMS / Magento Admin
+    uimap:
+        messages: *staticBlockMessages
 
 # 'New Block' page
 create_cms_static_block:

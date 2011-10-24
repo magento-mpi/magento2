@@ -72,6 +72,7 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $setData = $this->loadData('static_block', null, array('block_title', 'block_identifier'));
+        $this->addParameter('blockName', $setData['block_title']);
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
@@ -94,11 +95,15 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      * @dataProvider dataSpecialValues
      * @depends createNew
      * @test
+     *
+     * @param array $specialValue
+     * @param string|array $randomValue
      */
-    public function withSpecialValues($specialValue)
+    public function withSpecialValues(array $specialValue, $randomValue = null)
     {
         //Data
-        $setData = $this->loadData('static_block', $specialValue);
+        $setData = $this->loadData('static_block', $specialValue, $randomValue);
+        $this->addParameter('blockName', $setData['block_title']);
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
@@ -113,9 +118,9 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
     public function dataSpecialValues()
     {
         return array(
-            array(array('block_title' => $this->generate('string', 255))),
+            array(array('block_title' => $this->generate('string', 255)), 'block_identifier'),
             array(array('block_identifier' => $this->generate('string', 255, ':alpha:'))),
-            array(array('block_title' => $this->generate('string', 50, ':punct:'))),
+            array(array('block_title' => $this->generate('string', 50, ':punct:')), 'block_identifier'),
         );
     }
 
@@ -180,6 +185,26 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
             array($this->generate('string', 12, ':digit:')),
             array($this->generate('string', 12, ':punct:')),
             array("with_a_space " . $this->generate('string', 12, ':alpha:'))
+        );
+    }
+
+    /**
+     * <p>Creating a new static block with existing XML identifier.</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Block"</p>
+     * <p>2. Fill in the fields, enter already existing identifier</p>
+     * <p>3. Click button "Save Block"</p>
+     * <p>Expected result:</p>
+     * <p>Received an error message about already existing identifier.</p>
+     *
+     * @depends createNew
+     * @test
+     */
+    public function withExistingIdentifier()
+    {
+        $this->markTestIncomplete(
+                'This test is skipped because behaves differently with different Magento configuration. '
+                . 'Depends on the number of store views.'
         );
     }
 

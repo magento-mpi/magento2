@@ -70,6 +70,7 @@ class CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase
     {
         //Data
         $setData = $this->loadData('static_block', null, array('block_title', 'block_identifier'));
+        $this->addParameter('blockName', $setData['block_title']);
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verify
