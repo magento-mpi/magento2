@@ -142,7 +142,26 @@ class Mage_Index_Model_Indexer
             return $this;
         }
 
-        $this->_runAll('indexEvents', array($entity, $type));
+        $allowTableChanges = $this->_allowTableChanges;
+        if ($allowTableChanges) {
+            $this->_changeKeyStatus(false, array($entity, $type));
+        }
+
+        /** @var $resourceModel Mage_Index_Model_Resource_Process */
+        $resourceModel = Mage::getResourceSingleton('index/process');
+        $resourceModel->beginTransaction();
+        $this->_allowTableChanges = false;
+        try {
+            $this->_runAll('indexEvents', array($entity, $type));
+            $resourceModel->commit();
+        } catch (Exception $e) {
+            $resourceModel->rollBack();
+            throw $e;
+        }
+        if ($allowTableChanges) {
+            $this->_allowTableChanges = true;
+            $this->_changeKeyStatus(true, array($entity, $type));
+        }
         return $this;
     }
 
@@ -158,7 +177,7 @@ class Mage_Index_Model_Indexer
             return $this;
         }
 
-        $this->_runAll('processEvent', array($event));
+        $this->_runAll('safeProcessEvent', array($event));
         return $this;
     }
 
@@ -223,21 +242,28 @@ class Mage_Index_Model_Indexer
          * Index and save event just in case if some process matched it
          */
         if ($event->getProcessIds()) {
-            $this->_changeKeyStatus(false);
-            /** @var $resourceModel Mage_Index_Model_Resource_Abstract */
-            $resourceModel = Mage::getResourceModel('index/process');
+            $allowTableChanges = $this->_allowTableChanges;
+            if ($allowTableChanges) {
+                $this->_changeKeyStatus(false, $event);
+            }
+            /** @var $resourceModel Mage_Index_Model_Resource_Process */
+            $resourceModel = Mage::getResourceSingleton('index/process');
             $resourceModel->beginTransaction();
             $this->_allowTableChanges = false;
             try {
                 $this->indexEvent($event);
                 $resourceModel->commit();
-                $this->_allowTableChanges = true;
-                $this->_changeKeyStatus();
             } catch (Exception $e) {
                 $resourceModel->rollBack();
-                $this->_allowTableChanges = true;
-                $this->_changeKeyStatus();
+                if ($allowTableChanges) {
+                    $this->_allowTableChanges = true;
+                    $this->_changeKeyStatus(true, $event);
+                }
                 throw $e;
+            }
+            if ($allowTableChanges) {
+                $this->_allowTableChanges = true;
+                $this->_changeKeyStatus(true, $event);
             }
             $event->save();
         }
@@ -293,9 +319,11 @@ class Mage_Index_Model_Indexer
     /**
      * Enable/Disable keys in index tables
      *
+     * @param bool $enable
+     * @param null|Mage_Index_Model_Event|array $event
      * @return Mage_Index_Model_Indexer
      */
-    protected function _changeKeyStatus($enable = true)
+    protected function _changeKeyStatus($enable = true, $event = null)
     {
         $processed = array();
         foreach ($this->_processesCollection as $process) {
@@ -308,28 +336,45 @@ class Mage_Index_Model_Indexer
                 foreach ($process->getDepends() as $processCode) {
                     $dependProcess = $this->getProcessByCode($processCode);
                     if ($dependProcess && !in_array($processCode, $processed)) {
-                        if ($dependProcess instanceof Mage_Index_Model_Process) {
-                            if ($enable) {
-                                $dependProcess->enableIndexerKeys();
-                            } else {
-                                $dependProcess->disableIndexerKeys();
-                            }
+                        if ($this->_changeProcessKeyStatus($dependProcess, $enable, $event)) {
                             $processed[] = $processCode;
                         }
                     }
                 }
             }
 
-            if ($process instanceof Mage_Index_Model_Process) {
-                if ($enable) {
-                    $process->enableIndexerKeys();
-                } else {
-                    $process->disableIndexerKeys();
-                }
+            if ($this->_changeProcessKeyStatus($process, $enable, $event)) {
                 $processed[] = $code;
             }
         }
 
         return $this;
+    }
+
+    /**
+     * Check if the event will be processed and disable/enable keys in index tables
+     *
+     * @param mixed|Mage_Index_Model_Process $process
+     * @param bool $enable
+     * @param null|Mage_Index_Model_Event|array $event
+     * @return bool
+     */
+    protected function _changeProcessKeyStatus($process, $enable = true, $event = null)
+    {
+        if ($process instanceof Mage_Index_Model_Process
+            && $process->getMode() !== Mage_Index_Model_Process::MODE_MANUAL
+            && !$process->isLocked()
+            && (is_null($event)
+                || ($event instanceof Mage_Index_Model_Event && $process->matchEvent($event))
+                || (is_array($event) && $process->matchEntityAndType($event[0], $event[1]))
+        )) {
+            if ($enable) {
+                $process->enableIndexerKeys();
+            } else {
+                $process->disableIndexerKeys();
+            }
+            return true;
+        }
+        return false;
     }
 }

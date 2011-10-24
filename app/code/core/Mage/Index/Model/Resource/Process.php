@@ -95,6 +95,22 @@ class Mage_Index_Model_Resource_Process extends Mage_Core_Model_Resource_Db_Abst
     }
 
     /**
+     * Register process fail
+     *
+     * @param Mage_Index_Model_Process $process
+     * @return Mage_Index_Model_Resource_Process
+     */
+    public function failProcess(Mage_Index_Model_Process $process)
+    {
+        $data = array(
+            'status'   => Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX,
+            'ended_at' => $this->formatDate(time()),
+        );
+        $this->_updateProcessData($process->getId(), $data);
+        return $this;
+    }
+
+    /**
      * Update process status field
      *
      *

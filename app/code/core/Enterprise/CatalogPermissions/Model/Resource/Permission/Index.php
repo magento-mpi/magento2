@@ -32,7 +32,7 @@
  * @package     Enterprise_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage_Index_Model_Resource_Abstract
 {
     const XML_PATH_GRANT_BASE = 'catalog/enterprise_catalogpermissions/';
 

@@ -251,13 +251,20 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
     public function reindexAll()
     {
         $this->useIdxTable(true);
-        $this->clearTemporaryIndexTable();
+        $this->beginTransaction();
+        try {
+            $this->clearTemporaryIndexTable();
 
-        foreach ($this->_getTypeIndexers() as $indexer) {
-            $indexer->reindexAll();
+            foreach ($this->_getTypeIndexers() as $indexer) {
+                $indexer->reindexAll();
+            }
+
+            $this->syncData();
+            $this->commit();
+        } catch (Exception $e) {
+            $this->rollBack();
+            throw $e;
         }
-
-        $this->syncData();
         return $this;
     }
 

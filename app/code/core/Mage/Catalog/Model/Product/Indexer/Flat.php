@@ -25,6 +25,8 @@
  */
 class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_Abstract
 {
+    const EVENT_MATCH_RESULT_KEY = 'catalog_product_flat_match_result';
+
     /**
      * Index math Entities array
      *
@@ -48,7 +50,10 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
         ),
         Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
-        )
+        ),
+        Mage_Catalog_Model_Product_Flat_Indexer::ENTITY => array(
+            Mage_Catalog_Model_Product_Flat_Indexer::EVENT_TYPE_REBUILD,
+        ),
     );
 
     /**
@@ -96,33 +101,31 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
         }
 
         $data       = $event->getNewData();
-        $resultKey = 'catalog_product_flat_match_result';
-        if (isset($data[$resultKey])) {
-            return $data[$resultKey];
+        if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
+            return $data[self::EVENT_MATCH_RESULT_KEY];
         }
 
-        $result = null;
         $entity = $event->getEntity();
         if ($entity == Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
             /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             $attribute      = $event->getDataObject();
             $addFilterable  = Mage::helper('catalog/product_flat')->isAddFilterableAttributes();
 
-            $enableBefore   = ($attribute->getOrigData('backend_type') == 'static')
+            $enableBefore   = $attribute && (($attribute->getOrigData('backend_type') == 'static')
                 || ($addFilterable && $attribute->getOrigData('is_filterable') > 0)
                 || ($attribute->getOrigData('used_in_product_listing') == 1)
                 || ($attribute->getOrigData('is_used_for_promo_rules') == 1)
-                || ($attribute->getOrigData('used_for_sort_by') == 1);
+                || ($attribute->getOrigData('used_for_sort_by') == 1));
 
-            $enableAfter    = ($attribute->getData('backend_type') == 'static')
+            $enableAfter    = $attribute && (($attribute->getData('backend_type') == 'static')
                 || ($addFilterable && $attribute->getData('is_filterable') > 0)
                 || ($attribute->getData('used_in_product_listing') == 1)
                 || ($attribute->getData('is_used_for_promo_rules') == 1)
-                || ($attribute->getData('used_for_sort_by') == 1);
+                || ($attribute->getData('used_for_sort_by') == 1));
 
-            if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
+            if ($attribute && $event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
                 $result = $enableBefore;
-            } else if ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
+            } elseif ($attribute && $event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
                 if ($enableAfter || $enableBefore) {
                     $result = true;
                 } else {
@@ -137,7 +140,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
             } else {
                 /* @var $store Mage_Core_Model_Store */
                 $store = $event->getDataObject();
-                if ($store->isObjectNew()) {
+                if ($store && $store->isObjectNew()) {
                     $result = true;
                 } else {
                     $result = false;
@@ -146,7 +149,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
         } else if ($entity == Mage_Core_Model_Store_Group::ENTITY) {
             /* @var $storeGroup Mage_Core_Model_Store_Group */
             $storeGroup = $event->getDataObject();
-            if ($storeGroup->dataHasChangedFor('website_id')) {
+            if ($storeGroup && $storeGroup->dataHasChangedFor('website_id')) {
                 $result = true;
             } else {
                 $result = false;
@@ -155,7 +158,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
             $result = parent::matchEvent($event);
         }
 
-        $event->addNewData($resultKey, $result);
+        $event->addNewData(self::EVENT_MATCH_RESULT_KEY, $result);
 
         return $result;
     }
@@ -167,6 +170,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      */
     protected function _registerEvent(Mage_Index_Model_Event $event)
     {
+        $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         switch ($event->getEntity()) {
             case Mage_Catalog_Model_Product::ENTITY:
                 $this->_registerCatalogProductEvent($event);
@@ -184,6 +188,12 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
                 $event->addNewData('catalog_product_flat_skip_call_event_handler', true);
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                break;
+            case Mage_Catalog_Model_Product_Flat_Indexer::ENTITY:
+                switch ($event->getType()) {
+                    case Mage_Catalog_Model_Product_Flat_Indexer::EVENT_TYPE_REBUILD:
+                        $event->addNewData('id', $event->getDataObject()->getId());
+                }
                 break;
         }
     }
@@ -261,6 +271,12 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
     protected function _processEvent(Mage_Index_Model_Event $event)
     {
         $data = $event->getNewData();
+        if ($event->getType() == Mage_Catalog_Model_Product_Flat_Indexer::EVENT_TYPE_REBUILD) {
+            $this->_getIndexer()->getResource()->rebuild($data['id']);
+            return;
+        }
+
+
         if (!empty($data['catalog_product_flat_reindex_all'])) {
             $this->reindexAll();
         } else if (!empty($data['catalog_product_flat_product_id'])) {
@@ -300,6 +316,6 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      */
     public function reindexAll()
     {
-        $this->_getIndexer()->rebuild();
+        $this->_getIndexer()->reindexAll();
     }
 }
