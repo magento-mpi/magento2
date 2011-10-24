@@ -66,7 +66,7 @@ class ProductAttribute_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($searchData, 'attributes_grid');
         $this->assertNotEquals(null, $xpathTR, 'Attribute is not found');
         $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('attributes_grid_head', false);
-        if (array_key_exists('Attribute Label', $names)) {
+        if (array_key_exists('Attribute Code', $names)) {
             $text = $this->getText($xpathTR . '//td[' . $names['Attribute Code'] . ']');
             $this->addParameter('attribute_code', $text);
         }
