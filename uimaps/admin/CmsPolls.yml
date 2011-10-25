@@ -40,17 +40,19 @@ poll_manager:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         dropdowns:
-                            poll_visible_in: //select[@name='visible_in']
-                            poll_status: //select[@name='closed']
+                            filter_visible_in: //select[@name='visible_in']
+                            filter_status: //select[@name='closed']
                         fields:
-                            poll_id: //input[@name='poll_id']
-                            poll_question: //input[@name='poll_title']
-                            poll_number_of_responses_from: //input[@name='votes_count[from]']
-                            poll_number_of_responses_from: //input[@name='votes_count[to]']
-                            poll_date_posted_from: //input[@name='date_posted[from]']
-                            poll_date_posted_to: //input[@name='date_posted[to]']
-                            poll_date_closed_from: //input[@name='date_closed[from]']
-                            poll_date_closed_to: //input[@name='date_closed[to]']
+                            filter_id: //input[@name='poll_id']
+                            filter_question: //input[@name='poll_title']
+                            filter_number_of_responses_from: //input[@name='votes_count[from]']
+                            filter_umber_of_responses_to: //input[@name='votes_count[to]']
+                            filter_date_posted_from: //input[@name='date_posted[from]']
+                            filter_date_posted_to: //input[@name='date_posted[to]']
+                            filter_date_closed_from: //input[@name='date_closed[from]']
+                            filter_date_closed_to: //input[@name='date_closed[to]']
+                        pageelements:
+                            poll_grid_head: //*[@id='pollGrid_table']/thead/tr[@class='headings']
         buttons:
             add_new_poll: //button[span='Add New Poll']
         messages: &pollMesssages

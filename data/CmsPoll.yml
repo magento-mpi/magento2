@@ -36,7 +36,7 @@
 answer_1: &answer1
   answer_title: Answer 1
   votes_count: 1
-  
+
 answer_2: &answer2
   answer_title: Answer 2
   votes_count: 1
@@ -44,13 +44,13 @@ answer_2: &answer2
 answer_3: &answer3
   answer_title: Answer 3
   votes_count: 1
-  
+
 
 answers_set: &answersSet
   1: *answer1
   2: *answer2
-  3: *answer3  
-  
+  3: *answer3
+
 
 #*********************************************
 #*         General Poll Data                 *
@@ -63,7 +63,17 @@ poll_open:
     assigned_answers_set: *answersSet
 
 search_poll:
-    poll_question: %noValue%
-    poll_status: %noValue%
-    visible_in: %noValue%
-    assigned_answers_set: %noValue%
+#    poll_question: %noValue%
+#    poll_status: %noValue%
+#    visible_in: %noValue%
+#    assigned_answers_set: %noValue%
+    filter_id: %noValue%
+    filter_question: %noValue%
+    filter_number_of_responses_from: %noValue%
+    filter_umber_of_responses_to: %noValue%
+    filter_date_posted_from: %noValue%
+    filter_date_posted_to: %noValue%
+    filter_date_closed_from: %noValue%
+    filter_date_closed_to: %noValue%
+    filter_visible_in: %noValue%
+    filter_status: %noValue%

@@ -34,16 +34,21 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CmsPolls_Helper extends Mage_Selenium_TestCase {
+class CmsPolls_Helper extends Mage_Selenium_TestCase
+{
 
     public $isVisibleIn = false;
+
     /**
      * Add answers to Poll
      *
      * @param array $answersSet Array of answers for poll
      */
-    public function addAnswer($answersSet)
+    public function addAnswer(array $answersSet)
     {
+        if (!$answersSet) {
+            return true;
+        }
         $tabXpath = $this->getCurrentLocationUimapPage()->findTab('poll_answers')->getXpath();
         $isTabOpened = $this->getAttribute($tabXpath . '/parent::*/@class');
         if (!preg_match('/active/', $isTabOpened)) {
@@ -66,14 +71,15 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase {
     public function createPoll($pollData)
     {
         $pollData = $this->arrayEmptyClear($pollData);
+        $answers = (isset($pollData['assigned_answers_set'])) ? $pollData['assigned_answers_set'] : array();
+        if ($this->controlIsPresent('dropdown', 'filter_visible_in')) {
+            $this->isVisibleIn = true;
+        }
         $this->clickButton('add_new_poll');
-        $this->isVisibleIn = $this->controlIsPresent('multiselect', 'visible_in');
-        if (!$this->isVisibleIn)
+        if (!$this->isVisibleIn && isset($pollData['visible_in']))
             unset($pollData['visible_in']);
         $this->fillForm($pollData, 'poll_information');
-        if (array_key_exists('assigned_answers_set', $pollData) && is_array($pollData['assigned_answers_set'])) {
-            $this->addAnswer($pollData['assigned_answers_set']);
-        }
+        $this->addAnswer($answers);
         $this->saveForm('save_poll');
     }
 
@@ -82,20 +88,26 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase {
      *
      * @param string|array $pollData Poll to open. Either a dataset name (string) or the whole data set (array).
      */
-    public function openPoll($pollData)
+    public function openPoll($searchPollData)
     {
-        if (is_string($pollData))
-        $pollData = $this->loadData($pollData);
-        $pollData = $this->arrayEmptyClear($pollData);
-        //@TODO temporary fix for search
-        unset($pollData['visible_in']);
-        //remove "Answers" array from seacrh array - may cause fail of searchAndOpen function
-        //$this->click($xpathTR . "/td[contains(text(),'" . $data[array_rand($data)] . "')]");
-        unset($pollData['assigned_answers_set']);
-        if (!empty ($pollData['poll_question']))
-            $this->addParameter('pollName', $pollData['poll_question']);
-        $this->assertTrue($this->searchAndOpen($pollData),
-                "Poll with name " . $pollData['poll_question'] . " is not found");
+        $searchPollData = $this->arrayEmptyClear($searchPollData);
+        if ($this->controlIsPresent('dropdown', 'filter_visible_in')) {
+            $this->isVisibleIn = true;
+        }
+        if (array_key_exists('filter_visible_in', $searchData) && !$this->isVisibleIn) {
+            unset($data['visible_in']);
+        }
+        $xpathTR = $this->search($searchData, 'poll_grid');
+        $this->assertNotEquals(null, $xpathTR, 'Poll is not found');
+        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('poll_grid_head', false);
+        if (array_key_exists('Poll Question', $names)) {
+            $text = $this->getText($xpathTR . '//td[' . $names['Poll Question'] . ']');
+            $this->addParameter('pollName', $text);
+        }
+        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+        $this->click($xpathTR . '//td[' . $names['Poll Question'] . ']');
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->validatePage();
     }
 
     /**
@@ -106,13 +118,15 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase {
      */
     public function frontCheckPoll($pollTitle)
     {
-        $isPresent = false;
         $this->addParameter('pollTitle', $pollTitle);
-        $pollXpath = $this->getCurrentLocationUimapPage()->findFieldset('community_poll')->getXpath();
-        $isPresent = $this->isElementPresent($pollXpath);
-        $pollTitleXPath = $this->getCurrentLocationUimapPage()->findPageelement('poll_title');
-        $isPresent = $this->isElementPresent($pollTitleXPath);
-        return $isPresent;
+        $page = $this->getCurrentLocationUimapPage();
+        $pollXpath = $page->findFieldset('community_poll')->getXpath();
+        if (!$this->isElementPresent($pollXpath)) {
+            $this->fail('Community poll block is not displayed on the page');
+        }
+        $pollTitleXPath = $page->findPageelement('poll_title');
+
+        return $this->isElementPresent($pollTitleXPath);
     }
 
     /**
@@ -120,11 +134,10 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase {
      *
      * @param string $pollData Array of Poll data
      */
-    public function setPollState($pollData, $state)
+    public function setPollState($searchPollData, $state)
     {
-        $this->openPoll($pollData);
-        $pollData = array('poll_status' => $state);
-        $this->fillForm($pollData, 'poll_information');
+        $this->openPoll($searchPollData);
+        $this->fillForm(array('poll_status' => $state), 'poll_information');
         $this->saveForm('save_poll');
     }
 
@@ -133,14 +146,14 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase {
      */
     public function closeAllPolls()
     {
-        $searchData = array('poll_status' => 'Open');
-        $xpathTR = $this->search($searchData);
-        $searchData['poll_status'] = 'Closed';
+        $this->clickButton('reset_filter');
+        $xpathTR = $this->search(array('filter_status' => 'Open'));
         while ($this->isElementPresent($xpathTR)) {
-            $this->click($xpathTR);
-            $this->waitForPageToLoad();
-            $this->addParameter('id', $this->defineIdFromUrl());
-            $this->fillForm($searchData, 'poll_information');
+            $itemId = $this->defineIdFromTitle($xpathTR);
+            $this->addParameter('id', $itemId);
+            $this->clickAndWait($xpathTR . '/td');
+            $this->validatePage();
+            $this->fillForm(array('poll_status' => 'Closed'), 'poll_information');
             $this->saveForm('save_poll');
         }
     }
@@ -152,14 +165,13 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase {
      */
     public function checkPollData($pollData)
     {
-        $this->openPoll($pollData);
         //@TODO Fix for verifyForm function. Multiselect label will have space before value
         if (isset($pollData['visible_in']))
             $pollData['visible_in'] = '    ' . $pollData['visible_in'];
-        if (!$this->isVisibleIn)
+        if (array_key_exists($key, $searchData) && !$this->isVisibleIn)
             unset($pollData['visible_in']);
-        $this->assertTrue($this->verifyForm($pollData, 'poll_information',
-                array('assigned_answers_set'), "Poll information is wrong"));
+        $this->assertTrue($this->verifyForm($pollData, 'poll_information', array('assigned_answers_set'),
+                        $this->messages));
         $this->clickControl('tab', 'poll_answers', false);
         $this->assertTrue($this->verifyForm($pollData['assigned_answers_set'], 'poll_answers'));
         $this->clickButton('back');
@@ -168,11 +180,11 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase {
     /**
      * Delete a Poll
      *
-    * @param array $pollData Array of Poll data
+     * @param array $pollData Array of Poll data
      */
-    public function deletePoll($pollData)
+    public function deletePoll($searchPollData)
     {
-        $this->openPoll($pollData);
+        $this->openPoll($searchPollData);
         $this->clickButtonAndConfirm('delete_poll', 'confirmation_for_delete');
     }
 
@@ -195,4 +207,5 @@ class CmsPolls_Helper extends Mage_Selenium_TestCase {
             $this->fail("Could not vote");
         }
     }
+
 }
