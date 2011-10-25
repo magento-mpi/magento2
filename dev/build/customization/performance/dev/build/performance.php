@@ -10,19 +10,10 @@
 
 $baseDir = realpath(__DIR__ . '/../../');
 
-$databaseDumpFile = "$baseDir/dev/build/database_dump.sql";
-
-$jMeterJarFile = isset($_ENV['jmeter_jar']) ? $_ENV['jmeter_jar'] : 'ApacheJMeter.jar';
-
-$scenarios = array(
-    "$baseDir/dev/tests/performance/testsuite/add_to_cart-magento_2.jmx",
-    "$baseDir/dev/tests/performance/testsuite/advanced_search-magento_2.jmx",
-    "$baseDir/dev/tests/performance/testsuite/category_view-magento_2.jmx",
-    "$baseDir/dev/tests/performance/testsuite/checkout-magento_2.jmx",
-    "$baseDir/dev/tests/performance/testsuite/home_page-magento_2.jmx",
-    "$baseDir/dev/tests/performance/testsuite/product_view-magento_2.jmx",
-    "$baseDir/dev/tests/performance/testsuite/quick_search-magento_2.jmx",
-);
+$jMeterJarFile = isset($_ENV['jmeter_jar_file']) ? $_ENV['jmeter_jar_file'] : 'ApacheJMeter.jar';
+$databaseDumpFile = isset($_ENV['database_dump_file']) ? $_ENV['database_dump_file'] : __DIR__ . '/database_dump.sql';
+$scenarios = include(isset($_ENV['scenarios_source_file']) ? $_ENV['scenarios_source_file'] : __DIR__ . '/config.php');
+$reportDir = isset($_ENV['report_dir']) ? $_ENV['report_dir'] : "$baseDir/dev/tests/performance/report";
 
 $localXmlFile = "$baseDir/app/etc/local.xml";
 $localXml = simplexml_load_file($localXmlFile);
@@ -52,7 +43,7 @@ foreach ($_ENV as $key => $value) {
 
 $jMeterCmd = 'java -jar ' . escapeshellarg($jMeterJarFile) . ' -n -t %s -l %s' . $jMeterProperties;
 foreach ($scenarios as $scenarioFile) {
-    $scenarioLogFile = "$baseDir/dev/tests/performance/report/" . basename($scenarioFile, '.jmx') . ".jtl";
+    $scenarioLogFile = $reportDir . DIRECTORY_SEPARATOR . basename($scenarioFile, '.jmx') . '.jtl';
     $scenarioCmd = sprintf($jMeterCmd, escapeshellarg($scenarioFile), escapeshellarg($scenarioLogFile));
     passthru($scenarioCmd, $exitCode);
     if ($exitCode) {
