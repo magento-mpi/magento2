@@ -34,16 +34,6 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
         $this->_model->init(self::$_options);
     }
 
-    public function testApplyClassRewrites()
-    {
-        $this->assertEquals('Mage_Core_Model_Url', $this->_model->applyClassRewrites('Mage_Core_Model_Url'));
-
-        $rewrittenClass = 'Some_Class_To_Rewrite';
-        $rewritingClass = 'Some_Class_That_Rewrites';
-        $this->_model->setNode('global/rewrites/' . $rewrittenClass, $rewritingClass);
-        $this->assertEquals($rewritingClass, $this->_model->applyClassRewrites($rewrittenClass));
-    }
-
     public function testGetGroupedClassName()
     {
         $this->assertEquals('Mage_Core_Model_Config', $this->_model->getGroupedClassName('model', 'core/config'));
@@ -102,11 +92,11 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
      * @param string $configPath
      * @param string $node
      * @param string $nodeValue
-     * @param string $expectedInstanceClass
+     * @param string $expectedClass
      *
-     * @dataProvider testGetNodeClassInstanceDataProvider
+     * @dataProvider getNodeClassInstanceDataProvider
      */
-    public function testGetNodeClassInstance($configPath, $node, $nodeValue, $expectedInstanceClass)
+    public function testGetNodeClassInstance($configPath, $node, $nodeValue, $expectedClass)
     {
         $nodePath = $configPath . '/' . $node;
         $oldValue = Mage::getConfig()->getNode($nodePath);
@@ -115,13 +105,13 @@ class Mage_Core_Model_ConfigFactoryTest extends PHPUnit_Framework_TestCase
         $actualInstance = $this->_model->getNodeClassInstance($configPath);
         Mage::getConfig()->setNode($nodePath, $oldValue);
 
-        $this->assertInstanceOf($expectedInstanceClass, $actualInstance);
+        $this->assertInstanceOf($expectedClass, $actualInstance);
     }
 
     /**
      * @return array
      */
-    public function testGetNodeClassInstanceDataProvider()
+    public function getNodeClassInstanceDataProvider()
     {
         return array(
             'alias in "class"' => array(

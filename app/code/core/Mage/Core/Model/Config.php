@@ -1221,7 +1221,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if ($this->_isClassAlias($classId)) {
             $classId = $this->_getGroupedClassName($groupType, $classId, $groupRootNode);
         }
-        return $this->applyClassRewrites($classId);
+        return $this->_applyClassRewrites($classId);
     }
 
     /**
@@ -1243,7 +1243,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param   string $className
      * @return  string
      */
-    public function applyClassRewrites($className)
+    protected function _applyClassRewrites($className)
     {
         if (!isset($this->_classNameCache[$className])) {
             if (isset($this->_xml->global->rewrites->$className)) {

@@ -190,7 +190,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $blockType
      * @param string $expectedClassName
-     * @dataProvider testGetBlockSingletonDataProvider
+     * @dataProvider getBlockSingletonDataProvider
      */
     public function testGetBlockSingleton($blockType, $expectedClassName)
     {
@@ -199,7 +199,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertSame($block, $this->_model->getBlockSingleton($blockType));
     }
 
-    public function testGetBlockSingletonDataProvider()
+    public function getBlockSingletonDataProvider()
     {
         return array(
             array('core/text', 'Mage_Core_Block_Text'),

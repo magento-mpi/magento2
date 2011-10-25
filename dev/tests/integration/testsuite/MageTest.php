@@ -40,7 +40,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $classId
      * @param string $expectedClassName
-     * @dataProvider testGetModelDataProvider
+     * @dataProvider getModelDataProvider
      */
     public function testGetModel($classId, $expectedClassName)
     {
@@ -50,7 +50,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function testGetModelDataProvider()
+    public function getModelDataProvider()
     {
         return array(
             array('core/config', 'Mage_Core_Model_Config'),
@@ -61,7 +61,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $classId
      * @param string $expectedClassName
-     * @dataProvider testGetResourceModelDataProvider
+     * @dataProvider getResourceModelDataProvider
      */
     public function testGetResourceModel($classId, $expectedClassName)
     {
@@ -71,7 +71,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function testGetResourceModelDataProvider()
+    public function getResourceModelDataProvider()
     {
         return array(
             array('core/config', 'Mage_Core_Model_Resource_Config'),
@@ -82,7 +82,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $classId
      * @param string $expectedClassName
-     * @dataProvider testHelperDataProvider
+     * @dataProvider helperDataProvider
      */
     public function testHelper($classId, $expectedClassName)
     {
@@ -92,7 +92,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function testHelperDataProvider()
+    public function helperDataProvider()
     {
         return array(
             array('core', 'Mage_Core_Helper_Data'),
