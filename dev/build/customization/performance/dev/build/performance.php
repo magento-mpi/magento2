@@ -62,9 +62,9 @@ if ($failures) {
         echo "Scenario '$scenarioFile' has failed!\n";
         foreach ($failedAssertions as $assertionResult) {
             if (isset($assertionResult->failureMessage)) {
-                echo "  failure message: " . $assertionResult->failureMessage . "\n";
+                echo $assertionResult->failureMessage . "\n";
             } else if (isset($assertionResult->errorMessage)) {
-                echo "  error message: " . $assertionResult->errorMessage . "\n";
+                echo $assertionResult->errorMessage . "\n";
             }
         }
     }

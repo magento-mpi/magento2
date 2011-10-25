@@ -12,6 +12,5 @@ $baseDir = realpath(__DIR__ . '/../../');
 
 return array(
     "$baseDir/dev/tests/performance/testsuite/home_page-magento_2.jmx",
-    "$baseDir/dev/tests/performance/testsuite/category_view-magento_2.jmx",
     "$baseDir/dev/tests/performance/testsuite/checkout-magento_2.jmx",
 );
