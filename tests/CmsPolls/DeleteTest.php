@@ -36,12 +36,11 @@
  */
 class CmsPolls_DeleteTest extends Mage_Selenium_TestCase {
 
-    protected static $visibleIn = false;
-
     /**
      * <p>Log in to Backend.</p>
      */
-    public function setUpBeforeTests() {
+    public function setUpBeforeTests()
+    {
         $this->loginAdminUser();
     }
 
@@ -49,9 +48,9 @@ class CmsPolls_DeleteTest extends Mage_Selenium_TestCase {
      * <p>Preconditions:</p>
      * <p>Navigate to CMS -> Polls</p>
      */
-    protected function assertPreConditions() {
+    protected function assertPreConditions()
+    {
         $this->navigate('poll_manager');
-        self::$visibleIn = $this->controlIsPresent('dropdown', 'poll_visible_in');
         $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
         $this->addParameter('id', '0');
     }
@@ -67,21 +66,18 @@ class CmsPolls_DeleteTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function deleteNewPoll() {
+    public function deleteNewPoll()
+    {
         //Data
         $pollData = $this->loadData('poll_open', null, 'poll_question');
-        if (!self::$visibleIn)
-            unset($pollData['visible_in']);
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_poll'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
         //Steps
-        $this->cmsPollsHelper()->openPoll($pollData['poll_question']);
-        $this->cmsPollsHelper()->deletePoll();
+        $this->cmsPollsHelper()->deletePoll($pollData);
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_poll'), $this->messages);
     }
-
 }

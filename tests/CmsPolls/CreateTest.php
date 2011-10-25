@@ -37,13 +37,13 @@
 class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
 
     protected $pollToBeDeleted = null;
-    protected $visibleIn = false;
 
     /**
      * <p>Log in to Backend.</p>
      * <p>Close all opened Polls</p>
      */
-    public function setUpBeforeTests() {
+    public function setUpBeforeTests()
+    {
         $this->loginAdminUser();
         $this->navigate('poll_manager');
     }
@@ -52,11 +52,11 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
      * <p>Preconditions:</p>
      * <p>Navigate to CMS -> Polls</p>
      */
-    protected function assertPreConditions() {
+    protected function assertPreConditions()
+    {
         $this->navigate('poll_manager');
         $this->cmsPollsHelper()->closeAllPolls();
         $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
-        $this->visibleIn = $this->controlIsPresent('dropdown', 'poll_visible_in');
         $this->addParameter('id', '0');
     }
 
@@ -72,21 +72,19 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
      *
      * @test
      */
-    public function createNew() {
+    public function createNew()
+    {
         //Data
         $pollData = $this->loadData('poll_open', null, 'poll_question');
-        if (!$this->visibleIn)
-            unset($pollData['visible_in']);
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
-
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_poll'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
         $this->cmsPollsHelper()->checkPollData($pollData);
+        $this->frontend();
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
                 "There is no " . $pollData['poll_question'] . " poll on home page");
-
         //Cleanup
         $this->pollToBeDeleted = $pollData;
     }
@@ -103,26 +101,26 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
      * @dataProvider dataEmptyRequiredFields
      * @test
      */
-    public function withEmptyRequiredFields($emptyField, $fieldType) {
+    public function withEmptyRequiredFields($emptyField, $fieldType)
+    {
         //Data
         $pollData = $this->loadData('poll_open', array($emptyField => ''), 'poll_question');
-        if (!$this->visibleIn)
-            unset($pollData['visible_in']);
-
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
-
+        $tst = $this->cmsPollsHelper()->isVisibleIn;
         //Verifying
-        if (array_key_exists($emptyField, $pollData)) {
+        if (!$this->cmsPollsHelper()->isVisibleIn and $emptyField=='visible_in') {
+            $this->assertTrue($this->successMessage(), $this->messages);
+            $this->pollToBeDeleted = $pollData;
+        } else {
             $this->addFieldIdToMessage($fieldType, $emptyField);
             $this->assertTrue($this->validationMessage(), $this->messages);
             $this->assertTrue($this->verifyMessagesCount(), $this->messages);
-        } else {
-            $this->assertTrue($this->successMessage(), $this->messages);
         }
     }
 
-    public function dataEmptyRequiredFields() {
+    public function dataEmptyRequiredFields()
+    {
         return array(
             array('poll_question', 'field'),
             array('visible_in', 'multiselect')
@@ -141,11 +139,10 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
      * @depends createNew
      * @test
      */
-    public function identicalAnswer() {
+    public function identicalAnswer()
+    {
         //Data
         $pollData = $this->loadData('poll_open', null, 'poll_question');
-        if (!$this->visibleIn)
-            unset($pollData['visible_in']);
         //Dublicate answers
         foreach ($pollData['assigned_answers_set'] as $value) {
             $pollData['assigned_answers_set'][] = $value;
@@ -166,25 +163,26 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
      * <p>Expected result:</p>
      * <p>Poll should not be displayed.</p>
      *
-     * @depends createNew
+   //  * @depends createNew
      * @test
      */
-    public function closedIsNotDispalyed() {
+    public function closedIsNotDispalyed()
+    {
         //Data
         $pollData = $this->loadData('poll_open', null, 'poll_question');
-        if (!$this->visibleIn)
-            unset($pollData['visible_in']);
-
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_poll'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
+        $this->frontend();
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
                 "There is no " . $pollData['poll_question'] . " poll on home page");
         //Steps
-        $this->cmsPollsHelper()->setPollState($pollData['poll_question'], 'Closed');
+        $this->admin('poll_manager');
+        $this->cmsPollsHelper()->setPollState($pollData, 'Closed');
         //Verifying
+        $this->frontend();
         $this->assertFalse($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
                 "There is " . $pollData['poll_question'] . " poll on home page");
         //Cleanup
@@ -198,42 +196,44 @@ class CmsPolls_CreateTest extends Mage_Selenium_TestCase {
      * <p>2. Fill in the fields.</p>
      * <p>3. Click button "Save Poll".</p>
      * <p>4. Vote a poll on Homepage.</p>
-     * <p>4. Re-open Homepage.</p>
+     * <p>5. Re-open Homepage.</p>
      * <p>Expected result:</p>
      * <p>Poll should not be available for vote</p>
      *
      * @depends createNew
      * @test
      */
-    public function votePoll() {
+    public function votePoll()
+    {
         //Data
         $pollData = $this->loadData('poll_open', null, 'poll_question');
-        if (!$this->visibleIn)
-            unset($pollData['visible_in']);
-
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying
         $this->assertTrue($this->successMessage('success_saved_poll'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('poll_manager'), $this->messages);
+        $this->frontend();
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
                 "There is no " . $pollData['poll_question'] . " poll on home page");
         //Steps
         $this->cmsPollsHelper()->vote($pollData['poll_question'], $pollData['assigned_answers_set'][1]['answer_title']);
         //Verifying
+        //Re-open Home page
+        $this->frontend();
         $this->assertFalse($this->cmsPollsHelper()->frontCheckPoll($pollData['poll_question']),
                 "There is " . $pollData['poll_question'] . " poll on home page");
         //Cleanup
         $this->pollToBeDeleted = $pollData;
     }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         if (isset($this->pollToBeDeleted) and $this->pollToBeDeleted['poll_question'] != '') {
-            $this->cmsPollsHelper()->openPoll($this->pollToBeDeleted['poll_question']);
-            $this->cmsPollsHelper()->deletePoll();
+            $this->admin('poll_manager');
+            //search and delete Poll by title
+            $this->cmsPollsHelper()->deletePoll(array('poll_question' => $this->pollToBeDeleted['poll_question']));
         }
         $this->pollToBeDeleted = null;
-        $this->visibleIn = null;
     }
 
 }
