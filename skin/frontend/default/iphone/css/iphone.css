@@ -64,6 +64,7 @@ body > header {
     -webkit-transform:translate3d(0, 0, 1px);
     -webkit-transform-style:preserve-3d;
     -webkit-tap-highlight-color:rgba(0,0,0,0);
+    -webkit-touch-callout:none;
 }
 
 body > header.no-shadow {
