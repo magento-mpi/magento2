@@ -3403,7 +3403,7 @@ CREATE TABLE `core_config_data` (
 
 
 
-insert  into `core_config_data`(`config_id`,`scope`,`scope_id`,`path`,`value`) values (1,'default',0,'catalog/category/root_id','2'),(2,'default',0,'web/seo/use_rewrites','1'),(3,'default',0,'admin/dashboard/enable_charts','1'),(4,'default',0,'web/unsecure/base_url','http://localhost.my/git/magento2/'),(5,'default',0,'web/secure/base_url','http://localhost.my/git/magento2/'),(6,'default',0,'general/locale/code','en_US'),(7,'default',0,'general/locale/timezone','America/Los_Angeles'),(8,'default',0,'currency/options/base','USD'),(9,'default',0,'currency/options/default','USD'),(10,'default',0,'currency/options/allow','USD');
+insert  into `core_config_data`(`config_id`,`scope`,`scope_id`,`path`,`value`) values (1,'default',0,'catalog/category/root_id','2'),(2,'default',0,'web/seo/use_rewrites','1'),(3,'default',0,'admin/dashboard/enable_charts','1'),(6,'default',0,'general/locale/code','en_US'),(7,'default',0,'general/locale/timezone','America/Los_Angeles'),(8,'default',0,'currency/options/base','USD'),(9,'default',0,'currency/options/default','USD'),(10,'default',0,'currency/options/allow','USD');
 
 
 
@@ -5894,10 +5894,6 @@ CREATE TABLE `log_url_info` (
 
 
 
-insert  into `log_url_info`(`url_id`,`url`,`referer`) values (1,'http://localhost.my/git/magento2/index.php/','http://localhost.my/git/magento2/index.php/install/wizard/end/'),(2,'http://localhost.my/git/magento2/index.php/','http://localhost.my/git/magento2/index.php/install/wizard/end/'),(3,'http://localhost.my/git/magento2/index.php/','http://localhost.my/git/magento2/index.php/install/wizard/end/'),(4,'http://localhost.my/git/magento2/catalog/category/view/id/3','http://localhost.my/git/magento2/index.php/'),(5,'http://localhost.my/git/magento2/catalog/product/view/id/1/category/3','http://localhost.my/git/magento2/my-category.html'),(6,'http://localhost.my/git/magento2/catalog/product/view/id/1',NULL),(7,'http://localhost.my/git/magento2/',NULL),(8,'http://localhost.my/git/magento2/catalog/product/view/id/1',NULL);
-
-
-
 /*Table structure for table `log_visitor` */
 
 
@@ -5948,10 +5944,6 @@ CREATE TABLE `log_visitor_info` (
 
 
 /*Data for the table `log_visitor_info` */
-
-
-
-insert  into `log_visitor_info`(`visitor_id`,`http_referer`,`http_user_agent`,`http_accept_charset`,`http_accept_language`,`server_addr`,`remote_addr`) values (1,'http://localhost.my/git/magento2/index.php/install/wizard/end/','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1','ISO-8859-1,utf-8;q=0.7,*;q=0.3','en-US,en;q=0.8',2130706433,2130706433);
 
 
 
