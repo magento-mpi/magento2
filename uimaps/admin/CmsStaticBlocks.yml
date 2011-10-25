@@ -40,16 +40,17 @@ manage_cms_static_blocks:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         dropdowns:
-                            store_view: //select[@name='store_id']
-                            block_status: //select[@name='is_active']
+                            filter_store_view: //select[@name='store_id']
+                            filter_block_status: //select[@name='is_active']
                         fields:
-                            block_title: //input[@name='title']
-                            block_identifier: //input[@name='identifier']
-                            block_created_from: //input[@name='creation_time[from]']
-                            block_created_to: //input[@name='creation_time[to]']
-                            block_modified_from: //input[@name='update_time[from]']
-                            block_modified_to: //input[@name='update_time[to]']
-
+                            filter_block_title: //input[@name='title']
+                            filter_block_identifier: //input[@name='identifier']
+                            filter_block_created_from: //input[@name='creation_time[from]']
+                            filter_block_created_to: //input[@name='creation_time[to]']
+                            filter_block_modified_from: //input[@name='update_time[from]']
+                            filter_block_modified_to: //input[@name='update_time[to]']
+                        pageelements:
+                            static_block_grid_head: //*[@id='cmsBlockGrid_table']//thead/tr[@class='headings']
         buttons:
             add_new_block: //button[span='Add New Block']
         messages: &staticBlockMessages
@@ -62,7 +63,6 @@ manage_cms_static_blocks:
              specify_content: "//div[@id='advice-required-entry-block_content' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]"
              specify_valid_xml_identifier: "//div[@id='advice-validate-xml-identifier-block_identifier' and not(contains(@style,'display: none'))]"
              already_existing_identifier: "//li[@class='error-msg' and contains(.,'A block identifier with the same properties already exists in the selected store.']"
-
 
 # 'Edit Block %blockName%' page
 edit_cms_static_block:

@@ -27,21 +27,21 @@
 ---
 #Test data for Static Blocks
 
-static_block:
+search_static_block:
+    filter_block_title: %noValue%
+    filter_block_identifier: %noValue%
+    filter_store_view: %noValue%
+    filter_block_status: %noValue%
+    filter_block_created_from: %noValue%
+    filter_block_created_to: %noValue%
+    filter_block_modified_from: %noValue%
+    filter_block_modified_to: %noValue%
+
+new_static_block:
     block_title: test_static_block
     block_identifier: test_static_block_identifier
-    block_status: Enabled
-    simple_editor_content: Default content
     store_views: All Store Views
-
-deleted_block:
-    block_title: deleted_static_block
-    block_identifier: deleted_static_block_identifier
     block_status: Enabled
-    simple_editor_content: This block will be deleted.
-
-dates:
-    block_created_from: %noValue%
-    block_created_to: %noValue%
-    block_modified_from: %noValue%
-    block_modified_to: %noValue%
+    widget_data: #dataset for selecting widget
+    image_data: #dataset for selecting image
+    variable_data: #dataset for selecting variable
