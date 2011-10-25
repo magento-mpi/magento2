@@ -1565,6 +1565,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $fieldXpath = $this->_getControlXpath($fieldType, $fieldName);
         if ($this->isElementPresent($fieldXpath . '/@id')) {
             $fieldId = $this->getAttribute($fieldXpath . '/@id');
+            $fieldId = empty($fieldId) ? $this->getAttribute($fieldXpath . '/@name') : $fieldId;
         } else {
             $fieldId = $this->getAttribute($fieldXpath . '/@name');
         }
