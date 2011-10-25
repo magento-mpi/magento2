@@ -638,7 +638,7 @@ edit_product:
 
 created_simple_from_configurable:
     mca: catalog_product/created/id/%id%/edit/0/%productParameters%
-    title: %productName% / Manage Products / Catalog / Magento Admin
+    title: Magento Admin
     uimap:
         form: *newProductCreationForm
         buttons:
