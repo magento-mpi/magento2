@@ -74,7 +74,7 @@ new_tag:
                             tag_status: //select[@name='tag_status']
                         fields:
                             tag_name: //input[@name='tag_name']
-                            base_popularity: //input[@id='base_popularity']
+                            base_popularity: //input[@name='base_popularity']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -95,8 +95,8 @@ edit_tag:
                         dropdowns:
                             general_tag_status: //select[@name='tag_status']
                         fields:
-                            general_tag_name: //input[@name='name']
-                            general_base_popularity: //input[@id='base_popularity']
+                            general_tag_name: //input[@name='tag_name']
+                            general_base_popularity: //input[@name='base_popularity']
                 -
                     products_tagged_by_admins:
                         xpath: //dl[@id='tag_assigned_grid']
@@ -136,7 +136,7 @@ edit_tag:
                             prod_tag_customer_search: //dd[@id='dd-tag_product']//button[span='Search']
                         fields:
                             prod_tag_customer_id: //input[@name='product_id']
-                            prod_tag_customer_product_name: //dd[@id='dd-tag_product']//input[@name='name']
+                            prod_tag_customer_product_name: //input[@name='name']
                             prod_tag_customer_number_of_users_from: //input[@name='popularity[from]']
                             prod_tag_customer_number_of_users_to: //input[@name='popularity[to]']
         buttons:
