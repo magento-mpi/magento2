@@ -28,7 +28,7 @@ $localXmlFile = "$baseDir/app/etc/local.xml";
 $localXml = simplexml_load_file($localXmlFile);
 
 $databaseImportCmd = sprintf(
-    'mysqldump --protocol=TCP --host=%s --user=%s --password=%s %s < %s',
+    'mysql --protocol=TCP --host=%s --user=%s --password=%s %s < %s',
     escapeshellarg((string)$localXml->global->resources->default_setup->connection->host),
     escapeshellarg((string)$localXml->global->resources->default_setup->connection->username),
     escapeshellarg((string)$localXml->global->resources->default_setup->connection->password),
