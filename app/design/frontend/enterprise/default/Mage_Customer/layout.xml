@@ -136,7 +136,11 @@ New customer registration
             <!--action method="setMayBeInvisible"><value>1</value></action-->
             <action method="setElementClass"><value>rewards</value></action>
         </block>
-        <!-- reference to "content" block is removed intentionally, see Enterprise_Customer -->
+        <reference name="content">
+            <block type="customer/form_register" name="customer_form_register" template="form/register.phtml">
+                <action method="append"><block>customer.form.register.fields.before</block><alias>form_fields_before</alias></action>
+            </block>
+        </reference>
     </customer_account_create>
 
     <customer_account_forgotpassword translate="label">

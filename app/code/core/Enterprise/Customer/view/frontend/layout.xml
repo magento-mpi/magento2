@@ -19,12 +19,9 @@
             <action method="setFormCode"><code>customer_register_address</code></action>
             <action method="setEntityModelClass"><code>customer/address</code></action>
         </block>
-        <reference name="content">
-            <block type="customer/form_register" name="customer_form_register" template="form/register.phtml">
-                <action method="append"><block>customer.form.register.fields.before</block><alias>form_fields_before</alias></action>
-                <action method="append"><block>customer_form_user_attributes</block></action>
-                <action method="append"><block>customer_form_address_user_attributes</block></action>
-            </block>
+        <reference name="customer_form_register">
+            <action method="append"><block>customer_form_user_attributes</block></action>
+            <action method="append"><block>customer_form_address_user_attributes</block></action>
         </reference>
         <update handle="customer_form_template_handle"/>
     </customer_account_create>
