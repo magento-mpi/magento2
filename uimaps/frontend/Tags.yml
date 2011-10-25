@@ -36,4 +36,4 @@ all_tags:
                     tags:
                         xpath: //ul[@class='tags-list']
                         links:
-                            tag_name: //ul[@class='tags-list']/li/a[text()='%tagName%']
+                            tag_name: //li/a[text()='%tagName%']

@@ -79,7 +79,7 @@ customer_account:
                     my_recent_tags:
                         xpath: //div[@class='box-account box-tags']
                         links:
-                            product_info: //h3[a[text()='%productName%']]/following-sibling::div[//a[text()='%tagName%']]
+                            product_info: //div[*/a[text()='%productName%']]//a[text()='%tagName%']
                             view_all_tags: //a[text()='View All Tags']
         messages:
             success_registration: //li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering with')]
