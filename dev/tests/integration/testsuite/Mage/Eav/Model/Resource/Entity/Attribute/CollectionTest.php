@@ -89,6 +89,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit_Fr
 
     public function testAddAttributeGrouping()
     {
+        $this->markTestIncomplete('Functionality not implemented in Magento 1.x. Implemented in Magento 2');
         $select = $this->_model->getSelect();
         $this->assertEmpty($select->getPart(Zend_Db_Select::GROUP));
         $this->_model->addAttributeGrouping();

@@ -308,7 +308,7 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getSecure()
     {
         if ($this->hasData('secure_is_forced')) {
-            return $this->getData('secure');
+            return (bool)$this->getData('secure');
         }
 
         $store = $this->getStore();
@@ -714,7 +714,7 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getRouteParam($key)
     {
-        return $this->_getData('route_params', $key);
+        return $this->getData('route_params', $key);
     }
 
     /**
@@ -912,7 +912,7 @@ class Mage_Core_Model_Url extends Varien_Object
         if (!$this->hasData('query_params')) {
             $this->getQueryParams();
         }
-        return $this->_getData('query_params', $key);
+        return $this->getData('query_params', $key);
     }
 
     /**
