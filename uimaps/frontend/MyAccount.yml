@@ -119,6 +119,6 @@ my_account_my_tags:
                         xpath: //div[@class='my-account']
                         links:
                             tag_name: //a[text()='%tagName%']
-                            back: //a[text()='Back']
+                            back_to_tags_list: //p[@class='back-link']/a[@href]
         messages:
             success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]

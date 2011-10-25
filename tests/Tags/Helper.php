@@ -42,15 +42,15 @@ class Tags_Helper extends Mage_Selenium_TestCase
      *
      * @param string $tagName
      */
-    public function createTag($tagName)
+    public function frontendAddTag($tagName)
     {
-        $tagQty = 1;
-        $this->addParameter('tagQty', $tagQty);
         if (is_array($tagName) && array_key_exists('new_tag_names', $tagName)) {
             $tagName = $tagName['new_tag_names'];
         } else {
             $this->fail('Array key is absent in array');
         }
+        $tagQty = count(explode(' ', $tagName));
+        $this->addParameter('tagQty', $tagQty);
         $tagXpath = $this->_getControlXpath('field', 'input_new_tags');
         if (!$this->isElementPresent($tagXpath)) {
             $this->fail('Element is absent on the page');
@@ -64,7 +64,7 @@ class Tags_Helper extends Mage_Selenium_TestCase
      *
      * @param array $verificationData
      */
-    public function tagVerificationFront($verificationData)
+    public function frontendTagVerification($verificationData)
     {
         if (is_array($verificationData) && array_key_exists('new_tag_names', $verificationData)) {
             $tagName = $verificationData['new_tag_names'];
@@ -78,17 +78,26 @@ class Tags_Helper extends Mage_Selenium_TestCase
         }
         $this->navigate('customer_account');
         $this->addParameter('productName', $productName);
-        $this->addParameter('tagName', $tagName);
-        $xpath = $this->_getControlXpath('link', 'product_info');
-        $this->assertTrue($this->isElementPresent($xpath), 'Cannot find element');
-        $this->navigate('my_account_my_tags');
-        $xpath = $this->_getControlXpath('link', 'tag_name');
-        $this->assertTrue($this->isElementPresent($xpath), 'Cannot find element');
-        $this->clickControl('link', 'tag_name');
-        $xpath = $this->_getControlXpath('link', 'product_name');
-        $this->assertTrue($this->isElementPresent($xpath), 'Cannot find element');
-        $xpath = $this->_getControlXpath('pageelement', 'tag_name_box');
-        $this->assertTrue($this->isElementPresent($xpath), 'Cannot find element');
-    }
 
+
+        $tagNameArray = explode(' ', $tagName);
+        foreach ($tagNameArray as $value){
+                $this->addParameter('tagName', $value);
+                $xpath = $this->_getControlXpath('link', 'product_info');
+                $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
+        }
+        $this->navigate('my_account_my_tags');
+        foreach ($tagNameArray as $value) {
+            $this->addParameter('tagName', $value);
+            $xpath = $this->_getControlXpath('link', 'tag_name');
+            $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
+
+            $this->clickControl('link', 'tag_name');
+            $xpath = $this->_getControlXpath('link', 'product_name');
+            $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
+            $xpath = $this->_getControlXpath('pageelement', 'tag_name_box');
+            $this->assertTrue($this->isElementPresent($xpath), "Cannot find tag with name: $value");
+            $this->clickControl('link', 'back_to_tags_list');
+        }
+    }
 }
