@@ -52,7 +52,6 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         $frontProperties = (isset($widgetData['frontend_properties'])) ? $widgetData['frontend_properties'] : NULL;
         $layoutUpdates = (isset($widgetData['layout_updates'])) ? $widgetData['layout_updates'] : NULL;
         $widgetOptions = (isset($widgetData['widget_options'])) ? $widgetData['widget_options'] : NULL;
-
         if ($settings) {
             $this->clickButton('add_new_widget_instance');
             $this->fillSettings($settings);
@@ -184,10 +183,10 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         }
         $this->clickControl('tab', 'widgets_options', FALSE);
         $this->fillForm($widgetOptions);
-        $type = explode('/', $this->getCurrentLocationUimapPage()->getMca());
+        $type = $this->_paramsHelper->getParameter('type');
         if (array_key_exists('chosen_option', $widgetOptions)) {
             $options = $widgetOptions['chosen_option'];
-            switch ($type[3]) {
+            switch ($type) {
                 case 'cms-widget_page_link':
                     $this->clickButton('select_page', FALSE);
                     $this->pleaseWait();
@@ -214,9 +213,9 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
                 case 'catalog-product_widget_link':
                     $this->clickButton('select_product', FALSE);
                     $this->pleaseWait();
+                    $this->addParameter('param', "//div[@id='widget-chooser_content']");
                     foreach ($options as $key => $value) {
                         if (preg_match('/category_path/', $key)) {
-                            $this->addParameter('param', "//div[@id='widget-chooser_content']");
                             $this->categoryHelper()->selectCategory($value);
                             $this->waitForAjax();
                         }
@@ -282,5 +281,4 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
             $this->assertTrue($this->checkMessage('successfully_deleted_widget'), 'The widget has not been deleted');
         }
     }
-
 }
