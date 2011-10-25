@@ -714,7 +714,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function validatePage($page = '')
     {
         if (!$page) {
-            $page = $this->_currentPage;
+            $page = $this->_findCurrentPageFromUrl($this->getLocation());
         }
         $this->assertTextNotPresent('Fatal error', 'Fatal error on page');
         $this->assertTextNotPresent('There has been an error processing your request',
@@ -1027,7 +1027,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if ($willChangePage) {
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $this->addParameter('id', $this->defineIdFromUrl());
-                $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+                $this->validatePage();
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $this->fail($e->getMessage());
@@ -1387,7 +1387,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->pleaseWait();
         } else {
             $this->waitForPageToLoad();
-            $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+            $this->validatePage();
         }
 
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
@@ -1448,7 +1448,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->addParameter('id', $itemId);
                 $this->click($xpathTR . "/td[contains(text(),'" . $data[array_rand($data)] . "')]");
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+                $this->validatePage();
             } else {
                 $this->click($xpathTR . "/td[contains(text(),'" . $data[array_rand($data)] . "')]");
                 $this->waitForAjax($this->_browserTimeoutPeriod);
@@ -1857,10 +1857,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if ($this->isElementPresent(self::xpathLogOutAdmin)) {
                 $this->click(self::xpathLogOutAdmin);
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
-                if (!$this->checkCurrentPage('log_in_to_admin')) {
-                    throw new PHPUnit_Framework_Exception('Admin was not logged out');
-                }
+                $this->validatePage('log_in_to_admin');
             }
         } catch (PHPUnit_Framework_Exception $e) {
             $this->fail($e->getMessage());
@@ -1956,7 +1953,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $this->click($buttonXpath);
                     $this->getConfirmation();
                     $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                    $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+                    $this->validatePage();
                     return true;
                 } else {
                     $this->messages['error'][] = "The confirmation text incorrect: {$text}\n";
@@ -1964,7 +1961,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             } else {
                 $this->messages['error'][] = "The confirmation does not appear\n";
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+                $this->validatePage();
                 return true;
             }
         } else {
@@ -2050,7 +2047,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->clickButton($buttonName, $wait);
         $this->waitForElement(array($success, $error, $validation));
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+        $this->validatePage();
 
         return $this;
     }
