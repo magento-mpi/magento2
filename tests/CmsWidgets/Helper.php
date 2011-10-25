@@ -263,7 +263,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+        $this->validatePage();
     }
 
     /**
