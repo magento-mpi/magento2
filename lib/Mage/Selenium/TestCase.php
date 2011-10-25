@@ -852,6 +852,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\");
         }
 
+        if ($mca && $mca[0] != '/') {
+            $mca = '/'. $mca;
+        }
+
         if (self::$_area == 'admin') {
             //Removes part of url that appears after pressing "Reset Filter" or "Search" button in grid
             //(when not using ajax to reload the page)
@@ -859,9 +863,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             //Delete secret key from url
             $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?|', '/', $mca);
         }
-        $mca = preg_replace('|/index/?$|', '', $mca);
+        //Delete action part of mca if it's index
+        $mca = preg_replace('|/index/?$|', '/', $mca);
 
-        return $mca;
+        return preg_replace('|^/|', '', $mca);
 //        $mcaArray = explode('/', $mca);
 //
 //        //Delete secret key from url
