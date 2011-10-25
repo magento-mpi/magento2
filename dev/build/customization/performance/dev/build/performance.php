@@ -42,6 +42,7 @@ foreach ($_ENV as $key => $value) {
 }
 
 $jMeterCmd = 'java -jar ' . escapeshellarg($jMeterJarFile) . ' -n -t %s -l %s' . $jMeterProperties;
+$failures = array();
 foreach ($scenarios as $scenarioFile) {
     $scenarioLogFile = $reportDir . DIRECTORY_SEPARATOR . basename($scenarioFile, '.jmx') . '.jtl';
     $scenarioCmd = sprintf($jMeterCmd, escapeshellarg($scenarioFile), escapeshellarg($scenarioLogFile));
@@ -49,4 +50,23 @@ foreach ($scenarios as $scenarioFile) {
     if ($exitCode) {
         exit($exitCode);
     }
+    $scenarioLogXml = simplexml_load_file($scenarioLogFile);
+    $failedAssertions = $scenarioLogXml->xpath('//assertionResult[failure[text()="true"] or error[text()="true"]]');
+    if ($failedAssertions) {
+        $failures[$scenarioFile] = $failedAssertions;
+    }
+}
+
+if ($failures) {
+    foreach ($failures as $scenarioFile => $failedAssertions) {
+        echo "Scenario '$scenarioFile' has failed!\n";
+        foreach ($failedAssertions as $assertionResult) {
+            if (isset($assertionResult->failureMessage)) {
+                echo "  failure message: " . $assertionResult->failureMessage . "\n";
+            } else if (isset($assertionResult->errorMessage)) {
+                echo "  error message: " . $assertionResult->errorMessage . "\n";
+            }
+        }
+    }
+    exit(1);
 }
