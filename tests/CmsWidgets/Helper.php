@@ -104,7 +104,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         $type = $this->getValue($xpath . '/option[text()="' . $settings['type'] . '"]');
         $type = str_replace('/', '-', $type);
         $this->addParameter('type', $type);
-        $packageTheme = explode('/', str_replace(' ', '', $settings['design_package_theme']));
+        $packageTheme = array_map('trim', (explode('/', $settings['design_package_theme'])));
         $this->addParameter('package', $packageTheme[0]);
         $this->addParameter('theme', $packageTheme[1]);
         $this->fillForm($settings);
@@ -163,7 +163,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
             }
         } elseif ($layoutName == 'products') {
             foreach ($layoutOptions as $key => $value) {
-                $this->searchAndChoose(array($key => $value));
+                $this->searchAndChoose(array('filter_sku' => $value), 'layout_products_fieldset');
             }
         } else {
             return;
@@ -204,18 +204,28 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
                     $this->clickButton('select_category', FALSE);
                     $this->pleaseWait();
                     $this->addParameter('param', "//div[@id='widget-chooser_content']");
-                    $this->categoryHelper()->selectCategory($options['category_path']);
+                    foreach ($options as $key => $value) {
+                        if (preg_match('/category_path/', $key)) {
+                            $this->categoryHelper()->selectCategory($value);
+                        }
+                    }
                     $this->checkChosenOption($options['title']);
                     break;
                 case 'catalog-product_widget_link':
                     $this->clickButton('select_product', FALSE);
                     $this->pleaseWait();
-                    if (array_key_exists('category_path', $options)) {
-                        $this->addParameter('param', "//div[@id='widget-chooser_content']");
-                        $this->categoryHelper()->selectCategory($options['category_path']);
-                        $this->waitForAjax();
+                    foreach ($options as $key => $value) {
+                        if (preg_match('/category_path/', $key)) {
+                            $this->addParameter('param', "//div[@id='widget-chooser_content']");
+                            $this->categoryHelper()->selectCategory($value);
+                            $this->waitForAjax();
+                        }
                     }
-                    $this->searchAndOpen(array('filter_sku' => $options['filter_sku']), FALSE);
+                    foreach ($options as $key => $value) {
+                        if (preg_match('/filter_sku/', $key)) {
+                            $this->searchAndOpen(array('filter_sku' => $value), FALSE);
+                        }
+                    }
                     $this->checkChosenOption($options['title']);
                     break;
             }
