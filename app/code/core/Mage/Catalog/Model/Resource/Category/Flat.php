@@ -100,7 +100,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Index_Model_Resourc
     /**
      * Whether table changes are allowed
      *
-     * @var array
+     * @var bool
      */
     protected $_allowTableChanges        = true;
 
