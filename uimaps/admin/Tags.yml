@@ -56,6 +56,8 @@ all_tags:
             success_created_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been created.')]
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been deleted.')]
             success_changed_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been updated.')]
+            confirmation_for_delete: Are you sure you want to do this?
+            tag_already_exists: //li[@class='error-msg' and contains(.,'Tag already exists.')]
 
 # New Tag page
 new_tag:
@@ -71,7 +73,7 @@ new_tag:
                         dropdowns:
                             tag_status: //select[@name='tag_status']
                         fields:
-                            tag_name: //input[@name='name']
+                            tag_name: //input[@name='tag_name']
                             base_popularity: //input[@id='base_popularity']
         buttons:
             back: //button[span='Back']
