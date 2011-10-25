@@ -218,6 +218,8 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                 // get mca without any modifications
                 $page_mca = trim($page->getMca(new Mage_Selenium_Helper_Params()), ' /\\');
                 if ($page_mca !== false && $page_mca !== null) {
+                    if (is_string(strstr($page_mca, 'cms_block')))
+                            $myvar = $page_mca;
                     if ($paramsDecorator) {
                         $page_mca = $paramsDecorator->replaceParametersWithRegexp($page_mca);
                     }

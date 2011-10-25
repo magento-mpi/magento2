@@ -135,6 +135,9 @@ class CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      *
      * @dataProvider dataEmptyRequiredFields
      * @test
+     *
+     * @param string $emptyField Name of the field to leave empty
+     * @param string $validationMessage Validation message to be verified
      */
     public function withEmptyRequiredFields($emptyField, $validationMessage)
     {

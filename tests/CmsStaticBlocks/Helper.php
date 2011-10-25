@@ -153,6 +153,9 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
 
         // Open the search page.
         $this->navigate('manage_cms_static_blocks');
+        // Check if store views are dislayed
+        if (!($this->controlIsPresent('dropdown', 'store_view')))
+            $searchBlock['store_views'] = '%noValue%';
         // Search for the element.
         $this->assertTrue($this->searchAndOpen($searchBlock), "Block with name '$searchBlock[block_title]' not found");
     }
