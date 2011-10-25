@@ -260,6 +260,14 @@
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
                 <group>paypal</group>
             </payflow_link>
+            <payflow_advanced>
+                <model>paypal/payflowadvanced</model>
+                <title>Payments Advanced</title>
+                <payment_action>Authorization</payment_action>
+                <verbosity>HIGH</verbosity>
+                <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
+                <group>paypal</group>
+            </payflow_advanced>
             <hosted_pro>
                 <model>paypal/hostedpro</model>
                 <title>Payment by cards or by PayPal account</title>
