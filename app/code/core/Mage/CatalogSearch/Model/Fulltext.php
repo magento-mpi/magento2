@@ -50,6 +50,7 @@ class Mage_CatalogSearch_Model_Fulltext extends Mage_Core_Model_Abstract
     /**
      * Whether table changes are allowed
      *
+     * @deprecated after 1.6.1.0
      * @var bool
      */
     protected $_allowTableChanges = true;

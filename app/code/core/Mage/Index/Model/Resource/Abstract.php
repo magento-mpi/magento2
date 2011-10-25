@@ -53,6 +53,7 @@ abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resour
     /**
      * Whether table changes are allowed
      *
+     * @deprecated after 1.6.1.0
      * @var bool
      */
     protected $_allowTableChanges = true;
