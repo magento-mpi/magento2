@@ -37,6 +37,8 @@
 class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
 {
 
+    protected static $_customerTitleParameter = '';
+
     /**
      * <p>Log in to Backend.</p>
      */
@@ -54,6 +56,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customers');
         $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         $this->addParameter('id', '0');
+        $this->addParameter('customer_first_last_name', self::$_customerTitleParameter);
     }
 
     /**
@@ -66,6 +69,7 @@ class Customer_Account_AddAddressTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadData('generic_customer_account', NULL, 'email');
+        self::$_customerTitleParameter = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying

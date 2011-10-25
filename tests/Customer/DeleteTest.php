@@ -74,11 +74,13 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
         $userData = $this->loadData('generic_customer_account', null, 'email');
         $searchData = $this->loadData('search_customer', array('email' => $userData['email']));
         //Preconditions
-        $this->CustomerHelper()->createCustomer($userData);
+        $this->customerHelper()->createCustomer($userData);
         $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
         $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         //Steps
-        $this->CustomerHelper()->openCustomer($searchData);
+        $param = $userData['first_name'] .' '.$userData['last_name'];
+        $this->addParameter('customer_first_last_name', $param);
+        $this->customerHelper()->openCustomer($searchData);
         $this->clickButtonAndConfirm('delete_customer', 'confirmation_for_delete');
         //Verifying
         $this->assertTrue($this->successMessage('success_deleted_customer'), $this->messages);
@@ -106,7 +108,7 @@ class Customer_DeleteTest extends Mage_Selenium_TestCase
             $userData = $this->loadData('generic_customer_account', null, 'email');
             ${'searchData' . $i} = $this->loadData('search_customer', array('email' => $userData['email']));
             //Steps
-            $this->CustomerHelper()->createCustomer($userData);
+            $this->customerHelper()->createCustomer($userData);
             $this->assertTrue($this->successMessage('success_saved_customer'), $this->messages);
             $this->assertTrue($this->checkCurrentPage('manage_customers'), $this->messages);
         }

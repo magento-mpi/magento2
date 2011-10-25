@@ -141,18 +141,7 @@ class Customer_Helper extends Mage_Selenium_TestCase
      */
     public function openCustomer(array $searchData)
     {
-        $this->_prepareDataForSearch($searchData);
-        $xpathTR = $this->search($searchData, 'customers_grid');
-        $this->assertNotEquals(null, $xpathTR, 'Customer is not found');
-        $names = $this->shoppingCartHelper()->getColumnNamesAndNumbers('customer_grid_head', false);
-        if (array_key_exists('Name', $names)) {
-            $text = $this->getText($xpathTR . '//td[' . $names['Name'] . ']');
-            $this->addParameter('customer_first_last_name', $text);
-        }
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . "//a[text()='Edit']");
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage($this->_findCurrentPageFromUrl($this->getLocation()));
+        $this->assertTrue($this->searchAndOpen($searchData, true, 'customers_grid'), 'Customer is not found');
     }
 
     /**
