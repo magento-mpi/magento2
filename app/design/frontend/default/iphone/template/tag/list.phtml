@@ -29,7 +29,7 @@
     <?php echo $this->getChildHtml('list_before')?>
     <?php if( $this->getCount() ): ?>
         <div class="tags-list">
-            <?php echo $this->renderTags('<a href="%1$s">%2$s</a> (%3$s)') ?>
+            <?php echo $this->renderTags('<a href="%1$s">%2$s</a> <span>(%3$s)</span>') ?>
         </div>
     <?php endif; ?>
 </div>
