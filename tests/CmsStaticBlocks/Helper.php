@@ -68,7 +68,7 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
             $this->fail("The WYSIWYG Editor cannot be opened due to System configuration.");
         if (!($this->_isWysiwygEditorOpen()))
             $this->clickButton('show_hide_editor', false);
-        $this->assertTrue(_isWysiwygEditorAvailable());
+        $this->assertTrue($this->_isWysiwygEditorAvailable());
     }
 
     /**
@@ -97,6 +97,21 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
         $this->clickControl('link', 'variable', false);
     }
 
+//    /**
+//     * Add a widget to the Static Block
+//     *
+//     * @param string|array $widgetOptions
+//     */
+//    public function insertWidget($widgetOptions)
+//    {
+//        if ($this->_isWysiwygEditorOpen()) {
+//            $this->clickControl('link', 'wysiwyg_insert_widget', false);
+//        } else {
+//            $this->clickButton('editor_insert_widget');
+//        }
+//        //TODO: implement insertWidget
+//    }
+
     /**
      * Fill settings for a Static Block
      *
@@ -105,9 +120,8 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
     public function fillSettings($settings)
     {
         if (is_string($settings))
-            $attrSet = $this->loadData($settings);
+            $settings = $this->loadData($settings);
         $settings = $this->arrayEmptyClear($settings);
-        $this->clickButton('add_new_block');
         $this->_openSimpleEditor();
         // Check if Store Views is present on the page
         if (!($this->isElementPresent($this->_getControlXpath('multiselect', 'store_views'))))
@@ -122,6 +136,7 @@ class CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
      */
     public function createStaticBlock(array $attrSet)
     {
+        $this->clickButton('add_new_block');
         $this->fillSettings($attrSet);
         $this->saveForm('save_block');
     }
