@@ -115,6 +115,9 @@
     </target>
 
     <target name="performance_tests" description="Performance Tests" depends="init,clean">
+        <exec executable="chmod" failonerror="true">
+            <arg line="a+w ${basedir}/var" />
+        </exec>
         <exec executable="php" failonerror="true">
             <arg value="${basedir}/dev/build/performance.php" />
         </exec>
