@@ -1035,6 +1035,8 @@ section .category-title { display:none; }
 }
 .toolbar .view-mode label {
     font-weight:bold;
+    position:relative;
+    top:1px;
     vertical-align:middle;
 }
 .toolbar .pager .pages strong {
@@ -1055,6 +1057,9 @@ section .category-title { display:none; }
     vertical-align:middle;
     -webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.15);
     -webkit-background-clip:padding-box;
+}
+.toolbar .limiter select {
+    vertical-align:baseline;
 }
 .toolbar .sort-by select {
     font-weight:bold;
