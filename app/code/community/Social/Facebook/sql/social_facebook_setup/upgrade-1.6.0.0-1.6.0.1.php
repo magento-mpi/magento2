@@ -27,20 +27,13 @@
 /** @var $installer Social_Facebook_Model_Resource_Setup */
 $installer = $this;
 
-/**
- * Change table 'social_facebook/facebook'
- */
-$tables = array(
-    $installer->getTable('social_facebook/facebook') => array(
-        'columns' => array(
-            'facebook_action' => array(
-                'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
-                'length'    => 100,
-                'nullable'  => false,
-                'comment'   => 'User Action'
-            ),
-        )
+$installer->getConnection()->modifyColumn(
+    $installer->getTable('social_facebook/facebook'),
+    'facebook_action',
+    array(
+        'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'length'    => 100,
+        'nullable'  => false,
+        'comment'   => 'User Action'
     )
 );
-
-$installer->getConnection()->modifyTables($tables);
