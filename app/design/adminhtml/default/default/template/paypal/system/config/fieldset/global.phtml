@@ -78,6 +78,7 @@ Event.observe(window, 'load', function() {
     Element.observe('paypal_global_wpp', 'click', pConfig.trackWpp.bind(pConfig));
     Element.observe('paypal_global_wpp_pe', 'click', pConfig.trackWppPe.bind(pConfig));
     Element.observe('paypal_global_payflow_link', 'click', pConfig.trackWppPl.bind(pConfig));
+    Element.observe('paypal_global_payflow_advanced', 'click', pConfig.trackWppPa.bind(pConfig));
     Element.observe('paypal_global_hosted_pro', 'click', pConfig.trackHss.bind(pConfig));
     Element.observe('paypal_global_verisign', 'click', pConfig.trackPayflowpro.bind(pConfig));
     ['ec','wps','ecpe'].each(function(m) {
@@ -88,6 +89,7 @@ Event.observe(window, 'load', function() {
     pConfig.trackBusinessAccount();
     pConfig.trackWpp();
     pConfig.trackWppPl();
+    pConfig.trackWppPa();
     pConfig.trackWppPe();
     pConfig.trackWps();
     pConfig.trackHss();
@@ -136,6 +138,13 @@ PaypalConfig.prototype = {
                     fieldset: 'payflow_link',
                     backendConfig : $H(<?php echo $this->getElementBackendConfig(
                         $this->getElement('paypal_global_payflow_link'));
+                    ?>)
+                }),
+                wpppa: $H({
+                    switcher: 'payflow_advanced',
+                    fieldset: 'payflow_advanced',
+                    backendConfig : $H(<?php echo $this->getElementBackendConfig(
+                        $this->getElement('paypal_global_payflow_advanced'));
                     ?>)
                 }),
                 ecpe: $H({
@@ -461,6 +470,11 @@ PaypalConfig.prototype = {
     trackWppPl: function()
     {
         this.trackMethod('wpppl');
+    },
+
+    trackWppPa: function()
+    {
+        this.trackMethod('wpppa');
     },
 
     trackHss: function()
