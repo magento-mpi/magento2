@@ -923,6 +923,7 @@ class Product_Helper extends Mage_Selenium_TestCase
         $productUrl = trim($productUrl, '-');
 
         $this->addParameter('productUrl', $productUrl);
+        $this->addParameter('productName', $productName);
         $this->getUimapPage('frontend', 'product_page')->assignParams($this->_paramsHelper);
 
         $this->frontend('product_page');

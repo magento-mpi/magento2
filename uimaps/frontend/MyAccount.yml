@@ -79,8 +79,7 @@ customer_account:
                     my_recent_tags:
                         xpath: //div[@class='box-account box-tags']
                         links:
-                            product_with_tag: //li[*//strong='Tags:'][*//a='%tagName%']//h3
-                            tag_name: //li[*/h3[a='%productName%']]//div[strong='Tags:']//a[text()='%tagName%']
+                            product_info: //h3[a[text()='%productName%']]/following-sibling::div[//a[text()='%tagName%']]
                             view_all_tags: //a[text()='View All Tags']
         messages:
             success_registration: //li[normalize-space(@class)='success-msg' and contains(.//span,'Thank you for registering with')]
@@ -104,6 +103,8 @@ my_account_view_tag:
                             add_to_wishlist: //tr[*//a='%productName%']//a[text()='Add to Wishlist']
                             product_name: //h2[a='%productName%']
                             back_to_tags_list: //p[@class='back-link']/a[@href]
+                        pageelements:
+                            tag_name_box: //p[@class='my-tag-edit' and contains(., '%tagName%')]
         messages:
             confirmation_for_delete: Are you sure you want to delete this tag?
 
