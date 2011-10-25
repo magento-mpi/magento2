@@ -694,6 +694,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             );
         }
 
+        $table = Mage::getSingleton('core/resource')->getTableName($table);
         $tableAlias = $this->_getAttributeTableAlias($alias);
 
         // validate bind
@@ -756,6 +757,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
             $tableName = $table;
         }
 
+        $tableName = Mage::getSingleton('core/resource')->getTableName($tableName);
         if (empty($tableAlias)) {
             $tableAlias = $tableName;
         }

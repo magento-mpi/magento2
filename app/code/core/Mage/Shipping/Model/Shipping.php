@@ -147,12 +147,13 @@ class Mage_Shipping_Model_Shipping
     /**
      * Collect rates of given carrier
      *
-     * @param string $carrierCode
+     * @param string                           $carrierCode
      * @param Mage_Shipping_Model_Rate_Request $request
      * @return Mage_Shipping_Model_Shipping
      */
     public function collectCarrierRates($carrierCode, $request)
     {
+        /* @var $carrier Mage_Shipping_Model_Carrier_Abstract */
         $carrier = $this->getCarrierByCode($carrierCode, $request->getStoreId());
         if (!$carrier) {
             return $this;
@@ -160,11 +161,11 @@ class Mage_Shipping_Model_Shipping
         $carrier->setActiveFlag($this->_availabilityConfigField);
         $result = $carrier->checkAvailableShipCountries($request);
         if (false !== $result && !($result instanceof Mage_Shipping_Model_Rate_Result_Error)) {
-            $result = $carrier->proccessAdditionalValidation($request);
+            $result = $carrier->processAdditionalValidation($request);
         }
         /*
         * Result will be false if the admin set not to show the shipping module
-        * if the devliery country is not within specific countries
+        * if the delivery country is not within specific countries
         */
         if (false !== $result){
             if (!$result instanceof Mage_Shipping_Model_Rate_Result_Error) {
@@ -297,20 +298,20 @@ class Mage_Shipping_Model_Shipping
         $request->setShipperContactCompanyName($storeInfo->getName());
         $request->setShipperContactPhoneNumber($storeInfo->getPhone());
         $request->setShipperEmail($admin->getEmail());
-        $request->setShipperAddressStreet($originStreet1 . ' ' . $originStreet2);
+        $request->setShipperAddressStreet(trim($originStreet1 . ' ' . $originStreet2));
         $request->setShipperAddressStreet1($originStreet1);
         $request->setShipperAddressStreet2($originStreet2);
         $request->setShipperAddressCity(Mage::getStoreConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId));
         $request->setShipperAddressStateOrProvinceCode($shipperRegionCode);
         $request->setShipperAddressPostalCode(Mage::getStoreConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId));
         $request->setShipperAddressCountryCode(Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId));
-        $request->setRecipientContactPersonName($address->getFirstname() . ' ' . $address->getLastname());
+        $request->setRecipientContactPersonName(trim($address->getFirstname() . ' ' . $address->getLastname()));
         $request->setRecipientContactPersonFirstName($address->getFirstname());
         $request->setRecipientContactPersonLastName($address->getLastname());
         $request->setRecipientContactCompanyName($address->getCompany());
         $request->setRecipientContactPhoneNumber($address->getTelephone());
         $request->setRecipientEmail($address->getEmail());
-        $request->setRecipientAddressStreet($address->getStreetFull());
+        $request->setRecipientAddressStreet(trim($address->getStreet1() . ' ' . $address->getStreet2()));
         $request->setRecipientAddressStreet1($address->getStreet1());
         $request->setRecipientAddressStreet2($address->getStreet2());
         $request->setRecipientAddressCity($address->getCity());

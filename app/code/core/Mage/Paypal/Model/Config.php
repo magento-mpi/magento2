@@ -877,7 +877,6 @@ class Mage_Paypal_Model_Config
     {
         $authorizationAmount = array(
             self::AUTHORIZATION_AMOUNT_ZERO => Mage::helper('paypal')->__('$0 Auth'),
-            self::AUTHORIZATION_AMOUNT_ONE  => Mage::helper('paypal')->__('$1 Auth'),
             self::AUTHORIZATION_AMOUNT_FULL => Mage::helper('paypal')->__('Full Auth'),
         );
         return $authorizationAmount;

@@ -375,9 +375,13 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      * @param   int $length
      * @return  string
      */
-    public function generatePassword($length = 6)
+    public function generatePassword($length = 8)
     {
-        return Mage::helper('core')->getRandomString($length);
+        $chars = Mage_Core_Helper_Data::CHARS_PASSWORD_LOWERS
+            . Mage_Core_Helper_Data::CHARS_PASSWORD_UPPERS
+            . Mage_Core_Helper_Data::CHARS_PASSWORD_DIGITS
+            . Mage_Core_Helper_Data::CHARS_PASSWORD_SPECIALS;
+        return Mage::helper('core')->getRandomString($length, $chars);
     }
 
     /**

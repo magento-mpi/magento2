@@ -68,6 +68,9 @@ class Mage_Tax_Model_Observer
         $taxes              = $order->getAppliedTaxes();
 
         $ratesIdQuoteItemId = array();
+        if (!is_array($getTaxesForItems)) {
+            $getTaxesForItems = array();
+        }
         foreach ($getTaxesForItems as $quoteItemId => $taxesArray) {
             foreach ($taxesArray as $rates) {
                 if (count($rates['rates']) == 1) {
@@ -90,8 +93,11 @@ class Mage_Tax_Model_Observer
 
                     if ($percentDelta != $percentSum) {
                         $delta = $percentDelta - $percentSum;
-                        foreach ($ratesIdQuoteItemId[$rates['id']] as &$rate) {
-                            $rate['percent'] = (($rate['percent'] / $percentSum) * $delta) + $rate['percent'];
+                        foreach ($ratesIdQuoteItemId[$rates['id']] as &$rateTax) {
+                            if ($rateTax['id'] == $quoteItemId) {
+                                $rateTax['percent'] = (($rateTax['percent'] / $percentSum) * $delta)
+                                        + $rateTax['percent'];
+                            }
                         }
                     }
                 }

@@ -24,24 +24,18 @@ class Mage_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Core_Model_Resource();
     }
 
+    /**
+     * @magentoConfigFixture global/resources/db/table_prefix prefix_
+     */
     public function testGetTableName()
     {
         $tablePrefix = 'prefix_';
-        $tablePrefixOrig = Mage::getConfig()->getTablePrefix();
-        Mage::getConfig()->setNode('global/resources/db/table_prefix', $tablePrefix);
-
-        $tableSuffix = '_suffix';
+        $tableSuffix = 'suffix';
         $tableNameOrig = 'core_website';
+
         $tableName = $this->_model->getTableName(array($tableNameOrig, $tableSuffix));
         $this->assertContains($tablePrefix, $tableName);
         $this->assertContains($tableSuffix, $tableName);
         $this->assertContains($tableNameOrig, $tableName);
-
-        Mage::getConfig()->setNode('global/resources/db/table_prefix', $tablePrefixOrig);
-
-        $tableNameOrig = 'core/website';
-        $tableName = $this->_model->getTableName($tableNameOrig);
-
-        $this->assertContains('/', $tableName);
     }
 }

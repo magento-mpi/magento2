@@ -158,26 +158,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             //labels
             foreach ($data['frontend_label'] as & $value) {
                 if ($value) {
-                    $value = $helperCatalog->escapeHtml($value);
+                    $value = $helperCatalog->stripTags($value);
                 }
-            }
-            //options
-            if (!empty($data['option']['value'])) {
-                foreach ($data['option']['value'] as &$options) {
-                    foreach ($options as &$label) {
-                        $label = $helperCatalog->escapeHtml($label);
-                    }
-                }
-            }
-            //default value
-            if (!empty($data['default_value'])) {
-                $data['default_value'] = $helperCatalog->escapeHtml($data['default_value']);
-            }
-            if (!empty($data['default_value_text'])) {
-                $data['default_value_text'] = $helperCatalog->escapeHtml($data['default_value_text']);
-            }
-            if (!empty($data['default_value_textarea'])) {
-                $data['default_value_textarea'] = $helperCatalog->escapeHtml($data['default_value_textarea']);
             }
         }
         return $data;

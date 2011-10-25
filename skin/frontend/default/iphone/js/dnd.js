@@ -373,6 +373,8 @@ webkit_drop = new webkit_droppables();
 
 var webkit_draggable = function(r, ip)
 {
+    this.ready = false;
+    this.timeout = undefined;
     this.initialize = function(root, instance_props)
     {
         this.root = webkit_tools.$(root);
@@ -433,95 +435,105 @@ var webkit_draggable = function(r, ip)
 
     this.touchStart = function(event)
     {
-        //prepare needed variables
-        var p = this.p;
-        var r = this.root;
-        var rs = r.style;
-        var t = event.targetTouches[0];
+        this.timeout = setTimeout(function () {
+            //prepare needed variables
+            var p = this.p;
+            var r = this.root;
+            var rs = r.style;
+            var t = event.targetTouches[0];
 
-        //get position of touch
-        touchX = t.pageX;
-        touchY = t.pageY;
+            //get position of touch
+            touchX = t.pageX;
+            touchY = t.pageY;
 
-        //set base values for position of root
-        rs.top = this.root.style.top || '0px';
-        rs.left = this.root.style.left || '0px';
-        rs.bottom = null;
-        rs.right = null;
+            //set base values for position of root
+            rs.top = this.root.style.top || '0px';
+            rs.left = this.root.style.left || '0px';
+            rs.bottom = null;
+            rs.right = null;
 
-        var rootP = webkit_tools.cumulativeOffset(r);
-        var cp = this.getPosition();
+            var rootP = webkit_tools.cumulativeOffset(r);
+            var cp = this.getPosition();
 
-        //save event properties
-        p.rx = cp.x;
-        p.ry = cp.y;
-        p.tx = touchX;
-        p.ty = touchY;
-        p.z = parseInt(this.root.style.zIndex);
+            //save event properties
+            p.rx = cp.x;
+            p.ry = cp.y;
+            p.tx = touchX;
+            p.ty = touchY;
+            p.z = parseInt(this.root.style.zIndex);
 
-        //boost zIndex
-        rs.zIndex = p.zIndex;
-        webkit_drop.prepare();
-        p.onStart(r, event);
+            //boost zIndex
+            rs.zIndex = p.zIndex;
+            webkit_drop.prepare();
+            p.onStart(r, event);
+            
+            this.ready = true;
+            
+        }.bind(this), 500);
     }
 
     this.touchMove = function(event)
     {
-        
-        event.preventDefault();
-        event.stopPropagation();
+        if ( this.ready ) {
+            event.preventDefault();
+            event.stopPropagation();
 
-        //prepare needed variables
-        var p = this.p;
-        var r = this.root;
-        var rs = r.style;
-        var t = event.targetTouches[0];
-        if(t == null){return}
+            //prepare needed variables
+            var p = this.p;
+            var r = this.root;
+            var rs = r.style;
+            var t = event.targetTouches[0];
+            if(t == null){return}
 
-        var curX = t.pageX;
-        var curY = t.pageY;
+            var curX = t.pageX;
+            var curY = t.pageY;
 
-        var delX = curX - p.tx;
-        var delY = curY - p.ty;
+            var delX = curX - p.tx;
+            var delY = curY - p.ty;
 
-        rs.webkitTransform = 'translate3d(' + (p.rx + delX) + 'px,' + (p.ry + delY) + 'px, 0)';
+            rs.webkitTransform = 'translate3d(' + (p.rx + delX) + 'px,' + (p.ry + delY) + 'px, 1px)';
 
-        //scroll window
-        if(p.scroll)
-        {
-            s = this.getScroll(curX, curY);
-            if((s[0] != 0) || (s[1] != 0))
+            //scroll window
+            if(p.scroll)
             {
-                window.scrollTo(window.scrollX + s[0], window.scrollY + s[1]);
+                s = this.getScroll(curX, curY);
+                if((s[0] != 0) || (s[1] != 0))
+                {
+                    window.scrollTo(window.scrollX + s[0], window.scrollY + s[1]);
+                }
             }
+
+            //check droppables
+            webkit_drop.check(curX, curY, r, event);
+
+            //save position for touchEnd
+            this.lastCurX = curX;
+            this.lastCurY = curY;
         }
-
-        //check droppables
-        webkit_drop.check(curX, curY, r, event);
-
-        //save position for touchEnd
-        this.lastCurX = curX;
-        this.lastCurY = curY;
     }
 
     this.touchEnd = function(event)
     {
-        event.preventSwipe = true;
-        var r = this.root;
-        var p = this.p;
-        var dropped = webkit_drop.finalize(this.lastCurX, this.lastCurY, r, event);
+        clearTimeout(this.timeout);
+        if ( this.ready ) {
+            event.preventSwipe = true;
+            var r = this.root;
+            var p = this.p;
+            var dropped = webkit_drop.finalize(this.lastCurX, this.lastCurY, r, event);
 
-        if(((p.revert) && (!dropped)) || (p.revert === 'always'))
-        {
-            //revert root
-            var rs = r.style;
-            rs.webkitTransform = 'translate3d(' + p.rx + 'px,' + p.ry + 'px, 0)';
-            //rs.top = (p.ry + 'px');
-            //rs.left = (p.rx + 'px');
+            if(((p.revert) && (!dropped)) || (p.revert === 'always'))
+            {
+                //revert root
+                var rs = r.style;
+                rs.webkitTransform = 'translate3d(' + p.rx + 'px,' + p.ry + 'px, 1px)';
+                //rs.top = (p.ry + 'px');
+                //rs.left = (p.rx + 'px');
+            }
+
+            r.style.zIndex = this.p.z;
+            this.p.onEnd(r, event);
+            this.ready = false;
         }
-
-        r.style.zIndex = this.p.z;
-        this.p.onEnd(r, event);
     }
 
     this.getPosition = function()

@@ -31,8 +31,29 @@
  * @package    Mage_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
+class Mage_Paypal_PayflowController extends Mage_Paypal_Controller_Express_Abstract
 {
+    /**
+     * Config mode type
+     *
+     * @var string
+     */
+    protected $_configType = 'paypal/config';
+
+    /**
+     * Config method type
+     *
+     * @var string
+     */
+    protected $_configMethod = Mage_Paypal_Model_Config::METHOD_PAYFLOWLINK;
+
+    /**
+     * Checkout mode type
+     *
+     * @var string
+     */
+    protected $_checkoutType = 'paypal/payflowlink';
+
     /**
      * When a customer cancel payment from payflow gateway.
      */
@@ -50,9 +71,7 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
      */
     public function returnUrlAction()
     {
-        $redirectBlock = $this->_getIframeBlock()
-            ->setTemplate('paypal/payflowlink/redirect.phtml');
-
+        $errorMsg = '';
         $session = $this->_getCheckout();
         $quote = $session->getQuote();
         /** @var $payment Mage_Sales_Model_Quote_Payment */
@@ -62,10 +81,33 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
             $gotoSection = 'review';
         } else {
             $gotoSection = 'payment';
-            $redirectBlock->setErrorMsg($this->__('Payment has been declined. Please try again.'));
+            $errorMsg = $this->__('Payment has been declined. Please try again.');
         }
+
+        $checkToken = $this->getRequest()->getParam('TOKEN');
+        if ($checkToken) {
+            Mage::getSingleton('paypal/session')->setExpressCheckoutToken($checkToken);
+            $this->_redirect('*/*/review');
+            return;
+        }
+
+        $redirectBlock = $this->_getIframeBlock()
+            ->setTemplate('paypal/payflowlink/redirect.phtml');
+
+        $redirectBlock->setErrorMsg($errorMsg);
         $redirectBlock->setGotoSection($gotoSection);
         $this->getResponse()->setBody($redirectBlock->toHtml());
+    }
+
+    /**
+     * When a customer return to website from payflow gateway.
+     */
+    public function placeOrderAction()
+    {
+        $session = $this->_getCheckout();
+        $quote = $session->getQuote();
+        $quote->collectTotals();
+        $this->_forward('saveOrder', 'onepage', 'checkout');
     }
 
     /**
@@ -142,6 +184,7 @@ class Mage_Paypal_PayflowController extends Mage_Core_Controller_Front_Action
     {
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
+            /** @var $paymentModel Mage_Paypal_Model_Payflowlink */
             $paymentModel = Mage::getModel('paypal/payflowlink');
             try {
                 $paymentModel->process($data);
