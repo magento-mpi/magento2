@@ -55,7 +55,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
         $customerId = $this->getCustomerId() ? $this->getCustomerId()
             : Mage::getSingleton('customer/session')->getCustomer()->getId();
 
-        $orders = Mage::getResourceModel('sales/order_collection')
+        $orders = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
             ->addAttributeToFilter('customer_id', $customerId)
             ->addAttributeToFilter('state',
                 array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates())

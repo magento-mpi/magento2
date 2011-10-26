@@ -50,7 +50,7 @@ class Mage_Sales_Block_Order_Details extends Mage_Core_Block_Template
 
     public function getInvoices()
     {
-        $invoices = Mage::getResourceModel('sales/invoice_collection')->setOrderFilter($this->getOrder()->getId())->load();
+        $invoices = Mage::getModel('sales_entity/invoice_collection')->setOrderFilter($this->getOrder()->getId())->load();
         return $invoices;
     }
 

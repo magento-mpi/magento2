@@ -90,7 +90,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     }
 
     public function getComments() {
-        return Mage::getResourceModel('enterprise_rma/rma_status_history_collection')
+        return Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Status_History_Collection')
             ->addFieldToFilter('rma_entity_id', Mage::registry('current_rma')->getId());
     }
 

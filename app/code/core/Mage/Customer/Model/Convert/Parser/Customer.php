@@ -206,7 +206,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
     public function getCollection($storeId)
     {
         if (!isset($this->_collections[$storeId])) {
-            $this->_collections[$storeId] = Mage::getResourceModel('customer/customer_collection');
+            $this->_collections[$storeId] = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
             $this->_collections[$storeId]->getEntity()->setStore($storeId);
         }
         return $this->_collections[$storeId];
@@ -364,10 +364,10 @@ class Mage_Customer_Model_Convert_Parser_Customer
             'country_id'
         );
 
-        $customerAttributes = Mage::getResourceModel('customer/attribute_collection')
+        $customerAttributes = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection')
             ->load()->getIterator();
 
-        $addressAttributes = Mage::getResourceModel('customer/address_attribute_collection')
+        $addressAttributes = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Attribute_Collection')
             ->load()->getIterator();
 
         $attributes = array(
@@ -427,7 +427,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
     protected function _getCustomerGroupCode($customer)
     {
         if (is_null($this->_customerGroups)) {
-            $groups = Mage::getResourceModel('customer/group_collection')
+            $groups = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')
                     ->load();
 
             foreach ($groups as $group) {
@@ -526,7 +526,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
                     }
 
                     if($model->getGroupId()){
-                        $group = Mage::getResourceModel('customer/group_collection')
+                        $group = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')
                         ->addFilter('customer_group_id',$model->getGroupId())
                         ->load();
                         $row['group']=$group->getFirstItem()->getData('customer_group_code');
@@ -668,7 +668,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
                         }
                     }
 
-                    $regions = Mage::getResourceModel('directory/region_collection')
+                    $regions = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection')
                         ->addRegionNameFilter($row['billing_region'])
                         ->load();
                     if ($regions) foreach($regions as $region) {
@@ -711,7 +711,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
                         }
                     }
 
-                    $regions = Mage::getResourceModel('directory/region_collection')
+                    $regions = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection')
                         ->addRegionNameFilter($row['shipping_region'])
                         ->load();
                     if ($regions) foreach($regions as $region) {

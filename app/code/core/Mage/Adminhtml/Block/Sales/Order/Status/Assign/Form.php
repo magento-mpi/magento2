@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Mage_Adminhtml
             'legend'    => Mage::helper('sales')->__('Assignment Information')
         ));
 
-        $statuses = Mage::getResourceModel('sales/order_status_collection')
+        $statuses = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_Collection')
             ->toOptionArray();
         array_unshift($statuses, array('value' => '', 'label' => ''));
 

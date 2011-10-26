@@ -67,7 +67,7 @@ class Mage_Sales_Model_Entity_Quote extends Mage_Eav_Model_Entity_Abstract
      */
     public function loadByCustomerId($quote, $customerId)
     {
-        $collection = Mage::getResourceModel('sales/quote_collection')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Quote_Collection')
             ->addAttributeToSelect('entity_id')
             ->addAttributeToFilter('customer_id', $customerId)
             ->addAttributeToFilter('is_active', 1);
@@ -97,7 +97,7 @@ class Mage_Sales_Model_Entity_Quote extends Mage_Eav_Model_Entity_Abstract
      */
     public function loadByIdWithoutStore($quote, $quoteId)
     {
-        $collection = Mage::getResourceModel('sales/quote_collection')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Quote_Collection')
             ->addAttributeToSelect('entity_id')
             ->addAttributeToFilter('entity_id', $quoteId);
 

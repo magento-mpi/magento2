@@ -41,7 +41,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         $this->setOrder(Mage::registry('current_order'));
 
         /** @var $collection Enterprise_Rma_Model_Resource_Item */
-        $collection = Mage::getResourceModel('enterprise_rma/item_collection')
+        $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item_Collection')
             ->addAttributeToSelect('*')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
@@ -49,7 +49,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         $this->setItems($collection);
 
         /** @var $comments Enterprise_Rma_Model_Resource_Rma_Status_History_Collection */
-        $comments = Mage::getResourceModel('enterprise_rma/rma_status_history_collection')
+        $comments = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Status_History_Collection')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
         $this->setComments($comments);
@@ -65,7 +65,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         $array = array();
 
         /** @var $collection Enterprise_Rma_Model_Resource_Item */
-        $collection = Mage::getResourceModel('enterprise_rma/item_collection')
+        $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item_Collection')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
         foreach ($collection as $item) {

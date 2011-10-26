@@ -158,7 +158,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
 
     public function getNode($parentNodeCategory, $recursionLevel=2)
     {
-        $tree = Mage::getResourceModel('catalog/category_tree');
+        $tree = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Tree');
 
         $nodeId     = $parentNodeCategory->getId();
         $parentId   = $parentNodeCategory->getParentId();

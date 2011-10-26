@@ -54,7 +54,7 @@ class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
                 'charset'     => 'UTF-8',
                 );
         $rssObj->_addHeader($data);
-        $resourceModel = Mage::getResourceModel('rss/order');
+        $resourceModel = Mage::getResourceModel('Mage_Rss_Model_Resource_Order');
         $results = $resourceModel->getAllCommentCollection($order->getId());
         if($results){
             foreach($results as $result){

@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings extends Mage_Adminh
             'title' => Mage::helper('catalog')->__('Attribute Set'),
             'name'  => 'set',
             'value' => $entityType->getDefaultAttributeSetId(),
-            'values'=> Mage::getResourceModel('eav/entity_attribute_set_collection')
+            'values'=> Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($entityType->getId())
                 ->load()
                 ->toOptionArray()

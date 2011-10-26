@@ -193,7 +193,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
 
                 case 'rebuild_flat_catalog_category':
                     try {
-                        Mage::getResourceModel('catalog/category_flat')->rebuild();
+                        Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Flat')->rebuild();
                         $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('The flat catalog category has been rebuilt.'));
                     }
                     catch (Mage_Core_Exception $e) {
@@ -206,7 +206,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
 
                 case 'rebuild_flat_catalog_product':
                     try {
-                        Mage::getResourceModel('catalog/product_flat_indexer')->rebuild();
+                        Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Flat_Indexer')->rebuild();
                         $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('The Flat Catalog Product was rebuilt'));
                     }
                     catch (Mage_Core_Exception $e) {

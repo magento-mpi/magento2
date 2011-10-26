@@ -289,7 +289,7 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function getResultCollection()
     {
-        return Mage::getResourceModel('enterprise_search/collection')->setEngine($this);
+        return Mage::getResourceModel('Enterprise_Search_Model_Resource_Collection')->setEngine($this);
     }
 
     /**

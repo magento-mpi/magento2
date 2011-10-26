@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getProductAttributeSetFilterOptions()
     {
-        $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $options = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
@@ -179,7 +179,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getCustomerGroupFilterOptions()
     {
-        $options = Mage::getResourceModel('customer/group_collection')
+        $options = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')
             ->addFieldToFilter('customer_group_id', array('gt'=>0))
             ->load()
             ->toOptionHash();
@@ -190,7 +190,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getCountryFilterOptions()
     {
-        $options = Mage::getResourceModel('directory/country_collection')
+        $options = Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection')
             ->load()->toOptionArray(false);
         array_unshift($options, array('value'=>'', 'label'=>Mage::helper('adminhtml')->__('All countries')));
         return $options;

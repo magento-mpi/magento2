@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Report_Wishlist_Grid extends Mage_Adminhtml_Block_Wid
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('reports/wishlist_product_collection')
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Wishlist_Product_Collection')
             ->addAttributeToSelect('entity_id')
             ->addAttributeToSelect('name')
             ->addWishlistCount();

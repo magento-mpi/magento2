@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Grid extends Mage_Adminhtml_Bl
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('dataflow/profile_collection')
+        $collection = Mage::getResourceModel('Mage_Dataflow_Model_Resource_Profile_Collection')
             ->addFieldToFilter('entity_type', array('null'=>''));
 
         $this->setCollection($collection);

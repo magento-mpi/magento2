@@ -214,7 +214,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
-            $this->_items = Mage::getResourceModel('sales/order_shipment_item_collection')
+            $this->_items = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Item_Collection')
                 ->setShipmentFilter($this->getId());
 
             if ($this->getId()) {
@@ -262,7 +262,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     public function getTracksCollection()
     {
         if (empty($this->_tracks)) {
-            $this->_tracks = Mage::getResourceModel('sales/order_shipment_track_collection')
+            $this->_tracks = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Track_Collection')
                 ->setShipmentFilter($this->getId());
 
             if ($this->getId()) {
@@ -344,7 +344,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     public function getCommentsCollection($reload=false)
     {
         if (is_null($this->_comments) || $reload) {
-            $this->_comments = Mage::getResourceModel('sales/order_shipment_comment_collection')
+            $this->_comments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Comment_Collection')
                 ->setShipmentFilter($this->getId())
                 ->setCreatedAtOrder();
 

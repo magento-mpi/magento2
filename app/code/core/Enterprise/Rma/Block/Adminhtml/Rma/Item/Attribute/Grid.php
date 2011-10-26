@@ -53,7 +53,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_rma/item_attribute_collection')
+        $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item_Attribute_Collection')
             ->addSystemHiddenFilter()
             ->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);

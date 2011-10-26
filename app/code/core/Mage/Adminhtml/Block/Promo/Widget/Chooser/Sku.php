@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('catalog/product_collection')
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
             ->setStoreId(0)
             ->addAttributeToSelect('name', 'type_id', 'attribute_set_id');
 
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
                 'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
         ));
 
-        $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();

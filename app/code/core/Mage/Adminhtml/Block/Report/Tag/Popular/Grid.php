@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
             $storeId = '';
         }
 
-        $collection = Mage::getResourceModel('reports/tag_collection')
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Tag_Collection')
             ->addPopularity($storeId)
             ->addStatusFilter(Mage_Tag_Model_Tag::STATUS_APPROVED);
 

@@ -36,7 +36,7 @@ class Mage_Customer_Model_Customer_Attribute_Source_Group extends Mage_Eav_Model
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('customer/group_collection')
+            $this->_options = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')
                 ->setRealGroupsFilter()
                 ->load()
                 ->toOptionArray()

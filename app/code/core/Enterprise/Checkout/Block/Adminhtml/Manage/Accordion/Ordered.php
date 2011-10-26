@@ -86,7 +86,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
 
             // Load last order of a customer
             /* @var $collection Mage_Core_Model_Resource_Db_Collection_Abstract */
-            $collection = Mage::getResourceModel('sales/order_collection')
+            $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
                 ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())
                 ->addAttributeToFilter('store_id', array('in' => $storeIds))
                 ->addAttributeToSort('created_at', 'desc')

@@ -351,7 +351,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initAttributeSets()
     {
-        foreach (Mage::getResourceModel('eav/entity_attribute_set_collection')
+        foreach (Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($this->_entityTypeId) as $attributeSet) {
             $this->_attrSetNameToId[$attributeSet->getAttributeSetName()] = $attributeSet->getId();
             $this->_attrSetIdToName[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
@@ -366,7 +366,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initCategories()
     {
-        $collection = Mage::getResourceModel('catalog/category_collection')->addNameToResult();
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')->addNameToResult();
         /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         foreach ($collection as $category) {
             $structure = explode('/', $category->getPath());
@@ -389,7 +389,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initCustomerGroups()
     {
-        foreach (Mage::getResourceModel('customer/group_collection') as $customerGroup) {
+        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection') as $customerGroup) {
             $this->_customerGroups[$customerGroup->getId()] = true;
         }
         return $this;
@@ -836,7 +836,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _saveLinks()
     {
-        $resource       = Mage::getResourceModel('catalog/product_link');
+        $resource       = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Link');
         $mainTable      = $resource->getMainTable();
         $positionAttrId = array();
         $nextLinkId     = Mage::getResourceHelper('importexport')->getNextAutoincrement($mainTable);
@@ -1444,7 +1444,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             'stock_status_changed_auto'          => 0
         );
 
-        $entityTable = Mage::getResourceModel('cataloginventory/stock_item')->getMainTable();
+        $entityTable = Mage::getResourceModel('Mage_CatalogInventory_Model_Resource_Stock_Item')->getMainTable();
         $helper      = Mage::helper('catalogInventory');
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {

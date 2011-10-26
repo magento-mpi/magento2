@@ -213,7 +213,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
         $currentQueryId = $this->getQuery()->getId();
         $queryIds = array();
         if (is_null($queries) && !empty($currentQueryId)) {
-            $queryIds = Mage::getResourceModel('enterprise_search/recommendations')->getRelatedQueries($currentQueryId);
+            $queryIds = Mage::getResourceModel('Enterprise_Search_Model_Resource_Recommendations')->getRelatedQueries($currentQueryId);
         }
 
         return $queryIds;

@@ -165,7 +165,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Grid extends Mage_Adminhtml_Bloc
     public function getCollection()
     {
         if (!$this->hasData('collection')) {
-            $collection = Mage::getResourceModel('enterprise_staging/staging_action_collection')
+            $collection = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Action_Collection')
                 ->addFieldToFilter('type', 'backup')
                 ->addWebsitesToCollection();
             $this->setData('collection', $collection);

@@ -71,7 +71,7 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
                 return $country;
             }
         }
-        return Mage::getResourceModel('directory/country');
+        return Mage::getResourceModel('Mage_Directory_Model_Resource_Country');
     }
 
     /**

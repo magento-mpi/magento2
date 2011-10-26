@@ -47,7 +47,7 @@ class Mage_XmlConnect_Block_Customer_Order_List extends Mage_Core_Block_Template
     {
         $ordersXmlObj = Mage::getModel('xmlconnect/simplexml_element', '<orders></orders>');
 
-        $orders = Mage::getResourceModel('sales/order_collection')->addFieldToSelect('*')->addFieldToFilter(
+        $orders = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')->addFieldToSelect('*')->addFieldToFilter(
             'customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId()
         )
         ->addFieldToFilter(

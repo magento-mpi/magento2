@@ -183,7 +183,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function getItemsCollection()
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getResourceModel('enterprise_staging/staging_item_collection')
+            $this->_items = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Item_Collection')
                 ->setStagingFilter($this->getId());
 
             if ($this->getId()) {
@@ -329,7 +329,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         // rebuild flat tables after rollback
         if ($process == 'rollback') {
             if (Mage::helper('catalog/category_flat')->isBuilt()) {
-                Mage::getResourceModel('catalog/category_flat')->rebuild();
+                Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Flat')->rebuild();
             }
 
             $stores = $this->getMapperInstance()->getStores();
@@ -337,7 +337,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
                 foreach ($stores as $storeIds) {
                     if (isset($storeIds[0]) && $storeIds[0]) {
                         if (Mage::helper('catalog/product_flat')->isBuilt()) {
-                            Mage::getResourceModel('catalog/product_flat_indexer')->rebuild($storeIds[0]);
+                            Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Flat_Indexer')->rebuild($storeIds[0]);
                         }
                     }
                 }
@@ -358,10 +358,10 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 //        }
 //        if ($needToRebuiltFlat) {
 //            if (Mage::helper('catalog/category_flat')->isRebuilt()) {
-//                Mage::getResourceModel('catalog/category_flat')->rebuild();
+//                Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Flat')->rebuild();
 //            }
 //            if (Mage::helper('catalog/product_flat')->isBuilt()) {
-//                Mage::getResourceModel('catalog/product_flat_indexer')->rebuild();
+//                Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Flat_Indexer')->rebuild();
 //            }
 //        }
         $this->releaseCoreFlag();
@@ -497,7 +497,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function getLogCollection($reload=false)
     {
         if (is_null($this->_logCollection) || $reload) {
-            $this->_logCollection = Mage::getResourceModel('enterprise_staging/staging_log_collection')
+            $this->_logCollection = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Log_Collection')
                 ->setStagingFilter($this->getId())
                 ->setOrder('created_at', 'desc')
                 ->setOrder('log_id', 'desc');

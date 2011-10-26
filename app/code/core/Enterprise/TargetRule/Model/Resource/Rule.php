@@ -75,10 +75,10 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Core_Model_Resource
         $this->_prepareRuleProducts($object);
 
         if (!$object->isObjectNew() && $object->getOrigData('apply_to') != $object->getData('apply_to')) {
-            Mage::getResourceModel('enterprise_targetrule/index')
+            Mage::getResourceModel('Enterprise_TargetRule_Model_Resource_Index')
                 ->cleanIndex();
         } else {
-            Mage::getResourceModel('enterprise_targetrule/index')
+            Mage::getResourceModel('Enterprise_TargetRule_Model_Resource_Index')
                 ->cleanIndex($object->getData('apply_to'));
         }
 
@@ -93,7 +93,7 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Core_Model_Resource
      */
     protected function _beforeDelete(Mage_Core_Model_Abstract $object)
     {
-        Mage::getResourceModel('enterprise_targetrule/index')
+        Mage::getResourceModel('Enterprise_TargetRule_Model_Resource_Index')
             ->cleanIndex($object->getData('apply_to'));
 
         return parent::_beforeDelete($object);

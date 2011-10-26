@@ -267,7 +267,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         /**
          * Prepare events collection
          */
-        $eventsCollection = Mage::getResourceModel('index/event_collection')
+        $eventsCollection = Mage::getResourceModel('Mage_Index_Model_Resource_Event_Collection')
             ->addProcessFilter($this, self::EVENT_STATUS_NEW);
         if ($entity !== null) {
             $eventsCollection->addEntityFilter($entity);

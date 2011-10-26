@@ -55,7 +55,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_importexport/scheduled_operation_collection');
+        $collection = Mage::getResourceModel('Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection');
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

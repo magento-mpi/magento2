@@ -63,7 +63,7 @@ class Mage_SalesRule_Model_Resource_Report_Collection extends Mage_Sales_Model_R
     {
         parent::_construct();
         $this->setModel('adminhtml/report_item');
-        $this->_resource = Mage::getResourceModel('sales/report')->init($this->_aggregationTable);
+        $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')->init($this->_aggregationTable);
         $this->setConnection($this->getResource()->getReadConnection());
     }
 

@@ -58,7 +58,7 @@ class Mage_ProductAlert_Model_Stock extends Mage_Core_Model_Abstract
 
     public function getCustomerCollection()
     {
-        return Mage::getResourceModel('productalert/stock_customer_collection');
+        return Mage::getResourceModel('Mage_ProductAlert_Model_Resource_Stock_Customer_Collection');
     }
 
     public function loadByParam()

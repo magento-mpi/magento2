@@ -151,7 +151,7 @@ class Enterprise_SalesArchive_Model_Observer
         $collectionSelect = $collection->getSelect();
         $cloneSelect = clone $collectionSelect;
 
-        $union = Mage::getResourceModel('enterprise_salesarchive/order_collection')
+        $union = Mage::getResourceModel('Enterprise_SalesArchive_Model_Resource_Order_Collection')
             ->getOrderGridArchiveSelect($cloneSelect);
 
         $unionParts = array($cloneSelect, $union);

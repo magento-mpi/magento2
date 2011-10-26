@@ -91,7 +91,7 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
             return $options;
         }
         elseif ($id = $this->getId()) {
-            return Mage::getResourceModel('rating/rating_option_collection')
+            return Mage::getResourceModel('Mage_Rating_Model_Resource_Rating_Option_Collection')
                ->addRatingFilter($id)
                ->setPositionOrder()
                ->load()

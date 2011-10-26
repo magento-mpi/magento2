@@ -248,7 +248,7 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
      */
     public function getAvailableCustomerBillingAgreements($customerId)
     {
-        $collection = Mage::getResourceModel('sales/billing_agreement_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Billing_Agreement_Collection');
         $collection->addFieldToFilter('customer_id', $customerId)
             ->addFieldToFilter('status', self::STATUS_ACTIVE)
             ->setOrder('agreement_id');

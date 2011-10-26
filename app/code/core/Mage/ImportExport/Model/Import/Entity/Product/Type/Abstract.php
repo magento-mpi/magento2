@@ -157,9 +157,9 @@ abstract class Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract
         // temporary storage for attributes' parameters to avoid double querying inside the loop
         $attributesCache = array();
 
-        foreach (Mage::getResourceModel('eav/entity_attribute_set_collection')
+        foreach (Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($this->_entityModel->getEntityTypeId()) as $attributeSet) {
-            foreach (Mage::getResourceModel('catalog/product_attribute_collection')
+            foreach (Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
                 ->setAttributeSetFilter($attributeSet->getId()) as $attribute) {
 
                 $attributeCode = $attribute->getAttributeCode();

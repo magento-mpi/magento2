@@ -45,7 +45,7 @@ class Mage_GoogleBase_Model_Observer
         try {
             $product = $observer->getEvent()->getProduct();
             if (Mage::getStoreConfigFlag('google/googlebase/observed', $product->getStoreId())) {
-                $collection = Mage::getResourceModel('googlebase/item_collection')
+                $collection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Item_Collection')
                     ->addProductFilterId($product->getId())
                     ->load();
                 foreach ($collection as $item) {
@@ -79,7 +79,7 @@ class Mage_GoogleBase_Model_Observer
         try {
             $product = $observer->getEvent()->getProduct();
             if (Mage::getStoreConfigFlag('google/googlebase/observed', $product->getStoreId())) {
-                $collection = Mage::getResourceModel('googlebase/item_collection')
+                $collection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Item_Collection')
                     ->addProductFilterId($product->getId())
                     ->load();
                 foreach ($collection as $item) {

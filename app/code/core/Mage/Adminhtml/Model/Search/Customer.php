@@ -46,7 +46,7 @@ class Mage_Adminhtml_Model_Search_Customer extends Varien_Object
             $this->setResults($arr);
             return $this;
         }
-        $collection = Mage::getResourceModel('customer/customer_collection')
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')
             ->addNameToSelect()
             ->joinAttribute('company', 'customer_address/company', 'default_billing', null, 'left')
             ->addAttributeToFilter(array(

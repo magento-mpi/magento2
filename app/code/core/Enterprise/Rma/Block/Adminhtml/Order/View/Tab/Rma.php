@@ -68,7 +68,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Tab_Rma
         }
         if ($orderId) {
             /** @var $collection Enterprise_Rma_Model_Resource_Rma_Grid_Collection */
-            $collection = Mage::getResourceModel('enterprise_rma/rma_grid_collection')
+            $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Grid_Collection')
                 ->addFieldToFilter('order_id', $orderId);
             $this->setCollection($collection);
         }

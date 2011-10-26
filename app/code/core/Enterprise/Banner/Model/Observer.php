@@ -52,7 +52,7 @@ class Enterprise_Banner_Model_Observer
     public function bindRelatedBannersToCatalogRule(Varien_Event_Observer $observer)
     {
         $catalogRule = $observer->getEvent()->getRule();
-        $resource = Mage::getResourceModel('enterprise_banner/banner');
+        $resource = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Banner');
         $banners = $catalogRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();
@@ -83,7 +83,7 @@ class Enterprise_Banner_Model_Observer
     public function bindRelatedBannersToSalesRule(Varien_Event_Observer $observer)
     {
         $salesRule = $observer->getEvent()->getRule();
-        $resource = Mage::getResourceModel('enterprise_banner/banner');
+        $resource = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Banner');
         $banners = $salesRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();

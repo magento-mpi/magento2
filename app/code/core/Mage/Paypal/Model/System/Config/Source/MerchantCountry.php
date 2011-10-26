@@ -32,7 +32,7 @@ class Mage_Paypal_Model_System_Config_Source_MerchantCountry
     public function toOptionArray($isMultiselect = false)
     {
         $supported = Mage::getModel('paypal/config')->getSupportedMerchantCountryCodes();
-        $options = Mage::getResourceModel('directory/country_collection')
+        $options = Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection')
             ->addCountryCodeFilter($supported, 'iso2')
             ->loadData()
             ->toOptionArray($isMultiselect ? false : Mage::helper('adminhtml')->__('--Please Select--'));

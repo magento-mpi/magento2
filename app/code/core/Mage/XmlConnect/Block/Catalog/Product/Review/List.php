@@ -77,7 +77,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Review_List extends Mage_XmlConnect_
                 return null;
             }
             /** @var $collection Mage_Review_Model_Resource_Review_Collection */
-            $collection = Mage::getResourceModel('review/review_collection')
+            $collection = Mage::getResourceModel('Mage_Review_Model_Resource_Review_Collection')
                 ->addEntityFilter('product', $product->getId())->addStoreFilter(Mage::app()->getStore()->getId())
                 ->addStatusFilter('approved')->setDateOrder();
 

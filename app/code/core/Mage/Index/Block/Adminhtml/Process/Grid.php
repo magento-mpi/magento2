@@ -45,7 +45,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('index/process_collection');
+        $collection = Mage::getResourceModel('Mage_Index_Model_Resource_Process_Collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

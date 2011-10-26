@@ -32,7 +32,7 @@ class Enterprise_Rma_Block_Return_Returns extends Mage_Core_Block_Template
         if (Mage::helper('enterprise_rma')->isEnabled()) {
             $this->setTemplate('rma/return/returns.phtml');
 
-            $returns = Mage::getResourceModel('enterprise_rma/rma_grid_collection')
+            $returns = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Grid_Collection')
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', Mage::registry('current_order')->getId())
                 ->setOrder('date_requested', 'desc');

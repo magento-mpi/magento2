@@ -244,7 +244,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      * @return Mage_Admin_Model_Resource_User_Collection
      */
     public function getCollection() {
-        return Mage::getResourceModel('admin/user_collection');
+        return Mage::getResourceModel('Mage_Admin_Model_Resource_User_Collection');
     }
 
     /**

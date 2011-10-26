@@ -511,7 +511,7 @@ class Mage_Persistent_Model_Observer
      */
     public function clearExpiredCronJob(Mage_Cron_Model_Schedule $schedule)
     {
-        $websiteIds = Mage::getResourceModel('core/website_collection')->getAllIds();
+        $websiteIds = Mage::getResourceModel('Mage_Core_Model_Resource_Website_Collection')->getAllIds();
         if (!is_array($websiteIds)) {
             return $this;
         }

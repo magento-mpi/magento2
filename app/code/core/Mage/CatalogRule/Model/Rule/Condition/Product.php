@@ -152,7 +152,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         if ($this->getAttribute() === 'attribute_set_id') {
             $entityTypeId = Mage::getSingleton('eav/config')
                 ->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
-            $selectOptions = Mage::getResourceModel('eav/entity_attribute_set_collection')
+            $selectOptions = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($entityTypeId)
                 ->load()
                 ->toOptionArray();

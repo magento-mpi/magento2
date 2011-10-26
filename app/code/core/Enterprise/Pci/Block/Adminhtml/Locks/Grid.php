@@ -49,7 +49,7 @@ class Enterprise_Pci_Block_Adminhtml_Locks_Grid extends Mage_Adminhtml_Block_Wid
     public function getCollection()
     {
         if (!$this->_collection) {
-            $this->_collection = Mage::getResourceModel('admin/user_collection');
+            $this->_collection = Mage::getResourceModel('Mage_Admin_Model_Resource_User_Collection');
             $this->_collection->addFieldToFilter('lock_expires', array('notnull' => true));
         }
         return $this->_collection;

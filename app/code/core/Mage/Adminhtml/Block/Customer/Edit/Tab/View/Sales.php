@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
             ->load(Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE))
         ;
 
-        $this->_collection = Mage::getResourceModel('sales/sale_collection')
+        $this->_collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Sale_Collection')
             ->setCustomerFilter(Mage::registry('current_customer'))
             ->setOrderStateFilter(Mage_Sales_Model_Order::STATE_CANCELED, true)
             ->load()

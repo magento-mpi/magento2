@@ -275,7 +275,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
     protected function _getProductCollectionByIds($productIds)
     {
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('catalog/product_collection');
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
         $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         $this->_addProductAttributesAndPrices($collection);
 

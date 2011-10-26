@@ -169,16 +169,16 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
      */
     public function createRun($staging, $event = null)
     {
-        Mage::getResourceModel('enterprise_staging/adapter_website')
+        Mage::getResourceModel('Enterprise_Staging_Model_Resource_Adapter_Website')
             ->createRun($staging, $event);
 
-        Mage::getResourceModel('enterprise_staging/adapter_group')
+        Mage::getResourceModel('Enterprise_Staging_Model_Resource_Adapter_Group')
             ->createRun($staging, $event);
 
-        Mage::getResourceModel('enterprise_staging/adapter_store')
+        Mage::getResourceModel('Enterprise_Staging_Model_Resource_Adapter_Store')
             ->createRun($staging, $event);
 
-        Mage::getResourceModel('enterprise_staging/adapter_item')
+        Mage::getResourceModel('Enterprise_Staging_Model_Resource_Adapter_Item')
             ->createRun($staging, $event);
 
         $this->_processStagingItemsCallback('createRun', $staging, $event);
@@ -195,7 +195,7 @@ class Enterprise_Staging_Model_Resource_Staging extends Mage_Core_Model_Resource
      */
     public function updateRun($staging, $event = null)
     {
-        Mage::getResourceModel('enterprise_staging/adapter_website')
+        Mage::getResourceModel('Enterprise_Staging_Model_Resource_Adapter_Website')
             ->updateRun($staging, $event);
 
         return $this;

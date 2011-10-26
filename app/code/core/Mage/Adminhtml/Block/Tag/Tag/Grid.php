@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('tag/tag_collection')
+        $collection = Mage::getResourceModel('Mage_Tag_Model_Resource_Tag_Collection')
             ->addSummary(Mage::app()->getStore()->getId())
             ->addStoresVisibility();
         $this->setCollection($collection);

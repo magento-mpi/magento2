@@ -171,7 +171,7 @@ class Mage_Core_Model_Translate_Inline
         }
 
         /* @var $resource Mage_Core_Model_Resource_Translate_String */
-        $resource = Mage::getResourceModel('core/translate_string');
+        $resource = Mage::getResourceModel('Mage_Core_Model_Resource_Translate_String');
         foreach ($translate as $t) {
             if (Mage::getDesign()->getArea() == 'adminhtml') {
                 $storeId = 0;

@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Api_User_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('api/user_collection');
+        $collection = Mage::getResourceModel('Mage_Api_Model_Resource_User_Collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

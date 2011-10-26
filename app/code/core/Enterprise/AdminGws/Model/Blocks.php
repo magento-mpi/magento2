@@ -312,7 +312,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             $setDisabled = true;
         } else {
             $categoryId = $observer->getEvent()->getBlock()->getEvent()->getCategoryId();
-            $path = Mage::getResourceModel('catalog/category')->getCategoryPathById($categoryId);
+            $path = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category')->getCategoryPathById($categoryId);
             if (!$this->_role->hasExclusiveCategoryAccess($path)) {
                 $setDisabled = true;
             }

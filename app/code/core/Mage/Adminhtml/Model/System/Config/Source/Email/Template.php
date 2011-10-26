@@ -48,7 +48,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Email_Template extends Varien_Ob
     public function toOptionArray()
     {
         if(!$collection = Mage::registry('config_system_email_template')) {
-            $collection = Mage::getResourceModel('core/email_template_collection')
+            $collection = Mage::getResourceModel('Mage_Core_Model_Resource_Email_Template_Collection')
                 ->load();
 
             Mage::register('config_system_email_template', $collection);

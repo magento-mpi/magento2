@@ -500,7 +500,7 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      */
     public function getCategoryCollection($product)
     {
-        $collection = Mage::getResourceModel('catalog/category_collection')
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')
             ->joinField('product_id',
                 'catalog_category_product',
                 'product_id',

@@ -207,7 +207,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
         if (is_array($ids)) {
             $ids = array_filter($ids, 'intval');
             try {
-                $operations = Mage::getResourceModel('enterprise_importexport/scheduled_operation_collection');
+                $operations = Mage::getResourceModel('Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection');
                 $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
                 foreach ($operations as $operation) {
                     $operation->delete();
@@ -240,7 +240,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
             $ids = array_filter($ids, 'intval');
 
             try {
-                $operations = Mage::getResourceModel('enterprise_importexport/scheduled_operation_collection');
+                $operations = Mage::getResourceModel('Enterprise_ImportExport_Model_Resource_Scheduled_Operation_Collection');
                 $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
 
                 foreach ($operations as $operation) {

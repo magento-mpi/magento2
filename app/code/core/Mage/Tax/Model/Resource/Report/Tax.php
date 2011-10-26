@@ -51,8 +51,8 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
      */
     public function aggregate($from = null, $to = null)
     {
-        Mage::getResourceModel('tax/report_tax_createdat')->aggregate($from, $to);
-        Mage::getResourceModel('tax/report_tax_updatedat')->aggregate($from, $to);
+        Mage::getResourceModel('Mage_Tax_Model_Resource_Report_Tax_Createdat')->aggregate($from, $to);
+        Mage::getResourceModel('Mage_Tax_Model_Resource_Report_Tax_Updatedat')->aggregate($from, $to);
         $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
 
         return $this;

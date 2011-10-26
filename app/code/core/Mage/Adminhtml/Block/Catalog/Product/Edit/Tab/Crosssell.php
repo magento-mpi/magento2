@@ -163,7 +163,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
             'options'   => Mage::getSingleton('catalog/product_type')->getOptionArray(),
         ));
 
-        $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();

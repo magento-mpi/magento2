@@ -97,7 +97,7 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
      */
     public function getItemCollection()
     {
-        return Mage::getResourceModel('cataloginventory/stock_item_collection')
+        return Mage::getResourceModel('Mage_CatalogInventory_Model_Resource_Stock_Item_Collection')
             ->addStockFilter($this->getId());
     }
 

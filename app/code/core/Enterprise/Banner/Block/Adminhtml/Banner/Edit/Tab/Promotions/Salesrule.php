@@ -52,7 +52,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
     protected function _prepareCollection()
     {
         $bannerId = Mage::registry('current_banner')->getId();
-        $collection = Mage::getResourceModel('enterprise_banner/salesrule_collection');
+        $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Salesrule_Collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

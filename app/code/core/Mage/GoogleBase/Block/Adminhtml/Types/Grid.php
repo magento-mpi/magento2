@@ -43,7 +43,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('googlebase/type_collection')->addItemsCount();
+        $collection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Type_Collection')->addItemsCount();
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;

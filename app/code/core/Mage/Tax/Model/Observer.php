@@ -189,7 +189,7 @@ class Mage_Tax_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('tax/report_tax')->aggregate($date);
+        Mage::getResourceModel('Mage_Tax_Model_Resource_Report_Tax')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }

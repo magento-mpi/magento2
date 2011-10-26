@@ -184,7 +184,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
     protected function _prepareCollection()
     {
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('catalog/product_collection')
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
             ->setStoreId(0)
             ->addAttributeToSelect('name');
 

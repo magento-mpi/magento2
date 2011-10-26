@@ -358,7 +358,7 @@ class Mage_Core_Model_Layout_Update
     {
         $_profilerKey = 'layout_db_update:' . $handle;
         Magento_Profiler::start($_profilerKey);
-        $updateStr = Mage::getResourceModel('core/layout')->fetchUpdatesByHandle($handle);
+        $updateStr = Mage::getResourceModel('Mage_Core_Model_Resource_Layout')->fetchUpdatesByHandle($handle);
         if ($updateStr) {
             $updateStr = '<update_xml>' . $updateStr . '</update_xml>';
             $updateStr = str_replace($this->_subst['from'], $this->_subst['to'], $updateStr);

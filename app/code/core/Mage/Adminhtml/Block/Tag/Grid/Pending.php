@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('tag/tag_collection')
+        $collection = Mage::getResourceModel('Mage_Tag_Model_Resource_Tag_Collection')
             ->addSummary(0)
             ->addStoresVisibility()
             ->addStatusFilter(Mage_Tag_Model_Tag::STATUS_PENDING);

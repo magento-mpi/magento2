@@ -201,7 +201,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         if (is_null($this->_itemCollection)) {
             /** @var $currentWebsiteOnly boolean */
             $currentWebsiteOnly = !Mage::app()->getStore()->isAdmin();
-            $this->_itemCollection =  Mage::getResourceModel('wishlist/item_collection')
+            $this->_itemCollection =  Mage::getResourceModel('Mage_Wishlist_Model_Resource_Item_Collection')
                 ->addWishlistFilter($this)
                 ->addStoreFilter($this->getSharedStoreIds($currentWebsiteOnly))
                 ->setVisibilityFilter();
@@ -236,7 +236,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     {
         $collection = $this->getData('product_collection');
         if (is_null($collection)) {
-            $collection = Mage::getResourceModel('wishlist/product_collection');
+            $collection = Mage::getResourceModel('Mage_Wishlist_Model_Resource_Product_Collection');
             $this->setData('product_collection', $collection);
         }
         return $collection;

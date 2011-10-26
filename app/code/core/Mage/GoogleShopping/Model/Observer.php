@@ -85,7 +85,7 @@ class Mage_GoogleShopping_Model_Observer
      */
     protected function _getItemsCollection($product)
     {
-        $items = Mage::getResourceModel('googleshopping/item_collection')
+        $items = Mage::getResourceModel('Mage_GoogleShopping_Model_Resource_Item_Collection')
             ->addProductFilterId($product->getId());
         if ($product->getStoreId()) {
             $items->addStoreFilter($product->getStoreId());

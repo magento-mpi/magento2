@@ -48,7 +48,7 @@ class Mage_Index_Model_Indexer
      */
     public function __construct()
     {
-        $this->_processesCollection = Mage::getResourceModel('index/process_collection');
+        $this->_processesCollection = Mage::getResourceModel('Mage_Index_Model_Resource_Process_Collection');
     }
 
     /**

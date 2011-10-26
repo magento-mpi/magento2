@@ -36,7 +36,7 @@ class Mage_Catalog_Model_Category_Attribute_Source_Page extends Mage_Eav_Model_E
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('cms/block_collection')
+            $this->_options = Mage::getResourceModel('Mage_Cms_Model_Resource_Block_Collection')
                 ->load()
                 ->toOptionArray();
             array_unshift($this->_options, array('value'=>'', 'label'=>Mage::helper('catalog')->__('Please select a static block ...')));

@@ -76,12 +76,12 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
 
     public function getProductCollection()
     {
-        return Mage::getResourceModel('review/review_product_collection');
+        return Mage::getResourceModel('Mage_Review_Model_Resource_Review_Product_Collection');
     }
 
     public function getStatusCollection()
     {
-        return Mage::getResourceModel('review/review_status_collection');
+        return Mage::getResourceModel('Mage_Review_Model_Resource_Review_Status_Collection');
     }
 
     public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
@@ -167,7 +167,7 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $summaryData = Mage::getResourceModel('review/review_summary_collection')
+        $summaryData = Mage::getResourceModel('Mage_Review_Model_Resource_Review_Summary_Collection')
             ->addEntityFilter($entityIds)
             ->addStoreFilter(Mage::app()->getStore()->getId())
             ->load();

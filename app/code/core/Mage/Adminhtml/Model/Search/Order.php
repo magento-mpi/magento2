@@ -49,7 +49,7 @@ class Mage_Adminhtml_Model_Search_Order extends Varien_Object
 
         $query = $this->getQuery();
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_collection')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
             ->addAttributeToSelect('*')
             ->addAttributeToSearchFilter(array(
                 array('attribute' => 'increment_id',       'like'=>$query.'%'),

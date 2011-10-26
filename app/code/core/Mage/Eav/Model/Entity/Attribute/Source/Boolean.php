@@ -133,7 +133,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Boolean extends Mage_Eav_Model_Enti
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('eav/entity_attribute')
+        return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

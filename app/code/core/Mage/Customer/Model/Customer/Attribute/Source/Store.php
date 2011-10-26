@@ -36,7 +36,7 @@ class Mage_Customer_Model_Customer_Attribute_Source_Store extends Mage_Eav_Model
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $collection = Mage::getResourceModel('core/store_collection');
+            $collection = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection');
             if ('store_id' == $this->getAttribute()->getAttributeCode()) {
                 $collection->setWithoutDefaultFilter();
             }
@@ -58,7 +58,7 @@ class Mage_Customer_Model_Customer_Attribute_Source_Store extends Mage_Eav_Model
         }
 
         if (!$this->_options) {
-            $collection = Mage::getResourceModel('core/store_collection');
+            $collection = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection');
             if ('store_id' == $this->getAttribute()->getAttributeCode()) {
                 $collection->setWithoutDefaultFilter();
             }

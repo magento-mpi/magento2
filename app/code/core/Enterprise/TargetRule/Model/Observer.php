@@ -72,7 +72,7 @@ class Enterprise_TargetRule_Model_Observer
         // remove old matched product index
         $indexResource->removeProductIndex($product->getId());
 
-        $ruleCollection = Mage::getResourceModel('enterprise_targetrule/rule_collection')
+        $ruleCollection = Mage::getResourceModel('Enterprise_TargetRule_Model_Resource_Rule_Collection')
             ->addProductFilter($product->getId())
         ;
         foreach ($ruleCollection as $rule) {

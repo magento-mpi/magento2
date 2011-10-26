@@ -228,7 +228,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     public function getMatchingProducts()
     {
         if (is_null($this->_products)) {
-            $productCollection = Mage::getResourceModel('catalog/product_collection');
+            $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
 
             $this->setCollectedAttributes(array());
             $this->getConditions()->collectValidatedAttributes($productCollection);

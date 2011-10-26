@@ -110,7 +110,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
             $product = Mage::getModel('catalog/product');
-            $attributes = Mage::getResourceModel('catalog/product_attribute_collection')
+            $attributes = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
                 ->addHasOptionsFilter()
                 ->addDisplayInAdvancedSearchFilter()
                 ->addStoreLabel(Mage::app()->getStore()->getId())

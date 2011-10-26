@@ -59,7 +59,7 @@ class Mage_Api_Model_Rules extends Mage_Core_Model_Abstract
     }
 
     public function getCollection() {
-        return Mage::getResourceModel('api/permissions_collection');
+        return Mage::getResourceModel('Mage_Api_Model_Resource_Permissions_Collection');
     }
 
     public function saveRel() {

@@ -31,7 +31,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Cms_Page
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('cms/page_collection')
+            $this->_options = Mage::getResourceModel('Mage_Cms_Model_Resource_Page_Collection')
                 ->load()->toOptionIdArray();
         }
         return $this->_options;

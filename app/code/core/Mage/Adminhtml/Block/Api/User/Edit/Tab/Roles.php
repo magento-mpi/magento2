@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('api/role_collection');
+        $collection = Mage::getResourceModel('Mage_Api_Model_Resource_Role_Collection');
         $collection->setRolesFilter();
         $this->setCollection($collection);
         return parent::_prepareCollection();

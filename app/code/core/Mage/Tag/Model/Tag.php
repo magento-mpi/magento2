@@ -226,12 +226,12 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
 
     public function getEntityCollection()
     {
-        return Mage::getResourceModel('tag/product_collection');
+        return Mage::getResourceModel('Mage_Tag_Model_Resource_Product_Collection');
     }
 
     public function getCustomerCollection()
     {
-        return Mage::getResourceModel('tag/customer_collection');
+        return Mage::getResourceModel('Mage_Tag_Model_Resource_Customer_Collection');
     }
 
     public function getTaggedProductsUrl()
@@ -256,7 +256,7 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
 
     public function getPopularCollection()
     {
-        return Mage::getResourceModel('tag/popular_collection');
+        return Mage::getResourceModel('Mage_Tag_Model_Resource_Popular_Collection');
     }
 
     /**

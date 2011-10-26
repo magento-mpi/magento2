@@ -128,7 +128,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         if ($order = $this->_initOrder()) {
             try {
                 $order->sendNewOrderEmail();
-                $historyItem = Mage::getResourceModel('sales/order_status_history_collection')
+                $historyItem = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_History_Collection')
                     ->getUnnotifiedForInstance($order, Mage_Sales_Model_Order::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
@@ -463,7 +463,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $invoices = Mage::getResourceModel('sales/order_invoice_collection')
+                $invoices = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize() > 0) {
@@ -497,7 +497,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                $shipments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()) {
@@ -531,7 +531,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
+                $creditmemos = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Creditmemo_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {
@@ -565,7 +565,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $invoices = Mage::getResourceModel('sales/order_invoice_collection')
+                $invoices = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize()){
@@ -578,7 +578,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     }
                 }
 
-                $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                $shipments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()){
@@ -591,7 +591,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     }
                 }
 
-                $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
+                $creditmemos = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Creditmemo_Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {

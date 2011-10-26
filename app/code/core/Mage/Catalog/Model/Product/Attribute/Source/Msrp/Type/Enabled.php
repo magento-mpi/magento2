@@ -110,7 +110,7 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('eav/entity_attribute')
+        return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

@@ -61,7 +61,7 @@ class Enterprise_Reward_Model_Action_Newsletter extends Enterprise_Reward_Model_
         }
 
         /* @var $subscribers Mage_Newsletter_Model_Resource_Subscriber_Collection */
-        $subscribers = Mage::getResourceModel('newsletter/subscriber_collection')
+        $subscribers = Mage::getResourceModel('Mage_Newsletter_Model_Resource_Subscriber_Collection')
             ->addFieldToFilter('customer_id', $subscriber->getCustomerId())
             ->load();
         // check for existing customer subscribtions

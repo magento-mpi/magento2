@@ -108,7 +108,7 @@ class Mage_SalesRule_Model_Observer
             $coupon->setTimesUsed($coupon->getTimesUsed() + 1);
             $coupon->save();
             if ($customerId) {
-                $couponUsage = Mage::getResourceModel('salesrule/coupon_usage');
+                $couponUsage = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Coupon_Usage');
                 $couponUsage->updateCustomerCouponTimesUsed($customerId, $coupon->getId());
             }
         }
@@ -125,7 +125,7 @@ class Mage_SalesRule_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('salesrule/report_rule')->aggregate($date);
+        Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -140,7 +140,7 @@ class Mage_SalesRule_Model_Observer
     protected function _checkSalesRulesAvailability($attributeCode)
     {
         /* @var $collection Mage_SalesRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getResourceModel('salesrule/rule_collection')
+        $collection = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Rule_Collection')
             ->addAttributeInConditionFilter($attributeCode);
 
         $disabledRulesCount = 0;
@@ -229,7 +229,7 @@ class Mage_SalesRule_Model_Observer
         // @var Varien_Object
         $attributesTransfer = $observer->getEvent()->getAttributes();
 
-        $attributes = Mage::getResourceModel('salesrule/rule')
+        $attributes = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Rule')
             ->getActiveAttributes(
                 Mage::app()->getWebsite()->getId(),
                 Mage::getSingleton('customer/session')->getCustomer()->getGroupId()

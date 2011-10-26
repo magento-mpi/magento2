@@ -195,7 +195,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                     }
                 }
                 if ($_deleteItems) {
-                    Mage::getResourceModel('downloadable/sample')->deleteItems($_deleteItems);
+                    Mage::getResourceModel('Mage_Downloadable_Model_Resource_Sample')->deleteItems($_deleteItems);
                 }
             }
             if (isset($data['link'])) {
@@ -261,7 +261,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                     }
                 }
                 if ($_deleteItems) {
-                    Mage::getResourceModel('downloadable/link')->deleteItems($_deleteItems);
+                    Mage::getResourceModel('Mage_Downloadable_Model_Resource_Link')->deleteItems($_deleteItems);
                 }
                 if ($this->getProduct($product)->getLinksPurchasedSeparately()) {
                     $this->getProduct($product)->setIsCustomOptionChanged();

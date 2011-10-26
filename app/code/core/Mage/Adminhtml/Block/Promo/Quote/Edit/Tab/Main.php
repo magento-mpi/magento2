@@ -143,7 +143,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             $model->setWebsiteIds(Mage::app()->getStore(true)->getWebsiteId());
         }
 
-        $customerGroups = Mage::getResourceModel('customer/group_collection')
+        $customerGroups = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')
             ->load()->toOptionArray();
 
         $found = false;

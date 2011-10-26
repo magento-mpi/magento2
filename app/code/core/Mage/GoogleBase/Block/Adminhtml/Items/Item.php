@@ -42,7 +42,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('googlebase/item_collection');
+        $collection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Item_Collection');
         $store = $this->_getStore();
         $collection->addStoreFilterId($store->getId());
         $this->setCollection($collection);

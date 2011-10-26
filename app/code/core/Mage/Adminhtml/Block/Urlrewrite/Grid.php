@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Grid extends Mage_Adminhtml_Block_Widget_G
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('core/url_rewrite_collection');
+        $collection = Mage::getResourceModel('Mage_Core_Model_Resource_Url_Rewrite_Collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

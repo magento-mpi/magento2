@@ -83,7 +83,7 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
     {
         $todayDate  = Mage::app()->getLocale()->date()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
 
-        $collection = Mage::getResourceModel('catalog/product_collection');
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
         $collection->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds());
 
         $collection = $this->_addProductAttributesAndPrices($collection)

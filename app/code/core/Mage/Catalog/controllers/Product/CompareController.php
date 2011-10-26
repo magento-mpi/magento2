@@ -139,7 +139,7 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
      */
     public function clearAction()
     {
-        $items = Mage::getResourceModel('catalog/product_compare_item_collection');
+        $items = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Compare_Item_Collection');
 
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
             $items->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());

@@ -845,7 +845,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     {
         $id = $this->_request->getParam('user_id');
         if ($id) {
-            $limited = Mage::getResourceModel('enterprise_admingws/collections')
+            $limited = Mage::getResourceModel('Enterprise_AdminGws_Model_Resource_Collections')
                 ->getUsersOutsideLimitedScope(
                     $this->_role->getIsAll(),
                     $this->_role->getWebsiteIds(),
@@ -869,7 +869,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     {
         $id = $this->_request->getParam('rid', $this->_request->getParam('role_id'));
         if ($id) {
-            $limited = Mage::getResourceModel('enterprise_admingws/collections')
+            $limited = Mage::getResourceModel('Enterprise_AdminGws_Model_Resource_Collections')
                 ->getRolesOutsideLimitedScope(
                     $this->_role->getIsAll(),
                     $this->_role->getWebsiteIds(),
@@ -923,7 +923,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         $productNotExclusiveIds = array();
         $productExclusiveIds    = array();
 
-        $resource = Mage::getResourceModel('catalog/product');
+        $resource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product');
 
         $productsWebsites = $resource->getWebsiteIdsByProductIds($productIds);
 

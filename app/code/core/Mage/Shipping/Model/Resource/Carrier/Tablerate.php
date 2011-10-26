@@ -290,7 +290,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         $this->_importIso3Countries = array();
 
         /** @var $collection Mage_Directory_Model_Resource_Country_Collection */
-        $collection = Mage::getResourceModel('directory/country_collection');
+        $collection = Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection');
         foreach ($collection->getData() as $row) {
             $this->_importIso2Countries[$row['iso2_code']] = $row['country_id'];
             $this->_importIso3Countries[$row['iso3_code']] = $row['country_id'];
@@ -313,7 +313,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         $this->_importRegions = array();
 
         /** @var $collection Mage_Directory_Model_Resource_Region_Collection */
-        $collection = Mage::getResourceModel('directory/region_collection');
+        $collection = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection');
         foreach ($collection->getData() as $row) {
             $this->_importRegions[$row['country_id']][$row['code']] = (int)$row['region_id'];
         }

@@ -56,7 +56,7 @@ class Enterprise_Search_Model_Recommendations
             $searchRecommendationsCount = 1;
         }
         if ($searchRecommendationsEnabled) {
-            $model = Mage::getResourceModel('enterprise_search/recommendations');
+            $model = Mage::getResourceModel('Enterprise_Search_Model_Resource_Recommendations');
             return $model->getRecommendationsByQuery($searchQueryText, $params, $searchRecommendationsCount);
         } else {
             return array();

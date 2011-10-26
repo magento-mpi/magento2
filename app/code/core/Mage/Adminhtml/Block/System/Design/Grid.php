@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
 
-        $collection = Mage::getResourceModel('core/design_collection');
+        $collection = Mage::getResourceModel('Mage_Core_Model_Resource_Design_Collection');
 
         $this->setCollection($collection);
         parent::_prepareCollection();

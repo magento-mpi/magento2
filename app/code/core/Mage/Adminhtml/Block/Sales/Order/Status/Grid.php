@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('sales/order_status_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_Collection');
         $collection->joinStates();
         $this->setCollection($collection);
         parent::_prepareCollection();

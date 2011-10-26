@@ -48,7 +48,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
      */
     protected function _prepareCollection()
     {
-        $this->setCollection(Mage::getResourceModel('enterprise_logging/event_collection'));
+        $this->setCollection(Mage::getResourceModel('Enterprise_Logging_Model_Resource_Event_Collection'));
         return parent::_prepareCollection();
     }
 

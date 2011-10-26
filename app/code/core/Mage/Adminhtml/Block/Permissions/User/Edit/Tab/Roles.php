@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Permissions_User_Edit_Tab_Roles extends Mage_Adminhtm
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('admin/role_collection');
+        $collection = Mage::getResourceModel('Mage_Admin_Model_Resource_Role_Collection');
         $collection->setRolesFilter();
         $this->setCollection($collection);
         return parent::_prepareCollection();

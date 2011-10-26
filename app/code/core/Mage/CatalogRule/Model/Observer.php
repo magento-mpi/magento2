@@ -109,7 +109,7 @@ class Mage_CatalogRule_Model_Observer
 
         $key = "$date|$wId|$gId|$pId";
         if (!isset($this->_rulePrices[$key])) {
-            $rulePrice = Mage::getResourceModel('catalogrule/rule')
+            $rulePrice = Mage::getResourceModel('Mage_CatalogRule_Model_Resource_Rule')
                 ->getRulePrice($date, $wId, $gId, $pId);
             $this->_rulePrices[$key] = $rulePrice;
         }
@@ -148,7 +148,7 @@ class Mage_CatalogRule_Model_Observer
 
         if ($key) {
             if (!isset($this->_rulePrices[$key])) {
-                $rulePrice = Mage::getResourceModel('catalogrule/rule')
+                $rulePrice = Mage::getResourceModel('Mage_CatalogRule_Model_Resource_Rule')
                     ->getRulePrice($date, $wId, $gId, $pId);
                 $this->_rulePrices[$key] = $rulePrice;
             }
@@ -236,7 +236,7 @@ class Mage_CatalogRule_Model_Observer
     protected function _checkCatalogRulesAvailability($attributeCode)
     {
         /* @var $collection Mage_CatalogRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getResourceModel('catalogrule/rule_collection')
+        $collection = Mage::getResourceModel('Mage_CatalogRule_Model_Resource_Rule_Collection')
             ->addAttributeInConditionFilter($attributeCode);
 
         $disabledRulesCount = 0;
@@ -346,7 +346,7 @@ class Mage_CatalogRule_Model_Observer
         }
 
         if ($productIds) {
-            $rulePrices = Mage::getResourceModel('catalogrule/rule')
+            $rulePrices = Mage::getResourceModel('Mage_CatalogRule_Model_Resource_Rule')
                 ->getRulePrices($date, $websiteId, $groupId, $productIds);
             foreach ($productIds as $productId) {
                 $key = implode('|', array($date, $websiteId, $groupId, $productId));

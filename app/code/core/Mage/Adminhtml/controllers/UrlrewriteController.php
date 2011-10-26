@@ -160,7 +160,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                     // if redirect specified try to find friendly URL
                     $found = false;
                     if (in_array($model->getOptions(), array('R', 'RP'))) {
-                        $rewrite = Mage::getResourceModel('catalog/url')
+                        $rewrite = Mage::getResourceModel('Mage_Catalog_Model_Resource_Url')
                             ->getRewriteByIdPath($idPath, $model->getStoreId());
                         if (!$rewrite) {
                             $exceptionTxt = 'Chosen product does not associated with the chosen store or category.';

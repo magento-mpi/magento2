@@ -49,7 +49,7 @@ class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Mage_Adminhtml_Blo
     protected function _prepareCollection()
     {
         $event = Mage::registry('current_event');
-        $collection = Mage::getResourceModel('enterprise_logging/event_changes_collection')
+        $collection = Mage::getResourceModel('Enterprise_Logging_Model_Resource_Event_Changes_Collection')
             ->addFieldToFilter('event_id', $event->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();

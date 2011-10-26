@@ -148,7 +148,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
 
             // Add help Notice to Combined Report
             if ($this->_getAdminSession()->getMassactionIds()) {
-                $collection = Mage::getResourceModel('enterprise_customersegment/segment_collection')
+                $collection = Mage::getResourceModel('Enterprise_CustomerSegment_Model_Resource_Segment_Collection')
                     ->addFieldToFilter(
                         'segment_id',
                         array('in' => $this->_getAdminSession()->getMassactionIds())

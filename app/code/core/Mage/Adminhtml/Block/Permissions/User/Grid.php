@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Permissions_User_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('admin/user_collection');
+        $collection = Mage::getResourceModel('Mage_Admin_Model_Resource_User_Collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

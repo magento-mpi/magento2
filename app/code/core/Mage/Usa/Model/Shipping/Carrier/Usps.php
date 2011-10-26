@@ -524,15 +524,6 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                             asort($priceArr);
                         }
                     }
-                    /**
-                     * following if statement is obsolete
-                     * we don't have adminhtml/config resoure model
-                     */
-                    if (false && $newMethod) {
-                        sort($allMethods);
-                        $insert['usps']['fields']['methods']['value'] = $allMethods;
-                        Mage::getResourceModel('adminhtml/config')->saveSectionPost('carriers','','',$insert);
-                    }
                 }
             } else {
                 $errorTitle = 'Response is in the wrong format';
@@ -1531,7 +1522,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
 
                 $productIds[]= $item->getProductId();
         }
-        $productCollection = Mage::getResourceModel('catalog/product_collection')
+        $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
             ->addStoreFilter($request->getStoreId())
             ->addFieldToFilter('entity_id', array('in' => $productIds))
             ->addAttributeToSelect('country_of_manufacture');

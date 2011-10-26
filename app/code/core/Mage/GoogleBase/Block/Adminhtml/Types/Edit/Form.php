@@ -146,13 +146,13 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
     protected function _getAttributeSetsArray($targetCountry)
     {
         $entityType = Mage::getModel('catalog/product')->getResource()->getEntityType();
-        $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter($entityType->getId());
 
         $ids = array();
         $itemType = $this->getItemType();
         if ( !($itemType instanceof Varien_Object && $itemType->getId()) ) {
-            $typesCollection = Mage::getResourceModel('googlebase/type_collection')
+            $typesCollection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Type_Collection')
                 ->addCountryFilter($targetCountry)
                 ->load();
             foreach ($typesCollection as $type) {

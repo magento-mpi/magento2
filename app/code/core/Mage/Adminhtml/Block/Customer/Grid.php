@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('customer/customer_collection')
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')
             ->addNameToSelect()
             ->addAttributeToSelect('email')
             ->addAttributeToSelect('created_at')
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'index'     => 'email'
         ));
 
-        $groups = Mage::getResourceModel('customer/group_collection')
+        $groups = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

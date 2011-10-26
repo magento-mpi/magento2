@@ -276,7 +276,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 
     public function getResourceCollection()
     {
-        return Mage::getResourceModel('salesrule/rule_collection');
+        return Mage::getResourceModel('Mage_SalesRule_Model_Resource_Rule_Collection');
     }
 
     /**
@@ -357,7 +357,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     public function getCoupons()
     {
         if ($this->_coupons === null) {
-            $collection = Mage::getResourceModel('salesrule/coupon_collection');
+            $collection = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Coupon_Collection');
             /** @var Mage_SalesRule_Model_Resource_Coupon_Collection */
             $collection->addRuleToFilter($this);
             $this->_coupons = $collection->getItems();

@@ -189,7 +189,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
         }
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
-            $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            $optionCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setStoreFilter($storeId, $useDefaultValue);
 
             $optionCollection

@@ -172,7 +172,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
         $countOfQueue  = 3;
         $countOfSubscritions = 20;
 
-        $collection = Mage::getResourceModel('newsletter/queue_collection')
+        $collection = Mage::getResourceModel('Mage_Newsletter_Model_Resource_Queue_Collection')
             ->setPageSize($countOfQueue)
             ->setCurPage(1)
             ->addOnlyForSendingFilter()

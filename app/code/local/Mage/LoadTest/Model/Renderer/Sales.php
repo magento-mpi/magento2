@@ -478,7 +478,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
                 ->addAttributeToSelect('*')
 		->getAllIds();*/
                 //->load();
-	    $customers_ids = Mage::getResourceModel('customer/customer_collection')
+	    $customers_ids = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')
 		->getAllIds();
             $this->_customers = array();
             //$noQuote = 0;
@@ -515,7 +515,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
                 ->addAttributeToSelect('*')
 		->getAllIds();*/
                 //->load();
-	    $product_ids = Mage::getResourceModel('catalog/product_collection')
+	    $product_ids = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
 		->getAllIds();
             $this->_products = array();
 

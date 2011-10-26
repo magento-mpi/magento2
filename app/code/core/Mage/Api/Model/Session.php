@@ -98,7 +98,7 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
         } else {
             if ($user->getId()) {
                 $this->setUser($user);
-                $this->setAcl(Mage::getResourceModel('api/acl')->loadAcl());
+                $this->setAcl(Mage::getResourceModel('Mage_Api_Model_Resource_Acl')->loadAcl());
             } else {
                 Mage::throwException(Mage::helper('api')->__('Unable to login.'));
             }
@@ -116,7 +116,7 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
             return $this;
         }
         if (!$this->getAcl() || $user->getReloadAclFlag()) {
-            $this->setAcl(Mage::getResourceModel('api/acl')->loadAcl());
+            $this->setAcl(Mage::getResourceModel('Mage_Api_Model_Resource_Acl')->loadAcl());
         }
         if ($user->getReloadAclFlag()) {
             $user->unsetData('api_key');
@@ -198,7 +198,7 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
 
         if ($user->getSessid() == $sessId && !$this->isSessionExpired($user)) {
             $this->setUser($user);
-            $this->setAcl(Mage::getResourceModel('api/acl')->loadAcl());
+            $this->setAcl(Mage::getResourceModel('Mage_Api_Model_Resource_Acl')->loadAcl());
 
             $user->getResource()->recordLogin($user)
                 ->recordSession($user);

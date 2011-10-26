@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Report_Review_Detail_Grid extends Mage_Adminhtml_Bloc
 
         //$collection->getEntity()->setStore(0);
 
-        $collection = Mage::getResourceModel('reports/review_collection')
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Review_Collection')
             ->addProductFilter((int)$this->getRequest()->getParam('id'));
 
         $this->setCollection($collection);

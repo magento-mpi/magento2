@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
 
         $resources = Mage::getModel('admin/roles')->getResourcesList();
 
-        $rules_set = Mage::getResourceModel('admin/rules_collection')->getByRoles($rid)->load();
+        $rules_set = Mage::getResourceModel('Mage_Admin_Model_Resource_Rules_Collection')->getByRoles($rid)->load();
 
         $selrids = array();
 

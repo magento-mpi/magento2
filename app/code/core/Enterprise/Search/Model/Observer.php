@@ -81,7 +81,7 @@ class Enterprise_Search_Model_Observer
             $relatedQueries = explode('&', $relatedQueries);
         }
 
-        Mage::getResourceModel('enterprise_search/recommendations')
+        Mage::getResourceModel('Enterprise_Search_Model_Resource_Recommendations')
             ->saveRelatedQueries($queryId, $relatedQueries);
     }
 

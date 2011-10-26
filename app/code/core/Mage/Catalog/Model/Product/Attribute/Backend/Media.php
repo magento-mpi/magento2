@@ -206,7 +206,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         unset($storeIds[$storeId]);
         $storeIds = array_keys($storeIds);
 
-        $images = Mage::getResourceModel('catalog/product')
+        $images = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product')
             ->getAssignedImages($object, $storeIds);
 
         $picturesInOtherStores = array();

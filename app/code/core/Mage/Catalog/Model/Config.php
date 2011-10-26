@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             return $this;
         }
 
-        $attributeSetCollection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $attributeSetCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->load();
 
         $this->_attributeSetsById = array();
@@ -149,7 +149,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             return $this;
         }
 
-        $attributeSetCollection = Mage::getResourceModel('eav/entity_attribute_group_collection')
+        $attributeSetCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection')
             ->load();
 
         $this->_attributeGroupsById = array();
@@ -198,17 +198,12 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
             return $this;
         }
 
-        /*
-        $productTypeCollection = Mage::getResourceModel('catalog/product_type_collection')
-            ->load();
-        */
         $productTypeCollection = Mage::getModel('catalog/product_type')
             ->getOptionArray();
 
         $this->_productTypesById = array();
         $this->_productTypesByName = array();
         foreach ($productTypeCollection as $id=>$type) {
-            //$name = $type->getCode();
             $name = $type;
             $this->_productTypesById[$id] = $name;
             $this->_productTypesByName[strtolower($name)] = $id;
@@ -282,7 +277,7 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
      */
     protected function _getResource()
     {
-        return Mage::getResourceModel('catalog/config');
+        return Mage::getResourceModel('Mage_Catalog_Model_Resource_Config');
     }
 
     /**
