@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
      */
     public function getItemCollection()
     {
-        return Mage::getResourceModel('catalog/product_compare_item_collection');
+        return Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Compare_Item_Collection');
     }
 
     /**

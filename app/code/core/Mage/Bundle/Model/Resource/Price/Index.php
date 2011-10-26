@@ -487,7 +487,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
         $storeTimeStamp = Mage::app()->getLocale()->storeTimeStamp($store);
         $finalPrice     = $this->_calculateSpecialPrice($priceData['price'], $priceData, $website);
 
-        $rulePrice = Mage::getResourceModel('catalogrule/rule')
+        $rulePrice = Mage::getResourceModel('Mage_CatalogRule_Model_Resource_Rule')
             ->getRulePrice($storeTimeStamp, $website->getId(), $customerGroup->getId(), $productId);
 
         if ($rulePrice !== null && $rulePrice !== false) {

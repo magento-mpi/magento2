@@ -218,7 +218,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Core_Model_R
     public function getEntityTypeId()
     {
         if ($this->_entityTypeId === null) {
-            $this->_entityTypeId = Mage::getResourceModel('catalog/config')
+            $this->_entityTypeId = Mage::getResourceModel('Mage_Catalog_Model_Resource_Config')
                 ->getEntityTypeId();
         }
         return $this->_entityTypeId;

@@ -35,9 +35,9 @@ class Mage_Adminhtml_Model_System_Config_Source_Category
 {
     public function toOptionArray($addEmpty = true)
     {
-        $tree = Mage::getResourceModel('catalog/category_tree');
+        $tree = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Tree');
 
-        $collection = Mage::getResourceModel('catalog/category_collection');
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection');
 
         $collection->addAttributeToSelect('name')
             ->addRootLevelFilter()

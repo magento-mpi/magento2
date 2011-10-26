@@ -61,7 +61,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
 
     public function getUsersCollection()
     {
-        return Mage::getResourceModel('api/roles_user_collection');
+        return Mage::getResourceModel('Mage_Api_Model_Resource_Roles_User_Collection');
     }
 
     public function getResourcesTree()

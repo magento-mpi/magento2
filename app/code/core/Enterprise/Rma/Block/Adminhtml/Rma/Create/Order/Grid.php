@@ -53,7 +53,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtm
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Sales_Model_Resource_Order_Grid_Collection */
-        $collection = Mage::getResourceModel('sales/order_grid_collection')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Grid_Collection')
             ->setOrder('entity_id');
         $this->setCollection($collection);
         return parent::_prepareCollection();

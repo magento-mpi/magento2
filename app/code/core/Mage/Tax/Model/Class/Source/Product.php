@@ -35,7 +35,7 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
     public function getAllOptions($withEmpty = false)
     {
         if (is_null($this->_options)) {
-            $this->_options = Mage::getResourceModel('tax/class_collection')
+            $this->_options = Mage::getResourceModel('Mage_Tax_Model_Resource_Class_Collection')
                 ->addFieldToFilter('class_type', Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
                 ->load()
                 ->toOptionArray();
@@ -111,7 +111,7 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('eav/entity_attribute_option')
+        return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option')
             ->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

@@ -290,7 +290,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getConfigurableAttributeCollection($product = null)
     {
-        return Mage::getResourceModel('catalog/product_type_configurable_attribute_collection')
+        return Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection')
             ->setProductFilter($this->getProduct($product));
     }
 
@@ -364,7 +364,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getUsedProductCollection($product = null)
     {
-        $collection = Mage::getResourceModel('catalog/product_type_configurable_product_collection')
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Type_Configurable_Product_Collection')
             ->setFlag('require_stock_items', true)
             ->setFlag('product_children', true)
             ->setProductFilter($this->getProduct($product));
@@ -435,7 +435,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         $data = $this->getProduct($product)->getConfigurableProductsData();
         if (is_array($data)) {
             $productIds = array_keys($data);
-            Mage::getResourceModel('catalog/product_type_configurable')
+            Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Type_Configurable')
                 ->saveProducts($this->getProduct($product), $productIds);
         }
         return $this;

@@ -72,7 +72,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_Grouped
     {
         $groupedLinkId = Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED;
         $connection    = Mage::getSingleton('core/resource')->getConnection('write');
-        $resource      = Mage::getResourceModel('catalog/product_link');
+        $resource      = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Link');
         $mainTable     = $resource->getMainTable();
         $relationTable = $resource->getTable('catalog_product_relation');
         $newSku        = $this->_entityModel->getNewSku();

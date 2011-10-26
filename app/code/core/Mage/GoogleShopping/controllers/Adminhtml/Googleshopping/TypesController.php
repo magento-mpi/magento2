@@ -136,7 +136,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
         try {
             $result = array();
             if ($typeId) {
-                $collection = Mage::getResourceModel('googleshopping/attribute_collection')
+                $collection = Mage::getResourceModel('Mage_GoogleShopping_Model_Resource_Attribute_Collection')
                     ->addTypeFilter($typeId)
                     ->load();
                 foreach ($collection as $attribute) {
@@ -174,7 +174,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
         try {
             $typeModel->setCategory($this->getRequest()->getParam('category'));
             if ($typeModel->getId()) {
-                $collection = Mage::getResourceModel('googleshopping/attribute_collection')
+                $collection = Mage::getResourceModel('Mage_GoogleShopping_Model_Resource_Attribute_Collection')
                     ->addTypeFilter($typeModel->getId())
                     ->load();
                 foreach ($collection as $attribute) {

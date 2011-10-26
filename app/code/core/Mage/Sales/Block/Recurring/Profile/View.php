@@ -335,7 +335,7 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
     protected function _prepareRelatedOrders($fieldsToSelect = '*')
     {
         if (null === $this->_relatedOrders) {
-            $this->_relatedOrders = Mage::getResourceModel('sales/order_collection')
+            $this->_relatedOrders = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
                 ->addFieldToSelect($fieldsToSelect)
                 ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
                 ->addRecurringProfilesFilter($this->_profile->getId())

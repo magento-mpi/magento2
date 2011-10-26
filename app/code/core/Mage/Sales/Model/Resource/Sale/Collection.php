@@ -177,7 +177,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
         $data = $this->getData();
         $this->resetData();
 
-        $stores = Mage::getResourceModel('core/store_collection')
+        $stores = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection')
             ->setWithoutDefaultFilter()
             ->load()
             ->toOptionHash();

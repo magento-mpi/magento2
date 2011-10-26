@@ -281,7 +281,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function getAddressCollection()
     {
-        return Mage::getResourceModel('customer/address_collection');
+        return Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Collection');
     }
 
     /**
@@ -850,7 +850,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $line = $row['i'];
         $row = $row['row'];
 
-        $regions = Mage::getResourceModel('directory/region_collection');
+        $regions = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection');
 
         $website = Mage::getModel('core/website')->load($row['website_code'], 'code');
 

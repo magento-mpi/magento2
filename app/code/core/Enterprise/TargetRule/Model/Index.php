@@ -236,7 +236,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
     public function getRuleCollection()
     {
         /* @var $collection Enterprise_TargetRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getResourceModel('enterprise_targetrule/rule_collection');
+        $collection = Mage::getResourceModel('Enterprise_TargetRule_Model_Resource_Rule_Collection');
         $collection->addApplyToFilter($this->getType())
             ->addProductFilter($this->getProduct()->getId())
             ->addIsActiveFilter()

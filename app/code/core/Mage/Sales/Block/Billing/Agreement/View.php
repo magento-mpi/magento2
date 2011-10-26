@@ -60,7 +60,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
     public function getRelatedOrders()
     {
         if (is_null($this->_relatedOrders)) {
-            $this->_relatedOrders = Mage::getResourceModel('sales/order_collection')
+            $this->_relatedOrders = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
                 ->addFieldToFilter('state', array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates()))

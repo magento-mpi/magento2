@@ -137,7 +137,7 @@ class Mage_Shipping_Model_Carrier_Tablerate
 
     public function getRate(Mage_Shipping_Model_Rate_Request $request)
     {
-        return Mage::getResourceModel('shipping/carrier_tablerate')->getRate($request);
+        return Mage::getResourceModel('Mage_Shipping_Model_Resource_Carrier_Tablerate')->getRate($request);
     }
 
     public function getCode($type, $code='')

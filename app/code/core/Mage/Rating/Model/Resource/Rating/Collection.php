@@ -131,7 +131,7 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
         $arrRatingId = $this->getColumnValues('rating_id');
 
         if (!empty($arrRatingId)) {
-            $collection = Mage::getResourceModel('rating/rating_option_collection')
+            $collection = Mage::getResourceModel('Mage_Rating_Model_Resource_Rating_Option_Collection')
                 ->addRatingFilter($arrRatingId)
                 ->setPositionOrder()
                 ->load();

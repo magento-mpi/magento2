@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Sales_Transactions_Grid extends Mage_Adminhtml_Block_
     protected function _prepareCollection()
     {
         $collection = ($this->getCollection())
-            ? $this->getCollection() : Mage::getResourceModel('sales/order_payment_transaction_collection');
+            ? $this->getCollection() : Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Payment_Transaction_Collection');
         $order = Mage::registry('current_order');
         if ($order) {
             $collection->addOrderIdFilter($order->getId());

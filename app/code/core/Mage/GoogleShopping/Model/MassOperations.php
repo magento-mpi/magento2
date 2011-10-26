@@ -254,7 +254,7 @@ class Mage_GoogleShopping_Model_MassOperations
         if ($items instanceof Mage_GoogleShopping_Model_Resource_Item_Collection) {
             $itemsCollection = $items;
         } else if (is_array($items)) {
-            $itemsCollection = Mage::getResourceModel('googleshopping/item_collection')
+            $itemsCollection = Mage::getResourceModel('Mage_GoogleShopping_Model_Resource_Item_Collection')
                 ->addFieldToFilter('item_id', $items);
         }
 

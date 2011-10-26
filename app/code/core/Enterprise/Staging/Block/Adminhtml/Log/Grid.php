@@ -50,7 +50,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_staging/staging_log_collection');
+        $collection = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Log_Collection');
         $this->setCollection($collection);
 
         parent::_prepareCollection();

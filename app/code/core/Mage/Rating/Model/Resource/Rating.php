@@ -238,7 +238,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
             $clone->addData($row);
             $summary[$clone->getStoreId()][$clone->getEntityPkValue()] = $clone;
         }
-        Mage::getResourceModel('review/review_summary')->reAggregate($summary);
+        Mage::getResourceModel('Mage_Review_Model_Resource_Review_Summary')->reAggregate($summary);
         return $this;
     }
 

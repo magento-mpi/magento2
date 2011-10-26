@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Report_Wishlist extends Mage_Adminhtml_Block_Template
     {
         $this->setChild('grid', $this->getLayout()->createBlock('adminhtml/report_wishlist_grid', 'report.grid'));
 
-        $collection = Mage::getResourceModel('reports/wishlist_collection');
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Wishlist_Collection');
 
         list($customerWithWishlist, $wishlistsCount) = $collection->getWishlistCustomerCount();
         $this->setCustomerWithWishlist($customerWithWishlist);

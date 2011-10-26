@@ -70,7 +70,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
                 $productsIds = array(0);
             }
 
-            $this->_products = Mage::getResourceModel('catalog/product_collection')
+            $this->_products = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
                 ->setStoreId($this->getSelectedStoreId())
                 ->addIdFilter($productsIds);
         }

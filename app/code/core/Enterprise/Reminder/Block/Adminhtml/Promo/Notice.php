@@ -37,7 +37,7 @@ class Enterprise_Reminder_Block_Adminhtml_Promo_Notice extends Mage_Adminhtml_Bl
     protected function _prepareLayout()
     {
         if ($salesRule = Mage::registry('current_promo_quote_rule')) {
-            $resource = Mage::getResourceModel('enterprise_reminder/rule');
+            $resource = Mage::getResourceModel('Enterprise_Reminder_Model_Resource_Rule');
             if ($count = $resource->getAssignedRulesCount($salesRule->getId())) {
                 $confirm = Mage::helper('enterprise_reminder')->__('This rule is assigned to %s automated reminder rule(s). Deleting this rule will automatically unassign it.', $count);
                 $block = $this->getLayout()->getBlock('promo_quote_edit');

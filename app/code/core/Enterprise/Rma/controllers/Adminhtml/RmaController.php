@@ -683,7 +683,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
         try {
             if ($orderId && $itemId) {
                 /** @var $items Enterprise_Rma_Model_Resource_Item */
-                $items = Mage::getResourceModel('enterprise_rma/item')->getOrderItems($orderId, $itemId);
+                $items = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')->getOrderItems($orderId, $itemId);
                 if (empty($items)) {
                     Mage::throwException($this->__('No items for bundle product.'));
                 }
@@ -1081,7 +1081,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                 $carrierCode = $carrier->getCarrierCode();
                 $carrierTitle = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
                 if ($trackingNumbers) {
-                    Mage::getResourceModel('enterprise_rma/shipping')->deleteTrackingNumbers($model);
+                    Mage::getResourceModel('Enterprise_Rma_Model_Resource_Shipping')->deleteTrackingNumbers($model);
                     foreach ($trackingNumbers as $trackingNumber) {
                         Mage::getModel('enterprise_rma/shipping')
                             ->setTrackNumber($trackingNumber)

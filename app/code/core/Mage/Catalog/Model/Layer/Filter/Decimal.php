@@ -61,7 +61,7 @@ class Mage_Catalog_Model_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_F
     protected function _getResource()
     {
         if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('catalog/layer_filter_decimal');
+            $this->_resource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Layer_Filter_Decimal');
         }
         return $this->_resource;
     }

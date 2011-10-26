@@ -166,7 +166,7 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('sales/report_order')->aggregate($date);
+        Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Order')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -182,7 +182,7 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('sales/report_shipping')->aggregate($date);
+        Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Shipping')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -198,7 +198,7 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('sales/report_invoiced')->aggregate($date);
+        Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Invoiced')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -214,7 +214,7 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('sales/report_refunded')->aggregate($date);
+        Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Refunded')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -230,7 +230,7 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('sales/report_bestsellers')->aggregate($date);
+        Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Bestsellers')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }

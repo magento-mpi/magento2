@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Product_Attribute_Set_Api extends Mage_Api_Model_Resour
     public function items()
     {
         $entityType = Mage::getModel('catalog/product')->getResource()->getEntityType();
-        $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter($entityType->getId());
 
         $result = array();

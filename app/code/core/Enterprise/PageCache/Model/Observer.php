@@ -384,7 +384,7 @@ class Enterprise_PageCache_Model_Observer
 
         // renew customer viewed product ids cookie
         $countLimit = Mage::getStoreConfig(Mage_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
-        $collection = Mage::getResourceModel('reports/product_index_viewed_collection')
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Product_Index_Viewed_Collection')
             ->addIndexFilter()
             ->setAddedAtOrder()
             ->setPageSize($countLimit)

@@ -28,7 +28,7 @@
 $installer = $this;
 
 /** @var $eavResource Mage_Catalog_Model_Resource_Eav_Attribute */
-$eavResource = Mage::getResourceModel('catalog/eav_attribute');
+$eavResource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Eav_Attribute');
 
 $multiSelectAttributeCodes = $eavResource->getAttributeCodesByFrontendType('multiselect');
 

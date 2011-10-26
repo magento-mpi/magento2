@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('newsletter/queue_collection')
+        $collection = Mage::getResourceModel('Mage_Newsletter_Model_Resource_Queue_Collection')
             ->addSubscribersInfo();
 
         $this->setCollection($collection);

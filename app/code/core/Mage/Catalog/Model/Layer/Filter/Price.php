@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     protected function _getResource()
     {
         if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('catalog/layer_filter_price');
+            $this->_resource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Layer_Filter_Price');
         }
         return $this->_resource;
     }

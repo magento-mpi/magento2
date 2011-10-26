@@ -90,7 +90,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
             'column_css_class'=> 'name'
         ));
 
-        $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
@@ -150,7 +150,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Product extends Mage_Adminhtml_Block
 
     protected function _getGoogleBaseProductIds()
     {
-        $collection = Mage::getResourceModel('googlebase/item_collection')
+        $collection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Item_Collection')
             ->addStoreFilterId($this->_getStore()->getId())
             ->load();
         $productIds = array();

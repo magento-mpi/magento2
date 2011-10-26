@@ -69,7 +69,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
     protected function _getAttributesCollection()
     {
         if (!$this->_attributesCollection) {
-            $this->_attributesCollection = Mage::getResourceModel('catalog/product_attribute_collection')
+            $this->_attributesCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
                 ->load();
 
             foreach ($this->_attributesCollection as $attribute) {

@@ -274,7 +274,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
      */
     protected function _initAttributes()
     {
-        $collection = Mage::getResourceModel('customer/attribute_collection')->addSystemHiddenFilterWithPasswordHash();
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection')->addSystemHiddenFilterWithPasswordHash();
         foreach ($collection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
                 'id'          => $attribute->getId(),
@@ -295,7 +295,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
      */
     protected function _initCustomerGroups()
     {
-        foreach (Mage::getResourceModel('customer/group_collection') as $customerGroup) {
+        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection') as $customerGroup) {
             $this->_customerGroups[$customerGroup->getId()] = true;
         }
         return $this;
@@ -308,7 +308,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
      */
     protected function _initCustomers()
     {
-        foreach (Mage::getResourceModel('customer/customer_collection') as $customer) {
+        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection') as $customer) {
             $email = $customer->getEmail();
 
             if (!isset($this->_oldCustomers[$email])) {

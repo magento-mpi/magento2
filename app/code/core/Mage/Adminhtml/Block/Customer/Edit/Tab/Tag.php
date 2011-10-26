@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
             $this->setCustomerId( $this->getCustomerId()->getId() );
         }
 
-        $collection = Mage::getResourceModel('tag/customer_collection')
+        $collection = Mage::getResourceModel('Mage_Tag_Model_Resource_Customer_Collection')
             ->addCustomerFilter($this->getCustomerId())
             ->addGroupByTag();
 

@@ -163,7 +163,7 @@ class Mage_Catalog_Model_Url
     public function getResource()
     {
         if (is_null($this->_resourceModel)) {
-            $this->_resourceModel = Mage::getResourceModel('catalog/url');
+            $this->_resourceModel = Mage::getResourceModel('Mage_Catalog_Model_Resource_Url');
         }
         return $this->_resourceModel;
     }

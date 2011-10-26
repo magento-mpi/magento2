@@ -1203,7 +1203,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         }
 
         // get countries of manufacture
-        $productCollection = Mage::getResourceModel('catalog/product_collection')
+        $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
             ->addStoreFilter($request->getStoreId())
             ->addFieldToFilter('entity_id', array('in' => $productIds))
             ->addAttributeToSelect('country_of_manufacture');

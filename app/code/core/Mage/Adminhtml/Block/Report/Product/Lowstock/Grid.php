@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Report_Product_Lowstock_Grid extends Mage_Adminhtml_B
         }
 
         /** @var $collection Mage_Reports_Model_Resource_Product_Lowstock_Collection  */
-        $collection = Mage::getResourceModel('reports/product_lowstock_collection')
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Product_Lowstock_Collection')
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
             ->filterByIsQtyProductTypes()

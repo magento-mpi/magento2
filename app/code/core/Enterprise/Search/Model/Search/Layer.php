@@ -76,7 +76,7 @@ class Enterprise_Search_Model_Search_Layer extends Mage_CatalogSearch_Model_Laye
             return array();
         }
         /* @var $collection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
-        $collection = Mage::getResourceModel('catalog/product_attribute_collection')
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
             ->setItemObjectClass('catalog/resource_eav_attribute');
 
         if (Mage::helper('enterprise_search')->getTaxInfluence()) {

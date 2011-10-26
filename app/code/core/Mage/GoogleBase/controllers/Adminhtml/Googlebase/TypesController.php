@@ -120,7 +120,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
             $result = array();
             if ($id) {
                 $model->load($id);
-                $collection = Mage::getResourceModel('googlebase/attribute_collection')
+                $collection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Attribute_Collection')
                     ->addTypeFilter($model->getTypeId())
                     ->load();
                 foreach ($collection as $attribute) {
@@ -153,7 +153,7 @@ class Mage_GoogleBase_Adminhtml_Googlebase_TypesController extends Mage_Adminhtm
 
         try {
             if ($typeModel->getId()) {
-                $collection = Mage::getResourceModel('googlebase/attribute_collection')
+                $collection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Attribute_Collection')
                     ->addTypeFilter($typeModel->getId())
                     ->load();
                 foreach ($collection as $attribute) {

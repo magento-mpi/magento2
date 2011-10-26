@@ -413,7 +413,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $entityType   = $this->getEavConfig()->getEntityType(Mage_Catalog_Model_Product::ENTITY);
             $entity       = $entityType->getEntity();
 
-            $productAttributeCollection = Mage::getResourceModel('catalog/product_attribute_collection')
+            $productAttributeCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
                 ->setEntityTypeFilter($entityType->getEntityTypeId());
             if ($this->_engine && $this->_engine->allowAdvancedIndex()) {
                 $productAttributeCollection->addToIndexFilter(true);

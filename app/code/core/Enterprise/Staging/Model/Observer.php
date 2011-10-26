@@ -151,7 +151,7 @@ class Enterprise_Staging_Model_Observer
     {
         try {
             $currentDate = Mage::getModel('core/date')->gmtDate();
-            $collection  = Mage::getResourceModel('enterprise_staging/staging_collection')
+            $collection  = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Collection')
                 ->addIsSheduledToFilter();
 
             foreach ($collection as $staging) {
@@ -188,7 +188,7 @@ class Enterprise_Staging_Model_Observer
                 return $this;
             }
 
-            $collection = Mage::getResourceModel('enterprise_staging/staging_collection')
+            $collection = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging_Collection')
                 ->addStagingWebsiteToFilter($_website->getId());
 
             foreach ($collection as $staging) {
@@ -220,7 +220,7 @@ class Enterprise_Staging_Model_Observer
             $isNeedToDisable = false;
 
             if ((int)Mage::getStoreConfig('general/content_staging/block_frontend')===1) {
-                $eventProcessingSites = Mage::getResourceModel('enterprise_staging/staging')
+                $eventProcessingSites = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging')
                     ->getProcessingWebsites();
                 if (count($eventProcessingSites)>0){
                     $isNeedToDisable = true;
@@ -228,7 +228,7 @@ class Enterprise_Staging_Model_Observer
             }
 
             if ((int)Mage::getStoreConfig('general/content_staging/block_frontend')===2) {
-                 $isNeedToDisable = Mage::getResourceModel('enterprise_staging/staging')
+                 $isNeedToDisable = Mage::getResourceModel('Enterprise_Staging_Model_Resource_Staging')
                     ->isWebsiteInProcessing($currentSiteId);
             }
 

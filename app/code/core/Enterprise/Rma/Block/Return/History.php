@@ -31,7 +31,7 @@ class Enterprise_Rma_Block_Return_History extends Mage_Core_Block_Template
         parent::_construct();
         $this->setTemplate('rma/return/history.phtml');
 
-        $returns = Mage::getResourceModel('enterprise_rma/rma_grid_collection')
+        $returns = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Grid_Collection')
             ->addFieldToSelect('*')
             ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
             ->setOrder('date_requested', 'desc')

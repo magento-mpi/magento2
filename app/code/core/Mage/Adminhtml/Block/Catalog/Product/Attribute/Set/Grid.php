@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid extends Mage_Admin
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter(Mage::registry('entityType'));
 
         $this->setCollection($collection);

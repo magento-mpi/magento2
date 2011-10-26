@@ -95,7 +95,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
 
         $key = $websiteId . '_' . $customerGroupId . '_' . $couponCode;
         if (!isset($this->_rules[$key])) {
-            $this->_rules[$key] = Mage::getResourceModel('salesrule/rule_collection')
+            $this->_rules[$key] = Mage::getResourceModel('Mage_SalesRule_Model_Resource_Rule_Collection')
                 ->setValidationFilter($websiteId, $customerGroupId, $couponCode)
                 ->load();
         }
@@ -162,7 +162,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                     $customerId = $address->getQuote()->getCustomerId();
                     if ($customerId && $coupon->getUsagePerCustomer()) {
                         $couponUsage = new Varien_Object();
-                        Mage::getResourceModel('salesrule/coupon_usage')->loadByCustomerCoupon(
+                        Mage::getResourceModel('Mage_SalesRule_Model_Resource_Coupon_Usage')->loadByCustomerCoupon(
                             $couponUsage, $customerId, $coupon->getId());
                         if ($couponUsage->getCouponId() &&
                             $couponUsage->getTimesUsed() >= $coupon->getUsagePerCustomer()

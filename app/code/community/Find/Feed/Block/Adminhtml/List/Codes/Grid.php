@@ -53,7 +53,7 @@ class Find_Feed_Block_Adminhtml_List_Codes_Grid extends Mage_Adminhtml_Block_Wid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('find_feed/codes_collection');
+        $collection = Mage::getResourceModel('Find_Feed_Model_Resource_Codes_Collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

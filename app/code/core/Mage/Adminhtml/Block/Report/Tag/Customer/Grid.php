@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('reports/tag_customer_collection');
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Tag_Customer_Collection');
 
         $collection->addStatusFilter(Mage_Tag_Model_Tag::STATUS_APPROVED)
             ->addGroupByCustomer()

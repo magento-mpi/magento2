@@ -128,7 +128,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $category   = $layer->getCurrentCategory();
         /* @var $category Mage_Catalog_Model_Category */
         $categories = $category->getChildrenCategories();
-        $productCollection = Mage::getResourceModel('catalog/product_collection');
+        $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
         $layer->prepareProductCollection($productCollection);
         $productCollection->addCountToCategories($categories);
         return $categories;

@@ -72,7 +72,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Mage_Adminhtml_B
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('sales/billing_agreement_collection')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Billing_Agreement_Collection')
             ->addCustomerDetails();
         $this->setCollection($collection);
         return parent::_prepareCollection();

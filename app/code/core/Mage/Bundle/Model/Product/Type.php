@@ -275,7 +275,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         parent::save($product);
         $product = $this->getProduct($product);
         /* @var $resource Mage_Bundle_Model_Resource_Bundle */
-        $resource = Mage::getResourceModel('bundle/bundle');
+        $resource = Mage::getResourceModel('Mage_Bundle_Model_Resource_Bundle');
 
         $options = $product->getBundleOptionsData();
         if ($options) {
@@ -400,7 +400,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         $key = $this->_keySelectionsCollection . $keyOptionIds;
         if (!$this->getProduct($product)->hasData($key)) {
             $storeId = $this->getProduct($product)->getStoreId();
-            $selectionsCollection = Mage::getResourceModel('bundle/selection_collection')
+            $selectionsCollection = Mage::getResourceModel('Mage_Bundle_Model_Resource_Selection_Collection')
                 ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
                 ->addAttributeToSelect('tax_class_id') //used for calculation item taxes in Bundle with Dynamic Price
                 ->setFlag('require_stock_items', true)
@@ -728,7 +728,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
         if (!$usedSelections || serialize($usedSelectionsIds) != serialize($selectionIds)) {
             $storeId = $this->getProduct($product)->getStoreId();
-            $usedSelections = Mage::getResourceModel('bundle/selection_collection')
+            $usedSelections = Mage::getResourceModel('Mage_Bundle_Model_Resource_Selection_Collection')
                 ->addAttributeToSelect('*')
                 ->setFlag('require_stock_items', true)
                 ->addStoreFilter($this->getStoreFilter($product))

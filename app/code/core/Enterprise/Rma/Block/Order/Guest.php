@@ -30,7 +30,7 @@ class Enterprise_Rma_Block_Order_Guest extends Mage_Core_Block_Template
         parent::_construct();
 
         if (Mage::helper('enterprise_rma')->isEnabled()) {
-            $returns = Mage::getResourceModel('enterprise_rma/rma_grid_collection')
+            $returns = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Grid_Collection')
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', Mage::registry('current_order')->getId())
                 ->count()

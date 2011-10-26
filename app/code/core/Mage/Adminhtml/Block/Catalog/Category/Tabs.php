@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
 
         $attributeSetId     = $this->getCategory()->getDefaultAttributeSetId();
         /** @var $groupCollection Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection */
-        $groupCollection    = Mage::getResourceModel('eav/entity_attribute_group_collection')
+        $groupCollection    = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection')
             ->setAttributeSetFilter($attributeSetId)
             ->setSortOrder()
             ->load();

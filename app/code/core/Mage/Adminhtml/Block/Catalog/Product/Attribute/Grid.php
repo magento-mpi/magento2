@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Eav_Block
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('catalog/product_attribute_collection')
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
             ->addVisibleFilter();
         $this->setCollection($collection);
 

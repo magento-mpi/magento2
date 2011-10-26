@@ -243,7 +243,7 @@ $types = Mage::getModel('catalog/product_type')->getOptionArray();
 unset($types['virtual'], $types['downloadable'], $types['grouped']);
 $applyTo = join(',', array_keys($types));
 
-$installer = Mage::getResourceModel('catalog/setup', 'catalog_setup');
+$installer = Mage::getResourceModel('Mage_Catalog_Model_Resource_Setup', 'catalog_setup');
 
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'gift_wrapping_available', array(
     'group'         => 'Gift Options',

@@ -295,7 +295,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             $entityTypeId = Mage::getModel('eav/entity')
                 ->setType('catalog_product')
                 ->getTypeId();
-            $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+            $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($entityTypeId);
             foreach ($collection as $set) {
                 $this->_productAttributeSets[$set->getAttributeSetName()] = $set->getId();

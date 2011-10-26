@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
         if (!Mage::helper('core')->isModuleEnabled('Mage_Reports')) {
             return $this;
         }
-        $collection = Mage::getResourceModel('reports/order_collection')
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Order_Collection')
             ->addItemCountExpr()
             ->joinCustomerName('customer')
             ->orderByCreatedAt();

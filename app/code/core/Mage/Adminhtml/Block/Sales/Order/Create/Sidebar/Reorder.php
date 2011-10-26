@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Admin
     public function getLastOrder()
     {
         $storeIds = $this->getQuote()->getStore()->getWebsite()->getStoreIds();
-        $collection = Mage::getResourceModel('sales/order_collection')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
             ->addFieldToFilter('customer_id', $this->getCustomerId())
             ->addFieldToFilter('store_id', array('in' => $storeIds))
             ->setOrder('created_at', 'desc')

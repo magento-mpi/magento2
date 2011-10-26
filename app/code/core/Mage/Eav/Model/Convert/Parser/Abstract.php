@@ -60,7 +60,7 @@ abstract class Mage_Eav_Model_Convert_Parser_Abstract
 
     public function loadAttributeSets($entityTypeId)
     {
-        $attributeSetCollection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $attributeSetCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter($entityTypeId)
             ->load();
         $this->_attributeSetsById = array();

@@ -155,7 +155,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             ? $options['giftcard_paid_invoice_items']
                             : array());
                         // find invoice for this order item
-                        $invoiceItemCollection = Mage::getResourceModel('sales/order_invoice_item_collection')
+                        $invoiceItemCollection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Item_Collection')
                             ->addFieldToFilter('order_item_id', $item->getId());
 
                         foreach ($invoiceItemCollection as $invoiceItem) {

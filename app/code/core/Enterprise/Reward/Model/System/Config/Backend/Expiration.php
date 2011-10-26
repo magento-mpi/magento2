@@ -48,7 +48,7 @@ class Enterprise_Reward_Model_System_Config_Backend_Expiration extends Mage_Core
         if ($this->getWebsiteCode()) {
             $websiteIds = array(Mage::app()->getWebsite($this->getWebsiteCode())->getId());
         } else {
-            $collection = Mage::getResourceModel('core/config_data_collection')
+            $collection = Mage::getResourceModel('Mage_Core_Model_Resource_Config_Data_Collection')
                 ->addFieldToFilter('path', self::XML_PATH_EXPIRATION_DAYS)
                 ->addFieldToFilter('scope', 'websites');
             $websiteScopeIds = array();
@@ -63,7 +63,7 @@ class Enterprise_Reward_Model_System_Config_Backend_Expiration extends Mage_Core
             }
         }
         if (count($websiteIds) > 0) {
-            Mage::getResourceModel('enterprise_reward/reward_history')
+            Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_History')
                 ->updateExpirationDate($this->getValue(), $websiteIds);
         }
 
@@ -81,7 +81,7 @@ class Enterprise_Reward_Model_System_Config_Backend_Expiration extends Mage_Core
         if ($this->getWebsiteCode()) {
             $default = (string)Mage::getConfig()->getNode('default/' . self::XML_PATH_EXPIRATION_DAYS);
             $websiteIds = array(Mage::app()->getWebsite($this->getWebsiteCode())->getId());
-            Mage::getResourceModel('enterprise_reward/reward_history')
+            Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_History')
                 ->updateExpirationDate($default, $websiteIds);
         }
         return $this;

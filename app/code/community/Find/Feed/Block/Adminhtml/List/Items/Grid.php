@@ -105,7 +105,7 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
         ));
 
         $entityTypeId =  Mage::helper('find_feed')->getProductEntityType();
-        $sets           = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $sets           = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter($entityTypeId)
             ->load()
             ->toOptionHash();

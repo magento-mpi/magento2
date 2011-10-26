@@ -33,7 +33,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Allregion
     public function toOptionArray($isMultiselect=false)
     {
         if (!$this->_options) {
-            $countriesArray = Mage::getResourceModel('directory/country_collection')->load()
+            $countriesArray = Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection')->load()
                 ->toOptionArray(false);
             $this->_countries = array();
             foreach ($countriesArray as $a) {
@@ -41,7 +41,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Allregion
             }
 
             $countryRegions = array();
-            $regionsCollection = Mage::getResourceModel('directory/region_collection')->load();
+            $regionsCollection = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection')->load();
             foreach ($regionsCollection as $region) {
                 $countryRegions[$region->getCountryId()][$region->getId()] = $region->getDefaultName();
             }

@@ -402,7 +402,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
     protected function _joinProductNameTable()
     {
         if (!$this->_isProductNameJoined) {
-            $entityTypeId = Mage::getResourceModel('catalog/config')
+            $entityTypeId = Mage::getResourceModel('Mage_Catalog_Model_Resource_Config')
                     ->getEntityTypeId();
             $attribute = Mage::getModel('catalog/entity_attribute')
                 ->loadByCode($entityTypeId, 'name');

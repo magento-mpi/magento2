@@ -48,7 +48,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Bloc
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('googleshopping/type_collection')->addItemsCount();
+        $collection = Mage::getResourceModel('Mage_GoogleShopping_Model_Resource_Type_Collection')->addItemsCount();
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;

@@ -61,7 +61,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
      */
     public function getAllTracks()
     {
-        return Mage::getResourceModel('enterprise_rma/shipping_collection')
+        return Mage::getResourceModel('Enterprise_Rma_Model_Resource_Shipping_Collection')
             ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
             ->addFieldToFilter('is_admin', array("neq" => Enterprise_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
         ;

@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('reports/product_collection');
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Product_Collection');
         $collection->getEntity()->setStore(0);
 
         $this->setCollection($collection);

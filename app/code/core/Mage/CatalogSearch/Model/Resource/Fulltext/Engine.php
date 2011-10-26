@@ -154,7 +154,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
      */
     public function getResultCollection()
     {
-        return Mage::getResourceModel('catalogsearch/fulltext_collection');
+        return Mage::getResourceModel('Mage_CatalogSearch_Model_Resource_Fulltext_Collection');
     }
 
     /**
@@ -164,7 +164,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Engine extends Mage_Core_Model_
      */
     public function getAdvancedResultCollection()
     {
-        return Mage::getResourceModel('catalogsearch/advanced_collection');
+        return Mage::getResourceModel('Mage_CatalogSearch_Model_Resource_Advanced_Collection');
     }
 
     /**

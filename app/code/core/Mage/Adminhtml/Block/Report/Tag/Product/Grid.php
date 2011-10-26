@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('reports/tag_product_collection');
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Tag_Product_Collection');
 
         $collection->addUniqueTagedCount()
             ->addAllTagedCount()

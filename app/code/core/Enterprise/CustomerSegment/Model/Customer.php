@@ -88,7 +88,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     public function getActiveSegmentsForEvent($eventName, $websiteId)
     {
         if (!isset($this->_segmentMap[$eventName][$websiteId])) {
-            $this->_segmentMap[$eventName][$websiteId] = Mage::getResourceModel('enterprise_customersegment/segment_collection')
+            $this->_segmentMap[$eventName][$websiteId] = Mage::getResourceModel('Enterprise_CustomerSegment_Model_Resource_Segment_Collection')
                 ->addEventFilter($eventName)
                 ->addWebsiteFilter($websiteId)
                 ->addIsActiveFilter(1);
@@ -143,7 +143,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     public function processCustomer(Mage_Customer_Model_Customer $customer, $website)
     {
         $website = Mage::app()->getWebsite($website);
-        $segments = Mage::getResourceModel('enterprise_customersegment/segment_collection')
+        $segments = Mage::getResourceModel('Enterprise_CustomerSegment_Model_Resource_Segment_Collection')
             ->addWebsiteFilter($website)
             ->addIsActiveFilter(1);
 

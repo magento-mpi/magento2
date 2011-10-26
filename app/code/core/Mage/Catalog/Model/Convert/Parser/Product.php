@@ -112,7 +112,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     public function getCollection($storeId)
     {
         if (!isset($this->_collections[$storeId])) {
-            $this->_collections[$storeId] = Mage::getResourceModel('catalog/product_collection');
+            $this->_collections[$storeId] = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
             $this->_collections[$storeId]->getEntity()->setStore($storeId);
         }
         return $this->_collections[$storeId];
@@ -507,7 +507,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
      */
     public function getExternalAttributes()
     {
-        $productAttributes  = Mage::getResourceModel('catalog/product_attribute_collection')->load();
+        $productAttributes  = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')->load();
         $attributes         = $this->_externalFields;
 
         foreach ($productAttributes as $attr) {

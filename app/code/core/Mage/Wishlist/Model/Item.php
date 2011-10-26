@@ -712,7 +712,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $options = Mage::getResourceModel('wishlist/item_option_collection')
+        $options = Mage::getResourceModel('Mage_Wishlist_Model_Resource_Item_Option_Collection')
             ->addItemFilter($this);
         if ($optionsFilter) {
             $options->addFieldToFilter('code', $optionsFilter);

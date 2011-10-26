@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Reports_Model_Resource_Quote_Collection */
-        $collection = Mage::getResourceModel('reports/quote_collection');
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Quote_Collection');
         $collection->prepareForProductsInCarts()
             ->setSelectCountSqlType(Mage_Reports_Model_Resource_Quote_Collection::SELECT_COUNT_SQL_TYPE_CART);
         $this->setCollection($collection);

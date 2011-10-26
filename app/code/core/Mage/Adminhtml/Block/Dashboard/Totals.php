@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Dashboard_Totals extends Mage_Adminhtml_Block_Dashboa
         $period = $this->getRequest()->getParam('period', '24h');
 
         /* @var $collection Mage_Reports_Model_Resource_Order_Collection */
-        $collection = Mage::getResourceModel('reports/order_collection')
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Order_Collection')
             ->addCreateAtPeriodFilter($period)
             ->calculateTotals($isFilter);
 

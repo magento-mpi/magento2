@@ -211,7 +211,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function getResourceModel()
     {
         if (is_null($this->_resourceModel)) {
-            $this->_resourceModel = Mage::getResourceModel('core/config');
+            $this->_resourceModel = Mage::getResourceModel('Mage_Core_Model_Resource_Config');
         }
         return $this->_resourceModel;
     }

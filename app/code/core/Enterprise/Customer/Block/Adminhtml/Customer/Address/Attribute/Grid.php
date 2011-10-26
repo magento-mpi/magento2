@@ -54,7 +54,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Grid
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Customer_Model_Resource_Address_Attribute_Collection */
-        $collection = Mage::getResourceModel('customer/address_attribute_collection')
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Attribute_Collection')
             ->addSystemHiddenFilter()
             ->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);

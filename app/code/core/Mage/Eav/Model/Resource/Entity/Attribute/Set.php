@@ -66,7 +66,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
                 /* @var $group Mage_Eav_Model_Entity_Attribute_Group */
                 $group->delete();
             }
-            Mage::getResourceModel('eav/entity_attribute_group')->updateDefaultGroup($object->getId());
+            Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Group')->updateDefaultGroup($object->getId());
         }
         if ($object->getRemoveAttributes()) {
             foreach ($object->getRemoveAttributes() as $attribute) {

@@ -470,7 +470,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         if (!$this->getIsUpdate()) {
             $availableItems = Mage::helper('enterprise_rma')->getOrderItems($orderId);
         } else {
-            $availableItems = Mage::getResourceModel('enterprise_rma/item')->getOrderItemsCollection($orderId);
+            $availableItems = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')->getOrderItemsCollection($orderId);
         }
 
         $itemsArray = array();
@@ -753,12 +753,12 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
     {
         $found      = false;
 
-        $rmaItems   = Mage::getResourceModel('enterprise_rma/item')
+        $rmaItems   = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item')
             ->getAuthorizedItems($this->getId())
         ;
 
         if (!empty($rmaItems)) {
-            $quoteItemsCollection = Mage::getResourceModel('sales/order_item_collection')
+            $quoteItemsCollection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Item_Collection')
                 ->addFieldToFilter('item_id', array('in' => array_keys($rmaItems)))
                 ->getData()
             ;
@@ -969,7 +969,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     protected function _isItemsAvailableForPrintLabel()
     {
-        $collection = Mage::getResourceModel('enterprise_rma/item_collection')
+        $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item_Collection')
             ->addFieldToFilter('rma_entity_id', $this->getEntityId());
 
         $return = false;
@@ -1000,7 +1000,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     public function getItemsForDisplay($withoutAttributes = false)
     {
-        $collection = Mage::getResourceModel('enterprise_rma/item_collection')
+        $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item_Collection')
             ->addFieldToFilter('rma_entity_id', $this->getEntityId())
             ->setOrder('order_item_id')
             ->setOrder('entity_id');
@@ -1031,7 +1031,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     public function _isItemsNotInPendingStatus()
     {
-        $collection = Mage::getResourceModel('enterprise_rma/item_collection')
+        $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item_Collection')
             ->addFieldToFilter('rma_entity_id', $this->getEntityId());
 
         foreach ($collection as $item) {

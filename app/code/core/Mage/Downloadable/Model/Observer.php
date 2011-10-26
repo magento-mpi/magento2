@@ -232,7 +232,7 @@ class Mage_Downloadable_Model_Observer
         }
 
         if ($downloadableItemsStatuses) {
-            $linkPurchased = Mage::getResourceModel('downloadable/link_purchased_item_collection')
+            $linkPurchased = Mage::getResourceModel('Mage_Downloadable_Model_Resource_Link_Purchased_Item_Collection')
             ->addFieldToFilter('order_item_id', array('in' => array_keys($downloadableItemsStatuses)));
             foreach ($linkPurchased as $link) {
                 if ($link->getStatus() != $linkStatuses['expired']

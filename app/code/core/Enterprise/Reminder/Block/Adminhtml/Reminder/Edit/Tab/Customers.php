@@ -49,7 +49,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Ma
     protected function _prepareCollection()
     {
         /* @var $collection Enterprise_Reminder_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('enterprise_reminder/customer_collection');
+        $collection = Mage::getResourceModel('Enterprise_Reminder_Model_Resource_Customer_Collection');
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

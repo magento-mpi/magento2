@@ -232,7 +232,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
             }
 
             if ($websiteIds) {
-                $productCollection = Mage::getResourceModel('catalog/product_collection')
+                $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
                     ->addWebsiteFilter($websiteIds);
                 if ($this->_productsFilter) {
                     $productCollection->addIdFilter($this->_productsFilter);

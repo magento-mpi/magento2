@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
     protected function _prepareCollection()
     {
         /** @var $collection Mage_Reports_Model_Resource_Quote_Collection */
-        $collection = Mage::getResourceModel('reports/quote_collection');
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Quote_Collection');
 
         $filter = $this->getParam($this->getVarNameFilter(), array());
         if ($filter) {

@@ -81,7 +81,7 @@ class Mage_Customer_Model_Resource_Group extends Mage_Core_Model_Resource_Db_Abs
      */
     protected function _afterDelete(Mage_Core_Model_Abstract $group)
     {
-        $customerCollection = Mage::getResourceModel('customer/customer_collection')
+        $customerCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')
             ->addAttributeToFilter('group_id', $group->getId())
             ->load();
         foreach ($customerCollection as $customer) {

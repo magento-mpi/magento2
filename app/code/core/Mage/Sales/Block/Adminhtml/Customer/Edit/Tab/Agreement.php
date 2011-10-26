@@ -113,7 +113,7 @@ class Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('sales/billing_agreement_collection')
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Billing_Agreement_Collection')
             ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
             ->setOrder('created_at');
         $this->setCollection($collection);

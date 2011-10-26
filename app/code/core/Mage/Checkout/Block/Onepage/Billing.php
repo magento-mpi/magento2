@@ -81,7 +81,7 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
      */
     public function getCountries()
     {
-        return Mage::getResourceModel('directory/country_collection')->loadByStore();
+        return Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection')->loadByStore();
     }
 
     /**

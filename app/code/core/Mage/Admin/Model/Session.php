@@ -97,7 +97,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
                 }
                 $this->setIsFirstPageAfterLogin(true);
                 $this->setUser($user);
-                $this->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
+                $this->setAcl(Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());
 
                 $requestUri = $this->_getRequestUri($request);
                 if ($requestUri) {
@@ -135,7 +135,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
             return $this;
         }
         if (!$this->getAcl() || $user->getReloadAclFlag()) {
-            $this->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
+            $this->setAcl(Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());
         }
         if ($user->getReloadAclFlag()) {
             $user->unsetData('password');

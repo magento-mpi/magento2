@@ -45,7 +45,7 @@
                 <class>Mage_Tag_Model_Resource</class>
             </tag_resource>
             <tag_customer_resource>
-                <class>Mage_Tag_Model_Customer_Resource</class>
+                <class>Mage_Tag_Model_Resource_Customer</class>
             </tag_customer_resource>
         </models>
         <resources>

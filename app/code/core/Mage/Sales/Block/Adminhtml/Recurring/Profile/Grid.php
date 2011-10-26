@@ -47,7 +47,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_B
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('sales/recurring_profile_collection');
+        $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Recurring_Profile_Collection');
         $this->setCollection($collection);
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');

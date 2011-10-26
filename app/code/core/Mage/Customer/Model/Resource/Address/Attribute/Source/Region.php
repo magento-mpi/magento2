@@ -42,7 +42,7 @@ class Mage_Customer_Model_Resource_Address_Attribute_Source_Region extends Mage_
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('directory/region_collection')->load()->toOptionArray();
+            $this->_options = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection')->load()->toOptionArray();
         }
         return $this->_options;
     }

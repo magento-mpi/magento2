@@ -51,7 +51,7 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
     {
         if (empty($this->_terms)) {
             $this->_terms = array();
-            $terms = Mage::getResourceModel('catalogsearch/query_collection')
+            $terms = Mage::getResourceModel('Mage_CatalogSearch_Model_Resource_Query_Collection')
                 ->setPopularQueryFilter(Mage::app()->getStore()->getId())
                 ->setPageSize(100)
                 ->load()

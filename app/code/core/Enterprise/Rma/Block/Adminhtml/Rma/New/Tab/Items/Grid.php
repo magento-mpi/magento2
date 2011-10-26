@@ -81,7 +81,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected function _prepareCollection()
     {
         /** @var $collection Enterprise_Rma_Model_Resource_Item_Collection */
-        $collection = Mage::getResourceModel('enterprise_rma/item_collection');
+        $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Item_Collection');
         $collection->addAttributeToSelect('*');
         $collection->addAttributeToFilter('entity_id', NULL);
 

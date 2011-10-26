@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
         }
 
         if ($setId) {
-            $groupCollection = Mage::getResourceModel('eav/entity_attribute_group_collection')
+            $groupCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection')
                 ->setAttributeSetFilter($setId)
                 ->setSortOrder()
                 ->load();

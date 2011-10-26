@@ -78,7 +78,7 @@ class Enterprise_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
         }
         if ($customerId) {
             /** @var $collection Enterprise_Rma_Model_Resource_Rma_Grid_Collection */
-            $collection = Mage::getResourceModel('enterprise_rma/rma_grid_collection')
+            $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Grid_Collection')
                 ->addFieldToFilter('customer_id', $customerId);
 
             $this->setCollection($collection);

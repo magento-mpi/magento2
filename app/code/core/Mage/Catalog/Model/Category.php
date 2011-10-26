@@ -157,7 +157,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getTreeModel()
     {
-        return Mage::getResourceModel('catalog/category_tree');
+        return Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Tree');
     }
 
     /**
@@ -271,7 +271,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getProductCollection()
     {
-        $collection = Mage::getResourceModel('catalog/product_collection')
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
             ->setStoreId($this->getStoreId())
             ->addCategoryFilter($this);
         return $collection;

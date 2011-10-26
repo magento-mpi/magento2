@@ -1376,7 +1376,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getAddressesCollection()
     {
         if (is_null($this->_addresses)) {
-            $this->_addresses = Mage::getResourceModel('sales/order_address_collection')
+            $this->_addresses = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Address_Collection')
                 ->setOrderFilter($this);
 
             if ($this->getId()) {
@@ -1411,7 +1411,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getItemsCollection($filterByTypes = array(), $nonChildrenOnly = false)
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getResourceModel('sales/order_item_collection')
+            $this->_items = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Item_Collection')
                 ->setOrderFilter($this);
 
             if ($filterByTypes) {
@@ -1558,7 +1558,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
-            $this->_payments = Mage::getResourceModel('sales/order_payment_collection')
+            $this->_payments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Payment_Collection')
                 ->setOrderFilter($this);
 
             if ($this->getId()) {
@@ -1621,7 +1621,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getStatusHistoryCollection($reload=false)
     {
         if (is_null($this->_statusHistory) || $reload) {
-            $this->_statusHistory = Mage::getResourceModel('sales/order_status_history_collection')
+            $this->_statusHistory = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Status_History_Collection')
                 ->setOrderFilter($this)
                 ->setOrder('created_at', 'desc')
                 ->setOrder('entity_id', 'desc');
@@ -1834,7 +1834,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getInvoiceCollection()
     {
         if (is_null($this->_invoices)) {
-            $this->_invoices = Mage::getResourceModel('sales/order_invoice_collection')
+            $this->_invoices = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Invoice_Collection')
                 ->setOrderFilter($this);
 
             if ($this->getId()) {
@@ -1855,7 +1855,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     {
         if (empty($this->_shipments)) {
             if ($this->getId()) {
-                $this->_shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                $this->_shipments = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Collection')
                     ->setOrderFilter($this)
                     ->load();
             } else {
@@ -1874,7 +1874,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     {
         if (empty($this->_creditmemos)) {
             if ($this->getId()) {
-                $this->_creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
+                $this->_creditmemos = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Creditmemo_Collection')
                     ->setOrderFilter($this)
                     ->load();
             } else {
@@ -1892,7 +1892,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getTracksCollection()
     {
         if (empty($this->_tracks)) {
-            $this->_tracks = Mage::getResourceModel('sales/order_shipment_track_collection')
+            $this->_tracks = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Shipment_Track_Collection')
                 ->setOrderFilter($this);
 
             if ($this->getId()) {

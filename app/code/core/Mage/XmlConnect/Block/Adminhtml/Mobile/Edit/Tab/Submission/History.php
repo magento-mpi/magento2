@@ -100,7 +100,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('xmlconnect/history_collection')
+        $collection = Mage::getResourceModel('Mage_XmlConnect_Model_Resource_History_Collection')
             ->addApplicationFilter($this->_getApplication()->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();

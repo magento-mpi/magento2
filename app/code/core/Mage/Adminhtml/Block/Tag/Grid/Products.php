@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('tag/product_collection')
+        $collection = Mage::getResourceModel('Mage_Tag_Model_Resource_Product_Collection')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
         ;

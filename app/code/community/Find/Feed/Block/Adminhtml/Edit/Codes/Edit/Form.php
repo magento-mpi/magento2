@@ -72,7 +72,7 @@ class Find_Feed_Block_Adminhtml_Edit_Codes_Edit_Form extends Mage_Adminhtml_Bloc
     protected function _getEavAttributeList()
     {
         $result     = array();
-        $collection = Mage::getResourceModel('catalog/product_attribute_collection');
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection');
         foreach ($collection as $model) {
             $result[$model->getAttributeCode()] = $model->getAttributeCode();
         }

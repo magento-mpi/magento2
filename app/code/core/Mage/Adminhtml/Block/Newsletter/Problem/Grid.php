@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Newsletter_Problem_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('newsletter/problem_collection')
+        $collection = Mage::getResourceModel('Mage_Newsletter_Model_Resource_Problem_Collection')
             ->addSubscriberInfo()
             ->addQueueInfo();
 

@@ -375,7 +375,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         if (is_array($registry) && isset($registry[$attributeSetId])) {
             return $registry[$attributeSetId];
         }
-        $collection = Mage::getResourceModel('googlebase/attribute_collection')
+        $collection = Mage::getResourceModel('Mage_GoogleBase_Model_Resource_Attribute_Collection')
             ->addAttributeSetFilter($attributeSetId, $this->getTargetCountry())
             ->load();
         $registry[$attributeSetId] = $collection;

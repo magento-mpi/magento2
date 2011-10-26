@@ -315,7 +315,7 @@ class Mage_Catalog_Model_Product_Type_Price
 
         if ($rulePrice === false) {
             $storeTimestamp = Mage::app()->getLocale()->storeTimeStamp($sId);
-            $rulePrice = Mage::getResourceModel('catalogrule/rule')
+            $rulePrice = Mage::getResourceModel('Mage_CatalogRule_Model_Resource_Rule')
                 ->getRulePrice($storeTimestamp, $wId, $gId, $productId);
         }
 

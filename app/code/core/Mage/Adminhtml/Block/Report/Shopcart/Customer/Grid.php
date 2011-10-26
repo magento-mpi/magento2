@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('reports/customer_collection')
+        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Customer_Collection')
           ->addAttributeToSelect('firstname')
           ->addAttributeToSelect('lastname');
 

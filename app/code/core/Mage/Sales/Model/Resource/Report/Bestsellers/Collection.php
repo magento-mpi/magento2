@@ -57,7 +57,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers_Collection
     {
         parent::_construct();
         $this->setModel('adminhtml/report_item');
-        $this->_resource = Mage::getResourceModel('sales/report')->init('sales_bestsellers_aggregated_daily');
+        $this->_resource = Mage::getResourceModel('Mage_Sales_Model_Resource_Report')->init('sales_bestsellers_aggregated_daily');
         $this->setConnection($this->getResource()->getReadConnection());
         // overwrite default behaviour
         $this->_applyFilters = false;

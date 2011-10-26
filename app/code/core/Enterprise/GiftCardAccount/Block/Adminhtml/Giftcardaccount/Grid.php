@@ -59,7 +59,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
-        $collection = Mage::getResourceModel('enterprise_giftcardaccount/giftcardaccount_collection');
+        $collection = Mage::getResourceModel('Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection');
 
         $this->setCollection($collection);
 

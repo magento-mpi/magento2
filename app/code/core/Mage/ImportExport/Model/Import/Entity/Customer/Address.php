@@ -250,7 +250,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
      */
     protected function _initAttributes()
     {
-        $addrCollection = Mage::getResourceModel('customer/address_attribute_collection')
+        $addrCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Attribute_Collection')
                             ->addSystemHiddenFilter()
                             ->addExcludeHiddenFrontendFilter();
 
@@ -275,7 +275,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
      */
     protected function _initCountryRegions()
     {
-        foreach (Mage::getResourceModel('directory/region_collection') as $regionRow) {
+        foreach (Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection') as $regionRow) {
             $countryNormalized = strtolower($regionRow['country_id']);
             $regionCode = strtolower($regionRow['code']);
             $regionName = strtolower($regionRow['default_name']);

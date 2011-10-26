@@ -64,7 +64,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
     protected function _beforePrepareCollection()
     {
         if (!$this->getCollection()) {
-            $collection = Mage::getResourceModel('enterprise_rma/rma_grid_collection');
+            $collection = Mage::getResourceModel('Enterprise_Rma_Model_Resource_Rma_Grid_Collection');
             $this->setCollection($collection);
         }
         return $this;

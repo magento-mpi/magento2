@@ -545,7 +545,7 @@ class Enterprise_Reward_Model_Observer
         }
         $ruleIds = explode(',', $order->getAppliedRuleIds());
         $ruleIds = array_unique($ruleIds);
-        $data = Mage::getResourceModel('enterprise_reward/reward')
+        $data = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward')
             ->getRewardSalesrule($ruleIds);
         $pointsDelta = 0;
         foreach ($data as $rule) {
@@ -810,7 +810,7 @@ class Enterprise_Reward_Model_Observer
             if (!$inDays) {
                 continue;
             }
-            $collection = Mage::getResourceModel('enterprise_reward/reward_history_collection')
+            $collection = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_History_Collection')
                 ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
                 ->loadExpiredSoonPoints($website->getId(), true)
                 ->addNotificationSentFlag(false)
@@ -826,7 +826,7 @@ class Enterprise_Reward_Model_Observer
 
             // mark records as sent
             $historyIds = $collection->getExpiredSoonIds();
-            Mage::getResourceModel('enterprise_reward/reward_history')->markAsNotified($historyIds);
+            Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_History')->markAsNotified($historyIds);
         }
 
         return $this;
@@ -847,7 +847,7 @@ class Enterprise_Reward_Model_Observer
                 continue;
             }
             $expiryType = Mage::helper('enterprise_reward')->getGeneralConfig('expiry_calculation', $website->getId());
-            Mage::getResourceModel('enterprise_reward/reward_history')
+            Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_History')
                 ->expirePoints($website->getId(), $expiryType, 100);
         }
 
@@ -904,7 +904,7 @@ class Enterprise_Reward_Model_Observer
         /* @var $salesRule Mage_SalesRule_Model_Rule */
         $salesRule = $observer->getEvent()->getRule();
         if ($salesRule->getId()) {
-            $data = Mage::getResourceModel('enterprise_reward/reward')
+            $data = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward')
                 ->getRewardSalesrule($salesRule->getId());
             if (isset($data['points_delta'])) {
                 $salesRule->setRewardPointsDelta($data['points_delta']);
@@ -926,7 +926,7 @@ class Enterprise_Reward_Model_Observer
         }
         /* @var $salesRule Mage_SalesRule_Model_Rule */
         $salesRule = $observer->getEvent()->getRule();
-        Mage::getResourceModel('enterprise_reward/reward')
+        Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward')
             ->saveRewardSalesrule($salesRule->getId(), (int)$salesRule->getRewardPointsDelta());
         return $this;
     }

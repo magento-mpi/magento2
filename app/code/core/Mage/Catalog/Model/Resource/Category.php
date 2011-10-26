@@ -110,7 +110,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
     protected function _getTree()
     {
         if (!$this->_tree) {
-            $this->_tree = Mage::getResourceModel('catalog/category_tree')
+            $this->_tree = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Tree')
                 ->load();
         }
         return $this->_tree;
@@ -567,7 +567,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
      */
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
-        $tree = Mage::getResourceModel('catalog/category_tree');
+        $tree = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Tree');
         /* @var $tree Mage_Catalog_Model_Resource_Category_Tree */
         $nodes = $tree->loadNode($parent)
             ->loadChildren($recursionLevel)
@@ -590,7 +590,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
     public function getParentCategories($category)
     {
         $pathIds = array_reverse(explode(',', $category->getPathInStore()));
-        $categories = Mage::getResourceModel('catalog/category_collection')
+        $categories = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')
             ->setStore(Mage::app()->getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('url_key')

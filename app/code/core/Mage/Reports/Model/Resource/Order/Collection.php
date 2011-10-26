@@ -248,7 +248,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     {
         return str_replace(
             '{{attribute}}',
-            Mage::getResourceModel('sales/report_order')
+            Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Order')
                     ->getStoreTZOffsetQuery($this->getMainTable(), $attribute, $from, $to),
             $this->_getRangeExpression($range)
         );

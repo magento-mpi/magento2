@@ -53,7 +53,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
     protected function _prepareCollection()
     {
         /* @var $collection Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection */
-        $collection = Mage::getResourceModel('enterprise_customersegment/report_customer_collection');
+        $collection = Mage::getResourceModel('Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection');
         $collection->addNameToSelect()
             ->setViewMode($this->getCustomerSegment()->getViewMode())
             ->addSegmentFilter($this->getCustomerSegment())
@@ -101,7 +101,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
             'index'     => 'email'
         ));
 
-        $groups = Mage::getResourceModel('customer/group_collection')
+        $groups = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

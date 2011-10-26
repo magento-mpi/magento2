@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('catalogsearch/query_collection');
+        $collection = Mage::getResourceModel('Mage_CatalogSearch_Model_Resource_Query_Collection');
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

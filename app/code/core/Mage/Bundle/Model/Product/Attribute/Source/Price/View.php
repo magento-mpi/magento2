@@ -107,7 +107,7 @@ class Mage_Bundle_Model_Product_Attribute_Source_Price_View extends Mage_Eav_Mod
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('eav/entity_attribute_option')
+        return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option')
             ->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }
