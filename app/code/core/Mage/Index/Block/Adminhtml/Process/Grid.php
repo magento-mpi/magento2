@@ -64,6 +64,9 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
             $item->setName($item->getIndexer()->getName());
             $item->setDescription($item->getIndexer()->getDescription());
             $item->setUpdateRequired($item->getUnprocessedEventsCollection()->count() > 0 ? 1 : 0);
+            if ($item->isLocked()) {
+                $item->setStatus(Mage_Index_Model_Process::STATUS_RUNNING);
+            }
         }
         return $this;
     }
@@ -119,7 +122,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('ended_at', array(
-            'header'    => Mage::helper('index')->__('Last Run'),
+            'header'    => Mage::helper('index')->__('Updated At'),
             'type'      => 'datetime',
             'width'     => '180',
             'align'     => 'left',

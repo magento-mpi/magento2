@@ -37,13 +37,6 @@ class Mage_Index_Model_Indexer
     protected $_processesCollection;
 
     /**
-     * Indexer processes lock flag
-     *
-     * @var bool
-     */
-    protected $_lockFlag = false;
-
-    /**
      * Class constructor. Initialize index processes based on configuration
      */
     public function __construct()
@@ -94,34 +87,6 @@ class Mage_Index_Model_Indexer
     }
 
     /**
-     * Lock indexer actions
-     */
-    public function lockIndexer()
-    {
-        $this->_lockFlag = true;
-        return $this;
-    }
-
-    /**
-     * Unlock indexer actions
-     */
-    public function unlockIndexer()
-    {
-        $this->_lockFlag = false;
-        return $this;
-    }
-
-    /**
-     * Check if onject actions are locked
-     *
-     * @return bool
-     */
-    public function isLocked()
-    {
-        return $this->_lockFlag;
-    }
-
-    /**
      * Indexing all pending events.
      * Events set can be limited by event entity and type
      *
@@ -131,10 +96,6 @@ class Mage_Index_Model_Indexer
      */
     public function indexEvents($entity=null, $type=null)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
-
         /** @var $resourceModel Mage_Index_Model_Resource_Process */
         $resourceModel = Mage::getResourceSingleton('index/process');
         $resourceModel->beginTransaction();
@@ -156,10 +117,6 @@ class Mage_Index_Model_Indexer
      */
     public function indexEvent(Mage_Index_Model_Event $event)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
-
         $this->_runAll('safeProcessEvent', array($event));
         return $this;
     }
@@ -171,10 +128,6 @@ class Mage_Index_Model_Indexer
      */
     public function registerEvent(Mage_Index_Model_Event $event)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
-
         $this->_runAll('register', array($event));
         return $this;
     }
@@ -190,9 +143,6 @@ class Mage_Index_Model_Indexer
      */
     public function logEvent(Varien_Object $entity, $entityType, $eventType, $doSave=true)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
         $event = Mage::getModel('index/event')
             ->setEntity($entityType)
             ->setType($eventType)
@@ -217,9 +167,6 @@ class Mage_Index_Model_Indexer
      */
     public function processEntityAction(Varien_Object $entity, $entityType, $eventType)
     {
-        if ($this->isLocked()) {
-            return $this;
-        }
         $event = $this->logEvent($entity, $entityType, $eventType, false);
         /**
          * Index and save event just in case if some process matched it
