@@ -102,6 +102,7 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testValidateKey()
     {
+        $this->markTestSkipped("Functionality not implemented in Magento 1.x. Implemented in Magento 2");
         $validKey = md5(uniqid());
         $this->assertInstanceOf('Magento_Crypt', $this->_helper->validateKey($validKey));
     }

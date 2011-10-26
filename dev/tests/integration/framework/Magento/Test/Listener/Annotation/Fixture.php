@@ -49,6 +49,7 @@ class Magento_Test_Listener_Annotation_Fixture
      */
     public function startTest()
     {
+        Mage::getSingleton('index/indexer')->disallowTableChanges();
         /* Apply fixtures declared on test case (class) and test (method) levels */
         $methodFixtures = $this->_getFixtures('method');
         if ($methodFixtures) {
@@ -106,6 +107,7 @@ class Magento_Test_Listener_Annotation_Fixture
      */
     protected function _startTransaction()
     {
+        Mage::getSingleton('index/indexer')->disallowTableChanges();
         /** @var $adapter Varien_Db_Adapter_Interface */
         $adapter = Mage::getSingleton('core/resource')->getConnection('write');
         $adapter->beginTransaction();

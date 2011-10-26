@@ -355,4 +355,26 @@ class Mage_Index_Model_Indexer
         }
         return false;
     }
+
+    /**
+     * Allow DDL operations while indexing
+     *
+     * @return Mage_Index_Model_Indexer
+     */
+    public function allowTableChanges()
+    {
+        $this->_allowTableChanges = true;
+        return $this;
+    }
+
+    /**
+     * Disallow DDL operations while indexing
+     *
+     * @return Mage_Index_Model_Indexer
+     */
+    public function disallowTableChanges()
+    {
+        $this->_allowTableChanges = false;
+        return $this;
+    }
 }
