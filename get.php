@@ -24,45 +24,11 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-if (version_compare(phpversion(), '5.2.0', '<')===true) {
-    echo  '<div style="font:12px/1.35em arial, helvetica, sans-serif;"><div style="margin:0 0 25px 0; '
-        . 'border-bottom:1px solid #ccc;"><h3 style="margin:0; font-size:1.7em; font-weight:normal; '
-        . 'text-transform:none; text-align:left; color:#2f2f2f;">Whoops, it looks like you have an invalid PHP version.'
-        . '</h3></div><p>Magento supports PHP 5.2.0 or newer. <a href="http://www.magentocommerce.com/install" '
-        . 'target="">Find out</a> how to install</a> Magento using PHP-CGI as a work-around.</p></div>';
-    exit;
-}
-$start = microtime(true);
-/**
- * Error reporting
- */
-error_reporting(E_ALL | E_STRICT);
-ini_set('display_errors', 1);
+require_once 'app/bootstrap.php';
 
-$ds = DIRECTORY_SEPARATOR;
-$ps = PATH_SEPARATOR;
-$bp = dirname(__FILE__);
+$varDirectory = BP . DS . Mage_Core_Model_Config_Options::VAR_DIRECTORY;
 
-/**
- * Set include path
- */
-
-$paths[] = $bp . $ds . 'app' . $ds . 'code' . $ds . 'local';
-$paths[] = $bp . $ds . 'app' . $ds . 'code' . $ds . 'community';
-$paths[] = $bp . $ds . 'app' . $ds . 'code' . $ds . 'core';
-$paths[] = $bp . $ds . 'lib';
-
-$appPath = implode($ps, $paths);
-set_include_path($appPath . $ps . get_include_path());
-
-include_once 'Mage/Core/functions.php';
-include_once 'Varien/Autoload.php';
-
-Varien_Autoload::register();
-
-$varDirectory = $bp . $ds . Mage_Core_Model_Config_Options::VAR_DIRECTORY;
-
-$configCacheFile = $varDirectory . $ds . 'resource_config.json';
+$configCacheFile = $varDirectory . DS . 'resource_config.json';
 
 $mediaDirectory = null;
 $allowedResources = array();
@@ -72,7 +38,7 @@ if (file_exists($configCacheFile) && is_readable($configCacheFile)) {
 
     //checking update time
     if (filemtime($configCacheFile) + $config['update_time'] > time()) {
-        $mediaDirectory = trim(str_replace($bp . $ds, '', $config['media_directory']), $ds);
+        $mediaDirectory = trim(str_replace(BP . DS, '', $config['media_directory']), DS);
         $allowedResources = array_merge($allowedResources, $config['allowed_resources']);
     }
 }
@@ -81,7 +47,7 @@ $request = new Zend_Controller_Request_Http();
 
 $pathInfo = str_replace('..', '', ltrim($request->getPathInfo(), '/'));
 
-$filePath = str_replace('/', $ds, rtrim($bp, $ds) . $ds . $pathInfo);
+$filePath = str_replace('/', DS, rtrim(BP, DS) . DS . $pathInfo);
 
 if ($mediaDirectory) {
     if (0 !== stripos($pathInfo, $mediaDirectory . '/') || is_dir($filePath)) {
@@ -92,16 +58,6 @@ if ($mediaDirectory) {
     checkResource($relativeFilename, $allowedResources);
     sendFile($filePath);
 }
-
-$mageFilename = 'app/Mage.php';
-
-if (!file_exists($mageFilename)) {
-    echo $mageFilename . ' was not found';
-}
-
-require_once $mageFilename;
-
-umask(0);
 
 /* Store or website code */
 $mageRunCode = isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '';
@@ -122,7 +78,7 @@ if (empty($mediaDirectory)) {
 
 if (!$mediaDirectory) {
     $config = Mage_Core_Model_File_Storage::getScriptConfig();
-    $mediaDirectory = str_replace($bp . $ds, '', $config['media_directory']);
+    $mediaDirectory = str_replace(BP . DS, '', $config['media_directory']);
     $allowedResources = array_merge($allowedResources, $config['allowed_resources']);
 
     $relativeFilename = str_replace($mediaDirectory . '/', '', $pathInfo);
