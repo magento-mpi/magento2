@@ -41,60 +41,72 @@ cms_page_link_widget:
             select_block_reference: Right Column
             select_template: CMS Page Link Block Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Page Footer
             select_template: CMS Page Link Inline Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Shopping Cart Sidebar Extra Actions
             select_template: CMS Page Link Block Template
             choose_options:
-                filter_sku_1: %noValue%
-                filter_sku_2: %noValue%
-                filter_sku_3: %noValue%
-                filter_sku_4: %noValue%
-                filter_sku_5: %noValue%
-                filter_sku_6: %noValue%
+                product_1:
+                    filter_sku: %noValue%
+                product_2:
+                    filter_sku: %noValue%
+                product_3:
+                    filter_sku: %noValue%
+                product_4:
+                    filter_sku: %noValue%
+                product_5:
+                    filter_sku: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_4:
             select_display_on: Simple Product
             select_block_reference: Page Bottom
             select_template: CMS Page Link Block Template
             choose_options:
-                filter_sku_1: %noValue%
+                product_1:
+                    filter_sku: %noValue%
         layout_5:
             select_display_on: Grouped Product
             select_block_reference: Product Extra Info
             select_template: CMS Page Link Block Template
             choose_options:
-                filter_sku_2: %noValue%
+                product_2:
+                    filter_sku: %noValue%
         layout_6:
             select_display_on: Configurable Product
             select_block_reference: Left Column
             select_template: CMS Page Link Block Template
             choose_options:
-                filter_sku_3: %noValue%
+                product_3:
+                    filter_sku: %noValue%
         layout_7:
             select_display_on: Virtual Product
             select_block_reference: Main Content Area
             select_template: CMS Page Link Block Template
             choose_options:
-                filter_sku_4: %noValue%
+                product_4:
+                    filter_sku: %noValue%
         layout_8:
             select_display_on: Bundle Product
             select_block_reference: Page Top
             select_template: CMS Page Link Inline Template
             choose_options:
-                filter_sku_5: %noValue%
+                product_5:
+                    filter_sku: %noValue%
         layout_9:
             select_display_on: Downloadable Product
             select_block_reference: Alert Urls
             select_template: CMS Page Link Inline Template
             choose_options:
-                filter_sku_6: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_10:
             select_display_on: All Pages
             select_block_reference: Page Header
@@ -125,52 +137,64 @@ cms_static_block_widget:
             select_display_on: Anchor Categories
             select_block_reference: Left Column
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Page Footer
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Shopping Cart Sidebar Extra Actions
             choose_options:
-                filter_sku_1: %noValue%
-                filter_sku_2: %noValue%
-                filter_sku_3: %noValue%
-                filter_sku_4: %noValue%
-                filter_sku_5: %noValue%
-                filter_sku_6: %noValue%
+                product_1:
+                    filter_sku: %noValue%
+                product_2:
+                    filter_sku: %noValue%
+                product_3:
+                    filter_sku: %noValue%
+                product_4:
+                    filter_sku: %noValue%
+                product_5:
+                    filter_sku: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_4:
             select_display_on: Simple Product
             select_block_reference: Page Bottom
             choose_options:
-                filter_sku_1: %noValue%
+                product_1:
+                    filter_sku: %noValue%
         layout_5:
             select_display_on: Grouped Product
             select_block_reference: Product Extra Info
             choose_options:
-                filter_sku_2: %noValue%
+                product_2:
+                    filter_sku: %noValue%
         layout_6:
             select_display_on: Configurable Product
             select_block_reference: Left Column
             choose_options:
-                filter_sku_3: %noValue%
+                product_3:
+                    filter_sku: %noValue%
         layout_7:
             select_display_on: Virtual Product
             select_block_reference: Main Content Area
             choose_options:
-                filter_sku_4: %noValue%
+                product_4:
+                    filter_sku: %noValue%
         layout_8:
             select_display_on: Bundle Product
             select_block_reference: Page Top
             choose_options:
-                filter_sku_5: %noValue%
+                product_5:
+                    filter_sku: %noValue%
         layout_9:
             select_display_on: Downloadable Product
             select_block_reference: Alert Urls
             choose_options:
-                filter_sku_6: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_10:
             select_display_on: All Pages
             select_block_reference: Page Header
@@ -198,60 +222,72 @@ catalog_category_link_widget:
             select_block_reference: Right Column
             select_template: Category Link Block Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Page Footer
             select_template: Category Link Block Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Shopping Cart Sidebar Extra Actions
             select_template: Category Link Inline Template
             choose_options:
-                filter_sku_1: %noValue%
-                filter_sku_2: %noValue%
-                filter_sku_3: %noValue%
-                filter_sku_4: %noValue%
-                filter_sku_5: %noValue%
-                filter_sku_6: %noValue%
+                product_1:
+                    filter_sku: %noValue%
+                product_2:
+                    filter_sku: %noValue%
+                product_3:
+                    filter_sku: %noValue%
+                product_4:
+                    filter_sku: %noValue%
+                product_5:
+                    filter_sku: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_4:
             select_display_on: Simple Product
             select_block_reference: Page Bottom
             select_template: Category Link Inline Template
             choose_options:
-                filter_sku_1: %noValue%
+                product_1:
+                    filter_sku: %noValue%
         layout_5:
             select_display_on: Grouped Product
             select_block_reference: Product Extra Info
             select_template: Category Link Inline Template
             choose_options:
-                filter_sku_2: %noValue%
+                product_2:
+                    filter_sku: %noValue%
         layout_6:
             select_display_on: Configurable Product
             select_block_reference: Left Column
             select_template: Category Link Inline Template
             choose_options:
-                filter_sku_3: %noValue%
+                product_3:
+                    filter_sku: %noValue%
         layout_7:
             select_display_on: Virtual Product
             select_block_reference: Main Content Area
             select_template: Category Link Inline Template
             choose_options:
-                filter_sku_4: %noValue%
+                product_4:
+                    filter_sku: %noValue%
         layout_8:
             select_display_on: Bundle Product
             select_block_reference: Page Top
             select_template: Category Link Inline Template
             choose_options:
-                filter_sku_5: %noValue%
+                product_5:
+                    filter_sku: %noValue%
         layout_9:
             select_display_on: Downloadable Product
             select_block_reference: Alert Urls
             select_template: Category Link Inline Template
             choose_options:
-                filter_sku_6: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_10:
             select_display_on: All Pages
             select_block_reference: Page Header
@@ -265,7 +301,7 @@ catalog_category_link_widget:
         anchor_custom_text: custom_text
         anchor_custom_title: custom_title
         chosen_option:
-            category_path_1: %noValue%
+            category_path: %noValue%
             title: %noValue%
 
 #<-------------------------Catalog New Products List--------------------------->
@@ -283,60 +319,72 @@ catalog_new_products_list_widget:
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                filter_sku_1: %noValue%
-                filter_sku_2: %noValue%
-                filter_sku_3: %noValue%
-                filter_sku_4: %noValue%
-                filter_sku_5: %noValue%
-                filter_sku_6: %noValue%
+                product_1:
+                    filter_sku: %noValue%
+                product_2:
+                    filter_sku: %noValue%
+                product_3:
+                    filter_sku: %noValue%
+                product_4:
+                    filter_sku: %noValue%
+                product_5:
+                    filter_sku: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_4:
             select_display_on: Simple Product
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                filter_sku_1: %noValue%
+                product_1:
+                    filter_sku: %noValue%
         layout_5:
             select_display_on: Grouped Product
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                filter_sku_2: %noValue%
+                product_2:
+                    filter_sku: %noValue%
         layout_6:
             select_display_on: Configurable Product
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                filter_sku_3: %noValue%
+                product_3:
+                    filter_sku: %noValue%
         layout_7:
             select_display_on: Virtual Product
             select_block_reference: Main Content Area
             select_template: New Products Grid Template
             choose_options:
-                filter_sku_4: %noValue%
+                product_4:
+                    filter_sku: %noValue%
         layout_8:
             select_display_on: Bundle Product
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                filter_sku_5: %noValue%
+                product_5:
+                    filter_sku: %noValue%
         layout_9:
             select_display_on: Downloadable Product
             select_block_reference: Right Column
             select_template: New Products Images and Names Template
             choose_options:
-                filter_sku_6: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_10:
             select_display_on: All Pages
             select_block_reference: Right Column
@@ -365,60 +413,72 @@ catalog_product_link_widget:
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                filter_sku_1: %noValue%
-                filter_sku_2: %noValue%
-                filter_sku_3: %noValue%
-                filter_sku_4: %noValue%
-                filter_sku_5: %noValue%
-                filter_sku_6: %noValue%
+                product_1:
+                    filter_sku: %noValue%
+                product_2:
+                    filter_sku: %noValue%
+                product_3:
+                    filter_sku: %noValue%
+                product_4:
+                    filter_sku: %noValue%
+                product_5:
+                    filter_sku: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_4:
             select_display_on: Simple Product
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                filter_sku_1: %noValue%
+                product_1:
+                    filter_sku: %noValue%
         layout_5:
             select_display_on: Grouped Product
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                filter_sku_2: %noValue%
+                product_2:
+                    filter_sku: %noValue%
         layout_6:
             select_display_on: Configurable Product
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                filter_sku_3: %noValue%
+                product_3:
+                    filter_sku: %noValue%
         layout_7:
             select_display_on: Virtual Product
             select_block_reference: Main Content Area
             select_template: Product Link Block Template
             choose_options:
-                filter_sku_4: %noValue%
+                product_4:
+                    filter_sku: %noValue%
         layout_8:
             select_display_on: Bundle Product
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                filter_sku_5: %noValue%
+                product_5:
+                    filter_sku: %noValue%
         layout_9:
             select_display_on: Downloadable Product
             select_block_reference: Right Column
             select_template: Product Link Block Template
             choose_options:
-                filter_sku_6: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_10:
             select_display_on: All Pages
             select_block_reference: Right Column
@@ -432,8 +492,8 @@ catalog_product_link_widget:
         anchor_custom_text: custom_text
         anchor_custom_title: custom_title
         chosen_option:
-            category_path_1: %noValue%
-            filter_sku_1: %noValue%
+            category_path: %noValue%
+            filter_sku: %noValue%
             title: %noValue%
 
 #<-------------------------Orders and Returns---------------------------------->
@@ -450,52 +510,64 @@ orders_and_returns_widget:
             select_display_on: Anchor Categories
             select_block_reference: Right Column
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
             choose_options:
-                filter_sku_1: %noValue%
-                filter_sku_2: %noValue%
-                filter_sku_3: %noValue%
-                filter_sku_4: %noValue%
-                filter_sku_5: %noValue%
-                filter_sku_6: %noValue%
+                product_1:
+                    filter_sku: %noValue%
+                product_2:
+                    filter_sku: %noValue%
+                product_3:
+                    filter_sku: %noValue%
+                product_4:
+                    filter_sku: %noValue%
+                product_5:
+                    filter_sku: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_4:
             select_display_on: Simple Product
             select_block_reference: Right Column
             choose_options:
-                filter_sku_1: %noValue%
+                product_1:
+                    filter_sku: %noValue%
         layout_5:
             select_display_on: Grouped Product
             select_block_reference: Right Column
             choose_options:
-                filter_sku_2: %noValue%
+                product_2:
+                    filter_sku: %noValue%
         layout_6:
             select_display_on: Configurable Product
             select_block_reference: Right Column
             choose_options:
-                filter_sku_3: %noValue%
+                product_3:
+                    filter_sku: %noValue%
         layout_7:
             select_display_on: Virtual Product
             select_block_reference: Left Column
             choose_options:
-                filter_sku_4: %noValue%
+                product_4:
+                    filter_sku: %noValue%
         layout_8:
             select_display_on: Bundle Product
             select_block_reference: Right Column
             choose_options:
-                filter_sku_5: %noValue%
+                product_5:
+                    filter_sku: %noValue%
         layout_9:
             select_display_on: Downloadable Product
             select_block_reference: Right Column
             choose_options:
-                filter_sku_6: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_10:
             select_display_on: All Pages
             select_block_reference: Right Column
@@ -520,60 +592,72 @@ recently_compared_products_widget:
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                filter_sku_1: %noValue%
-                filter_sku_2: %noValue%
-                filter_sku_3: %noValue%
-                filter_sku_4: %noValue%
-                filter_sku_5: %noValue%
-                filter_sku_6: %noValue%
+                product_1:
+                    filter_sku: %noValue%
+                product_2:
+                    filter_sku: %noValue%
+                product_3:
+                    filter_sku: %noValue%
+                product_4:
+                    filter_sku: %noValue%
+                product_5:
+                    filter_sku: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_4:
             select_display_on: Simple Product
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                filter_sku_1: %noValue%
+                product_1:
+                    filter_sku: %noValue%
         layout_5:
             select_display_on: Grouped Product
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                filter_sku_2: %noValue%
+                product_2:
+                    filter_sku: %noValue%
         layout_6:
             select_display_on: Configurable Product
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                filter_sku_3: %noValue%
+                product_3:
+                    filter_sku: %noValue%
         layout_7:
             select_display_on: Virtual Product
             select_block_reference: Main Content Area
             select_template: Compared Products Grid Template
             choose_options:
-                filter_sku_4: %noValue%
+                product_4:
+                    filter_sku: %noValue%
         layout_8:
             select_display_on: Bundle Product
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                filter_sku_5: %noValue%
+                product_5:
+                    filter_sku: %noValue%
         layout_9:
             select_display_on: Downloadable Product
             select_block_reference: Right Column
             select_template: Compared Products Images and Names Template
             choose_options:
-                filter_sku_6: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_10:
             select_display_on: All Pages
             select_block_reference: Right Column
@@ -602,60 +686,72 @@ recently_viewed_products_widget:
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_2:
             select_display_on: Non-Anchor Categories
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                category_path_1: %noValue%
+                category_path: %noValue%
         layout_3:
             select_display_on: All Product Types
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                filter_sku_1: %noValue%
-                filter_sku_2: %noValue%
-                filter_sku_3: %noValue%
-                filter_sku_4: %noValue%
-                filter_sku_5: %noValue%
-                filter_sku_6: %noValue%
+                product_1:
+                    filter_sku: %noValue%
+                product_2:
+                    filter_sku: %noValue%
+                product_3:
+                    filter_sku: %noValue%
+                product_4:
+                    filter_sku: %noValue%
+                product_5:
+                    filter_sku: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_4:
             select_display_on: Simple Product
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                filter_sku_1: %noValue%
+                product_1:
+                    filter_sku: %noValue%
         layout_5:
             select_display_on: Grouped Product
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                filter_sku_2: %noValue%
+                product_2:
+                    filter_sku: %noValue%
         layout_6:
             select_display_on: Configurable Product
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                filter_sku_3: %noValue%
+                product_3:
+                    filter_sku: %noValue%
         layout_7:
             select_display_on: Virtual Product
             select_block_reference: Main Content Area
             select_template: Viewed Products Grid Template
             choose_options:
-                filter_sku_4: %noValue%
+                product_4:
+                    filter_sku: %noValue%
         layout_8:
             select_display_on: Bundle Product
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                filter_sku_5: %noValue%
+                product_5:
+                    filter_sku: %noValue%
         layout_9:
             select_display_on: Downloadable Product
             select_block_reference: Right Column
             select_template: Viewed Products Images and Names Template
             choose_options:
-                filter_sku_6: %noValue%
+                product_6:
+                    filter_sku: %noValue%
         layout_10:
             select_display_on: All Pages
             select_block_reference: Right Column
@@ -721,7 +817,7 @@ catalog_category_link_widget_req:
         anchor_custom_text: custom_text
         anchor_custom_title: custom_title
         chosen_option:
-            category_path_1: %noValue%
+            category_path: %noValue%
             title: %noValue%
 
 #<-------------------------Catalog New Products List--------------------------->
@@ -753,8 +849,8 @@ catalog_product_link_widget_req:
             select_block_reference: Right Column
     widget_options:
         chosen_option:
-            category_path_1: %noValue%
-            filter_sku_1: %noValue%
+            category_path: %noValue%
+            filter_sku: %noValue%
             title: %noValue%
 
 #<-------------------------Orders and Returns---------------------------------->

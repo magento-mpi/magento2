@@ -149,11 +149,8 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_cms_widgets');
         $temp = array();
-        $i=1;
-        foreach (self::$products['sku'] as $key => $value) {
-            $temp['filter_sku_' . $i++] = $value;
-        }
-        $temp['category_path_1'] = $category;
+        $temp['filter_sku'] = self::$products['sku']['simple'];
+        $temp['category_path'] = $category;
         if ($dataWidgetType == 'catalog_category_link') {
             $nodes = explode('/', $category);
             $temp['title'] = $nodes[1];
@@ -163,6 +160,15 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
             $temp['title'] = $nodes[1] . ' / ' . self::$products['name']['simple'];
         }
         $widgetData = $this->loadData($dataWidgetType . '_widget', $temp, 'widget_instance_title');
+        $i = 1;
+        foreach (self::$products['sku'] as $key => $value) {
+            $widgetData['layout_updates']['layout_3']['choose_options']['product_' . $i++]['filter_sku'] = $value;
+        }
+        $i = 1;
+        foreach (self::$products['sku'] as $key => $value) {
+            $y = $i + 3;
+            $widgetData['layout_updates']['layout_' . $y]['choose_options']['product_' . $i++]['filter_sku'] = $value;
+        }
         $this->cmsWidgetsHelper()->createWidget($widgetData);
     }
 
@@ -196,11 +202,8 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_cms_widgets');
         $temp = array();
-        $i=1;
-        foreach (self::$products['sku'] as $key => $value) {
-            $temp['filter_sku_' . $i++] = $value;
-        }
-        $temp['category_path_1'] = $category;
+        $temp['filter_sku'] = self::$products['sku']['simple'];
+        $temp['category_path'] = $category;
         if ($dataWidgetType == 'catalog_category_link') {
             $nodes = explode('/', $category);
             $temp['title'] = $nodes[1];
@@ -245,11 +248,8 @@ class CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_cms_widgets');
         $temp = array();
-        $i = 1;
-        foreach (self::$products['sku'] as $key => $value) {
-            $temp['filter_sku_' . $i++] = $value;
-        }
-        $temp['category_path_1'] = $category;
+        $temp['filter_sku'] = self::$products['sku']['simple'];
+        $temp['category_path'] = $category;
         if ($dataWidgetType == 'catalog_category_link') {
             $nodes = explode('/', $category);
             $temp['title'] = $nodes[1];

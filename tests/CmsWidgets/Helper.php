@@ -162,7 +162,7 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
             }
         } elseif ($layoutName == 'products') {
             foreach ($layoutOptions as $key => $value) {
-                $this->searchAndChoose(array('filter_sku' => $value), 'layout_products_fieldset');
+                $this->searchAndChoose($value, 'layout_products_fieldset');
             }
         } else {
             return;
@@ -186,45 +186,49 @@ class CmsWidgets_Helper extends Mage_Selenium_TestCase
         $type = $this->_paramsHelper->getParameter('type');
         if (array_key_exists('chosen_option', $widgetOptions)) {
             $options = $widgetOptions['chosen_option'];
+            $this->clickButton('select_option', FALSE);
+            $this->pleaseWait();
             switch ($type) {
                 case 'cms-widget_page_link':
-                    $this->clickButton('select_page', FALSE);
-                    $this->pleaseWait();
-                    $this->searchAndOpen(array('filter_url_key' => $options['filter_url_key']), FALSE);
+                    $searchData = array();
+                    foreach ($options as $key => $value) {
+                        if (preg_match('/filter/' , $key)) {
+                            $searchData[$key] = $value;
+                        }
+                    }
+                    $this->searchAndOpen($searchData, FALSE);
                     $this->checkChosenOption($options['title']);
                     break;
                 case 'cms-widget_block':
-                    $this->clickButton('select_block', FALSE);
-                    $this->pleaseWait();
-                    $this->searchAndOpen(array('filter_identifier' => $options['filter_identifier']), FALSE);
+                    $searchData = array();
+                    foreach ($options as $key => $value) {
+                        if (preg_match('/filter/' , $key)) {
+                            $searchData[$key] = $value;
+                        }
+                    }
+                    $this->searchAndOpen($searchData, FALSE);
                     $this->checkChosenOption($options['title']);
                     break;
                 case 'catalog-category_widget_link':
-                    $this->clickButton('select_category', FALSE);
-                    $this->pleaseWait();
                     $this->addParameter('param', "//div[@id='widget-chooser_content']");
-                    foreach ($options as $key => $value) {
-                        if (preg_match('/category_path/', $key)) {
-                            $this->categoryHelper()->selectCategory($value);
-                        }
+                    if (array_key_exists('category_path', $options)) {
+                        $this->categoryHelper()->selectCategory($options['category_path']);
                     }
                     $this->checkChosenOption($options['title']);
                     break;
                 case 'catalog-product_widget_link':
-                    $this->clickButton('select_product', FALSE);
-                    $this->pleaseWait();
                     $this->addParameter('param', "//div[@id='widget-chooser_content']");
+                    if (array_key_exists('category_path', $options)) {
+                        $this->categoryHelper()->selectCategory($options['category_path']);
+                        $this->waitForAjax();
+                    }
+                    $searchData = array();
                     foreach ($options as $key => $value) {
-                        if (preg_match('/category_path/', $key)) {
-                            $this->categoryHelper()->selectCategory($value);
-                            $this->waitForAjax();
+                        if (preg_match('/filter/', $key)) {
+                            $searchData[$key] = $value;
                         }
                     }
-                    foreach ($options as $key => $value) {
-                        if (preg_match('/filter_sku/', $key)) {
-                            $this->searchAndOpen(array('filter_sku' => $value), FALSE);
-                        }
-                    }
+                    $this->searchAndOpen($searchData, FALSE);
                     $this->checkChosenOption($options['title']);
                     break;
             }

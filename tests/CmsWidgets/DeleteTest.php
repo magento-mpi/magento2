@@ -147,11 +147,8 @@ class CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_cms_widgets');
         $temp = array();
-        $i=1;
-        foreach (self::$products['sku'] as $key => $value) {
-            $temp['filter_sku_' . $i++] = $value;
-        }
-        $temp['category_path_1'] = $category;
+        $temp['filter_sku'] = self::$products['sku']['simple'];
+        $temp['category_path'] = $category;
         if ($dataWidgetType == 'catalog_category_link') {
             $nodes = explode('/', $category);
             $temp['title'] = $nodes[1];
