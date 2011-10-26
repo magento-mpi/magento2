@@ -37,11 +37,49 @@ search_static_block:
     filter_block_modified_from: %noValue%
     filter_block_modified_to: %noValue%
 
-new_static_block:
-    block_title: test_static_block
-    block_identifier: test_static_block_identifier
+basic_static_block:
+    block_title: static_block_title
+    block_identifier: static_block_identifier
     store_views: All Store Views
     block_status: Enabled
-    widget_data: #dataset for selecting widget
-    image_data: #dataset for selecting image
-    variable_data: #dataset for selecting variable
+    variable_data:
+        variable_1: Base Unsecure URL
+
+new_static_block:
+    block_title: static_block_title
+    block_identifier: static_block_identifier
+    store_views: All Store Views
+    block_status: Enabled
+    #dataset for selecting widget
+    widget_data: %noValue%
+    #dataset for selecting image
+    image_data: %noValue%
+    #dataset for selecting variables
+    variable_data:
+        variable_1: Base Unsecure URL
+        variable_2: Base Secure URL
+        variable_3: General Contact Name
+
+
+#<----------------------------CMS Static Block with widgets-------------------------->
+widget_page_link: &widgetPageLink
+    anchor_custom_text: custom_text
+    anchor_custom_title: custom_title
+    chosen_option:
+        filter_url_key: no-route
+        title: 404 Not Found 1
+
+widget_static_block: &widgetStaticBlock
+    chosen_option:
+        filter_identifier: footer_links
+        title: Footer Links
+
+static_block_with_all_widgets:
+    block_title: static_block_title
+    block_identifier: static_block_identifier
+    store_views: All Store Views
+    block_status: Enabled
+    widget_data:
+        widget_1: *widgetPageLink
+        widget_2: *widgetStaticBlock
+

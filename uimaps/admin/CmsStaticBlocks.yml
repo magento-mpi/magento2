@@ -91,7 +91,7 @@ edit_cms_static_block:
                             editor_insert_image: "//button[@class='scalable add-image plugin' and not(@style='display: none;')]"
                             editor_insert_variable: "//button[@class='scalable add-variable plugin' and not(@style='display: none;')]"
                         fields:
-                            simple_editor_content: "//textarea[@name='content' and not(@style='display: none;')]"
+                            simple_editor_content: "//textarea[@name='content' and not(contains(@style,'display: none;'))]"
                 -
 #                   TODO: add elements if needed
                     wysiwyg_editor_buttons:
@@ -212,7 +212,7 @@ edit_cms_static_block_general:
 create_cms_static_block:
     mca: cms_block/new/
     title: New Block / Static Blocks / CMS / Magento Admin
-    uimap:
+    uimap: &createStaticBlockUimap
         form: *editStaticBlockForm
         buttons:
             back: //button[span='Back']
@@ -220,3 +220,8 @@ create_cms_static_block:
             save_block: //button[span='Save Block']
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *staticBlockMessages
+
+create_cms_static_block_updated:
+    mca: cms_block/new/#
+    title: New Block / Static Blocks / CMS / Magento Admin
+    uimap: *createStaticBlockUimap
