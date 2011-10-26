@@ -75,7 +75,7 @@ abstract class Mage_Shell_Abstract
     public function __construct()
     {
         if ($this->_includeMage) {
-            require_once $this->_getRootPath() . 'app' . DIRECTORY_SEPARATOR . 'Mage.php';
+            require_once $this->_getRootPath() . 'app' . DIRECTORY_SEPARATOR . 'bootstrap.php';
             Mage::app($this->_appCode, $this->_appType);
         }
 

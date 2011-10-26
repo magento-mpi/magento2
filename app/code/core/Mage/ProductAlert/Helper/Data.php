@@ -66,9 +66,7 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
                     Mage::throwException($error);
                 }
             }
-            $fileName = mageFindClassFile($block);
-            if ($fileName!==false) {
-                include_once ($fileName);
+            if (Magento_Autoload::getInstance()->classExists($block)) {
                 $block = new $block(array());
             }
         }

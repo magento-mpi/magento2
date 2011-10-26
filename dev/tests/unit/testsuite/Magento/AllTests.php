@@ -14,6 +14,7 @@ class Magento_AllTests
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('Magento Library');
+        $suite->addTestSuite('Magento_AutoloadTest');
         $suite->addTestSuite('Magento_CryptTest');
         $suite->addTestSuite('Magento_ProfilerTest');
         $suite->addTest(Magento_Profiler_AllTests::suite());

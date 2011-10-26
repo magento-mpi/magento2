@@ -609,7 +609,6 @@ return array (
   'Mage_XmlConnect_Model_Application' => 'app/code/core/Mage/XmlConnect/Model/Application.php',
   'Mage_XmlConnect_Model_Observer' => 'app/code/core/Mage/XmlConnect/Model/Observer.php',
   'Magento_Profiler' => 'lib/Magento/Profiler.php',
-  'Varien_Autoload' => 'lib/Varien/Autoload.php',
   'Varien_Cache_Core' => 'lib/Varien/Cache/Core.php',
   'Varien_Data_Collection' => 'lib/Varien/Data/Collection.php',
   'Varien_Data_Collection_Db' => 'lib/Varien/Data/Collection/Db.php',

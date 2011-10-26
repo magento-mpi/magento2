@@ -51,19 +51,6 @@ if (get_magic_quotes_gpc()) {
 }
 
 /**
- * Class autoload
- *
- * @todo change to spl_autoload_register
- * @deprecated
- * @param string $class
- */
-function __autoload($class)
-{
-    $classFile = uc_words($class, DIRECTORY_SEPARATOR).'.php';
-    include($classFile);
-}
-
-/**
  * Object destructor
  *
  * @param mixed $object
@@ -125,20 +112,6 @@ function now($dayOnly=false)
 function is_empty_date($date)
 {
     return preg_replace('#[ 0:-]#', '', $date)==='';
-}
-
-function mageFindClassFile($class)
-{
-    $classFile = uc_words($class, DIRECTORY_SEPARATOR).'.php';
-    $found = false;
-    foreach (explode(PS, get_include_path()) as $path) {
-        $fileName = $path.DS.$classFile;
-        if (file_exists($fileName)) {
-            $found = $fileName;
-            break;
-        }
-    }
-    return $found;
 }
 
 /**
@@ -338,31 +311,4 @@ function is_dir_writeable($dir)
         return true;
     }
     return false;
-}
-
-if ( !function_exists('sys_get_temp_dir') ) {
-    // Based on http://www.phpit.net/
-    // article/creating-zip-tar-archives-dynamically-php/2/
-    function sys_get_temp_dir()
-    {
-        // Try to get from environment variable
-        if ( !empty($_ENV['TMP']) ) {
-            return realpath( $_ENV['TMP'] );
-        } else if ( !empty($_ENV['TMPDIR']) ) {
-            return realpath( $_ENV['TMPDIR'] );
-        } else if ( !empty($_ENV['TEMP']) ) {
-            return realpath( $_ENV['TEMP'] );
-        } else {
-            // Try to use system's temporary directory
-            // as random name shouldn't exist
-            $temp_file = tempnam( md5(uniqid(rand(), TRUE)), '' );
-            if ( $temp_file ) {
-                $temp_dir = realpath( dirname($temp_file) );
-                unlink( $temp_file );
-                return $temp_dir;
-            } else {
-                return FALSE;
-            }
-        }
-    }
 }

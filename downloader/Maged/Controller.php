@@ -542,7 +542,7 @@ final class Maged_Controller
     public function getMageFilename()
     {
         $ds = DIRECTORY_SEPARATOR;
-        return $this->getMageDir() . $ds . 'app' . $ds . 'Mage.php';
+        return $this->getMageDir() . $ds . 'app' . $ds . 'bootstrap.php';
     }
 
     /**

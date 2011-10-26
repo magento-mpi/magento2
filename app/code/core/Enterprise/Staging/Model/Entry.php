@@ -145,8 +145,8 @@ class Enterprise_Staging_Model_Entry
                 mkdir(dirname($outputFile));
             }
             $result = str_replace(
-                array('include $', 'app/Mage.php'),
-                array('include \'../../\' . $', '../../app/Mage.php'),
+                array('include $', 'app/bootstrap.php'),
+                array('include \'../../\' . $', '../../app/bootstrap.php'),
                 $sample
             );
             $result = preg_replace('/Mage::run\(.*?\)/us', "Mage::run('{$this->_website->getCode()}', 'website')", $result);
